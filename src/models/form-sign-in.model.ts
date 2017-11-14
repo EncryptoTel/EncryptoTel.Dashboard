@@ -1,4 +1,6 @@
 export class SignInFormModel {
-  username: string;
-  password: string;
+  constructor(
+    public username: string,
+    public password: string
+  ) {}
 }

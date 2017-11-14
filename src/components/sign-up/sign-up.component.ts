@@ -7,42 +7,56 @@ import {UserServices} from '../../services/user.services';
 import * as _vars from '../../services/vars';
 
 @Component({
-  selector: 'sign-in',
+  selector: 'sign-up',
   templateUrl: 'template.html'
 })
 
-export class SignInComponent implements OnInit {
+export class SignUpComponent implements OnInit {
   constructor(private router: Router,
               private _services: UserServices) {}
   loading: boolean = false;
-  signInForm: FormGroup;
+  signUpForm: FormGroup;
   inputValidation(name: string, errorType?: string): boolean {
     if (errorType) {
-      const field = this.signInForm.controls[name];
+      const field = this.signUpForm.controls[name];
       return field.errors[errorType] && (field.dirty || field.touched)
     } else {
-      const field = this.signInForm.controls[name];
+      const field = this.signUpForm.controls[name];
       return field.invalid && (field.dirty || field.touched);
     }
   }
-  signIn(event): void {
+  signUp(event): void {
     event.preventDefault();
     this.loading = true;
-    this._services.signIn(this.signInForm.value).then(() => {this.loading = false});
+    this._services.signUp(this.signUpForm.value).then(() => {this.loading = false});
   }
   ngOnInit(): void {
     if (this._services.fetchUser()) {
       this.router.navigateByUrl('/cabinet');
     }
-    this.signInForm = new FormGroup({
-      'username': new FormControl(undefined, [
+    this.signUpForm = new FormGroup({
+      'name': new FormControl(undefined, [
+        Validators.required,
+        Validators.pattern(_vars.nameRegExp)
+      ]),
+      'patronymic': new FormControl(undefined, [
+        Validators.pattern(_vars.nameRegExp)
+      ]),
+      'surname': new FormControl(undefined, [
+        Validators.pattern(_vars.nameRegExp)
+      ]),
+      'email': new FormControl(undefined, [
         Validators.required,
         Validators.pattern(_vars.emailRegExp)
       ]),
       'password': new FormControl(undefined, [
         Validators.required,
         Validators.minLength(6)
-      ])
+      ]),
+      'password-confirm': new FormControl(undefined, [
+        Validators.required,
+        Validators.minLength(6)
+      ]),
     });
   }
 }

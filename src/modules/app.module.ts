@@ -1,17 +1,18 @@
 import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
-import {ApiKeyInterceptor} from '../interceptors/api-key.interceptor';
 import {UserTokenInterceptor} from '../interceptors/user-token.interceptor';
 
 import {MainRouterModule} from './router.module';
 import {ComponentsModule} from './components.module';
 
-import {LoggerServices} from '../shared/logger.services';
-import {StorageServices} from '../shared/storage.services';
-import {RequestServices} from '../shared/request.services';
-import {UserServices} from '../shared/user.services';
+import {LoggerServices} from '../services/logger.services';
+import {StorageServices} from '../services/storage.services';
+import {RequestServices} from '../services/request.services';
+import {MessageServices} from '../services/message.services';
+import {UserServices} from '../services/user.services';
 
 import {MainViewComponent} from '../components/main-view.component';
 
@@ -21,6 +22,7 @@ import {MainViewComponent} from '../components/main-view.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     ComponentsModule,
     MainRouterModule
@@ -28,9 +30,9 @@ import {MainViewComponent} from '../components/main-view.component';
   providers: [
     LoggerServices,
     StorageServices,
-    {provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UserTokenInterceptor, multi: true},
     RequestServices,
+    MessageServices,
     UserServices
   ],
   bootstrap: [MainViewComponent]

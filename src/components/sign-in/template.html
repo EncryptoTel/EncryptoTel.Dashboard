@@ -1,13 +1,19 @@
-<div class="sign_in">
+<div class="sign_in" *ngIf="!loading">
   <form (submit)="signIn($event)" [formGroup]="signInForm">
     <h3 class="sign_in_title">Sign In</h3>
     <div class="input_wrap">
-      <input name="username" placeholder="Username" formControlName="user_name">
-      <span class="input_error" *ngIf="inputValidation('user_name')">Username invalid!</span>
+      <input name="Username" id="username" placeholder="Username" formControlName="username">
+      <div class="input_error" *ngIf="inputValidation('username')">
+        <span class="input_error_item" *ngIf="inputValidation('username', 'required')">Please enter your e-mail address</span>
+        <span class="input_error_item" *ngIf="inputValidation('username', 'pattern')">Please enter correct e-mail address</span>
+      </div>
     </div>
     <div class="input_wrap">
-      <input type="password" name="user_password" placeholder="Password" formControlName="user_password">
-      <span class="input_error" *ngIf="inputValidation('user_password')">Password invalid!</span>
+      <input type="password" name="Password" placeholder="Password" formControlName="password">
+      <div class="input_error" *ngIf="inputValidation('password')">
+        <span class="input_error_item" *ngIf="inputValidation('password', 'required')">Please enter password</span>
+        <span class="input_error_item" *ngIf="inputValidation('password', 'minlength')">Password is too short</span>
+      </div>
     </div>
     <input type="submit" name="submit" value="Sign In" class="button accent" [disabled]="!signInForm.valid">
   </form>
