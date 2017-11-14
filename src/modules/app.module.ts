@@ -3,7 +3,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
-import {UserTokenInterceptor} from '../interceptors/user-token.interceptor';
+import {UserTokenInterceptor} from '../shared/user-token.interceptor';
 
 import {MainRouterModule} from './router.module';
 import {ComponentsModule} from './components.module';

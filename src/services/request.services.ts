@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 
-import * as _vars from './vars';
+import * as _vars from '../shared/vars';
 
 import {LoggerServices} from './logger.services';
 import {MessageServices} from './message.services';

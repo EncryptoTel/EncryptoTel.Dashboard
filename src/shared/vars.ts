@@ -4,7 +4,7 @@ import {environment} from '../environments/environment';
   Environment-specific variables
  */
 
-export const back = environment.production ? 'http://pbx-front.encry.ru/api' : 'http://pbx-back-dev.encry.ru';
+export const back = environment.production ? 'http://pbx-front.encry.ru/api' : 'http://pbx-front-dev.encry.ru/api';
 
 export const auth_params = {
   client_id: 2,

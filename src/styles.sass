@@ -17,15 +17,16 @@
 
 *
   box-sizing: border-box
+  transition: all linear .1s
 
 body
   font-family: Roboto, sans-serif
   font-weight: 300
   font-size: 14px
-  color: $black
   max-width: 100vw
 
 // Components styles
+
 main-view
   display: flex
   flex-direction: column
@@ -40,7 +41,144 @@ main-view
     flex-direction: column
     flex: 1 0 auto
 
+input
+  width: 100%
+  height: 48px
+  padding: 0 8px
+
+
 // Classes styles
+
+.button
+  display: flex
+  flex: 0 0 auto
+  align-items: center
+  justify-content: center
+  height: 48px
+  padding: 0 16px
+  cursor: pointer
+  border-radius: 2px
+  &:disabled
+    opacity: .9
+
+.messages
+  &_wrap
+    position: absolute
+    top: 8px
+    right: 8px
+    display: flex
+    flex-direction: column
+    width: 328px
+    max-width: calc(100% - 32px)
+  &_item
+    display: flex
+    justify-content: center
+    min-height: 40px
+    width: 100%
+    padding: 16px
+
+.auth_form
+  display: flex
+  flex-direction: column
+  height: 100vh
+  width: 100vw
+  padding: 32px 16px
+  background: url('./assets/images/auth_bg.jpg') center no-repeat
+  background-size: cover
+  overflow-y: scroll
+  &::-webkit-scrollbar
+    width: 0
+    background-color: transparent
+  &::-webkit-scrollbar-thumb
+    background-color: transparent
+  &:after
+    content: ''
+    position: absolute
+    left: 0
+    top: 0
+    display: flex
+    height: 100vh
+    width: 100vw
+    background: $dark_background
+    opacity: .6
+    filter: blur(8px) brightness(-50)
+  form
+    position: relative
+    display: flex
+    flex: 0 0 auto
+    flex-direction: column
+    width: 328px
+    max-width: calc(100% - 32px)
+    margin: 80px auto auto
+    z-index: 1
+  &_icon
+    display: flex
+    flex: 0 0 auto
+    margin: auto
+    height: 112px
+    width: 112px
+    &_title
+      margin-top: 8px
+      font-size: 20px
+      font-weight: 600
+      text-align: center
+    &_wrap
+      margin: auto auto 0
+      z-index: 1
+  .input
+    &_wrap
+      position: relative
+      display: flex
+      margin-bottom: 24px
+    &_error
+      position: absolute
+      top: calc(100% + 4px)
+      &_item
+        font-size: 12px
+  &_text
+    margin-top: 24px
+    font-size: 14px
+    text-align: center
+  &_link
+    display: block
+    margin-top: 8px
+    text-align: center
+  .button
+    margin-top: 20px
 
 // ID's styles
 
+// Theme styles
+main-view
+  &.dark_theme
+    color: $dark_primary
+    input:not([type='submit'])
+      border-bottom: 1px solid rgba($dark_primary, .1)
+      &.ng-touched.ng-invalid,
+      &.ng-dirty.ng-invalid
+        color: $dark_warning
+        border-bottom-color: $dark_warning
+        &::placeholder
+          color: $dark_warning
+    .auth_form
+      &_icon
+        fill: $dark_accent
+        &_title
+          color: $dark_accent
+      .input_error_item
+        color: $dark_warning
+      &_text
+        color: rgba($dark_primary, .5)
+      &_link
+        color: $dark_primary
+        &:hover
+          color: $dark_accent
+    .button
+      &.accent
+        background: $dark_accent
+        &:hover
+          background: lighten($dark_accent, 5%)
+        &:focus, &:active
+          background: darken($dark_accent, 5%)
+        &:disabled
+          background: darken($dark_primary, 85%)

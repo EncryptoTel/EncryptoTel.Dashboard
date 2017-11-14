@@ -4,22 +4,24 @@ import {Router} from '@angular/router';
 
 import {UserServices} from '../../services/user.services';
 
-import * as _vars from '../../services/vars';
+import {FadeAnimation} from '../../shared/fade-animation';
+import * as _vars from '../../shared/vars';
 
 @Component({
   selector: 'sign-in',
-  templateUrl: 'template.html'
+  templateUrl: 'template.html',
+  animations: [FadeAnimation]
 })
 
 export class SignInComponent implements OnInit {
   constructor(private router: Router,
               private _services: UserServices) {}
-  loading: boolean = false;
+  loading = false;
   signInForm: FormGroup;
   inputValidation(name: string, errorType?: string): boolean {
     if (errorType) {
       const field = this.signInForm.controls[name];
-      return field.errors[errorType] && (field.dirty || field.touched)
+      return field.errors[errorType] && (field.dirty || field.touched);
     } else {
       const field = this.signInForm.controls[name];
       return field.invalid && (field.dirty || field.touched);
@@ -28,7 +30,9 @@ export class SignInComponent implements OnInit {
   signIn(event): void {
     event.preventDefault();
     this.loading = true;
-    this._services.signIn(this.signInForm.value).then(() => {this.loading = false});
+    this._services.signIn(this.signInForm.value).then(() => {
+      this.loading = false;
+    });
   }
   ngOnInit(): void {
     if (this._services.fetchUser()) {

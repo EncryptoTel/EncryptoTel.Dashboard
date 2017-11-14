@@ -1,6 +1,10 @@
-<div class="sign_in" *ngIf="!loading">
-  <form (submit)="signIn($event)" [formGroup]="signInForm">
-    <h3 class="sign_in_title">Sign In</h3>
+<div class="auth_form">
+  <div class="auth_form_icon_wrap" [@Fade]>
+    <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
+    <div class="auth_form_icon_title">EncryptoTel</div>
+  </div>
+  <loader *ngIf="loading" [@Fade]></loader>
+  <form (submit)="signIn($event)" [formGroup]="signInForm" *ngIf="!loading" [@Fade]>
     <div class="input_wrap">
       <input name="Username" id="username" placeholder="Username" formControlName="username">
       <div class="input_error" *ngIf="inputValidation('username')">
@@ -15,6 +19,10 @@
         <span class="input_error_item" *ngIf="inputValidation('password', 'minlength')">Password is too short</span>
       </div>
     </div>
-    <input type="submit" name="submit" value="Sign In" class="button accent" [disabled]="!signInForm.valid">
+    <button type="submit" name="Sign In" class="button accent" [disabled]="!signInForm.valid">Sign In</button>
+    <div class="auth_form_text">
+      Don't have an EncryptoTel Account?
+      <a routerLink="../sign-up" class="auth_form_link">Create one now</a>
+    </div>
   </form>
 </div>

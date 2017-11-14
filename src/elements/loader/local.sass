@@ -7,10 +7,10 @@
   justify-content: center
   align-items: center
   height: 100%
+  z-index: 1
   span.loader
     display: flex
     width: 2px
-    background: $accent
     border-radius: 1px
     animation: loader_animation ease-out infinite .7s
     &:not(:first-child)
@@ -19,3 +19,8 @@
 @for $i from 1 through 9
   .loader_wrap > span.loader:nth-child(#{$i})
     animation-delay: ($i / 10 + s)
+
+// Themes styles
+\:host-context(.dark_theme)
+  span.loader
+    background: $dark_accent

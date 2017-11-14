@@ -9,7 +9,7 @@ import {SignInFormModel} from '../models/form-sign-in.model';
 import {UserModel} from '../models/user.model';
 import {MessageServices} from './message.services';
 
-import * as _vars from './vars';
+import * as _vars from '../shared/vars';
 
 /*
   User services. Authentication, user params changing etc.
@@ -27,7 +27,7 @@ export class UserServices {
    */
   saveUserData = (user): void => {
     this._storage.writeItem('user', user);
-  };
+  }
   /*
     Changing user param
    */
@@ -36,13 +36,13 @@ export class UserServices {
     user[param] = value;
     this.logger.log(user);
     this._storage.writeItem('user', user);
-  };
+  }
   /*
     Fetch if user already logged in
    */
   fetchUser = (): UserModel => {
     return this._storage.readItem('user');
-  };
+  }
   /*
     Sign-in form submit. Accepted params:
     Data - sign in form values
@@ -64,11 +64,14 @@ export class UserServices {
     Data - sign up form values
    */
   signUp(data: SignInFormModel) {
-    return this._req.post('user/register', {
-      ...data
+    return this._req.post('register', {
+      ...data,
+      currency_id: 4,
+      country_id: 78
     }).then(result => {
       if (result) {
-        this.saveUserData(result);
+        this.logger.log(result);
+        // this.saveUserData(result);
         this.message.writeSuccess('Successfully logged in!');
       }
       this.router.navigateByUrl('/');
