@@ -1,4 +1,6 @@
 export class UserModel {
-  user_name: string;
-  user_token: string;
+  constructor(
+    public username: string,
+    public user_token: string
+  ) {}
 }

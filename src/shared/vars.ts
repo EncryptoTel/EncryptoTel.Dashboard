@@ -1,8 +1,10 @@
 import {environment} from '../environments/environment';
 
-export const key = environment.production ? '6f8e13;F2Ab@E*)>0[}4B5#7C^9' : '6f8e13;F2Ab@E*)>0[}4B5#7C^9';
+/*
+  Environment-specific variables
+ */
 
-export const back = environment.production ? 'http://localhost:3000' : 'http://localhost:3000';
+export const back = environment.production ? 'http://pbx-front.encry.ru/api' : 'http://pbx-front-dev.encry.ru/api';
 
 export const auth_params = {
   client_id: 2,
@@ -10,3 +12,7 @@ export const auth_params = {
   grant_type: 'password',
   scope: '*'
 };
+
+export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
+export const nameRegExp = new RegExp(/^[\a-z]([\a-z-.]*)+$/i);

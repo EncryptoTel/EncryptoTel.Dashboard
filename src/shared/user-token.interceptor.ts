@@ -4,7 +4,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 
 import {UserModel} from '../models/user.model';
 
-import {StorageServices} from '../shared/storage.services';
+import {StorageServices} from '../services/storage.services';
 
 /*
   Intercept all outgoing requests and adding User-Token header for all of them if user already logged in
@@ -17,7 +17,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
     const user: UserModel = this._storage.readItem('user');
     if (user) {
       return next.handle(request.clone({
-        headers: request.headers.append('User-Token', user.user_token)
+        headers: request.headers.append('Authorization', `Bearer: ${user.user_token}`)
       }));
     } else {
       return next.handle(request);

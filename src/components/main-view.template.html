@@ -1,2 +1,6 @@
-<h1>Main View component</h1>
+<div class="messages_wrap">
+  <div class="messages_item" [@Fade] *ngFor="let message of messagesList" [ngClass]="message.type" (click)="_services.instantRemove(message.id)">
+    {{message.text}}
+  </div>
+</div>
 <router-outlet></router-outlet>
