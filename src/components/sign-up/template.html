@@ -1,10 +1,9 @@
 <div class="auth_form">
-  <loader *ngIf="loading" [@Fade]></loader>
-  <div class="auth_form_icon_wrap" *ngIf="!loading" [@Fade]>
+  <div class="auth_form_icon_wrap" [@Fade]>
     <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
     <div class="auth_form_icon_title">EncryptoTel</div>
   </div>
-  <form (submit)="signUp($event)" [formGroup]="signUpForm" *ngIf="!loading" [@Fade]>
+  <form (submit)="signUp($event)" [formGroup]="signUpForm" [@Fade]>
     <div class="input_wrap">
       <input name="Name" placeholder="Name" formControlName="name">
       <div class="input_error" *ngIf="inputValidation('name')">
@@ -39,7 +38,10 @@
         <div class="input_error_item" *ngIf="passwordsMismatch()">Passwords doesn't match</div>
       </div>
     </div>
-    <button type="submit" name="Sign Up" class="button accent" [disabled]="!signUpForm.valid">Sign Up</button>
+    <button type="submit" name="Sign Up" class="button accent" [disabled]="!signUpForm.valid || loading">
+      <loader *ngIf="loading"></loader>
+      <span *ngIf="!loading">Sign Up</span>
+    </button>
     <div class="auth_form_text">
       Already have an EncryptoTel Account?
       <a routerLink="../sign-in" class="auth_form_link">Sign in now</a>

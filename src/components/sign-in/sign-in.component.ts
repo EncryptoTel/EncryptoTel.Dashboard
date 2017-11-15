@@ -18,6 +18,11 @@ export class SignInComponent implements OnInit {
               private _services: UserServices) {}
   loading = false;
   signInForm: FormGroup;
+  /*
+    Form field validation. Accepted params:
+    Name: string - form field name,
+    Error Type: string - validation type (not necessary)
+   */
   inputValidation(name: string, errorType?: string): boolean {
     if (errorType) {
       const field = this.signInForm.controls[name];
@@ -27,6 +32,9 @@ export class SignInComponent implements OnInit {
       return field.invalid && (field.dirty || field.touched);
     }
   }
+  /*
+    Sign-in action
+   */
   signIn(event): void {
     event.preventDefault();
     this.loading = true;

@@ -27,22 +27,22 @@ export class UserServices {
     Saving user data
    */
   saveUserData = (user): void => {
-    this._storage.writeItem('user', user);
+    this._storage.writeItem('pbx_user', user);
   }
   /*
     Changing user param
    */
   changeUserParam = (param: string, value: any): void => {
-    const user = this._storage.readItem('user');
+    const user = this._storage.readItem('pbx_user');
     user[param] = value;
     this.logger.log(user);
-    this._storage.writeItem('user', user);
+    this._storage.writeItem('pbx_user', user);
   }
   /*
     Fetch if user already logged in
    */
   fetchUser = (): UserModel => {
-    return this._storage.readItem('user');
+    return this._storage.readItem('pbx_user');
   }
   /*
     Sign-in form submit. Accepted params:
