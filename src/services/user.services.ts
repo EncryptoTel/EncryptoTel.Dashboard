@@ -68,9 +68,7 @@ export class UserServices {
    */
   signUp(data: SignUpFormModel) {
     return this._req.post('register', {
-      ...data,
-      currency_id: 4,
-      country_id: 78
+      ...data
     }).then(result => {
       if (result && !result.message) {
         this.logger.log(result);
