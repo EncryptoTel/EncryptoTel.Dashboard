@@ -13,16 +13,16 @@
       </div>
     </div>
     <div class="input_wrap">
-      <input name="Patronymic" placeholder="Patronymic" formControlName="patronymic">
-      <div class="input_error" *ngIf="inputValidation('patronymic')">
-        <span class="input_error_item" *ngIf="inputValidation('patronymic', 'pattern')">Patronymic should contain only letters and "-" or "."</span>
-      </div>
-    </div>
-    <div class="input_wrap">
       <input name="Surname" placeholder="Surname" formControlName="surname">
       <div class="input_error" *ngIf="inputValidation('surname')">
         <span class="input_error_item" *ngIf="inputValidation('surname', 'required')">Please enter your surname</span>
         <span class="input_error_item" *ngIf="inputValidation('surname', 'pattern')">Surname should contain only letters and "-" or "."</span>
+      </div>
+    </div>
+    <div class="input_wrap">
+      <input name="Patronymic" placeholder="Patronymic" formControlName="patronymic">
+      <div class="input_error" *ngIf="inputValidation('patronymic')">
+        <span class="input_error_item" *ngIf="inputValidation('patronymic', 'pattern')">Patronymic should contain only letters and "-" or "."</span>
       </div>
     </div>
     <div class="input_wrap">
