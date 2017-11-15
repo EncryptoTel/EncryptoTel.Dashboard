@@ -19,7 +19,6 @@ export class EmailConfirmComponent implements OnInit {
     this.subscription = this.route.params.subscribe(params => {
       if (params['hash']) {
         this._req.get(`user-activate/${params['hash']}`).then(result => {
-          console.log(result);
           this.messages.writeSuccess(result.message);
           this.router.navigateByUrl('/sign-in');
         }).catch(() => {
