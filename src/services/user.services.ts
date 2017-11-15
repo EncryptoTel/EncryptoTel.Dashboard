@@ -26,7 +26,7 @@ export class UserServices {
   /*
     Saving user data
    */
-  saveUserData = (user): void => {
+  saveUserData = (user: UserModel): void => {
     this._storage.writeItem('pbx_user', user);
   }
   /*
@@ -55,8 +55,9 @@ export class UserServices {
     }).then(result => {
       if (result && !result.message) {
         this.logger.log(result);
+        this.saveUserData({secrets: result});
         this.message.writeSuccess('Successfully logged in!');
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/cabinet');
       } else if (result && result.message) {
         this.message.writeWarning(result.message);
       }
