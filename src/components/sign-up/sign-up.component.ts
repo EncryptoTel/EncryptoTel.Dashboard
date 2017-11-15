@@ -12,7 +12,7 @@ import * as _vars from '../../shared/vars';
  */
 
 function passwordConfirmation(g: FormGroup) {
-  return g.get('password').value === g.get('password-confirm').value
+  return g.get('password').value === g.get('password_confirmation').value
     ? null : {'mismatch': true};
 }
 
@@ -44,7 +44,7 @@ export class SignUpComponent implements OnInit {
     Form passwords match validation.
    */
   passwordsMismatch(): boolean {
-    const confirm = this.signUpForm.controls['password-confirm'];
+    const confirm = this.signUpForm.controls['password_confirmation'];
     if (this.signUpForm.errors && (confirm.touched || confirm.dirty)) {
       return this.signUpForm.errors.mismatch;
     } else {
@@ -70,9 +70,6 @@ export class SignUpComponent implements OnInit {
         Validators.required,
         Validators.pattern(_vars.nameRegExp)
       ]),
-      'patronymic': new FormControl(undefined, [
-        Validators.pattern(_vars.nameRegExp)
-      ]),
       'surname': new FormControl(undefined, [
         Validators.required,
         Validators.pattern(_vars.nameRegExp)
@@ -85,10 +82,7 @@ export class SignUpComponent implements OnInit {
         Validators.required,
         Validators.minLength(6)
       ]),
-      'password-confirm': new FormControl(undefined, [
-        Validators.required,
-        Validators.minLength(6)
-      ]),
+      'password_confirmation': new FormControl(),
     }, passwordConfirmation);
   }
 }

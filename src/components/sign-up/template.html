@@ -1,9 +1,9 @@
 <div class="auth_form">
-  <div class="auth_form_icon_wrap" [@Fade]>
+  <loader *ngIf="loading" [@Fade]></loader>
+  <div class="auth_form_icon_wrap" *ngIf="!loading" [@Fade]>
     <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
     <div class="auth_form_icon_title">EncryptoTel</div>
   </div>
-  <loader *ngIf="loading" [@Fade]></loader>
   <form (submit)="signUp($event)" [formGroup]="signUpForm" *ngIf="!loading" [@Fade]>
     <div class="input_wrap">
       <input name="Name" placeholder="Name" formControlName="name">
@@ -17,12 +17,6 @@
       <div class="input_error" *ngIf="inputValidation('surname')">
         <span class="input_error_item" *ngIf="inputValidation('surname', 'required')">Please enter your surname</span>
         <span class="input_error_item" *ngIf="inputValidation('surname', 'pattern')">Surname should contain only letters and "-" or "."</span>
-      </div>
-    </div>
-    <div class="input_wrap">
-      <input name="Patronymic" placeholder="Patronymic" formControlName="patronymic">
-      <div class="input_error" *ngIf="inputValidation('patronymic')">
-        <span class="input_error_item" *ngIf="inputValidation('patronymic', 'pattern')">Patronymic should contain only letters and "-" or "."</span>
       </div>
     </div>
     <div class="input_wrap">
@@ -40,7 +34,7 @@
       </div>
     </div>
     <div class="input_wrap">
-      <input type="password" name="Confirm password" placeholder="Confirm password" formControlName="password-confirm" [ngClass]="{'ng-invalid': passwordsMismatch()}">
+      <input type="password" name="Confirm password" placeholder="Confirm password" formControlName="password_confirmation" [ngClass]="{'ng-invalid': passwordsMismatch()}">
       <div class="input_error">
         <div class="input_error_item" *ngIf="passwordsMismatch()">Passwords doesn't match</div>
       </div>

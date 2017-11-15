@@ -4,10 +4,11 @@ import {Router} from '@angular/router';
 import {RequestServices} from './request.services';
 import {LoggerServices} from './logger.services';
 import {StorageServices} from './storage.services';
+import {MessageServices} from './message.services';
 
 import {SignInFormModel} from '../models/form-sign-in.model';
+import {SignUpFormModel} from '../models/form-sign-up.model';
 import {UserModel} from '../models/user.model';
-import {MessageServices} from './message.services';
 
 import * as _vars from '../shared/vars';
 
@@ -48,33 +49,36 @@ export class UserServices {
     Data - sign in form values
    */
   signIn(data: SignInFormModel) {
-    return this._req.post('oauth/token', {
+    return this._req.post('login', {
       ..._vars.auth_params,
       ...data
     }).then(result => {
-      if (result) {
-        this.saveUserData(result);
+      if (result && !result.message) {
+        this.logger.log(result);
         this.message.writeSuccess('Successfully logged in!');
+        this.router.navigateByUrl('/');
+      } else if (result && result.message) {
+        this.message.writeWarning(result.message);
       }
-      this.router.navigateByUrl('/');
     });
   }
   /*
     Sign-up form submit. Accepted params:
     Data - sign up form values
    */
-  signUp(data: SignInFormModel) {
+  signUp(data: SignUpFormModel) {
     return this._req.post('register', {
       ...data,
       currency_id: 4,
       country_id: 78
     }).then(result => {
-      if (result) {
+      if (result && !result.message) {
         this.logger.log(result);
-        // this.saveUserData(result);
-        this.message.writeSuccess('Successfully logged in!');
+        this.message.writeSuccess('Account successfully created! Verify your e-mail address before logging in');
+        this.router.navigateByUrl('/');
+      } else if (result && result.message) {
+        this.message.writeWarning(result.message);
       }
-      this.router.navigateByUrl('/');
     });
   }
 }

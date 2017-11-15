@@ -25,7 +25,7 @@ export class RequestServices {
     return this.http.post(`${_vars.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log(response); // Console output for response
-        return response; // Return response to children method
+        return response.body; // Return response to children method
       }).catch(response => { // Non-successful request processing
         this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status
@@ -50,10 +50,10 @@ export class RequestServices {
     data: object - request params
    */
   put(uri: string, data: object): Promise<any> {
-    return this.http.put(`${_vars.back}/${uri}`, {...data}).toPromise() // Request to promise conversion
+    return this.http.put(`${_vars.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log(response); // Console output for response
-        return response; // Return response to children method
+        return response.body; // Return response to children method
       }).catch(response => { // Non-successful request processing
         this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status
@@ -77,11 +77,12 @@ export class RequestServices {
     URI: string - request uri with stringified params
    */
   get(uri: string): Promise<any> {
-    return this.http.get(`${_vars.back}/${uri}`).toPromise() // Request to promise conversion
+    return this.http.get(`${_vars.back}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log(response); // Console output for response
-        return response; // Return response to children method
+        return response.body; // Return response to children method
       }).catch(response => { // Non-successful request processing
+        this.logger.log(response);
         this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status
           case 500: {
@@ -104,10 +105,10 @@ export class RequestServices {
     URI: string - request uri with stringified params
    */
   del(uri: string): Promise<any> {
-    return this.http.delete(`${_vars.back}/${uri}`).toPromise() // Request to promise conversion
+    return this.http.delete(`${_vars.back}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log(response); // Console output for response
-        return response; // Return response to children method
+        return response.body; // Return response to children method
       }).catch(response => { // Non-successful request processing
         this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status

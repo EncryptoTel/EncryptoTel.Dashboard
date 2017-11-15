@@ -9,6 +9,7 @@ import {MainRouterModule} from './router.module';
 import {IndexComponent} from '../components/index/index.component';
 import {SignInComponent} from '../components/sign-in/sign-in.component';
 import {SignUpComponent} from '../components/sign-up/sign-up.component';
+import {EmailConfirmComponent} from '../components/email-confirm/email-confirm.component';
 
 /*
   Components declarations and exports
@@ -25,12 +26,14 @@ import {SignUpComponent} from '../components/sign-up/sign-up.component';
   declarations: [
     IndexComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    EmailConfirmComponent
   ],
   exports: [
     IndexComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    EmailConfirmComponent
   ]
 })
 export class ComponentsModule {  }

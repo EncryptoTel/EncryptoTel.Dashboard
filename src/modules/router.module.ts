@@ -6,11 +6,13 @@ import {AuthGuardServices} from '../services/auth-guard.services';
 import {IndexComponent} from '../components/index/index.component';
 import {SignInComponent} from '../components/sign-in/sign-in.component';
 import {SignUpComponent} from '../components/sign-up/sign-up.component';
+import {EmailConfirmComponent} from '../components/email-confirm/email-confirm.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'sign-in', pathMatch: 'full'},
   {path: 'sign-in', component: SignInComponent},
   {path: 'sign-up', component: SignUpComponent},
+  {path: 'email-confirm/:hash', component: EmailConfirmComponent},
   {path: 'cabinet', canActivate: [AuthGuardServices], children: [
     {path: '', component: IndexComponent}
   ]},
