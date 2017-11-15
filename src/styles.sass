@@ -70,12 +70,14 @@ input
     flex-direction: column
     width: 328px
     max-width: calc(100% - 32px)
+    z-index: 10
   &_item
     display: flex
     justify-content: center
     min-height: 40px
     width: 100%
     padding: 16px
+    cursor: pointer
 
 .auth_form
   display: flex
@@ -182,3 +184,10 @@ main-view
           background: darken($dark_accent, 5%)
         &:disabled
           background: darken($dark_primary, 85%)
+    .messages_item
+      &.error
+        background: $dark_error
+      &.warning
+        background: $dark_warning
+      &.success
+        background: $dark_success
