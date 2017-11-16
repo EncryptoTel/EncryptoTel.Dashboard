@@ -24,23 +24,40 @@ export class RequestServices {
   post(uri: string, data: object): Promise<any> {
     return this.http.post(`${_vars.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
-        this.logger.log(response); // Console output for response
-        return response.body; // Return response to children method
+        this.logger.log('POST-request response', response); // Console output for response
+        return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
+          case 401: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 404: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 422: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 423: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
           case 500: {
-            this.message.writeError(response.message); // Adding warning message
+            this.message.writeError(response.error.message); // Adding warning message
             break;
           }
           default: {
-            this.message.writeWarning(response.message); // Adding warning message
+            this.message.writeWarning(response.error.message); // Adding warning message
             break;
           }
         }
-        this.logger.log({ // Console output for response error details
+        this.logger.log('POST-request error', { // Console output for response error details
           status: response.status,
           message: response.error.message
         });
+        return Promise.reject(response.error);
       });
   }
   /*
@@ -51,23 +68,40 @@ export class RequestServices {
   put(uri: string, data: object): Promise<any> {
     return this.http.put(`${_vars.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
-        this.logger.log(response); // Console output for response
-        return response.body; // Return response to children method
+        this.logger.log('PUT-request response', response); // Console output for response
+        return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
+          case 401: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 404: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 422: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 423: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
           case 500: {
-            this.message.writeError(response.message); // Adding warning message
+            this.message.writeError(response.error.message); // Adding warning message
             break;
           }
           default: {
-            this.message.writeWarning(response.message); // Adding warning message
+            this.message.writeWarning(response.error.message); // Adding warning message
             break;
           }
         }
-        this.logger.log({ // Console output for response error details
+        this.logger.log('PUT-request error', { // Console output for response error details
           status: response.status,
           message: response.error.message
         });
+        return Promise.reject(response.error);
       });
   }
   /*
@@ -77,23 +111,40 @@ export class RequestServices {
   get(uri: string): Promise<any> {
     return this.http.get(`${_vars.back}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
-        this.logger.log(response); // Console output for response
-        return response.body; // Return response to children method
+        this.logger.log('GET-request response', response); // Console output for response
+        return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
+          case 401: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 404: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 422: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 423: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
           case 500: {
-            this.message.writeError(response.message); // Adding warning message
+            this.message.writeError(response.error.message); // Adding warning message
             break;
           }
           default: {
-            this.message.writeWarning(response.message); // Adding warning message
+            this.message.writeWarning(response.error.message); // Adding warning message
             break;
           }
         }
-        this.logger.log({ // Console output for response error details
+        this.logger.log('GET-request error', { // Console output for response error details
           status: response.status,
           message: response.error.message
         });
+        return Promise.reject(response.error);
       });
   }
   /*
@@ -103,23 +154,40 @@ export class RequestServices {
   del(uri: string): Promise<any> {
     return this.http.delete(`${_vars.back}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
-        this.logger.log(response); // Console output for response
-        return response.body; // Return response to children method
+        this.logger.log('DELETE-request response', response); // Console output for response
+        return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
+          case 401: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 404: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 422: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
+          case 423: {
+            this.message.writeError(response.error.message); // Adding warning message
+            break;
+          }
           case 500: {
-            this.message.writeError(response.message); // Adding warning message
+            this.message.writeError(response.error.message); // Adding warning message
             break;
           }
           default: {
-            this.message.writeWarning(response.message); // Adding warning message
+            this.message.writeWarning(response.error.message); // Adding warning message
             break;
           }
         }
-        this.logger.log({ // Console output for response error details
+        this.logger.log('DELETE-request error', { // Console output for response error details
           status: response.status,
           message: response.error.message
         });
+        return Promise.reject(response.error);
       });
   }
 }

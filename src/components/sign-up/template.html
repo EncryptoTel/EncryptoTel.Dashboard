@@ -3,38 +3,39 @@
     <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
     <div class="auth_form_icon_title">EncryptoTel</div>
   </div>
-  <form (submit)="signUp($event)" [formGroup]="signUpForm" [@Fade]>
+  <form (submit)="signUp($event)" [formGroup]="signUpForm" [@Fade] (keyup)="_services.changeState('error', null)">
+    <div class="auth_form_error" *ngIf="state.error" [@Fade] (click)="_services.changeState('error', null)">{{state.error}}</div>
     <div class="input_wrap">
       <input name="Name" placeholder="Name" formControlName="name">
-      <div class="input_error" *ngIf="inputValidation('name')">
+      <div class="input_error" *ngIf="inputValidation('name')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('name', 'required')">Please enter your name</span>
         <span class="input_error_item" *ngIf="inputValidation('name', 'pattern')">Name should contain only letters and "-" or "."</span>
       </div>
     </div>
     <div class="input_wrap">
       <input name="Surname" placeholder="Surname" formControlName="surname">
-      <div class="input_error" *ngIf="inputValidation('surname')">
+      <div class="input_error" *ngIf="inputValidation('surname')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('surname', 'required')">Please enter your surname</span>
         <span class="input_error_item" *ngIf="inputValidation('surname', 'pattern')">Surname should contain only letters and "-" or "."</span>
       </div>
     </div>
     <div class="input_wrap">
       <input name="E-mail" placeholder="E-mail" formControlName="email">
-      <div class="input_error" *ngIf="inputValidation('email')">
+      <div class="input_error" *ngIf="inputValidation('email')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('email', 'required')">Please enter your e-mail</span>
         <span class="input_error_item" *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>
       </div>
     </div>
     <div class="input_wrap">
       <input type="password" name="Password" placeholder="Password" formControlName="password">
-      <div class="input_error" *ngIf="inputValidation('password')">
+      <div class="input_error" *ngIf="inputValidation('password')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('password', 'required')">Please enter password</span>
         <span class="input_error_item" *ngIf="inputValidation('password', 'minlength')">Password is too short</span>
       </div>
     </div>
     <div class="input_wrap">
-      <input type="password" name="Confirm password" placeholder="Confirm password" formControlName="password_confirmation" [ngClass]="{'ng-invalid': passwordsMismatch()}">
-      <div class="input_error">
+      <input type="password" name="Confirm password" placeholder="Confirm password" [ngClass]="{'ng-invalid ng-touched': passwordsMismatch()}" formControlName="password_confirmation">
+      <div class="input_error" *ngIf="passwordsMismatch()" [@Fade]>
         <div class="input_error_item" *ngIf="passwordsMismatch()">Passwords doesn't match</div>
       </div>
     </div>

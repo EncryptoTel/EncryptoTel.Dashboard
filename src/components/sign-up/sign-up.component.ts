@@ -1,30 +1,29 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
+import {AuthorizationServices} from '../../services/authorization.services';
 import {UserServices} from '../../services/user.services';
 
 import {FadeAnimation} from '../../shared/fade-animation';
+import {passwordConfirmation} from '../../shared/password-confirmation';
 import * as _vars from '../../shared/vars';
 
-/*
-  Password match validation
- */
-
-function passwordConfirmation(g: FormGroup) {
-  return g.get('password').value === g.get('password_confirmation').value
-    ? null : {'mismatch': true};
-}
+import {AuthorizationStateModel} from '../../models/authorization-state.model';
 
 @Component({
   selector: 'sign-up',
   templateUrl: 'template.html',
   animations: [FadeAnimation]
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
-              private _services: UserServices) {}
+              private _user: UserServices,
+              public _services: AuthorizationServices) {}
   loading = false;
+  stateSubscription: Subscription;
+  state: AuthorizationStateModel = new AuthorizationStateModel();
   signUpForm: FormGroup;
   /*
     Form field validation. Accepted params:
@@ -45,7 +44,8 @@ export class SignUpComponent implements OnInit {
    */
   passwordsMismatch(): boolean {
     const confirm = this.signUpForm.controls['password_confirmation'];
-    if (this.signUpForm.errors && (confirm.touched || confirm.dirty)) {
+    const password = this.signUpForm.controls['password'];
+    if (this.signUpForm.errors && ((confirm.touched || confirm.dirty) || (password.touched || password.dirty))) {
       return this.signUpForm.errors.mismatch;
     } else {
       return false;
@@ -62,7 +62,11 @@ export class SignUpComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    if (this._services.fetchUser()) {
+    this._services.stateReset();
+    this.stateSubscription = this._services.readState().subscribe(state => {
+      this.state = state;
+    });
+    if (this._user.fetchUser()) {
       this.router.navigateByUrl('/cabinet');
     }
     this.signUpForm = new FormGroup({
@@ -84,5 +88,9 @@ export class SignUpComponent implements OnInit {
       ]),
       'password_confirmation': new FormControl(),
     }, passwordConfirmation);
+  }
+  ngOnDestroy(): void {
+    this._services.stateReset();
+    this.stateSubscription.unsubscribe();
   }
 }

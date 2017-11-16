@@ -34,7 +34,7 @@ export class MessageServices {
     this.messages.push(message);
     this.subscription.next(this.messages);
     this.removeError(message.id);
-    this.logger.log(message);
+    this.logger.log('Message processing details', message);
   }
   /*
     Message removing after timeout. Accepted params:
@@ -67,11 +67,7 @@ export class MessageServices {
     Text: string - message text
    */
   writeError(text: string): void {
-    const message: MessageModel = {
-      id: this.generateId(),
-      type: 'error',
-      text: text
-    };
+    const message: MessageModel = new MessageModel(this.generateId(), 'error', text);
     this.messageProcess(message);
   }
   /*
@@ -79,11 +75,7 @@ export class MessageServices {
     Text: string - message text
    */
   writeWarning(text: string): void {
-    const message: MessageModel = {
-      id: this.generateId(),
-      type: 'warning',
-      text: text
-    };
+    const message: MessageModel = new MessageModel(this.generateId(), 'warning', text);
     this.messageProcess(message);
   }
   /*
@@ -91,11 +83,7 @@ export class MessageServices {
     Text: string - message text
    */
   writeSuccess(text: string): void {
-    const message: MessageModel = {
-      id: this.generateId(),
-      type: 'success',
-      text: text
-    };
+    const message: MessageModel = new MessageModel(this.generateId(), 'success', text);
     this.messageProcess(message);
   }
   /*

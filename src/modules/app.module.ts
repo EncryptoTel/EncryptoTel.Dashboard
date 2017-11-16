@@ -12,6 +12,7 @@ import {LoggerServices} from '../services/logger.services';
 import {StorageServices} from '../services/storage.services';
 import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
+import {AuthorizationServices} from '../services/authorization.services';
 import {UserServices} from '../services/user.services';
 
 import {MainViewComponent} from '../components/main-view.component';
@@ -33,6 +34,7 @@ import {MainViewComponent} from '../components/main-view.component';
     {provide: HTTP_INTERCEPTORS, useClass: UserTokenInterceptor, multi: true},
     RequestServices,
     MessageServices,
+    AuthorizationServices,
     UserServices
   ],
   bootstrap: [MainViewComponent]

@@ -13,7 +13,7 @@ export class StorageServices {
    */
   writeItem = (name: string, data: any): void => {
     localStorage.setItem(name, JSON.stringify(data));
-  };
+  }
   /*
     Read item from storage and convert it to JSON.
     If item doesn't exist - throw message to console output
@@ -23,7 +23,7 @@ export class StorageServices {
     if (data) {
       return JSON.parse(data);
     } else {
-      this.logger.log(`Item with name '${name}' was not found at storage`);
+      this.logger.log(`Reading storage item ${name}`, `Item with name '${name}' was not found at storage`);
       return null;
     }
   }

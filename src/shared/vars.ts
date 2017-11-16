@@ -6,7 +6,7 @@ import {environment} from '../environments/environment';
 
 export const back = environment.production ?
   'http://pbx.encryptotel.com/api' : environment.title === 'test' ?
-    'http://pbx-front-dev.encry.ru/api' : 'http://pbx-front-dev.encry.ru/api';
+    'http://pbx-front-test.dev/api' : 'http://pbx-front-dev.encry.ru/api';
 
 export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 

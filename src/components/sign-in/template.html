@@ -3,17 +3,18 @@
     <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
     <div class="auth_form_icon_title">EncryptoTel</div>
   </div>
-  <form (submit)="signIn($event)" [formGroup]="signInForm" [@Fade]>
+  <form (submit)="signIn($event)" [formGroup]="signInForm" [@Fade] (keyup)="_services.changeState('error', null)">
+    <div class="auth_form_error" *ngIf="state.error" [@Fade] (click)="_services.changeState('error', null)">{{state.error}}</div>
     <div class="input_wrap">
       <input name="Username" id="username" placeholder="Username" formControlName="username">
-      <div class="input_error" *ngIf="inputValidation('username')">
+      <div class="input_error" *ngIf="inputValidation('username')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('username', 'required')">Please enter your e-mail address</span>
         <span class="input_error_item" *ngIf="inputValidation('username', 'pattern')">Please enter correct e-mail address</span>
       </div>
     </div>
     <div class="input_wrap">
       <input type="password" name="Password" placeholder="Password" formControlName="password">
-      <div class="input_error" *ngIf="inputValidation('password')">
+      <div class="input_error" *ngIf="inputValidation('password')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('password', 'required')">Please enter password</span>
         <span class="input_error_item" *ngIf="inputValidation('password', 'minlength')">Password is too short</span>
       </div>
