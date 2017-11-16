@@ -1,10 +1,10 @@
 <div class="auth_form">
-  <div class="auth_form_icon_wrap" [@Fade]>
-    <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
+  <div class="auth_form_icon_wrap">
+    <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon" [@Fade]></svg-icon>
     <div class="auth_form_icon_title">EncryptoTel</div>
   </div>
-  <form (submit)="signIn($event)" [formGroup]="signInForm" [@Fade] (keyup)="_services.changeState('error', null)">
-    <div class="auth_form_error" *ngIf="state.error" [@Fade] (click)="_services.changeState('error', null)">{{state.error}}</div>
+  <form (submit)="signIn($event)" [formGroup]="signInForm" (keyup)="_services.clearError()">
+    <div class="auth_form_error" *ngIf="error" [@Fade] (click)="_services.clearError()">{{error}}</div>
     <div class="input_wrap">
       <input name="Username" id="username" placeholder="Username" formControlName="username">
       <div class="input_error" *ngIf="inputValidation('username')" [@Fade]>

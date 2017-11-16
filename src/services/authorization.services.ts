@@ -9,7 +9,6 @@ import {UserServices} from './user.services';
 
 import {SignInFormModel} from '../models/form-sign-in.model';
 import {SignUpFormModel} from '../models/form-sign-up.model';
-import {AuthorizationStateModel} from '../models/authorization-state.model';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
@@ -19,27 +18,27 @@ export class AuthorizationServices {
               private _services: UserServices,
               private _req: RequestServices,
               private logger: LoggerServices) {}
-  state: AuthorizationStateModel = new AuthorizationStateModel();
-  subscription: Subject<AuthorizationStateModel> = new Subject();
+  error: string;
+  subscription: Subject<string> = new Subject();
   /*
     Service state reset to initial params
    */
-  stateReset(): void {
-    this.state = new AuthorizationStateModel();
-    this.subscription.next(this.state);
+  clearError(): void {
+    this.error = null;
+    this.subscription.next(this.error);
   }
   /*
     Authorization state subscription
    */
-  readState(): Observable<AuthorizationStateModel> {
+  readError(): Observable<string> {
     return this.subscription.asObservable();
   }
   /*
     Authorization state params editing
    */
-  changeState(param: string, value: string | boolean): void {
-    this.state[param] = value;
-    this.subscription.next(this.state);
+  writeError(error: string): void {
+    this.error = error;
+    this.subscription.next(this.error);
   }
   /*
     Sign-in form submit. Accepted params:
@@ -49,13 +48,25 @@ export class AuthorizationServices {
     return this._req.post('login', {
       ...data
     }).then(result => {
-      if (result) {
+      if (result && !result.auth) {
         this._services.saveUserData({secrets: result});
         this.message.writeSuccess('Successfully logged in!');
         this.router.navigateByUrl('/cabinet');
+      } else if (result && result.auth) {
+        this.router.navigate(['/code-confirmation', result.hash]);
       }
     }).catch(result => {
-      this.changeState('error', result.message);
+      this.writeError(result.message);
+    });
+  }
+  codeConfirm(confirmationCode: object, hash: string) {
+    return this._req.post(`login/${hash}`, {...confirmationCode}).then(result => {
+      this._services.saveUserData({secrets: result});
+      this.message.writeSuccess('Successfully logged in!');
+      this.router.navigateByUrl('/cabinet');
+      this.clearError();
+    }).catch(result => {
+      this.writeError(result.message);
     });
   }
   /*
@@ -68,7 +79,7 @@ export class AuthorizationServices {
     }).then(result => {
       this.router.navigateByUrl('/');
     }).catch(result => {
-      this.changeState('error', result.errors.email[0]);
+      this.writeError(result.errors.email[0]);
     });
   }
 }

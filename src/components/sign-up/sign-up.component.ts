@@ -10,8 +10,6 @@ import {FadeAnimation} from '../../shared/fade-animation';
 import {passwordConfirmation} from '../../shared/password-confirmation';
 import * as _vars from '../../shared/vars';
 
-import {AuthorizationStateModel} from '../../models/authorization-state.model';
-
 @Component({
   selector: 'sign-up',
   templateUrl: 'template.html',
@@ -23,7 +21,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
               public _services: AuthorizationServices) {}
   loading = false;
   stateSubscription: Subscription;
-  state: AuthorizationStateModel = new AuthorizationStateModel();
+  error: string;
   signUpForm: FormGroup;
   /*
     Form field validation. Accepted params:
@@ -62,9 +60,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
     });
   }
   ngOnInit(): void {
-    this._services.stateReset();
-    this.stateSubscription = this._services.readState().subscribe(state => {
-      this.state = state;
+    this._services.clearError();
+    this.stateSubscription = this._services.readError().subscribe(error => {
+      this.error = error;
     });
     if (this._user.fetchUser()) {
       this.router.navigateByUrl('/cabinet');
@@ -90,7 +88,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }, passwordConfirmation);
   }
   ngOnDestroy(): void {
-    this._services.stateReset();
+    this._services.clearError();
     this.stateSubscription.unsubscribe();
   }
 }

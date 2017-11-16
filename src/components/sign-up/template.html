@@ -1,10 +1,10 @@
 <div class="auth_form">
-  <div class="auth_form_icon_wrap" [@Fade]>
+  <a class="auth_form_icon_wrap" [@Fade] routerLink="../sign-in">
     <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
     <div class="auth_form_icon_title">EncryptoTel</div>
-  </div>
-  <form (submit)="signUp($event)" [formGroup]="signUpForm" [@Fade] (keyup)="_services.changeState('error', null)">
-    <div class="auth_form_error" *ngIf="state.error" [@Fade] (click)="_services.changeState('error', null)">{{state.error}}</div>
+  </a>
+  <form (submit)="signUp($event)" [formGroup]="signUpForm" [@Fade]>
+    <div class="auth_form_error" *ngIf="error" [@Fade] (click)="_services.clearError()">{{error}}</div>
     <div class="input_wrap">
       <input name="Name" placeholder="Name" formControlName="name">
       <div class="input_error" *ngIf="inputValidation('name')" [@Fade]>
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="input_wrap">
-      <input name="E-mail" placeholder="E-mail" formControlName="email">
+      <input name="E-mail" placeholder="E-mail" formControlName="email" (keyup)="_services.clearError()">
       <div class="input_error" *ngIf="inputValidation('email')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('email', 'required')">Please enter your e-mail</span>
         <span class="input_error_item" *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>

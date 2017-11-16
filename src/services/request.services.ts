@@ -28,28 +28,8 @@ export class RequestServices {
         return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
-          case 401: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 404: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 422: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 423: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 500: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
           default: {
-            this.message.writeWarning(response.error.message); // Adding warning message
+            this.message.writeError(response.error.message); // Adding warning message
             break;
           }
         }
@@ -72,28 +52,8 @@ export class RequestServices {
         return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
-          case 401: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 404: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 422: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 423: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 500: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
           default: {
-            this.message.writeWarning(response.error.message); // Adding warning message
+            this.message.writeError(response.error.message); // Adding warning message
             break;
           }
         }
@@ -115,28 +75,8 @@ export class RequestServices {
         return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
-          case 401: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 404: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 422: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 423: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 500: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
           default: {
-            this.message.writeWarning(response.error.message); // Adding warning message
+            this.message.writeError(response.error.message); // Adding warning message
             break;
           }
         }
@@ -158,28 +98,8 @@ export class RequestServices {
         return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
-          case 401: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 404: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 422: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 423: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
-          case 500: {
-            this.message.writeError(response.error.message); // Adding warning message
-            break;
-          }
           default: {
-            this.message.writeWarning(response.error.message); // Adding warning message
+            this.message.writeError(response.error.message); // Adding warning message
             break;
           }
         }

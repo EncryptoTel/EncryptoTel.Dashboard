@@ -12,6 +12,7 @@ import {IndexComponent} from '../components/index/index.component';
 import {SignInComponent} from '../components/sign-in/sign-in.component';
 import {SignUpComponent} from '../components/sign-up/sign-up.component';
 import {EmailConfirmComponent} from '../components/confirmation/email-confirm.component';
+import {CodeConfirmComponent} from '../components/confirmation/code-confirm.component';
 
 /*
   Components declarations and exports
@@ -30,14 +31,16 @@ import {EmailConfirmComponent} from '../components/confirmation/email-confirm.co
     IndexComponent,
     SignInComponent,
     SignUpComponent,
-    EmailConfirmComponent
+    EmailConfirmComponent,
+    CodeConfirmComponent
   ],
   exports: [
     PageNotFoundComponent,
     IndexComponent,
     SignInComponent,
     SignUpComponent,
-    EmailConfirmComponent
+    EmailConfirmComponent,
+    CodeConfirmComponent
   ]
 })
 export class ComponentsModule {  }
