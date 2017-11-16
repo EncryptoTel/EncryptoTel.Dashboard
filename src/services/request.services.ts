@@ -19,7 +19,7 @@ export class RequestServices {
   /*
     Default POST request. Accepted params:
     URI: string - request uri,
-    data: object - request params
+    Data: object - request params
    */
   post(uri: string, data: object): Promise<any> {
     return this.http.post(`${_vars.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
@@ -43,7 +43,7 @@ export class RequestServices {
   /*
     Default PUT request. Accepted params:
     URI: string - request uri,
-    data: object - request params
+    Data: object - request params
    */
   put(uri: string, data: object): Promise<any> {
     return this.http.put(`${_vars.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion

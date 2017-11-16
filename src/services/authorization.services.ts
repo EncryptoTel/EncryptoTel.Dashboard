@@ -21,20 +21,20 @@ export class AuthorizationServices {
   error: string;
   subscription: Subject<string> = new Subject();
   /*
-    Service state reset to initial params
+    Service error reset to initial params
    */
   clearError(): void {
     this.error = null;
     this.subscription.next(this.error);
   }
   /*
-    Authorization state subscription
+    Service error subscription
    */
   readError(): Observable<string> {
     return this.subscription.asObservable();
   }
   /*
-    Authorization state params editing
+    Service error editing
    */
   writeError(error: string): void {
     this.error = error;
@@ -59,6 +59,10 @@ export class AuthorizationServices {
       this.writeError(result.message);
     });
   }
+  /*
+    Sign-in form submit. Accepted params:
+    Confirmation Code: string - two-factor authentication code
+   */
   codeConfirm(confirmationCode: object, hash: string) {
     return this._req.post(`login/${hash}`, {...confirmationCode}).then(result => {
       this._services.saveUserData({secrets: result});

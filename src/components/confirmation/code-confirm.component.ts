@@ -21,6 +21,17 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
   confirmationCode: FormGroup;
   paramsSubscription: Subscription;
   errorsSubscription: Subscription;
+  /*
+    Form field validation. Accepted params:
+    Name: string - form field name
+   */
+  inputValidation(name: string): boolean {
+    const field = this.confirmationCode.controls[name];
+    return field.invalid && (field.dirty || field.touched);
+  }
+  /*
+    Code confirmation action
+   */
   codeConfirm(event): void {
     event.preventDefault();
     this.loading = true;
@@ -29,6 +40,7 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
     });
   }
   ngOnInit(): void {
+    this._services.clearError();
     this.paramsSubscription = this.route.params.subscribe(params => {
       this.confirmationHash = params['hash'];
     });
@@ -42,6 +54,7 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy(): void {
+    this._services.clearError();
     this.paramsSubscription.unsubscribe();
     this.errorsSubscription.unsubscribe();
   }
