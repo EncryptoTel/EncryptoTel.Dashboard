@@ -13,6 +13,8 @@ import {SignInComponent} from '../components/sign-in/sign-in.component';
 import {SignUpComponent} from '../components/sign-up/sign-up.component';
 import {EmailConfirmComponent} from '../components/confirmation/email-confirm.component';
 import {CodeConfirmComponent} from '../components/confirmation/code-confirm.component';
+import {PasswordRecoveryComponent} from '../components/password-recovery/password-recovery.component';
+import {PasswordChangeComponent} from '../components/confirmation/password-change.component';
 
 /*
   Components declarations and exports
@@ -32,7 +34,9 @@ import {CodeConfirmComponent} from '../components/confirmation/code-confirm.comp
     SignInComponent,
     SignUpComponent,
     EmailConfirmComponent,
-    CodeConfirmComponent
+    CodeConfirmComponent,
+    PasswordRecoveryComponent,
+    PasswordChangeComponent
   ],
   exports: [
     PageNotFoundComponent,
@@ -40,7 +44,9 @@ import {CodeConfirmComponent} from '../components/confirmation/code-confirm.comp
     SignInComponent,
     SignUpComponent,
     EmailConfirmComponent,
-    CodeConfirmComponent
+    CodeConfirmComponent,
+    PasswordRecoveryComponent,
+    PasswordChangeComponent
   ]
 })
 export class ComponentsModule {  }

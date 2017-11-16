@@ -10,6 +10,7 @@ import {UserServices} from './user.services';
 import {SignInFormModel} from '../models/form-sign-in.model';
 import {SignUpFormModel} from '../models/form-sign-up.model';
 import {Observable} from 'rxjs/Observable';
+import {PasswordChangingFormModel} from '../models/form-password-changing.model';
 
 @Injectable()
 export class AuthorizationServices {
@@ -61,7 +62,8 @@ export class AuthorizationServices {
   }
   /*
     Sign-in form submit. Accepted params:
-    Confirmation Code: string - two-factor authentication code
+    Confirmation Code: object - two-factor authentication code form values,
+    Hash: string - user-specific hash
    */
   codeConfirm(confirmationCode: object, hash: string) {
     return this._req.post(`login/${hash}`, {...confirmationCode}).then(result => {
@@ -84,6 +86,29 @@ export class AuthorizationServices {
       this.router.navigateByUrl('/');
     }).catch(result => {
       this.writeError(result.errors.email[0]);
+    });
+  }
+  /*
+    Send password recovery e-mail. Accepted params:
+    E-mail: string - user e-mail address form value
+   */
+  sendEmail(email: object) {
+    return this._req.post(`password/email`, {...email}).then(result => {
+      this.message.writeSuccess(result.message);
+    }).catch(result => {
+      this.writeError(result.message);
+    });
+  }
+  /*
+    Change password. Accepted params:
+    Data - password changing form values,
+    Hash: string - user-specific hash
+   */
+  changePassword(data: PasswordChangingFormModel, hash: string) {
+    return this._req.post(`password/reset/${hash}`, {...data}).then(result => {
+      this.message.writeSuccess(result.message);
+    }).catch(result => {
+      this.writeError(result.message);
     });
   }
 }

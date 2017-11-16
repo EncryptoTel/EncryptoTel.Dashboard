@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
 import {AuthorizationServices} from '../../services/authorization.services';
@@ -8,21 +8,22 @@ import {UserServices} from '../../services/user.services';
 
 import {FadeAnimation} from '../../shared/fade-animation';
 import {passwordConfirmation} from '../../shared/password-confirmation';
-import * as _vars from '../../shared/vars';
 
 @Component({
   selector: 'sign-up',
-  templateUrl: './template.html',
+  templateUrl: './password-change.template.html',
   animations: [FadeAnimation]
 })
-export class SignUpComponent implements OnInit, OnDestroy {
-  constructor(private router: Router,
+export class PasswordChangeComponent implements OnInit, OnDestroy {
+  constructor(private route: ActivatedRoute,
               private _user: UserServices,
               public _services: AuthorizationServices) {}
   loading = false;
-  errorsSubscription: Subscription;
+  passwordChangingHash: string;
   error: string;
-  signUpForm: FormGroup;
+  passwordChangingForm: FormGroup;
+  paramsSubscription: Subscription;
+  errorsSubscription: Subscription;
   /*
     Form field validation. Accepted params:
     Name: string - form field name,
@@ -30,10 +31,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
    */
   inputValidation(name: string, errorType?: string): boolean {
     if (errorType) {
-      const field = this.signUpForm.controls[name];
+      const field = this.passwordChangingForm.controls[name];
       return field.errors[errorType] && (field.dirty || field.touched);
     } else {
-      const field = this.signUpForm.controls[name];
+      const field = this.passwordChangingForm.controls[name];
       return field.invalid && (field.dirty || field.touched);
     }
   }
@@ -41,45 +42,33 @@ export class SignUpComponent implements OnInit, OnDestroy {
     Form passwords match validation.
    */
   passwordsMismatch(): boolean {
-    const confirm = this.signUpForm.controls['password_confirmation'];
-    const password = this.signUpForm.controls['password'];
-    if (this.signUpForm.errors && ((confirm.touched || confirm.dirty) || (password.touched || password.dirty))) {
-      return this.signUpForm.errors.mismatch;
+    const confirm = this.passwordChangingForm.controls['password_confirmation'];
+    const password = this.passwordChangingForm.controls['password'];
+    if (this.passwordChangingForm.errors && ((confirm.touched || confirm.dirty) || (password.touched || password.dirty))) {
+      return this.passwordChangingForm.errors.mismatch;
     } else {
       return false;
     }
   }
   /*
-    Sign-up action
+    Change password action
    */
-  signUp(event): void {
+  changePassword(event): void {
     event.preventDefault();
     this.loading = true;
-    this._services.signUp(this.signUpForm.value).then(() => {
+    this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
       this.loading = false;
     });
   }
   ngOnInit(): void {
     this._services.clearError();
+    this.route.params.subscribe(params => {
+      this.passwordChangingHash = params['hash'];
+    });
     this.errorsSubscription = this._services.readError().subscribe(error => {
       this.error = error;
     });
-    if (this._user.fetchUser()) {
-      this.router.navigateByUrl('/cabinet');
-    }
-    this.signUpForm = new FormGroup({
-      'name': new FormControl(undefined, [
-        Validators.required,
-        Validators.pattern(_vars.nameRegExp)
-      ]),
-      'surname': new FormControl(undefined, [
-        Validators.required,
-        Validators.pattern(_vars.nameRegExp)
-      ]),
-      'email': new FormControl(undefined, [
-        Validators.required,
-        Validators.pattern(_vars.emailRegExp)
-      ]),
+    this.passwordChangingForm = new FormGroup({
       'password': new FormControl(undefined, [
         Validators.required,
         Validators.minLength(6)

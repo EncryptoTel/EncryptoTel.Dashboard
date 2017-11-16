@@ -23,9 +23,8 @@
       <loader *ngIf="loading"></loader>
       <span *ngIf="!loading">Sign In</span>
     </button>
-    <div class="auth_form_text">
-      Don't have an EncryptoTel Account?
-      <a routerLink="../sign-up" class="auth_form_link">Create one now</a>
-    </div>
+    <a routerLink="../recovery" class="auth_form_link">Forgot your password?</a>
+    <div class="auth_form_text">Don't have an EncryptoTel Account?</div>
+    <a routerLink="../sign-up" class="auth_form_link">Create one now</a>
   </form>
 </div>

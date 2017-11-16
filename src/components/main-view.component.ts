@@ -7,7 +7,7 @@ import {FadeAnimation} from '../shared/fade-animation';
 
 @Component({
   selector: 'main-view',
-  templateUrl: 'main-view.template.html',
+  templateUrl: './main-view.template.html',
   animations: [FadeAnimation]
 })
 

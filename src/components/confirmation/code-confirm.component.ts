@@ -9,12 +9,13 @@ import {FadeAnimation} from '../../shared/fade-animation';
 
 @Component({
   selector: 'code-confirm-component',
-  templateUrl: 'code-confirm.template.html',
+  templateUrl: './code-confirm.template.html',
   animations: [FadeAnimation]
 })
 
 export class CodeConfirmComponent implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute, private _services: AuthorizationServices) {}
+  constructor(private route: ActivatedRoute,
+              private _services: AuthorizationServices) {}
   loading = false;
   confirmationHash: string;
   error: string;
