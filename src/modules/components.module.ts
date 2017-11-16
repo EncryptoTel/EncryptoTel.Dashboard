@@ -6,10 +6,12 @@ import {AngularSvgIconModule} from 'angular-svg-icon';
 import {ElementsModule} from './elements.module';
 import {MainRouterModule} from './router.module';
 
+import {PageNotFoundComponent} from '../components/errors/page-not-found/page-not-found.component';
+
 import {IndexComponent} from '../components/index/index.component';
 import {SignInComponent} from '../components/sign-in/sign-in.component';
 import {SignUpComponent} from '../components/sign-up/sign-up.component';
-import {EmailConfirmComponent} from '../components/email-confirm/email-confirm.component';
+import {EmailConfirmComponent} from '../components/confirmation/email-confirm.component';
 
 /*
   Components declarations and exports
@@ -24,12 +26,14 @@ import {EmailConfirmComponent} from '../components/email-confirm/email-confirm.c
     MainRouterModule
   ],
   declarations: [
+    PageNotFoundComponent,
     IndexComponent,
     SignInComponent,
     SignUpComponent,
     EmailConfirmComponent
   ],
   exports: [
+    PageNotFoundComponent,
     IndexComponent,
     SignInComponent,
     SignUpComponent,

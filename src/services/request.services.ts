@@ -27,7 +27,6 @@ export class RequestServices {
         this.logger.log(response); // Console output for response
         return response.body; // Return response to children method
       }).catch(response => { // Non-successful request processing
-        this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status
           case 500: {
             this.message.writeError(response.message); // Adding warning message
@@ -55,7 +54,6 @@ export class RequestServices {
         this.logger.log(response); // Console output for response
         return response.body; // Return response to children method
       }).catch(response => { // Non-successful request processing
-        this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status
           case 500: {
             this.message.writeError(response.message); // Adding warning message
@@ -82,8 +80,6 @@ export class RequestServices {
         this.logger.log(response); // Console output for response
         return response.body; // Return response to children method
       }).catch(response => { // Non-successful request processing
-        this.logger.log(response);
-        this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status
           case 500: {
             this.message.writeError(response.message); // Adding warning message
@@ -110,7 +106,6 @@ export class RequestServices {
         this.logger.log(response); // Console output for response
         return response.body; // Return response to children method
       }).catch(response => { // Non-successful request processing
-        this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status
           case 500: {
             this.message.writeError(response.message); // Adding warning message

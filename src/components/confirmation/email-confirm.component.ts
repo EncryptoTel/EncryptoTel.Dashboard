@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {RequestServices} from '../../services/request.services';
@@ -9,7 +9,7 @@ import {MessageServices} from '../../services/message.services';
   template: `<div class="auth_form"></div>`
 })
 
-export class EmailConfirmComponent implements OnInit {
+export class EmailConfirmComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private messages: MessageServices,
@@ -18,7 +18,7 @@ export class EmailConfirmComponent implements OnInit {
   ngOnInit() {
     this.subscription = this.route.params.subscribe(params => {
       if (params['hash']) {
-        this._req.get(`user-activate/${params['hash']}`).then(result => {
+        this._req.get(`confirm/email/${params['hash']}`).then(result => {
           this.messages.writeSuccess(result.message);
           this.router.navigateByUrl('/sign-in');
         }).catch(() => {
@@ -30,5 +30,8 @@ export class EmailConfirmComponent implements OnInit {
         this.router.navigateByUrl('/');
       }
     });
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

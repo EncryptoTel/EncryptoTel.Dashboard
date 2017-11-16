@@ -10,8 +10,6 @@ import {SignInFormModel} from '../models/form-sign-in.model';
 import {SignUpFormModel} from '../models/form-sign-up.model';
 import {UserModel} from '../models/user.model';
 
-import * as _vars from '../shared/vars';
-
 /*
   User services. Authentication, user params changing etc.
 */
@@ -50,7 +48,6 @@ export class UserServices {
    */
   signIn(data: SignInFormModel) {
     return this._req.post('login', {
-      ..._vars.auth_params,
       ...data
     }).then(result => {
       if (result && !result.message) {
