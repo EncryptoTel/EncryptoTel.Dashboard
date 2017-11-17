@@ -107,6 +107,7 @@ export class AuthorizationServices {
   changePassword(data: PasswordChangingFormModel, hash: string) {
     return this._req.post(`password/reset/${hash}`, {...data}).then(result => {
       this.message.writeSuccess(result.message);
+      this.router.navigateByUrl('/');
     }).catch(result => {
       this.writeError(result.message);
     });
