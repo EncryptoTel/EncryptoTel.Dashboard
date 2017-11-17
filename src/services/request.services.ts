@@ -29,13 +29,13 @@ export class RequestServices {
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
           default: {
-            this.message.writeError(response.error.message); // Adding warning message
+            this.message.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;
           }
         }
         this.logger.log('POST-request error', { // Console output for response error details
-          status: response.status,
-          message: response.error.message
+          status: response.status || 'Response status is empty',
+          message: response.error.message || 'Unknown internal server error'
         });
         return Promise.reject(response.error);
       });
@@ -53,13 +53,13 @@ export class RequestServices {
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
           default: {
-            this.message.writeError(response.error.message); // Adding warning message
+            this.message.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;
           }
         }
         this.logger.log('PUT-request error', { // Console output for response error details
-          status: response.status,
-          message: response.error.message
+          status: response.status || 'Response status is empty',
+          message: response.error.message || 'Unknown internal server error'
         });
         return Promise.reject(response.error);
       });
@@ -76,13 +76,13 @@ export class RequestServices {
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
           default: {
-            this.message.writeError(response.error.message); // Adding warning message
+            this.message.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;
           }
         }
         this.logger.log('GET-request error', { // Console output for response error details
-          status: response.status,
-          message: response.error.message
+          status: response.status || 'Response status is empty',
+          message: response.error.message || 'Unknown internal server error'
         });
         return Promise.reject(response.error);
       });
@@ -99,13 +99,13 @@ export class RequestServices {
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
           default: {
-            this.message.writeError(response.error.message); // Adding warning message
+            this.message.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;
           }
         }
         this.logger.log('DELETE-request error', { // Console output for response error details
-          status: response.status,
-          message: response.error.message
+          status: response.status || 'Response status is empty',
+          message: response.error.message || 'Unknown internal server error'
         });
         return Promise.reject(response.error);
       });
