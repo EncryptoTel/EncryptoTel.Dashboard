@@ -5,7 +5,7 @@ import {environment} from '../environments/environment';
  */
 
 export const back = environment.production ?
-  'http://pbx.encryptotel.com/api' : environment.title === 'test' ?
+  'http://pbx.encryptotel.com/api' : environment.title === 'local' ?
     'http://pbx-front-test.dev/api' : 'http://pbx-front-dev.encry.ru/api';
 
 /*
