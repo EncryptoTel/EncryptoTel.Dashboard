@@ -45,7 +45,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.loading = true;
     this._services.signIn(this.signInForm.value).then(() => {
       this.loading = false;
-    });
+    }).catch(() => this.loading = false);
   }
   ngOnInit(): void {
     this._services.clearError();

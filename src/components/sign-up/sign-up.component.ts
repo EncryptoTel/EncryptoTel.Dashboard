@@ -57,7 +57,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.loading = true;
     this._services.signUp(this.signUpForm.value).then(() => {
       this.loading = false;
-    });
+    }).catch(() => this.loading = false);
   }
   ngOnInit(): void {
     this._services.clearError();
