@@ -4,14 +4,13 @@ import {environment} from '../environments/environment';
   Environment-specific variables
  */
 
-export const back = environment.production ? 'http://pbx-front.encry.ru/api' : 'http://pbx-front-dev.encry.ru/api';
+export const back = environment.production ?
+  'http://pbx.encryptotel.com/api' : environment.title === 'local' ?
+    'http://pbx-front-test.dev/api' : 'http://pbx-front-dev.encry.ru/api';
 
-export const auth_params = {
-  client_id: 2,
-  client_secret: 'ABjSJ4330mk7uOo148q9z0xZMgxUPciYiipFZFXV',
-  grant_type: 'password',
-  scope: '*'
-};
+/*
+  Regular expressions
+ */
 
 export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 

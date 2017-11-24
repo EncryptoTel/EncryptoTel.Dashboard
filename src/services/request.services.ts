@@ -19,57 +19,49 @@ export class RequestServices {
   /*
     Default POST request. Accepted params:
     URI: string - request uri,
-    data: object - request params
+    Data: object - request params
    */
   post(uri: string, data: object): Promise<any> {
     return this.http.post(`${_vars.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
-        this.logger.log(response); // Console output for response
-        return response; // Return response to children method
+        this.logger.log('POST-request response', response); // Console output for response
+        return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
-        this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status
-          case 500: {
-            this.message.writeError(response.message); // Adding warning message
-            break;
-          }
           default: {
-            this.message.writeWarning(response.message); // Adding warning message
+            this.message.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;
           }
         }
-        this.logger.log({ // Console output for response error details
-          status: response.status,
-          message: response.error.message
+        this.logger.log('POST-request error', { // Console output for response error details
+          status: response.status || 'Response status is empty',
+          message: response.error.message || 'Unknown internal server error'
         });
+        return Promise.reject(response.error);
       });
   }
   /*
     Default PUT request. Accepted params:
     URI: string - request uri,
-    data: object - request params
+    Data: object - request params
    */
   put(uri: string, data: object): Promise<any> {
-    return this.http.put(`${_vars.back}/${uri}`, {...data}).toPromise() // Request to promise conversion
+    return this.http.put(`${_vars.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
-        this.logger.log(response); // Console output for response
-        return response; // Return response to children method
+        this.logger.log('PUT-request response', response); // Console output for response
+        return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
-        this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status
-          case 500: {
-            this.message.writeError(response.message); // Adding warning message
-            break;
-          }
           default: {
-            this.message.writeWarning(response.message); // Adding warning message
+            this.message.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;
           }
         }
-        this.logger.log({ // Console output for response error details
-          status: response.status,
-          message: response.error.message
+        this.logger.log('PUT-request error', { // Console output for response error details
+          status: response.status || 'Response status is empty',
+          message: response.error.message || 'Unknown internal server error'
         });
+        return Promise.reject(response.error);
       });
   }
   /*
@@ -77,26 +69,22 @@ export class RequestServices {
     URI: string - request uri with stringified params
    */
   get(uri: string): Promise<any> {
-    return this.http.get(`${_vars.back}/${uri}`).toPromise() // Request to promise conversion
+    return this.http.get(`${_vars.back}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
-        this.logger.log(response); // Console output for response
-        return response; // Return response to children method
+        this.logger.log('GET-request response', response); // Console output for response
+        return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
-        this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status
-          case 500: {
-            this.message.writeError(response.message); // Adding warning message
-            break;
-          }
           default: {
-            this.message.writeWarning(response.message); // Adding warning message
+            this.message.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;
           }
         }
-        this.logger.log({ // Console output for response error details
-          status: response.status,
-          message: response.error.message
+        this.logger.log('GET-request error', { // Console output for response error details
+          status: response.status || 'Response status is empty',
+          message: response.error.message || 'Unknown internal server error'
         });
+        return Promise.reject(response.error);
       });
   }
   /*
@@ -104,26 +92,22 @@ export class RequestServices {
     URI: string - request uri with stringified params
    */
   del(uri: string): Promise<any> {
-    return this.http.delete(`${_vars.back}/${uri}`).toPromise() // Request to promise conversion
+    return this.http.delete(`${_vars.back}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
-        this.logger.log(response); // Console output for response
-        return response; // Return response to children method
+        this.logger.log('DELETE-request response', response); // Console output for response
+        return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
-        this.logger.log({status: response.status});
         switch (response.status) { // Switch response error status
-          case 500: {
-            this.message.writeError(response.message); // Adding warning message
-            break;
-          }
           default: {
-            this.message.writeWarning(response.message); // Adding warning message
+            this.message.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;
           }
         }
-        this.logger.log({ // Console output for response error details
-          status: response.status,
-          message: response.error.message
+        this.logger.log('DELETE-request error', { // Console output for response error details
+          status: response.status || 'Response status is empty',
+          message: response.error.message || 'Unknown internal server error'
         });
+        return Promise.reject(response.error);
       });
   }
 }

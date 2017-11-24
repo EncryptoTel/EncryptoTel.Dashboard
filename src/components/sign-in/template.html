@@ -1,28 +1,30 @@
 <div class="auth_form">
-  <div class="auth_form_icon_wrap" [@Fade]>
-    <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
+  <div class="auth_form_icon_wrap">
+    <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon" [@Fade]></svg-icon>
     <div class="auth_form_icon_title">EncryptoTel</div>
   </div>
-  <loader *ngIf="loading" [@Fade]></loader>
-  <form (submit)="signIn($event)" [formGroup]="signInForm" *ngIf="!loading" [@Fade]>
+  <form (submit)="signIn($event)" [formGroup]="signInForm" (keyup)="_services.clearError()">
+    <div class="auth_form_error" *ngIf="error" [@Fade] (click)="_services.clearError()">{{error}}</div>
     <div class="input_wrap">
       <input name="Username" id="username" placeholder="Username" formControlName="username">
-      <div class="input_error" *ngIf="inputValidation('username')">
+      <div class="input_error" *ngIf="inputValidation('username')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('username', 'required')">Please enter your e-mail address</span>
         <span class="input_error_item" *ngIf="inputValidation('username', 'pattern')">Please enter correct e-mail address</span>
       </div>
     </div>
     <div class="input_wrap">
       <input type="password" name="Password" placeholder="Password" formControlName="password">
-      <div class="input_error" *ngIf="inputValidation('password')">
+      <div class="input_error" *ngIf="inputValidation('password')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('password', 'required')">Please enter password</span>
         <span class="input_error_item" *ngIf="inputValidation('password', 'minlength')">Password is too short</span>
       </div>
     </div>
-    <button type="submit" name="Sign In" class="button accent" [disabled]="!signInForm.valid">Sign In</button>
-    <div class="auth_form_text">
-      Don't have an EncryptoTel Account?
-      <a routerLink="../sign-up" class="auth_form_link">Create one now</a>
-    </div>
+    <button type="submit" name="Sign In" class="button accent" [disabled]="!signInForm.valid || loading">
+      <loader *ngIf="loading"></loader>
+      <span *ngIf="!loading">Sign In</span>
+    </button>
+    <a routerLink="../recovery" class="auth_form_link">Forgot your password?</a>
+    <div class="auth_form_text">Don't have an EncryptoTel Account?</div>
+    <a routerLink="../sign-up" class="auth_form_link">Create one now</a>
   </form>
 </div>

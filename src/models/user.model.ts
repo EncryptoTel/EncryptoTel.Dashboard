@@ -1,6 +1,7 @@
+import {SecretsModel} from './secrets.model';
+
 export class UserModel {
   constructor(
-    public username: string,
-    public user_token: string
+    public secrets: SecretsModel
   ) {}
 }

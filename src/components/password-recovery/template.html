@@ -1,0 +1,23 @@
+<div class="auth_form">
+  <a class="auth_form_icon_wrap" routerLink="../sign-in" [@Fade] (click)="_services.clearError()">
+    <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
+    <div class="auth_form_icon_title">EncryptoTel</div>
+  </a>
+  <form (submit)="sendEmail($event)" [formGroup]="emailForm" [@Fade] (keyup)="_services.clearError()">
+    <div class="auth_form_error" *ngIf="error" [@Fade] (click)="_services.clearError()">{{error}}</div>
+    <div class="input_wrap">
+      <input name="E-mail" id="confirmation_email" placeholder="E-mail" formControlName="email">
+      <div class="input_error" *ngIf="inputValidation('email')" [@Fade]>
+        <span class="input_error_item" *ngIf="inputValidation('email', 'required')">Please enter your e-mail</span>
+        <span class="input_error_item" *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>
+      </div>
+    </div>
+    <button type="submit" name="Sign In" class="button accent" [disabled]="!emailForm.valid || loading">
+      <loader *ngIf="loading"></loader>
+      <span *ngIf="!loading">Request recovery link</span>
+    </button>
+    <a routerLink="../sign-in" class="auth_form_link">Back to login</a>
+    <div class="auth_form_text">Don't have an EncryptoTel Account?</div>
+    <a routerLink="../sign-up" class="auth_form_link">Create one now</a>
+  </form>
+</div>

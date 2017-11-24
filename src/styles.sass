@@ -78,13 +78,14 @@ input
     width: 100%
     padding: 16px
     cursor: pointer
+    &:not(:first-child)
+      margin-top: 8px
 
 .auth_form
   display: flex
   flex-direction: column
   height: 100vh
   width: 100vw
-  padding: 32px 16px
   background: url('./assets/images/auth_bg.jpg') center no-repeat
   background-size: cover
   overflow-y: scroll
@@ -102,8 +103,8 @@ input
     height: 100vh
     width: 100vw
     background: $dark_background
-    opacity: .6
     filter: blur(8px) brightness(-50)
+    opacity: .6
   form
     position: relative
     display: flex
@@ -111,7 +112,7 @@ input
     flex-direction: column
     width: 328px
     max-width: calc(100% - 32px)
-    margin: 80px auto auto
+    margin: 88px auto auto
     z-index: 1
   &_icon
     display: flex
@@ -138,15 +139,25 @@ input
       &_item
         font-size: 12px
   &_text
-    margin-top: 24px
+    margin: 16px 0 8px
     font-size: 14px
     text-align: center
   &_link
     display: block
-    margin-top: 8px
     text-align: center
+  &_error
+    position: absolute
+    bottom: 100%
+    left: 0
+    display: flex
+    flex-direction: column
+    width: 100%
+    margin-bottom: 8px
+    padding: 16px
+    text-align: center
+    cursor: pointer
   .button
-    margin-top: 20px
+    margin: 16px 0 24px
 
 // ID's styles
 
@@ -154,27 +165,30 @@ input
 main-view
   &.dark_theme
     color: $dark_primary
+    background: $dark_background
     input:not([type='submit'])
       border-bottom: 1px solid rgba($dark_primary, .1)
       &.ng-touched.ng-invalid,
       &.ng-dirty.ng-invalid
-        color: $dark_warning
-        border-bottom-color: $dark_warning
+        color: $dark_error
+        border-bottom-color: $dark_error
         &::placeholder
-          color: $dark_warning
+          color: $dark_error
     .auth_form
       &_icon
         fill: $dark_accent
         &_title
           color: $dark_accent
       .input_error_item
-        color: $dark_warning
+        color: $dark_error
       &_text
         color: rgba($dark_primary, .5)
       &_link
         color: $dark_primary
         &:hover
           color: $dark_accent
+      &_error
+        background: $dark_error
     .button
       &.accent
         background: $dark_accent
