@@ -10,7 +10,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 @Component({
   selector: 'code-confirm-component',
   templateUrl: './code-confirm.template.html',
-  animations: [FadeAnimation]
+  animations: [FadeAnimation('.3s')]
 })
 
 export class CodeConfirmComponent implements OnInit, OnDestroy {

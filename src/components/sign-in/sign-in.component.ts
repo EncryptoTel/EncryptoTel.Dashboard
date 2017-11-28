@@ -12,7 +12,7 @@ import * as _vars from '../../shared/vars';
 @Component({
   selector: 'sign-in',
   templateUrl: './template.html',
-  animations: [FadeAnimation]
+  animations: [FadeAnimation('.3s')]
 })
 
 export class SignInComponent implements OnInit, OnDestroy {

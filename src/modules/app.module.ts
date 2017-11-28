@@ -10,6 +10,7 @@ import {ComponentsModule} from './components.module';
 
 import {LoggerServices} from '../services/logger.services';
 import {StorageServices} from '../services/storage.services';
+import {ListServices} from '../services/list.services';
 import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
 import {AuthorizationServices} from '../services/authorization.services';
@@ -31,6 +32,7 @@ import {MainViewComponent} from '../components/main-view.component';
   providers: [
     LoggerServices,
     StorageServices,
+    ListServices,
     {provide: HTTP_INTERCEPTORS, useClass: UserTokenInterceptor, multi: true},
     RequestServices,
     MessageServices,

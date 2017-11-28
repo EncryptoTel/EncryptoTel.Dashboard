@@ -205,3 +205,16 @@ main-view
         background: $dark_warning
       &.success
         background: $dark_success
+  &.light_theme
+    color: $dark_background
+    background: $dark_primary
+    .button
+      color: $dark_primary
+      &.accent
+        background: $dark_accent
+        &:hover
+          background: lighten($dark_accent, 5%)
+        &:focus, &:active
+          background: darken($dark_accent, 5%)
+        &:disabled
+          background: darken($dark_primary, 85%)

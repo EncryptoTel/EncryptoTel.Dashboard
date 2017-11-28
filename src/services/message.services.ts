@@ -13,7 +13,7 @@ import {LoggerServices} from './logger.services';
 export class MessageServices {
   constructor(private logger: LoggerServices) {}
   messages: MessageModel[] = [];
-  subscription: Subject<MessageModel[]> = new Subject();
+  messagesSubscription: Subject<MessageModel[]> = new Subject();
   /*
     Message ID generation
    */
@@ -32,7 +32,7 @@ export class MessageServices {
    */
   messageProcess(message: MessageModel): void {
     this.messages.push(message);
-    this.subscription.next(this.messages);
+    this.messagesSubscription.next(this.messages);
     this.removeError(message.id);
     this.logger.log('Message processing details', message);
   }
@@ -47,7 +47,7 @@ export class MessageServices {
           this.messages.splice(index, 1);
         }
       });
-      this.subscription.next(this.messages);
+      this.messagesSubscription.next(this.messages);
     }, 5000);
   }
   /*
@@ -60,7 +60,7 @@ export class MessageServices {
         this.messages.splice(index, 1);
       }
     });
-    this.subscription.next(this.messages);
+    this.messagesSubscription.next(this.messages);
   }
   /*
     Error message writing. Accepted params:
@@ -90,6 +90,6 @@ export class MessageServices {
     Message list fetching for subscribe
    */
   messagesList(): Observable<MessageModel[]> {
-    return this.subscription.asObservable();
+    return this.messagesSubscription.asObservable();
   }
 }

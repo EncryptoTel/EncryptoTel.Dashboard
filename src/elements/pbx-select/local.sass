@@ -1,0 +1,116 @@
+@import "../../vars" // Global variables import
+
+.select
+  &_wrap
+    position: relative
+    display: flex
+    flex: 1 0 auto
+    flex-direction: column
+    width: 100%
+    &.active .select_icon
+      transform: rotate(180deg)
+    &.bottom
+      > .select_options
+        top: 100%
+    &.top
+      > .select_options
+        bottom: 100%
+      .select_icon
+        transform: rotate(180deg)
+      &.active .select_icon
+        transform: rotate(0deg)
+  &_item
+    display: flex
+    flex: 1 0 auto
+    width: 100%
+    cursor: pointer
+    height: 40px
+    padding: 0 16px
+    align-items: center
+    &.selected
+      display: flex
+      flex: 1 0 auto
+      width: 100%
+  &_icon
+    display: flex
+    flex-direction: column
+    margin-left: auto
+    width: 12px
+  &_options
+    position: absolute
+    left: 0
+    height: 200px
+    width: 100%
+    overflow-y: scroll
+    z-index: 10
+    &::-webkit-scrollbar
+      width: 0
+      background-color: transparent
+    &::-webkit-scrollbar-thumb
+      background-color: transparent
+  &_error
+    position: absolute
+    top: calc(100% + 4px)
+    font-size: 12px
+
+// Theme styles
+\:host-context(.dark_theme)
+  .select
+    &_item
+      &.selected
+        border: 1px solid rgba($dark_primary, .1)
+      &.blank
+        color: rgba($dark_primary, .5)
+    &_options
+      background: $dark_background
+      .select_item.current
+        background: rgba($dark_primary, .03)
+      .select_item:hover
+        background: rgba($dark_primary, .1)
+    &_wrap
+      &:focus > .selected
+        border-color: $dark_accent
+      &.active > .selected /deep/ .cls-1
+        fill: $dark_accent
+      &.error > .selected
+        border-color: $dark_error
+      &.top > .select_options
+        border: 1px solid rgba($dark_primary, .1)
+        border-bottom: none
+      &.bottom > .select_options
+        border: 1px solid rgba($dark_primary, .1)
+        border-top: none
+    &_error
+      color: $dark_error
+    &_icon /deep/ .cls-1
+      fill: $dark_primary
+\:host-context(.light_theme)
+  .select
+    &_item
+      &.selected
+        border: 1px solid rgba($dark_background, .1)
+      &.blank
+        color: rgba($dark_background, .5)
+    &_options
+      background: $dark_primary
+      .select_item.current
+        background: rgba($dark_background, .03)
+      .select_item:hover
+        background: rgba($dark_background, .1)
+    &_wrap
+      &:focus > .selected
+        border-color: $dark_accent
+      &.active > .selected /deep/ .cls-1
+        fill: $dark_accent
+      &.error > .selected
+        border-color: $dark_error
+      &.top > .select_options
+        border: 1px solid rgba($dark_background, .1)
+        border-bottom: none
+      &.bottom > .select_options
+        border: 1px solid rgba($dark_background, .1)
+        border-top: none
+    &_error
+      color: $dark_error
+    &_icon /deep/ .cls-1
+      fill: $dark_background

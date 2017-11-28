@@ -12,7 +12,7 @@ import {passwordConfirmation} from '../../shared/password-confirmation';
 @Component({
   selector: 'sign-up',
   templateUrl: './password-change.template.html',
-  animations: [FadeAnimation]
+  animations: [FadeAnimation('.3s')]
 })
 export class PasswordChangeComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,

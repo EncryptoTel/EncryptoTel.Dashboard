@@ -13,7 +13,7 @@ import * as _vars from '../../shared/vars';
 @Component({
   selector: 'sign-up',
   templateUrl: './template.html',
-  animations: [FadeAnimation]
+  animations: [FadeAnimation('.3s')]
 })
 export class SignUpComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
@@ -69,11 +69,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }
     this.signUpForm = new FormGroup({
       'name': new FormControl(undefined, [
-        Validators.required,
         Validators.pattern(_vars.nameRegExp)
       ]),
       'surname': new FormControl(undefined, [
-        Validators.required,
         Validators.pattern(_vars.nameRegExp)
       ]),
       'email': new FormControl(undefined, [

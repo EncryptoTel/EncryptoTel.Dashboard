@@ -10,7 +10,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 @Component({
   selector: 'password-recovery',
   templateUrl: './template.html',
-  animations: [FadeAnimation]
+  animations: [FadeAnimation('.3s')]
 })
 
 export class PasswordRecoveryComponent implements OnInit, OnDestroy {
