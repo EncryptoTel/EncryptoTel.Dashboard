@@ -5,7 +5,7 @@
      (clickOutside)="hideOptions()"
      (focus)="showOptions()"
      (blur)="hideOptions()"
-     (mousedown)="toggleOptions()"
+     (mousedown)="toggleOptions($event)"
      (keydown)="keyboardNavigation($event)">
   <div class="select_item selected" [ngClass]="{'blank': !selected?.name}">
     {{selected?.name || placeholder}}

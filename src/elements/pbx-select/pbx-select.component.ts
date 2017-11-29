@@ -29,8 +29,10 @@ export class PbxSelectComponent {
   /*
     Toggle options visibility
    */
-  toggleOptions(): void {
-    this.isVisible ? this.hideOptions() : this.showOptions();
+  toggleOptions(event?: MouseEvent): void {
+    if (!event) {
+      this.isVisible ? this.hideOptions() : this.showOptions();
+    }
   }
   /*
     Hide options
@@ -50,7 +52,7 @@ export class PbxSelectComponent {
     Scroll to selected option
    */
   scrollToCurrent(currentIndex: number): void {
-    if (this.isVisible && this.optionsWrap && this.selected) {
+    if (this.isVisible && this.optionsWrap) {
       const optionsWrap = this.optionsWrap.nativeElement; // Options list HTML element
       optionsWrap.scrollTop = (currentIndex - 2) * 40;
     }
@@ -91,7 +93,7 @@ export class PbxSelectComponent {
           this.scrollToCurrent(currentIndex - 1);
         } else {
           this.onSelect.emit(this.options[this.options.length - 1]);
-          this.scrollToCurrent(0);
+          this.scrollToCurrent(this.options.length - 1);
         }
         break;
       }
