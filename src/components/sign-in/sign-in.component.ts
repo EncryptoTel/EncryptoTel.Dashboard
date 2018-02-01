@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
@@ -15,14 +15,15 @@ import * as _vars from '../../shared/vars';
   animations: [FadeAnimation('.3s')]
 })
 
-export class SignInComponent implements OnInit, OnDestroy {
-  constructor(private router: Router,
+export class SignInComponent implements OnInit, OnDestroy, AfterViewChecked {
+  constructor(private _router: Router,
               private _user: UserServices,
               public _services: AuthorizationServices) {}
   loading = false;
   errorsSubscription: Subscription;
   error: string;
   signInForm: FormGroup;
+  @ViewChild('passwordField') passwordField: ElementRef;
   /*
     Form field validation. Accepted params:
     Name: string - form field name,
@@ -53,18 +54,23 @@ export class SignInComponent implements OnInit, OnDestroy {
       this.error = error;
     });
     if (this._user.fetchUser()) {
-      this.router.navigateByUrl('/cabinet');
+      this._router.navigateByUrl('/cabinet');
     }
     this.signInForm = new FormGroup({
-      'username': new FormControl(undefined, [
+      'username': new FormControl(null, [
         Validators.required,
         Validators.pattern(_vars.emailRegExp)
       ]),
-      'password': new FormControl(undefined, [
+      'password': new FormControl(null, [
         Validators.required,
         Validators.minLength(6)
       ])
     });
+  }
+  ngAfterViewChecked() {
+    if (!this.signInForm.valid && !this.passwordField.nativeElement.value) {
+      this.passwordField.nativeElement.click();
+    }
   }
   ngOnDestroy(): void {
     this._services.clearError();

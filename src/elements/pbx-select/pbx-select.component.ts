@@ -30,7 +30,9 @@ export class PbxSelectComponent {
     Toggle options visibility
    */
   toggleOptions(event?: MouseEvent): void {
-    if (!event) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
       this.isVisible ? this.hideOptions() : this.showOptions();
     }
   }
@@ -38,14 +40,16 @@ export class PbxSelectComponent {
     Hide options
    */
   hideOptions(): void {
+    this.selectWrap.nativeElement.blur();
     this.isVisible = false;
   }
   /*
     Show options
    */
   showOptions(): void {
+    this.selectWrap.nativeElement.focus();
     this.isVisible = true;
-    const currentIndex = this.options.indexOf(this.selected); // Index of selected item
+    const currentIndex = this.selected ? this.options.indexOf(this.selected) : 0; // Index of selected item
     setTimeout(() => this.scrollToCurrent(currentIndex), 1);
   }
   /*
@@ -63,9 +67,10 @@ export class PbxSelectComponent {
   selectItem(option: object, event?: Event): void {
     if (event) {
       event.stopPropagation();
+      event.preventDefault();
     }
     this.onSelect.emit(option);
-    this.isVisible = false;
+    this.hideOptions();
   }
   /*
     Arrows navigation

@@ -1,0 +1,24 @@
+<div class="navigation_wrap">
+  <div class="user_wrap">
+    <div class="user_profile_image" [ngStyle]="{'background-image': 'url(' + 'http://via.placeholder.com/300x100' + ')'}"></div>
+    <div class="user_details_wrap">
+      <div class="user_details_name">Username</div>
+      <div class="user_details_balance">Balance {{'$1200'}}</div>
+    </div>
+    <svg-icon class="dropdown_arrow" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+  </div>
+  <div class="navigation_block_wrap">
+    <div class="navigation_block" *ngFor="let block of navigationList">
+      <a *ngFor="let navigationItem of block" [routerLink]="navigationItem.link" routerLinkActive="active" class="navigation_item">
+        <svg-icon class="navigation_item_icon" [src]="'../../assets/icons/' + navigationItem.icon + '.svg'"></svg-icon>
+        <div class="navigation_item_title">{{navigationItem.title}}</div>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="content_wrap">
+  <div class="header_line_wrap"></div>
+  <div class="content_wrap">
+    <router-outlet></router-outlet>
+  </div>
+</div>

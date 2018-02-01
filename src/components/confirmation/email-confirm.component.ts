@@ -10,24 +10,24 @@ import {MessageServices} from '../../services/message.services';
 })
 
 export class EmailConfirmComponent implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private messages: MessageServices,
+  constructor(private _route: ActivatedRoute,
+              private _router: Router,
+              private _messages: MessageServices,
               private _req: RequestServices) {}
   subscription: Subscription;
   ngOnInit() {
-    this.subscription = this.route.params.subscribe(params => {
+    this.subscription = this._route.params.subscribe(params => {
       if (params['hash']) {
         this._req.get(`confirm/email/${params['hash']}`).then(result => {
-          this.messages.writeSuccess(result.message);
-          this.router.navigateByUrl('/sign-in');
+          this._messages.writeSuccess(result.message);
+          this._router.navigateByUrl('/sign-in');
         }).catch(() => {
-          this.messages.writeWarning('Invalid hash!');
-          this.router.navigateByUrl('/');
+          this._messages.writeWarning('Invalid hash!');
+          this._router.navigateByUrl('/');
         });
       } else {
-        this.messages.writeWarning('Hash not presented!');
-        this.router.navigateByUrl('/');
+        this._messages.writeWarning('Hash not presented!');
+        this._router.navigateByUrl('/');
       }
     });
   }

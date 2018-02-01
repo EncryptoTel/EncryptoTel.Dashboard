@@ -15,7 +15,7 @@ import {PasswordChangingFormModel} from '../models/form-password-changing.model'
 @Injectable()
 export class AuthorizationServices {
   constructor(private router: Router,
-              private message: MessageServices,
+              private _messages: MessageServices,
               private _services: UserServices,
               private _req: RequestServices,
               private logger: LoggerServices) {}
@@ -51,7 +51,7 @@ export class AuthorizationServices {
     }).then(result => {
       if (result && !result.auth) {
         this._services.saveUserData({secrets: result});
-        this.message.writeSuccess('Successfully logged in!');
+        this._messages.writeSuccess('Successfully logged in!');
         this.router.navigateByUrl('/cabinet');
       } else if (result && result.auth) {
         this.router.navigate(['/code-confirmation', result.hash]);
@@ -68,7 +68,7 @@ export class AuthorizationServices {
   codeConfirm(confirmationCode: object, hash: string) {
     return this._req.post(`login/${hash}`, {...confirmationCode}).then(result => {
       this._services.saveUserData({secrets: result});
-      this.message.writeSuccess('Successfully logged in!');
+      this._messages.writeSuccess('Successfully logged in!');
       this.router.navigateByUrl('/cabinet');
       this.clearError();
     }).catch(result => {
@@ -94,7 +94,7 @@ export class AuthorizationServices {
    */
   sendEmail(email: object) {
     return this._req.post(`password/email`, {...email}).then(result => {
-      this.message.writeSuccess(result.message);
+      this._messages.writeSuccess(result.message);
     }).catch(result => {
       this.writeError(result.message);
     });
@@ -106,7 +106,7 @@ export class AuthorizationServices {
    */
   changePassword(data: PasswordChangingFormModel, hash: string) {
     return this._req.post(`password/reset/${hash}`, {...data}).then(result => {
-      this.message.writeSuccess(result.message);
+      this._messages.writeSuccess(result.message);
       this.router.navigateByUrl('/');
     }).catch(result => {
       this.writeError(result.message);

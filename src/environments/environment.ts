@@ -1,4 +1,5 @@
 export const environment = {
   title: 'development',
-  production: false
+  production: false,
+  back: 'http://pbx-front-dev.encry.ru/api/v1'
 };

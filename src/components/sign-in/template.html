@@ -13,14 +13,14 @@
       </div>
     </div>
     <div class="input_wrap">
-      <input type="password" name="Password" placeholder="Password" formControlName="password">
+      <input type="password" name="Password" placeholder="Password" formControlName="password" #passwordField>
       <div class="input_error" *ngIf="inputValidation('password')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('password', 'required')">Please enter password</span>
         <span class="input_error_item" *ngIf="inputValidation('password', 'minlength')">Password is too short</span>
       </div>
     </div>
     <button type="submit" name="Sign In" class="button accent" [disabled]="!signInForm.valid || loading">
-      <loader *ngIf="loading"></loader>
+      <pbx-loader *ngIf="loading"></pbx-loader>
       <span *ngIf="!loading">Sign In</span>
     </button>
     <a routerLink="../recovery" class="auth_form_link">Forgot your password?</a>

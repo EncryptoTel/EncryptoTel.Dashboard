@@ -16,7 +16,7 @@ import * as _vars from '../../shared/vars';
   animations: [FadeAnimation('.3s')]
 })
 export class SignUpComponent implements OnInit, OnDestroy {
-  constructor(private router: Router,
+  constructor(private _router: Router,
               private _user: UserServices,
               public _services: AuthorizationServices) {}
   loading = false;
@@ -65,20 +65,20 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this.error = error;
     });
     if (this._user.fetchUser()) {
-      this.router.navigateByUrl('/cabinet');
+      this._router.navigateByUrl('/cabinet');
     }
     this.signUpForm = new FormGroup({
-      'name': new FormControl(undefined, [
+      'name': new FormControl(null, [
         Validators.pattern(_vars.nameRegExp)
       ]),
-      'surname': new FormControl(undefined, [
+      'surname': new FormControl(null, [
         Validators.pattern(_vars.nameRegExp)
       ]),
-      'email': new FormControl(undefined, [
+      'email': new FormControl(null, [
         Validators.required,
         Validators.pattern(_vars.emailRegExp)
       ]),
-      'password': new FormControl(undefined, [
+      'password': new FormControl(null, [
         Validators.required,
         Validators.minLength(6)
       ]),

@@ -24,7 +24,7 @@ export class ListServices {
       this.countriesList = countries;
       this.countriesSubscription.next(this.countriesList);
     } else {
-      this._req.get('v1/countries').then(result => {
+      this._req.get('countries').then(result => {
         this._storage.writeItem('pbx_countries', result.countries);
         this.countriesList = result.countries;
         this.countriesSubscription.next(this.countriesList);
@@ -37,7 +37,7 @@ export class ListServices {
       this.currenciesList = currencies;
       this.currenciesSubscription.next(this.currenciesList);
     } else {
-      this._req.get('v1/currencies').then(result => {
+      this._req.get('currencies').then(result => {
         this._storage.writeItem('pbx_currencies', result.currencies);
         this.currenciesList = result.currencies;
         this.currenciesSubscription.next(this.currenciesList);

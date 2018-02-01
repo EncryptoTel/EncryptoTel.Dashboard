@@ -48,7 +48,7 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
       this.error = error;
     });
     this.emailForm = new FormGroup({
-      'email': new FormControl(undefined, [
+      'email': new FormControl(null, [
         Validators.required,
         Validators.pattern(_vars.emailRegExp)
       ])

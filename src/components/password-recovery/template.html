@@ -13,7 +13,7 @@
       </div>
     </div>
     <button type="submit" name="Sign In" class="button accent" [disabled]="!emailForm.valid || loading">
-      <loader *ngIf="loading"></loader>
+      <pbx-loader *ngIf="loading"></pbx-loader>
       <span *ngIf="!loading">Request recovery link</span>
     </button>
     <a routerLink="../sign-in" class="auth_form_link">Back to login</a>

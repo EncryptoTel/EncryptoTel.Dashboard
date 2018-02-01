@@ -1,0 +1,88 @@
+@import "../../vars" // Global variables import
+
+.navigation
+  &_wrap
+    display: flex
+    flex-direction: column
+    flex: 0 0 auto
+    width: 192px
+    .user
+      &_wrap
+        display: flex
+        flex: 0 0 auto
+        flex-direction: row
+        height: 80px
+        align-items: center
+        cursor: pointer
+        margin-bottom: 24px
+        .dropdown_arrow
+          width: 12px
+          height: 12px
+          margin: 0 12px 0 auto
+      &_profile_image
+        margin: 0 12px 0 12px
+        height: 48px
+        width: 48px
+        border-radius: 50%
+        border: 2px solid
+        background: center no-repeat
+        background-size: cover
+      &_details
+        &_wrap
+          line-height: 22px
+        &_balance
+          font-size: 12px
+  &_block
+    display: flex
+    flex-direction: column
+    flex: 0 0 auto
+    padding: 8px 0
+    &:not(:last-child)
+      border-bottom: 1px solid
+    &_wrap
+      max-height: calc(100vh - 104px)
+      overflow-y: auto
+  &_item
+    display: flex
+    flex-direction: row
+    flex: 1 0 auto
+    height: 40px
+    align-items: center
+    &_icon
+      height: 24px
+      width: 24px
+      margin-left: 12px
+      margin-right: 12px
+      /deep/ path, /deep/ polygon
+        transition: all linear .2s
+.content_wrap
+  display: flex
+  flex-direction: column
+  flex: 1 0 auto
+
+// Themes styles
+\:host-context(.dark_theme)
+  .user
+    &_wrap
+      &:hover
+        background: lighten($dark_background, 15%)
+      .dropdown_arrow
+        /deep/ path, /deep/ polygon
+          fill: $dark_primary
+    &_profile_image
+      border-color: $dark_primary
+    &_details
+      &_balance
+        color: $dark_success
+  .navigation
+    &_block
+      border-bottom-color: lighten($dark_background, 15%)
+    &_item
+      &:hover, &:focus, &.active
+        color: $dark_accent
+        > .navigation_item_icon
+          /deep/ path, /deep/ polygon
+            fill: $dark_accent
+      &_icon
+        /deep/ path, /deep/ polygon
+          fill: $dark_primary

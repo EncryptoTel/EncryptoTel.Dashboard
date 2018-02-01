@@ -12,7 +12,7 @@
       </div>
     </div>
     <button type="submit" name="Sign In" class="button accent" [disabled]="!confirmationCode.valid || loading">
-      <loader *ngIf="loading"></loader>
+      <pbx-loader *ngIf="loading"></pbx-loader>
       <span *ngIf="!loading">Confirm</span>
     </button>
   </form>
