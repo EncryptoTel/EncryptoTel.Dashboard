@@ -41,8 +41,8 @@ export class SignInComponent implements OnInit, OnDestroy, AfterViewChecked {
   /*
     Sign-in action
    */
-  signIn(event): void {
-    event.preventDefault();
+  signIn(ev?: Event): void {
+    if (ev) { ev.preventDefault(); }
     this.loading = true;
     this._services.signIn(this.signInForm.value).then(() => {
       this.loading = false;

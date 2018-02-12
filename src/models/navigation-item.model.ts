@@ -4,6 +4,7 @@ export class NavigationItemModel {
     public title: string,
     public link: string,
     public icon: string,
-    public status: boolean
+    public status: boolean,
+    public visible: boolean
   ) {}
 }

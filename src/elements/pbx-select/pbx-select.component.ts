@@ -9,7 +9,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
   animations: [SwipeAnimation('y', '.2s')]
 })
 
-export class PbxSelectComponent {
+export class SelectComponent {
   @Input() options: any[];
   @Input() selected: object;
   @Input() placeholder: string;

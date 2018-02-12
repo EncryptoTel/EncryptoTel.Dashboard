@@ -5,6 +5,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {UserTokenInterceptor} from '../shared/request.interceptors';
 
+import {MainViewComponent} from '../components/main-view.component';
+
 import {MainRouterModule} from './router.module';
 import {ComponentsModule} from './components.module';
 
@@ -15,8 +17,10 @@ import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
 import {AuthorizationServices} from '../services/authorization.services';
 import {UserServices} from '../services/user.services';
+import {BalanceServices} from '../services/balance.services';
+import {DriveServices} from '../services/drive.services';
+import {DBTariffPlanServices} from '../services/db.tariff-plan.services';
 
-import {MainViewComponent} from '../components/main-view.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,10 @@ import {MainViewComponent} from '../components/main-view.component';
     RequestServices,
     MessageServices,
     AuthorizationServices,
-    UserServices
+    UserServices,
+    BalanceServices,
+    DriveServices,
+    DBTariffPlanServices
   ],
   bootstrap: [MainViewComponent]
 })

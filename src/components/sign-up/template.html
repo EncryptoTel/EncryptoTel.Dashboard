@@ -39,10 +39,7 @@
         <div class="input_error_item" *ngIf="passwordsMismatch()">Passwords doesn't match</div>
       </div>
     </div>
-    <button type="submit" name="Sign Up" class="button accent" [disabled]="!signUpForm.valid || loading">
-      <pbx-loader *ngIf="loading"></pbx-loader>
-      <span *ngIf="!loading">Sign Up</span>
-    </button>
+    <pbx-button [buttonType]="'accent'" [value]="'Sign Up'" [loading]="loading" (onClick)="signUp()"></pbx-button>
     <div class="auth_form_text">Already have an EncryptoTel Account?</div>
     <a routerLink="../sign-in" class="auth_form_link">Sign in now</a>
   </form>

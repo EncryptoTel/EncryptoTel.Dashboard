@@ -24,10 +24,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
   error: string;
   signUpForm: FormGroup;
   /*
-    Form field validation. Accepted params:
-    Name: string - form field name,
-    Error Type: string - validation type (not necessary)
-   */
+  Form field validation. Accepted params:
+  Name: string - form field name,
+  Error Type: string - validation type (not necessary)
+ */
   inputValidation(name: string, errorType?: string): boolean {
     if (errorType) {
       const field = this.signUpForm.controls[name];
@@ -37,6 +37,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       return field.invalid && (field.dirty || field.touched);
     }
   }
+
   /*
     Form passwords match validation.
    */
@@ -52,8 +53,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
   /*
     Sign-up action
    */
-  signUp(event): void {
-    event.preventDefault();
+  signUp(ev?: Event): void {
+    if (ev) { ev.preventDefault(); }
     this.loading = true;
     this._services.signUp(this.signUpForm.value).then(() => {
       this.loading = false;

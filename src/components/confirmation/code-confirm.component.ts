@@ -33,8 +33,8 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
   /*
     Code confirmation action
    */
-  codeConfirm(event): void {
-    event.preventDefault();
+  codeConfirm(ev?: Event): void {
+    if (ev) { ev.preventDefault(); }
     this.loading = true;
     this._services.codeConfirm(this.confirmationCode.value, this.confirmationHash).then(() => {
       this.loading = false;

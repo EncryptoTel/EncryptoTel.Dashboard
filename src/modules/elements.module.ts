@@ -5,8 +5,9 @@ import {AngularSvgIconModule} from 'angular-svg-icon';
 
 import {ClickOutsideDirective} from '../shared/click-outside.directive';
 
-import {LoaderComponent} from '../elements/loader/loader.component';
-import {PbxSelectComponent} from '../elements/pbx-select/pbx-select.component';
+import {LoaderComponent} from '../elements/pbx-loader/pbx-loader.component';
+import {SelectComponent} from '../elements/pbx-select/pbx-select.component';
+import {ButtonComponent} from '../elements/pbx-button/pbx-button.component';
 
 @NgModule({
   imports: [
@@ -17,11 +18,13 @@ import {PbxSelectComponent} from '../elements/pbx-select/pbx-select.component';
   declarations: [
     ClickOutsideDirective,
     LoaderComponent,
-    PbxSelectComponent
+    SelectComponent,
+    ButtonComponent
   ],
   exports: [
     LoaderComponent,
-    PbxSelectComponent
+    SelectComponent,
+    ButtonComponent
   ]
 })
 export class ElementsModule {  }

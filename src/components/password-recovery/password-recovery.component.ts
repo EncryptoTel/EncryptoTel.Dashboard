@@ -35,8 +35,8 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
   /*
     Code confirmation action
    */
-  sendEmail(event): void {
-    event.preventDefault();
+  sendEmail(ev?: Event): void {
+    if (ev) { ev.preventDefault(); }
     this.loading = true;
     this._services.sendEmail(this.emailForm.value).then(() => {
       this.loading = false;

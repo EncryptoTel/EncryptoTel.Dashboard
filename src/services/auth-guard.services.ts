@@ -12,11 +12,12 @@ export class AuthGuardServices implements CanActivate {
   constructor(private router: Router,
               private _services: UserServices) {}
   canActivate(): boolean {
-    if (!this._services.fetchUser()) {
-      localStorage.clear();
-      this.router.navigateByUrl('/sign-in');
-      return false;
-    }
-    return !!this._services.fetchUser();
+    return true;
+    // if (!this._services.fetchUser()) {
+    //   localStorage.clear();
+    //   this.router.navigateByUrl('/sign-in');
+    //   return false;
+    // }
+    // return !!this._services.fetchUser();
   }
 }

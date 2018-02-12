@@ -53,8 +53,8 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
   /*
     Change password action
    */
-  changePassword(event): void {
-    event.preventDefault();
+  changePassword(ev?: Event): void {
+    if (ev) { ev.preventDefault(); }
     this.loading = true;
     this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
       this.loading = false;

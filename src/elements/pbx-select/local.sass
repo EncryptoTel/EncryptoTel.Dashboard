@@ -1,4 +1,5 @@
-@import "../../vars" // Global variables import
+@import "../../vars"
+// Global variables import
 
 .select
   &_wrap
@@ -46,16 +47,18 @@
   &_error
     position: absolute
     top: calc(100% + 4px)
-    font-size: 12px
+    font-size: em(12)
 
 // Theme styles
 \:host-context(.dark_theme)
   .select
     &_item
+      transition: none
       &.selected
         border: 1px solid rgba($dark_primary, .1)
       &.blank
         color: rgba($dark_primary, .5)
+        transition: border linear 100ms
     &_options
       background: $dark_background
       .select_item.current

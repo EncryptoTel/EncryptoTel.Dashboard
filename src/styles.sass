@@ -1,5 +1,5 @@
 @import 'reset' // Default browser styles reset
-@import 'vars' // Global variables import
+@import 'vars'  // Global variables import
 
 //Fonts
 
@@ -16,12 +16,22 @@
 // Tags styles
 
 *
+  display: flex
+  cursor: default
   box-sizing: border-box
-  transition: all linear .1s
+  transition: all linear 100ms
+
+title, head, script
+  display: none
 
 body
+  width: 100vw
   max-width: 100vw
   max-height: 100vh
+  overflow-x: hidden
+
+a, a > *, a /deep/ *
+  cursor: pointer
 
 // Components styles
 
@@ -30,6 +40,7 @@ main-view
   flex-direction: column
   flex: 1 0 auto
   height: 100vh
+  transition: none
   > *:not(.messages_wrap)
     display: flex
     flex-direction: column
@@ -47,20 +58,10 @@ input
   height: 48px
   padding: 0 8px
 
+pbx-button
+  width: 100%
 
 // Classes styles
-
-.button
-  display: flex
-  flex: 0 0 auto
-  align-items: center
-  justify-content: center
-  height: 40px
-  padding: 0 16px
-  cursor: pointer
-  border-radius: 2px
-  &:disabled
-    opacity: .9
 
 .messages
   &_wrap
@@ -123,7 +124,7 @@ input
     width: 112px
     &_title
       margin-top: 8px
-      font-size: 20px
+      font-size: em(20)
       font-weight: 600
       text-align: center
     &_wrap
@@ -138,10 +139,10 @@ input
       position: absolute
       top: calc(100% + 4px)
       &_item
-        font-size: 12px
+        font-size: em(12)
   &_text
     margin: 16px 0 8px
-    font-size: 14px
+    font-size: em(14)
     text-align: center
   &_link
     display: block
@@ -196,15 +197,6 @@ main-view
           color: $dark_accent
       &_error
         background: $dark_error
-    .button
-      &.accent
-        background: $dark_accent
-        &:hover
-          background: lighten($dark_accent, 5%)
-        &:focus, &:active
-          background: darken($dark_accent, 5%)
-        &:disabled
-          background: darken($dark_primary, 85%)
     .messages_item
       &.error
         background: $dark_error
@@ -221,7 +213,7 @@ main-view
         background: $dark_accent
         &:hover
           background: lighten($dark_accent, 5%)
-        &:focus, &:active
+        &:active
           background: darken($dark_accent, 5%)
         &:disabled
           background: darken($dark_primary, 85%)
