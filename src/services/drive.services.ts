@@ -5,6 +5,7 @@ import {Subject} from 'rxjs/Subject';
 import {DriveModel} from '../models/drive.model';
 import {LoggerServices} from './logger.services';
 import {Observable} from 'rxjs/Observable';
+import {plainToClass} from 'class-transformer';
 
 @Injectable()
 export class DriveServices {
@@ -18,7 +19,7 @@ export class DriveServices {
    */
   fetchStorageParams(): Promise<DriveModel> {
     return this._req.get('db_drive.json').then(res => {
-      this.drive = res['drive'];
+      this.drive = plainToClass(DriveModel, res['drive'] as Object);
       this.drive.available = this.drive.total - this.drive.used;
       this._storage.writeItem('pbx_drive', this.drive);
       this.touchStorage();
@@ -29,24 +30,30 @@ export class DriveServices {
     Changing drive param
    */
   changeStorageParam(param: 'used' | 'total', value: number): void {
-    const drive = this._storage.readItem('pbx_drive');
-    drive[param] = value;
-    drive.available = drive.total - drive.used;
-    this.logger.log(`Drive after '${param}' changing to '${value}'`, drive);
-    this._storage.writeItem('pbx_drive', drive);
-    this.touchStorage();
+    this.drive = this.fetchStorage();
+    if (this.drive) {
+      this.drive[param] = value;
+      this.drive.available = this.drive.total - this.drive.used;
+      this.logger.log(`Drive after '${param}' changing to '${value}'`, this.drive);
+      this._storage.writeItem('pbx_drive', this.drive);
+      this.touchStorage();
+    }
   }
   /*
     Fetch if drive exist in storage
    */
-  fetchStorage = (): DriveModel => {
-    return this._storage.readItem('pbx_drive');
+  fetchStorage = (): DriveModel | null => {
+    if (this._storage.readItem('pbx_drive')) {
+      return plainToClass(DriveModel, this._storage.readItem('pbx_drive') as Object);
+    } else {
+      return null;
+    }
   }
   /*
     Refresh drive subscription
    */
   touchStorage(): void {
-    this.drive = this._storage.readItem('pbx_drive');
+    this.drive = this.fetchStorage();
     this.subscription.next(this.drive);
   }
   /*

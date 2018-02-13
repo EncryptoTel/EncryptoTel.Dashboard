@@ -5,20 +5,33 @@ import {DBTariffPlanServices} from '../../services/db.tariff-plan.services';
 import {DBTariffPlanModel} from '../../models/db.tariff-plan.model';
 import {DriveServices} from '../../services/drive.services';
 import {DriveModel} from '../../models/drive.model';
+import {DBPhoneNumbersServices} from '../../services/db.phone-numbers.services';
+import {DBPhoneNumberModel} from '../../models/db.phone-number.model';
+import {DBHistoryServices} from '../../services/db.history.services';
+import {DBHistoryModel} from '../../models/db.history.model';
 
 @Component({
   selector: 'pbx-dashboard',
   templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+  styleUrls: ['./local.sass'],
+  providers: [
+    DBTariffPlanServices,
+    DBPhoneNumbersServices,
+    DBHistoryServices
+  ]
 })
 
 export class DashboardComponent implements OnInit {
   constructor(private _balance: BalanceServices,
               private _tariff: DBTariffPlanServices,
-              private _drive: DriveServices) {}
+              private _drive: DriveServices,
+              private _numbers: DBPhoneNumbersServices,
+              private _history: DBHistoryServices) {}
   balance: BalanceModel;
   tariff: DBTariffPlanModel;
   drive: DriveModel;
+  phone_numbers: DBPhoneNumberModel[];
+  history: DBHistoryModel[];
   loading = {
     balance: true,
     tariff: true,
@@ -38,6 +51,14 @@ export class DashboardComponent implements OnInit {
     this._drive.fetchStorageParams().then(drive => {
       this.drive = drive;
       this.loading.drive = false;
+    });
+    this._numbers.fetchNumbersList().then(numbers => {
+      this.phone_numbers = numbers;
+      this.loading.phone_numbers = false;
+    });
+    this._history.fetchHistoryList().then(history => {
+      this.history = history;
+      this.loading.history = false;
     });
   }
   ngOnInit() {

@@ -61,7 +61,7 @@ export class UserServices {
   /*
     Fetch if user already logged in
    */
-  fetchUser = (): UserModel => {
+  fetchUser = (): UserModel | null => {
     return this._storage.readItem('pbx_user');
   }
   /*

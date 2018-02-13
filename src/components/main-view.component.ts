@@ -32,10 +32,13 @@ export class MainViewComponent implements OnInit, OnDestroy {
   public setUserTheme(theme: string) {
     this.userTheme = theme;
   }
-  ngOnInit(): void {
+  initLists(): void {
     this._list.fetchCountriesList();
     this._list.fetchCurrenciesList();
+  }
+  ngOnInit(): void {
     this.setUserTheme('dark_theme');
+    this.initLists();
     this._services.messagesList().subscribe(messages => {
       this.messagesList = messages;
     });

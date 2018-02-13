@@ -1,10 +1,11 @@
+import {Type} from 'class-transformer';
+
+import {PhoneNumberModel} from './phone-number.model';
+
 export class DBPhoneNumberModel {
-  constructor(
-    public id: number,
-    public country_id: number,
-    public number_prefix: number,
-    public number: number,
-    public exts: number,
-    public online: number
-  ) {}
+  public id: number;
+  @Type(() => PhoneNumberModel)
+  public phone_number: PhoneNumberModel;
+  public exts: number;
+  public online: number;
 }

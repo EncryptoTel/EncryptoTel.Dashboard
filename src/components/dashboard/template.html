@@ -1,0 +1,108 @@
+<div class="dashboard_wrap">
+  <div class="dashboard_item balance">
+    <pbx-loader *ngIf="loading.balance"></pbx-loader>
+    <div class="dashboard_item_body" *ngIf="!loading.balance">
+      <div class="dashboard_item_row">
+        <div class="dashboard_item_title">Balance</div>
+        <div class="dashboard_item_value">{{balance.symbol}}{{balance.balance}}</div>
+      </div>
+      <div class="dashboard_item_row">
+        <div class="dashboard_item_title">ETT</div>
+        <div class="dashboard_item_value">{{balance.ett}}</div>
+      </div>
+      <div class="dashboard_item_link_row">
+        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Refill</a>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard_item tariff">
+    <pbx-loader *ngIf="loading.tariff"></pbx-loader>
+    <div class="dashboard_item_body" *ngIf="!loading.tariff">
+      <div class="dashboard_item_row">
+        <div class="dashboard_item_title">Tariff plan</div>
+        <div class="dashboard_item_value">{{tariff.title}}</div>
+      </div>
+      <div class="dashboard_item_row">
+        <div class="dashboard_item_key">Next monthly payment</div>
+        <div class="dashboard_item_value">{{balance.symbol}}{{tariff.price}}</div>
+      </div>
+      <div class="dashboard_item_row">
+        <div class="dashboard_item_key">Payment date</div>
+        <div class="dashboard_item_value">{{tariff.paymentDate}}</div>
+      </div>
+      <div class="dashboard_item_link_row">
+        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Refill</a>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard_item phone_numbers">
+    <pbx-loader *ngIf="loading.phone_numbers"></pbx-loader>
+    <div class="dashboard_item_body" *ngIf="!loading.phone_numbers">
+      <div class="dashboard_item_row">
+        <div class="dashboard_item_title">Phone numbers</div>
+      </div>
+      <div class="dashboard_item_row" *ngFor="let number of phone_numbers">
+        <div class="dashboard_item_key">{{number.phone_number.fullNumber}}</div>
+        <div class="dashboard_item_value">{{number.online}} of {{number.exts}} online</div>
+      </div>
+      <div class="dashboard_item_link_row">
+        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Refill</a>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard_item drive">
+    <pbx-loader *ngIf="loading.drive"></pbx-loader>
+    <div class="dashboard_item_row" *ngIf="!loading.drive">
+      <div class="dashboard_item_body">
+        <div class="dashboard_item_row">
+          <div class="dashboard_item_title">Drive</div>
+        </div>
+        <div class="dashboard_item_row">
+          <div class="dashboard_item_key">Total</div>
+          <div class="dashboard_item_value">{{drive.total}}</div>
+        </div>
+        <div class="dashboard_item_row">
+          <div class="dashboard_item_key">Available</div>
+          <div class="dashboard_item_value">{{drive.available}}</div>
+        </div>
+        <div class="dashboard_item_row">
+          <div class="dashboard_item_key">Used</div>
+          <div class="dashboard_item_value">{{drive.used}}</div>
+        </div>
+        <div class="dashboard_item_link_row">
+          <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Refill</a>
+        </div>
+      </div>
+      <div class="dashboard_item_body"></div>
+    </div>
+  </div>
+  <div class="dashboard_item history">
+    <pbx-loader *ngIf="loading.history"></pbx-loader>
+    <div class="dashboard_item_body" *ngIf="!loading.history">
+      <div class="dashboard_item_row">
+        <div class="dashboard_item_title">History</div>
+      </div>
+      <div class="dashboard_history_body" *ngIf="history.length > 0">
+        <div class="dashboard_history_item_wrap" *ngFor="let historyBlock of history">
+          <div class="dashboard_item_date">{{historyBlock.analyzeDate}}</div>
+          <div class="dashboard_history_item" *ngFor="let historyItem of historyBlock.list" [ngClass]="{'missed': !historyItem.status}">
+            <div class="dashboard_history_details">
+              <div class="dashboard_history_details_phone">{{historyItem.phone_number.fullNumber}}</div>
+              <div class="dashboard_history_details_status">{{historyItem.status ? historyItem.direction : 'missed'}}</div>
+            </div>
+            <div class="dashboard_history_details">
+              <div class="dashboard_history_details_icons">
+                <div class="dashboard_items_icon">1</div>
+                <div class="dashboard_items_icon">1</div>
+              </div>
+              <div class="dashboard_history_details_duration">{{historyItem.duration}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard_item_link_row">
+        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Refill</a>
+      </div>
+    </div>
+  </div>
+</div>

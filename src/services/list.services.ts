@@ -8,25 +8,27 @@ import {StorageServices} from './storage.services';
 
 import {CountryModel} from '../models/country.model';
 import {CurrencyModel} from '../models/currency.model';
+import {plainToClass} from 'class-transformer';
 
 @Injectable()
 export class ListServices {
   constructor(private _req: RequestServices,
               private _storage: StorageServices,
               private logger: LoggerServices) {}
-  countriesList: CountryModel[] = [];
+  countriesList: CountryModel[];
   countriesSub: Subject<CountryModel[]> = new Subject();
-  currenciesList: CurrencyModel[] = [];
+  currenciesList: CurrencyModel[];
   currenciesSub: Subject<CurrencyModel[]> = new Subject();
   /*
     Fetch countries list if it's not in storage
    */
   fetchCountriesList(): Promise<CountryModel[]> {
     if (!this.fetchCountries()) {
-      return this._req.get('countries.json').then(result => {
-        this._storage.writeItem('pbx_countries', result['countries']);
+      return this._req.get('countries.json').then(res => {
+        this.countriesList = plainToClass(CountryModel, res['countries']);
+        this._storage.writeItem('pbx_countries', this.countriesList);
         this.touchCountries();
-        return Promise.resolve(result['countries']);
+        return Promise.resolve(this.countriesList);
       });
     } else {
       return Promise.resolve(this.fetchCountries());
@@ -37,10 +39,11 @@ export class ListServices {
    */
   fetchCurrenciesList(): Promise<CurrencyModel[]> {
     if (!this.fetchCurrencies()) {
-      return this._req.get('currencies.json').then(result => {
-        this._storage.writeItem('pbx_currencies', result['currencies']);
+      return this._req.get('currencies.json').then(res => {
+        this.currenciesList = plainToClass(CurrencyModel, res['currencies']);
+        this._storage.writeItem('pbx_currencies', this.currenciesList);
         this.touchCurrencies();
-        return Promise.resolve(result['currencies']);
+        return Promise.resolve(this.currenciesList);
       });
     } else {
       return Promise.resolve(this.fetchCurrencies());
@@ -49,27 +52,35 @@ export class ListServices {
   /*
     Fetch if countries list already in storage
    */
-  fetchCountries(): CountryModel[] {
-    return this._storage.readItem('pbx_countries');
+  fetchCountries(): CountryModel[] | null {
+    if (this._storage.readItem('pbx_countries')) {
+      return plainToClass(CountryModel, this._storage.readItem('pbx_countries'));
+    } else {
+      return null;
+    }
   }
   /*
     Fetch if currencies list already in storage
    */
-  fetchCurrencies(): CurrencyModel[] {
-    return this._storage.readItem('pbx_currencies');
+  fetchCurrencies(): CurrencyModel[] | null {
+    if (this._storage.readItem('pbx_currencies')) {
+      return plainToClass(CurrencyModel, this._storage.readItem('pbx_currencies'));
+    } else {
+      return null;
+    }
   }
   /*
     Refresh countries list
    */
   touchCountries(): void {
-    this.countriesList = this._storage.readItem('pbx_countries');
+    this.countriesList = this.fetchCountries();
     this.countriesSub.next(this.countriesList);
   }
   /*
     Refresh currencies list
    */
   touchCurrencies(): void {
-    this.currenciesList = this._storage.readItem('pbx_currencies');
+    this.currenciesList = this.fetchCurrencies();
     this.currenciesSub.next(this.currenciesList);
   }
   /*

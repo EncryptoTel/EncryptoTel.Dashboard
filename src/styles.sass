@@ -63,6 +63,15 @@ pbx-button
 
 // Classes styles
 
+.body_wrap
+  height: 100%
+  width: 100%
+  padding: 24px 48px
+  > *:not(router-outlet)
+    flex-direction: column
+    width: 100%
+    height: 100%
+
 .messages
   &_wrap
     position: absolute

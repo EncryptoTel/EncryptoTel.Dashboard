@@ -19,7 +19,6 @@ import {AuthorizationServices} from '../services/authorization.services';
 import {UserServices} from '../services/user.services';
 import {BalanceServices} from '../services/balance.services';
 import {DriveServices} from '../services/drive.services';
-import {DBTariffPlanServices} from '../services/db.tariff-plan.services';
 
 
 @NgModule({
@@ -44,7 +43,6 @@ import {DBTariffPlanServices} from '../services/db.tariff-plan.services';
     UserServices,
     BalanceServices,
     DriveServices,
-    DBTariffPlanServices
   ],
   bootstrap: [MainViewComponent]
 })

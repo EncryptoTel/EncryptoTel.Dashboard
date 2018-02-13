@@ -1,0 +1,31 @@
+@import "../../vars" // Global variables import
+
+.dashboard
+  &_wrap
+    display: grid
+    grid-template-columns: 2fr 2fr 352px
+    grid-template-rows: 4fr 4fr
+    grid-template-areas: 'balance tariff history' 'phone_numbers drive history'
+    width: 100%
+    height: 100%
+  &_item
+    flex-direction: column
+    &.balance
+      grid-area: balance
+    &.tariff
+      grid-area: tariff
+    &.phone_numbers
+      grid-area: phone_numbers
+    &.drive
+      grid-area: drive
+    &.history
+      grid-area: history
+    &_body
+      flex-direction: column
+  &_history
+    &_item
+      flex-direction: column
+      &_wrap
+        flex-direction: column
+    &_body
+      flex-direction: column
