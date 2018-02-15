@@ -1,31 +1,129 @@
 @import "../../vars" // Global variables import
+@import "vars"       // Local variables import
 
 .dashboard
   &_wrap
     display: grid
-    grid-template-columns: 2fr 2fr 352px
+    grid-template-columns: 2fr 2fr 320px
     grid-template-rows: 4fr 4fr
     grid-template-areas: 'balance tariff history' 'phone_numbers drive history'
+    grid-gap: 24px
     width: 100%
     height: 100%
   &_item
     flex-direction: column
+    padding: 48px 56px 16px 48px
     &.balance
       grid-area: balance
+      .dashboard_item
+        &_row:nth-child(2n)
+          margin-top: 8px
+        &_value
+          font-size: rem(40)
     &.tariff
       grid-area: tariff
+      .dashboard_item_value
+        align-items: flex-end
     &.phone_numbers
       grid-area: phone_numbers
+      .dashboard_item_link
+        margin-left: auto
     &.drive
       grid-area: drive
+      > .dashboard_item_row
+        height: 100%
+        .dashboard_item_body
+          width: 50%
+          height: 100%
+          &:not(:last-child)
+            margin-right: auto
+          &:last-child
+            width: 40%
+            position: relative
+            top: -32px
+            canvas
+              position: absolute
+              top: 0
+              right: 0
+              width: 100%
+            .drive_percentage
+              position: absolute
+              width: 100%
+              height: 100%
+              left: 0
+              top: 0
+              justify-content: center
+              align-items: center
+              z-index: 4
+              font-size: rem(32)
     &.history
       grid-area: history
+      .dashboard_item_link
+        margin-left: auto
+        &_row
+          padding-top: 8px
     &_body
       flex-direction: column
+      height: 100%
+    &_row
+      &:not(:first-child)
+        margin-top: 8px
+      &:nth-child(2)
+        margin-top: 24px
+    &_title
+      font-size: rem(40)
+      text-transform: uppercase
+    &_value
+      margin-left: auto
+    &_link
+      font-size: rem(14)
+      padding: 8px 0
+      &:nth-child(2)
+        margin: 0 auto
+      &:hover
+        text-decoration: underline
+      &_row
+        flex: 0 0 auto
+        margin-top: auto
   &_history
     &_item
-      flex-direction: column
+      flex: 0 0 auto
+      flex-direction: row
+      padding: 8px 24px
       &_wrap
+        flex: 0 0 auto
         flex-direction: column
+      &_date
+        flex: 0 0 auto
+        line-height: rem(24)
+        font-size: rem(12)
+        padding: 0 24px
     &_body
       flex-direction: column
+      margin: 24px -56px 0 -48px
+      overflow-y: auto
+    &_details
+      flex-direction: column
+      &:first-child
+        margin-right: auto
+      > *, > * > *
+        line-height: rem(24)
+
+// Themes styles
+\:host-context(.dark_theme)
+  .dashboard
+    &_item
+      &.balance
+        background-color: $balance
+      &.tariff
+        background-color: $tariff
+      &.phone_numbers
+        background-color: $phone_numbers
+      &.drive
+        background-color: $drive
+      &.history
+        background-color: $history
+    &_history
+      &_item
+        &_date
+          background: rgba($dark_primary, .1)

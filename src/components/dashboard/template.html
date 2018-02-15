@@ -11,6 +11,8 @@
         <div class="dashboard_item_value">{{balance.ett}}</div>
       </div>
       <div class="dashboard_item_link_row">
+        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Transaction history</a>
+        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Invoices</a>
         <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Refill</a>
       </div>
     </div>
@@ -31,7 +33,7 @@
         <div class="dashboard_item_value">{{tariff.paymentDate}}</div>
       </div>
       <div class="dashboard_item_link_row">
-        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Refill</a>
+        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Change tariff plan</a>
       </div>
     </div>
   </div>
@@ -46,7 +48,7 @@
         <div class="dashboard_item_value">{{number.online}} of {{number.exts}} online</div>
       </div>
       <div class="dashboard_item_link_row">
-        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Refill</a>
+        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Details</a>
       </div>
     </div>
   </div>
@@ -58,22 +60,26 @@
           <div class="dashboard_item_title">Drive</div>
         </div>
         <div class="dashboard_item_row">
-          <div class="dashboard_item_key">Total</div>
-          <div class="dashboard_item_value">{{drive.total}}</div>
+          <div class="dashboard_item_key">Total size</div>
+          <div class="dashboard_item_value">{{drive.total}} Mb</div>
         </div>
         <div class="dashboard_item_row">
-          <div class="dashboard_item_key">Available</div>
-          <div class="dashboard_item_value">{{drive.available}}</div>
+          <div class="dashboard_item_key">Available space</div>
+          <div class="dashboard_item_value">{{drive.available}} Mb</div>
         </div>
         <div class="dashboard_item_row">
-          <div class="dashboard_item_key">Used</div>
-          <div class="dashboard_item_value">{{drive.used}}</div>
+          <div class="dashboard_item_key">Used space</div>
+          <div class="dashboard_item_value">{{drive.used}} Mb</div>
         </div>
         <div class="dashboard_item_link_row">
-          <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Refill</a>
+          <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Details</a>
         </div>
       </div>
-      <div class="dashboard_item_body"></div>
+      <div class="dashboard_item_body">
+        <pbx-loader *ngIf="loading.chart"></pbx-loader>
+        <div class="drive_percentage" *ngIf="!loading.chart">{{((drive.used)/(drive.total))*100 | number: '1.0-0'}}%</div>
+        <!--TODO: Drive usage chart-->
+      </div>
     </div>
   </div>
   <div class="dashboard_item history">
@@ -84,7 +90,7 @@
       </div>
       <div class="dashboard_history_body" *ngIf="history.length > 0">
         <div class="dashboard_history_item_wrap" *ngFor="let historyBlock of history">
-          <div class="dashboard_item_date">{{historyBlock.analyzeDate}}</div>
+          <div class="dashboard_history_item_date">{{historyBlock.analyzeDate}}</div>
           <div class="dashboard_history_item" *ngFor="let historyItem of historyBlock.list" [ngClass]="{'missed': !historyItem.status}">
             <div class="dashboard_history_details">
               <div class="dashboard_history_details_phone">{{historyItem.phone_number.fullNumber}}</div>
@@ -101,7 +107,7 @@
         </div>
       </div>
       <div class="dashboard_item_link_row">
-        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Refill</a>
+        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Details</a>
       </div>
     </div>
   </div>

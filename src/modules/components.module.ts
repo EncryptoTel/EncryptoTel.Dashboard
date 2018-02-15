@@ -25,8 +25,8 @@ import {DashboardComponent} from '../components/dashboard/dashboard.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ElementsModule,
     AngularSvgIconModule,
+    ElementsModule,
     MainRouterModule
   ],
   declarations: [

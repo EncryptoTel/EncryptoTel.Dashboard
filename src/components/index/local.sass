@@ -38,7 +38,7 @@
           white-space: nowrap
           overflow: hidden
           text-overflow: ellipsis
-          font-size: em(12)
+          font-size: rem(12)
   &_block
     display: flex
     flex-direction: column
@@ -66,8 +66,7 @@
       line-height: 40px
     &_icon
       width: 24px
-      margin-left: 12px
-      margin-right: 12px
+      margin: auto 12px
       /deep/ path, /deep/ polygon
         transition: all linear 250ms
 
@@ -75,6 +74,7 @@
   display: flex
   flex-direction: column
   flex: 1 0 auto
+  height: 100vh
 
 .header
   &_line_wrap
@@ -85,7 +85,7 @@
     min-height: 80px
   &_title
     display: flex
-    font-size: em(28)
+    font-size: rem(28)
     margin: auto auto auto 48px
   &_button
     position: relative

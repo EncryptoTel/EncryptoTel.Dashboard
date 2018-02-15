@@ -95,9 +95,9 @@ export class IndexComponent implements OnInit, OnDestroy {
       visible: true
     }, {
       id: 9,
-      title: 'Employees',
-      link: 'employees',
-      icon: 'employees',
+      title: 'Extensions',
+      link: 'extensions',
+      icon: 'extensions',
       status: false,
       visible: true
     }],

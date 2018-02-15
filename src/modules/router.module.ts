@@ -33,7 +33,7 @@ const Routes: Routes = [
     {path: 'ivr', component: DashboardComponent, data: {title: 'IVR', indexed: true}},
     {path: 'company', component: DashboardComponent, data: {title: 'Company', indexed: true}},
     {path: 'departments', component: DashboardComponent, data: {title: 'Departments', indexed: true}},
-    {path: 'employees', component: DashboardComponent, data: {title: 'Employees', indexed: true}},
+    {path: 'extensions', component: DashboardComponent, data: {title: 'Employees', indexed: true}},
     {path: 'details-and-records', component: DashboardComponent, data: {title: 'Details and records', indexed: true}},
     {path: 'invoices', component: DashboardComponent, data: {title: 'Invoices', indexed: true}},
     {path: 'storage', component: DashboardComponent, data: {title: 'Storage', indexed: true}},
