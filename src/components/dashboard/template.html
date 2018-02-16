@@ -76,8 +76,7 @@
         </div>
       </div>
       <div class="dashboard_item_body">
-        <pbx-loader *ngIf="loading.chart"></pbx-loader>
-        <div class="drive_percentage" *ngIf="!loading.chart">{{((drive.used)/(drive.total))*100 | number: '1.0-0'}}%</div>
+        <div class="drive_percentage">{{((drive.used)/(drive.total))*100 | number: '1.0-0'}}%</div>
         <!--TODO: Drive usage chart-->
       </div>
     </div>
@@ -93,15 +92,13 @@
           <div class="dashboard_history_item_date">{{historyBlock.analyzeDate}}</div>
           <div class="dashboard_history_item" *ngFor="let historyItem of historyBlock.list" [ngClass]="{'missed': !historyItem.status}">
             <div class="dashboard_history_details">
-              <div class="dashboard_history_details_phone">{{historyItem.phone_number.fullNumber}}</div>
-              <div class="dashboard_history_details_status">{{historyItem.status ? historyItem.direction : 'missed'}}</div>
+              <div class="dashboard_history_details_item" *ngIf="historyItem.phone_number.fullName">{{historyItem.phone_number.fullName}}</div>
+              <div class="dashboard_history_details_item">{{historyItem.phone_number.fullNumber}}</div>
             </div>
             <div class="dashboard_history_details">
-              <div class="dashboard_history_details_icons">
-                <div class="dashboard_items_icon">1</div>
-                <div class="dashboard_items_icon">1</div>
-              </div>
-              <div class="dashboard_history_details_duration">{{historyItem.duration}}</div>
+              <div class="dashboard_history_details_item" *ngIf="historyItem.calculateDuration">{{historyItem.calculateDuration}}</div>
+              <div class="dashboard_history_details_item">{{historyItem.status ? historyItem.direction : 'missed'}}</div>
+              <div class="dashboard_history_details_item" *ngIf="!historyItem.calculateDuration">{{historyItem.direction}}</div>
             </div>
           </div>
         </div>

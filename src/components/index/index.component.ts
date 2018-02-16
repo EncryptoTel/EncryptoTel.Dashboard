@@ -18,7 +18,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
   selector: 'pbx-index',
   templateUrl: './template.html',
   styleUrls: ['./local.sass'],
-  animations: [SwipeAnimation('y', '.2s'), FadeAnimation('.1s')]
+  animations: [SwipeAnimation('y', '200ms'), FadeAnimation('.1s')]
 })
 
 export class IndexComponent implements OnInit, OnDestroy {

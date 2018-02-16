@@ -13,6 +13,7 @@
   &_item
     flex-direction: column
     padding: 48px 56px 16px 48px
+    font-size: rem(16)
     &.balance
       grid-area: balance
       .dashboard_item
@@ -76,7 +77,6 @@
     &_value
       margin-left: auto
     &_link
-      font-size: rem(14)
       padding: 8px 0
       &:nth-child(2)
         margin: 0 auto
@@ -90,14 +90,27 @@
       flex: 0 0 auto
       flex-direction: row
       padding: 8px 24px
+      &.missed
+        font-weight: 400
       &_wrap
         flex: 0 0 auto
         flex-direction: column
+        &:first-child > .dashboard_history_item_date
+          margin-top: 0
       &_date
         flex: 0 0 auto
         line-height: rem(24)
         font-size: rem(12)
         padding: 0 24px
+        margin: 16px 0
+    &_details
+      &:last-child
+        align-items: flex-end
+      &_item
+        &:first-child
+          font-size: rem(20)
+        &:not(:first-child)
+          font-size: rem(14)
     &_body
       flex-direction: column
       margin: 24px -56px 0 -48px
@@ -125,5 +138,7 @@
         background-color: $history
     &_history
       &_item
+        &.missed
+          color: $dark_background
         &_date
-          background: rgba($dark_primary, .1)
+          background: rgba($dark_primary, .08)
