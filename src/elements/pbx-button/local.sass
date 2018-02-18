@@ -1,0 +1,27 @@
+@import "../../vars" // Global variables import
+
+.button
+  display: flex
+  flex: 0 0 auto
+  align-items: center
+  justify-content: center
+  height: 40px
+  width: 100%
+  padding: 0 16px
+  cursor: pointer
+  border-radius: 2px
+  &:disabled
+    opacity: .9
+
+
+// Themes styles
+\:host-context(.dark_theme)
+  .button
+    &.accent
+      background: $dark_accent
+      &:hover
+        background: lighten($dark_accent, 5%)
+      &:active
+        background: darken($dark_accent, 5%)
+      &:disabled
+        background: darken($dark_primary, 85%)

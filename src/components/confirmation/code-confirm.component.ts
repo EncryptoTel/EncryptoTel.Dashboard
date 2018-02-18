@@ -10,11 +10,11 @@ import {FadeAnimation} from '../../shared/fade-animation';
 @Component({
   selector: 'code-confirm-component',
   templateUrl: './code-confirm.template.html',
-  animations: [FadeAnimation]
+  animations: [FadeAnimation('.3s')]
 })
 
 export class CodeConfirmComponent implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute,
+  constructor(private _route: ActivatedRoute,
               private _services: AuthorizationServices) {}
   loading = false;
   confirmationHash: string;
@@ -33,8 +33,8 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
   /*
     Code confirmation action
    */
-  codeConfirm(event): void {
-    event.preventDefault();
+  codeConfirm(ev?: Event): void {
+    if (ev) { ev.preventDefault(); }
     this.loading = true;
     this._services.codeConfirm(this.confirmationCode.value, this.confirmationHash).then(() => {
       this.loading = false;
@@ -42,14 +42,14 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this._services.clearError();
-    this.paramsSubscription = this.route.params.subscribe(params => {
+    this.paramsSubscription = this._route.params.subscribe(params => {
       this.confirmationHash = params['hash'];
     });
     this.errorsSubscription = this._services.readError().subscribe(error => {
       this.error = error;
     });
     this.confirmationCode = new FormGroup({
-      'code': new FormControl(undefined, [
+      'code': new FormControl(null, [
         Validators.required
       ])
     });

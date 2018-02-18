@@ -1,0 +1,17 @@
+<div class="select_wrap"
+     tabindex="0"
+     #selectWrap
+     [ngClass]="[isVisible ? 'active' : '', calcPosition()]"
+     (clickOutside)="hideOptions()"
+     (focus)="showOptions()"
+     (blur)="hideOptions()"
+     (mousedown)="toggleOptions($event)"
+     (keydown)="keyboardNavigation($event)">
+  <div class="select_item selected" [ngClass]="{'blank': !selected?.name}">
+    {{selected?.name || placeholder}}
+    <svg-icon [src]="'/assets/icons/dropdown_arrow_12px.svg'" class="select_icon"></svg-icon>
+  </div>
+  <div class="select_options" *ngIf="isVisible" [@Swipe] #optionsWrap>
+    <div class="select_item" *ngFor="let option of options" [ngClass]="{'current': option === selected}" (mousedown)="selectItem(option, $event)">{{option.name}}</div>
+  </div>
+</div>

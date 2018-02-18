@@ -13,10 +13,10 @@ import * as _vars from '../../shared/vars';
 @Component({
   selector: 'sign-up',
   templateUrl: './template.html',
-  animations: [FadeAnimation]
+  animations: [FadeAnimation('.3s')]
 })
 export class SignUpComponent implements OnInit, OnDestroy {
-  constructor(private router: Router,
+  constructor(private _router: Router,
               private _user: UserServices,
               public _services: AuthorizationServices) {}
   loading = false;
@@ -24,10 +24,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
   error: string;
   signUpForm: FormGroup;
   /*
-    Form field validation. Accepted params:
-    Name: string - form field name,
-    Error Type: string - validation type (not necessary)
-   */
+  Form field validation. Accepted params:
+  Name: string - form field name,
+  Error Type: string - validation type (not necessary)
+ */
   inputValidation(name: string, errorType?: string): boolean {
     if (errorType) {
       const field = this.signUpForm.controls[name];
@@ -37,6 +37,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       return field.invalid && (field.dirty || field.touched);
     }
   }
+
   /*
     Form passwords match validation.
    */
@@ -52,8 +53,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
   /*
     Sign-up action
    */
-  signUp(event): void {
-    event.preventDefault();
+  signUp(ev?: Event): void {
+    if (ev) { ev.preventDefault(); }
     this.loading = true;
     this._services.signUp(this.signUpForm.value).then(() => {
       this.loading = false;
@@ -65,22 +66,20 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this.error = error;
     });
     if (this._user.fetchUser()) {
-      this.router.navigateByUrl('/cabinet');
+      this._router.navigateByUrl('/cabinet');
     }
     this.signUpForm = new FormGroup({
-      'name': new FormControl(undefined, [
-        Validators.required,
+      'name': new FormControl(null, [
         Validators.pattern(_vars.nameRegExp)
       ]),
-      'surname': new FormControl(undefined, [
-        Validators.required,
+      'surname': new FormControl(null, [
         Validators.pattern(_vars.nameRegExp)
       ]),
-      'email': new FormControl(undefined, [
+      'email': new FormControl(null, [
         Validators.required,
         Validators.pattern(_vars.emailRegExp)
       ]),
-      'password': new FormControl(undefined, [
+      'password': new FormControl(null, [
         Validators.required,
         Validators.minLength(6)
       ]),

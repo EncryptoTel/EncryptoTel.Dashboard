@@ -12,10 +12,10 @@ import {passwordConfirmation} from '../../shared/password-confirmation';
 @Component({
   selector: 'sign-up',
   templateUrl: './password-change.template.html',
-  animations: [FadeAnimation]
+  animations: [FadeAnimation('.3s')]
 })
 export class PasswordChangeComponent implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute,
+  constructor(private _route: ActivatedRoute,
               private _user: UserServices,
               public _services: AuthorizationServices) {}
   loading = false;
@@ -53,8 +53,8 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
   /*
     Change password action
    */
-  changePassword(event): void {
-    event.preventDefault();
+  changePassword(ev?: Event): void {
+    if (ev) { ev.preventDefault(); }
     this.loading = true;
     this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
       this.loading = false;
@@ -62,14 +62,14 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this._services.clearError();
-    this.route.params.subscribe(params => {
+    this._route.params.subscribe(params => {
       this.passwordChangingHash = params['hash'];
     });
     this.errorsSubscription = this._services.readError().subscribe(error => {
       this.error = error;
     });
     this.passwordChangingForm = new FormGroup({
-      'password': new FormControl(undefined, [
+      'password': new FormControl(null, [
         Validators.required,
         Validators.minLength(6)
       ]),

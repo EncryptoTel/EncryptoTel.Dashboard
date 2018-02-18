@@ -1,4 +1,5 @@
 export const environment = {
   title: 'development',
-  production: false
+  production: false,
+  back: 'http://placeholder.encry.ru/json'
 };

@@ -15,6 +15,7 @@ import {EmailConfirmComponent} from '../components/confirmation/email-confirm.co
 import {CodeConfirmComponent} from '../components/confirmation/code-confirm.component';
 import {PasswordRecoveryComponent} from '../components/password-recovery/password-recovery.component';
 import {PasswordChangeComponent} from '../components/confirmation/password-change.component';
+import {DashboardComponent} from '../components/dashboard/dashboard.component';
 
 /*
   Components declarations and exports
@@ -24,8 +25,8 @@ import {PasswordChangeComponent} from '../components/confirmation/password-chang
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ElementsModule,
     AngularSvgIconModule,
+    ElementsModule,
     MainRouterModule
   ],
   declarations: [
@@ -36,7 +37,8 @@ import {PasswordChangeComponent} from '../components/confirmation/password-chang
     EmailConfirmComponent,
     CodeConfirmComponent,
     PasswordRecoveryComponent,
-    PasswordChangeComponent
+    PasswordChangeComponent,
+    DashboardComponent
   ],
   exports: [
     PageNotFoundComponent,
@@ -46,7 +48,8 @@ import {PasswordChangeComponent} from '../components/confirmation/password-chang
     EmailConfirmComponent,
     CodeConfirmComponent,
     PasswordRecoveryComponent,
-    PasswordChangeComponent
+    PasswordChangeComponent,
+    DashboardComponent
   ]
 })
 export class ComponentsModule {  }

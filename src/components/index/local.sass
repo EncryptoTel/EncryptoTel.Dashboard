@@ -1,0 +1,216 @@
+@import "../../vars" // Global variables import
+
+.navigation
+  &_wrap
+    display: flex
+    flex-direction: column
+    flex: 0 0 auto
+    width: 192px
+    .user
+      &_wrap
+        display: flex
+        flex: 0 0 auto
+        flex-direction: row
+        height: 80px
+        align-items: center
+        &, & > *, & /deep/ *
+          cursor: pointer
+        .dropdown_arrow
+          width: 12px
+          height: 12px
+          margin: 0 12px 0 auto
+      &_profile_image
+        display: flex
+        flex: 0 0 48px
+        margin: 0 12px 0 12px
+        height: 48px
+        border-radius: 50%
+        border: 2px solid
+        background: center no-repeat
+        background-size: cover
+      &_details
+        &_wrap
+          display: flex
+          flex-direction: column
+          width: 92px
+          line-height: 22px
+        &_balance
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
+          font-size: rem(12)
+  &_block
+    display: flex
+    flex-direction: column
+    flex: 0 0 auto
+    padding: 8px 0
+    &:first-child
+      padding-top: 0
+    &:not(:last-child)
+      border-bottom: 1px solid
+    &_wrap
+      flex-direction: column
+      max-height: calc(100vh - 104px)
+      overflow-y: auto
+      margin-top: 24px
+  &_item
+    display: flex
+    flex-direction: row
+    flex: 1 0 auto
+    height: 40px
+    align-items: center
+    &.inactive
+      pointer-events: none
+      cursor: default
+    &_title
+      line-height: 40px
+    &_icon
+      width: 24px
+      margin: auto 12px
+      /deep/ path, /deep/ polygon
+        transition: all linear 250ms
+
+.content_wrap
+  display: flex
+  flex-direction: column
+  flex: 1 0 auto
+  height: 100vh
+
+.header
+  &_line_wrap
+    display: flex
+    flex-direction: row
+    position: relative
+    height: 80px
+    min-height: 80px
+  &_title
+    display: flex
+    font-size: rem(28)
+    margin: auto auto auto 48px
+  &_button
+    position: relative
+    display: flex
+    flex-direction: column
+    width: 80px
+    height: 80px
+    cursor: pointer
+    &:after
+      position: absolute
+      bottom: 0
+      left: 0
+      width: 100%
+      height: 0
+      transition: all linear 100ms
+      content: ''
+    &_row
+      position: relative
+      z-index: 5
+      .sidebar
+        &_wrap
+          position: absolute
+          right: -352px
+          top: 80px
+          height: calc(100vh - 80px)
+          width: 352px
+          display: flex
+          flex-direction: column
+          transition: all linear 200ms
+          margin-right: -32px
+          padding: 48px
+          &.visible
+            right: 32px
+    svg-icon
+      height: 24px
+      width: 24px
+      margin: auto
+      z-index: 2
+      pointer-events: none
+    &_hide
+      position: relative
+      display: flex
+      flex-direction: column
+      width: 32px
+      height: 80px
+      cursor: pointer
+      overflow: hidden
+      z-index: 5
+      &.initial > svg-icon
+        transform: rotate(-90deg)
+      svg-icon
+        height: 16px
+        width: 16px
+        transform: rotate(-270deg)
+        margin: auto
+        pointer-events: none
+    &_wrap
+      position: absolute
+      top: 0
+      right: -352px
+      display: flex
+      flex-direction: row
+      transition: all linear 200ms
+      &.visible
+        right: 32px
+
+// Themes styles
+\:host-context(.dark_theme)
+  .user
+    &_wrap
+      &:hover
+        background: lighten($dark_background, 15%)
+      .dropdown_arrow
+        /deep/ path, /deep/ polygon
+          fill: $dark_primary
+    &_profile_image
+      border-color: $dark_primary
+    &_details
+      &_balance
+        color: $dark_success
+  .navigation
+    &_block
+      border-bottom-color: lighten($dark_background, 15%)
+    &_item
+      &.inactive
+        color: lighten($dark_background, 15%)
+        /deep/ path, /deep/ polygon
+          fill: lighten($dark_background, 15%)
+      &:hover, &:focus, &.active
+        color: $dark_accent
+        > .navigation_item_icon
+          /deep/ path, /deep/ polygon
+            fill: $dark_accent
+      &_icon
+        /deep/ path, /deep/ polygon
+          fill: $dark_primary
+  .header
+    &_title
+      color: $dark_accent
+    &_button
+      background: $dark_accent
+      /deep/ path, /deep/ circle
+        fill: $dark_primary
+      &_row
+        .sidebar
+          &_wrap
+            background: $dark_overlay
+      &:after
+        background: $dark_overlay
+      &:hover
+        background: lighten($dark_accent, 5%)
+      &:active
+        background: darken($dark_accent, 5%)
+      &.active
+        &:after
+          height: 100%
+        &:hover::after
+          background: lighten($dark_overlay, 5%)
+        &:active::after
+          background: darken($dark_overlay, 5%)
+      &_hide
+        background: $dark_overlay
+        /deep/ polygon
+          fill: $dark_primary
+        &:hover
+          background: lighten($dark_overlay, 5%)
+        &:active
+          background: darken($dark_overlay, 5%)

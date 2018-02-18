@@ -10,7 +10,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 @Component({
   selector: 'password-recovery',
   templateUrl: './template.html',
-  animations: [FadeAnimation]
+  animations: [FadeAnimation('.3s')]
 })
 
 export class PasswordRecoveryComponent implements OnInit, OnDestroy {
@@ -35,8 +35,8 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
   /*
     Code confirmation action
    */
-  sendEmail(event): void {
-    event.preventDefault();
+  sendEmail(ev?: Event): void {
+    if (ev) { ev.preventDefault(); }
     this.loading = true;
     this._services.sendEmail(this.emailForm.value).then(() => {
       this.loading = false;
@@ -48,7 +48,7 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
       this.error = error;
     });
     this.emailForm = new FormGroup({
-      'email': new FormControl(undefined, [
+      'email': new FormControl(null, [
         Validators.required,
         Validators.pattern(_vars.emailRegExp)
       ])

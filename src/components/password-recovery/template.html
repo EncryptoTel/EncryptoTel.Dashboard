@@ -12,10 +12,7 @@
         <span class="input_error_item" *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>
       </div>
     </div>
-    <button type="submit" name="Sign In" class="button accent" [disabled]="!emailForm.valid || loading">
-      <loader *ngIf="loading"></loader>
-      <span *ngIf="!loading">Request recovery link</span>
-    </button>
+    <pbx-button [buttonType]="'accent'" [loading]="loading" [value]="'Request recovery link'" (onClick)="sendEmail()"></pbx-button>
     <a routerLink="../sign-in" class="auth_form_link">Back to login</a>
     <div class="auth_form_text">Don't have an EncryptoTel Account?</div>
     <a routerLink="../sign-up" class="auth_form_link">Create one now</a>

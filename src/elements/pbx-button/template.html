@@ -1,0 +1,4 @@
+<button class="button" [ngClass]="buttonType" (click)="clicked($event)" [disabled]="loading">
+  <span *ngIf="!loading">{{value}}</span>
+  <pbx-loader *ngIf="loading"></pbx-loader>
+</button>

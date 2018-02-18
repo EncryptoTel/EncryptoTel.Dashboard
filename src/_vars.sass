@@ -9,6 +9,12 @@ $dark_overlay: rgb(55, 54, 53)
 $dark_pagination: rgb(82, 135, 136)
 $dark_pagination_inactive: rgb(70, 69, 68)
 
+$browser-context: 14
+
+// Global functions
+@function rem($pixels, $context: $browser-context)
+  @return #{$pixels/$context}rem
+
 // Global mixins
 
 
@@ -20,3 +26,11 @@ $dark_pagination_inactive: rgb(70, 69, 68)
     height: 30px
   100%
     height: 0
+
+@keyframes header_button_animation
+  0%
+    height: 0
+    width: 0
+  100%
+    height: 100%
+    width: 100%
