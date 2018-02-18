@@ -5,6 +5,8 @@ import 'rxjs/add/operator/toPromise';
 import {LoggerServices} from './logger.services';
 import {MessageServices} from './message.services';
 
+import {environment as _env} from '../environments/environment';
+
 /*
   Parent request services. Processing errors and console output for responses
 */
@@ -20,7 +22,7 @@ export class RequestServices {
     Data: object - request params
    */
   post(uri: string, data: object): Promise<any> {
-    return this.http.post(`http://json.loc/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
+    return this.http.post(`${_env.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('POST-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method
@@ -44,7 +46,7 @@ export class RequestServices {
     Data: object - request params
    */
   put(uri: string, data: object): Promise<any> {
-    return this.http.put(`http://json.loc/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
+    return this.http.put(`${_env.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('PUT-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method
@@ -67,7 +69,7 @@ export class RequestServices {
     URI: string - request uri with stringified params
    */
   get(uri: string): Promise<any> {
-    return this.http.get(`http://json.loc/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
+    return this.http.get(`${_env.back}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('GET-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method
@@ -90,7 +92,7 @@ export class RequestServices {
     URI: string - request uri with stringified params
    */
   del(uri: string): Promise<any> {
-    return this.http.delete(`http://json.loc/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
+    return this.http.delete(`${_env.back}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('DELETE-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {DBHistoryServices} from '../../services/db.history.services';
 import {DBPhoneNumbersServices} from '../../services/db.phone-numbers.services';
@@ -23,12 +23,14 @@ import {BalanceModel} from '../../models/balance.model';
   ]
 })
 
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   constructor(private _balance: BalanceServices,
               private _tariff: DBTariffPlanServices,
               private _drive: DriveServices,
               private _numbers: DBPhoneNumbersServices,
-              private _history: DBHistoryServices) {}
+              private _history: DBHistoryServices) {
+    this.initDashboard();
+  }
   balance: BalanceModel;
   tariff: DBTariffPlanModel;
   drive: DriveModel;
@@ -68,8 +70,5 @@ export class DashboardComponent implements OnInit {
       this.loading.history = false;
       return Promise.resolve(null);
     });
-  }
-  ngOnInit() {
-    this.initDashboard();
   }
 }

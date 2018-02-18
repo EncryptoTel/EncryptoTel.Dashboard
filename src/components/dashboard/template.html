@@ -92,7 +92,7 @@
           <div class="dashboard_history_item_date">{{historyBlock.analyzeDate}}</div>
           <div class="dashboard_history_item" *ngFor="let historyItem of historyBlock.list" [ngClass]="{'missed': !historyItem.status}">
             <div class="dashboard_history_details">
-              <div class="dashboard_history_details_item" *ngIf="historyItem.phone_number.fullName">{{historyItem.phone_number.fullName}}</div>
+              <div class="dashboard_history_details_item">{{historyItem.phone_number.fullName || 'Unknown'}}</div>
               <div class="dashboard_history_details_item">{{historyItem.phone_number.fullNumber}}</div>
             </div>
             <div class="dashboard_history_details">
