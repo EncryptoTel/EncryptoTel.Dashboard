@@ -1,5 +1,5 @@
 <div class="dashboard_wrap">
-  <div class="dashboard_item balance">
+  <div class="dashboard_item balance" [ngClass]="{'inactive': loading.balance}">
     <pbx-loader *ngIf="loading.balance"></pbx-loader>
     <div class="dashboard_item_body" *ngIf="!loading.balance">
       <div class="dashboard_item_row">
@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-  <div class="dashboard_item tariff">
+  <div class="dashboard_item tariff" [ngClass]="{'inactive': loading.tariff}">
     <pbx-loader *ngIf="loading.tariff"></pbx-loader>
     <div class="dashboard_item_body" *ngIf="!loading.tariff">
       <div class="dashboard_item_row">
@@ -37,7 +37,7 @@
       </div>
     </div>
   </div>
-  <div class="dashboard_item phone_numbers">
+  <div class="dashboard_item phone_numbers" [ngClass]="{'inactive': loading.phone_numbers}">
     <pbx-loader *ngIf="loading.phone_numbers"></pbx-loader>
     <div class="dashboard_item_body" *ngIf="!loading.phone_numbers">
       <div class="dashboard_item_row">
@@ -52,7 +52,7 @@
       </div>
     </div>
   </div>
-  <div class="dashboard_item drive">
+  <div class="dashboard_item drive" [ngClass]="{'inactive': loading.drive}">
     <pbx-loader *ngIf="loading.drive"></pbx-loader>
     <div class="dashboard_item_row" *ngIf="!loading.drive">
       <div class="dashboard_item_body">
@@ -81,7 +81,7 @@
       </div>
     </div>
   </div>
-  <div class="dashboard_item history">
+  <div class="dashboard_item history" [ngClass]="{'inactive': loading.history}">
     <pbx-loader *ngIf="loading.history"></pbx-loader>
     <div class="dashboard_item_body" *ngIf="!loading.history">
       <div class="dashboard_item_row">

@@ -1,6 +1,6 @@
 import {animate, style, transition, trigger} from '@angular/animations';
 
-export function  SwipeAnimation(axis: string, time: string) {
+export function  SwipeAnimation(axis: 'x' | 'y', time: string) {
   switch (axis) {
     case 'x': {
       return trigger('Swipe', [
