@@ -13,6 +13,7 @@ import {CodeConfirmComponent} from '../components/confirmation/code-confirm.comp
 import {PasswordRecoveryComponent} from '../components/password-recovery/password-recovery.component';
 import {PasswordChangeComponent} from '../components/confirmation/password-change.component';
 import {DashboardComponent} from '../components/dashboard/dashboard.component';
+import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -25,6 +26,7 @@ const Routes: Routes = [
   {path: 'cabinet', canActivate: [AuthGuardServices], component: IndexComponent, children: [
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
     {path: 'dashboard', component: DashboardComponent, data: {title: 'Dashboard', indexed: true}},
+    {path: 'tariff_plans', component: TariffPlansComponent, data: {title: 'Tariff plans', indexed: true}},
     {path: 'phone-numbers', component: DashboardComponent, data: {title: 'Phone numbers', indexed: true}},
     {path: 'address-book', component: DashboardComponent, data: {title: 'Address book', indexed: true}},
     {path: 'call-rules', component: DashboardComponent, data: {title: 'Call rules', indexed: true}},
