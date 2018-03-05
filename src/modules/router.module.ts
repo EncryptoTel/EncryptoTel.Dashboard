@@ -14,11 +14,16 @@ import {PasswordRecoveryComponent} from '../components/password-recovery/passwor
 import {PasswordChangeComponent} from '../components/confirmation/password-change.component';
 import {DashboardComponent} from '../components/dashboard/dashboard.component';
 import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.component';
+import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sign-up-tariff-plans.component';
+import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-form.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
   {path: 'sign-in', component: SignInComponent, data: {title: 'Sign in', indexed: true}},
-  {path: 'sign-up', component: SignUpComponent, data: {title: 'Sign up', indexed: true}},
+  {path: 'sign-up', component: SignUpComponent, data: {title: 'Sign up', indexed: true}, children: [
+      {path: '', component: SignUpFormComponent, data: {title: 'Sign up form', indexed: true}},
+      {path: 'tariff_plans', component: SignUpTariffPlansComponent, data: {title: 'Sign up tariff plans', indexed: true}}
+      ]},
   {path: 'recovery', component: PasswordRecoveryComponent, data: {title: 'Password recovery', indexed: true}},
   {path: 'email-confirmation/:hash', component: EmailConfirmComponent, data: {title: 'Email confirmation', indexed: false}},
   {path: 'code-confirmation/:hash', component: CodeConfirmComponent, data: {title: 'Code confirmation', indexed: false}},

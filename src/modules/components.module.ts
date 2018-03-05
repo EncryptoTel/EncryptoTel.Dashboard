@@ -17,6 +17,8 @@ import {PasswordRecoveryComponent} from '../components/password-recovery/passwor
 import {PasswordChangeComponent} from '../components/confirmation/password-change.component';
 import {DashboardComponent} from '../components/dashboard/dashboard.component';
 import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.component';
+import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sign-up-tariff-plans.component';
+import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-form.component';
 
 /*
   Components declarations and exports
@@ -40,7 +42,9 @@ import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.comp
     PasswordRecoveryComponent,
     PasswordChangeComponent,
     DashboardComponent,
-    TariffPlansComponent
+    TariffPlansComponent,
+    SignUpTariffPlansComponent,
+    SignUpFormComponent
   ],
   exports: [
     PageNotFoundComponent,
