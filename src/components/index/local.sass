@@ -2,25 +2,64 @@
 
 .navigation
   &_wrap
-    display: flex
     flex-direction: column
     flex: 0 0 auto
     width: 192px
     .user
       &_wrap
-        display: flex
         flex: 0 0 auto
         flex-direction: row
         height: 80px
         align-items: center
+        position: relative
+        &:after
+          content: ''
+          position: absolute
+          left: 0
+          bottom: 0
+          height: 0
+          width: 100%
+          z-index: 0
+          transition: height linear 150ms
+        &:hover, &.active
+          &:after
+            height: 100%
         &, & > *, & /deep/ *
           cursor: pointer
+          z-index: 2
         .dropdown_arrow
           width: 12px
           height: 12px
           margin: 0 12px 0 auto
+      &_navigation
+        &_wrap
+          position: absolute
+          left: 0
+          top: 100%
+          flex-direction: column
+          flex: 0 0 auto
+          height: 0
+          width: 100%
+          overflow: hidden
+          &:after
+            height: 0
+          &.visible
+            height: 120px
+        &_item
+          flex: 0 0 auto
+          flex-direction: column
+          justify-content: center
+          height: 40px
+          padding: 0 16px
+          &:last-child
+            justify-content: flex-start
+            align-items: center
+            flex-direction: row
+            svg-icon
+              height: 16px
+              width: 16px
+              margin-left: auto
       &_profile_image
-        display: flex
         flex: 0 0 48px
         margin: 0 12px 0 12px
         height: 48px
@@ -30,7 +69,6 @@
         background-size: cover
       &_details
         &_wrap
-          display: flex
           flex-direction: column
           width: 92px
           line-height: 22px
@@ -40,7 +78,6 @@
           text-overflow: ellipsis
           font-size: rem(12)
   &_block
-    display: flex
     flex-direction: column
     flex: 0 0 auto
     padding: 8px 0
@@ -54,7 +91,6 @@
       overflow-y: auto
       margin-top: 24px
   &_item
-    display: flex
     flex-direction: row
     flex: 1 0 auto
     height: 40px
@@ -71,25 +107,21 @@
         transition: all linear 250ms
 
 .content_wrap
-  display: flex
   flex-direction: column
   flex: 1 0 auto
   height: 100vh
 
 .header
   &_line_wrap
-    display: flex
     flex-direction: row
     position: relative
     height: 80px
     min-height: 80px
   &_title
-    display: flex
     font-size: rem(28)
     margin: auto auto auto 48px
   &_button
     position: relative
-    display: flex
     flex-direction: column
     width: 80px
     height: 80px
@@ -112,7 +144,6 @@
           top: 80px
           height: calc(100vh - 80px)
           width: 352px
-          display: flex
           flex-direction: column
           transition: all linear 200ms
           margin-right: -32px
@@ -127,7 +158,6 @@
       pointer-events: none
     &_hide
       position: relative
-      display: flex
       flex-direction: column
       width: 32px
       height: 80px
@@ -146,7 +176,6 @@
       position: absolute
       top: 0
       right: -352px
-      display: flex
       flex-direction: row
       transition: all linear 200ms
       &.visible
@@ -155,9 +184,18 @@
 // Themes styles
 \:host-context(.dark_theme)
   .user
-    &_wrap
-      &:hover
+    &_navigation
+      &_wrap
         background: lighten($dark_background, 15%)
+        /deep/ path
+          fill: $dark_primary
+      &_item:hover
+        background: lighten($dark_background, 25%)
+    &_wrap
+      &:after
+        background: lighten($dark_background, 15%)
+      &.active > .dropdown_arrow
+        transform: rotate(180deg)
       .dropdown_arrow
         /deep/ path, /deep/ polygon
           fill: $dark_primary

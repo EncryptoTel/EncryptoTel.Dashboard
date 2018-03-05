@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -18,7 +18,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
   selector: 'pbx-index',
   templateUrl: './template.html',
   styleUrls: ['./local.sass'],
-  animations: [SwipeAnimation('y', '200ms'), FadeAnimation('.1s')]
+  animations: [SwipeAnimation('y', '200ms'), FadeAnimation('100ms')]
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
@@ -139,6 +139,13 @@ export class IndexComponent implements OnInit, OnDestroy {
   completedRequests = 0;
   activeButtonIndex: number;
   headerButtonsVisible = true;
+  userNavigationVisible = false;
+  @ViewChild('userWrap') userWrap: ElementRef;
+  hideUserNavigation(): void {
+    if (this.userNavigationVisible) {
+      this.userNavigationVisible = false;
+    }
+  }
   logout(): void {
     localStorage.clear();
     this._messages.writeSuccess('Logout successful');

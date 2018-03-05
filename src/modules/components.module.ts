@@ -16,6 +16,7 @@ import {CodeConfirmComponent} from '../components/confirmation/code-confirm.comp
 import {PasswordRecoveryComponent} from '../components/password-recovery/password-recovery.component';
 import {PasswordChangeComponent} from '../components/confirmation/password-change.component';
 import {DashboardComponent} from '../components/dashboard/dashboard.component';
+import {BlankComponent} from '../components/blank/blank.component';
 
 /*
   Components declarations and exports
@@ -38,7 +39,8 @@ import {DashboardComponent} from '../components/dashboard/dashboard.component';
     CodeConfirmComponent,
     PasswordRecoveryComponent,
     PasswordChangeComponent,
-    DashboardComponent
+    DashboardComponent,
+    BlankComponent
   ],
   exports: [
     PageNotFoundComponent,
@@ -49,7 +51,8 @@ import {DashboardComponent} from '../components/dashboard/dashboard.component';
     CodeConfirmComponent,
     PasswordRecoveryComponent,
     PasswordChangeComponent,
-    DashboardComponent
+    DashboardComponent,
+    BlankComponent
   ]
 })
 export class ComponentsModule {  }

@@ -26,7 +26,7 @@
       </div>
       <div class="dashboard_item_row">
         <div class="dashboard_item_key">Next monthly payment</div>
-        <div class="dashboard_item_value">{{balance.symbol}}{{tariff.price}}</div>
+        <div class="dashboard_item_value" *ngIf="balance">{{balance.symbol}}{{tariff.price}}</div>
       </div>
       <div class="dashboard_item_row">
         <div class="dashboard_item_key">Payment date</div>

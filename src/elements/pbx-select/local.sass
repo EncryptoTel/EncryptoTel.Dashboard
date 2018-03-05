@@ -4,7 +4,6 @@
 .select
   &_wrap
     position: relative
-    display: flex
     flex: 1 0 auto
     flex-direction: column
     width: 100%
@@ -21,7 +20,6 @@
       &.active .select_icon
         transform: rotate(0deg)
   &_item
-    display: flex
     flex: 1 0 auto
     width: 100%
     cursor: pointer
@@ -29,21 +27,22 @@
     padding: 0 16px
     align-items: center
     &.selected
-      display: flex
       flex: 1 0 auto
       width: 100%
   &_icon
-    display: flex
     flex-direction: column
     margin-left: auto
     width: 12px
   &_options
     position: absolute
     left: 0
+    flex-direction: column
     max-height: 200px
     width: 100%
     overflow-y: auto
     z-index: 10
+    &.ng-animating
+      overflow: hidden
   &_error
     position: absolute
     top: calc(100% + 4px)

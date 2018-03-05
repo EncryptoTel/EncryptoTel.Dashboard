@@ -36,17 +36,14 @@ a, a > *, a /deep/ *
 // Components styles
 
 main-view
-  display: flex
   flex-direction: column
   flex: 1 0 auto
   height: 100vh
   transition: none
   > *:not(.messages_wrap)
-    display: flex
     flex-direction: column
     flex: 1 0 auto
   pbx-loader
-    display: flex
     flex-direction: column
     flex: 1 0 auto
 
@@ -57,9 +54,15 @@ input
   width: 100%
   height: 48px
   padding: 0 8px
+  cursor: text
+  &:-webkit-autofill
+    animation: autofill 0s forwards
 
 pbx-button
   width: 100%
+
+pbx-table
+  flex-direction: column
 
 // Classes styles
 
@@ -80,13 +83,11 @@ pbx-button
     position: absolute
     top: 8px
     right: 8px
-    display: flex
     flex-direction: column
     width: 328px
     max-width: calc(100% - 32px)
     z-index: 10
   &_item
-    display: flex
     justify-content: center
     min-height: 40px
     width: 100%
@@ -96,7 +97,6 @@ pbx-button
       margin-top: 8px
 
 .auth_form
-  display: flex
   flex-direction: column
   height: 100vh
   width: 100vw
@@ -113,7 +113,6 @@ pbx-button
     position: absolute
     left: 0
     top: 0
-    display: flex
     height: 100vh
     width: 100vw
     background: $dark_background
@@ -121,7 +120,6 @@ pbx-button
     opacity: .6
   form
     position: relative
-    display: flex
     flex: 0 0 auto
     flex-direction: column
     width: 328px
@@ -129,23 +127,14 @@ pbx-button
     margin: 88px auto auto
     z-index: 1
   &_icon
-    display: flex
     flex: 0 0 auto
-    margin: auto
+    margin: auto auto 0
     height: 112px
     width: 112px
-    &_title
-      margin-top: 8px
-      font-size: rem(20)
-      font-weight: 600
-      text-align: center
-    &_wrap
-      margin: auto auto 0
-      z-index: 1
+    z-index: 1
   .input
     &_wrap
       position: relative
-      display: flex
       margin-bottom: 24px
     &_error
       position: absolute
@@ -155,15 +144,13 @@ pbx-button
   &_text
     margin: 16px 0 8px
     font-size: rem(14)
-    text-align: center
+    justify-content: center
   &_link
-    display: block
-    text-align: center
+    justify-content: center
   &_error
     position: absolute
     bottom: 100%
     left: 0
-    display: flex
     flex-direction: column
     width: 100%
     margin-bottom: 8px
@@ -172,6 +159,18 @@ pbx-button
     cursor: pointer
   .button
     margin: 16px 0 24px
+
+.button_overlay
+  position: absolute
+  z-index: 1
+  border-radius: 50%
+  animation: button_animation ease-in 500ms
+  transform: scale(0)
+  pointer-events: none
+  &.small
+    animation: button_animation ease-in 250ms
+  &.medium
+    animation: button_animation ease-in 350ms
 
 // ID's styles
 
@@ -194,6 +193,8 @@ main-view
         border-bottom-color: $dark_error
         &::placeholder
           color: $dark_error
+    .button_overlay
+      background: rgba($dark_primary, .35)
     .auth_form
       &_icon
         fill: $dark_accent

@@ -7,12 +7,13 @@ import {AuthorizationServices} from '../../services/authorization.services';
 import {UserServices} from '../../services/user.services';
 
 import {FadeAnimation} from '../../shared/fade-animation';
+import {validateForm} from '../../shared/shared.functions';
 import * as _vars from '../../shared/vars';
 
 @Component({
   selector: 'sign-in',
   templateUrl: './template.html',
-  animations: [FadeAnimation('.3s')]
+  animations: [FadeAnimation('300ms')]
 })
 
 export class SignInComponent implements OnInit, OnDestroy, AfterViewChecked {
@@ -43,10 +44,13 @@ export class SignInComponent implements OnInit, OnDestroy, AfterViewChecked {
    */
   signIn(ev?: Event): void {
     if (ev) { ev.preventDefault(); }
-    this.loading = true;
-    this._services.signIn(this.signInForm.value).then(() => {
-      this.loading = false;
-    }).catch(() => this.loading = false);
+    validateForm(this.signInForm);
+    if (this.signInForm.valid) {
+      this.loading = true;
+      this._services.signIn(this.signInForm.value).then(() => {
+        this.loading = false;
+      }).catch(() => this.loading = false);
+    }
   }
   ngOnInit(): void {
     this._services.clearError();

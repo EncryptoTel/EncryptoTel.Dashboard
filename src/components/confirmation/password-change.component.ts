@@ -8,11 +8,12 @@ import {UserServices} from '../../services/user.services';
 
 import {FadeAnimation} from '../../shared/fade-animation';
 import {passwordConfirmation} from '../../shared/password-confirmation';
+import {validateForm} from '../../shared/shared.functions';
 
 @Component({
-  selector: 'sign-up',
+  selector: 'password-change',
   templateUrl: './password-change.template.html',
-  animations: [FadeAnimation('.3s')]
+  animations: [FadeAnimation('300ms')]
 })
 export class PasswordChangeComponent implements OnInit, OnDestroy {
   constructor(private _route: ActivatedRoute,
@@ -55,10 +56,13 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
    */
   changePassword(ev?: Event): void {
     if (ev) { ev.preventDefault(); }
-    this.loading = true;
-    this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
-      this.loading = false;
-    });
+    validateForm(this.passwordChangingForm);
+    if (this.passwordChangingForm.valid) {
+      this.loading = true;
+      this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
+        this.loading = false;
+      });
+    }
   }
   ngOnInit(): void {
     this._services.clearError();
