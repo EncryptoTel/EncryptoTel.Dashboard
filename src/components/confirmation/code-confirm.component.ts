@@ -6,11 +6,12 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthorizationServices} from '../../services/authorization.services';
 
 import {FadeAnimation} from '../../shared/fade-animation';
+import {validateForm} from '../../shared/shared.functions';
 
 @Component({
-  selector: 'code-confirm-component',
+  selector: 'code-confirm',
   templateUrl: './code-confirm.template.html',
-  animations: [FadeAnimation('.3s')]
+  animations: [FadeAnimation('300ms')]
 })
 
 export class CodeConfirmComponent implements OnInit, OnDestroy {
@@ -35,10 +36,13 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
    */
   codeConfirm(ev?: Event): void {
     if (ev) { ev.preventDefault(); }
-    this.loading = true;
-    this._services.codeConfirm(this.confirmationCode.value, this.confirmationHash).then(() => {
-      this.loading = false;
-    });
+    validateForm(this.confirmationCode);
+    if (this.confirmationCode.valid) {
+      this.loading = true;
+      this._services.codeConfirm(this.confirmationCode.value, this.confirmationHash).then(() => {
+        this.loading = false;
+      });
+    }
   }
   ngOnInit(): void {
     this._services.clearError();

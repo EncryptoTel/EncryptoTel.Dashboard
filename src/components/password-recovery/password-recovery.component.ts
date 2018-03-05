@@ -4,13 +4,14 @@ import {Subscription} from 'rxjs/Subscription';
 
 import {AuthorizationServices} from '../../services/authorization.services';
 
-import * as _vars from '../../shared/vars';
 import {FadeAnimation} from '../../shared/fade-animation';
+import {validateForm} from '../../shared/shared.functions';
+import * as _vars from '../../shared/vars';
 
 @Component({
   selector: 'password-recovery',
   templateUrl: './template.html',
-  animations: [FadeAnimation('.3s')]
+  animations: [FadeAnimation('300ms')]
 })
 
 export class PasswordRecoveryComponent implements OnInit, OnDestroy {
@@ -37,10 +38,13 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
    */
   sendEmail(ev?: Event): void {
     if (ev) { ev.preventDefault(); }
-    this.loading = true;
-    this._services.sendEmail(this.emailForm.value).then(() => {
-      this.loading = false;
-    });
+    validateForm(this.emailForm);
+    if (this.emailForm.valid) {
+      this.loading = true;
+      this._services.sendEmail(this.emailForm.value).then(() => {
+        this.loading = false;
+      });
+    }
   }
   ngOnInit(): void {
     this._services.clearError();

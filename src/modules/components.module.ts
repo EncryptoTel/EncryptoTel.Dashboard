@@ -19,6 +19,7 @@ import {DashboardComponent} from '../components/dashboard/dashboard.component';
 import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.component';
 import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sign-up-tariff-plans.component';
 import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-form.component';
+import {BlankComponent} from '../components/blank/blank.component';
 
 /*
   Components declarations and exports
@@ -44,7 +45,9 @@ import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-fo
     DashboardComponent,
     TariffPlansComponent,
     SignUpTariffPlansComponent,
-    SignUpFormComponent
+    SignUpFormComponent,
+    DashboardComponent,
+    BlankComponent
   ],
   exports: [
     PageNotFoundComponent,
@@ -55,7 +58,8 @@ import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-fo
     CodeConfirmComponent,
     PasswordRecoveryComponent,
     PasswordChangeComponent,
-    DashboardComponent
+    DashboardComponent,
+    BlankComponent
   ]
 })
 export class ComponentsModule {  }

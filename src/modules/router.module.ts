@@ -16,6 +16,7 @@ import {DashboardComponent} from '../components/dashboard/dashboard.component';
 import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.component';
 import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sign-up-tariff-plans.component';
 import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-form.component';
+import {BlankComponent} from '../components/blank/blank.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -31,20 +32,21 @@ const Routes: Routes = [
   {path: 'cabinet', canActivate: [AuthGuardServices], component: IndexComponent, children: [
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
     {path: 'dashboard', component: DashboardComponent, data: {title: 'Dashboard', indexed: true}},
-    {path: 'tariff_plans', component: TariffPlansComponent, data: {title: 'Tariff plans', indexed: true}},
-    {path: 'phone-numbers', component: DashboardComponent, data: {title: 'Phone numbers', indexed: true}},
-    {path: 'address-book', component: DashboardComponent, data: {title: 'Address book', indexed: true}},
-    {path: 'call-rules', component: DashboardComponent, data: {title: 'Call rules', indexed: true}},
-    {path: 'call-queues', component: DashboardComponent, data: {title: 'Call queues', indexed: true}},
-    {path: 'ring-groups', component: DashboardComponent, data: {title: 'Ring groups', indexed: true}},
-    {path: 'ivr', component: DashboardComponent, data: {title: 'IVR', indexed: true}},
-    {path: 'company', component: DashboardComponent, data: {title: 'Company', indexed: true}},
-    {path: 'departments', component: DashboardComponent, data: {title: 'Departments', indexed: true}},
-    {path: 'extensions', component: DashboardComponent, data: {title: 'Employees', indexed: true}},
-    {path: 'details-and-records', component: DashboardComponent, data: {title: 'Details and records', indexed: true}},
-    {path: 'invoices', component: DashboardComponent, data: {title: 'Invoices', indexed: true}},
-    {path: 'storage', component: DashboardComponent, data: {title: 'Storage', indexed: true}},
-    {path: 'settings', component: DashboardComponent, data: {title: 'Settings', indexed: true}}
+    {path: 'phone-numbers', component: BlankComponent, data: {title: 'Phone numbers', indexed: true}},
+    {path: 'address-book', component: BlankComponent, data: {title: 'Address book', indexed: true}},
+    {path: 'call-rules', component: BlankComponent, data: {title: 'Call rules', indexed: true}},
+    {path: 'call-queues', component: BlankComponent, data: {title: 'Call queues', indexed: true}},
+    {path: 'ring-groups', component: BlankComponent, data: {title: 'Ring groups', indexed: true}},
+    {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
+    {path: 'company', component: BlankComponent, data: {title: 'Company', indexed: true}},
+    {path: 'departments', component: BlankComponent, data: {title: 'Departments', indexed: true}},
+    {path: 'extensions', component: BlankComponent, data: {title: 'Employees', indexed: true}},
+    {path: 'details-and-records', component: BlankComponent, data: {title: 'Details and records', indexed: true}},
+    {path: 'invoices', component: BlankComponent, data: {title: 'Invoices', indexed: true}},
+    {path: 'storage', component: BlankComponent, data: {title: 'Storage', indexed: true}},
+    {path: 'settings', component: BlankComponent, data: {title: 'Settings', indexed: true}},
+    {path: 'refill', component: BlankComponent, data: {title: 'Balance refill', indexed: true}},
+    {path: 'tariff', component: BlankComponent, data: {title: 'Tariff plan', indexed: true}}
   ]},
   {path: '**', component: PageNotFoundComponent, data: {title: 'Page not found', indexed: false}}
 ];

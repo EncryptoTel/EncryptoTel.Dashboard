@@ -6,7 +6,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
   selector: 'pbx-select',
   templateUrl: './template.html',
   styleUrls: ['./local.sass'],
-  animations: [SwipeAnimation('y', '.2s')]
+  animations: [SwipeAnimation('y', '200ms')]
 })
 
 export class SelectComponent {

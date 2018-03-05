@@ -16,7 +16,7 @@ import {ListServices} from '../services/list.services';
 @Component({
   selector: 'main-view',
   templateUrl: './main-view.template.html',
-  animations: [FadeAnimation('.3s')]
+  animations: [FadeAnimation('300ms')]
 })
 
 export class MainViewComponent implements OnInit, OnDestroy {

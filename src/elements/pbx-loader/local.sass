@@ -2,7 +2,6 @@
 // Global variables import
 
 .loader_wrap
-  display: flex
   flex-direction: row
   flex: 1 0 auto
   justify-content: center
@@ -10,16 +9,15 @@
   height: 100%
   z-index: 1
   span.loader
-    display: flex
     width: 2px
     border-radius: 1px
-    animation: loader_animation ease-out infinite .7s
+    animation: loader_animation ease-out infinite 700ms
     &:not(:first-child)
       margin-left: 8px
 
 @for $i from 1 through 7
   .loader_wrap > span.loader:nth-child(#{$i})
-    animation-delay: ($i / 10 + s)
+    animation-delay: ($i * 100 + ms)
 
 // Themes styles
 \:host-context(.dark_theme)
