@@ -13,7 +13,8 @@
           </p>
         </div>
         <button class="tariff_item__button"
-                [ngClass]="{'current_tariff':tariff.id===currentTariff}">
+                [ngClass]="{'current_tariff':tariff.id===currentTariff}"
+        (click)="chooseTariff(tariff.id)">
           {{tariff.title === 'Basic' ? 'SIGN UP NOW' : 'Buy Now'}}
         </button>
         <div class="tariff_item__free">

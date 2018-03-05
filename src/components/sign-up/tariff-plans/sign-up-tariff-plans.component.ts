@@ -1,20 +1,17 @@
 import {Component} from '@angular/core';
 import {DBTariffPlanServices} from '../../../services/db.tariff-plan.services';
+import {AuthorizationServices} from '../../../services/authorization.services';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'pbx-sign-up-tariff-plans',
   templateUrl: './template.html',
-  styleUrls: ['./local.sass'],
-  providers: [DBTariffPlanServices]
+  styleUrls: ['./local.sass']
 })
 
 export class SignUpTariffPlansComponent {
-  constructor(private _service: DBTariffPlanServices) {
-    this._service.fetchTariffPlanDetails().then(res => {
-      console.log(res);
-    }).catch(err => {
-      console.error(err);
-    });
+  constructor(public _services: AuthorizationServices,
+              private router: Router) {
   }
 
   tariffs = [
@@ -65,5 +62,11 @@ export class SignUpTariffPlansComponent {
       ]
     }
   ];
-  currentTariff = 1;
+  currentTariff = this._services.tariffId;
+
+  chooseTariff(id: number): void {
+    this._services.tariffId = id;
+    this.currentTariff = id;
+    this.router.navigate(['sign-up']);
+  }
 }

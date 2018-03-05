@@ -68,25 +68,30 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     if (this._user.fetchUser()) {
       this._router.navigateByUrl('/cabinet');
     }
-    this.signUpForm = new FormGroup({
-      'name': new FormControl(null, [
-        Validators.pattern(_vars.nameRegExp)
-      ]),
-      'surname': new FormControl(null, [
-        Validators.pattern(_vars.nameRegExp)
-      ]),
-      'email': new FormControl(null, [
-        Validators.required,
-        Validators.pattern(_vars.emailRegExp)
-      ]),
-      'password': new FormControl(null, [
-        Validators.required,
-        Validators.minLength(6)
-      ]),
-      'password_confirmation': new FormControl(),
-    }, passwordConfirmation);
+    if (this._services.signUpData) {
+      this.signUpForm = this._services.signUpData;
+    } else {
+      this.signUpForm = new FormGroup({
+        'name': new FormControl(null, [
+          Validators.pattern(_vars.nameRegExp)
+        ]),
+        'surname': new FormControl(null, [
+          Validators.pattern(_vars.nameRegExp)
+        ]),
+        'email': new FormControl(null, [
+          Validators.required,
+          Validators.pattern(_vars.emailRegExp)
+        ]),
+        'password': new FormControl(null, [
+          Validators.required,
+          Validators.minLength(6)
+        ]),
+        'password_confirmation': new FormControl(),
+      }, passwordConfirmation);
+    }
   }
   ngOnDestroy(): void {
+    this._services.signUpData = this.signUpForm;
     this._services.clearError();
     this.errorsSubscription.unsubscribe();
   }

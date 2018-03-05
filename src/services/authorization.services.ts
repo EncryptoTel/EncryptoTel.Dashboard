@@ -11,6 +11,7 @@ import {SignInFormModel} from '../models/form-sign-in.model';
 import {SignUpFormModel} from '../models/form-sign-up.model';
 import {Observable} from 'rxjs/Observable';
 import {PasswordChangingFormModel} from '../models/form-password-changing.model';
+import {FormGroup} from '@angular/forms';
 
 @Injectable()
 export class AuthorizationServices {
@@ -21,6 +22,8 @@ export class AuthorizationServices {
               private logger: LoggerServices) {}
   error: string;
   subscription: Subject<string> = new Subject();
+  tariffId = 1;
+  signUpData: FormGroup;
   /*
     Service error reset to initial params
    */
@@ -81,7 +84,7 @@ export class AuthorizationServices {
    */
   signUp(data: SignUpFormModel) {
     return this._req.post('register', {
-      ...data
+      ...data, tariff: this.tariffId
     }).then(result => {
       this.router.navigateByUrl('/');
     }).catch(result => {
