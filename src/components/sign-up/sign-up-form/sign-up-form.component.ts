@@ -56,7 +56,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
   signUp(ev?: Event): void {
     if (ev) { ev.preventDefault(); }
     this.loading = true;
-    this._services.signUp(this.signUpForm.value).then(() => {
+    this._services.signUp({...this.signUpForm.value, tariff_id: this._services.tariffId}).then(() => {
       this.loading = false;
     }).catch(() => this.loading = false);
   }
