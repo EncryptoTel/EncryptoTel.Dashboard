@@ -73,11 +73,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this._router.navigateByUrl('/cabinet');
     }
     this.signUpForm = new FormGroup({
-      'name': new FormControl(null, [
+      'username': new FormControl(null, [
         Validators.required,
         Validators.pattern(_vars.nameRegExp)
       ]),
-      'surname': new FormControl(null, [
+      'lastname': new FormControl(null, [
         Validators.pattern(_vars.nameRegExp)
       ]),
       'email': new FormControl(null, [

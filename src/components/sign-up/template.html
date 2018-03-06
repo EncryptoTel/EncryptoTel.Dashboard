@@ -3,17 +3,17 @@
   <form (submit)="signUp($event)" [formGroup]="signUpForm" [@Fade]>
     <div class="auth_form_error" *ngIf="error" [@Fade] (click)="_services.clearError()">{{error}}</div>
     <div class="input_wrap">
-      <input name="Name" placeholder="Name" formControlName="name">
-      <div class="input_error" *ngIf="inputValidation('name')" [@Fade]>
-        <span class="input_error_item" *ngIf="inputValidation('name', 'required')">Please enter your name</span>
-        <span class="input_error_item" *ngIf="inputValidation('name', 'pattern')">Name should contain only letters and "-" or "."</span>
+      <input name="Name" placeholder="Name" formControlName="username">
+      <div class="input_error" *ngIf="inputValidation('username')" [@Fade]>
+        <span class="input_error_item" *ngIf="inputValidation('username', 'required')">Please enter your name</span>
+        <span class="input_error_item" *ngIf="inputValidation('username', 'pattern')">Name should contain only letters and "-" or "."</span>
       </div>
     </div>
     <div class="input_wrap">
-      <input name="Surname" placeholder="Surname" formControlName="surname">
-      <div class="input_error" *ngIf="inputValidation('surname')" [@Fade]>
-        <span class="input_error_item" *ngIf="inputValidation('surname', 'required')">Please enter your surname</span>
-        <span class="input_error_item" *ngIf="inputValidation('surname', 'pattern')">Surname should contain only letters and "-" or "."</span>
+      <input name="Surname" placeholder="Surname" formControlName="lastname">
+      <div class="input_error" *ngIf="inputValidation('lastname')" [@Fade]>
+        <span class="input_error_item" *ngIf="inputValidation('lastname', 'required')">Please enter your surname</span>
+        <span class="input_error_item" *ngIf="inputValidation('lastname', 'pattern')">Surname should contain only letters and "-" or "."</span>
       </div>
     </div>
     <div class="input_wrap">
