@@ -19,11 +19,14 @@
     position: relative
     & > .table_row_icon
       cursor: pointer
+    &:hover .table_row_icon
+      opacity: 1
     &_icon
       width: 12px
       height: 12px
       cursor: pointer
       pointer-events: initial
+      opacity: 0
       & *, /deep/ *
         cursor: pointer
       &.edit

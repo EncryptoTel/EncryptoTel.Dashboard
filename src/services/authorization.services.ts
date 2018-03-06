@@ -48,7 +48,7 @@ export class AuthorizationServices {
   signIn(data: SignInFormModel) {
     return this._req.post('login', {
       ...data
-    }).then(result => {
+    }, true).then(result => {
       if (result && !result.auth) {
         this._services.saveUserData({secrets: result});
         this._messages.writeSuccess('Successfully logged in!');
@@ -80,9 +80,9 @@ export class AuthorizationServices {
     Data - sign up form values
    */
   signUp(data: SignUpFormModel) {
-    return this._req.post('register', {
+    return this._req.post('registration', {
       ...data
-    }).then(result => {
+    }, true).then(result => {
       this.router.navigateByUrl('/');
     }).catch(result => {
       this.writeError(result.errors.email[0]);
