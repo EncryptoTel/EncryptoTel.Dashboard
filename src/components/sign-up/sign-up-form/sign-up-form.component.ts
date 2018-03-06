@@ -56,7 +56,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
   signUp(ev?: Event): void {
     if (ev) { ev.preventDefault(); }
     this.loading = true;
-    this._services.signUp(this.signUpForm.value, this._services.tariffId).then(() => {
+    this._services.signUp(this.signUpForm.value).then(() => {
       this.loading = false;
     }).catch(() => this.loading = false);
   }
@@ -86,6 +86,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(6)
         ]),
+        'tariff': new FormControl(1),
         'password_confirmation': new FormControl(),
       }, passwordConfirmation);
     }

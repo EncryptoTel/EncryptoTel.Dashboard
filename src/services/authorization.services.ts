@@ -22,7 +22,6 @@ export class AuthorizationServices {
               private logger: LoggerServices) {}
   error: string;
   subscription: Subject<string> = new Subject();
-  tariffId = 1;
   signUpData: FormGroup;
   /*
     Service error reset to initial params
@@ -82,9 +81,9 @@ export class AuthorizationServices {
     Sign-up form submit. Accepted params:
     Data - sign up form values
    */
-  signUp(data: SignUpFormModel, tariffId: number) {
+  signUp(data: SignUpFormModel) {
     return this._req.post('register', {
-      ...data, tariff: tariffId
+      ...data
     }).then(result => {
       this.router.navigateByUrl('/');
     }).catch(result => {

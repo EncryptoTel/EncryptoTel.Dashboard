@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {DBTariffPlanServices} from '../../../services/db.tariff-plan.services';
 import {AuthorizationServices} from '../../../services/authorization.services';
 import {Router} from '@angular/router';
 
@@ -62,10 +61,11 @@ export class SignUpTariffPlansComponent {
       ]
     }
   ];
-  currentTariff = this._services.tariffId;
+
+  currentTariff = this._services.signUpData.controls.tariff.value;
 
   chooseTariff(id: number): void {
-    this._services.tariffId = id;
+    this._services.signUpData.controls.tariff.setValue(id);
     this.currentTariff = id;
     this.router.navigate(['sign-up']);
   }
