@@ -1,5 +1,6 @@
 export const environment = {
-  title: 'production',
-  production: true,
-  back: 'http://placeholder.encry.ru/json'
+  title: 'development',
+  production: false,
+  back: 'http://pbx-back-dev.encry.ru/api',
+  ph: 'http://placeholder.encry.ru/json'
 };

@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {DBTariffPlanServices} from '../../../services/db.tariff-plan.services';
 import {AuthorizationServices} from '../../../services/authorization.services';
 import {Router} from '@angular/router';
 
