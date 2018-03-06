@@ -19,6 +19,6 @@ export class AuthGuardServices implements CanActivate {
     //   return false;
     // }
     // return !!this._services.fetchUser();
-    return false;
+    return true;
   }
 }
