@@ -21,9 +21,9 @@ import {BlankComponent} from '../components/blank/blank.component';
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
   {path: 'sign-in', component: SignInComponent, data: {title: 'Sign in', indexed: true}},
-  {path: 'sign-up', component: SignUpComponent, data: {title: 'Sign up', indexed: true}, children: [
-      {path: '', component: SignUpFormComponent, data: {title: 'Sign up form', indexed: true}},
-      {path: 'tariff_plans', component: SignUpTariffPlansComponent, data: {title: 'Sign up tariff plans', indexed: true}}
+  {path: 'sign-up', component: SignUpComponent, children: [
+      {path: '', component: SignUpFormComponent, data: {title: 'Sign up', indexed: true}},
+      {path: 'tariff_plans', component: SignUpTariffPlansComponent, data: {title: 'Select tariff plans', indexed: false}}
       ]},
   {path: 'recovery', component: PasswordRecoveryComponent, data: {title: 'Password recovery', indexed: true}},
   {path: 'email-confirmation/:hash', component: EmailConfirmComponent, data: {title: 'Email confirmation', indexed: false}},
@@ -46,7 +46,7 @@ const Routes: Routes = [
     {path: 'storage', component: BlankComponent, data: {title: 'Storage', indexed: true}},
     {path: 'settings', component: BlankComponent, data: {title: 'Settings', indexed: true}},
     {path: 'refill', component: BlankComponent, data: {title: 'Balance refill', indexed: true}},
-    {path: 'tariff', component: BlankComponent, data: {title: 'Tariff plan', indexed: true}}
+    {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff plan', indexed: true}}
   ]},
   {path: '**', component: PageNotFoundComponent, data: {title: 'Page not found', indexed: false}}
 ];

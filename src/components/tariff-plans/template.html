@@ -5,10 +5,12 @@
       <ul class="tariff_item__description-list">
         <li class="tariff_item__description-list__item" *ngFor="let service of tariff.services">{{service.title}}</li>
       </ul>
-      <p class="tariff_item__description-price">${{tariff.price}} monthly</p>
+      <p class="tariff_item__description-price">{{tariff.title === 'Basic'? '':'$ ' + tariff.price + '/monthly'}}</p>
     </div>
     <button class="tariff_item__button"
-            [ngClass]="{'current_tariff':tariff.id===currentTariff}">{{tariff.title === 'Basic' ? 'Free' : 'Buy Now'}}
+            [ngClass]="{'current_tariff__button':tariff.id===currentTariff}"
+            (click)="chooseTariff(tariff.id)">
+      {{ tariff.id === currentTariff? 'Subscribed': tariff.title==='Basic'?'Free': 'Buy Now'}}
     </button>
   </div>
 </div>

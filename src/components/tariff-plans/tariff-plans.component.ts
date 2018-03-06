@@ -66,4 +66,8 @@ export class TariffPlansComponent {
     }
   ];
   currentTariff = 2;
+
+  chooseTariff(id: number): void {
+    this.currentTariff = id;
+  }
 }
