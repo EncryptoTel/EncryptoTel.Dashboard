@@ -13,12 +13,18 @@ import {CodeConfirmComponent} from '../components/confirmation/code-confirm.comp
 import {PasswordRecoveryComponent} from '../components/password-recovery/password-recovery.component';
 import {PasswordChangeComponent} from '../components/confirmation/password-change.component';
 import {DashboardComponent} from '../components/dashboard/dashboard.component';
+import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.component';
+import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sign-up-tariff-plans.component';
+import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-form.component';
 import {BlankComponent} from '../components/blank/blank.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
   {path: 'sign-in', component: SignInComponent, data: {title: 'Sign in', indexed: true}},
-  {path: 'sign-up', component: SignUpComponent, data: {title: 'Sign up', indexed: true}},
+  {path: 'sign-up', component: SignUpComponent, children: [
+      {path: '', component: SignUpFormComponent, data: {title: 'Sign up', indexed: true}},
+      {path: 'tariff_plans', component: SignUpTariffPlansComponent, data: {title: 'Select tariff plans', indexed: false}}
+      ]},
   {path: 'recovery', component: PasswordRecoveryComponent, data: {title: 'Password recovery', indexed: true}},
   {path: 'email-confirmation/:hash', component: EmailConfirmComponent, data: {title: 'Email confirmation', indexed: false}},
   {path: 'code-confirmation/:hash', component: CodeConfirmComponent, data: {title: 'Code confirmation', indexed: false}},
@@ -40,7 +46,7 @@ const Routes: Routes = [
     {path: 'storage', component: BlankComponent, data: {title: 'Storage', indexed: true}},
     {path: 'settings', component: BlankComponent, data: {title: 'Settings', indexed: true}},
     {path: 'refill', component: BlankComponent, data: {title: 'Balance refill', indexed: true}},
-    {path: 'tariff', component: BlankComponent, data: {title: 'Tariff plan', indexed: true}}
+    {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff plan', indexed: true}}
   ]},
   {path: '**', component: PageNotFoundComponent, data: {title: 'Page not found', indexed: false}}
 ];
