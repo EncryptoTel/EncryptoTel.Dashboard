@@ -82,9 +82,9 @@ export class AuthorizationServices {
     Sign-up form submit. Accepted params:
     Data - sign up form values
    */
-  signUp(data: SignUpFormModel) {
+  signUp(data: SignUpFormModel, tariffId: number) {
     return this._req.post('register', {
-      ...data, tariff: this.tariffId
+      ...data, tariff: tariffId
     }).then(result => {
       this.router.navigateByUrl('/');
     }).catch(result => {
