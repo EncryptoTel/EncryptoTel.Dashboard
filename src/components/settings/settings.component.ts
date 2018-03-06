@@ -8,5 +8,9 @@ import {Component} from '@angular/core';
 })
 
 export class SettingsComponent {
+  currentTheme = 'black';
 
+  changeTheme(theme: string): void {
+    this.currentTheme = theme;
+  }
 }
