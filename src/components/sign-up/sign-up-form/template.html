@@ -1,7 +1,6 @@
 <div class="auth_form">
-  <a class="auth_form_icon_wrap" [@Fade] routerLink="../sign-in">
+  <a class="auth_form_icon_wrap auth_form_icon" [@Fade] routerLink="../sign-in">
     <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
-    <div class="auth_form_icon_title">EncryptoTel</div>
   </a>
   <form (submit)="signUp($event)" [formGroup]="signUpForm" [@Fade]>
     <div class="auth_form_error" *ngIf="error" [@Fade] (click)="_services.clearError()">{{error}}</div>
