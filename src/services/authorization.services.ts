@@ -22,7 +22,6 @@ export class AuthorizationServices {
               private logger: LoggerServices) {}
   error: string;
   subscription: Subject<string> = new Subject();
-  tariffId = 1;
   signUpData: FormGroup;
   /*
     Service error reset to initial params

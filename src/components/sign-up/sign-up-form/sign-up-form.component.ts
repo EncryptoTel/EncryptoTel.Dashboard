@@ -86,6 +86,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(6)
         ]),
+        'tariff': new FormControl(1),
         'password_confirmation': new FormControl(),
       }, passwordConfirmation);
     }
