@@ -8,6 +8,7 @@ import {UserServices} from '../../../services/user.services';
 
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {passwordConfirmation} from '../../../shared/password-confirmation';
+import {validateForm} from '../../../shared/shared.functions';
 import * as _vars from '../../../shared/vars';
 
 @Component({
@@ -55,10 +56,13 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
    */
   signUp(ev?: Event): void {
     if (ev) { ev.preventDefault(); }
-    this.loading = true;
-    this._services.signUp({...this.signUpForm.value, tariff_id: this._services.tariffId}).then(() => {
-      this.loading = false;
-    }).catch(() => this.loading = false);
+    validateForm(this.signUpForm);
+    if (this.signUpForm.valid) {
+      this.loading = true;
+      this._services.signUp(this.signUpForm.value).then(() => {
+        this.loading = false;
+      }).catch(() => this.loading = false);
+    }
   }
   ngOnInit(): void {
     this._services.clearError();
@@ -73,6 +77,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     } else {
       this.signUpForm = new FormGroup({
         'name': new FormControl(null, [
+          Validators.required,
           Validators.pattern(_vars.nameRegExp)
         ]),
         'surname': new FormControl(null, [
