@@ -21,6 +21,7 @@ import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sig
 import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-form.component';
 import {BlankComponent} from '../components/blank/blank.component';
 import {SettingsComponent} from '../components/settings/settings.component';
+import {InvoicesComponent} from '../components/invoices/invoices.component';
 
 /*
   Components declarations and exports
@@ -49,7 +50,8 @@ import {SettingsComponent} from '../components/settings/settings.component';
     SignUpFormComponent,
     DashboardComponent,
     BlankComponent,
-    SettingsComponent
+    SettingsComponent,
+    InvoicesComponent
   ],
   exports: [
     PageNotFoundComponent,

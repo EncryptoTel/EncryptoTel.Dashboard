@@ -1,0 +1,56 @@
+<div class="invoices-container">
+  <div class="invoices-wrapper">
+    <div class="invoices-row date-range-row">
+      <div class="date-range-col">
+        01/01/2017 - 30/06/2017
+      </div>
+    </div>
+    <div class="invoices-row header">
+      <div class="invoices-col">Invoice Number</div>
+      <div class="invoices-col">Invoice Type</div>
+      <div class="invoices-col">Transaction Date
+        <svg-icon src="../../assets/icons/sorting_down_16px.svg" class="sort-icon"></svg-icon>
+      </div>
+      <div class="invoices-col">Status</div>
+      <div class="invoices-col">Amount (excl. VAT)</div>
+      <div class="invoices-col">Amount</div>
+      <div class="invoices-col">Transaction ID</div>
+      <div class="invoices-col"></div>
+      <div class="invoices-col"></div>
+      <div class="invoices-col"></div>
+    </div>
+    <div class="invoices-row" *ngFor="let invoice of invoices">
+      <div class="invoices-col">{{invoice.number}}</div>
+      <div class="invoices-col">{{invoice.type}}</div>
+      <div class="invoices-col">{{invoice.date}}</div>
+      <div class="invoices-col">{{invoice.status}}</div>
+      <div class="invoices-col">{{invoice.amount_vat}}</div>
+      <div class="invoices-col">{{invoice.amount}}</div>
+      <div class="invoices-col transaction">{{invoice.transaction}}</div>
+      <div class="invoices-col button-col">
+        <button class="pdf-button">PDF</button>
+      </div>
+      <div class="invoices-col button-col">
+        <button class="pay-button">
+          PAY
+        </button>
+      </div>
+      <div class="invoices-col search-col">
+        <svg-icon src="../../assets/icons/magnifier.svg" class="search-icon"></svg-icon>
+      </div>
+    </div>
+    <div class="invoices-row pagination">
+      <div class="invoices-col pagination-control-wrapper">
+        <button class="pagination-control"><<</button>
+        <button class="pagination-control">Prev</button>
+      </div>
+      <div class="invoices-col">
+        <div>1 of 3</div>
+      </div>
+      <div class="invoices-col pagination-control-wrapper">
+        <button class="pagination-control">Next</button>
+        <button class="pagination-control">>></button>
+      </div>
+    </div>
+  </div>
+</div>

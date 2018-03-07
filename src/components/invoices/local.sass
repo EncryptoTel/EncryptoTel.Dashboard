@@ -1,0 +1,107 @@
+@import "../../vars"
+// Global variables import
+.invoices
+  &-container
+    display: flex
+    flex-flow: column
+    width: 100%
+    height: 100%
+  &-wrapper
+    display: flex
+    flex-flow: column
+    justify-content: stretch
+    align-items: center
+    height: 100%
+    width: 100%
+  &-row
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+    height: 7%
+    width: 100%
+    border-bottom: 1px solid $dark_overlay
+    padding-left: 20px
+    &:hover
+      background: $dark_overlay
+  &-col
+    width: 10%
+    display: flex
+    flex-flow: row
+    justify-content: flex-start
+    align-items: center
+    .pay-button
+      background: $dark_accent
+      width: 90%
+      height: 90%
+      border-radius: 2px
+      justify-content: center
+      align-items: center
+    .pdf-button
+      background: $dark_success
+      width: 90%
+      height: 90%
+      border-radius: 2px
+      justify-content: center
+      align-items: center
+
+.date-range
+  &-row
+    justify-content: flex-end
+    height: 7%
+    border-bottom: unset
+    &:hover
+      background: unset
+  &-col
+    background: $dark_overlay
+    width: 15%
+    font-size: rem(18)
+    flex-flow: column
+    justify-content: center
+    align-items: center
+
+.pagination
+  border-bottom: unset
+  justify-content: space-between
+  width: 25%
+  padding-left: 0
+  &:hover
+    background: unset
+  &-control
+    display: flex
+    flex-flow: column
+    justify-content: center
+    align-items: center
+    background: $dark_overlay
+    height: 90%
+    width: 45%
+    cursor: pointer
+    &-wrapper
+      justify-content: space-between
+      width: 35%
+
+.sort-icon
+  cursor: pointer
+  width: 15px
+  margin-left: 10px
+  height: auto
+  fill: $dark_accent
+
+.transaction
+  color: $dark_accent
+
+.search-icon
+  cursor: pointer
+  width: 20px
+  height: auto
+  fill: $dark_primary
+
+.header:hover
+  background: unset
+
+.button-col
+  width: 5%
+  justify-content: center
+  align-items: center
+
+.search-col
+  width: 3%
