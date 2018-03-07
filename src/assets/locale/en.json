@@ -15,5 +15,13 @@
       "sign_in": "sign in",
       "sign_up": "sign up"
     }
-  }
+  },
+  "photo_array": ["no photos", "one photo", "{{amount}} photos"],
+  "photo_by_amount": {
+    "none": "no photos",
+    "single": "one photo",
+    "multiple": "{{amount}} photos"
+  },
+  "photos": "%d photos",
+  "photos_split": "no photos|one photo|{{amount}} photos"
 }
