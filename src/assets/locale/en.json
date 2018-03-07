@@ -1,3 +1,19 @@
 {
-
+  "authorization": {
+    "name": "name",
+    "surname": "surname",
+    "email": "e-mail",
+    "password": "password",
+    "confirm_password": "confirm password",
+    "account_exist": "already have an {{type}} account?",
+    "account_not_exist": "don't have an {{type}} account?",
+    "to_create": "create one now",
+    "to_login": "sign in now",
+    "forgot_password": "forgot your password?",
+    "buttons": {
+      "recovery": "request recovery link",
+      "sign_in": "sign in",
+      "sign_up": "sign up"
+    }
+  }
 }
