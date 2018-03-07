@@ -1,0 +1,85 @@
+<div class="settings_container">
+  <div class="settings_wrapper settings_profile">
+    <h5 class="settings__title">Profile settings</h5>
+    <div class="settings_items_wrapper">
+      <div class="settings__item item_profile">
+        <div class="settings__item__content">
+          <svg-icon src="../../assets/icons/profile_48px.svg" class="settings__icons"></svg-icon>
+          <p>profile</p>
+        </div>
+      </div>
+      <div class="settings__item item_profile">
+        <div class="settings__item__content">
+          <svg-icon src="../../assets/icons/notifications.svg" class="settings__icons"></svg-icon>
+          <p>notifications</p>
+        </div>
+      </div>
+      <div class="settings__item item_profile">
+        <div class="theme_item white" (click)="changeTheme('white')">
+          <div class="settings__item__content content_theme">
+            <svg-icon src="../../assets/icons/ok_32px.svg" class="settings__icons theme_icon"
+                      *ngIf="currentTheme==='white'"></svg-icon>
+            <span>white</span>
+            <p>theme</p>
+          </div>
+        </div>
+        <div class="theme_item black" (click)="changeTheme('black')">
+          <div class="settings__item__content content_theme">
+            <svg-icon src="../../assets/icons/ok_32px.svg" class="settings__icons theme_icon"
+                      *ngIf="currentTheme==='black'"></svg-icon>
+            <span>black</span>
+            <p>theme</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="settings_wrapper settings_system">
+    <h5 class="settings__title">System settings</h5>
+    <div class="settings_items_wrapper">
+      <div class="settings__item">
+        <div class="settings__item__content">
+          <p>Active sessions</p>
+        </div>
+      </div>
+      <div class="settings__item">
+        <div class="settings__item__content">
+          <p>two-factor authentication</p>
+        </div>
+      </div>
+      <div class="settings__item">
+        <div class="settings__item__content">
+          <p>allowed country codes</p>
+        </div>
+      </div>
+      <div class="settings__item">
+        <div class="settings__item__content">
+          <svg-icon src="../../assets/icons/billing_48px.svg" class="settings__icons"></svg-icon>
+          <p>billing</p>
+        </div>
+      </div>
+      <div class="settings__item">
+        <div class="settings__item__content">
+          <svg-icon src="../../assets/icons/backup_48px.svg" class="settings__icons"></svg-icon>
+          <p>backup</p>
+        </div>
+      </div>
+      <div class="settings__item">
+        <div class="settings__item__content">
+          <svg-icon src="../../assets/icons/notifications.svg" class="settings__icons"></svg-icon>
+          <p>notifications</p>
+        </div>
+      </div>
+      <div class="settings__item">
+        <div class="settings__item__content">
+          <p>crm integration</p>
+        </div>
+      </div>
+      <div class="settings__item">
+        <div class="settings__item__content">
+          <p>api integration</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
