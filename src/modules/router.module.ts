@@ -18,6 +18,7 @@ import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sig
 import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-form.component';
 import {BlankComponent} from '../components/blank/blank.component';
 import {SettingsComponent} from '../components/settings/settings.component';
+import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -42,7 +43,7 @@ const Routes: Routes = [
     {path: 'company', component: BlankComponent, data: {title: 'Company', indexed: true}},
     {path: 'departments', component: BlankComponent, data: {title: 'Departments', indexed: true}},
     {path: 'extensions', component: BlankComponent, data: {title: 'Employees', indexed: true}},
-    {path: 'details-and-records', component: BlankComponent, data: {title: 'Details and records', indexed: true}},
+    {path: 'details-and-records', component: DetailsAndRecordsComponent, data: {title: 'Details and records', indexed: true}},
     {path: 'invoices', component: BlankComponent, data: {title: 'Invoices', indexed: true}},
     {path: 'storage', component: BlankComponent, data: {title: 'Storage', indexed: true}},
     {path: 'settings', component: SettingsComponent, data: {title: 'Settings', indexed: true}},
