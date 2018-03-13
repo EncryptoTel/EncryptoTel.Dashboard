@@ -29,20 +29,17 @@
     flex-flow: row
     justify-content: flex-start
     align-items: center
-    .pay-button
+    font-size: rem(17)
+    .pay-button,.pdf-button
       background: $dark_accent
       width: 90%
       height: 90%
       border-radius: 2px
       justify-content: center
       align-items: center
+      cursor: pointer
     .pdf-button
       background: $dark_success
-      width: 90%
-      height: 90%
-      border-radius: 2px
-      justify-content: center
-      align-items: center
 
 .date-range
   &-row
@@ -62,7 +59,9 @@
 .pagination
   border-bottom: unset
   justify-content: space-between
+  align-items: flex-end
   width: 25%
+  height: 10%
   padding-left: 0
   &:hover
     background: unset
@@ -73,11 +72,20 @@
     align-items: center
     background: $dark_overlay
     height: 90%
-    width: 45%
+    width: 55%
     cursor: pointer
+    border-radius: 2px
     &-wrapper
       justify-content: space-between
       width: 35%
+      height: 85%
+  &-next
+    background: $dark_pagination
+  &-arrows
+    width: 35%
+  &-page-number
+    height: 85%
+    width: unset
 
 .sort-icon
   cursor: pointer
@@ -105,3 +113,8 @@
 
 .search-col
   width: 3%
+  cursor: pointer
+.sort
+  cursor: pointer
+.waiting-payment
+  color: $dark_error

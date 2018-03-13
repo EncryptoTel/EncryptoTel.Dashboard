@@ -8,6 +8,10 @@ import {Component} from '@angular/core';
 })
 
 export class InvoicesComponent {
+  constructor() {
+    this.markForWaitingPayment();
+  }
+
   invoices = [
     {
       number: 'TC00001729',
@@ -20,9 +24,9 @@ export class InvoicesComponent {
     },
     {
       number: 'TC00001729',
-      type: 'bill',
+      type: 'refill balance',
       date: '01/07/2017 14:47:25',
-      status: 'paid',
+      status: 'waiting payment',
       amount_vat: '68.00',
       amount: '68.00',
       transaction: 're4dqweqweqsk8m'
@@ -31,9 +35,9 @@ export class InvoicesComponent {
       number: 'TC00001729',
       type: 'bill',
       date: '01/07/2017 14:47:25',
-      status: 'paid',
+      status: 'canceled',
       amount_vat: '68.00',
-      amount: '68.00',
+      amount: '150.00',
       transaction: 're4dqweqweqsk8m'
     },
     {
@@ -136,4 +140,23 @@ export class InvoicesComponent {
       transaction: 're4dqweqweqsk8m'
     }
   ];
+  sorting = 'down';
+  showPagination = true;
+  waitingPayment: boolean[] = [];
+
+  sort() {
+    this.sorting = this.sorting === 'up' ? 'down' : 'up';
+  }
+
+  getPDF() {
+  }
+
+  getPay() {
+  }
+
+  markForWaitingPayment() {
+    this.invoices.map(el => {
+      el.status === 'waiting payment' ? this.waitingPayment.push(true) : this.waitingPayment.push(false);
+    });
+  }
 }
