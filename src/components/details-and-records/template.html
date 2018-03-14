@@ -41,7 +41,12 @@
         <div class="details-table-cols">{{detail.to}}</div>
         <div class="details-table-cols">{{detail.start_time}}</div>
         <div class="details-table-cols">{{detail.duration}}</div>
-        <div class="details-table-cols">{{detail.tag}}</div>
+        <div class="details-table-cols">
+          <button
+            class="{{detail.tag}} details-button tag-button">
+            {{detail.tag}}
+          </button>
+        </div>
         <div class="details-table-cols">${{detail.price}}</div>
         <div class="details-table-cols">{{detail.record}}</div>
       </div>

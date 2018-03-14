@@ -141,7 +141,19 @@ export class DetailsAndRecordsComponent {
   inactiveFilters: string[] = ['record', 'voicemail'];
 
   toggleFilter(filter) {
-    console.log(filter);
+    const activeIndex = this.activeFilters.findIndex(el => {
+      return el === filter;
+    });
+    const inactiveIndex = this.inactiveFilters.findIndex(el => {
+      return el === filter;
+    });
+    if (activeIndex >= 0) {
+      this.inactiveFilters.unshift(this.activeFilters[activeIndex]);
+      this.activeFilters.splice(activeIndex, 1);
+    } else if (inactiveIndex >= 0) {
+      this.activeFilters.push(this.inactiveFilters[inactiveIndex]);
+      this.inactiveFilters.splice(inactiveIndex, 1);
+    }
   }
 
   sort() {
