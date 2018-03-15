@@ -36,8 +36,8 @@
         <div class="details-table-cols">Price</div>
         <div class="details-table-cols">Record</div>
       </div>
-      <div class="details-table-row" *ngFor="let detail of details">
-        <div class="details-table-cols">{{detail.from}}</div>
+      <div class="details-table-row" *ngFor="let detail of details" [ngClass]="{'hide': setFilters(detail.tag)}">
+        <div class="details-table-cols" [ngClass]="{'payment-col': detail.tag === 'payment'}">{{detail.from}}</div>
         <div class="details-table-cols">{{detail.to}}</div>
         <div class="details-table-cols">{{detail.start_time}}</div>
         <div class="details-table-cols">{{detail.duration}}</div>
@@ -47,7 +47,7 @@
             {{detail.tag}}
           </button>
         </div>
-        <div class="details-table-cols">${{detail.price}}</div>
+        <div class="details-table-cols" [ngClass]="{'payment-col': detail.tag === 'payment'}">${{detail.price}}</div>
         <div class="details-table-cols">{{detail.record}}</div>
       </div>
     </div>
@@ -55,11 +55,11 @@
       <div class="details-pagination">
         <div class="details-pagination-controls">
           <button>&#171;</button>
-          <button>Prev</button>
+          <button class="prev-next">Prev</button>
         </div>
         <div class="details-pagination-pages">01 of 50</div>
         <div class="details-pagination-controls">
-          <button>Next</button>
+          <button class="prev-next">Next</button>
           <button>&#187;</button>
         </div>
       </div>

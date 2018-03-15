@@ -28,12 +28,12 @@ export class DetailsAndRecordsComponent {
       record: ''
     },
     {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
+      from: 'Month payment',
+      to: null,
+      start_time: null,
+      duration: null,
       tag: 'payment',
-      price: '0',
+      price: '99',
       record: ''
     },
     {
@@ -86,7 +86,7 @@ export class DetailsAndRecordsComponent {
       to: '+1(800)200 01 10 #108',
       start_time: '26/06/2017 14:47:25',
       duration: '00:23:00',
-      tag: 'payment',
+      tag: 'missed',
       price: '0',
       record: ''
     },
@@ -140,7 +140,7 @@ export class DetailsAndRecordsComponent {
   activeFilters: string[] = ['outgoing', 'incoming', 'payment', 'missed'];
   inactiveFilters: string[] = ['record', 'voicemail'];
 
-  toggleFilter(filter) {
+  toggleFilter(filter: string): void {
     const activeIndex = this.activeFilters.findIndex(el => {
       return el === filter;
     });
@@ -156,7 +156,11 @@ export class DetailsAndRecordsComponent {
     }
   }
 
-  sort() {
+  sort(): void {
     this.sorting = this.sorting === 'down' ? 'up' : 'down';
+  }
+
+  setFilters(tag: string): boolean {
+    return this.inactiveFilters.includes(tag);
   }
 }

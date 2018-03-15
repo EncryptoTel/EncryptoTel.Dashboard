@@ -6,6 +6,7 @@
     display: flex
     flex-flow: column
     height: 100%
+    color: $font-color
   &-wrapper
     display: flex
     flex-flow: column
@@ -16,7 +17,7 @@
     display: flex
     flex-flow: row
     justify-content: space-between
-    height: 7%
+    height: 6%
     width: 100%
     background: #2C2B27
     &__filters
@@ -28,7 +29,7 @@
         flex-flow: row
         justify-content: space-around
         align-items: center
-        border-right: 1px solid $dark_primary
+        border-right: 1px solid rgba($dark_primary, .2)
         height: 70%
         &:last-child
           border-right: unset
@@ -38,8 +39,8 @@
       flex-flow: row
       align-items: center
       justify-content: center
-      width: 15%
-      font-size: rem(18)
+      width: 13%
+      font-size: rem(16)
   &-table-wrapper
     display: flex
     flex-flow: column
@@ -49,9 +50,9 @@
     display: flex
     flex-flow: row
     justify-content: space-between
-    height: 7%
+    height: calc(100% / 15)
     width: 100%
-    border-bottom: 1px solid $dark_primary
+    border-bottom: 1px solid rgba($dark_primary, .2)
     padding: 0 25px
   &-table-cols
     width: 14%
@@ -59,13 +60,39 @@
     flex-flow: row
     justify-content: flex-start
     align-items: center
+    &:nth-child(6)
+      width: 8%
+    &:nth-child(7)
+      width: 5%
   &-pagination
+    height: 65%
+    width: 100%
+    display: flex
+    flex-flow: row
+    justify-content: space-between
     &-wrapper
       height: 10%
-      width: 25%
+      width: 20%
+      display: flex
+      flex-flow: row
+      justify-content: center
+      align-items: flex-end
+    &-controls
       display: flex
       flex-flow: row
       justify-content: space-between
+      width: 35%
+      button
+        background: $dark_overlay
+        display: flex
+        flex-flow: row
+        justify-content: center
+        align-items: center
+        border-radius: 2px
+        width: 40%
+        cursor: pointer
+      .prev-next
+        width: 55%
     &-pages
       display: flex
       flex-flow: column
@@ -107,7 +134,7 @@
 
 .inactive-button
   background: transparent
-  border: 1px solid $dark_primary
+  border: 1px solid rgba($dark_primary, .2)
 
 .details-icons
   width: 20px
@@ -117,3 +144,9 @@
 
 .sorting
   cursor: pointer
+
+.hide
+  display: none
+
+.payment-col
+  color: $dark_success
