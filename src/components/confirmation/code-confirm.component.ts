@@ -7,6 +7,7 @@ import {AuthorizationServices} from '../../services/authorization.services';
 
 import {FadeAnimation} from '../../shared/fade-animation';
 import {validateForm} from '../../shared/shared.functions';
+import {FormMessageModel} from '../../models/form-message.model';
 
 @Component({
   selector: 'code-confirm',
@@ -19,7 +20,7 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
               private _services: AuthorizationServices) {}
   loading = false;
   confirmationHash: string;
-  error: string;
+  message: FormMessageModel;
   confirmationCode: FormGroup;
   paramsSubscription: Subscription;
   errorsSubscription: Subscription;
@@ -45,12 +46,12 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit(): void {
-    this._services.clearError();
+    this._services.clearMessage();
     this.paramsSubscription = this._route.params.subscribe(params => {
       this.confirmationHash = params['hash'];
     });
-    this.errorsSubscription = this._services.readError().subscribe(error => {
-      this.error = error;
+    this.errorsSubscription = this._services.readMessage().subscribe(message => {
+      this.message = message;
     });
     this.confirmationCode = new FormGroup({
       'code': new FormControl(null, [
@@ -59,7 +60,7 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    this._services.clearError();
+    this._services.clearMessage();
     this.paramsSubscription.unsubscribe();
     this.errorsSubscription.unsubscribe();
   }

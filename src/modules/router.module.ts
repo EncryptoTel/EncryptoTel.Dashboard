@@ -11,7 +11,7 @@ import {SignUpComponent} from '../components/sign-up/sign-up.component';
 import {EmailConfirmComponent} from '../components/confirmation/email-confirm.component';
 import {CodeConfirmComponent} from '../components/confirmation/code-confirm.component';
 import {PasswordRecoveryComponent} from '../components/password-recovery/password-recovery.component';
-import {PasswordChangeComponent} from '../components/confirmation/password-change.component';
+import {PasswordResetComponent} from '../components/confirmation/password-reset.component';
 import {DashboardComponent} from '../components/dashboard/dashboard.component';
 import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.component';
 import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sign-up-tariff-plans.component';
@@ -29,7 +29,7 @@ const Routes: Routes = [
   {path: 'recovery', component: PasswordRecoveryComponent, data: {title: 'Password recovery', indexed: true}},
   {path: 'email-confirmation/:hash', component: EmailConfirmComponent, data: {title: 'Email confirmation', indexed: false}},
   {path: 'code-confirmation/:hash', component: CodeConfirmComponent, data: {title: 'Code confirmation', indexed: false}},
-  {path: 'password-reset/:hash', component: PasswordChangeComponent, data: {title: 'Password reset', indexed: false}},
+  {path: 'password-reset/:hash', component: PasswordResetComponent, data: {title: 'Password reset', indexed: false}},
   {path: 'cabinet', canActivate: [AuthGuardServices], component: IndexComponent, children: [
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
     {path: 'dashboard', component: DashboardComponent, data: {title: 'Dashboard', indexed: true}},

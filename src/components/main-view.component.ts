@@ -15,7 +15,7 @@ import {ListServices} from '../services/list.services';
 
 @Component({
   selector: 'main-view',
-  templateUrl: './main-view.template.html',
+  template: '<router-outlet></router-outlet>',
   animations: [FadeAnimation('300ms')]
 })
 

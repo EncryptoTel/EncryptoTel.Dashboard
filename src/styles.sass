@@ -123,6 +123,9 @@ pbx-table
   background: url('./assets/images/auth_bg.jpg') center no-repeat
   background-size: cover
   overflow-y: scroll
+  position: relative
+  z-index: 1
+  overflow-x: hidden
   &::-webkit-scrollbar
     width: 0
     background-color: transparent
@@ -149,8 +152,7 @@ pbx-table
   &_icon
     flex: 0 0 auto
     margin: auto auto 0
-    height: 112px
-    width: 112px
+    width: 90px
     z-index: 1
   .input
     &_wrap
@@ -167,7 +169,7 @@ pbx-table
     justify-content: center
   &_link
     justify-content: center
-  &_error
+  &_message
     position: absolute
     bottom: 100%
     left: 0
@@ -177,6 +179,7 @@ pbx-table
     padding: 16px
     text-align: center
     cursor: pointer
+    line-height: 20px
   .button
     margin: 16px 0 24px
 
@@ -228,8 +231,11 @@ main-view
         color: $dark_primary
         &:hover
           color: $dark_accent
-      &_error
-        background: $dark_error
+      &_message
+        &.error
+          background: $dark_error
+        &.success
+          background: $dark_success
     .messages_item
       &.error
         background: $dark_error

@@ -10,6 +10,7 @@ import {FadeAnimation} from '../../../shared/fade-animation';
 import {passwordConfirmation} from '../../../shared/password-confirmation';
 import {validateForm} from '../../../shared/shared.functions';
 import * as _vars from '../../../shared/vars';
+import {FormMessageModel} from '../../../models/form-message.model';
 
 @Component({
   selector: 'sign-up-form',
@@ -22,7 +23,8 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
               public _services: AuthorizationServices) {}
   loading = false;
   errorsSubscription: Subscription;
-  error: string;
+  message: FormMessageModel;
+  success: string;
   signUpForm: FormGroup;
   /*
   Form field validation. Accepted params:
@@ -61,13 +63,14 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
       this.loading = true;
       this._services.signUp(this.signUpForm.value).then(() => {
         this.loading = false;
-      }).catch(() => this.loading = false);
+      }).catch(err => {
+        this.loading = false;
+      });
     }
   }
   ngOnInit(): void {
-    this._services.clearError();
-    this.errorsSubscription = this._services.readError().subscribe(error => {
-      this.error = error;
+    this.errorsSubscription = this._services.readMessage().subscribe(message => {
+      this.message = message;
     });
     if (this._user.fetchUser()) {
       this._router.navigateByUrl('/cabinet');
@@ -76,11 +79,11 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
       this.signUpForm = this._services.signUpData;
     } else {
       this.signUpForm = new FormGroup({
-        'name': new FormControl(null, [
+        'firstname': new FormControl(null, [
           Validators.required,
           Validators.pattern(_vars.nameRegExp)
         ]),
-        'surname': new FormControl(null, [
+        'lastname': new FormControl(null, [
           Validators.pattern(_vars.nameRegExp)
         ]),
         'email': new FormControl(null, [
@@ -91,14 +94,16 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(6)
         ]),
-        'tariff': new FormControl(1),
+        'tariff_plan_id': new FormControl(1),
         'password_confirmation': new FormControl(),
       }, passwordConfirmation);
     }
   }
   ngOnDestroy(): void {
+    if (this.message && this.message.type === 'error') {
+      this._services.clearMessage();
+    }
     this._services.signUpData = this.signUpForm;
-    this._services.clearError();
     this.errorsSubscription.unsubscribe();
   }
 }

@@ -12,6 +12,7 @@ import {SignUpFormModel} from '../models/form-sign-up.model';
 import {Observable} from 'rxjs/Observable';
 import {PasswordChangingFormModel} from '../models/form-password-changing.model';
 import {FormGroup} from '@angular/forms';
+import {FormMessageModel} from '../models/form-message.model';
 
 @Injectable()
 export class AuthorizationServices {
@@ -20,28 +21,28 @@ export class AuthorizationServices {
               private _services: UserServices,
               private _req: RequestServices,
               private logger: LoggerServices) {}
-  error: string;
-  subscription: Subject<string> = new Subject();
+  message: FormMessageModel;
+  subscription: Subject<FormMessageModel> = new Subject<FormMessageModel>();
   signUpData: FormGroup;
   /*
     Service error reset to initial params
    */
-  clearError(): void {
-    this.error = null;
-    this.subscription.next(this.error);
+  clearMessage(): void {
+    this.message = null;
+    this.subscription.next(this.message);
   }
   /*
     Service error subscription
    */
-  readError(): Observable<string> {
+  readMessage(): Observable<FormMessageModel> {
     return this.subscription.asObservable();
   }
   /*
     Service error editing
    */
-  writeError(error: string): void {
-    this.error = error;
-    this.subscription.next(this.error);
+  setMessage(error: FormMessageModel): void {
+    this.message = error;
+    this.subscription.next(this.message);
   }
   /*
     Sign-in form submit. Accepted params:
@@ -52,14 +53,16 @@ export class AuthorizationServices {
       ...data
     }, true).then(result => {
       if (result && !result.auth) {
-        this._services.saveUserData({secrets: result});
-        this._messages.writeSuccess('Successfully logged in!');
+        this._services.saveUserData({secrets: result, image: 'http://via.placeholder.com/100x100'});
         this.router.navigateByUrl('/cabinet');
       } else if (result && result.auth) {
         this.router.navigate(['/code-confirmation', result.hash]);
       }
     }).catch(result => {
-      this.writeError(result.message);
+      this.setMessage({
+        type: 'error',
+        message: result.message ? result.message : 'Unknown server error'
+      });
     });
   }
   /*
@@ -72,9 +75,12 @@ export class AuthorizationServices {
       this._services.saveUserData({secrets: result});
       this._messages.writeSuccess('Successfully logged in!');
       this.router.navigateByUrl('/cabinet');
-      this.clearError();
+      this.clearMessage();
     }).catch(result => {
-      this.writeError(result.message);
+      this.setMessage({
+        type: 'error',
+        message: result.message ? result.message : 'Unknown server error'
+      });
     });
   }
   /*
@@ -85,9 +91,16 @@ export class AuthorizationServices {
     return this._req.post('registration', {
       ...data
     }, true).then(result => {
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/sign-in');
+      this.setMessage({
+        type: 'success',
+        message: result.message
+      });
     }).catch(result => {
-      this.writeError(result.errors.email[0]);
+      this.setMessage({
+        type: 'error',
+        message: (result.errors && result.errors.email) ? 'User already exist' : 'Internal server error'
+      });
     });
   }
   /*
@@ -98,7 +111,10 @@ export class AuthorizationServices {
     return this._req.post(`password/email`, {...email}).then(result => {
       this._messages.writeSuccess(result.message);
     }).catch(result => {
-      this.writeError(result.message);
+      this.setMessage({
+        type: 'error',
+        message: result.message ? result.message : 'Unknown server error'
+      });
     });
   }
   /*
@@ -111,7 +127,10 @@ export class AuthorizationServices {
       this._messages.writeSuccess(result.message);
       this.router.navigateByUrl('/');
     }).catch(result => {
-      this.writeError(result.message);
+      this.setMessage({
+        type: 'error',
+        message: result.message ? result.message : 'Unknown server error'
+      });
     });
   }
 }

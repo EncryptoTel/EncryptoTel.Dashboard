@@ -152,7 +152,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     this._router.navigate(['../sign-in']);
   }
   userInit(): void {
-    this._user.saveUserData({secrets: {access_token: '123', expires_in: '123', refresh_token: '123123', token_type: 'Bearer'}, image: 'http://via.placeholder.com/100x100'});
     this.userSubscription = this._user.userSubscription().subscribe(user => {
       this.user = user;
     });

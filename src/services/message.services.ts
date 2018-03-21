@@ -5,6 +5,8 @@ import {Subject} from 'rxjs/Subject';
 import {MessageModel} from '../models/message.model';
 import {LoggerServices} from './logger.services';
 
+import {environment as _env} from '../environments/environment';
+
 /*
   Messages services. Writing and deleting messages (errors etc.)
 */
@@ -13,7 +15,7 @@ import {LoggerServices} from './logger.services';
 export class MessageServices {
   constructor(private logger: LoggerServices) {}
   messages: MessageModel[] = [];
-  messagesSubscription: Subject<MessageModel[]> = new Subject();
+  messagesSubscription: Subject<MessageModel[]> = new Subject<MessageModel[]>();
   /*
     Message ID generation
    */
@@ -33,14 +35,14 @@ export class MessageServices {
   messageProcess(message: MessageModel): void {
     this.messages.push(message);
     this.messagesSubscription.next(this.messages);
-    this.removeError(message.id);
+    this.removeMessage(message.id);
     this.logger.log('Message processing details', message);
   }
   /*
     Message removing after timeout. Accepted params:
     ID: number - message ID
    */
-  removeError(id: number): void {
+  removeMessage(id: number): void {
     setTimeout(() => {
       this.messages.map((item, index) => {
         if (item.id === id) {
@@ -48,7 +50,7 @@ export class MessageServices {
         }
       });
       this.messagesSubscription.next(this.messages);
-    }, 5000);
+    }, _env.params.messageDuration);
   }
   /*
     Message instant removing. Accepted params:

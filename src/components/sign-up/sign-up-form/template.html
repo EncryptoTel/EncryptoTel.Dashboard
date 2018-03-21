@@ -3,22 +3,22 @@
     <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
   </a>
   <form (submit)="signUp($event)" [formGroup]="signUpForm" [@Fade]>
-    <div class="auth_form_error" *ngIf="error" [@Fade] (click)="_services.clearError()">{{error}}</div>
+    <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="_services.clearMessage()">{{message.message}}</div>
     <div class="input_wrap">
-      <input name="Name" placeholder="Name" formControlName="name">
-      <div class="input_error" *ngIf="inputValidation('name')" [@Fade]>
-        <span class="input_error_item" *ngIf="inputValidation('name', 'required')">Please enter your name</span>
-        <span class="input_error_item" *ngIf="inputValidation('name', 'pattern')">Name should contain only letters and "-" or "."</span>
+      <input name="Name" placeholder="Name" formControlName="firstname">
+      <div class="input_error" *ngIf="inputValidation('firstname')" [@Fade]>
+        <span class="input_error_item" *ngIf="inputValidation('firstname', 'required')">Please enter your name</span>
+        <span class="input_error_item" *ngIf="inputValidation('firstname', 'pattern')">Name should contain only letters and "-" or "."</span>
       </div>
     </div>
     <div class="input_wrap">
-      <input name="Surname" placeholder="Surname" formControlName="surname">
-      <div class="input_error" *ngIf="inputValidation('surname')" [@Fade]>
-        <span class="input_error_item" *ngIf="inputValidation('surname', 'pattern')">Surname should contain only letters and "-" or "."</span>
+      <input name="Surname" placeholder="Surname" formControlName="lastname">
+      <div class="input_error" *ngIf="inputValidation('lastname')" [@Fade]>
+        <span class="input_error_item" *ngIf="inputValidation('lastname', 'pattern')">Surname should contain only letters and "-" or "."</span>
       </div>
     </div>
     <div class="input_wrap">
-      <input name="E-mail" placeholder="E-mail" formControlName="email" (keyup)="_services.clearError()">
+      <input name="E-mail" placeholder="E-mail" formControlName="email" (keyup)="_services.clearMessage()">
       <div class="input_error" *ngIf="inputValidation('email')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('email', 'required')">Please enter your e-mail</span>
         <span class="input_error_item" *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>
@@ -37,7 +37,7 @@
         <div class="input_error_item" *ngIf="passwordsMismatch()">Passwords doesn't match</div>
       </div>
     </div>
-    <p>Your tariff plan is Basic (Free). <a routerLink="tariff_plans" class="dashboard_item_link">Change it?</a></p>
+    <div class="auth_form_text" style="margin-top: 8px;">Your tariff plan is Basic (Free).&nbsp;<a routerLink="tariff_plans" class="auth_form_link">Change it?</a></div>
     <pbx-button [buttonType]="'accent'" [value]="'Sign Up'" [loading]="loading" (onClick)="signUp()"></pbx-button>
     <div class="auth_form_text">Already have an EncryptoTel Account?</div>
     <a routerLink="../sign-in" class="auth_form_link">Sign in now</a>

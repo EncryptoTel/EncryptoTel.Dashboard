@@ -16,9 +16,9 @@ export class ListServices {
               private _storage: StorageServices,
               private logger: LoggerServices) {}
   countriesList: CountryModel[];
-  countriesSub: Subject<CountryModel[]> = new Subject();
+  countriesSub: Subject<CountryModel[]> = new Subject<CountryModel[]>();
   currenciesList: CurrencyModel[];
-  currenciesSub: Subject<CurrencyModel[]> = new Subject();
+  currenciesSub: Subject<CurrencyModel[]> = new Subject<CurrencyModel[]>();
   /*
     Fetch countries list if it's not in storage
    */

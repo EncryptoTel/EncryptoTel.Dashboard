@@ -7,6 +7,7 @@ import {AuthorizationServices} from '../../services/authorization.services';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {validateForm} from '../../shared/shared.functions';
 import * as _vars from '../../shared/vars';
+import {FormMessageModel} from '../../models/form-message.model';
 
 @Component({
   selector: 'password-recovery',
@@ -17,7 +18,7 @@ import * as _vars from '../../shared/vars';
 export class PasswordRecoveryComponent implements OnInit, OnDestroy {
   constructor(private _services: AuthorizationServices) {}
   loading = false;
-  error: string;
+  message: FormMessageModel;
   emailForm: FormGroup;
   errorsSubscription: Subscription;
   /*
@@ -47,9 +48,9 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit(): void {
-    this._services.clearError();
-    this.errorsSubscription = this._services.readError().subscribe(error => {
-      this.error = error;
+    this._services.clearMessage();
+    this.errorsSubscription = this._services.readMessage().subscribe(message => {
+      this.message = message;
     });
     this.emailForm = new FormGroup({
       'email': new FormControl(null, [
@@ -59,7 +60,7 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    this._services.clearError();
+    this._services.clearMessage();
     this.errorsSubscription.unsubscribe();
   }
 }
