@@ -13,6 +13,7 @@ import {MainViewComponent} from '../main-view.component';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
+import {ListServices} from '../../services/list.services';
 
 @Component({
   selector: 'pbx-index',
@@ -26,6 +27,7 @@ export class IndexComponent implements OnInit, OnDestroy {
               private _balance: BalanceServices,
               private _messages: MessageServices,
               private _router: Router,
+              private _list: ListServices,
               public _main: MainViewComponent) {}
   navigationList: NavigationItemModel[][] = [
     [{
@@ -141,6 +143,9 @@ export class IndexComponent implements OnInit, OnDestroy {
   headerButtonsVisible = true;
   userNavigationVisible = false;
   @ViewChild('userWrap') userWrap: ElementRef;
+  initLists(): Promise<any> {
+    return Promise.all([this._list.fetchCurrenciesList(), this._list.fetchCountriesList()]);
+  }
   hideUserNavigation(): void {
     if (this.userNavigationVisible) {
       this.userNavigationVisible = false;
@@ -188,9 +193,11 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.completedRequests = 0;
-    this.userInit();
-    this.balanceInit();
-    this.navigationInit();
+    this.initLists().then(() => {
+      this.userInit();
+      this.balanceInit();
+      this.navigationInit();
+    });
   }
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();

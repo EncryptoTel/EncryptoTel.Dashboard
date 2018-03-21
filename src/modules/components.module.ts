@@ -52,6 +52,7 @@ import {SettingsComponent} from '../components/settings/settings.component';
     SettingsComponent
   ],
   exports: [
+    ElementsModule,
     PageNotFoundComponent,
     IndexComponent,
     SignInComponent,

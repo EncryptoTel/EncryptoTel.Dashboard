@@ -4,7 +4,7 @@
     <div class="user_profile_image" [ngStyle]="{'background-image': 'url(' + (user.image) + ')'}"></div>
     <div class="user_details_wrap">
       <div class="user_details_name">{{user.name}}</div>
-      <div class="user_details_balance">{{balance.symbol}}{{balance.balance}}</div>
+      <div class="user_details_balance" *ngIf="completedRequests > 2">{{balance.symbol}}{{balance.balance}}</div>
     </div>
     <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
     <div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">
