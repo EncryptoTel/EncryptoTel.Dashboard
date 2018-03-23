@@ -44,6 +44,8 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
       this.loading = true;
       this._services.sendEmail(this.emailForm.value).then(() => {
         this.loading = false;
+      }).catch(() => {
+        this.loading = false;
       });
     }
   }

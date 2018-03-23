@@ -4,7 +4,6 @@ import {Subject} from 'rxjs/Subject';
 
 import {RequestServices} from './request.services';
 import {LoggerServices} from './logger.services';
-import {MessageServices} from './message.services';
 import {UserServices} from './user.services';
 
 import {SignInFormModel} from '../models/form-sign-in.model';
@@ -17,7 +16,6 @@ import {FormMessageModel} from '../models/form-message.model';
 @Injectable()
 export class AuthorizationServices {
   constructor(private router: Router,
-              private _messages: MessageServices,
               private _services: UserServices,
               private _req: RequestServices,
               private logger: LoggerServices) {}
@@ -40,8 +38,8 @@ export class AuthorizationServices {
   /*
     Service error editing
    */
-  setMessage(error: FormMessageModel): void {
-    this.message = error;
+  setMessage(message: FormMessageModel): void {
+    this.message = message;
     this.subscription.next(this.message);
   }
   /*
@@ -65,15 +63,28 @@ export class AuthorizationServices {
       });
     });
   }
+  sendTemporaryPassword(data: object) {
+    return this._req.post('password/temporary', {...data}, true).then(result => {
+      this.setMessage({
+        type: 'success',
+        message: result.message ? result.message : 'Temporary password sent to your e-mail'
+      });
+      this.router.navigateByUrl('/');
+    }).catch(result => {
+      this.setMessage({
+        type: 'error',
+        message: result.message ? result.message : 'User not found'
+      });
+    });
+  }
   /*
     Sign-in form submit. Accepted params:
     Confirmation Code: object - two-factor authentication code form values,
     Hash: string - user-specific hash
    */
   codeConfirm(confirmationCode: object, hash: string) {
-    return this._req.post(`login/${hash}`, {...confirmationCode}).then(result => {
+    return this._req.post(`login/${hash}`, {...confirmationCode}, true).then(result => {
       this._services.saveUserData({secrets: result});
-      this._messages.writeSuccess('Successfully logged in!');
       this.router.navigateByUrl('/cabinet');
       this.clearMessage();
     }).catch(result => {
@@ -91,11 +102,11 @@ export class AuthorizationServices {
     return this._req.post('registration', {
       ...data
     }, true).then(result => {
-      this.router.navigateByUrl('/sign-in');
       this.setMessage({
         type: 'success',
         message: result.message
       });
+      this.router.navigateByUrl('/');
     }).catch(result => {
       this.setMessage({
         type: 'error',
@@ -108,12 +119,15 @@ export class AuthorizationServices {
     E-mail: string - user e-mail address form value
    */
   sendEmail(email: object) {
-    return this._req.post(`password/email`, {...email}).then(result => {
-      this._messages.writeSuccess(result.message);
+    return this._req.post(`password/reset`, {...email}, true).then(result => {
+      this.setMessage({
+        type: 'success',
+        message: result.message
+      });
     }).catch(result => {
       this.setMessage({
         type: 'error',
-        message: result.message ? result.message : 'Unknown server error'
+        message: result.message ? result.message : result.error.code === 404 ? 'User not found' : 'Unknown server error'
       });
     });
   }
@@ -123,8 +137,11 @@ export class AuthorizationServices {
     Hash: string - user-specific hash
    */
   changePassword(data: PasswordChangingFormModel, hash: string) {
-    return this._req.post(`password/reset/${hash}`, {...data}).then(result => {
-      this._messages.writeSuccess(result.message);
+    return this._req.post(`password/reset/${hash}`, {...data}, true).then(result => {
+      this.setMessage({
+        type: 'success',
+        message: 'Password successfully changed'
+      });
       this.router.navigateByUrl('/');
     }).catch(result => {
       this.setMessage({

@@ -1,53 +1,43 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
-
-import {AuthorizationServices} from '../../services/authorization.services';
-import {UserServices} from '../../services/user.services';
-
-import {FadeAnimation} from '../../shared/fade-animation';
-import {validateForm} from '../../shared/shared.functions';
-import * as _vars from '../../shared/vars';
 import {FormMessageModel} from '../../models/form-message.model';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Subscription} from 'rxjs/Subscription';
+import {UserServices} from '../../services/user.services';
+import {Router} from '@angular/router';
+import {AuthorizationServices} from '../../services/authorization.services';
+import * as _vars from '../../shared/vars';
+import {validateForm} from '../../shared/shared.functions';
+import {FadeAnimation} from '../../shared/fade-animation';
 
 @Component({
-  selector: 'sign-in',
-  templateUrl: './template.html',
+  selector: 'temporary-code',
+  templateUrl: 'template.html',
   animations: [FadeAnimation('300ms')]
 })
 
-export class SignInComponent implements OnInit, OnDestroy {
+export class TemporaryCodeComponent implements OnInit, OnDestroy {
   constructor(private _router: Router,
               private _user: UserServices,
               public _services: AuthorizationServices) {}
   loading = false;
   errorsSubscription: Subscription;
   message: FormMessageModel;
-  signInForm: FormGroup;
-  /*
-    Form field validation. Accepted params:
-    Name: string - form field name,
-    Error Type: string - validation type (not necessary)
-   */
+  temporaryCodeForm: FormGroup;
   inputValidation(name: string, errorType?: string): boolean {
     if (errorType) {
-      const field = this.signInForm.controls[name];
+      const field = this.temporaryCodeForm.controls[name];
       return field.errors[errorType] && (field.dirty || field.touched);
     } else {
-      const field = this.signInForm.controls[name];
+      const field = this.temporaryCodeForm.controls[name];
       return field.invalid && (field.dirty || field.touched);
     }
   }
-  /*
-    Sign-in action
-   */
-  signIn(ev?: Event): void {
+  sendTemporaryPassword(ev?: Event): void {
     if (ev) { ev.preventDefault(); }
-    validateForm(this.signInForm);
-    if (this.signInForm.valid) {
+    validateForm(this.temporaryCodeForm);
+    if (this.temporaryCodeForm.valid) {
       this.loading = true;
-      this._services.signIn(this.signInForm.value).then(() => {
+      this._services.sendTemporaryPassword(this.temporaryCodeForm.value).then(() => {
         this.loading = false;
       }).catch(() => this.loading = false);
     }
@@ -57,7 +47,8 @@ export class SignInComponent implements OnInit, OnDestroy {
       this._services.clearMessage();
     }
   }
-  ngOnInit(): void {
+  ngOnInit() {
+    this._services.clearMessage();
     this.message = this._services.message;
     this.errorsSubscription = this._services.readMessage().subscribe(message => {
       this.message = message;
@@ -65,19 +56,14 @@ export class SignInComponent implements OnInit, OnDestroy {
     if (this._user.fetchUser()) {
       this._router.navigateByUrl('/cabinet');
     }
-    this.signInForm = new FormGroup({
-      'login': new FormControl(null, [
+    this.temporaryCodeForm = new FormGroup({
+      'email': new FormControl(null, [
         Validators.required,
         Validators.pattern(_vars.emailRegExp)
-      ]),
-      'password': new FormControl(null, [
-        Validators.required,
-        Validators.minLength(6)
       ])
     });
   }
-  ngOnDestroy(): void {
-    this._services.clearMessage();
+  ngOnDestroy() {
     this.errorsSubscription.unsubscribe();
   }
 }

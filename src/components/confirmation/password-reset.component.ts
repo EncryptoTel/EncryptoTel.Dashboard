@@ -62,6 +62,8 @@ export class PasswordResetComponent implements OnInit, OnDestroy {
       this.loading = true;
       this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
         this.loading = false;
+      }).catch(() => {
+        this.loading = false;
       });
     }
   }
@@ -82,7 +84,6 @@ export class PasswordResetComponent implements OnInit, OnDestroy {
     }, passwordConfirmation);
   }
   ngOnDestroy(): void {
-    this._services.clearMessage();
     this.errorsSubscription.unsubscribe();
   }
 }

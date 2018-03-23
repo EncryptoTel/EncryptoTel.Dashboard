@@ -15,19 +15,19 @@
         </div>
       </div>
       <div class="settings__item item_profile">
-        <div class="theme_item white" (click)="changeTheme('white')">
+        <div class="theme_item white" (click)="changeTheme('light_theme')">
           <div class="settings__item__content content_theme">
             <svg-icon src="../../assets/icons/ok_32px.svg" class="settings__icons theme_icon"
-                      *ngIf="currentTheme==='white'"></svg-icon>
-            <span>white</span>
+                      *ngIf="currentTheme ==='light_theme'"></svg-icon>
+            <span>light</span>
             <p>theme</p>
           </div>
         </div>
-        <div class="theme_item black" (click)="changeTheme('black')">
+        <div class="theme_item black" (click)="changeTheme('dark_theme')">
           <div class="settings__item__content content_theme">
             <svg-icon src="../../assets/icons/ok_32px.svg" class="settings__icons theme_icon"
-                      *ngIf="currentTheme==='black'"></svg-icon>
-            <span>black</span>
+                      *ngIf="currentTheme ==='dark_theme'"></svg-icon>
+            <span>dark</span>
             <p>theme</p>
           </div>
         </div>

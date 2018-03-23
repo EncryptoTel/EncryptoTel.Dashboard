@@ -18,15 +18,17 @@ import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sig
 import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-form.component';
 import {BlankComponent} from '../components/blank/blank.component';
 import {SettingsComponent} from '../components/settings/settings.component';
+import {TemporaryCodeComponent} from '../components/temporary-code/temporary-code.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
-  {path: 'sign-in', component: SignInComponent, data: {title: 'Sign in', indexed: true}},
+  {path: 'sign-in', component: SignInComponent, data: {title: 'Authorization', indexed: true}},
   {path: 'sign-up', component: SignUpComponent, children: [
-      {path: '', component: SignUpFormComponent, data: {title: 'Sign up', indexed: true}},
+      {path: '', component: SignUpFormComponent, data: {title: 'Registration', indexed: true}},
       {path: 'tariff_plans', component: SignUpTariffPlansComponent, data: {title: 'Select tariff plans', indexed: false}}
       ]},
-  {path: 'recovery', component: PasswordRecoveryComponent, data: {title: 'Password recovery', indexed: true}},
+  {path: 'password-recovery', component: PasswordRecoveryComponent, data: {title: 'Password recovery', indexed: true}},
+  {path: 'temporary-code', component: TemporaryCodeComponent, data: {title: 'Temporary code authorization', indexed: true}},
   {path: 'email-confirmation/:hash', component: EmailConfirmComponent, data: {title: 'Email confirmation', indexed: false}},
   {path: 'code-confirmation/:hash', component: CodeConfirmComponent, data: {title: 'Code confirmation', indexed: false}},
   {path: 'password-reset/:hash', component: PasswordResetComponent, data: {title: 'Password reset', indexed: false}},

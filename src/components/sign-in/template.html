@@ -10,14 +10,16 @@
       </div>
     </div>
     <div class="input_wrap">
-      <input type="password" name="Password" placeholder="Password" formControlName="password" #passwordField>
+      <input type="password" name="Password" placeholder="Password" formControlName="password">
       <div class="input_error" *ngIf="inputValidation('password')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('password', 'required')">Please enter password</span>
         <span class="input_error_item" *ngIf="inputValidation('password', 'minlength')">Password is too short</span>
       </div>
     </div>
     <pbx-button [buttonType]="'accent'" [loading]="loading" [value]="'Sign In'" (onClick)="signIn()"></pbx-button>
-    <a routerLink="../recovery" class="auth_form_link">Forgot your password?</a>
+    <div class="auth_form_text"><a routerLink="../password-recovery" class="auth_form_link">Forgot your password?</a>&nbsp;
+      or use&nbsp;<a routerLink="../temporary-code" class="auth_form_link">Temporary Code</a>
+    </div>
     <div class="auth_form_text">Don't have an EncryptoTel Account?</div>
     <a routerLink="../sign-up" class="auth_form_link">Create one now</a>
   </form>
