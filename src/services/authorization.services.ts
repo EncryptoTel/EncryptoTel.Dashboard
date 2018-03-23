@@ -54,6 +54,10 @@ export class AuthorizationServices {
         this._services.saveUserData({secrets: result, image: 'http://via.placeholder.com/100x100'});
         this.router.navigateByUrl('/cabinet');
       } else if (result && result.auth) {
+        this.setMessage({
+          type: 'success',
+          message: result.message ? result.message : 'Confirmation code was sent to your e-mail address'
+        });
         this.router.navigate(['/code-confirmation', result.hash]);
       }
     }).catch(result => {

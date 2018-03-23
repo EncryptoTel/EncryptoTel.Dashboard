@@ -45,8 +45,13 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
       });
     }
   }
+  clearMessage(ev?: KeyboardEvent): void {
+    if (ev.key) {
+      this._services.clearMessage();
+    }
+  }
   ngOnInit(): void {
-    this._services.clearMessage();
+    this.message = this._services.message;
     this.paramsSubscription = this._route.params.subscribe(params => {
       this.confirmationHash = params['hash'];
     });
