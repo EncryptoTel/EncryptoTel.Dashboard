@@ -1,0 +1,28 @@
+<div class="tariff_container">
+  <div class="tariff_wrap">
+    <h1 class="tariff_title">Plans Available for Everyone</h1>
+    <div class="tariff_wrap_items">
+      <div class="tariff_item" *ngFor="let tariff of tariffs" [ngClass]="{'current_tariff':tariff.id===currentTariff}">
+        <div class="tariff_item__description">
+          <h3 class="tariff_item__description-title">{{tariff.title}}</h3>
+          <ul class="tariff_item__description-list">
+            <li class="tariff_item__description-list__item" *ngFor="let service of tariff.services">{{service.title}}</li>
+          </ul>
+          <p class="tariff_item__description-price">
+            {{tariff.title === 'Basic' ? 'FREE' : 'From $' + tariff.price +'/monthly'}}
+          </p>
+        </div>
+        <button class="tariff_item__button"
+                [ngClass]="{'current_tariff':tariff.id===currentTariff}"
+        (click)="chooseTariff(tariff.id)">
+          {{tariff.title === 'Basic' ? 'SIGN UP NOW' : 'Buy Now'}}
+        </button>
+        <div class="tariff_item__free">
+          <p *ngIf="tariff.title !== 'Basic'">Free for 7 days</p>
+          <p *ngIf="tariff.title !== 'Basic'">No credit card needed</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

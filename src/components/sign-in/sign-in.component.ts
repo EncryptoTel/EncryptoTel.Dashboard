@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
@@ -7,23 +7,24 @@ import {AuthorizationServices} from '../../services/authorization.services';
 import {UserServices} from '../../services/user.services';
 
 import {FadeAnimation} from '../../shared/fade-animation';
+import {validateForm} from '../../shared/shared.functions';
 import * as _vars from '../../shared/vars';
+import {FormMessageModel} from '../../models/form-message.model';
 
 @Component({
   selector: 'sign-in',
   templateUrl: './template.html',
-  animations: [FadeAnimation('.3s')]
+  animations: [FadeAnimation('300ms')]
 })
 
-export class SignInComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class SignInComponent implements OnInit, OnDestroy {
   constructor(private _router: Router,
               private _user: UserServices,
               public _services: AuthorizationServices) {}
   loading = false;
   errorsSubscription: Subscription;
-  error: string;
+  message: FormMessageModel;
   signInForm: FormGroup;
-  @ViewChild('passwordField') passwordField: ElementRef;
   /*
     Form field validation. Accepted params:
     Name: string - form field name,
@@ -43,21 +44,29 @@ export class SignInComponent implements OnInit, OnDestroy, AfterViewChecked {
    */
   signIn(ev?: Event): void {
     if (ev) { ev.preventDefault(); }
-    this.loading = true;
-    this._services.signIn(this.signInForm.value).then(() => {
-      this.loading = false;
-    }).catch(() => this.loading = false);
+    validateForm(this.signInForm);
+    if (this.signInForm.valid) {
+      this.loading = true;
+      this._services.signIn(this.signInForm.value).then(() => {
+        this.loading = false;
+      }).catch(() => this.loading = false);
+    }
+  }
+  clearMessage(ev?: KeyboardEvent): void {
+    if (ev.key) {
+      this._services.clearMessage();
+    }
   }
   ngOnInit(): void {
-    this._services.clearError();
-    this.errorsSubscription = this._services.readError().subscribe(error => {
-      this.error = error;
+    this.message = this._services.message;
+    this.errorsSubscription = this._services.readMessage().subscribe(message => {
+      this.message = message;
     });
     if (this._user.fetchUser()) {
       this._router.navigateByUrl('/cabinet');
     }
     this.signInForm = new FormGroup({
-      'username': new FormControl(null, [
+      'login': new FormControl(null, [
         Validators.required,
         Validators.pattern(_vars.emailRegExp)
       ]),
@@ -67,13 +76,7 @@ export class SignInComponent implements OnInit, OnDestroy, AfterViewChecked {
       ])
     });
   }
-  ngAfterViewChecked() {
-    if (!this.signInForm.valid && !this.passwordField.nativeElement.value) {
-      this.passwordField.nativeElement.click();
-    }
-  }
   ngOnDestroy(): void {
-    this._services.clearError();
     this.errorsSubscription.unsubscribe();
   }
 }

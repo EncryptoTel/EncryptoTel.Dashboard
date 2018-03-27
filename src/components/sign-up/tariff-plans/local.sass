@@ -1,0 +1,104 @@
+@import "../../../vars"
+// Global variables import
+.tariff_container
+  width: 100vw
+  height: 100vh
+  display: flex
+  flex-flow: column
+  justify-content: center
+  align-items: center
+  background: url('../../../assets/images/auth_bg.jpg') center no-repeat
+  background-size: cover
+  &:after
+    content: ''
+    position: absolute
+    left: 0
+    top: 0
+    height: 100vh
+    width: 100vw
+    background: $dark_background
+    filter: blur(8px) brightness(-50)
+    opacity: .6
+.tariff
+  &_wrap
+    display: flex
+    flex-flow: column
+    justify-content: space-around
+    align-items: center
+    height: 70%
+    width: 80%
+    position: relative
+    z-index: 1
+    .tariff_title
+      font-size: rem(30)
+      color: $dark_accent
+    &_items
+      display: flex
+      flex-flow: row
+      justify-content: space-around
+      height: 80%
+      width: 80%
+  &_item
+    width: 22%
+    display: flex
+    flex-flow: column
+    justify-content: space-around
+    align-items: center
+    background: $dark_overlay
+    &__description
+      display: flex
+      flex-flow: column
+      align-items: center
+      height: 75%
+      width: 100%
+      &-title
+        font-size: rem(27)
+        width: 50%
+        display: flex
+        flex-flow: row
+        justify-content: flex-start
+        align-items: center
+        height: 20%
+        color: $dark_accent
+      &-list
+        display: flex
+        flex-flow: column
+        align-items: center
+        width: 100%
+        height: 70%
+        &__item
+          width: 50%
+          font-size: rem(14)
+          margin-top: 10px
+      &-price
+        width: 100%
+        height: 10%
+        display: flex
+        flex-flow: column
+        justify-content: center
+        align-items: center
+        font-size: rem(14)
+        color: $dark_accent
+    &__button
+      width: 80%
+      height: 10%
+      display: flex
+      flex-flow: row
+      align-items: center
+      justify-content: center
+      background: $dark_accent
+      font-size: rem(18)
+      text-transform: uppercase
+      cursor: pointer
+    &__free
+      display: flex
+      flex-flow: column
+      justify-content: center
+      align-items: center
+      height: 10%
+
+.current_tariff
+  .tariff_item__button
+    border: 1px solid $dark_accent
+    background: $dark_overlay
+    color: $dark_accent

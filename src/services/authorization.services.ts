@@ -4,42 +4,43 @@ import {Subject} from 'rxjs/Subject';
 
 import {RequestServices} from './request.services';
 import {LoggerServices} from './logger.services';
-import {MessageServices} from './message.services';
 import {UserServices} from './user.services';
 
 import {SignInFormModel} from '../models/form-sign-in.model';
 import {SignUpFormModel} from '../models/form-sign-up.model';
 import {Observable} from 'rxjs/Observable';
 import {PasswordChangingFormModel} from '../models/form-password-changing.model';
+import {FormGroup} from '@angular/forms';
+import {FormMessageModel} from '../models/form-message.model';
 
 @Injectable()
 export class AuthorizationServices {
   constructor(private router: Router,
-              private _messages: MessageServices,
               private _services: UserServices,
               private _req: RequestServices,
               private logger: LoggerServices) {}
-  error: string;
-  subscription: Subject<string> = new Subject();
+  message: FormMessageModel;
+  subscription: Subject<FormMessageModel> = new Subject<FormMessageModel>();
+  signUpData: FormGroup;
   /*
     Service error reset to initial params
    */
-  clearError(): void {
-    this.error = null;
-    this.subscription.next(this.error);
+  clearMessage(): void {
+    this.message = null;
+    this.subscription.next(this.message);
   }
   /*
     Service error subscription
    */
-  readError(): Observable<string> {
+  readMessage(): Observable<FormMessageModel> {
     return this.subscription.asObservable();
   }
   /*
     Service error editing
    */
-  writeError(error: string): void {
-    this.error = error;
-    this.subscription.next(this.error);
+  setMessage(message: FormMessageModel): void {
+    this.message = message;
+    this.subscription.next(this.message);
   }
   /*
     Sign-in form submit. Accepted params:
@@ -48,16 +49,36 @@ export class AuthorizationServices {
   signIn(data: SignInFormModel) {
     return this._req.post('login', {
       ...data
-    }).then(result => {
+    }, true).then(result => {
       if (result && !result.auth) {
-        this._services.saveUserData({secrets: result});
-        this._messages.writeSuccess('Successfully logged in!');
+        this._services.saveUserData({secrets: result, image: 'http://via.placeholder.com/100x100'});
         this.router.navigateByUrl('/cabinet');
       } else if (result && result.auth) {
+        this.setMessage({
+          type: 'success',
+          message: result.message ? result.message : 'Confirmation code was sent to your e-mail address'
+        });
         this.router.navigate(['/code-confirmation', result.hash]);
       }
     }).catch(result => {
-      this.writeError(result.message);
+      this.setMessage({
+        type: 'error',
+        message: result.message ? result.message : 'Unknown server error'
+      });
+    });
+  }
+  sendTemporaryPassword(data: object) {
+    return this._req.post('password/temporary', {...data}, true).then(result => {
+      this.setMessage({
+        type: 'success',
+        message: result.message ? result.message : 'Temporary password sent to your e-mail'
+      });
+      this.router.navigateByUrl('/');
+    }).catch(result => {
+      this.setMessage({
+        type: 'error',
+        message: result.message ? result.message : 'User not found'
+      });
     });
   }
   /*
@@ -66,13 +87,15 @@ export class AuthorizationServices {
     Hash: string - user-specific hash
    */
   codeConfirm(confirmationCode: object, hash: string) {
-    return this._req.post(`login/${hash}`, {...confirmationCode}).then(result => {
+    return this._req.post(`login/${hash}`, {...confirmationCode}, true).then(result => {
       this._services.saveUserData({secrets: result});
-      this._messages.writeSuccess('Successfully logged in!');
       this.router.navigateByUrl('/cabinet');
-      this.clearError();
+      this.clearMessage();
     }).catch(result => {
-      this.writeError(result.message);
+      this.setMessage({
+        type: 'error',
+        message: result.message ? result.message : 'Unknown server error'
+      });
     });
   }
   /*
@@ -80,12 +103,19 @@ export class AuthorizationServices {
     Data - sign up form values
    */
   signUp(data: SignUpFormModel) {
-    return this._req.post('register', {
+    return this._req.post('registration', {
       ...data
-    }).then(result => {
+    }, true).then(result => {
+      this.setMessage({
+        type: 'success',
+        message: result.message
+      });
       this.router.navigateByUrl('/');
     }).catch(result => {
-      this.writeError(result.errors.email[0]);
+      this.setMessage({
+        type: 'error',
+        message: (result.errors && result.errors.email) ? 'User already exist' : 'Internal server error'
+      });
     });
   }
   /*
@@ -93,10 +123,16 @@ export class AuthorizationServices {
     E-mail: string - user e-mail address form value
    */
   sendEmail(email: object) {
-    return this._req.post(`password/email`, {...email}).then(result => {
-      this._messages.writeSuccess(result.message);
+    return this._req.post(`password/reset`, {...email}, true).then(result => {
+      this.setMessage({
+        type: 'success',
+        message: result.message
+      });
     }).catch(result => {
-      this.writeError(result.message);
+      this.setMessage({
+        type: 'error',
+        message: result.message ? result.message : result.error.code === 404 ? 'User not found' : 'Unknown server error'
+      });
     });
   }
   /*
@@ -105,11 +141,17 @@ export class AuthorizationServices {
     Hash: string - user-specific hash
    */
   changePassword(data: PasswordChangingFormModel, hash: string) {
-    return this._req.post(`password/reset/${hash}`, {...data}).then(result => {
-      this._messages.writeSuccess(result.message);
+    return this._req.post(`password/reset/${hash}`, {...data}, true).then(result => {
+      this.setMessage({
+        type: 'success',
+        message: 'Password successfully changed'
+      });
       this.router.navigateByUrl('/');
     }).catch(result => {
-      this.writeError(result.message);
+      this.setMessage({
+        type: 'error',
+        message: result.message ? result.message : 'Unknown server error'
+      });
     });
   }
 }

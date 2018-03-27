@@ -8,19 +8,21 @@ import {UserServices} from '../../services/user.services';
 
 import {FadeAnimation} from '../../shared/fade-animation';
 import {passwordConfirmation} from '../../shared/password-confirmation';
+import {validateForm} from '../../shared/shared.functions';
+import {FormMessageModel} from '../../models/form-message.model';
 
 @Component({
-  selector: 'sign-up',
-  templateUrl: './password-change.template.html',
-  animations: [FadeAnimation('.3s')]
+  selector: 'password-reset',
+  templateUrl: './password-reset.template.html',
+  animations: [FadeAnimation('300ms')]
 })
-export class PasswordChangeComponent implements OnInit, OnDestroy {
+export class PasswordResetComponent implements OnInit, OnDestroy {
   constructor(private _route: ActivatedRoute,
               private _user: UserServices,
               public _services: AuthorizationServices) {}
   loading = false;
   passwordChangingHash: string;
-  error: string;
+  message: FormMessageModel;
   passwordChangingForm: FormGroup;
   paramsSubscription: Subscription;
   errorsSubscription: Subscription;
@@ -55,18 +57,23 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
    */
   changePassword(ev?: Event): void {
     if (ev) { ev.preventDefault(); }
-    this.loading = true;
-    this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
-      this.loading = false;
-    });
+    validateForm(this.passwordChangingForm);
+    if (this.passwordChangingForm.valid) {
+      this.loading = true;
+      this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
+        this.loading = false;
+      }).catch(() => {
+        this.loading = false;
+      });
+    }
   }
   ngOnInit(): void {
-    this._services.clearError();
+    this._services.clearMessage();
     this._route.params.subscribe(params => {
       this.passwordChangingHash = params['hash'];
     });
-    this.errorsSubscription = this._services.readError().subscribe(error => {
-      this.error = error;
+    this.errorsSubscription = this._services.readMessage().subscribe(message => {
+      this.message = message;
     });
     this.passwordChangingForm = new FormGroup({
       'password': new FormControl(null, [
@@ -77,7 +84,6 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
     }, passwordConfirmation);
   }
   ngOnDestroy(): void {
-    this._services.clearError();
     this.errorsSubscription.unsubscribe();
   }
 }

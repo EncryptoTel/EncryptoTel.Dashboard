@@ -1,5 +1,7 @@
-@import 'reset' // Default browser styles reset
-@import 'vars'  // Global variables import
+@import 'reset'
+// Default browser styles reset
+@import 'vars'
+// Global variables import
 
 //Fonts
 
@@ -36,30 +38,51 @@ a, a > *, a /deep/ *
 // Components styles
 
 main-view
-  display: flex
   flex-direction: column
   flex: 1 0 auto
   height: 100vh
   transition: none
   > *:not(.messages_wrap)
-    display: flex
     flex-direction: column
     flex: 1 0 auto
   pbx-loader
-    display: flex
     flex-direction: column
     flex: 1 0 auto
 
+sign-up
+  height: 100%
+  width: 100%
+
+pbx-sign-up-tariff-plans
+  height: 100%
+  width: 100%
+  display: flex
+  flex-flow: column
+  justify-content: space-around
+  align-items: center
+
 pbx-index
   flex-direction: row !important
+
+pbx-tariff-plans
+  display: flex
+  flex-flow: row
+  justify-content: space-around
+  align-items: center
 
 input
   width: 100%
   height: 48px
   padding: 0 8px
+  cursor: text
+  &:-webkit-autofill
+    animation: autofill 0s forwards
 
 pbx-button
   width: 100%
+
+pbx-table
+  flex-direction: column
 
 // Classes styles
 
@@ -80,13 +103,11 @@ pbx-button
     position: absolute
     top: 8px
     right: 8px
-    display: flex
     flex-direction: column
     width: 328px
     max-width: calc(100% - 32px)
     z-index: 10
   &_item
-    display: flex
     justify-content: center
     min-height: 40px
     width: 100%
@@ -96,13 +117,15 @@ pbx-button
       margin-top: 8px
 
 .auth_form
-  display: flex
   flex-direction: column
   height: 100vh
   width: 100vw
   background: url('./assets/images/auth_bg.jpg') center no-repeat
   background-size: cover
   overflow-y: scroll
+  position: relative
+  z-index: 1
+  overflow-x: hidden
   &::-webkit-scrollbar
     width: 0
     background-color: transparent
@@ -113,7 +136,6 @@ pbx-button
     position: absolute
     left: 0
     top: 0
-    display: flex
     height: 100vh
     width: 100vw
     background: $dark_background
@@ -121,7 +143,6 @@ pbx-button
     opacity: .6
   form
     position: relative
-    display: flex
     flex: 0 0 auto
     flex-direction: column
     width: 328px
@@ -129,23 +150,13 @@ pbx-button
     margin: 88px auto auto
     z-index: 1
   &_icon
-    display: flex
     flex: 0 0 auto
-    margin: auto
-    height: 112px
-    width: 112px
-    &_title
-      margin-top: 8px
-      font-size: rem(20)
-      font-weight: 600
-      text-align: center
-    &_wrap
-      margin: auto auto 0
-      z-index: 1
+    margin: auto auto 0
+    width: 90px
+    z-index: 1
   .input
     &_wrap
       position: relative
-      display: flex
       margin-bottom: 24px
     &_error
       position: absolute
@@ -155,23 +166,34 @@ pbx-button
   &_text
     margin: 16px 0 8px
     font-size: rem(14)
-    text-align: center
+    justify-content: center
   &_link
-    display: block
-    text-align: center
-  &_error
+    justify-content: center
+  &_message
     position: absolute
     bottom: 100%
     left: 0
-    display: flex
     flex-direction: column
     width: 100%
     margin-bottom: 8px
     padding: 16px
     text-align: center
     cursor: pointer
+    line-height: 20px
   .button
     margin: 16px 0 24px
+
+.button_overlay
+  position: absolute
+  z-index: 1
+  border-radius: 50%
+  animation: button_animation ease-in 500ms
+  transform: scale(0)
+  pointer-events: none
+  &.small
+    animation: button_animation ease-in 250ms
+  &.medium
+    animation: button_animation ease-in 350ms
 
 // ID's styles
 
@@ -194,6 +216,8 @@ main-view
         border-bottom-color: $dark_error
         &::placeholder
           color: $dark_error
+    .button_overlay
+      background: rgba($dark_primary, .35)
     .auth_form
       &_icon
         fill: $dark_accent
@@ -207,8 +231,11 @@ main-view
         color: $dark_primary
         &:hover
           color: $dark_accent
-      &_error
-        background: $dark_error
+      &_message
+        &.error
+          background: $dark_error
+        &.success
+          background: $dark_success
     .messages_item
       &.error
         background: $dark_error

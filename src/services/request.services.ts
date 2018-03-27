@@ -21,8 +21,8 @@ export class RequestServices {
     URI: string - request uri,
     Data: object - request params
    */
-  post(uri: string, data: object): Promise<any> {
-    return this.http.post(`${_env.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
+  post(uri: string, data: object, serverReady: boolean = false): Promise<any> {
+    return this.http.post(`${serverReady ? _env.back : _env.ph}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('POST-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method
@@ -45,8 +45,8 @@ export class RequestServices {
     URI: string - request uri,
     Data: object - request params
    */
-  put(uri: string, data: object): Promise<any> {
-    return this.http.put(`${_env.back}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
+  put(uri: string, data: object, serverReady: boolean = false): Promise<any> {
+    return this.http.put(`${serverReady ? _env.back : _env.ph}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('PUT-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method
@@ -68,8 +68,8 @@ export class RequestServices {
     Default GET request. Accepted params:
     URI: string - request uri with stringified params
    */
-  get(uri: string): Promise<any> {
-    return this.http.get(`${_env.back}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
+  get(uri: string, serverReady: boolean = false): Promise<any> {
+    return this.http.get(`${serverReady ? _env.back : _env.ph}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('GET-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method
@@ -91,8 +91,8 @@ export class RequestServices {
     Default DELETE request. Accepted params:
     URI: string - request uri with stringified params
    */
-  del(uri: string): Promise<any> {
-    return this.http.delete(`${_env.back}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
+  del(uri: string, serverReady: boolean = false): Promise<any> {
+    return this.http.delete(`${serverReady ? _env.back : _env.ph}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('DELETE-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method

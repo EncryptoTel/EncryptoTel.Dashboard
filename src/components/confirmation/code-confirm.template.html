@@ -1,10 +1,7 @@
 <div class="auth_form">
-  <a class="auth_form_icon_wrap" routerLink="../../sign-in" [@Fade] (click)="_services.clearError()">
-    <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
-    <div class="auth_form_icon_title">EncryptoTel</div>
-  </a>
-  <form (submit)="codeConfirm($event)" [formGroup]="confirmationCode" [@Fade] (keyup)="_services.clearError()">
-    <div class="auth_form_error" *ngIf="error" [@Fade] (click)="_services.clearError()">{{error}}</div>
+  <svg-icon src="/assets/icons/logo.svg" class="auth_form_icon"></svg-icon>
+  <form (submit)="codeConfirm($event)" [formGroup]="confirmationCode" [@Fade] (keyup)="clearMessage($event)">
+    <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="_services.clearMessage()">{{message.message}}</div>
     <div class="input_wrap">
       <input name="Confirmation code" id="confirmation_code" placeholder="Confirmation code" formControlName="code">
       <div class="input_error" *ngIf="inputValidation('code')" [@Fade]>
@@ -14,3 +11,4 @@
     <pbx-button [buttonType]="'accent'" [value]="'Sign In'" [loading]="loading" (onClick)="codeConfirm()"></pbx-button>
   </form>
 </div>
+

@@ -6,11 +6,13 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthorizationServices} from '../../services/authorization.services';
 
 import {FadeAnimation} from '../../shared/fade-animation';
+import {validateForm} from '../../shared/shared.functions';
+import {FormMessageModel} from '../../models/form-message.model';
 
 @Component({
-  selector: 'code-confirm-component',
+  selector: 'code-confirm',
   templateUrl: './code-confirm.template.html',
-  animations: [FadeAnimation('.3s')]
+  animations: [FadeAnimation('300ms')]
 })
 
 export class CodeConfirmComponent implements OnInit, OnDestroy {
@@ -18,7 +20,7 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
               private _services: AuthorizationServices) {}
   loading = false;
   confirmationHash: string;
-  error: string;
+  message: FormMessageModel;
   confirmationCode: FormGroup;
   paramsSubscription: Subscription;
   errorsSubscription: Subscription;
@@ -35,18 +37,26 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
    */
   codeConfirm(ev?: Event): void {
     if (ev) { ev.preventDefault(); }
-    this.loading = true;
-    this._services.codeConfirm(this.confirmationCode.value, this.confirmationHash).then(() => {
-      this.loading = false;
-    });
+    validateForm(this.confirmationCode);
+    if (this.confirmationCode.valid) {
+      this.loading = true;
+      this._services.codeConfirm(this.confirmationCode.value, this.confirmationHash).then(() => {
+        this.loading = false;
+      });
+    }
+  }
+  clearMessage(ev?: KeyboardEvent): void {
+    if (ev.key) {
+      this._services.clearMessage();
+    }
   }
   ngOnInit(): void {
-    this._services.clearError();
+    this.message = this._services.message;
     this.paramsSubscription = this._route.params.subscribe(params => {
       this.confirmationHash = params['hash'];
     });
-    this.errorsSubscription = this._services.readError().subscribe(error => {
-      this.error = error;
+    this.errorsSubscription = this._services.readMessage().subscribe(message => {
+      this.message = message;
     });
     this.confirmationCode = new FormGroup({
       'code': new FormControl(null, [
@@ -55,7 +65,7 @@ export class CodeConfirmComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    this._services.clearError();
+    this._services.clearMessage();
     this.paramsSubscription.unsubscribe();
     this.errorsSubscription.unsubscribe();
   }

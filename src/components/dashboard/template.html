@@ -26,14 +26,14 @@
       </div>
       <div class="dashboard_item_row">
         <div class="dashboard_item_key">Next monthly payment</div>
-        <div class="dashboard_item_value">{{balance.symbol}}{{tariff.price}}</div>
+        <div class="dashboard_item_value" *ngIf="balance">{{balance.symbol}}{{tariff.price}}</div>
       </div>
       <div class="dashboard_item_row">
         <div class="dashboard_item_key">Payment date</div>
         <div class="dashboard_item_value">{{tariff.paymentDate}}</div>
       </div>
       <div class="dashboard_item_link_row">
-        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Change tariff plan</a>
+        <a [routerLink]="'../tariff'" routerLinkActive="active" class="dashboard_item_link">Change tariff plan</a>
       </div>
     </div>
   </div>

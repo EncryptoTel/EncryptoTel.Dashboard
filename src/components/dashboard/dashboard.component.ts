@@ -44,26 +44,55 @@ export class DashboardComponent {
     history: true,
     diagram: true
   };
-  initDashboard(): void {
-    this._balance.fetchBalanceParams().then(balance => {
+  fetchBalance(): Promise<void> {
+    return this._balance.fetchBalanceParams().then(balance => {
       this.balance = balance;
       this.loading.balance = false;
-    }).catch(() => this.loading.balance = false);
-    this._tariff.fetchTariffPlanDetails().then(tariff => {
+    }).catch(() => {
+      this.loading.balance = false;
+    });
+  }
+  fetchTariffPlan(): Promise<void> {
+    return this._tariff.fetchTariffPlanDetails().then(tariff => {
       this.tariff = tariff;
       this.loading.tariff = false;
-    }).catch(() => this.loading.tariff = false);
-    this._drive.fetchStorageParams().then(drive => {
+    }).catch(() => {
+      this.loading.tariff = false;
+    });
+  }
+  fetchStorage(): Promise<void> {
+    return this._drive.fetchStorageParams().then(drive => {
       this.drive = drive;
       this.loading.drive = false;
+    }).catch(() => {
+      this.loading.drive = false;
     });
-    this._numbers.fetchNumbersList().then(numbers => {
+  }
+  fetchNumbers(): Promise<void> {
+    return this._numbers.fetchNumbersList().then(numbers => {
       this.phone_numbers = numbers;
       this.loading.phone_numbers = false;
+    }).catch(() => {
+      this.loading.phone_numbers = false;
     });
-    this._history.fetchHistoryList().then(history => {
+  }
+  fetchHistory(): Promise<void> {
+    return this._history.fetchHistoryList().then(history => {
       this.history = history;
       this.loading.history = false;
+    }).catch(() => {
+      this.loading.history = false;
+    });
+  }
+  initDashboard(): void {
+    this.fetchBalance().then(() => {
+      this.fetchTariffPlan().then(() => {
+        this.fetchNumbers().then(() => {
+          this.fetchStorage().then(() => {
+            this.fetchHistory();
+          });
+        });
+      });
     });
   }
 }

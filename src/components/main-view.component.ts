@@ -15,8 +15,8 @@ import {ListServices} from '../services/list.services';
 
 @Component({
   selector: 'main-view',
-  templateUrl: './main-view.template.html',
-  animations: [FadeAnimation('.3s')]
+  template: '<pbx-loader *ngIf="loading"></pbx-loader><router-outlet *ngIf="!loading"></router-outlet>',
+  animations: [FadeAnimation('300ms')]
 })
 
 export class MainViewComponent implements OnInit, OnDestroy {
@@ -27,18 +27,20 @@ export class MainViewComponent implements OnInit, OnDestroy {
               private title: Title) {}
   messagesList: MessageModel[];
   routerSubscription: Subscription;
+  loading = true;
   public pageTitle = 'Encrypto Telecom';
   @HostBinding('class') public userTheme: string;
   public setUserTheme(theme: string) {
     this.userTheme = theme;
   }
-  initLists(): void {
-    this._list.fetchCountriesList();
-    this._list.fetchCurrenciesList();
+  initLists(): Promise<any> {
+    return Promise.all([this._list.fetchCurrenciesList(), this._list.fetchCountriesList()]);
   }
   ngOnInit(): void {
     this.setUserTheme('dark_theme');
-    this.initLists();
+    this.initLists().then(() => {
+      this.loading = false;
+    });
     this._services.messagesList().subscribe(messages => {
       this.messagesList = messages;
     });

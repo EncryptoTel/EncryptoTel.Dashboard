@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -13,12 +13,13 @@ import {MainViewComponent} from '../main-view.component';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
+import {ListServices} from '../../services/list.services';
 
 @Component({
   selector: 'pbx-index',
   templateUrl: './template.html',
   styleUrls: ['./local.sass'],
-  animations: [SwipeAnimation('y', '200ms'), FadeAnimation('.1s')]
+  animations: [SwipeAnimation('y', '200ms'), FadeAnimation('100ms')]
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
@@ -26,6 +27,7 @@ export class IndexComponent implements OnInit, OnDestroy {
               private _balance: BalanceServices,
               private _messages: MessageServices,
               private _router: Router,
+              private _list: ListServices,
               public _main: MainViewComponent) {}
   navigationList: NavigationItemModel[][] = [
     [{
@@ -139,13 +141,22 @@ export class IndexComponent implements OnInit, OnDestroy {
   completedRequests = 0;
   activeButtonIndex: number;
   headerButtonsVisible = true;
+  userNavigationVisible = false;
+  @ViewChild('userWrap') userWrap: ElementRef;
+  initLists(): Promise<any> {
+    return Promise.all([this._list.fetchCurrenciesList(), this._list.fetchCountriesList()]);
+  }
+  hideUserNavigation(): void {
+    if (this.userNavigationVisible) {
+      this.userNavigationVisible = false;
+    }
+  }
   logout(): void {
     localStorage.clear();
     this._messages.writeSuccess('Logout successful');
     this._router.navigate(['../sign-in']);
   }
   userInit(): void {
-    this._user.saveUserData({secrets: {access_token: '123', expires_in: '123', refresh_token: '123123', token_type: 'Bearer'}, image: 'http://via.placeholder.com/100x100'});
     this.userSubscription = this._user.userSubscription().subscribe(user => {
       this.user = user;
     });
@@ -182,9 +193,11 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.completedRequests = 0;
-    this.userInit();
-    this.balanceInit();
-    this.navigationInit();
+    this.initLists().then(() => {
+      this.userInit();
+      this.balanceInit();
+      this.navigationInit();
+    });
   }
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();

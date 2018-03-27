@@ -14,8 +14,14 @@ import {SignUpComponent} from '../components/sign-up/sign-up.component';
 import {EmailConfirmComponent} from '../components/confirmation/email-confirm.component';
 import {CodeConfirmComponent} from '../components/confirmation/code-confirm.component';
 import {PasswordRecoveryComponent} from '../components/password-recovery/password-recovery.component';
-import {PasswordChangeComponent} from '../components/confirmation/password-change.component';
+import {PasswordResetComponent} from '../components/confirmation/password-reset.component';
 import {DashboardComponent} from '../components/dashboard/dashboard.component';
+import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.component';
+import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sign-up-tariff-plans.component';
+import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-form.component';
+import {BlankComponent} from '../components/blank/blank.component';
+import {SettingsComponent} from '../components/settings/settings.component';
+import {TemporaryCodeComponent} from '../components/temporary-code/temporary-code.component';
 
 /*
   Components declarations and exports
@@ -36,20 +42,30 @@ import {DashboardComponent} from '../components/dashboard/dashboard.component';
     SignUpComponent,
     EmailConfirmComponent,
     CodeConfirmComponent,
+    TemporaryCodeComponent,
     PasswordRecoveryComponent,
-    PasswordChangeComponent,
-    DashboardComponent
+    PasswordResetComponent,
+    DashboardComponent,
+    TariffPlansComponent,
+    SignUpTariffPlansComponent,
+    SignUpFormComponent,
+    DashboardComponent,
+    BlankComponent,
+    SettingsComponent
   ],
   exports: [
+    ElementsModule,
     PageNotFoundComponent,
     IndexComponent,
     SignInComponent,
     SignUpComponent,
     EmailConfirmComponent,
     CodeConfirmComponent,
+    TemporaryCodeComponent,
     PasswordRecoveryComponent,
-    PasswordChangeComponent,
-    DashboardComponent
+    PasswordResetComponent,
+    DashboardComponent,
+    BlankComponent
   ]
 })
 export class ComponentsModule {  }

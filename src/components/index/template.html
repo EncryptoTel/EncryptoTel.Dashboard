@@ -1,18 +1,26 @@
 <pbx-loader *ngIf="completedRequests < 3"></pbx-loader>
 <div class="navigation_wrap" *ngIf="completedRequests > 2">
-  <div class="user_wrap">
+  <div class="user_wrap" [ngClass]="{'active': userNavigationVisible}" (click)="userNavigationVisible = !userNavigationVisible" (clickOutside)="hideUserNavigation()" #userWrap>
     <div class="user_profile_image" [ngStyle]="{'background-image': 'url(' + (user.image) + ')'}"></div>
     <div class="user_details_wrap">
       <div class="user_details_name">{{user.name}}</div>
-      <div class="user_details_balance">{{balance.symbol}}{{balance.balance}}</div>
+      <div class="user_details_balance" *ngIf="completedRequests > 2">{{balance.symbol}}{{balance.balance}}</div>
     </div>
-    <svg-icon class="dropdown_arrow" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+    <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
+    <div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">
+      <a routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item">Refill balance</a>
+      <a routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item">Tariff plan</a>
+      <div (click)="logout()" class="user_navigation_item">
+        <span>Exit</span>
+        <svg-icon src="../../assets/icons/exit.svg" class="user_navigation_logout"></svg-icon>
+      </div>
+    </div>
   </div>
   <div class="navigation_block_wrap">
     <div class="navigation_block" *ngFor="let block of navigationList">
       <div *ngFor="let navigationItem of block">
         <a [routerLink]="navigationItem.link" routerLinkActive="active" class="navigation_item" [ngClass]="{'inactive': !navigationItem.status}" *ngIf="navigationItem.visible">
-          <svg-icon class="navigation_item_icon" [src]="'../../assets/icons/' + navigationItem.icon + '.svg'"></svg-icon>
+          <svg-icon [src]="'../../assets/icons/' + navigationItem.icon + '.svg'" class="navigation_item_icon"></svg-icon>
           <div class="navigation_item_title">{{navigationItem.title}}</div>
         </a>
       </div>

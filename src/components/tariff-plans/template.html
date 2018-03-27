@@ -1,0 +1,16 @@
+<div class="tariff_wrap">
+  <div class="tariff_item" *ngFor="let tariff of tariffs" [ngClass]="{'current_tariff':tariff.id===currentTariff}">
+    <div class="tariff_item__description">
+      <h3 class="tariff_item__description-title">{{tariff.title}}</h3>
+      <ul class="tariff_item__description-list">
+        <li class="tariff_item__description-list__item" *ngFor="let service of tariff.services">{{service.title}}</li>
+      </ul>
+      <p class="tariff_item__description-price">{{tariff.title === 'Basic'? '':'$ ' + tariff.price + '/monthly'}}</p>
+    </div>
+    <button class="tariff_item__button"
+            [ngClass]="{'current_tariff__button':tariff.id===currentTariff}"
+            (click)="chooseTariff(tariff.id)">
+      {{ tariff.id === currentTariff? 'Subscribed': tariff.title==='Basic'?'Free': 'Buy Now'}}
+    </button>
+  </div>
+</div>

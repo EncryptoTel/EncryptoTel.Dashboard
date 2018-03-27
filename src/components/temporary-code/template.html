@@ -1,0 +1,16 @@
+<div class="auth_form">
+  <svg-icon src="/assets/icons/logo.svg" class="auth_form_icon"></svg-icon>
+  <form (submit)="sendTemporaryPassword($event)" [formGroup]="temporaryCodeForm" (keyup)="clearMessage($event)">
+    <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="_services.clearMessage()">{{message.message}}</div>
+    <div class="input_wrap">
+      <input name="Username" id="email" placeholder="E-mail" formControlName="email">
+      <div class="input_error" *ngIf="inputValidation('email')" [@Fade]>
+        <span class="input_error_item" *ngIf="inputValidation('email', 'required')">Please enter your e-mail address</span>
+        <span class="input_error_item" *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>
+      </div>
+    </div>
+    <pbx-button [buttonType]="'accent'" [loading]="loading" [value]="'Sign In'" (onClick)="sendTemporaryPassword()"></pbx-button>
+    <div class="auth_form_text">Don't have an EncryptoTel Account?</div>
+    <a routerLink="../sign-up" class="auth_form_link">Create one now</a>
+  </form>
+</div>

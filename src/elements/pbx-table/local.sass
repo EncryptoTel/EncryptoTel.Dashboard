@@ -1,0 +1,56 @@
+@import '../../vars'
+
+.table
+  &_head, &_body
+    flex-direction: column
+  &_head &_column
+    text-transform: capitalize
+  &_column
+    flex-direction: column
+    flex: 1
+    height: 40px
+    justify-content: center
+    pointer-events: none
+    &:first-child
+      padding-left: 16px
+  &_body > .table_row
+    cursor: pointer
+  &_row
+    position: relative
+    & > .table_row_icon
+      cursor: pointer
+    &:hover .table_row_icon
+      opacity: 1
+    &_icon
+      width: 12px
+      height: 12px
+      cursor: pointer
+      pointer-events: initial
+      opacity: 0
+      & *, /deep/ *
+        cursor: pointer
+      &.edit
+        margin-right: 12px
+      &_wrap
+        position: absolute
+        right: 16px
+        top: 12px
+
+\:host-context(.dark_theme)
+  .table
+    &_head
+      color: darken($dark_primary, 35%)
+    &_row
+      border-bottom: 1px solid $dark_overlay
+      &_icon
+        &.delete
+          /deep/ polygon
+            fill: $dark_error
+        &.edit
+          /deep/ path, /deep/ rect
+            fill: $dark_success
+    &_body > .table_row:hover
+      background: rgba($dark_primary, .05)
+    &_body > .table_row.active
+      background: rgba($dark_primary, .15)
+
