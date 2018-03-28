@@ -66,11 +66,11 @@ export class SignInComponent implements OnInit, OnDestroy {
       this._router.navigateByUrl('/cabinet');
     }
     this.signInForm = new FormGroup({
-      'login': new FormControl(null, [
+      'login': new FormControl('', [
         Validators.required,
         Validators.pattern(_vars.emailRegExp)
       ]),
-      'password': new FormControl(null, [
+      'password': new FormControl('', [
         Validators.required,
         Validators.minLength(6)
       ])
