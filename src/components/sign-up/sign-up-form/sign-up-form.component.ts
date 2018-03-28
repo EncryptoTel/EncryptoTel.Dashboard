@@ -34,10 +34,10 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
   inputValidation(name: string, errorType?: string): boolean {
     if (errorType) {
       const field = this.signUpForm.controls[name];
-      return field.errors[errorType] && (field.dirty || field.touched);
+      return field && field.errors[errorType] && (field.dirty || field.touched);
     } else {
       const field = this.signUpForm.controls[name];
-      return field.invalid && (field.dirty || field.touched);
+      return field && field.invalid && (field.dirty || field.touched);
     }
   }
 
@@ -79,23 +79,23 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
       this.signUpForm = this._services.signUpData;
     } else {
       this.signUpForm = new FormGroup({
-        'firstname': new FormControl(null, [
+        'firstname': new FormControl('', [
           Validators.required,
           Validators.pattern(_vars.nameRegExp)
         ]),
-        'lastname': new FormControl(null, [
-          Validators.pattern(_vars.nameRegExp)
-        ]),
-        'email': new FormControl(null, [
+        'email': new FormControl('', [
           Validators.required,
           Validators.pattern(_vars.emailRegExp)
         ]),
-        'password': new FormControl(null, [
+        'password': new FormControl('', [
+          Validators.required,
+          Validators.minLength(6)
+        ]),
+        'password_confirmation': new FormControl('', [
           Validators.required,
           Validators.minLength(6)
         ]),
         'tariff_plan_id': new FormControl(1),
-        'password_confirmation': new FormControl(),
       }, passwordConfirmation);
     }
   }
