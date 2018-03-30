@@ -1,0 +1,185 @@
+{
+  "history": [
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152,
+        "name": "Marcus",
+        "surname": "Moser"
+      },
+      "direction": "outgoing",
+      "status": true,
+      "duration": 15885,
+      "date": "2017-02-13T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152,
+        "name": "Marcus",
+        "surname": "Moser"
+      },
+      "direction": "incoming",
+      "status": true,
+      "duration": 14232,
+      "date": "2017-02-13T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152
+      },
+      "direction": "incoming",
+      "status": false,
+      "duration": 0,
+      "date": "2017-02-13T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152
+      },
+      "direction": "outgoing",
+      "status": true,
+      "duration": 195,
+      "date": "2017-02-12T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152
+      },
+      "direction": "outgoing",
+      "status": false,
+      "duration": 0,
+      "date": "2017-02-12T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152
+      },
+      "direction": "incoming",
+      "status": true,
+      "duration": 1098,
+      "date": "2017-02-12T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152,
+        "name": "Marcus",
+        "surname": "Moser"
+      },
+      "direction": "outgoing",
+      "status": true,
+      "duration": 15885,
+      "date": "2017-02-12T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152,
+        "name": "Marcus",
+        "surname": "Moser"
+      },
+      "direction": "incoming",
+      "status": true,
+      "duration": 14232,
+      "date": "2017-02-12T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152,
+        "name": "Marcus",
+        "surname": "Moser"
+      },
+      "direction": "outgoing",
+      "status": false,
+      "duration": 0,
+      "date": "2017-02-10T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152
+      },
+      "direction": "outgoing",
+      "status": true,
+      "duration": 195,
+      "date": "2017-02-10T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152
+      },
+      "direction": "outgoing",
+      "status": false,
+      "duration": 0,
+      "date": "2017-02-10T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152,
+        "name": "Marcus",
+        "surname": "Moser"
+      },
+      "direction": "incoming",
+      "status": true,
+      "duration": 1098,
+      "date": "2017-02-10T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152
+      },
+      "direction": "outgoing",
+      "status": true,
+      "duration": 195,
+      "date": "2017-02-10T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152,
+        "name": "Marcus",
+        "surname": "Moser"
+      },
+      "direction": "outgoing",
+      "status": false,
+      "duration": 0,
+      "date": "2017-02-10T20:10:15.515Z"
+    },
+    {
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 8465152,
+        "name": "Marcus",
+        "surname": "Moser"
+      },
+      "direction": "incoming",
+      "status": true,
+      "duration": 1098,
+      "date": "2017-02-10T20:10:15.515Z"
+    }
+  ]
+}

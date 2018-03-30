@@ -1,0 +1,18 @@
+{
+  "currencies": [{
+    "id": 0,
+    "code": "RUR",
+    "name": "Рубль",
+    "symbol": "₽"
+  },{
+    "id": 1,
+    "code": "USD",
+    "name": "United States Dollar",
+    "symbol": "$"
+  },{
+    "id": 2,
+    "code": "EUR",
+    "name": "Euro",
+    "symbol": "€"
+  }]
+}
