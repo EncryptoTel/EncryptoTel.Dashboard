@@ -1,0 +1,44 @@
+{
+  "numbers": [
+    {
+      "id": 0,
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 1000001
+      },
+      "exts": 30,
+      "online": 15
+    },
+    {
+      "id": 1,
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 1000002
+      },
+      "exts": 25,
+      "online": 5
+    },
+    {
+      "id": 2,
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 1000004
+      },
+      "exts": 14,
+      "online": 13
+    },
+    {
+      "id": 3,
+      "phone_number": {
+        "country_id": 171,
+        "number_prefix": 473,
+        "number": 1000005
+      },
+      "exts": 5,
+      "online": 3
+    }
+  ]
+}
