@@ -1,0 +1,14 @@
+<div class="sidebar">
+  <div class="sidebar_info_wrap" *ngIf="sidebarInfo">
+    <div class="sidebar_info_title">{{sidebarInfo['title']}}</div>
+    <div class="sidebar_description_wrap">
+      <div class="sidebar_info_description" *ngFor="let description of sidebarInfo['description']">
+        <div class="description_text" *ngIf="isSingleLine(description)">{{description}}</div>
+        <div class="description_item_wrap" *ngIf="!isSingleLine(description)">
+          <div class="description_text">{{description['title']}}</div>
+          <div class="description_text">{{description['value']}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

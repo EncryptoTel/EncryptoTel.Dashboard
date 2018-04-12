@@ -9,6 +9,7 @@ import {LoaderComponent} from '../elements/pbx-loader/pbx-loader.component';
 import {SelectComponent} from '../elements/pbx-select/pbx-select.component';
 import {ButtonComponent} from '../elements/pbx-button/pbx-button.component';
 import {TableComponent} from '../elements/pbx-table/pbx-table.component';
+import {SidebarComponent} from '../elements/pbx-sidebar/pbx-sidebar.component';
 
 @NgModule({
   imports: [
@@ -21,14 +22,16 @@ import {TableComponent} from '../elements/pbx-table/pbx-table.component';
     LoaderComponent,
     SelectComponent,
     ButtonComponent,
-    TableComponent
+    TableComponent,
+    SidebarComponent
   ],
   exports: [
     ClickOutsideDirective,
     LoaderComponent,
     SelectComponent,
     ButtonComponent,
-    TableComponent
+    TableComponent,
+    SidebarComponent
   ]
 })
 export class ElementsModule {  }

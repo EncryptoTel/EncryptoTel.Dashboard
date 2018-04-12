@@ -10,12 +10,21 @@ import {FadeAnimation} from '../../shared/fade-animation';
 })
 
 export class ButtonComponent {
-  constructor() {}
-  @Input() value: string | 'Submit';
-  @Input() buttonType: string | 'accent';
+  @Input() value: string;
+  @Input() buttonType: string;
   @Input() loading: boolean;
   @Output() onClick: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('button') button: ElementRef;
+
+  constructor() {
+    if (!this.value) {
+      this.value = 'Submit';
+    }
+    if (!this.buttonType) {
+      this.buttonType = 'accent';
+    }
+  }
+
   clicked(ev?: MouseEvent): void {
     if (ev) {
       ev.stopPropagation();
