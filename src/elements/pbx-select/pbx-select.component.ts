@@ -11,6 +11,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 
 export class SelectComponent {
   @Input() options: any[];
+  @Input() objectKey: string;
   @Input() selected: object;
   @Input() placeholder: string;
   @Output() onSelect: EventEmitter<object> = new EventEmitter();
