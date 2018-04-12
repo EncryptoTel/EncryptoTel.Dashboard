@@ -22,6 +22,11 @@ import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-fo
 import {BlankComponent} from '../components/blank/blank.component';
 import {SettingsComponent} from '../components/settings/settings.component';
 import {TemporaryCodeComponent} from '../components/temporary-code/temporary-code.component';
+import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
+import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
+import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
+import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
+
 
 /*
   Components declarations and exports
@@ -51,7 +56,11 @@ import {TemporaryCodeComponent} from '../components/temporary-code/temporary-cod
     SignUpFormComponent,
     DashboardComponent,
     BlankComponent,
-    SettingsComponent
+    SettingsComponent,
+    CallQueuesComponent,
+    CallQueuesCreateComponent,
+    CallQueuesGeneralComponent,
+    CallQueuesMembersComponent
   ],
   exports: [
     ElementsModule,
@@ -65,7 +74,11 @@ import {TemporaryCodeComponent} from '../components/temporary-code/temporary-cod
     PasswordRecoveryComponent,
     PasswordResetComponent,
     DashboardComponent,
-    BlankComponent
+    BlankComponent,
+    CallQueuesComponent,
+    CallQueuesCreateComponent,
+    CallQueuesGeneralComponent,
+    CallQueuesMembersComponent
   ]
 })
 export class ComponentsModule {  }

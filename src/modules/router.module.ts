@@ -19,6 +19,10 @@ import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-fo
 import {BlankComponent} from '../components/blank/blank.component';
 import {SettingsComponent} from '../components/settings/settings.component';
 import {TemporaryCodeComponent} from '../components/temporary-code/temporary-code.component';
+import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
+import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
+import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
+import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -38,7 +42,14 @@ const Routes: Routes = [
     {path: 'phone-numbers', component: BlankComponent, data: {title: 'Phone numbers', indexed: true}},
     {path: 'address-book', component: BlankComponent, data: {title: 'Address book', indexed: true}},
     {path: 'call-rules', component: BlankComponent, data: {title: 'Call rules', indexed: true}},
-    {path: 'call-queues', component: BlankComponent, data: {title: 'Call queues', indexed: true}},
+    {path: 'call-queues', children: [
+        {path: '', component: CallQueuesComponent, data: {data: {title: 'Call queues', indexed: true}}},
+        {path: 'create', component: CallQueuesCreateComponent, data: {title: 'Call queues create', indexed: true}, children: [
+            {path: '', component: CallQueuesGeneralComponent},
+            {path: 'general', component: CallQueuesGeneralComponent, data: {title: 'Call queues create', indexed: true}},
+            {path: 'members', component: CallQueuesMembersComponent, data: {title: 'Call queues create', indexed: true}}
+          ]}
+      ]},
     {path: 'ring-groups', component: BlankComponent, data: {title: 'Ring groups', indexed: true}},
     {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
     {path: 'company', component: BlankComponent, data: {title: 'Company', indexed: true}},

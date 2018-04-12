@@ -1,0 +1,20 @@
+<div class="call_queues_create_wrap">
+  <div class="call_queues_create_header">
+    <div class="call_queues_create_tabs">
+      <div class="call_queues_create_tab">
+        <a routerLink="general" routerLinkActive="active" [skipLocationChange]="true" class="active">General</a>
+      </div>
+      <div class="call_queues_create_tab">
+        <a routerLink="members" routerLinkActive="active" [skipLocationChange]="true">Members</a>
+      </div>
+      <div class="call_queues_create_tab">
+        <a routerLink="notifications" routerLinkActive="active" [skipLocationChange]="true">Notifications</a>
+      </div>
+    </div>
+    <div class="call_queues_create_buttons">
+      <button class="call_queues_create_button cancel">Cancel</button>
+      <button class="call_queues_create_button save">Save</button>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

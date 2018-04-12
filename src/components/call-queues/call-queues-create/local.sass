@@ -1,0 +1,51 @@
+@import "../../../vars"
+// Global variables import
+
+.call_queues_create
+  &_wrap
+    display: flex
+    flex-flow: column
+    height: 100%
+    width: 100%
+  &_header
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+    height: 6%
+  &_tabs
+    width: 26%
+    background: $dark_overlay
+  &_tab
+    flex: 1
+    a
+      display: flex
+      flex-flow: column
+      justify-content: center
+      align-items: center
+      width: 100%
+      height: 100%
+  &_buttons
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+    align-items: center
+    width: 15%
+  &_button
+    display: flex
+    flex-flow: column
+    justify-content: center
+    align-items: center
+    height: 80%
+    width: 48%
+    border-radius: 2px
+    cursor: pointer
+
+.active
+  color: $dark_accent
+  background: $dark_pagination_inactive
+
+.cancel
+  background: $dark_pagination_inactive
+
+.save
+  background: $dark_success
