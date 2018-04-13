@@ -22,7 +22,7 @@ export class CallQueuesServices {
   };
 
   save() {
-    this.request.post('call_queue', this.callQueue, true).then(res => {
+    this.request.post('v1/call_queue', this.callQueue, true).then(res => {
     }).catch(err => {
     });
   }
@@ -41,7 +41,10 @@ export class CallQueuesServices {
     };
     this.router.navigate(['cabinet', 'call-queues']);
   }
+  delete(id:number) {
+    return this.request.del(`v1/call_queue/${id}`);
+  }
   getQueues() {
-    return this.request.get('call_queue', true);
+    return this.request.get('v1/call_queue', true);
   }
 }

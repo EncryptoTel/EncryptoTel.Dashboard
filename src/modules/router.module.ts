@@ -44,13 +44,21 @@ const Routes: Routes = [
     {path: 'address-book', component: BlankComponent, data: {title: 'Address book', indexed: true}},
     {path: 'call-rules', component: BlankComponent, data: {title: 'Call rules', indexed: true}},
     {path: 'call-queues', children: [
-        {path: '', component: CallQueuesComponent, data: {data: {title: 'Call queues', indexed: true}}},
+        {path: '', component: CallQueuesComponent, data: {title: 'Call queues create', indexed: true}},
         {path: 'create', component: CallQueuesCreateComponent, data: {title: 'Call queues create', indexed: true}, children: [
             {path: '', redirectTo: 'general', pathMatch: 'full'},
             {path: 'general', component: CallQueuesGeneralComponent, data: {title: 'Call queues create', indexed: true}},
             {path: 'members', children: [
                 {path: '', pathMatch: 'full', component: CallQueuesMembersComponent, data: {title: 'Call queues create', indexed: true}},
                 {path: 'add', component: CallQueuesMembersAddComponent, data: {title: 'Call queues create', indexed: true}}
+              ]}
+          ]},
+        {path: 'edit/:id', component: CallQueuesCreateComponent, data: {title: 'Call queues edit', indexed: true}, children: [
+            {path: '', redirectTo: 'general', pathMatch: 'full'},
+            {path: 'general', component: CallQueuesGeneralComponent, data: {title: 'Call queues edit', indexed: true}},
+            {path: 'members', children: [
+                {path: '', pathMatch: 'full', component: CallQueuesMembersComponent, data: {title: 'Call queues edit', indexed: true}},
+                {path: 'add', component: CallQueuesMembersAddComponent, data: {title: 'Call queues edit', indexed: true}}
               ]}
           ]}
       ]},

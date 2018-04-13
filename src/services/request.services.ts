@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 
 import {LoggerServices} from './logger.services';
 import {MessageServices} from './message.services';
 
 import {environment as _env} from '../environments/environment';
+import {StorageServices} from './storage.services';
 
 /*
   Parent request services. Processing errors and console output for responses
@@ -15,14 +16,16 @@ import {environment as _env} from '../environments/environment';
 export class RequestServices {
   constructor(private http: HttpClient,
               private _messages: MessageServices,
-              private logger: LoggerServices) {}
+              private logger: LoggerServices,
+              private storage: StorageServices) {}
+
   /*
     Default POST request. Accepted params:
     URI: string - request uri,
     Data: object - request params
    */
   post(uri: string, data: object, serverReady: boolean = false): Promise<any> {
-    return this.http.post(`${serverReady ? _env.back : _env.ph}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
+    return this.http.post(`${serverReady ? _env.back : _env.ph}/${uri}`, {...data}, {observe: 'response', headers: this.setHeaders()}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('POST-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method
@@ -40,13 +43,14 @@ export class RequestServices {
         return Promise.reject(response.error);
       });
   }
+
   /*
     Default PUT request. Accepted params:
     URI: string - request uri,
     Data: object - request params
    */
   put(uri: string, data: object, serverReady: boolean = false): Promise<any> {
-    return this.http.put(`${serverReady ? _env.back : _env.ph}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
+    return this.http.put(`${serverReady ? _env.back : _env.ph}/${uri}`, {...data}, {observe: 'response', headers: this.setHeaders()}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('PUT-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method
@@ -64,12 +68,13 @@ export class RequestServices {
         return Promise.reject(response.error);
       });
   }
+
   /*
     Default GET request. Accepted params:
     URI: string - request uri with stringified params
    */
   get(uri: string, serverReady: boolean = false): Promise<any> {
-    return this.http.get(`${serverReady ? _env.back : _env.ph}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
+    return this.http.get(`${serverReady ? _env.back : _env.ph}/${uri}`, {observe: 'response', headers: this.setHeaders()}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('GET-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method
@@ -87,12 +92,13 @@ export class RequestServices {
         return Promise.reject(response.error);
       });
   }
+
   /*
     Default DELETE request. Accepted params:
     URI: string - request uri with stringified params
    */
   del(uri: string, serverReady: boolean = false): Promise<any> {
-    return this.http.delete(`${serverReady ? _env.back : _env.ph}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
+    return this.http.delete(`${serverReady ? _env.back : _env.ph}/${uri}`, {observe: 'response', headers: this.setHeaders()}).toPromise() // Request to promise conversion
       .then(response => { // Successful request processing
         this.logger.log('DELETE-request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method
@@ -109,5 +115,15 @@ export class RequestServices {
         });
         return Promise.reject(response.error);
       });
+  }
+
+  private setHeaders() {
+    const user = this.storage.readItem('pbx_user');
+    if (user) {
+      return new HttpHeaders({
+        'Authorization': `Bearer ${user.secrets.access_token}`,
+        'Content-Type': 'application/json'
+      });
+    }
   }
 }
