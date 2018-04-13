@@ -41,9 +41,11 @@ export class CallQueuesServices {
     };
     this.router.navigate(['cabinet', 'call-queues']);
   }
-  delete(id:number) {
+
+  delete(id: number) {
     return this.request.del(`v1/call_queue/${id}`);
   }
+
   getQueues() {
     return this.request.get('v1/call_queue', true);
   }
