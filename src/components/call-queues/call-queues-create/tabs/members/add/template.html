@@ -1,0 +1,13 @@
+<div class="call_queues_members_add_wrap">
+  <div class="call_queues_members_add_header">
+    <div class="call_queues_members_add_filter">
+      <span>Department:</span>
+      <pbx-select></pbx-select>
+    </div>
+    <div class="call_queues_members_add_filter">
+      <span>Search:</span>
+      <input type="search" placeholder="Search by Name or Phone">
+    </div>
+  </div>
+  <pbx-table [tableInfo]="table.title" [tableItems]="table.items"></pbx-table>
+</div>

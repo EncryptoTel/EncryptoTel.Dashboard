@@ -23,6 +23,7 @@ import {CallQueuesComponent} from '../components/call-queues/call-queues.compone
 import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
 import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
 import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
+import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -45,9 +46,12 @@ const Routes: Routes = [
     {path: 'call-queues', children: [
         {path: '', component: CallQueuesComponent, data: {data: {title: 'Call queues', indexed: true}}},
         {path: 'create', component: CallQueuesCreateComponent, data: {title: 'Call queues create', indexed: true}, children: [
-            {path: '', component: CallQueuesGeneralComponent},
+            {path: '', redirectTo: 'general', pathMatch: 'full'},
             {path: 'general', component: CallQueuesGeneralComponent, data: {title: 'Call queues create', indexed: true}},
-            {path: 'members', component: CallQueuesMembersComponent, data: {title: 'Call queues create', indexed: true}}
+            {path: 'members', children: [
+                {path: '', pathMatch: 'full', component: CallQueuesMembersComponent, data: {title: 'Call queues create', indexed: true}},
+                {path: 'add', component: CallQueuesMembersAddComponent, data: {title: 'Call queues create', indexed: true}}
+              ]}
           ]}
       ]},
     {path: 'ring-groups', component: BlankComponent, data: {title: 'Ring groups', indexed: true}},

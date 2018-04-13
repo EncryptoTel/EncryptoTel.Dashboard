@@ -70,7 +70,7 @@ pbx-tariff-plans
   justify-content: space-around
   align-items: center
 
-pbx-call-queues-general,pbx-call-queues-members
+pbx-call-queues-general,pbx-call-queues-members, pbx-call-queues-members-add
   flex: 1
 
 input
@@ -80,6 +80,10 @@ input
   cursor: text
   &:-webkit-autofill
     animation: auto_fill 0s forwards
+
+input[type='number']
+  &::-webkit-inner-spin-button
+    display: none
 
 pbx-button
   width: 100%

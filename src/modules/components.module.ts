@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AngularSvgIconModule} from 'angular-svg-icon';
+import {FormsModule} from '@angular/forms';
 
 import {ElementsModule} from './elements.module';
 import {MainRouterModule} from './router.module';
@@ -26,6 +27,7 @@ import {CallQueuesComponent} from '../components/call-queues/call-queues.compone
 import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
 import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
 import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
+import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
 
 
 /*
@@ -38,7 +40,8 @@ import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-
     ReactiveFormsModule,
     AngularSvgIconModule,
     ElementsModule,
-    MainRouterModule
+    MainRouterModule,
+    FormsModule
   ],
   declarations: [
     PageNotFoundComponent,
@@ -60,7 +63,8 @@ import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-
     CallQueuesComponent,
     CallQueuesCreateComponent,
     CallQueuesGeneralComponent,
-    CallQueuesMembersComponent
+    CallQueuesMembersComponent,
+    CallQueuesMembersAddComponent
   ],
   exports: [
     ElementsModule,
@@ -78,7 +82,9 @@ import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-
     CallQueuesComponent,
     CallQueuesCreateComponent,
     CallQueuesGeneralComponent,
-    CallQueuesMembersComponent
+    CallQueuesMembersComponent,
+    CallQueuesMembersAddComponent
   ]
 })
-export class ComponentsModule {  }
+export class ComponentsModule {
+}

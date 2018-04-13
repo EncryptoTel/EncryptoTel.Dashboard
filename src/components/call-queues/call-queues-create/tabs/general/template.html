@@ -7,7 +7,15 @@
       <span>Name</span>
     </div>
     <div class="call_queues_general_item_input_wrap">
-      <input type="text" placeholder="Unnamed">
+      <input type="text" placeholder="Unnamed" [(ngModel)]="_services.callQueue.name">
+    </div>
+  </div>
+  <div class="call_queues_general_item">
+    <div class="call_queues_general_item_label">
+      <span>Description</span>
+    </div>
+    <div class="call_queues_general_item_input_wrap">
+      <input type="text" placeholder="Description" [(ngModel)]="_services.callQueue.description">
     </div>
   </div>
   <div class="call_queues_general_item">
@@ -15,7 +23,7 @@
       <span>Phone number</span>
     </div>
     <div class="call_queues_general_item_input_wrap">
-      <pbx-select [options]="numbers"></pbx-select>
+      <pbx-select></pbx-select>
     </div>
   </div>
   <div class="call_queues_general_item">
@@ -31,7 +39,7 @@
       <span>Ring Time</span>
     </div>
     <div class="call_queues_general_item_input_wrap time">
-      <input type="number">
+      <input type="number" [(ngModel)]="_services.callQueue.timeout">
       <span>seconds</span>
     </div>
   </div>
@@ -40,16 +48,7 @@
       <span>Maximum Callers in Queue</span>
     </div>
     <div class="call_queues_general_item_input_wrap time">
-      <input type="number">
-    </div>
-  </div>
-  <div class="call_queues_general_item">
-    <div class="call_queues_general_item_label">
-      <span>Configure SLA Time</span>
-    </div>
-    <div class="call_queues_general_item_input_wrap time">
-      <input type="number">
-      <span>seconds</span>
+      <input type="number" [(ngModel)]="_services.callQueue.maxlen">
     </div>
   </div>
   <div class="call_queues_general_item">
@@ -65,7 +64,7 @@
     </div>
     <div class="call_queues_general_item_input_wrap checkbox">
       <input type="checkbox">
-      <span>Enable announce interval</span>
+      <span>Announce interval position</span>
     </div>
   </div>
 </div>

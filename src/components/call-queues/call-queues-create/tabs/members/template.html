@@ -1,7 +1,7 @@
 <div class="call_queues_members_wrap">
   <div class="call_queues_members_header">
     <span>Call Queues Members</span>
-    <button>Add Member</button>
+    <a routerLink="add" [skipLocationChange]="true">Add Member</a>
   </div>
   <pbx-table [tableInfo]="table.title" [tableItems]="table.items"></pbx-table>
 </div>

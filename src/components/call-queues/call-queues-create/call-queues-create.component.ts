@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {CallQueuesServices} from '../../../services/call-queues.services';
 
 @Component({
   selector: 'pbx-call-queues-create',
@@ -7,5 +8,14 @@ import {Component} from '@angular/core';
 })
 
 export class CallQueuesCreateComponent {
+  constructor(private _service: CallQueuesServices) {
+  }
 
+  save() {
+    this._service.save();
+  }
+
+  cancel() {
+    this._service.cancel();
+  }
 }

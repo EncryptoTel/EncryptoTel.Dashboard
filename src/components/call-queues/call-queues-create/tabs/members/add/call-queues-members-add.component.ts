@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 
 @Component({
-  selector: 'pbx-call-queues-members',
+  selector: 'pbx-call-queues-members-add',
   templateUrl: './template.html',
   styleUrls: ['./local.sass']
 })
 
-export class CallQueuesMembersComponent {
+export class CallQueuesMembersAddComponent {
   table = {
     title: {
       titles: ['', '#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
