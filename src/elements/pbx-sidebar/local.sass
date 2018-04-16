@@ -1,0 +1,36 @@
+@import '../../vars'
+
+.sidebar
+  flex-direction: column
+  margin: 0 -32px 0 24px
+  width: 352px
+  padding: 24px 0
+  &_info
+    &_wrap
+      flex-direction: column
+    &_title
+      flex: 0 0 auto
+      font-size: rem(40)
+      margin-bottom: 16px
+      padding: 0 40px
+    &_description
+      min-height: 40px
+      &:not(:first-child)
+        margin-top: 16px
+  &_description
+    flex: 0 0 auto
+    &_wrap
+      flex-direction: column
+      padding: 0 40px
+      overflow-y: auto
+      .description_item_wrap
+        flex: 1 0 auto
+        justify-content: space-between
+        min-height: 40px
+      .description_text
+        align-items: center
+
+// Theme styles
+\:host-context(.dark_theme)
+  .sidebar
+    background: $dark_overlay

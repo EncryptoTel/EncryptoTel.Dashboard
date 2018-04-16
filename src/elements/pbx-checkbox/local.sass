@@ -1,0 +1,36 @@
+@import '../../vars'
+
+.checkbox
+  height: rem(16)
+  width: rem(16)
+  border: 1px solid
+  position: relative
+  margin-right: 0
+  &:after
+    content: ''
+    position: absolute
+    left: rem(2)
+    top: rem(2)
+    height: rem(10)
+    width: rem(10)
+    transition: all linear 150ms
+  &_wrap
+    flex: 0 0 auto
+    height: rem(40)
+    align-items: center
+    cursor: pointer
+    > *, *
+      pointer-events: none
+    &.revert > .checkbox
+      margin-right: rem(32)
+  &_title
+    width: rem(160)
+    font-size: rem(12)
+
+\:host-context(.dark_theme)
+  .checkbox
+    border-color: $dark_overlay
+    &.active:after
+      background: $dark_accent
+    &_wrap
+      color: rgba($dark_primary, .35)
