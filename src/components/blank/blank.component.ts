@@ -13,6 +13,8 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
               [objectKey]="'title'"
               [placeholder]="'Please select something'"
               (onSelect)="selectOption($event)"></pbx-select>
+            <pbx-checkbox style="flex: 0 0 auto;" title="Example checkbox" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
+            <pbx-checkbox style="flex: 0 0 auto;" [revert]="true" title="Example checkbox" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
             <div style="flex-direction: row; width: 100%">
               <pbx-table [tableItems]="tableData"
                          [tableInfo]="tableInfo"
@@ -29,6 +31,7 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
 export class BlankComponent {
   selectedRow;
   selectedOption;
+  checkboxStatus: boolean;
   sidebarInfo: SidebarInfo = {
     title: 'Information',
     description: [
@@ -61,11 +64,6 @@ export class BlankComponent {
       {title: 'Available external numbers', value: '16'}
     ]
   };
-  /*
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet lectus diam. Nullam venenatis orci quis nisl lacinia, non bibendum risus egestas. Nullam magna lectus, semper venenatis ex ac, finibus vehicula nunc. In vitae laoreet leo. Cras ut magna in turpis feugiat ullamcorper a tincidunt magna. Quisque suscipit eros lacinia turpis laoreet, nec accumsan dolor consectetur. Maecenas imperdiet massa eu eros consequat placerat at eu eros.',
-    'Phasellus a augue vel sapien efficitur consequat aliquam in lacus. Donec sit amet feugiat mi, at consequat dui. In id odio vel diam volutpat eleifend. Curabitur eu gravida nisl. Praesent nec mi eros. Sed accumsan elementum dolor vel suscipit. Duis non gravida ex. Vestibulum at varius justo. Donec condimentum est diam, vel elementum mauris pellentesque eu. Mauris enim dui, luctus ac luctus quis, ultrices in quam. Pellentesque tempus quis sapien eget tincidunt. Curabitur rhoncus malesuada neque. Nullam ac mi id nisl laoreet ultrices. Fusce quam enim, auctor vitae arcu eu, vestibulum efficitur tellus. Mauris ut faucibus diam.',
-    'Nunc viverra auctor interdum. Aliquam erat volutpat. Integer vehicula sapien euismod leo interdum rutrum. Morbi pellentesque eu magna vitae fermentum. In auctor a tellus eget aliquam. Quisque lacus erat, eleifend sit amet scelerisque sit amet, blandit ac ante. Curabitur molestie arcu non dictum ultricies. Phasellus interdum vestibulum magna, eget rutrum sapien tempus sit amet. Duis blandit nunc a dolor sagittis maximus. Vestibulum fringilla et libero sit amet tempor.'
-   */
   selectOptions = [
     {id: 1, title: 'Option 1', description: 'Select option 1'},
     {id: 2, title: 'Option 2', description: 'Select option 2'},
@@ -100,5 +98,8 @@ export class BlankComponent {
   }
   selectOption(object): void {
     this.selectedOption = object;
+  }
+  checkbox = (ev): void => {
+    console.log(ev);
   }
 }

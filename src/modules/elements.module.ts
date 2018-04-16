@@ -10,6 +10,7 @@ import {SelectComponent} from '../elements/pbx-select/pbx-select.component';
 import {ButtonComponent} from '../elements/pbx-button/pbx-button.component';
 import {TableComponent} from '../elements/pbx-table/pbx-table.component';
 import {SidebarComponent} from '../elements/pbx-sidebar/pbx-sidebar.component';
+import {CheckboxComponent} from '../elements/pbx-checkbox/pbx-checkbox.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import {SidebarComponent} from '../elements/pbx-sidebar/pbx-sidebar.component';
     LoaderComponent,
     SelectComponent,
     ButtonComponent,
+    CheckboxComponent,
     TableComponent,
     SidebarComponent
   ],
@@ -30,6 +32,7 @@ import {SidebarComponent} from '../elements/pbx-sidebar/pbx-sidebar.component';
     LoaderComponent,
     SelectComponent,
     ButtonComponent,
+    CheckboxComponent,
     TableComponent,
     SidebarComponent
   ]
