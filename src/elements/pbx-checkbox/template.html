@@ -1,10 +1,1 @@
-<div class="checkbox_wrap" (click)="toggleCheckbox()" *ngIf="!revert; else revert_wrap">
-  <div class="checkbox_title">{{title}}</div>
-  <div class="checkbox" [ngClass]="{'active': value}"></div>
-</div>
-<ng-template #revert_wrap>
-  <div class="checkbox_wrap revert" (click)="toggleCheckbox()">
-    <div class="checkbox" [ngClass]="{'active': value}"></div>
-    <div class="checkbox_title">{{title}}</div>
-  </div>
-</ng-template>
+<div class="checkbox" [ngClass]="{'active': value}" (click)="toggleCheckbox()"></div>

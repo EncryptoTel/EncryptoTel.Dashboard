@@ -9,12 +9,19 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
             <pbx-select
               style="flex: 0 0 auto; width: 300px; margin-bottom: 16px"
               [options]="selectOptions"
+              [singleBorder]="true"
               [selected]="selectedOption"
               [objectKey]="'title'"
               [placeholder]="'Please select something'"
               (onSelect)="selectOption($event)"></pbx-select>
-            <pbx-checkbox style="flex: 0 0 auto;" title="Example checkbox" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
-            <pbx-checkbox style="flex: 0 0 auto;" [revert]="true" title="Example checkbox" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
+            <pbx-select
+              style="flex: 0 0 auto; width: 300px; margin-bottom: 16px"
+              [options]="selectOptions"
+              [selected]="selectedOption"
+              [objectKey]="'title'"
+              [placeholder]="'Please select something'"
+              (onSelect)="selectOption($event)"></pbx-select>
+            <pbx-checkbox style="flex: 0 0 auto;" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
             <div style="flex-direction: row; width: 100%">
               <pbx-table [tableItems]="tableData"
                          [tableInfo]="tableInfo"

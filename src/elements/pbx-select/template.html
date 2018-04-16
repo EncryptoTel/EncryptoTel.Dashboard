@@ -7,7 +7,7 @@
      (blur)="hideOptions()"
      (mousedown)="toggleOptions($event)"
      (keydown)="keyboardNavigation($event)">
-  <div class="select_item selected" [ngClass]="{'blank': !selected}">
+  <div class="select_item selected" [ngClass]="{'blank': !selected, 'no_border': singleBorder}">
     {{selected ? selected[objectKey] : placeholder}}
     <svg-icon src="/assets/icons/dropdown_arrow_12px.svg" class="select_icon"></svg-icon>
   </div>
