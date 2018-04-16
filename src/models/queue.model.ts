@@ -32,3 +32,10 @@ export class QueuesListItem {
   ) {}
 }
 
+export class QueuesParams {
+  constructor(
+    public announceHoldtimes: string[],
+    public strategies: object,
+  ) {}
+}
+

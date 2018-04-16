@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {CallQueuesServices} from '../../../../../services/call-queues.services';
 
 @Component({
   selector: 'pbx-call-queues-members',
@@ -7,6 +8,10 @@ import {Component} from '@angular/core';
 })
 
 export class CallQueuesMembersComponent {
+  constructor(private _services: CallQueuesServices) {}
+
+  members = this._services.userView.members;
+
   table = {
     title: {
       titles: ['', '#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],

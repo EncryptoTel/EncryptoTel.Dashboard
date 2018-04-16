@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+
 import {CallQueuesServices} from '../../../services/call-queues.services';
+
 
 @Component({
   selector: 'pbx-call-queues-create',
@@ -8,14 +11,21 @@ import {CallQueuesServices} from '../../../services/call-queues.services';
 })
 
 export class CallQueuesCreateComponent {
-  constructor(private _service: CallQueuesServices) {
+  constructor(private _service: CallQueuesServices,
+              private activatedRoute: ActivatedRoute) {
+    if (this.activatedRoute.snapshot.params.id) {
+      this._service.callQueue.sipId = this.activatedRoute.snapshot.params.id;
+    } else {
+      console.log('edit mode');
+    }
+
   }
 
-  save() {
+  save(): void {
     this._service.save();
   }
 
-  cancel() {
+  cancel(): void {
     this._service.cancel();
   }
 }

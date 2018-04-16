@@ -15,19 +15,24 @@ export class CallQueuesServices {
     strategy: 0,
     timeout: 30,
     announceHoldtime: 0,
-    announcePosition: true,
+    announcePosition: false,
     maxlen: 60,
     description: '',
     queueMembers: []
   };
+  userView = {
+    phoneNumber: '',
+    announceHoldtime: false,
+    members: []
+  };
 
-  save() {
+  save(): void {
     this.request.post('v1/call_queue', this.callQueue, true).then(res => {
     }).catch(err => {
     });
   }
 
-  cancel() {
+  cancel(): void {
     this.callQueue = {
       sipId: 0,
       name: '',
@@ -48,5 +53,17 @@ export class CallQueuesServices {
 
   getQueues() {
     return this.request.get('v1/call_queue', true);
+  }
+
+  getNumbers() {
+    return this.request.get(`v1/sip/outers`, true);
+  }
+
+  getParams() {
+    return this.request.get(`v1/call_queue/params`, true);
+  }
+
+  getMembers(id: number) {
+    return this.request.get(`v1/sip/inners/${id}`, true);
   }
 }

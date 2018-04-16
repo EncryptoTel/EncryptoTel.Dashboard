@@ -34,11 +34,11 @@ export class CallQueuesComponent {
     {name: 'test', number: '123123', strategy: 'Priorized Hunt', timeout: 300, language: 'English', id: 4}
   ];
 
-  edit(queue: QueuesListItem) {
+  edit(queue: QueuesListItem): void {
     this.router.navigate(['edit', queue.id], {relativeTo: this.activatedRoute});
   }
 
-  delete(id: number) {
+  delete(id: number): void {
     this._service.delete(id).then(res => {
       console.log(res);
     }).catch(err => {
@@ -46,7 +46,7 @@ export class CallQueuesComponent {
     });
   }
 
-  private getQueues() {
+  private getQueues(): void {
     this._service.getQueues().then(res => {
       console.log(res);
     }).catch(err => {

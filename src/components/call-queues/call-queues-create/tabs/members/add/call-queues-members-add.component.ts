@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {CallQueuesServices} from '../../../../../../services/call-queues.services';
 
 @Component({
   selector: 'pbx-call-queues-members-add',
@@ -7,6 +8,12 @@ import {Component} from '@angular/core';
 })
 
 export class CallQueuesMembersAddComponent {
+  constructor(private _service: CallQueuesServices) {
+    if (this._service.callQueue.sipId) {
+      this.getMembers(this._service.callQueue.sipId);
+    }
+  }
+
   table = {
     title: {
       titles: ['', '#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
@@ -24,4 +31,12 @@ export class CallQueuesMembersAddComponent {
       }
     ]
   };
+
+  getMembers(id: number): void {
+    this._service.getMembers(id).then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.error(err);
+    });
+  }
 }
