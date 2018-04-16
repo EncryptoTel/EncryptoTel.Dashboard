@@ -10,6 +10,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 })
 
 export class SelectComponent {
+  @Input() singleBorder: boolean;
   @Input() options: any[];
   @Input() objectKey: string;
   @Input() selected: object;
