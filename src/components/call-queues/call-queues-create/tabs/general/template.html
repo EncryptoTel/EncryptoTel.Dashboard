@@ -31,7 +31,7 @@
       <span>Ring Strategy</span>
     </div>
     <div class="call_queues_general_item_input_wrap">
-      <pbx-select [singleBorder]="true" [options]="numbers.items" [objectKey]="'phoneNumber'" [selected]="_services.userView" (onSelect)="setNumber($event)" [placeholder]="'[choose one]'"></pbx-select>
+      <pbx-select [singleBorder]="true" [options]="params.strategies" [objectKey]="'code'" [selected]="_services.userView.strategy" (onSelect)="setStrategies($event)" [placeholder]="'[choose one]'"></pbx-select>
     </div>
   </div>
   <div class="call_queues_general_item">

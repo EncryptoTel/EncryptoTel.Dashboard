@@ -16,23 +16,12 @@ export class CallQueuesComponent {
     this.getQueues();
   }
 
-  gueues = {
-    name: 'test',
-    number: '123123',
-    strategy: 'Priorized Hunt',
-    timeout: '300',
-    language: 'English'
-  };
+  queues: QueuesListItem[] = [];
+
   tableInfo = {
-    titles: ['Queue Name', 'Phone Number', 'Polling Strategy', 'Timeout', 'Queue Language'],
+    titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time'],
     keys: ['name', 'number', 'strategy', 'timeout', 'language']
   };
-  tableItems = [
-    {name: 'test', number: '123123', strategy: 'Priorized Hunt', timeout: 300, language: 'English', id: 1},
-    {name: 'test', number: '123123', strategy: 'Priorized Hunt', timeout: 300, language: 'English', id: 2},
-    {name: 'test', number: '123123', strategy: 'Priorized Hunt', timeout: 300, language: 'English', id: 3},
-    {name: 'test', number: '123123', strategy: 'Priorized Hunt', timeout: 300, language: 'English', id: 4}
-  ];
 
   edit(queue: QueuesListItem): void {
     this.router.navigate(['edit', queue.id], {relativeTo: this.activatedRoute});
@@ -48,7 +37,9 @@ export class CallQueuesComponent {
 
   private getQueues(): void {
     this._service.getQueues().then(res => {
-      console.log(res);
+      if (res.hasOwnProperty('items')) {
+        this.queues = res.items;
+      }
     }).catch(err => {
       console.error(err);
     });

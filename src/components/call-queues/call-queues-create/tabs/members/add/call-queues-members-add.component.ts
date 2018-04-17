@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {CallQueuesServices} from '../../../../../../services/call-queues.services';
+import {Members, SipInner} from '../../../../../../models/queue.model';
 
 @Component({
   selector: 'pbx-call-queues-members-add',
@@ -12,31 +13,58 @@ export class CallQueuesMembersAddComponent {
     if (this._service.callQueue.sipId) {
       this.getMembers(this._service.callQueue.sipId);
     }
+    this._service.userView.isCurCompMembersAdd = true;
   }
 
+  members: SipInner[] = [];
   table = {
     title: {
-      titles: ['', '#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
-      keys: ['icon', 'ext', 'numbers', 'firstName', 'lastName', 'status']
-    },
-    items: [
-      {
-        icon: 'close', ext: '123', numbers: 'Antonon', firstName: 'Anton', lastName: 'Anton', status: 'enable'
-      },
-      {
-        icon: 'close', ext: '111', numbers: 'Antonon', firstName: 'Anton', lastName: 'Anton', status: 'enable'
-      },
-      {
-        icon: 'close', ext: '213', numbers: 'Antonon', firstName: 'Anton', lastName: 'Anton', status: 'enable'
-      }
-    ]
+      titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
+      keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'status']
+    }
   };
 
-  getMembers(id: number): void {
-    this._service.getMembers(id).then(res => {
+  selectMember(member: SipInner): void {
+    const checkResult = this._service.callQueue.queueMembers.find(el => {
+      return el.sipId === member.id;
+    });
+    if (!checkResult) {
+      this._service.callQueue.queueMembers.push({sipId: member.id});
+      this._service.userView.members.push(member);
+    }
+  }
+
+  deleteMember(id: number): void {
+    const checkResult = this._service.callQueue.queueMembers.findIndex(el => {
+      return el.sipId === id;
+    });
+    if (checkResult >= 0) {
+      this._service.callQueue.queueMembers.splice(checkResult, 1);
+      this._service.userView.members.splice(checkResult, 1);
+    }
+  }
+
+  search(event) {
+    const search = event.target.value;
+    this._service.search(search).then(res => {
       console.log(res);
     }).catch(err => {
       console.error(err);
     });
+  }
+
+  private getMembers(id: number): void {
+    this._service.getMembers(id).then((res: Members) => {
+      this.members = res.sipInners;
+      this.addPhoneNumberField();
+    }).catch(err => {
+      console.error(err);
+    });
+  }
+
+  private addPhoneNumberField(): void {
+    for (let i = 0; i < this.members.length; i++) {
+      this.members[i].sipOuterPhone = this._service.userView.phoneNumber;
+    }
   }
 }

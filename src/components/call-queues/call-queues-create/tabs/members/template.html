@@ -3,5 +3,5 @@
     <span>Call Queues Members</span>
     <a routerLink="add" [skipLocationChange]="true">Add Member</a>
   </div>
-  <pbx-table [tableInfo]="table.title" [tableItems]="table.items"></pbx-table>
+  <pbx-table [tableInfo]="table.title" [tableItems]="members" (onSelect)="selectMember($event)"></pbx-table>
 </div>

@@ -8,14 +8,14 @@ export class QueueModel {
     public announcePosition: boolean,
     public maxlen: number,
     public description: string,
-    public queueMembers: Members[],
+    public queueMembers: Member[],
   ) {}
 }
 
-class Members {
+class Member {
   constructor(
-    public description: string,
     public sipId: number,
+    public description?: string
   ) {}
 }
 
@@ -34,8 +34,29 @@ export class QueuesListItem {
 
 export class QueuesParams {
   constructor(
-    public announceHoldtimes: string[],
-    public strategies: object,
+    public announceHoldtimes: Param[],
+    public strategies: Param[]
   ) {}
 }
 
+export class Param {
+  constructor(
+    public id: number,
+    public code: string,
+  ) {}
+}
+
+export class Members {
+  constructor(
+    public sipInners: SipInner[]
+  ) {}
+}
+
+export class SipInner {
+  constructor(
+    public id: number,
+    public phoneNumber: string,
+    public status: number,
+    public sipOuterPhone?: string
+  ) {}
+}

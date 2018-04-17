@@ -6,8 +6,8 @@
     </div>
     <div class="call_queues_members_add_filter">
       <span>Search:</span>
-      <input type="search" placeholder="Search by Name or Phone">
+      <input type="search" placeholder="Search by Name or Phone" (keyup)="search($event)">
     </div>
   </div>
-  <pbx-table [tableInfo]="table.title" [tableItems]="table.items"></pbx-table>
+  <pbx-table [tableInfo]="table.title" [tableItems]="members" (onSelect)="selectMember($event)" (onDelete)="deleteMember($event)"></pbx-table>
 </div>

@@ -23,7 +23,11 @@ export class CallQueuesServices {
   userView = {
     phoneNumber: '',
     announceHoldtime: false,
-    members: []
+    members: [],
+    isCurCompMembersAdd: false,
+    strategy: {
+      code: ''
+    }
   };
 
   save(): void {
@@ -39,16 +43,29 @@ export class CallQueuesServices {
       strategy: 0,
       timeout: 30,
       announceHoldtime: 0,
-      announcePosition: true,
+      announcePosition: false,
       maxlen: 60,
       description: '',
       queueMembers: []
+    };
+    this.userView = {
+      phoneNumber: '',
+      announceHoldtime: false,
+      members: [],
+      isCurCompMembersAdd: false,
+      strategy: {
+        code: ''
+      }
     };
     this.router.navigate(['cabinet', 'call-queues']);
   }
 
   delete(id: number) {
     return this.request.del(`v1/call_queue/${id}`);
+  }
+
+  search(value: string) {
+    return this.request.post(`v1/call_queue/members`, {sipOuter: this.callQueue.sipId, q: value}, true);
   }
 
   getQueues() {

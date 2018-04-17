@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {CallQueuesServices} from '../../../../../services/call-queues.services';
+import {SipInner} from '../../../../../models/queue.model';
 
 @Component({
   selector: 'pbx-call-queues-members',
@@ -8,25 +9,16 @@ import {CallQueuesServices} from '../../../../../services/call-queues.services';
 })
 
 export class CallQueuesMembersComponent {
-  constructor(private _services: CallQueuesServices) {}
+  constructor(private _services: CallQueuesServices) {
+    this._services.userView.isCurCompMembersAdd = false;
+  }
 
-  members = this._services.userView.members;
+  members: SipInner[] = this._services.userView.members;
 
   table = {
     title: {
-      titles: ['', '#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
-      keys: ['icon', 'ext', 'numbers', 'firstName', 'lastName', 'status']
-    },
-    items: [
-      {
-        icon: 'close', ext: '123', numbers: 'Antonon', firstName: 'Anton', lastName: 'Anton', status: 'enable'
-      },
-      {
-        icon: 'close', ext: '111', numbers: 'Antonon', firstName: 'Anton', lastName: 'Anton', status: 'enable'
-      },
-      {
-        icon: 'close', ext: '213', numbers: 'Antonon', firstName: 'Anton', lastName: 'Anton', status: 'enable'
-      }
-    ]
+      titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
+      keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'status']
+    }
   };
 }

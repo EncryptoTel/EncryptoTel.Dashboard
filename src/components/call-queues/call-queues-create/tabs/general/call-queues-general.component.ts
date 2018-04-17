@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {CallQueuesServices} from '../../../../../services/call-queues.services';
-import {QueuesParams} from '../../../../../models/queue.model';
+import {Param, QueuesParams} from '../../../../../models/queue.model';
 
 @Component({
   selector: 'pbx-call-queues-general',
@@ -12,12 +12,16 @@ export class CallQueuesGeneralComponent {
   constructor(private _services: CallQueuesServices) {
     this.getNumbers();
     this.getParams();
+    this._services.userView.isCurCompMembersAdd = false;
   }
 
   numbers = {
     items: []
   };
-  params: QueuesParams;
+  params: QueuesParams = {
+    announceHoldtimes: [],
+    strategies: []
+  };
 
 
   setNumber(number): void {
@@ -25,13 +29,18 @@ export class CallQueuesGeneralComponent {
     this._services.userView.phoneNumber = number.phoneNumber;
   }
 
-  setAnnounceHoldtime(state: boolean): void {
-    this._services.userView.announceHoldtime = state;
-    this._services.callQueue.announceHoldtime = this._services.userView.announceHoldtime ? 1 : 0;
+  setStrategies(strategy: Param): void {
+    this._services.callQueue.strategy = strategy.id;
+    this._services.userView.strategy.code = strategy.code;
   }
 
   setAnnouncePosition(state: boolean): void {
     this._services.callQueue.announcePosition = state;
+  }
+
+  setAnnounceHoldtime(state: boolean): void {
+    this._services.userView.announceHoldtime = state;
+    this._services.callQueue.announceHoldtime = this._services.userView.announceHoldtime ? 1 : 0;
   }
 
   private getNumbers(): void {
