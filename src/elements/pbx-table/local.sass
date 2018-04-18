@@ -13,8 +13,11 @@
     pointer-events: none
     &:first-child
       padding-left: 16px
-  &_body > .table_row
-    cursor: pointer
+  &_body
+    &.multiple > .table_row.active .table_row_icon
+      opacity: 1
+    > .table_row
+      cursor: pointer
   &_row
     position: relative
     & > .table_row_icon
