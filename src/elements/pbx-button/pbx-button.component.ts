@@ -31,12 +31,12 @@ export class ButtonComponent {
       ev.preventDefault();
     }
     const div = document.createElement('div');
-    this.button.nativeElement.appendChild(div);
     const radius = this.button.nativeElement.clientWidth;
     div.style.width = div.style.height = radius + 'px';
     div.style.top = ev.offsetY - radius / 2 + 'px';
     div.style.left = ev.offsetX - radius / 2 + 'px';
     div.classList.add('button_overlay');
+    this.button.nativeElement.appendChild(div);
     if (radius < 150) {
       div.classList.add('small');
       setTimeout(() => {
