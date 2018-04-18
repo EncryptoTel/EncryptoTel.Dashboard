@@ -5,7 +5,16 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
 @Component({
   selector: 'pbx-blank',
   template: `
-            <pbx-button style="flex: 0 0 auto; margin-bottom: 16px"></pbx-button>
+            <div style="flex-direction: row; flex: 0 0 auto">
+              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;"></pbx-button>
+              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;" buttonType="success" value="Accept"></pbx-button>
+              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;" buttonType="cancel" value="Cancel"></pbx-button>
+              <pbx-button
+                style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;"
+                buttonType="error"
+                value="Modal"
+                (onClick)="modalVisible = true"></pbx-button>
+            </div>
             <pbx-select
               style="flex: 0 0 auto; width: 300px; margin-bottom: 16px"
               [options]="selectOptions"
@@ -21,7 +30,10 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
               [objectKey]="'title'"
               [placeholder]="'Please select something'"
               (onSelect)="selectOption($event)"></pbx-select>
-            <pbx-checkbox style="flex: 0 0 auto;" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
+            <pbx-checkbox style="flex: 0 0 auto; margin-bottom: 16px" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
+            <pbx-modal [visible]="modalVisible" (onConfirm)="modalConfirm()" (onDecline)="modalDecline()">
+              <div style="font-size: 16px">Modal body</div>
+            </pbx-modal>
             <div style="flex-direction: row; width: 100%">
               <pbx-table [tableItems]="tableData"
                          [tableInfo]="tableInfo"
@@ -39,6 +51,7 @@ export class BlankComponent {
   selectedRow;
   selectedOption;
   checkboxStatus: boolean;
+  modalVisible: boolean;
   sidebarInfo: SidebarInfo = {
     title: 'Information',
     description: [
@@ -93,6 +106,7 @@ export class BlankComponent {
     titles: ['name', 'value', 'info'],
     keys: ['name', 'value', 'additionalData']
   };
+
   selectItem(item): void {
     this.selectedRow = item;
   }
@@ -107,6 +121,14 @@ export class BlankComponent {
     this.selectedOption = object;
   }
   checkbox = (ev): void => {
-    console.log(ev);
+    this.checkboxStatus = ev;
+  }
+  modalConfirm = (): void => {
+    console.log('Modal confirmed!');
+    this.modalVisible = false;
+  }
+  modalDecline = (): void => {
+    console.log('Modal declined!');
+    this.modalVisible = false;
   }
 }

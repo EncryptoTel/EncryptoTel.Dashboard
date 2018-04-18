@@ -1,0 +1,52 @@
+@import '../../vars'
+
+.modal
+  &_overlay
+    position: fixed
+    top: 0
+    left: 0
+    width: 100vw
+    height: 100vh
+    z-index: 15
+    background: rgba($dark_background, .7)
+  &_wrap
+    flex-direction: column
+    position: relative
+    margin: auto
+    min-height: rem(208)
+    background: $dark_overlay
+    .close_button
+      position: absolute
+      top: rem(12)
+      right: rem(12)
+      height: rem(24)
+      width: rem(24)
+      cursor: pointer
+      &:hover > span
+        background: lighten($dark_overlay, 40%)
+      span
+        position: absolute
+        width: 100%
+        height: 1px
+        top: rem(12)
+        background: lighten($dark_overlay, 20%)
+        transition: all linear 200ms
+        cursor: pointer
+        pointer-events: none
+        &:first-child
+          left: 0
+          transform: rotate(-45deg)
+        &:last-child
+          right: 0
+          transform: rotate(45deg)
+  &_body
+    justify-content: center
+    align-items: center
+    padding: rem(24)
+    margin: auto 0
+    width: rem(400)
+    max-width: 100%
+  &_buttons
+    /deep/ .button
+      flex: 1 0 auto
+      border-radius: 0

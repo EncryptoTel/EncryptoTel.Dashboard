@@ -28,3 +28,27 @@
         background: darken($dark_accent, 5%)
       &:disabled
         background: darken($dark_primary, 85%)
+    &.cancel
+      background: lighten($dark_background, 10%)
+      &:hover
+        background: lighten($dark_background, 15%)
+      &:active
+        background: lighten($dark_background, 5%)
+      &:disabled
+        background: darken($dark_primary, 85%)
+    &.success
+      background: $dark_success
+      &:hover
+        background: lighten($dark_success, 5%)
+      &:active
+        background: darken($dark_success, 5%)
+      &:disabled
+        background: darken($dark_primary, 85%)
+    &.error
+      background: $dark_error
+      &:hover
+        background: lighten($dark_error, 5%)
+      &:active
+        background: darken($dark_error, 5%)
+      &:disabled
+        background: darken($dark_primary, 85%)
