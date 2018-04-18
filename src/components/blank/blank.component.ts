@@ -36,9 +36,10 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
             </pbx-modal>
             <div style="flex-direction: row; width: 100%">
               <pbx-table [tableItems]="tableData"
+                         [multiple]="true"
                          [tableInfo]="tableInfo"
                          [selected]="selectedRow"
-                         [editable]="true"
+                         [editable]="false"
                          (onSelect)="selectItem($event)"
                          (onDelete)="deleteItem($event)"
                          (onEdit)="editItem($event)"
@@ -48,7 +49,7 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
 })
 
 export class BlankComponent {
-  selectedRow;
+  selectedRow = [];
   selectedOption;
   checkboxStatus: boolean;
   modalVisible: boolean;
@@ -108,14 +109,22 @@ export class BlankComponent {
   };
 
   selectItem(item): void {
-    this.selectedRow = item;
+    const selected = this.selectedRow.find(i => i.id === item.id);
+    if (selected) {
+      this.selectedRow.splice(this.selectedRow.indexOf(selected), 1);
+    } else {
+      this.selectedRow.push(item);
+    }
   }
   editItem(item): void {
     console.log('EDITED: \n', item);
     this.selectedRow = item;
   }
   deleteItem = (id): void => {
-    console.log('DELETED: \n', id);
+    const selected = this.selectedRow.find(i => i.id === id);
+    if (selected) {
+      this.selectedRow.splice(this.selectedRow.indexOf(selected), 1);
+    }
   }
   selectOption(object): void {
     this.selectedOption = object;
