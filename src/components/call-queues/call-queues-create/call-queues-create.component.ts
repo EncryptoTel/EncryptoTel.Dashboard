@@ -49,7 +49,10 @@ export class CallQueuesCreateComponent implements OnDestroy {
       phoneNumber: '',
       announceHoldtime: false,
       members: [],
-      isCurCompMembersAdd: false
+      isCurCompMembersAdd: false,
+      strategy: {
+        code: ''
+      }
     };
   }
 

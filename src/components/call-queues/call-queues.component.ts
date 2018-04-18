@@ -20,7 +20,7 @@ export class CallQueuesComponent {
 
   tableInfo = {
     titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time'],
-    keys: ['name', 'number', 'strategy', 'timeout', 'language']
+    keys: ['name', 'number', 'strategy', 'timeout']
   };
 
   edit(queue: QueuesListItem): void {

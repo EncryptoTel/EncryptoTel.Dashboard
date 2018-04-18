@@ -61,7 +61,7 @@ export class CallQueuesServices {
   }
 
   delete(id: number) {
-    return this.request.del(`v1/call_queue/${id}`);
+    return this.request.del(`v1/call_queue/${id}`, true);
   }
 
   search(value: string) {

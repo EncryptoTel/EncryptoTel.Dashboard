@@ -44,10 +44,11 @@ export class CallQueuesMembersAddComponent {
     }
   }
 
-  search(event) {
+  search(event): void {
     const search = event.target.value;
     this._service.search(search).then(res => {
-      console.log(res);
+      this.members = res.items;
+      this.addPhoneNumberField();
     }).catch(err => {
       console.error(err);
     });

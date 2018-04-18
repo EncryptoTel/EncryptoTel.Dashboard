@@ -20,6 +20,16 @@
     display: flex
     flex-flow: row
     align-items: center
-    margin-right: 30px
+    &:first-child
+      margin-right: 30px
     span
       margin-right: 15px
+
+input[type='search']
+  border: 1px solid rgba($dark_primary, .1)
+  width: 100%
+  min-width: 200px
+
+pbx-select
+  width: 100%
+  min-width: 200px
