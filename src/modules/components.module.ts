@@ -22,6 +22,7 @@ import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-fo
 import {BlankComponent} from '../components/blank/blank.component';
 import {SettingsComponent} from '../components/settings/settings.component';
 import {TemporaryCodeComponent} from '../components/temporary-code/temporary-code.component';
+import {CompanyComponent} from '../components/company/company.component';
 
 /*
   Components declarations and exports
@@ -51,7 +52,8 @@ import {TemporaryCodeComponent} from '../components/temporary-code/temporary-cod
     SignUpFormComponent,
     DashboardComponent,
     BlankComponent,
-    SettingsComponent
+    SettingsComponent,
+    CompanyComponent
   ],
   exports: [
     ElementsModule,
@@ -65,7 +67,8 @@ import {TemporaryCodeComponent} from '../components/temporary-code/temporary-cod
     PasswordRecoveryComponent,
     PasswordResetComponent,
     DashboardComponent,
-    BlankComponent
+    BlankComponent,
+    CompanyComponent
   ]
 })
 export class ComponentsModule {  }

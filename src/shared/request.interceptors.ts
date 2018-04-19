@@ -16,8 +16,9 @@ export class UserTokenInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const user: UserModel = this._storage.readItem('pbx_user');
     if (request.url.includes('encry') && user) {
+      const type = user.secrets.token_type;
       return next.handle(request.clone({
-        headers: request.headers.append('Authorization', `${user.secrets.token_type}: ${user.secrets.access_token}`)
+        headers: request.headers.append('Authorization', `${type.charAt(0).toUpperCase() + type.slice(1)} ${user.secrets.access_token}`)
       }));
     } else {
       return next.handle(request);
