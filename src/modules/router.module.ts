@@ -19,6 +19,7 @@ import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-fo
 import {BlankComponent} from '../components/blank/blank.component';
 import {SettingsComponent} from '../components/settings/settings.component';
 import {TemporaryCodeComponent} from '../components/temporary-code/temporary-code.component';
+import {CompanyComponent} from '../components/company/company.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -41,7 +42,7 @@ const Routes: Routes = [
     {path: 'call-queues', component: BlankComponent, data: {title: 'Call queues', indexed: true}},
     {path: 'ring-groups', component: BlankComponent, data: {title: 'Ring groups', indexed: true}},
     {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
-    {path: 'company', component: BlankComponent, data: {title: 'Company', indexed: true}},
+    {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},
     {path: 'departments', component: BlankComponent, data: {title: 'Departments', indexed: true}},
     {path: 'extensions', component: BlankComponent, data: {title: 'Employees', indexed: true}},
     {path: 'details-and-records', component: BlankComponent, data: {title: 'Details and records', indexed: true}},

@@ -2,31 +2,31 @@
 
 .sidebar
   flex-direction: column
-  margin: 0 -32px 0 24px
+  margin: 0 rem(-32) 0 rem(24)
   width: 352px
-  padding: 24px 0
+  padding: rem(32) 0
   &_info
     &_wrap
       flex-direction: column
     &_title
       flex: 0 0 auto
       font-size: rem(40)
-      margin-bottom: 16px
-      padding: 0 40px
+      margin-bottom: rem(20)
+      padding: 0 rem(40)
     &_description
-      min-height: 40px
+      min-height: rem(32)
       &:not(:first-child)
-        margin-top: 16px
+        margin-top: rem(16)
   &_description
     flex: 0 0 auto
     &_wrap
       flex-direction: column
-      padding: 0 40px
+      padding: 0 rem(40)
       overflow-y: auto
       .description_item_wrap
         flex: 1 0 auto
         justify-content: space-between
-        min-height: 40px
+        min-height: rem(32)
       .description_text
         align-items: center
 
