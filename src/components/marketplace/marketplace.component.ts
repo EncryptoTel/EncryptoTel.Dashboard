@@ -16,9 +16,9 @@ new Module(2, 'Module IVR', 'Interactive voice response (IVR) is a technology th
     new Module(6, 'Module Ext 50', 'Amount of Ext numbers 50', 0, false, 4),
     new Module(7, 'Module Ext 100', 'Amount of Ext numbers 100', 10, false, 4),
     new Module(8, 'Module Schedule', '', 0, false, 5),
-    new Module(9, 'Module Storage 500 mb', 'Storage space 500 mb', 10, false, 6),
-    new Module(10, 'Module Storage 1000 mb', 'Storage space 1000 mb', 10, false, 6),
-    new Module(11, 'Module Storage 1500 mb', 'Storage space 1500 mb', 10, false, 6),
+    new Module(9, 'Module Storage 500', 'Storage space 500 mb', 10, false, 6),
+    new Module(10, 'Module Storage 1000', 'Storage space 1000 mb', 10, false, 6),
+    new Module(11, 'Module Storage 1500', 'Storage space 1500 mb', 10, false, 6),
   ];
 }
 
@@ -31,4 +31,3 @@ export class Module {
     public status: boolean,
     public color: number) {}
 }
-

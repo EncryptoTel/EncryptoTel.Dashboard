@@ -4,20 +4,15 @@
 .marketplace
   &_wrap
     display: grid
-    grid-template-columns: repeat(auto-fill, minmax(rem(256), 1fr))
+    grid-template-columns: repeat(auto-fill, minmax(rem(304), 1fr))
     grid-gap: rem(24)
     padding-right: rem(24)
-    max-height: calc(100vh - 108px)
-    max-width: calc(100vw - 272px)
+    width: calc(100vw - 272px)
     overflow-y: auto
-    overflow-x: hidden
-    //
   &_item
-    display: flex
     flex-direction: column
     position: relative
-    flex: 1
-    height: rem(192)
+    height: rem(228)
     border-radius: 2px
     &.color_1
       background: $theme_1
@@ -34,42 +29,43 @@
   &_column
     flex-direction: column
     flex: 1
-    padding: rem(24) rem(24) 0
+    padding: rem(32) rem(32) 0
     overflow: hidden
   &_title
-    font-size: rem(18)
+    font-size: rem(24)
     margin-bottom: rem(16)
     line-height: rem(24)
+    padding-right: rem(32)
   &_info
-    font-size: rem(14)
+    font-size: rem(16)
     margin-bottom: rem(8)
-    line-height: rem(16)
+    line-height: rem(20)
   &_row
-    display: flex
     flex-direction: row
   &_cost
     flex: 1
-    font-size: rem(14)
-    padding: rem(16) rem(24)
+    font-size: rem(16)
+    padding: rem(24) rem(32)
   &_button
-    padding: rem(16) rem(24)
+    font-size: rem(16)
+    padding: rem(24) rem(32)
     transition: 150ms
     flex: 1
     background: rgba($dark_primary, 0.25)
     border-radius: 2px
     text-transform: uppercase
-    &:before, &:after
-      content: ''
-      margin: 0 auto
     &:hover
       cursor: pointer
       background: rgba($dark_primary, .4)
+    &:before, &:after
+      content: ''
+      margin: auto
   &_icon
     position: absolute
-    width: 32px
-    height: 32px
+    width: rem(32)
+    height: rem(32)
     top: rem(16)
-    right: rem(16)
+    right: rem(24)
     fill: $dark_success
 @media (max-width: 640px)
   .marketplace
