@@ -20,6 +20,7 @@ import {BlankComponent} from '../components/blank/blank.component';
 import {SettingsComponent} from '../components/settings/settings.component';
 import {TemporaryCodeComponent} from '../components/temporary-code/temporary-code.component';
 import {CompanyComponent} from '../components/company/company.component';
+import {MarketplaceComponent} from '../components/marketplace/marketplace.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -48,6 +49,7 @@ const Routes: Routes = [
     {path: 'details-and-records', component: BlankComponent, data: {title: 'Details and records', indexed: true}},
     {path: 'invoices', component: BlankComponent, data: {title: 'Invoices', indexed: true}},
     {path: 'storage', component: BlankComponent, data: {title: 'Storage', indexed: true}},
+    {path: 'marketplace', component: MarketplaceComponent, data: {title: 'Marketplace', indexed: true}},
     {path: 'settings', component: SettingsComponent, data: {title: 'Settings', indexed: true}},
     {path: 'refill', component: BlankComponent, data: {title: 'Balance refill', indexed: true}},
     {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff plan', indexed: true}}

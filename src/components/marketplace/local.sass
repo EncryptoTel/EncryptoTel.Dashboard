@@ -1,0 +1,80 @@
+@import "../../vars" // Global variables import
+@import "vars"       // Local variables import
+
+.marketplace
+  &_wrap
+    display: grid
+    grid-template-columns: repeat(auto-fill, minmax(rem(256), 1fr))
+    grid-gap: rem(24)
+    padding-right: rem(24)
+    max-height: calc(100vh - 108px)
+    max-width: calc(100vw - 272px)
+    overflow-y: auto
+    overflow-x: hidden
+  &_item
+    display: flex
+    flex-direction: column
+    position: relative
+    flex: 1
+    height: rem(192)
+    border-radius: 2px
+    &.color_1
+      background: $theme_1
+    &.color_2
+      background: $theme_2
+    &.color_3
+      background: $theme_3
+    &.color_4
+      background: $theme_4
+    &.color_5
+      background: $theme_5
+    &.color_6
+      background: $theme_6
+  &_column
+    flex-direction: column
+    flex: 1
+    padding: rem(24) rem(24) 0
+    overflow: hidden
+  &_title
+    font-size: rem(18)
+    margin-bottom: rem(16)
+    line-height: rem(24)
+  &_info
+    font-size: rem(14)
+    margin-bottom: rem(8)
+    line-height: rem(16)
+  &_row
+    display: flex
+    flex-direction: row
+  &_cost
+    flex: 1
+    font-size: rem(14)
+    padding: rem(16) rem(24)
+  &_button
+    padding: rem(16) rem(24)
+    transition: 150ms
+    flex: 1
+    background: rgba($dark_primary, 0.25)
+    border-radius: 2px
+    text-transform: uppercase
+    &:before, &:after
+      content: ''
+      margin: 0 auto
+    &:hover
+      cursor: pointer
+      background: rgba($dark_primary, .4)
+  &_icon
+    position: absolute
+    width: 32px
+    height: 32px
+    top: rem(16)
+    right: rem(16)
+    fill: $dark_success
+@media (max-width: 640px)
+  .marketplace
+    &_wrap
+      grid-template-columns: 1fr
+    &_item
+      height: auto
+      >.marketplace_row
+        flex-direction: column

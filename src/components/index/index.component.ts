@@ -117,16 +117,23 @@ export class IndexComponent implements OnInit, OnDestroy {
       icon: 'invoices',
       status: false,
       visible: true
+    }, {
+      id: 12,
+      title: 'Marketplace',
+      link: 'marketplace',
+      icon: 'marketplace',
+      status: false,
+      visible: true
     }],
     [{
-      id: 12,
+      id: 13,
       title: 'Storage',
       link: 'storage',
       icon: 'storage',
       status: false,
       visible: true
     }, {
-      id: 13,
+      id: 14,
       title: 'Settings',
       link: 'settings',
       icon: 'settings',

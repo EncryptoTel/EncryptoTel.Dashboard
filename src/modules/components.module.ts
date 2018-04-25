@@ -23,6 +23,7 @@ import {BlankComponent} from '../components/blank/blank.component';
 import {SettingsComponent} from '../components/settings/settings.component';
 import {TemporaryCodeComponent} from '../components/temporary-code/temporary-code.component';
 import {CompanyComponent} from '../components/company/company.component';
+import {MarketplaceComponent} from '../components/marketplace/marketplace.component';
 
 /*
   Components declarations and exports
@@ -53,7 +54,8 @@ import {CompanyComponent} from '../components/company/company.component';
     DashboardComponent,
     BlankComponent,
     SettingsComponent,
-    CompanyComponent
+    CompanyComponent,
+    MarketplaceComponent
   ],
   exports: [
     ElementsModule,
@@ -68,7 +70,8 @@ import {CompanyComponent} from '../components/company/company.component';
     PasswordResetComponent,
     DashboardComponent,
     BlankComponent,
-    CompanyComponent
+    CompanyComponent,
+    MarketplaceComponent
   ]
 })
 export class ComponentsModule {  }
