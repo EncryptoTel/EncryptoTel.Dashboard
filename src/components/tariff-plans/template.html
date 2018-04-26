@@ -1,16 +1,33 @@
+
+
+
 <div class="tariff_wrap">
-  <div class="tariff_item" *ngFor="let tariff of tariffs" [ngClass]="{'current_tariff':tariff.id===currentTariff}">
-    <div class="tariff_item__description">
-      <h3 class="tariff_item__description-title">{{tariff.title}}</h3>
-      <ul class="tariff_item__description-list">
-        <li class="tariff_item__description-list__item" *ngFor="let service of tariff.services">{{service.title}}</li>
-      </ul>
-      <p class="tariff_item__description-price">{{tariff.title === 'Basic'? '':'$ ' + tariff.price + '/monthly'}}</p>
+  <div class="tariff_item"
+       *ngFor="let tariff of tariffs"
+       [ngClass]="{'current_tariff':tariff.id===currentTariff}"
+       (click)="pickTariff(tariff.id)">
+    <h3 class="tariff_title">{{tariff.title}}</h3>
+    <div class="tariff_description hidden_sm_up" *ngIf="tariff.id === currentPick" [@Swipe]>
+      <div class="tariff_description_list">
+        <div class="tariff_description_list_item" *ngFor="let service of tariff.services">{{service.title}}</div>
+      </div>
+      <p class="tariff_description_price" *ngIf="tariff.price">{{tariff.title === 'Basic'? '':'$ ' + tariff.price + '/monthly'}}</p>
+      <button class="tariff_description_button"
+              [ngClass]="{'current_tariff_button':tariff.id===currentTariff}"
+              (click)="chooseTariff(tariff.id)">
+        {{ tariff.id === currentTariff? 'Subscribed': tariff.title==='Basic'?'Free': 'Buy Now'}}
+      </button>
     </div>
-    <button class="tariff_item__button"
-            [ngClass]="{'current_tariff__button':tariff.id===currentTariff}"
-            (click)="chooseTariff(tariff.id)">
-      {{ tariff.id === currentTariff? 'Subscribed': tariff.title==='Basic'?'Free': 'Buy Now'}}
-    </button>
+    <div class="tariff_description hidden_sm_down">
+      <div class="tariff_description_list">
+        <div class="tariff_description_list_item" *ngFor="let service of tariff.services">{{service.title}}</div>
+      </div>
+      <p class="tariff_description_price" *ngIf="tariff.price">{{tariff.title === 'Basic'? '':'$ ' + tariff.price + '/monthly'}}</p>
+      <button class="tariff_description_button"
+              [ngClass]="{'current_tariff_button':tariff.id===currentTariff}"
+              (click)="chooseTariff(tariff.id)">
+        {{ tariff.id === currentTariff? 'Subscribed': tariff.title==='Basic'?'Free': 'Buy Now'}}
+      </button>
+    </div>
   </div>
 </div>

@@ -1,0 +1,165 @@
+@import "../../vars" // Global variables import
+
+.storage
+  &_wrap
+    display: grid
+    grid-template-columns: 1fr 352px
+    grid-template-rows: auto 1fr auto
+    grid-gap: 24px
+    margin-right: -32px
+    height: calc(100vh - 128px)
+  &_header
+    display: flex
+    flex-direction: row
+    color: rgba($dark_primary,.75)
+    &_text
+      margin: auto rem(16) auto 0
+    &_menu
+      position: relative
+      width: rem(228)
+      display: flex
+      flex-direction: row
+      padding: rem(8) rem(12)
+      border: 1px solid rgba($dark_primary,.5)
+      margin: auto rem(32) auto 0
+      cursor: pointer
+      &_title
+        flex: 1
+        >span
+          color: rgba($dark_primary, .25)
+          padding-left: rem(8)
+      *
+        cursor: pointer
+    &_list
+      position: absolute
+      top: 100%
+      left: 0
+      flex-direction: column
+      overflow: hidden
+      height: 0
+    &_input
+      height: auto
+      padding: rem(8) rem(12)
+      width: rem(228)
+      margin: auto auto auto 0
+      border-bottom-color: red
+      &::-webkit-input-placeholder
+        opacity: .75
+        transition: opacity .3s ease
+      &::-moz-placeholder
+        opacity: .75
+        transition: opacity .3s ease
+      &:-moz-placeholder
+        opacity: .75
+        transition: opacity .3s ease
+      &:-ms-input-placeholder
+        opacity: .75
+        transition: opacity .3s ease
+      &:focus::-webkit-input-placeholder
+        opacity: 0
+        transition: opacity .15s ease
+      &:focus::-moz-placeholder
+        opacity: 0
+        transition: opacity .15s ease
+      &:focus:-moz-placeholder
+        opacity: 0
+        transition: opacity .15s ease
+      &:focus:-ms-input-placeholder
+        opacity: 0
+        transition: opacity .15s ease
+    &_icon
+      height: 12px
+      width: 12px
+      /deep/ polygon
+        fill: $dark_primary
+    >.storage_button:last-child
+      margin-right: 0
+  &_body
+    display: grid
+    grid-template-columns: auto auto auto auto auto auto auto
+    align-content: start
+    color: rgba($dark_primary, .75)
+    &_head_item, &_item_text
+      padding: rem(16)
+      border-bottom: 1px solid rgba($dark_primary, .5)
+    &_head_item, &_item_text
+      &:nth-child(7n + 4), &:nth-child(7n + 5), &:nth-child(7n + 6), &:nth-child(7n)
+        justify-content: center
+    &_item_text
+      &:nth-child(7n + 6)
+        padding: 0
+        >.storage_body_item_icon
+          margin: auto auto
+          height: 24px
+          width: 24px
+          fill: rgba($dark_primary, .75)
+      &:nth-child(7n)
+        padding: 0
+        >.storage_body_item_icon
+          margin: auto auto
+          height: 12px
+          width: 12px
+          fill: $dark-error
+  &_footer
+    color: rgba($dark_primary, .75)
+    flex-direction: row
+    &_text
+      margin: auto rem(16)
+    >.storage_button
+      &:first-child
+        margin-left: auto
+      &:last-child
+        margin-right: auto
+
+  &_dropper
+    grid-column: 2/3
+    grid-row: 1/4
+    background: rgba($dark_primary, 0.1)
+    padding: rem(16)
+    color: rgba($dark_primary, .75)
+    >span
+      flex: 1
+      padding: 8px
+      border: 1px $dark_accent dashed
+      background: rgba($dark_primary, .1)
+    &_container
+      display: flex
+      flex-direction: column
+      flex: 1
+    &_icon
+      height: 32px
+      width: 32px
+      fill: rgba($dark_primary, .75)
+      margin: auto auto rem(16)
+    &_text
+      margin: 0 auto rem(8)
+      line-height: rem(24)
+      text-align: center
+    &_link
+      margin: 0 auto auto
+      color: $dark_accent
+      cursor: pointer
+      &:hover
+        text-decoration: underline
+  &_button
+    border-radius: 2px
+    text-transform: capitalize
+    background: $dark_primary
+    color: $dark_primary
+    text-align: center
+    margin: auto rem(8)
+    position: relative
+    >span
+      cursor: pointer
+      border-radius: 2px
+      padding: rem(8) rem(16)
+    &:hover>span
+      background: rgba($dark_primary, .25)
+    &.download
+      background: $dark_accent
+    &.delete
+      background: $dark-error
+    &.pagination
+      background: $dark-pagination
+      &_inactive
+        background: $dark-pagination-inactive

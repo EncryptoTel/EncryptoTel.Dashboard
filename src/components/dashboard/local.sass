@@ -4,55 +4,61 @@
 .dashboard
   &_wrap
     display: grid
-    grid-template-columns: 1fr 1fr 320px
-    grid-template-rows: 1fr 1fr
+    grid-template-columns: 2fr 2fr 320px
+    grid-template-rows: 4fr 4fr
+    grid-template-areas: 'balance tariff history' 'phone_numbers drive history'
     grid-gap: 24px
     width: 100%
-    max-width: calc(100vw - 272px)
-    height: calc(100vh - 128px)
-    overflow-x: hidden
+    height: 100%
   &_item
     flex-direction: column
     padding: 48px 56px 16px 48px
     font-size: rem(16)
     &.balance
-      grid-column: 1/2
-      grid-row: 1/2
+      grid-area: balance
       .dashboard_item
-        &_row:nth-child(2)
+        &_row:nth-child(2n)
           margin-top: 8px
         &_value
           font-size: rem(40)
     &.tariff
-      grid-column: 2/3
-      grid-row: 1/2
+      grid-area: tariff
+      .dashboard_item_value
+        align-items: flex-end
     &.phone_numbers
-      grid-column: 1/2
-      grid-row: 2/3
+      grid-area: phone_numbers
       .dashboard_item_link
         margin-left: auto
     &.drive
-      grid-column: 2/3
-      grid-row: 2/3
-      >.dashboard_item_row
-        flex: 1
-        >.dashboard_item_body
-          display: flex
+      grid-area: drive
+      > .dashboard_item_row
+        height: 100%
+        .dashboard_item_body
+          width: 50%
           height: 100%
           &:not(:last-child)
-            flex: 6
+            margin-right: auto
           &:last-child
-            flex: 4
+            width: 40%
             position: relative
+            top: -32px
+            canvas
+              position: absolute
+              top: 0
+              right: 0
+              width: 100%
             .drive_percentage
+              position: absolute
+              width: 100%
               height: 100%
-              margin: auto
+              left: 0
+              top: 0
+              justify-content: center
+              align-items: center
               z-index: 4
               font-size: rem(32)
     &.history
-      max-height: 100%
-      grid-column: 3/4
-      grid-row: 1/3
+      grid-area: history
       .dashboard_item_row:first-child
         flex: 0 0 auto
       .dashboard_item_link
@@ -72,7 +78,6 @@
       text-transform: uppercase
     &_value
       margin-left: auto
-      align-items: flex-end
     &_link
       padding: 8px 0
       &:nth-child(2)
@@ -139,67 +144,3 @@
           color: $dark_background
         &_date
           background: rgba($dark_primary, .08)
-
-@media (max-width: 1599px)
-  .dashboard
-    &_item
-      &_title
-        font-size: rem(32)
-      &.balance
-        .dashboard_item
-          &_value
-            font-size: rem(16)
-
-@media (max-width: 1399px)
-  .balance, .tariff, .phone_numbers, .drive
-    &.dashboard_item
-      padding: 32px 32px 16px 32px
-  .dashboard_item_title
-    font-size: rem(28)
-@media (max-width: 1279px)
-  .dashboard
-    &_wrap
-      grid-template-columns: 1fr 320px
-      grid-template-rows: 1fr 1fr 1fr 1fr
-      .balance, .tariff, .phone_numbers, .drive
-        grid-column: 1/2
-        grid-row: auto
-      .phone_numbers
-        .dashboard_item_link
-          margin-left: 0
-      .history
-        grid-area: auto
-        grid-column: 2/3
-        grid-row: 1/5
-@media (max-width: 1024px)
-  .history
-    display: none
-  .dashboard
-    &_wrap
-      grid-template-columns: auto
-      grid-template-rows: auto auto auto auto
-      padding-right: 24px
-    &_item_link_row
-      margin-top: 32px
-      flex-direction: column
-      .dashboard_item_link
-        margin: 0 auto 0 0
-        font-size: rem(12)
-
-@media (max-width: 656px)
-  .balance, .tariff, .phone_numbers, .drive
-    &.dashboard_item
-      padding: 16px
-  .dashboard
-    &_item
-      &_row
-        flex-flow: row wrap
-        padding-top: 16px
-      &_title
-        font-size: rem(22)
-      &_value
-        margin-top: 8px
-  .drive>.dashboard_item_row
-    flex-direction: row
-    >.dashboard_item_body:last-child
-      display: none
