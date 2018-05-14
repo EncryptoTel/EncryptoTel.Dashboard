@@ -1,0 +1,68 @@
+<div class="details-container">
+  <div class="details-wrapper">
+    <div class="details-header">
+      <div class="details-header__filters">
+        <div class="filters">
+          <button
+            class="{{filter}} details-button"
+            (click)="toggleFilter(filter)"
+            *ngFor="let filter of activeFilters">
+            {{filter}}
+          </button>
+        </div>
+        <div class="filters">
+          <button
+            class="inactive-button details-button"
+            (click)="toggleFilter(filter)"
+            *ngFor="let filter of inactiveFilters">
+            {{filter}}
+          </button>
+        </div>
+      </div>
+      <div class="details-header__daterange-wrapper">
+        <div class="details-header__daterange">26/06/2017 - 30/06/2017</div>
+      </div>
+    </div>
+    <div class="details-table-wrapper">
+      <div class="details-table-row titles">
+        <div class="details-table-cols sorting" (click)="sort()">
+          From
+          <svg-icon src="../../assets/icons/sorting_{{sorting}}_16px.svg" class="details-icons"></svg-icon>
+        </div>
+        <div class="details-table-cols">To</div>
+        <div class="details-table-cols">Start time</div>
+        <div class="details-table-cols">Duration</div>
+        <div class="details-table-cols">Tag</div>
+        <div class="details-table-cols">Price</div>
+        <div class="details-table-cols">Record</div>
+      </div>
+      <div class="details-table-row" *ngFor="let detail of details" [ngClass]="{'hide': setFilters(detail.tag)}">
+        <div class="details-table-cols" [ngClass]="{'payment-col': detail.tag === 'payment'}">{{detail.from}}</div>
+        <div class="details-table-cols">{{detail.to}}</div>
+        <div class="details-table-cols">{{detail.start_time}}</div>
+        <div class="details-table-cols">{{detail.duration}}</div>
+        <div class="details-table-cols">
+          <button
+            class="{{detail.tag}} details-button tag-button">
+            {{detail.tag}}
+          </button>
+        </div>
+        <div class="details-table-cols" [ngClass]="{'payment-col': detail.tag === 'payment'}">${{detail.price}}</div>
+        <div class="details-table-cols">{{detail.record}}</div>
+      </div>
+    </div>
+    <div class="details-pagination-wrapper">
+      <div class="details-pagination">
+        <div class="details-pagination-controls">
+          <button>&#171;</button>
+          <button class="prev-next">Prev</button>
+        </div>
+        <div class="details-pagination-pages">01 of 50</div>
+        <div class="details-pagination-controls">
+          <button class="prev-next">Next</button>
+          <button>&#187;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -25,6 +25,7 @@ import {TemporaryCodeComponent} from '../components/temporary-code/temporary-cod
 import {CompanyComponent} from '../components/company/company.component';
 import {MarketplaceComponent} from '../components/marketplace/marketplace.component';
 import {StorageComponent} from '../components/storage/storage.component';
+import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
 
 /*
   Components declarations and exports
@@ -57,7 +58,8 @@ import {StorageComponent} from '../components/storage/storage.component';
     SettingsComponent,
     CompanyComponent,
     MarketplaceComponent,
-    StorageComponent
+    StorageComponent,
+    DetailsAndRecordsComponent
   ],
   exports: [
     ElementsModule,
