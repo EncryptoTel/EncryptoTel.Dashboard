@@ -1,0 +1,70 @@
+<div class="call_queues_general_wrap">
+  <div class="call_queues_general_title">
+    <h3>Create New Queue</h3>
+  </div>
+  <div class="call_queues_general_item">
+    <div class="call_queues_general_item_label">
+      <span>Name</span>
+    </div>
+    <div class="call_queues_general_item_input_wrap">
+      <input type="text" placeholder="Unnamed" [(ngModel)]="_services.callQueue.name">
+    </div>
+  </div>
+  <div class="call_queues_general_item">
+    <div class="call_queues_general_item_label">
+      <span>Description</span>
+    </div>
+    <div class="call_queues_general_item_input_wrap">
+      <input type="text" placeholder="Description" [(ngModel)]="_services.callQueue.description">
+    </div>
+  </div>
+  <div class="call_queues_general_item">
+    <div class="call_queues_general_item_label">
+      <span>Phone number</span>
+    </div>
+    <div class="call_queues_general_item_input_wrap">
+      <pbx-select [singleBorder]="true" [options]="numbers.items" [objectKey]="'phoneNumber'" [selected]="_services.userView" (onSelect)="setNumber($event)" [placeholder]="'[choose one]'"></pbx-select>
+    </div>
+  </div>
+  <div class="call_queues_general_item">
+    <div class="call_queues_general_item_label">
+      <span>Ring Strategy</span>
+    </div>
+    <div class="call_queues_general_item_input_wrap">
+      <pbx-select [singleBorder]="true" [options]="params.strategies" [objectKey]="'code'" [selected]="_services.userView.strategy" (onSelect)="setStrategies($event)" [placeholder]="'[choose one]'"></pbx-select>
+    </div>
+  </div>
+  <div class="call_queues_general_item">
+    <div class="call_queues_general_item_label">
+      <span>Ring Time</span>
+    </div>
+    <div class="call_queues_general_item_input_wrap time">
+      <input type="number" [(ngModel)]="_services.callQueue.timeout">
+      <span>seconds</span>
+    </div>
+  </div>
+  <div class="call_queues_general_item">
+    <div class="call_queues_general_item_label">
+      <span>Maximum Callers in Queue</span>
+    </div>
+    <div class="call_queues_general_item_input_wrap time">
+      <input type="number" [(ngModel)]="_services.callQueue.maxlen">
+    </div>
+  </div>
+  <div class="call_queues_general_item">
+    <div class="call_queues_general_item_label">
+    </div>
+    <div class="call_queues_general_item_input_wrap checkbox">
+      <pbx-checkbox [value]="_services.callQueue.announcePosition" (onToggle)="setAnnouncePosition($event)"></pbx-checkbox>
+      <span>Announce Queue position to caller</span>
+    </div>
+  </div>
+  <div class="call_queues_general_item">
+    <div class="call_queues_general_item_label">
+    </div>
+    <div class="call_queues_general_item_input_wrap checkbox">
+      <pbx-checkbox [value]="_services.userView.announceHoldtime" (onToggle)="setAnnounceHoldtime($event)"></pbx-checkbox>
+      <span>Announce Holdtime</span>
+    </div>
+  </div>
+</div>

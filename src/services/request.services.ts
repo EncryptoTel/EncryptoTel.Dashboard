@@ -16,6 +16,7 @@ export class RequestServices {
   constructor(private http: HttpClient,
               private _messages: MessageServices,
               private logger: LoggerServices) {}
+
   /*
     Default POST request. Accepted params:
     URI: string - request uri,
@@ -40,6 +41,7 @@ export class RequestServices {
         return Promise.reject(response.error);
       });
   }
+
   /*
     Default PUT request. Accepted params:
     URI: string - request uri,
@@ -64,6 +66,7 @@ export class RequestServices {
         return Promise.reject(response.error);
       });
   }
+
   /*
     Default GET request. Accepted params:
     URI: string - request uri with stringified params
@@ -87,6 +90,7 @@ export class RequestServices {
         return Promise.reject(response.error);
       });
   }
+
   /*
     Default DELETE request. Accepted params:
     URI: string - request uri with stringified params

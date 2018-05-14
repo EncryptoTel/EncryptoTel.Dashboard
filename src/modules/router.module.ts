@@ -24,6 +24,11 @@ import {MarketplaceComponent} from '../components/marketplace/marketplace.compon
 import {StorageComponent} from '../components/storage/storage.component';
 import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
 import {InvoicesComponent} from '../components/invoices/invoices.component';
+import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
+import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
+import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
+import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
+import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -43,7 +48,25 @@ const Routes: Routes = [
     {path: 'phone-numbers', component: BlankComponent, data: {title: 'Phone numbers', indexed: true}},
     {path: 'address-book', component: BlankComponent, data: {title: 'Address book', indexed: true}},
     {path: 'call-rules', component: BlankComponent, data: {title: 'Call rules', indexed: true}},
-    {path: 'call-queues', component: BlankComponent, data: {title: 'Call queues', indexed: true}},
+    {path: 'call-queues', children: [
+        {path: '', component: CallQueuesComponent, data: {title: 'Call queues create', indexed: true}},
+        {path: 'create', component: CallQueuesCreateComponent, data: {title: 'Call queues create', indexed: true}, children: [
+            {path: '', redirectTo: 'general', pathMatch: 'full'},
+            {path: 'general', component: CallQueuesGeneralComponent, data: {title: 'Call queues create', indexed: true}},
+            {path: 'members', children: [
+                {path: '', pathMatch: 'full', component: CallQueuesMembersComponent, data: {title: 'Call queues create', indexed: true}},
+                {path: 'add', component: CallQueuesMembersAddComponent, data: {title: 'Call queues create', indexed: true}}
+              ]}
+          ]},
+        {path: 'edit/:id', component: CallQueuesCreateComponent, data: {title: 'Call queues edit', indexed: true}, children: [
+            {path: '', redirectTo: 'general', pathMatch: 'full'},
+            {path: 'general', component: CallQueuesGeneralComponent, data: {title: 'Call queues edit', indexed: true}},
+            {path: 'members', children: [
+                {path: '', pathMatch: 'full', component: CallQueuesMembersComponent, data: {title: 'Call queues edit', indexed: true}},
+                {path: 'add', component: CallQueuesMembersAddComponent, data: {title: 'Call queues edit', indexed: true}}
+              ]}
+          ]}
+      ]},
     {path: 'ring-groups', component: BlankComponent, data: {title: 'Ring groups', indexed: true}},
     {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
     {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},

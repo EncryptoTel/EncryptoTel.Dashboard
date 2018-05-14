@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AngularSvgIconModule} from 'angular-svg-icon';
+import {FormsModule} from '@angular/forms';
 
 import {ElementsModule} from './elements.module';
 import {MainRouterModule} from './router.module';
@@ -27,6 +28,12 @@ import {MarketplaceComponent} from '../components/marketplace/marketplace.compon
 import {StorageComponent} from '../components/storage/storage.component';
 import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
 import {InvoicesComponent} from '../components/invoices/invoices.component';
+import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
+import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
+import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
+import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
+import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
+
 
 /*
   Components declarations and exports
@@ -38,7 +45,8 @@ import {InvoicesComponent} from '../components/invoices/invoices.component';
     ReactiveFormsModule,
     AngularSvgIconModule,
     ElementsModule,
-    MainRouterModule
+    MainRouterModule,
+    FormsModule
   ],
   declarations: [
     PageNotFoundComponent,
@@ -61,7 +69,12 @@ import {InvoicesComponent} from '../components/invoices/invoices.component';
     MarketplaceComponent,
     StorageComponent,
     DetailsAndRecordsComponent,
-    InvoicesComponent
+    InvoicesComponent,
+    CallQueuesComponent,
+    CallQueuesCreateComponent,
+    CallQueuesGeneralComponent,
+    CallQueuesMembersComponent,
+    CallQueuesMembersAddComponent
   ],
   exports: [
     ElementsModule,
@@ -78,7 +91,13 @@ import {InvoicesComponent} from '../components/invoices/invoices.component';
     BlankComponent,
     CompanyComponent,
     MarketplaceComponent,
-    StorageComponent
+    StorageComponent,
+    CallQueuesComponent,
+    CallQueuesCreateComponent,
+    CallQueuesGeneralComponent,
+    CallQueuesMembersComponent,
+    CallQueuesMembersAddComponent
   ]
 })
-export class ComponentsModule {  }
+export class ComponentsModule {
+}

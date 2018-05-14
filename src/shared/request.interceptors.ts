@@ -18,7 +18,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
     if (request.url.includes('encry') && user) {
       const type = user.secrets.token_type;
       return next.handle(request.clone({
-        headers: request.headers.append('Authorization', `${type.charAt(0).toUpperCase() + type.slice(1)} ${user.secrets.access_token}`)
+        headers: request.headers.append('Authorization', `Bearer ${user.secrets.access_token}`)
       }));
     } else {
       return next.handle(request);

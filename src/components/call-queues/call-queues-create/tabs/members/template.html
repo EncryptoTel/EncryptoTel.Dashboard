@@ -1,0 +1,7 @@
+<div class="call_queues_members_wrap">
+  <div class="call_queues_members_header">
+    <span>Call Queues Members</span>
+    <a routerLink="add" [skipLocationChange]="true">Add Member</a>
+  </div>
+  <pbx-table [tableInfo]="table.title" [tableItems]="members" (onSelect)="selectMember($event)"></pbx-table>
+</div>
