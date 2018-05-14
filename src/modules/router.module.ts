@@ -23,6 +23,7 @@ import {CompanyComponent} from '../components/company/company.component';
 import {MarketplaceComponent} from '../components/marketplace/marketplace.component';
 import {StorageComponent} from '../components/storage/storage.component';
 import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
+import {InvoicesComponent} from '../components/invoices/invoices.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -49,7 +50,7 @@ const Routes: Routes = [
     {path: 'departments', component: BlankComponent, data: {title: 'Departments', indexed: true}},
     {path: 'extensions', component: BlankComponent, data: {title: 'Employees', indexed: true}},
     {path: 'details-and-records', component: DetailsAndRecordsComponent, data: {title: 'Details and records', indexed: true}},
-    {path: 'invoices', component: BlankComponent, data: {title: 'Invoices', indexed: true}},
+    {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},
     {path: 'storage', component: StorageComponent, data: {title: 'Storage', indexed: true}},
     {path: 'marketplace', component: MarketplaceComponent, data: {title: 'Marketplace', indexed: true}},
     {path: 'settings', component: SettingsComponent, data: {title: 'Settings', indexed: true}},

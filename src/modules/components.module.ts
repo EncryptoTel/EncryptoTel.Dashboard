@@ -26,6 +26,7 @@ import {CompanyComponent} from '../components/company/company.component';
 import {MarketplaceComponent} from '../components/marketplace/marketplace.component';
 import {StorageComponent} from '../components/storage/storage.component';
 import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
+import {InvoicesComponent} from '../components/invoices/invoices.component';
 
 /*
   Components declarations and exports
@@ -59,7 +60,8 @@ import {DetailsAndRecordsComponent} from '../components/details-and-records/deta
     CompanyComponent,
     MarketplaceComponent,
     StorageComponent,
-    DetailsAndRecordsComponent
+    DetailsAndRecordsComponent,
+    InvoicesComponent
   ],
   exports: [
     ElementsModule,
