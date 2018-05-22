@@ -1,8 +1,9 @@
 <div class="tariff_container">
   <div class="tariff_wrap">
     <h1 class="tariff_title">Plans Available for Everyone</h1>
-    <div class="tariff_wrap_items">
-      <div class="tariff_item" *ngFor="let tariff of tariffs" [ngClass]="{'current_tariff':tariff.id===currentTariff}">
+    <pbx-loader *ngIf="loading"></pbx-loader>
+    <div class="tariff_wrap_items" *ngIf="!loading">
+      <div class="tariff_item" *ngFor="let tariff of tariffs" [ngClass]="{'current_tariff': tariff.id === _services.signUpData.controls.tariffPlanId}">
         <div class="tariff_item__description">
           <h3 class="tariff_item__description-title">{{tariff.title}}</h3>
           <ul class="tariff_item__description-list">
@@ -13,7 +14,7 @@
           </p>
         </div>
         <button class="tariff_item__button"
-                [ngClass]="{'current_tariff':tariff.id===currentTariff}"
+                [ngClass]="{'current_tariff': tariff.id === _services.signUpData.controls.tariffPlanId}"
         (click)="chooseTariff(tariff.id)">
           {{tariff.title === 'Basic' ? 'SIGN UP NOW' : 'Buy Now'}}
         </button>
