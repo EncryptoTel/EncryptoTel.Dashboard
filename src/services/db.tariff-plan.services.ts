@@ -48,4 +48,16 @@ export class DBTariffPlanServices {
   tariffPlanSubscription(): Observable<DBTariffPlanModel> {
     return this.subscription.asObservable();
   }
+  /*
+    Getting tariff plans list
+   */
+  getTariffPlans(): Promise<any> {
+    return this._req.get('v1/tariff-plan/account', true);
+  }
+  /*
+    Tariff plan select
+   */
+  selectTariffPlan(id: number): Promise<any> {
+    return this._req.get(`v1/tariff-plan/${id}`, true);
+  }
 }

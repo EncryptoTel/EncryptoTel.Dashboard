@@ -5,7 +5,7 @@
       <div class="marketplace_info">{{item.content}}</div>
     </div>
     <div class="marketplace_row">
-      <div *ngIf="item.cost" class="marketplace_cost">${{item.cost}} monthly</div>
+      <div *ngIf="item.cost" class="marketplace_cost">${{item.price}} monthly</div>
       <div *ngIf="!item.cost" class="marketplace_cost">free</div>
       <div *ngIf="item.status" class="marketplace_button">bought</div>
       <div *ngIf="!item.status" class="marketplace_button">buy now</div>

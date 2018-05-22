@@ -38,4 +38,9 @@ export class TableComponent {
     }
     this.onDelete.emit(id);
   }
+  getValueByKey(item: any, key: string): string {
+    const keyArray = key.split('.');
+    keyArray.forEach(k => item = item && item[k]);
+    return item;
+  }
 }

@@ -154,4 +154,10 @@ export class AuthorizationServices {
       });
     });
   }
+  /*
+    Getting tariff plans list
+   */
+  getTariffPlans(): Promise<any> {
+    return this._req.get('v1/tariff-plan/account', true);
+  }
 }

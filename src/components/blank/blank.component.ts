@@ -94,18 +94,18 @@ export class BlankComponent {
     {id: 6, title: 'Option 6', description: 'Select option 6'}
   ];
   tableData = [
-    {id: 1, name: '123123', value: 'value1', additionalData: '1', hiddenValue: 'hidden'},
-    {id: 2, name: '123123', value: 'value2', additionalData: '2', hiddenValue: 'hidden'},
-    {id: 3, name: '123123', value: 'value3', additionalData: '3', hiddenValue: 'hidden'},
-    {id: 4, name: '123123', value: 'value4', additionalData: '4', hiddenValue: 'hidden'},
-    {id: 5, name: '123123', value: 'value5', additionalData: '5', hiddenValue: 'hidden'},
-    {id: 6, name: '123123', value: 'value6', additionalData: '6', hiddenValue: 'hidden'},
-    {id: 7, name: '123123', value: 'value7', additionalData: '7', hiddenValue: 'hidden'},
-    {id: 8, name: '123123', value: 'value8', additionalData: '8', hiddenValue: 'hidden'}
+    {id: 1, name: '123123', value: 'value1', additionalData: {id: 1, title: 'testTitle'}, hiddenValue: 'hidden'},
+    {id: 2, name: '123123', value: 'value2', additionalData: {id: 1, title: 'testTitle'}, hiddenValue: 'hidden'},
+    {id: 3, name: '123123', value: 'value3', additionalData: {id: 1, title: 'testTitle'}, hiddenValue: 'hidden'},
+    {id: 4, name: '123123', value: 'value4', additionalData: {id: 1, title: 'testTitle'}, hiddenValue: 'hidden'},
+    {id: 5, name: '123123', value: 'value5', additionalData: {id: 1, title: 'testTitle'}, hiddenValue: 'hidden'},
+    {id: 6, name: '123123', value: 'value6', additionalData: {id: 1, title: 'testTitle'}, hiddenValue: 'hidden'},
+    {id: 7, name: '123123', value: 'value7', additionalData: {id: 1, title: 'testTitle'}, hiddenValue: 'hidden'},
+    {id: 8, name: '123123', value: 'value8', additionalData: {id: 1, title: 'testTitle'}, hiddenValue: 'hidden'}
   ];
   tableInfo: TableInfoModel = {
     titles: ['name', 'value', 'info'],
-    keys: ['name', 'value', 'additionalData']
+    keys: ['name', 'value', 'additionalData.title']
   };
 
   selectItem(item): void {
