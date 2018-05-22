@@ -16,6 +16,7 @@ export class CallQueuesComponent {
     this.getQueues();
   }
 
+  loading = true;
   queues: QueuesListItem[] = [];
 
   tableInfo = {
@@ -39,9 +40,11 @@ export class CallQueuesComponent {
     this._service.getQueues().then(res => {
       if (res.hasOwnProperty('items')) {
         this.queues = res.items;
+        this.loading = false;
       }
     }).catch(err => {
       console.error(err);
+      this.loading = false;
     });
   }
 }

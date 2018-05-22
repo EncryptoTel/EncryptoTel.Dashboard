@@ -21,4 +21,19 @@ export class CallQueuesMembersComponent {
       keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'status']
     }
   };
+
+  deleteMember(memberId) {
+    const indexCallQueue = this._services.callQueue.queueMembers.findIndex(el => {
+      if (el.sipId === memberId) {
+        return true;
+      }
+    });
+    const indexView = this._services.userView.members.findIndex(el => {
+      if (el.id === memberId) {
+        return true;
+      }
+    });
+    this._services.callQueue.queueMembers.splice(indexCallQueue, 1);
+    this._services.userView.members.splice(indexView, 1);
+  }
 }

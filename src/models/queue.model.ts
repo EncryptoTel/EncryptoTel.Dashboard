@@ -5,7 +5,7 @@ export class QueueModel {
     public strategy: number,
     public timeout: number,
     public announceHoldtime: number,
-    public announcePosition: boolean,
+    public announcePosition: number,
     public maxlen: number,
     public description: string,
     public queueMembers: Member[],
@@ -48,7 +48,7 @@ export class Param {
 
 export class Members {
   constructor(
-    public sipInners: SipInner[]
+    public items: SipInner[]
   ) {}
 }
 
@@ -58,5 +58,11 @@ export class SipInner {
     public phoneNumber: string,
     public status: number,
     public sipOuterPhone?: string
+  ) {}
+}
+
+export class Departments {
+  constructor(
+   public items: any[]
   ) {}
 }

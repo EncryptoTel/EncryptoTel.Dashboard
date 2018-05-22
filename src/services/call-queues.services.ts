@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RequestServices} from './request.services';
-import {QueueModel} from '../models/queue.model';
+import {QueueModel, QueuesParams} from '../models/queue.model';
 import {Router} from '@angular/router';
 
 @Injectable()
@@ -9,13 +9,18 @@ export class CallQueuesServices {
               private router: Router) {
   }
 
+  editMode = false;
+  params: QueuesParams = {
+    announceHoldtimes: [],
+    strategies: []
+  };
   callQueue: QueueModel = {
     sipId: 0,
     name: '',
     strategy: 0,
     timeout: 30,
     announceHoldtime: 0,
-    announcePosition: false,
+    announcePosition: 0,
     maxlen: 60,
     description: '',
     queueMembers: []
@@ -23,6 +28,7 @@ export class CallQueuesServices {
   userView = {
     phoneNumber: '',
     announceHoldtime: false,
+    announcePosition: false,
     members: [],
     isCurCompMembersAdd: false,
     strategy: {
@@ -30,10 +36,12 @@ export class CallQueuesServices {
     }
   };
 
-  save(): void {
-    this.request.post('v1/call_queue', this.callQueue, true).then(res => {
-    }).catch(err => {
-    });
+  save(id): void {
+    if (this.editMode) {
+      this.request.put(`v1/call_queue/${id}`, this.callQueue, true);
+    } else {
+      this.request.post('v1/call_queue', this.callQueue, true);
+    }
   }
 
   cancel(): void {
@@ -51,6 +59,7 @@ export class CallQueuesServices {
     this.userView = {
       phoneNumber: '',
       announceHoldtime: false,
+      announcePosition: false,
       members: [],
       isCurCompMembersAdd: false,
       strategy: {
@@ -58,6 +67,14 @@ export class CallQueuesServices {
       }
     };
     this.router.navigate(['cabinet', 'call-queues']);
+  }
+
+  setStrategiesFromId() {
+    this.params.strategies.forEach(el => {
+      if (el.id === this.callQueue.strategy) {
+        this.userView.strategy.code = el.code;
+      }
+    });
   }
 
   delete(id: number) {
@@ -77,10 +94,25 @@ export class CallQueuesServices {
   }
 
   getParams() {
-    return this.request.get(`v1/call_queue/params`, true);
+    this.request.get(`v1/call_queue/params`, true).then((res: QueuesParams) => {
+      this.params = res;
+      if (this.editMode) {
+        this.setStrategiesFromId();
+      }
+    }).catch(err => {
+      console.error(err);
+    });
   }
 
   getMembers(id: number) {
-    return this.request.get(`v1/sip/inners/${id}`, true);
+    return this.request.post(`v1/call_queue/members`, {sipOuter: id}, true);
+  }
+
+  getDepartments() {
+    return this.request.get(`v1/department`, true);
+  }
+
+  getCallQueue(id) {
+    return this.request.get(`v1/call_queue/${id}`, true);
   }
 }
