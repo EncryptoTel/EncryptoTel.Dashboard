@@ -33,6 +33,7 @@ import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-c
 import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
 import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
 import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
+import {ProfileComponent} from '../components/settings/settings-items/profile/profile.component';
 
 
 /*
@@ -74,7 +75,8 @@ import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queu
     CallQueuesCreateComponent,
     CallQueuesGeneralComponent,
     CallQueuesMembersComponent,
-    CallQueuesMembersAddComponent
+    CallQueuesMembersAddComponent,
+    ProfileComponent
   ],
   exports: [
     ElementsModule,
@@ -96,7 +98,8 @@ import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queu
     CallQueuesCreateComponent,
     CallQueuesGeneralComponent,
     CallQueuesMembersComponent,
-    CallQueuesMembersAddComponent
+    CallQueuesMembersAddComponent,
+    ProfileComponent
   ]
 })
 export class ComponentsModule {

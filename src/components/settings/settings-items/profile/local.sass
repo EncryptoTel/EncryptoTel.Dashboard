@@ -1,0 +1,54 @@
+@import '../../../../vars'
+
+.overlay
+  flex: 1 0 auto
+  max-height: 100%
+  overflow-x: hidden
+  &_content
+    flex: 1 0 auto
+    flex-direction: column
+    padding: rem(32)
+  &_pre_row
+    flex-direction: row
+    flex: 0 0 auto
+    justify-content: flex-end
+    margin-bottom: rem(8)
+    > pbx-button
+      width: fit-content
+      &:first-child
+        margin-right: rem(8)
+
+.settings
+  flex-direction: column
+  &_form
+    flex-direction: column
+    flex: 1 0 auto
+    &_section
+      flex-direction: column
+      > pbx-button
+        width: fit-content
+        margin-left: rem(160)
+        overflow-x: hidden
+    &_title
+      margin-bottom: rem(24)
+  &_input
+    &_title
+      flex: 0 0 rem(160)
+      font-size: rem(12)
+      margin-bottom: rem(24)
+    &_item
+      align-items: center
+      .input_wrap
+        flex: 1 0 auto
+        flex-direction: column
+
+// Themes styles
+\:host-context(.dark_theme)
+  .overlay
+    background: $dark_overlay
+  .settings
+    &_input
+      &_title
+        color: darken($dark_primary, 40%)
+        &.error
+          color: $dark_error

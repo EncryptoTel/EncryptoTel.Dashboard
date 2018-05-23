@@ -29,6 +29,7 @@ import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-c
 import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
 import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
 import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
+import {ProfileComponent} from '../components/settings/settings-items/profile/profile.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -76,7 +77,10 @@ const Routes: Routes = [
     {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},
     {path: 'storage', component: StorageComponent, data: {title: 'Storage', indexed: true}},
     {path: 'marketplace', component: MarketplaceComponent, data: {title: 'Marketplace', indexed: true}},
-    {path: 'settings', component: SettingsComponent, data: {title: 'Settings', indexed: true}},
+    {path: 'settings', children: [
+        {path: '', component: SettingsComponent, data: {title: 'Settings', indexed: true}},
+        {path: 'profile', component: ProfileComponent, data: {title: 'Profile settings', indexed: true}}
+      ]},
     {path: 'refill', component: BlankComponent, data: {title: 'Balance refill', indexed: true}},
     {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff plan', indexed: true}}
   ]},
