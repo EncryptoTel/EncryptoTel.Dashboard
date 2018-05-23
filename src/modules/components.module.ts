@@ -34,6 +34,10 @@ import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-
 import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
 import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
 import {ProfileComponent} from '../components/settings/settings-items/profile/profile.component';
+import {AuthenticationComponent} from '../components/settings/settings-items/authentication/authentication.component';
+import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
+import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
+import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 
 
 /*
@@ -76,7 +80,11 @@ import {ProfileComponent} from '../components/settings/settings-items/profile/pr
     CallQueuesGeneralComponent,
     CallQueuesMembersComponent,
     CallQueuesMembersAddComponent,
-    ProfileComponent
+    ProfileComponent,
+    AuthenticationComponent,
+    BillingComponent,
+    AccountNotificationsComponent,
+    UserNotificationsComponent
   ],
   exports: [
     ElementsModule,
@@ -99,7 +107,11 @@ import {ProfileComponent} from '../components/settings/settings-items/profile/pr
     CallQueuesGeneralComponent,
     CallQueuesMembersComponent,
     CallQueuesMembersAddComponent,
-    ProfileComponent
+    ProfileComponent,
+    AuthenticationComponent,
+    BillingComponent,
+    AccountNotificationsComponent,
+    UserNotificationsComponent
   ]
 })
 export class ComponentsModule {

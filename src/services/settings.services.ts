@@ -25,4 +25,26 @@ export class SettingsServices {
   changePassword(form: any): Promise<any> {
     return this._req.post('v1/settings/user/profile/change-password', {...form}, true);
   }
+
+  getAuthParams(): Promise<any> {
+    return this._req.get('v1/settings/account/auth', true);
+  }
+
+  getBillingParams(): Promise<any> {
+    return this._req.get('v1/settings/account/billing', true);
+  }
+
+  getNotificationsParams(): Promise<any> {
+    return this._req.get('v1/settings/account/notifications', true);
+  }
+
+  getUserNotificationsParams(): Promise<any> {
+    return this._req.get('v1/settings/user/notifications', true);
+  }
+
+  saveSetting(id, value, path): Promise<any> {
+    const data = {};
+    data[id] = value;
+    return this._req.post(`v1/settings/${path}`, {settings: {...data}}, true);
+  }
 }

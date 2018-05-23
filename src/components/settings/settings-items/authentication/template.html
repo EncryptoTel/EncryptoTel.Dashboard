@@ -1,0 +1,59 @@
+<div class="overlay_pre_row">
+  <pbx-button buttonType="cancel" value="Cancel" (onClick)="goBack()"></pbx-button>
+</div>
+<div class="overlay">
+  <pbx-loader *ngIf="loading.body"></pbx-loader>
+  <div class="overlay_content" *ngIf="!loading.body">
+    <div class="settings_form_section" *ngFor="let key of getKeys(settings)">
+      <div class="settings_form_title">{{settings[key].title}}</div>
+      <div class="settings_input_item" *ngFor="let inputKey of getKeys(settings[key].children)">
+        <div class="settings_input_title" *ngIf="settings[key].children[inputKey].type !== 'group_field'">{{settings[key].children[inputKey].title}}</div>
+        <div class="input_wrap">
+          <pbx-checkbox *ngIf="settings[key].children[inputKey].type === 'bool'"
+                        [value]="settings[key].children[inputKey].value === '1'"
+                        (onToggle)="saveOption($event, key, inputKey)"></pbx-checkbox>
+          <pbx-select
+            *ngIf="settings[key].children[inputKey].type === 'list'"
+            placeholder="[choose one]"
+            [options]="generateOptions(settings[key].children[inputKey]['list_value'])"
+            (onSelect)="saveOption($event, key, inputKey)"
+            [selected]="selectedItems[inputKey]"
+            objectKey="title"></pbx-select>
+          <input #temp
+                 title="{{settings[key].children[inputKey].title}}"
+                 [name]="settings[key].children[inputKey].title"
+                 [placeholder]="settings[key].children[inputKey].title"
+                 *ngIf="settings[key].children[inputKey].type === 'string'"
+                 (blur)="saveOption(temp.value, key, inputKey)">
+          <div class="settings_form_section" *ngIf="settings[key].children[inputKey].type === 'group_field'">
+            <div class="settings_form_section">
+              <div class="settings_form_title">{{settings[key].children[inputKey].title}}</div>
+              <div class="settings_input_item"
+                   *ngFor="let childrenKey of getKeys(settings[key].children[inputKey].children)">
+                <div class="settings_input_title">{{settings[key].children[inputKey].children[childrenKey].title}}</div>
+                <div class="input_wrap">
+                  <pbx-checkbox *ngIf="settings[key].children[inputKey].children[childrenKey].type === 'bool'"
+                                [value]="settings[key].children[inputKey].children[childrenKey].value === '1'"
+                                (onToggle)="saveOption($event, key, inputKey, childrenKey)"></pbx-checkbox>
+                  <pbx-select
+                    *ngIf="settings[key].children[inputKey].children[childrenKey].type === 'list'"
+                    placeholder="[choose one]"
+                    [options]="generateOptions(settings[key].children[inputKey].children[childrenKey]['list_value'])"
+                    (onSelect)="saveOption($event, key, inputKey, childrenKey)"
+                    [selected]="selectedItems[inputKey]"
+                    objectKey="title"></pbx-select>
+                  <input #temp
+                         title="{{settings[key].children[inputKey].children[childrenKey].title}}"
+                         [name]="settings[key].children[inputKey].children[childrenKey].title"
+                         [placeholder]="settings[key].children[inputKey].children[childrenKey].title"
+                         *ngIf="settings[key].children[inputKey].children[childrenKey].type === 'string' || settings[key].children[inputKey].children[childrenKey].type === 'int'"
+                         (blur)="saveOption(temp.value, key, inputKey, childrenKey)">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
