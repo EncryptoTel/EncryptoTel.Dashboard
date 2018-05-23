@@ -38,25 +38,23 @@ export class UserNotificationsComponent implements OnInit {
   }
   getEventValue = (ev: any): any => {
     if (typeof ev === 'boolean') {
-      return ev === true ? '1' : '0';
+      return ev;
     } else if (typeof ev === 'string') {
       return ev;
     } else {
-      return ev.title;
+      return ev.id;
     }
   }
 
   saveOption(ev: any, key: string, inputKey: string, childrenKey?: string): void {
     if (this.settings[key].children[inputKey].type === 'list') {
       this.selectedItems[key] = ev;
+    } else if (this.settings[key].children[inputKey].type === 'group_field') {
+      this.selectedItems[childrenKey] = ev;
     }
     this._services.saveSetting(!childrenKey ?
       this.settings[key].children[inputKey].id : this.settings[key].children[inputKey].children[childrenKey].id, this.getEventValue(ev), 'user/notifications')
-      .then(res => {
-        console.log(res);
-      }).catch(err => {
-      console.log(err);
-    });
+      .then().catch();
   }
 
   getInitialParams(): void {
@@ -71,6 +69,16 @@ export class UserNotificationsComponent implements OnInit {
                 id: selectedId,
                 title: res.settings[key].children[inputKey].list_value[selectedId]
               };
+            } else if (res.settings[key].children[inputKey].type === 'group_field') {
+              Object.keys(res.settings[key].children[inputKey].children).forEach(childrenKey => {
+                if (res.settings[key].children[inputKey].children[childrenKey].type === 'list') {
+                  const selectedId = res.settings[key].children[inputKey].children[childrenKey].value;
+                  this.selectedItems[childrenKey] = {
+                    id: selectedId,
+                    title: res.settings[key].children[inputKey].children[childrenKey].list_value[selectedId]
+                  };
+                }
+              });
             }
           });
         });

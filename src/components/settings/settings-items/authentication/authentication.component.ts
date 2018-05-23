@@ -5,6 +5,7 @@ import {SettingsServices} from '../../../../services/settings.services';
 @Component({
   selector: 'authorization-component',
   templateUrl: './template.html',
+  styleUrls: ['./local.sass'],
   providers: [SettingsServices]
 })
 
@@ -17,6 +18,8 @@ export class AuthenticationComponent implements OnInit {
   settings: any;
 
   selectedItems: any = {};
+
+  qrCode: string;
 
   constructor(private _services: SettingsServices,
               private router: Router) {}
@@ -36,11 +39,11 @@ export class AuthenticationComponent implements OnInit {
   }
   getEventValue = (ev: any): any => {
     if (typeof ev === 'boolean') {
-      return ev === true ? '1' : '0';
+      return ev;
     } else if (typeof ev === 'string') {
       return ev;
     } else {
-      return ev.title;
+      return ev.id;
     }
   }
 
@@ -49,12 +52,11 @@ export class AuthenticationComponent implements OnInit {
       this.selectedItems[key] = ev;
     }
     this._services.saveSetting(!childrenKey ?
-      this.settings[key].children[inputKey].id : this.settings[key].children[inputKey].children[childrenKey].id, this.getEventValue(ev), 'account/account-notifications')
-      .then(res => {
-        console.log(res);
-      }).catch(err => {
-      console.log(err);
-    });
+      this.settings[key].children[inputKey].id : this.settings[key].children[inputKey].children[childrenKey].id, this.getEventValue(ev), 'account/auth')
+      .then(() => {
+        if (ev.title === 'google') {
+          this.getQR();
+        }}).catch();
   }
 
   getInitialParams(): void {
@@ -69,12 +71,33 @@ export class AuthenticationComponent implements OnInit {
                 id: selectedId,
                 title: res.settings[key].children[inputKey].list_value[selectedId]
               };
+              if (res.settings[key].children[inputKey].list_value[selectedId] === 'google') {
+                this.getQR();
+              }
+            } else if (res.settings[key].children[inputKey].type === 'group_field') {
+              Object.keys(res.settings[key].children[inputKey].children).forEach(childrenKey => {
+                if (res.settings[key].children[inputKey].children[childrenKey].type === 'list') {
+                  const selectedId = res.settings[key].children[inputKey].children[childrenKey].value;
+                  this.selectedItems[childrenKey] = {
+                    id: selectedId,
+                    title: res.settings[key].children[inputKey].children[childrenKey].list_value[selectedId]
+                  };
+                }
+              });
             }
           });
         });
         this.settings = res.settings;
         this.loading.body = false;
       }).catch(() => this.loading.body = false);
+  }
+
+  getQR(): void {
+    this._services.getQRCode()
+      .then(res => {
+        this.qrCode = res.qrImage;
+      })
+      .catch();
   }
 
   ngOnInit() {

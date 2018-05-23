@@ -110,7 +110,7 @@ export class ProfileComponent implements OnInit {
           }
         });
         this.emailChange.controls.email.setValue(res.profile.user.email);
-        this.loading.body = false;
+        this.loading.body = this.loading.buttons = false;
         this.passwordChange.reset();
       }).catch();
   }
@@ -123,17 +123,14 @@ export class ProfileComponent implements OnInit {
     validateForm(this.generalForm);
     if (this.generalForm.valid) {
       this.loading.buttons = true;
-      const data = {};
-      Object.keys(this.generalForm.controls).forEach(key => {
-        if (this.generalForm.controls[key].value) {
-          data[key] = this.generalForm.controls[key].value;
-        }
-      });
-      this._services.saveProfileSettings(data)
-        .then(() => {
-          this.getSettings();
-        })
-        .catch(() => this.loading.buttons = false);
+      validateForm(this.generalForm);
+      if (this.generalForm.valid) {
+        this._services.saveProfileSettings(this.generalForm.value)
+          .then(() => {
+            this.getSettings();
+          })
+          .catch(() => this.loading.buttons = false);
+      }
     }
   }
 

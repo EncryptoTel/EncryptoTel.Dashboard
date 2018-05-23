@@ -11,7 +11,8 @@ export class SettingsServices {
   }
 
   saveProfileSettings(settings: any): Promise<any> {
-    return this._req.post('v1/settings/user/profile', {settings}, true);
+    console.log(settings);
+    return this._req.post('v1/settings/user/profile', {...settings}, true);
   }
 
   requestEmailChange(email: any): Promise<any> {
@@ -42,9 +43,13 @@ export class SettingsServices {
     return this._req.get('v1/settings/user/notifications', true);
   }
 
+  getQRCode(): Promise<any> {
+    return this._req.get('v1/settings/account/auth/get-qr-code', true);
+  }
+
   saveSetting(id, value, path): Promise<any> {
     const data = {};
     data[id] = value;
-    return this._req.post(`v1/settings/${path}`, {settings: {...data}}, true);
+    return this._req.post(`v1/settings/${path}`, {settings: [{id: id, value: value}]}, true);
   }
 }

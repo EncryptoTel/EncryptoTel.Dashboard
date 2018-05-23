@@ -40,7 +40,7 @@
                     placeholder="[choose one]"
                     [options]="generateOptions(settings[key].children[inputKey].children[childrenKey]['list_value'])"
                     (onSelect)="saveOption($event, key, inputKey, childrenKey)"
-                    [selected]="selectedItems[inputKey]"
+                    [selected]="selectedItems[childrenKey]"
                     objectKey="title"></pbx-select>
                   <input #temp
                          title="{{settings[key].children[inputKey].children[childrenKey].title}}"
@@ -54,6 +54,7 @@
           </div>
         </div>
       </div>
+      <div class="settings_code" *ngIf="qrCode" [style.background-image]="'url(' + qrCode + ')'"></div>
     </div>
   </div>
 </div>
