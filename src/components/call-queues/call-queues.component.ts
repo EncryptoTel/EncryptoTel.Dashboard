@@ -23,7 +23,7 @@ export class CallQueuesComponent {
 
   tableInfo = {
     titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time'],
-    keys: ['name', 'number', 'strategy', 'timeout']
+    keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout']
   };
 
   edit(queue: QueuesListItem): void {
@@ -31,8 +31,9 @@ export class CallQueuesComponent {
   }
 
   delete(id: number): void {
-    this._service.delete(id).then(res => {
-      console.log(res);
+    this.loading = true;
+    this._service.delete(id).then(() => {
+      this.getQueues();
     }).catch(err => {
       console.error(err);
     });

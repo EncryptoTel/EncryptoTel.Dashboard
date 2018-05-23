@@ -25,7 +25,7 @@ export class CallQueuesMembersAddComponent {
   table = {
     title: {
       titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
-      keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'status']
+      keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'statusName']
     }
   };
 
