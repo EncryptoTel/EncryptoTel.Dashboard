@@ -5,7 +5,7 @@ export class QueueModel {
     public strategy: number,
     public timeout: number,
     public announceHoldtime: number,
-    public announcePosition: number,
+    public announcePosition: boolean,
     public maxlen: number,
     public description: string,
     public queueMembers: Member[],

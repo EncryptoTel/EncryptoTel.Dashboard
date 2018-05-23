@@ -1,11 +1,13 @@
 import {Component} from '@angular/core';
 import {CallQueuesServices} from '../../../../../../services/call-queues.services';
 import {Departments, Members, SipInner} from '../../../../../../models/queue.model';
+import {FadeAnimation} from '../../../../../../shared/fade-animation';
 
 @Component({
   selector: 'pbx-call-queues-members-add',
   templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+  styleUrls: ['./local.sass'],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class CallQueuesMembersAddComponent {
@@ -17,6 +19,7 @@ export class CallQueuesMembersAddComponent {
     this._service.userView.isCurCompMembersAdd = true;
   }
 
+  loading = true;
   members: SipInner[] = [];
   departments: any[] = [];
   table = {
@@ -60,6 +63,7 @@ export class CallQueuesMembersAddComponent {
   private getMembers(id: number): void {
     this._service.getMembers(id).then((res: Members) => {
       this.members = res.items;
+      this.loading = false;
       this.addPhoneNumberField();
     }).catch(err => {
       console.error(err);

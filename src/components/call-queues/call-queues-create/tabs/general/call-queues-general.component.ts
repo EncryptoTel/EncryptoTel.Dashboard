@@ -1,11 +1,13 @@
 import {Component} from '@angular/core';
 import {CallQueuesServices} from '../../../../../services/call-queues.services';
 import {Param} from '../../../../../models/queue.model';
+import {FadeAnimation} from '../../../../../shared/fade-animation';
 
 @Component({
   selector: 'pbx-call-queues-general',
   templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+  styleUrls: ['./local.sass'],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class CallQueuesGeneralComponent {
@@ -13,7 +15,7 @@ export class CallQueuesGeneralComponent {
     this.getNumbers();
     this._services.userView.isCurCompMembersAdd = false;
   }
-
+  loading = true;
   numbers = {
     items: []
   };
@@ -42,6 +44,7 @@ export class CallQueuesGeneralComponent {
   private getNumbers(): void {
     this._services.getNumbers().then(res => {
       this.numbers = res;
+      this.loading = false;
     }).catch(err => {
       console.error(err);
     });

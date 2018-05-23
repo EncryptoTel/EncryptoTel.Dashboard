@@ -2,16 +2,18 @@ import {Component, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {CallQueuesServices} from '../../../services/call-queues.services';
+import {FadeAnimation} from '../../../shared/fade-animation';
 
 
 @Component({
   selector: 'pbx-call-queues-create',
   templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+  styleUrls: ['./local.sass'],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class CallQueuesCreateComponent implements OnDestroy {
-  constructor(private _service: CallQueuesServices,
+  constructor(public _service: CallQueuesServices,
               private activatedRoute: ActivatedRoute,
               private router: Router) {
     if (this.activatedRoute.snapshot.params.id) {
@@ -35,6 +37,18 @@ export class CallQueuesCreateComponent implements OnDestroy {
     this.router.navigate(['members'], {relativeTo: this.activatedRoute});
   }
 
+  validation(): boolean {
+    return !(
+      this._service.callQueue.sipId &&
+      this._service.callQueue.name &&
+      (this._service.callQueue.name.length < 255) &&
+      this._service.callQueue.strategy &&
+      this._service.callQueue.timeout &&
+      this._service.callQueue.maxlen &&
+      this._service.callQueue.queueMembers.length > 0
+    );
+  }
+
   private reset() {
     this._service.callQueue = {
       sipId: 0,
@@ -42,7 +56,7 @@ export class CallQueuesCreateComponent implements OnDestroy {
       strategy: 0,
       timeout: 30,
       announceHoldtime: 0,
-      announcePosition: 0,
+      announcePosition: false,
       maxlen: 60,
       description: '',
       queueMembers: []
@@ -80,12 +94,13 @@ export class CallQueuesCreateComponent implements OnDestroy {
 
   private setMembers(members) {
     for (let i = 0; i < members.length; i++) {
-      this._service.callQueue.queueMembers.push({sipId: members[i].id});
+      this._service.callQueue.queueMembers.push({sipId: members[i].sip.id});
       this._service.userView.members.push(members[i].sip);
       this._service.userView.members[i].sipOuterPhone = this._service.userView.phoneNumber;
     }
     console.log(this._service.userView.members);
   }
+
   ngOnDestroy() {
     this.reset();
   }

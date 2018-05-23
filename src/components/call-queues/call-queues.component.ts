@@ -2,11 +2,13 @@ import {Component} from '@angular/core';
 import {QueuesListItem} from '../../models/queue.model';
 import {CallQueuesServices} from '../../services/call-queues.services';
 import {ActivatedRoute, Router} from '@angular/router';
+import {FadeAnimation} from '../../shared/fade-animation';
 
 @Component({
   selector: 'pbx-call-queues',
   templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+  styleUrls: ['./local.sass'],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class CallQueuesComponent {

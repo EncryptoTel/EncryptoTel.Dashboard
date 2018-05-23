@@ -20,7 +20,7 @@ export class CallQueuesServices {
     strategy: 0,
     timeout: 30,
     announceHoldtime: 0,
-    announcePosition: 0,
+    announcePosition: false,
     maxlen: 60,
     description: '',
     queueMembers: []
@@ -38,9 +38,13 @@ export class CallQueuesServices {
 
   save(id): void {
     if (this.editMode) {
-      this.request.put(`v1/call_queue/${id}`, this.callQueue, true);
+      this.request.put(`v1/call_queue/${id}`, this.callQueue, true).then(() => {
+        this.router.navigate(['cabinet', 'call-queues']);
+      });
     } else {
-      this.request.post('v1/call_queue', this.callQueue, true);
+      this.request.post('v1/call_queue', this.callQueue, true).then(() => {
+        this.router.navigate(['cabinet', 'call-queues']);
+      });
     }
   }
 
