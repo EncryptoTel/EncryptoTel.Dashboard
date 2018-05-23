@@ -105,7 +105,7 @@
             <div class="input_error" *ngIf="inputValidation(passwordChange, 'password_confirmation') || passwordChange.errors" [@Fade]>
               <span class="input_error_item" *ngIf="!passwordChange.errors && inputValidation(passwordChange, 'password_confirmation', 'required')">Please enter password</span>
               <span class="input_error_item" *ngIf="!passwordChange.errors && inputValidation(passwordChange, 'password_confirmation', 'minlength')">Password is too short</span>
-              <div class="input_error_item" *ngIf="passwordChange.errors && passwordsMismatch()">Passwords doesn't match</div>
+              <div class="input_error_item" *ngIf="passwordChange.errors && passwordsMismatch()">Passwords don't match</div>
             </div>
           </div>
         </div>
