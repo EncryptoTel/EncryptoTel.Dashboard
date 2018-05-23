@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthorizationServices} from '../../../services/authorization.services';
 import {Router} from '@angular/router';
 
@@ -8,65 +8,39 @@ import {Router} from '@angular/router';
   styleUrls: ['./local.sass']
 })
 
-export class SignUpTariffPlansComponent {
+export class SignUpTariffPlansComponent implements OnInit {
+
+  loading: boolean;
+
+  tariffs = [];
+
   constructor(public _services: AuthorizationServices,
-              private router: Router) {
-  }
-
-  tariffs = [
-    {
-      id: 1,
-      title: 'Basic',
-      price: '',
-      services: [
-        {id: 1, title: 'Buy phones'},
-        {id: 2, title: 'Call details'},
-        {id: 3, title: 'Call records'}
-      ]
-    },
-    {
-      id: 2,
-      title: 'Start',
-      price: 15,
-      services: [
-        {id: 1, title: 'Buy phones'},
-        {id: 2, title: 'Call details'},
-        {id: 3, title: 'Call records'}
-      ]
-    },
-    {
-      id: 3,
-      title: 'Medium',
-      price: 15,
-      services: [
-        {id: 1, title: 'Buy phones'},
-        {id: 2, title: 'Call details'},
-        {id: 3, title: 'Call records'}
-      ]
-    },
-    {
-      id: 4,
-      title: 'Maximum',
-      price: 15,
-      services: [
-        {id: 1, title: 'Buy phones'},
-        {id: 2, title: 'Call details'},
-        {id: 3, title: 'Call records'},
-        {id: 1, title: 'Buy phones'},
-        {id: 2, title: 'Call details'},
-        {id: 3, title: 'Call records'},
-        {id: 1, title: 'Buy phones'},
-        {id: 2, title: 'Call details'},
-        {id: 3, title: 'Call records'}
-      ]
-    }
-  ];
-
-  currentTariff = this._services.signUpData.controls.tariff.value;
+              private router: Router) {}
 
   chooseTariff(id: number): void {
-    this._services.signUpData.controls['tariff_plan_id'].setValue(id);
-    this.currentTariff = id;
+    this._services.signUpData.controls['tariffPlanId'].setValue(id);
     this.router.navigate(['sign-up']);
+  }
+
+  ngOnInit(): void {
+    this.loading = true;
+    this._services.getTariffPlans()
+      .then(res => {
+        res.map(tariff => {
+          this.tariffs.push({
+            id: tariff.id,
+            title: tariff.title,
+            price: tariff.sum,
+            services: []
+          });
+          tariff.offers.map(offer => {
+            this.tariffs[this.tariffs.length - 1].services.push({
+              title: offer.service.title
+            });
+          });
+        });
+        this.loading = false;
+      })
+      .catch();
   }
 }

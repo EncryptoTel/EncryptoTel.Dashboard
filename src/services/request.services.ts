@@ -6,6 +6,7 @@ import {LoggerServices} from './logger.services';
 import {MessageServices} from './message.services';
 
 import {environment as _env} from '../environments/environment';
+import {Router} from '@angular/router';
 
 /*
   Parent request services. Processing errors and console output for responses
@@ -15,7 +16,8 @@ import {environment as _env} from '../environments/environment';
 export class RequestServices {
   constructor(private http: HttpClient,
               private _messages: MessageServices,
-              private logger: LoggerServices) {}
+              private logger: LoggerServices,
+              private router: Router) {}
 
   /*
     Default POST request. Accepted params:
@@ -29,6 +31,11 @@ export class RequestServices {
         return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
+          case 401: {
+            localStorage.removeItem('pbx_user');
+            this.router.navigateByUrl('../../../sign-in');
+            break;
+          }
           default: {
             this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;
@@ -54,6 +61,11 @@ export class RequestServices {
         return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
+          case 401: {
+            localStorage.removeItem('pbx_user');
+            this.router.navigateByUrl('../../../sign-in');
+            break;
+          }
           default: {
             this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;
@@ -78,6 +90,11 @@ export class RequestServices {
         return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
+          case 401: {
+            localStorage.removeItem('pbx_user');
+            this.router.navigateByUrl('../../../sign-in');
+            break;
+          }
           default: {
             this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;
@@ -102,6 +119,11 @@ export class RequestServices {
         return Promise.resolve(response.body); // Return response body to children method
       }).catch(response => { // Non-successful request processing
         switch (response.status) { // Switch response error status
+          case 401: {
+            localStorage.removeItem('pbx_user');
+            this.router.navigateByUrl('../../../sign-in');
+            break;
+          }
           default: {
             this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
             break;

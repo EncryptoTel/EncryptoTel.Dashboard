@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -7,9 +7,7 @@ import {AuthorizationServices} from '../../../services/authorization.services';
 import {UserServices} from '../../../services/user.services';
 
 import {FadeAnimation} from '../../../shared/fade-animation';
-import {passwordConfirmation} from '../../../shared/password-confirmation';
 import {validateForm} from '../../../shared/shared.functions';
-import * as _vars from '../../../shared/vars';
 import {FormMessageModel} from '../../../models/form-message.model';
 
 @Component({
@@ -77,26 +75,6 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     }
     if (this._services.signUpData) {
       this.signUpForm = this._services.signUpData;
-    } else {
-      this.signUpForm = new FormGroup({
-        'firstname': new FormControl('', [
-          Validators.required,
-          Validators.pattern(_vars.nameRegExp)
-        ]),
-        'email': new FormControl('', [
-          Validators.required,
-          Validators.pattern(_vars.emailRegExp)
-        ]),
-        'password': new FormControl('', [
-          Validators.required,
-          Validators.minLength(6)
-        ]),
-        'password_confirmation': new FormControl('', [
-          Validators.required,
-          Validators.minLength(6)
-        ]),
-        'tariff_plan_id': new FormControl(1),
-      }, passwordConfirmation);
     }
   }
   ngOnDestroy(): void {

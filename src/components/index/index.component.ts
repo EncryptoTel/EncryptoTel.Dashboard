@@ -130,14 +130,14 @@ export class IndexComponent implements OnInit, OnDestroy {
       title: 'Storage',
       link: 'storage',
       icon: 'storage',
-      status: false,
+      status: true,
       visible: true
     }, {
       id: 14,
       title: 'Settings',
       link: 'settings',
       icon: 'settings',
-      status: false,
+      status: true,
       visible: true
     }]
   ];
