@@ -76,6 +76,7 @@ export class ProfileComponent implements OnInit {
     });
     this.emailChange = new FormGroup({
       'email': new FormControl('', [
+        Validators.required,
         Validators.pattern(emailRegExp)
       ])
     });

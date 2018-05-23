@@ -44,6 +44,7 @@
           <div class="input_wrap">
             <input name="E-mail" id="email" placeholder="E-mail" formControlName="email">
             <div class="input_error" *ngIf="inputValidation(emailChange, 'email')" [@Fade]>
+              <span class="input_error_item" *ngIf="inputValidation(emailChange, 'email', 'required')">Please enter your e-mail address</span>
               <span class="input_error_item" *ngIf="inputValidation(emailChange, 'email', 'pattern')">Please enter correct e-mail address</span>
             </div>
           </div>
@@ -77,9 +78,9 @@
       <div class="settings_form_section" [formGroup]="passwordChange">
         <div class="settings_form_title">Change Password</div>
         <div class="settings_input_item">
-          <div class="settings_input_title" [ngClass]="{'error': inputValidation(passwordChange, 'oldPassword')}">Old password</div>
+          <div class="settings_input_title" [ngClass]="{'error': inputValidation(passwordChange, 'oldPassword')}">Current password</div>
           <div class="input_wrap">
-            <input type="password" name="Old Password" placeholder="Old password" formControlName="oldPassword" autocomplete="new-password">
+            <input type="password" name="Current Password" placeholder="Current password" formControlName="oldPassword" autocomplete="new-password">
             <div class="input_error" *ngIf="inputValidation(passwordChange, 'oldPassword')" [@Fade]>
               <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'oldPassword', 'required')">Please enter password</span>
               <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'oldPassword', 'minlength')">Password is too short</span>
@@ -88,9 +89,9 @@
           </div>
         </div>
         <div class="settings_input_item">
-          <div class="settings_input_title" [ngClass]="{'error': inputValidation(passwordChange, 'password')}">Password</div>
+          <div class="settings_input_title" [ngClass]="{'error': inputValidation(passwordChange, 'password')}">New password</div>
           <div class="input_wrap">
-            <input type="password" name="Password" placeholder="Password" formControlName="password">
+            <input type="password" name="New password" placeholder="New password" formControlName="password">
             <div class="input_error" *ngIf="inputValidation(passwordChange, 'password')" [@Fade]>
               <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'password', 'required')">Please enter password</span>
               <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'password', 'minlength')">Password is too short</span>
