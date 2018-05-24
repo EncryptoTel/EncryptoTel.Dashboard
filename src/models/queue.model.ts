@@ -48,7 +48,7 @@ export class Param {
 
 export class Members {
   constructor(
-    public sipInners: SipInner[]
+    public items: SipInner[]
   ) {}
 }
 
@@ -57,6 +57,13 @@ export class SipInner {
     public id: number,
     public phoneNumber: string,
     public status: number,
-    public sipOuterPhone?: string
+    public sipOuterPhone?: string,
+    public statusName?: string
+  ) {}
+}
+
+export class Departments {
+  constructor(
+   public items: any[]
   ) {}
 }

@@ -1,6 +1,8 @@
-<div class="call_queue_wrap">
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div class="call_queue_wrap" *ngIf="!loading">
   <div class="call_queue_header">
     <a routerLink="create">Create New Queue</a>
   </div>
-  <pbx-table [tableInfo]="tableInfo" [tableItems]="queues" [editable]="true" (onEdit)="edit($event)" (onDelete)="delete($event)"></pbx-table>
+  <pbx-table [tableInfo]="tableInfo" [tableItems]="queues" [editable]="true" (onEdit)="edit($event)"
+             (onDelete)="delete($event)"></pbx-table>
 </div>

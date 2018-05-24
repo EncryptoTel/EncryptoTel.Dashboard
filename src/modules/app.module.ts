@@ -20,6 +20,7 @@ import {UserServices} from '../services/user.services';
 import {BalanceServices} from '../services/balance.services';
 import {DriveServices} from '../services/drive.services';
 import {CallQueuesServices} from '../services/call-queues.services';
+import {SettingsServices} from '../services/settings.services';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import {CallQueuesServices} from '../services/call-queues.services';
     UserServices,
     BalanceServices,
     DriveServices,
-    CallQueuesServices
+    CallQueuesServices,
+    SettingsServices
   ],
   bootstrap: [MainViewComponent]
 })

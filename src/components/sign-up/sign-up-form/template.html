@@ -8,7 +8,7 @@
       <input name="Name" placeholder="Name" formControlName="firstname">
       <div class="input_error" *ngIf="inputValidation('firstname')" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('firstname', 'required')">Please enter your name</span>
-        <span class="input_error_item" *ngIf="inputValidation('firstname', 'pattern')">Name should contain only letters and "-" or "."</span>
+        <span class="input_error_item" *ngIf="inputValidation('firstname', 'pattern')">Name should contain only letters and "-", "'" or "."</span>
       </div>
     </div>
     <div class="input_wrap">
@@ -30,7 +30,7 @@
       <div class="input_error" *ngIf="inputValidation('password_confirmation') || signUpForm.errors" [@Fade]>
         <span class="input_error_item" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'required')">Please enter password</span>
         <span class="input_error_item" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'minlength')">Password is too short</span>
-        <div class="input_error_item" *ngIf="signUpForm.errors && passwordsMismatch()">Passwords doesn't match</div>
+        <div class="input_error_item" *ngIf="signUpForm.errors && passwordsMismatch()">Passwords don't match</div>
       </div>
     </div>
     <div class="auth_form_text" style="margin-top: 8px;">Your tariff plan is Basic (Free).&nbsp;<a routerLink="tariff_plans" class="auth_form_link">Change it?</a></div>

@@ -33,6 +33,12 @@ import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-c
 import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
 import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
 import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
+import {ProfileComponent} from '../components/settings/settings-items/profile/profile.component';
+import {AuthenticationComponent} from '../components/settings/settings-items/authentication/authentication.component';
+import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
+import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
+import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
+import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
 
 
 /*
@@ -74,7 +80,13 @@ import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queu
     CallQueuesCreateComponent,
     CallQueuesGeneralComponent,
     CallQueuesMembersComponent,
-    CallQueuesMembersAddComponent
+    CallQueuesMembersAddComponent,
+    ProfileComponent,
+    AuthenticationComponent,
+    BillingComponent,
+    AccountNotificationsComponent,
+    UserNotificationsComponent,
+    PhoneNumbersComponent
   ],
   exports: [
     ElementsModule,
@@ -96,7 +108,13 @@ import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queu
     CallQueuesCreateComponent,
     CallQueuesGeneralComponent,
     CallQueuesMembersComponent,
-    CallQueuesMembersAddComponent
+    CallQueuesMembersAddComponent,
+    ProfileComponent,
+    AuthenticationComponent,
+    BillingComponent,
+    AccountNotificationsComponent,
+    UserNotificationsComponent,
+    PhoneNumbersComponent
   ]
 })
 export class ComponentsModule {

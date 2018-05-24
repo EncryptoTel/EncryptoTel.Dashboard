@@ -95,6 +95,7 @@ pbx-table
 
 .inactive
   background: $dark_overlay !important
+  pointer-events: none
 
 .body_wrap
   height: 100%
@@ -173,15 +174,6 @@ pbx-table
     margin: auto auto 0
     width: 90px
     z-index: 1
-  .input
-    &_wrap
-      position: relative
-      margin-bottom: 24px
-    &_error
-      position: absolute
-      top: calc(100% + 4px)
-      &_item
-        font-size: rem(12)
   &_text
     margin: 16px 0 8px
     font-size: rem(14)
@@ -202,6 +194,16 @@ pbx-table
   .button
     margin: 16px 0 24px
 
+.input
+  &_wrap
+    position: relative
+    margin-bottom: rem(24)
+  &_error
+    position: absolute
+    top: calc(100% + 4px)
+    &_item
+      font-size: rem(12)
+
 .button_overlay
   position: absolute
   z-index: 1
@@ -213,6 +215,71 @@ pbx-table
     animation: button_animation ease-in 250ms
   &.medium
     animation: button_animation ease-in 350ms
+
+.overlay
+  flex: 1 0 auto
+  max-height: 100%
+  overflow-x: hidden
+  &_content
+    flex: 1 0 auto
+    flex-direction: column
+    padding: rem(32)
+  &_pre_row
+    flex-direction: row
+    flex: 0 0 auto
+    justify-content: flex-end
+    margin-bottom: rem(8)
+    > pbx-button
+      width: fit-content
+      &:last-child
+        margin-left: rem(8)
+
+.settings
+  flex-direction: column
+  &_form
+    flex-direction: column
+    flex: 1 0 auto
+    &_section
+      flex-direction: column
+      > pbx-button
+        width: fit-content
+        margin-left: rem(160)
+        overflow-x: hidden
+    &_title
+      margin-bottom: rem(24)
+  &_input
+    &_title
+      flex: 0 0 rem(160)
+      font-size: rem(12)
+      padding-right: rem(24)
+      margin-bottom: rem(24)
+    &_item
+      align-items: center
+      .input_wrap
+        flex: 1 0 auto
+        flex-direction: column
+
+.sidebar
+  &_item
+    flex-direction: column
+    &:not(:first-child) > &_title
+      margin-top: rem(24)
+    &_title
+      margin-bottom: rem(16)
+      font-size: rem(12)
+      opacity: .8
+
+.table
+  &_container
+    height: 100%
+  &_wrap
+    flex-direction: column
+    flex: 1 0 auto
+    > *:not(.table_pre_row)
+      flex: 1 0 auto
+  &_pre_row
+    min-height: 40px
+    align-items: center
 
 // ID's styles
 
@@ -229,6 +296,8 @@ main-view
         background-color: $dark_accent
     input:not([type='submit'])
       border-bottom: 1px solid rgba($dark_primary, .1)
+      &.ng-valid:focus
+        border-bottom-color: $dark_accent
       &.ng-touched.ng-invalid,
       &.ng-dirty.ng-invalid
         color: $dark_error
@@ -237,13 +306,13 @@ main-view
           color: $dark_error
     .button_overlay
       background: rgba($dark_primary, .35)
+    .input_error_item
+      color: $dark_error
     .auth_form
       &_icon
         fill: $dark_accent
         &_title
           color: $dark_accent
-      .input_error_item
-        color: $dark_error
       &_text
         color: rgba($dark_primary, .5)
       &_link
@@ -262,6 +331,14 @@ main-view
         background: $dark_warning
       &.success
         background: $dark_success
+    .overlay
+      background: $dark_overlay
+    .settings
+      &_input
+        &_title
+          color: darken($dark_primary, 40%)
+          &.error
+            color: $dark_error
   &.light_theme
     color: $dark_background
     background: $dark_primary

@@ -8,11 +8,11 @@
   &_column
     flex-direction: column
     flex: 1
-    height: 40px
+    height: rem(40)
     justify-content: center
     pointer-events: none
     &:first-child
-      padding-left: 16px
+      padding-left: rem(16)
   &_body
     &.multiple > .table_row.active .table_row_icon
       opacity: 1
@@ -20,24 +20,31 @@
       cursor: pointer
   &_row
     position: relative
+    height: rem(41)
+    cursor: pointer
+    > *, *
+      cursor: pointer
     & > .table_row_icon
       cursor: pointer
-    &:hover .table_row_icon
+    &:hover .table_row_icon,
+    &.active .table_row_icon
       opacity: 1
+    &_content
+      flex: 1 0 auto
     &_icon
-      width: 12px
-      height: 12px
+      width: rem(12)
+      height: rem(12)
       cursor: pointer
       pointer-events: initial
       opacity: 0
       & *, /deep/ *
         cursor: pointer
       &.edit
-        margin-right: 12px
+        margin-right: rem(12)
       &_wrap
         position: absolute
-        right: 16px
-        top: 12px
+        right: rem(16)
+        top: rem(12)
 
 \:host-context(.dark_theme)
   .table
