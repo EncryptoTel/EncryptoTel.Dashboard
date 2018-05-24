@@ -258,6 +258,29 @@ pbx-table
       .input_wrap
         flex: 1 0 auto
         flex-direction: column
+
+.sidebar
+  &_item
+    flex-direction: column
+    &:not(:first-child) > &_title
+      margin-top: rem(24)
+    &_title
+      margin-bottom: rem(16)
+      font-size: rem(12)
+      opacity: .8
+
+.table
+  &_container
+    height: 100%
+  &_wrap
+    flex-direction: column
+    flex: 1 0 auto
+    > *:not(.table_pre_row)
+      flex: 1 0 auto
+  &_pre_row
+    min-height: 40px
+    align-items: center
+
 // ID's styles
 
 // Theme styles
