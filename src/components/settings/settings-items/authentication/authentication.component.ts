@@ -28,7 +28,7 @@ export class AuthenticationComponent implements OnInit {
     this.router.navigateByUrl('/cabinet/settings');
   }
   getKeys = (obj: any): string[] => {
-    return Object.keys(obj);
+    return obj && Object.keys(obj);
   }
   generateOptions = (obj: any): any[] => {
     const tmp = [];
@@ -49,14 +49,14 @@ export class AuthenticationComponent implements OnInit {
 
   saveOption(ev: any, key: string, inputKey: string, childrenKey?: string): void {
     if (this.settings[key].children[inputKey].type === 'list') {
-      this.selectedItems[key] = ev;
+      childrenKey ? this.selectedItems[childrenKey] = ev : this.selectedItems[inputKey] = ev;
     }
     this._services.saveSetting(!childrenKey ?
       this.settings[key].children[inputKey].id : this.settings[key].children[inputKey].children[childrenKey].id, this.getEventValue(ev), 'account/auth')
       .then(() => {
         if (ev.title === 'google') {
           this.getQR();
-        }}).catch();
+        } else { this.qrCode = null; }}).catch();
   }
 
   getInitialParams(): void {

@@ -24,6 +24,7 @@
                  [name]="settings[key].children[inputKey].title"
                  [placeholder]="settings[key].children[inputKey].title"
                  *ngIf="settings[key].children[inputKey].type === 'string'"
+                 [(ngModel)]="settings[key].children[inputKey].value"
                  (blur)="saveOption(temp.value, key, inputKey)">
           <div class="settings_form_section" *ngIf="settings[key].children[inputKey].type === 'group_field'">
             <div class="settings_form_section">
@@ -47,6 +48,7 @@
                          [name]="settings[key].children[inputKey].children[childrenKey].title"
                          [placeholder]="settings[key].children[inputKey].children[childrenKey].title"
                          *ngIf="settings[key].children[inputKey].children[childrenKey].type === 'string' || settings[key].children[inputKey].children[childrenKey].type === 'int'"
+                         [(ngModel)]="settings[key].children[inputKey].children[childrenKey].value"
                          (blur)="saveOption(temp.value, key, inputKey, childrenKey)">
                 </div>
               </div>
@@ -54,7 +56,7 @@
           </div>
         </div>
       </div>
-      <div class="settings_code" *ngIf="qrCode" [style.background-image]="'url(' + qrCode + ')'"></div>
     </div>
+    <div class="settings_code" *ngIf="qrCode" [style.background-image]="'url(' + qrCode + ')'"></div>
   </div>
 </div>

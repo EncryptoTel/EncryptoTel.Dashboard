@@ -86,8 +86,8 @@ const Routes: Routes = [
         {path: 'profile', component: ProfileComponent, data: {title: 'Profile settings', indexed: true}},
         {path: 'authentication', component: AuthenticationComponent, data: {title: 'Authentication settings', indexed: true}},
         {path: 'billing', component: BillingComponent, data: {title: 'Billing settings', indexed: true}},
-        {path: 'account-notifications', component: AccountNotificationsComponent, data: {title: 'Account notifications settings', indexed: true}},
-        {path: 'user-notifications', component: UserNotificationsComponent, data: {title: 'User notifications settings', indexed: true}}
+        {path: 'account-notifications', component: AccountNotificationsComponent, data: {title: 'Account notification settings', indexed: true}},
+        {path: 'user-notifications', component: UserNotificationsComponent, data: {title: 'User notification settings', indexed: true}}
       ]},
     {path: 'refill', component: BlankComponent, data: {title: 'Balance refill', indexed: true}},
     {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff plan', indexed: true}}

@@ -49,7 +49,7 @@ export class BillingComponent implements OnInit {
       this.selectedItems[key] = ev;
     }
     this._services.saveSetting(!childrenKey ?
-      this.settings[key].children[inputKey].id : this.settings[key].children[inputKey].children[childrenKey].id, this.getEventValue(ev), 'account/account-notifications')
+      this.settings[key].children[inputKey].id : this.settings[key].children[inputKey].children[childrenKey].id, this.getEventValue(ev), 'account/billing')
       .then().catch();
   }
 
