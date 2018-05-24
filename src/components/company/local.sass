@@ -2,3 +2,46 @@
 
 .company
   flex: 1 0 auto
+  display: flex
+  flex-flow: column
+  &_header
+    display: flex
+    flex-flow: row
+    justify-content: flex-end
+    &_controls
+      margin-bottom: 33px
+      button
+        padding: 13px 0
+        width: 90px
+        border-radius: 2px
+        display: flex
+        flex-flow: row
+        justify-content: center
+        cursor: pointer
+  &_body
+    &_form
+      display: flex
+      flex-flow: column
+      width: 100%
+      .input_wrap
+        margin-bottom: 15px
+        label
+          width: 115px
+          margin: auto 0
+          color: $font-color
+        input
+          height: 35px
+          color: $font-color
+        pbx-select
+          width: 100%
+
+.save
+  background: $dark_success
+
+.cancel
+  background: $dark_pagination_inactive
+  margin-right: 10px
+
+.active
+  &_label
+    color: $dark_accent !important

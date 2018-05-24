@@ -1,6 +1,58 @@
-<div class="company">
-
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div class="company" *ngIf="!loading">
+  <div class="company_header">
+    <div class="company_header_controls">
+      <button class="cancel" (click)="cancel()">Cancel</button>
+      <button class="save" (click)="save()">Save</button>
+    </div>
+  </div>
+  <div class="company_body_wrap">
+    <form [formGroup]="companyForm" class="company_body_form">
+      <div class="input_wrap">
+        <label for="organization">Organization</label>
+        <input type="text" id="organization" formControlName="organization">
+      </div>
+      <div class="input_wrap">
+        <label>Country</label>
+        <pbx-select [options]="countries"
+                    [objectKey]="'title'"
+                    [singleBorder]="true"
+                    (onSelect)="selectCountry($event)"
+                    [selected]="this.companyForm.controls.country.value"></pbx-select>
+      </div>
+      <div class="input_wrap">
+        <label for="city">City</label>
+        <input type="text" id="city" formControlName="city">
+      </div>
+      <div class="input_wrap">
+        <label for="street">Street</label>
+        <input type="text" id="street" formControlName="street">
+      </div>
+      <div class="input_wrap">
+        <label for="house">House №</label>
+        <input type="text" id="house" formControlName="house">
+      </div>
+      <div class="input_wrap">
+        <label for="office">Office</label>
+        <input type="text" id="office" formControlName="office">
+      </div>
+      <div class="input_wrap">
+        <label for="postal" class="active_label">Postal code</label>
+        <input type="text" id="postal" class="active_input" formControlName="postal">
+      </div>
+      <div class="input_wrap">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email">
+      </div>
+      <div class="input_wrap">
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" formControlName="phone" (keyup)="formatPhone($event)" (blur)="formatPhone($event)">
+      </div>
+      <div class="input_wrap">
+        <label for="vat">VAT ID</label>
+        <input type="number" id="vat" formControlName="VAT">
+      </div>
+    </form>
+  </div>
 </div>
-<pbx-sidebar [sidebarInfo]="sidebarInfo">
-
-</pbx-sidebar>
+<pbx-sidebar [sidebarInfo]="sidebarInfo"></pbx-sidebar>
