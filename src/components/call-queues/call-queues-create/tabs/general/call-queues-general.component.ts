@@ -1,26 +1,23 @@
 import {Component} from '@angular/core';
 import {CallQueuesServices} from '../../../../../services/call-queues.services';
-import {Param, QueuesParams} from '../../../../../models/queue.model';
+import {Param} from '../../../../../models/queue.model';
+import {FadeAnimation} from '../../../../../shared/fade-animation';
 
 @Component({
   selector: 'pbx-call-queues-general',
   templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+  styleUrls: ['./local.sass'],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class CallQueuesGeneralComponent {
   constructor(private _services: CallQueuesServices) {
     this.getNumbers();
-    this.getParams();
     this._services.userView.isCurCompMembersAdd = false;
   }
-
+  loading = true;
   numbers = {
     items: []
-  };
-  params: QueuesParams = {
-    announceHoldtimes: [],
-    strategies: []
   };
 
 
@@ -35,7 +32,8 @@ export class CallQueuesGeneralComponent {
   }
 
   setAnnouncePosition(state: boolean): void {
-    this._services.callQueue.announcePosition = state;
+    this._services.userView.announcePosition = state;
+    this._services.callQueue.announceHoldtime = this._services.userView.announcePosition ? 1 : 0;
   }
 
   setAnnounceHoldtime(state: boolean): void {
@@ -46,14 +44,7 @@ export class CallQueuesGeneralComponent {
   private getNumbers(): void {
     this._services.getNumbers().then(res => {
       this.numbers = res;
-    }).catch(err => {
-      console.error(err);
-    });
-  }
-
-  private getParams(): void {
-    this._services.getParams().then((res: QueuesParams) => {
-      this.params = res;
+      this.loading = false;
     }).catch(err => {
       console.error(err);
     });

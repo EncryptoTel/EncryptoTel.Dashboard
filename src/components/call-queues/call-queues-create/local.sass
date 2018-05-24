@@ -59,3 +59,20 @@
 
 .back-wrap
   justify-content: flex-end
+
+@media all and (max-width: 768px)
+  .call_queues_create
+    &_tabs
+      min-width: 40%
+    &_buttons
+      min-width: 35%
+
+@media all and (max-width: 425px)
+  .call_queues_create
+    &_header
+      flex-flow: column-reverse
+      height: unset
+    &_buttons
+      height: 50px
+    &_tabs
+      height: 50px

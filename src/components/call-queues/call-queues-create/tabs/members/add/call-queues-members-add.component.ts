@@ -1,30 +1,36 @@
 import {Component} from '@angular/core';
 import {CallQueuesServices} from '../../../../../../services/call-queues.services';
-import {Members, SipInner} from '../../../../../../models/queue.model';
+import {Departments, Members, SipInner} from '../../../../../../models/queue.model';
+import {FadeAnimation} from '../../../../../../shared/fade-animation';
 
 @Component({
   selector: 'pbx-call-queues-members-add',
   templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+  styleUrls: ['./local.sass'],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class CallQueuesMembersAddComponent {
   constructor(private _service: CallQueuesServices) {
     if (this._service.callQueue.sipId) {
       this.getMembers(this._service.callQueue.sipId);
+      this.getDepartments();
     }
     this._service.userView.isCurCompMembersAdd = true;
   }
 
+  loading = true;
   members: SipInner[] = [];
+  departments: any[] = [];
   table = {
     title: {
       titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
-      keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'status']
+      keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'statusName']
     }
   };
 
   selectMember(member: SipInner): void {
+    console.log(member);
     const checkResult = this._service.callQueue.queueMembers.find(el => {
       return el.sipId === member.id;
     });
@@ -56,7 +62,8 @@ export class CallQueuesMembersAddComponent {
 
   private getMembers(id: number): void {
     this._service.getMembers(id).then((res: Members) => {
-      this.members = res.sipInners;
+      this.members = res.items;
+      this.loading = false;
       this.addPhoneNumberField();
     }).catch(err => {
       console.error(err);
@@ -67,5 +74,13 @@ export class CallQueuesMembersAddComponent {
     for (let i = 0; i < this.members.length; i++) {
       this.members[i].sipOuterPhone = this._service.userView.phoneNumber;
     }
+  }
+
+  private getDepartments() {
+    this._service.getDepartments().then((res: Departments) => {
+      this.departments = res.items;
+    }).catch(err => {
+      console.error(err);
+    });
   }
 }
