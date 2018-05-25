@@ -4,4 +4,61 @@
   </div>
   <pbx-table [tableInfo]="tableInfo" [editable]="true"></pbx-table>
 </div>
-<pbx-sidebar></pbx-sidebar>
+<pbx-sidebar>
+  <ng-container *ngIf="sidebarEdit" [@Fade]>
+    <form class="sidebar_form" [formGroup]="departmentForm">
+      <div class="sidebar_row">
+        <label for="department">Department</label>
+        <input type="text" id="department" formControlName="department" autofocus>
+      </div>
+      <div class="sidebar_row">
+        <label for="comment">Department Phone</label>
+        <ng-container #addPhonesContainer>
+          <div class="sidebar_row_select">
+            <pbx-select [options]="sipOuters" [selected]="sipOuters[0]" [objectKey]="'phoneNumber'"></pbx-select>
+            <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone()"></svg-icon>
+          </div>
+        </ng-container>
+      </div>
+      <div class="sidebar_row">
+        <label for="comment">Comment</label>
+        <textarea id="comment" rows="5" formControlName="comment"></textarea>
+      </div>
+    </form>
+    <div class="sidebar_controls">
+      <pbx-button [value]="'Cancel'" [buttonType]="'cancel'" (onClick)="cancel()"></pbx-button>
+      <pbx-button [value]="'Save'" [buttonType]="'success'" (onClick)="save()"></pbx-button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!sidebarEdit" [@Fade]>
+    <div class="sidebar_info">
+      <div class="sidebar_row">
+        <label for="department">Department</label>
+        <p>Account department</p>
+      </div>
+      <div class="sidebar_row">
+        <label>Department Phone</label>
+        <p>+1 (800) 555 12 12</p>
+      </div>
+      <div class="sidebar_row">
+        <label>Comment</label>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus earum eos esse ex laborum molestias
+          mollitia repellat repudiandae sit vel?</p>
+      </div>
+      <div class="sidebar_row" (click)="delete()">
+        <span>Delete Department</span>
+      </div>
+    </div>
+    <div class="sidebar_controls">
+      <pbx-button [value]="'Close'" [buttonType]="'cancel'" (onClick)="close()"></pbx-button>
+      <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit()"></pbx-button>
+    </div>
+  </ng-container>
+</pbx-sidebar>
+
+<ng-template #addPhoneTemplate>
+  <div class="sidebar_row_select">
+    <pbx-select [options]="sipOuters" [selected]="sipOuters[0]" [objectKey]="'phoneNumber'"></pbx-select>
+    <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone()"></svg-icon>
+  </div>
+</ng-template>
