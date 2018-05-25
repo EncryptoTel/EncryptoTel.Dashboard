@@ -31,12 +31,12 @@ export class TableComponent {
     }
     this.onEdit.emit(item);
   }
-  deleteItem(id, ev: MouseEvent): void {
+  deleteItem(item, ev: MouseEvent): void {
     if (ev) {
       ev.stopPropagation();
       ev.preventDefault();
     }
-    this.onDelete.emit(id);
+    this.onDelete.emit(item);
   }
   getValueByKey(item: any, key: string): string {
     const keyArray = key.split('.');

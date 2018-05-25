@@ -35,6 +35,7 @@ import {BillingComponent} from '../components/settings/settings-items/billing/bi
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 import {DepartmentsComponent} from '../components/departments/department.component';
+import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -51,7 +52,9 @@ const Routes: Routes = [
   {path: 'cabinet', canActivate: [AuthGuardServices], component: IndexComponent, children: [
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
     {path: 'dashboard', component: DashboardComponent, data: {title: 'Dashboard', indexed: true}},
-    {path: 'phone-numbers', component: BlankComponent, data: {title: 'Phone numbers', indexed: true}},
+    {path: 'phone-numbers', children: [
+        {path: '', component: PhoneNumbersComponent, data: {title: 'Phone numbers', indexed: true}}
+      ]},
     {path: 'address-book', component: BlankComponent, data: {title: 'Address book', indexed: true}},
     {path: 'call-rules', component: BlankComponent, data: {title: 'Call rules', indexed: true}},
     {path: 'call-queues', children: [
