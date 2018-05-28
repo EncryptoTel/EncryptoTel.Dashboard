@@ -28,7 +28,7 @@ export class DepartmentsComponent implements OnInit {
 
   departmentForm: FormGroup = new FormGroup({
     'name': new FormControl(null, [Validators.required, Validators.maxLength(255)]),
-    'sip': new FormControl(null, [Validators.required]),
+    'sipInner': new FormControl(null, [Validators.required]),
     'comment': new FormControl(null, [Validators.maxLength(255)])
   });
 
@@ -54,13 +54,13 @@ export class DepartmentsComponent implements OnInit {
   }
 
   save(): void {
-    console.log(this.departmentForm);
+    console.log({...this.departmentForm.value});
     if (this.departmentForm.valid) {
-      // this._service.saveDepartment({}).then(res => {
-      //   console.log(res);
-      // }).catch(err => {
-      //   console.error(err);
-      // });
+      this._service.saveDepartment({...this.departmentForm.value}).then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.error(err);
+      });
     }
   }
 
@@ -80,9 +80,8 @@ export class DepartmentsComponent implements OnInit {
   }
 
   addPhone(index: number): void {
-    console.log(this.sipOuters);
-    console.log(this.selectedSips.length);
-    if ((this.selectedSips.length === this.superOptions.length) && (this.sipOuters.length > this.selectedSips.length)) {
+    console.log(this.superOptions);
+    if (this.selectedSips.length === this.superOptions.length) {
       const selectedSipIndex = this.superOptions[index].findIndex(el => {
         return el.id === this.selectedSips[index].id;
       });
@@ -96,7 +95,7 @@ export class DepartmentsComponent implements OnInit {
 
   selectPhone(phone, index: number): void {
     this.selectedSips[index] = phone;
-    this.departmentForm.controls.sip.setValue(this.selectedSips);
+    this.departmentForm.controls.sipInner.setValue(this.selectedSips);
   }
 
   private getDepartments(): void {
@@ -111,8 +110,8 @@ export class DepartmentsComponent implements OnInit {
     this._service.getSipOuters().then(res => {
       console.log(res);
       this.sipOuters = res.items;
-      this.superOptions.push(res.items);
-      this.departmentForm.controls.sip.setValue([this.sipOuters[0].id]);
+      this.superOptions.push(Array.from(res.items));
+      this.departmentForm.controls.sipInner.setValue([this.sipOuters[0].id]);
     }).catch(err => {
       console.error(err);
     });

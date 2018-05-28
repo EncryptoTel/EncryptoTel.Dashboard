@@ -13,10 +13,13 @@
       </div>
       <div class="sidebar_row select_row">
         <label for="comment">Department Phone</label>
-          <div class="sidebar_row_select" *ngFor="let options of superOptions;index as i">
-            <pbx-select [options]="options" [selected]="selectedSips[i]" [objectKey]="'phoneNumber'" (onSelect)="selectPhone($event, i)"></pbx-select>
+        <ng-container *ngFor="let options of superOptions;index as i">
+          <div class="sidebar_row_select">
+            <pbx-select [options]="options" [selected]="selectedSips[i]" [objectKey]="'phoneNumber'"
+                        (onSelect)="selectPhone($event, i)"></pbx-select>
             <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone(i)"></svg-icon>
           </div>
+        </ng-container>
       </div>
       <div class="sidebar_row">
         <label for="comment">Comment</label>
