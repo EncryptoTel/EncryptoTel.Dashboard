@@ -1,4 +1,5 @@
-@import "../../vars" // Global variables import
+@import "../../vars"
+// Global variables import
 
 .departments
   display: flex
@@ -33,6 +34,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1)
       background: transparent
       color: #ffffff
+      cursor: text
       &:focus
         border: 1px solid $dark_accent
         outline: unset
@@ -61,3 +63,16 @@
     justify-content: space-between
     pbx-button
       width: unset
+
+.select_row
+  max-height: 300px
+
+input:not([type='submit'])
+  &.ng-valid:focus
+    border-color: $dark_accent
+  &.ng-touched.ng-invalid,
+  &.ng-dirty.ng-invalid
+    color: $dark_error
+    border-color: $dark_error
+    &::placeholder
+      color: $dark_error

@@ -1,8 +1,9 @@
-import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {DepartmentServices} from '../../services/department.services';
 import {FadeAnimation} from '../../shared/fade-animation';
+import {Sip, SipOuter} from '../../models/departments.model';
 
 
 @Component({
@@ -14,25 +15,89 @@ import {FadeAnimation} from '../../shared/fade-animation';
 
 export class DepartmentsComponent implements OnInit {
   sidebarEdit = false;
+  sidebarVisible = false;
+  mode = 'create';
   departmentsList = [];
-  sipOuters = [];
+  sipOuters: SipOuter[] = [];
+  selectedSips: SipOuter[] = [];
+  superOptions = [];
   tableInfo = {
     titles: ['Department', 'Employees', 'Employees with Ext numbers', 'Comment'],
     keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout']
   };
 
   departmentForm: FormGroup = new FormGroup({
-    'department': new FormControl(null),
-    'phone': new FormControl(null),
-    'comment': new FormControl(null)
+    'name': new FormControl(null, [Validators.required, Validators.maxLength(255)]),
+    'sip': new FormControl(null, [Validators.required]),
+    'comment': new FormControl(null, [Validators.maxLength(255)])
   });
-
-  @ViewChild('addPhonesContainer', {read: ViewContainerRef}) _addPhonesContainer;
-  @ViewChild('addPhoneTemplate') _addPhoneTemplate;
 
   constructor(private _service: DepartmentServices) {
   }
 
+  edit(id: number): void {
+    console.log(id);
+    this.mode = 'edit';
+    this.sidebarEdit = true;
+  }
+
+  close(): void {
+    this.sidebarVisible = false;
+  }
+
+  cancel(): void {
+    if (this.mode === 'create') {
+      this.sidebarVisible = false;
+    } else {
+      this.sidebarEdit = false;
+    }
+  }
+
+  save(): void {
+    console.log(this.departmentForm);
+    if (this.departmentForm.valid) {
+      // this._service.saveDepartment({}).then(res => {
+      //   console.log(res);
+      // }).catch(err => {
+      //   console.error(err);
+      // });
+    }
+  }
+
+  delete(id: number): void {
+    console.log(id);
+    this._service.deleteDepartment(id).then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.error(err);
+    });
+  }
+
+  addDepartment(): void {
+    this.mode = 'create';
+    this.sidebarVisible = true;
+    this.sidebarEdit = true;
+  }
+
+  addPhone(index: number): void {
+    console.log(this.sipOuters);
+    console.log(this.selectedSips.length);
+    if ((this.selectedSips.length === this.superOptions.length) && (this.sipOuters.length > this.selectedSips.length)) {
+      const selectedSipIndex = this.superOptions[index].findIndex(el => {
+        return el.id === this.selectedSips[index].id;
+      });
+      if (selectedSipIndex !== -1) {
+        this.superOptions[index + 1] = this.superOptions[index];
+        this.superOptions[index + 1].splice(selectedSipIndex, 1);
+      }
+      console.log(this.superOptions);
+    }
+  }
+
+  selectPhone(phone, index: number): void {
+    this.selectedSips[index] = phone;
+    this.departmentForm.controls.sip.setValue(this.selectedSips);
+  }
 
   private getDepartments(): void {
     this._service.getDepartments().then(res => {
@@ -46,42 +111,11 @@ export class DepartmentsComponent implements OnInit {
     this._service.getSipOuters().then(res => {
       console.log(res);
       this.sipOuters = res.items;
+      this.superOptions.push(res.items);
+      this.departmentForm.controls.sip.setValue([this.sipOuters[0].id]);
     }).catch(err => {
       console.error(err);
     });
-  }
-
-  edit(): void {
-    this.sidebarEdit = true;
-  }
-
-  close(): void {
-
-  }
-
-  cancel(): void {
-    this.sidebarEdit = false;
-  }
-
-  save(): void {
-    this._service.saveDepartment({}).then(res => {
-      console.log(res);
-    }).catch(err => {
-      console.error(err);
-    });
-  }
-
-  delete(): void {
-    this._service.deleteDepartment(2).then(res => {
-      console.log(res);
-    }).catch(err => {
-      console.error(err);
-    });
-  }
-
-
-  addPhone() {
-    this._addPhonesContainer.createEmbeddedView(this._addPhoneTemplate);
   }
 
   ngOnInit(): void {
