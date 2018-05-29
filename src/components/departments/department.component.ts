@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {DepartmentServices} from '../../services/department.services';
 import {FadeAnimation} from '../../shared/fade-animation';
@@ -20,20 +20,15 @@ export class DepartmentsComponent implements OnInit {
   departmentsList = [];
   sipOuters: SipOuter[] = [];
   selectedSips: SipOuter[] = [];
-  superOptions = [];
   tableInfo = {
     titles: ['Department', 'Employees', 'Employees with Ext numbers', 'Comment'],
     keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout']
   };
 
-  departmentForm: FormGroup = new FormGroup({
-    'name': new FormControl(null, [Validators.required, Validators.maxLength(255)]),
-    'sipInner': new FormControl(null, [Validators.required]),
-    'comment': new FormControl(null, [Validators.maxLength(255)])
-  });
+  departmentForm: FormGroup;
 
-  constructor(private _service: DepartmentServices) {
-  }
+  constructor(private _service: DepartmentServices,
+              private fb: FormBuilder) {}
 
   edit(id: number): void {
     console.log(id);
@@ -79,23 +74,22 @@ export class DepartmentsComponent implements OnInit {
     this.sidebarEdit = true;
   }
 
-  addPhone(index: number): void {
-    console.log(this.superOptions);
-    if (this.selectedSips.length === this.superOptions.length) {
-      const selectedSipIndex = this.superOptions[index].findIndex(el => {
-        return el.id === this.selectedSips[index].id;
-      });
-      if (selectedSipIndex !== -1) {
-        this.superOptions[index + 1] = this.superOptions[index];
-        this.superOptions[index + 1].splice(selectedSipIndex, 1);
-      }
-      console.log(this.superOptions);
-    }
+  createPhoneField() {
+    return this.fb.control({
+      sip: [null]
+    });
+  }
+
+  addPhone(): void {
+    const sips = this.departmentForm.get('sipInner') as FormArray;
+    console.log(sips);
+    sips.push(this.createPhoneField());
   }
 
   selectPhone(phone, index: number): void {
     this.selectedSips[index] = phone;
-    this.departmentForm.controls.sipInner.setValue(this.selectedSips);
+    const sips = this.departmentForm.get('sipInner') as FormArray;
+    sips.controls[index].setValue(phone.id);
   }
 
   private getDepartments(): void {
@@ -110,8 +104,6 @@ export class DepartmentsComponent implements OnInit {
     this._service.getSipOuters().then(res => {
       console.log(res);
       this.sipOuters = res.items;
-      this.superOptions.push(Array.from(res.items));
-      this.departmentForm.controls.sipInner.setValue([this.sipOuters[0].id]);
     }).catch(err => {
       console.error(err);
     });
@@ -120,5 +112,10 @@ export class DepartmentsComponent implements OnInit {
   ngOnInit(): void {
     this.getDepartments();
     this.getSipOuters();
+    this.departmentForm = this.fb.group({
+      name: [null, [Validators.required, Validators.maxLength(255)]],
+      comment: [null],
+      sipInner: this.fb.array([this.createPhoneField()])
+    });
   }
 }

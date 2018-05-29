@@ -13,13 +13,17 @@
       </div>
       <div class="sidebar_row select_row">
         <label for="comment">Department Phone</label>
-        <ng-container *ngFor="let options of superOptions;index as i">
-          <div class="sidebar_row_select">
-            <pbx-select [options]="options" [selected]="selectedSips[i]" [objectKey]="'phoneNumber'"
+        <div formArrayName="sipInner" class="sidebar_row">
+          <div class="sidebar_row_select"
+               *ngFor="let sip of departmentForm.get('sipInner').controls; let i=index"
+               [formGroupName]="i">
+            <pbx-select [options]="sipOuters"
+                        [selected]="selectedSips[i]"
+                        [objectKey]="'phoneNumber'"
                         (onSelect)="selectPhone($event, i)"></pbx-select>
-            <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone(i)"></svg-icon>
+            <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone()"></svg-icon>
           </div>
-        </ng-container>
+        </div>
       </div>
       <div class="sidebar_row">
         <label for="comment">Comment</label>
