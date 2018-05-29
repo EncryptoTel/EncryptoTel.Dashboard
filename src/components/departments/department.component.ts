@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {DepartmentServices} from '../../services/department.services';
 import {FadeAnimation} from '../../shared/fade-animation';
@@ -24,20 +24,24 @@ export class DepartmentsComponent implements OnInit {
     titles: ['Department', 'Employees', 'Employees with Ext numbers', 'Comment'],
     keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout']
   };
-
+  superOptions = [];
   departmentForm: FormGroup;
 
-  constructor(private _service: DepartmentServices,
-              private fb: FormBuilder) {}
-
-  edit(id: number): void {
-    console.log(id);
-    this.mode = 'edit';
-    this.sidebarEdit = true;
+  constructor(private _service: DepartmentServices, private fb: FormBuilder) {
   }
 
-  close(): void {
-    this.sidebarVisible = false;
+  addPhone(i: number): void {
+    const sips = this.departmentForm.get('sipInner') as FormArray;
+    if (sips.controls[i].valid) {
+      sips.push(this.createPhoneField());
+      this.superOptions.push(Array.from(this.sipOuters));
+    }
+  }
+
+  addDepartment(): void {
+    this.mode = 'create';
+    this.sidebarVisible = true;
+    this.sidebarEdit = true;
   }
 
   cancel(): void {
@@ -46,6 +50,26 @@ export class DepartmentsComponent implements OnInit {
     } else {
       this.sidebarEdit = false;
     }
+  }
+
+  close(): void {
+    this.sidebarVisible = false;
+  }
+
+
+  delete(id: number): void {
+    console.log(id);
+    this._service.deleteDepartment(id).then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.error(err);
+    });
+  }
+
+  edit(id: number): void {
+    console.log(id);
+    this.mode = 'edit';
+    this.sidebarEdit = true;
   }
 
   save(): void {
@@ -59,37 +83,23 @@ export class DepartmentsComponent implements OnInit {
     }
   }
 
-  delete(id: number): void {
-    console.log(id);
-    this._service.deleteDepartment(id).then(res => {
-      console.log(res);
-    }).catch(err => {
-      console.error(err);
-    });
-  }
-
-  addDepartment(): void {
-    this.mode = 'create';
-    this.sidebarVisible = true;
-    this.sidebarEdit = true;
-  }
-
-  createPhoneField() {
-    return this.fb.control({
-      sip: [null]
-    });
-  }
-
-  addPhone(): void {
-    const sips = this.departmentForm.get('sipInner') as FormArray;
-    console.log(sips);
-    sips.push(this.createPhoneField());
-  }
-
   selectPhone(phone, index: number): void {
     this.selectedSips[index] = phone;
     const sips = this.departmentForm.get('sipInner') as FormArray;
     sips.controls[index].setValue(phone.id);
+
+  }
+
+  private deleteUsageSips(index: number) {
+    for (let i = 0; i < this.selectedSips.length; i++) {
+      if (index !== i) {
+          this.superOptions[i]
+      }
+    }
+  }
+
+  private createPhoneField(): FormControl {
+    return this.fb.control(null, Validators.required);
   }
 
   private getDepartments(): void {
@@ -104,6 +114,7 @@ export class DepartmentsComponent implements OnInit {
     this._service.getSipOuters().then(res => {
       console.log(res);
       this.sipOuters = res.items;
+      this.superOptions.push(Array.from(res.items));
     }).catch(err => {
       console.error(err);
     });

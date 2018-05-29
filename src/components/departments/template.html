@@ -17,11 +17,11 @@
           <div class="sidebar_row_select"
                *ngFor="let sip of departmentForm.get('sipInner').controls; let i=index"
                [formGroupName]="i">
-            <pbx-select [options]="sipOuters"
+            <pbx-select [options]="superOptions[i]"
                         [selected]="selectedSips[i]"
                         [objectKey]="'phoneNumber'"
                         (onSelect)="selectPhone($event, i)"></pbx-select>
-            <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone()"></svg-icon>
+            <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone(i)"></svg-icon>
           </div>
         </div>
       </div>
