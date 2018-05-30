@@ -12,7 +12,8 @@ import {FormMessageModel} from '../../models/form-message.model';
 @Component({
   selector: 'password-recovery',
   templateUrl: './template.html',
-  animations: [FadeAnimation('300ms')]
+  animations: [FadeAnimation('300ms')],
+  styleUrls: ['./local.sass']
 })
 
 export class PasswordRecoveryComponent implements OnInit, OnDestroy {

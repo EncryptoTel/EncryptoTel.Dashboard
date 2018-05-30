@@ -1,89 +1,95 @@
 @import "../../../vars"
 // Global variables import
-.tariff_container
-  width: 100vw
-  height: 100vh
-  display: flex
-  flex-flow: column
-  justify-content: center
-  align-items: center
-  background: url('../../../assets/images/auth_bg.jpg') center no-repeat
-  background-size: cover
-  &:after
-    content: ''
-    position: absolute
-    left: 0
-    top: 0
-    height: 100vh
-    width: 100vw
-    background: $dark_background
-    filter: blur(8px) brightness(-50)
-    opacity: .6
+$inactive: rgba($dark_accent,.2)
 .tariff
+  &_container
+    width: 100vw
+    height: 100vh
+    display: flex
+    flex-flow: column
+    justify-content: center
+    align-items: center
+    background: url('../../../assets/images/auth_bg.jpg') center no-repeat
+    background-size: cover
+    &:after
+      content: ''
+      position: absolute
+      left: 0
+      top: 0
+      height: 100vh
+      width: 100vw
+      background: $dark_background
+      filter: blur(8px) brightness(-50)
+      opacity: .6
   &_wrap
     display: flex
     flex-flow: column
     justify-content: space-around
     align-items: center
-    height: 70%
-    width: 80%
-    position: relative
+    width: 1280px
+    padding: 0 rem(24)
+    overflow-y: auto
     z-index: 1
     .tariff_title
       font-size: rem(30)
       color: $dark_accent
+      font-weight: 400
+      margin: rem(24) 0 rem(32)
     &_items
-      display: flex
-      flex-flow: row
-      justify-content: space-around
-      height: 80%
-      width: 80%
+      display: grid
+      grid-template-columns: repeat(auto-fill, minmax(rem(304), 1fr))
+      grid-gap: rem(24)
+      padding-bottom: rem(24)
+      position: relative
+      overflow-y: auto
+      overflow-scrolling: initial
+      width: 100%
+      -ms-overflow-style: none
+      overflow: -moz-scrollbars-none
+      &::-webkit-scrollbar
+        width: 0
   &_item
-    width: 22%
     display: flex
+    flex: 1
     flex-flow: column
     justify-content: space-around
     align-items: center
     background: $dark_overlay
+    padding: rem(32)
     &__description
       display: flex
       flex-flow: column
       align-items: center
-      height: 75%
+      flex: 1
       width: 100%
-      &-title
+      padding: 0 rem(32)
+      &_title
         font-size: rem(27)
-        width: 50%
-        display: flex
-        flex-flow: row
-        justify-content: flex-start
-        align-items: center
-        height: 20%
         color: $dark_accent
-      &-list
-        display: flex
-        flex-flow: column
-        align-items: center
+        font-weight: 400
         width: 100%
-        height: 70%
-        overflow-y: auto
+        margin-bottom: rem(24)
+      &_list
+        display: flex
+        flex: 1
+        flex-flow: column
+        width: 100%
         &__item
-          width: 50%
-          font-size: rem(14)
-          margin-top: 10px
+          font-size: rem(16)
+          margin: 0 rem(8) rem(8) 0
           flex: 0 0 auto
-      &-price
-        width: 100%
-        height: 10%
-        display: flex
-        flex-flow: column
+          &:last-child
+            margin-bottom: 0
+      &_price
+        margin: rem(24) 0
         justify-content: center
         align-items: center
-        font-size: rem(14)
+        font-size: rem(16)
+        font-weight: 400
         color: $dark_accent
     &__button
-      width: 80%
-      height: 10%
+      width: 100%
+      padding: rem(16) 0
       display: flex
       flex-flow: row
       align-items: center
@@ -97,10 +103,138 @@
       flex-flow: column
       justify-content: center
       align-items: center
-      height: 10%
+      line-height: rem(16)
+      font-size: rem(13)
+      padding: rem(24) 0 0
 
 .current_tariff
   .tariff_item__button
     border: 1px solid $dark_accent
     background: $dark_overlay
     color: $dark_accent
+.mobile
+  &_container
+    display: none
+    width: 100vw
+    height: 100vh
+    background: url('../../../assets/images/auth_bg.jpg') center no-repeat
+    background-size: cover
+    flex-direction: column
+    padding: rem(24)
+    &:before
+      content: ''
+      position: fixed
+      left: 0
+      top: 0
+      width: 100vw
+      height: 100vh
+      background: $dark_background
+      filter: blur(rem(8)) brightness(-50)
+      opacity: .6
+  &_title
+    z-index: 1
+    font-size: rem(32)
+    padding: rem(16) rem(16) rem(32)
+    align-self: center
+    color: $dark_accent
+    font-weight: 400
+  &_body
+    z-index: 1
+    display: block
+    flex-direction: column
+    flex: 1
+    overflow-y: auto
+    margin-right: rem(-24)
+    margin-bottom: rem(-24)
+    padding-right: rem(24)
+    padding-bottom: rem(24)
+    -ms-overflow-style: none
+    overflow: -moz-scrollbars-none
+    &::-webkit-scrollbar
+      width: 0
+    &_after
+      z-index: -1
+      content: ''
+      position: fixed
+      top: 0
+      left: 0
+      width: 100vw
+      height: 100vh
+  &_item
+    flex-direction: column
+    margin-top: rem(24)
+    background: $dark_background
+    &:first-child
+      margin-top: 0
+    &.current_tariff
+      >.mobile_item_title
+        border: rem(1) solid $dark_accent
+        background: rgba($dark_primary, .15)
+      >.mobile_item_body>.mobile_item_button
+        border: rem(1) solid $inactive
+        background: $dark_overlay
+        color: $inactive
+    &_title
+      width: 100%
+      padding: rem(16) rem(24)
+      color: $dark_accent
+      font-weight: 400
+      font-size: rem(32)
+      background: $dark_overlay
+      justify-content: center
+    &_body
+      display: block
+      overflow-y: hidden
+      flex-direction: column
+    &_list
+      flex-direction: column
+      padding: rem(24)
+      &_item
+        font-size: rem(16)
+        margin-top: rem(8)
+        &:first-child
+          margin-top: 0
+    &_price
+      justify-content: center
+      color: $dark_accent
+      font-size: rem(16)
+      margin: rem(16) 0
+    &_free
+      margin: rem(8) rem(24) rem(16)
+      font-size: rem(16)
+      line-height: rem(24)
+    &_button
+      width: 100%
+      padding: rem(16)
+      color: $dark_primary
+      background-color: $dark_accent
+      font-size: rem(24)
+      justify-content: center
+
+@media (max-width: 1279px)
+  .tariff
+    &_wrap
+      width: 100vw
+
+@media (max-width: 767px)
+  .mobile_container
+    display: flex
+  .tariff_container
+    display: none
+@media (max-width: 511px)
+  .mobile_container
+    padding: rem(16)
+  .mobile_body
+    margin-right: rem(-16)
+    margin-bottom: rem(-16)
+    padding-right: rem(16)
+    padding-bottom: rem(16)
+  .mobile_title
+    font-size: rem(20)
+    padding: rem(8) rem(8) rem(24)
+  .mobile_item_title
+    font-size:  rem(24)
+
+@media (max-height: 767px)
+  .tariff_wrap
+    height: 100vh

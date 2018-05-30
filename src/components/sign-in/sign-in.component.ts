@@ -14,7 +14,8 @@ import {FormMessageModel} from '../../models/form-message.model';
 @Component({
   selector: 'sign-in',
   templateUrl: './template.html',
-  animations: [FadeAnimation('300ms')]
+  animations: [FadeAnimation('300ms')],
+  styleUrls: ['./local.sass']
 })
 
 export class SignInComponent implements OnInit, OnDestroy {
