@@ -29,6 +29,7 @@ export class Sip {
 
 export class SipOuter {
   constructor(
-    public id: number
+    public id: number,
+    public blocked?: boolean
   ) {}
 }

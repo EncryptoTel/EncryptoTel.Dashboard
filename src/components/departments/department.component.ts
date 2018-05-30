@@ -3,7 +3,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 
 import {DepartmentServices} from '../../services/department.services';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {Sip, SipOuter} from '../../models/departments.model';
+import {SipOuter} from '../../models/departments.model';
 
 
 @Component({
@@ -24,7 +24,6 @@ export class DepartmentsComponent implements OnInit {
     titles: ['Department', 'Employees', 'Employees with Ext numbers', 'Comment'],
     keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout']
   };
-  superOptions = [];
   departmentForm: FormGroup;
 
   constructor(private _service: DepartmentServices, private fb: FormBuilder) {
@@ -34,7 +33,6 @@ export class DepartmentsComponent implements OnInit {
     const sips = this.departmentForm.get('sipInner') as FormArray;
     if (sips.controls[i].valid) {
       sips.push(this.createPhoneField());
-      this.superOptions.push(Array.from(this.sipOuters));
     }
   }
 
@@ -66,6 +64,16 @@ export class DepartmentsComponent implements OnInit {
     });
   }
 
+  getSelectNumbers() {
+    const array = [];
+    this.sipOuters.forEach(sip => {
+      if (!sip.blocked) {
+        array.push(sip);
+      }
+    });
+    return array;
+  }
+
   edit(id: number): void {
     console.log(id);
     this.mode = 'edit';
@@ -73,7 +81,7 @@ export class DepartmentsComponent implements OnInit {
   }
 
   save(): void {
-    console.log({...this.departmentForm.value});
+    console.log({...this.departmentForm});
     if (this.departmentForm.valid) {
       this._service.saveDepartment({...this.departmentForm.value}).then(res => {
         console.log(res);
@@ -87,19 +95,16 @@ export class DepartmentsComponent implements OnInit {
     this.selectedSips[index] = phone;
     const sips = this.departmentForm.get('sipInner') as FormArray;
     sips.controls[index].setValue(phone.id);
-
-  }
-
-  private deleteUsageSips(index: number) {
-    for (let i = 0; i < this.selectedSips.length; i++) {
-      if (index !== i) {
-          this.superOptions[i]
-      }
-    }
+    this.sipOuters.forEach(sip => {
+      sip.blocked = false;
+    });
+    this.selectedSips.forEach(sip => {
+      sip.blocked = true;
+    });
   }
 
   private createPhoneField(): FormControl {
-    return this.fb.control(null, Validators.required);
+    return this.fb.control('', Validators.required);
   }
 
   private getDepartments(): void {
@@ -110,11 +115,16 @@ export class DepartmentsComponent implements OnInit {
     });
   }
 
+  private addBlockField(array) {
+    for (let i = 0; i < array.length; i++) {
+      array[i].blocked = false;
+    }
+  }
+
   private getSipOuters(): void {
     this._service.getSipOuters().then(res => {
-      console.log(res);
       this.sipOuters = res.items;
-      this.superOptions.push(Array.from(res.items));
+      this.addBlockField(this.sipOuters);
     }).catch(err => {
       console.error(err);
     });
@@ -125,7 +135,7 @@ export class DepartmentsComponent implements OnInit {
     this.getSipOuters();
     this.departmentForm = this.fb.group({
       name: [null, [Validators.required, Validators.maxLength(255)]],
-      comment: [null],
+      comment: [''],
       sipInner: this.fb.array([this.createPhoneField()])
     });
   }
