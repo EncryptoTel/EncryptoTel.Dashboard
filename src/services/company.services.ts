@@ -18,4 +18,7 @@ export class CompanyServices {
   save(formData): Promise<any> {
     return this._req.post(`v1/company`, formData, true);
   }
+  getCompany(): Promise<any> {
+    return this._req.get(`v1/company`, true);
+  }
 }
