@@ -31,7 +31,9 @@ export class DepartmentsComponent implements OnInit {
 
   addPhone(i: number): void {
     const sips = this.departmentForm.get('sipInner') as FormArray;
-    if (sips.controls[i].valid) {
+    console.log(this.sipOuters);
+    console.log(this.selectedSips);
+    if (sips.valid && (this.selectedSips.length < this.sipOuters.length)) {
       sips.push(this.createPhoneField());
     }
   }
@@ -64,7 +66,7 @@ export class DepartmentsComponent implements OnInit {
     });
   }
 
-  getSelectNumbers() {
+  getSelectNumbers(): SipOuter[] {
     const array = [];
     this.sipOuters.forEach(sip => {
       if (!sip.blocked) {
@@ -81,7 +83,6 @@ export class DepartmentsComponent implements OnInit {
   }
 
   save(): void {
-    console.log({...this.departmentForm});
     if (this.departmentForm.valid) {
       this._service.saveDepartment({...this.departmentForm.value}).then(res => {
         console.log(res);
@@ -91,7 +92,7 @@ export class DepartmentsComponent implements OnInit {
     }
   }
 
-  selectPhone(phone, index: number): void {
+  selectPhone(phone: SipOuter, index: number): void {
     this.selectedSips[index] = phone;
     const sips = this.departmentForm.get('sipInner') as FormArray;
     sips.controls[index].setValue(phone.id);
@@ -101,6 +102,12 @@ export class DepartmentsComponent implements OnInit {
     this.selectedSips.forEach(sip => {
       sip.blocked = true;
     });
+  }
+
+  private addBlockField(array: any[]): void {
+    for (let i = 0; i < array.length; i++) {
+      array[i].blocked = false;
+    }
   }
 
   private createPhoneField(): FormControl {
@@ -113,12 +120,6 @@ export class DepartmentsComponent implements OnInit {
     }).catch(err => {
       console.error(err);
     });
-  }
-
-  private addBlockField(array) {
-    for (let i = 0; i < array.length; i++) {
-      array[i].blocked = false;
-    }
   }
 
   private getSipOuters(): void {
