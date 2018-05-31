@@ -16,6 +16,8 @@ export class SelectComponent {
   @Input() selected: object;
   @Input() placeholder: string;
   @Output() onSelect: EventEmitter<object> = new EventEmitter();
+  @Output() onOpen: EventEmitter<object> = new EventEmitter();
+  @Output() onClose: EventEmitter<object> = new EventEmitter();
   isVisible = false;
   @ViewChild('optionsWrap') optionsWrap: ElementRef;
   @ViewChild('selectWrap') selectWrap: ElementRef;
@@ -44,6 +46,7 @@ export class SelectComponent {
   hideOptions(): void {
     this.selectWrap.nativeElement.blur();
     this.isVisible = false;
+    this.closed();
   }
   /*
     Show options
@@ -53,6 +56,7 @@ export class SelectComponent {
     this.isVisible = true;
     const currentIndex = this.selected ? this.options.indexOf(this.selected) : 0; // Index of selected item
     setTimeout(() => this.scrollToCurrent(currentIndex), 1);
+    this.opened();
   }
   /*
     Scroll to selected option
@@ -112,5 +116,13 @@ export class SelectComponent {
       }
       default: break;
     }
+  }
+
+  opened() {
+    this.onOpen.emit();
+  }
+
+  closed() {
+    this.onClose.emit();
   }
 }

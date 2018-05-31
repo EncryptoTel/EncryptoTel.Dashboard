@@ -5,20 +5,25 @@ import {formatNumber} from 'libphonenumber-js';
 import {SidebarInfo} from '../../models/sidebar-info.model';
 import {CompanyServices} from '../../services/company.services';
 import {CompanyModel, CountriesModel, CountryModel} from '../../models/company.model';
+import {emailRegExp} from '../../shared/vars';
+import {FadeAnimation} from '../../shared/fade-animation';
 
 @Component({
   selector: 'pbx-company',
   templateUrl: './template.html',
   styleUrls: ['./local.sass'],
-  providers: [CompanyServices]
+  providers: [CompanyServices],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class CompanyComponent implements OnInit {
-  sidebarInfo: SidebarInfo;
-  countries: CountryModel[] = [];
   companyForm: FormGroup;
-  selectedCountry: CountryModel;
+  countries: CountryModel[] = [];
+  hightLightLabelSelect = false;
   loading = true;
+  selectedCountry: CountryModel;
+  sidebarInfo: SidebarInfo;
+
   @ViewChildren('label') labelFields;
 
   constructor(private _services: CompanyServices,
@@ -33,10 +38,10 @@ export class CompanyComponent implements OnInit {
         {title: 'Available space', value: '430 Mb'},
       ]
     };
-    this._services.getTypes();
+
     this.companyForm = this.fb.group({
       name: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern(emailRegExp)]],
       phone: ['', [Validators.required]],
       vatId: ['', [Validators.required]],
       companyAddress: this.fb.array([
@@ -53,21 +58,32 @@ export class CompanyComponent implements OnInit {
     });
   }
 
-  formatPhone(event): void {
-    event.target.value = formatNumber(event.target.value, 'International');
-  }
-
   cancel(): void {
     this.companyForm.reset();
+    this.selectedCountry = null;
+    this.validate();
+  }
+
+  formatPhone(event): void {
+    event.target.value = formatNumber(event.target.value, 'International');
+    this.toggleHighlightLabel(event);
+  }
+  test() {
+    console.log('work');
+  }
+  toggleHighlightLabel(event): void {
+    event.target.labels[0].classList.toggle('active');
   }
 
   save(): void {
-    console.log(this.companyForm);
+    this.validate();
     if (this.companyForm.valid) {
-      this._services.save({...this.companyForm.value}).then(res => {
-        console.log(res);
+      this.loading = true;
+      this._services.save({...this.companyForm.value}).then(() => {
+        this.loading = false;
       }).catch(err => {
         console.error(err);
+        this.loading = false;
       });
     } else {
       this.companyForm.markAsTouched();
@@ -77,6 +93,34 @@ export class CompanyComponent implements OnInit {
   selectCountry(country: CountryModel): void {
     this.selectedCountry = country;
     this.companyForm.get(['companyAddress']).get('0').get('country').setValue(country.id);
+  }
+
+  private getCompany(): void {
+    this._services.getCompany().then((res: CompanyModel) => {
+      if (res.name && res.phone && res.phone) {
+        const company = {
+          name: res.name,
+          email: res.email,
+          phone: formatNumber(`+${res.phone}`, 'International'),
+          vatId: res.vatId,
+          companyAddress: [{
+            country: res.companyAddress[0].country.id,
+            postalCode: res.companyAddress[0].postalCode,
+            regionName: res.companyAddress[0].regionName,
+            locationName: res.companyAddress[0].locationName,
+            street: res.companyAddress[0].street,
+            building: res.companyAddress[0].building,
+            office: res.companyAddress[0].office,
+          }]
+        };
+        this.companyForm.setValue(company);
+        this.selectedCountry = res.companyAddress[0].country;
+      }
+      this.loading = false;
+    }).catch(err => {
+      console.error(err);
+      this.loading = false;
+    });
   }
 
   private getCountries(): void {
@@ -89,29 +133,16 @@ export class CompanyComponent implements OnInit {
     });
   }
 
-  private getCompany(): void {
-    this._services.getCompany().then((res: CompanyModel) => {
-      const company = {
-        name: res.name,
-        email: res.email,
-        phone: res.phone,
-        vatId: res.vatId,
-        companyAddress: [{
-          country: res.companyAddress[0].country.id,
-          postalCode: res.companyAddress[0].postalCode,
-          regionName: res.companyAddress[0].regionName,
-          locationName: res.companyAddress[0].locationName,
-          street: res.companyAddress[0].street,
-          building: res.companyAddress[0].building,
-          office: res.companyAddress[0].office,
-        }]
-      };
-      this.companyForm.setValue(company);
-      this.selectedCountry = res.companyAddress[0].country;
-      this.loading = false;
-    }).catch(err => {
-      console.error(err);
-      this.loading = false;
+  private validate() {
+    this.companyForm.updateValueAndValidity();
+    Object.keys(this.companyForm.controls).forEach(field => {
+      const control = this.companyForm.get(field);
+      control.markAsTouched();
+    });
+    const address = this.companyForm.get(['companyAddress', '0']) as FormGroup;
+    Object.keys(address.controls).forEach(field => {
+      const control = address.get(field);
+      control.markAsTouched();
     });
   }
 
