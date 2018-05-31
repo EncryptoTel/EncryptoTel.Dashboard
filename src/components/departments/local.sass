@@ -1,2 +1,80 @@
-@import "../../vars" // Global variables import
+@import "../../vars"
+// Global variables import
 
+.departments
+  display: flex
+  flex-flow: column
+  flex: 1 1 auto
+  &_header
+    display: flex
+    flex-flow: row
+    justify-content: flex-end
+    pbx-button
+      width: unset
+
+.sidebar
+  &_form, &_info
+    display: flex
+    flex-flow: column
+    flex: 1 1 auto
+  &_row
+    display: flex
+    flex-flow: column
+    margin-bottom: 35px
+    label
+      margin-bottom: 10px
+      color: $font-color
+      font-size: rem(12)
+    input
+      border: 1px solid rgba(255, 255, 255, 0.1)
+      height: 38px
+      &:focus
+        border: 1px solid $dark_accent
+    textarea
+      border: 1px solid rgba(255, 255, 255, 0.1)
+      background: transparent
+      color: #ffffff
+      cursor: text
+      &:focus
+        border: 1px solid $dark_accent
+        outline: unset
+    p
+      font-size: rem(17)
+      line-height: 22px
+    span
+      color: $dark_error
+      font-size: rem(17)
+      cursor: pointer
+      font-weight: 500
+    &_select
+      align-items: center
+      margin-bottom: 5px
+      flex: 1 0 auto
+      pbx-select
+        flex: 1
+      svg-icon
+        width: 15px
+        fill: $dark_success
+        margin: 0 10px
+        cursor: pointer
+  &_controls
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+    pbx-button
+      width: unset
+
+input:not([type='submit'])
+  &.ng-valid:focus
+    border-color: $dark_accent
+  &.ng-touched.ng-invalid,
+  &.ng-dirty.ng-invalid
+    color: $dark_error
+    border-color: $dark_error
+    &::placeholder
+      color: $dark_error
+
+div
+  &.ng-touched.ng-invalid
+    pbx-select
+      border: 1px solid $dark_error

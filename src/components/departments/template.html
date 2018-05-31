@@ -1,7 +1,62 @@
 <div class="departments">
   <div class="departments_header">
-    <pbx-button [value]="'Add Department'" [buttonType]="'success'"></pbx-button>
+    <pbx-button [value]="'Add Department'" [buttonType]="'success'" (onClick)="addDepartment()"></pbx-button>
   </div>
-  <pbx-table [tableInfo]="tableInfo" [editable]="true"></pbx-table>
+  <pbx-table [tableInfo]="tableInfo" [editable]="true" (onEdit)="edit($event)" (onDelete)="delete($event)"></pbx-table>
 </div>
-<pbx-sidebar></pbx-sidebar>
+<pbx-sidebar *ngIf="sidebarVisible">
+  <ng-container *ngIf="sidebarEdit" [@Fade]>
+    <form class="sidebar_form" [formGroup]="departmentForm">
+      <div class="sidebar_row">
+        <label for="department">Department</label>
+        <input type="text" id="department" formControlName="name" autofocus>
+      </div>
+      <div class="sidebar_row select_row">
+        <label for="comment">Department Phone</label>
+        <div formArrayName="sipInner" class="sidebar_row">
+          <div class="sidebar_row_select"
+               *ngFor="let sip of departmentForm.get('sipInner').controls; let i=index"
+               [formGroupName]="i">
+            <pbx-select [options]="getSelectNumbers()"
+                        [selected]="selectedSips[i]"
+                        [objectKey]="'phoneNumber'"
+                        (onSelect)="selectPhone($event, i)"></pbx-select>
+            <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone(i)"></svg-icon>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar_row">
+        <label for="comment">Comment</label>
+        <textarea id="comment" rows="5" formControlName="comment"></textarea>
+      </div>
+    </form>
+    <div class="sidebar_controls">
+      <pbx-button [value]="'Cancel'" [buttonType]="'cancel'" (onClick)="cancel()"></pbx-button>
+      <pbx-button [value]="'Save'" [buttonType]="'success'" (onClick)="save()"></pbx-button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!sidebarEdit" [@Fade]>
+    <div class="sidebar_info">
+      <div class="sidebar_row">
+        <label for="department">Department</label>
+        <p>Account department</p>
+      </div>
+      <div class="sidebar_row">
+        <label>Department Phone</label>
+        <p>+1 (800) 555 12 12</p>
+      </div>
+      <div class="sidebar_row">
+        <label>Comment</label>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus earum eos esse ex laborum molestias
+          mollitia repellat repudiandae sit vel?</p>
+      </div>
+      <div class="sidebar_row" (click)="delete()">
+        <span>Delete Department</span>
+      </div>
+    </div>
+    <div class="sidebar_controls">
+      <pbx-button [value]="'Close'" [buttonType]="'cancel'" (onClick)="close()"></pbx-button>
+      <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit()"></pbx-button>
+    </div>
+  </ng-container>
+</pbx-sidebar>

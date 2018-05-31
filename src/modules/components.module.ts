@@ -38,8 +38,8 @@ import {AuthenticationComponent} from '../components/settings/settings-items/aut
 import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
-import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
 import {DepartmentsComponent} from '../components/departments/department.component';
+import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
 
 
 /*
@@ -88,7 +88,8 @@ import {DepartmentsComponent} from '../components/departments/department.compone
     AccountNotificationsComponent,
     UserNotificationsComponent,
     PhoneNumbersComponent,
-    DepartmentsComponent
+    DepartmentsComponent,
+    PhoneNumbersComponent
   ],
   exports: [
     ElementsModule,
