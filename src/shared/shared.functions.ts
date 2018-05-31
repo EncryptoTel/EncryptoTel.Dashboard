@@ -2,6 +2,7 @@ import {FormGroup} from '@angular/forms';
 import {plainToClass} from 'class-transformer';
 import {CountryModel} from '../models/country.model';
 import {CurrencyModel} from '../models/currency.model';
+import {ElementRef} from '@angular/core';
 
 export function getCountryById(id: number): CountryModel {
   const list: CountryModel[] = plainToClass(CountryModel, JSON.parse(localStorage.getItem('pbx_countries')));
@@ -23,4 +24,9 @@ export function validateForm(form: FormGroup): void {
     const control = form.get(field);
     control.markAsTouched();
   });
+}
+
+export function calculateHeight(table: ElementRef, row: ElementRef): number {
+  const height = table.nativeElement.clientHeight - (row.nativeElement.clientHeight + +getComputedStyle(row.nativeElement).marginBottom.split('px')[0]) * 2;
+  return Math.round((height - height % 41) / 41) - 1;
 }

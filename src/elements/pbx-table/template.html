@@ -10,7 +10,7 @@
       <div class="table_column" *ngFor="let key of tableInfo.keys">{{getValueByKey(item, key)}}</div>
       <div class="table_row_icon_wrap">
         <svg-icon src="/assets/icons/edit_12px.svg" class="table_row_icon edit" *ngIf="editable" (click)="editItem(item, $event)"></svg-icon>
-        <svg-icon src="/assets/icons/cancel_delete_12px.svg" class="table_row_icon delete" *ngIf="!multiple || isSelected(item.id)" (click)="deleteItem(item, $event)"></svg-icon>
+        <svg-icon src="/assets/icons/cancel_delete_12px.svg" class="table_row_icon delete" *ngIf="(!multiple || isSelected(item.id)) && !item.safe" (click)="deleteItem(item, $event)"></svg-icon>
       </div>
     </div>
   </div>

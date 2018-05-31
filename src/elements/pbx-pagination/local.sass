@@ -1,0 +1,25 @@
+@import '../../vars'
+
+pbx-button
+  width: initial
+  &:not(:first-child)
+    margin-left: rem(16)
+
+.pagination
+  &_wrap
+    margin: 0 auto
+    /deep/ .button.pagination
+      align-items: center
+      justify-content: center
+      height: rem(40)
+      min-width: initial
+      padding: 0 rem(16)
+      border-radius: 2px
+  &_info
+    align-items: center
+    margin-left: rem(16)
+
+// Theme styles
+\:host-context(.dark_theme)
+  /deep/ .button.pagination
+    background: $dark_pagination
