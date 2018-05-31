@@ -1,15 +1,25 @@
-<pbx-loader *ngIf="loading"></pbx-loader>
-<div class="table_container" *ngIf="!loading">
-  <div class="table_wrap">
-    <div class="table_pre_row">Table Pre Row</div>
+<div class="table_container">
+  <div class="table_wrap" #table>
+    <div class="table_pre_row" #row>
+      <div class="button phone_numbers" #button (click)="ripple($event); listVisible = !listVisible">
+        <span>Add Number</span>
+      </div>
+      <div class="add_list" [ngClass]="{'visible': listVisible}" [style.width.px]="button.clientWidth">
+        <a routerLink="new/buy" class="add_list_item">Buy</a>
+        <a routerLink="new/external" class="add_list_item">External</a>
+        <a routerLink="new/internal" class="add_list_item">Internal</a>
+      </div>
+    </div>
+    <pbx-loader *ngIf="loading"></pbx-loader>
     <pbx-table [tableItems]="list"
                [selected]="selected"
                [tableInfo]="tableInfo"
                (onSelect)="selectItem($event)"
-               (onEdit)="editItem($event)"
                (onDelete)="deleteItem($event)"
                *ngIf="!loading"></pbx-table>
-    <div class="table_pre_row">Pagination goes here</div>
+    <div class="table_pre_row">
+      <pbx-pagination [currentPage]="pagination.page" [totalPages]="pagination.total" (onPageChange)="onPageChange($event)" *ngIf="pagination.total !== 1"></pbx-pagination>
+    </div>
   </div>
   <pbx-sidebar *ngIf="isSelected()" [@Swipe]>
     <div class="sidebar_item">
@@ -31,6 +41,15 @@
     <div class="sidebar_item">
       <div class="sidebar_item_title">Phone number type</div>
       <div class="sidebar_item_value">{{selected.provider}}</div>
+    </div>
+    <div class="sidebar_item" *ngIf="!selected.safe">
+      <div class="sidebar_item_value warning" (click)="deleteItem(selected)">
+        Delete phone number {{selected.exts === 1 ? 'and 1 Ext' : selected.exts > 1 ? 'and ' + selected.exts + ' Exts' : ''}}
+      </div>
+    </div>
+    <div class="sidebar_buttons">
+      <pbx-button value="Cancel" buttonType="cancel" (onClick)="cancelSelected()"></pbx-button>
+      <pbx-button [value]="!!selected.status ? 'Disable' : 'Enable'" buttonType="accent" (onClick)="toggleNumber()" [loading]="selected.loading"></pbx-button>
     </div>
   </pbx-sidebar>
 </div>

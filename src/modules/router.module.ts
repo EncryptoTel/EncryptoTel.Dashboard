@@ -52,7 +52,13 @@ const Routes: Routes = [
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
     {path: 'dashboard', component: DashboardComponent, data: {title: 'Dashboard', indexed: true}},
     {path: 'phone-numbers', children: [
-        {path: '', component: PhoneNumbersComponent, data: {title: 'Phone numbers', indexed: true}}
+        {path: '', component: PhoneNumbersComponent, data: {title: 'Phone numbers', indexed: true}},
+        {path: 'new', children: [
+            {path: '', redirectTo: 'buy', pathMatch: 'full'},
+            {path: 'buy', component: BlankComponent, data: {title: 'Buy external phone numbers', indexed: true}},
+            {path: 'internal', component: BlankComponent, data: {title: 'Buy internal phone numbers', indexed: true}},
+            {path: 'external', component: BlankComponent, data: {title: 'Add external phone number', indexed: true}}
+          ]}
       ]},
     {path: 'address-book', component: BlankComponent, data: {title: 'Address book', indexed: true}},
     {path: 'call-rules', component: BlankComponent, data: {title: 'Call rules', indexed: true}},
