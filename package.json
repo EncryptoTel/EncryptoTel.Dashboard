@@ -22,6 +22,7 @@
     "angular-svg-icon": "^4.2.5",
     "class-transformer": "^0.1.9",
     "core-js": "^2.4.1",
+    "libphonenumber-js": "^1.2.12",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"

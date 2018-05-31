@@ -35,6 +35,7 @@ import {BillingComponent} from '../components/settings/settings-items/billing/bi
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
+import {DepartmentsComponent} from '../components/departments/department.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -84,7 +85,7 @@ const Routes: Routes = [
     {path: 'ring-groups', component: BlankComponent, data: {title: 'Ring groups', indexed: true}},
     {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
     {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},
-    {path: 'departments', component: BlankComponent, data: {title: 'Departments', indexed: true}},
+    {path: 'departments', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
     {path: 'extensions', component: BlankComponent, data: {title: 'Employees', indexed: true}},
     {path: 'details-and-records', component: DetailsAndRecordsComponent, data: {title: 'Details and records', indexed: true}},
     {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},
