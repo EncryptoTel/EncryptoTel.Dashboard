@@ -6,8 +6,10 @@
     display: grid
     grid-template-columns: repeat(auto-fill,minmax(rem(352),1fr))
     grid-gap: rem(24)
-    padding: 0 rem(32) rem(24) rem(48)
-    margin-top: rem(24)
+    margin-right: rem(-32)
+    padding-right: rem(32)
+    margin-bottom: rem(-24)
+    padding-bottom: rem(24)
     overflow-y: auto
   &_item
     flex-direction: column
@@ -70,9 +72,9 @@
 @media (max-width: 767px)
   .marketplace
     &_wrap
-      grid-template-columns: 1fr
-      margin-top: 0
-      padding: rem(24)
+      grid-template-columns: repeat(auto-fill,minmax(rem(312),1fr))
+      margin: rem(-24) 0
+      padding: rem(24) 0
       -ms-overflow-style: none
       overflow: -moz-scrollbars-none
       &::-webkit-scrollbar
@@ -83,5 +85,7 @@
         flex-direction: column
 @media (max-width: 383px)
   .marketplace
+    &_wrap
+      grid-template-columns: 1fr
     &_column, &_cost, &_button
       padding: rem(16)

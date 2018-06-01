@@ -1,10 +1,6 @@
 @import "../../vars" // Global variables import
 
 .navigation
-  //&_wrap
-    flex-direction: column
-    flex: 0 0 auto
-    width: 192px
   &_block
     flex-direction: column
     flex: 0 0 auto
@@ -15,7 +11,6 @@
       border-bottom: 1px solid
     &_wrap
       flex-direction: column
-      //max-height: calc(100vh - 80px)
       overflow-y: auto
       margin-top: 24px
   &_item
@@ -369,8 +364,9 @@
   overflow: hidden
   background: $dark_background
   >.body_wrap
-    padding: 0
+    // padding: 0
     // padding: rem(24) rem(32) rem(24) rem(48)
+    // background: rgba($dark_accent, .1) // trash
     overflow-y: auto
     max-height: calc(100vh - 80px)
 
@@ -378,6 +374,8 @@
   .main_grid
     grid-template-columns: 1fr
     grid-template-rows: 88px 1fr
+    >.body_wrap
+      padding: rem(24)
   .user_wrap, .header_line_wrap, .navigation_block_wrap
     display: none
   .mobile_header
