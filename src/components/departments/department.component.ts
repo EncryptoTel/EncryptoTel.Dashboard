@@ -4,6 +4,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {DepartmentServices} from '../../services/department.services';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {DepartmentModel, Sip} from '../../models/departments.model';
+import {validateForm} from '../../shared/shared.functions';
 
 
 @Component({
@@ -33,9 +34,10 @@ export class DepartmentsComponent implements OnInit {
 
   addPhone(): void {
     const sips = this.departmentForm.get('sipInner') as FormArray;
-    if (sips.valid && (this.selectedSips.length < this.sips.length)) {
-      sips.push(this.createPhoneField());
-    }
+    // if (sips.valid && (this.selectedSips.length < this.sips.length)) {
+    //   sips.push(this.createPhoneField());
+    // }
+    sips.push(this.createPhoneField());
   }
 
   addDepartment(): void {
@@ -116,30 +118,29 @@ export class DepartmentsComponent implements OnInit {
   }
 
   save(): void {
-    this.departmentForm.markAsTouched();
-    this.departmentForm.get('sipInner').markAsTouched();
-    // if (this.departmentForm.valid) {
-    //   this.sidebarEdit = false;
-    //   this.sidebarVisible = false;
-    //   this.loading = true;
-    //   if (this.mode === 'create') {
-    //     this._service.saveDepartment({...this.departmentForm.value}).then(() => {
-    //       this.reset();
-    //       this.getDepartments();
-    //     }).catch(err => {
-    //       console.error(err);
-    //       this.loading = false;
-    //     });
-    //   } else if (this.mode === 'edit') {
-    //     this._service.editDepartment(this.currentDepartment.id, {...this.departmentForm.value}).then(res => {
-    //       this.reset();
-    //       this.getDepartments();
-    //     }).catch(err => {
-    //       console.error(err);
-    //       this.loading = false;
-    //     });
-    //   }
-    // }
+    validateForm(this.departmentForm);
+    if (this.departmentForm.valid) {
+      this.sidebarEdit = false;
+      this.sidebarVisible = false;
+      this.loading = true;
+      if (this.mode === 'create') {
+        this._service.saveDepartment({...this.departmentForm.value}).then(() => {
+          this.reset();
+          this.getDepartments();
+        }).catch(err => {
+          console.error(err);
+          this.loading = false;
+        });
+      } else if (this.mode === 'edit') {
+        this._service.editDepartment(this.currentDepartment.id, {...this.departmentForm.value}).then(res => {
+          this.reset();
+          this.getDepartments();
+        }).catch(err => {
+          console.error(err);
+          this.loading = false;
+        });
+      }
+    }
   }
 
   selectPhone(phone: Sip, index: number): void {

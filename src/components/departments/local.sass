@@ -76,7 +76,12 @@ input:not([type='submit'])
     &::placeholder
       color: $dark_error
 
-div
+.sidebar_row
   &.ng-touched.ng-invalid
     pbx-select
-      border: 1px solid $dark_error
+      /deep/
+        .select_item.selected
+          border: 1px solid $dark_error
+
+.unmargin
+  margin-bottom: 0
