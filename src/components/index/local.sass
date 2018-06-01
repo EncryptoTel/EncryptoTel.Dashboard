@@ -281,7 +281,6 @@
     &_title
       text-transform: uppercase
       color: $dark_primary
-      margin-left: rem(16)
       font-size: rem(28)
       align-self: center
   &_sidebar
@@ -376,6 +375,10 @@
     grid-template-rows: 88px 1fr
     >.body_wrap
       padding: rem(24)
+      -ms-overflow-style: none
+      overflow: -moz-scrollbars-none
+      &::-webkit-scrollbar
+        width: 0
   .user_wrap, .header_line_wrap, .navigation_block_wrap
     display: none
   .mobile_header
