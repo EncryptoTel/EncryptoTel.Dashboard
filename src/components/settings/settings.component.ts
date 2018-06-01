@@ -156,7 +156,7 @@ export class SettingsComponent {
         icon: true,
         src: '../../assets/icons/notifications.svg',
         title: 'Notifications',
-        routerLink: 'Notifications'
+        routerLink: 'user-notifications'
       },
       {
         id: 6,

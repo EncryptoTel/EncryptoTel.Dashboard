@@ -5,6 +5,7 @@ import {SettingsServices} from '../../../../services/settings.services';
 @Component({
   selector: 'billing-component',
   templateUrl: './template.html',
+  styleUrls: ['../local.sass'],
   providers: [SettingsServices]
 })
 

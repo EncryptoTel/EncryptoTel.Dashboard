@@ -1,0 +1,80 @@
+@import '../../../vars'
+// import Global variables
+
+.main_wrap
+  flex-direction: column
+  height: calc(100% + 24px)
+  margin-bottom: rem(-24)
+  overflow: hidden
+  >.overlay
+    display: block
+    background: none
+    padding-bottom: rem(72)
+    -ms-overflow-style: none
+    overflow: -moz-scrollbars-none
+    &::-webkit-scrollbar
+      width: 0
+    >.overlay_content
+      background: $dark_overlay
+    >pbx-loader
+      height: 100%
+  >.overlay_pre_row
+    &:last-child
+      display: none
+    &:first-child
+      display: flex
+@media (max-width: 767px)
+  .main_wrap
+    margin: rem(-24)
+    flex-direction: column
+    overflow: auto
+    height: unset
+    -ms-overflow-style: none
+    overflow: -moz-scrollbars-none
+    background: $dark_background
+    &::-webkit-scrollbar
+      width: 0
+    >*
+      background: none
+    >.overlay
+      padding-bottom: 0
+      >.overlay_content
+        background: unset
+        >.settings_form
+          >.settings_form_section
+            >.settings_form_title
+              font-weight: 400
+              color: rgba($dark_primary,.55)
+              font-size: rem(16)
+            >.settings_input_item
+              flex-direction: column
+              align-items: unset
+              margin-bottom: rem(16)
+              >.settings_input_title
+                flex: 0
+                font-size: rem(16)
+                margin-bottom: unset
+              >.input_wrap
+                margin-bottom: 0
+                /deep/ input
+                  font-size: rem(16)
+                  padding: 0
+    >.overlay_pre_row
+      grid-template-columns: 1fr 1fr
+      padding: rem(24)
+      grid-gap: rem(24)
+
+      &:last-child
+        display: grid
+      &:first-child
+        display: none
+      >pbx-button
+        flex: 1
+        width: unset
+        /deep/ button
+          flex: 1
+          height: auto
+          font-size: rem(16)
+          padding: rem(16) 0
+        &:last-child
+          margin-left: unset

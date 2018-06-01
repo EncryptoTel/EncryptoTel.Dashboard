@@ -1,9 +1,10 @@
+<pbx-loader *ngIf="loading.body||loading.buttons"></pbx-loader>
+<div class="main_wrap">
 <div class="overlay_pre_row">
   <pbx-button buttonType="cancel" value="Cancel" (onClick)="goBack()"></pbx-button>
   <pbx-button [loading]="loading.buttons" buttonType="success" value="Save" (onClick)="saveSettings()"></pbx-button>
 </div>
 <div class="overlay">
-  <pbx-loader *ngIf="loading.body"></pbx-loader>
   <div class="overlay_content" *ngIf="!loading.body">
     <form class="settings_form" (submit)="saveSettings($event)">
       <div class="settings_form_section" [formGroup]="generalForm">
@@ -113,4 +114,9 @@
       </div>
     </form>
   </div>
+</div>
+<div class="overlay_pre_row" *ngIf="!loading.body">
+  <pbx-button buttonType="cancel" value="Cancel" (onClick)="goBack()"></pbx-button>
+  <pbx-button [loading]="loading.buttons" buttonType="success" value="Save" (onClick)="saveSettings()"></pbx-button>
+</div>
 </div>
