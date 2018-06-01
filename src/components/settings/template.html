@@ -1,85 +1,43 @@
-<div class="settings_container">
-  <div class="settings_wrapper settings_profile">
-    <h5 class="settings__title">Profile settings</h5>
-    <div class="settings_items_wrapper">
-      <a class="settings__item item_profile" routerLink="profile">
-        <div class="settings__item__content">
-          <svg-icon src="../../assets/icons/profile_48px.svg" class="settings__icons"></svg-icon>
-          <p>profile</p>
-        </div>
-      </a>
-      <a class="settings__item item_profile" routerLink="user-notifications">
-        <div class="settings__item__content">
-          <svg-icon src="../../assets/icons/notifications.svg" class="settings__icons"></svg-icon>
-          <p>notifications</p>
-        </div>
-      </a>
-      <div class="settings__item item_profile">
-        <div class="theme_item white" (click)="changeTheme('light_theme')">
-          <div class="settings__item__content content_theme">
-            <svg-icon src="../../assets/icons/ok_32px.svg" class="settings__icons theme_icon"
-                      *ngIf="currentTheme ==='light_theme'"></svg-icon>
-            <span>light</span>
-            <p>theme</p>
-          </div>
-        </div>
-        <div class="theme_item black" (click)="changeTheme('dark_theme')">
-          <div class="settings__item__content content_theme">
-            <svg-icon src="../../assets/icons/ok_32px.svg" class="settings__icons theme_icon"
-                      *ngIf="currentTheme ==='dark_theme'"></svg-icon>
-            <span>dark</span>
-            <p>theme</p>
-          </div>
-        </div>
+<div class="settings_container" [@Fade]>
+  <div class="settings_title">Profile settings</div>
+  <div class="settings_wrap">
+    <a class="settings_item" [ngClass]="{'inactive':!item.available}"
+       *ngFor="let item of settings.profile" routerLink="{{item.routerLink}}">
+      <svg-icon class="settings_item_icon" *ngIf="item.icon" src="{{item.src}}"></svg-icon>
+      <span class="settings_item_title">{{item.title}}</span>
+    </a>
+    <div class="settings_theme_item">
+      <div class="settings_theme_type {{item.value}}" *ngFor="let item of settings.theme"
+           [ngClass]="{'inactive':!item.available}" (click)="changeTheme(item.value)">
+        <svg-icon class="settings_theme_icon" src="{{item.src}}" *ngIf="item.value===_main.userTheme" [@Fade]>
+        </svg-icon>
+        <div class="settings_theme_text" [ngClass]="{'unselected':item.value!==_main.userTheme}">
+          <span>{{item.text}}</span>theme</div>
       </div>
     </div>
   </div>
-  <div class="settings_wrapper settings_system">
-    <h5 class="settings__title">System settings</h5>
-    <div class="settings_items_wrapper">
-      <div class="settings__item">
-        <div class="settings__item__content">
-          <p>Active sessions</p>
-        </div>
-      </div>
-      <a class="settings__item" routerLink="authentication">
-        <div class="settings__item__content">
-          <p>two-factor authentication</p>
-        </div>
-      </a>
-      <div class="settings__item">
-        <div class="settings__item__content">
-          <p>allowed country codes</p>
-        </div>
-      </div>
-      <a class="settings__item" routerLink="billing">
-        <div class="settings__item__content">
-          <svg-icon src="../../assets/icons/billing_48px.svg" class="settings__icons"></svg-icon>
-          <p>billing</p>
-        </div>
-      </a>
-      <div class="settings__item">
-        <div class="settings__item__content">
-          <svg-icon src="../../assets/icons/backup_48px.svg" class="settings__icons"></svg-icon>
-          <p>backup</p>
-        </div>
-      </div>
-      <a class="settings__item" routerLink="account-notifications">
-        <div class="settings__item__content">
-          <svg-icon src="../../assets/icons/notifications.svg" class="settings__icons"></svg-icon>
-          <p>notifications</p>
-        </div>
-      </a>
-      <div class="settings__item">
-        <div class="settings__item__content">
-          <p>crm integration</p>
-        </div>
-      </div>
-      <div class="settings__item">
-        <div class="settings__item__content">
-          <p>api integration</p>
-        </div>
-      </div>
+  <div class="settings_title">System settings</div>
+  <div class="settings_wrap">
+    <a class="settings_item" [ngClass]="{'inactive':!item.available}"
+       *ngFor="let item of settings.system" routerLink="{{item.routerLink}}">
+      <svg-icon class="settings_item_icon" *ngIf="item.icon" src="{{item.src}}"></svg-icon>
+      <span class="settings_item_title">{{item.title}}</span>
+    </a>
+  </div>
+</div>
+<div class="settings_container_mobile" [@Fade]>
+  <a class="settings_item" [ngClass]="{'inactive':!item.available}"
+     *ngFor="let item of settings.mobile" routerLink="{{item.routerLink}}">
+    <svg-icon class="settings_item_icon" *ngIf="item.icon" src="{{item.src}}"></svg-icon>
+    <span class="settings_item_title">{{item.title}}</span>
+  </a>
+  <div class="settings_theme_item">
+    <div class="settings_theme_type {{item.value}}" *ngFor="let item of settings.theme"
+         [ngClass]="{'inactive':!item.available}" (click)="changeTheme(item.value)">
+      <svg-icon class="settings_theme_icon" src="{{item.src}}" *ngIf="item.value===_main.userTheme" [@Fade]>
+      </svg-icon>
+      <div class="settings_theme_text" [ngClass]="{'unselected':item.value!==_main.userTheme}">
+        <span>{{item.text}}</span>theme</div>
     </div>
   </div>
 </div>

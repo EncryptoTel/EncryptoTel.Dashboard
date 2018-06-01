@@ -4,10 +4,12 @@
 .marketplace
   &_wrap
     display: grid
-    grid-template-columns: repeat(auto-fill, minmax(rem(304), 1fr))
+    grid-template-columns: repeat(auto-fill,minmax(rem(352),1fr))
     grid-gap: rem(24)
-    padding-right: rem(24)
-    width: calc(100vw - 272px)
+    margin-right: rem(-32)
+    padding-right: rem(32)
+    margin-bottom: rem(-24)
+    padding-bottom: rem(24)
     overflow-y: auto
   &_item
     flex-direction: column
@@ -67,11 +69,23 @@
     top: rem(16)
     right: rem(24)
     fill: $dark_success
-@media (max-width: 640px)
+@media (max-width: 767px)
   .marketplace
     &_wrap
-      grid-template-columns: 1fr
+      grid-template-columns: repeat(auto-fill,minmax(rem(312),1fr))
+      margin: rem(-24) 0
+      padding: rem(24) 0
+      -ms-overflow-style: none
+      overflow: -moz-scrollbars-none
+      &::-webkit-scrollbar
+        width: 0
     &_item
       height: auto
       >.marketplace_row
         flex-direction: column
+@media (max-width: 383px)
+  .marketplace
+    &_wrap
+      grid-template-columns: 1fr
+    &_column, &_cost, &_button
+      padding: rem(16)

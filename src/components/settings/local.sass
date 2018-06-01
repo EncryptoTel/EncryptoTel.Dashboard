@@ -1,46 +1,40 @@
+sass
 @import "../../vars"
 // Global variables import
 
-div, p, span, svg-icon
+// div, p, span, svg-icon
   cursor: pointer
 
-.settings
+//.settings
   &_container
-    display: flex
-    flex-flow: column
+    display: block
+    flex-direction: column
     justify-content: space-between
-    width: 100%
-    height: 100%
+    flex: 1
+    margin: 0 rem(-32) rem(-24) 0
+    padding: 0 rem(32) rem(24) 0
   &_wrapper
-    display: flex
-    flex-flow: column
-    width: 100%
-    height: 50%
-  &_profile
-    height: 30%
-  &_system
-    height: 65%
+    flex-direction: column
+    &:not(:last-child)
+      margin-bottom: rem(32)
   &__title
-    min-height: 50px
     font-size: rem(18)
-    color: darken($dark_primary, 40%)
+    margin-bottom: rem(32)
+    color: $font-color
   &_items_wrapper
-    display: flex
-    flex-flow: row wrap
-    justify-content: flex-start
-    width: 100%
-    height: 100%
-    .item_profile
-      height: 100%
+    display: grid
+    grid-template-columns: repeat(auto-fill, rem(240))
+    grid-gap: rem(24)
   &__item
     background: $dark_success
-    width: 15%
-    height: 45%
-    margin-right: 20px
+    height: rem(192)
     display: flex
     flex-flow: row
     justify-content: center
     align-items: center
+    cursor: pointer
+    >*, *, *>*, >*>*
+      cursor: pointer
     &__content
       width: 70%
       height: 65%
@@ -57,7 +51,7 @@ div, p, span, svg-icon
     fill: $dark_primary
     flex-grow: 1
 
-.theme_item
+//.theme_item
   height: 100%
   width: 50%
   display: flex
@@ -72,14 +66,94 @@ div, p, span, svg-icon
     margin-top: 5px
     color: $dark_primary
 
-.content_theme
+//.content_theme
   align-items: center
 
-.theme_icon
+//.theme_icon
   width: 60%
 
-.white
+//.white
   background: $dark_overlay
 
-.black
+//.black
   background: $dark_success
+
+.settings
+  &_container
+    display: block
+    flex-direction: column
+    margin: 0 rem(-32) rem(-24) 0
+    padding: 0 rem(32) rem(24) 0
+    color: $font-color
+    &_mobile
+      display: none
+      margin: rem(-24) 0
+      padding: rem(24) 0
+      grid-gap: rem(24)
+      grid-template-columns: repeat(auto-fill, minmax(rem(232), 1fr))
+  &_title
+    font-size: rem(16)
+    margin: rem(48) 0 rem(24)
+    &:first-child
+      margin-top: 0
+  &_wrap
+    display: grid
+    grid-gap: rem(20)
+    grid-template-columns: repeat(auto-fill, rem(232))
+  &_item
+    flex-direction: column
+    background: $dark_success
+    padding: rem(24) rem(32)
+    height: rem(160)
+    &.inactive
+      display: none
+    &_icon
+      width: rem(48)
+      height: rem(48)
+      /deep/ polygon,/deep/ circle,/deep/ path
+        fill: $font-color
+    &_title
+      font-size: rem(18)
+      text-transform: uppercase
+      margin-top: auto
+  &_theme
+    &_item
+      height: rem(160)
+    &_type
+      flex: 1
+      padding: rem(24) 0
+      flex-direction: column
+      align-items: center
+      &.light_theme
+        background: $dark_pagination_inactive
+      &.dark_theme
+        background: $dark_success
+    &_icon
+      height: rem(48)
+      width: rem(48)
+      /deep/ polygon
+        fill: $font-color
+    &_text
+      margin-top: auto
+      text-transform: uppercase
+      font-size: rem(18)
+      flex-direction: column
+      align-items: center
+      >span
+        text-transform: lowercase
+      &.unselected
+        opacity: .5
+@media (max-width: 767px)
+  .settings
+    &_container
+      display: none
+      &_mobile
+        display: grid
+    &_item
+      display: flex
+      align-items: center
+      padding: rem(32) 0
+@media (max-width: 535px)
+  .settings_container_mobile
+    grid-template-columns: rem(272)
+    justify-content: center
