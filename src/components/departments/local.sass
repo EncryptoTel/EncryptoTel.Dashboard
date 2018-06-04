@@ -16,7 +16,7 @@
   &_form, &_info
     display: flex
     flex-flow: column
-    flex: 1 1 auto
+    flex: 1 0 auto
   &_row
     display: flex
     flex-flow: column
@@ -63,6 +63,8 @@
     display: flex
     flex-flow: row
     justify-content: space-between
+    align-items: flex-end
+    flex: 1 0 auto
     pbx-button
       width: unset
 
@@ -80,8 +82,14 @@ input:not([type='submit'])
   &.ng-touched.ng-invalid
     pbx-select
       /deep/
-        .select_item.selected
-          border: 1px solid $dark_error
+      .select_item.selected
+        border: 1px solid $dark_error
 
 .unmargin
   margin-bottom: 0
+
+pbx-sidebar
+  /deep/
+    .sidebar
+      flex: 1 0 auto
+      overflow-y: auto

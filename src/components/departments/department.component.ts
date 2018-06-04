@@ -34,9 +34,9 @@ export class DepartmentsComponent implements OnInit {
 
   addPhone(): void {
     const sips = this.departmentForm.get('sipInner') as FormArray;
-    // if (sips.valid && (this.selectedSips.length < this.sips.length)) {
-    //   sips.push(this.createPhoneField());
-    // }
+    if (sips.valid && (this.selectedSips.length < this.sips.length)) {
+      sips.push(this.createPhoneField());
+    }
     sips.push(this.createPhoneField());
   }
 
