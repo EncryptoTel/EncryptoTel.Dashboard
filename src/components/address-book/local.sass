@@ -1,0 +1,87 @@
+@import '../../vars'
+
+.address_book
+  flex: 1 0 auto
+  flex-flow: column
+  &_header
+    flex-flow: row
+    justify-content: space-between
+    margin-bottom: 15px
+    &_filter
+      flex-flow: row
+      justify-content: space-between
+      align-items: center
+
+
+.sidebar
+  &_form
+    display: flex
+    flex-flow: column
+    flex: 1 0 auto
+  &_row
+    display: flex
+    flex-flow: column
+    margin-bottom: 18px
+    flex: 1 0 auto
+    label
+      margin-bottom: 7px
+      font-size: rem(12)
+    .phone_field
+      display: flex
+      flex-flow: row
+      justify-content: space-between
+      align-items: center
+      margin-bottom: 10px
+      input
+        flex: 1
+      pbx-select
+        width: 30%
+        margin: 0 10px
+      svg-icon
+        width: 20px
+        height: 20px
+        fill: $dark_success
+        cursor: pointer
+    .email_field
+      display: flex
+      flex-flow: row
+      align-items: center
+      margin-bottom: 10px
+      input
+        flex: 1
+      svg-icon
+        width: 20px
+        height: 20px
+        fill: $dark_success
+        cursor: pointer
+        margin-left: 10px
+  &_controls
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+    flex: 1 0 auto
+    pbx-button:last-child
+      justify-content: flex-end
+
+
+input
+  border: 1px solid rgba($dark_primary, .1)
+  height: 40px
+  &.ng-valid:focus
+    border-color: $dark_accent
+  &.ng-touched.ng-invalid,
+  &.ng-dirty.ng-invalid
+    color: $dark_error
+    border-color: $dark_error
+
+label
+  color: $font-color
+
+pbx-sidebar
+  /deep/
+    .sidebar
+      justify-content: space-between
+      flex: 1 0 auto
+      overflow-y: auto
+
+

@@ -35,6 +35,7 @@ import {BillingComponent} from '../components/settings/settings-items/billing/bi
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
+import {AddressBookComponent} from '../components/address-book/address-book.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -60,7 +61,7 @@ const Routes: Routes = [
             {path: 'external', component: BlankComponent, data: {title: 'Add external phone number', indexed: true}}
           ]}
       ]},
-    {path: 'address-book', component: BlankComponent, data: {title: 'Address book', indexed: true}},
+    {path: 'address-book', component: AddressBookComponent, data: {title: 'Address book', indexed: true}},
     {path: 'call-rules', component: BlankComponent, data: {title: 'Call rules', indexed: true}},
     {path: 'call-queues', children: [
         {path: '', component: CallQueuesComponent, data: {title: 'Call queues create', indexed: true}},

@@ -39,6 +39,7 @@ import {BillingComponent} from '../components/settings/settings-items/billing/bi
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
+import {AddressBookComponent} from '../components/address-book/address-book.component';
 
 
 /*
@@ -86,7 +87,8 @@ import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.c
     BillingComponent,
     AccountNotificationsComponent,
     UserNotificationsComponent,
-    PhoneNumbersComponent
+    PhoneNumbersComponent,
+    AddressBookComponent
   ],
   exports: [
     ElementsModule,
@@ -114,7 +116,8 @@ import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.c
     BillingComponent,
     AccountNotificationsComponent,
     UserNotificationsComponent,
-    PhoneNumbersComponent
+    PhoneNumbersComponent,
+    AddressBookComponent
   ]
 })
 export class ComponentsModule {
