@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators, FormArray, FormGroup} from '@angular/forms';
 import {AddressBookServices} from '../../services/address-book.services';
 import {Countries, Country, PhoneTypes, Types} from '../../models/address-book.model';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {emailRegExp} from '../../shared/vars';
 
 
 @Component({
@@ -13,7 +15,7 @@ import {Countries, Country, PhoneTypes, Types} from '../../models/address-book.m
 export class AddressBookComponent implements OnInit {
   tableInfo = {
     titles: ['First Name', 'Last Name', 'Phone number', 'E-mail', 'Company Name', 'Country'],
-    keys: ['firstname', 'lastname', 'contactPhones', 'contactEmails', 'company', 'countryId']
+    keys: ['firstname', 'lastname', 'contactPhones', 'contactEmails', 'company', 'countryName']
   };
   sidebarVisible = true;
   countries: Country[];
@@ -31,11 +33,11 @@ export class AddressBookComponent implements OnInit {
   }
 
   addPhoneField() {
-    this.contactPhones.push(this.createFormField());
+    this.contactPhones.push(this.createNumberFormField());
   }
 
   addEmailField() {
-    this.contactEmails.push(this.createFormField());
+    this.contactEmails.push(this.createEmailFormField());
   }
 
   cancel() {
@@ -47,10 +49,12 @@ export class AddressBookComponent implements OnInit {
   }
 
   save() {
+    this.addressForm.markAsTouched();
+    this.validate(this.addressForm);
     console.log(this.addressForm);
     if (this.addressForm.valid) {
-      this._service.saveContact({...this.addressForm.value}).then(res => {
-        console.log(res);
+      this._service.saveContact({...this.addressForm.value}).then(() => {
+        this.getContacts();
       }).catch(err => {
           console.error(err);
         }
@@ -94,6 +98,7 @@ export class AddressBookComponent implements OnInit {
   private getCountries(): void {
     this._service.getCountries().then((res: Countries) => {
       this.countries = res.countries;
+      this.getContacts();
     }).catch(err => {
       console.error(err);
     });
@@ -101,16 +106,49 @@ export class AddressBookComponent implements OnInit {
 
   private getContacts(): void {
     this._service.getContacts().then(res => {
-      console.log(res);
       this.contacts = res.items;
+      this.contacts.forEach(contact => {
+        const cntry = this.countries.find(country => {
+          if (contact.countryId === country.id) {
+            return true;
+          }
+        });
+        if (cntry) {
+          contact.countryName = cntry.title;
+        }
+      });
     }).catch(err => {
       console.error(err);
     });
   }
 
-  private createFormField(): FormGroup {
+  private validate(form: FormGroup) {
+    Object.keys(form.controls).forEach(control => {
+      if (form.get(control) instanceof FormArray) {
+        const ctrl = form.get(control) as FormArray;
+        ctrl.controls.forEach(cont => {
+          const ctr = cont as FormGroup;
+          ctr.markAsTouched();
+          Object.keys(ctr.controls).forEach(c => {
+            ctr.get(c).markAsTouched();
+          });
+        });
+      } else {
+        form.get(control).markAsTouched();
+      }
+    });
+  }
+
+  private createEmailFormField(): FormGroup {
     return this.fb.group({
-      value: ['', [Validators.required]],
+      value: ['', [Validators.required, Validators.pattern(emailRegExp)]],
+      typeId: ''
+    });
+  }
+
+  private createNumberFormField(): FormGroup {
+    return this.fb.group({
+      value: ['', [Validators.required, Validators.minLength(8)]],
       typeId: ''
     });
   }
@@ -126,7 +164,6 @@ export class AddressBookComponent implements OnInit {
 
   ngOnInit() {
     this.getCountries();
-    this.getContacts();
     this.getTypes();
     this.addressForm = this.fb.group({
       countryId: '',
@@ -138,8 +175,8 @@ export class AddressBookComponent implements OnInit {
         value: ['', [Validators.required]],
         typeId: ''
       })]),
-      contactPhones: this.fb.array([this.createFormField()]),
-      contactEmails: this.fb.array([this.createFormField()])
+      contactPhones: this.fb.array([this.createNumberFormField()]),
+      contactEmails: this.fb.array([this.createEmailFormField()])
     });
   }
 }
