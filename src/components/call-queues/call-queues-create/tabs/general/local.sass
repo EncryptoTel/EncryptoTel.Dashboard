@@ -2,58 +2,38 @@
 // Global variables import
 .call_queues_general
   &_wrap
-    background: $dark_pagination_inactive
-    width: 100%
-    height: 100%
-    display: flex
+    display: block
+    flex: 1
     flex-flow: column
-    padding: 20px
+    padding: rem(24)
   &_title
-    width: 100%
     font-weight: 500
-    font-size: rem(15)
-    height: 5%
-    display: flex
-    flex-flow: column
-    justify-content: center
+    font-size: rem(16)
+    margin-bottom: rem(16)
   &_item
-    display: flex
     flex-flow: row
-    justify-content: flex-start
-    margin-bottom: 10px
+    margin-bottom: rem(16)
+    pbx-select
+      flex: 1
     &_label
-      display: flex
-      flex-flow: column
-      justify-content: center
-      align-items: flex-start
-      width: 140px
+      font-size: rem(14)
+      align-items: center
+      width: rem(160)
+      margin-right: rem(24)
     &_input_wrap
-      width: 91%
-      display: flex
       flex-flow: row
       align-items: center
-
-span
-  font-size: rem(13)
-
+      flex: 1
 .time
-  span
-    margin-left: 15px
   input
-    width: 50px
-
+    width: rem(48)
+    margin-right: rem(16)
 .checkbox
-  span
-    margin-left: 15px
-  input
-    width: 15px
+  pbx-checkbox
+    margin-right: rem(16)
     cursor: pointer
 
-pbx-select
-  width: 100%
-@media all and (max-width: 768px)
-  .call_queues_general
-    &_item
-      flex-flow: column
-      &_label
-        margin: 5px 0
+// Themes styles
+\:host-context(.dark_theme)
+  .call_queues_general_wrap
+      background: $dark_pagination_inactive

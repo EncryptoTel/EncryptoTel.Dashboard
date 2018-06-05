@@ -2,14 +2,19 @@
 // Global variables import
 .call_queue
   &_wrap
-    display: flex
+    display: block
     flex-flow: column
+    margin-bottom: rem(-24)
+    padding-bottom: rem(24)
   &_header
-    display: flex
     flex-flow: row
     justify-content: flex-end
     align-items: center
+    margin-bottom: rem(16)
+    border-radius: rem(2)
     a
-      padding: 15px
-      background: $dark_success
-      margin-bottom: 10px
+      padding: rem(12) rem(24)
+// Themes styles
+\:host-context(.dark_theme)
+  .call_queue_header a
+    background: $dark_success

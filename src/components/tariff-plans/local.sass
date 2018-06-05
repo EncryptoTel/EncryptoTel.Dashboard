@@ -3,7 +3,6 @@
 .tariff
   &_message
     font-size: rem(24)
-    color: $dark_error
   &_wrap
     grid-gap: rem(24)
     &.not_enough
@@ -20,18 +19,13 @@
       align-self: center
       justify-self: center
       &:hover
-        background: rgba($dark_primary, 0.1)
         cursor: pointer
         /deep/ *
           cursor: pointer
-      &.tariff_inactive
-        &:hover
-          background: rgba($dark_primary, 0)
+      &.tariff_inactive:hover
+        cursor: default
+        /deep/ *
           cursor: default
-          /deep/ *
-            cursor: default
-        >.tariff_wrap_icon /deep/ polygon
-          fill: rgba($dark_primary, .1)
       &:first-child>.tariff_wrap_icon
         transform: rotate(90deg)
       &:last-child>.tariff_wrap_icon
@@ -39,8 +33,6 @@
     &_icon
       height: 100%
       width: 100%
-      /deep/ polygon
-        fill: $dark_accent
   &_list
     height: 100%
     display: grid
@@ -50,16 +42,8 @@
     transition: 0s
     flex: 1
     flex-direction: column
-    background: $dark_accent
-    color: $dark_primary
-    &.current_tariff
-      background: $dark_pagination_inactive
-      .tariff_item_button
-        background: rgba($dark_primary,0)
-        color: rgba($dark_primary,.2)
-        &:hover
-          cursor: default
-          background: rgba($dark_primary,0)
+    &.current_tariff.tariff_item_button:hover
+      cursor: default
     &_title
       padding: rem(32) 0
       font-size: rem(32)
@@ -84,14 +68,12 @@
       font-size: rem(18)
       margin: rem(64) 0 rem(32)
     &_button
-      background: rgba($dark_primary, .2)
       justify-content: center
       font-size: rem(20)
       padding: rem(24) 0
       text-transform: uppercase
       &:hover
         cursor: pointer
-        background-color: rgba($dark_primary,.4)
   &_high_resolution
     display: grid
     grid-template-columns: rem(64) 1fr rem(64)
@@ -105,7 +87,36 @@
     margin: rem(-24) rem(-32) rem(-24) 0
     padding: rem(24) rem(24) rem(24) 0
     grid-template-columns: repeat(auto-fill,minmax(rem(232),1fr))
-
+\:host-context(.dark_theme)
+  .tariff
+    &_message
+      color: $dark_error
+    &_wrap
+      &_button
+        &:hover
+          background: rgba($dark_primary, 0.1)
+        &.tariff_inactive
+          &:hover
+            background: rgba($dark_primary, 0)
+          >.tariff_wrap_icon /deep/ polygon
+            fill: rgba($dark_primary, .1)
+      &_icon
+        /deep/ polygon
+          fill: $dark_accent
+    &_item
+      background: $dark_accent
+      color: $dark_primary
+      &.current_tariff
+        background: $dark_pagination_inactive
+        .tariff_item_button
+          background: rgba($dark_primary,0)
+          color: rgba($dark_primary,.2)
+          &:hover
+            background: rgba($dark_primary,0)
+      &_button
+        background: rgba($dark_primary, .2)
+        &:hover
+          background-color: rgba($dark_primary,.4)
 @media (max-width: 1279px)
   .tariff
     &_high_resolution
@@ -131,10 +142,6 @@
       margin: rem(-24)
       padding: rem(24)
       position: relative
-      -ms-overflow-style: none
-      overflow: -moz-scrollbars-none
-      &::-webkit-scrollbar
-        width: 0
     &_item
       display: block
       overflow: hidden

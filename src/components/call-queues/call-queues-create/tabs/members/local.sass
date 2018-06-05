@@ -3,26 +3,25 @@
 
 .call_queues_members
   &_wrap
-    display: flex
     flex-flow: column
-    width: 100%
-    height: 100%
+    flex: 1
+    padding: rem(24)
   &_header
-    display: flex
     flex-flow: row
     align-items: center
-    height: 10%
-    background: $dark_pagination_inactive
+    font-size: rem(16)
+    font-weight: 400
     a
-      display: flex
-      flex-flow: column
-      justify-content: center
-      align-items: center
-      background: $dark_accent
-      height: 55%
-      min-width: 7%
-      padding: 0 10px
+      font-weight: 300
+      padding: rem(12) rem(24)
       cursor: pointer
-      border-radius: 2px
-    span
-      margin: 0 20px
+      border-radius: rem(2)
+      margin-left: auto
+
+// Themes styles
+\:host-context(.dark_theme)
+  .call_queues_members
+    &_wrap
+      background: $dark_pagination_inactive
+    &_header a
+      background: $dark_accent

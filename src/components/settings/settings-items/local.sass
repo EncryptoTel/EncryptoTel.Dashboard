@@ -11,8 +11,6 @@
     background: none
     padding-bottom: rem(72)
     overflow: visible
-    >.overlay_content
-      background: $dark_overlay
     >pbx-loader
       height: 100%
   >.overlay_pre_row
@@ -20,6 +18,14 @@
       display: none
     &:first-child
       display: flex
+\:host-context(.dark_theme)
+  .main_wrap
+    .overlay_content
+      background: $dark_overlay
+  @media (max-width: 767px)
+    .main_wrap
+      .settings_form_title
+        color: rgba($dark_primary,.75)
 @media (max-width: 767px)
   .main_wrap
     margin: rem(-24)
@@ -33,7 +39,6 @@
       padding-bottom: 0
       .overlay_content
         background: unset
-        //transition: 0s
       &_pre_row
         grid-template-columns: 1fr 1fr
         padding: 0 rem(24) rem(24)
@@ -57,12 +62,8 @@
         &_section
           &:not(:last-child)
             margin-bottom: rem(64)
-          //&:last-child
-            .settings_input_item:last-child.settings_input_item:last-child.list
-              padding-bottom: rem(224)
         &_title
           font-weight: 400
-          color: rgba($dark_primary,.55)
           font-size: rem(16)
           margin-bottom: rem(16)
       &_input
@@ -83,7 +84,6 @@
               grid-row: 1/2
               margin-bottom: 0
           &.list
-            //transition: 0s
             flex-direction: column
             >.settings_input_title
               margin-bottom: rem(8)

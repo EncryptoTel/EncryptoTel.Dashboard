@@ -1,151 +1,6 @@
 @import "../../vars" // Global variables import
 @import "vars" // Local variables import
 
-//.dashboard
-  &_wrap
-    display: grid
-    grid-template-columns: 2fr 2fr 320px
-    grid-template-rows: 4fr 4fr
-    grid-template-areas: 'balance tariff history' 'phone_numbers drive history'
-    grid-gap: 24px
-    width: 100%
-    height: 100%
-  &_item
-    flex-direction: column
-    padding: 48px 56px 16px 48px
-    font-size: rem(16)
-    &.balance
-      grid-area: balance
-      .dashboard_item
-        &_row:nth-child(2n)
-          margin-top: 8px
-        &_value
-          font-size: rem(40)
-    &.tariff
-      grid-area: tariff
-      .dashboard_item_value
-        align-items: flex-end
-    &.phone_numbers
-      grid-area: phone_numbers
-      .dashboard_item_link
-        margin-left: auto
-    &.drive
-      grid-area: drive
-      > .dashboard_item_row
-        height: 100%
-        .dashboard_item_body
-          width: 50%
-          height: 100%
-          &:not(:last-child)
-            margin-right: auto
-          &:last-child
-            width: 40%
-            position: relative
-            top: -32px
-            canvas
-              position: absolute
-              top: 0
-              right: 0
-              width: 100%
-            .drive_percentage
-              position: absolute
-              width: 100%
-              height: 100%
-              left: 0
-              top: 0
-              justify-content: center
-              align-items: center
-              z-index: 4
-              font-size: rem(32)
-    &.history
-      grid-area: history
-      .dashboard_item_row:first-child
-        flex: 0 0 auto
-      .dashboard_item_link
-        margin-left: auto
-        &_row
-          padding-top: 8px
-    &_body
-      flex-direction: column
-      height: 100%
-    &_row
-      &:not(:first-child)
-        margin-top: 8px
-      &:nth-child(2)
-        margin-top: 24px
-    &_title
-      font-size: rem(40)
-      text-transform: uppercase
-    &_value
-      margin-left: auto
-    &_link
-      padding: 8px 0
-      &:nth-child(2)
-        margin: 0 auto
-      &:hover
-        text-decoration: underline
-      &_row
-        flex: 0 0 auto
-        margin-top: auto
-  &_history
-    &_item
-      flex: 0 0 auto
-      flex-direction: row
-      padding: 8px 24px
-      &.missed
-        font-weight: 400
-      &_wrap
-        flex: 0 0 auto
-        flex-direction: column
-        &:first-child > .dashboard_history_item_date
-          margin-top: 0
-      &_date
-        flex: 0 0 auto
-        line-height: rem(24)
-        font-size: rem(12)
-        padding: 0 24px
-        margin: 16px 0
-    &_details
-      &:last-child
-        align-items: flex-end
-      &_item
-        &:first-child
-          font-size: rem(18)
-        &:not(:first-child)
-          font-size: rem(14)
-    &_body
-      flex-direction: column
-      margin: 24px -56px 0 -48px
-      overflow-y: auto
-    &_details
-      flex-direction: column
-      &:first-child
-        margin-right: auto
-      > *, > * > *
-        line-height: rem(24)
-
-// Themes styles
-//\:host-context(.dark_theme)
-  .dashboard
-    &_item
-      &.balance
-        background-color: $balance
-      &.tariff
-        background-color: $tariff
-      &.phone_numbers
-        background-color: $phone_numbers
-      &.drive
-        background-color: $drive
-      &.history
-        background-color: $history
-    &_history
-      &_item
-        &.missed
-          color: $dark_background
-        &_date
-          background: rgba($dark_primary, .08)
-
-
 .dashboard
   &_wrap
     display: grid
@@ -189,31 +44,20 @@
       transform: rotate(-90deg)
       margin-left: auto
       align-self: center
-      /deep/ polygon
-        fill: $dark_primary
     &.inactive
-      background: rgba($dark_primary,.15)
-      border: 1px solid $dark_overlay
       /deep/ div, /deep/ a, /deep/ svg
         display: none
-  &_balance
-    background: $balance
-    &_value
-      margin: auto 0 auto auto
-      font-size: rem(40)
-  &_tariff
-    background: $tariff
-  &_numbers
-    background: $phone_numbers
-    &_body
-      flex: 1
-      display: block
-      flex-direction: column
-      overflow-y: auto
-      margin-right: rem(-16)
-      padding-right: rem(16)
+  &_balance_value
+    margin: auto 0 auto auto
+    font-size: rem(40)
+  &_numbers_body
+    flex: 1
+    display: block
+    flex-direction: column
+    overflow-y: auto
+    margin-right: rem(-16)
+    padding-right: rem(16)
   &_drive
-    background: $drive
     &_row
       flex: 1
       flex-direction: row
@@ -237,12 +81,7 @@
       left: 0
       width: rem(176)
       height: rem(176)
-      >path
-        stroke: $dark_primary
-      >circle
-        stroke: rgba($dark_primary, .3)
   &_history
-    background: $history
     grid-column: 3/4
     grid-row: 1/3
     flex-direction: column
@@ -258,9 +97,7 @@
     &_date
       padding: rem(8) 0
       justify-content: center
-      background-color: rgba($dark_primary, .1)
       margin-bottom: rem(8)
-      color: rgba($dark_primary, 0.5)
     &_item
       margin: 0 rem(24) rem(8)
       flex-direction: column
@@ -270,7 +107,6 @@
       margin-bottom: rem(8)
       &:last-child
         font-size: rem(14)
-        color: rgba($dark_primary, 0.5)
     &_details:first-child
       margin-right: auto
     >.dashboard_item_link_row
@@ -284,6 +120,36 @@
     margin-left: auto
   &_hide_high_resolution
     display: none
+\:host-context(.dark_theme)
+  .dashboard
+    &_item
+      &_icon /deep/ polygon
+          fill: $dark_primary
+      &.inactive
+        background: rgba($dark_primary,.15)
+        border: 1px solid $dark_overlay
+      &_link_item
+        border-top-color: rgba($dark_primary, .25)
+    &_balance
+      background: $balance
+    &_tariff
+      background: $tariff
+    &_numbers
+      background: $phone_numbers
+    &_drive
+      background: $drive
+      &_circle
+        >path
+          stroke: $dark_primary
+        >circle
+          stroke: rgba($dark_primary, .3)
+    &_history
+      background: $history
+      &_date
+        background-color: rgba($dark_primary, .1)
+        color: rgba($dark_primary, 0.5)
+      &_row:last-child
+        color: rgba($dark_primary, 0.5)
 @media (max-width: 1599px)
   .dashboard
     &_wrap
@@ -341,7 +207,8 @@
           flex-direction: column
           margin: rem(24) rem(-24) rem(-24)
         &_item
-          border-top: rem(1) solid rgba($dark_primary, .25)
+          border-top: rem(1) solid
+
           width: 100%
           padding: rem(16) rem(24)
           font-size: rem(24)
@@ -353,10 +220,6 @@
     &_wrap
       padding: rem(24)
       margin: rem(-24)
-      -ms-overflow-style: none
-      overflow: -moz-scrollbars-none
-      &::-webkit-scrollbar
-        width: 0
     &_drive_diagram
       display: none
 @media (max-width: 511px)

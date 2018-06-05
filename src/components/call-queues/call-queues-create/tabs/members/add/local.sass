@@ -3,33 +3,22 @@
 
 .call_queues_members_add
   &_wrap
-    background: $dark_pagination_inactive
-    height: 100%
-    width: 100%
-    padding: 15px
-    display: flex
+    flex: 1
+    padding: rem(24)
     flex-flow: column
   &_header
-    width: 100%
-    height: 10%
-    display: flex
     flex-flow: row
-    justify-content: flex-start
     align-items: center
+    margin-bottom: rem(24)
   &_filter
-    display: flex
     flex-flow: row
     align-items: center
-    &:first-child
-      margin-right: 30px
-    span
-      margin-right: 15px
+    margin-right: rem(24)
+    input, pbx-select
+      width: rem(240)
+      margin-left: rem(24)
 
-input[type='search']
-  border: 1px solid rgba($dark_primary, .1)
-  width: 100%
-  min-width: 200px
-
-pbx-select
-  width: 100%
-  min-width: 200px
+// Themes styles
+\:host-context(.dark_theme)
+  .call_queues_members_add_wrap
+    background: $dark_pagination_inactive

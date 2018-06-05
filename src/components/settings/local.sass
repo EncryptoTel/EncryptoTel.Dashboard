@@ -7,7 +7,6 @@
     flex-direction: column
     margin: 0 rem(-32) rem(-24) 0
     padding: 0 rem(32) rem(24) 0
-    color: $font-color
     &_mobile
       display: none
       margin: rem(-24) 0
@@ -25,23 +24,17 @@
     grid-template-columns: repeat(auto-fill, rem(232))
   &_item
     flex-direction: column
-    background: $dark_success
     flex: 1
     padding: rem(24) rem(32)
     &:hover
       opacity: .75
-    &.empty
-      background: $dark_pagination
     &_wrap
-      background: $dark_primary
       height: rem(160)
       &.inactive
         display: none
     &_icon
       width: rem(48)
       height: rem(48)
-      /deep/ polygon,/deep/ circle,/deep/ path
-        fill: $font-color
     &_title
       font-size: rem(18)
       text-transform: uppercase
@@ -50,7 +43,6 @@
     &_item
       height: rem(160)
       cursor: pointer
-      background: $dark_primary
       >*, *, /deep/ *
         cursor: pointer
     &_type
@@ -61,15 +53,9 @@
       position: relative
       &:hover
         opacity: .75
-      &.light_theme
-        background: $dark_pagination_inactive
-      &.dark_theme
-        background: $dark_success
     &_icon
       height: rem(48)
       width: rem(48)
-      /deep/ polygon
-        fill: $font-color
     &_text
       margin-top: auto
       text-transform: uppercase
@@ -80,6 +66,26 @@
         text-transform: lowercase
       &.unselected
         opacity: .5
+\:host-context(.dark_theme)
+  .settings
+    &_container
+      color: $font-color
+    &_item
+      background: $dark_success
+      &_wrap
+        background: $dark_primary
+      &_icon /deep/ polygon,/deep/ circle,/deep/ path
+          fill: $font-color
+    &_theme
+      &_item
+        background: $dark_primary
+      &_type
+        &.light_theme
+          background: $dark_pagination_inactive
+        &.dark_theme
+          background: $dark_success
+      &_icon /deep/ polygon
+        fill: $font-color
 @media (max-width: 767px)
   .settings
     &_container
