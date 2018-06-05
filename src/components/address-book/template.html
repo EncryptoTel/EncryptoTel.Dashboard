@@ -124,7 +124,7 @@
     </div>
     <div class="sidebar_controls">
       <pbx-button [value]="'Close'" [buttonType]="'cancel'" (onClick)="close()"></pbx-button>
-      <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit()"></pbx-button>
+      <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit(currentContact)"></pbx-button>
     </div>
   </ng-container>
 </pbx-sidebar>

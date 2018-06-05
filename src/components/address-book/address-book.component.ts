@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators, FormArray, FormGroup} from '@angular/forms';
 
 import {AddressBookServices} from '../../services/address-book.services';
-import {Countries, Country, PhoneTypes, Types} from '../../models/address-book.model';
+import {ContactModel, Countries, Country, PhoneTypes, Types} from '../../models/address-book.model';
 import {emailRegExp} from '../../shared/vars';
 
 
@@ -17,7 +17,6 @@ export class AddressBookComponent implements OnInit {
     titles: ['First Name', 'Last Name', 'Phone number', 'E-mail', 'Company Name', 'Country'],
     keys: ['firstname', 'lastname', 'contactPhones', 'contactEmails', 'company', 'countryName']
   };
-  sidebarVisible = true;
   countries: Country[];
   selectedCountry: Country;
   addressForm: FormGroup;
@@ -27,8 +26,8 @@ export class AddressBookComponent implements OnInit {
     Mobile: 3
   };
   selectedPhoneTypes: PhoneTypes[] = [];
-  contacts = [];
-  currentContact;
+  contacts: ContactModel[] = [];
+  currentContact: ContactModel;
   sidebarVisible = false;
   mode = 'create';
 
@@ -51,15 +50,32 @@ export class AddressBookComponent implements OnInit {
     this.sidebarVisible = false;
   }
 
-  edit(value) {
+  edit(value: ContactModel): void {
+    this.addressForm.reset();
     console.log(this.addressForm);
-    console.log(this.currentContact);
-    this.addressForm.setValue(this.formatForEdit(this.currentContact));
+    this.contactEmails.controls = [];
+    this.contactPhones.controls = [];
+    value.contactEmails.forEach(() => {
+      this.addEmailField();
+    });
+    value.contactPhones.forEach(phone => {
+      console.log(phone);
+      this.addPhoneField();
+    });
+    this.addressForm.setValue(this.formatForEdit(value));
+    this.addressForm.get('countryId').setValue(value.countryId);
+    const cntry = this.countries.find(country => {
+      if (this.currentContact.countryId === country.id) {
+        return true;
+      }
+    });
+    this.selectedCountry = cntry;
     this.mode = 'edit';
+    this.sidebarVisible = true;
   }
 
 
-  save() {
+  save(): void {
     this.addressForm.markAsTouched();
     this.validate(this.addressForm);
     console.log(this.addressForm);
@@ -73,14 +89,13 @@ export class AddressBookComponent implements OnInit {
     }
   }
 
-  select(value) {
+  select(value): void {
     this.sidebarVisible = true;
     this.mode = 'view';
     this.currentContact = value;
-    console.log(this.currentContact);
   }
 
-  selectPhoneType(phone, i) {
+  selectPhoneType(phone, i): void {
     this.addressForm.get(['contactPhones', `${i}`, 'typeId']).setValue(phone.value);
     this.selectedPhoneTypes[i] = phone;
   }
@@ -111,8 +126,8 @@ export class AddressBookComponent implements OnInit {
     this.mode = 'create';
   }
 
-  private formatForEdit(contact) {
-    const {company, countryId, department, firstname, lastname, contactAddresses, contactEmails, contactPhones} = contact;
+  private formatForEdit(contact): ContactModel {
+    let {contactAddresses, contactEmails, contactPhones} = contact;
     contactAddresses = contactAddresses.map(address => {
       return {value: address.value, typeId: ''};
     });
@@ -120,15 +135,14 @@ export class AddressBookComponent implements OnInit {
       return {value: email.value, typeId: ''};
     });
     contactPhones = contactPhones.map(phone => {
-      console.log(phone.extensions);
       return {value: `${phone.value} #${phone.extension}`, typeId: phone.typeId};
     });
     return {
-      company: company,
-      countryId: countryId,
-      department: department,
-      firstname: firstname,
-      lastname: lastname,
+      company: contact.company,
+      countryId: contact.countryId,
+      department: contact.department,
+      firstname: contact.firstname,
+      lastname: contact.lastname,
       contactAddresses: contactAddresses,
       contactEmails: contactEmails,
       contactPhones: contactPhones
