@@ -12,7 +12,6 @@
       justify-content: space-between
       align-items: center
 
-
 .sidebar
   &_form
     display: flex
@@ -25,7 +24,7 @@
     flex: 1 0 auto
     label
       margin-bottom: 7px
-      font-size: rem(12)
+      font-size: rem(11)
     .phone_field
       display: flex
       flex-flow: row
@@ -42,6 +41,8 @@
         height: 20px
         fill: $dark_success
         cursor: pointer
+    p
+      font-size: rem(17)
     .email_field
       display: flex
       flex-flow: row
@@ -59,10 +60,10 @@
     display: flex
     flex-flow: row
     justify-content: space-between
+    align-items: flex-end
     flex: 1 0 auto
     pbx-button:last-child
       justify-content: flex-end
-
 
 input
   border: 1px solid rgba($dark_primary, .1)
@@ -84,4 +85,10 @@ pbx-sidebar
       flex: 1 0 auto
       overflow-y: auto
 
-
+.alert
+  color: $dark_error
+  p
+    cursor: pointer
+    font-weight: 500
+    &:first-child
+      margin-bottom: 20px

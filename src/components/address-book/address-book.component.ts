@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators, FormArray, FormGroup} from '@angular/forms';
+
 import {AddressBookServices} from '../../services/address-book.services';
 import {Countries, Country, PhoneTypes, Types} from '../../models/address-book.model';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {emailRegExp} from '../../shared/vars';
 
 
@@ -28,6 +28,9 @@ export class AddressBookComponent implements OnInit {
   };
   selectedPhoneTypes: PhoneTypes[] = [];
   contacts = [];
+  currentContact;
+  sidebarVisible = false;
+  mode = 'create';
 
   constructor(private fb: FormBuilder, private _service: AddressBookServices) {
   }
@@ -44,9 +47,17 @@ export class AddressBookComponent implements OnInit {
 
   }
 
-  edit(value) {
-
+  close() {
+    this.sidebarVisible = false;
   }
+
+  edit(value) {
+    console.log(this.addressForm);
+    console.log(this.currentContact);
+    this.addressForm.setValue(this.formatForEdit(this.currentContact));
+    this.mode = 'edit';
+  }
+
 
   save() {
     this.addressForm.markAsTouched();
@@ -63,6 +74,10 @@ export class AddressBookComponent implements OnInit {
   }
 
   select(value) {
+    this.sidebarVisible = true;
+    this.mode = 'view';
+    this.currentContact = value;
+    console.log(this.currentContact);
   }
 
   selectPhoneType(phone, i) {
@@ -93,6 +108,31 @@ export class AddressBookComponent implements OnInit {
 
   newContact(): void {
     this.sidebarVisible = true;
+    this.mode = 'create';
+  }
+
+  private formatForEdit(contact) {
+    const {company, countryId, department, firstname, lastname, contactAddresses, contactEmails, contactPhones} = contact;
+    contactAddresses = contactAddresses.map(address => {
+      return {value: address.value, typeId: ''};
+    });
+    contactEmails = contactEmails.map(email => {
+      return {value: email.value, typeId: ''};
+    });
+    contactPhones = contactPhones.map(phone => {
+      console.log(phone.extensions);
+      return {value: `${phone.value} #${phone.extension}`, typeId: phone.typeId};
+    });
+    return {
+      company: company,
+      countryId: countryId,
+      department: department,
+      firstname: firstname,
+      lastname: lastname,
+      contactAddresses: contactAddresses,
+      contactEmails: contactEmails,
+      contactPhones: contactPhones
+    };
   }
 
   private getCountries(): void {
@@ -117,6 +157,7 @@ export class AddressBookComponent implements OnInit {
           contact.countryName = cntry.title;
         }
       });
+      console.log(this.contacts);
     }).catch(err => {
       console.error(err);
     });

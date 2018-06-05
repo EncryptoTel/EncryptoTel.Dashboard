@@ -15,10 +15,11 @@
       <pbx-button [buttonType]="'success'" [value]="'+ New Contact'" (onClick)="newContact()"></pbx-button>
     </div>
   </div>
-  <pbx-table [tableInfo]="tableInfo" [editable]="true" (onEdit)="edit($event)" (onSelect)="select($event)" [tableItems]="contacts"></pbx-table>
+  <pbx-table [tableInfo]="tableInfo" [editable]="true" (onEdit)="edit($event)" (onSelect)="select($event)"
+             [tableItems]="contacts"></pbx-table>
 </div>
 <pbx-sidebar *ngIf="sidebarVisible">
-  <ng-container>
+  <ng-container *ngIf="mode==='create' || mode==='edit'">
     <form class="sidebar_form" [formGroup]="addressForm">
       <div class="sidebar_row">
         <label for="first_name">First Name</label>
@@ -35,7 +36,8 @@
                         [formGroupName]="i">
             <div class="phone_field">
               <input type="text" formControlName="value" title="phone number">
-              <pbx-select [options]="phoneTypes" [objectKey]="'type'" (onSelect)="selectPhoneType($event,i)" [selected]="selectedPhoneTypes[i]"></pbx-select>
+              <pbx-select [options]="phoneTypes" [objectKey]="'type'" (onSelect)="selectPhoneType($event,i)"
+                          [selected]="selectedPhoneTypes[i]"></pbx-select>
               <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhoneField()"></svg-icon>
             </div>
           </ng-container>
@@ -66,7 +68,8 @@
       </div>
       <div class="sidebar_row">
         <label>Country</label>
-        <pbx-select [options]="countries" [objectKey]="'title'" (onSelect)="selectCountry($event)" [selected]="selectedCountry"></pbx-select>
+        <pbx-select [options]="countries" [objectKey]="'title'" (onSelect)="selectCountry($event)"
+                    [selected]="selectedCountry"></pbx-select>
       </div>
       <div class="sidebar_row">
         <label for="address">Address</label>
@@ -80,6 +83,48 @@
     <div class="sidebar_controls">
       <pbx-button [value]="'Cancel'" [buttonType]="'cancel'" (onClick)="cancel()"></pbx-button>
       <pbx-button [value]="'Save'" [buttonType]="'success'" (onClick)="save()"></pbx-button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="mode==='view'">
+    <div class="sidebar_row">
+      <label>First Name</label>
+      <p>{{currentContact.firstname}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Last Name</label>
+      <p>{{currentContact.lastname}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Phone</label>
+      <p *ngFor="let phone of currentContact.contactPhones">{{phone.value}} #{{phone.extension}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Email</label>
+      <p *ngFor="let email of currentContact.contactEmails">{{email.value}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Company Name</label>
+      <p>{{currentContact.company}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Department</label>
+      <p>{{currentContact.department}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Position</label>
+      <p>Groot</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Country</label>
+      <p>{{currentContact.countryName}}</p>
+    </div>
+    <div class="sidebar_row alert">
+      <p>Block user</p>
+      <p>Delete user</p>
+    </div>
+    <div class="sidebar_controls">
+      <pbx-button [value]="'Close'" [buttonType]="'cancel'" (onClick)="close()"></pbx-button>
+      <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit()"></pbx-button>
     </div>
   </ng-container>
 </pbx-sidebar>
