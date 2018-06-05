@@ -1,9 +1,11 @@
-<div class="address_book">
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div class="address_book" *ngIf="!loading">
   <div class="address_book_header">
     <div class="address_book_header_filters_wrap">
       <div class="address_book_header_filter">
         <label>Select Source:</label>
-        <!--<pbx-select></pbx-select>-->
+        <pbx-select [options]="sources" [objectKey]="'title'" [selected]="currentSource"
+                    (onSelect)="selectSource($event)"></pbx-select>
       </div>
       <div class="address_book_header_filter">
         <label for="search">Search</label>
@@ -11,14 +13,14 @@
       </div>
     </div>
     <div class="address_book_header_controls_wrap">
-      <pbx-button [buttonType]="'accent'" [value]="'import'"></pbx-button>
+      <pbx-button [buttonType]="'accent'" [value]="'Import'"></pbx-button>
       <pbx-button [buttonType]="'success'" [value]="'+ New Contact'" (onClick)="newContact()"></pbx-button>
     </div>
   </div>
   <pbx-table [tableInfo]="tableInfo" [editable]="true" (onEdit)="edit($event)" (onSelect)="select($event)"
-             [tableItems]="contacts"></pbx-table>
+             [tableItems]="contacts" (onDelete)="delete($event)"></pbx-table>
 </div>
-<pbx-sidebar *ngIf="sidebarVisible">
+<pbx-sidebar *ngIf="sidebarVisible && !loading">
   <ng-container *ngIf="mode==='create' || mode==='edit'">
     <form class="sidebar_form" [formGroup]="addressForm">
       <div class="sidebar_row">
@@ -38,7 +40,10 @@
               <input type="text" formControlName="value" title="phone number">
               <pbx-select [options]="phoneTypes" [objectKey]="'type'" (onSelect)="selectPhoneType($event,i)"
                           [selected]="selectedPhoneTypes[i]"></pbx-select>
-              <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhoneField()"></svg-icon>
+              <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhoneField()"
+                        *ngIf="!selectedPhoneTypes[i+1]"></svg-icon>
+              <svg-icon src="../../assets/icons/cancel_delete_12px.svg" (click)="delPhoneField(i)"
+                        *ngIf="selectedPhoneTypes[i+1]" [style.fill]="'rgb(199, 98, 98)'"></svg-icon>
             </div>
           </ng-container>
         </ng-container>
@@ -120,7 +125,7 @@
     </div>
     <div class="sidebar_row alert">
       <p>Block user</p>
-      <p>Delete user</p>
+      <p (click)="delete(currentContact)">Delete user</p>
     </div>
     <div class="sidebar_controls">
       <pbx-button [value]="'Close'" [buttonType]="'cancel'" (onClick)="close()"></pbx-button>

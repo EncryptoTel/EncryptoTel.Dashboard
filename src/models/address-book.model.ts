@@ -35,7 +35,6 @@ export class Types {
 }
 
 export class PhoneTypes {
-  constructor(public Home: number,
-              public Work: number,
-              public Mobile: number) {}
+  constructor(public type: string,
+              public value: number) {}
 }

@@ -23,4 +23,12 @@ export class AddressBookServices {
   saveContact(contact): Promise<any> {
     return this.request.post(`v1/contacts`, contact, true);
   }
+
+  delete(id: number): Promise<any> {
+    return this.request.del(`v1/contacts/${id}`, true);
+  }
+
+  edit(id: number, contact): Promise<any> {
+    return this.request.put(`v1/contacts/${id}`, contact, true);
+  }
 }

@@ -11,6 +11,13 @@
       flex-flow: row
       justify-content: space-between
       align-items: center
+      &:first-child
+        margin-right: 40px
+      label
+        font-size: rem(13)
+        margin-right: 15px
+      pbx-select, input
+        width: 200px
 
 .sidebar
   &_form
@@ -34,11 +41,11 @@
       input
         flex: 1
       pbx-select
-        width: 30%
+        width: 100px
         margin: 0 10px
       svg-icon
-        width: 20px
-        height: 20px
+        width: 13px
+        height: 13px
         fill: $dark_success
         cursor: pointer
     p
@@ -51,8 +58,8 @@
       input
         flex: 1
       svg-icon
-        width: 20px
-        height: 20px
+        width: 13px
+        height: 13px
         fill: $dark_success
         cursor: pointer
         margin-left: 10px
@@ -62,6 +69,10 @@
     justify-content: space-between
     align-items: flex-end
     flex: 1 0 auto
+    pbx-button
+      /deep/
+        button
+          width: 85%
     pbx-button:last-child
       justify-content: flex-end
 
@@ -84,6 +95,7 @@ pbx-sidebar
       justify-content: space-between
       flex: 1 0 auto
       overflow-y: auto
+
 
 .alert
   color: $dark_error
