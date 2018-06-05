@@ -1,11 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {SettingsServices} from '../../../../services/settings.services';
+import {FadeAnimation} from '../../../../shared/fade-animation';
 
 @Component({
   selector: 'account-notifications-component',
   templateUrl: './template.html',
-  providers: [SettingsServices]
+  providers: [SettingsServices],
+  styleUrls: ['../local.sass'],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class AccountNotificationsComponent implements OnInit {
@@ -20,6 +23,13 @@ export class AccountNotificationsComponent implements OnInit {
 
   constructor(private _services: SettingsServices,
               private router: Router) {
+  }
+
+  NormalizeTitle(text: string) {
+    text = text.replace(/\r?\n/g, '');
+    text = text.replace(new RegExp('_', 'g'), ' ');
+    text = text.charAt(0).toUpperCase() + text.substr(1);
+    return text.trim();
   }
 
   goBack(): void {

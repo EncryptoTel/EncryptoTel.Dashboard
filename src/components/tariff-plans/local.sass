@@ -1,95 +1,168 @@
 @import "../../vars"
 // Global variables import
 .tariff
+  &_message
+    font-size: rem(24)
+    color: $dark_error
   &_wrap
+    grid-gap: rem(24)
+    &.not_enough
+      .tariff_wrap_button
+        display: none
+      .tariff_list
+        grid-column: 2/3
+    &_button
+      transition: .3s
+      height: rem(64)
+      width: rem(64)
+      padding: rem(8)
+      border-radius: 100vmax
+      align-self: center
+      justify-self: center
+      &:hover
+        background: rgba($dark_primary, 0.1)
+        cursor: pointer
+        /deep/ *
+          cursor: pointer
+      &.tariff_inactive
+        &:hover
+          background: rgba($dark_primary, 0)
+          cursor: default
+          /deep/ *
+            cursor: default
+        >.tariff_wrap_icon /deep/ polygon
+          fill: rgba($dark_primary, .1)
+      &:first-child>.tariff_wrap_icon
+        transform: rotate(90deg)
+      &:last-child>.tariff_wrap_icon
+        transform: rotate(270deg)
+    &_icon
+      height: 100%
+      width: 100%
+      /deep/ polygon
+        fill: $dark_accent
+  &_list
+    height: 100%
     display: grid
     grid-template-columns: 1fr 1fr 1fr 1fr
     grid-gap: rem(24)
-    padding-right: 24px
-    width: calc(100vw - 272px)
-    height: calc(100vh - 128px)
-    overflow-x: hidden
-    overflow-y: auto
   &_item
-    display: flex
+    transition: 0s
+    flex: 1
     flex-direction: column
     background: $dark_accent
-    border-radius: 2px
+    color: $dark_primary
     &.current_tariff
-      background: #5A5A5A
-      >.tariff_description>.tariff_description_button:hover
+      background: $dark_pagination_inactive
+      .tariff_item_button
+        background: rgba($dark_primary,0)
+        color: rgba($dark_primary,.2)
+        &:hover
           cursor: default
-          background: none
-  &_title
-    justify-content: center
-    padding: rem(40) 0
-    font-size: rem(40)
-  &_description
-    flex-direction: column
-    flex: 1
-    &_list
+          background: rgba($dark_primary,0)
+    &_title
+      padding: rem(32) 0
+      font-size: rem(32)
+      justify-content: center
+    &_body
       flex-direction: column
       flex: 1
-      padding: 0 rem(64)
-      &_item
-        font-size: rem(16)
-        line-height: 200%
-        &:last-child
-          flex: 1
+      &:nth-child(2)
+        display: flex
+      &:nth-child(3)
+        display: none
+    &_ul
+      flex-direction: column
+      padding: 0 rem(24)
+      flex: 1
+      font-size: rem(16)
+      overflow-y: hidden
+      &_li:not(:last-child)
+        margin-bottom: rem(8)
     &_price
       justify-content: center
-      margin: rem(16) 0
-      font-size: rem(16)
+      font-size: rem(18)
+      margin: rem(64) 0 rem(32)
     &_button
+      background: rgba($dark_primary, .2)
       justify-content: center
-      padding: rem(16) 0
-      font-size: rem(24)
-      background-color: rgba($dark_primary, .25)
-      border-radius: 2px
+      font-size: rem(20)
+      padding: rem(24) 0
       text-transform: uppercase
       &:hover
         cursor: pointer
-.hidden_sm_down
-  display: flex
-.hidden_sm_up
-  display: none
+        background-color: rgba($dark_primary,.4)
+  &_high_resolution
+    display: grid
+    grid-template-columns: rem(64) 1fr rem(64)
+    width: 100%
+    height: 100%
+  &_mid_resolution
+    display: none
+    width: calc(100% + 32px)
+    max-height: calc(100% + 48px)
+    overflow-y: auto
+    margin: rem(-24) rem(-32) rem(-24) 0
+    padding: rem(24) rem(24) rem(24) 0
+    grid-template-columns: repeat(auto-fill,minmax(rem(232),1fr))
 
-@media (max-width: 1399px)
-  .tariff_description_list
-    padding: 0 rem(32)
 @media (max-width: 1279px)
   .tariff
-    &_wrap
-      grid-template-columns: 1fr 1fr 1fr
-    &_title
-      font-size: rem(32)
-      padding: rem(24) 0
-@media (max-width: 1023px)
-  .tariff
-    &_wrap
-      min-height: calc(100vh - 128)
-      max-height: calc(100vh - 128)
-      grid-template-columns: 1fr
-      align-content: start
+    &_high_resolution
+      display: none
+    &_mid_resolution
+      display: grid
     &_item
-      flex: auto
-      &:hover>.tariff_title
-        background-color: rgba($dark_primary, .25)
-      &.pick_tariff
-        >.tariff_description
-          max-height: none
-        &:hover>.tariff_title
-          background: none
-    &_title
-      border-radius: 2px
-    &_description
-      transition: 150ms all linear
-      overflow-y: hidden
-      &_list
-        margin: 24px 0
+      &_title
+        padding: rem(24) 0
       &_price
-        margin-top: 0
-  .hidden_sm_up
-    display: flex
-  .hidden_sm_down
-    display: none
+        font-size: rem(16)
+        margin: rem(24) 0
+      &_button
+        font-size: rem(18)
+        padding: rem(16)
+@media (max-width: 767px)
+  .tariff
+    &_mid_resolution
+      display: block
+      flex-direction: column
+      width: 100vw
+      flex: 1
+      margin: rem(-24)
+      padding: rem(24)
+      position: relative
+      -ms-overflow-style: none
+      overflow: -moz-scrollbars-none
+      &::-webkit-scrollbar
+        width: 0
+    &_item
+      display: block
+      overflow: hidden
+      &:not(:last-child)
+        margin-bottom: rem(24)
+      &_title
+        font-size: rem(32)
+        padding: rem(16) 0
+        font-weight: 400
+        text-transform: uppercase
+      &_body
+        overflow: hidden
+        &:nth-child(2)
+          display: none
+        &:nth-child(3)
+          display: block
+      &_button
+        font-size: rem(24)
+        width: 100%
+@media (max-width: 511px)
+  .tariff_item
+    &_title, &_button
+      font-size: rem(20)
+    &_price
+      font-size: rem(18)
+    &_ul_li
+      font-size: rem(16)
+@media (max-width: 383px)
+  .tariff_item
+    &_title, &_button, &_price
+      font-size: rem(16)
