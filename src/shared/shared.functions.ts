@@ -26,7 +26,10 @@ export function validateForm(form: FormGroup): void {
   });
 }
 
-export function calculateHeight(table: ElementRef, row: ElementRef): number {
-  const height = table.nativeElement.clientHeight - (row.nativeElement.clientHeight + +getComputedStyle(row.nativeElement).marginBottom.split('px')[0]) * 2;
+export function calculateHeight(table: ElementRef, row: ElementRef, row2?: ElementRef): number {
+  const height = row2 ?
+    table.nativeElement.clientHeight - (row.nativeElement.clientHeight + +getComputedStyle(row.nativeElement).marginBottom.split('px')[0] +
+    (row2.nativeElement.clientHeight + +getComputedStyle(row2.nativeElement).marginTop.split('px')[0]))
+    : table.nativeElement.clientHeight - (row.nativeElement.clientHeight + +getComputedStyle(row.nativeElement).marginBottom.split('px')[0]) * 2;
   return Math.round((height - height % 41) / 41) - 1;
 }

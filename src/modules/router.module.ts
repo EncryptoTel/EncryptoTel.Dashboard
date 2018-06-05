@@ -36,6 +36,7 @@ import {AccountNotificationsComponent} from '../components/settings/settings-ite
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
 import {DepartmentsComponent} from '../components/departments/department.component';
+import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -56,7 +57,7 @@ const Routes: Routes = [
         {path: '', component: PhoneNumbersComponent, data: {title: 'Phone numbers', indexed: true}},
         {path: 'new', children: [
             {path: '', redirectTo: 'buy', pathMatch: 'full'},
-            {path: 'buy', component: BlankComponent, data: {title: 'Buy external phone numbers', indexed: true}},
+            {path: 'buy', component: BuyPhoneNumbersComponent, data: {title: 'Buy external phone numbers', indexed: true}},
             {path: 'internal', component: BlankComponent, data: {title: 'Buy internal phone numbers', indexed: true}},
             {path: 'external', component: BlankComponent, data: {title: 'Add external phone number', indexed: true}}
           ]}
