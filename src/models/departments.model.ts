@@ -1,35 +1,17 @@
-export class DepartmentsModel {
-  constructor(
-    public id: number,
-    public companyId: number,
-    public parentId: number,
-    public name: string,
-    public numberId: number,
-    public employees: number,
-    public employeesExt: number,
-    public comment: string,
-  ) {}
-}
-
-export class DepartmentModel {
-  constructor(
-    public name: string,
-    public sip: Sip[],
-    public employees?: number,
-    public employeesExt?: number,
-    public comment?: string,
-  ) {}
-}
-
 export class Sip {
   constructor(
-    public name: string
+    public id: number,
+    public phoneNumber: string,
+    public blocked?: boolean
   ) {}
 }
-
-export class SipOuter {
+export class DepartmentModel {
   constructor(
+    public comment: string,
+    public employees: null | number,
+    public employeesExt: null | number,
     public id: number,
-    public blocked?: boolean
+    public name: string,
+    public sipInnerIds: number[]
   ) {}
 }

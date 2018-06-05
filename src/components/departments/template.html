@@ -1,11 +1,12 @@
-<div class="departments">
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div class="departments" *ngIf="!loading">
   <div class="departments_header">
     <pbx-button [value]="'Add Department'" [buttonType]="'success'" (onClick)="addDepartment()"></pbx-button>
   </div>
-  <pbx-table [tableInfo]="tableInfo" [editable]="true" (onEdit)="edit($event)" (onDelete)="delete($event)"></pbx-table>
+  <pbx-table [tableInfo]="tableInfo" [editable]="true" (onEdit)="edit($event)" (onDelete)="delete($event)" [tableItems]="departmentsList" (onSelect)="selectDepartment($event)"></pbx-table>
 </div>
 <pbx-sidebar *ngIf="sidebarVisible">
-  <ng-container *ngIf="sidebarEdit" [@Fade]>
+  <ng-container *ngIf="sidebarEdit">
     <form class="sidebar_form" [formGroup]="departmentForm">
       <div class="sidebar_row">
         <label for="department">Department</label>
@@ -13,7 +14,7 @@
       </div>
       <div class="sidebar_row select_row">
         <label for="comment">Department Phone</label>
-        <div formArrayName="sipInner" class="sidebar_row">
+        <div formArrayName="sipInner" class="sidebar_row unmargin">
           <div class="sidebar_row_select"
                *ngFor="let sip of departmentForm.get('sipInner').controls; let i=index"
                [formGroupName]="i">
@@ -21,7 +22,7 @@
                         [selected]="selectedSips[i]"
                         [objectKey]="'phoneNumber'"
                         (onSelect)="selectPhone($event, i)"></pbx-select>
-            <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone(i)"></svg-icon>
+            <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone()"></svg-icon>
           </div>
         </div>
       </div>
@@ -35,28 +36,27 @@
       <pbx-button [value]="'Save'" [buttonType]="'success'" (onClick)="save()"></pbx-button>
     </div>
   </ng-container>
-  <ng-container *ngIf="!sidebarEdit" [@Fade]>
+  <ng-container *ngIf="!sidebarEdit">
     <div class="sidebar_info">
       <div class="sidebar_row">
         <label for="department">Department</label>
-        <p>Account department</p>
+        <p>{{currentDepartment.name}}</p>
       </div>
       <div class="sidebar_row">
-        <label>Department Phone</label>
-        <p>+1 (800) 555 12 12</p>
+        <label>Department Phones</label>
+        <p *ngFor="let phone of getPhonesCurrentDepartment(currentDepartment)">{{phone}}</p>
       </div>
       <div class="sidebar_row">
         <label>Comment</label>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus earum eos esse ex laborum molestias
-          mollitia repellat repudiandae sit vel?</p>
+        <p>{{currentDepartment.comment}}</p>
       </div>
-      <div class="sidebar_row" (click)="delete()">
+      <div class="sidebar_row" (click)="delete(currentDepartment)">
         <span>Delete Department</span>
       </div>
     </div>
     <div class="sidebar_controls">
       <pbx-button [value]="'Close'" [buttonType]="'cancel'" (onClick)="close()"></pbx-button>
-      <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit()"></pbx-button>
+      <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit(currentDepartment)"></pbx-button>
     </div>
   </ng-container>
 </pbx-sidebar>

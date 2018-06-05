@@ -19,6 +19,10 @@ export class DepartmentServices {
     return this._req.post(`v1/department`, department, true);
   }
 
+  editDepartment(id: number, department): Promise<any> {
+    return this._req.put(`/api/v1/department/${id}`, department, true);
+  }
+
   deleteDepartment(id: number): Promise<any> {
     return this._req.del(`v1/department/${id}`, true);
   }
