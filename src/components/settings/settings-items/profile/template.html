@@ -1,122 +1,122 @@
 <pbx-loader *ngIf="loading.body||loading.buttons"></pbx-loader>
-<div class="main_wrap">
-<div class="overlay_pre_row">
-  <pbx-button buttonType="cancel" value="Cancel" (onClick)="goBack()"></pbx-button>
-  <pbx-button [loading]="loading.buttons" buttonType="success" value="Save" (onClick)="saveSettings()"></pbx-button>
-</div>
-<div class="overlay">
-  <div class="overlay_content" *ngIf="!loading.body">
-    <form class="settings_form" (submit)="saveSettings($event)">
-      <div class="settings_form_section" [formGroup]="generalForm">
-        <div class="settings_form_title">General</div>
-        <div class="settings_input_item">
-          <div class="settings_input_title" [ngClass]="{'error': inputValidation(generalForm, 'firstname')}">First Name</div>
-          <div class="input_wrap">
-            <input name="First Name" id="firstname" placeholder="First Name" formControlName="firstname">
-            <div class="input_error" *ngIf="inputValidation(generalForm, 'firstname')" [@Fade]>
-              <span class="input_error_item" *ngIf="inputValidation(generalForm, 'firstname', 'required')">Please enter your name</span>
-              <span class="input_error_item" *ngIf="inputValidation(generalForm, 'firstname', 'pattern')">Please enter correct name</span>
-            </div>
-          </div>
-        </div>
-        <div class="settings_input_item">
-          <div class="settings_input_title" [ngClass]="{'error': inputValidation(generalForm, 'lastname')}">Last Name</div>
-          <div class="input_wrap">
-            <input name="Last Name" id="lastname" placeholder="Last Name" formControlName="lastname">
-            <div class="input_error" *ngIf="inputValidation(generalForm, 'lastname')" [@Fade]>
-              <span class="input_error_item" *ngIf="inputValidation(generalForm, 'lastname', 'pattern')">Please enter correct last name</span>
-            </div>
-          </div>
-        </div>
-        <div class="settings_input_item">
-          <div class="settings_input_title" [ngClass]="{'error': inputValidation(generalForm, 'patronymic')}">Patronymic</div>
-          <div class="input_wrap">
-            <input name="Patronymic" id="patronymic" placeholder="Patronymic" formControlName="patronymic">
-            <div class="input_error" *ngIf="inputValidation(generalForm, 'patronymic')" [@Fade]>
-              <span class="input_error_item" *ngIf="inputValidation(generalForm, 'patronymic', 'pattern')">Please enter correct patronymic</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="settings_form_section" [formGroup]="emailChange">
-        <div class="settings_form_title">Change E-mail</div>
-        <div class="settings_input_item">
-          <div class="settings_input_title" [ngClass]="{'error': inputValidation(emailChange, 'patronymic')}">E-mail</div>
-          <div class="input_wrap">
-            <input name="E-mail" id="email" placeholder="E-mail" formControlName="email">
-            <div class="input_error" *ngIf="inputValidation(emailChange, 'email')" [@Fade]>
-              <span class="input_error_item" *ngIf="inputValidation(emailChange, 'email', 'required')">Please enter your e-mail address</span>
-              <span class="input_error_item" *ngIf="inputValidation(emailChange, 'email', 'pattern')">Please enter correct e-mail address</span>
-            </div>
-          </div>
-        </div>
-        <div class="settings_input_item" *ngIf="messageSent">
-          <div class="settings_input_title" [ngClass]="{'error': (!isCodeValid() && emailCode.code.length !== 0) || emailCode.error}">Confirmation code</div>
-          <div class="input_wrap">
-            <input name="Confirmation code"
-                   id="emailCode"
-                   placeholder="Confirmation code"
-                   [(ngModel)]="emailCode.code"
-                   [ngModelOptions]="{standalone: true}"
-                   [maxlength]="6"
-                   [minlength]="6"
-                   [pattern]="numberRegExp"
-                   [ngClass]="{'ng-invalid': emailCode.error}"
-                   (keydown)="emailCode.error = ''"
-                   #codeInput>
-            <div class="input_error" *ngIf="(!isCodeValid() && emailCode.code.length !== 0) || emailCode.error" [@Fade]>
-              <span class="input_error_item" *ngIf="!emailCode.error">Please enter correct confirmation code</span>
-              <span class="input_error_item" *ngIf="emailCode.error">{{emailCode.error}}</span>
-            </div>
-          </div>
-        </div>
-        <pbx-button [loading]="loading.email"
-                    buttonType="accent"
-                    [value]="messageSent ? 'Confirm': 'Change'"
-                    *ngIf="(initialEmail !== emailChange.controls.email.value) || messageSent"
-                    [@Fade] (onClick)="initEmailChange()"></pbx-button>
-      </div>
-      <div class="settings_form_section" [formGroup]="passwordChange">
-        <div class="settings_form_title">Change Password</div>
-        <div class="settings_input_item">
-          <div class="settings_input_title" [ngClass]="{'error': inputValidation(passwordChange, 'oldPassword')}">Current password</div>
-          <div class="input_wrap">
-            <input type="password" name="Current Password" placeholder="Current password" formControlName="oldPassword" autocomplete="new-password">
-            <div class="input_error" *ngIf="inputValidation(passwordChange, 'oldPassword')" [@Fade]>
-              <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'oldPassword', 'required')">Please enter password</span>
-              <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'oldPassword', 'minlength')">Password is too short</span>
-              <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'oldPassword', 'response')">{{passwordChange.controls.oldPassword.errors.response}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="settings_input_item">
-          <div class="settings_input_title" [ngClass]="{'error': inputValidation(passwordChange, 'password')}">New password</div>
-          <div class="input_wrap">
-            <input type="password" name="New password" placeholder="New password" formControlName="password">
-            <div class="input_error" *ngIf="inputValidation(passwordChange, 'password')" [@Fade]>
-              <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'password', 'required')">Please enter password</span>
-              <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'password', 'minlength')">Password is too short</span>
-            </div>
-          </div>
-        </div>
-        <div class="settings_input_item">
-          <div class="settings_input_title" [ngClass]="{'error': inputValidation(passwordChange, 'password_confirmation')}">Password confirmation</div>
-          <div class="input_wrap">
-            <input type="password" name="Confirm password" placeholder="Confirm password" [ngClass]="{'ng-invalid ng-touched': passwordChange.errors || inputValidation(passwordChange, 'password_confirmation')}" formControlName="password_confirmation">
-            <div class="input_error" *ngIf="inputValidation(passwordChange, 'password_confirmation') || passwordChange.errors" [@Fade]>
-              <span class="input_error_item" *ngIf="!passwordChange.errors && inputValidation(passwordChange, 'password_confirmation', 'required')">Please enter password</span>
-              <span class="input_error_item" *ngIf="!passwordChange.errors && inputValidation(passwordChange, 'password_confirmation', 'minlength')">Password is too short</span>
-              <div class="input_error_item" *ngIf="passwordChange.errors && passwordsMismatch()">Passwords don't match</div>
-            </div>
-          </div>
-        </div>
-        <pbx-button value="Change" [loading]="loading.password" buttonType="accent" *ngIf="passwordChange.valid" (onClick)="changePassword()"></pbx-button>
-      </div>
-    </form>
+<div class="main_wrap" *ngIf="!loading.body&&!loading.buttons" [@Fade]>
+  <div class="overlay_pre_row">
+    <pbx-button buttonType="cancel" value="Cancel" (onClick)="goBack()"></pbx-button>
+    <pbx-button [loading]="loading.buttons" buttonType="success" value="Save" (onClick)="saveSettings()"></pbx-button>
   </div>
-</div>
-<div class="overlay_pre_row" *ngIf="!loading.body">
-  <pbx-button buttonType="cancel" value="Cancel" (onClick)="goBack()"></pbx-button>
-  <pbx-button [loading]="loading.buttons" buttonType="success" value="Save" (onClick)="saveSettings()"></pbx-button>
-</div>
+  <div class="overlay">
+    <div class="overlay_content">
+      <form class="settings_form" (submit)="saveSettings($event)">
+        <div class="settings_form_section" [formGroup]="generalForm">
+          <div class="settings_form_title">General</div>
+          <div class="settings_input_item string">
+            <div class="settings_input_title" [ngClass]="{'error': inputValidation(generalForm, 'firstname')}">First Name</div>
+            <div class="input_wrap">
+              <input name="First Name" id="firstname" placeholder="First Name" formControlName="firstname">
+              <div class="input_error" *ngIf="inputValidation(generalForm, 'firstname')" [@Fade]>
+                <span class="input_error_item" *ngIf="inputValidation(generalForm, 'firstname', 'required')">Please enter your name</span>
+                <span class="input_error_item" *ngIf="inputValidation(generalForm, 'firstname', 'pattern')">Please enter correct name</span>
+              </div>
+            </div>
+          </div>
+          <div class="settings_input_item string">
+            <div class="settings_input_title" [ngClass]="{'error': inputValidation(generalForm, 'lastname')}">Last Name</div>
+            <div class="input_wrap">
+              <input name="Last Name" id="lastname" placeholder="Last Name" formControlName="lastname">
+              <div class="input_error" *ngIf="inputValidation(generalForm, 'lastname')" [@Fade]>
+                <span class="input_error_item" *ngIf="inputValidation(generalForm, 'lastname', 'pattern')">Please enter correct last name</span>
+              </div>
+            </div>
+          </div>
+          <div class="settings_input_item string">
+            <div class="settings_input_title" [ngClass]="{'error': inputValidation(generalForm, 'patronymic')}">Patronymic</div>
+            <div class="input_wrap">
+              <input name="Patronymic" id="patronymic" placeholder="Patronymic" formControlName="patronymic">
+              <div class="input_error" *ngIf="inputValidation(generalForm, 'patronymic')" [@Fade]>
+                <span class="input_error_item" *ngIf="inputValidation(generalForm, 'patronymic', 'pattern')">Please enter correct patronymic</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="settings_form_section" [formGroup]="emailChange">
+          <div class="settings_form_title">Change E-mail</div>
+          <div class="settings_input_item string">
+            <div class="settings_input_title" [ngClass]="{'error': inputValidation(emailChange, 'patronymic')}">E-mail</div>
+            <div class="input_wrap">
+              <input name="E-mail" id="email" placeholder="E-mail" formControlName="email">
+              <div class="input_error" *ngIf="inputValidation(emailChange, 'email')" [@Fade]>
+                <span class="input_error_item" *ngIf="inputValidation(emailChange, 'email', 'required')">Please enter your e-mail address</span>
+                <span class="input_error_item" *ngIf="inputValidation(emailChange, 'email', 'pattern')">Please enter correct e-mail address</span>
+              </div>
+            </div>
+          </div>
+          <div class="settings_input_item string" *ngIf="messageSent">
+            <div class="settings_input_title" [ngClass]="{'error': (!isCodeValid() && emailCode.code.length !== 0) || emailCode.error}">Confirmation code</div>
+            <div class="input_wrap">
+              <input name="Confirmation code"
+                     id="emailCode"
+                     placeholder="Confirmation code"
+                     [(ngModel)]="emailCode.code"
+                     [ngModelOptions]="{standalone: true}"
+                     [maxlength]="6"
+                     [minlength]="6"
+                     [pattern]="numberRegExp"
+                     [ngClass]="{'ng-invalid': emailCode.error}"
+                     (keydown)="emailCode.error = ''"
+                     #codeInput>
+              <div class="input_error" *ngIf="(!isCodeValid() && emailCode.code.length !== 0) || emailCode.error" [@Fade]>
+                <span class="input_error_item" *ngIf="!emailCode.error">Please enter correct confirmation code</span>
+                <span class="input_error_item" *ngIf="emailCode.error">{{emailCode.error}}</span>
+              </div>
+            </div>
+          </div>
+          <pbx-button [loading]="loading.email"
+                      buttonType="accent"
+                      [value]="messageSent ? 'Confirm': 'Change'"
+                      *ngIf="(initialEmail !== emailChange.controls.email.value) || messageSent"
+                      [@Fade] (onClick)="initEmailChange()"></pbx-button>
+        </div>
+        <div class="settings_form_section" [formGroup]="passwordChange">
+          <div class="settings_form_title">Change Password</div>
+          <div class="settings_input_item string">
+            <div class="settings_input_title" [ngClass]="{'error': inputValidation(passwordChange, 'oldPassword')}">Current password</div>
+            <div class="input_wrap">
+              <input type="password" name="Current Password" placeholder="Current password" formControlName="oldPassword" autocomplete="new-password">
+              <div class="input_error" *ngIf="inputValidation(passwordChange, 'oldPassword')" [@Fade]>
+                <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'oldPassword', 'required')">Please enter password</span>
+                <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'oldPassword', 'minlength')">Password is too short</span>
+                <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'oldPassword', 'response')">{{passwordChange.controls.oldPassword.errors.response}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="settings_input_item string">
+            <div class="settings_input_title" [ngClass]="{'error': inputValidation(passwordChange, 'password')}">New password</div>
+            <div class="input_wrap">
+              <input type="password" name="New password" placeholder="New password" formControlName="password">
+              <div class="input_error" *ngIf="inputValidation(passwordChange, 'password')" [@Fade]>
+                <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'password', 'required')">Please enter password</span>
+                <span class="input_error_item" *ngIf="inputValidation(passwordChange, 'password', 'minlength')">Password is too short</span>
+              </div>
+            </div>
+          </div>
+          <div class="settings_input_item string">
+            <div class="settings_input_title" [ngClass]="{'error': inputValidation(passwordChange, 'password_confirmation')}">Password confirmation</div>
+            <div class="input_wrap">
+              <input type="password" name="Confirm password" placeholder="Confirm password" [ngClass]="{'ng-invalid ng-touched': passwordChange.errors || inputValidation(passwordChange, 'password_confirmation')}" formControlName="password_confirmation">
+              <div class="input_error" *ngIf="inputValidation(passwordChange, 'password_confirmation') || passwordChange.errors" [@Fade]>
+                <span class="input_error_item" *ngIf="!passwordChange.errors && inputValidation(passwordChange, 'password_confirmation', 'required')">Please enter password</span>
+                <span class="input_error_item" *ngIf="!passwordChange.errors && inputValidation(passwordChange, 'password_confirmation', 'minlength')">Password is too short</span>
+                <div class="input_error_item" *ngIf="passwordChange.errors && passwordsMismatch()">Passwords don't match</div>
+              </div>
+            </div>
+          </div>
+          <pbx-button value="Change" [loading]="loading.password" buttonType="accent" *ngIf="passwordChange.valid" (onClick)="changePassword()"></pbx-button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="overlay_pre_row">
+    <pbx-button buttonType="cancel" value="Cancel" (onClick)="goBack()"></pbx-button>
+    <pbx-button [loading]="loading.buttons" buttonType="success" value="Save" (onClick)="saveSettings()"></pbx-button>
+  </div>
 </div>

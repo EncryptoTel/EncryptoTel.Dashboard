@@ -290,16 +290,13 @@
     left: -320px
     flex-direction: column
   &_profile
-    flex-direction: row
-    height: 128px
+    height: rem(128)
     background: $dark_overlay
-    max-width: rem(320)
     overflow-x: hidden
-    &_item
-      height: 100%
-      flex-direction: column
-      &:first-child
-        padding: rem(16)
+    position: relative
+    flex-direction: column
+    padding: rem(16)
+    flex: auto
     &_name
       font-size: rem(18)
       margin-bottom: rem(16)
@@ -324,6 +321,16 @@
         padding-right: rem(16)
         &:hover
           background: rgba($dark_primary,.15)
+      &_wrap
+        position: absolute
+        flex-direction: column
+        top: 0
+        right: 0
+        height: rem(128)
+        background: $dark_overlay
+        opacity: .9
+        &.invisible
+          top: rem(-128)
   &_navigation
     display: block
     background: $dark_background

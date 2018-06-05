@@ -30,6 +30,8 @@
     padding: rem(24) rem(32)
     &:hover
       opacity: .75
+    &.empty
+      background: $dark_pagination
     &_wrap
       background: $dark_primary
       height: rem(160)
@@ -96,14 +98,12 @@
   .settings
     &_container_mobile
       grid-template-columns: 1fr
-      grid-gap: 0
+      grid-gap: rem(1)
     &_item
       flex-direction: row
       padding: rem(16)
       &_wrap
         height: auto
-        &:not(:first-child)
-          border-top: rem(1) solid $dark_pagination_inactive
       &_title
         margin: 0 0 0 rem(16)
         font-weight: 400

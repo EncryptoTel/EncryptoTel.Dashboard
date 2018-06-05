@@ -150,6 +150,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   headerButtonsVisible = true;
   userNavigationVisible = false;
   mobileNavigationVisible = false;
+  mobileUserVisible = false;
   @ViewChild('userWrap') userWrap: ElementRef;
   initLists(): Promise<any> {
     return Promise.all([this._list.fetchCurrenciesList(), this._list.fetchCountriesList()]);

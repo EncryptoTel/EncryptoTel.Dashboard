@@ -10,10 +10,7 @@
     display: block
     background: none
     padding-bottom: rem(72)
-    -ms-overflow-style: none
-    overflow: -moz-scrollbars-none
-    &::-webkit-scrollbar
-      width: 0
+    overflow: visible
     >.overlay_content
       background: $dark_overlay
     >pbx-loader
@@ -27,54 +24,99 @@
   .main_wrap
     margin: rem(-24)
     flex-direction: column
-    overflow: auto
+    overflow: visible
     height: unset
-    -ms-overflow-style: none
-    overflow: -moz-scrollbars-none
-    background: $dark_background
-    &::-webkit-scrollbar
-      width: 0
+    background: unset
     >*
-      background: none
-    >.overlay
+      background: unset
+    .overlay
       padding-bottom: 0
-      >.overlay_content
+      .overlay_content
         background: unset
-        >.settings_form
-          >.settings_form_section
-            >.settings_form_title
-              font-weight: 400
-              color: rgba($dark_primary,.55)
-              font-size: rem(16)
-            >.settings_input_item
-              flex-direction: column
-              align-items: unset
-              margin-bottom: rem(16)
-              >.settings_input_title
-                flex: 0
-                font-size: rem(16)
-                margin-bottom: unset
-              >.input_wrap
-                margin-bottom: 0
-                /deep/ input
-                  font-size: rem(16)
-                  padding: 0
-    >.overlay_pre_row
-      grid-template-columns: 1fr 1fr
-      padding: rem(24)
-      grid-gap: rem(24)
-
-      &:last-child
-        display: grid
-      &:first-child
-        display: none
-      >pbx-button
-        flex: 1
-        width: unset
-        /deep/ button
-          flex: 1
-          height: auto
-          font-size: rem(16)
-          padding: rem(16) 0
+        //transition: 0s
+      &_pre_row
+        grid-template-columns: 1fr 1fr
+        padding: 0 rem(24) rem(24)
+        grid-gap: rem(24)
         &:last-child
-          margin-left: unset
+          display: grid
+        &:first-child
+          display: none
+        >pbx-button
+          flex: 1
+          width: unset
+          /deep/ button
+            flex: 1
+            height: auto
+            font-size: rem(16)
+            padding: rem(16) 0
+          &:last-child
+            margin-left: unset
+    .settings
+      &_form
+        &_section
+          &:not(:last-child)
+            margin-bottom: rem(64)
+          //&:last-child
+            .settings_input_item:last-child.settings_input_item:last-child.list
+              padding-bottom: rem(224)
+        &_title
+          font-weight: 400
+          color: rgba($dark_primary,.55)
+          font-size: rem(16)
+          margin-bottom: rem(16)
+      &_input
+        &_item
+          align-items: unset
+          &:not(:last-child)
+            margin-bottom: rem(16)
+          &.bool
+            display: grid
+            grid-template-columns: auto 1fr
+            grid-gap: rem(12)
+            padding-left: rem(8)
+            >.settings_input_title
+              grid-column: 2/3
+              grid-row: 1/2
+            >.input_wrap
+              grid-column: 1/2
+              grid-row: 1/2
+              margin-bottom: 0
+          &.list
+            //transition: 0s
+            flex-direction: column
+            >.settings_input_title
+              margin-bottom: rem(8)
+            >.input_wrap
+              margin-bottom: 0
+          &.string
+            flex-direction: column
+            .input_wrap
+              margin-bottom: 0
+            /deep/ input
+              padding-left: 0
+              padding-right: 0
+          >.input_wrap
+            margin-bottom: 0
+        &_title
+          flex: 0
+          padding: 0
+          font-size: rem(16)
+          margin-bottom: unset
+          align-items: center
+          white-space: pre
+@media (max-width: 383px)
+  .main_wrap
+    *, >*, *>*, /deep/ *
+      font-size: rem(14)
+    .overlay
+      &_content
+        padding: rem(16)
+      &_pre_row>pbx-button /deep/ button
+        font-size: rem(14)
+        height: auto
+    .settings_form
+      &_title
+        font-size: rem(14)
+      &_input_title
+        font-size: rem(14)

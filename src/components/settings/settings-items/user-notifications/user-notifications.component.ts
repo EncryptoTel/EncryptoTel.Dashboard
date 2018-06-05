@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {SettingsServices} from '../../../../services/settings.services';
+import {FadeAnimation} from '../../../../shared/fade-animation';
 
 @Component({
   selector: 'user-notifications-component',
   templateUrl: './template.html',
   styleUrls: ['../local.sass'],
-  providers: [SettingsServices]
+  providers: [SettingsServices],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class UserNotificationsComponent implements OnInit {
@@ -30,6 +32,15 @@ export class UserNotificationsComponent implements OnInit {
   getKeys = (obj: any): string[] => {
     return Object.keys(obj);
   }
+
+  NormalizeTitle(text: string) {
+    text = text.replace(new RegExp(/\r/, 'g'), ' ');
+    text = text.replace(new RegExp(/\n/, 'g'), ' ');
+    text = text.replace(new RegExp('_', 'g'), ' ');
+    text = text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
+    return text.trim();
+  }
+
   generateOptions = (obj: any): any[] => {
     const tmp = [];
     Object.keys(obj).forEach(key => {
@@ -37,6 +48,7 @@ export class UserNotificationsComponent implements OnInit {
     });
     return tmp;
   }
+
   getEventValue = (ev: any): any => {
     if (typeof ev === 'boolean') {
       return ev;

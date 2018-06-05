@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {SettingsServices} from '../../../../services/settings.services';
+import {FadeAnimation} from '../../../../shared/fade-animation';
 
 @Component({
   selector: 'billing-component',
   templateUrl: './template.html',
   styleUrls: ['../local.sass'],
-  providers: [SettingsServices]
+  providers: [SettingsServices],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class BillingComponent implements OnInit {
@@ -21,6 +23,13 @@ export class BillingComponent implements OnInit {
 
   constructor(private _services: SettingsServices,
               private router: Router) {}
+
+  NormalizeTitle(text: string) {
+    text = text.replace(/\r?\n/g, '');
+    text = text.replace(new RegExp('_', 'g'), ' ');
+    text =  text.trim();
+    return text.charAt(0).toUpperCase() + text.substr(1);
+  }
 
   goBack(): void {
     this.router.navigateByUrl('/cabinet/settings');
