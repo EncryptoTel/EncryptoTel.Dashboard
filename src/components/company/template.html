@@ -1,5 +1,5 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
-<div class="company" *ngIf="!loading" [@Fade]>
+<div class="company" *ngIf="!loading">
   <div class="company_header">
     <div class="company_header_controls">
       <button class="cancel" (click)="cancel()">Cancel</button>
@@ -65,4 +65,4 @@
     </form>
   </div>
 </div>
-<pbx-sidebar [sidebarInfo]="sidebarInfo" *ngIf="!loading" [@Fade]></pbx-sidebar>
+<pbx-sidebar [sidebarInfo]="sidebarInfo" *ngIf="!loading"></pbx-sidebar>
