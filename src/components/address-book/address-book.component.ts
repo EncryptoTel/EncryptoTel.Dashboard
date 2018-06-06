@@ -23,6 +23,7 @@ export class AddressBookComponent implements OnInit {
   selectedCountry: Country;
   selectedPhoneTypes: PhoneTypes[] = [];
   sidebarVisible = false;
+  sipOuters;
   sources = [
     {title: 'All'},
     {title: 'My Address Book'},
@@ -45,6 +46,16 @@ export class AddressBookComponent implements OnInit {
 
   addPhoneField(): void {
     this.contactPhones.push(this.createNumberFormField());
+  }
+
+  block(): void {
+    for (let i = 0; i < this.sipOuters.length; i++) {
+      this._service.block({blockContact: this.currentContact.id, sipOuter: this.sipOuters[i].id}).then(() => {
+      }).catch(err => {
+        console.error(err);
+      });
+    }
+    this.sidebarVisible = false;
   }
 
   cancel(): void {
@@ -284,6 +295,14 @@ export class AddressBookComponent implements OnInit {
     });
   }
 
+  private getSipOuters(): void {
+    this._service.getSipOuters().then(res => {
+      this.sipOuters = res.items;
+    }).catch(err => {
+      console.error(err);
+    });
+  }
+
   private resetForm(): void {
     this.addressForm.reset();
     this.selectedCountry = null;
@@ -323,5 +342,6 @@ export class AddressBookComponent implements OnInit {
     this.getCountries();
     this.getTypes();
     this.buildForm();
+    this.getSipOuters();
   }
 }

@@ -8,6 +8,10 @@ export class AddressBookServices {
   constructor(private request: RequestServices) {
   }
 
+  block(data: object): Promise<any> {
+    return this.request.post(`v1/blacklist`, data, true);
+  }
+
   getContacts(): Promise<any> {
     return this.request.get(`v1/contacts`, true);
   }
@@ -18,6 +22,10 @@ export class AddressBookServices {
 
   getTypes(): Promise<Types> {
     return this.request.get(`v1/handbooks/contacts/get-types`, true);
+  }
+
+  getSipOuters(): Promise<any> {
+    return this.request.get(`v1/sip/outers`, true);
   }
 
   saveContact(contact): Promise<any> {
