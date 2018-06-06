@@ -1,0 +1,31 @@
+@import "../../../vars"
+
+.call-rules-create
+  display: flex
+  flex-flow: column
+  flex: 1
+  &_header
+    display: flex
+    flex-flow: row
+    justify-content: flex-end
+    margin-bottom: 10px
+    pbx-button:first-child
+      margin-right: 10px
+  &_body
+    display: flex
+    flex-flow: column
+    background: $dark_pagination_inactive
+    flex: 1
+    padding: 30px
+  &_row
+    display: flex
+    flex-flow: row
+    align-items: center
+    margin-bottom: 10px
+    height: 48px
+    h3
+      font-weight: 500
+    label
+      width: 150px
+      color: $font-color
+      font-size: rem(13)

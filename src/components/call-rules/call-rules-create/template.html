@@ -1,0 +1,33 @@
+<div class="call-rules-create">
+  <div class="call-rules-create_header">
+    <div class="call-rules-create_header_controls">
+      <pbx-button [buttonType]="'cancel'" [value]="'Cancel'"></pbx-button>
+      <pbx-button [buttonType]="'success'" [value]="'Save'"></pbx-button>
+    </div>
+  </div>
+  <div class="call-rules-create_body">
+    <div class="call-rules-create_row">
+      <h3>General</h3>
+    </div>
+    <div class="call-rules-create_row">
+      <label>Enable Rule</label>
+      <pbx-checkbox></pbx-checkbox>
+    </div>
+    <div class="call-rules-create_row">
+      <label for="name">Rule Name</label>
+      <input type="text" id="name" title="name">
+    </div>
+    <div class="call-rules-create_row">
+      <label for="description">Description</label>
+      <input type="text" id="description" title="description">
+    </div>
+    <div class="call-rules-create_row">
+      <label>Phone number</label>
+      <input type="text">
+    </div>
+    <div class="call-rules-create_row">
+      <label></label>
+      <p>Please note: you must select a phone number before creating a new action.</p>
+    </div>
+  </div>
+</div>

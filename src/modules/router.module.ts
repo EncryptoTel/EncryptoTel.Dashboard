@@ -36,6 +36,8 @@ import {AccountNotificationsComponent} from '../components/settings/settings-ite
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
 import {DepartmentsComponent} from '../components/departments/department.component';
+import {CallRulesComponent} from '../components/call-rules/call-rules.component';
+import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -62,7 +64,10 @@ const Routes: Routes = [
           ]}
       ]},
     {path: 'address-book', component: BlankComponent, data: {title: 'Address book', indexed: true}},
-    {path: 'call-rules', component: BlankComponent, data: {title: 'Call rules', indexed: true}},
+    {path: 'call-rules', data: {title: 'Call rules', indexed: true}, children: [
+        {path: '', component: CallRulesComponent, data: {title: 'Call rules', indexed: true}},
+        {path: 'create', component: CallRulesCreateComponent, data: {title: 'Call rules create', indexed: true}}
+      ]},
     {path: 'call-queues', children: [
         {path: '', component: CallQueuesComponent, data: {title: 'Call queues create', indexed: true}},
         {path: 'create', component: CallQueuesCreateComponent, data: {title: 'Call queues create', indexed: true}, children: [

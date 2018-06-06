@@ -22,6 +22,7 @@ import {DriveServices} from '../services/drive.services';
 import {CallQueuesServices} from '../services/call-queues.services';
 import {SettingsServices} from '../services/settings.services';
 import {DepartmentServices} from '../services/department.services';
+import {CallRulesServices} from '../services/call-rules.services';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import {DepartmentServices} from '../services/department.services';
     DriveServices,
     CallQueuesServices,
     SettingsServices,
-    DepartmentServices
+    DepartmentServices,
+    CallRulesServices
   ],
   bootstrap: [MainViewComponent]
 })

@@ -40,6 +40,8 @@ import {AccountNotificationsComponent} from '../components/settings/settings-ite
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 import {DepartmentsComponent} from '../components/departments/department.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
+import {CallRulesComponent} from '../components/call-rules/call-rules.component';
+import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
 
 
 /*
@@ -89,7 +91,9 @@ import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.c
     UserNotificationsComponent,
     PhoneNumbersComponent,
     DepartmentsComponent,
-    PhoneNumbersComponent
+    PhoneNumbersComponent,
+    CallRulesComponent,
+    CallRulesCreateComponent
   ],
   exports: [
     ElementsModule,
@@ -118,7 +122,9 @@ import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.c
     AccountNotificationsComponent,
     UserNotificationsComponent,
     PhoneNumbersComponent,
-    DepartmentsComponent
+    DepartmentsComponent,
+    CallRulesComponent,
+    CallRulesCreateComponent
   ]
 })
 export class ComponentsModule {
