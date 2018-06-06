@@ -15,6 +15,7 @@ export class MarketplaceComponent implements OnInit {
   constructor(private _services: ModuleServices) {}
 
   ngOnInit(): void {
+
     this.modules = [];
     this._services.getModulesList()
       .then(res => {

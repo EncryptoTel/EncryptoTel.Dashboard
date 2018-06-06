@@ -87,6 +87,7 @@ import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.c
     BillingComponent,
     AccountNotificationsComponent,
     UserNotificationsComponent,
+    PhoneNumbersComponent,
     DepartmentsComponent,
     PhoneNumbersComponent
   ],

@@ -29,11 +29,16 @@
           width: 115px
           margin: auto 0
           color: $font-color
+          font-size: rem(12)
         input
           height: 35px
           color: $font-color
         pbx-select
           width: 100%
+        .invalid
+          /deep/
+            .select_item
+              border-bottom: 1px solid $dark_error
 
 .save
   background: $dark_success
@@ -43,5 +48,4 @@
   margin-right: 10px
 
 .active
-  &_label
-    color: $dark_accent !important
+  color: $dark_accent !important

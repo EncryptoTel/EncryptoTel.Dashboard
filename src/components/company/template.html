@@ -1,5 +1,5 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
-<div class="company" *ngIf="!loading">
+<div class="company" *ngIf="!loading" [@Fade]>
   <div class="company_header">
     <div class="company_header_controls">
       <button class="cancel" (click)="cancel()">Cancel</button>
@@ -10,49 +10,59 @@
     <form [formGroup]="companyForm" class="company_body_form">
       <div class="input_wrap">
         <label for="organization">Organization</label>
-        <input type="text" id="organization" formControlName="organization">
+        <input type="text" id="organization" formControlName="name" autofocus (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
       </div>
       <div class="input_wrap">
-        <label>Country</label>
+        <label [ngClass]="{'active': hightLightLabelSelect}">Country</label>
         <pbx-select [options]="countries"
                     [objectKey]="'title'"
                     [singleBorder]="true"
                     (onSelect)="selectCountry($event)"
-                    [selected]="this.companyForm.controls.country.value"></pbx-select>
+                    [selected]="selectedCountry"
+                    [ngClass]="{'invalid': companyForm.get(['companyAddress', '0','country']).invalid}" (onOpen)="hightLightLabelSelect = true" (onClose)="hightLightLabelSelect = false"></pbx-select>
+      </div>
+      <ng-container formArrayName="companyAddress">
+        <ng-container [formGroupName]="0">
+          <div class="input_wrap">
+            <label for="state">State/Region</label>
+            <input type="text" id="state"  formControlName="regionName" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+          </div>
+          <div class="input_wrap">
+            <label for="city">City</label>
+            <input type="text" id="city" formControlName="locationName" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+          </div>
+          <div class="input_wrap">
+            <label for="street">Street</label>
+            <input type="text" id="street" formControlName="street" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+          </div>
+          <div class="input_wrap">
+            <label for="house">House №</label>
+            <input type="text" id="house" formControlName="building" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+          </div>
+          <div class="input_wrap">
+            <label for="office" #label>Office</label>
+            <input type="text" id="office" formControlName="office" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+          </div>
+          <div class="input_wrap">
+            <label for="postal" #label>Postal code</label>
+            <input type="text" id="postal" formControlName="postalCode" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+          </div>
+        </ng-container>
+      </ng-container>
+      <div class="input_wrap">
+        <label for="email" #label>Email</label>
+        <input type="email" id="email" formControlName="email" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
       </div>
       <div class="input_wrap">
-        <label for="city">City</label>
-        <input type="text" id="city" formControlName="city">
-      </div>
-      <div class="input_wrap">
-        <label for="street">Street</label>
-        <input type="text" id="street" formControlName="street">
-      </div>
-      <div class="input_wrap">
-        <label for="house">House №</label>
-        <input type="text" id="house" formControlName="house">
-      </div>
-      <div class="input_wrap">
-        <label for="office">Office</label>
-        <input type="text" id="office" formControlName="office">
-      </div>
-      <div class="input_wrap">
-        <label for="postal" class="active_label">Postal code</label>
-        <input type="text" id="postal" class="active_input" formControlName="postal">
-      </div>
-      <div class="input_wrap">
-        <label for="email">Email</label>
-        <input type="email" id="email" formControlName="email">
-      </div>
-      <div class="input_wrap">
-        <label for="phone">Phone</label>
-        <input type="text" id="phone" formControlName="phone" (keyup)="formatPhone($event)" (blur)="formatPhone($event)">
+        <label for="phone" #label>Phone</label>
+        <input type="text" id="phone" (keyup)="formatPhone($event)" (blur)="formatPhone($event)" (focus)="toggleHighlightLabel($event)"
+               formControlName="phone">
       </div>
       <div class="input_wrap">
         <label for="vat">VAT ID</label>
-        <input type="number" id="vat" formControlName="VAT">
+        <input type="number" id="vat" formControlName="vatId" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
       </div>
     </form>
   </div>
 </div>
-<pbx-sidebar [sidebarInfo]="sidebarInfo"></pbx-sidebar>
+<pbx-sidebar [sidebarInfo]="sidebarInfo" *ngIf="!loading" [@Fade]></pbx-sidebar>

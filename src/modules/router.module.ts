@@ -34,8 +34,8 @@ import {AuthenticationComponent} from '../components/settings/settings-items/aut
 import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
-import {DepartmentsComponent} from '../components/departments/department.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
+import {DepartmentsComponent} from '../components/departments/department.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -53,7 +53,13 @@ const Routes: Routes = [
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
     {path: 'dashboard', component: DashboardComponent, data: {title: 'Dashboard', indexed: true}},
     {path: 'phone-numbers', children: [
-        {path: '', component: PhoneNumbersComponent, data: {title: 'Phone numbers', indexed: true}}
+        {path: '', component: PhoneNumbersComponent, data: {title: 'Phone numbers', indexed: true}},
+        {path: 'new', children: [
+            {path: '', redirectTo: 'buy', pathMatch: 'full'},
+            {path: 'buy', component: BlankComponent, data: {title: 'Buy external phone numbers', indexed: true}},
+            {path: 'internal', component: BlankComponent, data: {title: 'Buy internal phone numbers', indexed: true}},
+            {path: 'external', component: BlankComponent, data: {title: 'Add external phone number', indexed: true}}
+          ]}
       ]},
     {path: 'address-book', component: BlankComponent, data: {title: 'Address book', indexed: true}},
     {path: 'call-rules', component: BlankComponent, data: {title: 'Call rules', indexed: true}},

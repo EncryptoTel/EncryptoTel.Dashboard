@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PhoneNumbersServices} from '../../services/phone-numbers.services';
 import {TableInfoModel} from '../../models/table-info.model';
 import {SwipeAnimation} from '../../shared/swipe-animation';
+import {calculateHeight} from '../../shared/shared.functions';
 
 @Component({
   selector: 'phone-numbers-component',
@@ -25,19 +26,56 @@ export class PhoneNumbersComponent implements OnInit {
     limit: number
   };
 
+  pagination: {
+    page: number;
+    total: number;
+  };
+
+  listVisible: boolean;
+
+  @ViewChild('row') row: ElementRef;
+  @ViewChild('table') table: ElementRef;
+  @ViewChild('button') button: ElementRef;
+
   constructor(private _services: PhoneNumbersServices) {
+    this.pagination = {page: 1, total: 1};
     this.tableInfo = {
       titles: ['Phone Number', 'Amount of phone Exts', 'Default Ext', 'Status', 'Number type'],
-      keys: ['phoneNumber', 'exts', 'default_ext', 'status', 'provider']
+      keys: ['phoneNumber', 'exts', 'default_ext', 'status_value', 'provider']
     };
+  }
+
+  ripple(ev: MouseEvent): void {
+    if (ev) {
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+    const div = document.createElement('div');
+    const radius = this.button.nativeElement.clientWidth;
+    div.style.width = div.style.height = radius + 'px';
+    div.style.top = ev.offsetY - radius / 2 + 'px';
+    div.style.left = ev.offsetX - radius / 2 + 'px';
+    div.classList.add('button_overlay');
+    this.button.nativeElement.appendChild(div);
+    if (radius < 150) {
+      div.classList.add('small');
+      setTimeout(() => {
+        this.button.nativeElement.removeChild(div);
+      }, 300);
+    } else if (radius >= 150 && radius < 300) {
+      div.classList.add('medium');
+      setTimeout(() => {
+        this.button.nativeElement.removeChild(div);
+      }, 400);
+    } else {
+      setTimeout(() => {
+        this.button.nativeElement.removeChild(div);
+      }, 550);
+    }
   }
 
   selectItem(item: any): void {
     this.selected = item;
-  }
-
-  editItem(item: any): void {
-    console.log('EDIT: ', item);
   }
 
   deleteItem(item: any): void {
@@ -54,15 +92,34 @@ export class PhoneNumbersComponent implements OnInit {
     return Object.keys(this.selected).length > 0;
   }
 
+  cancelSelected(): void {
+    this.selected = {};
+  }
+
+  toggleNumber(): void {
+    this.selected.loading = true;
+    this._services.toggleNumber(this.selected.id, !this.selected.status)
+      .then(() => {
+        this.selected.status = !this.selected.status;
+        this.selected.status_value = this.selected.status ? 'Enabled' : 'Disabled';
+        this.selected.loading = false;
+      });
+  }
+  onPageChange(page: number): void {
+    this.pagination.page = this.requestDetails.page = page;
+    this.getList();
+  }
+
   getList(): void {
     this.loading = true;
     this._services.getPhoneNumbersList(this.requestDetails)
       .then(res => {
         this.list = [];
+        this.pagination.total = res.pageCount;
         res.items.map(item => {
           item.exts = item.sipInners.length;
-          item.status = item.status === 1 ? 'Enabled' : 'Disabled';
-          item.provider = item.providerId === '1' ? 'Internal' : 'External';
+          item.status_value = !!item.status ? 'Enabled' : 'Disabled';
+          item.provider = item.providerId === 1 ? 'Internal' : 'External';
           item.sipInners.map(inner => {
             if (inner.default) {
               item.default_ext = '#' + inner.phoneNumber;
@@ -76,17 +133,17 @@ export class PhoneNumbersComponent implements OnInit {
       }).catch();
   }
 
-  calculateLimit(): number {
-    return 14;
-  }
-
   ngOnInit() {
-    this.requestDetails = {
-      search: '',
-      page: 3,
-      limit: this.calculateLimit()
-    };
+    this.loading = true;
+    setTimeout(() => {
+      this.requestDetails = {
+        search: '',
+        page: 1,
+        limit: calculateHeight(this.table, this.row)
+      };
+      this.getList();
+    });
+    this.pagination.page = 1;
     this.selected = {};
-    this.getList();
   }
 }
