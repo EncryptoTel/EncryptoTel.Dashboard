@@ -32,7 +32,7 @@ export class AddressBookComponent implements OnInit {
   ];
   tableInfo = {
     titles: ['First Name', 'Last Name', 'Phone number', 'E-mail', 'Company Name', 'Country'],
-    keys: ['firstname', 'lastname', 'contactPhones', 'contactEmails', 'company', 'countryName']
+    keys: ['firstname', 'lastname', 'tablePhone', 'tableEmail', 'company', 'countryName']
   };
   _phoneTypes: PhoneTypes;
 
@@ -132,6 +132,29 @@ export class AddressBookComponent implements OnInit {
         });
       }
     }
+  }
+
+  search(event): void {
+    const keyword = event.target.value;
+    this._service.search(keyword).then(res => {
+      this.contacts = res.items;
+      this.contacts.forEach(contact => {
+        const cntry = this.countries.find(country => {
+          if (contact.countryId === country.id) {
+            return true;
+          }
+        });
+        if (cntry) {
+          contact.countryName = cntry.title;
+        }
+        contact.tablePhone = `${contact.contactPhones[0].value} #${contact.contactPhones[0].extension}`;
+        contact.tableEmail = contact.contactEmails[0].value;
+      });
+      this.loading = false;
+    }).catch(err => {
+      console.error(err);
+      this.loading = false;
+    });
   }
 
   select(value): void {
@@ -235,8 +258,10 @@ export class AddressBookComponent implements OnInit {
         if (cntry) {
           contact.countryName = cntry.title;
         }
-        this.loading = false;
+        contact.tablePhone = `${contact.contactPhones[0].value} #${contact.contactPhones[0].extension}`;
+        contact.tableEmail = contact.contactEmails[0].value;
       });
+      this.loading = false;
     }).catch(err => {
       console.error(err);
     });

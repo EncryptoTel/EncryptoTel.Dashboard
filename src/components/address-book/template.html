@@ -9,7 +9,7 @@
       </div>
       <div class="address_book_header_filter">
         <label for="search">Search</label>
-        <input id="search" type="search" placeholder="Search by Name or Phone">
+        <input id="search" type="text" placeholder="Search by Name or Phone" (keyup)="search($event)">
       </div>
     </div>
     <div class="address_book_header_controls_wrap">

@@ -7,6 +7,8 @@ export class ContactModel {
               public contactAddresses: Contact[],
               public contactEmails: Contact[],
               public contactPhones: Contact[],
+              public tablePhone?: string,
+              public tableEmail?: string,
               public countryName?: string,
               public id?: number) {}
 }

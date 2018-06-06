@@ -31,4 +31,8 @@ export class AddressBookServices {
   edit(id: number, contact): Promise<any> {
     return this.request.put(`v1/contacts/${id}`, contact, true);
   }
+
+  search(keyword: string): Promise<any> {
+    return this.request.get(`v1/contacts?search=${keyword}`, true);
+  }
 }
