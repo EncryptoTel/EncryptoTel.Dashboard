@@ -22,6 +22,7 @@ import {DriveServices} from '../services/drive.services';
 import {CallQueuesServices} from '../services/call-queues.services';
 import {SettingsServices} from '../services/settings.services';
 import {AddressBookServices} from '../services/address-book.services';
+import {DepartmentServices} from '../services/department.services';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import {AddressBookServices} from '../services/address-book.services';
     DriveServices,
     CallQueuesServices,
     SettingsServices,
-    AddressBookServices
+    AddressBookServices,
+    DepartmentServices
   ],
   bootstrap: [MainViewComponent]
 })

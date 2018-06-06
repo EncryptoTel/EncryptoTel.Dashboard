@@ -38,6 +38,7 @@ import {AuthenticationComponent} from '../components/settings/settings-items/aut
 import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
+import {DepartmentsComponent} from '../components/departments/department.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
 import {AddressBookComponent} from '../components/address-book/address-book.component';
 
@@ -88,7 +89,8 @@ import {AddressBookComponent} from '../components/address-book/address-book.comp
     AccountNotificationsComponent,
     UserNotificationsComponent,
     PhoneNumbersComponent,
-    AddressBookComponent
+    AddressBookComponent,
+    DepartmentsComponent,
   ],
   exports: [
     ElementsModule,
@@ -117,7 +119,8 @@ import {AddressBookComponent} from '../components/address-book/address-book.comp
     AccountNotificationsComponent,
     UserNotificationsComponent,
     PhoneNumbersComponent,
-    AddressBookComponent
+    AddressBookComponent,
+    DepartmentsComponent
   ]
 })
 export class ComponentsModule {

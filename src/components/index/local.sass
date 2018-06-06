@@ -1,82 +1,6 @@
 @import "../../vars" // Global variables import
 
 .navigation
-  &_wrap
-    flex-direction: column
-    flex: 0 0 auto
-    width: 192px
-    .user
-      &_wrap
-        flex: 0 0 auto
-        flex-direction: row
-        height: 80px
-        align-items: center
-        position: relative
-        &:after
-          content: ''
-          position: absolute
-          left: 0
-          bottom: 0
-          height: 0
-          width: 100%
-          z-index: 0
-          transition: height linear 150ms
-        &:hover, &.active
-          &:after
-            height: 100%
-        &, & > *, & /deep/ *
-          cursor: pointer
-          z-index: 2
-        .dropdown_arrow
-          width: 12px
-          height: 12px
-          margin: 0 12px 0 auto
-      &_navigation
-        &_wrap
-          position: absolute
-          left: 0
-          top: 100%
-          flex-direction: column
-          flex: 0 0 auto
-          height: 0
-          width: 100%
-          overflow: hidden
-          &:after
-            height: 0
-          &.visible
-            height: 120px
-        &_item
-          flex: 0 0 auto
-          flex-direction: column
-          justify-content: center
-          height: 40px
-          padding: 0 16px
-          &:last-child
-            justify-content: flex-start
-            align-items: center
-            flex-direction: row
-            svg-icon
-              height: 16px
-              width: 16px
-              margin-left: auto
-      &_profile_image
-        flex: 0 0 48px
-        margin: 0 12px 0 12px
-        height: 48px
-        border-radius: 50%
-        border: 2px solid
-        background: center no-repeat
-        background-size: cover
-      &_details
-        &_wrap
-          flex-direction: column
-          width: 92px
-          line-height: 22px
-        &_balance
-          white-space: nowrap
-          overflow: hidden
-          text-overflow: ellipsis
-          font-size: rem(12)
   &_block
     flex-direction: column
     flex: 0 0 auto
@@ -87,7 +11,6 @@
       border-bottom: 1px solid
     &_wrap
       flex-direction: column
-      max-height: calc(100vh - 104px)
       overflow-y: auto
       margin-top: 24px
   &_item
@@ -105,8 +28,79 @@
       margin: auto 12px
       /deep/ path, /deep/ polygon
         transition: all linear 250ms
-
-.content_wrap
+.user
+  &_wrap
+    flex: 0 0 auto
+    flex-direction: row
+    height: 80px
+    align-items: center
+    position: relative
+    &:after
+      content: ''
+      position: absolute
+      left: 0
+      bottom: 0
+      height: 0
+      width: 100%
+      z-index: 0
+      transition: height linear 150ms
+    &:hover, &.active
+      &:after
+        height: 100%
+    &, & > *, & /deep/ *
+      cursor: pointer
+      z-index: 2
+    .dropdown_arrow
+      width: 12px
+      height: 12px
+      margin: 0 12px 0 auto
+  &_navigation
+    &_wrap
+      position: absolute
+      left: 0
+      top: 100%
+      flex-direction: column
+      flex: 0 0 auto
+      height: 0
+      width: 100%
+      overflow: hidden
+      &:after
+        height: 0
+      &.visible
+        height: 120px
+    &_item
+      flex: 0 0 auto
+      flex-direction: column
+      justify-content: center
+      height: 40px
+      padding: 0 16px
+      &:last-child
+        justify-content: flex-start
+        align-items: center
+        flex-direction: row
+        svg-icon
+          height: 16px
+          width: 16px
+          margin-left: auto
+  &_profile_image
+    flex: 0 0 48px
+    margin: 0 12px 0 12px
+    height: 48px
+    border-radius: 50%
+    border: 2px solid
+    background: center no-repeat
+    background-size: cover
+  &_details
+    &_wrap
+      flex-direction: column
+      width: 92px
+      line-height: 22px
+    &_balance
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+      font-size: rem(12)
+//.content_wrap
   flex-direction: column
   flex: 1 0 auto
   height: 100vh
@@ -230,8 +224,8 @@
         fill: $dark_primary
       &_row
         .sidebar
-          &_wrap
-            background: $dark_overlay
+        &_wrap
+          background: $dark_overlay
       &:after
         background: $dark_overlay
       &:hover
@@ -253,3 +247,152 @@
           background: lighten($dark_overlay, 5%)
         &:active
           background: darken($dark_overlay, 5%)
+
+.mobile
+  &_header
+    display: none
+    z-index: 2
+    background: $dark_overlay
+    box-shadow: 0 0 100vmax 100vmax rgba($dark_primary,0)
+    transition: 0.3s
+    &.active
+      box-shadow: 0 0 100vmax 100vmax rgba($dark_primary,.15)
+    &_button
+      &.active>.mobile_sidebar
+        left: 0
+      &_fill
+        transition: .3s
+        width: 88px
+        height: 88px
+        flex-direction: column
+        &:hover
+          background: rgba($dark_primary, .2)
+          cursor: pointer
+        span
+          background: $dark_primary
+          border: 1px solid rgba($dark_primary,.2)
+          width: 28px
+          height: 2px
+          margin: rem(3) auto
+          &:first-child
+            margin-top: auto
+          &:last-child
+            margin-bottom: auto
+    &_title
+      text-transform: uppercase
+      color: $dark_primary
+      font-size: rem(28)
+      align-self: center
+  &_sidebar
+    transition: .3s
+    position: fixed
+    top: 0
+    left: -320px
+    flex-direction: column
+  &_profile
+    height: rem(128)
+    background: $dark_overlay
+    overflow-x: hidden
+    position: relative
+    flex-direction: column
+    padding: rem(16)
+    flex: auto
+    &_name
+      font-size: rem(18)
+      margin-bottom: rem(16)
+    &_balance
+      font-size: rem(14)
+      color: $dark_success
+    &_icon
+      height: 16px
+      width: 16px
+      margin-left: auto
+      /deep/ path
+        fill: $dark_primary
+    &_button
+      flex: 1
+      font-size: rem(16)
+      align-items: center
+      padding-left: rem(16)
+      padding-right: rem(64)
+      &:hover
+        background: rgba($dark_primary,.15)
+      &:last-child
+        padding-right: rem(16)
+        &:hover
+          background: rgba($dark_primary,.15)
+      &_wrap
+        position: absolute
+        flex-direction: column
+        top: 0
+        right: 0
+        height: rem(128)
+        background: $dark_overlay
+        opacity: .9
+        &.invisible
+          top: rem(-128)
+  &_navigation
+    display: block
+    background: $dark_background
+    flex-direction: column
+    padding: 0 rem(16)
+    max-height: calc(100vh - 128px)
+    width: rem(256)
+    overflow-y: auto
+    &_block
+      flex-direction: column
+      flex: 0 0 auto
+      padding: rem(8) 0
+      &:not(:last-child)
+        border-bottom: 1px solid lighten($dark_background, 15%)
+    &_item
+      padding: rem(16)
+      font-size: rem(18)
+      >a
+        &:hover, &.active
+          color: $dark_accent
+          cursor: pointer
+  &_hover
+    width: 100vw
+    height: 100vh
+    position: fixed
+    top: 0
+    left: 0
+
+.main_grid
+  display: grid
+  grid-template-columns: 192px 1fr
+  grid-template-rows: 80px 1fr
+  max-width: 100vw
+  min-width: 100vw
+  max-height: 100vh
+  min-height: 100vh
+  overflow: hidden
+  background: $dark_background
+  >.body_wrap
+    // padding: 0
+    // padding: rem(24) rem(32) rem(24) rem(48)
+    // background: rgba($dark_accent, .1) // trash
+    overflow-y: auto
+    max-height: calc(100vh - 80px)
+
+@media (max-width: 767px)
+  .main_grid
+    grid-template-columns: 1fr
+    grid-template-rows: 88px 1fr
+    >.body_wrap
+      padding: rem(24)
+      -ms-overflow-style: none
+      overflow: -moz-scrollbars-none
+      &::-webkit-scrollbar
+        width: 0
+  .user_wrap, .header_line_wrap, .navigation_block_wrap
+    display: none
+  .mobile_header
+    display: flex
+@media (max-width: 511px)
+  .mobile_header_title
+    font-size: rem(20)
+@media (max-width: 383px)
+  .mobile_header_title
+    font-size: rem(16)
