@@ -35,6 +35,7 @@ import {BillingComponent} from '../components/settings/settings-items/billing/bi
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
+import {AddressBookComponent} from '../components/address-book/address-book.component';
 import {DepartmentsComponent} from '../components/departments/department.component';
 import {CallRulesComponent} from '../components/call-rules/call-rules.component';
 import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
@@ -63,7 +64,7 @@ const Routes: Routes = [
             {path: 'external', component: BlankComponent, data: {title: 'Add external phone number', indexed: true}}
           ]}
       ]},
-    {path: 'address-book', component: BlankComponent, data: {title: 'Address book', indexed: true}},
+    {path: 'address-book', component: AddressBookComponent, data: {title: 'Address book', indexed: true}},
     {path: 'call-rules', data: {title: 'Call rules', indexed: true}, children: [
         {path: '', component: CallRulesComponent, data: {title: 'Call rules', indexed: true}},
         {path: 'create', component: CallRulesCreateComponent, data: {title: 'Call rules create', indexed: true}}

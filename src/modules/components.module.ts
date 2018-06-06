@@ -42,6 +42,7 @@ import {DepartmentsComponent} from '../components/departments/department.compone
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
 import {CallRulesComponent} from '../components/call-rules/call-rules.component';
 import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
+import {AddressBookComponent} from '../components/address-book/address-book.component';
 
 
 /*
@@ -90,8 +91,8 @@ import {CallRulesCreateComponent} from '../components/call-rules/call-rules-crea
     AccountNotificationsComponent,
     UserNotificationsComponent,
     PhoneNumbersComponent,
+    AddressBookComponent,
     DepartmentsComponent,
-    PhoneNumbersComponent,
     CallRulesComponent,
     CallRulesCreateComponent
   ],
@@ -125,6 +126,7 @@ import {CallRulesCreateComponent} from '../components/call-rules/call-rules-crea
     DepartmentsComponent,
     CallRulesComponent,
     CallRulesCreateComponent
+    AddressBookComponent
   ]
 })
 export class ComponentsModule {
