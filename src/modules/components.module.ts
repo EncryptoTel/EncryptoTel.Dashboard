@@ -125,7 +125,7 @@ import {AddressBookComponent} from '../components/address-book/address-book.comp
     PhoneNumbersComponent,
     DepartmentsComponent,
     CallRulesComponent,
-    CallRulesCreateComponent
+    CallRulesCreateComponent,
     AddressBookComponent
   ]
 })

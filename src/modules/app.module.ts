@@ -51,7 +51,7 @@ import {CallRulesServices} from '../services/call-rules.services';
     CallQueuesServices,
     SettingsServices,
     DepartmentServices,
-    CallRulesServices
+    CallRulesServices,
     AddressBookServices
   ],
   bootstrap: [MainViewComponent]
