@@ -1,10 +1,12 @@
 import {Component} from '@angular/core';
+import {FadeAnimation} from '../../shared/fade-animation';
 
 
 @Component({
   selector: 'pbx-details-and-records',
   templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+  styleUrls: ['./local.sass'],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class DetailsAndRecordsComponent {
@@ -139,6 +141,19 @@ export class DetailsAndRecordsComponent {
   sorting = 'down';
   activeFilters: string[] = ['outgoing', 'incoming', 'payment', 'missed'];
   inactiveFilters: string[] = ['record', 'voicemail'];
+
+  page = 1;
+  max_page = 7;
+  tableInfo = {
+    titles: ['From', 'To', 'Date', 'Duration', 'Tag', 'Price', 'Record'],
+    keys: ['from', 'to', 'start_time', 'duration', 'tag', 'price', 'record']
+  };
+  getValueByKey(item: any, key: string): string {
+    const keyArray = key.split('.');
+    keyArray.forEach(k => item = item && item[k]);
+    return item;
+  }
+
 
   toggleFilter(filter: string): void {
     const activeIndex = this.activeFilters.findIndex(el => {

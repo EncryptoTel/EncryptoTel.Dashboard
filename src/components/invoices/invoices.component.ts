@@ -12,6 +12,13 @@ export class InvoicesComponent {
     this.markForWaitingPayment();
   }
 
+  tableInfo = {
+    titles: ['Invoice Number', 'Invoice type', 'Transaction date', 'Status', 'Amount (excl. VAT)', 'Amount', 'Transaction ID'],
+    keys: ['number', 'type', 'date', 'status', 'amount_vat', 'amount', 'transaction']
+  };
+
+  page = 1;
+  max_page = 3;
   invoices = [
     {
       number: 'TC00001729',
@@ -112,33 +119,6 @@ export class InvoicesComponent {
       amount: '68.00',
       transaction: 're4dqweqweqsk8m'
     },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    }
   ];
   sorting = 'down';
   showPagination = true;
@@ -153,7 +133,11 @@ export class InvoicesComponent {
 
   getPay() {
   }
-
+  getValueByKey(item: any, key: string): string {
+    const keyArray = key.split('.');
+    keyArray.forEach(k => item = item && item[k]);
+    return item;
+  }
   markForWaitingPayment() {
     this.invoices.map(el => {
       el.status === 'waiting payment' ? this.waitingPayment.push(true) : this.waitingPayment.push(false);

@@ -1,7 +1,9 @@
 <div class="departments">
-  <div class="departments_header">
-    <pbx-button [value]="'Add Department'" [buttonType]="'success'"></pbx-button>
+  <div class="departments_body">
+    <div class="departments_header">
+      <pbx-button [value]="'Add Department'" [buttonType]="'success'"></pbx-button>
+    </div>
+    <pbx-table [tableInfo]="tableInfo" [editable]="true"></pbx-table>
   </div>
-  <pbx-table [tableInfo]="tableInfo" [editable]="true"></pbx-table>
+  <pbx-sidebar></pbx-sidebar>
 </div>
-<pbx-sidebar></pbx-sidebar>

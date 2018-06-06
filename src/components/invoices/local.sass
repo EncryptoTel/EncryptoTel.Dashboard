@@ -118,3 +118,85 @@
   cursor: pointer
 .waiting-payment
   color: $dark_error
+
+.invoices
+  &_wrap
+    display: grid
+    grid-template-rows: rem(40) 1fr rem(40)
+    grid-gap: rem(24)
+    flex: 1
+  &_date
+    &_wrap
+      padding: 0 rem(16)
+      background: $dark_overlay
+      margin-left: auto
+      align-items: center
+  &_table
+    flex: 1
+    flex-direction: column
+    &_body
+      flex-direction: column
+      overflow-y: auto
+      display: block
+      max-height: calc(100vh - 296px)
+    &_head, &_row
+      border-bottom: rem(1) solid $dark_overlay
+      padding: 0 rem(16)
+      &_icon
+        width: rem(16)
+        height: rem(16)
+        fill: $dark_accent
+        margin-left: rem(16)
+    &_row
+      cursor: pointer
+      *, /deep/ *
+        cursor: pointer
+      &:hover
+        background: rgba($dark_primary,.05)
+    &_item
+      height: rem(40)
+      flex: 1
+      flex-direction: row
+      align-items: center
+      &.wrapper
+        justify-content: space-evenly
+      &.Transaction.date:hover
+        cursor: pointer
+        text-decoration: underline
+        /deep/ *
+          cursor: pointer
+      &.amount:before, &.amount_vat:before
+        content: '$ '
+      &.waiting.payment
+        color: $dark_error
+    &_button
+      padding: rem(8) rem(16)
+      border-radius: rem(2)
+      &.pdf
+        background: $dark_success
+        &:hover
+          background: lighten($dark_success,15%)
+      &.pay
+        background: $dark_accent
+        &:hover
+          background: lighten($dark_accent,15%)
+    &_icon
+      width: rem(16)
+      height: rem(16)
+      fill: $dark_primary
+
+  &_pagination
+    justify-self: center
+    &_button
+      height: 100%
+      padding: 0 rem(16)
+      align-items: center
+      background: $dark_pagination
+      border-radius: rem(2)
+      margin: 0 rem(8)
+      cursor: pointer
+      &:not(.inactive):hover
+        background: lighten($dark_pagination,15%)
+    &_page
+      margin: 0 rem(16)
+      align-items: center

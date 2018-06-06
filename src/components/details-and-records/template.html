@@ -1,68 +1,44 @@
-<div class="details-container">
-  <div class="details-wrapper">
-    <div class="details-header">
-      <div class="details-header__filters">
-        <div class="filters">
-          <button
-            class="{{filter}} details-button"
-            (click)="toggleFilter(filter)"
-            *ngFor="let filter of activeFilters">
-            {{filter}}
-          </button>
-        </div>
-        <div class="filters">
-          <button
-            class="inactive-button details-button"
-            (click)="toggleFilter(filter)"
-            *ngFor="let filter of inactiveFilters">
-            {{filter}}
-          </button>
-        </div>
-      </div>
-      <div class="details-header__daterange-wrapper">
-        <div class="details-header__daterange">26/06/2017 - 30/06/2017</div>
+<pbx-loader *ngIf="false"></pbx-loader>
+<div class="details_wrap" *ngIf="true" [@Fade]>
+  <div class="details_header">
+    <div class="details_header_filter" *ngIf="activeFilters.length>0">
+      <button *ngFor="let item of activeFilters" class="details_header_filter_button {{item}}"
+              (click)="toggleFilter(item)">{{item}}</button>
+    </div>
+    <div class="details_header_filter" *ngIf="inactiveFilters.length>0">
+      <button *ngFor="let item of inactiveFilters" class="details_header_filter_button_inactive"
+              (click)="toggleFilter(item)">{{item}}</button>
+    </div>
+    <div class="details_header_date">26/06/2017 - 30/06/2017</div>
+  </div>
+  <div class="details_table">
+    <div class="details_table_head">
+      <div class="details_table_item {{item}}"
+           (click)="(item==='From'?sort():null)"
+           *ngFor="let item of tableInfo.titles">{{item}}
+        <svg-icon class="details_table_head_icon" *ngIf="item==='From'"
+                  src="../../assets/icons/sorting_{{sorting}}_16px.svg"></svg-icon>
       </div>
     </div>
-    <div class="details-table-wrapper">
-      <div class="details-table-row titles">
-        <div class="details-table-cols sorting" (click)="sort()">
-          From
-          <svg-icon src="../../assets/icons/sorting_{{sorting}}_16px.svg" class="details-icons"></svg-icon>
-        </div>
-        <div class="details-table-cols">To</div>
-        <div class="details-table-cols">Start time</div>
-        <div class="details-table-cols">Duration</div>
-        <div class="details-table-cols">Tag</div>
-        <div class="details-table-cols">Price</div>
-        <div class="details-table-cols">Record</div>
-      </div>
-      <div class="details-table-row" *ngFor="let detail of details" [ngClass]="{'hide': setFilters(detail.tag)}">
-        <div class="details-table-cols" [ngClass]="{'payment-col': detail.tag === 'payment'}">{{detail.from}}</div>
-        <div class="details-table-cols">{{detail.to}}</div>
-        <div class="details-table-cols">{{detail.start_time}}</div>
-        <div class="details-table-cols">{{detail.duration}}</div>
-        <div class="details-table-cols">
-          <button
-            class="{{detail.tag}} details-button tag-button">
-            {{detail.tag}}
-          </button>
-        </div>
-        <div class="details-table-cols" [ngClass]="{'payment-col': detail.tag === 'payment'}">${{detail.price}}</div>
-        <div class="details-table-cols">{{detail.record}}</div>
-      </div>
-    </div>
-    <div class="details-pagination-wrapper">
-      <div class="details-pagination">
-        <div class="details-pagination-controls">
-          <button>&#171;</button>
-          <button class="prev-next">Prev</button>
-        </div>
-        <div class="details-pagination-pages">01 of 50</div>
-        <div class="details-pagination-controls">
-          <button class="prev-next">Next</button>
-          <button>&#187;</button>
+    <div class="details_table_body">
+      <div class="details_table_row details_{{item.tag}}"
+           [ngClass]="{'details_hide':setFilters(item.tag)}"
+           *ngFor="let item of details">
+        <div class="details_table_item details_{{key}}" *ngFor="let key of tableInfo.keys"
+        ><div [ngClass]="{'details_table_item_tag':key==='tag'}">{{getValueByKey(item, key)}}</div>
         </div>
       </div>
     </div>
+  </div>
+  <div class="details_pagination">
+    <div class="details_pagination_button" [ngClass]="{'inactive':page===1}"
+         (click)="page=1">«</div>
+    <div class="details_pagination_button" [ngClass]="{'inactive':page===1}"
+         (click)="page=page-(page===1?0:1)">Prev</div>
+    <div class="details_pagination_page">{{page}} of {{max_page}}</div>
+    <div class="details_pagination_button" [ngClass]="{'inactive':page===max_page}"
+         (click)="page=page+(page===max_page?0:1)">Next</div>
+    <div class="details_pagination_button" [ngClass]="{'inactive':page===max_page}"
+         (click)="page=max_page">»</div>
   </div>
 </div>

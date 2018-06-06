@@ -1,152 +1,147 @@
-@import "../../vars"
-// Global variables import
+@import "../../vars" // Global variables import
+@import "./_vars" // Local variables import
 
 .details
-  &-container
-    display: flex
-    flex-flow: column
-    height: 100%
-    color: $font-color
-  &-wrapper
-    display: flex
-    flex-flow: column
-    align-items: center
-    width: 100%
-    height: 100%
-  &-header
-    display: flex
-    flex-flow: row
-    justify-content: space-between
-    height: 6%
-    width: 100%
-    background: #2C2B27
-    &__filters
-      display: flex
-      flex-flow: row
+  &_wrap
+    display: grid
+    grid-template-rows: rem(40) 1fr rem(40)
+    grid-gap: rem(24)
+    flex: 1
+  &_header
+    flex-direction: row
+    &_filter
+      transition: unset
+      &:first-child:not(:last-child)
+        padding-right: rem(16)
+      &:nth-child(2)
+        padding-left: rem(16)
+      &_button,&_button_inactive
+        transition: unset
+        border-radius: 100vmax
+        padding: 0 rem(32)
+        border: rem(1) solid
+        text-transform: capitalize
+        cursor: pointer
+        &:not(:last-child)
+          margin-right: rem(8)
+      &_button
+        border-color: transparent
+        &_inactive
+          opacity: .2
+    &_date
+      padding: 0 rem(16)
+      margin-left: auto
       align-items: center
-      .filters
-        display: flex
-        flex-flow: row
-        justify-content: space-around
-        align-items: center
-        border-right: 1px solid rgba($dark_primary, .2)
-        height: 70%
-        &:last-child
-          border-right: unset
-    &__daterange-wrapper
-      background: $dark_overlay
-      display: flex
-      flex-flow: row
+  &_table
+    flex: 1
+    flex-direction: column
+    &_body
+      flex-direction: column
+      overflow-y: auto
+      display: block
+      max-height: calc(100vh - 296px)
+    &_head, &_row
+      border-bottom: rem(1) solid
+      padding: 0 rem(16)
+      &_icon
+        width: rem(16)
+        height: rem(16)
+        margin-left: rem(16)
+    &_row
+      cursor: pointer
+      *, /deep/ *
+        cursor: pointer
+      &.details_hide
+        display: none
+    &_item
+      height: rem(40)
+      flex: 1
       align-items: center
-      justify-content: center
-      width: 13%
-      font-size: rem(16)
-  &-table-wrapper
-    display: flex
-    flex-flow: column
-    height: 83%
-    width: 100%
-  &-table-row
-    display: flex
-    flex-flow: row
-    justify-content: space-between
-    height: calc(100% / 15)
-    width: 100%
-    border-bottom: 1px solid rgba($dark_primary, .2)
-    padding: 0 25px
-  &-table-cols
-    width: 14%
-    display: flex
-    flex-flow: row
-    justify-content: flex-start
-    align-items: center
-    &:nth-child(6)
-      width: 8%
-    &:nth-child(7)
-      width: 5%
-  &-pagination
-    height: 65%
-    width: 100%
-    display: flex
-    flex-flow: row
-    justify-content: space-between
-    &-wrapper
-      height: 10%
-      width: 20%
-      display: flex
-      flex-flow: row
-      justify-content: center
-      align-items: flex-end
-    &-controls
-      display: flex
-      flex-flow: row
-      justify-content: space-between
-      width: 35%
-      button
-        background: $dark_overlay
-        display: flex
-        flex-flow: row
+      align-self: center
+      &_tag
+        text-transform: capitalize
+        border-radius: 100vmax
+        width: rem(128)
+        height: rem(32)
         justify-content: center
         align-items: center
-        border-radius: 2px
-        width: 40%
+      &.From:hover
         cursor: pointer
-      .prev-next
-        width: 55%
-    &-pages
-      display: flex
-      flex-flow: column
+        text-decoration: underline
+        /deep/ *
+          cursor: pointer
+      &.details_price:before
+        content: '$'
+      &.details_tag
+        display: flex
+  &_pagination
+    justify-self: center
+    &_button
+      height: 100%
+      padding: 0 rem(16)
       align-items: center
-      justify-content: center
+      border-radius: rem(2)
+      margin: 0 rem(8)
+      cursor: pointer
+    &_page
+      margin: 0 rem(16)
+      align-items: center
 
-.details-button
-  cursor: pointer
-  height: 100%
-  display: flex
-  flex-flow: row
-  justify-content: center
-  align-items: center
-  border-radius: 30px
-  min-width: 140px
-  margin: 0 5px
-  text-transform: capitalize
-
-.tag-button
-  height: 80%
-
-.outgoing
-  background: #EF77B2
-
-.incoming
-  background: #C882DD
-
-.payment
-  background: $dark_success
-
-.missed
-  background: #F88181
-
-.record
-  background: $dark_success
-
-.voicemail
-  background: #5983BE
-
-.inactive-button
-  background: transparent
-  border: 1px solid rgba($dark_primary, .2)
-
-.details-icons
-  width: 20px
-  height: auto
-  fill: $dark_accent
-  margin-left: 10px
-
-.sorting
-  cursor: pointer
-
-.hide
-  display: none
-
-.payment-col
-  color: $dark_success
+// Themes styles
+\:host-context(.dark_theme)
+  .details
+    &_header
+      &_filter
+        &:nth-child(2)
+          border-left-color: $dark_overlay
+        &_button
+          &.outgoing
+            background: $outgoing
+          &.incoming
+            background: $incoming
+          &.payment
+            background: $payment
+          &.missed
+            background: $missed
+          &.record
+            background: $record
+          &.voicemail
+            background: $voicemail
+          &_inactive
+            border-color: $dark_primary
+      &_date
+        background: $dark_overlay
+    &_table
+      &_head, &_row
+        border-bottom-color: $dark_overlay
+        &_icon
+          fill: $dark_accent
+      &_row
+        &:hover
+          background: rgba($dark_primary,.05)
+        &.details
+          &_outgoing
+            .details_table_item_tag
+              background: $outgoing
+          &_incoming
+            .details_table_item_tag
+              background: $incoming
+          &_payment
+            color: $dark_success
+            .details_table_item_tag
+              background: $payment
+          &_missed
+            .details_table_item_tag
+              background: $missed
+          &_record
+            .details_table_item_tag
+              background: $record
+          &_voicemail
+            .details_table_item_tag
+              background: $voicemail
+      &_item_tag
+        color: $dark_primary
+    &_pagination_button
+      background: $dark_pagination
+      &:not(.inactive):hover
+        background: lighten($dark_pagination,15%)

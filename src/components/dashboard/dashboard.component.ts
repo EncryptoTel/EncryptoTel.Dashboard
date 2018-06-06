@@ -12,6 +12,8 @@ import {DriveModel} from '../../models/drive.model';
 import {DBPhoneNumberModel} from '../../models/db.phone-number.model';
 import {DBHistoryModel} from '../../models/db.history.model';
 
+import {FadeAnimation} from '../../shared/fade-animation';
+
 @Component({
   selector: 'pbx-dashboard',
   templateUrl: './template.html',
@@ -20,7 +22,8 @@ import {DBHistoryModel} from '../../models/db.history.model';
     DBTariffPlanServices,
     DBPhoneNumbersServices,
     DBHistoryServices
-  ]
+  ],
+  animations: [FadeAnimation('300ms')]
 })
 
 export class DashboardComponent {

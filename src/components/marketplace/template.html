@@ -1,4 +1,5 @@
-<div class="marketplace_wrap">
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div class="marketplace_wrap" *ngIf="!loading" [@Fade]>
   <div *ngFor="let item of modules" class="marketplace_item color_{{item.color}}">
     <div class="marketplace_column">
       <div class="marketplace_title">{{item.title}}</div>

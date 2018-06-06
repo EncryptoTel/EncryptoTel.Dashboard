@@ -1,21 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {Module} from '../../models/module.model';
 import {ModuleServices} from '../../services/module.services';
+import {FadeAnimation} from '../../shared/fade-animation';
 
 @Component({
   selector: 'pbx-marketplace',
   templateUrl: './template.html',
   styleUrls: ['./local.sass'],
-  providers: [ModuleServices]
+  providers: [ModuleServices],
+  animations: [FadeAnimation('800ms')]
 })
 
 export class MarketplaceComponent implements OnInit {
   modules: Module[];
+  loading = true;
 
   constructor(private _services: ModuleServices) {}
 
   ngOnInit(): void {
-
     this.modules = [];
     this._services.getModulesList()
       .then(res => {
@@ -30,6 +32,7 @@ export class MarketplaceComponent implements OnInit {
           });
         });
       }).catch();
+    this.loading = false;
   }
 }
 

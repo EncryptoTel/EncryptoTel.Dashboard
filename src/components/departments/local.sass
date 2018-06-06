@@ -1,2 +1,16 @@
-@import "../../vars" // Global variables import
+@import "../../vars"
+// Global variables import
 
+.departments
+  height: 100%
+  &_body
+    flex: 1
+    display: grid
+    grid-template-rows: auto 1fr
+    grid-gap: rem(24)
+  &_header
+    justify-content: flex-end
+    pbx-button
+      width: unset
+      &:not(:first-child)
+        margin-left: rem(8)

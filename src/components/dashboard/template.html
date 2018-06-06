@@ -112,10 +112,10 @@
   </div>
 </div>
 -->
-
-<div class="dashboard_wrap">
-  <pbx-loader class="inactive dashboard_balance" *ngIf="loading.balance"></pbx-loader>
-  <div class="dashboard_item dashboard_balance" *ngIf="!loading.balance">
+<pbx-loader *ngIf="loading.balance||loading.tariff||loading.phone_numbers||loading.drive||loading.history"></pbx-loader>
+<div class="dashboard_wrap" [@Fade]
+     *ngIf="!loading.balance&&!loading.tariff&&!loading.phone_numbers&&!loading.drive&&!loading.history">
+  <div class="dashboard_item dashboard_balance">
     <div class="dashboard_item_title_row">
       <div class="dashboard_item_title_key">Balance</div>
       <div class="dashboard_balance_value">{{balance.symbol}}{{balance.balance}}</div>
@@ -139,8 +139,7 @@
       </a>
     </div>
   </div>
-  <pbx-loader class="inactive dashboard_tariff" *ngIf="loading.tariff"></pbx-loader>
-  <div class="dashboard_item dashboard_tariff" *ngIf="!loading.tariff">
+  <div class="dashboard_item dashboard_tariff">
     <div class="dashboard_item_title_row">
       <div class="dashboard_item_title_key">Tariff plan</div>
       <div class="dashboard_item_title_value">{{tariff.title}}</div>
@@ -160,8 +159,7 @@
       </a>
     </div>
   </div>
-  <pbx-loader class="inactive dashboard_numbers" *ngIf="loading.phone_numbers"></pbx-loader>
-  <div class="dashboard_item dashboard_numbers" *ngIf="!loading.phone_numbers">
+  <div class="dashboard_item dashboard_numbers">
     <div class="dashboard_item_title_row">
       <div class="dashboard_item_title_name">Phone numbers</div>
     </div>
@@ -177,8 +175,7 @@
         <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon></a>
     </div>
   </div>
-  <pbx-loader class="inactive dashboard_drive" *ngIf="loading.drive"></pbx-loader>
-  <div class="dashboard_item dashboard_drive" *ngIf="!loading.drive">
+  <div class="dashboard_item dashboard_drive">
     <div class="dashboard_drive_row">
       <div class="dashboard_drive_content">
         <div class="dashboard_item_title_row">
@@ -221,8 +218,7 @@
       </a>
     </div>
   </div>
-  <pbx-loader class="inactive dashboard_history" *ngIf="loading.history"></pbx-loader>
-  <div class="dashboard_history" *ngIf="!loading.history">
+  <div class="dashboard_history">
     <div class="dashboard_item_title_row">
       <div class="dashboard_item_title_name">History</div>
     </div>
