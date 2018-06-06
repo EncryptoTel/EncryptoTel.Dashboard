@@ -17,15 +17,24 @@
     background: $dark_pagination_inactive
     flex: 1
     padding: 30px
+    .actions_form
+      display: flex
+      flex-flow: column
+      flex: 1
   &_row
     display: flex
     flex-flow: row
     align-items: center
     margin-bottom: 10px
     height: 48px
+    width: 100%
     h3
       font-weight: 500
     label
       width: 150px
       color: $font-color
       font-size: rem(13)
+    pbx-select
+      width: 100%
+    .short_input
+      width: 65px
