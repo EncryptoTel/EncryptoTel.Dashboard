@@ -10,4 +10,20 @@ export class DepartmentServices {
   getDepartments(): Promise<any> {
     return this._req.get(`v1/department`, true);
   }
+
+  getSipOuters(): Promise<any> {
+    return this._req.get(`v1/sip/outers`, true);
+  }
+
+  saveDepartment(department): Promise<any> {
+    return this._req.post(`v1/department`, department, true);
+  }
+
+  editDepartment(id: number, department): Promise<any> {
+    return this._req.put(`/api/v1/department/${id}`, department, true);
+  }
+
+  deleteDepartment(id: number): Promise<any> {
+    return this._req.del(`v1/department/${id}`, true);
+  }
 }

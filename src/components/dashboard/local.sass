@@ -1,7 +1,7 @@
 @import "../../vars" // Global variables import
-@import "vars"       // Local variables import
+@import "vars" // Local variables import
 
-.dashboard
+//.dashboard
   &_wrap
     display: grid
     grid-template-columns: 2fr 2fr 320px
@@ -125,7 +125,7 @@
         line-height: rem(24)
 
 // Themes styles
-\:host-context(.dark_theme)
+//\:host-context(.dark_theme)
   .dashboard
     &_item
       &.balance
@@ -144,3 +144,248 @@
           color: $dark_background
         &_date
           background: rgba($dark_primary, .08)
+
+
+.dashboard
+  &_wrap
+    display: grid
+    grid-template-columns: 1fr 1fr 352px
+    grid-template-rows: 1fr 1fr
+    grid-gap: rem(24)
+    flex: 1
+    margin-right: rem(-32)
+    font-size: rem(16)
+    overflow-y: auto
+    overflow-x: hidden
+  &_item
+    flex: 1
+    padding: rem(48) rem(40) rem(24) rem(48)
+    flex-direction: column
+    &_title
+      &_row
+        margin-bottom: rem(16)
+        font-size: rem(40)
+      &_name, &_key
+        text-transform: uppercase
+      &_value
+        font-size: rem(24)
+        margin-left: auto
+    &_content
+      &_row
+        margin-bottom: rem(8)
+        font-size: rem(18)
+      &_value
+        margin: auto 0 auto auto
+    &_link
+      &_row
+        margin-top: auto
+      &_item:hover
+        cursor: pointer
+        text-decoration: underline
+    &_icon
+      display: none
+      width: 24px
+      height: 24px
+      transform: rotate(-90deg)
+      margin-left: auto
+      align-self: center
+      /deep/ polygon
+        fill: $dark_primary
+    &.inactive
+      background: rgba($dark_primary,.15)
+      border: 1px solid $dark_overlay
+      /deep/ div, /deep/ a, /deep/ svg
+        display: none
+  &_balance
+    background: $balance
+    &_value
+      margin: auto 0 auto auto
+      font-size: rem(40)
+  &_tariff
+    background: $tariff
+  &_numbers
+    background: $phone_numbers
+    &_body
+      flex: 1
+      display: block
+      flex-direction: column
+      overflow-y: auto
+      margin-right: rem(-16)
+      padding-right: rem(16)
+  &_drive
+    background: $drive
+    &_row
+      flex: 1
+      flex-direction: row
+    &_content
+      flex-direction: column
+      flex: 1
+    &_diagram
+      margin-left: rem(24)
+      margin-right: rem(-16)
+      position: relative
+    &_percentage
+      width: rem(176)
+      height: rem(176)
+      margin: 0 auto auto
+      justify-content: center
+      align-items: center
+      font-size: rem(32)
+    &_circle
+      position: absolute
+      top: 0
+      left: 0
+      width: rem(176)
+      height: rem(176)
+      >path
+        stroke: $dark_primary
+      >circle
+        stroke: rgba($dark_primary, .3)
+  &_history
+    background: $history
+    grid-column: 3/4
+    grid-row: 1/3
+    flex-direction: column
+    padding: rem(48) rem(24) rem(24)
+    .dashboard_item_title_row
+      display: block
+    &_body
+      display: block
+      margin: 0 rem(-24)
+      overflow-y: auto
+    &_wrap
+      flex-direction: column
+    &_date
+      padding: rem(8) 0
+      justify-content: center
+      background-color: rgba($dark_primary, .1)
+      margin-bottom: rem(8)
+      color: rgba($dark_primary, 0.5)
+    &_item
+      margin: 0 rem(24) rem(8)
+      flex-direction: column
+      &:last-child
+        margin-bottom: 0
+    &_row
+      margin-bottom: rem(8)
+      &:last-child
+        font-size: rem(14)
+        color: rgba($dark_primary, 0.5)
+    &_details:first-child
+      margin-right: auto
+    >.dashboard_item_link_row
+      display: block
+      margin-top: rem(24)
+      margin-left: auto
+  &_center
+    margin-left: auto
+    margin-right: auto
+  &_right
+    margin-left: auto
+  &_hide_high_resolution
+    display: none
+@media (max-width: 1599px)
+  .dashboard
+    &_wrap
+      grid-template-columns: 1fr 1fr
+      padding-right: rem(32)
+    &_history
+      display: none
+@media (max-width: 1279px)
+  .dashboard
+    &_item
+      padding: rem(24)
+      &_title
+        &_row
+          font-size: rem(24)
+        &_value
+          font-size: rem(18)
+      &_content
+        &_row
+          font-size: rem(14)
+    &_balance
+      &_value
+        font-size: rem(18)
+    &_drive
+      &_diagram
+        margin-right: 0
+      &_percentage
+        width: rem(96)
+        height: rem(96)
+        font-size: rem(24)
+    &_hide_high_resolution
+      display: flex
+    &_hide_low_resolution
+      display: none
+@media (max-width: 1023px)
+  .dashboard
+    &_wrap
+      grid-template-columns: 1fr
+      margin: rem(-24) rem(-32) rem(-24) rem(-48)
+      padding: rem(24)
+    &_item
+      &_title
+        &_key, &_name, &_value
+          font-size: rem(32)
+          align-self: center
+      &_content
+        &_row
+          margin-top: rem(16)
+        &_key, &_name, &_value
+          font-size: rem(24)
+          align-self: center
+      &_icon
+        display: block
+      &_link
+        &_row
+          flex-direction: column
+          margin: rem(24) rem(-24) rem(-24)
+        &_item
+          border-top: rem(1) solid rgba($dark_primary, .25)
+          width: 100%
+          padding: rem(16) rem(24)
+          font-size: rem(24)
+    &_balance_value
+      font-size: rem(32)
+      align-self: center
+@media (max-width: 767px)
+  .dashboard
+    &_wrap
+      padding: rem(24)
+      margin: rem(-24)
+      -ms-overflow-style: none
+      overflow: -moz-scrollbars-none
+      &::-webkit-scrollbar
+        width: 0
+    &_drive_diagram
+      display: none
+@media (max-width: 511px)
+  .dashboard
+    &_item
+      &_title
+        &_key, &_name
+          font-size: rem(24)
+        &_value
+          font-size: rem(16)
+      &_content
+        &_row
+          flex-flow: row wrap
+        &_key, &_name, &_value
+          font-size: rem(16)
+      &_link_item
+        font-size: rem(16)
+      &_icon
+        width: 16px
+        height: 16px
+    &_balance_value
+      font-size: rem(16)
+@media (max-width: 383px)
+  .dashboard
+    &_item
+      &_title, &_content
+        &_row
+          flex-direction: column
+          margin-bottom: rem(16)
+        &_key, &_name
+          margin-right: auto
+          margin-bottom: rem(8)

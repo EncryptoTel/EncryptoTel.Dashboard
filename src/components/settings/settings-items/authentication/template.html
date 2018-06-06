@@ -1,13 +1,17 @@
+<pbx-loader *ngIf="loading.body"></pbx-loader>
+<div class="main_wrap" *ngIf="!loading.body">
 <div class="overlay_pre_row">
   <pbx-button buttonType="cancel" value="Cancel" (onClick)="goBack()"></pbx-button>
 </div>
 <div class="overlay">
-  <pbx-loader *ngIf="loading.body"></pbx-loader>
-  <div class="overlay_content" *ngIf="!loading.body">
+  <div class="overlay_content">
     <div class="settings_form_section" *ngFor="let key of getKeys(settings)">
-      <div class="settings_form_title">{{settings[key].title}}</div>
-      <div class="settings_input_item" *ngFor="let inputKey of getKeys(settings[key].children)">
-        <div class="settings_input_title" *ngIf="settings[key].children[inputKey].type !== 'group_field'">{{settings[key].children[inputKey].title}}</div>
+      <div class="settings_form_title">{{NormalizeTitle(settings[key].title)}}</div>
+      <div class="settings_input_item" *ngFor="let inputKey of getKeys(settings[key].children)" [ngClass]="{
+              'bool':settings[key].children[inputKey].type === 'bool',
+              'list':settings[key].children[inputKey].type === 'list',
+              'string':settings[key].children[inputKey].type==='string'}">
+        <div class="settings_input_title" *ngIf="settings[key].children[inputKey].type !== 'group_field'">{{NormalizeTitle(settings[key].children[inputKey].title)}}</div>
         <div class="input_wrap">
           <pbx-checkbox *ngIf="settings[key].children[inputKey].type === 'bool'"
                         [value]="settings[key].children[inputKey].value === '1'"
@@ -22,16 +26,19 @@
           <input #temp
                  title="{{settings[key].children[inputKey].title}}"
                  [name]="settings[key].children[inputKey].title"
-                 [placeholder]="settings[key].children[inputKey].title"
+                 [placeholder]="NormalizeTitle(settings[key].children[inputKey].title)"
                  *ngIf="settings[key].children[inputKey].type === 'string'"
                  [(ngModel)]="settings[key].children[inputKey].value"
                  (blur)="saveOption(temp.value, key, inputKey)">
           <div class="settings_form_section" *ngIf="settings[key].children[inputKey].type === 'group_field'">
             <div class="settings_form_section">
-              <div class="settings_form_title">{{settings[key].children[inputKey].title}}</div>
-              <div class="settings_input_item"
-                   *ngFor="let childrenKey of getKeys(settings[key].children[inputKey].children)">
-                <div class="settings_input_title">{{settings[key].children[inputKey].children[childrenKey].title}}</div>
+              <div class="settings_form_title">{{NormalizeTitle(settings[key].children[inputKey].title)}}</div>
+              <div class="settings_input_item" *ngFor="let childrenKey of getKeys(settings[key].children[inputKey].children)" [ngClass]="{
+              'bool':settings[key].children[inputKey].children[childrenKey].type === 'bool',
+              'list':settings[key].children[inputKey].children[childrenKey].type === 'list',
+              'string':settings[key].children[inputKey].children[childrenKey].type==='string'||
+                       settings[key].children[inputKey].children[childrenKey].type==='int'}">
+                <div class="settings_input_title">{{NormalizeTitle(settings[key].children[inputKey].children[childrenKey].title)}}</div>
                 <div class="input_wrap">
                   <pbx-checkbox *ngIf="settings[key].children[inputKey].children[childrenKey].type === 'bool'"
                                 [value]="settings[key].children[inputKey].children[childrenKey].value === '1'"
@@ -46,7 +53,7 @@
                   <input #temp
                          title="{{settings[key].children[inputKey].children[childrenKey].title}}"
                          [name]="settings[key].children[inputKey].children[childrenKey].title"
-                         [placeholder]="settings[key].children[inputKey].children[childrenKey].title"
+                         [placeholder]="NormalizeTitle(settings[key].children[inputKey].children[childrenKey].title)"
                          *ngIf="settings[key].children[inputKey].children[childrenKey].type === 'string' || settings[key].children[inputKey].children[childrenKey].type === 'int'"
                          [(ngModel)]="settings[key].children[inputKey].children[childrenKey].value"
                          (blur)="saveOption(temp.value, key, inputKey, childrenKey)">
@@ -57,6 +64,10 @@
         </div>
       </div>
     </div>
-    <div class="settings_code" *ngIf="qrCode" [style.background-image]="'url(' + qrCode + ')'"></div>
+    <div class="settings_code" [@Fade] *ngIf="qrCode" [style.background-image]="'url(' + qrCode + ')'"></div>
   </div>
+</div>
+<div class="overlay_pre_row">
+  <pbx-button buttonType="cancel" value="Cancel" (onClick)="goBack()"></pbx-button>
+</div>
 </div>

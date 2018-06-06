@@ -13,7 +13,8 @@ import {FormMessageModel} from '../../../models/form-message.model';
 @Component({
   selector: 'sign-up-form',
   templateUrl: './template.html',
-  animations: [FadeAnimation('.3s')]
+  animations: [FadeAnimation('.3s')],
+  styleUrls: ['./local.sass']
 })
 export class SignUpFormComponent implements OnInit, OnDestroy {
   constructor(private _router: Router,

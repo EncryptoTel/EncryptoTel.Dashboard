@@ -13,6 +13,7 @@ export class ButtonComponent {
   @Input() value: string;
   @Input() buttonType: string;
   @Input() loading: boolean;
+  @Input() inactive: boolean;
   @Output() onClick: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('button') button: ElementRef;
 

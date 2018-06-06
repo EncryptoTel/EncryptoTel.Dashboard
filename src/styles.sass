@@ -70,8 +70,14 @@ pbx-tariff-plans
   justify-content: space-around
   align-items: center
 
-pbx-call-queues-general,pbx-call-queues-members, pbx-call-queues-members-add
+pbx-call-queues-general,
+pbx-call-queues-members,
+pbx-call-queues-members-add,
+pbx-pagination
   flex: 1
+
+pbx-department
+  flex-direction: row !important
 
 input
   width: 100%
@@ -84,6 +90,9 @@ input
 input[type='number']
   &::-webkit-inner-spin-button
     display: none
+
+textarea
+  font-family: inherit
 
 pbx-button
   width: 100%
@@ -258,6 +267,41 @@ pbx-table
       .input_wrap
         flex: 1 0 auto
         flex-direction: column
+
+.sidebar
+  &_item
+    flex-direction: column
+    &:not(:first-child) > &_title
+      margin-top: rem(24)
+    &_title
+      margin-bottom: rem(16)
+      font-size: rem(12)
+      opacity: .8
+    &_value
+      &.warning
+        margin-top: rem(24)
+        cursor: pointer
+        &:hover
+          text-decoration: underline
+  &_buttons
+    margin-top: auto
+
+.table
+  &_container
+    height: 100%
+  &_wrap
+    flex-direction: column
+    flex: 1 0 auto
+    > *:not(.table_pre_row)
+      flex: 1 0 auto
+  &_pre_row
+    min-height: rem(40)
+    align-items: center
+    &:first-child
+      margin-bottom: rem(16)
+    &:last-child
+      margin-top: rem(16)
+
 // ID's styles
 
 // Theme styles
@@ -316,6 +360,8 @@ main-view
           color: darken($dark_primary, 40%)
           &.error
             color: $dark_error
+    .sidebar_item_value.warning
+      color: $dark_error
   &.light_theme
     color: $dark_background
     background: $dark_primary
