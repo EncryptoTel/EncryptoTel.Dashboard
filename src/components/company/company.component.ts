@@ -6,14 +6,12 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
 import {CompanyServices} from '../../services/company.services';
 import {CompanyModel, CountriesModel, CountryModel} from '../../models/company.model';
 import {emailRegExp} from '../../shared/vars';
-import {FadeAnimation} from '../../shared/fade-animation';
 
 @Component({
   selector: 'pbx-company',
   templateUrl: './template.html',
   styleUrls: ['./local.sass'],
-  providers: [CompanyServices],
-  animations: [FadeAnimation('300ms')]
+  providers: [CompanyServices]
 })
 
 export class CompanyComponent implements OnInit {
