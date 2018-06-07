@@ -30,9 +30,9 @@ export class CallQueuesComponent {
     this.router.navigate(['edit', queue.id], {relativeTo: this.activatedRoute});
   }
 
-  delete(id: number): void {
+  delete(queue): void {
     this.loading = true;
-    this._service.delete(id).then(() => {
+    this._service.delete(queue.id).then(() => {
       this.getQueues();
     }).catch(err => {
       console.error(err);
