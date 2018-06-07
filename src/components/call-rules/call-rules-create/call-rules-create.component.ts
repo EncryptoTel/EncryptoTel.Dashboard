@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 
 import {FadeAnimation} from '../../../shared/fade-animation';
@@ -27,21 +27,15 @@ export class CallRulesCreateComponent implements OnInit {
   ];
   selectedActions = [];
 
-  @ViewChild('actionContainer', {read: ViewContainerRef}) actionTemplate: ViewContainerRef;
-  @ViewChild('redirectToExternalNumberTemplate') redToExtNum;
-
   constructor(private service: CallRulesServices,
               private fb: FormBuilder) {
   }
 
-  selectAction(action): void {
-    this.selectedActions.push(action);
+  selectAction(action, i: number = 0): void {
+    this.selectedActions[i] = action;
     switch (action.id) {
       case 1:
-        this.addAction(this.createRedirectToExternalNumber());
-        setTimeout(() => {
-          this.actionTemplate.createEmbeddedView(this.redToExtNum);
-        }, 0);
+        this.addAction(this.createRedirectToExternalNumber(), i);
         break;
       case 2:
         this.addAction(this.createRedirectToExtensionNumber());
@@ -65,6 +59,7 @@ export class CallRulesCreateComponent implements OnInit {
         break;
     }
     console.log(this.callRulesForm);
+    console.log(this.selectedActions);
   }
 
   selectNumber(number: SipOuter): void {
@@ -72,8 +67,8 @@ export class CallRulesCreateComponent implements OnInit {
     this.buildForm();
   }
 
-  private addAction(actionGroup: FormGroup): void {
-    this.callRulesForm.controls.push(actionGroup);
+  private addAction(actionGroup: FormGroup, i: number): void {
+    this.callRulesForm.controls[i] = actionGroup;
   }
 
   private buildForm(): void {
