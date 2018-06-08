@@ -1,64 +1,173 @@
 <div class="call-rules-create">
   <div class="call-rules-create_header">
     <div class="call-rules-create_header_controls">
-      <pbx-button [buttonType]="'cancel'" [value]="'Cancel'"></pbx-button>
-      <pbx-button [buttonType]="'success'" [value]="'Save'"></pbx-button>
+      <pbx-button [buttonType]="'cancel'" [value]="'Cancel'" (onClick)="cancel()"></pbx-button>
+      <pbx-button [buttonType]="'success'" [value]="'Save'" (onClick)="save()"></pbx-button>
     </div>
   </div>
   <div class="call-rules-create_body">
-    <div class="call-rules-create_row">
-      <h3>General</h3>
-    </div>
-    <div class="call-rules-create_row">
-      <label>Enable Rule</label>
-      <pbx-checkbox></pbx-checkbox>
-    </div>
-    <div class="call-rules-create_row">
-      <label for="name">Rule Name</label>
-      <input type="text" id="name" title="name">
-    </div>
-    <div class="call-rules-create_row">
-      <label for="description">Description</label>
-      <input type="text" id="description" title="description">
-    </div>
-    <div class="call-rules-create_row">
-      <label>Phone number</label>
-      <pbx-select [options]="numbers" [selected]="selectedNumber" [objectKey]="'phoneNumber'"
-                  (onSelect)="selectNumber($event)" [placeholder]="'[choose one]'" [singleBorder]="true"></pbx-select>
-    </div>
-    <ng-container *ngIf="!selectedNumber">
+    <form [formGroup]="callRulesForm" class="actions_form">
       <div class="call-rules-create_row">
-        <label></label>
-        <p>Please note: you must select a phone number before creating a new action.</p>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="selectedNumber">
-      <div class="call-rules-create_row">
-        <h3>Options</h3>
+        <h3>General</h3>
       </div>
       <div class="call-rules-create_row">
-        <label>Action</label>
-        <pbx-select [options]="actionsList" [objectKey]="'title'" (onSelect)="selectAction($event)"
-                    [placeholder]="'[choose one]'"
-                    [singleBorder]="true"></pbx-select>
+        <label>Enable Rule</label>
+        <div>
+          <pbx-checkbox></pbx-checkbox>
+        </div>
       </div>
-      <form [formGroup]="callRulesForm" class="actions_form">
-        <ng-container *ngFor="let action of callRulesForm.controls;let i = index" [formGroupName]="i">
-          <ng-container [ngSwitch]="selectedActions[i].id">
-            <ng-template [ngSwitchCase]="1">
+      <div class="call-rules-create_row">
+        <label for="name">Rule Name</label>
+        <div>
+          <input type="text" id="name" title="name" formControlName="name">
+        </div>
+      </div>
+      <div class="call-rules-create_row">
+        <label for="description">Description</label>
+        <div>
+          <input type="text" id="description" title="description" formControlName="description">
+        </div>
+      </div>
+      <div class="call-rules-create_row">
+        <label>Phone number</label>
+        <div>
+          <pbx-select [options]="numbers" [selected]="selectedNumber" [objectKey]="'phoneNumber'"
+                      (onSelect)="selectNumber($event)" [placeholder]="'[choose one]'"
+                      [singleBorder]="true"></pbx-select>
+        </div>
+      </div>
+      <ng-container *ngIf="!selectedNumber">
+        <div class="call-rules-create_row">
+          <label></label>
+          <div><p>Please note: you must select a phone number before creating a new action.</p></div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="selectedNumber">
+        <div class="call-rules-create_row">
+          <h3>Options</h3>
+        </div>
+        <div class="call-rules-create_row">
+          <label>Action</label>
+          <div>
+            <pbx-select [options]="actionsList"
+                        [objectKey]="'code'"
+                        (onSelect)="selectAction($event)"
+                        [placeholder]="'[choose one]'"
+                        [singleBorder]="true"
+                        [selected]="selectedActions[0]"></pbx-select>
+          </div>
+        </div>
+        <ng-container formArrayName="ruleActions">
+          <ng-container *ngFor="let action of actionsControls.controls;let i = index" [formGroupName]="i">
+            <ng-container [ngSwitch]="selectedActions[i].id">
+              <ng-template [ngSwitchCase]="1">
+                <div class="call-rules-create_row">
+                  <label>Extension number</label>
+                  <div>
+                    <pbx-select [options]="sipInners" [singleBorder]="true" [objectKey]="'phoneNumber'" [selected]="selectedSipInners[i]" (onSelect)="selectSipInner(i, $event)"></pbx-select>
+                  </div>
+                </div>
+                <div class="call-rules-create_row">
+                  <label>if I do not answer call within</label>
+                  <div>
+                    <input title="timeout" type="number" class="short_input" formControlName="timeout">
+                    <span>seconds</span>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="2">
+                <div class="call-rules-create_row">
+                  <label>External number</label>
+                  <div>
+                    <input title="external number" type="text" formControlName="parameter">
+                  </div>
+                </div>
+                <div class="call-rules-create_row">
+                  <label>if I do not answer call within</label>
+                  <div>
+                    <input title="timeout" type="number" class="short_input" formControlName="timeout">
+                    <span>seconds</span>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="3">
+                <div class="call-rules-create_row">
+                  <label>Queue</label>
+                  <div>
+                    <pbx-select [options]="queues" [objectKey]="'name'" [singleBorder]="true"></pbx-select>
+                  </div>
+                </div>
+                <div class="call-rules-create_row">
+                  <label>if I do not answer call within</label>
+                  <div>
+                    <input title="timeout" type="number" class="short_input" formControlName="timeout">
+                    <span>seconds</span>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="4">
+                <div class="call-rules-create_row">
+                  <label></label>
+                  <div>
+                    <p>Cancel call</p>
+                  </div>
+                </div>
+                <div class="call-rules-create_row">
+                  <label>if I do not answer call within</label>
+                  <div>
+                    <input title="timeout" type="number" class="short_input" formControlName="timeout">
+                    <span>seconds</span>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="5">
+                <div class="call-rules-create_row">
+                  <label>Voice greeting</label>
+                  <div>
+                    <pbx-select [singleBorder]="true"></pbx-select>
+                    <div>
+                      <pbx-button [value]="'Play'" [buttonType]="'accent'"></pbx-button>
+                      <pbx-button [value]="'Upload'" [buttonType]="'accent'"></pbx-button>
+                    </div>
+                  </div>
+                </div>
+                <div class="call-rules-create_row">
+                  <label>Action applies for</label>
+                  <div>
+                    <pbx-select [singleBorder]="true" [options]="ruleTime" [objectKey]="'code'"></pbx-select>
+                  </div>
+                </div>
+                <div class="call-rules-create_row">
+                  <label>Days</label>
+                  <div>
+                    <pbx-button *ngFor="let day of days; let idx = index"
+                                [buttonType]="day.type"
+                                [value]="day.day" (onClick)="selectDay(idx)"></pbx-button>
+                  </div>
+                </div>
+                <div class="call-rules-create_row">
+                  <label>Duration time</label>
+                  <div>
+                    <pbx-select [singleBorder]="true" [options]="duration" [objectKey]="'code'"></pbx-select>
+                  </div>
+                </div>
+              </ng-template>
               <div class="call-rules-create_row">
-                <label>Phone number</label>
-                <input title="external number" type="text" formControlName="phone">
+                <label>Action</label>
+                <div>
+                  <pbx-select [options]="actionsList"
+                              [objectKey]="'code'"
+                              (onSelect)="selectAction($event, i+1)"
+                              [selected]="selectedActions[i+1]"
+                              [placeholder]="'[choose one]'"
+                              [singleBorder]="true"></pbx-select>
+                  <svg-icon src="../../assets/icons/cancel_delete_12px.svg" (click)="deleteAction(i)"></svg-icon>
+                </div>
               </div>
-              <div class="call-rules-create_row">
-                <label>if I do not answer call within</label>
-                <input title="timeout" type="number" class="short_input" formControlName="timeout">
-                <span>seconds</span>
-              </div>
-            </ng-template>
+            </ng-container>
           </ng-container>
         </ng-container>
-      </form>
-    </ng-container>
+      </ng-container>
+    </form>
   </div>
 </div>

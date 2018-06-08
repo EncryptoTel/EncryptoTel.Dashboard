@@ -3,7 +3,7 @@
 .call-rules-create
   display: flex
   flex-flow: column
-  flex: 1
+  flex: 1 0 auto
   &_header
     display: flex
     flex-flow: row
@@ -15,7 +15,7 @@
     display: flex
     flex-flow: column
     background: $dark_pagination_inactive
-    flex: 1
+    flex: 1 0 auto
     padding: 30px
     .actions_form
       display: flex
@@ -28,6 +28,14 @@
     margin-bottom: 10px
     height: 48px
     width: 100%
+    & > div
+      width: 100%
+      pbx-button
+        margin-right: 10px
+        width: unset
+      div
+        pbx-button:first-child
+          margin: 0 10px
     h3
       font-weight: 500
     label
@@ -38,3 +46,8 @@
       width: 100%
     .short_input
       width: 65px
+    svg-icon
+      fill: $dark_error
+      width: 13px
+      height: 13px
+      margin: 5px
