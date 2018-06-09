@@ -1,1 +1,10 @@
-call rules
+<div class="call_rules">
+  <div class="call_rules_header">
+    <div>
+      <pbx-button [value]="'Create Call Rule'" [buttonType]="'success'" (onClick)="createCallRule()"></pbx-button>
+    </div>
+  </div>
+  <div class="call_rules_body">
+    <pbx-table [editable]="true" [tableInfo]="tableInfo" [tableItems]="callRules"></pbx-table>
+  </div>
+</div>

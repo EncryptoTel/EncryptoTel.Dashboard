@@ -20,13 +20,18 @@ export class CallRulesServices {
   }
 
   getFiles(): Promise<any> {
-    return this.request.get(`v1/account/file`, true);
+    return this.request.get(`v1/account/file?type=audio`, true);
   }
 
   getQueue(): Promise<any> {
     return this.request.get(`v1/call_queue`, true);
   }
+
   save(rules): Promise<any> {
     return this.request.post(`v1/outer_rule`, rules, true);
+  }
+
+  getCallRules(): Promise<any> {
+    return this.request.get(`v1/outer_rule`, true);
   }
 }

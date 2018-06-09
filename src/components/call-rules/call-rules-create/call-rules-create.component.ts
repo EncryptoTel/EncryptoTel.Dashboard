@@ -16,13 +16,13 @@ export class CallRulesCreateComponent implements OnInit {
   actionsList: Action[];
   callRulesForm: FormGroup;
   days = [
-    {type: 'accent', day: 'Mon'},
-    {type: 'accent', day: 'Tue'},
-    {type: 'accent', day: 'Wed'},
-    {type: 'accent', day: 'Thu'},
-    {type: 'accent', day: 'Fri'},
-    {type: 'cancel', day: 'Sat'},
-    {type: 'cancel', day: 'Sun'}
+    {type: 'cancel', day: 'Mon', code: 'mon'},
+    {type: 'cancel', day: 'Tue', code: 'tue'},
+    {type: 'cancel', day: 'Wed', code: 'wed'},
+    {type: 'cancel', day: 'Thu', code: 'thu'},
+    {type: 'cancel', day: 'Fri', code: 'fri'},
+    {type: 'cancel', day: 'Sat', code: 'sat'},
+    {type: 'cancel', day: 'Sun', code: 'sun'}
   ];
   duration = [
     {id: 1, code: 'Always (24 hours)'},
@@ -34,10 +34,19 @@ export class CallRulesCreateComponent implements OnInit {
     {id: 2, code: 'Date (period)'},
     {id: 3, code: 'Days of the week'},
   ];
-  sipInners: SipInner[];
+  ruleTimeAsterisk = {
+    time: '',
+    days: '',
+    date: '',
+    month: ''
+  };
   selectedActions: Action[] = [];
+  selectedDurationTime = [];
   selectedNumber: SipOuter;
+  selectedRuleTime = [];
   selectedSipInners: SipInner[] = [];
+  selectedQueues = [];
+  sipInners: SipInner[];
   queues;
 
   constructor(private service: CallRulesServices,
@@ -87,7 +96,24 @@ export class CallRulesCreateComponent implements OnInit {
   }
 
   selectDay(i: number): void {
+    if (this.days[i].type === 'accent') {
+      const startIndex = this.ruleTimeAsterisk.days.indexOf(this.days[i].code);
+      this.ruleTimeAsterisk.days = this.ruleTimeAsterisk.days.slice(startIndex, 5);
+      console.log(startIndex);
+    } else {
+      if (this.ruleTimeAsterisk.days) {
+        this.ruleTimeAsterisk.days = `${this.ruleTimeAsterisk.days}&${this.days[i].code}`;
+      } else {
+        this.ruleTimeAsterisk.days = `${this.ruleTimeAsterisk.days}|${this.days[i].code}`;
+      }
+    }
     this.days[i].type === 'accent' ? this.days[i].type = 'cancel' : this.days[i].type = 'accent';
+    console.log(this.ruleTimeAsterisk.days);
+  }
+
+  selectDurationTime(i: number, duration): void {
+    this.selectedDurationTime[i] = duration;
+    this.actionsControls.get([`${i}`, `parameter`]).setValue(duration.id);
   }
 
   selectNumber(number: SipOuter): void {
@@ -98,6 +124,17 @@ export class CallRulesCreateComponent implements OnInit {
 
   selectSipInner(i: number, sipInner: SipInner): void {
     this.selectedSipInners[i] = sipInner;
+    this.actionsControls.get([`${i}`, `parameter`]).setValue(sipInner.id);
+  }
+
+  selectRuleTime(i: number, rule): void {
+    this.selectedRuleTime[i] = rule;
+    this.actionsControls.get([`${i}`, `parameter`]).setValue(rule.id);
+  }
+
+  selectQueue(i: number, queue): void {
+    this.selectedQueues[i] = queue;
+    this.actionsControls.get([`${i}`, `parameter`]).setValue(queue.id);
   }
 
   get actionsControls(): FormArray {
@@ -120,7 +157,6 @@ export class CallRulesCreateComponent implements OnInit {
   private createCancelCall(): FormGroup {
     return this.fb.group({
       action: 4,
-      parameter: null,
       timeout: 30,
     });
   }
@@ -166,7 +202,7 @@ export class CallRulesCreateComponent implements OnInit {
   }
 
   private getFiles(): void {
-    this.service.getFiles().then(res => {
+    this.service.getFiles().then(() => {
     }).catch(err => {
       console.error(err);
     });

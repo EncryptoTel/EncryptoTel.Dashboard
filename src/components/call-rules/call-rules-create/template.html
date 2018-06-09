@@ -64,7 +64,8 @@
                 <div class="call-rules-create_row">
                   <label>Extension number</label>
                   <div>
-                    <pbx-select [options]="sipInners" [singleBorder]="true" [objectKey]="'phoneNumber'" [selected]="selectedSipInners[i]" (onSelect)="selectSipInner(i, $event)"></pbx-select>
+                    <pbx-select [options]="sipInners" [singleBorder]="true" [objectKey]="'phoneNumber'"
+                                [selected]="selectedSipInners[i]" (onSelect)="selectSipInner(i, $event)"></pbx-select>
                   </div>
                 </div>
                 <div class="call-rules-create_row">
@@ -94,7 +95,11 @@
                 <div class="call-rules-create_row">
                   <label>Queue</label>
                   <div>
-                    <pbx-select [options]="queues" [objectKey]="'name'" [singleBorder]="true"></pbx-select>
+                    <pbx-select [options]="queues"
+                                [objectKey]="'name'"
+                                [singleBorder]="true"
+                                [selected]="selectedQueues[i]"
+                                (onSelect)="selectQueue(i, $event)"></pbx-select>
                   </div>
                 </div>
                 <div class="call-rules-create_row">
@@ -134,10 +139,15 @@
                 <div class="call-rules-create_row">
                   <label>Action applies for</label>
                   <div>
-                    <pbx-select [singleBorder]="true" [options]="ruleTime" [objectKey]="'code'"></pbx-select>
+                    <pbx-select
+                      [singleBorder]="true"
+                      [options]="ruleTime"
+                      [objectKey]="'code'"
+                      (onSelect)="selectRuleTime(i, $event)"
+                      [selected]="selectedRuleTime[i]"></pbx-select>
                   </div>
                 </div>
-                <div class="call-rules-create_row">
+                <div class="call-rules-create_row" *ngIf="selectedRuleTime[i] && selectedRuleTime[i].id === 3">
                   <label>Days</label>
                   <div>
                     <pbx-button *ngFor="let day of days; let idx = index"
@@ -145,10 +155,22 @@
                                 [value]="day.day" (onClick)="selectDay(idx)"></pbx-button>
                   </div>
                 </div>
+                <div class="call-rules-create_row" *ngIf="selectedRuleTime[i] && selectedRuleTime[i].id === 2">
+                  <label>Duration period</label>
+                  <div>
+                    <input type="date">
+                    <input type="date">
+                  </div>
+                </div>
                 <div class="call-rules-create_row">
                   <label>Duration time</label>
                   <div>
-                    <pbx-select [singleBorder]="true" [options]="duration" [objectKey]="'code'"></pbx-select>
+                    <pbx-select
+                      [singleBorder]="true"
+                      [options]="duration"
+                      [objectKey]="'code'"
+                      [selected]="selectedDurationTime[i]"
+                      (onSelect)="selectDurationTime(i, $event)"></pbx-select>
                   </div>
                 </div>
               </ng-template>

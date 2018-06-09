@@ -12,3 +12,11 @@ export class SipInner {
   constructor(public id: number,
               public phoneNumber: string) {}
 }
+
+export class CallRules {
+  constructor(public name: string,
+              public description: string,
+              public sip: object,
+              public ruleAction: object,
+              public id?: number) {}
+}
