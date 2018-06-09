@@ -37,7 +37,6 @@ export class DepartmentsComponent implements OnInit {
     if (sips.valid && (this.selectedSips.length < this.sips.length)) {
       sips.push(this.createPhoneField());
     }
-    sips.push(this.createPhoneField());
   }
 
   addDepartment(): void {
