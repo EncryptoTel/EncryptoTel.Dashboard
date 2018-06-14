@@ -37,6 +37,7 @@ import {UserNotificationsComponent} from '../components/settings/settings-items/
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
 import {DepartmentsComponent} from '../components/departments/department.component';
 import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
+import {ExtensionsComponent} from '../components/extensions/extensions.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -55,12 +56,9 @@ const Routes: Routes = [
     {path: 'dashboard', component: DashboardComponent, data: {title: 'Dashboard', indexed: true}},
     {path: 'phone-numbers', children: [
         {path: '', component: PhoneNumbersComponent, data: {title: 'Phone numbers', indexed: true}},
-        {path: 'new', children: [
-            {path: '', redirectTo: 'buy', pathMatch: 'full'},
-            {path: 'buy', component: BuyPhoneNumbersComponent, data: {title: 'Buy external phone numbers', indexed: true}},
-            {path: 'internal', component: BlankComponent, data: {title: 'Buy internal phone numbers', indexed: true}},
-            {path: 'external', component: BlankComponent, data: {title: 'Add external phone number', indexed: true}}
-          ]}
+        {path: 'buy', component: BuyPhoneNumbersComponent, data: {title: 'Buy external phone numbers', indexed: true}},
+        {path: 'internal', component: BlankComponent, data: {title: 'Buy internal phone numbers', indexed: true}},
+        {path: 'external', component: BlankComponent, data: {title: 'Add external phone number', indexed: true}}
       ]},
     {path: 'address-book', component: BlankComponent, data: {title: 'Address book', indexed: true}},
     {path: 'call-rules', component: BlankComponent, data: {title: 'Call rules', indexed: true}},
@@ -87,7 +85,7 @@ const Routes: Routes = [
     {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
     {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},
     {path: 'departments', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
-    {path: 'extensions', component: BlankComponent, data: {title: 'Employees', indexed: true}},
+    {path: 'extensions', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},
     {path: 'details-and-records', component: DetailsAndRecordsComponent, data: {title: 'Details and records', indexed: true}},
     {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},
     {path: 'storage', component: StorageComponent, data: {title: 'Storage', indexed: true}},

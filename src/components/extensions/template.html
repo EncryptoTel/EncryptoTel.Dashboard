@@ -1,0 +1,11 @@
+<div class="table_container">
+  <div class="table_wrap" #table>
+    <div class="table_pre_row" #row>
+      <a routerLink="buy">
+        <pbx-button value="Add Number" buttonType="success" [propogation]="true"></pbx-button>
+      </a>
+    </div>
+    <pbx-loader *ngIf="loading"></pbx-loader>
+    <pbx-pagination [currentPage]="pagination.page" [totalPages]="pagination.total" (onPageChange)="onPageChange($event)" *ngIf="pagination.total !== 1"></pbx-pagination>
+  </div>
+</div>

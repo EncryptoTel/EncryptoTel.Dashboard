@@ -41,6 +41,7 @@ import {UserNotificationsComponent} from '../components/settings/settings-items/
 import {DepartmentsComponent} from '../components/departments/department.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
 import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
+import {ExtensionsComponent} from '../components/extensions/extensions.component';
 
 
 /*
@@ -91,7 +92,8 @@ import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phon
     PhoneNumbersComponent,
     DepartmentsComponent,
     PhoneNumbersComponent,
-    BuyPhoneNumbersComponent
+    BuyPhoneNumbersComponent,
+    ExtensionsComponent
   ],
   exports: [
     ElementsModule,
@@ -121,7 +123,8 @@ import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phon
     UserNotificationsComponent,
     PhoneNumbersComponent,
     DepartmentsComponent,
-    BuyPhoneNumbersComponent
+    BuyPhoneNumbersComponent,
+    ExtensionsComponent
   ]
 })
 export class ComponentsModule {
