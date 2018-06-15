@@ -42,8 +42,15 @@
       width: 150px
       color: $font-color
       font-size: rem(13)
+    .action
+      font-weight: 500
+      color: unset
     pbx-select
       width: 100%
+    .error_select
+      /deep/
+        .select_item.selected.no_border
+          border-bottom: 1px solid $dark_error
     .short_input
       width: 65px
     svg-icon
@@ -61,3 +68,8 @@
           margin-right: 10px
         &:last-child
           margin-left: 10px
+
+.error_select
+  /deep/
+    .select_item.selected.no_border
+      border: 1px solid green

@@ -33,7 +33,7 @@
         <div>
           <pbx-select [options]="numbers" [selected]="selectedNumber" [objectKey]="'phoneNumber'"
                       (onSelect)="selectNumber($event)" [placeholder]="'[choose one]'"
-                      [singleBorder]="true"></pbx-select>
+                      [singleBorder]="true" [ngClass]="{'error_select': callRulesForm.get('sipId').touched && callRulesForm.get('sipId').invalid}"></pbx-select>
         </div>
       </div>
       <ng-container *ngIf="!selectedNumber">
@@ -47,7 +47,7 @@
           <h3>Options</h3>
         </div>
         <div class="call-rules-create_row">
-          <label>Action</label>
+          <label class="action">Action</label>
           <div>
             <pbx-select [options]="actionsList"
                         [objectKey]="'code'"
@@ -65,7 +65,8 @@
                   <label>Extension number</label>
                   <div>
                     <pbx-select [options]="sipInners" [singleBorder]="true" [objectKey]="'phoneNumber'"
-                                [selected]="selectedSipInners[i]" (onSelect)="selectSipInner(i, $event)"></pbx-select>
+                                [selected]="selectedSipInners[i]" (onSelect)="selectSipInner(i, $event)"
+                                [ngClass]="{'error_select': action.touched && action.invalid}"></pbx-select>
                   </div>
                 </div>
                 <div class="call-rules-create_row">
@@ -99,7 +100,8 @@
                                 [objectKey]="'name'"
                                 [singleBorder]="true"
                                 [selected]="selectedQueues[i]"
-                                (onSelect)="selectQueue(i, $event)"></pbx-select>
+                                (onSelect)="selectQueue(i, $event)"
+                                [ngClass]="{'error_select': action.touched && action.invalid}"></pbx-select>
                   </div>
                 </div>
                 <div class="call-rules-create_row">
@@ -129,7 +131,12 @@
                 <div class="call-rules-create_row">
                   <label>Voice greeting</label>
                   <div>
-                    <pbx-select [singleBorder]="true"></pbx-select>
+                    <pbx-select [singleBorder]="true"
+                                [options]="files"
+                                [objectKey]="'fileName'"
+                                (onSelect)="selectFile($event, i)"
+                                [selected]="selectedFiles[i]"
+                                [ngClass]="{'error_select': action.get('parameter').touched && action.get('parameter').invalid}"></pbx-select>
                     <div>
                       <pbx-button [value]="'Play'" [buttonType]="'accent'"></pbx-button>
                       <pbx-button [value]="'Upload'" [buttonType]="'accent'"></pbx-button>
@@ -144,7 +151,8 @@
                       [options]="ruleTime"
                       [objectKey]="'code'"
                       (onSelect)="selectRuleTime(i, $event)"
-                      [selected]="selectedRuleTime[i]"></pbx-select>
+                      [selected]="selectedRuleTime[i]"
+                      [ngClass]="{'error_select': action.get('timeRules').touched && action.get('timeRules').invalid}"></pbx-select>
                   </div>
                 </div>
                 <div class="call-rules-create_row" *ngIf="selectedRuleTime[i] && selectedRuleTime[i].id === 3">
@@ -158,7 +166,7 @@
                 <div class="call-rules-create_row" *ngIf="selectedRuleTime[i] && selectedRuleTime[i].id === 2">
                   <label>Duration period</label>
                   <div>
-                      <input type="date">
+                    <input type="date">
                   </div>
                 </div>
                 <div class="call-rules-create_row">
@@ -169,20 +177,23 @@
                       [options]="duration"
                       [objectKey]="'code'"
                       [selected]="selectedDurationTime[i]"
-                      (onSelect)="selectDurationTime(i, $event)"></pbx-select>
+                      (onSelect)="selectDurationTime(i, $event)"
+                      [ngClass]="{'error_select': action.get('timeRules').touched && action.get('timeRules').invalid}"></pbx-select>
                   </div>
                 </div>
                 <div class="call-rules-create_row" *ngIf="selectedDurationTime[i] && selectedDurationTime[i].id === 2">
                   <label>Time</label>
                   <div class="time_wrap">
-                    <pbx-select [singleBorder]="true" [objectKey]="'time'" [options]="durationTime[0]" (onSelect)="selectTime($event, 0)" [selected]="selectedDuration[0]"></pbx-select>
+                    <pbx-select [singleBorder]="true" [objectKey]="'time'" [options]="durationTime"
+                                (onSelect)="selectTime($event, i, 0)" [selected]="selectedDuration[i][0]"></pbx-select>
                     ―
-                    <pbx-select [singleBorder]="true" [objectKey]="'time'" [options]="durationTime[1]" (onSelect)="selectTime($event, 1)" [selected]="selectedDuration[1]"></pbx-select>
+                    <pbx-select [singleBorder]="true" [objectKey]="'time'" [options]="durationTime"
+                                (onSelect)="selectTime($event, i, 1)" [selected]="selectedDuration[i][1]"></pbx-select>
                   </div>
                 </div>
               </ng-template>
               <div class="call-rules-create_row">
-                <label>Action</label>
+                <label class="action">Action</label>
                 <div>
                   <pbx-select [options]="actionsList"
                               [objectKey]="'code'"

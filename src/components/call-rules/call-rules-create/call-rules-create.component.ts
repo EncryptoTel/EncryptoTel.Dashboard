@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {CallRulesServices} from '../../../services/call-rules.services';
 import {Action, SipInner, SipOuter} from '../../../models/call-rules.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'pbx-call-rules-create',
@@ -15,6 +16,7 @@ import {Action, SipInner, SipOuter} from '../../../models/call-rules.model';
 export class CallRulesCreateComponent implements OnInit {
   actionsList: Action[];
   callRulesForm: FormGroup;
+  files = [];
   days = [[
     {type: 'cancel', day: 'Mon', code: 'mon'},
     {type: 'cancel', day: 'Tue', code: 'tue'},
@@ -29,34 +31,30 @@ export class CallRulesCreateComponent implements OnInit {
     {id: 2, code: 'Set the time'}
   ];
   durationTime = [
-    [
-      {time: '1 a.m', timeAster: '1:00'},
-      {time: '2 a.m', timeAster: '2:00'},
-      {time: '3 a.m', timeAster: '3:00'},
-      {time: '4 a.m', timeAster: '4:00'},
-      {time: '5 a.m', timeAster: '5:00'},
-      {time: '6 a.m', timeAster: '6:00'},
-      {time: '7 a.m', timeAster: '7:00'},
-      {time: '8 a.m', timeAster: '8:00'},
-      {time: '9 a.m', timeAster: '9:00'},
-      {time: '10 a.m', timeAster: '10:00'},
-      {time: '11 a.m', timeAster: '11:00'},
-      {time: '12 a.m', timeAster: '12:00'}
-    ],
-    [
-      {time: '1 p.m', timeAster: '13:00'},
-      {time: '2 p.m', timeAster: '14:00'},
-      {time: '3 p.m', timeAster: '15:00'},
-      {time: '4 p.m', timeAster: '16:00'},
-      {time: '5 p.m', timeAster: '17:00'},
-      {time: '6 p.m', timeAster: '18:00'},
-      {time: '7 p.m', timeAster: '19:00'},
-      {time: '8 p.m', timeAster: '20:00'},
-      {time: '9 p.m', timeAster: '21:00'},
-      {time: '10 p.m', timeAster: '22:00'},
-      {time: '11 p.m', timeAster: '23:00'},
-      {time: '12 p.m', timeAster: '24:00'}
-    ]
+    {time: '1 a.m', timeAster: '1:00'},
+    {time: '2 a.m', timeAster: '2:00'},
+    {time: '3 a.m', timeAster: '3:00'},
+    {time: '4 a.m', timeAster: '4:00'},
+    {time: '5 a.m', timeAster: '5:00'},
+    {time: '6 a.m', timeAster: '6:00'},
+    {time: '7 a.m', timeAster: '7:00'},
+    {time: '8 a.m', timeAster: '8:00'},
+    {time: '9 a.m', timeAster: '9:00'},
+    {time: '10 a.m', timeAster: '10:00'},
+    {time: '11 a.m', timeAster: '11:00'},
+    {time: '12 a.m', timeAster: '12:00'},
+    {time: '1 p.m', timeAster: '13:00'},
+    {time: '2 p.m', timeAster: '14:00'},
+    {time: '3 p.m', timeAster: '15:00'},
+    {time: '4 p.m', timeAster: '16:00'},
+    {time: '5 p.m', timeAster: '17:00'},
+    {time: '6 p.m', timeAster: '18:00'},
+    {time: '7 p.m', timeAster: '19:00'},
+    {time: '8 p.m', timeAster: '20:00'},
+    {time: '9 p.m', timeAster: '21:00'},
+    {time: '10 p.m', timeAster: '22:00'},
+    {time: '11 p.m', timeAster: '23:00'},
+    {time: '12 p.m', timeAster: '24:00'}
   ];
   numbers: SipOuter[];
   ruleTime = [
@@ -67,7 +65,8 @@ export class CallRulesCreateComponent implements OnInit {
   ruleTimeAsterisk = [];
   selectedActions: Action[] = [];
   selectedDurationTime = [];
-  selectedDuration = [];
+  selectedDuration = [[]];
+  selectedFiles = [];
   selectedNumber: SipOuter;
   selectedRuleTime = [];
   selectedSipInners: SipInner[] = [];
@@ -75,27 +74,29 @@ export class CallRulesCreateComponent implements OnInit {
   sipInners: SipInner[];
   queues;
 
-  constructor(private service: CallRulesServices,
-              private fb: FormBuilder) {
+  constructor(private service: CallRulesServices, private fb: FormBuilder, private router: Router) {
   }
 
   deleteAction(i: number): void {
     this.selectedActions.splice(i + 1, 1);
     this.actionsControls.removeAt(i + 1);
+    this.ruleTimeAsterisk.splice(i + 1, 1);
   }
 
   cancel(): void {
-    this.callRulesForm.reset();
+    this.router.navigate(['cabinet', 'call-rules']);
   }
 
   save(): void {
     this.formatAsterRule();
-    console.log(this.callRulesForm);
-    console.log(this.ruleTimeAsterisk);
-    // this.service.save({...this.callRulesForm.value}).then(res => {
-    // }).catch(err => {
-    //   console.error(err);
-    // });
+    this.validate();
+    if (this.callRulesForm.valid) {
+      this.service.save({...this.callRulesForm.value}).then(() => {
+        this.router.navigate(['cabinet', 'call-rules']);
+      }).catch(err => {
+        console.error(err);
+      });
+    }
   }
 
   selectAction(action: Action, i: number = 0): void {
@@ -119,8 +120,6 @@ export class CallRulesCreateComponent implements OnInit {
       default:
         break;
     }
-    console.log(this.callRulesForm);
-    console.log(this.selectedActions);
   }
 
   selectDay(idx: number, i: number): void {
@@ -141,8 +140,31 @@ export class CallRulesCreateComponent implements OnInit {
     this.selectedDurationTime[i] = duration;
     this.actionsControls.get([`${i}`, `parameter`]).setValue(duration.id);
     if (duration.id === 1) {
+      if (!this.ruleTimeAsterisk[i]) {
+        this.ruleTimeAsterisk[i] = {
+          days: [],
+          date: '',
+          month: '',
+          time: ''
+        };
+      }
       this.ruleTimeAsterisk[i].time = '*';
+    } else if (duration.id === 2) {
+      this.selectedDuration[i] = [[], []];
+      if (!this.ruleTimeAsterisk[i]) {
+        this.ruleTimeAsterisk[i] = {
+          days: [],
+          date: '',
+          month: '',
+          time: ''
+        };
+      }
     }
+  }
+
+  selectFile(file, i: number): void {
+    this.selectedFiles[i] = file;
+    this.actionsControls.get([`${i}`, `parameter`]).setValue(file.id);
   }
 
   selectNumber(number: SipOuter): void {
@@ -161,7 +183,8 @@ export class CallRulesCreateComponent implements OnInit {
       this.ruleTimeAsterisk[i] = {
         days: [],
         date: '',
-        month: ''
+        month: '',
+        time: ''
       };
     }
     this.selectedRuleTime[i] = rule;
@@ -202,12 +225,9 @@ export class CallRulesCreateComponent implements OnInit {
     }
   }
 
-  selectTime(time, i: number): void {
-    this.selectedDuration[i] = time;
-    if (this.selectedDuration[0] && this.selectedDuration[1]) {
-      this.ruleTimeAsterisk[i].time = `${this.selectedDuration[0].timeAster}-${this.selectedDuration[1].timeAster}`;
-      console.log(this.ruleTimeAsterisk[i].time);
-    }
+  selectTime(time, i: number, idx): void {
+    this.selectedDuration[i][idx] = time;
+    this.ruleTimeAsterisk[i].time = `${this.selectedDuration[i][idx].timeAster}-${this.selectedDuration[i][idx].timeAster}`;
   }
 
   selectQueue(i: number, queue): void {
@@ -225,57 +245,65 @@ export class CallRulesCreateComponent implements OnInit {
 
   private buildForm(): void {
     this.callRulesForm = this.fb.group({
-      name: null,
-      description: null,
-      sipId: null,
-      ruleActions: this.fb.array([])
+      name: [null, [Validators.required, Validators.maxLength(150), Validators.pattern('[A-Za-z0-9_-]*')]],
+      description: [null, [Validators.maxLength(255)]],
+      sipId: [null, [Validators.required]],
+      ruleActions: this.fb.array([], Validators.required)
     });
   }
 
   private createCancelCall(): FormGroup {
     return this.fb.group({
       action: 4,
-      timeout: 30,
+      timeout: [30, [Validators.min(5), Validators.max(300)]],
     });
   }
 
   private createRedirectToExternalNumber(): FormGroup {
     return this.fb.group({
       action: 2,
-      parameter: null,
-      timeout: 30,
+      parameter: [null, [Validators.maxLength(12), Validators.pattern('[0-9]*'), Validators.required]],
+      timeout: [30, [Validators.min(5), Validators.max(300)]],
     });
   }
 
   private createRedirectToExtensionNumber(): FormGroup {
     return this.fb.group({
       action: 1,
-      parameter: null,
-      timeout: 30,
+      parameter: [null, [Validators.required]],
+      timeout: [30, [Validators.min(5), Validators.max(300)]],
     });
   }
 
   private createRedirectToQueue(): FormGroup {
     return this.fb.group({
       action: 3,
-      parameter: null,
-      timeout: 30,
+      parameter: [null, [Validators.required]],
+      timeout: [30, [Validators.min(5), Validators.max(300)]],
     });
   }
 
   private createPlayVoiceFile(): FormGroup {
+    const timeRulePattern = /(\*|[0-9]*:[0-9]*-[0-9]*:[0-9]*)\|(\*|(sun|mon|tue|wed|thu|fri|sat)(&(sun|mon|tue|wed|thu|fri|sat))*)\|(\*|[0-9]*)\|(\*|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(&(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))*)/;
     return this.fb.group({
       action: 5,
-      parameter: null,
-      timeout: 30,
-      timeRules: ''
+      parameter: [null, [Validators.required]],
+      timeout: [30, [Validators.min(5), Validators.max(300)]],
+      timeRules: ['', [Validators.required, Validators.pattern(timeRulePattern)]]
     });
   }
 
   private formatAsterRule() {
+    let days;
     this.ruleTimeAsterisk.forEach((el, i) => {
-      console.log(el, i);
-      this.actionsControls.get([`${i}`, 'timeRules']).setValue(`${el.time}|${el.days}|${el.date}|${el.month}`);
+      el.days.forEach((day, index) => {
+        if (index === 0) {
+          days = day;
+        } else {
+          days = days + '&' + day;
+        }
+      });
+      this.actionsControls.get([`${i}`, 'timeRules']).setValue(`${el.time}|${days}|${el.date}|${el.month}`);
     });
   }
 
@@ -288,7 +316,8 @@ export class CallRulesCreateComponent implements OnInit {
   }
 
   private getFiles(): void {
-    this.service.getFiles().then(() => {
+    this.service.getFiles().then((res) => {
+      this.files = res.items;
     }).catch(err => {
       console.error(err);
     });
@@ -315,6 +344,24 @@ export class CallRulesCreateComponent implements OnInit {
       this.queues = res.items;
     }).catch(err => {
       console.error(err);
+    });
+  }
+
+  private validate(): void {
+    this.callRulesForm.markAsTouched();
+    Object.keys(this.callRulesForm.controls).forEach(control => {
+      if (this.callRulesForm.get(`${control}`) instanceof FormArray) {
+        const controlsArray = this.callRulesForm.get(`${control}`) as FormArray;
+        controlsArray.markAsTouched();
+        controlsArray.controls.forEach((cntrl: FormGroup) => {
+          cntrl.markAsTouched();
+          Object.keys(cntrl.controls).forEach(c => {
+            cntrl.get(`${c}`).markAsTouched();
+          });
+        });
+      } else {
+        this.callRulesForm.get(`${control}`).markAsTouched();
+      }
     });
   }
 

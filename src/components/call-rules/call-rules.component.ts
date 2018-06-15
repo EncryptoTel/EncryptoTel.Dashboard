@@ -13,7 +13,7 @@ import {Router} from '@angular/router';
 })
 
 export class CallRulesComponent implements OnInit {
-  callRules: CallRules;
+  callRules: CallRules[];
   tableInfo = {
     titles: ['Phone number', 'Call Rule Name', 'Status', 'Description'],
     keys: ['sip.phoneNumber', 'name', 'status', 'description']
@@ -30,6 +30,9 @@ export class CallRulesComponent implements OnInit {
   private getCallRules(): void {
     this.service.getCallRules().then(res => {
       this.callRules = res.items;
+      this.callRules.forEach(callRule => {
+        
+      });
     }).catch(err => {
       console.error(err);
     });
