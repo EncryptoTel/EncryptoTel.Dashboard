@@ -61,16 +61,16 @@ export class CallDetailItem {
 
 export class CallDetailModel {
     @Type(() => Date)
-    callDate: Date;
+    date: Date;
     @Type(() => CallDetailItem)
     list: CallDetailItem[];
     get analyzeDate(): string {
         const _date: Date = new Date();
-        return _date.getMonth() === this.callDate.getMonth() ?
-            _date.getDate() === this.callDate.getDate() ?
-                'Today' : _date.getDate() - 1 === this.callDate.getDate() ?
-                'Yesterday' : `${months[this.callDate.getMonth()]}/${this.callDate.getDate()}/${this.callDate.getFullYear()}`
-            : `${months[this.callDate.getMonth()]}/${this.callDate.getDate()}/${this.callDate.getFullYear()}`;
+        return _date.getMonth() === this.date.getMonth() ?
+            _date.getDate() === this.date.getDate() ?
+                'Today' : _date.getDate() - 1 === this.date.getDate() ?
+                'Yesterday' : `${months[this.date.getMonth()]}/${this.date.getDate()}/${this.date.getFullYear()}`
+            : `${months[this.date.getMonth()]}/${this.date.getDate()}/${this.date.getFullYear()}`;
     }
 }
 //

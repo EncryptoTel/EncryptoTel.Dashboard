@@ -22,7 +22,7 @@ export class DashboardComponent {
     this.initDashboard();
   }
   dashboard: DashboardModel;
-  history: DBHistoryModel[];
+  // history: DBHistoryModel[];
   loading = true;
   fetchDashboard(): Promise<void> {
     return this._dashboard.getDashboard().then(dashboard => {
@@ -32,14 +32,14 @@ export class DashboardComponent {
       this.loading = false;
     });
   }
-  fetchHistory(): Promise<void> {
-    return this._history.fetchHistoryList().then(history => {
-          this.history = history;
-      }).catch(() => {
-      });
-  }
+  // fetchHistory(): Promise<void> {
+  //   return this._history.fetchHistoryList().then(history => {
+  //         this.history = history;
+  //     }).catch(() => {
+  //     });
+  // }
   initDashboard(): void {
     this.fetchDashboard();
-    this.fetchHistory();
+    // this.fetchHistory();
   }
 }
