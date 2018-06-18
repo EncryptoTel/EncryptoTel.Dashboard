@@ -7,12 +7,20 @@ export class CallRulesServices {
   constructor(private request: RequestServices) {
   }
 
-  getNumbers(): Promise<any> {
-    return this.request.get(`v1/sip/outers`, true);
+  deleteCallRules(id: number): Promise<any> {
+    return this.request.del(`v1/outer_rule/${id}`, true);
   }
 
-  getParams(): Promise<any> {
-    return this.request.get(`v1/outer_rule/params`, true);
+  edit(id: number, rules): Promise<any> {
+    return this.request.put(`v1/outer_rule/${id}`, rules, true);
+  }
+
+  getCallRules(): Promise<any> {
+    return this.request.get(`v1/outer_rule`, true);
+  }
+
+  getEditedCallRule(id: number): Promise<any> {
+    return this.request.get(`v1/outer_rule/${id}`, true);
   }
 
   getExtensions(id: number): Promise<any> {
@@ -23,15 +31,19 @@ export class CallRulesServices {
     return this.request.get(`v1/account/file?type=audio`, true);
   }
 
+  getNumbers(): Promise<any> {
+    return this.request.get(`v1/sip/outers`, true);
+  }
+
+  getParams(): Promise<any> {
+    return this.request.get(`v1/outer_rule/params`, true);
+  }
+
   getQueue(): Promise<any> {
     return this.request.get(`v1/call_queue`, true);
   }
 
   save(rules): Promise<any> {
     return this.request.post(`v1/outer_rule`, rules, true);
-  }
-
-  getCallRules(): Promise<any> {
-    return this.request.get(`v1/outer_rule`, true);
   }
 }

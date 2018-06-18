@@ -18,5 +18,7 @@ export class CallRules {
               public description: string,
               public sip: object,
               public ruleAction: object,
-              public id?: number) {}
+              public id?: number,
+              public statusParameter?: string,
+              public status?: number) {}
 }

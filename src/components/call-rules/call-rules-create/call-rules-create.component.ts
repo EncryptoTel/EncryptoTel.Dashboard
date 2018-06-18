@@ -4,7 +4,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {CallRulesServices} from '../../../services/call-rules.services';
 import {Action, SipInner, SipOuter} from '../../../models/call-rules.model';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'pbx-call-rules-create',
@@ -57,6 +57,8 @@ export class CallRulesCreateComponent implements OnInit {
     {time: '12 p.m', timeAster: '24:00'}
   ];
   numbers: SipOuter[];
+  mode = 'create';
+  ruleActions;
   ruleTime = [
     {id: 1, code: 'Always (24 hours)'},
     {id: 2, code: 'Date (period)'},
@@ -71,10 +73,14 @@ export class CallRulesCreateComponent implements OnInit {
   selectedRuleTime = [];
   selectedSipInners: SipInner[] = [];
   selectedQueues = [];
-  sipInners: SipInner[];
-  queues;
+  sipInners: SipInner[] = [];
+  queues = [];
 
-  constructor(private service: CallRulesServices, private fb: FormBuilder, private router: Router) {
+  constructor(private service: CallRulesServices,
+              private fb: FormBuilder,
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
+    activatedRoute.snapshot.params.id ? this.mode = 'edit' : this.mode = 'create';
   }
 
   deleteAction(i: number): void {
@@ -91,11 +97,19 @@ export class CallRulesCreateComponent implements OnInit {
     this.formatAsterRule();
     this.validate();
     if (this.callRulesForm.valid) {
-      this.service.save({...this.callRulesForm.value}).then(() => {
-        this.router.navigate(['cabinet', 'call-rules']);
-      }).catch(err => {
-        console.error(err);
-      });
+      if (this.mode === 'create') {
+        this.service.save({...this.callRulesForm.value}).then(() => {
+          this.router.navigate(['cabinet', 'call-rules']);
+        }).catch(err => {
+          console.error(err);
+        });
+      } else if (this.mode === 'edit') {
+        this.service.edit(this.activatedRoute.snapshot.params.id, {...this.callRulesForm.value}).then(() => {
+          this.router.navigate(['cabinet', 'call-rules']);
+        }).catch(err => {
+          console.error(err);
+        });
+      }
     }
   }
 
@@ -293,7 +307,7 @@ export class CallRulesCreateComponent implements OnInit {
     });
   }
 
-  private formatAsterRule() {
+  private formatAsterRule(): void {
     let days;
     this.ruleTimeAsterisk.forEach((el, i) => {
       el.days.forEach((day, index) => {
@@ -307,9 +321,77 @@ export class CallRulesCreateComponent implements OnInit {
     });
   }
 
+  private formatForEdit(ruleActions): void {
+    Object.keys(ruleActions).forEach((action, i) => {
+      this.actionsList.forEach(act => {
+        if (act.id === ruleActions[action].action) {
+          this.selectedActions.push(act);
+        }
+      });
+      switch (ruleActions[action].action) {
+        case 1:
+          this.addAction(this.createRedirectToExtensionNumber(), i);
+          this.sipInners.forEach((sipInner: SipInner) => {
+            if (sipInner.id.toString() === ruleActions[action].parameter) {
+              this.selectedSipInners[i] = sipInner;
+            }
+          });
+          this.actionsControls.get([`${i}`, 'parameter']).setValue(ruleActions[action].parameter);
+          break;
+        case 2:
+          this.addAction(this.createRedirectToExternalNumber(), i);
+          this.actionsControls.get([`${i}`, 'parameter']).setValue(ruleActions[action].parameter);
+          break;
+        case 3:
+          this.addAction(this.createRedirectToQueue(), i);
+          this.queues.forEach(queue => {
+            if (queue.id.toString() === ruleActions[action].parameter) {
+              this.selectedQueues[i] = queue;
+            }
+          });
+          this.actionsControls.get([`${i}`, 'parameter']).setValue(ruleActions[action].parameter);
+          break;
+        case 4:
+          this.addAction(this.createCancelCall(), i);
+          break;
+        case 5:
+          this.addAction(this.createPlayVoiceFile(), i);
+          this.files.forEach(file => {
+            if (file.id.toString() === ruleActions[action].parameter) {
+              this.selectedFiles[i] = file;
+            }
+          });
+          this.actionsControls.get([`${i}`, 'parameter']).setValue(ruleActions[action].parameter);
+          const time = /(\*|[0-9]*:[0-9]*-[0-9]*:[0-9]*)/;
+          const days = /(\*|(sun|mon|tue|wed|thu|fri|sat)(&(sun|mon|tue|wed|thu|fri|sat))*)/;
+          const month = /(\*|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(&(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))*)/;
+          console.log(time.exec(ruleActions[action].timeRules));
+          console.log(days.exec(ruleActions[action].timeRules));
+          console.log(month.exec(ruleActions[action].timeRules));
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  private getEditedCallRule(): void {
+    this.service.getEditedCallRule(this.activatedRoute.snapshot.params.id).then(res => {
+      const {description, name, sip, ruleActions} = res;
+      this.callRulesForm.get('description').setValue(description);
+      this.callRulesForm.get('name').setValue(name);
+      this.callRulesForm.get('sipId').setValue(sip.id);
+      this.ruleActions = ruleActions;
+      this.getExtensions(sip.id);
+    }).catch(err => {
+      console.error(err);
+    });
+  }
+
   private getExtensions(id: number): void {
     this.service.getExtensions(id).then(res => {
       this.sipInners = res.items;
+      this.formatForEdit(this.ruleActions);
     }).catch(err => {
       console.error(err);
     });
@@ -318,6 +400,10 @@ export class CallRulesCreateComponent implements OnInit {
   private getFiles(): void {
     this.service.getFiles().then((res) => {
       this.files = res.items;
+      this.getQueue();
+      if (this.mode === 'edit') {
+        this.getEditedCallRule();
+      }
     }).catch(err => {
       console.error(err);
     });
@@ -334,6 +420,7 @@ export class CallRulesCreateComponent implements OnInit {
   private getParams(): void {
     this.service.getParams().then(res => {
       this.actionsList = res.actions;
+      this.getFiles();
     }).catch(err => {
       console.error(err);
     });
@@ -369,8 +456,6 @@ export class CallRulesCreateComponent implements OnInit {
     this.buildForm();
     this.getNumbers();
     this.getParams();
-    this.getFiles();
-    this.getQueue();
   }
 }
 

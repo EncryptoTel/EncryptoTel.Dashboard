@@ -28,7 +28,7 @@
           <input type="text" id="description" title="description" formControlName="description">
         </div>
       </div>
-      <div class="call-rules-create_row">
+      <div class="call-rules-create_row" *ngIf="mode !== 'edit'">
         <label>Phone number</label>
         <div>
           <pbx-select [options]="numbers" [selected]="selectedNumber" [objectKey]="'phoneNumber'"
@@ -36,13 +36,13 @@
                       [singleBorder]="true" [ngClass]="{'error_select': callRulesForm.get('sipId').touched && callRulesForm.get('sipId').invalid}"></pbx-select>
         </div>
       </div>
-      <ng-container *ngIf="!selectedNumber">
+      <ng-container *ngIf="!callRulesForm.get('sipId').value">
         <div class="call-rules-create_row">
           <label></label>
           <div><p>Please note: you must select a phone number before creating a new action.</p></div>
         </div>
       </ng-container>
-      <ng-container *ngIf="selectedNumber">
+      <ng-container *ngIf="callRulesForm.get('sipId').value">
         <div class="call-rules-create_row">
           <h3>Options</h3>
         </div>
