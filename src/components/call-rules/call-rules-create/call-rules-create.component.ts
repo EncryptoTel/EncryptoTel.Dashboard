@@ -362,12 +362,23 @@ export class CallRulesCreateComponent implements OnInit {
             }
           });
           this.actionsControls.get([`${i}`, 'parameter']).setValue(ruleActions[action].parameter);
-          const time = /(\*|[0-9]*:[0-9]*-[0-9]*:[0-9]*)/;
-          const days = /(\*|(sun|mon|tue|wed|thu|fri|sat)(&(sun|mon|tue|wed|thu|fri|sat))*)/;
-          const month = /(\*|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(&(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))*)/;
-          console.log(time.exec(ruleActions[action].timeRules));
-          console.log(days.exec(ruleActions[action].timeRules));
-          console.log(month.exec(ruleActions[action].timeRules));
+          const timePattern = /(\*|[0-9]*:[0-9]*-[0-9]*:[0-9]*)/;
+          const daysPattern = /(\*|(sun|mon|tue|wed|thu|fri|sat)(&(sun|mon|tue|wed|thu|fri|sat))*)/;
+          const monthPattern = /(\*|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(&(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))*)/;
+          const time = timePattern.exec(ruleActions[action].timeRules);
+          const days = daysPattern.exec(ruleActions[action].timeRules);
+          const month = monthPattern.exec(ruleActions[action].timeRules);
+          console.log(time);
+          console.log(days);
+          console.log(month);
+          console.log(time[0]);
+          console.log(this.duration[0]);
+          if (time[0] === '*') {
+            this.selectDurationTime(i, this.duration[0]);
+          } else {
+            this.selectDurationTime(i, this.duration[1]);
+          }
+          console.log(this.selectedDurationTime[i]);
           break;
         default:
           break;
