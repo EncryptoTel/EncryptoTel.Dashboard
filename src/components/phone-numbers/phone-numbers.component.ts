@@ -134,6 +134,7 @@ export class PhoneNumbersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loading = true;
     setTimeout(() => {
       this.requestDetails = {
         search: '',

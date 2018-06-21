@@ -6,13 +6,50 @@ pbx-button /deep/ .button
 pbx-button:last-child
   margin-left: rem(16)
 
+.button
+  flex: 0 0 auto
+  align-items: center
+  justify-content: center
+  height: rem(40)
+  min-width: rem(94)
+  margin-left: auto
+  padding: 0 16px
+  cursor: pointer
+  border-radius: 2px
+  position: relative
+  overflow: hidden
+  > *
+    cursor: pointer
+    pointer-events: none
+  &:disabled
+    opacity: .9
+
+
 .table_pre_row
   position: relative
-  > a
-    flex: 0 0 auto
-    margin-left: auto
-    /deep/ button
+  .add_list
+    position: absolute
+    right: 0
+    top: 100%
+    flex-direction: column
+    height: 0
+    z-index: 10
+    overflow: hidden
+    border-radius: 0 0 2px 2px
+    &.visible
+      height: rem(120)
+    &_item
       flex: 0 0 auto
+      align-items: center
+      height: rem(40)
+      padding: 0 rem(16)
+      cursor: pointer
 
 // Themes styles
-//\:host-context(.dark_theme)
+\:host-context(.dark_theme)
+  .button.phone_numbers
+    background: $dark_success
+  .add_list
+    background: darken($dark_success, 20%)
+    &_item:hover
+      background: rgba($dark_primary, .1)

@@ -3,7 +3,8 @@ import {TableInfoModel} from '../../models/table-info.model';
 
 @Component({
   selector: 'pbx-table',
-  templateUrl: './template.html'
+  templateUrl: './template.html',
+  styleUrls: ['./local.sass']
 })
 
 export class TableComponent {
