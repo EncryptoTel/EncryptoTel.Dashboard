@@ -16,7 +16,6 @@ export class BuyPhoneNumbersComponent implements OnInit {
   list: any[];
 
   requestDetails: {
-    countryCode: string;
     search: string,
     page: number,
     limit: number
@@ -40,10 +39,8 @@ export class BuyPhoneNumbersComponent implements OnInit {
     this.loading = true;
     this._services.getAvailableNumbersList(this.requestDetails)
       .then(res => {
-        // this.list = [res['items'].slice(0, this.requestDetails.limit / 2), res['items'].slice(this.requestDetails.limit / 2)];
-        this.list = [res['numbers'].slice(0, this.requestDetails.limit / 2), res['numbers'].slice(this.requestDetails.limit / 2)];
-        // console.log(this.list);
-        this.pagination.total = 1;//res.pages;
+        this.list = [res['items'].slice(0, this.requestDetails.limit / 2), res['items'].slice(this.requestDetails.limit / 2)];
+        this.pagination.total = res.pages;
         this.loading = false;
       });
   }
@@ -65,7 +62,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
   buyItem(number): void {
     number.loading = true;
-    this._services.buyNumber(number.params)
+    this._services.buyNumber(number.id)
       .then(() => {
         number.loading = false;
         number.inactive = true;
@@ -74,11 +71,9 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
   ngOnInit() {
     this.requestDetails = {
-      countryCode: 'US',
       search: '',
       page: 1,
-      //limit: calculateHeight(this.table, this.row) * 2
-      limit: 50
+      limit: calculateHeight(this.table, this.row) * 2
     };
     this.getList();
     this.pagination.page = 1;
