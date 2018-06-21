@@ -1,9 +1,14 @@
 <div class="table_container">
   <div class="table_wrap" #table>
     <div class="table_pre_row" #row>
-      <a routerLink="buy">
-        <pbx-button value="Add Number" buttonType="success" [propogation]="true"></pbx-button>
-      </a>
+      <div class="button phone_numbers" #button (click)="ripple($event); listVisible = !listVisible">
+        <span>Add Number</span>
+      </div>
+      <div class="add_list" [ngClass]="{'visible': listVisible}" [style.width.px]="button.clientWidth">
+        <a routerLink="new/buy" class="add_list_item">Buy</a>
+        <a routerLink="new/external" class="add_list_item">External</a>
+        <a routerLink="new/internal" class="add_list_item">Internal</a>
+      </div>
     </div>
     <pbx-loader *ngIf="loading"></pbx-loader>
     <pbx-table [tableItems]="list"
