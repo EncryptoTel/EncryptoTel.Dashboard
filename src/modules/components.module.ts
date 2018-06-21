@@ -43,6 +43,8 @@ import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.c
 import {CallRulesComponent} from '../components/call-rules/call-rules.component';
 import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
 import {AddressBookComponent} from '../components/address-book/address-book.component';
+import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
+import {ExtensionsComponent} from '../components/extensions/extensions.component';
 
 
 /*
@@ -94,7 +96,10 @@ import {AddressBookComponent} from '../components/address-book/address-book.comp
     AddressBookComponent,
     DepartmentsComponent,
     CallRulesComponent,
-    CallRulesCreateComponent
+    CallRulesCreateComponent,
+    PhoneNumbersComponent,
+    BuyPhoneNumbersComponent,
+    ExtensionsComponent
   ],
   exports: [
     ElementsModule,
@@ -126,7 +131,10 @@ import {AddressBookComponent} from '../components/address-book/address-book.comp
     DepartmentsComponent,
     CallRulesComponent,
     CallRulesCreateComponent,
-    AddressBookComponent
+    AddressBookComponent,
+    DepartmentsComponent,
+    BuyPhoneNumbersComponent,
+    ExtensionsComponent
   ]
 })
 export class ComponentsModule {

@@ -14,6 +14,7 @@ export class ButtonComponent {
   @Input() buttonType: string;
   @Input() loading: boolean;
   @Input() inactive: boolean;
+  @Input() propogation: boolean;
   @Output() onClick: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('button') button: ElementRef;
 
@@ -28,8 +29,9 @@ export class ButtonComponent {
 
   clicked(ev?: MouseEvent): void {
     if (ev) {
-      ev.stopPropagation();
       ev.preventDefault();
+    } else if (ev && !this.propogation) {
+      ev.stopPropagation();
     }
     const div = document.createElement('div');
     const radius = this.button.nativeElement.clientWidth;

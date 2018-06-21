@@ -39,6 +39,8 @@ import {AddressBookComponent} from '../components/address-book/address-book.comp
 import {DepartmentsComponent} from '../components/departments/department.component';
 import {CallRulesComponent} from '../components/call-rules/call-rules.component';
 import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
+import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
+import {ExtensionsComponent} from '../components/extensions/extensions.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -57,12 +59,9 @@ const Routes: Routes = [
     {path: 'dashboard', component: DashboardComponent, data: {title: 'Dashboard', indexed: true}},
     {path: 'phone-numbers', children: [
         {path: '', component: PhoneNumbersComponent, data: {title: 'Phone numbers', indexed: true}},
-        {path: 'new', children: [
-            {path: '', redirectTo: 'buy', pathMatch: 'full'},
-            {path: 'buy', component: BlankComponent, data: {title: 'Buy external phone numbers', indexed: true}},
-            {path: 'internal', component: BlankComponent, data: {title: 'Buy internal phone numbers', indexed: true}},
-            {path: 'external', component: BlankComponent, data: {title: 'Add external phone number', indexed: true}}
-          ]}
+        {path: 'buy', component: BuyPhoneNumbersComponent, data: {title: 'Buy external phone numbers', indexed: true}},
+        {path: 'internal', component: BlankComponent, data: {title: 'Buy internal phone numbers', indexed: true}},
+        {path: 'external', component: BlankComponent, data: {title: 'Add external phone number', indexed: true}}
       ]},
     {path: 'address-book', component: AddressBookComponent, data: {title: 'Address book', indexed: true}},
     {path: 'call-rules', data: {title: 'Call rules', indexed: true}, children: [
@@ -93,7 +92,7 @@ const Routes: Routes = [
     {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
     {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},
     {path: 'departments', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
-    {path: 'extensions', component: BlankComponent, data: {title: 'Employees', indexed: true}},
+    {path: 'extensions', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},
     {path: 'details-and-records', component: DetailsAndRecordsComponent, data: {title: 'Details and records', indexed: true}},
     {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},
     {path: 'storage', component: StorageComponent, data: {title: 'Storage', indexed: true}},

@@ -1,0 +1,17 @@
+@import '../../../vars'
+
+.table
+  &:first-child
+    margin-right: rem(24)
+  &_column
+    pointer-events: unset
+    &:not(:first-child)
+      text-align: center
+    &:last-child
+      flex: 0 0 rem(110)
+    pbx-button
+      width: fit-content
+      flex: 0 0 auto
+      margin-left: auto
+      /deep/ .button
+        height: rem(32)
