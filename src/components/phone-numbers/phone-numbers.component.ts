@@ -34,6 +34,7 @@ export class PhoneNumbersComponent implements OnInit {
 
   @ViewChild('row') row: ElementRef;
   @ViewChild('table') table: ElementRef;
+    @ViewChild('button') button: ElementRef;
 
   constructor(private _services: PhoneNumbersServices,
               public router: Router) {
@@ -44,7 +45,36 @@ export class PhoneNumbersComponent implements OnInit {
     };
   }
 
-  selectItem(item: any): void {
+    ripple(ev: MouseEvent): void {
+        if (ev) {
+            ev.stopPropagation();
+            ev.preventDefault();
+        }
+        const div = document.createElement('div');
+        const radius = this.button.nativeElement.clientWidth;
+        div.style.width = div.style.height = radius + 'px';
+        div.style.top = ev.offsetY - radius / 2 + 'px';
+        div.style.left = ev.offsetX - radius / 2 + 'px';
+        div.classList.add('button_overlay');
+        this.button.nativeElement.appendChild(div);
+        if (radius < 150) {
+            div.classList.add('small');
+            setTimeout(() => {
+                this.button.nativeElement.removeChild(div);
+            }, 300);
+        } else if (radius >= 150 && radius < 300) {
+            div.classList.add('medium');
+            setTimeout(() => {
+                this.button.nativeElement.removeChild(div);
+            }, 400);
+        } else {
+            setTimeout(() => {
+                this.button.nativeElement.removeChild(div);
+            }, 550);
+        }
+    }
+
+    selectItem(item: any): void {
     this.selected = item;
   }
 
