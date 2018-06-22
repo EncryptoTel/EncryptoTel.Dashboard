@@ -5,21 +5,21 @@ import {Observable} from 'rxjs/Observable';
 import {RequestServices} from './request.services';
 import {StorageServices} from './storage.services';
 
-import {DBTariffPlanModel} from '../models/db.tariff-plan.model';
+import {TariffPlanModel} from '../models/tariff-plan.model';
 import {plainToClass} from 'class-transformer';
 
 @Injectable()
-export class DBTariffPlanServices {
+export class TariffPlanServices {
   constructor(private _req: RequestServices,
               private _storage: StorageServices) {}
-  tariffPlan: DBTariffPlanModel;
-  subscription: Subject<DBTariffPlanModel> = new Subject<DBTariffPlanModel>();
+  tariffPlan: TariffPlanModel;
+  subscription: Subject<TariffPlanModel> = new Subject<TariffPlanModel>();
   /*
     Fetch account tariff params
    */
-  fetchTariffPlanDetails(): Promise<DBTariffPlanModel> {
+  fetchTariffPlanDetails(): Promise<TariffPlanModel> {
     return this._req.get('db_tariff.json').then(res => {
-      this.tariffPlan = plainToClass(DBTariffPlanModel, res['tariff'] as Object);
+      this.tariffPlan = plainToClass(TariffPlanModel, res['tariff'] as Object);
       this._storage.writeItem('pbx_tariff', this.tariffPlan);
       this.touchTariff();
       return Promise.resolve(this.tariffPlan);
@@ -28,9 +28,9 @@ export class DBTariffPlanServices {
   /*
     Fetch if tariff exist in storage
    */
-  fetchTariff = (): DBTariffPlanModel | null => {
+  fetchTariff = (): TariffPlanModel | null => {
     if (this._storage.readItem('pbx_tariff')) {
-      return plainToClass(DBTariffPlanModel, this._storage.readItem('pbx_tariff') as Object);
+      return plainToClass(TariffPlanModel, this._storage.readItem('pbx_tariff') as Object);
     } else {
       return null;
     }
@@ -45,7 +45,7 @@ export class DBTariffPlanServices {
   /*
     Tariff plan subscription
    */
-  tariffPlanSubscription(): Observable<DBTariffPlanModel> {
+  tariffPlanSubscription(): Observable<TariffPlanModel> {
     return this.subscription.asObservable();
   }
   /*
@@ -58,6 +58,6 @@ export class DBTariffPlanServices {
     Tariff plan select
    */
   selectTariffPlan(id: number): Promise<any> {
-    return this._req.get(`v1/tariff-plan/${id}`, true);
+    return this._req.post(`v1/order/tariff-plan/${id}`, {}, true);
   }
 }

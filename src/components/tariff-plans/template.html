@@ -1,3 +1,7 @@
+<pbx-modal [visible]="modalVisible" (onConfirm)="modalConfirm()" (onDecline)="modalDecline()">
+  <div style="font-size: 16px">Modal body</div>
+</pbx-modal>
+
 <pbx-loader *ngIf="loading"></pbx-loader>
 <div class="tariff_message" *ngIf="!loading&&!tariffs.length">No available tariff</div>
 <div class="tariff_wrap tariff_high_resolution" [ngClass]="{'not_enough':tariffs.length<5}" *ngIf="!loading&&tariffs.length" [@Fade]>
@@ -6,7 +10,8 @@
     <svg-icon class="tariff_wrap_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
   </div>
   <div class="tariff_list">
-    <div class="tariff_item" [ngClass]="{'current_tariff':currentTariff===page*4-3}"
+
+    <div class="tariff_item" [ngClass]="{'current_tariff':isCurrentTariff(tariffs[page*4-4])}"
          *ngIf="tariffs.length>page*4-4">
       <h3 class="tariff_item_title">{{tariffs[page*4-4].title}}</h3>
       <div class="tariff_item_body">
@@ -15,15 +20,16 @@
             {{service.title}}</li>
         </ul>
         <div class="tariff_item_price">
-          {{tariffs[page*4-4].title === 'Basic' ? 'FREE' : 'From $' + tariffs[page*4-4].price +'/monthly'}}
+          {{tariffCost(tariffs[page*4-4])}}
         </div>
         <button class="tariff_item_button"
-                (click)="currentTariff=page*4-3">
-          {{currentTariff===page*4-3?'Subscribed':(tariffs[page*4-4].title==='Basic'?'Free':'Buy now')}}
+                (click)="chooseTariff(tariffs[page*4-4])">
+          {{tariffStatus(tariffs[page*4-4])}}
         </button>
       </div>
     </div>
-    <div class="tariff_item" [ngClass]="{'current_tariff':currentTariff===page*4-2}"
+
+    <div class="tariff_item" [ngClass]="{'current_tariff':isCurrentTariff(tariffs[page*4-3])}"
          *ngIf="tariffs.length>page*4-3">
       <h3 class="tariff_item_title">{{tariffs[page*4-3].title}}</h3>
       <div class="tariff_item_body">
@@ -32,15 +38,16 @@
             {{service.title}}</li>
         </ul>
         <div class="tariff_item_price">
-          {{tariffs[page*4-3].title === 'Basic' ? 'FREE' : 'From $' + tariffs[page*4-3].price +'/monthly'}}
+          {{tariffCost(tariffs[page*4-3])}}
         </div>
         <button class="tariff_item_button"
-                (click)="currentTariff=page*4-2">
-          {{currentTariff===page*4-2?'Subscribed':(tariffs[page*4-3].title==='Basic'?'Free':'Buy now')}}
+                (click)="chooseTariff(tariffs[page*4-3])">
+          {{tariffStatus(tariffs[page*4-3])}}
         </button>
       </div>
     </div>
-    <div class="tariff_item" [ngClass]="{'current_tariff':currentTariff===page*4-1}"
+
+    <div class="tariff_item" [ngClass]="{'current_tariff':isCurrentTariff(tariffs[page*4-2])}"
          *ngIf="tariffs.length>page*4-2">
       <h3 class="tariff_item_title">{{tariffs[page*4-2].title}}</h3>
       <div class="tariff_item_body">
@@ -49,15 +56,16 @@
             {{service.title}}</li>
         </ul>
         <div class="tariff_item_price">
-          {{tariffs[page*4-2].title === 'Basic' ? 'FREE' : 'From $' + tariffs[page*4-2].price +'/monthly'}}
+          {{tariffCost(tariffs[page*4-2])}}
         </div>
         <button class="tariff_item_button"
-                (click)="currentTariff=page*4-1">
-          {{currentTariff===page*4-1?'Subscribed':(tariffs[page*4-2].title==='Basic'?'Free':'Buy now')}}
+                (click)="chooseTariff(tariffs[page*4-2])">
+          {{tariffStatus(tariffs[page*4-2])}}
         </button>
       </div>
     </div>
-    <div class="tariff_item" [ngClass]="{'current_tariff':currentTariff===page*4}"
+
+    <div class="tariff_item" [ngClass]="{'current_tariff':isCurrentTariff(tariffs[page*4-1])}"
          *ngIf="tariffs.length>page*4-1">
       <h3 class="tariff_item_title">{{tariffs[page*4-1].title}}</h3>
       <div class="tariff_item_body">
@@ -66,22 +74,24 @@
             {{service.title}}</li>
         </ul>
         <div class="tariff_item_price">
-          {{tariffs[page*4-1].title === 'Basic' ? 'FREE' : 'From $' + tariffs[page*4-1].price +'/monthly'}}
+          {{tariffCost(tariffs[page*4-1])}}
         </div>
         <button class="tariff_item_button"
-                (click)="currentTariff=page*4">
-          {{currentTariff===page*4?'Subscribed':(tariffs[page*4-1].title==='Basic'?'Free':'Buy now')}}
+                (click)="chooseTariff(tariffs[page*4-1])">
+          {{tariffStatus(tariffs[page*4-1])}}
         </button>
       </div>
     </div>
+
   </div>
   <div class="tariff_wrap_button" [ngClass]="{'tariff_inactive':page===PageCount()}"
        (click)="page=(page===PageCount()?page:page+1)">
     <svg-icon class="tariff_wrap_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
   </div>
 </div>
+
 <div class="tariff_wrap tariff_mid_resolution" *ngIf="!loading&&tariffs.length" [@Fade]>
-  <div class="tariff_item" *ngFor="let item of tariffs" [ngClass]="{'current_tariff':currentTariff===item.id}">
+  <div class="tariff_item" *ngFor="let item of tariffs" [ngClass]="{'current_tariff':isCurrentTariff(item)}">
     <h3 class="tariff_item_title"
         (click)="currentPick=(item.id===currentPick?-1:item.id)">{{item.title}}</h3>
     <div class="tariff_item_body">
@@ -90,10 +100,10 @@
           {{service.title}}</li>
       </ul>
       <div class="tariff_item_price">
-        {{item.title === 'Basic' ? 'FREE' : 'From $' + item.price +'/monthly'}}
+        {{tariffCost(item)}}
       </div>
-      <button class="tariff_item_button" (click)="currentTariff=item.id">
-        {{currentTariff===item.id?'Subscribed':(item.title==='Basic'?'Free':'Buy now')}}
+      <button class="tariff_item_button" (click)="chooseTariff(item)">
+        {{tariffStatus(item)}}
       </button>
     </div>
     <div class="tariff_item_body" *ngIf="item.id===currentPick" [@Swipe]>
@@ -102,10 +112,10 @@
           {{service.title}}</li>
       </ul>
       <div class="tariff_item_price">
-        {{item.title === 'Basic' ? 'FREE' : 'From $' + item.price +'/monthly'}}
+        {{tariffCost(item)}}
       </div>
-      <button class="tariff_item_button" (click)="currentTariff=item.id">
-        {{currentTariff===item.id?'Subscribed':(item.title==='Basic'?'Free':'Buy now')}}
+      <button class="tariff_item_button" (click)="chooseTariff(item)">
+        {{tariffStatus(item)}}
       </button>
     </div>
   </div>

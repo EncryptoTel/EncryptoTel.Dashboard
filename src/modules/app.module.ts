@@ -17,7 +17,7 @@ import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
 import {AuthorizationServices} from '../services/authorization.services';
 import {UserServices} from '../services/user.services';
-import {BalanceServices} from '../services/balance.services';
+// import {BalanceServices} from '../services/balance.services';
 import {DriveServices} from '../services/drive.services';
 import {CallQueuesServices} from '../services/call-queues.services';
 import {SettingsServices} from '../services/settings.services';
@@ -46,7 +46,7 @@ import {CallRulesServices} from '../services/call-rules.services';
     MessageServices,
     AuthorizationServices,
     UserServices,
-    BalanceServices,
+    // BalanceServices,
     DriveServices,
     CallQueuesServices,
     SettingsServices,

@@ -71,14 +71,14 @@
 </div>
 -->
 
-<pbx-loader *ngIf="completedRequests < 3"></pbx-loader>
-<div class="main_grid" *ngIf="completedRequests > 2">
+<pbx-loader *ngIf="completedRequests < 2"></pbx-loader>
+<div class="main_grid" *ngIf="completedRequests > 1">
   <div class="user_wrap" [ngClass]="{'active': userNavigationVisible}"
        (click)="userNavigationVisible = !userNavigationVisible" (clickOutside)="hideUserNavigation()" #userWrap>
     <div class="user_profile_image" [ngStyle]="{'background-image': 'url(' + (user.image) + ')'}"></div>
     <div class="user_details_wrap">
-      <div class="user_details_name">{{user.name}}</div>
-      <div class="user_details_balance" *ngIf="completedRequests > 2">{{balance.symbol}}{{balance.balance}}</div>
+      <div class="user_details_name">{{user.profile.firstname}}</div>
+      <div class="user_details_balance" *ngIf="completedRequests > 1">{{user.balance.symbol}}{{user.balance.balance}}</div>
     </div>
     <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
     <div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">
@@ -151,9 +151,9 @@
       <div class="mobile_sidebar">
         <div class="mobile_profile" (click)="mobileUserVisible=!mobileUserVisible"
              (clickOutside)="mobileUserVisible=false">
-            <div class="mobile_profile_name">{{user.name}}</div>
+            <div class="mobile_profile_name">{{user.profile.firstname}}</div>
             <div class="mobile_profile_balance"
-                 *ngIf="completedRequests > 2">{{balance.symbol}}{{balance.balance}}</div>
+                 *ngIf="completedRequests > 1">{{user.balance.symbol}}{{user.balance.balance}}</div>
             <div class="mobile_profile_button_wrap" [ngClass]="{'invisible':!mobileUserVisible}"
                  (click)="mobileNavigationVisible=false">
               <a routerLink="/cabinet/refill" routerLinkActive="active" class="mobile_profile_button">Refill balance</a>

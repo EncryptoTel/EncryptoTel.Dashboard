@@ -1,7 +1,7 @@
 import {Type} from 'class-transformer';
 import {months} from '../shared/vars';
 
-export class DBTariffPlanModel {
+export class TariffPlanModel {
   id: number;
   title: string;
   price: number;
