@@ -14,17 +14,30 @@ import {StorageServices} from "../../services/storage.services";
 })
 
 export class TariffPlansComponent implements OnInit {
-  constructor(private _service: TariffPlanServices,
-              private _storage: StorageServices) {}
-
   loading = true;
 
   tariffs = [];
   // currentTariff = 2;
   currentPick = -1;
   page = 1;
-  modalVisible: boolean;
   selected: any;
+
+  modal: {
+    visible: boolean,
+    title: string,
+    confirm: {type: string, value: string},
+    decline: {type: string, value: string}
+  };
+
+  constructor(private _service: TariffPlanServices,
+              private _storage: StorageServices) {
+      this.modal = {
+          visible: false,
+          title: '',
+          confirm: {type: 'success', value: 'Yes'},
+          decline: {type: 'error', value: 'No'}
+      };
+  }
 
   PageCount() {
     return Math.round(this.tariffs.length / 4) + (this.tariffs.length % 4 === 1 ? 1 : 0);
@@ -41,11 +54,7 @@ export class TariffPlansComponent implements OnInit {
 
   chooseTariff(tariff: any): void {
     this.selected = tariff;
-    // this.modalVisible = true;
-    this._service.selectTariffPlan(tariff.id)
-      .then(res => {
-        console.log(res);
-      }).catch();
+    this.modal.visible = true;
   }
 
   tariffCost(tariff: any): string {
@@ -57,13 +66,16 @@ export class TariffPlansComponent implements OnInit {
   }
 
   modalConfirm = (): void => {
-    console.log('Modal confirmed!');
-    this.modalVisible = false;
+
+    this._service.selectTariffPlan(this.selected.id)
+        .then(res => {
+            console.log(res);
+        }).catch();
+//    console.log('Modal confirmed!');
   }
 
   modalDecline = (): void => {
-    console.log('Modal declined!');
-    this.modalVisible = false;
+    // console.log('Modal declined!');
   }
 
   ngOnInit(): void {

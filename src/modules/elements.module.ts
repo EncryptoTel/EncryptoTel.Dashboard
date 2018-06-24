@@ -8,6 +8,7 @@ import {ClickOutsideDirective} from '../shared/click-outside.directive';
 import {LoaderComponent} from '../elements/pbx-loader/pbx-loader.component';
 import {SelectComponent} from '../elements/pbx-select/pbx-select.component';
 import {ButtonComponent} from '../elements/pbx-button/pbx-button.component';
+import {TariffComponent} from '../elements/pbx-tariff/pbx-tariff.component';
 import {TableComponent} from '../elements/pbx-table/pbx-table.component';
 import {SidebarComponent} from '../elements/pbx-sidebar/pbx-sidebar.component';
 import {CheckboxComponent} from '../elements/pbx-checkbox/pbx-checkbox.component';
@@ -25,6 +26,7 @@ import {PaginationComponent} from '../elements/pbx-pagination/pbx-pagination.com
     LoaderComponent,
     SelectComponent,
     ButtonComponent,
+    TariffComponent,
     CheckboxComponent,
     TableComponent,
     SidebarComponent,
@@ -36,6 +38,7 @@ import {PaginationComponent} from '../elements/pbx-pagination/pbx-pagination.com
     LoaderComponent,
     SelectComponent,
     ButtonComponent,
+    TariffComponent,
     CheckboxComponent,
     TableComponent,
     SidebarComponent,
