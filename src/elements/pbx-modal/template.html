@@ -1,14 +1,16 @@
-<div class="modal_overlay" *ngIf="visible" [@Fade]>
-  <div class="modal_wrap" (clickOutside)="hideModal()">
-    <div class="close_button" (click)="hideModal()">
-      <span></span><span></span>
+<div class="modal_overlay" *ngIf="modal.visible" [@Fade]>
+  <div class="modal_wrap">
+    <div class="modal_title">{{modal.title}}
+      <div class="modal_close" (click)="hideModal()">
+        <span></span><span></span>
+      </div>
     </div>
     <div class="modal_body">
       <ng-content></ng-content>
     </div>
     <div class="modal_buttons">
-      <pbx-button [value]="buttons.decline.title" buttonType="cancel" [loading]="buttons.decline.loading" (onClick)="hideModal()"></pbx-button>
-      <pbx-button [value]="buttons.confirm.title" buttonType="success" [loading]="buttons.confirm.loading" (onClick)="confirm()"></pbx-button>
+      <pbx-button [value]="modal.decline.value" [buttonType]="modal.decline.type" [loading]="false" (onClick)="hideModal()"></pbx-button>
+      <pbx-button [value]="modal.confirm.value" [buttonType]="modal.confirm.type" [loading]="false" (onClick)="confirm()"></pbx-button>
     </div>
   </div>
 </div>
