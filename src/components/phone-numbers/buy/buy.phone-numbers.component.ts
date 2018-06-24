@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PhoneNumbersServices} from '../../../services/phone-numbers.services';
 import {calculateHeight} from '../../../shared/shared.functions';
+import {templateJitUrl} from "@angular/compiler";
 
 @Component({
   selector: 'buy-phone-numbers-component',
@@ -27,13 +28,28 @@ export class BuyPhoneNumbersComponent implements OnInit {
     total: number;
   };
 
+  modal: {
+    visible: boolean,
+    title: string,
+    confirm: {type: string, value: string},
+    decline: {type: string, value: string}
+  };
+
   searchTimeout;
+
+  selected;
 
   @ViewChild('row') row: ElementRef;
   @ViewChild('table') table: ElementRef;
 
   constructor(private _services: PhoneNumbersServices) {
     this.pagination = {page: 1, total: 1};
+    this.modal = {
+        visible: false,
+        title: '',
+        confirm: {type: 'success', value: 'Yes'},
+        decline: {type: 'error', value: 'No'}
+    };
   }
 
   getList(): void {
@@ -64,13 +80,30 @@ export class BuyPhoneNumbersComponent implements OnInit {
   }
 
   buyItem(number): void {
-    number.loading = true;
-    this._services.buyNumber(number.params)
-      .then(() => {
-        number.loading = false;
-        number.inactive = true;
-      }).catch();
+    this.selected = number;
+    this.modal.title = number.fullNumber;
+    this.modal.visible = true;
+    // number.loading = true;
+    // this._services.buyNumber(number.params)
+    //   .then(() => {
+    //     number.loading = false;
+    //     number.inactive = true;
+    //   }).catch();
   }
+
+  modalConfirm = (): void => {
+      this.selected.loading = true;
+      this._services.buyNumber(this.selected.params)
+        .then(() => {
+            this.selected.loading = false;
+            this.selected.inactive = true;
+        }).catch();
+      // console.log('Modal confirmed!');
+  }
+  modalDecline = (): void => {
+      // console.log('Modal declined!');
+  }
+
 
   ngOnInit() {
     this.requestDetails = {
@@ -83,4 +116,5 @@ export class BuyPhoneNumbersComponent implements OnInit {
     this.getList();
     this.pagination.page = 1;
   }
+
 }
