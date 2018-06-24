@@ -1,4 +1,5 @@
 <div class="modal_overlay" *ngIf="modal.visible" [@Fade]>
+  <div class="modal_overlay_item" (click)="hideModal()"></div>
   <div class="modal_wrap">
     <div class="modal_title">{{modal.title}}
       <div class="modal_close" (click)="hideModal()">
