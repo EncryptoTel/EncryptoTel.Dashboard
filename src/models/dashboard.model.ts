@@ -37,7 +37,11 @@ export class NumberModel {
 export class StorageModel {
     totalSize: number;
     usedSize: number;
+    availableSize: number;
     measure: string;
+    // get availableSize(): number {
+    //     return Math.round((this.totalSize - this.usedSize) * 100) / 100;
+    // }
 }
 
 

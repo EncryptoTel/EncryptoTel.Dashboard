@@ -27,11 +27,13 @@ export class DashboardComponent {
   fetchDashboard(): Promise<void> {
     return this._dashboard.getDashboard().then(dashboard => {
       this.dashboard = dashboard;
+      this.dashboard.storage.availableSize = Math.round((this.dashboard.storage.totalSize - this.dashboard.storage.usedSize) * 100) / 100;
       this.loading = false;
     }).catch(() => {
       this.loading = false;
     });
   }
+
   // fetchHistory(): Promise<void> {
   //   return this._history.fetchHistoryList().then(history => {
   //         this.history = history;
