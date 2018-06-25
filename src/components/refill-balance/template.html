@@ -1,93 +1,103 @@
+<script src="../../../../../Old/EncryptoUI/src/components/refill/refill.component.ts"></script>
 <pbx-loader *ngIf="loading.body&&loading.sidebar"></pbx-loader>
 <div class="refill_grid" *ngIf="!(loading.body&&loading.sidebar)">
-  <div class="refill_header" *ngIf="refill_status!=='processing'">
-    <div class="refill_header_block">
-      <div class="refill_header_block_key"
-      >Payment amount (Min amount ${{amount.min}}, Max amount ${{amount.max}}): </div>
-      <input class="refill_header_block_input"
-             [ngClass]="{'inactive':refill_status==='paying'}">
-    </div>
-    <div class="refill_header_block" *ngIf="refill_status==='paying'">
-      <div class="refill_header_block_key"
-      >Return address: </div>
-      <input class="refill_header_block_input"
-             [value]="payment_address">
-    </div>
-  </div>
-  <div class="refill_body {{refill_status}}">
-    <div class="refill_currency_wrap" *ngIf="refill_status==='main'">
-      <div class="refill_currency_item"
-           *ngFor="let item of currency"
-           (click)="refill_status='paying';picked_currency=item.id">
-        <svg-icon class="refill_currency_item_icon"
-                  src="../../assets/icons/{{item.icon}}.svg"></svg-icon>
-        <div class="refill_currency_item_title"
-        >{{item.title+(item.code?' ('+item.code.toUpperCase()+')':'')}}
-          <span *ngIf="item.discount"> (discount {{item.discount*100}}%)</span></div>
-        <div class="refill_currency_item_label"></div>
-      </div>
-    </div>
-    <div class="refill_paying" *ngIf="refill_status==='paying'">
-      <div class="refill_paying_title">Payment method: {{findById(picked_currency,currency).title}}</div>
-      <div class="refill_paying_wrap">
-        <div class="refill_sidebar_item">
-          <div class="refill_sidebar_item_title">Invoice number</div>
-          <div class="refill_sidebar_item_value">{{invoice_number}}</div>
+    <div class="refill_header" *ngIf="refill_status!=='processing'">
+        <div class="refill_header_block">
+            <div class="refill_header_block_key">Payment amount:</div>
+            <input class="refill_header_block_input"
+                   placeholder="Min ${{amount.min}}, Max ${{amount.max}}"
+                   [ngModel]="amount.value"
+                   [ngClass]="{'inactive':refill_status==='paying'}">
         </div>
-        <div class="refill_sidebar_item">
-          <div class="refill_sidebar_item_code"
-               *ngIf="findById(picked_currency,rates).code"
-          >{{findById(picked_currency,rates).code.toUpperCase()}}</div>
-          <div class="refill_sidebar_item_code"
-               *ngIf="!findById(picked_currency,rates).code"
-          >{{findById(picked_currency,rates).title}}</div>
-          <div class="refill_sidebar_item_title">{{findById(picked_currency,rates).title}}</div>
-          <div class="refill_sidebar_item_value">{{findById(picked_currency,rates).value}}</div>
+        <div class="refill_header_block" *ngIf="refill_status==='paying' && selected.needReturnAddress">
+            <div class="refill_header_block_key">Return address:</div>
+            <input class="refill_header_block_input"
+                   [value]="returnAddress">
         </div>
-        <div class="refill_paying_buttons">
-          <pbx-button value="Cancel" buttonType="cancel" (onClick)="refill_status='main';picked_currency=null"></pbx-button>
-          <pbx-button value="Pay" buttonType="success" (onClick)="modal.visible=true"></pbx-button>
+    </div>
+    <div class="refill_body {{refill_status}}">
+        <pbx-loader *ngIf="loading.body"></pbx-loader>
+        <div class="refill_currency_wrap" *ngIf="refill_status === 'main' && !loading.body">
+            <div class="refill_currency_item"
+                 *ngFor="let item of refillMethods"
+                 (click)="selectRefillMethod(item)">
+                <svg-icon *ngIf="!item.loading"
+                          class="refill_currency_item_icon"
+                          src="../../assets/images/payments/{{item.id}}.svg"></svg-icon>
+                <pbx-loader *ngIf="item.loading"></pbx-loader>
+                <div class="refill_currency_item_title">{{item.title}}
+                    <!--<span *ngIf="item.discount"> (discount {{item.discount*100}}%)</span>-->
+                </div>
+                <div class="refill_currency_item_label"></div>
+            </div>
         </div>
-      </div>
+        <div class="refill_paying" *ngIf="refill_status === 'paying'">
+            <div class="refill_paying_title">Payment method: {{selected.title}}</div>
+            <div class="refill_paying_wrap">
+                <!--<div class="refill_sidebar_item">-->
+                <!--<div class="refill_sidebar_item_title">Invoice number</div>-->
+                <!--<div class="refill_sidebar_item_value">{{invoice_number}}</div>-->
+                <!--</div>-->
+                <div class="refill_sidebar_item">
+                    <!--<div class="refill_sidebar_item_code"-->
+                    <!--*ngIf="findById(picked_currency,rates).code"-->
+                    <!--&gt;{{findById(picked_currency,rates).code.toUpperCase()}}-->
+                    <!--</div>-->
+                    <!--<div class="refill_sidebar_item_code">{{selected.title}}</div>-->
+                    <div class="refill_sidebar_item_title">{{selected.title}}</div>
+                    <div class="refill_sidebar_item_value">{{payment.amount}}</div>
+                </div>
+                <div class="refill_paying_buttons">
+                    <pbx-button value="Cancel" buttonType="cancel"
+                                (onClick)="cancelPay()"></pbx-button>
+                    <pbx-button value="Pay" buttonType="success" (onClick)="modal.visible = true" [loading]="payment.loading"></pbx-button>
+                </div>
+            </div>
+        </div>
+        <div class="refill_processing" *ngIf="refill_status === 'processing'">
+            <div class="refill_processing_title">Invoice pay processing</div>
+            <!--<div class="refill_processing_item">-->
+            <!--<div class="refill_processing_item_key">Invoice number</div>-->
+            <!--<div class="refill_processing_item_value">{{invoice_number}}</div>-->
+            <!--</div>-->
+            <div class="refill_processing_item">
+                <!--<div class="refill_processing_item_key"-->
+                <!--*ngIf="findById(picked_currency,rates).code">Payment amount-->
+                <!--{{findById(picked_currency,rates).code.toUpperCase()}}-->
+                <!--</div>-->
+                <div class="refill_processing_item_key">Payment amount
+                    {{selected.title}}
+                </div>
+                <div class="refill_processing_item_value">
+                    {{payment.amount}}
+                </div>
+            </div>
+            <div class="refill_processing_code">{{selected.title+' payment address: ' + payment.address}}
+            </div>
+            <div class="refill_processing_copy">(click to copy)</div>
+            <img class="qr_code_image" [src]="payment.qrCode">
+        </div>
     </div>
-    <div class="refill_processing" *ngIf="refill_status==='processing'">
-      <div class="refill_processing_title">Invoice pay processing</div>
-      <div class="refill_processing_item">
-        <div class="refill_processing_item_key">Invoice number</div>
-        <div class="refill_processing_item_value">{{invoice_number}}</div>
-      </div>
-      <div class="refill_processing_item">
-        <div class="refill_processing_item_key"
-             *ngIf="findById(picked_currency,rates).code">Payment amount {{findById(picked_currency,rates).code.toUpperCase()}}</div>
-        <div class="refill_processing_item_key"
-             *ngIf="!findById(picked_currency,rates).code">Payment amount {{findById(picked_currency,rates).title}}</div>
-        <div class="refill_processing_item_value">{{findById(picked_currency,rates).value}}</div>
-      </div>
-      <div class="refill_processing_code">{{findById(picked_currency,rates).title+' payment address: '+payment_address}}</div>
-      <div class="refill_processing_copy">(click to copy)</div>
-      <div class="refill_processing_qr"></div>
+    <div class="refill_sidebar" *ngIf="!loading.sidebar">
+        <div class="refill_sidebar_block">
+            <div class="refill_sidebar_title">Current Balance</div>
+            <div class="refill_sidebar_item">
+                <div class="refill_sidebar_item_title">Balance</div>
+                <div class="refill_sidebar_item_value">{{balance.symbol}} {{balance.balance}}</div>
+            </div>
+        </div>
+        <div class="refill_sidebar_block" *ngIf="courses">
+            <div class="refill_sidebar_title rates">Exchange Rates</div>
+            <div class="refill_sidebar_item"
+                 *ngFor="let item of courses">
+                <div class="refill_sidebar_item_code" *ngIf="item.code">{{item.code.toUpperCase()}}</div>
+                <div class="refill_sidebar_item_code" *ngIf="!item.code">{{item.title}}</div>
+                <div class="refill_sidebar_item_title">{{item.title}}</div>
+                <div class="refill_sidebar_item_value">{{item.value}}</div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="refill_sidebar" *ngIf="!loading.sidebar">
-    <div class="refill_sidebar_block" *ngIf="balance">
-      <div class="refill_sidebar_title">Current Balance</div>
-      <div class="refill_sidebar_item" *ngFor="let item of balance">
-        <div class="refill_sidebar_item_title">{{item.title}}</div>
-        <div class="refill_sidebar_item_value">{{item.value}}</div>
-      </div>
-    </div>
-    <div class="refill_sidebar_block" *ngIf="rates">
-      <div class="refill_sidebar_title rates">Exchange Rates</div>
-      <div class="refill_sidebar_item"
-           [ngClass]="{'picked':picked_currency===item.id}"
-           *ngFor="let item of rates">
-        <div class="refill_sidebar_item_code" *ngIf="item.code">{{item.code.toUpperCase()}}</div>
-        <div class="refill_sidebar_item_code" *ngIf="!item.code">{{item.title}}</div>
-        <div class="refill_sidebar_item_title">{{item.title}}</div>
-        <div class="refill_sidebar_item_value">{{item.value}}</div>
-      </div>
-    </div>
-  </div>
 </div>
 <pbx-modal [modal]="modal"
-           (onConfirm)="Pay()">Are you sure?</pbx-modal>
+           (onConfirm)="pay()">Are you sure?
+</pbx-modal>
