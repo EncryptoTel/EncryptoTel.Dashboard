@@ -1,18 +1,19 @@
 <div class="tariff_item" [ngClass]="{'current_tariff':isCurrentTariff()}">
-  <h3 class="tariff_item_title">{{value.title}}</h3>
-  <div class="tariff_item_body">
-    <ul class="tariff_item_ul">
-      <li class="tariff_item_ul_li" *ngFor="let service of value.services">
-        {{service.title}}</li>
-    </ul>
-    <div class="tariff_item_price">
-      {{tariffCost()}}
-    </div>
-    <button *ngIf="!value.loading"
+    <h3 class="tariff_item_title">{{value.title}}</h3>
+    <div class="tariff_item_body">
+        <ul class="tariff_item_ul">
+            <li class="tariff_item_ul_li" *ngFor="let service of value.services">
+                {{service.title}}
+            </li>
+        </ul>
+        <div class="tariff_item_price">
+            {{tariffCost()}}
+        </div>
+        <button
             class="tariff_item_button"
             (click)="clicked($event)">
-      {{tariffStatus()}}
-    </button>
-    <pbx-loader *ngIf="value.loading"></pbx-loader>
-  </div>
+            <span *ngIf="!value.loading">{{tariffStatus()}}</span>
+            <pbx-loader *ngIf="value.loading"></pbx-loader>
+        </button>
+    </div>
 </div>

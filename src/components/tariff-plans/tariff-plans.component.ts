@@ -4,6 +4,7 @@ import {TariffPlanServices} from '../../services/tariff-plan.services';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {StorageServices} from "../../services/storage.services";
+import {UserServices} from "../../services/user.services";
 
 @Component({
   selector: 'pbx-tariff-plans',
@@ -30,7 +31,8 @@ export class TariffPlansComponent implements OnInit {
   };
 
   constructor(private _service: TariffPlanServices,
-              private _storage: StorageServices) {
+              private _storage: StorageServices,
+              private _user: UserServices) {
       this.modal = {
           visible: false,
           title: '',
@@ -66,10 +68,13 @@ export class TariffPlansComponent implements OnInit {
   }
 
   modalConfirm = (): void => {
-
+    this.selected.loading = true;
     this._service.selectTariffPlan(this.selected.id)
         .then(res => {
-            console.log(res);
+            this._user.fetchProfileParams()
+                .then(res => {
+                    this.selected.loading = false;
+                });
         }).catch();
 //    console.log('Modal confirmed!');
   }
