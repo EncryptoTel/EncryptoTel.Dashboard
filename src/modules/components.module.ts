@@ -45,6 +45,7 @@ import {CallRulesCreateComponent} from '../components/call-rules/call-rules-crea
 import {AddressBookComponent} from '../components/address-book/address-book.component';
 import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
+import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
 
 
 /*
@@ -99,7 +100,8 @@ import {ExtensionsComponent} from '../components/extensions/extensions.component
     CallRulesCreateComponent,
     PhoneNumbersComponent,
     BuyPhoneNumbersComponent,
-    ExtensionsComponent
+    ExtensionsComponent,
+    RefillBalanceComponent
   ],
   exports: [
     ElementsModule,
@@ -134,7 +136,8 @@ import {ExtensionsComponent} from '../components/extensions/extensions.component
     AddressBookComponent,
     DepartmentsComponent,
     BuyPhoneNumbersComponent,
-    ExtensionsComponent
+    ExtensionsComponent,
+    RefillBalanceComponent
   ]
 })
 export class ComponentsModule {
