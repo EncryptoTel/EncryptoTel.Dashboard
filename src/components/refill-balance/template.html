@@ -6,7 +6,7 @@
             <div class="refill_header_block_key">Payment amount:</div>
             <input class="refill_header_block_input"
                    placeholder="Min ${{amount.min}}, Max ${{amount.max}}"
-                   [ngModel]="amount.value"
+                   [(ngModel)]="amount.value"
                    [ngClass]="{'inactive':refill_status==='paying'}">
         </div>
         <div class="refill_header_block" *ngIf="refill_status==='paying' && selected.needReturnAddress">
