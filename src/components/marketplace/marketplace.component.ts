@@ -61,7 +61,6 @@ export class MarketplaceComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.modules = [];
         this.getModulesList();
     }
 }

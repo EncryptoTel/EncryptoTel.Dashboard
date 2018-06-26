@@ -23,7 +23,7 @@
       <div class="invoices-col">{{invoice.number}}</div>
       <div class="invoices-col">{{invoice.type}}</div>
       <div class="invoices-col">{{invoice.date}}</div>
-      <div class="invoices-col" [ngClass]="{'waiting-payment': waitingPayment[i]}">{{invoice.status}}</div>
+      <div class="invoices-col">{{invoice.status}}</div>
       <div class="invoices-col">${{invoice.amount_vat}}</div>
       <div class="invoices-col">${{invoice.amount}}</div>
       <div class="invoices-col transaction">{{invoice.transaction}}</div>
