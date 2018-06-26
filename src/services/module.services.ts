@@ -3,10 +3,15 @@ import {RequestServices} from './request.services';
 
 @Injectable()
 export class ModuleServices {
-  constructor(private _req: RequestServices) {}
+    constructor(private _req: RequestServices) {
+    }
 
-  getModulesList(): Promise<any> {
-    return this._req.get('v1/service/account', true);
-  }
+    getModulesList(): Promise<any> {
+        return this._req.get('v1/service/account', true);
+    }
+
+    buyService(id: number): Promise<any> {
+        return this._req.post(`v1/order/service/${id}`, {}, true);
+    }
 
 }
