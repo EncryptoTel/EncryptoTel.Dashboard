@@ -131,14 +131,12 @@
   <div class="navigation_block_wrap">
     <div class="navigation_block" *ngFor="let block of navigationList">
       <div *ngFor="let navigationItem of block">
-        <a [routerLink]="navigationItem.link"
+        <a [routerLink]="navigationItem.url"
            routerLinkActive="active"
-           class="navigation_item"
-           [ngClass]="{'inactive': !navigationItem.status}"
-           *ngIf="navigationItem.visible">
+           class="navigation_item">
           <svg-icon class="navigation_item_icon"
                     [src]="'../../assets/icons/' + navigationItem.icon + '.svg'"></svg-icon>
-          <div class="navigation_item_title">{{navigationItem.title}}</div>
+          <div class="navigation_item_title">{{navigationItem.name}}</div>
         </a>
       </div>
     </div>
