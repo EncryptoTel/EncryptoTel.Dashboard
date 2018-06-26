@@ -53,6 +53,7 @@ export class RefillBalanceComponent implements OnInit {
                 this.refill_status = 'paying';
                 this.selected = refillMethod;
                 this.payment = res;
+                this.returnAddress = this.payment.address;
             });
     }
 
