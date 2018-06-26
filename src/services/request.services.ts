@@ -33,6 +33,7 @@ export class RequestServices {
         switch (response.status) { // Switch response error status
           case 401: {
             localStorage.removeItem('pbx_user');
+
             this.router.navigateByUrl('../../../sign-in');
             break;
           }

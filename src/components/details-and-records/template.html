@@ -1,66 +1,126 @@
 <div class="details-container">
   <div class="details-wrapper">
+
     <div class="details-header">
-      <div class="details-header__filters">
-        <div class="filters">
-          <button
-            class="{{filter}} details-button"
-            (click)="toggleFilter(filter)"
-            *ngFor="let filter of activeFilters">
-            {{filter}}
-          </button>
+
+      <div class="details-header__wrap">
+        <div class="details-header__wrap-filters">
+          <div class="filters">
+            <button
+              class="{{filter}} details-button"
+              (click)="toggleFilter(filter)"
+              *ngFor="let filter of activeFilters"
+              [ngClass]="{'uppercase' : filter === 'sms'}">
+              {{filter}}
+            </button>
+          </div>
+          <div class="filters">
+            <button
+              class="inactive-button details-button"
+              (click)="toggleFilter(filter)"
+              *ngFor="let filter of inactiveFilters"
+              [ngClass]="{'uppercase' : filter === 'sms'}">
+              {{filter}}
+            </button>
+          </div>
         </div>
-        <div class="filters">
-          <button
-            class="inactive-button details-button"
-            (click)="toggleFilter(filter)"
-            *ngFor="let filter of inactiveFilters">
-            {{filter}}
-          </button>
+        <div class="details-header__wrap-daterange-wrapper">
+          <div class="details-header__daterange">26/06/2017 - 30/06/2017</div>
         </div>
       </div>
-      <div class="details-header__daterange-wrapper">
-        <div class="details-header__daterange">26/06/2017 - 30/06/2017</div>
-      </div>
-    </div>
-    <div class="details-table-wrapper">
+
       <div class="details-table-row titles">
-        <div class="details-table-cols sorting" (click)="sort()">
+        <div class="details-table-cols" (click)="sortCol(0)">
           From
-          <svg-icon src="../../assets/icons/sorting_{{sorting}}_16px.svg" class="details-icons"></svg-icon>
+          <svg-icon src="../../assets/icons/sorting_{{sorting[0].direction}}_16px.svg" class="details-icons" *ngIf="sorting[0].active"></svg-icon>
         </div>
-        <div class="details-table-cols">To</div>
-        <div class="details-table-cols">Start time</div>
-        <div class="details-table-cols">Duration</div>
-        <div class="details-table-cols">Tag</div>
-        <div class="details-table-cols">Price</div>
-        <div class="details-table-cols">Record</div>
-      </div>
-      <div class="details-table-row" *ngFor="let detail of details" [ngClass]="{'hide': setFilters(detail.tag)}">
-        <div class="details-table-cols" [ngClass]="{'payment-col': detail.tag === 'payment'}">{{detail.from}}</div>
-        <div class="details-table-cols">{{detail.to}}</div>
-        <div class="details-table-cols">{{detail.start_time}}</div>
-        <div class="details-table-cols">{{detail.duration}}</div>
+        <div class="details-table-cols" (click)="sortCol(1)">
+          To
+          <svg-icon src="../../assets/icons/sorting_{{sorting[1].direction}}_16px.svg" class="details-icons" *ngIf="sorting[1].active"></svg-icon>
+        </div>
         <div class="details-table-cols">
+          Start time
+          <svg-icon src="../../assets/icons/sorting_{{sorting[2].direction}}_16px.svg" class="details-icons" *ngIf="sorting[2].active"></svg-icon>
+        </div>
+        <div class="details-table-cols" (click)="sortCol(3)">
+          Duration
+          <svg-icon src="../../assets/icons/sorting_{{sorting[3].direction}}_16px.svg" class="details-icons" *ngIf="sorting[3].active"></svg-icon>
+        </div>
+        <div class="details-table-cols tag" [ngClass]="{'no-padding' : sorting[4].active}" (click)="sortCol(4)">
+          Tag
+          <svg-icon src="../../assets/icons/sorting_{{sorting[4].direction}}_16px.svg" class="details-icons" *ngIf="sorting[4].active"></svg-icon>
+        </div>
+        <div class="details-table-cols price">
+          Price
+          <svg-icon src="../../assets/icons/sorting_{{sorting[5].direction}}_16px.svg" class="details-icons" *ngIf="sorting[5].active"></svg-icon>
+        </div>
+        <div class="details-table-cols">
+          Record
+          <svg-icon src="../../assets/icons/sorting_{{sorting[6].direction}}_16px.svg" class="details-icons" *ngIf="sorting[6].active"></svg-icon>
+        </div>
+        <div class="details-table-cols">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="details-table-wrapper" *ngIf="!loading">
+      <div
+        class="details-table-row"
+        *ngFor="let detail of details"
+        [ngClass]="{'hide': setFilters(detail.statusName), 'hover' : detail.hover}"
+        (mouseenter)="rowHoverStart(details.indexOf(detail))"
+        (mouseleave)="rowHoverEnd()">
+        <div class="details-table-cols" [ngClass]="{'payment-col': detail.statusName === 'payment'}">{{detail.source}}</div>
+        <div class="details-table-cols">{{detail.destination}}</div>
+        <div class="details-table-cols">{{detail.created}}</div>
+        <div class="details-table-cols">{{detail.duration}}</div>
+        <div class="details-table-cols tags">
           <button
             class="{{detail.tag}} details-button tag-button">
-            {{detail.tag}}
+            {{detail.statusName}}
           </button>
         </div>
-        <div class="details-table-cols" [ngClass]="{'payment-col': detail.tag === 'payment'}">${{detail.price}}</div>
-        <div class="details-table-cols">{{detail.record}}</div>
+        <div class="details-table-cols price" [ngClass]="{'payment-col': detail.statusName === 'payment'}">${{detail.price}}</div>
+        <div class="details-table-cols">
+          <div class="details-table-cols-button" (click)="playerAction(details.indexOf(detail))">
+            <!--<div class="player-overlay">-->
+              <!--<div class="player-overlay-time">01:08</div>-->
+              <!--<div class="player-overlay-wave">-->
+
+              <!--</div>-->
+            <!--</div>-->
+            <svg-icon src="../../assets/icons/play_24px.svg" class="details-table-cols-button" *ngIf="!detail.play"></svg-icon>
+            <svg-icon src="../../assets/icons/pause_24px.svg" class="details-table-cols-button" *ngIf="detail.play"></svg-icon>
+          </div>
+        </div>
+        <div class="details-table-cols">
+          <div class="details-table-cols-dropdown" (click)="dropOpen()">
+            <span></span>
+            <span></span>
+            <span></span>
+            <ul class="dd-menu" *ngIf="detail.ddShow">
+              <li class="dd-menu-button">Download file</li>
+              <li class="dd-menu-button">{{contactActionName}}</li>
+              <li class="dd-menu-button ban">Block user</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
+
+    <pbx-loader *ngIf="loading"></pbx-loader>
+
     <div class="details-pagination-wrapper">
       <div class="details-pagination">
         <div class="details-pagination-controls">
-          <button>&#171;</button>
-          <button class="prev-next">Prev</button>
+          <button (click)="goToPage(1)" class="inactive-button" [ngClass]="{'active-button' : paginatorLeftState}">&#171;</button>
+          <button (click)="goToPage(page - 1)" class="inactive-button prev-next" [ngClass]="{'active-button' : paginatorLeftState}">Prev</button>
         </div>
-        <div class="details-pagination-pages">01 of 50</div>
+        <div class="details-pagination-pages">{{page}} of {{pages}}</div>
         <div class="details-pagination-controls">
-          <button class="prev-next">Next</button>
-          <button>&#187;</button>
+          <button (click)="goToPage(page + 1)" class="inactive-button prev-next" [ngClass]="{'active-button' : paginatorRightState}">Next</button>
+          <button (click)="goToPage(pages)" class="inactive-button" [ngClass]="{'active-button' : paginatorRightState}">&#187;</button>
         </div>
       </div>
     </div>

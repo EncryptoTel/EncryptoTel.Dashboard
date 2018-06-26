@@ -21,6 +21,7 @@ import {UserServices} from '../services/user.services';
 import {DriveServices} from '../services/drive.services';
 import {CallQueuesServices} from '../services/call-queues.services';
 import {SettingsServices} from '../services/settings.services';
+import {DetailsAndRecordsServices} from '../services/details-and-records.services';
 import {AddressBookServices} from '../services/address-book.services';
 import {DepartmentServices} from '../services/department.services';
 import {CallRulesServices} from '../services/call-rules.services';
@@ -49,6 +50,8 @@ import {CallRulesServices} from '../services/call-rules.services';
     // BalanceServices,
     DriveServices,
     CallQueuesServices,
+    SettingsServices,
+    DetailsAndRecordsServices,
     SettingsServices,
     DepartmentServices,
     CallRulesServices,

@@ -269,8 +269,8 @@ export class AddressBookComponent implements OnInit {
         if (cntry) {
           contact.countryName = cntry.title;
         }
-        contact.tablePhone = `${contact.contactPhones[0].value} #${contact.contactPhones[0].extension}`;
-        contact.tableEmail = contact.contactEmails[0].value;
+        // contact.tablePhone = `${contact.contactPhones[0].value} #${contact.contactPhones[0].extension}`;
+        // contact.tableEmail = contact.contactEmails[0].value;
       });
       this.loading = false;
     }).catch(err => {

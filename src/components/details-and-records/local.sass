@@ -13,57 +13,90 @@
     align-items: center
     width: 100%
     height: 100%
+    justify-content: space-between
   &-header
     display: flex
-    flex-flow: row
+    flex-direction: column
     justify-content: space-between
-    height: 6%
     width: 100%
-    background: #2C2B27
-    &__filters
+    &__wrap
       display: flex
       flex-flow: row
-      align-items: center
-      .filters
+      justify-content: space-between
+      height: 50px
+      width: 100%
+      //background: #2C2B27
+      &-filters
         display: flex
         flex-flow: row
-        justify-content: space-around
         align-items: center
-        border-right: 1px solid rgba($dark_primary, .2)
-        height: 70%
-        &:last-child
-          border-right: unset
-    &__daterange-wrapper
-      background: $dark_overlay
-      display: flex
-      flex-flow: row
-      align-items: center
-      justify-content: center
-      width: 13%
-      font-size: rem(16)
+        .filters
+          display: flex
+          flex-flow: row
+          justify-content: space-around
+          align-items: center
+          border-right: 1px solid rgba($dark_primary, .2)
+          height: 70%
+          &:last-child
+            border-right: unset
+      &-daterange-wrapper
+        background: $dark_overlay
+        display: flex
+        flex-flow: row
+        align-items: center
+        justify-content: center
+        width: auto
+        padding: 0 16px
+        font-size: rem(16)
   &-table-wrapper
     display: flex
     flex-flow: column
-    height: 83%
+    //height: 83%
     width: 100%
+    margin-bottom: auto
   &-table-row
     display: flex
     flex-flow: row
     justify-content: space-between
-    height: calc(100% / 15)
+    //height: calc(100% / 15)
+    height: 48px
     width: 100%
     border-bottom: 1px solid rgba($dark_primary, .2)
-    padding: 0 25px
+    padding-left: 25px
+    &.hover
+      background: $dark_overlay
+      .details-table-cols-dropdown
+        display: flex
+    &.titles
+      .details-table-cols
+        color: rgba($dark_primary, .4)
+      &:hover
+        background: transparent
+        .details-table-cols-dropdown
+          display: none
+
   &-table-cols
     width: 14%
     display: flex
     flex-flow: row
     justify-content: flex-start
     align-items: center
+    &.tag
+      transition: none
+      justify-content: center
+      padding-right: 30px
+    &.tags
+      justify-content: center
+    &.no-padding
+      padding: 0
     &:nth-child(6)
       width: 8%
+      justify-content: flex-end
     &:nth-child(7)
-      width: 5%
+      width: 7%
+      justify-content: flex-end
+    &:nth-child(8)
+      width: auto
   &-pagination
     height: 65%
     width: 100%
@@ -91,6 +124,15 @@
         border-radius: 2px
         width: 40%
         cursor: pointer
+        color: $font-color
+        &.inactive-button
+          pointer-events: none
+          background: $dark_pagination_inactive
+          border-color: $dark_pagination_inactive
+        &.active-button
+          pointer-events: auto
+          background: $dark_pagination
+          border-color: $dark_pagination
       .prev-next
         width: 55%
     &-pages
@@ -107,12 +149,15 @@
   justify-content: center
   align-items: center
   border-radius: 30px
-  min-width: 140px
+  width: auto
+  padding: 0 24px
   margin: 0 5px
   text-transform: capitalize
 
 .tag-button
-  height: 80%
+  height: 77%
+  width: 128px
+  text-transform: lowercase
 
 .outgoing
   background: #EF77B2
@@ -120,31 +165,91 @@
 .incoming
   background: #C882DD
 
-.payment
+.record
   background: $dark_success
+
+.no-answer
+  background: #8d539e
 
 .missed
   background: #F88181
 
-.record
-  background: $dark_success
+.sms
+  background: rgb(106, 108, 154)
 
 .voicemail
   background: #5983BE
 
+.uppercase
+  text-transform: uppercase
+
 .inactive-button
   background: transparent
-  border: 1px solid rgba($dark_primary, .2)
+  border: 1px solid rgba($dark_primary, .4)
+  color: rgba($dark_primary, .4)
 
 .details-icons
   width: 20px
   height: auto
   fill: $dark_accent
   margin-left: 10px
+  cursor: pointer
+
+.details-table-cols-button
+  height: auto
+  width: 22px
+  margin-left: 10px
+  cursor: pointer
+  svg-icon
+    margin: 0
+    width: 100%
+    height: 100%
+    fill: $dark_primary
+    cursor: pointer
+
+.details-table-cols-dropdown
+  display: none
+  flex-direction: column
+  align-items: center
+  position: relative
+  width: 22px
+  margin-left: -32px
+  cursor: pointer
+  span
+    display: block
+    width: 2px
+    height: 2px
+    border-radius: 50%
+    background: $dark_primary
+    margin-top: 6px
+    cursor: pointer
+    &:first-child
+      margin-top: 0
+  .dd-menu
+    margin: 0
+    padding: 0
+    position: absolute
+    width: 162px
+    right: -10px
+    top: 32px
+    display: flex
+    flex-direction: column
+    align-content: space-between
+    li
+      list-style-type: none
+      display: block
+      width: 100%
+      height: 40px
+      padding: 12px 0 12px 20px
+      background-color: #414040
+      color: rgba($dark_primary, .7)
+      &.ban
+        color: $dark_error
+      &:hover
+        background: #504f4f
 
 .sorting
   cursor: pointer
-
 .hide
   display: none
 
