@@ -1,0 +1,135 @@
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div class="address_book" *ngIf="!loading">
+  <div class="address_book_header">
+    <div class="address_book_header_filters_wrap">
+      <div class="address_book_header_filter">
+        <label>Select Source:</label>
+        <pbx-select [options]="sources" [objectKey]="'title'" [selected]="currentSource"
+                    (onSelect)="selectSource($event)"></pbx-select>
+      </div>
+      <div class="address_book_header_filter">
+        <label for="search">Search</label>
+        <input id="search" type="text" placeholder="Search by Name or Phone" (keyup)="search($event)">
+      </div>
+    </div>
+    <div class="address_book_header_controls_wrap">
+      <pbx-button [buttonType]="'accent'" [value]="'Import'"></pbx-button>
+      <pbx-button [buttonType]="'success'" [value]="'+ New Contact'" (onClick)="newContact()"></pbx-button>
+    </div>
+  </div>
+  <pbx-table [tableInfo]="tableInfo" [editable]="true" (onEdit)="edit($event)" (onSelect)="select($event)"
+             [tableItems]="contacts" (onDelete)="delete($event)"></pbx-table>
+</div>
+<pbx-sidebar *ngIf="sidebarVisible && !loading">
+  <ng-container *ngIf="mode==='create' || mode==='edit'">
+    <form class="sidebar_form" [formGroup]="addressForm">
+      <div class="sidebar_row">
+        <label for="first_name">First Name</label>
+        <input type="text" id="first_name" formControlName="firstname">
+      </div>
+      <div class="sidebar_row">
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last_name" formControlName="lastname">
+      </div>
+      <div class="sidebar_row">
+        <label>Phone</label>
+        <ng-container formArrayName="contactPhones">
+          <ng-container *ngFor="let phoneField of contactPhones.controls; let i = index"
+                        [formGroupName]="i">
+            <div class="phone_field">
+              <input type="text" formControlName="value" title="phone number">
+              <pbx-select [options]="phoneTypes" [objectKey]="'type'" (onSelect)="selectPhoneType($event,i)"
+                          [selected]="selectedPhoneTypes[i]"></pbx-select>
+              <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhoneField()"
+                        *ngIf="!selectedPhoneTypes[i+1]"></svg-icon>
+              <svg-icon src="../../assets/icons/cancel_delete_12px.svg" (click)="delPhoneField(i)"
+                        *ngIf="selectedPhoneTypes[i+1]" [style.fill]="'rgb(199, 98, 98)'"></svg-icon>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="sidebar_row">
+        <label>E-mail</label>
+        <ng-container formArrayName="contactEmails">
+          <ng-container *ngFor="let emailField of contactEmails.controls;let i = index" [formGroupName]="i">
+            <div class="email_field">
+              <input type="email" title="email" formControlName="value">
+              <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addEmailField()"></svg-icon>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="sidebar_row">
+        <label for="company">Company Name</label>
+        <input type="text" id="company" formControlName="company">
+      </div>
+      <div class="sidebar_row">
+        <label for="department">Department</label>
+        <input type="text" id="department" formControlName="department">
+      </div>
+      <div class="sidebar_row">
+        <label for="position">Position</label>
+        <input type="text" id="position">
+      </div>
+      <div class="sidebar_row">
+        <label>Country</label>
+        <pbx-select [options]="countries" [objectKey]="'title'" (onSelect)="selectCountry($event)"
+                    [selected]="selectedCountry"></pbx-select>
+      </div>
+      <div class="sidebar_row">
+        <label for="address">Address</label>
+        <ng-container formArrayName="contactAddresses">
+          <ng-container [formGroupName]="0">
+            <input type="text" id="address" formControlName="value">
+          </ng-container>
+        </ng-container>
+      </div>
+    </form>
+    <div class="sidebar_controls">
+      <pbx-button [value]="'Cancel'" [buttonType]="'cancel'" (onClick)="cancel()"></pbx-button>
+      <pbx-button [value]="'Save'" [buttonType]="'success'" (onClick)="save()"></pbx-button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="mode==='view'">
+    <div class="sidebar_row">
+      <label>First Name</label>
+      <p>{{currentContact.firstname}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Last Name</label>
+      <p>{{currentContact.lastname}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Phone</label>
+      <p *ngFor="let phone of currentContact.contactPhones">{{phone.value}} #{{phone.extension}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Email</label>
+      <p *ngFor="let email of currentContact.contactEmails">{{email.value}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Company Name</label>
+      <p>{{currentContact.company}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Department</label>
+      <p>{{currentContact.department}}</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Position</label>
+      <p>Groot</p>
+    </div>
+    <div class="sidebar_row">
+      <label>Country</label>
+      <p>{{currentContact.countryName}}</p>
+    </div>
+    <div class="sidebar_row alert">
+      <p (click)="block()">Block user</p>
+      <p (click)="delete(currentContact)">Delete user</p>
+    </div>
+    <div class="sidebar_controls">
+      <pbx-button [value]="'Close'" [buttonType]="'cancel'" (onClick)="close()"></pbx-button>
+      <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit(currentContact)"></pbx-button>
+    </div>
+  </ng-container>
+</pbx-sidebar>

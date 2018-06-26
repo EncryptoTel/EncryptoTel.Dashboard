@@ -1,34 +1,86 @@
 import {Component, OnInit} from '@angular/core';
-import {DBTariffPlanServices} from '../../services/db.tariff-plan.services';
+import {TariffPlanServices} from '../../services/tariff-plan.services';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
+import {FadeAnimation} from '../../shared/fade-animation';
+import {StorageServices} from "../../services/storage.services";
+import {UserServices} from "../../services/user.services";
 
 @Component({
   selector: 'pbx-tariff-plans',
   templateUrl: './template.html',
   styleUrls: ['./local.sass'],
-  animations: [SwipeAnimation('y', '200ms')],
-  providers: [DBTariffPlanServices]
+  animations: [SwipeAnimation('y', '300ms'), FadeAnimation('300ms')],
+  providers: [TariffPlanServices]
 })
 
 export class TariffPlansComponent implements OnInit {
-  constructor(private _service: DBTariffPlanServices) {}
-
-  loading: boolean;
+  loading = true;
 
   tariffs = [];
-  currentTariff = 2;
-  currentPick = 1;
+  // currentTariff = 2;
+  currentPick = -1;
+  page = 1;
+  selected: any;
 
-  chooseTariff(id: number): void {
-    this._service.selectTariffPlan(id)
-      .then(res => {
-        console.log(res);
-      }).catch();
+  modal: {
+    visible: boolean,
+    title: string,
+    confirm: {type: string, value: string},
+    decline: {type: string, value: string}
+  };
+
+  constructor(private _service: TariffPlanServices,
+              private _storage: StorageServices,
+              private _user: UserServices) {
+      this.modal = {
+          visible: false,
+          title: '',
+          confirm: {type: 'success', value: 'Yes'},
+          decline: {type: 'error', value: 'No'}
+      };
   }
 
-  pickTariff(id: number): void {
-    this.currentPick = id;
+  PageCount() {
+    return Math.round(this.tariffs.length / 4) + (this.tariffs.length % 4 === 1 ? 1 : 0);
+  }
+
+  getCurrentTariff(): any {
+    const user = this._storage.readItem('pbx_user');
+    return user['profile']['tariffPlan'];
+  }
+
+  isCurrentTariff(tariff: any): boolean {
+    return this.getCurrentTariff().id === tariff.id;
+  }
+
+  chooseTariff(tariff: any): void {
+    this.selected = tariff;
+    this.modal.visible = true;
+  }
+
+  tariffCost(tariff: any): string {
+    return tariff.price > 0 ? 'From $' + tariff.price +'/monthly' : 'FREE';
+  }
+
+  tariffStatus(tariff: any): string {
+    return this.getCurrentTariff().id === tariff.id ? 'Subscribed' : (tariff.price > 0 ? 'Buy now' : 'Free');
+  }
+
+  modalConfirm = (): void => {
+    this.selected.loading = true;
+    this._service.selectTariffPlan(this.selected.id)
+        .then(res => {
+            this._user.fetchProfileParams()
+                .then(res => {
+                    this.selected.loading = false;
+                });
+        }).catch();
+//    console.log('Modal confirmed!');
+  }
+
+  modalDecline = (): void => {
+    // console.log('Modal declined!');
   }
 
   ngOnInit(): void {
@@ -49,4 +101,5 @@ export class TariffPlansComponent implements OnInit {
       this.loading = false;
     }).catch();
   }
+
 }

@@ -1,0 +1,19 @@
+@import "../../../vars"
+// Global variables import
+
+.auth_form_text
+  flex-direction: row
+@media (max-width: 384px)
+  .auth_form_text
+    flex-direction: column
+    text-align: center
+    line-height: rem(18)
+@media (max-height: 767px)
+  .auth_form
+    padding: rem(24) 0
+    svg-icon, form
+      margin-top: auto
+      margin-bottom: auto
+    &::before, &::after
+      position: fixed
+      top: 0

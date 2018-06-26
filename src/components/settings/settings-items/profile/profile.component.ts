@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'profile-component',
   templateUrl: './template.html',
+  styleUrls: ['../local.sass'],
   animations: [FadeAnimation('300ms')]
 })
 

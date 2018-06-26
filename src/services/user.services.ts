@@ -24,12 +24,14 @@ export class UserServices {
     Fetch initial user profile params
    */
   fetchProfileParams(): Promise<UserModel> {
-    return this._req.get('profile.json').then(res => {
-      for (const param in res['profile']) {
-        if (res['profile'].hasOwnProperty(param)) {
-          this.changeUserParam(param, res['profile'][param]);
-        }
-      }
+    return this._req.get('v1/account/info', true).then(res => {
+      // for (const param in res['user']) {
+      //   if (res['user'].hasOwnProperty(param)) {
+      //     this.changeUserParam(param, res['user'][param]);
+      //   }
+      // }
+      this.changeUserParam('profile', res['user']);
+      this.changeUserParam('balance', res['balance']);
       return Promise.resolve(this.fetchUser());
     }).catch();
   }

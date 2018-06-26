@@ -1,5 +1,4 @@
 @import '../../vars'
-
 .modal
   &_overlay
     position: fixed
@@ -9,37 +8,49 @@
     height: 100vh
     z-index: 15
     background: rgba($dark_background, .7)
+    display: grid
+    grid-template-rows: 1fr auto 1fr
+    grid-template-columns: 1fr auto 1fr
+    &_item
+      grid-column: 1/4
+      grid-row: 1/4
   &_wrap
     flex-direction: column
-    position: relative
-    margin: auto
     min-height: rem(208)
     background: $dark_overlay
-    .close_button
+    grid-column: 2/3
+    grid-row: 2/3
+  &_close
+    margin-left: auto
+    height: rem(24)
+    width: rem(24)
+    cursor: pointer
+    position: relative
+    &:hover > span
+      background: lighten($dark_overlay, 40%)
+    span
       position: absolute
+      width: 100%
+      height: 1px
       top: rem(12)
-      right: rem(12)
-      height: rem(24)
-      width: rem(24)
+      background: lighten($dark_overlay, 20%)
+      transition: all linear 200ms
       cursor: pointer
-      &:hover > span
-        background: lighten($dark_overlay, 40%)
-      span
-        position: absolute
-        width: 100%
-        height: 1px
-        top: rem(12)
-        background: lighten($dark_overlay, 20%)
-        transition: all linear 200ms
-        cursor: pointer
-        pointer-events: none
-        &:first-child
-          left: 0
-          transform: rotate(-45deg)
-        &:last-child
-          right: 0
-          transform: rotate(45deg)
+      pointer-events: none
+      &:first-child
+        left: 0
+        transform: rotate(-45deg)
+      &:last-child
+        right: 0
+        transform: rotate(45deg)
+  &_title
+    padding: rem(12) rem(12) 0 rem(24)
+    align-items: baseline
+    font-size: rem(16)
+    font-weight: 400
+    color: rgba($dark_primary, .35)
   &_body
+    font-size: rem(16)
     justify-content: center
     align-items: center
     padding: rem(24)

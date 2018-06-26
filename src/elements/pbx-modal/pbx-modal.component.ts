@@ -9,33 +9,21 @@ import {FadeAnimation} from '../../shared/fade-animation';
 })
 
 export class ModalComponent {
-  @Input() visible: boolean;
-  @Input() buttons: {
-    confirm: {
-      type: string,
-      title: string,
-      loading: boolean
-    },
-    decline: {
-      type: string,
-      title: string,
-      loading: boolean
-    }
+  @Input() modal: {
+    visible: boolean,
+    title: string,
+    confirm: {type: string, value: string},
+    decline: {type: string, value: string}
   };
+  @Input() visible;
   @Output() onConfirm: EventEmitter<void> = new EventEmitter<void>();
   @Output() onDecline: EventEmitter<void> = new EventEmitter<void>();
-  constructor() {
-    if (!this.buttons) {
-      this.buttons = {
-        confirm: {type: 'success', title: 'Accept', loading: false},
-        decline: {type: 'cancel', title: 'Cancel', loading: false}
-      };
-    }
-  }
   confirm(): void {
     this.onConfirm.emit();
+    this.modal.visible = false;
   }
   hideModal(): void {
     this.onDecline.emit();
+    this.modal.visible = false;
   }
 }

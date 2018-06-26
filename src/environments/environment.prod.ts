@@ -1,7 +1,7 @@
 export const environment = {
-  title: 'development',
+  title: 'production',
   production: false,
-  back: 'http://pbx-back-dev.encry.ru/api',
+  back: 'http://pbx-back.encry.ru/api',
   ph: 'assets/json',
   params: {
     messageDuration: 5000

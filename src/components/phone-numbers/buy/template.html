@@ -1,0 +1,40 @@
+<pbx-modal [modal]="modal"
+           (onConfirm)="modalConfirm()"
+           (onDecline)="modalDecline()">
+  <div style="font-size: 16px">Do you want to buy this number?</div>
+</pbx-modal>
+
+<div class="table_wrap" #table>
+  <div class="table_pre_row overlay" #row>
+    <div class="pre_row_input_wrap">
+      <div class="pre_row_input_title">Search for favourite number:</div>
+      <input title="Search" class="pre_row_input" placeholder="Type your favourite number" [(ngModel)]="requestDetails.search" (keydown)="searchInit()">
+    </div>
+  </div>
+  <pbx-loader *ngIf="loading"></pbx-loader>
+  <div class="table_list" *ngIf="!loading">
+    <div class="table" *ngFor="let table of list">
+      <div class="table_header">
+        <div class="table_row">
+          <div class="table_column">Number</div>
+          <div class="table_column">Location</div>
+          <div class="table_column">Monthly</div>
+          <div class="table_column">Buy</div>
+        </div>
+      </div>
+      <div class="table_body">
+        <div class="table_row" *ngFor="let item of table">
+          <div class="table_column">{{item['fullNumber']}}</div>
+          <div class="table_column">{{item['areaName'] || 'Unknown'}}</div>
+          <div class="table_column">${{item['sum'] || 'Free'}}</div>
+          <div class="table_column">
+            <pbx-button value="Buy" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)" [inactive]="item.inactive"></pbx-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table_pre_row">
+    <pbx-pagination [currentPage]="pagination.page" [totalPages]="pagination.total" (onPageChange)="onPageChange($event)" *ngIf="pagination.total !== 1"></pbx-pagination>
+  </div>
+</div>

@@ -24,7 +24,7 @@ import {ListServices} from '../../services/list.services';
 
 export class IndexComponent implements OnInit, OnDestroy {
   constructor(private _user: UserServices,
-              private _balance: BalanceServices,
+              // private _balance: BalanceServices,
               private _messages: MessageServices,
               private _router: Router,
               private _list: ListServices,
@@ -143,12 +143,14 @@ export class IndexComponent implements OnInit, OnDestroy {
   ];
   user: UserModel = this._user.fetchUser();
   userSubscription: Subscription;
-  balance: BalanceModel = this._balance.fetchBalance();
+  // balance: BalanceModel = this._balance.fetchBalance();
   balanceSubscription: Subscription;
   completedRequests = 0;
   activeButtonIndex: number;
   headerButtonsVisible = true;
   userNavigationVisible = false;
+  mobileNavigationVisible = false;
+  mobileUserVisible = false;
   @ViewChild('userWrap') userWrap: ElementRef;
   initLists(): Promise<any> {
     return Promise.all([this._list.fetchCurrenciesList(), this._list.fetchCountriesList()]);
@@ -169,12 +171,12 @@ export class IndexComponent implements OnInit, OnDestroy {
     });
     this._user.fetchProfileParams().then(() => this.completedRequests++);
   }
-  balanceInit(): void {
-    this.balanceSubscription = this._balance.balanceSubscription().subscribe(balance => {
-      this.balance = balance;
-    });
-    this._balance.fetchBalanceParams().then(() => this.completedRequests++);
-  }
+  // balanceInit(): void {
+  //   this.balanceSubscription = this._balance.balanceSubscription().subscribe(balance => {
+  //     this.balance = balance;
+  //   });
+  //   this._balance.fetchBalanceParams().then(() => this.completedRequests++);
+  // }
   navigationInit(): void {
     this._user.fetchNavigationParams().then(result => {
       result.map(resultItem => {
@@ -202,7 +204,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.completedRequests = 0;
     this.initLists().then(() => {
       this.userInit();
-      this.balanceInit();
+      // this.balanceInit();
       this.navigationInit();
     });
   }

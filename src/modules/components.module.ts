@@ -38,7 +38,14 @@ import {AuthenticationComponent} from '../components/settings/settings-items/aut
 import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
+import {DepartmentsComponent} from '../components/departments/department.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
+import {CallRulesComponent} from '../components/call-rules/call-rules.component';
+import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
+import {AddressBookComponent} from '../components/address-book/address-book.component';
+import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
+import {ExtensionsComponent} from '../components/extensions/extensions.component';
+import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
 
 
 /*
@@ -86,7 +93,15 @@ import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.c
     BillingComponent,
     AccountNotificationsComponent,
     UserNotificationsComponent,
-    PhoneNumbersComponent
+    PhoneNumbersComponent,
+    AddressBookComponent,
+    DepartmentsComponent,
+    CallRulesComponent,
+    CallRulesCreateComponent,
+    PhoneNumbersComponent,
+    BuyPhoneNumbersComponent,
+    ExtensionsComponent,
+    RefillBalanceComponent
   ],
   exports: [
     ElementsModule,
@@ -114,7 +129,15 @@ import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.c
     BillingComponent,
     AccountNotificationsComponent,
     UserNotificationsComponent,
-    PhoneNumbersComponent
+    PhoneNumbersComponent,
+    DepartmentsComponent,
+    CallRulesComponent,
+    CallRulesCreateComponent,
+    AddressBookComponent,
+    DepartmentsComponent,
+    BuyPhoneNumbersComponent,
+    ExtensionsComponent,
+    RefillBalanceComponent
   ]
 })
 export class ComponentsModule {

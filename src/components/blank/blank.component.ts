@@ -13,7 +13,7 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
                 style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;"
                 buttonType="error"
                 value="Modal"
-                (onClick)="modalVisible = true"></pbx-button>
+                (onClick)="modal.visible = true"></pbx-button>
             </div>
             <pbx-select
               style="flex: 0 0 auto; width: 300px; margin-bottom: 16px"
@@ -31,7 +31,9 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
               [placeholder]="'Please select something'"
               (onSelect)="selectOption($event)"></pbx-select>
             <pbx-checkbox style="flex: 0 0 auto; margin-bottom: 16px" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
-            <pbx-modal [visible]="modalVisible" (onConfirm)="modalConfirm()" (onDecline)="modalDecline()">
+            <pbx-modal [modal]="modal"
+                       (onConfirm)="modalConfirm()"
+                       (onDecline)="modalDecline()">
               <div style="font-size: 16px">Modal body</div>
             </pbx-modal>
             <div style="flex-direction: row; width: 100%">
@@ -52,7 +54,6 @@ export class BlankComponent {
   selectedRow = [];
   selectedOption;
   checkboxStatus: boolean;
-  modalVisible: boolean;
   sidebarInfo: SidebarInfo = {
     title: 'Information',
     description: [
@@ -108,6 +109,22 @@ export class BlankComponent {
     keys: ['name', 'value', 'additionalData.title']
   };
 
+  modal: {
+    visible: boolean,
+    title: string,
+    confirm: {type: string, value: string},
+    decline: {type: string, value: string}
+  };
+
+  constructor() {
+    this.modal = {
+      visible: false,
+      title: 'Diablo',
+      confirm: {type: 'success', value: 'OK'},
+      decline: {type: 'error', value: 'No'}
+    };
+  }
+
   selectItem(item): void {
     const selected = this.selectedRow.find(i => i.id === item.id);
     if (selected) {
@@ -134,10 +151,8 @@ export class BlankComponent {
   }
   modalConfirm = (): void => {
     console.log('Modal confirmed!');
-    this.modalVisible = false;
   }
   modalDecline = (): void => {
     console.log('Modal declined!');
-    this.modalVisible = false;
   }
 }
