@@ -4,16 +4,16 @@ import {Subscription} from 'rxjs/Subscription';
 
 import {MessageServices} from '../../services/message.services';
 import {UserServices} from '../../services/user.services';
-import {BalanceServices} from '../../services/balance.services';
 
 import {NavigationItemModel} from '../../models/navigation-item.model';
 import {UserModel} from '../../models/user.model';
-import {BalanceModel} from '../../models/balance.model';
 import {MainViewComponent} from '../main-view.component';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {ListServices} from '../../services/list.services';
+import {WsServices} from "../../services/ws.services";
+import {StorageServices} from "../../services/storage.services";
 
 @Component({
     selector: 'pbx-index',
@@ -28,7 +28,9 @@ export class IndexComponent implements OnInit, OnDestroy {
                 private _messages: MessageServices,
                 private _router: Router,
                 private _list: ListServices,
-                public _main: MainViewComponent) {
+                public _main: MainViewComponent,
+                private _ws: WsServices,
+                private _storage: StorageServices) {
     }
 
     navigationList: NavigationItemModel[][];
@@ -104,6 +106,18 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.headerButtonsVisible = !this.headerButtonsVisible;
     }
 
+    getToken(): string {
+        const user = this._storage.readItem('pbx_user');
+        return user['secrets']['access_token'];
+    }
+
+    WebSocket(): void {
+        this._ws.connect(this.getToken());
+        this.balanceSubscription = this._ws.getBalance().subscribe(balance => {
+            this.user.balance.balance = balance.balance;
+        });
+    }
+
     ngOnInit(): void {
         this.completedRequests = 0;
         this.initLists().then(() => {
@@ -111,10 +125,12 @@ export class IndexComponent implements OnInit, OnDestroy {
             // this.balanceInit();
             this.navigationInit();
         });
+        this.WebSocket();
     }
 
     ngOnDestroy(): void {
         this.userSubscription.unsubscribe();
         this.balanceSubscription.unsubscribe();
     }
+
 }
