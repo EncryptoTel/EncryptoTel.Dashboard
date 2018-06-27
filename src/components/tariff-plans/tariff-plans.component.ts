@@ -88,7 +88,7 @@ export class TariffPlansComponent implements OnInit {
             res.map(tariff => {
                 let price = 0;
                 tariff.offers.map(offer => {
-                    price += offer.service.sumWithVat;
+                    price += offer.service.sum;
                     // console.log(offer.service);
                 });
                 price = Math.round(price * 100) / 100;
