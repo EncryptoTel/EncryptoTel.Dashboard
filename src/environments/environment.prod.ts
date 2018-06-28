@@ -3,7 +3,7 @@ export const environment = {
     production: false,
     back: 'https://mega.encryptotel.com/api',
     ph: 'assets/json',
-    ws: 'ws://ws.mega.encryptotel.com',
+    ws: 'ws.mega.encryptotel.com',
     params: {
         messageDuration: 5000
     }
