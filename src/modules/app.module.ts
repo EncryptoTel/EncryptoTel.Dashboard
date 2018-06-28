@@ -29,7 +29,7 @@ import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import {WsServices} from "../services/ws.services";
 import {environment as _env} from '../environments/environment';
 
-const config: SocketIoConfig = {url: _env.ws, options: {}};
+const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket']}};
 
 @NgModule({
     declarations: [
