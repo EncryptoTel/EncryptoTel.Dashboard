@@ -15,7 +15,10 @@ import {ListServices} from '../services/list.services';
 
 @Component({
   selector: 'main-view',
-  template: '<pbx-loader *ngIf="loading"></pbx-loader><router-outlet *ngIf="!loading"></router-outlet>',
+  template: `
+    <pbx-loader *ngIf="loading"></pbx-loader>
+    <router-outlet *ngIf="!loading"></router-outlet>
+  `,
   animations: [FadeAnimation('300ms')]
 })
 
@@ -28,6 +31,8 @@ export class MainViewComponent implements OnInit, OnDestroy {
   messagesList: MessageModel[];
   routerSubscription: Subscription;
   loading = true;
+
+
   public pageTitle = 'Encrypto Telecom';
   @HostBinding('class') public userTheme: string;
   public setUserTheme(theme: string) {
@@ -43,6 +48,7 @@ export class MainViewComponent implements OnInit, OnDestroy {
     });
     this._services.messagesList().subscribe(messages => {
       this.messagesList = messages;
+      console.log(messages);
     });
     this.routerSubscription = this.router.events
       .filter((event) => event instanceof NavigationEnd)
@@ -62,3 +68,5 @@ export class MainViewComponent implements OnInit, OnDestroy {
     this.routerSubscription.unsubscribe();
   }
 }
+
+

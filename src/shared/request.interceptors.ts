@@ -6,13 +6,18 @@ import {UserModel} from '../models/user.model';
 
 import {StorageServices} from '../services/storage.services';
 
+import {Router} from '@angular/router';
+
 /*
   Intercept all outgoing requests and adding User-Token header for all of them if user already logged in
  */
 
 @Injectable()
 export class UserTokenInterceptor implements HttpInterceptor {
-  constructor(private _storage: StorageServices) {}
+  constructor(
+    private _storage: StorageServices,
+    private router: Router
+  ) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const user: UserModel = this._storage.readItem('pbx_user');
     if ((request.url.includes('encry') || request.url.includes('pbx')) && user) {

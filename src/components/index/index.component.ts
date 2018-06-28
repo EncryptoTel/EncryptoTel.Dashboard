@@ -12,8 +12,8 @@ import {MainViewComponent} from '../main-view.component';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {ListServices} from '../../services/list.services';
-import {WsServices} from "../../services/ws.services";
-import {StorageServices} from "../../services/storage.services";
+import {WsServices} from '../../services/ws.services';
+import {StorageServices} from '../../services/storage.services';
 
 @Component({
     selector: 'pbx-index',
@@ -23,8 +23,7 @@ import {StorageServices} from "../../services/storage.services";
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
-    constructor(private _user: UserServices,
-                // private _balance: BalanceServices,
+    constructor (private _user: UserServices,
                 private _messages: MessageServices,
                 private _router: Router,
                 private _list: ListServices,
@@ -136,5 +135,4 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.userSubscription.unsubscribe();
         this.balanceSubscription.unsubscribe();
     }
-
 }

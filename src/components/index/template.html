@@ -1,84 +1,13 @@
-<!--
-<pbx-loader *ngIf="completedRequests < 3"></pbx-loader>
-<div class="navigation_wrap" *ngIf="completedRequests > 2">
-  <div class="user_wrap" [ngClass]="{'active': userNavigationVisible}" (click)="userNavigationVisible = !userNavigationVisible" (clickOutside)="hideUserNavigation()" #userWrap>
-    <div class="user_profile_image" [ngStyle]="{'background-image': 'url(' + (user.image) + ')'}"></div>
-    <div class="user_details_wrap">
-      <div class="user_details_name">{{user.name}}</div>
-      <div class="user_details_balance" *ngIf="completedRequests > 2">{{balance.symbol}}{{balance.balance}}</div>
-    </div>
-    <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
-    <div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">
-      <a routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item">Refill balance</a>
-      <a routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item">Tariff plan</a>
-      <div (click)="logout()" class="user_navigation_item">
-        <span>Exit</span>
-        <svg-icon src="../../assets/icons/exit.svg" class="user_navigation_logout"></svg-icon>
-      </div>
-    </div>
-  </div>
-  <div class="navigation_block_wrap">
-    <div class="navigation_block" *ngFor="let block of navigationList">
-      <div *ngFor="let navigationItem of block">
-        <a [routerLink]="navigationItem.link"
-           routerLinkActive="active"
-           class="navigation_item"
-           [ngClass]="{'inactive': !navigationItem.status}"
-           *ngIf="navigationItem.visible">
-          <svg-icon [src]="'../../assets/icons/' + navigationItem.icon + '.svg'" class="navigation_item_icon"></svg-icon>
-          <div class="navigation_item_title">{{navigationItem.title}}</div>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="content_wrap" *ngIf="completedRequests > 2">
-  <div class="header_line_wrap">
-    <div class="header_title">{{_main.pageTitle}}</div>
-    <div class="header_button_row">
-      <div class="header_button_wrap" [ngClass]="{'visible': headerButtonsVisible}">
-        <div class="header_button phone" [ngClass]="{'active': activeButtonIndex === 0}" (click)="toggleActiveButton(0, $event)">
-          <svg-icon src="../../assets/icons/phone_16px.svg"></svg-icon>
-          <div class="button_animation" *ngIf="activeButtonIndex === 0"></div>
-        </div>
-        <div class="header_button contacts" [ngClass]="{'active': activeButtonIndex === 1}" (click)="toggleActiveButton(1, $event)">
-          <svg-icon src="../../assets/icons/contacts.svg"></svg-icon>
-          <div class="button_animation" *ngIf="activeButtonIndex === 1"></div>
-        </div>
-        <div class="header_button chat" [ngClass]="{'active': activeButtonIndex === 2}" (click)="toggleActiveButton(2, $event)">
-          <svg-icon src="../../assets/icons/chat.svg"></svg-icon>
-          <div class="button_animation" *ngIf="activeButtonIndex === 2"></div>
-        </div>
-        <div class="header_button notifications" [ngClass]="{'active': activeButtonIndex === 3}" (click)="toggleActiveButton(3, $event)">
-          <svg-icon src="../../assets/icons/notification_48px.svg"></svg-icon>
-          <div class="button_animation" *ngIf="activeButtonIndex === 3"></div>
-        </div>
-      </div>
-      <div class="header_button_hide" (click)="toggleHeaderButtons($event)" [ngClass]="{'initial': headerButtonsVisible}">
-        <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-      </div>
-      <div class="sidebar_wrap" [ngClass]="{'visible': headerButtonsVisible}" *ngIf="activeButtonIndex !== (null || undefined)" [@Swipe]>
-        <span *ngIf="activeButtonIndex === 0">call</span>
-        <span *ngIf="activeButtonIndex === 1">contacts</span>
-        <span *ngIf="activeButtonIndex === 2">chat</span>
-        <span *ngIf="activeButtonIndex === 3">notification</span>
-      </div>
-    </div>
-  </div>
-  <div class="body_wrap">
-    <router-outlet></router-outlet>
-  </div>
-</div>
--->
-<div id="websocket"></div>
 <pbx-loader *ngIf="completedRequests < 2"></pbx-loader>
+<pbx-notificator [notificator]="notificator"></pbx-notificator>
 <div class="main_grid" *ngIf="completedRequests > 1">
   <div class="user_wrap" [ngClass]="{'active': userNavigationVisible}"
        (click)="userNavigationVisible = !userNavigationVisible" (clickOutside)="hideUserNavigation()" #userWrap>
     <div class="user_profile_image" [ngStyle]="{'background-image': 'url(' + (user.image) + ')'}"></div>
     <div class="user_details_wrap">
       <div class="user_details_name">{{user.profile.firstname}}</div>
-      <div class="user_details_balance" *ngIf="completedRequests > 1">{{user.balance.symbol}}{{user.balance.balance}}</div>
+      <div class="user_details_balance" *ngIf="completedRequests > 1">{{user.balance.symbol}}{{user.balance.balance}}
+      </div>
     </div>
     <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
     <div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">
@@ -149,18 +78,19 @@
       <div class="mobile_sidebar">
         <div class="mobile_profile" (click)="mobileUserVisible=!mobileUserVisible"
              (clickOutside)="mobileUserVisible=false">
-            <div class="mobile_profile_name">{{user.profile.firstname}}</div>
-            <div class="mobile_profile_balance"
-                 *ngIf="completedRequests > 1">{{user.balance.symbol}}{{user.balance.balance}}</div>
-            <div class="mobile_profile_button_wrap" [ngClass]="{'invisible':!mobileUserVisible}"
-                 (click)="mobileNavigationVisible=false">
-              <a routerLink="/cabinet/refill" routerLinkActive="active" class="mobile_profile_button">Refill balance</a>
-              <a routerLink="/cabinet/tariff" routerLinkActive="active" class="mobile_profile_button">Tariff plan</a>
-              <div (click)="logout()" class="mobile_profile_button">
-                <span>Exit</span>
-                <svg-icon src="../../assets/icons/exit.svg" class="mobile_profile_icon"></svg-icon>
-              </div>
+          <div class="mobile_profile_name">{{user.profile.firstname}}</div>
+          <div class="mobile_profile_balance"
+               *ngIf="completedRequests > 1">{{user.balance.symbol}}{{user.balance.balance}}
+          </div>
+          <div class="mobile_profile_button_wrap" [ngClass]="{'invisible':!mobileUserVisible}"
+               (click)="mobileNavigationVisible=false">
+            <a routerLink="/cabinet/refill" routerLinkActive="active" class="mobile_profile_button">Refill balance</a>
+            <a routerLink="/cabinet/tariff" routerLinkActive="active" class="mobile_profile_button">Tariff plan</a>
+            <div (click)="logout()" class="mobile_profile_button">
+              <span>Exit</span>
+              <svg-icon src="../../assets/icons/exit.svg" class="mobile_profile_icon"></svg-icon>
             </div>
+          </div>
         </div>
         <div class="mobile_navigation">
           <div class="mobile_navigation_block" *ngFor="let block of navigationList">
@@ -171,7 +101,7 @@
                  [ngClass]="{'inactive': !navigationItem.status}"
                  *ngIf="navigationItem.visible"
                  (click)="mobileNavigationVisible=false">
-                 {{navigationItem.title}}
+                {{navigationItem.title}}
               </a>
             </div>
           </div>
@@ -180,5 +110,7 @@
     </div>
     <div class="mobile_header_title">{{_main.pageTitle}}</div>
   </div>
-  <div class="body_wrap"><router-outlet></router-outlet></div>
+  <div class="body_wrap">
+    <router-outlet></router-outlet>
+  </div>
 </div>

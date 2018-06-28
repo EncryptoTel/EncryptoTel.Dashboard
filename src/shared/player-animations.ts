@@ -1,6 +1,6 @@
 import {animate, style, transition, trigger} from '@angular/animations';
 
-export function SwipeAnimation(axis: 'x' | 'y', time: string) {
+export function PlayerAnimation(axis: 'x' | 'y', time: string) {
   switch (axis) {
     case 'x': {
       return trigger('Swipe', [
@@ -19,21 +19,12 @@ export function SwipeAnimation(axis: 'x' | 'y', time: string) {
       return trigger('Swipe', [
         transition(':enter', [
           style({
-            height: 0,
-            transform: 'translateY(-50px)',
-            opacity: 0
+            height: 0
           }),
-          animate(`${time} ease-in-out`)
+          animate(`${time} ease-in`)
         ]),
         transition(':leave', [
-          animate(`${time} ease-in-out`,
-            style({
-              height: 0,
-              transform: 'translateY(-50px)',
-              opacity: 0
-
-            })
-          )
+          animate(`${time} ease-out`, style({height: 0}))
         ])
       ]);
     }
