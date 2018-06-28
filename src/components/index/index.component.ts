@@ -38,6 +38,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     userSubscription: Subscription;
     // balance: BalanceModel = this._balance.fetchBalance();
     balanceSubscription: Subscription;
+    serviceSubscription: Subscription;
     completedRequests = 0;
     activeButtonIndex: number;
     headerButtonsVisible = true;
@@ -115,6 +116,9 @@ export class IndexComponent implements OnInit, OnDestroy {
         this._ws.connect(this.getToken());
         this.balanceSubscription = this._ws.getBalance().subscribe(balance => {
             this.user.balance.balance = balance.balance;
+        });
+        this.serviceSubscription = this._ws.getService().subscribe(service => {
+            this.navigationInit();
         });
     }
 

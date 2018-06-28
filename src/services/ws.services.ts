@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ng-socket-io';
 import {Subject} from "rxjs/Subject";
-import {BalanceWsModel} from "../models/balance.model";
+import {BalanceModel, ServiceModel} from "../models/ws.model";
 import {Observable} from "rxjs/Observable";
 
 
@@ -9,8 +9,11 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class WsServices {
 
-    balance: BalanceWsModel;
-    subscription: Subject<BalanceWsModel> = new Subject<BalanceWsModel>();
+    balance: BalanceModel;
+    balanceSubscription: Subject<BalanceModel> = new Subject<BalanceModel>();
+
+    service: ServiceModel;
+    serviceSubscription: Subject<ServiceModel> = new Subject<ServiceModel>();
 
     constructor(private socket: Socket) {
         this.balance = {balance: 0};
@@ -34,17 +37,28 @@ export class WsServices {
 
         socket.on('balance', function (data) {
             _this.balance.balance = JSON.parse(data).balance;
-            _this.subscription.next(_this.balance);
+            _this.balanceSubscription.next(_this.balance);
             console.log('balance', data);
         });
+
+        socket.on('service', function (data) {
+            _this.service.id = JSON.parse(data).id;
+            _this.serviceSubscription.next(_this.service);
+            console.log('service', data);
+        });
+
         socket.on('notification', function (data) {
             console.log('notification', data);
         });
 
     }
 
-    getBalance(): Observable<BalanceWsModel> {
-        return this.subscription.asObservable();
+    getBalance(): Observable<BalanceModel> {
+        return this.balanceSubscription.asObservable();
+    }
+
+    getService(): Observable<ServiceModel> {
+        return this.serviceSubscription.asObservable();
     }
 
 }

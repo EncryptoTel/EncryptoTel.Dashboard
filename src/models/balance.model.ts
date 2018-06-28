@@ -6,9 +6,3 @@ export class BalanceModel {
     public symbol?: string
   ) {}
 }
-
-export class BalanceWsModel {
-    constructor(
-        public balance: number,
-    ) {}
-}
