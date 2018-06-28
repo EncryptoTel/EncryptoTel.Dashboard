@@ -2,147 +2,154 @@ import {Component, OnInit} from '@angular/core';
 import {DetailsAndRecordsServices} from '../../services/details-and-records.services';
 import {logger} from 'codelyzer/util/logger';
 import {forEach} from '@angular/router/src/utils/collection';
+import {FadeAnimation} from '../../shared/fade-animation';
+import {PlayerAnimation} from '../../shared/player-animations';
 
 
 @Component({
   selector: 'pbx-details-and-records',
   templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+  styleUrls: ['./local.sass'],
+  animations: [
+    FadeAnimation('200ms'),
+    PlayerAnimation('x', '200ms')
+  ]
 })
 
 export class DetailsAndRecordsComponent implements OnInit {
-  loading = true;
+  loading = false;
 
-  detailsTest = [
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'payment',
-      price: '0',
-      record: ''
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'incoming',
-      tag: 'payment',
-      price: '0',
-      record: ''
-    },
-    {
-      from: 'Month payment',
-      to: null,
-      start_time: null,
-      duration: null,
-      tag: 'payment',
-      price: '99',
-      record: ''
-    },
-    {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      tag: 'missed',
-      price: '0',
-      record: ''
-    },
-    {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      tag: 'record',
-      price: '0',
-      record: ''
-    },
-    {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      tag: 'voicemail',
-      price: '0',
-      record: ''
-    },
-    {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      tag: 'outgoing',
-      price: '0',
-      record: ''
-    },
-    {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      tag: 'incoming',
-      price: '0',
-      record: ''
-    },
-    {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      tag: 'missed',
-      price: '0',
-      record: ''
-    },
-    {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      tag: 'missed',
-      price: '0',
-      record: ''
-    },
-    {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      tag: 'record',
-      price: '0',
-      record: ''
-    },
-    {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      tag: 'voicemail',
-      price: '0',
-      record: ''
-    },
-    {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      tag: 'record',
-      price: '0',
-      record: ''
-    },
-    {
-      from: '+1(800)200 01 10 #101',
-      to: '+1(800)200 01 10 #108',
-      start_time: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      tag: 'voicemail',
-      price: '0',
-      record: ''
-    }
-  ];
+  // detailsSample = [
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'payment',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'incoming',
+  //     tag: 'payment',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'incoming',
+  //     tag: 'payment',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     from: '+1(800)200 01 10 #101',
+  //     to: '+1(800)200 01 10 #108',
+  //     start_time: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     tag: 'missed',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     from: '+1(800)200 01 10 #101',
+  //     to: '+1(800)200 01 10 #108',
+  //     start_time: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     tag: 'record',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     from: '+1(800)200 01 10 #101',
+  //     to: '+1(800)200 01 10 #108',
+  //     start_time: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     tag: 'voicemail',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     from: '+1(800)200 01 10 #101',
+  //     to: '+1(800)200 01 10 #108',
+  //     start_time: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     from: '+1(800)200 01 10 #101',
+  //     to: '+1(800)200 01 10 #108',
+  //     start_time: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     tag: 'incoming',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     from: '+1(800)200 01 10 #101',
+  //     to: '+1(800)200 01 10 #108',
+  //     start_time: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     tag: 'missed',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     from: '+1(800)200 01 10 #101',
+  //     to: '+1(800)200 01 10 #108',
+  //     start_time: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     tag: 'missed',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     from: '+1(800)200 01 10 #101',
+  //     to: '+1(800)200 01 10 #108',
+  //     start_time: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     tag: 'record',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     from: '+1(800)200 01 10 #101',
+  //     to: '+1(800)200 01 10 #108',
+  //     start_time: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     tag: 'voicemail',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     from: '+1(800)200 01 10 #101',
+  //     to: '+1(800)200 01 10 #108',
+  //     start_time: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     tag: 'record',
+  //     price: '0',
+  //     record: ''
+  //   },
+  //   {
+  //     from: '+1(800)200 01 10 #101',
+  //     to: '+1(800)200 01 10 #108',
+  //     start_time: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     tag: 'voicemail',
+  //     price: '0',
+  //     record: ''
+  //   }
+  // ];
   details = [];
 
   sortingActive = 0;
@@ -192,6 +199,7 @@ export class DetailsAndRecordsComponent implements OnInit {
   rowHowerIndex: number;
 
   contactActionName = 'View contact';
+  currentPlayerAction: number;
 
   constructor(
     private services: DetailsAndRecordsServices
@@ -292,10 +300,10 @@ export class DetailsAndRecordsComponent implements OnInit {
   }
 
   playerAction(index) {
+    this.currentPlayerAction = index;
     const detailsLength = this.details.length;
 
     // my old realisation
-
     // for (let i = 0; i < index; i++) {
     //   this.details[i].play = false;
     // }
@@ -305,10 +313,26 @@ export class DetailsAndRecordsComponent implements OnInit {
     // this.details[index].play = this.details[index].play === false;
 
     // realisation with syntactic sugar
-
     for (let i = 0; i < detailsLength; i++) {
-      this.details[i].play = (index === i ? ! this.details[i].play : false);
+      this.details[i].play = (index === i ? !this.details[i].play : false);
     }
+
+    this.details[index].playerOpen = true;
+
+    // if (this.details[index].playerOpen === true && this.details[index].playerContentShow === true) {
+    //   this.details[index].playerContentShow = false;
+    //   setTimeout( () => {
+    //   }, 200);
+    // } else if (this.details[index].play === false) {
+    //   this.details[index].playerOpen = true;
+    // }
+  }
+
+  playerAnimationStart() {
+  }
+
+  playerAnimationEnd() {
+    this.details[this.currentPlayerAction].playerContentShow = this.details[this.currentPlayerAction].playerContentShow === false;
   }
 
   get paginatorLeftState(): boolean {
@@ -332,6 +356,8 @@ export class DetailsAndRecordsComponent implements OnInit {
           this.details[i].tag = 'incoming';
           this.details[i].ddShow = false;
           this.details[i].play = false;
+          this.details[i].playerOpen = false;
+          this.details[i].playerContentShow = false;
         });
       })
       .catch( err => {

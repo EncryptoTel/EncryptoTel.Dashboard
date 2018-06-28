@@ -28,7 +28,9 @@ export class IndexComponent implements OnInit, OnDestroy {
               private _messages: MessageServices,
               private _router: Router,
               private _list: ListServices,
-              public _main: MainViewComponent) {}
+              public _main: MainViewComponent) {
+  }
+
   navigationList: NavigationItemModel[][] = [
     [{
       id: 0,
@@ -152,25 +154,40 @@ export class IndexComponent implements OnInit, OnDestroy {
   mobileNavigationVisible = false;
   mobileUserVisible = false;
   @ViewChild('userWrap') userWrap: ElementRef;
+
+  notificator = {
+    visible: false,
+    type: '',
+    message: '',
+    actionType: '',
+    actionName: ''
+  };
+
+  notiShow: boolean;
+
   initLists(): Promise<any> {
     return Promise.all([this._list.fetchCurrenciesList(), this._list.fetchCountriesList()]);
   }
+
   hideUserNavigation(): void {
     if (this.userNavigationVisible) {
       this.userNavigationVisible = false;
     }
   }
+
   logout(): void {
     localStorage.clear();
     this._messages.writeSuccess('Logout successful');
     this._router.navigate(['../sign-in']);
   }
+
   userInit(): void {
     this.userSubscription = this._user.userSubscription().subscribe(user => {
       this.user = user;
     });
     this._user.fetchProfileParams().then(() => this.completedRequests++);
   }
+
   // balanceInit(): void {
   //   this.balanceSubscription = this._balance.balanceSubscription().subscribe(balance => {
   //     this.balance = balance;
@@ -192,14 +209,21 @@ export class IndexComponent implements OnInit, OnDestroy {
       });
     }).then(() => this.completedRequests++);
   }
+
   toggleActiveButton(ix: number, ev: MouseEvent): void {
-    if (ev) { ev.preventDefault(); }
+    if (ev) {
+      ev.preventDefault();
+    }
     this.activeButtonIndex = this.activeButtonIndex === ix ? undefined : ix;
   }
+
   toggleHeaderButtons(ev: MouseEvent): void {
-    if (ev) { ev.preventDefault(); }
+    if (ev) {
+      ev.preventDefault();
+    }
     this.headerButtonsVisible = !this.headerButtonsVisible;
   }
+
   ngOnInit(): void {
     this.completedRequests = 0;
     this.initLists().then(() => {
@@ -207,9 +231,21 @@ export class IndexComponent implements OnInit, OnDestroy {
       // this.balanceInit();
       this.navigationInit();
     });
+    this._messages.messagesList().subscribe(messages => {
+      console.log(messages);
+      // if (messages[0]) {
+      //   this.notificator.visible = true;
+      //   this.notificator.type = messages[0].type;
+      //   this.notificator.message = messages[0].text;
+      //   his.notificator = Object.assign({}, this.notificator);
+      //   this.notiShow = true;
+      // }
+    });
   }
+
   ngOnDestroy(): void {
+    console.log('11');
     this.userSubscription.unsubscribe();
-    this.balanceSubscription.unsubscribe();
+    // this.balanceSubscription.unsubscribe();
   }
 }

@@ -15,7 +15,6 @@ export class ModalComponent {
     confirm: {type: string, value: string},
     decline: {type: string, value: string}
   };
-  @Input() visible;
   @Output() onConfirm: EventEmitter<void> = new EventEmitter<void>();
   @Output() onDecline: EventEmitter<void> = new EventEmitter<void>();
   confirm(): void {

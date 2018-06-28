@@ -34,7 +34,7 @@ export class RequestServices {
           case 401: {
             localStorage.removeItem('pbx_user');
 
-            this.router.navigateByUrl('../../../sign-in');
+            this.router.navigate(['/sign-in']);
             break;
           }
           default: {
@@ -64,7 +64,7 @@ export class RequestServices {
         switch (response.status) { // Switch response error status
           case 401: {
             localStorage.removeItem('pbx_user');
-            this.router.navigateByUrl('../../../sign-in');
+            this.router.navigate(['/sign-in']);
             break;
           }
           default: {
@@ -93,7 +93,7 @@ export class RequestServices {
         switch (response.status) { // Switch response error status
           case 401: {
             localStorage.removeItem('pbx_user');
-            this.router.navigateByUrl('../../../sign-in');
+            this.router.navigate(['/sign-in']);
             break;
           }
           default: {
@@ -122,7 +122,7 @@ export class RequestServices {
         switch (response.status) { // Switch response error status
           case 401: {
             localStorage.removeItem('pbx_user');
-            this.router.navigateByUrl('../../../sign-in');
+            this.router.navigate(['/sign-in']);
             break;
           }
           default: {

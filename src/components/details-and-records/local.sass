@@ -89,12 +89,14 @@
       justify-content: center
     &.no-padding
       padding: 0
+    &:nth-child(4)
+      justify-content: center
     &:nth-child(6)
       width: 8%
       justify-content: flex-end
     &:nth-child(7)
       width: 7%
-      justify-content: flex-end
+      justify-content: center
     &:nth-child(8)
       width: auto
   &-pagination
@@ -155,7 +157,7 @@
   text-transform: capitalize
 
 .tag-button
-  height: 77%
+  height: 35px
   width: 128px
   text-transform: lowercase
 
@@ -196,9 +198,9 @@
   cursor: pointer
 
 .details-table-cols-button
+  position: relative
   height: auto
   width: 22px
-  margin-left: 10px
   cursor: pointer
   svg-icon
     margin: 0
@@ -206,8 +208,45 @@
     height: 100%
     fill: $dark_primary
     cursor: pointer
+  .player-container
+    overflow: hidden
+    position: absolute
+    background: #4f4f4e
+    height: 35px
+    width: 164px
+    right: -8px
+    top: -7px
+    border-radius: 5px
+    padding: 0 32px 0 8px
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    .player-overlay-time
+      font-size: 10px
+      color: rgba($dark_primary, 1)
+    .player-overlay-wave
+      display: flex
+      flex-direction: row
+      justify-content: space-between
+      align-items: center
+      span
+        display: block
+        width: 1px
+        background-color: $dark_primary
+        margin-left: 2px
+        &:first-child
+          margin-left: 0
+        &.small
+          height: 6px
+        &.tall
+          height: 12px
+        &.active
+          background-color: $dark_accent
+
 
 .details-table-cols-dropdown
+  z-index: 99999
   display: none
   flex-direction: column
   align-items: center
