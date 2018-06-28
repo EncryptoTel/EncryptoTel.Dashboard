@@ -16,7 +16,7 @@
     <div class="ext_header_wrap">
       <pbx-button value="Export" buttonType="accent" (onClick)="exportExt()"></pbx-button>
       <pbx-button value="Import" buttonType="accent" (onClick)="importExt()"></pbx-button>
-      <pbx-button value="Add" buttonType="success" (onClick)="addExt()"></pbx-button>
+      <pbx-button value="Add" buttonType="success" (onClick)="addExt()" routerLink="add"></pbx-button>
     </div>
   </div>
   <div class="ext_table table {{sidebar.visible}}">

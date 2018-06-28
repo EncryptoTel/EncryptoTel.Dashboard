@@ -1,0 +1,101 @@
+<div class="add_ext">
+  <div class="add_ext_grid">
+    <div class="add_ext_header">
+      <div class="add_ext_header_tab_wrap">
+        <div class="add_ext_header_tab"
+             *ngFor="let item of tab.items"
+             [ngClass]="{'active':item===tab.select}"
+             (click)="selectTab(item)"
+             >{{item}}
+        </div>
+      </div>
+      <div class="add_ext_header_button_wrap">
+        <pbx-button value="Cancel" buttonType="cancel"></pbx-button>
+        <pbx-button value="Save" buttonType="success"></pbx-button>
+      </div>
+    </div>
+    <div class="add_ext_body">
+      <pbx-loader *ngIf="loading"></pbx-loader>
+      <div class="add_ext_body_contain" *ngIf="!loading">
+        <form [formGroup]="formGeneral" class="add_ext_form" *ngIf="tab.select==='General'">
+          <div class="add_ext_form_title">User Information</div>
+          <div class="add_ext_form_item">
+            <label [ngClass]="{'active':phone.isOpen}">Phone</label>
+            <pbx-select [options]="phone.option"
+                        [objectKey]="'title'"
+                        [placeholder]="'Please select phone'"
+                        [selected]="phone.selected"
+                        (onSelect)="selectPhone($event)"
+                        [singleBorder]="'true'"
+                        (onOpen)="phone.isOpen=true"
+                        (onClose)="phone.isOpen=false"
+                        ></pbx-select>
+          </div>
+          <div class="add_ext_form_item">
+            <label for="extension">Extension</label>
+            <input type="text" id="extension" formControlName="extension" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+          </div>
+          <div class="add_ext_form_item">
+            <label for="default" (click)="changeCheckbox('default')">Default</label>
+            <pbx-checkbox id="default" formGroupName="default" (onToggle)="changeCheckbox('default')" [value]="this.formGeneral.get('default').value"></pbx-checkbox>
+          </div>
+          <div class="add_ext_form_item">
+            <label for="encrypted" (click)="changeCheckbox('encrypted')">Default</label>
+            <pbx-checkbox id="encrypted" formGroupName="encrypted" (onToggle)="changeCheckbox('encrypted')" [value]="this.formGeneral.get('encrypted').value"></pbx-checkbox>
+          </div>
+          <div class="add_ext_form_item">
+            <label for="firstname">First Name</label>
+            <input type="text" id="firstname" formControlName="firstname" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+          </div>
+          <div class="add_ext_form_item">
+            <label for="lastname">Last Name</label>
+            <input type="text" id="lastname" formControlName="lastname" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+          </div>
+          <div class="add_ext_form_item">
+            <label for="email">Email</label>
+            <input type="text" id="email" formControlName="email" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+          </div>
+          <div class="add_ext_form_item">
+            <label for="mobile">Mobile</label>
+            <input type="text" id="mobile" formControlName="mobile" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+          </div>
+          <div class="add_ext_form_title">Add External Phone Number</div>
+          <div class="add_ext_form_item">
+            <label [ngClass]="{'active':ext_phone.isOpen}">Phone</label>
+            <pbx-select [options]="ext_phone.option"
+                        [objectKey]="'title'"
+                        [placeholder]="'Please select phone'"
+                        [selected]="ext_phone.selected"
+                        (onSelect)="selectExternal($event)"
+                        [singleBorder]="'true'"
+                        (onOpen)="ext_phone.isOpen=true"
+                        (onClose)="ext_phone.isOpen=false"
+            ></pbx-select>
+          </div>
+          <div class="add_ext_form_title">Authentication <span>Detail used by web, SIP and mobile app. Reprovision after change</span></div>
+          <div class="add_ext_form_title">Generate new password and send to:</div>
+          <div class="add_ext_form_item">
+            <label for="sendAdmin" (click)="changeCheckbox('sendAdmin')">Admin email</label>
+            <pbx-checkbox id="sendAdmin" formGroupName="sendAdmin" (onToggle)="changeCheckbox('sendAdmin')" [value]="this.formGeneral.get('sendAdmin').value"></pbx-checkbox>
+            <div class="add_ext_form_item_description">#admin@email.com</div>
+          </div>
+          <div class="add_ext_form_item">
+            <label for="sendUser" (click)="changeCheckbox('sendUser')">User email</label>
+            <pbx-checkbox id="sendUser" formGroupName="sendUser" (onToggle)="changeCheckbox('sendUser')" [value]="this.formGeneral.get('sendUser').value"></pbx-checkbox>
+            <div class="add_ext_form_item_description">{{formGeneral.get('email').value.toLowerCase()}}</div>
+          </div>
+          <div class="add_ext_form_item">
+            <label for="sendMobile" (click)="changeCheckbox('sendMobile')">#text</label>
+            <pbx-checkbox id="sendMobile" formGroupName="sendAdmin" (onToggle)="changeCheckbox('sendMobile')" [value]="this.formGeneral.get('sendMobile').value"></pbx-checkbox>
+            <div class="add_ext_form_item_description">#e@mail.com</div>
+          </div>
+          <div class="add_ext_form_item">
+            <label></label>
+            <pbx-button value="Generate & Send Password" (onClick)="sendPassword()"></pbx-button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <pbx-sidebar>sidebar is not ready</pbx-sidebar>
+</div>
