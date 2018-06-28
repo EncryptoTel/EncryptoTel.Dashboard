@@ -113,6 +113,7 @@ export class ExtensionsComponent implements OnInit {
         this.timer = setTimeout(() => {
             // console.log('timer');
             this.getExtensions();
+            clearTimeout(this.timer);
         }, 500);
 
     }

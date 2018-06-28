@@ -9,20 +9,24 @@ import {CountryServices} from '../../../services/country.services';
     selector: 'buy-phone-numbers-component',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    providers: [PhoneNumbersServices, CountryServices]
+    providers: [PhoneNumbersServices]
 })
 
 export class BuyPhoneNumbersComponent implements OnInit {
 
-    loading: boolean;
+    loading: number;
 
     list: any[];
 
     requestDetails: {
-        countryCode: string;
-        search: string,
+        countryCode: string,
+        areaCode: string,
+        contains: string,
         page: number,
-        limit: number
+        limit: number,
+        local: boolean,
+        mobile: boolean,
+        tollFree: boolean
     };
 
     pagination: {
@@ -42,7 +46,9 @@ export class BuyPhoneNumbersComponent implements OnInit {
     selected;
 
     countries: CountryModel[] = [];
-    hightLightLabelSelect = false;
+    selectedCountry: CountryModel;
+
+    matches = [{id: 0, title: 'Any part of number'}];
 
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
@@ -58,15 +64,22 @@ export class BuyPhoneNumbersComponent implements OnInit {
         };
     }
 
+    selectCountry(country: CountryModel) {
+        this.selectedCountry = country;
+        this.requestDetails.countryCode = country.code;
+        this.getList();
+    }
+
     getList(): void {
-        this.loading = true;
+        this.loading += 1;
         this._services.getAvailableNumbersList(this.requestDetails)
             .then(res => {
+                this.requestDetails.limit = res['numbers'].length;
                 // this.list = [res['items'].slice(0, this.requestDetails.limit / 2), res['items'].slice(this.requestDetails.limit / 2)];
                 this.list = [res['numbers'].slice(0, this.requestDetails.limit / 2), res['numbers'].slice(this.requestDetails.limit / 2)];
                 // console.log(this.list);
                 this.pagination.total = 1; // res.pages;
-                this.loading = false;
+                this.loading -= 1;
             });
     }
 
@@ -77,6 +90,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
         this.searchTimeout = setTimeout(() => {
             this.pagination.page = this.requestDetails.page = 1;
             this.getList();
+            clearTimeout(this.searchTimeout);
         }, 500);
     }
 
@@ -114,19 +128,25 @@ export class BuyPhoneNumbersComponent implements OnInit {
         this._countries.getCountries().then(res => {
             // console.log(res);
             this.countries = res;
+            this.selectedCountry = this.countries.find(country => country.code === 'US');
         }).catch(err => {
-            console.error(err);
-            this.loading = false;
+            // console.error(err);
+            // this.loading = false;
         });
     }
 
     ngOnInit() {
+        this.loading = 0;
         this.requestDetails = {
             countryCode: 'US',
-            search: '',
+            areaCode: '',
+            contains: '',
             page: 1,
             // limit: calculateHeight(this.table, this.row) * 2
-            limit: 40
+            limit: 40,
+            local: true,
+            mobile: false,
+            tollFree: false
         };
         this.getList();
         this.getCountries();

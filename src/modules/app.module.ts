@@ -28,6 +28,7 @@ import {CallRulesServices} from '../services/call-rules.services';
 import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import {WsServices} from "../services/ws.services";
 import {environment as _env} from '../environments/environment';
+import {CountryServices} from "../services/country.services";
 
 const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket']}};
 
@@ -61,7 +62,8 @@ const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket'
         DepartmentServices,
         CallRulesServices,
         AddressBookServices,
-        WsServices
+        WsServices,
+        CountryServices
     ],
     bootstrap: [MainViewComponent]
 })
