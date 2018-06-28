@@ -4,8 +4,9 @@
     <div style="font-size: 16px">Do you want to buy this number?</div>
 </pbx-modal>
 
-<div class="table_wrap" #table>
-    <div class="table_pre_row overlay" #row>
+<!--
+<div class="phone" #table>
+    <div class="phone_header" #row>
         <div class="pre_row_input_wrap">
             <div class="pre_row_input_title">Country:</div>
             <pbx-select [options]="countries"
@@ -22,7 +23,7 @@
         </div>
     </div>
     <pbx-loader *ngIf="loading"></pbx-loader>
-    <div class="table_list" *ngIf="!loading">
+    <div class="phone_table" *ngIf="!loading">
         <div class="table" *ngFor="let table of list">
             <div class="table_header">
                 <div class="table_row">
@@ -45,8 +46,44 @@
             </div>
         </div>
     </div>
-    <div class="table_pre_row">
-        <pbx-pagination [currentPage]="pagination.page" [totalPages]="pagination.total"
-                        (onPageChange)="onPageChange($event)" *ngIf="pagination.total !== 1"></pbx-pagination>
+    <pbx-pagination [currentPage]="pagination.page" [totalPages]="pagination.total"
+                    (onPageChange)="onPageChange($event)" *ngIf="pagination.total !== 1"></pbx-pagination>
+</div>
+-->
+<div class="buy_phone_grid">
+    <div class="buy_phone_header">
+        <div class="buy_phone_header_block">
+            <div class="buy_phone_header_block_key">Select country:</div>
+            <pbx-select></pbx-select>
+            <div class="buy_phone_header_block_key">Search:</div>
+            <input type="text">
+        </div>
+        <div class="buy_phone_header_block">
+            <div class="buy_phone_header_block_key">Number:</div>
+            <input type="text">
+            <div class="buy_phone_header_block_key">Match to:</div>
+            <pbx-select></pbx-select>
+        </div>
+        <div class="buy_phone_header_options">
+            <div class="buy_phone_header_options_title">Number types</div>
+            <pbx-checkbox></pbx-checkbox>
+            <div>Local</div>
+            <pbx-checkbox></pbx-checkbox>
+            <div>Mobile</div>
+            <pbx-checkbox></pbx-checkbox>
+            <div>Toll-free</div>
+        </div>
+        <div class="buy_phone_header_refresh">Refresh phone lists
+            <svg-icon class="buy_phone_header_refresh_icon" src="../../assets/icons/refresh.svg"></svg-icon>
+        </div>
     </div>
+    <div class="buy_phone_body">
+
+    </div>
+    <div class="buy_phone_pagination" *ngIf="pagination.total>1">
+    <pbx-pagination [currentPage]="pagination.page"
+                    [totalPages]="pagination.total"
+                    (onPageChange)="onPageChange($event)"
+                    ></pbx-pagination>
+  </div>
 </div>
