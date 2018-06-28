@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PhoneNumbersServices} from '../../../services/phone-numbers.services';
 import {calculateHeight} from '../../../shared/shared.functions';
 import {templateJitUrl} from "@angular/compiler";
-import {CountriesModel, CountryModel} from "../../../models/company.model";
+import {CountryModel} from "../../../models/country.model";
 import {CountryServices} from "../../../services/country.services";
 
 @Component({
@@ -111,8 +111,9 @@ export class BuyPhoneNumbersComponent implements OnInit {
     }
 
     private getCountries(): void {
-        this._countries.getCountries().then((res: CountriesModel) => {
-            this.countries = res.countries;
+        this._countries.getCountries().then(res => {
+            // console.log(res);
+            this.countries = res;
         }).catch(err => {
             console.error(err);
             this.loading = false;

@@ -12,7 +12,7 @@ export class CountryServices {
     getCountries(): Promise<CountryModel[]> {
         if (this.countries.length == 0) {
             return this._req.get(`v1/countries`, true).then(countries => {
-                    this.countries = countries;
+                    this.countries = countries['countries'];
                     return Promise.resolve(this.countries);
                 });
         } else {
