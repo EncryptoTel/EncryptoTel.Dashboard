@@ -3,7 +3,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 
 import {DepartmentServices} from '../../services/department.services';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {DepartmentModel, Sip} from '../../models/departments.model';
+import {DepartmentModel, Sip} from '../../models/department.model';
 import {validateForm} from '../../shared/shared.functions';
 
 
