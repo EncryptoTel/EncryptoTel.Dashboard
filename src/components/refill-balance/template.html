@@ -50,7 +50,7 @@
                 <div class="refill_paying_buttons">
                     <pbx-button value="Cancel" buttonType="cancel"
                                 (onClick)="cancelPay()"></pbx-button>
-                    <pbx-button value="Pay" buttonType="success" (onClick)="modal.visible = true" [loading]="payment.loading"></pbx-button>
+                    <pbx-button value="Pay" buttonType="success" (onClick)="pay()" [loading]="payment.loading"></pbx-button>
                 </div>
             </div>
         </div>

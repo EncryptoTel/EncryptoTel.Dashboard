@@ -1,11 +1,106 @@
-<div class="table_container">
-  <div class="table_wrap" #table>
-    <div class="table_pre_row" #row>
-      <a routerLink="buy">
-        <pbx-button value="Add Number" buttonType="success" [propogation]="true"></pbx-button>
-      </a>
+<div class="ext_grid">
+  <div class="ext_header header">
+    <div class="ext_header_wrap">
+      <div class="ext_header_wrap_key">Department:</div>
+      <pbx-select [objectKey]="'title'"
+                  [options]="department.option"
+                  [selected]="department.selected"
+                  (onSelect)="department.selected=$event"></pbx-select>
     </div>
-    <pbx-loader *ngIf="loading"></pbx-loader>
-    <pbx-pagination [currentPage]="pagination.page" [totalPages]="pagination.total" (onPageChange)="onPageChange($event)" *ngIf="pagination.total !== 1"></pbx-pagination>
+    <div class="ext_header_wrap">
+      <div class="ext_header_wrap_key">Search:</div>
+      <input #search
+             [value]="pageinfo.search"
+             (keyup)="pageinfo.search=search.value">
+    </div>
+    <div class="ext_header_wrap">
+      <pbx-button value="Export" buttonType="accent" (onClick)="exportExt()"></pbx-button>
+      <pbx-button value="Import" buttonType="accent" (onClick)="importExt()"></pbx-button>
+      <pbx-button value="Add" buttonType="success" (onClick)="addExt()" routerLink="add"></pbx-button>
+    </div>
+  </div>
+  <div class="ext_table table {{sidebar.visible}}">
+    <div class="ext_table_row">
+      <div class="ext_table_item" *ngFor="let item of table.title;let i=index"
+           [ngClass]="{'fixed':table.width[i]}">{{item}}
+      </div>
+    </div>
+    <div class="ext_table_row {{item.id===sidebar.select}}"
+         *ngFor="let item of table.data"
+         (click)="viewExt(item.id)">
+      <div class="ext_table_item" *ngFor="let key of table.key;let i=index"
+           [ngClass]="{'fixed':table.width[i]}"
+      >{{item[key]===true||item[key]===false?'':item[key]}}
+        <div class="ext_table_item_circle" *ngIf="item[key]===true"></div>
+      </div>
+      <div class="ext_table_item_icon_block ext_table_item fixed">
+        <div class="ext_table_item_icon_wrap" (click)="clickEditIcon(item.id)">
+          <svg-icon class="ext_table_item_icon edit" src="../../assets/icons/edit_12px.svg"></svg-icon>
+        </div>
+        <div class="ext_table_item_icon_wrap" (click)="clickDeleteIcon(item.id)">
+          <svg-icon class="ext_table_item_icon delete" src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ext_footer footer">
+    <pbx-pagination [currentPage]="pageinfo.page"
+                    [totalPages]="pageinfo.total"
+                    (onPageChange)="changePage($event)"
+    ></pbx-pagination>
+  </div>
+
+
+  <div class="ext_sidebar sidebar {{sidebar.visible}}">
+    <div class="ext_sidebar_contain">
+      <div class="ext_sidebar_contain_data">
+        <div class="ext_sidebar_item_row">
+          <div class="ext_sidebar_item">
+            <div class="ext_sidebar_item_key"># Ext</div>
+            <div class="ext_sidebar_item_value">{{sidebar.data.extension}}</div>
+          </div>
+          <div class="ext_sidebar_item">
+            <div class="ext_sidebar_item_key">Phone</div>
+            <div class="ext_sidebar_item_value">{{sidebar.data.phone}}</div>
+          </div>
+        </div>
+        <div class="ext_sidebar_item">
+          <div class="ext_sidebar_item_key">First Name</div>
+          <div class="ext_sidebar_item_value">{{sidebar.data.firstname}}</div>
+        </div>
+        <div class="ext_sidebar_item">
+          <div class="ext_sidebar_item_key">Last Name</div>
+          <div class="ext_sidebar_item_value">{{sidebar.data.lastname}}</div>
+        </div>
+        <div class="ext_sidebar_item">
+          <div class="ext_sidebar_item_key">E-mail</div>
+          <div class="ext_sidebar_item_value">{{sidebar.data.email}}</div>
+        </div>
+        <div class="ext_sidebar_item">
+          <div class="ext_sidebar_item_key">Mobile</div>
+          <div class="ext_sidebar_item_value">{{sidebar.data.mobile}}</div>
+        </div>
+        <div class="ext_sidebar_item">
+          <div class="ext_sidebar_item_key">Department</div>
+          <div class="ext_sidebar_item_value">{{sidebar.data.department}}</div>
+        </div>
+      </div>
+      <div class="ext_sidebar_service_wrap">
+        <div class="ext_sidebar_service_button" (click)="showModal('delete_user')">Delete user</div>
+      </div>
+    </div>
+    <div class="ext_sidebar_button_wrap">
+      <div class="ext_sidebar_button_title">Generate new password and send to:</div>
+      <div class="ext_sidebar_button_grid">
+        <pbx-button value="Admin E-mail" (onClick)="sendPasswordToAdmin(sidebar.select)"></pbx-button>
+        <pbx-button value="User E-mail" (onClick)="sendPasswordToUser(sidebar.select)"></pbx-button>
+        <pbx-button value="Close" buttonType="cancel" (onClick)="closeExt()"></pbx-button>
+        <pbx-button value="Edit" buttonType="success" (onClick)="editExt(sidebar.select)"></pbx-button>
+      </div>
+    </div>
   </div>
 </div>
+
+<pbx-modal [modal]="modal.delete_user"
+           (onConfirm)="deleteUser(sidebar.select)"
+           >Did you want delete this user?</pbx-modal>

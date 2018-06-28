@@ -55,9 +55,9 @@ export class UserServices {
   /*
     Fetch initial navigation params, based on current user tariff plan
    */
-  fetchNavigationParams(): Promise<NavigationItemModel[]> {
-    return this._req.get('navigation.json').then(res => {
-      return Promise.resolve(res['navigationList']);
+  fetchNavigationParams(): Promise<NavigationItemModel[][]> {
+    return this._req.get('v1/nav', true).then(res => {
+      return Promise.resolve(res['items']);
     }).catch();
   }
   /*

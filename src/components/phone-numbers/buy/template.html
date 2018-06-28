@@ -1,40 +1,89 @@
 <pbx-modal [modal]="modal"
            (onConfirm)="modalConfirm()"
            (onDecline)="modalDecline()">
-  <div style="font-size: 16px">Do you want to buy this number?</div>
+    <div style="font-size: 16px">Do you want to buy this number?</div>
 </pbx-modal>
 
-<div class="table_wrap" #table>
-  <div class="table_pre_row overlay" #row>
-    <div class="pre_row_input_wrap">
-      <div class="pre_row_input_title">Search for favourite number:</div>
-      <input title="Search" class="pre_row_input" placeholder="Type your favourite number" [(ngModel)]="requestDetails.search" (keydown)="searchInit()">
-    </div>
-  </div>
-  <pbx-loader *ngIf="loading"></pbx-loader>
-  <div class="table_list" *ngIf="!loading">
-    <div class="table" *ngFor="let table of list">
-      <div class="table_header">
-        <div class="table_row">
-          <div class="table_column">Number</div>
-          <div class="table_column">Location</div>
-          <div class="table_column">Monthly</div>
-          <div class="table_column">Buy</div>
+<!--
+<div class="phone" #table>
+    <div class="phone_header" #row>
+        <div class="pre_row_input_wrap">
+            <div class="pre_row_input_title">Country:</div>
+            <pbx-select [options]="countries"
+                        [objectKey]="'title'"
+                        [singleBorder]="true"
+                        (onSelect)="selectCountry($event)"
+                        [selected]="selectedCountry"
+                        (onOpen)="hightLightLabelSelect = true" (onClose)="hightLightLabelSelect = false"></pbx-select>
         </div>
-      </div>
-      <div class="table_body">
-        <div class="table_row" *ngFor="let item of table">
-          <div class="table_column">{{item['fullNumber']}}</div>
-          <div class="table_column">{{item['areaName'] || 'Unknown'}}</div>
-          <div class="table_column">${{item['sum'] || 'Free'}}</div>
-          <div class="table_column">
-            <pbx-button value="Buy" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)" [inactive]="item.inactive"></pbx-button>
-          </div>
+        <div class="pre_row_input_wrap">
+            <div class="pre_row_input_title">Search for favourite number:</div>
+            <input title="Search" class="pre_row_input" placeholder="Type your favourite number"
+                   [(ngModel)]="requestDetails.search" (keydown)="searchInit()">
         </div>
-      </div>
     </div>
-  </div>
-  <div class="table_pre_row">
-    <pbx-pagination [currentPage]="pagination.page" [totalPages]="pagination.total" (onPageChange)="onPageChange($event)" *ngIf="pagination.total !== 1"></pbx-pagination>
+    <pbx-loader *ngIf="loading"></pbx-loader>
+    <div class="phone_table" *ngIf="!loading">
+        <div class="table" *ngFor="let table of list">
+            <div class="table_header">
+                <div class="table_row">
+                    <div class="table_column">Number</div>
+                    <div class="table_column">Location</div>
+                    <div class="table_column">Monthly</div>
+                    <div class="table_column">Buy</div>
+                </div>
+            </div>
+            <div class="table_body">
+                <div class="table_row" *ngFor="let item of table">
+                    <div class="table_column">{{item['fullNumber']}}</div>
+                    <div class="table_column">{{item['areaName'] || 'Unknown'}}</div>
+                    <div class="table_column">${{item['sum'] || 'Free'}}</div>
+                    <div class="table_column">
+                        <pbx-button value="Buy" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)"
+                                    [inactive]="item.inactive"></pbx-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <pbx-pagination [currentPage]="pagination.page" [totalPages]="pagination.total"
+                    (onPageChange)="onPageChange($event)" *ngIf="pagination.total !== 1"></pbx-pagination>
+</div>
+-->
+<div class="buy_phone_grid">
+    <div class="buy_phone_header">
+        <div class="buy_phone_header_block">
+            <div class="buy_phone_header_block_key">Select country:</div>
+            <pbx-select></pbx-select>
+            <div class="buy_phone_header_block_key">Search:</div>
+            <input type="text">
+        </div>
+        <div class="buy_phone_header_block">
+            <div class="buy_phone_header_block_key">Number:</div>
+            <input type="text">
+            <div class="buy_phone_header_block_key">Match to:</div>
+            <pbx-select></pbx-select>
+        </div>
+        <div class="buy_phone_header_options">
+            <div class="buy_phone_header_options_title">Number types</div>
+            <pbx-checkbox></pbx-checkbox>
+            <div>Local</div>
+            <pbx-checkbox></pbx-checkbox>
+            <div>Mobile</div>
+            <pbx-checkbox></pbx-checkbox>
+            <div>Toll-free</div>
+        </div>
+        <div class="buy_phone_header_refresh">Refresh phone lists
+            <svg-icon class="buy_phone_header_refresh_icon" src="../../assets/icons/refresh.svg"></svg-icon>
+        </div>
+    </div>
+    <div class="buy_phone_body">
+
+    </div>
+    <div class="buy_phone_pagination" *ngIf="pagination.total>1">
+    <pbx-pagination [currentPage]="pagination.page"
+                    [totalPages]="pagination.total"
+                    (onPageChange)="onPageChange($event)"
+                    ></pbx-pagination>
   </div>
 </div>

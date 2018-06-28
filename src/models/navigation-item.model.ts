@@ -1,10 +1,7 @@
 export class NavigationItemModel {
   constructor(
-    public id: number,
-    public title: string,
-    public link: string,
-    public icon: string,
-    public status: boolean,
-    public visible: boolean
+    public name: string,
+    public url: string,
+    public icon: string
   ) {}
 }

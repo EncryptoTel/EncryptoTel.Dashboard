@@ -42,6 +42,7 @@ import {CallRulesCreateComponent} from '../components/call-rules/call-rules-crea
 import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
+import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -93,7 +94,10 @@ const Routes: Routes = [
       {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
       {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},
       {path: 'departments', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
-      {path: 'extensions', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},
+      {path: 'extensions', children: [
+          {path: '', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},
+          {path: 'add', component: AddExtensionsComponent, data: {title: 'Add New Extension', indexed: true}},
+        ]},
       {path: 'details-and-records', component: DetailsAndRecordsComponent, data: {title: 'Details and records', indexed: true}},
       {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},
       {path: 'storage', component: StorageComponent, data: {title: 'Storage', indexed: true}},
