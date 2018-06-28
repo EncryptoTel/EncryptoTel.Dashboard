@@ -29,4 +29,8 @@ export class ExtensionsServices {
         return this._req.post(`v1/sip/inners/${id}/change-password`, data, true);
     }
 
+    save(data): Promise<any> {
+        return this._req.post('v1/sip/inners', data, true);
+    }
+
 }

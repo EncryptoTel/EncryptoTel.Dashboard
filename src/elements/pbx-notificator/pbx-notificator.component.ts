@@ -32,7 +32,7 @@ export class NotificatorComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     // console.log(changes.notificator.currentValue.visible);
     console.log(changes);
-    if (changes.notificator.currentValue.visible === true) {
+    if (changes.notificator.currentValue && changes.notificator.currentValue.visible === true) {
       this.timer = setTimeout(() => {
         this.notificator.visible = false;
       }, 4000);
