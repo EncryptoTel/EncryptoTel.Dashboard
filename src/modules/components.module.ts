@@ -110,9 +110,9 @@ import {RightsAddExtensionComponent} from '../components/extensions/add/rights/r
     AddExtensionsComponent,
     GeneralAddExtensionComponent,
     CallRulesTimeoutComponent,
-    CallRulesTimeRulesComponent
+    CallRulesTimeRulesComponent,
     GeneralAddExtensionComponent,
-    RightsAddExtensionComponent
+    RightsAddExtensionComponent,
   ],
   exports: [
     ElementsModule,
