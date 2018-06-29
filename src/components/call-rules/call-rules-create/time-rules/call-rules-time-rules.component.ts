@@ -12,7 +12,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
 
     ruleTime = [
         {id: 1, code: 'Always (24 hours)'},
-        {id: 2, code: 'Date (period)'},
+        // {id: 2, code: 'Date (period)'},
         {id: 3, code: 'Days of the week'},
     ];
     duration = [
@@ -20,15 +20,16 @@ export class CallRulesTimeRulesComponent implements OnInit {
         {id: 2, code: 'Set the time'}
     ];
     durationTime = [
-        {time: '1 a.m', timeAster: '1:00'},
-        {time: '2 a.m', timeAster: '2:00'},
-        {time: '3 a.m', timeAster: '3:00'},
-        {time: '4 a.m', timeAster: '4:00'},
-        {time: '5 a.m', timeAster: '5:00'},
-        {time: '6 a.m', timeAster: '6:00'},
-        {time: '7 a.m', timeAster: '7:00'},
-        {time: '8 a.m', timeAster: '8:00'},
-        {time: '9 a.m', timeAster: '9:00'},
+        {time: '0 a.m', timeAster: '00:00'},
+        {time: '1 a.m', timeAster: '01:00'},
+        {time: '2 a.m', timeAster: '02:00'},
+        {time: '3 a.m', timeAster: '03:00'},
+        {time: '4 a.m', timeAster: '04:00'},
+        {time: '5 a.m', timeAster: '05:00'},
+        {time: '6 a.m', timeAster: '06:00'},
+        {time: '7 a.m', timeAster: '07:00'},
+        {time: '8 a.m', timeAster: '08:00'},
+        {time: '9 a.m', timeAster: '09:00'},
         {time: '10 a.m', timeAster: '10:00'},
         {time: '11 a.m', timeAster: '11:00'},
         {time: '12 a.m', timeAster: '12:00'},
@@ -43,7 +44,6 @@ export class CallRulesTimeRulesComponent implements OnInit {
         {time: '9 p.m', timeAster: '21:00'},
         {time: '10 p.m', timeAster: '22:00'},
         {time: '11 p.m', timeAster: '23:00'},
-        {time: '12 p.m', timeAster: '24:00'}
     ];
     days;
     ruleTimeAsterisk;
@@ -141,9 +141,10 @@ export class CallRulesTimeRulesComponent implements OnInit {
         this.formatAsterRule();
     }
 
-    selectTime(time: number, idx): void {
+    selectTime(time, idx): void {
+        // console.log(time);
         this.selectedDuration[idx] = time;
-        this.ruleTimeAsterisk.time = `${this.selectedDuration[idx].timeAster}-${this.selectedDuration[idx].timeAster}`;
+        this.ruleTimeAsterisk.time = `${this.selectedDuration[0].timeAster}-${this.selectedDuration[1].timeAster}`;
         this.formatAsterRule();
     }
 
@@ -168,7 +169,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
     ngOnInit() {
         // console.log('time-rules init', this.action);
         const timeRules = this.action.get('timeRules').value;
-        console.log(timeRules);
+        // console.log(timeRules);
 
         const timePattern = /(\*|[0-9]*:[0-9]*-[0-9]*:[0-9]*)/;
         const daysPattern = /(\*|(sun|mon|tue|wed|thu|fri|sat)(&(sun|mon|tue|wed|thu|fri|sat))*)/;
@@ -176,17 +177,31 @@ export class CallRulesTimeRulesComponent implements OnInit {
         const time = timePattern.exec(timeRules);
         const days = daysPattern.exec(timeRules);
         const month = monthPattern.exec(timeRules);
-        // console.log(time);
-        // console.log(days);
+        // console.log('init', time[0]);
+        // console.log(days[0]);
         // console.log(month);
         // console.log(time[0]);
         // console.log(this.duration[0]);
+
         if (time[0] === '*') {
             this.selectDurationTime(this.duration[0]);
         } else {
             this.selectDurationTime(this.duration[1]);
+            const times = time[0].split('-');
+            this.selectTime(this.durationTime.find(item => item.timeAster === times[0]), 0);
+            this.selectTime(this.durationTime.find(item => item.timeAster === times[1]), 1);
         }
-        // console.log(this.selectedDurationTime[i]);
+        if (days[0] === '*') {
+            this.selectRuleTime(this.ruleTime[0]);
+        } else {
+            this.selectRuleTime(this.ruleTime[1]);
+            const weekDays = days[0].split('&');
+            weekDays.forEach(day => {
+                // console.log(this.days.indexOf(this.days.find(item => item.code === day)));
+                this.selectDay(this.days.indexOf(this.days.find(item => item.code === day)));
+            });
+        }
+
     }
 
 }
@@ -210,3 +225,5 @@ export class CallRulesTimeRulesComponent implements OnInit {
 //
 // * - весь интервал
 // & - И
+// *|mon&tue&wed&thu&fri&sat&sun|*|*
+// 10:09-11:10|sat&sun|*|*
