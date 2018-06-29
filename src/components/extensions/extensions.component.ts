@@ -22,7 +22,6 @@ export class ExtensionsComponent implements OnInit {
     };
     loading: {
         body: number,
-        departments: boolean,
         pagination: boolean,
         sidebar: boolean
     };
@@ -180,6 +179,9 @@ export class ExtensionsComponent implements OnInit {
         this.loading.body += 1;
         this._extensions.getExtensions(this.pageinfo.page, this.pageinfo.limit, this.pageinfo.search, this.departments.selected).then(res => {
             this.extensions = res['items'];
+            res['departmentFilter'].map(item => {
+                this.departments.option.push({id: item.id, title: `${item.name} (${item.sipCount})`});
+            });
             this.pageinfo.page = res['page'];
             this.pageinfo.total = res['pageCount'];
             this.pageinfo.items = res['itemsCount'];
@@ -188,18 +190,8 @@ export class ExtensionsComponent implements OnInit {
         });
     }
 
-    getDepartments() {
-        this.loading.departments = true;
-        this._departments.getDepartments().then(res => {
-            res['items'].map(item => {
-                this.departments.option.push({id: item.id, title: item.name});
-            });
-            this.loading.departments = false;
-        });
-    }
-
     ngOnInit(): void {
-        this.loading = {body: 0, departments: true, pagination: true, sidebar: true};
+        this.loading = {body: 0, pagination: true, sidebar: true};
         this.sidebar = null;
         this.departments.selected = this.departments.option[0];
         this.pageinfo = {
@@ -208,7 +200,6 @@ export class ExtensionsComponent implements OnInit {
             items: 0
         };
         this.getExtensions();
-        this.getDepartments();
     }
 
 }
