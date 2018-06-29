@@ -170,34 +170,24 @@ export class CallRulesTimeRulesComponent implements OnInit {
         // console.log('time-rules init', this.action);
         const timeRules = this.action.get('timeRules').value;
         // console.log(timeRules);
+        const rules = timeRules.split('|');
+        // console.log(rules);
 
-        const timePattern = /(\*|[0-9]*:[0-9]*-[0-9]*:[0-9]*)/;
-        const daysPattern = /(\*|(sun|mon|tue|wed|thu|fri|sat)(&(sun|mon|tue|wed|thu|fri|sat))*)/;
-        const monthPattern = /(\*|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(&(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))*)/;
-        const time = timePattern.exec(timeRules);
-        const days = daysPattern.exec(timeRules);
-        const month = monthPattern.exec(timeRules);
-        // console.log('init', time[0]);
-        // console.log(days[0]);
-        // console.log(month);
-        // console.log(time[0]);
-        // console.log(this.duration[0]);
-
-        if (time[0] === '*') {
+        if (rules[0] === '*') {
             this.selectDurationTime(this.duration[0]);
         } else {
             this.selectDurationTime(this.duration[1]);
-            const times = time[0].split('-');
+            const times = rules[0].split('-');
             this.selectTime(this.durationTime.find(item => item.timeAster === times[0]), 0);
             this.selectTime(this.durationTime.find(item => item.timeAster === times[1]), 1);
         }
-        if (days[0] === '*') {
+        if (rules[1] === '*') {
             this.selectRuleTime(this.ruleTime[0]);
         } else {
             this.selectRuleTime(this.ruleTime[1]);
-            const weekDays = days[0].split('&');
+            const weekDays = rules[1].split('&');
             weekDays.forEach(day => {
-                // console.log(this.days.indexOf(this.days.find(item => item.code === day)));
+                console.log(day);
                 this.selectDay(this.days.indexOf(this.days.find(item => item.code === day)));
             });
         }
