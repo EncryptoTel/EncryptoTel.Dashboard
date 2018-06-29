@@ -51,6 +51,10 @@ export class WsServices {
             console.log('notification', data);
         });
 
+      socket.on('close', function (data) {
+        console.log('notification ALLOE');
+      });
+
     }
 
     getBalance(): Observable<BalanceModel> {

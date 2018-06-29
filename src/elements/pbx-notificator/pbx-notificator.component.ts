@@ -9,8 +9,8 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 })
 
 export class NotificatorComponent implements OnInit, OnChanges {
-  @Input() show;
   @Input() notificator: {
+    timer: any,
     visible: boolean,
     type: string,
     message: string,
@@ -19,6 +19,8 @@ export class NotificatorComponent implements OnInit, OnChanges {
   };
 
   timer: any;
+
+  queue = [];
 
   notificatorWidth: number;
 
@@ -32,12 +34,64 @@ export class NotificatorComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     // console.log(changes.notificator.currentValue.visible);
     console.log(changes);
-    if (changes.notificator.currentValue && changes.notificator.currentValue.visible === true) {
-      this.timer = setTimeout(() => {
+    // const change = changes;
+    //
+    // if (typeof change.notificator.currentValue !== 'undefined') {
+    //   this.queue.push(change.notificator.currentValue);
+    //   console.log(this.queue);
+    //
+    //   change.notificator.currentValue.visible = false;
+    //
+    //   if (this.queue.length === 1) {
+    //     // change.notificator.currentValue.visible = true;
+    //     // this.queue[0].visible = true;
+    //     change.notificator.currentValue.timer = setTimeout(this.timerF, 2000);
+    //   }
+    //
+    // }
+
+    this.notificator = changes.notificator.currentValue;
+
+    if (this.notificator) {
+      const timout = setTimeout(() => {
         this.notificator.visible = false;
       }, 4000);
     }
   }
+
+  // timerF() {
+  //   if (typeof this.queue !== 'undefined') {
+  //     const shift = this.queue.shift();
+  //     // this.queue[0].notificator.visible = false;
+  //     if (this.queue[0]) {
+  //       this.queue[0].notificator.visible = true;
+  //       this.queue[0].notificator.timer = setTimeout(this.timerF, 2000);
+  //     }
+  //     alert(shift.notificator.currentValue);
+  //   }
+  // }
+
+  // example() {
+  //   const qu = [];
+  //
+  //   function func() {
+  //     const s = qu.shift();
+  //     if (qu.length > 0) {
+  //       setTimeout(func, 1000);
+  //     }
+  //     alert( s );
+  //   }
+  //
+  //   function start() {
+  //     qu.push('Hello!');
+  //     qu.push('World!');
+  //     qu.push('Vasya!');
+  //     qu.push('Kisa!');
+  //     setTimeout(func, 1000);
+  //   }
+  //
+  //   start();
+  // }
 
   notificatorAction() {
     this.notificator.visible = false;

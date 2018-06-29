@@ -14,6 +14,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 import {ListServices} from '../../services/list.services';
 import {WsServices} from '../../services/ws.services';
 import {StorageServices} from '../../services/storage.services';
+import {FormMessageModel} from '../../models/form-message.model';
 
 @Component({
     selector: 'pbx-index',
@@ -44,6 +45,18 @@ export class IndexComponent implements OnInit, OnDestroy {
     userNavigationVisible = false;
     mobileNavigationVisible = false;
     mobileUserVisible = false;
+
+    errorsSubscription: Subscription;
+    message: any;
+
+    notificator: {
+      visible: boolean,
+      type: string,
+      message: string,
+      actionName: string
+    };
+
+
     @ViewChild('userWrap') userWrap: ElementRef;
 
     initLists(): Promise<any> {
@@ -121,7 +134,8 @@ export class IndexComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnInit(): void {
+    ngOnInit() {
+
         this.completedRequests = 0;
         this.initLists().then(() => {
             this.userInit();
@@ -129,6 +143,42 @@ export class IndexComponent implements OnInit, OnDestroy {
             this.navigationInit();
         });
         this.WebSocket();
+
+        this.message = this._messages.messagesList().subscribe( mes => {
+          console.log(mes[0]);
+            if (mes[0]) {
+              this.notificator = {
+                visible: true,
+                type: mes[0].type,
+                message: mes[0].text,
+                actionName: 'Got it'
+              };
+              // this.notificator.visible = true;
+              // this.notificator.type = mes[0].type;
+              // this.notificator.message = mes[0].text;
+              this.notificator = Object.assign({}, this.notificator);
+            }
+        });
+
+        // this._messages.messagesList().subscribe(messages => {
+        //   console.log(messages[0]);
+        //     if (messages[0]) {
+        //       this.notificator.visible = true;
+        //       this.notificator.type = messages[0].type;
+        //       this.notificator.message = messages[0].text;
+        //       this.notificator = Object.assign({}, this.notificator);
+        //     }
+        // });
+
+        // this._messages.messagesList().subscribe(messages => {
+        //   console.log(messages);
+        //   if (messages[0]) {
+        //     this.notificator.visible = true;
+        //     this.notificator.type = messages[0].type;
+        //     this.notificator.message = messages[0].text;
+        //     this.notificator = Object.assign({}, this.notificator);
+        //   }
+        // });
     }
 
     ngOnDestroy(): void {
