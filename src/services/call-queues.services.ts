@@ -109,7 +109,7 @@ export class CallQueuesServices {
   }
 
   getMembers(id: number) {
-    return this.request.post(`v1/call_queue/members`, {sipOuter: id}, true);
+    return this.request.get(`v1/call_queue/members?sipOuter=${id}`, true);
   }
 
   getDepartments() {
