@@ -43,6 +43,7 @@ import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phon
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
+import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -90,7 +91,9 @@ const Routes: Routes = [
                 ]}
             ]}
         ]},
-      {path: 'ring-groups', component: BlankComponent, data: {title: 'Ring groups', indexed: true}},
+      {path: 'ring-groups', children: [
+          {path: '', component: RingGroupsComponent, data: {title: 'Ring groups', indexed: true}}
+        ]},
       {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
       {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},
       {path: 'departments', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},

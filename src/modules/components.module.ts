@@ -51,6 +51,7 @@ import {GeneralAddExtensionComponent} from '../components/extensions/add/general
 import {CallRulesTimeoutComponent} from '../components/call-rules/call-rules-create/timeout/call-rules-timeout.component';
 import {CallRulesTimeRulesComponent} from '../components/call-rules/call-rules-create/time-rules/call-rules-time-rules.component';
 import {RightsAddExtensionComponent} from '../components/extensions/add/rights/rights.add.extension.component';
+import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
 
 
 /*
@@ -113,6 +114,7 @@ import {RightsAddExtensionComponent} from '../components/extensions/add/rights/r
     CallRulesTimeRulesComponent,
     GeneralAddExtensionComponent,
     RightsAddExtensionComponent,
+    RingGroupsComponent
   ],
   exports: [
     ElementsModule,
@@ -151,7 +153,8 @@ import {RightsAddExtensionComponent} from '../components/extensions/add/rights/r
     RefillBalanceComponent,
     AddExtensionsComponent,
     GeneralAddExtensionComponent,
-    RightsAddExtensionComponent
+    RightsAddExtensionComponent,
+    RingGroupsComponent
   ]
 })
 export class ComponentsModule {
