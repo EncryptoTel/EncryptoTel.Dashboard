@@ -17,12 +17,13 @@ export class WsServices {
 
     constructor(private socket: Socket) {
         this.balance = {balance: 0};
+        this.service = {id: null};
     }
 
 
     connect(token: string) {
-        let socket = this.socket;
-        let _this = this;
+        const socket = this.socket;
+        const _this = this;
         socket.on('connect', function(){
             socket.emit('authenticate', {token: token});
 
@@ -50,6 +51,10 @@ export class WsServices {
         socket.on('notification', function (data) {
             console.log('notification', data);
         });
+
+      socket.on('close', function (data) {
+        console.log('notification ALLOE');
+      });
 
     }
 

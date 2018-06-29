@@ -1,4 +1,5 @@
-<form [formGroup]="formGeneral" class="add_ext_form">
+<form [formGroup]="form" class="add_ext_form" *ngIf="loading===0">
+  <!--
     <div class="add_ext_form_title">User Information</div>
     <div class="add_ext_form_item">
         <label [ngClass]="{'active':sipOuters.isOpen}">Phone</label>
@@ -20,13 +21,13 @@
     <div class="add_ext_form_item">
         <label for="default" (click)="changeCheckbox('default')">Default</label>
         <pbx-checkbox id="default" formGroupName="default" (onToggle)="changeCheckbox('default')"
-                      [value]="this.formGeneral.get('default').value"></pbx-checkbox>
+                      [value]="form.get('default').value"></pbx-checkbox>
     </div>
     <div class="add_ext_form_item">
         <label for="encryption" (click)="changeCheckbox('encryption')">Encryption</label>
         <pbx-checkbox id="encryption" formGroupName="encryption"
                       (onToggle)="changeCheckbox('encryption')"
-                      [value]="this.formGeneral.get('encryption').value"></pbx-checkbox>
+                      [value]="form.get('encryption').value"></pbx-checkbox>
     </div>
     <div formGroupName="user" class="add_ext_form_item">
         <label for="firstname">First Name</label>
@@ -42,49 +43,122 @@
         <label for="email">Email</label>
         <input type="text" id="email" formControlName="email" (focus)="toggleHighlightLabel($event)"
                (blur)="toggleHighlightLabel($event)">
+    </div>-->
+    <!--<div class="add_ext_form_item">
+    <label for="mobile">Mobile</label>
+    <input type="text" id="mobile" formControlName="mobile" (focus)="toggleHighlightLabel($event)"
+    (blur)="toggleHighlightLabel($event)">
     </div>
-    <!--<div class="add_ext_form_item">-->
-    <!--<label for="mobile">Mobile</label>-->
-    <!--<input type="text" id="mobile" formControlName="mobile" (focus)="toggleHighlightLabel($event)"-->
-    <!--(blur)="toggleHighlightLabel($event)">-->
-    <!--</div>-->
-    <!--<div class="add_ext_form_title">Add External Phone Number</div>-->
-    <!--<div class="add_ext_form_item">-->
-    <!--<label [ngClass]="{'active':ext_phone.isOpen}">Phone</label>-->
-    <!--<pbx-select [options]="ext_phone.option"-->
-    <!--[objectKey]="'title'"-->
-    <!--[placeholder]="'Please select phone'"-->
-    <!--[selected]="ext_phone.selected"-->
-    <!--(onSelect)="selectExternal($event)"-->
-    <!--[singleBorder]="'true'"-->
-    <!--(onOpen)="ext_phone.isOpen=true"-->
-    <!--(onClose)="ext_phone.isOpen=false"-->
-    <!--&gt;</pbx-select>-->
-    <!--</div>-->
+    <div class="add_ext_form_title">Add External Phone Number</div>
+    <div class="add_ext_form_item">
+    <label [ngClass]="{'active':ext_phone.isOpen}">Phone</label>
+    <pbx-select [options]="ext_phone.option"
+    [objectKey]="'title'"
+    [placeholder]="'Please select phone'"
+    [selected]="ext_phone.selected"
+    (onSelect)="selectExternal($event)"
+    [singleBorder]="'true'"
+    (onOpen)="ext_phone.isOpen=true"
+    (onClose)="ext_phone.isOpen=false"
+    &gt;</pbx-select>
+    </div>-->
+  <!--
     <div class="add_ext_form_title">Authentication <span>Detail used by web, SIP and mobile app. Reprovision after change</span>
     </div>
     <div class="add_ext_form_title">Generate new password and send to:</div>
     <div class="add_ext_form_item">
         <label for="toAdmin" (click)="changeCheckbox('toAdmin')">Admin email</label>
         <pbx-checkbox id="toAdmin" formGroupName="toAdmin" (onToggle)="changeCheckbox('toAdmin')"
-                      [value]="this.formGeneral.get('toAdmin').value"></pbx-checkbox>
+                      [value]="form.get('toAdmin').value"></pbx-checkbox>
         <div class="add_ext_form_item_description">Send password to admin email address</div>
     </div>
     <div class="add_ext_form_item">
         <label for="toUser" (click)="changeCheckbox('toUser')">User email</label>
         <pbx-checkbox id="toUser" formGroupName="toUser" (onToggle)="changeCheckbox('toUser')"
-                      [value]="this.formGeneral.get('toUser').value"></pbx-checkbox>
+                      [value]="form.get('toUser').value"></pbx-checkbox>
         <div class="add_ext_form_item_description">Send password to user email address</div>
     </div>
     <div class="add_ext_form_item">
         <label for="mobileApp" (click)="changeCheckbox('mobileApp')">Mobile</label>
         <pbx-checkbox id="mobileApp" formGroupName="mobileApp"
                       (onToggle)="changeCheckbox('mobileApp')"
-                      [value]="this.formGeneral.get('mobileApp').value"></pbx-checkbox>
+                      [value]="form.get('mobileApp').value"></pbx-checkbox>
         <div class="add_ext_form_item_description">Use this number in mobile app</div>
     </div>
     <div class="add_ext_form_item">
         <label></label>
         <pbx-button value="Generate & Send Password" (onClick)="sendPassword()"></pbx-button>
     </div>
+  -->
+  <div class="add_ext_form_title">User information</div>
+  <div class="add_ext_form_item">
+    <label [ngClass]="{'active':sipOuters.isOpen}">Phone</label>
+    <pbx-select [options]="sipOuters.option"
+                [objectKey]="'title'"
+                [placeholder]="'Please select phone'"
+                [selected]="sipOuters.selected"
+                (onSelect)="selectPhone($event)"
+                [singleBorder]="'true'"
+                (onOpen)="sipOuters.isOpen=true"
+                (onClose)="sipOuters.isOpen=false"
+    ></pbx-select>
+  </div>
+  <div class="add_ext_form_item">
+    <label for="genPhoneNumber">Extension</label>
+    <input type="text" id="genPhoneNumber" formControlName="genPhoneNumber"
+           (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+  </div>
+  <div class="add_ext_form_item">
+    <label for="genDefault">Set Ext Default</label>
+    <pbx-checkbox id="genDefault" formGroupName="genDefault" (onToggle)="changeCheckbox('genDefault')"
+                  [value]="form.get('genDefault').value"></pbx-checkbox>
+  </div>
+  <div formGroupName="user" class="add_ext_form_item">
+    <label for="firstname">First Name</label>
+    <input type="text" id="firstname" formControlName="firstname"
+           (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+  </div>
+  <div formGroupName="user" class="add_ext_form_item">
+    <label for="lastname">Last Name</label>
+    <input type="text" id="lastname" formControlName="lastname"
+           (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
+  </div>
+  <div formGroupName="user" class="add_ext_form_item">
+    <label for="email">Email</label>
+    <input type="text" id="email" formControlName="email" (focus)="toggleHighlightLabel($event)"
+           (blur)="toggleHighlightLabel($event)">
+  </div>
+
+  <div class="add_ext_form_title">Mobile SIP <span style="color: #ff6666;">сменить текст</span></div>
+  <div class="add_ext_form_item">
+    <label for="genMobileApp">Mobile SIP <span style="color: #ff6666;">сменить текст</span></label>
+    <pbx-checkbox id="genMobileApp" formGroupName="genMobileApp" (onToggle)="changeCheckbox('genMobileApp')"
+                  [value]="form.get('genMobileApp').value"></pbx-checkbox>
+  </div>
+
+  <div class="add_ext_form_title">Encryption <span style="color: #ff6666;">сменить текст</span></div>
+  <div class="add_ext_form_item">
+    <label for="genEncrypted">Encrypted <span style="color: #ff6666;">сменить текст</span></label>
+    <pbx-checkbox id="genEncrypted" formGroupName="genEncrypted" (onToggle)="changeCheckbox('genEncrypted')"
+                  [value]="form.get('genEncrypted').value"></pbx-checkbox>
+  </div>
+
+  <div class="add_ext_form_title">Generate new password and sent to:</div>
+  <div class="add_ext_form_item">
+    <label for="genSendAdmin">Admin email</label>
+    <pbx-checkbox id="genSendAdmin" formGroupName="genSendAdmin" (onToggle)="changeCheckbox('genSendAdmin')"
+                  [value]="form.get('genSendAdmin').value"></pbx-checkbox>
+    <div class="add_ext_form_item_description">Send password to admin email address</div>
+  </div>
+  <div class="add_ext_form_item">
+    <label for="genSendUser">User email</label>
+    <pbx-checkbox id="genSendUser" formGroupName="genSendUser" (onToggle)="changeCheckbox('genSendUser')"
+                  [value]="form.get('genSendUser').value"></pbx-checkbox>
+    <div class="add_ext_form_item_description">Send password to user email address</div>
+  </div>
+  <div class="add_ext_form_item">
+    <label class="inactive"></label>
+    <pbx-button [value]="'Generate and Send Password'"></pbx-button>
+  </div>
 </form>
+<pbx-loader *ngIf="loading!==0"></pbx-loader>

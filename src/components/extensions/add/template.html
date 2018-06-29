@@ -9,6 +9,7 @@
               >{{item}}
               </div>
             </div>
+          <div></div>
             <div class="add_ext_header_button_wrap">
                 <pbx-button value="Cancel" buttonType="cancel"></pbx-button>
                 <pbx-button value="Save" buttonType="success" (onClick)="doSave()"></pbx-button>
@@ -17,9 +18,17 @@
         <div class="add_ext_body">
             <pbx-loader *ngIf="loading"></pbx-loader>
             <div class="add_ext_body_contain" *ngIf="!loading">
-                <general-add-extension-component *ngIf="tab.select===tab.items[0]" class="add_ext_item"></general-add-extension-component>
+                <general-add-extension-component
+                  *ngIf="tab.select===tab.items[0]" class="add_ext_item"
+                  [(form)]="extentionform"
+                ></general-add-extension-component>
+                <rights-add-extension-component
+                  *ngIf="tab.select===tab.items[4]" class="add_ext_item"
+                  [(form)]="extentionform"
+                ></rights-add-extension-component>
             </div>
         </div>
     </div>
-    <pbx-sidebar>sidebar is not ready</pbx-sidebar>
+    <pbx-sidebar>sidebar is not ready
+    </pbx-sidebar>
 </div>

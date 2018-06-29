@@ -36,7 +36,7 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
               [placeholder]="'Please select something'"
               (onSelect)="selectOption($event)"></pbx-select>
             <pbx-checkbox style="flex: 0 0 auto; margin-bottom: 16px" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
-            <pbx-notificator [notificator]="notificator" [show]="notiShow"></pbx-notificator>
+            <pbx-notificator [notificator]="notificator"></pbx-notificator>
             <pbx-modal [modal]="modal"
                        (onConfirm)="modalConfirm()"
                        (onDecline)="modalDecline()">
@@ -130,14 +130,19 @@ export class BlankComponent implements OnInit {
   //   actionName: string
   // };
 
-  notificator = {
-    visible: false,
-    type: 'success',
-    message: 'Okay, dude',
-    actionName: 'Got it'
-  };
+  // notificator = {
+  //   visible: false,
+  //   type: 'success',
+  //   message: 'Okay, dude',
+  //   actionName: 'Got it'
+  // };
 
-  notiShow: boolean;
+  notificator: {
+    visible: boolean,
+    type: string,
+    message: string,
+    actionName: string
+  };
 
   constructor() {
     this.modal = {
@@ -146,20 +151,26 @@ export class BlankComponent implements OnInit {
       confirm: {type: 'success', value: 'OK'},
       decline: {type: 'error', value: 'No'}
     };
+
+    this.notificator = {
+      visible: false,
+      type: 'success',
+      message: 'Okay, dude',
+      actionName: 'Got it'
+    };
   }
 
   ngOnInit() {
   }
 
   notificatorShow() {
-    if (this.notificator.visible === false) {
-      this.notificator.visible = true;
-      this.notificator = Object.assign({}, this.notificator);
-    } else {
-      this.notificator.visible = false;
-      this.notificator = Object.assign({}, this.notificator);
-    }
-    // this.notiShow = true;
+      if (this.notificator.visible === false) {
+        this.notificator.visible = true;
+        this.notificator = Object.assign({}, this.notificator);
+      } else {
+        this.notificator.visible = false;
+        this.notificator = Object.assign({}, this.notificator);
+      }
   }
 
   selectItem(item): void {
