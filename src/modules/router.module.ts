@@ -69,8 +69,8 @@ const Routes: Routes = [
       {path: 'address-book', component: AddressBookComponent, data: {title: 'Address book', indexed: true}},
       {path: 'call-rules', data: {title: 'Call rules', indexed: true}, children: [
           {path: '', component: CallRulesComponent, data: {title: 'Call rules', indexed: true}},
-          {path: 'create', component: CallRulesCreateComponent, data: {title: 'Call rules create', indexed: true}},
-          {path: ':id', component: CallRulesCreateComponent, data: {title: 'Call rules edit', indexed: true}}
+          {path: 'create', component: CallRulesCreateComponent, data: {title: 'Create Call Rule', indexed: true}},
+          {path: ':id', component: CallRulesCreateComponent, data: {title: 'Edit Call Rule', indexed: true}}
         ]},
       {path: 'call-queues', children: [
           {path: '', component: CallQueuesComponent, data: {title: 'Call queues create', indexed: true}},

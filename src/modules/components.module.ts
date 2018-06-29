@@ -48,6 +48,7 @@ import {ExtensionsComponent} from '../components/extensions/extensions.component
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
 import {GeneralAddExtensionComponent} from '../components/extensions/add/general/general.add.extension.component';
+import {CallRulesTimeoutComponent} from '../components/call-rules/call-rules-create/timeout/call-rules-timeout.component';
 
 
 /*
@@ -105,7 +106,8 @@ import {GeneralAddExtensionComponent} from '../components/extensions/add/general
     ExtensionsComponent,
     RefillBalanceComponent,
     AddExtensionsComponent,
-    GeneralAddExtensionComponent
+    GeneralAddExtensionComponent,
+    CallRulesTimeoutComponent
   ],
   exports: [
     ElementsModule,
