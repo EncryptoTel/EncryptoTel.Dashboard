@@ -3,7 +3,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {emailRegExp} from '../../../shared/vars';
 import {ExtensionsServices} from '../../../services/extensions.services';
 import {PhoneNumbersServices} from '../../../services/phone-numbers.services';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'add-extension-component',
@@ -14,137 +14,68 @@ import {Router} from '@angular/router';
 
 export class AddExtensionsComponent implements OnInit {
     loading: number;
-    // mode = 'create';
+    mode = 'create';
+    id: number;
 
     tab = {
-        items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
+        items: ['General', 'Forwarding Rules', 'Options', 'Rights'],
         select: 'General'
     };
-    extentionform: FormGroup;
-    constructor(
-      private formBuilder: FormBuilder
-    ) {
-      this.extentionform = this.formBuilder.group({
-        genOuter: [null, [Validators.required]],
-        genPhoneNumber: ['', [Validators.required]],
-        genDefault: false,
-        user: this.formBuilder.group({
-          firstname: ['', []],
-          lastname: ['', []],
-          email: ['', [Validators.pattern(emailRegExp)]]
-        }),
-        genMobile: '',
-        genMobileApp: false,
-        genEncrypted: false,
-        genSendAdmin: false,
-        genSendUser: false,
+    formExtension: FormGroup;
 
-        voiceEmnable: false,
-        voicePlayCaller: false,
-        voiceLanguage: [null, [Validators.required]],
-        voiceRead: [null, [Validators.required]],
+    constructor(private formBuilder: FormBuilder,
+                private router: Router,
+                private activatedRoute: ActivatedRoute,
+                private _extension: ExtensionsServices) {
+        this.id = activatedRoute.snapshot.params.id;
+        this.id ? this.mode = 'edit' : this.mode = 'create';
 
-        optionDisExt: false,
-        optionDisCalls: false,
-        optionRecAll: false,
-        optionSendNotification: false,
-        optionConferences: false,
-
-        rightsRole: false,
-        rightsWebAccess: false,
-        rightsCallReports: false,
-        rightsDownloadRec: false,
-        rightsPhoneNumbers: false,
-        rightsCallRules: false,
-        rightsQueue: false,
-        rightsIVR: false,
-        rightsCompany: false,
-        rightsDepartment: false,
-        rightsDetailsRecords: false,
-        rightsInvoices: false,
-        rightsMarketplace: false,
-        rightsStorage: false,
-
-        PrivacyChangeEvery: [null, [Validators.required]],
-      });
-    }
-    /* sipOuters = {
-        option: [],
-        selected: null,
-        isOpen: false
-    };
-
-    ext_phone = {
-        option: [{title: 'outer 1'}, {title: 'outer 2'}, {title: 'outer 3'}, {title: 'outer 4'}],
-        selected: null,
-        isOpen: false
-    };
-
-
-    // @ViewChildren('label') labelFields;
-
-    constructor(
-        private formBuilder: FormBuilder,
-        private _extensions: ExtensionsServices,
-        private _numbers: PhoneNumbersServices,
-        private router: Router
-    ) {
-        this.formGeneral = this.formBuilder.group({
-            outer: ['', [Validators.required]],
+        this.formExtension = this.formBuilder.group({
+            outer: [null, [Validators.required]],
             phoneNumber: ['', [Validators.required]],
             default: false,
-            encryption: false,
             user: this.formBuilder.group({
-                firstname: ['', []],
-                lastname: ['', []],
+                firstName: ['', []],
+                lastName: ['', []],
                 email: ['', [Validators.pattern(emailRegExp)]]
             }),
-            mobileApp: [''],
-            external: [''],
+            mobileApp: false,
+            encryption: false,
             toAdmin: false,
-            toUser: false
-        });
-        // console.log(this.formGeneral);
-    }
+            toUser: false,
 
-    toggleHighlightLabel(event): void {
-        event.target.labels[0].classList.toggle('active');
-    } */
+            // voiceEmnable: false,
+            // voicePlayCaller: false,
+            // voiceLanguage: [null, [Validators.required]],
+            // voiceRead: [null, [Validators.required]],
+            //
+            // optionDisExt: false,
+            // optionDisCalls: false,
+            // optionRecAll: false,
+            // optionSendNotification: false,
+            // optionConferences: false,
+            //
+            // rightsRole: false,
+            // rightsWebAccess: false,
+            // rightsCallReports: false,
+            // rightsDownloadRec: false,
+            // rightsPhoneNumbers: false,
+            // rightsCallRules: false,
+            // rightsQueue: false,
+            // rightsIVR: false,
+            // rightsCompany: false,
+            // rightsDepartment: false,
+            // rightsDetailsRecords: false,
+            // rightsInvoices: false,
+            // rightsMarketplace: false,
+            // rightsStorage: false,
+            //
+            // PrivacyChangeEvery: [null, [Validators.required]],
+        });
+    }
 
     selectTab(text: string): void {
         this.tab.select = text;
-    }
-
-    /* changeCheckbox(text: string): void {
-        this.formGeneral.get(text).setValue(!this.formGeneral.get(text).value);
-    }
-
-    selectPhone(phone): void {
-        this.sipOuters.selected = phone;
-        this.formGeneral.get('outer').setValue(phone.id);
-    }
-
-    selectExternal(phone): void {
-        this.ext_phone.selected = phone;
-        this.formGeneral.get('external').setValue(phone.title);
-    }
-
-    sendPassword(): void {
-        // etc.
-    }
-
-    getExtension() {
-
-    }
-
-    getSipOuters() {
-        this.loading += 1;
-        this._numbers.getSipOuters().then(res => {
-            res['items'].map(number => {
-                this.sipOuters.option.push({id: number.id, title: number.phoneNumber});
-            });
-            this.loading -= 1;
-        });
     }
 
     private validate(form: FormGroup): void {
@@ -162,46 +93,68 @@ export class AddExtensionsComponent implements OnInit {
                 form.get(control).markAsTouched();
             }
         });
-    }*/
+    }
+
+    getExtension() {
+        if (this.mode === 'create') {
+            return;
+        }
+        this.loading += 1;
+        this._extension.getExtension(this.id).then(res => {
+            this.formExtension.get('outer').setValue(res.sipOuter.id);
+            this.formExtension.get('phoneNumber').setValue(res.phoneNumber);
+            this.formExtension.get('default').setValue(res.default);
+            this.formExtension.get('mobileApp').setValue(res.mobileApp);
+            this.formExtension.get('encryption').setValue(res.encryption);
+            this.formExtension.get(['user', 'firstName']).setValue(res.user ? res.user.firstname : null);
+            this.formExtension.get(['user', 'lastName']).setValue(res.user ? res.user.lastname : null);
+            this.formExtension.get(['user', 'email']).setValue(res.user ? res.user.email : null);
+
+            this.loading -= 1;
+        }).catch(res => {
+            this.loading -= 1;
+        });
+    }
+
+    doCancel() {
+        this.router.navigate(['cabinet', 'extensions']);
+    }
 
     doSave() {
-      /*
-        this.formGeneral.markAsTouched();
-        this.validate(this.formGeneral);
-        // console.log(this.formGeneral.valid);
-        if (this.formGeneral.valid) {
+        this.formExtension.markAsTouched();
+        this.validate(this.formExtension);
+        // console.log(this.formExtension.valid);
+        if (this.formExtension.valid) {
             this.loading += 1;
             if (this.mode === 'create') {
-                this._extensions.save({...this.formGeneral.value}).then(() => {
+                this._extension.create({...this.formExtension.value}).then(() => {
                     this.loading -= 1;
                     this.router.navigate(['cabinet', 'extensions']);
                 }).catch(res => {
-                    const errors = res.errors;
+                        const errors = res.errors;
                         if (errors) {
                             Object.keys(errors).forEach(key => {
-                                this.formGeneral.get(key).setErrors(errors[key]);
+                                this.formExtension.get(key).setErrors(errors[key]);
                             });
                         }
                         this.loading -= 1;
                     }
                 );
-                // } else if (this.mode === 'edit') {
-                //     this._service.edit(this.currentContact.id, {...this.formGeneral.value}).then(() => {
-                //         this.getContacts();
-                //         this.resetForm();
-                //         this.loading = false;
-                //     }).catch(err => {
-                //         console.error(err);
-                //         this.loading = false;
-                //     });
+            } else if (this.mode === 'edit') {
+                this._extension.edit(this.id, {...this.formExtension.value}).then(() => {
+                    this.doCancel();
+                    this.loading -= 1;
+                }).catch(err => {
+                    // console.error(err);
+                    this.loading -= 1;
+                });
             }
         }
-        */
     }
 
     ngOnInit(): void {
         this.loading = 0;
-        // this.getExtension();
+        this.getExtension();
         // this.getSipOuters();
     }
 }

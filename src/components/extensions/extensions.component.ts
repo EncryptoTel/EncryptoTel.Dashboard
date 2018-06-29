@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ExtensionsServices} from '../../services/extensions.services';
 import {MainViewComponent} from '../main-view.component';
 import {ExtensionModel} from "../../models/extension.model";
-import {DepartmentServices} from "../../services/department.services";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'extensions-component',
@@ -52,7 +52,7 @@ export class ExtensionsComponent implements OnInit {
     timer;
 
     constructor(private _extensions: ExtensionsServices,
-                private _departments: DepartmentServices) {
+                private router: Router) {
 
     }
 
@@ -70,11 +70,6 @@ export class ExtensionsComponent implements OnInit {
 
     closeExt(): void {
         this.sidebar = null;
-    }
-
-    editExt(id: number): void {
-        // console.log('Edit user' + id);
-        // etc.
     }
 
     fillTableData(): void {
@@ -162,9 +157,8 @@ export class ExtensionsComponent implements OnInit {
         this.showModal('Delete extension', 'Do you want to delete this extension?', 'Delete');
     }
 
-    clickEditIcon(id: number) {
-        console.log('clickEditIcon');
-        // this.sidebar.select = id;
+    clickEditIcon(item: ExtensionModel) {
+        this.router.navigate(['cabinet', 'extensions', `${item.id}`]);
     }
 
     showModal(title: string, text: string, confirm: string): void {

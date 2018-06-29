@@ -26,29 +26,7 @@ export class GeneralAddExtensionComponent implements OnInit {
     };
     @ViewChildren('label') labelFields;
     constructor(private _numbers: PhoneNumbersServices) {}
-    /* constructor(
-        private formBuilder: FormBuilder,
-        private _extensions: ExtensionsServices,
-        private _numbers: PhoneNumbersServices,
-        private router: Router
-    ) {
-        this.formGeneral = this.formBuilder.group({
-            outer: ['', [Validators.required]],
-            phoneNumber: ['', [Validators.required]],
-            default: false,
-            encryption: false,
-            user: this.formBuilder.group({
-                firstname: ['', []],
-                lastname: ['', []],
-                email: ['', [Validators.pattern(emailRegExp)]]
-            }),
-            mobileApp: [''],
-            external: [''],
-            toAdmin: false,
-            toUser: false
-        });
-        // console.log(this.formGeneral);
-    } */
+
     toggleHighlightLabel(event): void {
         event.target.labels[0].classList.toggle('active');
     }
@@ -57,7 +35,7 @@ export class GeneralAddExtensionComponent implements OnInit {
     }
     selectPhone(phone): void {
         this.sipOuters.selected = phone;
-        this.form.get('genOuter').setValue(phone.id);
+        this.form.get('outer').setValue(phone.id);
     }
     selectExternal(phone): void {
         this.ext_phone.selected = phone;
@@ -67,20 +45,18 @@ export class GeneralAddExtensionComponent implements OnInit {
         // etc.
     }
 
-    getExtension() {
-
-    }
-
     getSipOuters() {
         this.loading += 1;
         this._numbers.getSipOuters().then(res => {
             res['items'].map(number => {
                 this.sipOuters.option.push({id: number.id, title: number.phoneNumber});
             });
-            this.sipOuters.selected = this.findById(this.form.get('genOuter').value, this.sipOuters.option);
+            // this.sipOuters.selected = this.findById(this.form.get('outer').value, this.sipOuters.option);
+            this.sipOuters.selected = this.sipOuters.option.find(item => item.id === this.form.get('outer').value);
             this.loading -= 1;
         });
     }
+
     private validate(form: FormGroup): void {
         Object.keys(form.controls).forEach(control => {
             if (form.get(control) instanceof FormArray) {
@@ -138,7 +114,6 @@ export class GeneralAddExtensionComponent implements OnInit {
     } */
     ngOnInit(): void {
         this.loading = 0;
-        this.getExtension();
         this.getSipOuters();
     }
 }

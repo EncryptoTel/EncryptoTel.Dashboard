@@ -7,6 +7,10 @@ export class ExtensionsServices {
     constructor(private _req: RequestServices) {
     }
 
+    getExtension(id: number): Promise<any> {
+        return this._req.get(`v1/sip/inners/${id}`, true);
+    }
+
     getExtensions(page: number, limit: number, search: string, department: any): Promise<any> {
         let url = `v1/sip/inners?page=${page}&filter[departmentFilter]=true`;
         if (limit) {
@@ -29,8 +33,12 @@ export class ExtensionsServices {
         return this._req.post(`v1/sip/inners/${id}/change-password`, data, true);
     }
 
-    save(data): Promise<any> {
+    create(data): Promise<any> {
         return this._req.post('v1/sip/inners', data, true);
+    }
+
+    edit(id: number, data): Promise<any> {
+        return this._req.put(`v1/sip/inners/${id}`, data, true);
     }
 
 }

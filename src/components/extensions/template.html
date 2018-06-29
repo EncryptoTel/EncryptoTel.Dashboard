@@ -16,7 +16,7 @@
         <div class="ext_header_wrap">
             <!--<pbx-button value="Export" buttonType="accent" (onClick)="exportExt()"></pbx-button>-->
             <!--<pbx-button value="Import" buttonType="accent" (onClick)="importExt()"></pbx-button>-->
-            <pbx-button value="Add" buttonType="success" (onClick)="addExt()" routerLink="add"></pbx-button>
+            <pbx-button value="Add" buttonType="success" (onClick)="addExt()" routerLink="create"></pbx-button>
         </div>
     </div>
     <div class="ext_table table {{!!sidebar}}">
@@ -99,7 +99,7 @@
                 <pbx-button value="Admin E-mail" (onClick)="sendPasswordToAdmin(sidebar)"></pbx-button>
                 <pbx-button value="User E-mail" (onClick)="sendPasswordToUser(sidebar)"></pbx-button>
                 <pbx-button value="Close" buttonType="cancel" (onClick)="closeExt()"></pbx-button>
-                <pbx-button value="Edit" buttonType="success" (onClick)="editExt(sidebar)"></pbx-button>
+                <pbx-button value="Edit" buttonType="success" (onClick)="clickEditIcon(sidebar)"></pbx-button>
             </div>
         </div>
     </div>
