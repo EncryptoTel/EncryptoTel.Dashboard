@@ -1,1 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><style>.cls-1{fill:#22b2b4;}</style></defs><title>ETT_100px</title><g id="Слой_2" data-name="Слой 2"><g id="ETT_100px"><circle class="cls-1" cx="11" cy="11" r="11"/><circle class="cls-1" cx="50" cy="11" r="11"/><circle class="cls-1" cx="89" cy="11" r="11"/><circle class="cls-1" cx="11" cy="50" r="11"/><circle class="cls-1" cx="50" cy="50" r="11"/><circle class="cls-1" cx="89" cy="50" r="11"/><circle class="cls-1" cx="11" cy="89" r="11"/><circle class="cls-1" cx="50" cy="89" r="11"/><circle class="cls-1" cx="89" cy="89" r="11"/><rect class="cls-1" x="25" y="8.5" width="11" height="5"/><rect class="cls-1" x="64" y="8.5" width="11" height="5"/><rect class="cls-1" x="47.5" y="63" width="5" height="13"/><rect class="cls-1" x="64" y="86.5" width="11" height="5"/><rect class="cls-1" x="28" y="16.5" width="5" height="28" transform="translate(-12.63 30.5) rotate(-45)"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <style>.ett_100px-1{fill:#22b2b4;}</style>
+  </defs>
+  <title>ETT_100px</title>
+  <g id="Слой_2" data-name="Слой 2">
+    <g id="ETT_100px">
+      <circle class="ett_100px-1" cx="11" cy="11" r="11"/>
+      <circle class="ett_100px-1" cx="50" cy="11" r="11"/>
+      <circle class="ett_100px-1" cx="89" cy="11" r="11"/>
+      <circle class="ett_100px-1" cx="11" cy="50" r="11"/>
+      <circle class="ett_100px-1" cx="50" cy="50" r="11"/>
+      <circle class="ett_100px-1" cx="89" cy="50" r="11"/>
+      <circle class="ett_100px-1" cx="11" cy="89" r="11"/>
+      <circle class="ett_100px-1" cx="50" cy="89" r="11"/>
+      <circle class="ett_100px-1" cx="89" cy="89" r="11"/>
+      <rect class="ett_100px-1" x="25" y="8.5" width="11" height="5"/>
+      <rect class="ett_100px-1" x="64" y="8.5" width="11" height="5"/>
+      <rect class="ett_100px-1" x="47.5" y="63" width="5" height="13"/>
+      <rect class="ett_100px-1" x="64" y="86.5" width="11" height="5"/>
+      <rect class="ett_100px-1" x="28" y="16.5" width="5" height="28" transform="translate(-12.63 30.5) rotate(-45)"/>
+    </g>
+  </g>
+</svg>
