@@ -43,6 +43,7 @@ import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phon
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
+import {GeneralAddExtensionComponent} from '../components/extensions/add/general/general.add.extension.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -96,7 +97,10 @@ const Routes: Routes = [
       {path: 'departments', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
       {path: 'extensions', children: [
           {path: '', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},
-          {path: 'add', component: AddExtensionsComponent, data: {title: 'Add New Extension', indexed: true}},
+          {path: 'add', children: [
+              {path: '', component: AddExtensionsComponent, data: {title: 'Add New Extension', indexed: true}},
+              {path: 'general', component: GeneralAddExtensionComponent, data: {title: 'Add New Extension', indexed: true}},
+            ]}
         ]},
       {path: 'details-and-records', component: DetailsAndRecordsComponent, data: {title: 'Details and records', indexed: true}},
       {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},

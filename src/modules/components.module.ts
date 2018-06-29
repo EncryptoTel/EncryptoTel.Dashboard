@@ -47,6 +47,7 @@ import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phon
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
+import {GeneralAddExtensionComponent} from '../components/extensions/add/general/general.add.extension.component';
 
 
 /*
@@ -103,7 +104,8 @@ import {AddExtensionsComponent} from '../components/extensions/add/add.extension
     BuyPhoneNumbersComponent,
     ExtensionsComponent,
     RefillBalanceComponent,
-    AddExtensionsComponent
+    AddExtensionsComponent,
+    GeneralAddExtensionComponent
   ],
   exports: [
     ElementsModule,
@@ -140,7 +142,8 @@ import {AddExtensionsComponent} from '../components/extensions/add/add.extension
     BuyPhoneNumbersComponent,
     ExtensionsComponent,
     RefillBalanceComponent,
-    AddExtensionsComponent
+    AddExtensionsComponent,
+    GeneralAddExtensionComponent
   ]
 })
 export class ComponentsModule {
