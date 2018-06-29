@@ -1,41 +1,31 @@
-import {Component, OnInit /*, ViewChildren*/} from '@angular/core';
-// import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-// import {emailRegExp} from '../../../shared/vars';
-import {ExtensionsServices} from '../../../services/extensions.services';
-import {PhoneNumbersServices} from '../../../services/phone-numbers.services';
-// import {Router} from '@angular/router';
+import {Component, OnInit, ViewChildren} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {emailRegExp} from '../../../../shared/vars';
+import {ExtensionsServices} from '../../../../services/extensions.services';
+import {PhoneNumbersServices} from '../../../../services/phone-numbers.services';
 
 @Component({
-    selector: 'add-extension-component',
+    selector: 'general-add-extension-component',
     templateUrl: './template.html',
-    styleUrls: ['./local.sass'],
-    providers: [ExtensionsServices, PhoneNumbersServices]
+    styleUrls: ['./../local.sass']
 })
 
-export class AddExtensionsComponent implements OnInit {
+export class GeneralAddExtensionComponent implements OnInit {
     loading: number;
-    // mode = 'create';
-
-    tab = {
-        items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
-        select: 'General'
+    mode = 'create';
+    sipOuters = {
+      option: [],
+      selected: null,
+      isOpen: false
     };
-
-    /* sipOuters = {
-        option: [],
-        selected: null,
-        isOpen: false
-    };
-
     ext_phone = {
-        option: [{title: 'outer 1'}, {title: 'outer 2'}, {title: 'outer 3'}, {title: 'outer 4'}],
-        selected: null,
-        isOpen: false
+      option: [{title: 'outer 1'}, {title: 'outer 2'}, {title: 'outer 3'}, {title: 'outer 4'}],
+      selected: null,
+      isOpen: false
     };
-    // formGeneral: FormGroup;
-
-    // @ViewChildren('label') labelFields;
-
+    formGeneral: FormGroup;
+    @ViewChildren('label') labelFields;
     constructor(
         private formBuilder: FormBuilder,
         private _extensions: ExtensionsServices,
@@ -59,29 +49,20 @@ export class AddExtensionsComponent implements OnInit {
         });
         // console.log(this.formGeneral);
     }
-
     toggleHighlightLabel(event): void {
         event.target.labels[0].classList.toggle('active');
-    } */
-
-    selectTab(text: string): void {
-        this.tab.select = text;
     }
-
-    /* changeCheckbox(text: string): void {
+    changeCheckbox(text: string): void {
         this.formGeneral.get(text).setValue(!this.formGeneral.get(text).value);
     }
-
     selectPhone(phone): void {
         this.sipOuters.selected = phone;
         this.formGeneral.get('outer').setValue(phone.id);
     }
-
     selectExternal(phone): void {
         this.ext_phone.selected = phone;
         this.formGeneral.get('external').setValue(phone.title);
     }
-
     sendPassword(): void {
         // etc.
     }
@@ -99,7 +80,6 @@ export class AddExtensionsComponent implements OnInit {
             this.loading -= 1;
         });
     }
-
     private validate(form: FormGroup): void {
         Object.keys(form.controls).forEach(control => {
             if (form.get(control) instanceof FormArray) {
@@ -116,7 +96,6 @@ export class AddExtensionsComponent implements OnInit {
             }
         });
     }
-
     doSave() {
         this.formGeneral.markAsTouched();
         this.validate(this.formGeneral);
@@ -129,14 +108,13 @@ export class AddExtensionsComponent implements OnInit {
                     this.router.navigate(['cabinet', 'extensions']);
                 }).catch(res => {
                     const errors = res.errors;
-                        if (errors) {
-                            Object.keys(errors).forEach(key => {
-                                this.formGeneral.get(key).setErrors(errors[key]);
-                            });
-                        }
-                        this.loading -= 1;
+                    if (errors) {
+                        Object.keys(errors).forEach(key => {
+                            this.formGeneral.get(key).setErrors(errors[key]);
+                        });
                     }
-                );
+                    this.loading -= 1;
+                });
                 // } else if (this.mode === 'edit') {
                 //     this._service.edit(this.currentContact.id, {...this.formGeneral.value}).then(() => {
                 //         this.getContacts();
@@ -148,11 +126,10 @@ export class AddExtensionsComponent implements OnInit {
                 //     });
             }
         }
-    } */
-
+    }
     ngOnInit(): void {
         this.loading = 0;
-        // this.getExtension();
-        // this.getSipOuters();
+        this.getExtension();
+        this.getSipOuters();
     }
 }
