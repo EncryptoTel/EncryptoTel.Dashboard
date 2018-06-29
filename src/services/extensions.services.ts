@@ -8,7 +8,7 @@ export class ExtensionsServices {
     }
 
     getExtensions(page: number, limit: number, search: string, department: any): Promise<any> {
-        let url = `v1/sip/inners?page=${page}`;
+        let url = `v1/sip/inners?page=${page}&filter[departmentFilter]=true`;
         if (limit) {
             url += `&limit=${limit}`;
         }
