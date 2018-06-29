@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DetailsAndRecordsServices} from '../../services/details-and-records.services';
-import {logger} from 'codelyzer/util/logger';
-import {forEach} from '@angular/router/src/utils/collection';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {PlayerAnimation} from '../../shared/player-animations';
+import {SwipeAnimation} from '../../shared/swipe-animation';
 
 
 @Component({
@@ -12,145 +10,156 @@ import {PlayerAnimation} from '../../shared/player-animations';
   styleUrls: ['./local.sass'],
   animations: [
     FadeAnimation('200ms'),
-    PlayerAnimation('x', '200ms')
+    SwipeAnimation('x', '200ms')
   ]
 })
 
 export class DetailsAndRecordsComponent implements OnInit {
   loading = false;
 
-  // detailsSample = [
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'payment',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'incoming',
-  //     tag: 'payment',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'incoming',
-  //     tag: 'payment',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     from: '+1(800)200 01 10 #101',
-  //     to: '+1(800)200 01 10 #108',
-  //     start_time: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     tag: 'missed',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     from: '+1(800)200 01 10 #101',
-  //     to: '+1(800)200 01 10 #108',
-  //     start_time: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     tag: 'record',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     from: '+1(800)200 01 10 #101',
-  //     to: '+1(800)200 01 10 #108',
-  //     start_time: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     tag: 'voicemail',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     from: '+1(800)200 01 10 #101',
-  //     to: '+1(800)200 01 10 #108',
-  //     start_time: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     from: '+1(800)200 01 10 #101',
-  //     to: '+1(800)200 01 10 #108',
-  //     start_time: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     tag: 'incoming',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     from: '+1(800)200 01 10 #101',
-  //     to: '+1(800)200 01 10 #108',
-  //     start_time: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     tag: 'missed',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     from: '+1(800)200 01 10 #101',
-  //     to: '+1(800)200 01 10 #108',
-  //     start_time: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     tag: 'missed',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     from: '+1(800)200 01 10 #101',
-  //     to: '+1(800)200 01 10 #108',
-  //     start_time: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     tag: 'record',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     from: '+1(800)200 01 10 #101',
-  //     to: '+1(800)200 01 10 #108',
-  //     start_time: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     tag: 'voicemail',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     from: '+1(800)200 01 10 #101',
-  //     to: '+1(800)200 01 10 #108',
-  //     start_time: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     tag: 'record',
-  //     price: '0',
-  //     record: ''
-  //   },
-  //   {
-  //     from: '+1(800)200 01 10 #101',
-  //     to: '+1(800)200 01 10 #108',
-  //     start_time: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     tag: 'voicemail',
-  //     price: '0',
-  //     record: ''
-  //   }
-  // ];
-  details = [];
+  details = [
+    {
+      source: '+1(800)200 01 10 #101',
+      destination: '+1(800)200 01 10 #108',
+      created: '26/06/2017 14:47:25',
+      duration: '00:23:00',
+      statusName: 'outgoing',
+      tag: 'outgoing',
+      price: '0',
+      record: '',
+      ddShow: false,
+      play: false,
+      playerOpen: false,
+      playerContentShow: false,
+    },
+    {
+      source: '+1(800)200 01 10 #101',
+      destination: '+1(800)200 01 10 #108',
+      created: '26/06/2017 14:47:25',
+      duration: '00:23:00',
+      statusName: 'outgoing',
+      tag: 'outgoing',
+      price: '0',
+      record: '',
+      ddShow: false,
+      play: false,
+      playerOpen: false,
+      playerContentShow: false,
+    },
+    {
+      source: '+1(800)200 01 10 #101',
+      destination: '+1(800)200 01 10 #108',
+      created: '26/06/2017 14:47:25',
+      duration: '00:23:00',
+      statusName: 'outgoing',
+      tag: 'outgoing',
+      price: '0',
+      record: '',
+      ddShow: false,
+      play: false,
+      playerOpen: false,
+      playerContentShow: false,
+    },
+    {
+      source: '+1(800)200 01 10 #101',
+      destination: '+1(800)200 01 10 #108',
+      created: '26/06/2017 14:47:25',
+      duration: '00:23:00',
+      statusName: 'outgoing',
+      tag: 'outgoing',
+      price: '0',
+      record: '',
+      ddShow: false,
+      play: false,
+      playerOpen: false,
+      playerContentShow: false,
+    },
+    {
+      source: '+1(800)200 01 10 #101',
+      destination: '+1(800)200 01 10 #108',
+      created: '26/06/2017 14:47:25',
+      duration: '00:23:00',
+      statusName: 'outgoing',
+      tag: 'outgoing',
+      price: '0',
+      record: '',
+      ddShow: false,
+      play: false,
+      playerOpen: false,
+      playerContentShow: false,
+    },
+    {
+      source: '+1(800)200 01 10 #101',
+      destination: '+1(800)200 01 10 #108',
+      created: '26/06/2017 14:47:25',
+      duration: '00:23:00',
+      statusName: 'outgoing',
+      tag: 'outgoing',
+      price: '0',
+      record: '',
+      ddShow: false,
+      play: false,
+      playerOpen: false,
+      playerContentShow: false,
+    },
+    {
+      source: '+1(800)200 01 10 #101',
+      destination: '+1(800)200 01 10 #108',
+      created: '26/06/2017 14:47:25',
+      duration: '00:23:00',
+      statusName: 'outgoing',
+      tag: 'outgoing',
+      price: '0',
+      record: '',
+      ddShow: false,
+      play: false,
+      playerOpen: false,
+      playerContentShow: false,
+    },
+    {
+      source: '+1(800)200 01 10 #101',
+      destination: '+1(800)200 01 10 #108',
+      created: '26/06/2017 14:47:25',
+      duration: '00:23:00',
+      statusName: 'outgoing',
+      tag: 'outgoing',
+      price: '0',
+      record: '',
+      ddShow: false,
+      play: false,
+      playerOpen: false,
+      playerContentShow: false,
+    },
+    {
+      source: '+1(800)200 01 10 #101',
+      destination: '+1(800)200 01 10 #108',
+      created: '26/06/2017 14:47:25',
+      duration: '00:23:00',
+      statusName: 'outgoing',
+      tag: 'outgoing',
+      price: '0',
+      record: '',
+      ddShow: false,
+      play: false,
+      playerOpen: false,
+      playerContentShow: false,
+    },
+    {
+      source: '+1(800)200 01 10 #101',
+      destination: '+1(800)200 01 10 #108',
+      created: '26/06/2017 14:47:25',
+      duration: '00:23:00',
+      statusName: 'outgoing',
+      tag: 'outgoing',
+      price: '0',
+      record: '',
+      ddShow: false,
+      play: false,
+      playerOpen: false,
+      playerContentShow: false,
+    }
+  ];
+  // details = [];
 
   sortingActive = 0;
   sorting = [
@@ -206,7 +215,7 @@ export class DetailsAndRecordsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fetchDetailsAndRecords();
+    // this.fetchDetailsAndRecords();
     console.log(window.innerHeight);
   }
 

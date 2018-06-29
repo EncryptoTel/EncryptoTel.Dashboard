@@ -1,0 +1,13 @@
+<div class="ring_groups">
+  <pbx-loader *ngIf="loading"></pbx-loader>
+  <ng-container *ngIf="!loading">
+    <div class="ring_groups_header">
+      <div>
+        <pbx-button [value]="'Create Ring Group'" [buttonType]="'success'" (onClick)="createRingGroup()"></pbx-button>
+      </div>
+    </div>
+    <div class="ring_groups_body">
+      <pbx-table [editable]="true" [tableInfo]="tableInfo" [tableItems]="callRules" (onDelete)="deleteRingGroup($event)" (onEdit)="editRingGroup($event)"></pbx-table>
+    </div>
+  </ng-container>
+</div>
