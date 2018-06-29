@@ -48,6 +48,7 @@ import {ExtensionsComponent} from '../components/extensions/extensions.component
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
 import {GeneralAddExtensionComponent} from '../components/extensions/add/general/general.add.extension.component';
+import {RightsAddExtensionComponent} from '../components/extensions/add/rights/rights.add.extension.component';
 
 
 /*
@@ -105,7 +106,8 @@ import {GeneralAddExtensionComponent} from '../components/extensions/add/general
     ExtensionsComponent,
     RefillBalanceComponent,
     AddExtensionsComponent,
-    GeneralAddExtensionComponent
+    GeneralAddExtensionComponent,
+    RightsAddExtensionComponent
   ],
   exports: [
     ElementsModule,
@@ -143,7 +145,8 @@ import {GeneralAddExtensionComponent} from '../components/extensions/add/general
     ExtensionsComponent,
     RefillBalanceComponent,
     AddExtensionsComponent,
-    GeneralAddExtensionComponent
+    GeneralAddExtensionComponent,
+    RightsAddExtensionComponent
   ]
 })
 export class ComponentsModule {

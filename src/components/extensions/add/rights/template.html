@@ -1,0 +1,91 @@
+<form [formGroup]="form" class="add_ext_form">
+  <div class="add_ext_form_title">Role</div>
+  <pbx-select [options]="role.option"
+              [objectKey]="'title'"
+              [placeholder]="'Please select role'"
+              [selected]="role.selected"
+              [singleBorder]="'true'"
+              (onOpen)="role.isOpen=true"
+              (onClose)="role.isOpen=false"
+              (onSelect)="selectRole($event)"
+              ></pbx-select>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsWebAccess" formGroupName="rightsWebAccess"
+                  (onToggle)="changeCheckbox('rightsWebAccess')"
+                  [value]="this.form.get('rightsWebAccess').value"></pbx-checkbox>
+    <label for="rightsWebAccess">Enable Webb access</label>
+  </div>
+  <div class="add_ext_form_title">System Management</div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsCallReports" formGroupName="rightsCallReports"
+                  (onToggle)="changeCheckbox('rightsCallReports')"
+                  [value]="this.form.get('rightsCallReports').value"></pbx-checkbox>
+    <label for="rightsCallReports">Generate call reports</label>
+  </div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsDownloadRec" formGroupName="rightsDownloadRec"
+                  (onToggle)="changeCheckbox('rightsDownloadRec')"
+                  [value]="this.form.get('rightsDownloadRec').value"></pbx-checkbox>
+    <label for="rightsDownloadRec">Allow downloads of call recording</label>
+  </div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsPhoneNumbers" formGroupName="rightsPhoneNumbers"
+                  (onToggle)="changeCheckbox('rightsPhoneNumbers')"
+                  [value]="this.form.get('rightsPhoneNumbers').value"></pbx-checkbox>
+    <label for="rightsPhoneNumbers">Phone Numbers</label>
+  </div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsCallRules" formGroupName="rightsCallRules"
+                  (onToggle)="changeCheckbox('rightsCallRules')"
+                  [value]="this.form.get('rightsCallRules').value"></pbx-checkbox>
+    <label for="rightsCallRules">Call rules</label>
+  </div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsQueue" formGroupName="rightsQueue"
+                  (onToggle)="changeCheckbox('rightsQueue')"
+                  [value]="this.form.get('rightsQueue').value"></pbx-checkbox>
+    <label for="rightsQueue">Queue</label>
+  </div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsIVR" formGroupName="rightsIVR"
+                  (onToggle)="changeCheckbox('rightsIVR')"
+                  [value]="this.form.get('rightsIVR').value"></pbx-checkbox>
+    <label for="rightsIVR">IVR</label>
+  </div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsCompany" formGroupName="rightsCompany"
+                  (onToggle)="changeCheckbox('rightsCompany')"
+                  [value]="this.form.get('rightsCompany').value"></pbx-checkbox>
+    <label for="rightsCompany">Enable Webb access</label>
+  </div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsDepartment" formGroupName="rightsDepartment"
+                  (onToggle)="changeCheckbox('rightsDepartment')"
+                  [value]="this.form.get('rightsDepartment').value"></pbx-checkbox>
+    <label for="rightsDepartment">Company</label>
+  </div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsDetailsRecords" formGroupName="rightsDetailsRecords"
+                  (onToggle)="changeCheckbox('rightsDetailsRecords')"
+                  [value]="this.form.get('rightsDetailsRecords').value"></pbx-checkbox>
+    <label for="rightsDetailsRecords">Departments</label>
+  </div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsInvoices" formGroupName="rightsInvoices"
+                  (onToggle)="changeCheckbox('rightsInvoices')"
+                  [value]="this.form.get('rightsInvoices').value"></pbx-checkbox>
+    <label for="rightsInvoices">Details and Records</label>
+  </div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsMarketplace" formGroupName="rightsMarketplace"
+                  (onToggle)="changeCheckbox('rightsMarketplace')"
+                  [value]="this.form.get('rightsMarketplace').value"></pbx-checkbox>
+    <label for="rightsMarketplace">Invoices</label>
+  </div>
+  <div class="add_ext_form_item">
+    <pbx-checkbox id="rightsStorage" formGroupName="rightsStorage"
+                  (onToggle)="changeCheckbox('rightsStorage')"
+                  [value]="this.form.get('rightsStorage').value"></pbx-checkbox>
+    <label for="rightsStorage">Storage</label>
+  </div>
+</form>

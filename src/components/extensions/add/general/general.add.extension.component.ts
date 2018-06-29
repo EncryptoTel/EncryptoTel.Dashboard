@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChildren} from '@angular/core';
+import {Component, Input, OnInit, ViewChildren} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {emailRegExp} from '../../../../shared/vars';
@@ -12,8 +12,8 @@ import {PhoneNumbersServices} from '../../../../services/phone-numbers.services'
 })
 
 export class GeneralAddExtensionComponent implements OnInit {
+    @Input() form: any;
     loading: number;
-    mode = 'create';
     sipOuters = {
       option: [],
       selected: null,
@@ -24,9 +24,9 @@ export class GeneralAddExtensionComponent implements OnInit {
       selected: null,
       isOpen: false
     };
-    formGeneral: FormGroup;
     @ViewChildren('label') labelFields;
-    constructor(
+    constructor(private _numbers: PhoneNumbersServices) {}
+    /* constructor(
         private formBuilder: FormBuilder,
         private _extensions: ExtensionsServices,
         private _numbers: PhoneNumbersServices,
@@ -48,20 +48,20 @@ export class GeneralAddExtensionComponent implements OnInit {
             toUser: false
         });
         // console.log(this.formGeneral);
-    }
+    } */
     toggleHighlightLabel(event): void {
         event.target.labels[0].classList.toggle('active');
     }
     changeCheckbox(text: string): void {
-        this.formGeneral.get(text).setValue(!this.formGeneral.get(text).value);
+        this.form.get(text).setValue(!this.form.get(text).value);
     }
     selectPhone(phone): void {
         this.sipOuters.selected = phone;
-        this.formGeneral.get('outer').setValue(phone.id);
+        this.form.get('genOuter').setValue(phone.id);
     }
     selectExternal(phone): void {
         this.ext_phone.selected = phone;
-        this.formGeneral.get('external').setValue(phone.title);
+        this.form.get('external').setValue(phone.title);
     }
     sendPassword(): void {
         // etc.
@@ -77,6 +77,7 @@ export class GeneralAddExtensionComponent implements OnInit {
             res['items'].map(number => {
                 this.sipOuters.option.push({id: number.id, title: number.phoneNumber});
             });
+            this.sipOuters.selected = this.findById(this.form.get('genOuter').value, this.sipOuters.option);
             this.loading -= 1;
         });
     }
@@ -96,11 +97,19 @@ export class GeneralAddExtensionComponent implements OnInit {
             }
         });
     }
-    doSave() {
-        this.formGeneral.markAsTouched();
-        this.validate(this.formGeneral);
+
+    findById(id: number, array: any): object {
+      for (let i = 0; i < array.length; i++) {
+        if (array[i]['id'] === id) {
+          return array[i]; }}
+      return null;
+    }
+
+    /* doSave() {
+        this.form.markAsTouched();
+        this.validate(this.form);
         // console.log(this.formGeneral.valid);
-        if (this.formGeneral.valid) {
+        if (this.form.valid) {
             this.loading += 1;
             if (this.mode === 'create') {
                 this._extensions.save({...this.formGeneral.value}).then(() => {
@@ -126,7 +135,7 @@ export class GeneralAddExtensionComponent implements OnInit {
                 //     });
             }
         }
-    }
+    } */
     ngOnInit(): void {
         this.loading = 0;
         this.getExtension();
