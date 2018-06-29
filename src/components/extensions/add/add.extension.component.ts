@@ -1,9 +1,9 @@
 import {Component, OnInit /*, ViewChildren*/} from '@angular/core';
-// import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-// import {emailRegExp} from '../../../shared/vars';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {emailRegExp} from '../../../shared/vars';
 import {ExtensionsServices} from '../../../services/extensions.services';
 import {PhoneNumbersServices} from '../../../services/phone-numbers.services';
-// import {Router} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'add-extension-component',
@@ -20,7 +20,54 @@ export class AddExtensionsComponent implements OnInit {
         items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
         select: 'General'
     };
+    extentionform: FormGroup;
+    constructor(
+      private formBuilder: FormBuilder
+    ) {
+      this.extentionform = this.formBuilder.group({
+        genOuter: [null, [Validators.required]],
+        genPhoneNumber: ['', [Validators.required]],
+        genDefault: false,
+        user: this.formBuilder.group({
+          firstname: ['', []],
+          lastname: ['', []],
+          email: ['', [Validators.pattern(emailRegExp)]]
+        }),
+        genMobile: '',
+        genMobileApp: false,
+        genEncrypted: false,
+        genSendAdmin: false,
+        genSendUser: false,
 
+        voiceEmnable: false,
+        voicePlayCaller: false,
+        voiceLanguage: [null, [Validators.required]],
+        voiceRead: [null, [Validators.required]],
+
+        optionDisExt: false,
+        optionDisCalls: false,
+        optionRecAll: false,
+        optionSendNotification: false,
+        optionConferences: false,
+
+        rightsRole: false,
+        rightsWebAccess: false,
+        rightsCallReports: false,
+        rightsDownloadRec: false,
+        rightsPhoneNumbers: false,
+        rightsCallRules: false,
+        rightsQueue: false,
+        rightsIVR: false,
+        rightsCompany: false,
+        rightsDepartment: false,
+        rightsDetailsRecords: false,
+        rightsInvoices: false,
+        rightsMarketplace: false,
+        rightsStorage: false,
+
+        PrivacyChangeEvery: [null, [Validators.required]],
+      });
+    }
     /* sipOuters = {
         option: [],
         selected: null,
@@ -32,7 +79,7 @@ export class AddExtensionsComponent implements OnInit {
         selected: null,
         isOpen: false
     };
-    // formGeneral: FormGroup;
+
 
     // @ViewChildren('label') labelFields;
 
@@ -115,9 +162,10 @@ export class AddExtensionsComponent implements OnInit {
                 form.get(control).markAsTouched();
             }
         });
-    }
+    }*/
 
     doSave() {
+      /*
         this.formGeneral.markAsTouched();
         this.validate(this.formGeneral);
         // console.log(this.formGeneral.valid);
@@ -148,7 +196,8 @@ export class AddExtensionsComponent implements OnInit {
                 //     });
             }
         }
-    } */
+        */
+    }
 
     ngOnInit(): void {
         this.loading = 0;
