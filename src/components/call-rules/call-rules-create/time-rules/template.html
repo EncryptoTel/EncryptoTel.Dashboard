@@ -1,0 +1,54 @@
+<div class="call-rules-create_row">
+    <label>Action applies for</label>
+    <div>
+        <pbx-select
+                [singleBorder]="true"
+                [options]="ruleTime"
+                [objectKey]="'code'"
+                (onSelect)="selectRuleTime($event)"
+                [selected]="selectedRuleTime"
+                [ngClass]="{'error_select': isError()}">
+        </pbx-select>
+    </div>
+</div>
+<div class="call-rules-create_row"
+     *ngIf="selectedRuleTime && selectedRuleTime.id === 3">
+    <label>Days</label>
+    <div>
+        <pbx-button *ngFor="let day of days; let idx = index"
+                    [buttonType]="day.type"
+                    [value]="day.day" (onClick)="selectDay(idx)"></pbx-button>
+    </div>
+</div>
+<div class="call-rules-create_row"
+     *ngIf="selectedRuleTime && selectedRuleTime.id === 2">
+    <label>Duration period</label>
+    <div>
+        <input type="date">
+    </div>
+</div>
+<div class="call-rules-create_row">
+    <label>Duration time</label>
+    <div>
+        <pbx-select
+                [singleBorder]="true"
+                [options]="duration"
+                [objectKey]="'code'"
+                [selected]="selectedDurationTime"
+                (onSelect)="selectDurationTime($event)"
+                [ngClass]="{'error_select': isError()}"></pbx-select>
+    </div>
+</div>
+<div class="call-rules-create_row"
+     *ngIf="selectedDurationTime && selectedDurationTime.id === 2">
+    <label>Time</label>
+    <div class="time_wrap">
+        <pbx-select [singleBorder]="true" [objectKey]="'time'" [options]="durationTime"
+                    (onSelect)="selectTime($event, 0)"
+                    [selected]="selectedDuration[0]"></pbx-select>
+        ―
+        <pbx-select [singleBorder]="true" [objectKey]="'time'" [options]="durationTime"
+                    (onSelect)="selectTime($event, 1)"
+                    [selected]="selectedDuration[1]"></pbx-select>
+    </div>
+</div>

@@ -74,6 +74,7 @@
                                     </div>
                                 </div>
                                 <call-rules-timeout [value]="getTimeout(i)" (onChange)="onTimeoutChange(i, $event)"></call-rules-timeout>
+                                <call-rules-time-rules [action]="action" (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
                             </ng-template>
                             <ng-template [ngSwitchCase]="2">
                                 <div class="call-rules-create_row">
@@ -97,6 +98,7 @@
                                     </div>
                                 </div>
                                 <call-rules-timeout [value]="getTimeout(i)" (onChange)="onTimeoutChange(i, $event)"></call-rules-timeout>
+                                <call-rules-time-rules [action]="action" (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
                             </ng-template>
                             <ng-template [ngSwitchCase]="4">
                                 <div class="call-rules-create_row">
@@ -123,60 +125,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="call-rules-create_row">
-                                    <label>Action applies for</label>
-                                    <div>
-                                        <pbx-select
-                                                [singleBorder]="true"
-                                                [options]="ruleTime"
-                                                [objectKey]="'code'"
-                                                (onSelect)="selectRuleTime(i, $event)"
-                                                [selected]="selectedRuleTime[i]"
-                                                [ngClass]="{'error_select': action.get('timeRules').touched && action.get('timeRules').invalid}"></pbx-select>
-                                    </div>
-                                </div>
-                                <div class="call-rules-create_row"
-                                     *ngIf="selectedRuleTime[i] && selectedRuleTime[i].id === 3">
-                                    <label>Days</label>
-                                    <div>
-                                        <pbx-button *ngFor="let day of days[i]; let idx = index"
-                                                    [buttonType]="day.type"
-                                                    [value]="day.day" (onClick)="selectDay(idx, i)"></pbx-button>
-                                    </div>
-                                </div>
-                                <div class="call-rules-create_row"
-                                     *ngIf="selectedRuleTime[i] && selectedRuleTime[i].id === 2">
-                                    <label>Duration period</label>
-                                    <div>
-                                        <input type="date">
-                                    </div>
-                                </div>
-                                <div class="call-rules-create_row">
-                                    <label>Duration time</label>
-                                    <div>
-                                        <pbx-select
-                                                [singleBorder]="true"
-                                                [options]="duration"
-                                                [objectKey]="'code'"
-                                                [selected]="selectedDurationTime[i]"
-                                                (onSelect)="selectDurationTime(i, $event)"
-                                                [ngClass]="{'error_select': action.get('timeRules').touched && action.get('timeRules').invalid}"></pbx-select>
-                                    </div>
-                                </div>
-                                <div class="call-rules-create_row"
-                                     *ngIf="selectedDurationTime[i] && selectedDurationTime[i].id === 2">
-                                    <label>Time</label>
-                                    <div class="time_wrap">
-                                        <pbx-select [singleBorder]="true" [objectKey]="'time'" [options]="durationTime"
-                                                    (onSelect)="selectTime($event, i, 0)"
-                                                    [selected]="selectedDuration[i][0]"></pbx-select>
-                                        ―
-                                        <pbx-select [singleBorder]="true" [objectKey]="'time'" [options]="durationTime"
-                                                    (onSelect)="selectTime($event, i, 1)"
-                                                    [selected]="selectedDuration[i][1]"></pbx-select>
-                                    </div>
-                                </div>
                                 <call-rules-timeout [value]="getTimeout(i)" (onChange)="onTimeoutChange(i, $event)"></call-rules-timeout>
+                                <call-rules-time-rules [action]="action" (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
                             </ng-template>
                             <div class="call-rules-create_row">
                                 <label class="action">Action</label>
