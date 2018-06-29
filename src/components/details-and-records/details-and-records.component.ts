@@ -31,6 +31,7 @@ export class DetailsAndRecordsComponent implements OnInit {
       play: false,
       playerOpen: false,
       playerContentShow: false,
+      hover: false
     },
     {
       source: '+1(800)200 01 10 #101',
@@ -45,6 +46,7 @@ export class DetailsAndRecordsComponent implements OnInit {
       play: false,
       playerOpen: false,
       playerContentShow: false,
+      hover: false
     },
     {
       source: '+1(800)200 01 10 #101',
@@ -59,6 +61,7 @@ export class DetailsAndRecordsComponent implements OnInit {
       play: false,
       playerOpen: false,
       playerContentShow: false,
+      hover: false
     },
     {
       source: '+1(800)200 01 10 #101',
@@ -73,6 +76,7 @@ export class DetailsAndRecordsComponent implements OnInit {
       play: false,
       playerOpen: false,
       playerContentShow: false,
+      hover: false
     },
     {
       source: '+1(800)200 01 10 #101',
@@ -87,6 +91,7 @@ export class DetailsAndRecordsComponent implements OnInit {
       play: false,
       playerOpen: false,
       playerContentShow: false,
+      hover: false
     },
     {
       source: '+1(800)200 01 10 #101',
@@ -101,6 +106,7 @@ export class DetailsAndRecordsComponent implements OnInit {
       play: false,
       playerOpen: false,
       playerContentShow: false,
+      hover: false
     },
     {
       source: '+1(800)200 01 10 #101',
@@ -115,6 +121,7 @@ export class DetailsAndRecordsComponent implements OnInit {
       play: false,
       playerOpen: false,
       playerContentShow: false,
+      hover: false
     },
     {
       source: '+1(800)200 01 10 #101',
@@ -129,6 +136,7 @@ export class DetailsAndRecordsComponent implements OnInit {
       play: false,
       playerOpen: false,
       playerContentShow: false,
+      hover: false
     },
     {
       source: '+1(800)200 01 10 #101',
@@ -143,6 +151,7 @@ export class DetailsAndRecordsComponent implements OnInit {
       play: false,
       playerOpen: false,
       playerContentShow: false,
+      hover: false
     },
     {
       source: '+1(800)200 01 10 #101',
@@ -157,6 +166,7 @@ export class DetailsAndRecordsComponent implements OnInit {
       play: false,
       playerOpen: false,
       playerContentShow: false,
+      hover: false
     }
   ];
   // details = [];
