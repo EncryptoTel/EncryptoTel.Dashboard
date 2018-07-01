@@ -18,10 +18,11 @@ export class AddExtensionsComponent implements OnInit {
     id: number;
 
     tab = {
-        items: ['General', 'Forwarding Rules', 'Options', 'Rights'],
+        items: ['General', 'Rights'],
         select: 'General'
     };
     formExtension: FormGroup;
+    accessList;
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
@@ -43,34 +44,6 @@ export class AddExtensionsComponent implements OnInit {
             encryption: false,
             toAdmin: false,
             toUser: false,
-
-            // voiceEmnable: false,
-            // voicePlayCaller: false,
-            // voiceLanguage: [null, [Validators.required]],
-            // voiceRead: [null, [Validators.required]],
-            //
-            // optionDisExt: false,
-            // optionDisCalls: false,
-            // optionRecAll: false,
-            // optionSendNotification: false,
-            // optionConferences: false,
-            //
-            // rightsRole: false,
-            // rightsWebAccess: false,
-            // rightsCallReports: false,
-            // rightsDownloadRec: false,
-            // rightsPhoneNumbers: false,
-            // rightsCallRules: false,
-            // rightsQueue: false,
-            // rightsIVR: false,
-            // rightsCompany: false,
-            // rightsDepartment: false,
-            // rightsDetailsRecords: false,
-            // rightsInvoices: false,
-            // rightsMarketplace: false,
-            // rightsStorage: false,
-            //
-            // PrivacyChangeEvery: [null, [Validators.required]],
         });
     }
 
@@ -116,6 +89,17 @@ export class AddExtensionsComponent implements OnInit {
         });
     }
 
+    getAccessList() {
+        this.loading += 1;
+        this._extension.getAccessList().then(res => {
+            this.accessList = res;
+            // console.log(this.accessList);
+            this.loading -= 1;
+        }).catch(res => {
+            this.loading -= 1;
+        });
+    }
+
     doCancel() {
         this.router.navigate(['cabinet', 'extensions']);
     }
@@ -155,6 +139,7 @@ export class AddExtensionsComponent implements OnInit {
     ngOnInit(): void {
         this.loading = 0;
         this.getExtension();
+        this.getAccessList();
         // this.getSipOuters();
     }
 }

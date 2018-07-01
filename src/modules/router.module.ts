@@ -99,7 +99,8 @@ const Routes: Routes = [
       {path: 'departments', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
       {path: 'extensions', children: [
           {path: '', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},
-          {path: 'add', component: AddExtensionsComponent, data: {title: 'Add New Extension', indexed: true}}
+          {path: 'create', component: AddExtensionsComponent, data: {title: 'Create Extension', indexed: true}},
+          {path: ':id', component: AddExtensionsComponent, data: {title: 'Edit Extension', indexed: true}}
         ]},
       {path: 'details-and-records', component: DetailsAndRecordsComponent, data: {title: 'Details and records', indexed: true}},
       {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},

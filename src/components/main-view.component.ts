@@ -48,7 +48,7 @@ export class MainViewComponent implements OnInit, OnDestroy {
     });
     this._services.messagesList().subscribe(messages => {
       this.messagesList = messages;
-      console.log(messages);
+ //     console.log(messages);
     });
     this.routerSubscription = this.router.events
       .filter((event) => event instanceof NavigationEnd)
