@@ -31,10 +31,6 @@ export class CallRulesServices {
     return this.request.get(`v1/account/file?type=audio`, true);
   }
 
-  getNumbers(): Promise<any> {
-    return this.request.get(`v1/sip/outers`, true);
-  }
-
   getParams(): Promise<any> {
     return this.request.get(`v1/outer_rule/params`, true);
   }

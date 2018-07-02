@@ -11,10 +11,6 @@ export class DepartmentServices {
     return this._req.get(`v1/department`, true);
   }
 
-  getSipOuters(): Promise<any> {
-    return this._req.get(`v1/sip/outers`, true);
-  }
-
   saveDepartment(department): Promise<any> {
     return this._req.post(`v1/department`, department, true);
   }

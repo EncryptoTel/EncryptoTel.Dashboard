@@ -5,6 +5,7 @@ import {DepartmentServices} from '../../services/department.services';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {DepartmentModel, Sip} from '../../models/department.model';
 import {validateForm} from '../../shared/shared.functions';
+import {RefsServices} from "../../services/refs.services";
 
 
 @Component({
@@ -30,7 +31,8 @@ export class DepartmentsComponent implements OnInit {
     currentDepartment: DepartmentModel;
 
     constructor(private _service: DepartmentServices,
-                private fb: FormBuilder) {
+                private fb: FormBuilder,
+                private refs: RefsServices) {
     }
 
     addPhone(): void {
@@ -165,12 +167,12 @@ export class DepartmentsComponent implements OnInit {
         return this.fb.control('', Validators.required);
     }
 
-    private formatSipOuters(res): void {
-        for (let x = 0; x < res.items.length; x++) {
-            for (let i = 0; i < res.items[x].sipInners.length; i++) {
+    private formatSipOuters(items): void {
+        for (let x = 0; x < items.length; x++) {
+            for (let i = 0; i < items[x].sipInners.length; i++) {
                 this.sips.push({
-                    id: res.items[x].sipInners[i].id,
-                    phoneNumber: `${res.items[x].phoneNumber}-${res.items[x].sipInners[i].phoneNumber}`,
+                    id: items[x].sipInners[i].id,
+                    phoneNumber: `${items[x].phoneNumber}-${items[x].sipInners[i].phoneNumber}`,
                     blocked: false
                 });
             }
@@ -208,7 +210,7 @@ export class DepartmentsComponent implements OnInit {
     }
 
     private getSipOuters(): void {
-        this._service.getSipOuters().then(res => {
+        this.refs.getSipOuters().then(res => {
             this.formatSipOuters(res);
         }).catch(err => {
             console.error(err);

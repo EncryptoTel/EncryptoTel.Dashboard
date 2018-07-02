@@ -5,6 +5,7 @@ import {FadeAnimation} from '../../../shared/fade-animation';
 import {CallRulesServices} from '../../../services/call-rules.services';
 import {Action, SipInner, SipOuter} from '../../../models/call-rules.model';
 import {ActivatedRoute, Router} from '@angular/router';
+import {RefsServices} from "../../../services/refs.services";
 
 @Component({
     selector: 'pbx-call-rules-create',
@@ -33,7 +34,8 @@ export class CallRulesCreateComponent implements OnInit {
     constructor(private service: CallRulesServices,
                 private fb: FormBuilder,
                 private router: Router,
-                private activatedRoute: ActivatedRoute) {
+                private activatedRoute: ActivatedRoute,
+                private refs: RefsServices) {
         activatedRoute.snapshot.params.id ? this.mode = 'edit' : this.mode = 'create';
     }
 
@@ -273,9 +275,9 @@ export class CallRulesCreateComponent implements OnInit {
 
     private getNumbers(): void {
         this.loading += 1;
-        this.service.getNumbers().then(res => {
+        this.refs.getSipOuters().then(res => {
             this.loading -= 1;
-            this.numbers = res.items;
+            this.numbers = res;
         }).catch(err => {
             this.loading -= 1;
             console.error(err);

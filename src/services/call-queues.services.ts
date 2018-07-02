@@ -93,10 +93,6 @@ export class CallQueuesServices {
     return this.request.get('v1/call_queue', true);
   }
 
-  getNumbers() {
-    return this.request.get(`v1/sip/outers`, true);
-  }
-
   getParams() {
     this.request.get(`v1/call_queue/params`, true).then((res: QueuesParams) => {
       this.params = res;

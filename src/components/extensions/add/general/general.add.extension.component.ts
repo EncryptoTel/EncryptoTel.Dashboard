@@ -5,6 +5,7 @@ import {emailRegExp} from '../../../../shared/vars';
 import {ExtensionsServices} from '../../../../services/extensions.services';
 import {PhoneNumbersServices} from '../../../../services/phone-numbers.services';
 import {MessageServices} from "../../../../services/message.services";
+import {RefsServices} from "../../../../services/refs.services";
 
 @Component({
     selector: 'general-add-extension-component',
@@ -37,7 +38,8 @@ export class GeneralAddExtensionComponent implements OnInit {
     @ViewChildren('label') labelFields;
     constructor(private _numbers: PhoneNumbersServices,
                 private _extensions: ExtensionsServices,
-                private _messages: MessageServices) {}
+                private _messages: MessageServices,
+                private refs: RefsServices) {}
 
     toggleHighlightLabel(event): void {
         event.target.labels[0].classList.toggle('active');
@@ -59,8 +61,8 @@ export class GeneralAddExtensionComponent implements OnInit {
 
     getSipOuters() {
         this.loading += 1;
-        this._numbers.getSipOuters().then(res => {
-            res['items'].map(number => {
+        this.refs.getSipOuters().then(res => {
+            res.map(number => {
                 this.sipOuters.option.push({id: number.id, title: number.phoneNumber});
             });
             // this.sipOuters.selected = this.findById(this.form.get('outer').value, this.sipOuters.option);

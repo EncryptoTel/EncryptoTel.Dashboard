@@ -10,10 +10,6 @@ export class PhoneNumbersServices {
         return this._req.get(`v1/sip/outers?page=${requestDetails.page}&limit=${requestDetails.limit}&search=${requestDetails.search && encodeURI(requestDetails.search)}`, true);
     }
 
-    getSipOuters(): Promise<any> {
-        return this._req.get(`v1/sip/outers?limit=1000`, true);
-    }
-
     removePhoneNumber(id): Promise<any> {
         return this._req.del(`v1/sip/outers/${id}`, true);
     }
