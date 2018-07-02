@@ -69,10 +69,6 @@ export class CompanyComponent implements OnInit {
         this.toggleHighlightLabel(event);
     }
 
-    test() {
-        console.log('work');
-    }
-
     toggleHighlightLabel(event): void {
         event.target.labels[0].classList.toggle('active');
     }
