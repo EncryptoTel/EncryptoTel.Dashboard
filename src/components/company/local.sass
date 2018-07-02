@@ -1,51 +1,38 @@
 @import '../../vars'
-
 .company
-  flex: 1 0 auto
-  display: flex
-  flex-flow: column
+  display: grid
+  grid-gap: rem(24)
+  grid-template-rows: auto 1fr
+  flex: 1
   &_header
-    display: flex
-    flex-flow: row
     justify-content: flex-end
-    &_controls
-      margin-bottom: 33px
-      button
-        padding: 13px 0
-        width: 90px
-        border-radius: 2px
-        display: flex
-        flex-flow: row
-        justify-content: center
+    pbx-button
+      width: unset
+      &:not(:last-child)
+        margin-right: rem(8)
+  &_contain
+    flex: 1
+    //background: $dark_overlay
+    //padding: rem(24)
+    overflow: auto
+    form
+      flex: 1
+      display: grid
+      grid-gap: rem(16)
+      margin-bottom: auto
+      label
+        width: rem(176)
+        color: $font-color
         cursor: pointer
-  &_body
-    &_form
-      display: flex
-      flex-flow: column
-      width: 100%
-      .input_wrap
-        margin-bottom: 15px
-        label
-          width: 115px
-          margin: auto 0
-          color: $font-color
-          font-size: rem(12)
-        input
-          height: 35px
-          color: $font-color
-        pbx-select
-          width: 100%
-        .invalid
-          /deep/
-            .select_item
-              border-bottom: 1px solid $dark_error
-
-.save
-  background: $dark_success
-
-.cancel
-  background: $dark_pagination_inactive
-  margin-right: 10px
-
-.active
-  color: $dark_accent !important
+        &:hover, .active
+          color: $dark_accent
+  &_item
+    flex-direction: row
+    align-items: center
+    input, pbx-select
+      flex: 1
+      height: rem(40)
+      &:focus
+        background: $dark_background
+    .invalid /deep/ .selected
+      border-bottom-color: $dark_error !important
