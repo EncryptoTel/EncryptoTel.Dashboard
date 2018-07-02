@@ -1,71 +1,75 @@
 import {Component, OnInit} from '@angular/core';
-import {InvoiceModel} from '../../models/invoice.model';
-import {InvoiceServices} from "../../services/invoice.services";
+// import {InvoiceModel} from '../../models/invoice.model';
+import {InvoiceServices} from '../../services/invoice.services';
 
 @Component({
-    selector: 'pbx-invoices',
-    templateUrl: './template.html',
-    styleUrls: ['./local.sass'],
-    providers: [InvoiceServices]
+  selector: 'pbx-invoices',
+  templateUrl: './template.html',
+  styleUrls: ['./local.sass'],
+  providers: [InvoiceServices]
 })
 
 export class InvoicesComponent implements OnInit {
-    constructor(private _services: InvoiceServices) {
+  constructor(private _services: InvoiceServices) {}
+  loading = false;
+  pageinfo = {
+    page: 1,
+    limit: 20,
+    total: 1
+  };
+  table = {
+    header: [
+      {title: 'Invoice Number', key: '', width: false, sort: false},
+      {title: 'Invoice Type', key: '', width: false, sort: false},
+      {title: 'Transaction Date', key: 'date', width: false, sort: true},
+      {title: 'Status', key: 'status', width: false, sort: true},
+      {title: 'Amount(excl. VAT)', key: '', width: false, sort: false},
+      {title: 'Amount', key: '', width: true, sort: false},
+      {title: 'Transaction ID', key: '', width: false, sort: false},
+      {title: '', key: '', width: true, sort: false}
+    ],
+    key: ['number', 'type', 'created', 'status', 'sumWithVat', 'sum', 'transaction'],
+    data: [],
+    sort: {column: 2, isDown: true}
+  };
+
+  SetSort(column: number) {
+    if (this.table.header[column].sort) {
+      this.loading = true;
+      this.table.sort.isDown = !(this.table.sort.column === column && this.table.sort.isDown);
+      this.table.sort.column = column;
+      this.getInvoices();
     }
+  }
 
-    invoices: InvoiceModel[];
-    sort = '';
-    sortDirection = '';
-    showPagination = true;
-    page = 1;
-    pages = 1;
-    loading = false;
+  getInvoices() {
+    this.loading = true;
+    this.table.data = [];
+    console.log(this.table.header[this.table.sort.column].key);
+    this._services.getInvoices(this.pageinfo, this.table.header[this.table.sort.column].key,
+      this.table.sort.isDown ? 'down' : 'up').then(res => {
+      this.table.data = res.items;
+      this.pageinfo.total = res.pageCount;
+      this.loading = false;
+    });
+  }
 
-    setSort(sort: string) {
-        if (this.sort === sort) {
-            if (this.sortDirection === 'down') {
-                this.sortDirection = 'up';
-            } else {
-                this.sort = '';
-            }
+  setPage(page: number) {
+    this.pageinfo.page = page;
+    this.getInvoices();
+  }
 
-        } else {
-            this.sort = sort;
-            this.sortDirection = 'down';
-        }
-        this.getInvoices();
-    }
+  pdf(): void {
+  }
 
-    getInvoices() {
-        this.loading = true;
-        this.invoices = [];
-        this._services.getInvoices(this.page, this.sort, this.sortDirection)
-            .then(res => {
-                res['items'].map(invoice => {
-                    this.invoices.push({
-                        number: invoice.number,
-                        type: 'Order',
-                        date: invoice.created,
-                        status: 'Paid',
-                        amount: invoice.sum,
-                        amount_vat: invoice.sumWithVat,
-                        transaction: ''
-                    });
-                });
-                this.page = res['page'];
-                this.pages = res['pageCount'];
-                this.loading = false;
-            }).catch();
-    }
+  pay(): void {
+  }
 
-    setPage(page: number) {
-        if (page > 0 && page != this.page && page <= this.pages) {
-            this.page = page;
-            this.getInvoices();
-        }
-    }
+  viewInvoice(): void {
+  }
 
-    ngOnInit(): void {
-        this.getInvoices();
-    }
+
+  ngOnInit(): void {
+    this.getInvoices();
+  }
 }

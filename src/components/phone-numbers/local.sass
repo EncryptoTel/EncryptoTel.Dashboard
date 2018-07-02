@@ -1,9 +1,8 @@
 @import '../../vars'
 
-pbx-button /deep/ .button
+//pbx-button /deep/ .button
   flex: 1 0 auto
-
-pbx-button:last-child
+//pbx-button:last-child
   margin-left: rem(16)
 
 .button
@@ -27,7 +26,10 @@ pbx-button:last-child
 
 .table_pre_row
   position: relative
-  .add_list
+  justify-content: flex-end
+  pbx-button
+    width: unset
+  //.add_list
     position: absolute
     right: 0
     top: 100%
