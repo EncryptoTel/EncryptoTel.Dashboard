@@ -13,7 +13,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {ListServices} from '../../services/list.services';
 import {WsServices} from '../../services/ws.services';
-import {StorageServices} from '../../services/storage.services';
+import {LocalStorageServices} from '../../services/local-storage.services';
 import {FormMessageModel} from '../../models/form-message.model';
 
 @Component({
@@ -30,7 +30,7 @@ export class IndexComponent implements OnInit, OnDestroy {
                 private _list: ListServices,
                 public _main: MainViewComponent,
                 private _ws: WsServices,
-                private _storage: StorageServices) {
+                private _storage: LocalStorageServices) {
     }
 
     navigationList: NavigationItemModel[][];

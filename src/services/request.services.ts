@@ -5,7 +5,7 @@ import {LoggerServices} from './logger.services';
 import {MessageServices} from './message.services';
 import {environment as _env} from '../environments/environment';
 import {Router} from '@angular/router';
-import {StorageServices} from "./storage.services";
+import {LocalStorageServices} from "./local-storage.services";
 
 /*
   Parent request services. Processing errors and console output for responses
@@ -17,7 +17,7 @@ export class RequestServices {
                 private _messages: MessageServices,
                 private logger: LoggerServices,
                 private router: Router,
-                private storage: StorageServices) {
+                private storage: LocalStorageServices) {
         this.lastTick = null;
         this.setTimer();
     }
@@ -213,4 +213,16 @@ export class RequestServices {
                 return Promise.reject(response.error);
             });
     }
+
+    request(method: string, url: string, body: any): Promise<any> {
+        this.beginRequest();
+        return this.http.request(method, `${_env.back}/${url}`, {body: body, observe: 'response'}).toPromise().then(response => {
+            this.endRequest();
+
+        }).catch(response => {
+            this.endRequest();
+
+        });
+    }
+
 }

@@ -3,7 +3,7 @@ import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 
 import {RequestServices} from './request.services';
-import {StorageServices} from './storage.services';
+import {LocalStorageServices} from './local-storage.services';
 
 import {TariffPlanModel} from '../models/tariff-plan.model';
 import {plainToClass} from 'class-transformer';
@@ -11,7 +11,7 @@ import {plainToClass} from 'class-transformer';
 @Injectable()
 export class TariffPlanServices {
   constructor(private _req: RequestServices,
-              private _storage: StorageServices) {}
+              private _storage: LocalStorageServices) {}
   tariffPlan: TariffPlanModel;
   subscription: Subject<TariffPlanModel> = new Subject<TariffPlanModel>();
   /*

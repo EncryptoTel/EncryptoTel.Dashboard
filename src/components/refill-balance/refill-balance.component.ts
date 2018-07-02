@@ -4,7 +4,7 @@ import {RefillServices} from "../../services/refill.services";
 import {RefillModel} from "../../models/refill.model";
 import {PaymentModel} from "../../models/payment.model";
 import {CoursesModel} from "../../models/courses.model";
-import {StorageServices} from "../../services/storage.services";
+import {LocalStorageServices} from "../../services/local-storage.services";
 
 @Component({
     selector: 'refill-balance',
@@ -40,7 +40,7 @@ export class RefillBalanceComponent implements OnInit {
     };
 
     constructor(private _refill: RefillServices,
-                private _storage: StorageServices) {
+                private _storage: LocalStorageServices) {
 
     }
 

@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {RequestServices} from './request.services';
 import {LoggerServices} from './logger.services';
-import {StorageServices} from './storage.services';
+import {LocalStorageServices} from './local-storage.services';
 
 import {UserModel} from '../models/user.model';
 import {NavigationItemModel} from '../models/navigation-item.model';
@@ -16,7 +16,7 @@ import {NavigationItemModel} from '../models/navigation-item.model';
 @Injectable()
 export class UserServices {
   constructor(private _req: RequestServices,
-              private _storage: StorageServices,
+              private _storage: LocalStorageServices,
               private logger: LoggerServices) {}
   user: UserModel;
   subscription: Subject<UserModel> = new Subject<UserModel>();

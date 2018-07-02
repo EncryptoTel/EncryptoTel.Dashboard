@@ -10,7 +10,7 @@ import {environment} from '../environments/environment';
 export class LoggerServices {
   log = (details: string, data: any): void => {
     if (!environment.production) {
-      console.log(`---Logger message---\n`, `${details}\n\n`, data);
+      // console.log(`---Logger message---\n`, `${details}\n\n`, data);
     }
   }
 }

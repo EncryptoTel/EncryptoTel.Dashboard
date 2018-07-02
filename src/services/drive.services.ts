@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RequestServices} from './request.services';
-import {StorageServices} from './storage.services';
+import {LocalStorageServices} from './local-storage.services';
 import {Subject} from 'rxjs/Subject';
 import {DriveModel} from '../models/drive.model';
 import {LoggerServices} from './logger.services';
@@ -10,7 +10,7 @@ import {plainToClass} from 'class-transformer';
 @Injectable()
 export class DriveServices {
   constructor(private _req: RequestServices,
-              private _storage: StorageServices,
+              private _storage: LocalStorageServices,
               private logger: LoggerServices) {}
   drive: DriveModel;
   subscription: Subject<DriveModel> = new Subject<DriveModel>();

@@ -1,74 +1,81 @@
-
-
-
 <div class="storage_wrap">
-  <div class="storage_header">
-    <div class="storage_header_text">Select Source:</div>
-    <div class="storage_header_menu">
-      <div class="storage_header_menu_title">Call records <span>(450 Mb)</span></div>
-      <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="storage_header_icon"></svg-icon>
-      <div class="storage_header_list">
-        <div class="storage_header_list_item">Sound files <span>(15 Mb)</span></div>
-        <div class="storage_header_list_item">Voicemail <span>(235 Mb)</span></div>
-        <div class="storage_header_list_item">Trash <span>(140 Mb)</span></div>
-      </div>
+    <div class="storage_header">
+        <div class="storage_header_text">Select Source:</div>
+        <div class="storage_header_menu">
+            <div class="storage_header_menu_title">Call records <span>(450 Mb)</span></div>
+            <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="storage_header_icon"></svg-icon>
+            <div class="storage_header_list">
+                <div class="storage_header_list_item">Sound files <span>(15 Mb)</span></div>
+                <div class="storage_header_list_item">Voicemail <span>(235 Mb)</span></div>
+                <div class="storage_header_list_item">Trash <span>(140 Mb)</span></div>
+            </div>
+        </div>
+        <div class="storage_header_text">Search:</div>
+        <input placeholder="search by name or phone" maxlength="64" class="storage_header_input">
+        <div class="storage_button download"><span>Download</span></div>
+        <div class="storage_button delete"><span>Delete Selected</span></div>
     </div>
-    <div class="storage_header_text">Search:</div>
-    <input placeholder="search by name or phone" maxlength="64" class="storage_header_input">
-    <div class="storage_button download"><span>Download</span></div>
-    <div class="storage_button delete"><span>Delete Selected</span></div>
-  </div>
 
-  <div class="storage_body">
-    <!-- header -->
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">From</div>
+    <div class="storage_body">
+        <!-- header -->
+        <div class="storage_body_head_item">
+            <div class="storage_body_head_text">From</div>
+        </div>
+        <div class="storage_body_head_item">
+            <div class="storage_body_head_text">To</div>
+        </div>
+        <div class="storage_body_head_item">
+            <div class="storage_body_head_text">Start time</div>
+        </div>
+        <div class="storage_body_head_item">
+            <div class="storage_body_head_text">Duration</div>
+        </div>
+        <div class="storage_body_head_item">
+            <div class="storage_body_head_text">Size, Mbyte</div>
+        </div>
+        <div class="storage_body_head_item">
+            <div class="storage_body_head_text">Record</div>
+        </div>
+        <div class="storage_body_head_item"></div>
+        <!-- first item -->
+        <div class="storage_body_item_text">+7(123)456-78-90</div>
+        <div class="storage_body_item_text">+7(321)456-78-90</div>
+        <div class="storage_body_item_text">25/06/2017 12:34:56</div>
+        <div class="storage_body_item_text">00:03:14</div>
+        <div class="storage_body_item_text">1.57</div>
+        <div class="storage_body_item_text">
+            <svg-icon src="../../assets/icons/play_24px.svg" class="storage_body_item_icon"></svg-icon>
+        </div>
+        <div class="storage_body_item_text">
+            <svg-icon src="../../assets/icons/cancel_delete_12px.svg" class="storage_body_item_icon"></svg-icon>
+        </div>
     </div>
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">To</div>
-    </div>
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">Start time</div>
-    </div>
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">Duration</div>
-    </div>
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">Size, Mbyte</div>
-    </div>
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">Record</div>
-    </div>
-    <div class="storage_body_head_item"></div>
-    <!-- first item -->
-    <div class="storage_body_item_text">+7(123)456-78-90</div>
-    <div class="storage_body_item_text">+7(321)456-78-90</div>
-    <div class="storage_body_item_text">25/06/2017 12:34:56</div>
-    <div class="storage_body_item_text">00:03:14</div>
-    <div class="storage_body_item_text">1.57</div>
-    <div class="storage_body_item_text">
-      <svg-icon src="../../assets/icons/play_24px.svg" class="storage_body_item_icon"></svg-icon>
-    </div>
-    <div class="storage_body_item_text">
-      <svg-icon src="../../assets/icons/cancel_delete_12px.svg" class="storage_body_item_icon"></svg-icon>
-    </div>
-  </div>
 
-  <div class="storage_footer">
-    <div class="storage_button pagination_inactive"><span>«</span></div>
-    <div class="storage_button pagination_inactive"><span>Prev</span></div>
-    <div class="storage_footer_text">01 of 30</div>
-    <div class="storage_button pagination"><span>Next</span></div>
-    <div class="storage_button pagination"><span>»</span></div>
-  </div>
+    <pbx-pagination *ngIf="!loading && pageInfo.itemsCount > 1"
+                    [currentPage]="pageInfo.page"
+                    [totalPages]="pageInfo.pageCount"
+                    (onPageChange)="setPage($event)">
+    </pbx-pagination>
 
-  <div class="storage_dropper">
+    <!--<div class="storage_footer">-->
+    <!--<div class="storage_button pagination_inactive"><span>«</span></div>-->
+    <!--<div class="storage_button pagination_inactive"><span>Prev</span></div>-->
+    <!--<div class="storage_footer_text">01 of 30</div>-->
+    <!--<div class="storage_button pagination"><span>Next</span></div>-->
+    <!--<div class="storage_button pagination"><span>»</span></div>-->
+    <!--</div>-->
+
+    <div class="storage_dropper">
     <span>
-      <span class="storage_dropper_container">
+      <span class="storage_dropper_container"
+            (drop)="dropHandler($event)"
+            (dragover)="dragOverHandler($event)"
+            (dragend)="dragEndHandler($event)"
+            (dragleave)="dragLeaveHandler($event)">
         <svg-icon src="../../assets/icons/download_24px.svg" class="storage_dropper_icon"></svg-icon>
         <span class="storage_dropper_text">Drop files here to upload<br>or</span>
         <span class="storage_dropper_link">select file</span>
       </span>
     </span>
-  </div>
+    </div>
 </div>

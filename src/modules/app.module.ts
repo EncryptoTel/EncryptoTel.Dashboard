@@ -11,7 +11,7 @@ import {MainRouterModule} from './router.module';
 import {ComponentsModule} from './components.module';
 
 import {LoggerServices} from '../services/logger.services';
-import {StorageServices} from '../services/storage.services';
+import {LocalStorageServices} from '../services/local-storage.services';
 import {ListServices} from '../services/list.services';
 import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
@@ -46,7 +46,7 @@ const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket'
     ],
     providers: [
         LoggerServices,
-        StorageServices,
+        LocalStorageServices,
         ListServices,
         {provide: HTTP_INTERCEPTORS, useClass: UserTokenInterceptor, multi: true},
         RequestServices,

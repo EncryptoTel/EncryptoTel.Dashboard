@@ -1,33 +1,79 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {StorageService} from "../../services/storage.service";
+import {MessageServices} from "../../services/message.services";
+import {StorageModel} from "../../models/storage.model";
 
 @Component({
-  selector: 'pbx-storage',
-  templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+    selector: 'pbx-storage',
+    templateUrl: './template.html',
+    styleUrls: ['./local.sass'],
+    providers: [StorageService]
 })
 
-export class StorageComponent {
-  modules = [
-    new Module(1, 'Module COMPANY', 'Company information', 0, true, 1),
-new Module(2, 'Module IVR', 'Interactive voice response (IVR) is a technology that allows a computer to interact with humans through the use of voice and DTMF tones input via keypad.', 10, false, 2),
-    new Module(3, 'Module Call-center', '', 10, false, 2),
-    new Module(4, 'Module Queue', '', 10, false, 2),
-    new Module(5, 'Module SIP TRAFFIC ENCRYPTION', '', 10, false, 3),
-    new Module(6, 'Module Ext 50', 'Amount of Ext numbers 50', 0, false, 4),
-    new Module(7, 'Module Ext 100', 'Amount of Ext numbers 100', 10, false, 4),
-    new Module(8, 'Module Schedule', '', 0, false, 5),
-    new Module(9, 'Module Storage 500', 'Storage space 500 mb', 10, false, 6),
-    new Module(10, 'Module Storage 1000', 'Storage space 1000 mb', 10, false, 6),
-    new Module(11, 'Module Storage 1500', 'Storage space 1500 mb', 10, false, 6),
-  ];
-}
+export class StorageComponent implements OnInit {
+    constructor(private service: StorageService,
+                private message: MessageServices) {
 
-export class Module {
-  constructor (
-    public id: number,
-    public title: string,
-    public content: string,
-    public cost: number,
-    public status: boolean,
-    public color: number) {}
+    }
+    loading: number = 0;
+    pageInfo: StorageModel;
+
+    getList() {
+        this.loading += 1;
+        this.service.getList().then(res => {
+            this.pageInfo = res;
+            console.log(this.pageInfo);
+            this.loading -= 1;
+        }).catch(res => {
+
+            this.loading -= 1;
+        });
+    }
+
+    private uploadFile(files) {
+        for (let i = 0; i < files.length; i++) {
+            if (files[i].type === 'audio/mp3' || files[i].type === 'audio/ogg' || files[i].type === 'audio/wav' || files[i].type === 'audio/mpeg' || files[i].type === 'audio/x-wav') {
+                this.loading +=1;
+                const formData = new FormData();
+                formData.append('account_file_type', 'audio');
+                formData.append('account_file', files[i]);
+                this.service.uploadFile(formData).then(res => {
+                    // this.getStorage(1);
+                    console.log(res);
+                    this.loading -= 1;
+                }).catch(err => {
+                    console.log(err);
+                    this.loading -= 1;
+                });
+            } else {
+                this.message.writeError('Accepted formats: mp3, ogg, wav');
+            }
+        }
+    }
+
+    dropHandler(e) {
+        e.preventDefault();
+        const files = e.dataTransfer.files;
+        this.uploadFile(files);
+        console.log('dropHandler', e);
+    }
+
+    dragOverHandler(e) {
+        e.preventDefault();
+        console.log('dragOverHandler', e);
+    }
+
+    dragEndHandler(e) {
+        console.log('dragEndHandler', e);
+    }
+
+    dragLeaveHandler(e) {
+        e.preventDefault();
+        console.log('dragLeaveHandler', e);
+    }
+
+    ngOnInit() {
+        this.getList();
+    }
+
 }

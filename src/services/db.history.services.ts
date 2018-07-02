@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RequestServices} from './request.services';
-import {StorageServices} from './storage.services';
+import {LocalStorageServices} from './local-storage.services';
 import {DBHistoryItem, DBHistoryModel} from '../models/db.history.model';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
@@ -10,7 +10,7 @@ import {dateComparison} from '../shared/shared.functions';
 @Injectable()
 export class DBHistoryServices {
   constructor(private _req: RequestServices,
-              private _storage: StorageServices) {}
+              private _storage: LocalStorageServices) {}
   history: DBHistoryModel[];
   subscription: Subject<DBHistoryModel[]> = new Subject<DBHistoryModel[]>();
   fetchHistoryList(): Promise<DBHistoryModel[]> {

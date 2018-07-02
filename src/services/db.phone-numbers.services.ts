@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RequestServices} from './request.services';
-import {StorageServices} from './storage.services';
+import {LocalStorageServices} from './local-storage.services';
 import {DBPhoneNumberModel} from '../models/db.phone-number.model';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
@@ -9,7 +9,7 @@ import {plainToClass} from 'class-transformer';
 @Injectable()
 export class DBPhoneNumbersServices {
   constructor(private _req: RequestServices,
-              private _storage: StorageServices) {}
+              private _storage: LocalStorageServices) {}
   numbers: DBPhoneNumberModel[];
   subscription: Subject<DBPhoneNumberModel[]> = new Subject<DBPhoneNumberModel[]>();
   /*

@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {RequestServices} from './request.services';
 import {LoggerServices} from './logger.services';
-import {StorageServices} from './storage.services';
+import {LocalStorageServices} from './local-storage.services';
 import {ListServices} from './list.services';
 
 import {BalanceModel} from '../models/balance.model';
@@ -18,7 +18,7 @@ import {plainToClass} from 'class-transformer';
 @Injectable()
 export class BalanceServices {
   constructor(private _req: RequestServices,
-              private _storage: StorageServices,
+              private _storage: LocalStorageServices,
               private _list: ListServices,
               private logger: LoggerServices) {}
   balance: BalanceModel;

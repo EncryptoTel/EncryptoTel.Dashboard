@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {RequestServices} from './request.services';
 import {LoggerServices} from './logger.services';
-import {StorageServices} from './storage.services';
+import {LocalStorageServices} from './local-storage.services';
 
 import {CountryModel} from '../models/country.model';
 import {CurrencyModel} from '../models/currency.model';
@@ -13,7 +13,7 @@ import {plainToClass} from 'class-transformer';
 @Injectable()
 export class ListServices {
   constructor(private _req: RequestServices,
-              private _storage: StorageServices,
+              private _storage: LocalStorageServices,
               private logger: LoggerServices) {}
   countriesList: CountryModel[];
   countriesSub: Subject<CountryModel[]> = new Subject<CountryModel[]>();
