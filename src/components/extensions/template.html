@@ -96,8 +96,8 @@
         <div class="ext_sidebar_button_wrap">
             <div class="ext_sidebar_button_title">Generate new password and send to:</div>
             <div class="ext_sidebar_button_grid">
-                <pbx-button value="Admin E-mail" (onClick)="sendPasswordToAdmin(sidebar)"></pbx-button>
-                <pbx-button value="User E-mail" (onClick)="sendPasswordToUser(sidebar)"></pbx-button>
+                <pbx-button [loading]="loading.admin" value="Admin E-mail" (onClick)="sendPasswordToAdmin(sidebar)"></pbx-button>
+                <pbx-button [loading]="loading.user" [inactive]="!extensions.user" value="User E-mail" (onClick)="sendPasswordToUser(sidebar)"></pbx-button>
                 <pbx-button value="Close" buttonType="cancel" (onClick)="closeExt()"></pbx-button>
                 <pbx-button value="Edit" buttonType="success" (onClick)="clickEditIcon(sidebar)"></pbx-button>
             </div>

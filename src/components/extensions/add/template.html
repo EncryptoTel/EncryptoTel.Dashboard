@@ -21,6 +21,7 @@
                 <general-add-extension-component
                   *ngIf="tab.select===tab.items[0]" class="add_ext_item"
                   [(form)]="formExtension"
+                  [id]="id"
                 ></general-add-extension-component>
                 <rights-add-extension-component
                   *ngIf="tab.select===tab.items[1]" class="add_ext_item"

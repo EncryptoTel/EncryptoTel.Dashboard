@@ -4,6 +4,7 @@ import {emailRegExp} from '../../../shared/vars';
 import {ExtensionsServices} from '../../../services/extensions.services';
 import {PhoneNumbersServices} from '../../../services/phone-numbers.services';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ExtensionModel} from "../../../models/extension.model";
 
 @Component({
     selector: 'add-extension-component',
@@ -79,6 +80,8 @@ export class AddExtensionsComponent implements OnInit {
             this.formExtension.get('default').setValue(res.default);
             this.formExtension.get('mobileApp').setValue(res.mobileApp);
             this.formExtension.get('encryption').setValue(res.encryption);
+            this.formExtension.get('toAdmin').setValue(false);
+            this.formExtension.get('toUser').setValue(false);
             this.formExtension.get(['user', 'firstName']).setValue(res.user ? res.user.firstname : null);
             this.formExtension.get(['user', 'lastName']).setValue(res.user ? res.user.lastname : null);
             this.formExtension.get(['user', 'email']).setValue(res.user ? res.user.email : null);
@@ -110,30 +113,57 @@ export class AddExtensionsComponent implements OnInit {
         // console.log(this.formExtension.valid);
         if (this.formExtension.valid) {
             this.loading += 1;
+
             if (this.mode === 'create') {
-                this._extension.create({...this.formExtension.value}).then(() => {
-                    this.loading -= 1;
-                    this.router.navigate(['cabinet', 'extensions']);
+                this._extension.create({...this.formExtension.value}).then(extension => {
+                    this.id = extension.id;
+                    this.afterSaveExtension(extension);
                 }).catch(res => {
-                        const errors = res.errors;
-                        if (errors) {
-                            Object.keys(errors).forEach(key => {
-                                this.formExtension.get(key).setErrors(errors[key]);
-                            });
-                        }
-                        this.loading -= 1;
-                    }
-                );
+                    this.errorSaveExtension(res);
+                });
             } else if (this.mode === 'edit') {
-                this._extension.edit(this.id, {...this.formExtension.value}).then(() => {
-                    this.doCancel();
-                    this.loading -= 1;
-                }).catch(err => {
-                    // console.error(err);
-                    this.loading -= 1;
+                this._extension.edit(this.id, {...this.formExtension.value}).then(extension => {
+                    this.afterSaveExtension(extension);
+                }).catch(res => {
+                    this.errorSaveExtension(res);
                 });
             }
         }
+    }
+
+    errorSaveExtension(res) {
+        const errors = res.errors;
+        if (errors) {
+            Object.keys(errors).forEach(key => {
+                this.formExtension.get(key).setErrors(errors[key]);
+            });
+        }
+        this.loading -= 1;
+    }
+
+    afterSaveExtension(extension: ExtensionModel) {
+        this.loading -= 1;
+        if (!extension.user) {
+            this.doCancel();
+            return;
+        }
+
+        let rights = [];
+        for (let i = 0; i < this.accessList.length; i++) {
+            if (this.accessList[i].status) {
+                rights.push({id: this.accessList[i].id});
+            }
+        }
+
+        this.loading += 1;
+        this._extension.saveAccessList(extension.user.id, rights).then(res => {
+            // console.log(res);
+            this.loading -= 1;
+            this.doCancel();
+        }).catch(res => {
+            this.loading -= 1;
+            // console.log(res);
+        });
     }
 
     ngOnInit(): void {

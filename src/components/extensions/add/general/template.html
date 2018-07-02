@@ -156,9 +156,13 @@
                   [value]="form.get('toUser').value"></pbx-checkbox>
     <div class="add_ext_form_item_description">Send password to user email address</div>
   </div>
-  <div class="add_ext_form_item">
+  <div class="add_ext_form_item" *ngIf="id">
     <label class="inactive"></label>
-    <pbx-button [value]="'Generate and Send Password'"></pbx-button>
+    <pbx-button [value]="'Generate and Send Password'" (onClick)="sendPassword()"></pbx-button>
   </div>
 </form>
 <pbx-loader *ngIf="loading!==0"></pbx-loader>
+<pbx-modal [modal]="modal"
+           (onConfirm)="confirmModal()"
+           (onDecline)="cancelModal()">{{modal.text}}
+</pbx-modal>

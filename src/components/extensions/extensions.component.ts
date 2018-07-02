@@ -3,6 +3,7 @@ import {ExtensionsServices} from '../../services/extensions.services';
 import {MainViewComponent} from '../main-view.component';
 import {ExtensionModel} from "../../models/extension.model";
 import {Router} from "@angular/router";
+import {MessageServices} from "../../services/message.services";
 
 @Component({
     selector: 'extensions-component',
@@ -23,7 +24,9 @@ export class ExtensionsComponent implements OnInit {
     loading: {
         body: number,
         pagination: boolean,
-        sidebar: boolean
+        sidebar: boolean,
+        admin: boolean,
+        user: boolean
     };
     pageinfo: {
         page: number,
@@ -52,7 +55,8 @@ export class ExtensionsComponent implements OnInit {
     timer;
 
     constructor(private _extensions: ExtensionsServices,
-                private router: Router) {
+                private router: Router,
+                private _messages: MessageServices) {
 
     }
 
@@ -133,9 +137,14 @@ export class ExtensionsComponent implements OnInit {
 
     confirmModal(): void {
         if (this.passwordTo > 0) {
-            console.log(this.selected);
+            // console.log(this.selected);
+            this.loading.admin = this.passwordTo === 1;
+            this.loading.user = this.passwordTo === 2;
             this._extensions.changePassword(this.selected.id, {mobileApp: this.selected.mobileApp, toAdmin: this.passwordTo === 1, toUser: this.passwordTo === 2}).then(res => {
-                console.log(res);
+                this._messages.writeSuccess(res.message);
+                this.loading.admin = false;
+                this.loading.user = false;
+                // console.log(res);
             });
         } else {
             this._extensions.deleteExtension(this.selected.id).then(res => {
@@ -185,7 +194,7 @@ export class ExtensionsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loading = {body: 0, pagination: true, sidebar: true};
+        this.loading = {body: 0, pagination: true, sidebar: true, admin: false, user: false};
         this.sidebar = null;
         this.departments.selected = this.departments.option[0];
         this.pageinfo = {

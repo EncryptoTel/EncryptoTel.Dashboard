@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {emailRegExp} from '../../../../shared/vars';
 import {ExtensionsServices} from '../../../../services/extensions.services';
 import {PhoneNumbersServices} from '../../../../services/phone-numbers.services';
+import {MessageServices} from "../../../../services/message.services";
 
 @Component({
     selector: 'general-add-extension-component',
@@ -13,6 +14,7 @@ import {PhoneNumbersServices} from '../../../../services/phone-numbers.services'
 
 export class GeneralAddExtensionComponent implements OnInit {
     @Input() form: any;
+    @Input() id: number;
     loading: number;
     sipOuters = {
       option: [],
@@ -24,8 +26,18 @@ export class GeneralAddExtensionComponent implements OnInit {
       selected: null,
       isOpen: false
     };
+    modal = {
+        visible: false,
+        title: '',
+        text: '',
+        confirm: {type: 'error', value: 'Delete'},
+        decline: {type: 'cancel', value: 'Cancel'}
+    };
+
     @ViewChildren('label') labelFields;
-    constructor(private _numbers: PhoneNumbersServices) {}
+    constructor(private _numbers: PhoneNumbersServices,
+                private _extensions: ExtensionsServices,
+                private _messages: MessageServices) {}
 
     toggleHighlightLabel(event): void {
         event.target.labels[0].classList.toggle('active');
@@ -42,7 +54,7 @@ export class GeneralAddExtensionComponent implements OnInit {
         this.form.get('external').setValue(phone.title);
     }
     sendPassword(): void {
-        // etc.
+        this.showModal('Reset password', 'Do you want to reset password and send new password to selected users?', 'Reset');
     }
 
     getSipOuters() {
@@ -81,6 +93,32 @@ export class GeneralAddExtensionComponent implements OnInit {
       return null;
     }
 
+    showModal(title: string, text: string, confirm: string): void {
+        // console.log('showModal');
+        this.modal.text = text;
+        this.modal.title = title;
+        this.modal.confirm.value = confirm;
+        this.modal.visible = true;
+    }
+
+    getValue(name: string) {
+        return this.form.get(name).value;
+    }
+
+    confirmModal() {
+        this._extensions.changePassword(this.id, {
+            mobileApp: this.getValue('mobileApp'),
+            toAdmin: this.getValue('toAdmin'),
+            toUser: this.getValue('toUser')}).then(res => {
+                this._messages.writeSuccess(res.message);
+        });
+    }
+
+    cancelModal() {
+
+    }
+
+
     /* doSave() {
         this.form.markAsTouched();
         this.validate(this.form);
@@ -113,6 +151,7 @@ export class GeneralAddExtensionComponent implements OnInit {
         }
     } */
     ngOnInit(): void {
+        // console.log(this.id);
         this.loading = 0;
         this.getSipOuters();
     }
