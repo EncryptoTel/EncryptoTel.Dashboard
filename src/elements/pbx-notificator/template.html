@@ -1,0 +1,16 @@
+<div class="notificator-wrap"
+     *ngIf="notificator && notificator.visible"
+     [ngClass]="{
+       'warning' : notificator.type === 'warning',
+       'success' : notificator.type === 'success',
+       'error' : notificator.type === 'error'
+      }"
+     [ngStyle]="{'width.px' : notificatorWidth}"
+     [@Swipe]>
+  <div class="notificator-message">
+      {{notificator.message}}
+  </div>
+  <div class="notificator-action" (click)="notificatorAction()" *ngIf="notificator.actionName">
+    {{notificator.actionName}}
+  </div>
+</div>

@@ -1,56 +1,117 @@
+<!--
 <div class="invoices-container">
-  <div class="invoices-wrapper">
-    <div class="invoices-row date-range-row">
-      <div class="date-range-col">
-        01/01/2017 - 30/06/2017
+    <div class="invoices-wrapper">
+        <div class="invoices-row date-range-row">
+            <div class="date-range-col">
+                01/01/2017 - 30/06/2017
+            </div>
+        </div>
+        <div class="invoices-row header">
+            <div class="invoices-col">Invoice Number</div>
+            <div class="invoices-col">Invoice Type</div>
+            <div class="invoices-col sort" (click)="setSort('date')">Transaction Date
+                <svg-icon *ngIf="sort === 'date'" src="../../assets/icons/sorting_{{sortDirection}}_16px.svg" class="sort-icon"></svg-icon>
+            </div>
+            <div class="invoices-col">Status</div>
+            <div class="invoices-col sort" (click)="setSort('amount_vat')">Amount (excl. VAT)
+                <svg-icon *ngIf="sort === 'date'" src="../../assets/icons/sorting_{{sortDirection}}_16px.svg" class="sort-icon"></svg-icon>
+            </div>
+            <div class="invoices-col sort" (click)="setSort('amount')">Amount
+                <svg-icon *ngIf="sort === 'date'" src="../../assets/icons/sorting_{{sortDirection}}_16px.svg" class="sort-icon"></svg-icon>
+            </div>
+            <div class="invoices-col">Transaction ID</div>
+            <div class="invoices-col button-col"></div>
+            <div class="invoices-col button-col"></div>
+            <div class="invoices-col search-col"></div>
+        </div>
+        <pbx-loader *ngIf="loading"></pbx-loader>
+        <div class="invoices-row" *ngFor="let invoice of invoices;index as i">
+            <div class="invoices-col">{{invoice.number}}</div>
+            <div class="invoices-col">{{invoice.type}}</div>
+            <div class="invoices-col">{{invoice.date}}</div>
+            <div class="invoices-col">{{invoice.status}}</div>
+            <div class="invoices-col">${{invoice.amount_vat}}</div>
+            <div class="invoices-col">${{invoice.amount}}</div>
+            <div class="invoices-col transaction">{{invoice.transaction}}</div>
+            <div class="invoices-col button-col">
+                <button class="pdf-button">PDF</button>
+            </div>
+            <div class="invoices-col button-col">
+                <button class="pay-button">
+                    PAY
+                </button>
+            </div>
+            <div class="invoices-col search-col">
+                <svg-icon src="../../assets/icons/magnifier.svg" class="search-icon"></svg-icon>
+            </div>
+        </div>
+        <div class="invoices-row pagination" *ngIf="showPagination">
+            <div class="invoices-col pagination-control-wrapper">
+                <button class="pagination-control pagination-arrows" [ngClass]="{'pagination-next': page > 1}"
+                        (click)="setPage(1)">«
+                </button>
+                <button class="pagination-control" [ngClass]="{'pagination-next': page > 1}"
+                        (click)="setPage(page - 1)">Prev
+                </button>
+            </div>
+            <div class="invoices-col pagination-page-number">
+                <div>{{page}} of {{pages}}</div>
+            </div>
+            <div class="invoices-col pagination-control-wrapper">
+                <button class="pagination-control" [ngClass]="{'pagination-next': page < pages}"
+                        (click)="setPage(page + 1)">Next
+                </button>
+                <button class="pagination-control pagination-arrows" [ngClass]="{'pagination-next': page < pages}"
+                        (click)="setPage(pages)">»
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+<div class="invoices">
+  <div class="invoices_header">
+    <div class="invoices_header_date_wrap">
+      dd/mm/yyyy - dd/mm/yyyy<!--ToDo установить дату-->
+    </div>
+  </div>
+  <pbx-loader class="table" *ngIf="loading"></pbx-loader>
+  <div class="invoices_table" *ngIf="!loading">
+    <div class="invoices_table_row">
+      <div class="invoices_table_item" *ngFor="let item of table.header;let i=index"
+           [ngClass]="{'fixed':item.width}">
+                <span [ngClass]="{'sort':item.sort}" (click)="SetSort(i)"
+                >{{item.title}}</span>
+        <div *ngIf="table.sort.column===i" class="invoices_table_item_icon_wrap">
+          <svg-icon [src]="'../../assets/icons/sorting_'+(table.sort.isDown?'down':'up')+'_16px.svg'"
+                    class="invoices_table_item_icon sort"></svg-icon>
+        </div>
       </div>
     </div>
-    <div class="invoices-row header">
-      <div class="invoices-col">Invoice Number</div>
-      <div class="invoices-col">Invoice Type</div>
-      <div class="invoices-col sort" (click)="sort()">Transaction Date
-        <svg-icon src="../../assets/icons/sorting_{{sorting}}_16px.svg" class="sort-icon"></svg-icon>
-      </div>
-      <div class="invoices-col">Status</div>
-      <div class="invoices-col">Amount (excl. VAT)</div>
-      <div class="invoices-col">Amount</div>
-      <div class="invoices-col">Transaction ID</div>
-      <div class="invoices-col button-col"></div>
-      <div class="invoices-col button-col"></div>
-      <div class="invoices-col search-col"></div>
-    </div>
-    <div class="invoices-row" *ngFor="let invoice of invoices;index as i">
-      <div class="invoices-col">{{invoice.number}}</div>
-      <div class="invoices-col">{{invoice.type}}</div>
-      <div class="invoices-col">{{invoice.date}}</div>
-      <div class="invoices-col" [ngClass]="{'waiting-payment': waitingPayment[i]}">{{invoice.status}}</div>
-      <div class="invoices-col">${{invoice.amount_vat}}</div>
-      <div class="invoices-col">${{invoice.amount}}</div>
-      <div class="invoices-col transaction">{{invoice.transaction}}</div>
-      <div class="invoices-col button-col">
-        <button class="pdf-button">PDF</button>
-      </div>
-      <div class="invoices-col button-col">
-        <button class="pay-button">
-          PAY
-        </button>
-      </div>
-      <div class="invoices-col search-col">
-        <svg-icon src="../../assets/icons/magnifier.svg" class="search-icon"></svg-icon>
-      </div>
-    </div>
-    <div class="invoices-row pagination" *ngIf="showPagination">
-      <div class="invoices-col pagination-control-wrapper">
-        <button class="pagination-control pagination-arrows">«</button>
-        <button class="pagination-control">Prev</button>
-      </div>
-      <div class="invoices-col pagination-page-number">
-        <div>1 of 3</div>
-      </div>
-      <div class="invoices-col pagination-control-wrapper">
-        <button class="pagination-control pagination-next">Next</button>
-        <button class="pagination-control pagination-next pagination-arrows">»</button>
+    <div class="invoices_table_row" *ngFor="let item of table.data">
+      <div class="invoices_table_item{{item[key]==='Waiting payment'?' red':''}}" *ngFor="let key of table.key; let i=index"
+           [ngClass]="{'fixed':table.header[i].width}"
+      >{{item[key]}}</div>
+      <div class="invoices_table_item fixed">
+        <div class="invoices_table_item_wrap">
+          <pbx-button [value]="'PDF'"
+                      (onClick)="pdf()"
+                      *ngIf="item.status==='Waiting payment'"></pbx-button>
+          <pbx-button [value]="'PAY'"
+                      [buttonType]="'success'"
+                      *ngIf="item.status==='Waiting payment'"
+                      (onClick)="pay()"></pbx-button>
+          <div class="invoices_table_item_icon_wrap" (click)="viewInvoice()">
+            <svg-icon class="invoices_table_item_icon search"
+                      src="../../assets/icons/magnifier.svg"></svg-icon>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <pbx-pagination *ngIf="pageinfo.total>1"
+                  [currentPage]="pageinfo.page"
+                  [totalPages]="pageinfo.total"
+                  (onPageChange)="setPage($event)"
+  ></pbx-pagination>
 </div>

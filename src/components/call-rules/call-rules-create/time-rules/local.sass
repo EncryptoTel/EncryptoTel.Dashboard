@@ -1,0 +1,48 @@
+@import "../../../../vars"
+
+.call-rules-create
+  flex-direction: column
+  flex: 1
+  &_row
+    display: flex
+    flex-flow: row
+    align-items: center
+    margin-bottom: 10px
+    height: 48px
+    width: 100%
+    & > div
+      width: 100%
+      pbx-button
+        margin-right: 10px
+        width: unset
+      div
+        pbx-button:first-child
+          margin: 0 10px
+    label
+      width: 150px
+      color: $font-color
+      font-size: rem(13)
+    .action
+      font-weight: 500
+      color: unset
+    pbx-select
+      flex: 1
+    .error_select
+      /deep/
+      .select_item.selected.no_border
+        border-bottom: 1px solid $dark_error
+    .time_wrap
+      display: flex
+      flex-flow: row
+      align-items: center
+      pbx-select
+        width: 100px
+        &:first-child
+          margin-right: 10px
+        &:last-child
+          margin-left: 10px
+
+.error_select
+  /deep/
+  .select_item.selected.no_border
+    border: 1px solid green

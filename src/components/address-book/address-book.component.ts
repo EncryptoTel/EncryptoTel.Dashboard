@@ -4,6 +4,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AddressBookServices} from '../../services/address-book.services';
 import {ContactModel, Countries, Country, PhoneTypes, Types} from '../../models/address-book.model';
 import {emailRegExp} from '../../shared/vars';
+import {RefsServices} from "../../services/refs.services";
 
 
 @Component({
@@ -37,7 +38,9 @@ export class AddressBookComponent implements OnInit {
   };
   _phoneTypes: PhoneTypes;
 
-  constructor(private fb: FormBuilder, private _service: AddressBookServices) {
+  constructor(private fb: FormBuilder,
+              private _service: AddressBookServices,
+              private refs: RefsServices) {
   }
 
   addEmailField(): void {
@@ -269,8 +272,8 @@ export class AddressBookComponent implements OnInit {
         if (cntry) {
           contact.countryName = cntry.title;
         }
-        contact.tablePhone = `${contact.contactPhones[0].value} #${contact.contactPhones[0].extension}`;
-        contact.tableEmail = contact.contactEmails[0].value;
+        // contact.tablePhone = `${contact.contactPhones[0].value} #${contact.contactPhones[0].extension}`;
+        // contact.tableEmail = contact.contactEmails[0].value;
       });
       this.loading = false;
     }).catch(err => {
@@ -296,8 +299,8 @@ export class AddressBookComponent implements OnInit {
   }
 
   private getSipOuters(): void {
-    this._service.getSipOuters().then(res => {
-      this.sipOuters = res.items;
+    this.refs.getSipOuters().then(res => {
+      this.sipOuters = res;
     }).catch(err => {
       console.error(err);
     });

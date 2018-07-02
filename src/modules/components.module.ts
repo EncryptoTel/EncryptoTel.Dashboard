@@ -46,6 +46,12 @@ import {AddressBookComponent} from '../components/address-book/address-book.comp
 import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
+import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
+import {GeneralAddExtensionComponent} from '../components/extensions/add/general/general.add.extension.component';
+import {CallRulesTimeoutComponent} from '../components/call-rules/call-rules-create/timeout/call-rules-timeout.component';
+import {CallRulesTimeRulesComponent} from '../components/call-rules/call-rules-create/time-rules/call-rules-time-rules.component';
+import {RightsAddExtensionComponent} from '../components/extensions/add/rights/rights.add.extension.component';
+import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
 
 
 /*
@@ -101,7 +107,14 @@ import {RefillBalanceComponent} from '../components/refill-balance/refill-balanc
     PhoneNumbersComponent,
     BuyPhoneNumbersComponent,
     ExtensionsComponent,
-    RefillBalanceComponent
+    RefillBalanceComponent,
+    AddExtensionsComponent,
+    GeneralAddExtensionComponent,
+    CallRulesTimeoutComponent,
+    CallRulesTimeRulesComponent,
+    GeneralAddExtensionComponent,
+    RightsAddExtensionComponent,
+    RingGroupsComponent
   ],
   exports: [
     ElementsModule,
@@ -137,7 +150,11 @@ import {RefillBalanceComponent} from '../components/refill-balance/refill-balanc
     DepartmentsComponent,
     BuyPhoneNumbersComponent,
     ExtensionsComponent,
-    RefillBalanceComponent
+    RefillBalanceComponent,
+    AddExtensionsComponent,
+    GeneralAddExtensionComponent,
+    RightsAddExtensionComponent,
+    RingGroupsComponent
   ]
 })
 export class ComponentsModule {

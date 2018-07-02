@@ -1,7 +1,10 @@
 <div class="pagination_wrap">
-  <pbx-button [inactive]="currentPage < 2" buttonType="pagination" value="«" (onClick)="changePage(1)"></pbx-button>
-  <pbx-button [inactive]="currentPage < 2" buttonType="pagination" value="Prev." (onClick)="changePage(currentPage - 1)"></pbx-button>
-  <div class="pagination_info">{{currentPage}} of {{totalPages}}</div>
-  <pbx-button [inactive]="currentPage === totalPages" buttonType="pagination" value="Next" (onClick)="changePage(currentPage + 1)"></pbx-button>
-  <pbx-button [inactive]="currentPage === totalPages" buttonType="pagination" value="»" (onClick)="changePage(totalPages)"></pbx-button>
+    <pbx-button [inactive]="currentPage < 2" buttonType="pagination" value="«" (onClick)="changePage(1)"></pbx-button>
+    <pbx-button [inactive]="currentPage < 2" buttonType="pagination" value="Prev."
+                (onClick)="changePage(currentPage - 1)"></pbx-button>
+    <div class="pagination_info">{{currentPage}} of {{totalPages}}</div>
+    <pbx-button [inactive]="currentPage === totalPages" buttonType="pagination" value="Next"
+                (onClick)="changePage(currentPage + 1)"></pbx-button>
+    <pbx-button [inactive]="currentPage === totalPages" buttonType="pagination" value="»"
+                (onClick)="changePage(totalPages)"></pbx-button>
 </div>

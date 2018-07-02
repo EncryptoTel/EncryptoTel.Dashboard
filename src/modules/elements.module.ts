@@ -14,6 +14,7 @@ import {SidebarComponent} from '../elements/pbx-sidebar/pbx-sidebar.component';
 import {CheckboxComponent} from '../elements/pbx-checkbox/pbx-checkbox.component';
 import {ModalComponent} from '../elements/pbx-modal/pbx-modal.component';
 import {PaginationComponent} from '../elements/pbx-pagination/pbx-pagination.component';
+import {NotificatorComponent} from '../elements/pbx-notificator/pbx-notificator.component';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import {PaginationComponent} from '../elements/pbx-pagination/pbx-pagination.com
     TableComponent,
     SidebarComponent,
     ModalComponent,
-    PaginationComponent
+    PaginationComponent,
+    NotificatorComponent
   ],
   exports: [
     ClickOutsideDirective,
@@ -43,7 +45,8 @@ import {PaginationComponent} from '../elements/pbx-pagination/pbx-pagination.com
     TableComponent,
     SidebarComponent,
     ModalComponent,
-    PaginationComponent
+    PaginationComponent,
+    NotificatorComponent
   ]
 })
 export class ElementsModule {  }

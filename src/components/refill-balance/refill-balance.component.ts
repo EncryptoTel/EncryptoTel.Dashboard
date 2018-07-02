@@ -17,7 +17,7 @@ export class RefillBalanceComponent implements OnInit {
     refillMethods: RefillModel[];
     courses: CoursesModel[];
     amount = {
-        value: 5,
+        value: null,
         min: 5,
         max: 1000
     };
@@ -53,6 +53,7 @@ export class RefillBalanceComponent implements OnInit {
                 this.refill_status = 'paying';
                 this.selected = refillMethod;
                 this.payment = res;
+                this.returnAddress = this.payment.address;
             });
     }
 

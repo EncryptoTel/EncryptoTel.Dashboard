@@ -25,7 +25,7 @@
         <span>Phone number</span>
       </div>
       <div class="call_queues_general_item_input_wrap">
-        <pbx-select [singleBorder]="true" [options]="numbers.items" [objectKey]="'phoneNumber'"
+        <pbx-select [singleBorder]="true" [options]="numbers" [objectKey]="'phoneNumber'"
                     [selected]="_services.userView" (onSelect)="setNumber($event)"
                     [placeholder]="'[choose one]'"></pbx-select>
       </div>

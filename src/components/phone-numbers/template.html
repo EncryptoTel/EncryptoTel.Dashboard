@@ -1,6 +1,7 @@
 <div class="table_container">
   <div class="table_wrap" #table>
     <div class="table_pre_row" #row>
+      <!--
       <div class="button phone_numbers" #button (click)="ripple($event); listVisible = !listVisible">
         <span>Add Number</span>
       </div>
@@ -8,7 +9,8 @@
         <a routerLink="buy" class="add_list_item">Buy</a>
         <a routerLink="new/external" class="add_list_item">External</a>
         <a routerLink="new/internal" class="add_list_item">Internal</a>
-      </div>
+      </div>-->
+      <pbx-button [buttonType]="'success'" [value]="'Buy'" routerLink="buy"></pbx-button>
     </div>
     <pbx-loader *ngIf="loading"></pbx-loader>
     <pbx-table [tableItems]="list"

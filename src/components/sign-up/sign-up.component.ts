@@ -28,7 +28,7 @@ export class SignUpComponent {
           Validators.required,
           Validators.minLength(6)
         ]),
-        'tariffPlanId': new FormControl(1),
+        'tariffPlanId': new FormControl(4),
       }, passwordConfirmation);
   }
 }

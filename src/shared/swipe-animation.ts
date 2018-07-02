@@ -8,10 +8,10 @@ export function SwipeAnimation(axis: 'x' | 'y', time: string) {
           style({
             width: 0
           }),
-          animate(`${time} ease-in`)
+          animate(`${time} ease-in-out`)
         ]),
         transition(':leave', [
-          animate(`${time} ease-out`, style({width: 0}))
+          animate(`${time} ease-in-out`, style({width: 0}))
         ])
       ]);
     }
@@ -19,12 +19,21 @@ export function SwipeAnimation(axis: 'x' | 'y', time: string) {
       return trigger('Swipe', [
         transition(':enter', [
           style({
-            height: 0
+            height: 0,
+            transform: 'translateY(-50px)',
+            opacity: 0
           }),
-          animate(`${time} ease-in`)
+          animate(`${time} ease-in-out`)
         ]),
         transition(':leave', [
-          animate(`${time} ease-out`, style({height: 0}))
+          animate(`${time} ease-in-out`,
+            style({
+              height: 0,
+              transform: 'translateY(-50px)',
+              opacity: 0
+
+            })
+          )
         ])
       ]);
     }

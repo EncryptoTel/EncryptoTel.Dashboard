@@ -4,44 +4,46 @@ import {DashboardModel} from '../../models/dashboard.model';
 import {DashboardServices} from "../../services/dashboard.services";
 import {DBHistoryServices} from '../../services/db.history.services';
 
-import {DBHistoryModel} from '../../models/db.history.model';
+import {Subscription} from "rxjs/Subscription";
+import {WsServices} from "../../services/ws.services";
 
 @Component({
-  selector: 'pbx-dashboard',
-  templateUrl: './template.html',
-  styleUrls: ['./local.sass'],
-  providers: [
-      DashboardServices,
-      DBHistoryServices
-  ]
+    selector: 'pbx-dashboard',
+    templateUrl: './template.html',
+    styleUrls: ['./local.sass'],
+    providers: [
+        DashboardServices,
+        DBHistoryServices
+    ]
 })
 
 export class DashboardComponent {
-  constructor(private _dashboard: DashboardServices,
-              private _history: DBHistoryServices) {
-    this.initDashboard();
-  }
-  dashboard: DashboardModel;
-  // history: DBHistoryModel[];
-  loading = true;
-  fetchDashboard(): Promise<void> {
-    return this._dashboard.getDashboard().then(dashboard => {
-      this.dashboard = dashboard;
-      this.dashboard.storage.availableSize = Math.round((this.dashboard.storage.totalSize - this.dashboard.storage.usedSize) * 100) / 100;
-      this.loading = false;
-    }).catch(() => {
-      this.loading = false;
-    });
-  }
+    constructor(private _dashboard: DashboardServices,
+                private _history: DBHistoryServices,
+                private _ws: WsServices) {
+        this.initDashboard();
+    }
 
-  // fetchHistory(): Promise<void> {
-  //   return this._history.fetchHistoryList().then(history => {
-  //         this.history = history;
-  //     }).catch(() => {
-  //     });
-  // }
-  initDashboard(): void {
-    this.fetchDashboard();
-    // this.fetchHistory();
-  }
+    dashboard: DashboardModel;
+    loading = true;
+    balanceSubscription: Subscription;
+
+    fetchDashboard(): Promise<void> {
+        return this._dashboard.getDashboard().then(dashboard => {
+            this.dashboard = dashboard;
+            this.dashboard.storage.availableSize = Math.round((this.dashboard.storage.totalSize - this.dashboard.storage.usedSize) * 100) / 100;
+            this.loading = false;
+        }).catch(() => {
+            this.loading = false;
+        });
+    }
+
+    initDashboard(): void {
+        this.fetchDashboard();
+
+        this.balanceSubscription = this._ws.getBalance().subscribe(balance => {
+            this.dashboard.balance.value = balance.balance;
+            // console.log('dashboard balance');
+        });
+    }
 }

@@ -42,6 +42,8 @@ import {CallRulesCreateComponent} from '../components/call-rules/call-rules-crea
 import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
+import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
+import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -67,8 +69,8 @@ const Routes: Routes = [
       {path: 'address-book', component: AddressBookComponent, data: {title: 'Address book', indexed: true}},
       {path: 'call-rules', data: {title: 'Call rules', indexed: true}, children: [
           {path: '', component: CallRulesComponent, data: {title: 'Call rules', indexed: true}},
-          {path: 'create', component: CallRulesCreateComponent, data: {title: 'Call rules create', indexed: true}},
-          {path: ':id', component: CallRulesCreateComponent, data: {title: 'Call rules edit', indexed: true}}
+          {path: 'create', component: CallRulesCreateComponent, data: {title: 'Create Call Rule', indexed: true}},
+          {path: ':id', component: CallRulesCreateComponent, data: {title: 'Edit Call Rule', indexed: true}}
         ]},
       {path: 'call-queues', children: [
           {path: '', component: CallQueuesComponent, data: {title: 'Call queues create', indexed: true}},
@@ -89,11 +91,17 @@ const Routes: Routes = [
                 ]}
             ]}
         ]},
-      {path: 'ring-groups', component: BlankComponent, data: {title: 'Ring groups', indexed: true}},
+      {path: 'ring-groups', children: [
+          {path: '', component: RingGroupsComponent, data: {title: 'Ring groups', indexed: true}}
+        ]},
       {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
       {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},
       {path: 'departments', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
-      {path: 'extensions', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},
+      {path: 'extensions', children: [
+          {path: '', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},
+          {path: 'create', component: AddExtensionsComponent, data: {title: 'Create Extension', indexed: true}},
+          {path: ':id', component: AddExtensionsComponent, data: {title: 'Edit Extension', indexed: true}}
+        ]},
       {path: 'details-and-records', component: DetailsAndRecordsComponent, data: {title: 'Details and records', indexed: true}},
       {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},
       {path: 'storage', component: StorageComponent, data: {title: 'Storage', indexed: true}},
