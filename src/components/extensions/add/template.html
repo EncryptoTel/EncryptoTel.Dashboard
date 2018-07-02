@@ -21,12 +21,16 @@
                 <general-add-extension-component
                   *ngIf="tab.select===tab.items[0]" class="add_ext_item"
                   [(form)]="formExtension"
-                  [id]="id"
-                ></general-add-extension-component>
+                  [id]="id">
+                </general-add-extension-component>
+                <options-add-extension-component
+                        *ngIf="tab.select===tab.items[1]" class="add_ext_item"
+                        [(form)]="formExtension">
+                </options-add-extension-component>
                 <rights-add-extension-component
-                  *ngIf="tab.select===tab.items[1]" class="add_ext_item"
-                  [(accessList)]="accessList"
-                ></rights-add-extension-component>
+                  *ngIf="tab.select===tab.items[2]" class="add_ext_item"
+                  [(accessList)]="accessList">
+                </rights-add-extension-component>
             </div>
         </div>
     </div>

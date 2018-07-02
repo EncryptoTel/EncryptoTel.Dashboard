@@ -1,0 +1,8 @@
+<form [formGroup]="form" class="add_ext_form">
+  <div class="add_ext_form_item">
+    <label for="default">Record calls</label>
+    <pbx-checkbox id="default" formGroupName="callRecord" (onToggle)="changeCheckbox('callRecord')"
+                  [value]="form.get('callRecord').value"></pbx-checkbox>
+  </div>
+
+</form>

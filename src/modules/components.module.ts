@@ -48,6 +48,7 @@ import {ExtensionsComponent} from '../components/extensions/extensions.component
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
 import {GeneralAddExtensionComponent} from '../components/extensions/add/general/general.add.extension.component';
+import {OptionsAddExtensionComponent} from '../components/extensions/add/options/options.add.extension.component';
 import {CallRulesTimeoutComponent} from '../components/call-rules/call-rules-create/timeout/call-rules-timeout.component';
 import {CallRulesTimeRulesComponent} from '../components/call-rules/call-rules-create/time-rules/call-rules-time-rules.component';
 import {RightsAddExtensionComponent} from '../components/extensions/add/rights/rights.add.extension.component';
@@ -113,6 +114,7 @@ import {RingGroupsComponent} from '../components/ring-groups/ring-groups.compone
     CallRulesTimeoutComponent,
     CallRulesTimeRulesComponent,
     GeneralAddExtensionComponent,
+    OptionsAddExtensionComponent,
     RightsAddExtensionComponent,
     RingGroupsComponent
   ],
