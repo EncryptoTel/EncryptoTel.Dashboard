@@ -45,4 +45,8 @@ export class ExtensionsServices {
         return this._req.get(`v1/sip/inner/access-list`, true);
     }
 
+    saveAccessList(id: number, data: any): Promise<any> {
+        return this._req.post(`v1/sip/inners/access/${id}`, {access: data}, true);
+    }
+
 }
