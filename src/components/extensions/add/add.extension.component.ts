@@ -87,14 +87,15 @@ export class AddExtensionsComponent implements OnInit {
             this.formExtension.get(['user', 'email']).setValue(res.user ? res.user.email : null);
 
             this.loading -= 1;
+            this.getAccessList(res.user);
         }).catch(res => {
             this.loading -= 1;
         });
     }
 
-    getAccessList() {
+    getAccessList(user) {
         this.loading += 1;
-        this._extension.getAccessList().then(res => {
+        this._extension.getAccessList(user ? user.id : null).then(res => {
             this.accessList = res;
             // console.log(this.accessList);
             this.loading -= 1;
@@ -150,7 +151,7 @@ export class AddExtensionsComponent implements OnInit {
 
         let rights = [];
         for (let i = 0; i < this.accessList.length; i++) {
-            if (this.accessList[i].status) {
+            if (this.accessList[i].userStatus) {
                 rights.push({id: this.accessList[i].id});
             }
         }
@@ -169,7 +170,6 @@ export class AddExtensionsComponent implements OnInit {
     ngOnInit(): void {
         this.loading = 0;
         this.getExtension();
-        this.getAccessList();
         // this.getSipOuters();
     }
 }

@@ -11,8 +11,8 @@
               <!--&gt;</pbx-select>-->
   <div class="add_ext_form_item" *ngFor="let item of accessList">
     <pbx-checkbox (id)="'right_' + item.id"
-                  (onToggle)="item.status = !item.status"
-                  [value]="item.status"></pbx-checkbox>
+                  (onToggle)="item.userStatus = !item.userStatus"
+                  [value]="item.userStatus"></pbx-checkbox>
     <label (for)="'right_' + item.id">{{item.name}}</label>
   </div>
 </form>
