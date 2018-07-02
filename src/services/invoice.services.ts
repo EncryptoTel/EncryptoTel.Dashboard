@@ -6,12 +6,12 @@ export class InvoiceServices {
     constructor(private _req: RequestServices) {
     }
 
-    getInvoices(page: number, sort: string, sortDirection: string): Promise<any> {
-        let url = `v1/invoice?page=${page}&limit=3`;
-        if (sort) {
-            url = url + `&sort[${sort}]=${sortDirection}`;
-        }
-        return this._req.get(url, true);
+  getInvoices(pageinfo, sort: string, sortDirection: string): Promise<any> {
+    let url = `v1/invoice?page=${pageinfo.page}&limit=${pageinfo.limit}`;
+    if (sort) {
+      url = url + `&sort[${sort}]=${sortDirection}`;
     }
+    return this._req.get(url, true);
+  }
 
 }

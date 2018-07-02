@@ -1,3 +1,4 @@
+<!--
 <div class="invoices-container">
     <div class="invoices-wrapper">
         <div class="invoices-row date-range-row">
@@ -66,4 +67,51 @@
             </div>
         </div>
     </div>
+</div>
+-->
+<div class="invoices">
+  <div class="invoices_header">
+    <div class="invoices_header_date_wrap">
+      dd/mm/yyyy - dd/mm/yyyy<!--ToDo установить дату-->
+    </div>
+  </div>
+  <pbx-loader class="table" *ngIf="loading"></pbx-loader>
+  <div class="invoices_table" *ngIf="!loading">
+    <div class="invoices_table_row">
+      <div class="invoices_table_item" *ngFor="let item of table.header;let i=index"
+           [ngClass]="{'fixed':item.width}">
+                <span [ngClass]="{'sort':item.sort}" (click)="SetSort(i)"
+                >{{item.title}}</span>
+        <div *ngIf="table.sort.column===i" class="invoices_table_item_icon_wrap">
+          <svg-icon [src]="'../../assets/icons/sorting_'+(table.sort.isDown?'down':'up')+'_16px.svg'"
+                    class="invoices_table_item_icon sort"></svg-icon>
+        </div>
+      </div>
+    </div>
+    <div class="invoices_table_row" *ngFor="let item of table.data">
+      <div class="invoices_table_item{{item[key]==='Waiting payment'?' red':''}}" *ngFor="let key of table.key; let i=index"
+           [ngClass]="{'fixed':table.header[i].width}"
+      >{{item[key]}}</div>
+      <div class="invoices_table_item fixed">
+        <div class="invoices_table_item_wrap">
+          <pbx-button [value]="'PDF'"
+                      (onClick)="pdf()"
+                      *ngIf="item.status==='Waiting payment'"></pbx-button>
+          <pbx-button [value]="'PAY'"
+                      [buttonType]="'success'"
+                      *ngIf="item.status==='Waiting payment'"
+                      (onClick)="pay()"></pbx-button>
+          <div class="invoices_table_item_icon_wrap" (click)="viewInvoice()">
+            <svg-icon class="invoices_table_item_icon search"
+                      src="../../assets/icons/magnifier.svg"></svg-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pbx-pagination *ngIf="pageinfo.total>1"
+                  [currentPage]="pageinfo.page"
+                  [totalPages]="pageinfo.total"
+                  (onPageChange)="setPage($event)"
+  ></pbx-pagination>
 </div>

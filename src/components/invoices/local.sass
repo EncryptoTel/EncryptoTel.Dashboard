@@ -1,6 +1,6 @@
 @import "../../vars"
 // Global variables import
-.invoices
+//.invoices
   &-container
     display: flex
     flex-flow: column
@@ -41,7 +41,7 @@
     .pdf-button
       background: $dark_success
 
-.date-range
+//.date-range
   &-row
     justify-content: flex-end
     height: 7%
@@ -56,7 +56,7 @@
     justify-content: center
     align-items: center
 
-.pagination
+//.pagination
   border-bottom: unset
   justify-content: space-between
   align-items: flex-end
@@ -87,34 +87,118 @@
     height: 85%
     width: unset
 
-.sort-icon
+//.sort-icon
   cursor: pointer
   width: 15px
   margin-left: 10px
   height: auto
   fill: $dark_accent
 
-.transaction
+//.transaction
   color: $dark_accent
 
-.search-icon
+//.search-icon
   cursor: pointer
   width: 20px
   height: auto
   fill: $dark_primary
 
-.header:hover
+//.header:hover
   background: unset
 
-.button-col
+//.button-col
   width: 5%
   justify-content: center
   align-items: center
 
-.search-col
+//.search-col
   width: 3%
   cursor: pointer
-.sort
+//.sort
   cursor: pointer
-.waiting-payment
+//.waiting-payment
   color: $dark_error
+
+.table
+  flex: 1
+.invoices
+  display: grid
+  grid-template-rows: auto 1fr
+  grid-gap: rem(24)
+  flex: 1
+  color: $font-color
+  &_header
+    &_date_wrap
+      padding: rem(16)
+      margin-left: auto
+      background: $dark_overlay
+  &_table
+    flex-direction: column
+    flex: 1
+    display: block
+    overflow-y: auto
+    &_row
+      flex-direction: row
+      height: rem(40)
+      border-bottom: rem(1) solid rgba($dark_primary,.1)
+      align-items: center
+      &:not(:first-child)
+        &:hover
+          background: rgba($dark_primary,0.05)
+        /deep/ .invoices_table_item_icon_wrap
+          opacity: .33
+          cursor: pointer
+          /deep/ *
+            cursor: pointer
+          &:hover
+            opacity: 1
+    &_item
+      padding: 0 rem(16)
+      flex-direction: row
+      flex: 1
+      display: flow-root
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+      &.red
+        color: $dark_error
+      &.fixed
+        min-width: rem(128)
+        max-width: rem(128)
+        &:last-child
+          min-width: rem(168)
+          max-width: rem(168)
+      >span
+        float: left
+        height: rem(16)
+        align-items: center
+        &.sort
+          cursor: pointer
+          /deep/ *
+            cursor: pointer
+          &:hover
+            color: $dark_accent
+      pbx-button
+        display: unset
+        width: unset
+        float: left
+        color: $dark_primary
+        &:first-child
+          margin-right: rem(8)
+        /deep/ button
+          height: unset
+          min-width: unset
+          padding: rem(8)
+      &_wrap
+        flex-direction: row
+        align-items: center
+        justify-content: flex-end
+      &_icon
+        flex: 1
+        &.sort /deep/ .st1
+          fill: $dark_accent
+        &.search /deep/ path
+          fill: $dark_primary
+        &_wrap
+          width: rem(32)
+          padding-left: rem(16)
