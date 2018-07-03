@@ -18,7 +18,7 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
                 style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;"
                 buttonType="success"
                 value="Notification"
-                (onClick)="notificatorShow()"></pbx-button>
+                (onClick)="createNotification()"></pbx-button>
             </div>
             <pbx-select
               style="flex: 0 0 auto; width: 300px; margin-bottom: 16px"
@@ -163,14 +163,9 @@ export class BlankComponent implements OnInit {
   ngOnInit() {
   }
 
-  notificatorShow() {
-      if (this.notificator.visible === false) {
-        this.notificator.visible = true;
-        this.notificator = Object.assign({}, this.notificator);
-      } else {
-        this.notificator.visible = false;
-        this.notificator = Object.assign({}, this.notificator);
-      }
+  createNotification() {
+    this.notificator.visible = true;
+    this.notificator = Object.assign({}, this.notificator);
   }
 
   selectItem(item): void {

@@ -1,59 +1,53 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-
-// todo switch to ring-groups model and service
-import {CallRules} from '../../models/call-rules.model';
-import {CallRulesServices} from '../../services/call-rules.services';
+import {Component} from '@angular/core';
+import {QueuesListItem} from '../../models/queue.model';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FadeAnimation} from '../../shared/fade-animation';
+import {RingGroupsServices} from '../../services/ring-groups.service';
 
 @Component({
   selector: 'ring-groups-component',
   templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+  styleUrls: ['./local.sass'],
+  animations: [FadeAnimation('300ms')]
 })
 
-export class RingGroupsComponent implements OnInit {
+export class RingGroupsComponent {
+  constructor(private _service: RingGroupsServices,
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
+    this.getRingGroups();
+  }
 
-  callRules: CallRules[];
-  tableInfo = {
-    titles: ['Ring Groups Name', 'Phone Number', 'Ring Strategy', 'Ring Time', 'No-answer Destination', 'Description'],
-    keys: ['name', 'phoneNumber', 'strategy', 'time', 'naDestination', 'Description']
-  };
   loading = true;
+  queues: QueuesListItem[] = [];
 
-  constructor(private service: CallRulesServices,
-              private router: Router) {
+  tableInfo = {
+    titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time'],
+    keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout']
+  };
+
+  edit(queue: QueuesListItem): void {
+    this.router.navigate(['edit', queue.id], {relativeTo: this.activatedRoute});
   }
 
-  createRingGroup(): void {
-    this.router.navigate(['cabinet', 'ring-groups', 'create']);
-  }
-
-  editCallRules(callRule: CallRules): void {
-    this.router.navigate(['cabinet', 'ring-groups', `${callRule.id}`]);
-  }
-
-  deleteCallRule(callRule: CallRules): void {
-    this.service.deleteCallRules(callRule.id).then(() => {
-      this.getCallRules();
+  delete(queue): void {
+    this.loading = true;
+    this._service.delete(queue.id).then(() => {
+      this.getRingGroups();
     }).catch(err => {
       console.error(err);
     });
   }
 
-  private getCallRules(): void {
-    this.service.getCallRules().then(res => {
-      this.callRules = res.items;
-      this.callRules.forEach(callRule => {
-        callRule.status === 0 ? callRule.statusParameter = 'disabled' : callRule.statusParameter = 'enabled';
-      });
+  private getRingGroups(): void {
+    this._service.getRingGroups().then(res => {
+      if (res.hasOwnProperty('items')) {
+        this.queues = res.items;
+        this.loading = false;
+      }
+    }).catch(err => {
+      console.error(err);
       this.loading = false;
-    }).catch(err => {
-      console.error(err);
     });
   }
-
-  ngOnInit() {
-    this.getCallRules();
-  }
-
 }
