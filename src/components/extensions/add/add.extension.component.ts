@@ -54,6 +54,14 @@ export class AddExtensionsComponent implements OnInit {
         this.tab.select = text;
     }
 
+    canActivateTab(item): boolean {
+        if (item === 'Rights') {
+            return this.formExtension.get(['user', 'email']).value != '' && !this.formExtension.get(['user', 'email']).invalid;
+        } else {
+            return true;
+        }
+    }
+
     private validate(form: FormGroup): void {
         Object.keys(form.controls).forEach(control => {
             if (form.get(control) instanceof FormArray) {

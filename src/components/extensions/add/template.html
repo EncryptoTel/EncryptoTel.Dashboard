@@ -4,7 +4,7 @@
             <div class="add_ext_header_tab_wrap">
               <div class="add_ext_header_tab"
                    *ngFor="let item of tab.items"
-                   [ngClass]="{'active':item===tab.select}"
+                   [ngClass]="{'active':item===tab.select, 'disabled':canActivateTab(item)}"
                    (click)="selectTab(item)"
               >{{item}}
               </div>
