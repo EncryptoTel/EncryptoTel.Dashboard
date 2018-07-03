@@ -1,21 +1,21 @@
 import {Component, OnInit} from '@angular/core';
-import {StorageService} from "../../services/storage.service";
-import {MessageServices} from "../../services/message.services";
-import {StorageModel} from "../../models/storage.model";
+import {StorageServices} from '../../services/storage.services';
+import {MessageServices} from '../../services/message.services';
+import {StorageModel} from '../../models/storage.model';
 
 @Component({
     selector: 'pbx-storage',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    providers: [StorageService]
+    providers: [StorageServices]
 })
 
 export class StorageComponent implements OnInit {
-    constructor(private service: StorageService,
+    constructor(private service: StorageServices,
                 private message: MessageServices) {
 
     }
-    loading: number = 0;
+    loading = 0;
     pageInfo: StorageModel;
 
     getList() {

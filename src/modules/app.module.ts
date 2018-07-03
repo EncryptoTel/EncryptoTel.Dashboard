@@ -11,7 +11,7 @@ import {MainRouterModule} from './router.module';
 import {ComponentsModule} from './components.module';
 
 import {LoggerServices} from '../services/logger.services';
-import {LocalStorageServices} from '../services/local-storage.services';
+import {StorageServices} from '../services/storage.services';
 import {ListServices} from '../services/list.services';
 import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
@@ -28,44 +28,42 @@ import {CallRulesServices} from '../services/call-rules.services';
 import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import {WsServices} from '../services/ws.services';
 import {environment as _env} from '../environments/environment';
-import {RefsServices} from '../services/refs.services';
 
 const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket']}};
 
 @NgModule({
-    declarations: [
-        MainViewComponent
-    ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        ComponentsModule,
-        MainRouterModule,
-        SocketIoModule.forRoot(config)
-    ],
-    providers: [
-        LoggerServices,
-        LocalStorageServices,
-        ListServices,
-        {provide: HTTP_INTERCEPTORS, useClass: UserTokenInterceptor, multi: true},
-        RequestServices,
-        MessageServices,
-        AuthorizationServices,
-        UserServices,
-        // BalanceServices,
-        DriveServices,
-        CallQueuesServices,
-        SettingsServices,
-        DetailsAndRecordsServices,
-        SettingsServices,
-        DepartmentServices,
-        CallRulesServices,
-        AddressBookServices,
-        WsServices,
-        RefsServices
-    ],
-    bootstrap: [MainViewComponent]
+  declarations: [
+    MainViewComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    ComponentsModule,
+    MainRouterModule,
+    SocketIoModule.forRoot(config)
+  ],
+  providers: [
+    LoggerServices,
+    StorageServices,
+    ListServices,
+    {provide: HTTP_INTERCEPTORS, useClass: UserTokenInterceptor, multi: true},
+    RequestServices,
+    MessageServices,
+    AuthorizationServices,
+    UserServices,
+    // BalanceServices,
+    DriveServices,
+    CallQueuesServices,
+    SettingsServices,
+    DetailsAndRecordsServices,
+    SettingsServices,
+    DepartmentServices,
+    CallRulesServices,
+    AddressBookServices,
+    WsServices
+  ],
+  bootstrap: [MainViewComponent]
 })
 export class AppModule {
 }

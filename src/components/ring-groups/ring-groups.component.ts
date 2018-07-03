@@ -15,8 +15,8 @@ export class RingGroupsComponent implements OnInit {
 
   callRules: CallRules[];
   tableInfo = {
-    titles: ['Phone number', 'Call Rule Name', 'Status', 'Description'],
-    keys: ['sip.phoneNumber', 'name', 'statusParameter', 'description']
+    titles: ['Ring Groups Name', 'Phone Number', 'Ring Strategy', 'Ring Time', 'No-answer Destination', 'Description'],
+    keys: ['name', 'phoneNumber', 'strategy', 'time', 'naDestination', 'Description']
   };
   loading = true;
 
@@ -24,12 +24,12 @@ export class RingGroupsComponent implements OnInit {
               private router: Router) {
   }
 
-  createCallRule(): void {
-    this.router.navigate(['cabinet', 'call-rules', 'create']);
+  createRingGroup(): void {
+    this.router.navigate(['cabinet', 'ring-groups', 'create']);
   }
 
   editCallRules(callRule: CallRules): void {
-    this.router.navigate(['cabinet', 'call-rules', `${callRule.id}`]);
+    this.router.navigate(['cabinet', 'ring-groups', `${callRule.id}`]);
   }
 
   deleteCallRule(callRule: CallRules): void {

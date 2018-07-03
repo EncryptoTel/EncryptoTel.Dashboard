@@ -17,159 +17,159 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 export class DetailsAndRecordsComponent implements OnInit {
   loading = false;
 
-  details = [
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    }
-  ];
-  // details = [];
+  // details = [
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   }
+  // ];
+  details = [];
 
   sortingActive = 0;
   sorting = [
@@ -226,7 +226,7 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   ngOnInit() {
     // this.fetchDetailsAndRecords();
-    // console.log(window.innerHeight);
+    console.log(window.innerHeight);
   }
 
   toggleFilter(filter: string): void {
@@ -250,7 +250,7 @@ export class DetailsAndRecordsComponent implements OnInit {
   }
 
   goToPage(page: number): void {
-    // console.log(page);
+    console.log(page);
     if (page <= this.pages) {
       if (page > 0) {
         this.page = page;

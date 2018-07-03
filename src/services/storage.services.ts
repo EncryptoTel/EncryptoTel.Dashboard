@@ -1,6 +1,6 @@
-import {BaseService} from "./base.service";
+import {BaseService} from './base.service';
 
-export class StorageService extends BaseService {
+export class StorageServices extends BaseService {
 
     uploadFile(data: FormData): Promise<any> {
         return this.rawRequest('POST', '', data);
