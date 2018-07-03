@@ -53,10 +53,6 @@ import {CallRulesTimeoutComponent} from '../components/call-rules/call-rules-cre
 import {CallRulesTimeRulesComponent} from '../components/call-rules/call-rules-create/time-rules/call-rules-time-rules.component';
 import {RightsAddExtensionComponent} from '../components/extensions/add/rights/rights.add.extension.component';
 import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
-import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
-import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/tabs/general/ring-groups-general.component';
-import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/tabs/members/ring-groups-members.component';
-import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/tabs/members/add/ring-groups-members-add.component';
 
 
 /*
@@ -120,12 +116,7 @@ import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-grou
     GeneralAddExtensionComponent,
     OptionsAddExtensionComponent,
     RightsAddExtensionComponent,
-    RingGroupsComponent,
-    RingGroupsCreateComponent,
-    RingGroupsGeneralComponent,
-    RingGroupsMembersComponent,
-    RingGroupsMembersAddComponent
-
+    RingGroupsComponent
   ],
   exports: [
     ElementsModule,
@@ -165,11 +156,7 @@ import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-grou
     AddExtensionsComponent,
     GeneralAddExtensionComponent,
     RightsAddExtensionComponent,
-    RingGroupsComponent,
-    RingGroupsCreateComponent,
-    RingGroupsGeneralComponent,
-    RingGroupsMembersComponent,
-    RingGroupsMembersAddComponent
+    RingGroupsComponent
   ]
 })
 export class ComponentsModule {

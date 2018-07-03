@@ -44,9 +44,6 @@ import {ExtensionsComponent} from '../components/extensions/extensions.component
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
 import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
-import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
-import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/tabs/general/ring-groups-general.component';
-import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/tabs/members/ring-groups-members.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -95,15 +92,7 @@ const Routes: Routes = [
             ]}
         ]},
       {path: 'ring-groups', children: [
-          {path: '', component: RingGroupsComponent, data: {title: 'Ring groups', indexed: true}},
-          {path: 'create', component: RingGroupsCreateComponent, data: {title: 'Ring groups create', indexed: true}, children: [
-              {path: '', redirectTo: 'general', pathMatch: 'full'},
-              {path: 'general', component: RingGroupsGeneralComponent, data: {title: 'Ring groups create', indexed: true}},
-              {path: 'members', children: [
-                  {path: '', pathMatch: 'full', component: RingGroupsMembersComponent, data: {title: 'Ring groups create', indexed: true}}
-                  // {path: 'add', component: RingGroupsMembersAddComponent, data: {title: 'Ring groups create', indexed: true}}
-                ]}
-            ]}
+          {path: '', component: RingGroupsComponent, data: {title: 'Ring groups', indexed: true}}
         ]},
       {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
       {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},

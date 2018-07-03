@@ -21,8 +21,7 @@ export class NotificatorComponent implements OnInit, OnChanges {
   timer: any;
 
   queue = [];
-  qu = [];
-  test = 0;
+
   notificatorWidth: number;
 
   constructor() {
@@ -30,7 +29,6 @@ export class NotificatorComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // this.example();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -51,58 +49,49 @@ export class NotificatorComponent implements OnInit, OnChanges {
     //   }
     //
     // }
-    // this.test++;
-    // this.qu.push(this.test);
-    // setTimeout(this.func, 5000);
-    // this.notificator = changes.notificator.currentValue;
 
-    // if (this.notificator) {
-    //   const timout = setTimeout(() => {
-    //     this.notificator.visible = false;
-    //   }, 4000);
-    // }
-    this.example(changes);
-  }
+    this.notificator = changes.notificator.currentValue;
 
-  timerF() {
-    if (typeof this.queue !== 'undefined') {
-      const shift = this.queue.shift();
-      // this.queue[0].notificator.visible = false;
-      if (this.queue[0]) {
-        this.queue[0].notificator.visible = true;
-        this.queue[0].notificator.timer = setTimeout(this.timerF, 2000);
-      }
-
+    if (this.notificator) {
+      const timout = setTimeout(() => {
+        this.notificator.visible = false;
+      }, 4000);
     }
   }
 
-  func() {
-     const s = this.qu.shift();
-    alert( s );
-    if (this.qu.length > 0) {
-      setTimeout(this.func, 5000);
-    }
-  }
+  // timerF() {
+  //   if (typeof this.queue !== 'undefined') {
+  //     const shift = this.queue.shift();
+  //     // this.queue[0].notificator.visible = false;
+  //     if (this.queue[0]) {
+  //       this.queue[0].notificator.visible = true;
+  //       this.queue[0].notificator.timer = setTimeout(this.timerF, 2000);
+  //     }
+  //     alert(shift.notificator.currentValue);
+  //   }
+  // }
 
-   example(changes: SimpleChanges) {
-    function func() {
-      if (typeof this.qu !== 'undefined') {
-        const shift = this.qu.shift();
-        shift.visible = false;
-        if (this.qu[0]) {
-          this.qu[0].visible = true;
-          this.qu[0].timer = setTimeout(this.timerF, 2000);
-        }
-      }
-    }
-
-    function start(ch: SimpleChanges) {
-      this.qu.push(ch.notificator.currentValue);
-      setTimeout(func, 5000);
-    }
-
-    start(changes);
-  }
+  // example() {
+  //   const qu = [];
+  //
+  //   function func() {
+  //     const s = qu.shift();
+  //     if (qu.length > 0) {
+  //       setTimeout(func, 1000);
+  //     }
+  //     alert( s );
+  //   }
+  //
+  //   function start() {
+  //     qu.push('Hello!');
+  //     qu.push('World!');
+  //     qu.push('Vasya!');
+  //     qu.push('Kisa!');
+  //     setTimeout(func, 1000);
+  //   }
+  //
+  //   start();
+  // }
 
   notificatorAction() {
     this.notificator.visible = false;
