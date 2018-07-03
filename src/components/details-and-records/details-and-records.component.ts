@@ -226,7 +226,7 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   ngOnInit() {
     // this.fetchDetailsAndRecords();
-    console.log(window.innerHeight);
+    // console.log(window.innerHeight);
   }
 
   toggleFilter(filter: string): void {
@@ -250,7 +250,7 @@ export class DetailsAndRecordsComponent implements OnInit {
   }
 
   goToPage(page: number): void {
-    console.log(page);
+    // console.log(page);
     if (page <= this.pages) {
       if (page > 0) {
         this.page = page;

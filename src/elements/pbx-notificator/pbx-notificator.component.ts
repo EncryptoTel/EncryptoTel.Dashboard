@@ -33,7 +33,7 @@ export class NotificatorComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // console.log(changes.notificator.currentValue.visible);
-    console.log(changes);
+    // console.log(changes);
     // const change = changes;
     //
     // if (typeof change.notificator.currentValue !== 'undefined') {

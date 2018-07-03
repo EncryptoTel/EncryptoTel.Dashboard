@@ -22,7 +22,7 @@ export class StorageComponent implements OnInit {
         this.loading += 1;
         this.service.getList().then(res => {
             this.pageInfo = res;
-            console.log(this.pageInfo);
+            // console.log(this.pageInfo);
             this.loading -= 1;
         }).catch(res => {
 
