@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Socket } from 'ng-socket-io';
+import {Injectable} from '@angular/core';
+import {Socket} from 'ng-socket-io';
 import {Subject} from "rxjs/Subject";
 import {BalanceModel, ServiceModel} from "../models/ws.model";
 import {Observable} from "rxjs/Observable";
-
+import {delay} from "rxjs/operators";
 
 
 @Injectable()
@@ -24,37 +24,39 @@ export class WsServices {
     connect(token: string) {
         const socket = this.socket;
         const _this = this;
-        socket.on('connect', function(){
+        socket.on('connect', function (data) {
+            console.log('connect', data);
             socket.emit('authenticate', {token: token});
+        });
 
-            socket.on('channels', function (data) {
-                socket.emit('subscribe-to-channel', {channel: data.channel});
-            });
+        socket.on('channels', function (data) {
+            console.log('channels', data);
+            socket.emit('subscribe-to-channel', {channel: data.channel});
         });
 
         socket.on('eventClient', function (data) {
-            console.log(data);
+            console.log('eventClient', data);
         });
 
         socket.on('balance', function (data) {
+            console.log('balance', data);
             _this.balance.balance = JSON.parse(data).balance;
             _this.balanceSubscription.next(_this.balance);
-            console.log('balance', data);
         });
 
         socket.on('service', function (data) {
+            console.log('service', data);
             _this.service.id = JSON.parse(data).id;
             _this.serviceSubscription.next(_this.service);
-            console.log('service', data);
         });
 
         socket.on('notification', function (data) {
             console.log('notification', data);
         });
 
-      socket.on('close', function (data) {
-        console.log('CLOSE');
-      });
+        socket.on('close', function (data) {
+            console.log('CLOSE');
+        });
 
     }
 
