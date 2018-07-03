@@ -42,7 +42,7 @@
     </div>
     <!--<div class="buy_phone_body">-->
     <pbx-loader *ngIf="loading"></pbx-loader>
-    <div class="phone_table" *ngIf="!loading">
+    <!--<div class="phone_table" *ngIf="false">
         <div class="table" *ngFor="let table of list">
             <div class="table_header">
                 <div class="table_row">
@@ -58,6 +58,29 @@
                     <div class="table_column">{{item['areaName'] || 'Unknown'}}</div>
                     <div class="table_column">${{item['sum'] || 'Free'}}</div>
                     <div class="table_column">
+                        <pbx-button value="Buy" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)"
+                                    [inactive]="item.inactive"></pbx-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="buy_phone_table" *ngIf="!loading">
+        <div class="buy_phone_table_contain">
+            <div class="buy_phone_table_title">
+                <div class="buy_phone_table_item" *ngFor="let item of title">{{item}}</div>
+            </div>
+            <div class="buy_phone_table_title">
+                <div class="buy_phone_table_item" *ngFor="let item of title">{{item}}</div>
+            </div>
+        </div>
+        <div class="buy_phone_table_contain">
+            <div class="buy_phone_table_body" *ngFor="let table of list">
+                <div class="buy_phone_table_row" *ngFor="let item of table">
+                    <div class="buy_phone_table_item">{{item.fullNumber}}</div>
+                    <div class="buy_phone_table_item">{{item.areaName||'Unknown'}}</div>
+                    <div class="buy_phone_table_item">{{item.sum?'$'+item.sum:'Free'}}</div>
+                    <div class="buy_phone_table_item">
                         <pbx-button value="Buy" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)"
                                     [inactive]="item.inactive"></pbx-button>
                     </div>

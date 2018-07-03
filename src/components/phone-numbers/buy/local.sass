@@ -64,3 +64,35 @@
         margin-left: rem(8)
         /deep/ path
           fill: $dark_primary
+  &_table
+    flex-direction: column
+    &_contain
+      display: grid
+      grid-template-columns: 1fr 1fr
+      grid-gap: rem(24)
+    &_title, &_row
+      border-bottom: rem(1) solid rgba($dark_primary,.1)
+      flex-direction: row
+      height: rem(40)
+      align-items: center
+    &_body
+      display: block
+      overflow: auto
+      flex-direction: column
+    &_title
+      color: $font-color
+    &_row
+      color: $dark_primary
+      pbx-button
+        width: unset
+      /deep/ .button
+        height: rem(32)
+        min-width: unset
+    &_item
+      flex: 1
+      padding: 0 rem(16)
+      &:last-child
+        padding: 0
+        width: rem(80)
+        flex: unset
+        justify-content: center
