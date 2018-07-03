@@ -14,7 +14,8 @@ import {ExtensionModel} from "../../../models/extension.model";
 })
 
 export class AddExtensionsComponent implements OnInit {
-    loading: number;
+    loading: number = 0;
+    saving: number = 0;
     mode = 'create';
     id: number;
 
@@ -126,7 +127,7 @@ export class AddExtensionsComponent implements OnInit {
         this.validate(this.formExtension);
         // console.log(this.formExtension.valid);
         if (this.formExtension.valid) {
-            this.loading += 1;
+            this.saving += 1;
 
             if (this.mode === 'create') {
                 this._extension.create({...this.formExtension.value}).then(extension => {
@@ -149,14 +150,15 @@ export class AddExtensionsComponent implements OnInit {
         const errors = res.errors;
         if (errors) {
             Object.keys(errors).forEach(key => {
+                console.log('errorSaveExtension' , key, errors[key]);
                 this.formExtension.get(key).setErrors(errors[key]);
             });
         }
-        this.loading -= 1;
+        this.saving -= 1;
     }
 
     afterSaveExtension(extension: ExtensionModel) {
-        this.loading -= 1;
+        this.saving -= 1;
         if (!extension.user) {
             this.doCancel();
             return;
@@ -169,13 +171,13 @@ export class AddExtensionsComponent implements OnInit {
             }
         }
 
-        this.loading += 1;
+        // this.loading += 1;
         this._extension.saveAccessList(extension.user.id, rights).then(res => {
             // console.log(res);
-            this.loading -= 1;
+            this.saving -= 1;
             this.doCancel();
         }).catch(res => {
-            this.loading -= 1;
+            this.saving -= 1;
             // console.log(res);
         });
     }
