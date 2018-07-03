@@ -29,4 +29,9 @@ export class LocalStorageServices {
             return null;
         }
     }
+
+    clearItem = (name: string) => {
+        localStorage.removeItem(name);
+    }
+
 }
