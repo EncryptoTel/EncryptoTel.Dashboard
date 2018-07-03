@@ -73,6 +73,7 @@ export class AddExtensionsComponent implements OnInit {
 
     getExtension() {
         if (this.mode === 'create') {
+            this.getAccessList(null);
             return;
         }
         this.loading += 1;
