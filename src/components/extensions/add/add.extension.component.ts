@@ -150,7 +150,7 @@ export class AddExtensionsComponent implements OnInit {
         const errors = res.errors;
         if (errors) {
             Object.keys(errors).forEach(key => {
-                console.log('errorSaveExtension' , key, errors[key]);
+                // console.log('errorSaveExtension' , key, errors[key]);
                 this.formExtension.get(key).setErrors(errors[key]);
             });
         }
