@@ -48,14 +48,16 @@ export class MarketplaceComponent implements OnInit {
         this._services.getModulesList()
             .then(res => {
                 res.map(module => {
-                    this.modules.push({
-                        id: module.service.id,
-                        title: module.service.title,
-                        content: module.service.description,
-                        price: Math.round(module.currentPrice.sumWithVat * 100) / 100,
-                        status: false, // TODO: required status in backend response
-                        color: Math.round(Math.random() * 5 + 1) // TODO: required color in backend response
-                    });
+                    if (module.service.marketPlace) {
+                        this.modules.push({
+                            id: module.service.id,
+                            title: module.service.title,
+                            content: module.service.description,
+                            price: Math.round(module.currentPrice.sum * 100) / 100,
+                            status: false, // TODO: required status in backend response
+                            color: Math.round(Math.random() * 5 + 1) // TODO: required color in backend response
+                        });
+                    }
                 });
             }).catch();
     }
