@@ -45,7 +45,8 @@ export class AddExtensionsComponent implements OnInit {
             encryption: false,
             toAdmin: false,
             toUser: false,
-            callRecord: false
+            callRecord: false,
+            status: false
         });
     }
 
@@ -84,6 +85,7 @@ export class AddExtensionsComponent implements OnInit {
             this.formExtension.get('toAdmin').setValue(false);
             this.formExtension.get('toUser').setValue(false);
             this.formExtension.get('callRecord').setValue(res.callRecord);
+            this.formExtension.get('status').setValue(res.status);
             this.formExtension.get(['user', 'firstName']).setValue(res.user ? res.user.firstname : null);
             this.formExtension.get(['user', 'lastName']).setValue(res.user ? res.user.lastname : null);
             this.formExtension.get(['user', 'email']).setValue(res.user ? res.user.email : null);
