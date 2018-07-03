@@ -30,7 +30,7 @@ export class NotificatorComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    //this.example();
+    // this.example();
   }
 
   ngOnChanges(changes: SimpleChanges) {

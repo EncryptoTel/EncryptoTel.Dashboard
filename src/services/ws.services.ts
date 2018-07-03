@@ -53,7 +53,7 @@ export class WsServices {
         });
 
       socket.on('close', function (data) {
-        console.log('notification ALLOE');
+        console.log('CLOSE');
       });
 
     }

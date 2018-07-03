@@ -15,7 +15,7 @@ export class LocalStorageServices {
      */
     writeItem = (name: string, data: any): void => {
         localStorage.setItem(name, JSON.stringify(data));
-    }
+    };
     /*
       Read item from storage and convert it to JSON.
       If item doesn't exist - throw message to console output
