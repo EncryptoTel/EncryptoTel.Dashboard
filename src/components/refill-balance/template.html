@@ -4,10 +4,12 @@
     <div class="refill_header" *ngIf="refill_status!=='processing'">
         <div class="refill_header_block">
             <div class="refill_header_block_key">Payment amount:</div>
-            <input class="refill_header_block_input {{validValue(amount.value)?'':'error'}}"
+            <input class="refill_header_block_input {{validInput?'':'error'}}"
+                   #input
                    placeholder="Min ${{amount.min}}, Max ${{amount.max}}"
                    [(ngModel)]="amount.value"
-                   (keyup)="validValue(amount.value)"
+                   (blur)="validValue(amount.value)"
+                   (keyup)="keyup(input.value)"
                    autofocus
                    [ngClass]="{'inactive':refill_status==='paying'}">
         </div>
