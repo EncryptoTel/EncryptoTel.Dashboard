@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {DetailsAndRecordsServices} from '../../services/details-and-records.services';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {SwipeAnimation} from '../../shared/swipe-animation';
@@ -15,6 +15,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 })
 
 export class DetailsAndRecordsComponent implements OnInit {
+  @ViewChild('menu') ddMenuWrap: ElementRef;
   loading = false;
 
   // details = [
@@ -169,20 +170,21 @@ export class DetailsAndRecordsComponent implements OnInit {
   //     hover: false
   //   }
   // ];
+
   details = [];
 
-  sortingActive = 0;
+  sortingActive = 2;
   sorting = [
     {
+      active: false,
+      direction: 'down'
+    },
+    {
+      active: false,
+      direction: 'down'
+    },
+    {
       active: true,
-      direction: 'down'
-    },
-    {
-      active: false,
-      direction: 'down'
-    },
-    {
-      active: false,
       direction: 'down'
     },
     {
@@ -203,8 +205,8 @@ export class DetailsAndRecordsComponent implements OnInit {
     }
   ];
 
-  activeFilters: string[] = ['incoming', 'outgoing', 'missed', 'record'];
-  inactiveFilters: string[] = ['no-answer'];
+  activeFilters: string[] = [];
+  inactiveFilters: string[] = ['no-answer', 'incoming', 'outgoing', 'missed', 'record'];
 
   pages: number;
   page = 1;
@@ -213,7 +215,7 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   sort = '';
   sortDirection = '';
-  filter = '';
+  tags = [];
 
   rowHowerIndex: number;
 
@@ -221,12 +223,29 @@ export class DetailsAndRecordsComponent implements OnInit {
   currentPlayerAction: number;
 
   constructor(
-    private services: DetailsAndRecordsServices
+    private services: DetailsAndRecordsServices,
   ) {}
 
+  dropPosition(): string {
+    // console.log(this.ddMenuWrap);
+    console.log(this.ddMenuWrap);
+    console.log('window.innerHeight', window.innerHeight);
+    console.log('nativeElement.offsetTop', this.ddMenuWrap.nativeElement.offsetTop);
+    console.log('nativeElement.offsetHeight', this.ddMenuWrap.nativeElement.offsetHeight);
+    //   if (this.ddMenuWrap.nativeElement) {
+    //     console.log(this.ddMenuWrap.nativeElement);
+    // }
+    const comparison = (window.innerHeight - this.ddMenuWrap.nativeElement.offsetTop + 22) > 130;
+    console.log(comparison);
+    return comparison ? 'bottom' : 'top';
+    // return 'bottom';
+  }
+
+
   ngOnInit() {
-    // this.fetchDetailsAndRecords();
+    this.fetchDetailsAndRecords();
     console.log(window.innerHeight);
+    console.log(window.innerHeight - 280);
   }
 
   toggleFilter(filter: string): void {
@@ -243,6 +262,30 @@ export class DetailsAndRecordsComponent implements OnInit {
       this.activeFilters.push(this.inactiveFilters[inactiveIndex]);
       this.inactiveFilters.splice(inactiveIndex, 1);
     }
+
+    console.log(this.activeFilters);
+    this.tags = [];
+    for (let i = 0; i < this.activeFilters.length; i++) {
+      switch (this.activeFilters[i]) {
+        case 'incoming':
+          this.tags.push('incoming');
+          break;
+        case 'outgoing':
+          this.tags.push('outgoing');
+          break;
+        case 'missed':
+          this.tags.push('missed');
+          break;
+        case 'record':
+          this.tags.push('record');
+          break;
+        case 'no-answer':
+          this.tags.push('noAnswered');
+          break;
+      }
+    }
+    console.log(this.tags);
+    this.fetchDetailsAndRecords();
   }
 
   setFilters(tag: string): boolean {
@@ -280,24 +323,24 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.fetchDetailsAndRecords();
         break;
       case 2:
-        this.sort = '';
-        this.sortDirection = '';
+        this.sort = 'date';
+        this.fetchDetailsAndRecords();
         break;
       case 3:
         this.sort = 'duration';
         this.fetchDetailsAndRecords();
         break;
       case 4:
-        this.sort = 'status';
+        this.sort = 'tag';
         this.fetchDetailsAndRecords();
         break;
       case 5:
-        this.sort = '';
-        this.sortDirection = '';
+        this.sort = 'price';
+        this.fetchDetailsAndRecords();
         break;
       case 6:
-        this.sort = '';
-        this.sortDirection = '';
+        this.sort = 'record';
+        this.fetchDetailsAndRecords();
         break;
     }
   }
@@ -322,7 +365,7 @@ export class DetailsAndRecordsComponent implements OnInit {
     this.currentPlayerAction = index;
     const detailsLength = this.details.length;
 
-    // my old realisation
+    // old realisation
     // for (let i = 0; i < index; i++) {
     //   this.details[i].play = false;
     // }
@@ -364,7 +407,10 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   private fetchDetailsAndRecords(): void {
     this.loading = true;
-    this.services.fetchDetailsAndRecords(this.page, this.limit, this.sort, this.sortDirection, this.filter)
+    if (this.limit < 10) {
+      this.limit = 10;
+    }
+    this.services.fetchDetailsAndRecords(this.page, this.limit, this.sort, this.sortDirection, this.tags)
       .then( res => {
         console.log(res);
         this.loading = false;
@@ -372,7 +418,7 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.pages = res.pageCount;
         // this.playOld = this.details.length;
         this.details.forEach( (item, i) => {
-          this.details[i].tag = 'incoming';
+          // this.details[i].tag = 'incoming';
           this.details[i].ddShow = false;
           this.details[i].play = false;
           this.details[i].playerOpen = false;

@@ -1,8 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {forEach} from '@angular/router/src/utils/collection';
-import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
+// import {NotificatorServices} from '../../services/notificator.services';
 
 @Component({
   selector: 'pbx-notificator',
@@ -33,7 +31,9 @@ export class NotificatorComponent implements OnInit, OnChanges {
 
   notificatorWidth: number;
 
-  constructor() {
+  constructor(
+    // private _service = NotificatorServices
+  ) {
     this.notificatorWidth = (window.innerWidth - 616);
     // this.queue.toArray().subscribe(q => {
     //   console.log(q);
@@ -41,6 +41,9 @@ export class NotificatorComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    // this._service.notification().subscribe(text => {
+    //   this._service = text;
+    // });
   }
 
   ngOnChanges(changes: SimpleChanges) {

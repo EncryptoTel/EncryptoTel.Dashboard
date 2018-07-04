@@ -31,6 +31,7 @@ import {RefsServices} from '../services/refs.services';
 import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import {WsServices} from '../services/ws.services';
 import {environment as _env} from '../environments/environment';
+import {NotificatorServices} from '../services/notificator.services';
 
 const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket']}};
 
@@ -67,7 +68,8 @@ const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket'
     AddressBookServices,
     WsServices,
     RingGroupsServices,
-    RefsServices
+    RefsServices,
+    NotificatorServices
   ],
   bootstrap: [MainViewComponent]
 })
