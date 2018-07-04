@@ -1,13 +1,12 @@
 // import global variables
 @import '../../_vars.sass'
 .ext
+  flex-direction: row
+  flex: 1
   &_grid
     display: grid
-    grid-template-columns: auto auto
     grid-template-rows: rem(40) 1fr rem(40)
-    margin-right: rem(-32)
-    grid-column-gap: rem(32)
-    grid-row-gap: rem(24)
+    grid-gap: rem(24)
     flex: 1
     color: $font-color
     /deep/ input
@@ -17,30 +16,6 @@
         background-color: $dark_background
     /deep/ pbx-button
       color: $dark_primary
-    >div
-      &.header
-        grid-column: 1/2
-        grid-row: 1/2
-      &.table
-        grid-column: 1/2
-        grid-row: 2/3
-        &.true
-          width: calc(100vw - 624px)
-        &.false
-          width: calc(100vw - 272px)
-      &.footer
-        grid-column: 1/2
-        grid-row: 3/4
-      &.sidebar
-        grid-column: 2/3
-        grid-row: 1/4
-        overflow: hidden
-        &.true
-          width: rem(352)
-          padding: rem(32)
-        &.false
-          width: 0
-          padding: rem(32) 0
   &_table
     flex-direction: column
     flex: 1
@@ -104,7 +79,10 @@
             opacity: 1
             /deep/ *
               cursor: pointer
-
+    &_message
+      align-items: center
+      justify-content: center
+      font-size: rem(32)
   &_header
     flex-direction: row
     input, pbx-select
@@ -126,16 +104,14 @@
     grid-gap: rem(32)
     grid-template-rows: 1fr auto
     &_contain
+      flex: 1
       display: grid
       grid-template-rows: auto 1fr
       grid-gap: rem(32)
-      overflow-y: scroll
-      margin-right: rem(-32)
-      padding-right: rem(32)
       &_data
         display: block
         text-overflow: ellipsis
-        overflow: hidden
+        overflow-x: hidden
     &_item
       flex-direction: column
       &:not(:last-child)
@@ -167,9 +143,9 @@
         &:hover
           cursor: pointer
           text-decoration: underline
-
     &_button
       &_wrap
+        padding-top: rem(24)
         flex-direction: column
       &_title
         margin-bottom: rem(16)

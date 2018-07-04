@@ -30,7 +30,7 @@ export class RefillBalanceComponent implements OnInit {
     refill_status = 'main'; // main, paying, processing
     selected: RefillModel;
     payment: PaymentModel;
-
+    validInput: boolean;
     returnAddress: string;
 
     balance;
@@ -65,9 +65,13 @@ export class RefillBalanceComponent implements OnInit {
     validValue(text) {
         if (parseInt(text, 10)) {
             this.amount.value = parseInt(text, 10);
-            return (this.amount.min <= this.amount.value && this.amount.value <= this.amount.max);
+            return (this.validInput = this.amount.min <= this.amount.value && this.amount.value <= this.amount.max);
         }
-        return false;
+        return this.validInput = false;
+    }
+
+    keyup(text) {
+        if (!this.validInput) {this.validValue(text); }
     }
 
     cancelPay(): void {
@@ -108,6 +112,7 @@ export class RefillBalanceComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.validInput = true;
         this.loading = {body: true, sidebar: true};
         this.getRefillMethods();
         this.getCourses();

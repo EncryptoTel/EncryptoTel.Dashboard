@@ -39,9 +39,9 @@ export class ExtensionsComponent implements OnInit {
     selected: ExtensionModel;
     passwordTo: number;
     table = {
-        title: ['#Ext', 'Phone Number', 'First Name', 'Last Name', 'E-mail', 'Mobile', 'Status', 'Default', ''],
-        key: ['extension', 'phone', 'firstname', 'lastname', 'email', 'mobileApp', 'status', 'default'],
-        width: [true, false, false, false, false, false, true, true, true],
+        title: ['#Ext', 'Phone Number', 'First Name', 'Last Name', 'E-mail', 'Status', 'Default', ''],
+        key: ['extension', 'phone', 'firstname', 'lastname', 'email', 'status', 'default'],
+        width: [true, false, false, false, false, true, true, true],
         data: []
     };
     text = MainViewComponent.prototype;
@@ -190,6 +190,7 @@ export class ExtensionsComponent implements OnInit {
             this.pageinfo.items = res['itemsCount'];
             this.fillTableData();
             this.loading.body -= 1;
+            this.loading.pagination = false;
         });
     }
 
