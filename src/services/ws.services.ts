@@ -3,8 +3,8 @@ import {Socket} from 'ng-socket-io';
 import {Subject} from "rxjs/Subject";
 import {BalanceModel, ServiceModel} from "../models/ws.model";
 import {Observable} from "rxjs/Observable";
-import {delay} from "rxjs/operators";
 import {LoggerServices} from "./logger.services";
+import {MessageModel} from "../models/chat.model";
 
 
 @Injectable()
@@ -15,6 +15,8 @@ export class WsServices {
 
     service: ServiceModel;
     serviceSubscription: Subject<ServiceModel> = new Subject<ServiceModel>();
+
+    messagesSubscription: Subject<MessageModel[]> = new Subject<MessageModel[]>();
 
     token: string = '';
 
@@ -91,6 +93,8 @@ export class WsServices {
 
     private onMessage(data) {
         this.logger.log('<<< message', data);
+        let messages: MessageModel[] = JSON.parse(data).messages;
+        this.messagesSubscription.next(messages);
     }
 
     private onClose(data) {
@@ -122,6 +126,10 @@ export class WsServices {
 
     getService(): Observable<ServiceModel> {
         return this.serviceSubscription.asObservable();
+    }
+
+    getMessages(): Observable<MessageModel[]> {
+        return this.messagesSubscription.asObservable();
     }
 
 }
