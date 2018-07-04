@@ -109,7 +109,7 @@
            (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
   </div>
   <div class="add_ext_form_item">
-    <label for="default">Set Ext Default</label>
+    <label for="default" (click)="changeCheckbox('default')">Set Ext Default</label>
     <pbx-checkbox id="default" formGroupName="default" (onToggle)="changeCheckbox('default')"
                   [value]="form.get('default').value"></pbx-checkbox>
   </div>
@@ -129,29 +129,29 @@
            (blur)="toggleHighlightLabel($event)">
   </div>
 
-  <div class="add_ext_form_title">Mobile SIP <span style="color: #ff6666;">сменить текст</span></div>
+  <div class="add_ext_form_title">Mobile. Allows to make calls through the mobile app.</div>
   <div class="add_ext_form_item">
-    <label for="mobileApp">Mobile SIP <span style="color: #ff6666;">сменить текст</span></label>
+    <label for="mobileApp" (click)="changeCheckbox('mobileApp')">Enable</label>
     <pbx-checkbox id="mobileApp" formGroupName="mobileApp" (onToggle)="changeCheckbox('mobileApp')"
                   [value]="form.get('mobileApp').value"></pbx-checkbox>
   </div>
 
-  <div class="add_ext_form_title">Encryption <span style="color: #ff6666;">сменить текст</span></div>
+  <div class="add_ext_form_title">Enable phone encryption</div>
   <div class="add_ext_form_item">
-    <label for="encryption">Encrypted <span style="color: #ff6666;">сменить текст</span></label>
+    <label for="encryption" (click)="changeCheckbox('encryption')">Enable</label>
     <pbx-checkbox id="encryption" formGroupName="encryption" (onToggle)="changeCheckbox('encryption')"
                   [value]="form.get('encryption').value"></pbx-checkbox>
   </div>
 
   <div class="add_ext_form_title">Generate new password and send to:</div>
   <div class="add_ext_form_item">
-    <label for="toAdmin">Admin email</label>
+    <label for="toAdmin" (click)="changeCheckbox('toAdmin')">Admin email</label>
     <pbx-checkbox id="toAdmin" formGroupName="toAdmin" (onToggle)="changeCheckbox('toAdmin')"
                   [value]="form.get('toAdmin').value"></pbx-checkbox>
     <div class="add_ext_form_item_description">Send password to admin email address</div>
   </div>
   <div class="add_ext_form_item">
-    <label for="toAdmin">User email</label>
+    <label for="toUser" (click)="changeCheckbox('toUser')">User email</label>
     <pbx-checkbox id="toUser" formGroupName="toUser" (onToggle)="changeCheckbox('toUser')"
                   [value]="form.get('toUser').value"></pbx-checkbox>
     <div class="add_ext_form_item_description">Send password to user email address</div>

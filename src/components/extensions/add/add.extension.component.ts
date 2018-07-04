@@ -20,7 +20,8 @@ export class AddExtensionsComponent implements OnInit {
     id: number;
 
     tab = {
-        items: ['General', 'Options', 'Rights'],
+        items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
+        icons: ['general_16px', 'voicemail_16px', 'forwarding_rules_16px_1', 'settings_16px', 'key_16px_3', 'security_16px'],
         select: 'General'
     };
     formExtension: FormGroup;

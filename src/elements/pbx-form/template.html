@@ -1,0 +1,23 @@
+<div class="form">
+  <div class="form-header">
+    <div class="form-tab-wrap" *ngIf="tabs">
+      <div class="form-tab" *ngFor="let tab of tabs;let i=index"
+           [ngClass]="{'selected':selected===tab}"
+           (click)="selectingTab(tab)"
+      >
+        <div class="form-tab-icon-wrap" *ngIf="icons&&i<icons.length">
+          <svg-icon src="../../assets/icons/{{icons[i]}}.svg"></svg-icon>
+        </div><span>{{tab}}</span></div>
+    </div>
+    <div class="form-button-wrap">
+      <pbx-button *ngIf="decline" [buttonType]="decline.buttonType" [value]="decline.value" (onClick)="clickDecline()"></pbx-button>
+      <pbx-button *ngIf="confirm" [buttonType]="confirm.buttonType" [value]="confirm.value" (onClick)="clickConfirm()"></pbx-button>
+    </div>
+  </div>
+  <div class="form-body" [ngClass]="{'background':!!tabs||background}">
+    <div class="form-body-content">
+      <ng-content></ng-content>
+    </div>
+    <div class="form-ballast"></div>
+  </div>
+</div>

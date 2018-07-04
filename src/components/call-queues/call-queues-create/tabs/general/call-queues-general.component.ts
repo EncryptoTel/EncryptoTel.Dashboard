@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {CallQueuesServices} from '../../../../../services/call-queues.services';
 import {Param} from '../../../../../models/queue.model';
 import {FadeAnimation} from '../../../../../shared/fade-animation';
-import {RefsServices} from "../../../../../services/refs.services";
+import {RefsServices} from '../../../../../services/refs.services';
 
 @Component({
     selector: 'pbx-call-queues-general',
@@ -44,6 +44,8 @@ export class CallQueuesGeneralComponent {
 
     private getNumbers(): void {
         this.refs.getSipOuters().then(res => {
+            console.log(1);
+            console.log(res);
             this.numbers = res;
             this.loading = false;
         }).catch(err => {
