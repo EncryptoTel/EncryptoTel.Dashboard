@@ -19,7 +19,7 @@ export class WsServices {
     token: string = '';
 
     constructor(private socket: Socket,
-                private log: LoggerServices) {
+                private logger: LoggerServices) {
         this.balance = {balance: 0};
         this.service = {id: null};
 
@@ -42,6 +42,9 @@ export class WsServices {
         socket.on('notification', function (data) {
             _this.onNotification(data);
         });
+        socket.on('message', function (data) {
+            _this.onMessage(data);
+        });
         socket.on('close', function (data) {
             _this.onClose(data);
         });
@@ -57,41 +60,45 @@ export class WsServices {
     }
 
     private onConnect(data) {
-        this.log.log('<<< connect', data);
+        this.logger.log('<<< connect', data);
         this.authenticate();
     }
 
     private onChannels(data) {
-        this.log.log('<<< channels', data);
+        this.logger.log('<<< channels', data);
         this.subscribe(data.channel);
     }
 
     private onEventClient(data) {
-        this.log.log('<<< eventClient', data);
+        this.logger.log('<<< eventClient', data);
     }
 
     private onBalance(data) {
-        this.log.log('<<< balance', data);
+        this.logger.log('<<< balance', data);
         this.balance.balance = JSON.parse(data).balance;
         this.balanceSubscription.next(this.balance);
     }
 
     private onService(data) {
-        this.log.log('<<< service', data);
+        this.logger.log('<<< service', data);
         this.service.id = JSON.parse(data).id;
         this.serviceSubscription.next(this.service);
     }
 
     private onNotification(data) {
-        this.log.log('<<< notification', data);
+        this.logger.log('<<< notification', data);
+    }
+
+    private onMessage(data) {
+        this.logger.log('<<< message', data);
     }
 
     private onClose(data) {
-        this.log.log('<<< close', data);
+        this.logger.log('<<< close', data);
     }
 
     private send(eventName: string, data: any) {
-        this.log.log(`>>> ${eventName}`, data)
+        this.logger.log(`>>> ${eventName}`, data)
         this.socket.emit(eventName, data);
     }
 
