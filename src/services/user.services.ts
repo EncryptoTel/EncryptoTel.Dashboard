@@ -48,7 +48,7 @@ export class UserServices {
   changeUserParam = (param: string, value: any): void => {
     const user = this._storage.readItem('pbx_user');
     user[param] = value;
-    this.logger.log(`User after '${param}' changing to '${value}'`, user);
+    // this.logger.log(`User after '${param}' changing to '${value}'`, user);
     this._storage.writeItem('pbx_user', user);
     this.touchUser();
   }

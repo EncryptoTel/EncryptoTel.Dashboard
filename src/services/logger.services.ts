@@ -8,9 +8,9 @@ import {environment} from '../environments/environment';
 
 @Injectable()
 export class LoggerServices {
-  log = (details: string, data: any): void => {
-    if (!environment.production) {
-      // console.log(`---Logger message---\n`, `${details}\n\n`, data);
+    log = (details: string, data: any): void => {
+        if (!environment.production) {
+            console.log(`${details}\n\n`, data);
+        }
     }
-  }
 }

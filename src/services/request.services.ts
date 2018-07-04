@@ -86,7 +86,7 @@ export class RequestServices {
 
     private catchSuccess(response): Promise<any> {
         this.endRequest();
-        this.logger.log('request response', response); // Console output for response
+        // this.logger.log('request response', response); // Console output for response
         return Promise.resolve(response.body); // Return response body to children method
     }
 

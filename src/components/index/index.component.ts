@@ -119,7 +119,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     WebSocket(): void {
-        this._ws.connect(this.getToken());
+        this._ws.setToken(this.getToken());
         this.balanceSubscription = this._ws.getBalance().subscribe(balance => {
             this.user.balance.balance = balance.balance;
         });

@@ -4,6 +4,7 @@ import {Subject} from "rxjs/Subject";
 import {BalanceModel, ServiceModel} from "../models/ws.model";
 import {Observable} from "rxjs/Observable";
 import {delay} from "rxjs/operators";
+import {LoggerServices} from "./logger.services";
 
 
 @Injectable()
@@ -15,49 +16,93 @@ export class WsServices {
     service: ServiceModel;
     serviceSubscription: Subject<ServiceModel> = new Subject<ServiceModel>();
 
-    constructor(private socket: Socket) {
+    token: string = '';
+
+    constructor(private socket: Socket,
+                private log: LoggerServices) {
         this.balance = {balance: 0};
         this.service = {id: null};
-    }
 
-
-    connect(token: string) {
-        const socket = this.socket;
         const _this = this;
         socket.on('connect', function (data) {
-            console.log('connect', data);
-            socket.emit('authenticate', {token: token});
+            _this.onConnect(data);
         });
-
         socket.on('channels', function (data) {
-            console.log('channels', data);
-            socket.emit('subscribe-to-channel', {channel: data.channel});
+            _this.onChannels(data);
         });
-
         socket.on('eventClient', function (data) {
-            console.log('eventClient', data);
+            _this.onEventClient(data);
         });
-
         socket.on('balance', function (data) {
-            console.log('balance', data);
-            _this.balance.balance = JSON.parse(data).balance;
-            _this.balanceSubscription.next(_this.balance);
+            _this.onBalance(data);
         });
-
         socket.on('service', function (data) {
-            console.log('service', data);
-            _this.service.id = JSON.parse(data).id;
-            _this.serviceSubscription.next(_this.service);
+            _this.onService(data);
         });
-
         socket.on('notification', function (data) {
-            console.log('notification', data);
+            _this.onNotification(data);
         });
-
         socket.on('close', function (data) {
-            console.log('CLOSE');
+            _this.onClose(data);
         });
+    }
 
+    setToken(token: string) {
+        if (this.token != '') {
+            this.token = token;
+            this.authenticate();
+        } else {
+            this.token = token;
+        }
+    }
+
+    onConnect(data) {
+        this.log.log('<<< connect', data);
+        this.authenticate();
+    }
+
+    onChannels(data) {
+        this.log.log('<<< channels', data);
+        this.subscribe(data.channel);
+    }
+
+    onEventClient(data) {
+        this.log.log('<<< eventClient', data);
+    }
+
+    onBalance(data) {
+        this.log.log('<<< balance', data);
+        this.balance.balance = JSON.parse(data).balance;
+        this.balanceSubscription.next(this.balance);
+    }
+
+    onService(data) {
+        this.log.log('<<< service', data);
+        this.service.id = JSON.parse(data).id;
+        this.serviceSubscription.next(this.service);
+    }
+
+    onNotification(data) {
+        this.log.log('<<< notification', data);
+    }
+
+    onClose(data) {
+        this.log.log('<<< close', data);
+    }
+
+    send(eventName: string, data: any) {
+        this.log.log(`>>> ${eventName}`, data)
+        this.socket.emit(eventName, data);
+    }
+
+    authenticate() {
+        if (this.token) {
+            this.send('authenticate', {token: this.token});
+        }
+    }
+
+    subscribe(channel: string) {
+        this.send('subscribe-to-channel', {channel: channel});
     }
 
     getBalance(): Observable<BalanceModel> {
