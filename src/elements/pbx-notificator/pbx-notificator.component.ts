@@ -1,137 +1,75 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    DoCheck,
-    HostListener,
-    Input,
-    OnChanges,
-    OnDestroy,
-    OnInit,
-    SimpleChange,
-    SimpleChanges
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
+import {forEach} from '@angular/router/src/utils/collection';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
-    selector: 'pbx-notificator',
-    templateUrl: './template.html',
-    styleUrls: ['./local.sass'],
-    animations: [SwipeAnimation('y', '400ms')]
+  selector: 'pbx-notificator',
+  templateUrl: './template.html',
+  styleUrls: ['./local.sass'],
+  animations: [SwipeAnimation('y', '400ms')]
 })
 
 export class NotificatorComponent implements OnInit, OnChanges {
-    @Input() notificator: {
-        timer: any,
-        visible: boolean,
-        type: string,
-        message: string,
-        actionType: string,
-        actionName: string
-    };
+  @Input() notificator: {
+    timer: any,
+    visible: boolean,
+    type: string,
+    message: string,
+    actionType: string,
+    actionName: string
+  };
 
-    timer: any;
+  notificatorOne: {
+    visible: boolean,
+    message: string,
+    actionType: string,
+    actionName: string
+  };
 
-    queue = [];
-    qu = [];
-    test = 0;
-    notificatorWidth: number;
 
-    constructor() {
-        this.notificatorWidth = (window.innerWidth - 616);
+  // queue: Observable<any>;
+
+  notificatorWidth: number;
+
+  constructor() {
+    this.notificatorWidth = (window.innerWidth - 616);
+    // this.queue.toArray().subscribe(q => {
+    //   console.log(q);
+    // });
+  }
+
+  ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    if (this.notificator) {
+      this.notificator = changes.notificator.currentValue;
+      // this.queue.next(this.notificator);
+      // // console.log(this.queue);
+      // this.queueHandler(this.queue);
+
+      // this.lifeTime = setTimeout(() => {
+      //   this.notificator.visible = false;
+      // }, 4000);
     }
 
-    ngOnInit() {
-        // this.example();
-    }
 
-    ngOnChanges(changes: SimpleChanges) {
-        // console.log(changes.notificator.currentValue.visible);
-        // console.log(changes);
-        // const change = changes;
-        //
-        // if (typeof change.notificator.currentValue !== 'undefined') {
-        //   this.queue.push(change.notificator.currentValue);
-        //   console.log(this.queue);
-        //
-        //   change.notificator.currentValue.visible = false;
-        //
-        //   if (this.queue.length === 1) {
-        //     // change.notificator.currentValue.visible = true;
-        //     // this.queue[0].visible = true;
-        //     change.notificator.currentValue.timer = setTimeout(this.timerF, 2000);
-        //   }
-        //
-        // }
-        // this.test++;
-        // this.qu.push(this.test);
-        // setTimeout(this.func, 5000);
-        // this.notificator = changes.notificator.currentValue;
+  }
 
-        // if (this.notificator) {
-        //   const timout = setTimeout(() => {
-        //     this.notificator.visible = false;
-        //   }, 4000);
-        // }
-        this.example(changes);
-    }
 
-    timerF() {
-        if (typeof this.queue !== 'undefined') {
-            const shift = this.queue.shift();
-            // this.queue[0].notificator.visible = false;
-            if (this.queue[0] && this.queue[0].notificator) {
-                this.queue[0].notificator.visible = true;
-                this.queue[0].notificator.timer = setTimeout(this.timerF, 2000);
-            }
+  notificatorAction() {
+    // this.notificator.visible = false;
+    // clearTimeout(this.timer);
+  }
 
-        }
-    }
+  @HostListener('window:resize', ['$event'])
 
-    func() {
-        const s = this.qu.shift();
-        alert(s);
-        if (this.qu.length > 0) {
-            setTimeout(this.func, 5000);
-        }
-    }
-
-    example(changes: SimpleChanges) {
-        let _this = this;
-
-        function func() {
-            if (typeof _this.qu !== 'undefined') {
-                const shift = _this.qu.shift();
-                if (shift) {
-                    shift.visible = false;
-                }
-                if (_this.qu[0]) {
-                    _this.qu[0].visible = true;
-                    _this.qu[0].timer = setTimeout(this.timerF, 2000);
-                }
-            }
-        }
-
-        function start(ch: SimpleChanges) {
-            _this.qu.push(ch.notificator.currentValue);
-            setTimeout(func, 5000);
-        }
-
-        start(changes);
-    }
-
-    notificatorAction() {
-        if (this.notificator) {
-            this.notificator.visible = false;
-        }
-        clearTimeout(this.timer);
-    }
-
-    @HostListener('window:resize', ['$event'])
-
-    onResize(event) {
-        console.log('Width: ' + event.target.innerWidth);
-        this.notificatorWidth = (window.innerWidth - 616);
-    }
+  onResize(event) {
+    console.log('Width: ' + event.target.innerWidth);
+    this.notificatorWidth = (window.innerWidth - 616);
+  }
 
 }

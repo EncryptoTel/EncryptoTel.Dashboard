@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {RingGroupsService} from '../../../services/ring-groups.service';
+import {RingGroupsServices} from '../../../services/ring-groups.service';
 import {FadeAnimation} from '../../../shared/fade-animation';
 
 
@@ -13,11 +13,11 @@ import {FadeAnimation} from '../../../shared/fade-animation';
 })
 
 export class RingGroupsCreateComponent implements OnDestroy {
-  constructor(public _service: RingGroupsService,
+  constructor(public _service: RingGroupsServices,
               private activatedRoute: ActivatedRoute,
               private router: Router) {
     if (this.activatedRoute.snapshot.params.id) {
-      this.getCallQueue(this.activatedRoute.snapshot.params.id);
+      this.getRingGroup(this.activatedRoute.snapshot.params.id);
       this._service.editMode = true;
     } else {
       this._service.editMode = false;
@@ -73,8 +73,8 @@ export class RingGroupsCreateComponent implements OnDestroy {
     };
   }
 
-  private getCallQueue(id) {
-    this._service.getCallQueue(id).then(res => {
+  private getRingGroup(id) {
+    this._service.getRingGroup(id).then(res => {
       this._service.callQueue.sipId = res.sip.id;
       this._service.callQueue.name = res.name;
       this._service.callQueue.strategy = res.strategy;
