@@ -56,41 +56,41 @@ export class WsServices {
         }
     }
 
-    onConnect(data) {
+    private onConnect(data) {
         this.log.log('<<< connect', data);
         this.authenticate();
     }
 
-    onChannels(data) {
+    private onChannels(data) {
         this.log.log('<<< channels', data);
         this.subscribe(data.channel);
     }
 
-    onEventClient(data) {
+    private onEventClient(data) {
         this.log.log('<<< eventClient', data);
     }
 
-    onBalance(data) {
+    private onBalance(data) {
         this.log.log('<<< balance', data);
         this.balance.balance = JSON.parse(data).balance;
         this.balanceSubscription.next(this.balance);
     }
 
-    onService(data) {
+    private onService(data) {
         this.log.log('<<< service', data);
         this.service.id = JSON.parse(data).id;
         this.serviceSubscription.next(this.service);
     }
 
-    onNotification(data) {
+    private onNotification(data) {
         this.log.log('<<< notification', data);
     }
 
-    onClose(data) {
+    private onClose(data) {
         this.log.log('<<< close', data);
     }
 
-    send(eventName: string, data: any) {
+    private send(eventName: string, data: any) {
         this.log.log(`>>> ${eventName}`, data)
         this.socket.emit(eventName, data);
     }
@@ -103,6 +103,10 @@ export class WsServices {
 
     subscribe(channel: string) {
         this.send('subscribe-to-channel', {channel: channel});
+    }
+
+    sendMessage(chatId: number, message: string) {
+        this.send('send-message', {body: message, chatId: chatId});
     }
 
     getBalance(): Observable<BalanceModel> {
