@@ -12,23 +12,24 @@ import {ComponentsModule} from './components.module';
 
 import {LoggerServices} from '../services/logger.services';
 import {StorageServices} from '../services/storage.services';
-import {ListServices} from '../services/list.services';
+import {LocalStorageServices} from '../services/local-storage.services';
 import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
 import {AuthorizationServices} from '../services/authorization.services';
 import {UserServices} from '../services/user.services';
-import {DriveServices} from '../services/drive.services';
-import {CallQueuesServices} from '../services/call-queues.services';
+import {CallQueueService} from '../services/call-queue.service';
 import {SettingsServices} from '../services/settings.services';
 import {DetailsAndRecordsServices} from '../services/details-and-records.services';
 import {AddressBookServices} from '../services/address-book.services';
 import {DepartmentServices} from '../services/department.services';
 import {CallRulesServices} from '../services/call-rules.services';
+import {RingGroupsServices} from '../services/ring-groups.service';
 
 import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import {WsServices} from '../services/ws.services';
 import {environment as _env} from '../environments/environment';
 import {RefsServices} from '../services/refs.services';
+import {NotificatorServices} from '../services/notificator.services';
 
 const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket']}};
 
@@ -46,16 +47,13 @@ const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket'
     ],
     providers: [
         LoggerServices,
-        StorageServices,
-        ListServices,
+        LocalStorageServices,
         {provide: HTTP_INTERCEPTORS, useClass: UserTokenInterceptor, multi: true},
         RequestServices,
         MessageServices,
         AuthorizationServices,
         UserServices,
-        // BalanceServices,
-        DriveServices,
-        CallQueuesServices,
+        CallQueueService,
         SettingsServices,
         DetailsAndRecordsServices,
         SettingsServices,
@@ -63,7 +61,9 @@ const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket'
         CallRulesServices,
         AddressBookServices,
         WsServices,
-        RefsServices
+        RefsServices,
+        RingGroupsServices,
+        NotificatorServices
     ],
     bootstrap: [MainViewComponent]
 })

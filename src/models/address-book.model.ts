@@ -31,9 +31,9 @@ export class Countries {
 }
 
 export class Types {
-  constructor(public contactAddresses: object,
-              public contactEmails: object,
-              public contactPhones: PhoneTypes) {}
+  constructor(public contactAddress: object,
+              public contactEmail: object,
+              public contactPhone: PhoneTypes) {}
 }
 
 export class PhoneTypes {

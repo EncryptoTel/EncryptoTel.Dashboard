@@ -1,15 +1,15 @@
 @import "../../vars"
-
+// Global variables import
 .ring_groups
-  display: flex
-  flex-flow: column
-  height: 100%
+  &_wrap
+    display: flex
+    flex-flow: column
   &_header
     display: flex
     flex-flow: row
     justify-content: flex-end
-    margin-bottom: 10px
-  &_body
-    display: flex
-    flex-flow: column
-
+    align-items: center
+    a
+      padding: 15px
+      background: $dark_success
+      margin-bottom: 10px

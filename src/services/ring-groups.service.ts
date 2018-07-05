@@ -4,7 +4,7 @@ import {QueueModel, QueuesParams} from '../models/queue.model';
 import {Router} from '@angular/router';
 
 @Injectable()
-export class CallQueuesServices {
+export class RingGroupsServices {
   constructor(private request: RequestServices,
               private router: Router) {
   }
@@ -38,12 +38,12 @@ export class CallQueuesServices {
 
   save(id): void {
     if (this.editMode) {
-      this.request.put(`v1/call_queue/${id}`, this.callQueue, true).then(() => {
-        this.router.navigate(['cabinet', 'call-queues']);
+      this.request.put(`v1/ring_group/${id}`, this.callQueue, true).then(() => {
+        this.router.navigate(['cabinet', 'ring-groups']);
       });
     } else {
-      this.request.post('v1/call_queue', this.callQueue, true).then(() => {
-        this.router.navigate(['cabinet', 'call-queues']);
+      this.request.post('v1/ring_group', this.callQueue, true).then(() => {
+        this.router.navigate(['cabinet', 'ring-groups']);
       });
     }
   }
@@ -70,7 +70,7 @@ export class CallQueuesServices {
         code: ''
       }
     };
-    this.router.navigate(['cabinet', 'call-queues']);
+    this.router.navigate(['cabinet', 'ring-groups']);
   }
 
   setStrategiesFromId() {
@@ -89,8 +89,8 @@ export class CallQueuesServices {
     return this.request.post(`v1/call_queue/members`, {sipOuter: this.callQueue.sipId, q: value}, true);
   }
 
-  getQueues() {
-    return this.request.get('v1/call_queue', true);
+  getRingGroups() {
+    return this.request.get('v1/ring_group', true);
   }
 
   getParams() {
@@ -112,7 +112,7 @@ export class CallQueuesServices {
     return this.request.get(`v1/department`, true);
   }
 
-  getCallQueue(id) {
+  getRingGroup(id) {
     return this.request.get(`v1/call_queue/${id}`, true);
   }
 }

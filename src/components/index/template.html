@@ -52,7 +52,7 @@
            *ngIf="activeButtonIndex !== (null || undefined)" [@Swipe]>
         <span *ngIf="activeButtonIndex === 0">call</span>
         <span *ngIf="activeButtonIndex === 1">contacts</span>
-        <span *ngIf="activeButtonIndex === 2">chat</span>
+        <pbx-chat *ngIf="activeButtonIndex === 2"></pbx-chat>
         <span *ngIf="activeButtonIndex === 3">notification</span>
       </div>
     </div>

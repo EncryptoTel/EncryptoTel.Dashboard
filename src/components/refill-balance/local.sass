@@ -35,6 +35,8 @@
         &.inactive
           text-align: center
           background: rgba($dark_primary,.05) !important
+        &.error
+          border-color: $dark_error !important
   &_body
     transition: 0ms
     &.main
@@ -88,26 +90,29 @@
         border-bottom-color: $dark_success
         border-right-color: $dark_success
   &_paying
-    margin: auto
-    flex-direction: column
-    align-items: center
+    flex: 1
+    display: grid
+    grid-template-columns: 1fr auto 1fr
+    grid-template-rows: 1fr auto 2fr
+    &_container
+      grid-column: 2/3
+      grid-row: 2/3
+      flex-direction: column
+      justify-content: center
     &_title
       margin-top: auto
       color: $dark_success
       font-size: rem(32)
       margin-bottom: rem(48)
-    &_wrap
-      width: rem(304)
-      flex-direction: column
-      .refill_sidebar_item:not(:last-child)
-        margin-bottom: rem(48)
     &_buttons
       display: grid
+      width: rem(320)
+      margin: auto
       grid-template-columns: 1fr 1fr
       grid-gap: rem(24)
       /deep/ button
         flex: 1
-  &_processing
+  //&_processing
     flex-direction: column
     margin: auto
     align-items: center
@@ -132,6 +137,42 @@
       height: rem(256)
       background-color: rgba($dark_primary,.95)
       border: rem(1) solid rgba($dark_background,.5)
+  &_processing
+    flex: 1
+    display: grid
+    grid-template-rows: 1fr auto 3fr
+    grid-template-columns: 1fr auto 1fr
+    &_container
+      grid-column: 2/3
+      grid-row: 2/3
+      display: grid
+      grid-gap: rem(24)
+      justify-content: center
+    &_title
+      justify-content: center
+      text-align: center
+      color: $dark_success
+      font-size: rem(32)
+    &_amount span
+      margin-left: auto
+    &_address
+      display: grid
+      grid-gap: rem(8)
+      justify-content: center
+      justify-items: center
+      >div
+        &:first-child
+          opacity: .5
+        &:last-child
+          color: $dark_accent
+          cursor: pointer
+          &:hover
+            text-decoration: underline
+    &_qr_code_wrap
+      border: rem(1) solid #000
+      background: #fff
+      padding: rem(16)
+      justify-self: center
   &_sidebar
     grid-column: 2/3
     grid-row: 1/3

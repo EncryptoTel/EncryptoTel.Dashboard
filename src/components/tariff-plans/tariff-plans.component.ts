@@ -3,7 +3,7 @@ import {TariffPlanServices} from '../../services/tariff-plan.services';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {StorageServices} from "../../services/storage.services";
+import {LocalStorageServices} from "../../services/local-storage.services";
 import {UserServices} from "../../services/user.services";
 
 @Component({
@@ -31,7 +31,7 @@ export class TariffPlansComponent implements OnInit {
     };
 
     constructor(private _service: TariffPlanServices,
-                private _storage: StorageServices,
+                private _storage: LocalStorageServices,
                 private _user: UserServices) {
         this.modal = {
             visible: false,

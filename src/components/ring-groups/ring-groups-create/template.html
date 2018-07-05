@@ -1,0 +1,24 @@
+<div class="call_queues_create_wrap" [@Fade]>
+  <div class="call_queues_create_header">
+    <div class="call_queues_create_tabs">
+      <div class="call_queues_create_tab">
+        <a routerLink="general" routerLinkActive="active" [skipLocationChange]="true">General</a>
+      </div>
+      <div class="call_queues_create_tab">
+        <a routerLink="members" routerLinkActive="active" [skipLocationChange]="true">Members</a>
+      </div>
+    </div>
+    <div class="call_queues_create_buttons" [ngClass]="{'back-wrap':service.userView.isCurCompMembersAdd}">
+      <button *ngIf="!service.userView.isCurCompMembersAdd" class="call_queues_create_button cancel"
+              (click)="cancel()">Cancel
+      </button>
+      <button *ngIf="!service.userView.isCurCompMembersAdd" class="call_queues_create_button save" (click)="save()"
+              [ngClass]="{'inactive':validation()}">Save
+      </button>
+      <button *ngIf="service.userView.isCurCompMembersAdd" class="call_queues_create_button back" (click)="back()">
+        Back
+      </button>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

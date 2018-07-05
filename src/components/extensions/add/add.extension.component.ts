@@ -14,12 +14,14 @@ import {ExtensionModel} from "../../../models/extension.model";
 })
 
 export class AddExtensionsComponent implements OnInit {
-    loading: number;
+    loading: number = 0;
+    saving: number = 0;
     mode = 'create';
     id: number;
 
     tab = {
-        items: ['General', 'Rights'],
+        items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
+        icons: ['general_16px', 'voicemail_16px', 'forwarding_rules_16px_1', 'settings_16px', 'key_16px_3', 'security_16px'],
         select: 'General'
     };
     formExtension: FormGroup;
@@ -45,11 +47,21 @@ export class AddExtensionsComponent implements OnInit {
             encryption: false,
             toAdmin: false,
             toUser: false,
+            callRecord: false,
+            status: false
         });
     }
 
     selectTab(text: string): void {
         this.tab.select = text;
+    }
+
+    canActivateTab(item): boolean {
+        if (item === 'Rights') {
+            return this.formExtension.get(['user', 'email']).value != '' && !this.formExtension.get(['user', 'email']).invalid;
+        } else {
+            return true;
+        }
     }
 
     private validate(form: FormGroup): void {
@@ -71,6 +83,7 @@ export class AddExtensionsComponent implements OnInit {
 
     getExtension() {
         if (this.mode === 'create') {
+            this.getAccessList(null);
             return;
         }
         this.loading += 1;
@@ -82,19 +95,22 @@ export class AddExtensionsComponent implements OnInit {
             this.formExtension.get('encryption').setValue(res.encryption);
             this.formExtension.get('toAdmin').setValue(false);
             this.formExtension.get('toUser').setValue(false);
+            this.formExtension.get('callRecord').setValue(res.callRecord);
+            this.formExtension.get('status').setValue(res.status);
             this.formExtension.get(['user', 'firstName']).setValue(res.user ? res.user.firstname : null);
             this.formExtension.get(['user', 'lastName']).setValue(res.user ? res.user.lastname : null);
             this.formExtension.get(['user', 'email']).setValue(res.user ? res.user.email : null);
 
             this.loading -= 1;
+            this.getAccessList(res.user);
         }).catch(res => {
             this.loading -= 1;
         });
     }
 
-    getAccessList() {
+    getAccessList(user) {
         this.loading += 1;
-        this._extension.getAccessList().then(res => {
+        this._extension.getAccessList(user ? user.id : null).then(res => {
             this.accessList = res;
             // console.log(this.accessList);
             this.loading -= 1;
@@ -112,7 +128,7 @@ export class AddExtensionsComponent implements OnInit {
         this.validate(this.formExtension);
         // console.log(this.formExtension.valid);
         if (this.formExtension.valid) {
-            this.loading += 1;
+            this.saving += 1;
 
             if (this.mode === 'create') {
                 this._extension.create({...this.formExtension.value}).then(extension => {
@@ -135,14 +151,15 @@ export class AddExtensionsComponent implements OnInit {
         const errors = res.errors;
         if (errors) {
             Object.keys(errors).forEach(key => {
+                // console.log('errorSaveExtension' , key, errors[key]);
                 this.formExtension.get(key).setErrors(errors[key]);
             });
         }
-        this.loading -= 1;
+        this.saving -= 1;
     }
 
     afterSaveExtension(extension: ExtensionModel) {
-        this.loading -= 1;
+        this.saving -= 1;
         if (!extension.user) {
             this.doCancel();
             return;
@@ -150,18 +167,18 @@ export class AddExtensionsComponent implements OnInit {
 
         let rights = [];
         for (let i = 0; i < this.accessList.length; i++) {
-            if (this.accessList[i].status) {
+            if (this.accessList[i].userStatus) {
                 rights.push({id: this.accessList[i].id});
             }
         }
 
-        this.loading += 1;
+        // this.loading += 1;
         this._extension.saveAccessList(extension.user.id, rights).then(res => {
             // console.log(res);
-            this.loading -= 1;
+            this.saving -= 1;
             this.doCancel();
         }).catch(res => {
-            this.loading -= 1;
+            this.saving -= 1;
             // console.log(res);
         });
     }
@@ -169,7 +186,6 @@ export class AddExtensionsComponent implements OnInit {
     ngOnInit(): void {
         this.loading = 0;
         this.getExtension();
-        this.getAccessList();
         // this.getSipOuters();
     }
 }

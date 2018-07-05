@@ -4,7 +4,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 
 import {UserModel} from '../models/user.model';
 
-import {StorageServices} from '../services/storage.services';
+import {LocalStorageServices} from '../services/local-storage.services';
 
 import {Router} from '@angular/router';
 
@@ -15,7 +15,7 @@ import {Router} from '@angular/router';
 @Injectable()
 export class UserTokenInterceptor implements HttpInterceptor {
   constructor(
-    private _storage: StorageServices,
+    private _storage: LocalStorageServices,
     private router: Router
   ) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

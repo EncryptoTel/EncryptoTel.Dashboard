@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {RefillServices} from "../../services/refill.services";
-import {RefillModel} from "../../models/refill.model";
-import {PaymentModel} from "../../models/payment.model";
-import {CoursesModel} from "../../models/courses.model";
-import {StorageServices} from "../../services/storage.services";
+import {RefillServices} from '../../services/refill.services';
+import {RefillModel} from '../../models/refill.model';
+import {PaymentModel} from '../../models/payment.model';
+import {CoursesModel} from '../../models/courses.model';
+import {LocalStorageServices} from '../../services/local-storage.services';
+import {MessageServices} from '../../services/message.services';
+import {normalizeSlashes} from 'ts-node/dist';
 
 @Component({
     selector: 'refill-balance',
@@ -28,7 +30,7 @@ export class RefillBalanceComponent implements OnInit {
     refill_status = 'main'; // main, paying, processing
     selected: RefillModel;
     payment: PaymentModel;
-
+    validInput: boolean;
     returnAddress: string;
 
     balance;
@@ -40,26 +42,41 @@ export class RefillBalanceComponent implements OnInit {
     };
 
     constructor(private _refill: RefillServices,
-                private _storage: StorageServices) {
-
-    }
+                private _storage: LocalStorageServices,
+                private _message: MessageServices) {}
 
     selectRefillMethod(refillMethod: RefillModel) {
-        refillMethod.loading = true;
-        this._refill.getRefillMethod(refillMethod.id, this.amount.value)
-            .then(res => {
-                // console.log(res);
-                refillMethod.loading = false;
-                this.refill_status = 'paying';
-                this.selected = refillMethod;
-                this.payment = res;
-                this.returnAddress = this.payment.address;
-            });
+        if (this.validValue(this.amount.value)) {
+            refillMethod.loading = true;
+            this._refill.getRefillMethod(refillMethod.id, this.amount.value)
+                .then(res => {
+                    // console.log(res);
+                    refillMethod.loading = false;
+                    this.refill_status = 'paying';
+                    this.selected = refillMethod;
+                    this.payment = res;
+                    this.returnAddress = this.payment.address;
+                });
+        } else {
+          this._message.writeError('Please input correct value');
+        }
+    }
+
+    validValue(text) {
+        if (parseInt(text, 10)) {
+            this.amount.value = parseInt(text, 10);
+            return (this.validInput = this.amount.min <= this.amount.value && this.amount.value <= this.amount.max);
+        }
+        return this.validInput = false;
+    }
+
+    keyup(text) {
+        if (!this.validInput) {this.validValue(text); }
     }
 
     cancelPay(): void {
         this.refill_status = 'main';
-        this.selected = null
+        this.selected = null;
     }
 
     pay(): void {
@@ -95,6 +112,7 @@ export class RefillBalanceComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.validInput = true;
         this.loading = {body: true, sidebar: true};
         this.getRefillMethods();
         this.getCourses();

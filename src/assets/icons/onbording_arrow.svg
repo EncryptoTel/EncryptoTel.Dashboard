@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="arrow" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 311.9 263" style="enable-background:new 0 0 311.9 263;" xml:space="preserve">
+<style type="text/css">
+	.obj_arrow{fill:url(#obj_1_);}
+</style>
+<linearGradient id="obj_1_" gradientUnits="userSpaceOnUse" x1="135.4018" y1="153.9144" x2="136.4018" y2="153.9144" gradientTransform="matrix(262.01 46.284 50.013 -283.1193 -43149.4453 37419.7461)">
+	<stop  offset="0" style="stop-color:#7BFF15"/>
+	<stop  offset="0.38" style="stop-color:#7AFF17"/>
+	<stop  offset="0.52" style="stop-color:#76FF1E"/>
+	<stop  offset="0.61" style="stop-color:#70FF29"/>
+	<stop  offset="0.69" style="stop-color:#67FE3A"/>
+	<stop  offset="0.76" style="stop-color:#5CFE50"/>
+	<stop  offset="0.82" style="stop-color:#4DFE6C"/>
+	<stop  offset="0.87" style="stop-color:#3CFD8C"/>
+	<stop  offset="0.92" style="stop-color:#29FCB2"/>
+	<stop  offset="0.97" style="stop-color:#13FCDB"/>
+	<stop  offset="1" style="stop-color:#00FBFF"/>
+</linearGradient>
+<path id="obj" class="obj_arrow" d="M310.8,21.7c0.6-3.5-1.8-6.9-5.3-7.5c-3.5-0.6-6.9,1.8-7.5,5.3c-0.6,3.3,1.5,6.6,4.8,7.4
+	C267.2,163.8,140.1,257.4,0.1,251.1l-0.2,1c140.8,6.5,268.6-87.1,304-225.1C307.2,27.3,310.2,25,310.8,21.7z"/>
+</svg>

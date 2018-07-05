@@ -292,7 +292,7 @@ export class AddressBookComponent implements OnInit {
 
   private getTypes(): void {
     this._service.getTypes().then((res: Types) => {
-      this._phoneTypes = res.contactPhones;
+      this._phoneTypes = res.contactPhone;
     }).catch(err => {
       console.error(err);
     });

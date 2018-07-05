@@ -45,7 +45,7 @@ export class InvoicesComponent implements OnInit {
   getInvoices() {
     this.loading = true;
     this.table.data = [];
-    console.log(this.table.header[this.table.sort.column].key);
+    // console.log(this.table.header[this.table.sort.column].key);
     this._services.getInvoices(this.pageinfo, this.table.header[this.table.sort.column].key,
       this.table.sort.isDown ? 'down' : 'up').then(res => {
       this.table.data = res.items;

@@ -5,7 +5,7 @@ import {LoggerServices} from './logger.services';
 import {MessageServices} from './message.services';
 import {environment as _env} from '../environments/environment';
 import {Router} from '@angular/router';
-import {StorageServices} from "./storage.services";
+import {LocalStorageServices} from './local-storage.services';
 
 /*
   Parent request services. Processing errors and console output for responses
@@ -17,7 +17,7 @@ export class RequestServices {
                 private _messages: MessageServices,
                 private logger: LoggerServices,
                 private router: Router,
-                private storage: StorageServices) {
+                private storage: LocalStorageServices) {
         this.lastTick = null;
         this.setTimer();
     }
@@ -29,6 +29,7 @@ export class RequestServices {
 
     protected beginRequest() {
         this.counter += 1;
+        this.saveLastUrl();
     }
 
     protected endRequest() {
@@ -39,7 +40,6 @@ export class RequestServices {
 
     protected getRefreshToken() {
         const user = this.storage.readItem('pbx_user');
-        // console.log(user);
         if (!user) {
             this.lastTick = null;
             return null;
@@ -84,37 +84,39 @@ export class RequestServices {
         }, 1000);
     }
 
+    private catchSuccess(response): Promise<any> {
+        this.endRequest();
+        // this.logger.log('request response', response); // Console output for response
+        return Promise.resolve(response.body); // Return response body to children method
+    }
+
+    private catchError(response): Promise<any> {
+        this.endRequest();
+        switch (response.status) { // Switch response error status
+            case 401: {
+                localStorage.removeItem('pbx_user');
+                this.router.navigate(['/sign-in']);
+                break;
+            }
+            default: {
+                this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
+                break;
+            }
+        }
+        this.logger.log('request error', { // Console output for response error details
+            status: response.status || 'Response status is empty',
+            message: response.error.message || 'Unknown internal server error'
+        });
+        return Promise.reject(response.error);
+    }
+
     /*
       Default POST request. Accepted params:
       URI: string - request uri,
       Data: object - request params
      */
-    post(uri: string, data: object, serverReady: boolean = false): Promise<any> {
-        this.beginRequest();
-        return this.http.post(`${serverReady ? _env.back : _env.ph}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
-            .then(response => { // Successful request processing
-                this.endRequest();
-                this.logger.log('POST-request response', response); // Console output for response
-                return Promise.resolve(response.body); // Return response body to children method
-            }).catch(response => { // Non-successful request processing
-                this.endRequest();
-                switch (response.status) { // Switch response error status
-                    case 401: {
-                        localStorage.removeItem('pbx_user');
-                        this.router.navigate(['/sign-in']);
-                        break;
-                    }
-                    default: {
-                        this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
-                        break;
-                    }
-                }
-                this.logger.log('POST-request error', { // Console output for response error details
-                    status: response.status || 'Response status is empty',
-                    message: response.error.message || 'Unknown internal server error'
-                });
-                return Promise.reject(response.error);
-            });
+    post(url: string, data: object, serverReady: boolean = false): Promise<any> {
+        return this.request('POST', url, {...data});
     }
 
     /*
@@ -122,95 +124,40 @@ export class RequestServices {
       URI: string - request uri,
       Data: object - request params
      */
-    put(uri: string, data: object, serverReady: boolean = false): Promise<any> {
-        this.beginRequest();
-        return this.http.put(`${serverReady ? _env.back : _env.ph}/${uri}`, {...data}, {observe: 'response'}).toPromise() // Request to promise conversion
-            .then(response => { // Successful request processing
-                this.endRequest();
-                this.logger.log('PUT-request response', response); // Console output for response
-                return Promise.resolve(response.body); // Return response body to children method
-            }).catch(response => { // Non-successful request processing
-                this.endRequest();
-                switch (response.status) { // Switch response error status
-                    case 401: {
-                        localStorage.removeItem('pbx_user');
-                        this.router.navigate(['/sign-in']);
-                        break;
-                    }
-                    default: {
-                        this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
-                        break;
-                    }
-                }
-                this.logger.log('PUT-request error', { // Console output for response error details
-                    status: response.status || 'Response status is empty',
-                    message: response.error.message || 'Unknown internal server error'
-                });
-                return Promise.reject(response.error);
-            });
+    put(url: string, data: object, serverReady: boolean = false): Promise<any> {
+        return this.request('PUT', url, {...data});
     }
 
     /*
       Default GET request. Accepted params:
       URI: string - request uri with stringified params
      */
-    get(uri: string, serverReady: boolean = false): Promise<any> {
-        this.beginRequest();
-        return this.http.get(`${serverReady ? _env.back : _env.ph}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
-            .then(response => { // Successful request processing
-                this.endRequest();
-                this.logger.log('GET-request response', response); // Console output for response
-                return Promise.resolve(response.body); // Return response body to children method
-            }).catch(response => { // Non-successful request processing
-                this.endRequest();
-                switch (response.status) { // Switch response error status
-                    case 401: {
-                        localStorage.removeItem('pbx_user');
-                        this.router.navigate(['/sign-in']);
-                        break;
-                    }
-                    default: {
-                        this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
-                        break;
-                    }
-                }
-                this.logger.log('GET-request error', { // Console output for response error details
-                    status: response.status || 'Response status is empty',
-                    message: response.error.message || 'Unknown internal server error'
-                });
-                return Promise.reject(response.error);
-            });
+    get(url: string, serverReady: boolean = false): Promise<any> {
+        return this.request('GET', url, null);
     }
 
     /*
       Default DELETE request. Accepted params:
       URI: string - request uri with stringified params
      */
-    del(uri: string, serverReady: boolean = false): Promise<any> {
-        this.beginRequest();
-        return this.http.delete(`${serverReady ? _env.back : _env.ph}/${uri}`, {observe: 'response'}).toPromise() // Request to promise conversion
-            .then(response => { // Successful request processing
-                this.endRequest();
-                this.logger.log('DELETE-request response', response); // Console output for response
-                return Promise.resolve(response.body); // Return response body to children method
-            }).catch(response => { // Non-successful request processing
-                this.endRequest();
-                switch (response.status) { // Switch response error status
-                    case 401: {
-                        localStorage.removeItem('pbx_user');
-                        this.router.navigate(['/sign-in']);
-                        break;
-                    }
-                    default: {
-                        this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
-                        break;
-                    }
-                }
-                this.logger.log('DELETE-request error', { // Console output for response error details
-                    status: response.status || 'Response status is empty',
-                    message: response.error.message || 'Unknown internal server error'
-                });
-                return Promise.reject(response.error);
-            });
+    del(url: string, serverReady: boolean = false): Promise<any> {
+        return this.request('DELETE', url, null);
     }
+
+    request(method: string, url: string, body: any): Promise<any> {
+        this.beginRequest();
+        return this.http.request(method, `${_env.back}/${url}`, {body: body, observe: 'response'}).toPromise().then(response => {
+            return this.catchSuccess(response);
+        }).catch(response => {
+            return this.catchError(response);
+        });
+    }
+
+    saveLastUrl() {
+        const URL = this.router.url;
+        if (URL.startsWith('/cabinet/')) {
+            this.storage.writeItem('pbx_url', URL);
+        }
+    }
+
 }

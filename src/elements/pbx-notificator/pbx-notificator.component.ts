@@ -1,11 +1,12 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
+// import {NotificatorServices} from '../../services/notificator.services';
 
 @Component({
   selector: 'pbx-notificator',
   templateUrl: './template.html',
   styleUrls: ['./local.sass'],
-  animations: [SwipeAnimation('y','400ms')]
+  animations: [SwipeAnimation('y', '400ms')]
 })
 
 export class NotificatorComponent implements OnInit, OnChanges {
@@ -18,84 +19,53 @@ export class NotificatorComponent implements OnInit, OnChanges {
     actionName: string
   };
 
-  timer: any;
+  notificatorOne: {
+    visible: boolean,
+    message: string,
+    actionType: string,
+    actionName: string
+  };
 
-  queue = [];
+
+  // queue: Observable<any>;
 
   notificatorWidth: number;
 
-  constructor() {
+  constructor(
+    // private _service = NotificatorServices
+  ) {
     this.notificatorWidth = (window.innerWidth - 616);
+    // this.queue.toArray().subscribe(q => {
+    //   console.log(q);
+    // });
   }
 
   ngOnInit() {
+    // this._service.notification().subscribe(text => {
+    //   this._service = text;
+    // });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes.notificator.currentValue.visible);
-    console.log(changes);
-    // const change = changes;
-    //
-    // if (typeof change.notificator.currentValue !== 'undefined') {
-    //   this.queue.push(change.notificator.currentValue);
-    //   console.log(this.queue);
-    //
-    //   change.notificator.currentValue.visible = false;
-    //
-    //   if (this.queue.length === 1) {
-    //     // change.notificator.currentValue.visible = true;
-    //     // this.queue[0].visible = true;
-    //     change.notificator.currentValue.timer = setTimeout(this.timerF, 2000);
-    //   }
-    //
-    // }
-
-    this.notificator = changes.notificator.currentValue;
 
     if (this.notificator) {
-      const timout = setTimeout(() => {
-        this.notificator.visible = false;
-      }, 4000);
+      this.notificator = changes.notificator.currentValue;
+      // this.queue.next(this.notificator);
+      // // console.log(this.queue);
+      // this.queueHandler(this.queue);
+
+      // this.lifeTime = setTimeout(() => {
+      //   this.notificator.visible = false;
+      // }, 4000);
     }
+
+
   }
 
-  // timerF() {
-  //   if (typeof this.queue !== 'undefined') {
-  //     const shift = this.queue.shift();
-  //     // this.queue[0].notificator.visible = false;
-  //     if (this.queue[0]) {
-  //       this.queue[0].notificator.visible = true;
-  //       this.queue[0].notificator.timer = setTimeout(this.timerF, 2000);
-  //     }
-  //     alert(shift.notificator.currentValue);
-  //   }
-  // }
-
-  // example() {
-  //   const qu = [];
-  //
-  //   function func() {
-  //     const s = qu.shift();
-  //     if (qu.length > 0) {
-  //       setTimeout(func, 1000);
-  //     }
-  //     alert( s );
-  //   }
-  //
-  //   function start() {
-  //     qu.push('Hello!');
-  //     qu.push('World!');
-  //     qu.push('Vasya!');
-  //     qu.push('Kisa!');
-  //     setTimeout(func, 1000);
-  //   }
-  //
-  //   start();
-  // }
 
   notificatorAction() {
-    this.notificator.visible = false;
-    clearTimeout(this.timer);
+    // this.notificator.visible = false;
+    // clearTimeout(this.timer);
   }
 
   @HostListener('window:resize', ['$event'])

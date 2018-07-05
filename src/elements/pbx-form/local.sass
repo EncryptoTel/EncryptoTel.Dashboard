@@ -1,0 +1,86 @@
+@import '../../_vars.sass'
+.form
+  flex: 1
+  display: grid
+  grid-template-rows: auto 1fr
+  &-header
+    flex-direction: row
+  &-tab
+    background: rgba($dark_overlay,.33)
+    padding: rem(16)
+    cursor: pointer
+    color: $font-color
+    /deep/ *
+      cursor: pointer
+    span
+      align-items: flex-end
+    &:hover
+      background: rgba($dark_overlay,.67)
+    &.selected
+      background: $dark_overlay
+      color: $dark_accent
+      cursor: default
+      /deep/ *
+        cursor: default
+      .form-tab-icon-wrap /deep/ path
+        fill: $dark_accent
+      &:hover
+        background: $dark_overlay
+    &-wrap
+      flex-direction: row
+    &-icon-wrap
+      margin-right: rem(12)
+      svg-icon
+        width: rem(16)
+        height: rem(16)
+        /deep/ path
+          fill: $font-color
+
+  &-button-wrap
+    margin-left: auto
+    margin-bottom: rem(6)
+    >*:not(:last-child)
+      margin-right: rem(8)
+  &-body
+    display: block
+    overflow-y: auto
+    overflow-x: hidden
+    padding: rem(24) 0
+    flex-direction: column
+    &.background
+      background: $dark_overlay
+      padding: rem(24)
+    &_content
+      display: grid
+      background: $dark_accent
+      grid-gap: rem(16)
+    /deep/ .form-title
+      font-size: rem(16)
+      color: $dark_primary
+      &:not(:first-child)
+        margin-top: rem(24)
+      span
+        font-size: rem(14)
+        padding-left: rem(8)
+        margin-top: auto
+        opacity: .5
+    /deep/ .form-item
+      flex-direction: row
+      >*:last-child
+        flex: 1
+      &-description
+        font-size: rem(12)
+        margin: auto auto auto rem(24)
+        opacity: .5
+    /deep/ label
+      width: rem(176)
+      font-weight: 100
+      font-size: rem(12)
+      align-items: center
+      cursor: pointer
+      &.active, &:hover
+        color: $dark_accent
+    /deep/ input, /deep/ pbx-select, /deep/ pbx-button
+      height: rem(40)
+  &-ballast
+    margin-top: auto
