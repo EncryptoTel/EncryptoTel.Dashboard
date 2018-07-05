@@ -4,7 +4,8 @@ import {Subject} from "rxjs/Subject";
 import {BalanceModel, ServiceModel} from "../models/ws.model";
 import {Observable} from "rxjs/Observable";
 import {LoggerServices} from "./logger.services";
-import {MessageModel} from "../models/chat.model";
+import {ChatModel, MessageModel} from "../models/chat.model";
+import {MessageServices} from "./message.services";
 
 
 @Injectable()
@@ -19,10 +20,14 @@ export class WsServices {
     messages: MessageModel[] = [];
     messagesSubscription: Subject<MessageModel[]> = new Subject<MessageModel[]>();
 
+    chats: ChatModel[] = [];
+    chatsSubscription: Subject<ChatModel[]> = new Subject<ChatModel[]>();
+
     token: string = '';
 
     constructor(private socket: Socket,
-                private logger: LoggerServices) {
+                private logger: LoggerServices,
+                private message: MessageServices) {
         this.balance = {balance: 0};
         this.service = {id: null};
 
@@ -55,13 +60,13 @@ export class WsServices {
             _this.log('<<< message', data);
             _this.onMessage(data);
         });
-        socket.on('contact', function (data) {
-            _this.log('<<< contact', data);
-            _this.onContacts(data);
+        socket.on('chat', function (data) {
+            _this.log('<<< chat', data);
+            _this.onChat(data);
         });
-        socket.on('error', function (data) {
-            _this.log('<<< error', data);
-            _this.onError(data);
+        socket.on('errors', function (data) {
+            _this.log('<<< errors', data);
+            _this.onErrors(data);
         });
         socket.on('close', function (data) {
             _this.log('<<< close', data);
@@ -70,7 +75,7 @@ export class WsServices {
     }
 
     log(details: string, data: any) {
-        // this.logger.log(details, data);
+        this.logger.log(details, data);
     }
 
     setToken(token: string) {
@@ -88,8 +93,13 @@ export class WsServices {
 
     private onChannels(data) {
         this.subscribe(data.channel);
-        if (data.channel === 'message') {
-            this.getMessages();
+        switch (data.channel) {
+            case 'message':
+                this.getMessages();
+                break;
+            case 'chat':
+                this.getChats();
+                break;
         }
     }
 
@@ -115,24 +125,46 @@ export class WsServices {
         }
         let messages: MessageModel[] = data.messages;
         for (let i = 0; i < messages.length; i++) {
+            let message = messages[i];
+
+            if (!message.my && !message.statusUpdated2 && message.status < 2) {
+                message.statusUpdated2 = true;
+                this.deliverMessage(message.id);
+            }
+
             let b = true;
             for (let j = 0; j < this.messages.length; j++) {
-                if (this.messages[j].id === messages[i].id) {
+                if (this.messages[j].id === message.id) {
                     b = false;
-                    this.messages[j] = messages[i];
+                    this.messages[j] = message;
                 }
             }
             if (b) {
-                this.messages.push(messages[i]);
+                this.messages.push(message);
             }
         }
         this.messagesSubscription.next(this.messages);
     }
 
-    private onContacts(data) {
+    private onChat(data) {
+        let chats: ChatModel[] = data.chats;
+        for (let i = 0; i < chats.length; i++) {
+            let b = true;
+            for (let j = 0; j < this.chats.length; j++) {
+                if (this.chats[j].id === chats[i].id) {
+                    b = false;
+                    this.chats[j] = chats[i];
+                }
+            }
+            if (b) {
+                this.chats.push(chats[i]);
+            }
+        }
+        this.chatsSubscription.next(this.chats);
     }
 
-    private onError(data) {
+    private onErrors(data) {
+        this.message.writeError(data.error.message);
     }
 
     private onClose(data) {
@@ -157,13 +189,22 @@ export class WsServices {
         this.send('send-message', {body: message, chatId: chatId});
     }
 
+    readMessage(id: number) {
+        this.send('read-message', {id: id});
+    }
+
+    deliverMessage(id: number) {
+        this.send('deliver-message', {id: id});
+    }
+
     getMessages() {
         this.send('get-messages', {});
         return this.messages;
     }
 
-    getContacts() {
-        this.send('get-contacts', {});
+    getChats() {
+        this.send('get-chats', {});
+        return this.chats;
     }
 
     getBalance(): Observable<BalanceModel> {
@@ -176,6 +217,10 @@ export class WsServices {
 
     subMessages(): Observable<MessageModel[]> {
         return this.messagesSubscription.asObservable();
+    }
+
+    subChats(): Observable<ChatModel[]> {
+        return this.chatsSubscription.asObservable();
     }
 
 }

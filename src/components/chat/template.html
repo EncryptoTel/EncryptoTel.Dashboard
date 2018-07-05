@@ -1,8 +1,11 @@
-<div style="background-color: black; flex-direction: column">
+<pbx-loader *ngIf="chats.length === 0"></pbx-loader>
+<div *ngIf="chats.length > 0" style="background-color: black; flex-direction: column">
     <div *ngFor="let message of messages">
-        <span style="width: 30%">{{message.chatMember ? message.chatMember.fullName : ''}}&nbsp;</span>
-        <span style="width: 55%">{{message.text}}&nbsp;</span>
-        <span style="width: 15%">{{message.created | date: 'dd.MM.yy hh:mm'}}</span>
+        <span style="width: 30%">{{message.chatMember ? message.chatMember.name : ''}}&nbsp;</span>
+        <span style="width: 50%">{{message.text}}&nbsp;</span>
+        <span style="width: 15%">{{message.created | date: 'hh:mm'}}</span>
+        <div style="width: 5%" class="ext_table_item_circle2" *ngIf="getStatus(message) === 2 && message.my"></div>
+        <div style="width: 5%" class="ext_table_item_circle" *ngIf="getStatus(message) === 3 && message.my"></div>
     </div>
 
     <input type="text" placeholder="Type message here" [(ngModel)]="message" (keyup)="onMessageKeyUp($event)">

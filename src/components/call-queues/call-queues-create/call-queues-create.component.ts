@@ -103,11 +103,7 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
     }
 
     private setMembers(members) {
-        console.log('setMembers', members);
-        console.log('setMembers.length', members.length);
-
         for (let i = 0; i < members.length; i++) {
-            console.log('member', members[i]);
             this.service.callQueue.queueMembers.push({sipId: members[i].sip.id});
             this.service.userView.members.push(members[i].sip);
             this.service.userView.members[i].sipOuterPhone = this.service.userView.phoneNumber;
