@@ -3,7 +3,33 @@
   <div class="departments_header">
     <pbx-button [value]="'Add Department'" [buttonType]="'success'" (onClick)="addDepartment()"></pbx-button>
   </div>
-  <pbx-table [tableInfo]="tableInfo" [editable]="true" (onEdit)="edit($event)" (onDelete)="delete($event)" [tableItems]="departmentsList" (onSelect)="selectDepartment($event)"></pbx-table>
+  <div class="departments_table" *ngIf="departmentsList.length>0">
+    <div class="departments_table_header">
+      <div class="departments_table_item" *ngFor="let item of tableInfo.titles">{{item}}</div>
+      <div class="departments_table_icon_wrap"></div>
+    </div>
+    <div class="departments_table_body">
+      <div class="departments_table_row" *ngFor="let item of departmentsList">
+        <div class="departments_table_item" *ngFor="let key of tableInfo.keys" (click)="selectDepartment(item)">{{item[key]}}</div>
+        <div class="departments_table_icon_wrap">
+          <div class="departments_table_icon edit" (click)="edit(item)">
+            <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
+          </div>
+          <div class="departments_table_icon delete" (click)="showModal(item)">
+            <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="departments_empty" *ngIf="departmentsList.length===0">
+    <div class="departments_empty_text">
+      You do not have any Department<br>Click on the button to create
+    </div>
+    <div class="departments_empty_icon">
+      <svg-icon src="../../assets/icons/onbording_arrow.svg"></svg-icon>
+    </div>
+  </div>
 </div>
 <pbx-sidebar *ngIf="sidebarVisible">
   <ng-container *ngIf="sidebarEdit">
@@ -16,7 +42,7 @@
         <label for="comment">Department Phone</label>
         <div formArrayName="sipInner" class="sidebar_row unmargin">
           <div class="sidebar_row_select"
-               *ngFor="let sip of departmentForm.get('sipInner').controls; let i=index"
+               *ngFor="let sip of departmentForm.get('sipInner')['controls']; let i=index"
                [formGroupName]="i">
             <pbx-select [options]="getSelectNumbers()"
                         [selected]="selectedSips[i]"
@@ -50,7 +76,7 @@
         <label>Comment</label>
         <p>{{currentDepartment.comment}}</p>
       </div>
-      <div class="sidebar_row" (click)="delete(currentDepartment)">
+      <div class="sidebar_row" (click)="showModal(currentDepartment)">
         <span>Delete Department</span>
       </div>
     </div>
@@ -60,3 +86,5 @@
     </div>
   </ng-container>
 </pbx-sidebar>
+<pbx-modal [modal]="modal" (onConfirm)="delete(currentDepartment)"
+>Are you really want to delete this department?</pbx-modal>
