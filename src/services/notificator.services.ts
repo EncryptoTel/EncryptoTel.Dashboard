@@ -2,33 +2,30 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
+import {NotificatorModel} from '../models/notificator.model';
 
 @Injectable()
 export class NotificatorServices {
+  constructor() {}
 
-  private notificatorText = new Subject<string>();
+  // public notificator = new Subject<object>();
+  notificator: Subject<NotificatorModel> = new Subject<NotificatorModel>();
 
-  // private errorText = new Subject<string>();
 
-  notification(): Observable<string> {
-    return this.notificatorText.asObservable();
-  }
-
-  // error(): Observable<string> {
-  //   return this.errorText.asObservable();
+  // notification(): Observable<object> {
+  //   return this.notificator.asObservable();
   // }
 
-  setNotification(text: string) {
-    this.notificatorText.next(text);
-    setTimeout(() => {
-      this.notificatorText.next();
-    }, 3000);
+  notification(): Observable<NotificatorModel> {
+    return this.notificator.asObservable();
   }
 
-  // setError(text:string) {
-  //   this.errorText.next(text);
-  //   setTimeout(() => {
-  //     this.errorText.next()
-  //   }, 3000)
-  // }
+
+  setNotification(noti) {
+    this.notificator.next(noti);
+    // setTimeout(() => {
+    //   this.notificator.next(noti);
+    // }, 4000);
+  }
+
 }
