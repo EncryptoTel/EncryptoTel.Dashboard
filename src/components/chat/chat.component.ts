@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {WsServices} from '../../services/ws.services';
 import {LoggerServices} from "../../services/logger.services";
 import {MessageModel} from "../../models/chat.model";
@@ -10,7 +10,7 @@ import {Subscription} from "rxjs/Subscription";
     styleUrls: ['./local.sass']
 })
 
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
 
     messages: MessageModel[] = [];
     message: string = '';
@@ -19,13 +19,9 @@ export class ChatComponent implements OnInit {
 
     constructor (private socket: WsServices,
                  private logger: LoggerServices) {
-        this.messagesSubscription = this.socket.getMessages().subscribe(messages => {
-            this.logger.log('messagesSubscription', messages);
-            for (let i = 0; i < messages.length; i++) {
-                this.logger.log('message', messages[i]);
-                this.messages.push(messages[i]);
-            }
-
+        this.logger.log('chat create', null);
+        this.messagesSubscription = this.socket.subMessages().subscribe(messages => {
+            this.messages = messages;
         });
     }
 
@@ -46,7 +42,13 @@ export class ChatComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.logger.log('chat init', null);
+        this.messages = this.socket.messages;
+    }
 
+    ngOnDestroy() {
+        this.logger.log('chat destroy', null);
+        this.messagesSubscription.unsubscribe();
     }
 
 }

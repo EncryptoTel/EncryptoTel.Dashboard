@@ -1,8 +1,8 @@
 <div style="background-color: black; flex-direction: column">
     <div *ngFor="let message of messages">
-        <span>{{message.chatMember ? message.chatMember.fullName : ''}}&nbsp;</span>
-        <span>{{message.text}}&nbsp;</span>
-        <span>{{message.created | date: 'dd/MM/yyyy hh:mm:ss'}}</span>
+        <span style="width: 30%">{{message.chatMember ? message.chatMember.fullName : ''}}&nbsp;</span>
+        <span style="width: 55%">{{message.text}}&nbsp;</span>
+        <span style="width: 15%">{{message.created | date: 'dd.MM.yy hh:mm'}}</span>
     </div>
 
     <input type="text" placeholder="Type message here" [(ngModel)]="message" (keyup)="onMessageKeyUp($event)">

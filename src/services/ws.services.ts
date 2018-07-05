@@ -16,6 +16,7 @@ export class WsServices {
     service: ServiceModel;
     serviceSubscription: Subject<ServiceModel> = new Subject<ServiceModel>();
 
+    messages: MessageModel[] = [];
     messagesSubscription: Subject<MessageModel[]> = new Subject<MessageModel[]>();
 
     token: string = '';
@@ -26,28 +27,44 @@ export class WsServices {
         this.service = {id: null};
 
         const _this = this;
-        socket.on('connect', function (data) {
-            _this.onConnect(data);
+        socket.on('connect', function () {
+            _this.logger.log('<<< connect', null);
+            _this.onConnect();
         });
         socket.on('channels', function (data) {
+            _this.logger.log('<<< channels', data);
             _this.onChannels(data);
         });
         socket.on('eventClient', function (data) {
+            _this.logger.log('<<< eventClient', data);
             _this.onEventClient(data);
         });
         socket.on('balance', function (data) {
+            _this.logger.log('<<< balance', data);
             _this.onBalance(data);
         });
         socket.on('service', function (data) {
+            _this.logger.log('<<< service', data);
             _this.onService(data);
         });
         socket.on('notification', function (data) {
+            _this.logger.log('<<< notification', data);
             _this.onNotification(data);
         });
         socket.on('message', function (data) {
+            _this.logger.log('<<< message', data);
             _this.onMessage(data);
         });
+        socket.on('contact', function (data) {
+            _this.logger.log('<<< contact', data);
+            _this.onContacts(data);
+        });
+        socket.on('error', function (data) {
+            _this.logger.log('<<< error', data);
+            _this.onError(data);
+        });
         socket.on('close', function (data) {
+            _this.logger.log('<<< close', data);
             _this.onClose(data);
         });
     }
@@ -61,44 +78,60 @@ export class WsServices {
         }
     }
 
-    private onConnect(data) {
-        this.logger.log('<<< connect', data);
+    private onConnect() {
         this.authenticate();
     }
 
     private onChannels(data) {
-        this.logger.log('<<< channels', data);
         this.subscribe(data.channel);
+        if (data.channel === 'message') {
+            this.getMessages();
+        }
     }
 
     private onEventClient(data) {
-        this.logger.log('<<< eventClient', data);
     }
 
     private onBalance(data) {
-        this.logger.log('<<< balance', data);
         this.balance.balance = JSON.parse(data).balance;
         this.balanceSubscription.next(this.balance);
     }
 
     private onService(data) {
-        this.logger.log('<<< service', data);
         this.service.id = JSON.parse(data).id;
         this.serviceSubscription.next(this.service);
     }
 
     private onNotification(data) {
-        this.logger.log('<<< notification', data);
     }
 
     private onMessage(data) {
-        this.logger.log('<<< message', data);
-        let messages: MessageModel[] = JSON.parse(data).messages;
-        this.messagesSubscription.next(messages);
+        if (typeof data === 'string') {
+            data = JSON.parse(data);
+        }
+        let messages: MessageModel[] = data.messages;
+        for (let i = 0; i < messages.length; i++) {
+            let b = true;
+            for (let j = 0; j < this.messages.length; j++) {
+                if (this.messages[j].id === messages[i].id) {
+                    b = false;
+                    this.messages[j] = messages[i];
+                }
+            }
+            if (b) {
+                this.messages.push(messages[i]);
+            }
+        }
+        this.messagesSubscription.next(this.messages);
+    }
+
+    private onContacts(data) {
+    }
+
+    private onError(data) {
     }
 
     private onClose(data) {
-        this.logger.log('<<< close', data);
     }
 
     private send(eventName: string, data: any) {
@@ -120,6 +153,15 @@ export class WsServices {
         this.send('send-message', {body: message, chatId: chatId});
     }
 
+    getMessages() {
+        this.send('get-messages', {});
+        return this.messages;
+    }
+
+    getContacts() {
+        this.send('get-contacts', {});
+    }
+
     getBalance(): Observable<BalanceModel> {
         return this.balanceSubscription.asObservable();
     }
@@ -128,7 +170,7 @@ export class WsServices {
         return this.serviceSubscription.asObservable();
     }
 
-    getMessages(): Observable<MessageModel[]> {
+    subMessages(): Observable<MessageModel[]> {
         return this.messagesSubscription.asObservable();
     }
 
