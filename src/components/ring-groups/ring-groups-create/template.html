@@ -8,14 +8,14 @@
         <a routerLink="members" routerLinkActive="active" [skipLocationChange]="true">Members</a>
       </div>
     </div>
-    <div class="call_queues_create_buttons" [ngClass]="{'back-wrap':_service.userView.isCurCompMembersAdd}">
-      <button *ngIf="!_service.userView.isCurCompMembersAdd" class="call_queues_create_button cancel"
+    <div class="call_queues_create_buttons" [ngClass]="{'back-wrap':service.userView.isCurCompMembersAdd}">
+      <button *ngIf="!service.userView.isCurCompMembersAdd" class="call_queues_create_button cancel"
               (click)="cancel()">Cancel
       </button>
-      <button *ngIf="!_service.userView.isCurCompMembersAdd" class="call_queues_create_button save" (click)="save()"
+      <button *ngIf="!service.userView.isCurCompMembersAdd" class="call_queues_create_button save" (click)="save()"
               [ngClass]="{'inactive':validation()}">Save
       </button>
-      <button *ngIf="_service.userView.isCurCompMembersAdd" class="call_queues_create_button back" (click)="back()">
+      <button *ngIf="service.userView.isCurCompMembersAdd" class="call_queues_create_button back" (click)="back()">
         Back
       </button>
     </div>

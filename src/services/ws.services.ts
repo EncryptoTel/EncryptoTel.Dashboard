@@ -28,45 +28,49 @@ export class WsServices {
 
         const _this = this;
         socket.on('connect', function () {
-            _this.logger.log('<<< connect', null);
+            _this.log('<<< connect', null);
             _this.onConnect();
         });
         socket.on('channels', function (data) {
-            _this.logger.log('<<< channels', data);
+            _this.log('<<< channels', data);
             _this.onChannels(data);
         });
         socket.on('eventClient', function (data) {
-            _this.logger.log('<<< eventClient', data);
+            _this.log('<<< eventClient', data);
             _this.onEventClient(data);
         });
         socket.on('balance', function (data) {
-            _this.logger.log('<<< balance', data);
+            _this.log('<<< balance', data);
             _this.onBalance(data);
         });
         socket.on('service', function (data) {
-            _this.logger.log('<<< service', data);
+            _this.log('<<< service', data);
             _this.onService(data);
         });
         socket.on('notification', function (data) {
-            _this.logger.log('<<< notification', data);
+            _this.log('<<< notification', data);
             _this.onNotification(data);
         });
         socket.on('message', function (data) {
-            _this.logger.log('<<< message', data);
+            _this.log('<<< message', data);
             _this.onMessage(data);
         });
         socket.on('contact', function (data) {
-            _this.logger.log('<<< contact', data);
+            _this.log('<<< contact', data);
             _this.onContacts(data);
         });
         socket.on('error', function (data) {
-            _this.logger.log('<<< error', data);
+            _this.log('<<< error', data);
             _this.onError(data);
         });
         socket.on('close', function (data) {
-            _this.logger.log('<<< close', data);
+            _this.log('<<< close', data);
             _this.onClose(data);
         });
+    }
+
+    log(details: string, data: any) {
+        // this.logger.log(details, data);
     }
 
     setToken(token: string) {
@@ -135,7 +139,7 @@ export class WsServices {
     }
 
     private send(eventName: string, data: any) {
-        this.logger.log(`>>> ${eventName}`, data)
+        this.log(`>>> ${eventName}`, data)
         this.socket.emit(eventName, data);
     }
 

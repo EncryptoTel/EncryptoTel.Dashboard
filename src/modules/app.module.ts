@@ -17,7 +17,7 @@ import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
 import {AuthorizationServices} from '../services/authorization.services';
 import {UserServices} from '../services/user.services';
-import {CallQueuesServices} from '../services/call-queues.services';
+import {CallQueueService} from '../services/call-queue.service';
 import {SettingsServices} from '../services/settings.services';
 import {DetailsAndRecordsServices} from '../services/details-and-records.services';
 import {AddressBookServices} from '../services/address-book.services';
@@ -53,7 +53,7 @@ const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket'
         MessageServices,
         AuthorizationServices,
         UserServices,
-        CallQueuesServices,
+        CallQueueService,
         SettingsServices,
         DetailsAndRecordsServices,
         SettingsServices,

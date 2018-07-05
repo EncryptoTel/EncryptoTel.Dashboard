@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {QueuesListItem} from '../../models/queue.model';
-import {CallQueuesServices} from '../../services/call-queues.services';
+import {CallQueueService} from '../../services/call-queue.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FadeAnimation} from '../../shared/fade-animation';
 
@@ -12,7 +12,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 })
 
 export class CallQueuesComponent {
-  constructor(private _service: CallQueuesServices,
+  constructor(private _service: CallQueueService,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
     this.getQueues();
