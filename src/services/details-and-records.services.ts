@@ -59,4 +59,8 @@ export class DetailsAndRecordsServices {
 
   }
 
+  getSound(id) {
+    return this.request.get(`v1/account/file/${id}`, true);
+  }
+
 }

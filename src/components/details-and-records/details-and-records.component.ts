@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild, ViewChildren} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {DetailsAndRecordsServices} from '../../services/details-and-records.services';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {SwipeAnimation} from '../../shared/swipe-animation';
@@ -15,7 +15,8 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 })
 
 export class DetailsAndRecordsComponent implements OnInit {
-  @ViewChild('menu') ddMenuWrap: ElementRef;
+  // @ViewChildren('menu') ddMenuWrap: ElementRef;
+  @ViewChildren('row') rows: QueryList<'row'>;
   loading = false;
 
   // details = [
@@ -222,24 +223,30 @@ export class DetailsAndRecordsComponent implements OnInit {
   contactActionName = 'View contact';
   currentPlayerAction: number;
 
+  dropDirection = 'bottom';
+
   constructor(
     private services: DetailsAndRecordsServices,
   ) {}
 
-  dropPosition(): string {
-    // console.log(this.ddMenuWrap);
-    console.log(this.ddMenuWrap);
-    console.log('window.innerHeight', window.innerHeight);
-    console.log('nativeElement.offsetTop', this.ddMenuWrap.nativeElement.offsetTop);
-    console.log('nativeElement.offsetHeight', this.ddMenuWrap.nativeElement.offsetHeight);
-    //   if (this.ddMenuWrap.nativeElement) {
-    //     console.log(this.ddMenuWrap.nativeElement);
-    // }
-    const comparison = (window.innerHeight - this.ddMenuWrap.nativeElement.offsetTop + 22) > 130;
-    console.log(comparison);
-    return comparison ? 'bottom' : 'top';
-    // return 'bottom';
-  }
+  // dropPosition(): string {
+  //
+  //   this.rows.forEach((child) => {
+  //     console.log(child.nativeElement.offsetTop);
+  //   });
+  //   // console.log(this.ddMenuWrap);
+  //   // console.log(this.ddMenuWrap);
+  //   console.log('window.innerHeight', window.innerHeight);
+  //   // console.log('nativeElement.offsetTop', this.ddMenuWrap.nativeElement.offsetTop);
+  //   // console.log('nativeElement.offsetHeight', this.ddMenuWrap.nativeElement.offsetHeight);
+  //   //   if (this.ddMenuWrap.nativeElement) {
+  //   //     console.log(this.ddMenuWrap.nativeElement);
+  //   // }
+  //   // const comparison = (window.innerHeight - this.ddMenuWrap.nativeElement.offsetTop + 22) > 130;
+  //   // console.log(comparison);
+  //   // return comparison ? 'bottom' : 'top';
+  //   return 'top';
+  // }
 
 
   ngOnInit() {
@@ -357,8 +364,22 @@ export class DetailsAndRecordsComponent implements OnInit {
     });
   }
 
-  dropOpen() {
+  dropOpen(event, id) {
     this.details[this.rowHowerIndex].ddShow = this.details[this.rowHowerIndex].ddShow === false;
+    // console.log(event.path[3].scrollHeight);
+    // console.log(event);
+    //
+    // console.log(id);
+
+    if ((this.details.length - 4) < id) {
+      this.dropDirection = 'top';
+    } else {
+      this.dropDirection = 'bottom';
+    }
+
+    // const comparison = (window.innerHeight - 280 - event.offsetY + 22) > 130;
+    // console.log(comparison);
+    // return comparison ? 'bottom' : 'top';
   }
 
   playerAction(index) {
@@ -379,7 +400,16 @@ export class DetailsAndRecordsComponent implements OnInit {
       this.details[i].play = (index === i ? !this.details[i].play : false);
     }
 
-    this.details[index].playerOpen = true;
+
+    this.services.getSound(this.details[index].accountFile.id)
+      .then(res => {
+        console.log(res);
+      })
+      .catch( err => {
+        console.error(err);
+      });
+
+
 
     // if (this.details[index].playerOpen === true && this.details[index].playerContentShow === true) {
     //   this.details[index].playerContentShow = false;
