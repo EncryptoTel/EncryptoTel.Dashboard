@@ -30,6 +30,7 @@ import {environment} from '../environments/environment';
 import {RefsServices} from '../services/refs.services';
 import {NotificatorServices} from '../services/notificator.services';
 import {SizePipe} from '../services/size.pipe';
+import {ClipboardModule} from 'ngx-clipboard';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -45,6 +46,7 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         ComponentsModule,
         MainRouterModule,
         SocketIoModule.forRoot(config),
+        ClipboardModule
     ],
     providers: [
         LoggerServices,

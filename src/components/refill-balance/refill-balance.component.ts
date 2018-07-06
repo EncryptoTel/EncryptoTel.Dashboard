@@ -7,12 +7,13 @@ import {CoursesModel} from '../../models/courses.model';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {MessageServices} from '../../services/message.services';
 import {normalizeSlashes} from 'ts-node/dist';
+import {ClipboardService} from 'ngx-clipboard';
 
 @Component({
     selector: 'refill-balance',
     templateUrl: './template.html',
     animations: [FadeAnimation('300ms')],
-    providers: [RefillServices],
+    providers: [RefillServices, ClipboardService],
     styleUrls: ['./local.sass']
 })
 export class RefillBalanceComponent implements OnInit {
@@ -43,7 +44,8 @@ export class RefillBalanceComponent implements OnInit {
 
     constructor(private _refill: RefillServices,
                 private _storage: LocalStorageServices,
-                private _message: MessageServices) {}
+                private _message: MessageServices,
+                private clipboard: ClipboardService) {}
 
     selectRefillMethod(refillMethod: RefillModel) {
         if (this.validValue(this.amount.value)) {
@@ -109,6 +111,10 @@ export class RefillBalanceComponent implements OnInit {
     getBalance() {
         const user = this._storage.readItem('pbx_user');
         return user['balance'];
+    }
+
+    copyToClipboard() {
+        this.clipboard.copyFromContent(this.payment.address);
     }
 
     ngOnInit(): void {
