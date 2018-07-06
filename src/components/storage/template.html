@@ -168,7 +168,7 @@
                     <!--</div>-->
                 </div>
             </div>
-            <pbx-pagination *ngIf="!loading && pageInfo.itemsCount > 1"
+            <pbx-pagination *ngIf="!loading && pageInfo.itemsCount > pageInfo.limit"
                             [currentPage]="pageInfo.page"
                             [totalPages]="pageInfo.pageCount"
                             (onPageChange)="setPage($event)">

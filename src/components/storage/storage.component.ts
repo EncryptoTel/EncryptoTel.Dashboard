@@ -33,10 +33,9 @@ export class StorageComponent implements OnInit {
     table = {
         audio: {
             head: [
-                {title: 'Name', sort: true, width: null},
-                {title: 'Date', sort: true, width: 168},
+                {title: 'Name', sort: false, width: null},
+                {title: 'Date', sort: false, width: 168},
                 {title: 'Size, Mbyte', sort: false, width: 104},
-                // {title: '', sort: false, width: 48}
                 ],
             key: ['name', 'date', 'size'],
             defaultSort: {isDown: true, column: 1}
@@ -63,7 +62,7 @@ export class StorageComponent implements OnInit {
         //     defaultSort: {isDown: true, column: 1}
         // },
     };
-    sort = {isDown: true, column: 1};
+    sort = {isDown: true, column: -1};
 
     player = {item: [], current: null};
     select = [];
@@ -210,9 +209,9 @@ export class StorageComponent implements OnInit {
                 formData.append('account_file_type', 'audio');
                 formData.append('account_file', files[i]);
                 this.service.uploadFile(formData).then(res => {
-                    this.getList();
                     // console.log(res);
                     this.loading -= 1;
+                    if (!this.loading) this.getList();
                 }).catch(err => {
                     // console.log(err);
                     this.loading -= 1;
