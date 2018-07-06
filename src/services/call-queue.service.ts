@@ -73,10 +73,6 @@ export class CallQueueService extends BaseService {
         });
     }
 
-    delete(id: number) {
-        return this.request.del(`v1/call_queue/${id}`, true);
-    }
-
     search(value: string) {
         return this.request.post(`v1/call_queue/members`, {sipOuter: this.callQueue.sipId, q: value}, true);
     }
