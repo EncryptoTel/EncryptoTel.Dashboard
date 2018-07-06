@@ -14,6 +14,7 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
 
     id: number = 0;
     loading: number = 0;
+    saving: boolean = false;
 
     constructor(public service: CallQueueService,
                 private activatedRoute: ActivatedRoute,
@@ -22,8 +23,10 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
     }
 
     save(): void {
-        this.service.save(this.activatedRoute.snapshot.params.id).then(res => {
+        this.saving = true;
+        this.service.save(this.id).then(res => {
             this.router.navigate(['cabinet', 'call-queues']);
+            this.saving = false;
         });
     }
 
@@ -43,7 +46,7 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
             (this.service.callQueue.name.length < 255) &&
             this.service.callQueue.strategy &&
             this.service.callQueue.timeout &&
-            this.service.callQueue.maxlen &&
+            // this.service.callQueue.maxlen &&
             this.service.callQueue.queueMembers.length > 0
         );
     }
@@ -95,6 +98,7 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
             this.service.userView.phoneNumber = res.sip.phoneNumber;
             this.service.userView.announceHoldtime = res.announceHoldtime !== 0;
             this.setMembers(res.queueMembers);
+            this.getParams();
             this.loading -= 1;
         }).catch(err => {
             console.error(err);
@@ -118,7 +122,6 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
         } else {
             this.service.editMode = false;
         }
-        this.getParams();
     }
 
     ngOnDestroy() {

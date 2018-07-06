@@ -9,13 +9,12 @@
             </div>
         </div>
         <div class="call_queues_create_buttons" [ngClass]="{'back-wrap':service.userView.isCurCompMembersAdd}">
-            <button *ngIf="!service.userView.isCurCompMembersAdd" class="call_queues_create_button cancel"
-                    (click)="cancel()">Cancel
-            </button>
-            <button *ngIf="!service.userView.isCurCompMembersAdd" class="call_queues_create_button save"
-                    (click)="save()"
-                    [ngClass]="{'inactive':validation()}">Save
-            </button>
+            <pbx-button *ngIf="!service.userView.isCurCompMembersAdd"
+                        (onClick)="cancel()" value="Cancel" buttonType="cancel">
+            </pbx-button>
+            <pbx-button *ngIf="!service.userView.isCurCompMembersAdd"
+                        [inactive]="validation()"
+                        (onClick)="save()" [loading]="saving" value="Save" buttonType="success"></pbx-button>
             <button *ngIf="service.userView.isCurCompMembersAdd" class="call_queues_create_button back"
                     (click)="back()">
                 Back

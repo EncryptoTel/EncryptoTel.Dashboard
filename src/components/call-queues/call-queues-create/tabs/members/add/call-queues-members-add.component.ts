@@ -30,7 +30,7 @@ export class CallQueuesMembersAddComponent {
     };
 
     selectMember(member: SipInner): void {
-        console.log(member);
+        // console.log(member);
         const checkResult = this.service.callQueue.queueMembers.find(el => {
             return el.sipId === member.id;
         });
@@ -40,9 +40,10 @@ export class CallQueuesMembersAddComponent {
         }
     }
 
-    deleteMember(id: number): void {
+    deleteMember(member: SipInner): void {
+        // console.log('deleteMember', member);
         const checkResult = this.service.callQueue.queueMembers.findIndex(el => {
-            return el.sipId === id;
+            return el.sipId === member.id;
         });
         if (checkResult >= 0) {
             this.service.callQueue.queueMembers.splice(checkResult, 1);

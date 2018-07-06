@@ -44,8 +44,8 @@ export class CallQueuesGeneralComponent {
 
     private getNumbers(): void {
         this.refs.getSipOuters().then(res => {
-            console.log(1);
-            console.log(res);
+            // console.log(1);
+            // console.log(res);
             this.numbers = res;
             this.loading = false;
         }).catch(err => {
