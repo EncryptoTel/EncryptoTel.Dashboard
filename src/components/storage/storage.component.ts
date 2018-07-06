@@ -201,6 +201,14 @@ export class StorageComponent implements OnInit {
         }
     }
 
+    sendFile(e) {
+        e.preventDefault();
+        const files = e.target.files;
+        if (e.target.files[0]) {
+            this.uploadFile(files);
+        }
+    }
+
     private uploadFile(files) {
         for (let i = 0; i < files.length; i++) {
             if (files[i].type === 'audio/mp3' || files[i].type === 'audio/ogg' || files[i].type === 'audio/wav' || files[i].type === 'audio/mpeg' || files[i].type === 'audio/x-wav') {
