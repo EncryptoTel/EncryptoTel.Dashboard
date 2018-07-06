@@ -11,7 +11,6 @@ import {MainRouterModule} from './router.module';
 import {ComponentsModule} from './components.module';
 
 import {LoggerServices} from '../services/logger.services';
-import {StorageServices} from '../services/storage.services';
 import {LocalStorageServices} from '../services/local-storage.services';
 import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
@@ -27,15 +26,17 @@ import {RingGroupsServices} from '../services/ring-groups.service';
 
 import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import {WsServices} from '../services/ws.services';
-import {environment as _env} from '../environments/environment';
+import {environment} from '../environments/environment';
 import {RefsServices} from '../services/refs.services';
 import {NotificatorServices} from '../services/notificator.services';
+import {SizePipe} from '../services/size.pipe';
 
-const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket']}};
+const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
 @NgModule({
     declarations: [
-        MainViewComponent
+        MainViewComponent,
+        SizePipe
     ],
     imports: [
         BrowserModule,
@@ -43,7 +44,7 @@ const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket'
         HttpClientModule,
         ComponentsModule,
         MainRouterModule,
-        SocketIoModule.forRoot(config)
+        SocketIoModule.forRoot(config),
     ],
     providers: [
         LoggerServices,
@@ -63,7 +64,8 @@ const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket'
         WsServices,
         RefsServices,
         RingGroupsServices,
-        NotificatorServices
+        NotificatorServices,
+        SizePipe
     ],
     bootstrap: [MainViewComponent]
 })

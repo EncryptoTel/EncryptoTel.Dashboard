@@ -75,7 +75,7 @@ export class WsServices {
     }
 
     log(details: string, data: any) {
-        this.logger.log(details, data);
+        this.logger.logEx(this, details, data);
     }
 
     setToken(token: string) {

@@ -4,29 +4,29 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 
-export class StorageService  {
-  constructor(
-    private _req: RequestServices
-  ) {}
+export class StorageService extends BaseService {
 
-  /*uploadFile(data: FormData): Promise<any> {
-      return this.rawRequest('POST', '', data);
-  }*/
+    uploadFile(data: FormData): Promise<any> {
+        return this.rawRequest('POST', '', data);
+    }
 
-  getList(pageInfo: any, type: string): Promise<any> {
-    return this._req.get(`v1/account/file?limit=${pageInfo.limit}&page=${pageInfo.page}&type=${type}`, true);
-  }
+    getList(pageInfo: any, type: string, search: string): Promise<any> {
+        let url = `?limit=${pageInfo.limit}&page=${pageInfo.page}`;
+        if (type) url += `&type=${type}`;
+        if (search) url += `&q=${search}`;
+        return this.get(url);
+    }
 
-  getTypes(): Promise<any> {
-    return this._req.get('v1/handbooks/account/file/get-types', true);
-  }
+    // getTypes(): Promise<any> {
+    //   return this._req.get('v1/handbooks/account/file/get-types', true);
+    // }
 
-  /*getList(): Promise<any> {
-      return this.get('');
-  }*/
+    /*getList(): Promise<any> {
+        return this.get('');
+    }*/
 
-  /*onInit() {
-      this.url = 'v1/account/file';
-  }*/
+    onInit() {
+        this.url = 'v1/account/file';
+    }
 
 }

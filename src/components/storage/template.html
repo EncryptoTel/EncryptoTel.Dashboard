@@ -1,192 +1,203 @@
-<div class="storage_wrap" *ngIf="false">
-  <div class="storage_header">
-    <div class="storage_header_text">Select Source:</div>
-    <div class="storage_header_menu">
-      <div class="storage_header_menu_title">Call records <span>(450 Mb)</span></div>
-      <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="storage_header_icon"></svg-icon>
-      <div class="storage_header_list">
-        <div class="storage_header_list_item">Sound files <span>(15 Mb)</span></div>
-        <div class="storage_header_list_item">Voicemail <span>(235 Mb)</span></div>
-        <div class="storage_header_list_item">Trash <span>(140 Mb)</span></div>
-      </div>
-    </div>
-    <div class="storage_header_text">Search:</div>
-    <input placeholder="search by name or phone" maxlength="64" class="storage_header_input">
-    <div class="storage_button download"><span>Download</span></div>
-    <div class="storage_button delete"><span>Delete Selected</span></div>
-  </div>
-
-  <div class="storage_body">
-    <!-- header -->
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">From</div>
-    </div>
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">To</div>
-    </div>
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">Start time</div>
-    </div>
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">Duration</div>
-    </div>
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">Size, Mbyte</div>
-    </div>
-    <div class="storage_body_head_item">
-      <div class="storage_body_head_text">Record</div>
-    </div>
-    <div class="storage_body_head_item"></div>
-    <!-- first item -->
-    <div class="storage_body_item_text">+7(123)456-78-90</div>
-    <div class="storage_body_item_text">+7(321)456-78-90</div>
-    <div class="storage_body_item_text">25/06/2017 12:34:56</div>
-    <div class="storage_body_item_text">00:03:14</div>
-    <div class="storage_body_item_text">1.57</div>
-    <div class="storage_body_item_text">
-      <svg-icon src="../../assets/icons/play_24px.svg" class="storage_body_item_icon"></svg-icon>
-    </div>
-    <div class="storage_body_item_text">
-      <svg-icon src="../../assets/icons/cancel_delete_12px.svg" class="storage_body_item_icon"></svg-icon>
-    </div>
-  </div>
-
-  <pbx-pagination *ngIf="!loading && pageInfo.itemsCount > 1"
-                  [currentPage]="pageInfo.page"
-                  [totalPages]="pageInfo.pageCount"
-                  (onPageChange)="setPage($event)">
-  </pbx-pagination>
-
-  <!--<div class="storage_footer">-->
-  <!--<div class="storage_button pagination_inactive"><span>«</span></div>-->
-  <!--<div class="storage_button pagination_inactive"><span>Prev</span></div>-->
-  <!--<div class="storage_footer_text">01 of 30</div>-->
-  <!--<div class="storage_button pagination"><span>Next</span></div>-->
-  <!--<div class="storage_button pagination"><span>»</span></div>-->
-  <!--</div>-->
-
-  <div class="storage_dropper">
-    <span>
-      <span class="storage_dropper_container"
-            (drop)="dropHandler($event)"
-            (dragover)="dragOverHandler($event)"
-            (dragend)="dragEndHandler($event)"
-            (dragleave)="dragLeaveHandler($event)">
-        <svg-icon src="../../assets/icons/download_24px.svg" class="storage_dropper_icon"></svg-icon>
-        <span class="storage_dropper_text">Drop files here to upload<br>or</span>
-        <span class="storage_dropper_link">select file</span>
-      </span>
-    </span>
-  </div>
-</div>
-
 <div class="store">
-  <div class="store_grid">
-    <div class="store_header">
-      <div class="store_header_block">
-        Select Source: <pbx-select [options]="source.option"
-                                   [selected]="source.select"
-                                   [objectKey]="'title'"
-                                   (onSelect)="selectSource($event)"></pbx-select>
-      </div>
-      <div class="store_header_block">
-        Search: <input [(ngModel)]="pageInfo.search">
-      </div>
-      <div class="store_header_button_wrap" *ngIf="source.select.type==='call_record'">
-        <pbx-button [value]="'Download Selected'" [inactive]="!select.length"></pbx-button>
-        <pbx-button [value]="'Delete'" [buttonType]="'error'" [inactive]="!select.length"></pbx-button>
-      </div>
-      <div class="store_header_button_wrap" *ngIf="source.select.type==='audio'">
-        <pbx-button [value]="'Delete Selected'" [buttonType]="'error'" [inactive]="!select.length"></pbx-button>
-      </div>
-      <div class="store_header_button_wrap" *ngIf="source.select.type==='trash'">
-        <pbx-button [value]="'Restore Selected'" [inactive]="!select.length"></pbx-button>
-        <pbx-button [value]="'Empty Trash'" [buttonType]="'error'"></pbx-button>
-      </div>
-    </div>
-    <pbx-loader *ngIf="loading!==0"></pbx-loader>
-    <div class="store_table" *ngIf="loading===0&&source.select.type==='call_record'&&data.length>0">
-      <div class="store_table_header">
-        <div class="store_table_item {{item.width?'fix_'+item.width:''}}"
-             *ngFor="let item of table.call_record.head;let i=index">
-          <span (click)="setSort(i)" [ngClass]="{'sortable':item.sort}">{{item.title}}</span>
-          <div class="store_table_header_icon" *ngIf="sort.column===i">
-            <svg-icon src="../../assets/icons/sorting_{{sort.isDown?'down':'up'}}_16px.svg"></svg-icon>
-          </div>
-        </div>
-      </div>
-      <div class="store_table_body">
-        <div class="store_table_row" *ngFor="let item of fake.call_record" (click)="selectItem(item.id)"
-             [ngClass]="{'select':find(select,item.id)}">
-          <div class="store_table_item{{table.call_record.head[0].width?' fix_'+table.call_record.head[0].width:''}}">{{item.from}}</div>
-          <div class="store_table_item{{table.call_record.head[1].width?' fix_'+table.call_record.head[1].width:''}}">{{item.to}}</div>
-          <div class="store_table_item{{table.call_record.head[2].width?' fix_'+table.call_record.head[2].width:''}}">{{item.start}}</div>
-          <div class="store_table_item{{table.call_record.head[3].width?' fix_'+table.call_record.head[3].width:''}}">{{time(item.duration)}}</div>
-          <div class="store_table_item{{table.call_record.head[4].width?' fix_'+table.call_record.head[4].width:''}}">{{size(item.size)}}</div>
-          <div class="store_table_item{{table.call_record.head[5].width?' fix_'+table.call_record.head[5].width:''}}">
-            <div class="store_player_wrap {{item.id===player.current?'play':''}}" [ngClass]="{'show':find(player.item,item.id)}" (click)="selectItem(item.id)">
-              <div class="store_player_icon" (click)="play(item.id)">
-                <svg-icon src="../../assets/icons/{{item.id!==player.current?'play':'pause'}}_24px.svg"></svg-icon>
-              </div>
-              <div class="store_player_bar">
-                <div class="store_player_stick done big"></div>
-                <div class="store_player_stick done big"></div>
-                <div class="store_player_stick done medium"></div>
-                <div class="store_player_stick done small"></div>
-                <div class="store_player_stick done small"></div>
-                <div class="store_player_stick done medium"></div>
-                <div class="store_player_stick done small"></div>
-                <div class="store_player_stick done big"></div>
-                <div class="store_player_stick big"></div>
-                <div class="store_player_stick small"></div>
-                <div class="store_player_stick medium"></div>
-                <div class="store_player_stick big"></div>
-                <div class="store_player_stick small"></div>
-                <div class="store_player_stick medium"></div>
-                <div class="store_player_stick medium"></div>
-                <div class="store_player_stick small"></div>
-                <div class="store_player_stick big"></div>
-                <div class="store_player_stick big"></div>
-                <div class="store_player_stick small"></div>
-                <div class="store_player_stick big"></div>
-                <div class="store_player_stick big"></div>
-                <div class="store_player_stick large"></div>
-                <div class="store_player_stick large"></div>
-                <div class="store_player_stick small"></div>
-              </div>
-              <div class="store_player_time">{{time(item.duration)}}</div>
+    <div class="store_grid">
+        <div class="store_header">
+            <div class="store_header_block">
+                Select Source:
+                <pbx-select [options]="source.option"
+                            [selected]="source.select"
+                            [objectKey]="'title'"
+                            (onSelect)="selectSource($event)"></pbx-select>
             </div>
-          </div>
-          <div class="store_table_item{{table.call_record.head[6].width?' fix_'+table.call_record.head[6].width:''}}">
-            <div class="store_table_item_icon" (click)="clickDeleteIcon(item.id)">
-              <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+            <div class="store_header_block">
+                Search: <input [(ngModel)]="search" (keyup)="onSearchKeyUp()">
             </div>
-          </div>
+            <div class="store_header_button_wrap" *ngIf="source.select.type==='call_record'">
+                <pbx-button [value]="'Download Selected'" [inactive]="!select.length"></pbx-button>
+                <pbx-button [value]="'Delete'" [buttonType]="'error'" [inactive]="!select.length"></pbx-button>
+            </div>
+            <div class="store_header_button_wrap" *ngIf="source.select.type==='audio'">
+                <pbx-button [value]="'Delete Selected'" [buttonType]="'error'" [inactive]="!select.length" (onClick)="deleteSelected()"></pbx-button>
+            </div>
+            <div class="store_header_button_wrap" *ngIf="source.select.type==='trash'">
+                <pbx-button [value]="'Restore Selected'" [inactive]="!select.length"></pbx-button>
+                <pbx-button [value]="'Empty Trash'" [buttonType]="'error'"></pbx-button>
+            </div>
         </div>
-      </div>
-      <pbx-pagination></pbx-pagination>
+        <pbx-loader *ngIf="loading!==0"></pbx-loader>
+        <!--<div class="store_table" *ngIf="loading === 0 && source.select.type === 'call_record' && pageInfo.items.length > 0">-->
+            <!--<div class="store_table_header">-->
+                <!--<div class="store_table_item {{item.width?'fix_'+item.width:''}}"-->
+                     <!--*ngFor="let item of table.call_record.head;let i=index">-->
+                    <!--<span (click)="setSort(i)" [ngClass]="{'sortable':item.sort}">{{item.title}}</span>-->
+                    <!--<div class="store_table_header_icon" *ngIf="sort.column===i">-->
+                        <!--<svg-icon src="../../assets/icons/sorting_{{sort.isDown?'down':'up'}}_16px.svg"></svg-icon>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="store_table_body">-->
+                <!--<div class="store_table_row" *ngFor="let item of pageInfo.items" (click)="selectItem(item.id)"-->
+                     <!--[ngClass]="{'select':find(select,item.id)}">-->
+                    <!--<div class="store_table_item{{table.call_record.head[0].width?' fix_'+table.call_record.head[0].width:''}}">-->
+                        <!--{{item.from}}-->
+                    <!--</div>-->
+                    <!--<div class="store_table_item{{table.call_record.head[1].width?' fix_'+table.call_record.head[1].width:''}}">-->
+                        <!--{{item.to}}-->
+                    <!--</div>-->
+                    <!--<div class="store_table_item{{table.call_record.head[2].width?' fix_'+table.call_record.head[2].width:''}}">-->
+                        <!--{{item.start}}-->
+                    <!--</div>-->
+                    <!--<div class="store_table_item{{table.call_record.head[3].width?' fix_'+table.call_record.head[3].width:''}}">-->
+                        <!--{{time(item.duration)}}-->
+                    <!--</div>-->
+                    <!--<div class="store_table_item{{table.call_record.head[4].width?' fix_'+table.call_record.head[4].width:''}}">-->
+                        <!--{{size(item.size)}}-->
+                    <!--</div>-->
+                    <!--<div class="store_table_item{{table.call_record.head[5].width?' fix_'+table.call_record.head[5].width:''}}">-->
+                        <!--<div class="store_player_wrap {{item.id===player.current?'play':''}}"-->
+                             <!--[ngClass]="{'show':find(player.item,item.id)}" (click)="selectItem(item.id)">-->
+                            <!--<div class="store_player_icon" (click)="play(item.id)">-->
+                                <!--<svg-icon-->
+                                        <!--src="../../assets/icons/{{item.id!==player.current?'play':'pause'}}_24px.svg"></svg-icon>-->
+                            <!--</div>-->
+                            <!--<div class="store_player_bar">-->
+                                <!--<div class="store_player_stick done big"></div>-->
+                                <!--<div class="store_player_stick done big"></div>-->
+                                <!--<div class="store_player_stick done medium"></div>-->
+                                <!--<div class="store_player_stick done small"></div>-->
+                                <!--<div class="store_player_stick done small"></div>-->
+                                <!--<div class="store_player_stick done medium"></div>-->
+                                <!--<div class="store_player_stick done small"></div>-->
+                                <!--<div class="store_player_stick done big"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick small"></div>-->
+                                <!--<div class="store_player_stick medium"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick small"></div>-->
+                                <!--<div class="store_player_stick medium"></div>-->
+                                <!--<div class="store_player_stick medium"></div>-->
+                                <!--<div class="store_player_stick small"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick small"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick large"></div>-->
+                                <!--<div class="store_player_stick large"></div>-->
+                                <!--<div class="store_player_stick small"></div>-->
+                            <!--</div>-->
+                            <!--<div class="store_player_time">{{time(item.duration)}}</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="store_table_item{{table.call_record.head[6].width?' fix_'+table.call_record.head[6].width:''}}">-->
+                        <!--<div class="store_table_item_icon" (click)="clickDeleteIcon(item.id)">-->
+                            <!--<svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<pbx-pagination></pbx-pagination>-->
+        <!--</div>-->
+        <div class="store_table" *ngIf="loading === 0 && source.select.type === 'audio' && pageInfo.items.length > 0">
+            <div class="store_table_header">
+                <div class="store_table_item {{item.width?'fix_'+item.width:''}}"
+                     *ngFor="let item of table.audio.head;let i=index">
+                    <span (click)="setSort(i)" [ngClass]="{'sortable':item.sort}">{{item.title}}</span>
+                    <div class="store_table_header_icon" *ngIf="sort.column===i">
+                        <svg-icon src="../../assets/icons/sorting_{{sort.isDown?'down':'up'}}_16px.svg"></svg-icon>
+                    </div>
+                </div>
+            </div>
+            <div class="store_table_body">
+                <div class="store_table_row" *ngFor="let item of pageInfo.items" (click)="selectItem(item.id)"
+                     [ngClass]="{'select':find(select,item.id)}">
+                    <div class="store_table_item{{table.audio.head[0].width?' fix_'+table.audio.head[0].width:''}}">
+                        {{item.fileName}}
+                    </div>
+                    <div class="store_table_item{{table.audio.head[1].width?' fix_'+table.audio.head[1].width:''}}">
+                        {{item.created}}
+                    </div>
+                    <div class="store_table_item{{table.audio.head[2].width?' fix_'+table.audio.head[2].width:''}}">
+                        {{ getSize(item.fileSize) }}
+                    </div>
+                    <!--<div class="store_table_item{{table.call_record.head[3].width?' fix_'+table.call_record.head[3].width:''}}">-->
+                        <!--{{time(item.duration)}}-->
+                    <!--</div>-->
+                    <!--<div class="store_table_item{{table.call_record.head[4].width?' fix_'+table.call_record.head[4].width:''}}">-->
+                        <!--{{size(item.size)}}-->
+                    <!--</div>-->
+                    <!--<div class="store_table_item{{table.call_record.head[5].width?' fix_'+table.call_record.head[5].width:''}}">-->
+                        <!--<div class="store_player_wrap {{item.id===player.current?'play':''}}"-->
+                             <!--[ngClass]="{'show':find(player.item,item.id)}" (click)="selectItem(item.id)">-->
+                            <!--<div class="store_player_icon" (click)="play(item.id)">-->
+                                <!--<svg-icon-->
+                                        <!--src="../../assets/icons/{{item.id!==player.current?'play':'pause'}}_24px.svg"></svg-icon>-->
+                            <!--</div>-->
+                            <!--<div class="store_player_bar">-->
+                                <!--<div class="store_player_stick done big"></div>-->
+                                <!--<div class="store_player_stick done big"></div>-->
+                                <!--<div class="store_player_stick done medium"></div>-->
+                                <!--<div class="store_player_stick done small"></div>-->
+                                <!--<div class="store_player_stick done small"></div>-->
+                                <!--<div class="store_player_stick done medium"></div>-->
+                                <!--<div class="store_player_stick done small"></div>-->
+                                <!--<div class="store_player_stick done big"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick small"></div>-->
+                                <!--<div class="store_player_stick medium"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick small"></div>-->
+                                <!--<div class="store_player_stick medium"></div>-->
+                                <!--<div class="store_player_stick medium"></div>-->
+                                <!--<div class="store_player_stick small"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick small"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick big"></div>-->
+                                <!--<div class="store_player_stick large"></div>-->
+                                <!--<div class="store_player_stick large"></div>-->
+                                <!--<div class="store_player_stick small"></div>-->
+                            <!--</div>-->
+                            <!--<div class="store_player_time">{{time(item.duration)}}</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="store_table_item{{table.call_record.head[6].width?' fix_'+table.call_record.head[6].width:''}}">-->
+                        <!--<div class="store_table_item_icon" (click)="clickDeleteIcon(item.id)">-->
+                            <!--<svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+            <pbx-pagination *ngIf="!loading && pageInfo.itemsCount > 1"
+                            [currentPage]="pageInfo.page"
+                            [totalPages]="pageInfo.pageCount"
+                            (onPageChange)="setPage($event)">
+            </pbx-pagination>
+        </div>
+        <!--<div class="store_table" *ngIf="loading === 0 && source.select.type === 'trash' && pageInfo.items.length > 0">3</div>-->
+        <div class="store_table" *ngIf="loading === 0 && pageInfo.items.length === 0">
+            <div class="store_table_message">Nothing found</div>
+        </div>
     </div>
-    <div class="store_table" *ngIf="loading===0&&source.select.type==='audio'&&data.length>0">2</div>
-    <div class="store_table" *ngIf="loading===0&&source.select.type==='trash'&&data.length>0">3</div>
-    <div class="store_table" *ngIf="loading===0&&data.length===0">
-      <div class="store_table_message">Nothing found</div>
-    </div>
-  </div>
-  <pbx-sidebar *ngIf="source.select.type!=='trash'">
-    <div *ngIf="source.select.type==='call_record'" class="store_sidebar_call_record">
-      <div class="store_sidebar_call_record_title">Information</div>
-      <div class="store_sidebar_call_record_item" *ngIf="select.length===0">Nothing selected</div>
-      <div class="store_sidebar_call_record_item" *ngIf="select.length>0">Selected: {{select.length}} files</div>
-      <div class="store_sidebar_call_record_item" *ngIf="select.length>0">Total Size: {{size(totalSize())}} Mb</div>
-    </div>
-    <div *ngIf="source.select.type==='audio'" class="store_sidebar_audio">
-      <div class="store_sidebar_audio_icon">
-        <svg-icon src="../../assets/icons/download_24px.svg"></svg-icon>
-      </div>
-      <div class="store_sidebar_audio_text">Drop files here to upload</div>
-      <div class="store_sidebar_audio_text">or</div>
-      <div class="store_sidebar_audio_select">select files</div>
-    </div>
-  </pbx-sidebar>
+    <pbx-sidebar *ngIf="source.select.type!=='trash'">
+        <!--<div *ngIf="source.select.type==='call_record'" class="store_sidebar_call_record">-->
+        <!--<div class="store_sidebar_call_record_title">Information</div>-->
+        <!--<div class="store_sidebar_call_record_item" *ngIf="select.length===0">Nothing selected</div>-->
+        <!--<div class="store_sidebar_call_record_item" *ngIf="select.length>0">Selected: {{select.length}} files</div>-->
+        <!--<div class="store_sidebar_call_record_item" *ngIf="select.length>0">Total Size: {{size(totalSize())}} Mb</div>-->
+        <!--</div>-->
+        <!--<div *ngIf="source.select.type==='audio'" class="store_sidebar_audio">-->
+        <div class="store_sidebar_audio" (drop)="dropHandler($event)"
+             (dragover)="dragOverHandler($event)"
+             (dragend)="dragEndHandler($event)"
+             (dragleave)="dragLeaveHandler($event)">
+            <div class="store_sidebar_audio_icon">
+                <svg-icon src="../../assets/icons/download_24px.svg"></svg-icon>
+            </div>
+            <div class="store_sidebar_audio_text">Drop files here to upload</div>
+            <!--<div class="store_sidebar_audio_text">or</div>-->
+            <!--<div class="store_sidebar_audio_select">select files</div>-->
+        </div>
+    </pbx-sidebar>
 </div>
-<pbx-modal [modal]="modal">Do you really want delete this file?</pbx-modal>
+<pbx-modal [modal]="modal" (onConfirm)="doDeleteSelected()">Do you really want to delete this file?</pbx-modal>
