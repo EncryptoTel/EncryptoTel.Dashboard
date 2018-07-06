@@ -4,3 +4,8 @@ export class PageInfoModel {
     public pageCount: number;
     public limit: number;
 }
+
+export class SortModel {
+    public column: string;
+    public isDown: boolean;
+}

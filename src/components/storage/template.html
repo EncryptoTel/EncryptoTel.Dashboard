@@ -102,7 +102,7 @@
                 <div class="store_table_item {{item.width?'fix_'+item.width:''}}"
                      *ngFor="let item of table.audio.head;let i=index">
                     <span (click)="setSort(i)" [ngClass]="{'sortable':item.sort}">{{item.title}}</span>
-                    <div class="store_table_header_icon" *ngIf="sort.column===i">
+                    <div class="store_table_header_icon" *ngIf="sort.column===table.audio.key[i]">
                         <svg-icon src="../../assets/icons/sorting_{{sort.isDown?'down':'up'}}_16px.svg"></svg-icon>
                     </div>
                 </div>

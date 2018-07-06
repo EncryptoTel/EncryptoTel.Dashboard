@@ -1,6 +1,7 @@
 import {BaseService} from "./base.service";
 import {RequestServices} from './request.services';
 import {Injectable} from '@angular/core';
+import {SortModel} from "../models/page-info.model";
 
 @Injectable()
 
@@ -10,10 +11,11 @@ export class StorageService extends BaseService {
         return this.rawRequest('POST', '', data);
     }
 
-    getList(pageInfo: any, type: string, search: string): Promise<any> {
+    getList(pageInfo: any, type: string, search: string, sort: SortModel): Promise<any> {
         let url = `?limit=${pageInfo.limit}&page=${pageInfo.page}`;
         if (type) url += `&type=${type}`;
         if (search) url += `&q=${search}`;
+        if (sort) url = url + `&sort[${sort.column}]=${sort.isDown ? 'down' : 'up'}`;
         return this.get(url);
     }
 

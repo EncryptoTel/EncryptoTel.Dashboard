@@ -3,6 +3,7 @@ import {StorageService} from "../../services/storage.service";
 import {MessageServices} from "../../services/message.services";
 import {StorageModel} from "../../models/storage.model";
 import {SizePipe} from '../../services/size.pipe';
+import {SortModel} from "../../models/page-info.model";
 
 @Component({
     selector: 'pbx-storage',
@@ -33,12 +34,12 @@ export class StorageComponent implements OnInit {
     table = {
         audio: {
             head: [
-                {title: 'Name', sort: false, width: null},
-                {title: 'Date', sort: false, width: 168},
-                {title: 'Size, Mbyte', sort: false, width: 104},
+                {title: 'Name', sort: true, width: null},
+                {title: 'Date', sort: true, width: 168},
+                {title: 'Size, MB', sort: true, width: 104},
                 ],
             key: ['name', 'date', 'size'],
-            defaultSort: {isDown: true, column: 1}
+            defaultSort: {isDown: true, column: 'date'}
         },
         // call_record: {
         //     head: [
@@ -62,7 +63,7 @@ export class StorageComponent implements OnInit {
         //     defaultSort: {isDown: true, column: 1}
         // },
     };
-    sort = {isDown: true, column: -1};
+    sort: SortModel = new SortModel();
 
     player = {item: [], current: null};
     select = [];
@@ -80,7 +81,8 @@ export class StorageComponent implements OnInit {
             this.player = {item: [], current: null};
             this.search = '';
             this.source.select = event;
-            this.sort = this.table[this.source.select.type].defaultSort;
+            this.sort.isDown = this.table[this.source.select.type].defaultSort.isDown;
+            this.sort.column = this.table[this.source.select.type].defaultSort.column;
             this.getList();
         }
     }
@@ -105,9 +107,11 @@ export class StorageComponent implements OnInit {
     }
 
     setSort(index: number): void {
-        if (this.table[this.source.select.type].head[index].sort) {
-            this.sort.isDown = !(this.sort.column === index && this.sort.isDown);
-            this.sort.column = index;
+        const table = this.table[this.source.select.type];
+        if (table.head[index].sort) {
+            this.sort.isDown = !(this.sort.column === table.key[index] && this.sort.isDown);
+            this.sort.column = table.key[index];
+            this.getList();
         }
     }
 
@@ -236,7 +240,7 @@ export class StorageComponent implements OnInit {
 
     getList() {
         this.loading++;
-        this.service.getList(this.pageInfo, this.source.select.type, this.search).then(res => {
+        this.service.getList(this.pageInfo, this.source.select.type, this.search, this.sort).then(res => {
             this.pageInfo = res;
             this.pageInfo.limit = 10;
             this.loading--;
@@ -246,10 +250,9 @@ export class StorageComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.source.select = this.source.option[0];
         this.pageInfo.page = 1;
         this.pageInfo.limit = 10;
-        this.getList();
+        this.selectSource(this.source.option[0]);
     }
 
 }
