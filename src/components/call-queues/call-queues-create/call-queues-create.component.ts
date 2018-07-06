@@ -121,6 +121,7 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
             this.service.editMode = true;
         } else {
             this.service.editMode = false;
+            this.getParams();
         }
     }
 

@@ -19,7 +19,7 @@ export class LoggerServices {
 
     logEx = (obj: any, details: string, data: any): void => {
         if (!environment.production && this.blackList.indexOf(obj.constructor.name) === -1) {
-            console.log(`${obj.constructor.name}\n\n${details}\n\n`, data);
+            console.log(`${obj.constructor.name}: ${details}\n\n`, data);
         }
     }
 
