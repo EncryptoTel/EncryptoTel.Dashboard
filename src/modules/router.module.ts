@@ -24,11 +24,13 @@ import {MarketplaceComponent} from '../components/marketplace/marketplace.compon
 import {StorageComponent} from '../components/storage/storage.component';
 import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
 import {InvoicesComponent} from '../components/invoices/invoices.component';
+
 import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
 import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
 import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
 import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
 import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
+
 import {ProfileComponent} from '../components/settings/settings-items/profile/profile.component';
 import {AuthenticationComponent} from '../components/settings/settings-items/authentication/authentication.component';
 import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
@@ -43,10 +45,12 @@ import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phon
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
+
 import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
 import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
 import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/tabs/general/ring-groups-general.component';
 import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/tabs/members/ring-groups-members.component';
+import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/tabs/members/add/ring-groups-members-add.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -100,8 +104,8 @@ const Routes: Routes = [
               {path: '', redirectTo: 'general', pathMatch: 'full'},
               {path: 'general', component: RingGroupsGeneralComponent, data: {title: 'Create Ring Group', indexed: true}},
               {path: 'members', children: [
-                  {path: '', pathMatch: 'full', component: RingGroupsMembersComponent, data: {title: 'Create Ring Group', indexed: true}}
-                  // {path: 'add', component: RingGroupsMembersAddComponent, data: {title: 'Ring groups create', indexed: true}}
+                  {path: '', pathMatch: 'full', component: RingGroupsMembersComponent, data: {title: 'Create Ring Group', indexed: true}},
+                  {path: 'add', component: RingGroupsMembersAddComponent, data: {title: 'Ring groups create', indexed: true}}
                 ]}
             ]}
         ]},

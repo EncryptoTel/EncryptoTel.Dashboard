@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {QueuesListItem} from '../../models/queue.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {RingGroupsServices} from '../../services/ring-groups.service';
+import {RingGroupsListItem} from '../../models/ring-groups.model';
 
 @Component({
   selector: 'ring-groups-component',
@@ -19,14 +19,14 @@ export class RingGroupsComponent {
   }
 
   loading = true;
-  queues: QueuesListItem[] = [];
+  queues: RingGroupsListItem[] = [];
 
   tableInfo = {
     titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time'],
     keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout']
   };
 
-  edit(queue: QueuesListItem): void {
+  edit(queue: RingGroupsListItem): void {
     this.router.navigate(['edit', queue.id], {relativeTo: this.activatedRoute});
   }
 

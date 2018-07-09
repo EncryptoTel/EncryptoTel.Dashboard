@@ -19,18 +19,18 @@ class Member {
   ) {}
 }
 
-// export class QueuesListItem {
-//   constructor(
-//     public id: number,
-//     public name: string,
-//     public strategy: number,
-//     public timeout: number,
-//     public announceHoldtime: number,
-//     public announcePosition: boolean,
-//     public maxlen: number,
-//     public description: string,
-//   ) {}
-// }
+export class RingGroupsListItem {
+  constructor(
+    public id: number,
+    public name: string,
+    public strategy: number,
+    public timeout: number,
+    public announceHoldtime: number,
+    public announcePosition: boolean,
+    public maxlen: number,
+    public description: string,
+  ) {}
+}
 
 export class RungGroupsParams {
   constructor(
@@ -46,21 +46,21 @@ export class Param {
   ) {}
 }
 
-// export class Members {
-//   constructor(
-//     public items: SipInner[]
-//   ) {}
-// }
-//
-// export class SipInner {
-//   constructor(
-//     public id: number,
-//     public phoneNumber: string,
-//     public status: number,
-//     public sipOuterPhone?: string,
-//     public statusName?: string
-//   ) {}
-// }
+export class Members {
+  constructor(
+    public items: SipInner[]
+  ) {}
+}
+
+export class SipInner {
+  constructor(
+    public id: number,
+    public phoneNumber: string,
+    public status: number,
+    public sipOuterPhone?: string,
+    public statusName?: string
+  ) {}
+}
 
 export class Departments {
   constructor(

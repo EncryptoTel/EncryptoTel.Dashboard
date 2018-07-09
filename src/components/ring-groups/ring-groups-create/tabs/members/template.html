@@ -1,7 +1,7 @@
 <div class="call_queues_members_wrap" [@Fade]>
   <div class="call_queues_members_header">
     <span>Ring Groups Members</span>
-    <a routerLink="add" [skipLocationChange]="true" [ngClass]="{'inactive': !_services.callQueue.sipId}">Add Member</a>
+    <a routerLink="add" [skipLocationChange]="true" [ngClass]="{'inactive': !_services.ringGroups.sipId}">Add Member</a>
   </div>
   <pbx-table [tableInfo]="table.title" [tableItems]="members" (onDelete)="deleteMember($event)"></pbx-table>
 </div>

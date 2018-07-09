@@ -82,11 +82,11 @@ export class RingGroupsServices {
   }
 
   delete(id: number) {
-    return this.request.del(`v1/call_queue/${id}`, true);
+    return this.request.del(`v1/ring_group/${id}`, true);
   }
 
   search(value: string) {
-    return this.request.post(`v1/call_queue/members`, {sipOuter: this.ringGroups.sipId, q: value}, true);
+    return this.request.post(`v1/ring_group/members`, {sipOuter: this.ringGroups.sipId, q: value}, true);
   }
 
   getRingGroups() {
@@ -106,7 +106,7 @@ export class RingGroupsServices {
   }
 
   getMembers(id: number) {
-    return this.request.get(`v1/call_queue/members?sipOuter=${id}`, true);
+    return this.request.get(`v1/ring_group/members?sipOuter=${id}`, true);
   }
 
   getDepartments() {

@@ -10,5 +10,14 @@
     </div>
   </div>
   <pbx-loader *ngIf="loading"></pbx-loader>
-  <pbx-table [tableInfo]="table.title" [tableItems]="members" (onSelect)="selectMember($event)" (onDelete)="deleteMember($event)" [multiple]="true" [selected]="_service.userView.members" *ngIf="!loading" [@Fade]></pbx-table>
+  <pbx-table
+    [tableInfo]="table.title"
+    [tableItems]="members"
+    (onSelect)="selectMember($event)"
+    (onDelete)="deleteMember($event)"
+    [multiple]="true"
+    [selected]="_service.userView.members"
+    *ngIf="!loading"
+    [@Fade]>
+  </pbx-table>
 </div>
