@@ -9,7 +9,7 @@ import {log} from 'util';
   selector: 'pbx-notificator',
   templateUrl: './template.html',
   styleUrls: ['./local.sass'],
-  animations: [SwipeAnimation('y', '400ms')]
+  animations: [SwipeAnimation('notificator', '400ms')]
 })
 
 export class NotificatorComponent implements OnInit {
@@ -35,8 +35,11 @@ export class NotificatorComponent implements OnInit {
 
   ngOnInit() {
     this.service.notification().subscribe(notification => {
-      console.log(`GOT FROM SERVICE`, notification);
-      this.notificator = notification;
+      if (notification) {
+        // console.log(`NOTIFICATION WHICH GOT FROM SERVICE`, notification);
+        this.notificator = notification;
+        setTimeout(() => { this.notificator.visible = false; }, 2000);
+      }
     });
   }
 
