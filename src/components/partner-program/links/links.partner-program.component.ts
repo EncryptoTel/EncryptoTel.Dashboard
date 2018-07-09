@@ -35,7 +35,6 @@ export class LinksPartnerProgramComponent implements OnInit {
             ]
         }
     };
-    selected = [];
 
     modalCreate = {
         visible: false,
