@@ -11,8 +11,8 @@ export class FormComponent {
   @Input() tabs;
   @Input() icons;
   @Input() background: boolean;
-  @Input() confirm: {value: string, buttonType: string};
-  @Input() decline: {value: string, buttonType: string};
+  @Input() confirm: {value: string, buttonType: string, inactive: boolean};
+  @Input() decline: {value: string, buttonType: string, inactive: boolean};
 
   @Output() onConfirm: EventEmitter<void> = new EventEmitter<void>();
   @Output() onDecline: EventEmitter<void> = new EventEmitter<void>();

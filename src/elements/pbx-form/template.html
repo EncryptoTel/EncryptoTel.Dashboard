@@ -10,7 +10,7 @@
         </div><span>{{tab}}</span></div>
     </div>
     <div class="form-button-wrap">
-      <pbx-button *ngIf="decline" [buttonType]="decline.buttonType" [value]="decline.value" (onClick)="clickDecline()"></pbx-button>
+      <pbx-button *ngIf="decline" [buttonType]="decline.buttonType" [value]="decline.value" (onClick)="clickDecline()" [inactive]="decline.inactive"></pbx-button>
       <pbx-button *ngIf="confirm" [buttonType]="confirm.buttonType" [value]="confirm.value" (onClick)="clickConfirm()"></pbx-button>
     </div>
   </div>
