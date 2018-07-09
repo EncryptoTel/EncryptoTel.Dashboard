@@ -204,3 +204,4 @@
     </pbx-sidebar>
 </div>
 <pbx-modal [modal]="modal" (onConfirm)="doDeleteSelected()">Do you really want to delete this file?</pbx-modal>
+<pbx-modal [modalEx]="modalUpload" (onConfirmEx)="doUploadAction($event)" (onDecline)="cancelUploadAction()"></pbx-modal>

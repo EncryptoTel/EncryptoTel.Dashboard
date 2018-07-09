@@ -74,6 +74,91 @@ export class StorageComponent implements OnInit {
         decline: {type: 'cancel', value: 'Cancel'}
     };
     searchTimeout = null;
+    files = [];
+    modalUpload = {
+        visible: false,
+        title: '',
+        body: 'A file with this name has already been created.  Do you want to replace or rename it?',
+        buttons: [
+            {tag: 1, type: 'error', value: 'Replace'},
+            {tag: 2, type: 'success', value: 'Rename'},
+            {tag: 0, type: 'cancel', value: 'Cancel'}
+        ]
+    };
+
+    private uploadFiles(files) {
+        // console.log('uploadFiles', files);
+        for (let i = 0; i < files.length; i++) {
+            // console.log('uploadFiles', files[i]);
+            if (files[i].type === 'audio/mp3' || files[i].type === 'audio/ogg' || files[i].type === 'audio/wav' || files[i].type === 'audio/mpeg' || files[i].type === 'audio/x-wav') {
+                this.checkFileExists(files[i]);
+            } else {
+                this.message.writeError('Accepted formats: mp3, ogg, wav');
+            }
+        }
+        this.checkModal();
+    }
+
+    private checkModal() {
+        if (this.files.length > 0 && !this.modalUpload.visible) {
+            this.loading ++;
+            this.modalUpload.title = this.files[0].name;
+            setTimeout(() => {
+                this.modalUpload.visible = true;
+            }, 100);
+        }
+    }
+
+    private checkFileExists(file) {
+        const index = this.pageInfo.items.findIndex(item => item.fileName == file.name);
+        // console.log('checkFileExists', index);
+        if (index != -1) {
+            this.files.push(file);
+        } else {
+            let pageInfo: StorageModel = new StorageModel();
+            pageInfo.limit = 1;
+            pageInfo.page = 1;
+            this.loading++;
+            this.service.getList(pageInfo, null, file.name, null).then(res => {
+                // console.log(res);
+                if (res.itemsCount > 0) {
+                    this.files.push(file);
+                    this.checkModal();
+                } else {
+                    this.uploadFile(file, null);
+                }
+                this.loading--;
+            }).catch(res => {
+                this.loading--;
+            });
+        }
+    }
+
+    private deleteFileFromQueue() {
+        // console.log('deleteFileFromQueue', this.files);
+        this.files.splice(0, 1);
+        // console.log('deleteFileFromQueue', this.files);
+        this.checkModal();
+        this.loading--;
+    }
+
+    doUploadAction(button) {
+        // console.log('doUploadAction', button);
+        switch (button.tag) {
+            case 1:
+                this.uploadFile(this.files[0], 'replace');
+                break;
+            case 2:
+                this.uploadFile(this.files[0], 'new');
+                break;
+        }
+        this.deleteFileFromQueue();
+    }
+
+    cancelUploadAction() {
+        // console.log('cancelUploadAction')
+        this.deleteFileFromQueue();
+    }
 
     selectSource(event) {
         if (event !== this.source.select) {
@@ -155,8 +240,11 @@ export class StorageComponent implements OnInit {
 
     dropHandler(e) {
         e.preventDefault();
+        if (!this.pageInfo.items) {
+            return ;
+        }
         const files = e.dataTransfer.files;
-        this.uploadFile(files);
+        this.uploadFiles(files);
         // console.log('dropHandler', e);
     }
 
@@ -209,29 +297,24 @@ export class StorageComponent implements OnInit {
         e.preventDefault();
         const files = e.target.files;
         if (e.target.files[0]) {
-            this.uploadFile(files);
+            this.uploadFiles(files);
         }
     }
 
-    private uploadFile(files) {
-        for (let i = 0; i < files.length; i++) {
-            if (files[i].type === 'audio/mp3' || files[i].type === 'audio/ogg' || files[i].type === 'audio/wav' || files[i].type === 'audio/mpeg' || files[i].type === 'audio/x-wav') {
-                this.loading +=1;
-                const formData = new FormData();
-                formData.append('account_file_type', 'audio');
-                formData.append('account_file', files[i]);
-                this.service.uploadFile(formData).then(res => {
-                    // console.log(res);
-                    this.loading -= 1;
-                    if (!this.loading) this.getList();
-                }).catch(err => {
-                    // console.log(err);
-                    this.loading -= 1;
-                });
-            } else {
-                this.message.writeError('Accepted formats: mp3, ogg, wav');
-            }
-        }
+    private uploadFile(file, mode) {
+        this.loading +=1;
+        const formData = new FormData();
+        formData.append('type', 'audio');
+        formData.append('account_file', file);
+        if (mode) formData.append('mode', mode);
+        this.service.uploadFile(formData).then(res => {
+            // console.log(res);
+            this.loading -= 1;
+            if (!this.loading) this.getList();
+        }).catch(err => {
+            // console.log(err);
+            this.loading -= 1;
+        });
     }
 
     getSize(value: number) {
