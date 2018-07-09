@@ -3,6 +3,7 @@ import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {Observable} from 'rxjs/Observable';
 import {NotificatorServices} from '../../services/notificator.services';
+import {log} from 'util';
 
 @Component({
   selector: 'pbx-notificator',
@@ -11,26 +12,16 @@ import {NotificatorServices} from '../../services/notificator.services';
   animations: [SwipeAnimation('y', '400ms')]
 })
 
-export class NotificatorComponent implements OnInit, OnChanges {
-  @Input() notificator: {
-    timer: any,
+export class NotificatorComponent implements OnInit {
+  notificator: {
     visible: boolean,
     type: string,
-    message: string,
-    actionType: string,
-    actionName: string
+    message: string
   };
 
-  notificatorOne: {
-    visible: boolean,
-    message: string,
-    actionType: string,
-    actionName: string
-  };
-
+  // notificator: object;
 
   queue = [];
-
 
   // curState: any;
 
@@ -40,43 +31,17 @@ export class NotificatorComponent implements OnInit, OnChanges {
     private service: NotificatorServices
   ) {
     this.notificatorWidth = (window.innerWidth - 616);
-    // this.queue.toArray().subscribe(q => {
-    //   console.log(q);
-    // });
   }
 
   ngOnInit() {
-    this.service.notification().subscribe(text => {
-      console.log(`GOT FROM SERVICE`, text);
+    this.service.notification().subscribe(notification => {
+      console.log(`GOT FROM SERVICE`, notification);
+      this.notificator = notification;
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-
-    if (this.notificator) {
-      console.log(this.notificator);
-      // this.notificatorOne = changes.notificator.currentValue;
-      console.log(`PASSED TO SERVICE`, changes.notificator.currentValue);
-      console.log(`===================================================`);
-
-      const curState = changes.notificator.currentValue;
-      this.service.setNotification(this.notificator);
-
-      // console.log(this.queue);
-      // this.queueHandler(this.queue);
-
-      // this.lifeTime = setTimeout(() => {
-      //   this.notificator.visible = false;
-      // }, 4000);
-    }
-
-
-  }
-
-
   notificatorAction() {
-    // this.notificator.visible = false;
-    // clearTimeout(this.timer);
+    this.notificator.visible = false;
   }
 
   @HostListener('window:resize', ['$event'])

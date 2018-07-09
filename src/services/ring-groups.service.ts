@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {RequestServices} from './request.services';
-import {QueueModel, QueuesParams} from '../models/queue.model';
 import {Router} from '@angular/router';
+import {RungGroupsModel, RungGroupsParams} from '../models/ring-groups.model';
 
 @Injectable()
 export class RingGroupsServices {
@@ -10,11 +10,11 @@ export class RingGroupsServices {
   }
 
   editMode = false;
-  params: QueuesParams = {
+  params: RungGroupsParams = {
     announceHoldtimes: [],
     strategies: []
   };
-  callQueue: QueueModel = {
+  ringGroups: RungGroupsModel = {
     sipId: 0,
     name: '',
     strategy: 0,
@@ -38,18 +38,18 @@ export class RingGroupsServices {
 
   save(id): void {
     if (this.editMode) {
-      this.request.put(`v1/ring_group/${id}`, this.callQueue, true).then(() => {
+      this.request.put(`v1/ring_group/${id}`, this.ringGroups, true).then(() => {
         this.router.navigate(['cabinet', 'ring-groups']);
       });
     } else {
-      this.request.post('v1/ring_group', this.callQueue, true).then(() => {
+      this.request.post('v1/ring_group', this.ringGroups, true).then(() => {
         this.router.navigate(['cabinet', 'ring-groups']);
       });
     }
   }
 
   cancel(): void {
-    this.callQueue = {
+    this.ringGroups = {
       sipId: 0,
       name: '',
       strategy: 0,
@@ -75,7 +75,7 @@ export class RingGroupsServices {
 
   setStrategiesFromId() {
     this.params.strategies.forEach(el => {
-      if (el.id === this.callQueue.strategy) {
+      if (el.id === this.ringGroups.strategy) {
         this.userView.strategy.code = el.code;
       }
     });
@@ -86,7 +86,7 @@ export class RingGroupsServices {
   }
 
   search(value: string) {
-    return this.request.post(`v1/call_queue/members`, {sipOuter: this.callQueue.sipId, q: value}, true);
+    return this.request.post(`v1/call_queue/members`, {sipOuter: this.ringGroups.sipId, q: value}, true);
   }
 
   getRingGroups() {
@@ -94,8 +94,9 @@ export class RingGroupsServices {
   }
 
   getParams() {
-    this.request.get(`v1/call_queue/params`, true).then((res: QueuesParams) => {
+    this.request.get(`v1/ring_group/params`, true).then((res: RungGroupsParams) => {
       this.params = res;
+      console.log(this.params);
       if (this.editMode) {
         this.setStrategiesFromId();
       }
@@ -113,6 +114,6 @@ export class RingGroupsServices {
   }
 
   getRingGroup(id) {
-    return this.request.get(`v1/call_queue/${id}`, true);
+    return this.request.get(`v1/ring_group/${id}`, true);
   }
 }

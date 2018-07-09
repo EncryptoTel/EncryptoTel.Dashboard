@@ -6,26 +6,35 @@ import {NotificatorModel} from '../models/notificator.model';
 
 @Injectable()
 export class NotificatorServices {
+
   constructor() {}
 
-  // public notificator = new Subject<object>();
-  notificator: Subject<NotificatorModel> = new Subject<NotificatorModel>();
+  private notificator = new Subject<NotificatorModel>();
+  private queue = [];
+  private currentNoification: any;
 
+  /*
+  * QUEUE INPUT
+  */
+  setNotification(noti) {
+    // this.queue.push(noti);
+    // this.currentNoification = this.queue.shift();
+    this.notificator.next(noti);
 
-  // notification(): Observable<object> {
-  //   return this.notificator.asObservable();
-  // }
-
-  notification(): Observable<NotificatorModel> {
-    return this.notificator.asObservable();
   }
 
+  /*
+ * QUEUE HANDLER
+ */
+  private qHandler() {
 
-  setNotification(noti) {
-    this.notificator.next(noti);
-    // setTimeout(() => {
-    //   this.notificator.next(noti);
-    // }, 4000);
+  }
+
+  /*
+  * QUEUE OUTPUT
+  */
+  notification(): Observable<NotificatorModel> {
+    return this.notificator.asObservable();
   }
 
 }

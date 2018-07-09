@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TableInfoModel} from '../../models/table-info.model';
 import {SidebarInfo} from '../../models/sidebar-info.model';
+import {NotificatorServices} from '../../services/notificator.services';
 
 @Component({
   selector: 'pbx-blank',
@@ -36,7 +37,7 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
               [placeholder]="'Please select something'"
               (onSelect)="selectOption($event)"></pbx-select>
             <pbx-checkbox style="flex: 0 0 auto; margin-bottom: 16px" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
-            <pbx-notificator [notificator]="notificator"></pbx-notificator>
+            <pbx-notificator></pbx-notificator>
             <pbx-modal [modal]="modal"
                        (onConfirm)="modalConfirm()"
                        (onDecline)="modalDecline()">
@@ -144,7 +145,11 @@ export class BlankComponent implements OnInit {
     actionName: string
   };
 
-  constructor() {
+  messages = '';
+
+  constructor(
+    private serviceNotificator: NotificatorServices
+  ) {
     this.modal = {
       visible: false,
       title: 'Diablo',
@@ -152,20 +157,19 @@ export class BlankComponent implements OnInit {
       decline: {type: 'error', value: 'No'}
     };
 
-    this.notificator = {
-      visible: false,
-      type: 'success',
-      message: 'Okay, dude',
-      actionName: 'Got it'
-    };
   }
 
   ngOnInit() {
   }
 
   createNotification() {
-    this.notificator.visible = true;
-    this.notificator = Object.assign({}, this.notificator);
+    this.notificator = {
+      visible: true,
+      type: 'success',
+      message: 'Okay, dude',
+      actionName: 'Got it'
+    };
+    this.serviceNotificator.setNotification(this.notificator);
   }
 
   selectItem(item): void {

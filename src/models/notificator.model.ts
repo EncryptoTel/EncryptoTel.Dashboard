@@ -1,8 +1,7 @@
 export class NotificatorModel {
   constructor(
     public visible: boolean,
-    public message: string,
-    public actionType: string,
-    public actionName: string
+    public type: string,
+    public message: string
   ) {}
 }

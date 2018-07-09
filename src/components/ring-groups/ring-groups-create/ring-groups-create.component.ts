@@ -39,18 +39,18 @@ export class RingGroupsCreateComponent implements OnDestroy {
 
   validation(): boolean {
     return !(
-      this._service.callQueue.sipId &&
-      this._service.callQueue.name &&
-      (this._service.callQueue.name.length < 255) &&
-      this._service.callQueue.strategy &&
-      this._service.callQueue.timeout &&
-      this._service.callQueue.maxlen &&
-      this._service.callQueue.queueMembers.length > 0
+      this._service.ringGroups.sipId &&
+      this._service.ringGroups.name &&
+      (this._service.ringGroups.name.length < 255) &&
+      this._service.ringGroups.strategy &&
+      this._service.ringGroups.timeout &&
+      this._service.ringGroups.maxlen &&
+      this._service.ringGroups.queueMembers.length > 0
     );
   }
 
   private reset() {
-    this._service.callQueue = {
+    this._service.ringGroups = {
       sipId: 0,
       name: '',
       strategy: 0,
@@ -75,14 +75,14 @@ export class RingGroupsCreateComponent implements OnDestroy {
 
   private getRingGroup(id) {
     this._service.getRingGroup(id).then(res => {
-      this._service.callQueue.sipId = res.sip.id;
-      this._service.callQueue.name = res.name;
-      this._service.callQueue.strategy = res.strategy;
-      this._service.callQueue.timeout = res.timeout;
-      this._service.callQueue.announceHoldtime = res.announceHoldtime;
-      this._service.callQueue.announcePosition = res.announcePosition;
-      this._service.callQueue.maxlen = res.maxlen;
-      this._service.callQueue.description = res.description;
+      this._service.ringGroups.sipId = res.sip.id;
+      this._service.ringGroups.name = res.name;
+      this._service.ringGroups.strategy = res.strategy;
+      this._service.ringGroups.timeout = res.timeout;
+      this._service.ringGroups.announceHoldtime = res.announceHoldtime;
+      this._service.ringGroups.announcePosition = res.announcePosition;
+      this._service.ringGroups.maxlen = res.maxlen;
+      this._service.ringGroups.description = res.description;
       this._service.getParams();
       this._service.userView.phoneNumber = res.sip.phoneNumber;
       this._service.userView.announceHoldtime = res.announceHoldtime !== 0;
@@ -94,7 +94,7 @@ export class RingGroupsCreateComponent implements OnDestroy {
 
   private setMembers(members) {
     for (let i = 0; i < members.length; i++) {
-      this._service.callQueue.queueMembers.push({sipId: members[i].sip.id});
+      this._service.ringGroups.queueMembers.push({sipId: members[i].sip.id});
       this._service.userView.members.push(members[i].sip);
       this._service.userView.members[i].sipOuterPhone = this._service.userView.phoneNumber;
     }

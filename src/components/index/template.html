@@ -1,5 +1,5 @@
 <pbx-loader *ngIf="completedRequests < 2"></pbx-loader>
-<pbx-notificator [notificator]="notificator"></pbx-notificator>
+<!--<pbx-notificator></pbx-notificator>-->
 <div class="main_grid" *ngIf="completedRequests > 1">
   <div class="user_wrap" [ngClass]="{'active': userNavigationVisible}"
        (click)="userNavigationVisible = !userNavigationVisible" (clickOutside)="hideUserNavigation()" #userWrap>

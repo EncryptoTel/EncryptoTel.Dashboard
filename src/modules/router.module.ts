@@ -95,12 +95,12 @@ const Routes: Routes = [
             ]}
         ]},
       {path: 'ring-groups', children: [
-          {path: '', component: RingGroupsComponent, data: {title: 'Ring groups', indexed: true}},
-          {path: 'create', component: RingGroupsCreateComponent, data: {title: 'Ring groups create', indexed: true}, children: [
+          {path: '', component: RingGroupsComponent, data: {title: 'Ring Groups', indexed: true}},
+          {path: 'create', component: RingGroupsCreateComponent, data: {title: 'Create Ring Group', indexed: true}, children: [
               {path: '', redirectTo: 'general', pathMatch: 'full'},
-              {path: 'general', component: RingGroupsGeneralComponent, data: {title: 'Ring groups create', indexed: true}},
+              {path: 'general', component: RingGroupsGeneralComponent, data: {title: 'Create Ring Group', indexed: true}},
               {path: 'members', children: [
-                  {path: '', pathMatch: 'full', component: RingGroupsMembersComponent, data: {title: 'Ring groups create', indexed: true}}
+                  {path: '', pathMatch: 'full', component: RingGroupsMembersComponent, data: {title: 'Create Ring Group', indexed: true}}
                   // {path: 'add', component: RingGroupsMembersAddComponent, data: {title: 'Ring groups create', indexed: true}}
                 ]}
             ]}
