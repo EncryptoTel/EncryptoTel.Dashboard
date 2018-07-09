@@ -21,15 +21,12 @@ export class PhoneNumbersComponent implements OnInit {
   tableInfo: TableInfoModel;
   selected: any;
 
-  requestDetails: {
-    search: string,
-    page: number,
-    limit: number
-  };
-
-  pagination: {
-    page: number;
-    total: number;
+  pageInfo = {
+    page: 1, // текущая страница
+    total: null, // количество страниц
+    limit: 10, // количество строк в таблице
+    items: null, // общее количество элементов
+    search: ''
   };
 
   @ViewChild('row') row: ElementRef;
@@ -38,7 +35,6 @@ export class PhoneNumbersComponent implements OnInit {
 
   constructor(private _services: PhoneNumbersServices,
               public router: Router) {
-    this.pagination = {page: 1, total: 1};
     this.tableInfo = {
       titles: ['Phone Number', 'Amount of phone Exts', 'Default Ext', 'Status', 'Number type'],
       keys: ['phoneNumber', 'exts', 'default_ext', 'status_value', 'provider']
@@ -106,16 +102,25 @@ export class PhoneNumbersComponent implements OnInit {
       });
   }
   onPageChange(page: number): void {
-    this.pagination.page = this.requestDetails.page = page;
+    this.pageInfo.page = page;
+    this.getList();
+  }
+
+  selectLimit(limit) {
+    console.log(limit);
+    this.pageInfo.page = 1;
+    this.pageInfo.limit = limit;
     this.getList();
   }
 
   getList(): void {
     this.loading = true;
-    this._services.getPhoneNumbersList(this.requestDetails)
+    this._services.getPhoneNumbersList(this.pageInfo)
       .then(res => {
+        console.log(res);
+        this.pageInfo.total = res.pageCount;
+        this.pageInfo.items = res.itemsCount;
         this.list = [];
-        this.pagination.total = res.pages;
         res.items.map(item => {
           item.exts = item.sipInners.length;
           item.status_value = !!item.status ? 'Enabled' : 'Disabled';
@@ -135,15 +140,7 @@ export class PhoneNumbersComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    setTimeout(() => {
-      this.requestDetails = {
-        search: '',
-        page: 1,
-        limit: calculateHeight(this.table, this.row)
-      };
-      this.getList();
-    });
-    this.pagination.page = 1;
+    this.getList();
     this.selected = {};
   }
 }

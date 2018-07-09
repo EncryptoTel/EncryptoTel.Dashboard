@@ -109,9 +109,8 @@
       </div>
     </div>
   </div>
-  <pbx-pagination *ngIf="pageinfo.total>1"
-                  [currentPage]="pageinfo.page"
-                  [totalPages]="pageinfo.total"
+  <pbx-pagination [pageInfo]="pageinfo"
                   (onPageChange)="setPage($event)"
+                  (onLimitSelect)="selectLimit($event)"
   ></pbx-pagination>
 </div>

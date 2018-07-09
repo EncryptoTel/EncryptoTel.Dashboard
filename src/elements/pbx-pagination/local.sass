@@ -1,25 +1,83 @@
 @import '../../vars'
-
-pbx-button
-  width: initial
-  &:not(:first-child)
-    margin-left: rem(16)
-
-.pagination
+@keyframes showWrap
+  0%
+    border-color: $dark_accent
+    height: 0
+  100%
+    height: rem(120)
+@keyframes hideWrap
+  0%
+    height: rem(120)
+  99%
+    border-color: $dark_accent
+  100%
+    border-color: rgba($dark_accent,0)
+    height: 0
+.pager
   &_wrap
-    margin: 0 auto
-    /deep/ .button.pagination
-      align-items: center
-      justify-content: center
-      height: rem(40)
-      min-width: initial
-      padding: 0 rem(16)
-      border-radius: 2px
+    margin: auto auto 0
+    display: grid
+    grid-gap: rem(16)
+    grid-template-columns: auto auto auto auto auto
+    pbx-button
+      &:nth-child(1), &:nth-child(5)
+        width: rem(40)
+      &:nth-child(2), &:nth-child(4)
+        width: rem(64)
+      /deep/ .button.pagination
+        min-width: unset
+        width: 100%
+        justify-content: center
   &_info
     align-items: center
-    margin-left: rem(16)
-
+    flex-direction: row
+  &_select
+    position: relative
+    &_value
+      cursor: pointer
+    &_wrap
+      display: block
+      flex-direction: column
+      width: calc(100% + 8px)
+      position: absolute
+      bottom: calc(100% + 4px)
+      left: rem(-5)
+      height: 0
+      overflow: hidden
+      box-sizing: unset
+      &.show
+        animation: 150ms ease showWrap
+        height: rem(120)
+        border: rem(1) solid
+        .pager_select_item
+          cursor: pointer
+      &.hide
+        animation: 150ms ease hideWrap
+        border: rem(1) solid
+    &_item
+      width: 100%
+      justify-content: center
+      align-items: center
+      height: rem(24)
 // Theme styles
 \:host-context(.dark_theme)
   /deep/ .button.pagination
     background: $dark_pagination
+  .pager
+    &_select
+      &_value
+        color: $dark_accent
+      &_wrap
+        background: $dark_background
+        &.show
+          border-color: $dark_accent
+        &.hide
+          border-color: rgba($dark_accent,0)
+      &_item
+        color: $font-color
+        &:hover
+          background-color: rgba($dark_primary,.1)
+        &.current
+          background: rgba($dark_primary,0.05)
+          &:hover
+            background: rgba($dark_primary,0.15)
