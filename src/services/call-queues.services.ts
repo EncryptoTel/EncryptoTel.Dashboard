@@ -89,8 +89,8 @@ export class CallQueuesServices {
     return this.request.post(`v1/call_queue/members`, {sipOuter: this.callQueue.sipId, q: value}, true);
   }
 
-  getQueues() {
-    return this.request.get('v1/call_queue', true);
+  getQueues(pageInfo) {
+    return this.request.get(`v1/call_queue?page=${pageInfo.page}`, true);
   }
 
   getParams() {

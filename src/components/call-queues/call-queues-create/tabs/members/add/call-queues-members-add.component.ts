@@ -30,19 +30,21 @@ export class CallQueuesMembersAddComponent {
   };
 
   selectMember(member: SipInner): void {
-    console.log(member);
     const checkResult = this._service.callQueue.queueMembers.find(el => {
       return el.sipId === member.id;
     });
     if (!checkResult) {
       this._service.callQueue.queueMembers.push({sipId: member.id});
       this._service.userView.members.push(member);
-    }
+    } else {this.deleteMember(member); }
   }
 
-  deleteMember(id: number): void {
+  deleteMember(member): void {
+    console.log(member);
+    console.log(this._service.callQueue.queueMembers);
+    console.log(this._service.userView.members);
     const checkResult = this._service.callQueue.queueMembers.findIndex(el => {
-      return el.sipId === id;
+      return el.sipId === member.id;
     });
     if (checkResult >= 0) {
       this._service.callQueue.queueMembers.splice(checkResult, 1);
@@ -82,5 +84,11 @@ export class CallQueuesMembersAddComponent {
     }).catch(err => {
       console.error(err);
     });
+  }
+
+  findById(array: any[], id: number): object {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].id === id) {return array[i]; }}
+    return null;
   }
 }

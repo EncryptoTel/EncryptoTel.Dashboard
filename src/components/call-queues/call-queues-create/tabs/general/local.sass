@@ -1,56 +1,51 @@
 @import "../../../../../vars"
 // Global variables import
 .call_queues_general
+  background: $dark_overlay
+  display: grid
+  flex: 1
   &_wrap
-    background: $dark_pagination_inactive
-    width: 100%
-    height: 100%
-    display: flex
-    flex-flow: column
-    padding: 20px
+    padding: rem(24)
+    display: block
+    overflow: auto
+    flex-direction: column
+    /deep/ input, pbx-select
+      flex: 1
+      height: rem(40)
+      &:focus
+        background: $dark_background
+        border-color: $dark_accent
+    pbx-loader
+      height: 100%
+  &_body
+    display: grid
+    grid-gap: rem(16)
   &_title
-    width: 100%
-    font-weight: 500
-    font-size: rem(15)
-    height: 5%
-    display: flex
-    flex-flow: column
-    justify-content: center
+    font-size: rem(16)
+    color: $dark_primary
   &_item
-    display: flex
-    flex-flow: row
-    justify-content: flex-start
-    margin-bottom: 10px
+    flex-direction: row
+    >*:last-child
+      flex: 1
     &_label
-      display: flex
-      flex-flow: column
-      justify-content: center
-      align-items: flex-start
-      width: 140px
+      width: rem(176)
+      font-weight: 100
+      font-size: rem(12)
+      align-items: center
     &_input_wrap
-      width: 91%
       display: flex
       flex-flow: row
       align-items: center
+      &.time
+        max-width: rem(64)
+        /deep/ input
+          text-align: center
+    &_description
+      font-size: rem(12)
+      margin: auto auto auto rem(24)
+  &_ballast
+    margin-top: auto
 
-span
-  font-size: rem(13)
-
-.time
-  span
-    margin-left: 15px
-  input
-    width: 50px
-
-.checkbox
-  span
-    margin-left: 15px
-  input
-    width: 15px
-    cursor: pointer
-
-pbx-select
-  width: 100%
 @media all and (max-width: 768px)
   .call_queues_general
     &_item

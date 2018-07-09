@@ -1,6 +1,7 @@
 <div class="call_queues_members_add_wrap" [@Fade]>
-  <div class="call_queues_members_add_header">
-    <div class="call_queues_members_add_filter">
+  <pbx-loader *ngIf="loading"></pbx-loader>
+  <div class="call_queues_members_add_header" *ngIf="!loading" [@Fade]>
+    <div class="call_queues_members_add_filter" *ngIf="departments.length>0">
       <span>Department:</span>
       <pbx-select [placeholder]="'all'" [options]="departments"></pbx-select>
     </div>
@@ -9,6 +10,21 @@
       <input type="search" placeholder="Search by Name or Phone" (keyup)="search($event)">
     </div>
   </div>
-  <pbx-loader *ngIf="loading"></pbx-loader>
-  <pbx-table [tableInfo]="table.title" [tableItems]="members" (onSelect)="selectMember($event)" (onDelete)="deleteMember($event)" [multiple]="true" [selected]="_service.userView.members" *ngIf="!loading" [@Fade]></pbx-table>
+  <div class="tablet" *ngIf="!loading" [@Fade]>
+    <div class="tablet_header">
+      <div class="tablet_item" *ngFor="let item of table.title.titles">{{item}}</div>
+      <div class="tablet_icon_wrap"></div>
+    </div>
+    <div class="tablet_body">
+      <div class="tablet_row" *ngFor="let item of members" (click)="selectMember(item)"
+           [ngClass]="{'sel':findById(_service.userView.members,item.id)!==null}">
+        <div class="tablet_item" *ngFor="let key of table.title.keys">{{item[key]||' '}}</div>
+        <div class="tablet_icon_wrap">
+          <div class="tablet_icon delete">
+            <svg-icon src="../../../../../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -25,17 +25,10 @@ export class CallQueuesMembersComponent {
   };
 
   deleteMember(memberId) {
-    const indexCallQueue = this._services.callQueue.queueMembers.findIndex(el => {
-      if (el.sipId === memberId) {
-        return true;
-      }
-    });
-    const indexView = this._services.userView.members.findIndex(el => {
-      if (el.id === memberId) {
-        return true;
-      }
-    });
-    this._services.callQueue.queueMembers.splice(indexCallQueue, 1);
-    this._services.userView.members.splice(indexView, 1);
+    for (let i = 0; i < this._services.callQueue.queueMembers.length; i++) {
+      if (memberId.id === this._services.callQueue.queueMembers[i].sipId) {
+        this._services.callQueue.queueMembers.splice(i, 1);
+        this._services.userView.members.splice(i, 1);
+        return; }}
   }
 }

@@ -1,7 +1,26 @@
+<div class="call_queues_members">
 <div class="call_queues_members_wrap" [@Fade]>
-  <div class="call_queues_members_header">
-    <span>Call Queues Members</span>
-    <a routerLink="add" [skipLocationChange]="true" [ngClass]="{'inactive': !_services.callQueue.sipId}">Add Member</a>
+  <div class="call_queues_members_header" >
+    Call Queues Members
+    <!--<a routerLink="add" [skipLocationChange]="true" [ngClass]="{'inactive': !_services.callQueue.sipId}">Add Member</a>-->
+    <pbx-button routerLink="add" [skipLocationChange]="true" [inactive]="!_services.callQueue.sipId" value="Add Member"></pbx-button>
   </div>
-  <pbx-table [tableInfo]="table.title" [tableItems]="members" (onDelete)="deleteMember($event)"></pbx-table>
+  <div class="tablet">
+    <div class="tablet_header">
+      <div class="tablet_item" *ngFor="let item of table.title.titles">{{item}}</div>
+      <div class="tablet_icon_wrap"></div>
+    </div>
+    <div class="tablet_body">
+      <div class="tablet_row" *ngFor="let item of members">
+        <div class="tablet_item" *ngFor="let key of table.title.keys">{{item[key]}}</div>
+        <div class="tablet_icon_wrap">
+          <div class="tablet_icon delete" (click)="deleteMember(item)">
+            <svg-icon src="../../../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
 </div>
+</div>
+

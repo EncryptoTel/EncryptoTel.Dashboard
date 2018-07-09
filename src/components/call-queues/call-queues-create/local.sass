@@ -3,76 +3,29 @@
 
 .call_queues_create
   &_wrap
-    display: flex
-    flex-flow: column
-    height: 100%
-    width: 100%
-  &_header
-    display: flex
-    flex-flow: row
-    justify-content: space-between
-    height: 6%
-  &_tabs
-    min-width: 15%
-    background: $dark_overlay
-  &_tab
     flex: 1
-    a
-      display: flex
-      flex-flow: column
-      justify-content: center
-      align-items: center
-      width: 100%
-      height: 100%
-      padding: 0 10px
-  &_buttons
-    display: flex
+    flex-flow: column
+    pbx-button
+      width: unset
+      margin-left: rem(8)
+  &_header
     flex-flow: row
     justify-content: space-between
-    align-items: center
-    min-width: 12%
-    height: 95%
-  &_button
-    display: flex
-    flex-flow: column
-    justify-content: center
-    align-items: center
-    height: 80%
-    width: 48%
-    border-radius: 2px
-    cursor: pointer
-    padding: 0 10px
-
-.active
-  color: $dark_accent
-  background: $dark_pagination_inactive
-
-.cancel
-  background: $dark_pagination_inactive
-
-.save
-  background: $dark_success
-
-.back
-  width: 48%
-  background: $dark_pagination_inactive
-
-.back-wrap
-  justify-content: flex-end
-
-@media all and (max-width: 768px)
-  .call_queues_create
-    &_tabs
-      min-width: 40%
-    &_buttons
-      min-width: 35%
-
-@media all and (max-width: 425px)
-  .call_queues_create
-    &_header
-      flex-flow: column-reverse
-      height: unset
-    &_buttons
-      height: 50px
-    &_tabs
-      height: 50px
+  &_tab
+    background: rgba($dark_overlay,.33)
+    padding: rem(16)
+    color: $font-color
+    &:hover
+      background: rgba($dark_overlay,.67)
+    &.active
+      background: $dark_overlay
+      color: $dark_accent
+      cursor: default
+      &:hover
+        background: $dark_overlay
+    &.blocked
+      color: rgba($dark_primary,0.33)
+      &:hover
+        background: rgba($dark_overlay,.33)
+    &_wrap
+      flex-direction: row

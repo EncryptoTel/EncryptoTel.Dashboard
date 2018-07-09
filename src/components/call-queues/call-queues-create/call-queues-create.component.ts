@@ -24,6 +24,7 @@ export class CallQueuesCreateComponent implements OnDestroy {
     }
     this._service.getParams();
   }
+  members = false;
 
   save(): void {
     this._service.save(this.activatedRoute.snapshot.params.id);
