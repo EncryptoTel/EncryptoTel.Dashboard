@@ -10,12 +10,11 @@
                (onEdit)="edit($event)"
                (onDelete)="delete($event)"
                [multiple]="false"
-               [selected]="selected"
                [editable]="true"
                [@Fade]></pbx-table>
 </div>
 
-<pbx-modal [modalEx]="modalCreate" (onConfirmEx)="doCreateLink()" (onDecline)="doCancelEdit()">
+<pbx-modal *ngIf="selected" [modalEx]="modalCreate" (onConfirmEx)="doCreateLink()" (onDecline)="doCancelEdit()">
     <div class="">
         <label for="name">Name</label>
         <input id="name"
