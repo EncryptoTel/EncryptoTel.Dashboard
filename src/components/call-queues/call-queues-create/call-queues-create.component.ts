@@ -1,107 +1,132 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-
-import {CallQueuesServices} from '../../../services/call-queues.services';
+import {CallQueueService} from '../../../services/call-queue.service';
 import {FadeAnimation} from '../../../shared/fade-animation';
 
-
 @Component({
-  selector: 'pbx-call-queues-create',
-  templateUrl: './template.html',
-  styleUrls: ['./local.sass'],
-  animations: [FadeAnimation('300ms')]
+    selector: 'pbx-call-queues-create',
+    templateUrl: './template.html',
+    styleUrls: ['./local.sass'],
+    animations: [FadeAnimation('300ms')]
 })
 
-export class CallQueuesCreateComponent implements OnDestroy {
-  constructor(public _service: CallQueuesServices,
-              private activatedRoute: ActivatedRoute,
-              private router: Router) {
-    if (this.activatedRoute.snapshot.params.id) {
-      this.getCallQueue(this.activatedRoute.snapshot.params.id);
-      this._service.editMode = true;
-    } else {
-      this._service.editMode = false;
+export class CallQueuesCreateComponent implements OnInit, OnDestroy {
+
+    id: number = 0;
+    loading: number = 0;
+    saving: boolean = false;
+
+    constructor(public service: CallQueueService,
+                private activatedRoute: ActivatedRoute,
+                private router: Router) {
+        this.id = this.activatedRoute.snapshot.params.id;
     }
-    this._service.getParams();
-  }
 
-  save(): void {
-    this._service.save(this.activatedRoute.snapshot.params.id);
-  }
-
-  cancel(): void {
-    this._service.cancel();
-  }
-
-  back(): void {
-    this.router.navigate(['members'], {relativeTo: this.activatedRoute});
-  }
-
-  validation(): boolean {
-    return !(
-      this._service.callQueue.sipId &&
-      this._service.callQueue.name &&
-      (this._service.callQueue.name.length < 255) &&
-      this._service.callQueue.strategy &&
-      this._service.callQueue.timeout &&
-      this._service.callQueue.maxlen &&
-      this._service.callQueue.queueMembers.length > 0
-    );
-  }
-
-  private reset() {
-    this._service.callQueue = {
-      sipId: 0,
-      name: '',
-      strategy: 0,
-      timeout: 30,
-      announceHoldtime: 0,
-      announcePosition: false,
-      maxlen: 60,
-      description: '',
-      queueMembers: []
-    };
-    this._service.userView = {
-      phoneNumber: '',
-      announceHoldtime: false,
-      announcePosition: false,
-      members: [],
-      isCurCompMembersAdd: false,
-      strategy: {
-        code: ''
-      }
-    };
-  }
-
-  private getCallQueue(id) {
-    this._service.getCallQueue(id).then(res => {
-      this._service.callQueue.sipId = res.sip.id;
-      this._service.callQueue.name = res.name;
-      this._service.callQueue.strategy = res.strategy;
-      this._service.callQueue.timeout = res.timeout;
-      this._service.callQueue.announceHoldtime = res.announceHoldtime;
-      this._service.callQueue.announcePosition = res.announcePosition;
-      this._service.callQueue.maxlen = res.maxlen;
-      this._service.callQueue.description = res.description;
-      this._service.getParams();
-      this._service.userView.phoneNumber = res.sip.phoneNumber;
-      this._service.userView.announceHoldtime = res.announceHoldtime !== 0;
-      this.setMembers(res.queueMembers);
-    }).catch(err => {
-      console.error(err);
-    });
-  }
-
-  private setMembers(members) {
-    for (let i = 0; i < members.length; i++) {
-      this._service.callQueue.queueMembers.push({sipId: members[i].sip.id});
-      this._service.userView.members.push(members[i].sip);
-      this._service.userView.members[i].sipOuterPhone = this._service.userView.phoneNumber;
+    save(): void {
+        this.saving = true;
+        this.service.save(this.id).then(res => {
+            this.router.navigate(['cabinet', 'call-queues']);
+            this.saving = false;
+        });
     }
-    console.log(this._service.userView.members);
-  }
 
-  ngOnDestroy() {
-    this.reset();
-  }
+    cancel(): void {
+        this.service.cancel();
+        this.router.navigate(['cabinet', 'call-queues']);
+    }
+
+    back(): void {
+        this.router.navigate(['members'], {relativeTo: this.activatedRoute});
+    }
+
+    validation(): boolean {
+        return !(
+            this.service.callQueue.sipId &&
+            this.service.callQueue.name &&
+            (this.service.callQueue.name.length < 255) &&
+            this.service.callQueue.strategy &&
+            this.service.callQueue.timeout &&
+            // this.service.callQueue.maxlen &&
+            this.service.callQueue.queueMembers.length > 0
+        );
+    }
+
+    private reset() {
+        this.service.callQueue = {
+            sipId: 0,
+            name: '',
+            strategy: 0,
+            timeout: 30,
+            announceHoldtime: 0,
+            announcePosition: false,
+            maxlen: 60,
+            description: '',
+            queueMembers: []
+        };
+        this.service.userView = {
+            phoneNumber: '',
+            announceHoldtime: false,
+            announcePosition: false,
+            members: [],
+            isCurCompMembersAdd: false,
+            strategy: {
+                code: ''
+            }
+        };
+    }
+
+    private getParams() {
+        this.loading += 1;
+        this.service.getParams().then(res => {
+            this.loading -= 1;
+        }).catch(res => {
+            this.loading -= 1;
+        });
+    }
+
+    private getCallQueue(id) {
+        this.loading += 1;
+        this.service.getItem(id).then(res => {
+            this.service.callQueue.sipId = res.sip.id;
+            this.service.callQueue.name = res.name;
+            this.service.callQueue.strategy = res.strategy;
+            this.service.callQueue.timeout = res.timeout;
+            this.service.callQueue.announceHoldtime = res.announceHoldtime;
+            this.service.callQueue.announcePosition = res.announcePosition;
+            this.service.callQueue.maxlen = res.maxlen;
+            this.service.callQueue.description = res.description;
+            this.service.userView.phoneNumber = res.sip.phoneNumber;
+            this.service.userView.announceHoldtime = res.announceHoldtime !== 0;
+            this.setMembers(res.queueMembers);
+            this.getParams();
+            this.loading -= 1;
+        }).catch(err => {
+            console.error(err);
+            this.loading -= 1;
+        });
+    }
+
+    private setMembers(members) {
+        for (let i = 0; i < members.length; i++) {
+            this.service.callQueue.queueMembers.push({sipId: members[i].sip.id});
+            this.service.userView.members.push(members[i].sip);
+            this.service.userView.members[i].sipOuterPhone = this.service.userView.phoneNumber;
+        }
+        // console.log(this.service.userView.members);
+    }
+
+    ngOnInit() {
+        if (this.id) {
+            this.getCallQueue(this.id);
+            this.service.editMode = true;
+        } else {
+            this.service.editMode = false;
+            this.getParams();
+        }
+    }
+
+    ngOnDestroy() {
+        this.reset();
+    }
+
 }

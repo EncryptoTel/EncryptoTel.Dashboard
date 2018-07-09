@@ -173,4 +173,5 @@ import {ChatComponent} from '../components/chat/chat.component';
     ]
 })
 export class ComponentsModule {
+
 }

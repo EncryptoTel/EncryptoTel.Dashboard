@@ -10,8 +10,20 @@ export class BaseService {
         this.onInit();
     }
 
+    getItem(id: number): Promise<any> {
+        return this.get(`/${id}`);
+    }
+
+    getParams(): Promise<any> {
+        return this.get(`/params`);
+    }
+
     get(path: string): Promise<any> {
         return this.request.get(this.url + path, true);
+    }
+
+    delete(path: string): Promise<any> {
+        return this.request.del(this.url + path, true);
     }
 
     rawRequest(method: string, path: string, data: any): Promise<any> {

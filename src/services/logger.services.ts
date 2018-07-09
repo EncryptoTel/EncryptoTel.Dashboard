@@ -8,9 +8,19 @@ import {environment} from '../environments/environment';
 
 @Injectable()
 export class LoggerServices {
+
+    blackList = ['WsServices'];
+
     log = (details: string, data: any): void => {
         if (!environment.production) {
             console.log(`${details}\n\n`, data);
         }
     }
+
+    logEx = (obj: any, details: string, data: any): void => {
+        if (!environment.production && this.blackList.indexOf(obj.constructor.name) === -1) {
+            console.log(`${obj.constructor.name}: ${details}\n\n`, data);
+        }
+    }
+
 }

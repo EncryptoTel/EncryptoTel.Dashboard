@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CallQueuesServices} from '../../../../../../services/call-queues.services';
+import {CallQueueService} from '../../../../../../services/call-queue.service';
 import {Departments, Members, SipInner} from '../../../../../../models/queue.model';
 import {FadeAnimation} from '../../../../../../shared/fade-animation';
 
@@ -11,7 +11,7 @@ import {FadeAnimation} from '../../../../../../shared/fade-animation';
 })
 
 export class RingGroupsMembersAddComponent {
-  constructor(private _service: CallQueuesServices) {
+  constructor(private _service: CallQueueService) {
     if (this._service.callQueue.sipId) {
       this.getMembers(this._service.callQueue.sipId);
       this.getDepartments();

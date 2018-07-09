@@ -10,8 +10,9 @@
             {{tariffCost()}}
         </div>
         <button
-            class="tariff_item_button"
-            (click)="clicked($event)">
+                [ngClass]="isCurrentTariff() ? 'inactive' : ''"
+                class="tariff_item_button"
+                (click)="clicked($event)">
             <span *ngIf="!value.loading">{{tariffStatus()}}</span>
             <pbx-loader *ngIf="value.loading"></pbx-loader>
         </button>

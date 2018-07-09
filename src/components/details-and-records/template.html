@@ -38,8 +38,8 @@
           To
           <svg-icon src="../../assets/icons/sorting_{{sorting[1].direction}}_16px.svg" class="details-icons" *ngIf="sorting[1].active"></svg-icon>
         </div>
-        <div class="details-table-cols">
-          Start time
+        <div class="details-table-cols" (click)="sortCol(2)">
+          Date
           <svg-icon src="../../assets/icons/sorting_{{sorting[2].direction}}_16px.svg" class="details-icons" *ngIf="sorting[2].active"></svg-icon>
         </div>
         <div class="details-table-cols" (click)="sortCol(3)">
@@ -50,11 +50,11 @@
           Tag
           <svg-icon src="../../assets/icons/sorting_{{sorting[4].direction}}_16px.svg" class="details-icons" *ngIf="sorting[4].active"></svg-icon>
         </div>
-        <div class="details-table-cols price">
+        <div class="details-table-cols price" (click)="sortCol(5)">
           Price
           <svg-icon src="../../assets/icons/sorting_{{sorting[5].direction}}_16px.svg" class="details-icons" *ngIf="sorting[5].active"></svg-icon>
         </div>
-        <div class="details-table-cols">
+        <div class="details-table-cols" (click)="sortCol(6)">
           Record
           <svg-icon src="../../assets/icons/sorting_{{sorting[6].direction}}_16px.svg" class="details-icons" *ngIf="sorting[6].active"></svg-icon>
         </div>
@@ -66,6 +66,7 @@
 
     <div class="details-table-wrapper" *ngIf="!loading">
       <div
+        #row
         class="details-table-row"
         *ngFor="let detail of details"
         [ngClass]="{'hide': setFilters(detail.statusName), 'hover' : detail.hover}"
@@ -82,8 +83,8 @@
           </button>
         </div>
         <div class="details-table-cols price" [ngClass]="{'payment-col': detail.statusName === 'payment'}">${{detail.price}}</div>
-        <div class="details-table-cols">
-          <div class="details-table-cols-button" (click)="playerAction(details.indexOf(detail))">
+        <div class="details-table-cols player">
+          <div class="details-table-cols-button" (click)="playerAction(details.indexOf(detail))" *ngIf="detail.accountFile">
             <div class="player-container"
                  *ngIf="detail.playerOpen"
                  [@Swipe]
@@ -124,12 +125,12 @@
           </div>
         </div>
         <div class="details-table-cols">
-          <div class="details-table-cols-dropdown" (click)="dropOpen()">
+          <div class="details-table-cols-dropdown" (click)="dropOpen($event, details.indexOf(detail))">
             <span></span>
             <span></span>
             <span></span>
-            <ul class="dd-menu" *ngIf="detail.ddShow">
-              <li class="dd-menu-button">Download file</li>
+            <ul class="dd-menu" *ngIf="detail.ddShow" [ngClass]="{'top' : this.dropDirection === 'top', 'bottom' : this.dropDirection === 'bottom'}">
+              <li class="dd-menu-button" >Download file</li>
               <li class="dd-menu-button">{{contactActionName}}</li>
               <li class="dd-menu-button ban">Block user</li>
             </ul>

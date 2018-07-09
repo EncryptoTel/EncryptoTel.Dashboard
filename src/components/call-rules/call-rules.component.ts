@@ -21,8 +21,26 @@ export class CallRulesComponent implements OnInit {
   };
   loading = true;
 
+  keys = ['phone', 'name', 'status', 'description'];
+  data = [];
+  modal = {
+    visible: false,
+    confirm: {type: 'error', value: 'Delete'},
+    decline: {type: 'cancel', value: 'Cancel'}
+  };
+  del;
+  pageInfo = {
+    page: 1,
+    total: null
+  };
+
   constructor(private service: CallRulesServices,
               private router: Router) {
+  }
+
+  clickDeleteIcon(id) {
+    this.del = this.findById(this.callRules, id);
+    this.modal.visible = true;
   }
 
   createCallRule(): void {
@@ -41,12 +59,33 @@ export class CallRulesComponent implements OnInit {
     });
   }
 
+  changePage(page: number) {
+    this.pageInfo.page = page;
+    this.getCallRules();
+  }
+
+  setTableData(): void {
+    this.data = [];
+    this.callRules.forEach(callRule => {
+      this.data.push({
+        id: callRule.id,
+        phone: callRule.sip['phoneNumber'],
+        name: callRule.name,
+        status: callRule.statusParameter,
+        description: callRule.description
+      });
+    });
+  }
+
   private getCallRules(): void {
-    this.service.getCallRules().then(res => {
+    this.service.getCallRules(this.pageInfo.page).then(res => {
+      console.log(res);
+      this.pageInfo.total = res.pageCount;
       this.callRules = res.items;
       this.callRules.forEach(callRule => {
-        callRule.status === 0 ? callRule.statusParameter = 'disabled' : callRule.statusParameter = 'enabled';
+        callRule.statusParameter = callRule.status === 0 ? 'disabled' : 'enabled';
       });
+      this.setTableData();
       this.loading = false;
     }).catch(err => {
       console.error(err);
@@ -56,4 +95,11 @@ export class CallRulesComponent implements OnInit {
   ngOnInit() {
     this.getCallRules();
   }
+
+  findById(array: any[], id: number): object {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].id == id) {return array[i]; }}
+    return null;
+  }
+
 }

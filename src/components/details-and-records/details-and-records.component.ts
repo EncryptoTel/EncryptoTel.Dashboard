@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {DetailsAndRecordsServices} from '../../services/details-and-records.services';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {SwipeAnimation} from '../../shared/swipe-animation';
@@ -15,164 +15,175 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 })
 
 export class DetailsAndRecordsComponent implements OnInit {
+  // @ViewChildren('menu') ddMenuWrap: ElementRef;
+  @ViewChildren('row') rows: QueryList<'row'>;
   loading = false;
 
-  details = [
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    },
-    {
-      source: '+1(800)200 01 10 #101',
-      destination: '+1(800)200 01 10 #108',
-      created: '26/06/2017 14:47:25',
-      duration: '00:23:00',
-      statusName: 'outgoing',
-      tag: 'outgoing',
-      price: '0',
-      record: '',
-      ddShow: false,
-      play: false,
-      playerOpen: false,
-      playerContentShow: false,
-      hover: false
-    }
-  ];
-  // details = [];
+  // details = [
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   },
+  //   {
+  //     source: '+1(800)200 01 10 #101',
+  //     destination: '+1(800)200 01 10 #108',
+  //     created: '26/06/2017 14:47:25',
+  //     duration: '00:23:00',
+  //     statusName: 'outgoing',
+  //     tag: 'outgoing',
+  //     price: '0',
+  //     record: '',
+  //     ddShow: false,
+  //     play: false,
+  //     playerOpen: false,
+  //     playerContentShow: false,
+  //     hover: false
+  //   }
+  // ];
 
-  sortingActive = 0;
+  details = [];
+
+  sortingActive = 2;
   sorting = [
+    {
+      active: false,
+      direction: 'down'
+    },
+    {
+      active: false,
+      direction: 'down'
+    },
     {
       active: true,
       direction: 'down'
@@ -192,19 +203,11 @@ export class DetailsAndRecordsComponent implements OnInit {
     {
       active: false,
       direction: 'down'
-    },
-    {
-      active: false,
-      direction: 'down'
-    },
-    {
-      active: false,
-      direction: 'down'
     }
   ];
 
-  activeFilters: string[] = ['incoming', 'outgoing', 'missed', 'record'];
-  inactiveFilters: string[] = ['no-answer'];
+  activeFilters: string[] = [];
+  inactiveFilters: string[] = ['no-answer', 'incoming', 'outgoing', 'missed', 'record'];
 
   pages: number;
   page = 1;
@@ -213,20 +216,43 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   sort = '';
   sortDirection = '';
-  filter = '';
+  tags = [];
 
   rowHowerIndex: number;
 
   contactActionName = 'View contact';
   currentPlayerAction: number;
 
+  dropDirection = 'bottom';
+
   constructor(
-    private services: DetailsAndRecordsServices
+    private services: DetailsAndRecordsServices,
   ) {}
 
+  // dropPosition(): string {
+  //
+  //   this.rows.forEach((child) => {
+  //     console.log(child.nativeElement.offsetTop);
+  //   });
+  //   // console.log(this.ddMenuWrap);
+  //   // console.log(this.ddMenuWrap);
+  //   console.log('window.innerHeight', window.innerHeight);
+  //   // console.log('nativeElement.offsetTop', this.ddMenuWrap.nativeElement.offsetTop);
+  //   // console.log('nativeElement.offsetHeight', this.ddMenuWrap.nativeElement.offsetHeight);
+  //   //   if (this.ddMenuWrap.nativeElement) {
+  //   //     console.log(this.ddMenuWrap.nativeElement);
+  //   // }
+  //   // const comparison = (window.innerHeight - this.ddMenuWrap.nativeElement.offsetTop + 22) > 130;
+  //   // console.log(comparison);
+  //   // return comparison ? 'bottom' : 'top';
+  //   return 'top';
+  // }
+
+
   ngOnInit() {
-    // this.fetchDetailsAndRecords();
-    // console.log(window.innerHeight);
+    this.fetchDetailsAndRecords();
+    console.log(window.innerHeight);
+    console.log(window.innerHeight - 280);
   }
 
   toggleFilter(filter: string): void {
@@ -243,6 +269,30 @@ export class DetailsAndRecordsComponent implements OnInit {
       this.activeFilters.push(this.inactiveFilters[inactiveIndex]);
       this.inactiveFilters.splice(inactiveIndex, 1);
     }
+
+    console.log(this.activeFilters);
+    this.tags = [];
+    for (let i = 0; i < this.activeFilters.length; i++) {
+      switch (this.activeFilters[i]) {
+        case 'incoming':
+          this.tags.push('incoming');
+          break;
+        case 'outgoing':
+          this.tags.push('outgoing');
+          break;
+        case 'missed':
+          this.tags.push('missed');
+          break;
+        case 'record':
+          this.tags.push('record');
+          break;
+        case 'no-answer':
+          this.tags.push('noAnswered');
+          break;
+      }
+    }
+    console.log(this.tags);
+    this.fetchDetailsAndRecords();
   }
 
   setFilters(tag: string): boolean {
@@ -250,7 +300,7 @@ export class DetailsAndRecordsComponent implements OnInit {
   }
 
   goToPage(page: number): void {
-    // console.log(page);
+    console.log(page);
     if (page <= this.pages) {
       if (page > 0) {
         this.page = page;
@@ -280,24 +330,24 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.fetchDetailsAndRecords();
         break;
       case 2:
-        this.sort = '';
-        this.sortDirection = '';
+        this.sort = 'date';
+        this.fetchDetailsAndRecords();
         break;
       case 3:
         this.sort = 'duration';
         this.fetchDetailsAndRecords();
         break;
       case 4:
-        this.sort = 'status';
+        this.sort = 'tag';
         this.fetchDetailsAndRecords();
         break;
       case 5:
-        this.sort = '';
-        this.sortDirection = '';
+        this.sort = 'price';
+        this.fetchDetailsAndRecords();
         break;
       case 6:
-        this.sort = '';
-        this.sortDirection = '';
+        this.sort = 'record';
+        this.fetchDetailsAndRecords();
         break;
     }
   }
@@ -314,15 +364,29 @@ export class DetailsAndRecordsComponent implements OnInit {
     });
   }
 
-  dropOpen() {
+  dropOpen(event, id) {
     this.details[this.rowHowerIndex].ddShow = this.details[this.rowHowerIndex].ddShow === false;
+    // console.log(event.path[3].scrollHeight);
+    // console.log(event);
+    //
+    // console.log(id);
+
+    if ((this.details.length - 4) < id) {
+      this.dropDirection = 'top';
+    } else {
+      this.dropDirection = 'bottom';
+    }
+
+    // const comparison = (window.innerHeight - 280 - event.offsetY + 22) > 130;
+    // console.log(comparison);
+    // return comparison ? 'bottom' : 'top';
   }
 
   playerAction(index) {
     this.currentPlayerAction = index;
     const detailsLength = this.details.length;
 
-    // my old realisation
+    // old realisation
     // for (let i = 0; i < index; i++) {
     //   this.details[i].play = false;
     // }
@@ -336,7 +400,16 @@ export class DetailsAndRecordsComponent implements OnInit {
       this.details[i].play = (index === i ? !this.details[i].play : false);
     }
 
-    this.details[index].playerOpen = true;
+
+    this.services.getSound(this.details[index].accountFile.id)
+      .then(res => {
+        console.log(res);
+      })
+      .catch( err => {
+        console.error(err);
+      });
+
+
 
     // if (this.details[index].playerOpen === true && this.details[index].playerContentShow === true) {
     //   this.details[index].playerContentShow = false;
@@ -364,7 +437,10 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   private fetchDetailsAndRecords(): void {
     this.loading = true;
-    this.services.fetchDetailsAndRecords(this.page, this.limit, this.sort, this.sortDirection, this.filter)
+    if (this.limit < 10) {
+      this.limit = 10;
+    }
+    this.services.fetchDetailsAndRecords(this.page, this.limit, this.sort, this.sortDirection, this.tags)
       .then( res => {
         console.log(res);
         this.loading = false;
@@ -372,7 +448,7 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.pages = res.pageCount;
         // this.playOld = this.details.length;
         this.details.forEach( (item, i) => {
-          this.details[i].tag = 'incoming';
+          // this.details[i].tag = 'incoming';
           this.details[i].ddShow = false;
           this.details[i].play = false;
           this.details[i].playerOpen = false;

@@ -15,8 +15,8 @@ export class CallRulesServices {
     return this.request.put(`v1/outer_rule/${id}`, rules, true);
   }
 
-  getCallRules(): Promise<any> {
-    return this.request.get(`v1/outer_rule`, true);
+  getCallRules(page: number): Promise<any> {
+    return this.request.get(`v1/outer_rule?page=${page}`, true);
   }
 
   getEditedCallRule(id: number): Promise<any> {

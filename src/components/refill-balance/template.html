@@ -81,7 +81,7 @@
                 <div class="refill_processing_address">
                     <div>{{selected.title}} payment address:</div>
                     <div>{{payment.address}}</div>
-                    <div>(click to copy)</div>
+                    <div (click)="copyToClipboard()">(click to copy)</div>
                 </div>
                 <div class="refill_processing_qr_code_wrap">
                     <img [src]="payment.qrCode">

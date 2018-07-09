@@ -1,1 +1,28 @@
 @import "../../vars" // Global variables import
+.ext
+  flex-direction: row
+  flex: 1
+  &_table
+    flex-direction: column
+    flex: 1
+    display: block
+    overflow-y: auto
+    &_item
+      padding: 0 rem(16)
+      flex: 1
+      display: flow-root
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+      &_circle
+        width: rem(12)
+        height: rem(12)
+        border-radius: 50%
+        background: $dark_success
+        margin: auto
+      &_circle2
+        width: rem(12)
+        height: rem(12)
+        border-radius: 50%
+        background: $dark_warning
+        margin: auto

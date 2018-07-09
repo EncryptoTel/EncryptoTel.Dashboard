@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
+// import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
+import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {forEach} from '@angular/router/src/utils/collection';
 import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
+import {NotificatorServices} from '../../services/notificator.services';
 
 @Component({
   selector: 'pbx-notificator',
@@ -29,11 +29,16 @@ export class NotificatorComponent implements OnInit, OnChanges {
   };
 
 
-  // queue: Observable<any>;
+  queue = [];
+
+
+  // curState: any;
 
   notificatorWidth: number;
 
-  constructor() {
+  constructor(
+    private service: NotificatorServices
+  ) {
     this.notificatorWidth = (window.innerWidth - 616);
     // this.queue.toArray().subscribe(q => {
     //   console.log(q);
@@ -41,14 +46,23 @@ export class NotificatorComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.service.notification().subscribe(text => {
+      console.log(`GOT FROM SERVICE`, text);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
 
     if (this.notificator) {
-      this.notificator = changes.notificator.currentValue;
-      // this.queue.next(this.notificator);
-      // // console.log(this.queue);
+      console.log(this.notificator);
+      // this.notificatorOne = changes.notificator.currentValue;
+      console.log(`PASSED TO SERVICE`, changes.notificator.currentValue);
+      console.log(`===================================================`);
+
+      const curState = changes.notificator.currentValue;
+      this.service.setNotification(this.notificator);
+
+      // console.log(this.queue);
       // this.queueHandler(this.queue);
 
       // this.lifeTime = setTimeout(() => {

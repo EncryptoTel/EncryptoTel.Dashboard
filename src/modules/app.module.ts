@@ -16,7 +16,7 @@ import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
 import {AuthorizationServices} from '../services/authorization.services';
 import {UserServices} from '../services/user.services';
-import {CallQueuesServices} from '../services/call-queues.services';
+import {CallQueueService} from '../services/call-queue.service';
 import {SettingsServices} from '../services/settings.services';
 import {DetailsAndRecordsServices} from '../services/details-and-records.services';
 import {AddressBookServices} from '../services/address-book.services';
@@ -26,14 +26,18 @@ import {RingGroupsServices} from '../services/ring-groups.service';
 
 import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import {WsServices} from '../services/ws.services';
-import {environment as _env} from '../environments/environment';
+import {environment} from '../environments/environment';
 import {RefsServices} from '../services/refs.services';
+import {NotificatorServices} from '../services/notificator.services';
+import {SizePipe} from '../services/size.pipe';
+import {ClipboardModule} from 'ngx-clipboard';
 
-const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket']}};
+const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
 @NgModule({
     declarations: [
-        MainViewComponent
+        MainViewComponent,
+        SizePipe
     ],
     imports: [
         BrowserModule,
@@ -41,7 +45,8 @@ const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket'
         HttpClientModule,
         ComponentsModule,
         MainRouterModule,
-        SocketIoModule.forRoot(config)
+        SocketIoModule.forRoot(config),
+        ClipboardModule
     ],
     providers: [
         LoggerServices,
@@ -51,7 +56,7 @@ const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket'
         MessageServices,
         AuthorizationServices,
         UserServices,
-        CallQueuesServices,
+        CallQueueService,
         SettingsServices,
         DetailsAndRecordsServices,
         SettingsServices,
@@ -60,7 +65,9 @@ const config: SocketIoConfig = {url: _env.ws, options: {transports: ['websocket'
         AddressBookServices,
         WsServices,
         RefsServices,
-        RingGroupsServices
+        RingGroupsServices,
+        NotificatorServices,
+        SizePipe
     ],
     bootstrap: [MainViewComponent]
 })

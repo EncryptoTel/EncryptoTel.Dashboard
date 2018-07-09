@@ -40,20 +40,27 @@ export class DetailsAndRecordsServices {
   // }
 
 
-  fetchDetailsAndRecords (page: number, limit: number, sort: string, sortDirection: string, filter: string): Promise<any> {
-    if (sort === '' && sortDirection === '' && filter === '') {
+  fetchDetailsAndRecords (page: number, limit: number, sort: string, sortDirection: string, tags: any): Promise<any> {
+    const filter = tags.map((i) => {
+      return `&filter[status]=${i}`;
+    });
+    if (sort === '' && sortDirection === '' && filter === []) {
       return this.request.get(`v1/cdr?page=${page}&limit=${limit}`, true);
 
     } else if (sort === '' && sortDirection === '') {
-      return this.request.get(`v1/cdr?page=${page}&limit=${limit}&filter[${filter}]`, true);
+      return this.request.get(`v1/cdr?page=${page}&limit=${limit}${filter}`, true);
 
-    } else if (filter === '') {
+    } else if (filter === []) {
       return this.request.get(`v1/cdr?page=${page}&limit=${limit}&sort[${sort}]=${sortDirection}`, true);
 
     } else {
-      return this.request.get(`v1/cdr?page=${page}&limit=${limit}&sort[${sort}]=${sortDirection}&filter[${filter}]`, true);
+      return this.request.get(`v1/cdr?page=${page}&limit=${limit}&sort[${sort}]=${sortDirection}${filter}`, true);
     }
 
+  }
+
+  getSound(id) {
+    return this.request.get(`v1/account/file/${id}`, true);
   }
 
 }
