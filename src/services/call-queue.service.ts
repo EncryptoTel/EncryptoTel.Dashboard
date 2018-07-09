@@ -77,8 +77,8 @@ export class CallQueueService extends BaseService {
         return this.request.post(`v1/call_queue/members`, {sipOuter: this.callQueue.sipId, q: value}, true);
     }
 
-    getQueues() {
-        return this.request.get('v1/call_queue', true);
+    getQueues(pageInfo: any) {
+        return this.request.get(`v1/call_queue?page=${pageInfo.page}&limit=${pageInfo.limit}`, true);
     }
 
     getMembers(id: number) {
