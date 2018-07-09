@@ -20,7 +20,9 @@
                (onDelete)="deleteItem($event)"
                *ngIf="!loading"></pbx-table>
     <div class="table_pre_row">
-      <pbx-pagination [currentPage]="pagination.page" [totalPages]="pagination.total" (onPageChange)="onPageChange($event)" *ngIf="pagination.total !== 1"></pbx-pagination>
+      <pbx-pagination [pageInfo]="pageInfo"
+                      (onPageChange)="onPageChange($event)"
+                      (onLimitSelect)="selectLimit($event)"></pbx-pagination>
     </div>
   </div>
   <pbx-sidebar *ngIf="isSelected()" [@Swipe]>
