@@ -1,15 +1,15 @@
 <div class="modal_overlay" *ngIf="(modal && modal.visible) || (modalEx && modalEx.visible)" [@Fade]>
     <div class="modal_overlay_item" (click)="hideModal()"></div>
     <div class="modal_wrap">
-        <div class="modal_title">{{modal.title}}
+        <div class="modal_title">{{modal ? modal.title : (modalEx ? modalEx.title : '')}}
             <div class="modal_close" (click)="hideModal()">
                 <span></span><span></span>
             </div>
         </div>
-        <div *ngIf="!modalEx" class="modal_body">
+        <div *ngIf="!modalEx || !modalEx.body" class="modal_body">
             <ng-content></ng-content>
         </div>
-        <div *ngIf="modalEx" class="modal_body">
+        <div *ngIf="modalEx && modalEx.body" class="modal_body">
             {{modalEx.body}}
         </div>
         <div *ngIf="!modalEx" class="modal_buttons">

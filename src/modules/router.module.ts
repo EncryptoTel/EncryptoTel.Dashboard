@@ -47,6 +47,7 @@ import {RingGroupsComponent} from '../components/ring-groups/ring-groups.compone
 import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
 import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/tabs/general/ring-groups-general.component';
 import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/tabs/members/ring-groups-members.component';
+import {PartnerProgramComponent} from '../components/partner-program/partner-program.component';
 
 const Routes: Routes = [
   {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -126,7 +127,8 @@ const Routes: Routes = [
           {path: 'user-notifications', component: UserNotificationsComponent, data: {title: 'User notification settings', indexed: true}}
         ]},
       {path: 'refill', component: RefillBalanceComponent, data: {title: 'Refill Balance', indexed: true}},
-      {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff plan', indexed: true}}
+      {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff plan', indexed: true}},
+      {path: 'partner-program', component: PartnerProgramComponent, data: {title: 'Partner program', indexed: true}}
     ]},
   {path: '**', component: PageNotFoundComponent, data: {title: 'Page not found', indexed: false}}
 ];

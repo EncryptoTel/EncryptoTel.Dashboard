@@ -59,6 +59,12 @@ import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-
 import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/tabs/members/add/ring-groups-members-add.component';
 import {ChatComponent} from '../components/chat/chat.component';
 
+import {PartnerProgramComponent} from '../components/partner-program/partner-program.component';
+import {OverviewPartnerProgramComponent} from '../components/partner-program/overview/overview.partner-program.component';
+import {LinksPartnerProgramComponent} from '../components/partner-program/links/links.partner-program.component';
+import {ReportsPartnerProgramComponent} from '../components/partner-program/reports/reports.partner-program.component';
+import {TermsPartnerProgramComponent} from '../components/partner-program/terms/terms.partner-program.component';
+
 /*
   Components declarations and exports
  */
@@ -125,7 +131,12 @@ import {ChatComponent} from '../components/chat/chat.component';
         RingGroupsGeneralComponent,
         RingGroupsMembersComponent,
         RingGroupsMembersAddComponent,
-        ChatComponent
+        ChatComponent,
+        PartnerProgramComponent,
+        OverviewPartnerProgramComponent,
+        LinksPartnerProgramComponent,
+        ReportsPartnerProgramComponent,
+        TermsPartnerProgramComponent
     ],
     exports: [
         ElementsModule,
@@ -169,7 +180,12 @@ import {ChatComponent} from '../components/chat/chat.component';
         RingGroupsCreateComponent,
         RingGroupsGeneralComponent,
         RingGroupsMembersComponent,
-        RingGroupsMembersAddComponent
+        RingGroupsMembersAddComponent,
+        PartnerProgramComponent,
+        OverviewPartnerProgramComponent,
+        LinksPartnerProgramComponent,
+        ReportsPartnerProgramComponent,
+        TermsPartnerProgramComponent
     ]
 })
 export class ComponentsModule {
