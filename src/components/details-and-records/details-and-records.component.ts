@@ -1,7 +1,7 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DetailsAndRecordsServices} from '../../services/details-and-records.services';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {SwipeAnimation} from '../../shared/swipe-animation';
+import {PlayerAnimation} from '../../shared/player-animation';
 
 
 @Component({
@@ -10,13 +10,11 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
   styleUrls: ['./local.sass'],
   animations: [
     FadeAnimation('200ms'),
-    SwipeAnimation('x', '200ms')
+    PlayerAnimation
   ]
 })
 
 export class DetailsAndRecordsComponent implements OnInit {
-  // @ViewChildren('menu') ddMenuWrap: ElementRef;
-  @ViewChildren('row') rows: QueryList<'row'>;
   loading = false;
 
   // details = [
@@ -229,26 +227,6 @@ export class DetailsAndRecordsComponent implements OnInit {
     private services: DetailsAndRecordsServices,
   ) {}
 
-  // dropPosition(): string {
-  //
-  //   this.rows.forEach((child) => {
-  //     console.log(child.nativeElement.offsetTop);
-  //   });
-  //   // console.log(this.ddMenuWrap);
-  //   // console.log(this.ddMenuWrap);
-  //   console.log('window.innerHeight', window.innerHeight);
-  //   // console.log('nativeElement.offsetTop', this.ddMenuWrap.nativeElement.offsetTop);
-  //   // console.log('nativeElement.offsetHeight', this.ddMenuWrap.nativeElement.offsetHeight);
-  //   //   if (this.ddMenuWrap.nativeElement) {
-  //   //     console.log(this.ddMenuWrap.nativeElement);
-  //   // }
-  //   // const comparison = (window.innerHeight - this.ddMenuWrap.nativeElement.offsetTop + 22) > 130;
-  //   // console.log(comparison);
-  //   // return comparison ? 'bottom' : 'top';
-  //   return 'top';
-  // }
-
-
   ngOnInit() {
     this.fetchDetailsAndRecords();
     console.log(window.innerHeight);
@@ -297,16 +275,6 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   setFilters(tag: string): boolean {
     return this.inactiveFilters.includes(tag);
-  }
-
-  goToPage(page: number): void {
-    console.log(page);
-    if (page <= this.pages) {
-      if (page > 0) {
-        this.page = page;
-        this.fetchDetailsAndRecords();
-      }
-    }
   }
 
   sortCol(index: number): void {
@@ -366,26 +334,17 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   dropOpen(event, id) {
     this.details[this.rowHowerIndex].ddShow = this.details[this.rowHowerIndex].ddShow === false;
-    // console.log(event.path[3].scrollHeight);
-    // console.log(event);
-    //
-    // console.log(id);
 
     if ((this.details.length - 4) < id) {
       this.dropDirection = 'top';
     } else {
       this.dropDirection = 'bottom';
     }
-
-    // const comparison = (window.innerHeight - 280 - event.offsetY + 22) > 130;
-    // console.log(comparison);
-    // return comparison ? 'bottom' : 'top';
   }
 
   playerAction(index) {
     this.currentPlayerAction = index;
     const detailsLength = this.details.length;
-
     // old realisation
     // for (let i = 0; i < index; i++) {
     //   this.details[i].play = false;
@@ -400,6 +359,9 @@ export class DetailsAndRecordsComponent implements OnInit {
       this.details[i].play = (index === i ? !this.details[i].play : false);
     }
 
+    // if (this.details[this.currentPlayerAction].play === true && this.details[this.currentPlayerAction] && this.details[this.currentPlayerAction].playerAnimationState === 'min') {
+    //   this.details[this.currentPlayerAction].playerAnimationState = 'max';
+    // }
 
     this.services.getSound(this.details[index].accountFile.id)
       .then(res => {
@@ -408,23 +370,40 @@ export class DetailsAndRecordsComponent implements OnInit {
       .catch( err => {
         console.error(err);
       });
+  }
 
-
-
-    // if (this.details[index].playerOpen === true && this.details[index].playerContentShow === true) {
-    //   this.details[index].playerContentShow = false;
-    //   setTimeout( () => {
-    //   }, 200);
-    // } else if (this.details[index].play === false) {
-    //   this.details[index].playerOpen = true;
-    // }
+  playerOpenClose(index) {
+    this.currentPlayerAction = index;
+    this.details[this.currentPlayerAction].playerAnimationState = this.details[this.currentPlayerAction].playerAnimationState === 'min' ? 'max' : 'min';
   }
 
   playerAnimationStart() {
+    if (this.details[this.currentPlayerAction]) {
+      console.log('ALLLLLLOOOE1', this.details[this.currentPlayerAction].playerAnimationState);
+      console.log('ALLLLLLOOOE2', this.details[this.currentPlayerAction].playerContentShow);
+      if (this.details[this.currentPlayerAction].playerAnimationState === 'min') {
+        this.details[this.currentPlayerAction].playerContentShow = false;
+      }
+    }
   }
 
   playerAnimationEnd() {
-    this.details[this.currentPlayerAction].playerContentShow = this.details[this.currentPlayerAction].playerContentShow === false;
+    if (this.details[this.currentPlayerAction]) {
+      this.details[this.currentPlayerAction].playerContentShow = this.details[this.currentPlayerAction].playerContentShow === false;
+      if (this.details[this.currentPlayerAction].playerAnimationState === 'min') {
+        this.details[this.currentPlayerAction].playerContentShow = false;
+      }
+    }
+  }
+
+  goToPage(page: number): void {
+    console.log(page);
+    if (page <= this.pages) {
+      if (page > 0) {
+        this.page = page;
+        this.fetchDetailsAndRecords();
+      }
+    }
   }
 
   get paginatorLeftState(): boolean {
@@ -451,7 +430,7 @@ export class DetailsAndRecordsComponent implements OnInit {
           // this.details[i].tag = 'incoming';
           this.details[i].ddShow = false;
           this.details[i].play = false;
-          this.details[i].playerOpen = false;
+          this.details[i].playerAnimationState = 'min';
           this.details[i].playerContentShow = false;
         });
       })
