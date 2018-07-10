@@ -1,92 +1,73 @@
 <div class="call_queues_general_wrap" [@Fade]>
-  <pbx-loader *ngIf="loading"></pbx-loader>
-  <ng-container *ngIf="!loading">
-    <div class="call_queues_general_title">
-      <h3>Create Ring Group</h3>
-    </div>
-    <div class="call_queues_general_item">
-      <div class="call_queues_general_item_label">
-        <span>Name</span>
-      </div>
-      <div class="call_queues_general_item_input_wrap">
-        <input type="text" placeholder="Unnamed" [(ngModel)]="_services.ringGroups.name">
-      </div>
-    </div>
-    <div class="call_queues_general_item">
-      <div class="call_queues_general_item_label">
-        <span>Description</span>
-      </div>
-      <div class="call_queues_general_item_input_wrap">
-        <input type="text" placeholder="Description" [(ngModel)]="_services.ringGroups.description">
-      </div>
-    </div>
-    <div class="call_queues_general_item">
-      <div class="call_queues_general_item_label">
-        <span>Phone number</span>
-      </div>
-      <div class="call_queues_general_item_input_wrap">
-        <pbx-select [singleBorder]="true" [options]="numbers" [objectKey]="'phoneNumber'"
-                    [selected]="_services.userView.phoneNumber" (onSelect)="setNumber($event)"
-                    [placeholder]="'[choose one]'"></pbx-select>
-      </div>
-    </div>
-    <div class="call_queues_general_item">
-      <div class="call_queues_general_item_label">
-        <span>Ring Strategy</span>
-      </div>
-      <div class="call_queues_general_item_input_wrap">
-        <!--<pbx-select [singleBorder]="true" [options]="_services.params.strategies" [objectKey]="'code'"-->
-                    <!--[selected]="_services.userView.strategy.code" (onSelect)="setStrategies($event)"-->
-                    <!--[placeholder]="'[choose one]'"></pbx-select>-->
-      </div>
-    </div>
-    <div class="call_queues_general_item">
-      <div class="call_queues_general_item_label">
-        <span>Ring Time</span>
-      </div>
-      <div class="call_queues_general_item_input_wrap time">
-        <input type="number" [(ngModel)]="_services.ringGroups.timeout">
-        <span>seconds</span>
-      </div>
-    </div>
-    <!--<div class="call_queues_general_item">-->
-      <!--<div class="call_queues_general_item_label">-->
-        <!--<span>Maximum Callers in Queue</span>-->
-      <!--</div>-->
-      <!--<div class="call_queues_general_item_input_wrap time">-->
-        <!--<input type="number" [(ngModel)]="_services.callQueue.maxlen">-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<div class="call_queues_general_item">-->
-      <!--<div class="call_queues_general_item_label">-->
-      <!--</div>-->
-      <!--<div class="call_queues_general_item_input_wrap checkbox">-->
-        <!--<pbx-checkbox [value]="_services.callQueue.announcePosition"-->
-                      <!--(onToggle)="setAnnouncePosition($event)"></pbx-checkbox>-->
-        <!--<span>Announce Queue position to caller</span>-->
-      <!--</div>-->
-    <!--</div>-->
-    <div class="call_queues_general_title">
-      <h3>Destination if no answer</h3>
-    </div>
-    <div class="call_queues_general_item">
-      <div class="call_queues_general_item_label">
-        <span>Then</span>
-      </div>
-      <div class="call_queues_general_item_input_wrap">
-        <!--<pbx-select [singleBorder]="true" [options]="_services.params.strategies" [objectKey]="'code'"-->
-                    <!--[selected]="_services.userView.strategy" (onSelect)="setNoanswer($event)"-->
-                    <!--[placeholder]="'[choose one]'"></pbx-select>-->
-      </div>
-    </div>
-    <!--<div class="call_queues_general_item">-->
-      <!--<div class="call_queues_general_item_label">-->
-      <!--</div>-->
-      <!--<div class="call_queues_general_item_input_wrap checkbox">-->
-        <!--<pbx-checkbox [value]="_services.userView.announceHoldtime"-->
-                      <!--(onToggle)="setAnnounceHoldtime($event)"></pbx-checkbox>-->
-        <!--<span>Announce Holdtime</span>-->
-      <!--</div>-->
-    <!--</div>-->
-  </ng-container>
+    <pbx-loader *ngIf="loading"></pbx-loader>
+    <ng-container *ngIf="!loading">
+        <div class="call_queues_general_title">
+            <h3>Create Ring Group</h3>
+        </div>
+        <div class="call_queues_general_item">
+            <div class="call_queues_general_item_label">
+                <span>Name</span>
+            </div>
+            <div class="call_queues_general_item_input_wrap">
+                <input type="text" placeholder="Unnamed" [(ngModel)]="service.item.name"
+                       [ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.name}">
+            </div>
+        </div>
+        <div class="call_queues_general_item">
+            <div class="call_queues_general_item_label">
+                <span>Description</span>
+            </div>
+            <div class="call_queues_general_item_input_wrap">
+                <input type="text" placeholder="Description" [(ngModel)]="service.item.description">
+            </div>
+        </div>
+        <div class="call_queues_general_item">
+            <div class="call_queues_general_item_label">
+                <span>Phone number</span>
+            </div>
+            <div class="call_queues_general_item_input_wrap">
+                <pbx-select [singleBorder]="true" [options]="numbers" [objectKey]="'phoneNumber'"
+                            [selected]="service.userView" (onSelect)="setNumber($event)"
+                            [placeholder]="'[choose one]'"
+                            [errors]="service.errors ? service.errors.sip : null">
+                </pbx-select>
+            </div>
+        </div>
+        <div class="call_queues_general_item">
+            <div class="call_queues_general_item_label">
+                <span>Ring Strategy</span>
+            </div>
+            <div class="call_queues_general_item_input_wrap">
+                <pbx-select [singleBorder]="true" [options]="service.params.strategies" [objectKey]="'code'"
+                            [selected]="service.userView.strategy" (onSelect)="setStrategies($event)"
+                            [placeholder]="'[choose one]'"
+                            [errors]="service.errors ? service.errors.strategy : null">
+                </pbx-select>
+            </div>
+        </div>
+        <div class="call_queues_general_item">
+            <div class="call_queues_general_item_label">
+                <span>Ring Time</span>
+            </div>
+            <div class="call_queues_general_item_input_wrap time">
+                <input type="number" [(ngModel)]="service.item.timeout">
+                <span>seconds</span>
+            </div>
+        </div>
+        <!--<div class="call_queues_general_title">-->
+            <!--<h3>Destination if no answer</h3>-->
+        <!--</div>-->
+        <!--<div class="call_queues_general_item">-->
+            <!--<div class="call_queues_general_item_label">-->
+                <!--<span>Then</span>-->
+            <!--</div>-->
+            <!--<div class="call_queues_general_item_input_wrap">-->
+                <!--<pbx-select [singleBorder]="true" [options]="service.params.actions" [objectKey]="'code'"-->
+                            <!--[selected]="service.userView.action" (onSelect)="setAction($event)"-->
+                            <!--[placeholder]="'[choose one]'"-->
+                            <!--[errors]="service.errors ? service.errors.action : null">-->
+                <!--</pbx-select>-->
+            <!--</div>-->
+        <!--</div>-->
+    </ng-container>
 </div>

@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {PartnerProgramService} from "../../services/partner-program.service";
-import {PageInfoModel} from "../../models/page-info.model";
 import {PartnerProgramModel} from "../../models/partner-program.model";
 
 @Component({

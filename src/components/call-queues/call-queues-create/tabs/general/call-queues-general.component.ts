@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {CallQueueService} from '../../../../../services/call-queue.service';
-import {Param} from '../../../../../models/queue.model';
 import {FadeAnimation} from '../../../../../shared/fade-animation';
 import {RefsServices} from '../../../../../services/refs.services';
+import {BaseParam} from "../../../../../models/base.model";
 
 @Component({
     selector: 'pbx-call-queues-general',
@@ -23,23 +23,23 @@ export class CallQueuesGeneralComponent {
 
 
     setNumber(number): void {
-        this.service.callQueue.sipId = number.id;
+        this.service.item.sipId = number.id;
         this.service.userView.phoneNumber = number.phoneNumber;
     }
 
-    setStrategies(strategy: Param): void {
-        this.service.callQueue.strategy = strategy.id;
+    setStrategies(strategy: BaseParam): void {
+        this.service.item.strategy = strategy.id;
         this.service.userView.strategy.code = strategy.code;
     }
 
     setAnnouncePosition(state: boolean): void {
         this.service.userView.announcePosition = state;
-        this.service.callQueue.announceHoldtime = this.service.userView.announcePosition ? 1 : 0;
+        this.service.item.announceHoldtime = this.service.userView.announcePosition ? 1 : 0;
     }
 
     setAnnounceHoldtime(state: boolean): void {
         this.service.userView.announceHoldtime = state;
-        this.service.callQueue.announceHoldtime = this.service.userView.announceHoldtime ? 1 : 0;
+        this.service.item.announceHoldtime = this.service.userView.announceHoldtime ? 1 : 0;
     }
 
     private getNumbers(): void {

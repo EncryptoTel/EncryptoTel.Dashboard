@@ -31,7 +31,6 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
     }
 
     cancel(): void {
-        this.service.cancel();
         this.router.navigate(['cabinet', 'call-queues']);
     }
 
@@ -41,38 +40,18 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
 
     validation(): boolean {
         return !(
-            this.service.callQueue.sipId &&
-            this.service.callQueue.name &&
-            (this.service.callQueue.name.length < 255) &&
-            this.service.callQueue.strategy &&
-            this.service.callQueue.timeout &&
-            // this.service.callQueue.maxlen &&
-            this.service.callQueue.queueMembers.length > 0
+            this.service.item.sipId &&
+            this.service.item.name &&
+            (this.service.item.name.length < 255) &&
+            this.service.item.strategy &&
+            this.service.item.timeout &&
+            // this.service.item.maxlen &&
+            this.service.item.queueMembers.length > 0
         );
     }
 
     private reset() {
-        this.service.callQueue = {
-            sipId: 0,
-            name: '',
-            strategy: 0,
-            timeout: 30,
-            announceHoldtime: 0,
-            announcePosition: false,
-            maxlen: 60,
-            description: '',
-            queueMembers: []
-        };
-        this.service.userView = {
-            phoneNumber: '',
-            announceHoldtime: false,
-            announcePosition: false,
-            members: [],
-            isCurCompMembersAdd: false,
-            strategy: {
-                code: ''
-            }
-        };
+        this.service.reset();
     }
 
     private getParams() {
@@ -87,14 +66,14 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
     private getCallQueue(id) {
         this.loading += 1;
         this.service.getItem(id).then(res => {
-            this.service.callQueue.sipId = res.sip.id;
-            this.service.callQueue.name = res.name;
-            this.service.callQueue.strategy = res.strategy;
-            this.service.callQueue.timeout = res.timeout;
-            this.service.callQueue.announceHoldtime = res.announceHoldtime;
-            this.service.callQueue.announcePosition = res.announcePosition;
-            this.service.callQueue.maxlen = res.maxlen;
-            this.service.callQueue.description = res.description;
+            this.service.item.sipId = res.sip.id;
+            this.service.item.name = res.name;
+            this.service.item.strategy = res.strategy;
+            this.service.item.timeout = res.timeout;
+            this.service.item.announceHoldtime = res.announceHoldtime;
+            this.service.item.announcePosition = res.announcePosition;
+            this.service.item.maxlen = res.maxlen;
+            this.service.item.description = res.description;
             this.service.userView.phoneNumber = res.sip.phoneNumber;
             this.service.userView.announceHoldtime = res.announceHoldtime !== 0;
             this.setMembers(res.queueMembers);
@@ -108,7 +87,7 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
 
     private setMembers(members) {
         for (let i = 0; i < members.length; i++) {
-            this.service.callQueue.queueMembers.push({sipId: members[i].sip.id});
+            this.service.item.queueMembers.push({sipId: members[i].sip.id});
             this.service.userView.members.push(members[i].sip);
             this.service.userView.members[i].sipOuterPhone = this.service.userView.phoneNumber;
         }
@@ -116,6 +95,7 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.reset();
         if (this.id) {
             this.getCallQueue(this.id);
             this.service.editMode = true;

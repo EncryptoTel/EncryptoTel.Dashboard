@@ -3,7 +3,7 @@ import {StorageService} from "../../services/storage.service";
 import {MessageServices} from "../../services/message.services";
 import {StorageModel} from "../../models/storage.model";
 import {SizePipe} from '../../services/size.pipe';
-import {SortModel} from "../../models/page-info.model";
+import {SortModel} from "../../models/base.model";
 
 @Component({
     selector: 'pbx-storage',

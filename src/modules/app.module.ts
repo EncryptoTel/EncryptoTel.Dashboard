@@ -22,7 +22,7 @@ import {DetailsAndRecordsServices} from '../services/details-and-records.service
 import {AddressBookServices} from '../services/address-book.services';
 import {DepartmentServices} from '../services/department.services';
 import {CallRulesServices} from '../services/call-rules.services';
-import {RingGroupsServices} from '../services/ring-groups.service';
+import {RingGroupService} from '../services/ring-group.service';
 
 import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import {WsServices} from '../services/ws.services';
@@ -65,7 +65,7 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         AddressBookServices,
         WsServices,
         RefsServices,
-        RingGroupsServices,
+        RingGroupService,
         NotificatorServices,
         SizePipe
     ],

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PageInfoModel} from "../../models/page-info.model";
+import {PageInfoModel} from "../../models/base.model";
 
 @Component({
     selector: 'pbx-pagination',

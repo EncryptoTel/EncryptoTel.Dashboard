@@ -1,4 +1,4 @@
-import {PageInfoModel} from "./page-info.model";
+import {PageInfoModel} from "./base.model";
 
 export class StorageModel extends PageInfoModel {
     public items: StorageItem[];

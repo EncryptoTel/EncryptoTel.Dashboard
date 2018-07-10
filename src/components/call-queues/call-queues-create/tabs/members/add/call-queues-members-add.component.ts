@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {CallQueueService} from '../../../../../../services/call-queue.service';
-import {Departments, Members, SipInner} from '../../../../../../models/queue.model';
 import {FadeAnimation} from '../../../../../../shared/fade-animation';
 
 @Component({
@@ -11,16 +10,17 @@ import {FadeAnimation} from '../../../../../../shared/fade-animation';
 })
 
 export class CallQueuesMembersAddComponent {
+
     constructor(private service: CallQueueService) {
-        if (this.service.callQueue.sipId) {
-            this.getMembers(this.service.callQueue.sipId);
+        if (this.service.item.sipId) {
+            this.getMembers(this.service.item.sipId);
             this.getDepartments();
         }
         this.service.userView.isCurCompMembersAdd = true;
     }
 
     loading = true;
-    members: SipInner[] = [];
+    members = [];
     departments: any[] = [];
     table = {
         title: {
@@ -29,31 +29,31 @@ export class CallQueuesMembersAddComponent {
         }
     };
 
-    selectMember(member: SipInner): void {
+    selectMember(member): void {
         // console.log(member);
-        const checkResult = this.service.callQueue.queueMembers.find(el => {
+        const checkResult = this.service.item.queueMembers.find(el => {
             return el.sipId === member.id;
         });
         if (!checkResult) {
-            this.service.callQueue.queueMembers.push({sipId: member.id});
+            this.service.item.queueMembers.push({sipId: member.id});
             this.service.userView.members.push(member);
         }
     }
 
-    deleteMember(member: SipInner): void {
+    deleteMember(member): void {
         // console.log('deleteMember', member);
-        const checkResult = this.service.callQueue.queueMembers.findIndex(el => {
+        const checkResult = this.service.item.queueMembers.findIndex(el => {
             return el.sipId === member.id;
         });
         if (checkResult >= 0) {
-            this.service.callQueue.queueMembers.splice(checkResult, 1);
+            this.service.item.queueMembers.splice(checkResult, 1);
             this.service.userView.members.splice(checkResult, 1);
         }
     }
 
     search(event): void {
         const search = event.target.value;
-        this.service.search(search).then(res => {
+        this.service.getMembers(this.service.item.id, search).then(res => {
             this.members = res.items;
             this.addPhoneNumberField();
         }).catch(err => {
@@ -62,7 +62,7 @@ export class CallQueuesMembersAddComponent {
     }
 
     private getMembers(id: number): void {
-        this.service.getMembers(id).then((res: Members) => {
+        this.service.getMembers(id).then((res) => {
             this.members = res.items;
             this.loading = false;
             this.addPhoneNumberField();
@@ -78,7 +78,7 @@ export class CallQueuesMembersAddComponent {
     }
 
     private getDepartments() {
-        this.service.getDepartments().then((res: Departments) => {
+        this.service.getDepartments().then((res) => {
             this.departments = res.items;
         }).catch(err => {
             console.error(err);

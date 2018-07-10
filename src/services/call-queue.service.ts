@@ -1,58 +1,30 @@
-import {Injectable} from '@angular/core';
-import {RequestServices} from './request.services';
-import {QueueModel, QueuesParams} from '../models/queue.model';
-import {Router} from '@angular/router';
-import {BaseService} from "./base.service";
+import {CallQueueItem, CallQueueParams} from '../models/call-queue.model';
+import {BaseQueueService} from "./base-queue.service";
 
-export class CallQueueService extends BaseService {
+export class CallQueueService extends BaseQueueService {
 
-    editMode = false;
-    callQueue: QueueModel = {
-        sipId: 0,
-        name: '',
-        strategy: 0,
-        timeout: 30,
-        announceHoldtime: 0,
-        announcePosition: false,
-        maxlen: 60,
-        description: '',
-        queueMembers: []
-    };
-    params: QueuesParams = {
-        announceHoldtimes: [],
-        strategies: []
-    };
-    userView = {
-        phoneNumber: '',
-        announceHoldtime: false,
-        announcePosition: false,
-        members: [],
-        isCurCompMembersAdd: false,
-        strategy: {
-            code: ''
-        }
-    };
+    item: CallQueueItem;
 
-    save(id): Promise<any> {
-        if (this.editMode) {
-            return this.request.put(`v1/call_queue/${id}`, this.callQueue, true);
-        } else {
-            return this.request.post('v1/call_queue', this.callQueue, true);
-        }
+    params: CallQueueParams;
+
+    getItem(id: number): Promise<any> {
+        return this.getById(id).then(res => {
+            this.item.sipId = res.sip.id;
+            this.item.name = res.name;
+            this.item.strategy = res.strategy;
+            this.item.timeout = res.timeout;
+            this.item.maxlen = res.maxlen;
+            this.item.announceHoldtime = res.announceHoldtime;
+            this.item.announcePosition = res.announcePosition;
+            this.item.description = res.description;
+            this.userView.phoneNumber = res.sip.phoneNumber;
+            this.setMembers(res.queueMembers);
+            return Promise.resolve(res);
+        });
     }
 
-    cancel(): void {
-        this.callQueue = {
-            sipId: 0,
-            name: '',
-            strategy: 0,
-            timeout: 30,
-            announceHoldtime: 0,
-            announcePosition: false,
-            maxlen: 60,
-            description: '',
-            queueMembers: []
-        };
+    reset(): void {
+        this.item = new CallQueueItem();
         this.userView = {
             phoneNumber: '',
             announceHoldtime: false,
@@ -61,48 +33,8 @@ export class CallQueueService extends BaseService {
             isCurCompMembersAdd: false,
             strategy: {
                 code: ''
-            }
+            },
         };
-    }
-
-    setStrategiesFromId() {
-        this.params.strategies.forEach(el => {
-            if (el.id === this.callQueue.strategy) {
-                this.userView.strategy.code = el.code;
-            }
-        });
-    }
-
-    search(value: string) {
-        return this.request.post(`v1/call_queue/members`, {sipOuter: this.callQueue.sipId, q: value}, true);
-    }
-
-    getQueues(pageInfo: any) {
-        return this.request.get(`v1/call_queue?page=${pageInfo.page}&limit=${pageInfo.limit}`, true);
-    }
-
-    getMembers(id: number) {
-        return this.request.get(`v1/call_queue/members?sipOuter=${id}`, true);
-    }
-
-    getDepartments() {
-        return this.request.get(`v1/department`, true);
-    }
-
-
-
-
-
-
-
-    getParams(): Promise<any> {
-        return super.getParams().then((res: QueuesParams) => {
-            this.params = res;
-            if (this.editMode) {
-                this.setStrategiesFromId();
-            }
-            return res;
-        });
     }
 
     onInit() {

@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {CallQueueService} from '../../../../../services/call-queue.service';
-import {SipInner} from '../../../../../models/queue.model';
 import {FadeAnimation} from '../../../../../shared/fade-animation';
 
 @Component({
@@ -15,7 +14,7 @@ export class CallQueuesMembersComponent {
         this.service.userView.isCurCompMembersAdd = false;
     }
 
-    members: SipInner[] = this.service.userView.members;
+    members = this.service.userView.members;
 
     table = {
         title: {
@@ -25,7 +24,7 @@ export class CallQueuesMembersComponent {
     };
 
     deleteMember(memberId) {
-        const indexCallQueue = this.service.callQueue.queueMembers.findIndex(el => {
+        const indexCallQueue = this.service.item.queueMembers.findIndex(el => {
             if (el.sipId === memberId) {
                 return true;
             }
@@ -35,7 +34,7 @@ export class CallQueuesMembersComponent {
                 return true;
             }
         });
-        this.service.callQueue.queueMembers.splice(indexCallQueue, 1);
+        this.service.item.queueMembers.splice(indexCallQueue, 1);
         this.service.userView.members.splice(indexView, 1);
     }
 }

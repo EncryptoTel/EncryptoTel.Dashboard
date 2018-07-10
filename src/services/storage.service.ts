@@ -1,7 +1,6 @@
 import {BaseService} from "./base.service";
-import {RequestServices} from './request.services';
 import {Injectable} from '@angular/core';
-import {SortModel} from "../models/page-info.model";
+import {SortModel} from "../models/base.model";
 
 @Injectable()
 
