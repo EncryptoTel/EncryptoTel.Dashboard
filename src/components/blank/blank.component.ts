@@ -1,24 +1,34 @@
 import {Component, OnInit} from '@angular/core';
 import {TableInfoModel} from '../../models/table-info.model';
 import {SidebarInfo} from '../../models/sidebar-info.model';
+import {NotificatorServices} from '../../services/notificator.services';
+import {NotificatorModel} from '../../models/notificator.model';
 
 @Component({
   selector: 'pbx-blank',
   template: `
             <div style="flex-direction: row; flex: 0 0 auto">
-              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;"></pbx-button>
-              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;" buttonType="success" value="Accept"></pbx-button>
-              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;" buttonType="cancel" value="Cancel"></pbx-button>
+              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px;"></pbx-button>
+              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;" buttonType="success" value="Accept"></pbx-button>
+              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;" buttonType="cancel" value="Cancel"></pbx-button>
               <pbx-button
-                style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;"
+                style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;"
                 buttonType="error"
                 value="Modal"
-                (onClick)="modal.visible = true"></pbx-button>
+                (onClick)="modal.visible = true">
+              </pbx-button>
               <pbx-button
-                style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;"
+                style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;"
                 buttonType="success"
-                value="Notification"
-                (onClick)="createNotification()"></pbx-button>
+                value="Notification success"
+                (onClick)="createNotificationSuccess()">
+              </pbx-button>
+              <pbx-button
+                style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;"
+                buttonType="error"
+                value="Notification error"
+                (onClick)="createNotificationError()">
+              </pbx-button>
             </div>
             <pbx-select
               style="flex: 0 0 auto; width: 300px; margin-bottom: 16px"
@@ -27,16 +37,17 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
               [selected]="selectedOption"
               [objectKey]="'title'"
               [placeholder]="'Please select something'"
-              (onSelect)="selectOption($event)"></pbx-select>
+              (onSelect)="selectOption($event)">
+            </pbx-select>
             <pbx-select
               style="flex: 0 0 auto; width: 300px; margin-bottom: 16px"
               [options]="selectOptions"
               [selected]="selectedOption"
               [objectKey]="'title'"
               [placeholder]="'Please select something'"
-              (onSelect)="selectOption($event)"></pbx-select>
+              (onSelect)="selectOption($event)">
+            </pbx-select>
             <pbx-checkbox style="flex: 0 0 auto; margin-bottom: 16px" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
-            <pbx-notificator [notificator]="notificator"></pbx-notificator>
             <pbx-modal [modal]="modal"
                        (onConfirm)="modalConfirm()"
                        (onDecline)="modalDecline()">
@@ -53,8 +64,10 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
                          (onEdit)="editItem($event)"
                           style="flex: 1 0 auto"></pbx-table>
               <pbx-sidebar [sidebarInfo]="sidebarInfo" style="flex: 0 0 auto;"></pbx-sidebar>
+              <pbx-notificator></pbx-notificator>
             </div>
-  `
+  `,
+  styles: ['pbx-button { width: auto;}']
 })
 
 export class BlankComponent implements OnInit {
@@ -123,28 +136,11 @@ export class BlankComponent implements OnInit {
     decline: {type: string, value: string}
   };
 
-  // notificator: {
-  //   visible: boolean,
-  //   type: string,
-  //   message: string,
-  //   actionName: string
-  // };
+  notificator: NotificatorModel;
 
-  // notificator = {
-  //   visible: false,
-  //   type: 'success',
-  //   message: 'Okay, dude',
-  //   actionName: 'Got it'
-  // };
-
-  notificator: {
-    visible: boolean,
-    type: string,
-    message: string,
-    actionName: string
-  };
-
-  constructor() {
+  constructor(
+    private serviceNotificator: NotificatorServices
+  ) {
     this.modal = {
       visible: false,
       title: 'Diablo',
@@ -152,20 +148,27 @@ export class BlankComponent implements OnInit {
       decline: {type: 'error', value: 'No'}
     };
 
-    this.notificator = {
-      visible: false,
-      type: 'success',
-      message: 'Okay, dude',
-      actionName: 'Got it'
-    };
   }
 
   ngOnInit() {
   }
 
-  createNotification() {
-    this.notificator.visible = true;
-    this.notificator = Object.assign({}, this.notificator);
+  createNotificationSuccess() {
+    this.notificator = {
+      visible: true,
+      type: 'success',
+      message: 'Okay, dude'
+    };
+    this.serviceNotificator.setNotification(this.notificator);
+  }
+
+  createNotificationError() {
+    this.notificator = {
+      visible: true,
+      type: 'error',
+      message: 'Nope, dude'
+    };
+    this.serviceNotificator.setNotification(this.notificator);
   }
 
   selectItem(item): void {

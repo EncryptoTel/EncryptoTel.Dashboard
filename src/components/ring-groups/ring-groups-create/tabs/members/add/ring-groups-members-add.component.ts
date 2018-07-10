@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {CallQueueService} from '../../../../../../services/call-queue.service';
 import {Departments, Members, SipInner} from '../../../../../../models/queue.model';
 import {FadeAnimation} from '../../../../../../shared/fade-animation';
+import {RingGroupsServices} from '../../../../../../services/ring-groups.service';
 
 @Component({
   selector: 'ring-groups-members-add',
@@ -11,9 +11,9 @@ import {FadeAnimation} from '../../../../../../shared/fade-animation';
 })
 
 export class RingGroupsMembersAddComponent {
-  constructor(private _service: CallQueueService) {
-    if (this._service.callQueue.sipId) {
-      this.getMembers(this._service.callQueue.sipId);
+  constructor(private _service: RingGroupsServices) {
+    if (this._service.ringGroups.sipId) {
+      this.getMembers(this._service.ringGroups.sipId);
       this.getDepartments();
     }
     this._service.userView.isCurCompMembersAdd = true;
@@ -31,21 +31,21 @@ export class RingGroupsMembersAddComponent {
 
   selectMember(member: SipInner): void {
     console.log(member);
-    const checkResult = this._service.callQueue.queueMembers.find(el => {
+    const checkResult = this._service.ringGroups.queueMembers.find(el => {
       return el.sipId === member.id;
     });
     if (!checkResult) {
-      this._service.callQueue.queueMembers.push({sipId: member.id});
+      this._service.ringGroups.queueMembers.push({sipId: member.id});
       this._service.userView.members.push(member);
     }
   }
 
   deleteMember(id: number): void {
-    const checkResult = this._service.callQueue.queueMembers.findIndex(el => {
+    const checkResult = this._service.ringGroups.queueMembers.findIndex(el => {
       return el.sipId === id;
     });
     if (checkResult >= 0) {
-      this._service.callQueue.queueMembers.splice(checkResult, 1);
+      this._service.ringGroups.queueMembers.splice(checkResult, 1);
       this._service.userView.members.splice(checkResult, 1);
     }
   }

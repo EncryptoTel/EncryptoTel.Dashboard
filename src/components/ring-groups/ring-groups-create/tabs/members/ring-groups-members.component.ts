@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CallQueueService} from '../../../../../services/call-queue.service';
+import {RingGroupsServices} from '../../../../../services/ring-groups.service';
 import {SipInner} from '../../../../../models/queue.model';
 import {FadeAnimation} from '../../../../../shared/fade-animation';
 
@@ -11,7 +11,7 @@ import {FadeAnimation} from '../../../../../shared/fade-animation';
 })
 
 export class RingGroupsMembersComponent {
-  constructor(private _services: CallQueueService) {
+  constructor(private _services: RingGroupsServices) {
     this._services.userView.isCurCompMembersAdd = false;
   }
 
@@ -25,7 +25,7 @@ export class RingGroupsMembersComponent {
   };
 
   deleteMember(memberId) {
-    const indexCallQueue = this._services.callQueue.queueMembers.findIndex(el => {
+    const indexCallQueue = this._services.ringGroups.queueMembers.findIndex(el => {
       if (el.sipId === memberId) {
         return true;
       }
@@ -35,7 +35,7 @@ export class RingGroupsMembersComponent {
         return true;
       }
     });
-    this._services.callQueue.queueMembers.splice(indexCallQueue, 1);
+    this._services.ringGroups .queueMembers.splice(indexCallQueue, 1);
     this._services.userView.members.splice(indexView, 1);
   }
 }

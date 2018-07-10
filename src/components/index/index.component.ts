@@ -47,12 +47,12 @@ export class IndexComponent implements OnInit, OnDestroy {
     errorsSubscription: Subscription;
     message: any;
 
-    notificator: {
-      visible: boolean,
-      type: string,
-      message: string,
-      actionName: string
-    };
+    // notificator: {
+    //   visible: boolean,
+    //   type: string,
+    //   message: string,
+    //   actionName: string
+    // };
 
 
     @ViewChild('userWrap') userWrap: ElementRef;
@@ -139,16 +139,16 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.message = this._messages.messagesList().subscribe( mes => {
           console.log(mes[0]);
             if (mes[0]) {
-              this.notificator = {
-                visible: true,
-                type: mes[0].type,
-                message: mes[0].text,
-                actionName: 'Got it'
-              };
+              // this.notificator = {
+              //   visible: true,
+              //   type: mes[0].type,
+              //   message: mes[0].text,
+              //   actionName: 'Got it'
+              // };
               // this.notificator.visible = true;
               // this.notificator.type = mes[0].type;
               // this.notificator.message = mes[0].text;
-              this.notificator = Object.assign({}, this.notificator);
+              // this.notificator = Object.assign({}, this.notificator);
             }
         });
 
