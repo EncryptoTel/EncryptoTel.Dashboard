@@ -13,24 +13,24 @@ import {FadeAnimation} from '../../../shared/fade-animation';
 })
 
 export class RingGroupsCreateComponent implements OnDestroy {
-  constructor(public _service: RingGroupsServices,
+  constructor(public service: RingGroupsServices,
               private activatedRoute: ActivatedRoute,
               private router: Router) {
     if (this.activatedRoute.snapshot.params.id) {
       this.getRingGroup(this.activatedRoute.snapshot.params.id);
-      this._service.editMode = true;
+      this.service.editMode = true;
     } else {
-      this._service.editMode = false;
+      this.service.editMode = false;
     }
-    this._service.getParams();
+    this.service.getParams();
   }
 
   save(): void {
-    this._service.save(this.activatedRoute.snapshot.params.id);
+    this.service.save(this.activatedRoute.snapshot.params.id);
   }
 
   cancel(): void {
-    this._service.cancel();
+    this.service.cancel();
   }
 
   back(): void {
@@ -39,18 +39,18 @@ export class RingGroupsCreateComponent implements OnDestroy {
 
   validation(): boolean {
     return !(
-      this._service.ringGroups.sipId &&
-      this._service.ringGroups.name &&
-      (this._service.ringGroups.name.length < 255) &&
-      this._service.ringGroups.strategy &&
-      this._service.ringGroups.timeout &&
-      this._service.ringGroups.maxlen &&
-      this._service.ringGroups.queueMembers.length > 0
+      this.service.ringGroups.sipId &&
+      this.service.ringGroups.name &&
+      (this.service.ringGroups.name.length < 255) &&
+      this.service.ringGroups.strategy &&
+      this.service.ringGroups.timeout &&
+      this.service.ringGroups.maxlen &&
+      this.service.ringGroups.queueMembers.length > 0
     );
   }
 
   private reset() {
-    this._service.ringGroups = {
+    this.service.ringGroups = {
       sipId: 0,
       name: '',
       strategy: 0,
@@ -61,7 +61,7 @@ export class RingGroupsCreateComponent implements OnDestroy {
       description: '',
       queueMembers: []
     };
-    this._service.userView = {
+    this.service.userView = {
       phoneNumber: '',
       announceHoldtime: false,
       announcePosition: false,
@@ -74,18 +74,18 @@ export class RingGroupsCreateComponent implements OnDestroy {
   }
 
   private getRingGroup(id) {
-    this._service.getRingGroup(id).then(res => {
-      this._service.ringGroups.sipId = res.sip.id;
-      this._service.ringGroups.name = res.name;
-      this._service.ringGroups.strategy = res.strategy;
-      this._service.ringGroups.timeout = res.timeout;
-      this._service.ringGroups.announceHoldtime = res.announceHoldtime;
-      this._service.ringGroups.announcePosition = res.announcePosition;
-      this._service.ringGroups.maxlen = res.maxlen;
-      this._service.ringGroups.description = res.description;
-      this._service.getParams();
-      this._service.userView.phoneNumber = res.sip.phoneNumber;
-      this._service.userView.announceHoldtime = res.announceHoldtime !== 0;
+    this.service.getRingGroup(id).then(res => {
+      this.service.ringGroups.sipId = res.sip.id;
+      this.service.ringGroups.name = res.name;
+      this.service.ringGroups.strategy = res.strategy;
+      this.service.ringGroups.timeout = res.timeout;
+      this.service.ringGroups.announceHoldtime = res.announceHoldtime;
+      this.service.ringGroups.announcePosition = res.announcePosition;
+      this.service.ringGroups.maxlen = res.maxlen;
+      this.service.ringGroups.description = res.description;
+      this.service.getParams();
+      this.service.userView.phoneNumber = res.sip.phoneNumber;
+      this.service.userView.announceHoldtime = res.announceHoldtime !== 0;
       this.setMembers(res.queueMembers);
     }).catch(err => {
       console.error(err);
@@ -94,11 +94,11 @@ export class RingGroupsCreateComponent implements OnDestroy {
 
   private setMembers(members) {
     for (let i = 0; i < members.length; i++) {
-      this._service.ringGroups.queueMembers.push({sipId: members[i].sip.id});
-      this._service.userView.members.push(members[i].sip);
-      this._service.userView.members[i].sipOuterPhone = this._service.userView.phoneNumber;
+      this.service.ringGroups.queueMembers.push({sipId: members[i].sip.id});
+      this.service.userView.members.push(members[i].sip);
+      this.service.userView.members[i].sipOuterPhone = this.service.userView.phoneNumber;
     }
-    console.log(this._service.userView.members);
+    console.log(this.service.userView.members);
   }
 
   ngOnDestroy() {

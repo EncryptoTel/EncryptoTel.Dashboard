@@ -16,7 +16,7 @@
     (onSelect)="selectMember($event)"
     (onDelete)="deleteMember($event)"
     [multiple]="true"
-    [selected]="_service.userView.members"
+    [selected]="service.userView.members"
     *ngIf="!loading"
     [@Fade]>
   </pbx-table>
