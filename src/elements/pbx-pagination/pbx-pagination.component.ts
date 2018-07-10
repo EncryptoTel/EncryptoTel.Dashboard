@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {PageInfoModel} from "../../models/page-info.model";
 
 @Component({
     selector: 'pbx-pagination',
@@ -9,12 +10,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class PaginationComponent {
     @Input() currentPage: number; // Todo проверить на наличие этих двух полей все компоненты и удалить
     @Input() totalPages: number;
-    @Input() pageInfo: {
-      visible: boolean,
-      page: number,
-      total: number,
-      limit: number,
-      items: number};
+    @Input() pageInfo: PageInfoModel;
 
     @Output() onPageChange: EventEmitter<number> = new EventEmitter<number>();
     @Output() onLimitSelect: EventEmitter<number> = new EventEmitter<number>();

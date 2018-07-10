@@ -1,22 +1,27 @@
 <div class="pager_wrap" *ngIf="!!pageInfo===false">
-  <div style="color: rgb(199,98,98); font-size: 40px; justify-content: center; align-items: center;">Error</div>
+    <div style="color: rgb(199,98,98); font-size: 40px; justify-content: center; align-items: center;">Error</div>
 </div><!--ToDo проверить на наличие полей currentPage и totalPage и удалить этот блок-->
-<div class="pager_wrap" *ngIf="!!pageInfo&&pageInfo.visible!==false&&pageInfo.items>10">
-  <pbx-button [inactive]="pageInfo.page<2" buttonType="pagination" value="«" (onClick)="changePage(1)"></pbx-button>
-  <pbx-button [inactive]="pageInfo.page<2" buttonType="pagination" value="Prev." (onClick)="changePage(pageInfo.page - 1)"></pbx-button>
-  <div class="pager_info">
-    <div class="pager_select" (clickOutside)="showWrap===0?null:showWrap=2">
-      <div class="pager_select_value"
-           (click)="showWrap===1?showWrap=2:showWrap=1"
-      >{{((pageInfo.page-1)*pageInfo.limit+1)+'-'+(min(pageInfo.items,pageInfo.page*pageInfo.limit))}}</div>
-      <div class="pager_select_wrap {{showWrap===1?'show':''}} {{showWrap===2?'hide':''}}">
-        <div class="pager_select_item" *ngFor="let item of option"
-             (click)="item===pageInfo.limit?showWrap=2:selectLimit(item)"
-             [ngClass]="{'current':item===pageInfo.limit}">{{item}}</div>
-      </div>
+<div class="pager_wrap" *ngIf="!!pageInfo&&pageInfo.visible!==false&&pageInfo.itemsCount>10">
+    <pbx-button [inactive]="pageInfo.page < 2" buttonType="pagination" value="«" (onClick)="changePage(1)"></pbx-button>
+    <pbx-button [inactive]="pageInfo.page < 2" buttonType="pagination" value="Prev."
+                (onClick)="changePage(pageInfo.page - 1)"></pbx-button>
+    <div class="pager_info">
+        <div class="pager_select" (clickOutside)="showWrap === 0 ? null : showWrap = 2">
+            <div class="pager_select_value"
+                 (click)="showWrap === 1 ? showWrap = 2 : showWrap = 1"
+            >{{((pageInfo.page - 1) * pageInfo.limit + 1) + '-' + (min(pageInfo.itemsCount, pageInfo.page * pageInfo.limit))}}
+            </div>
+            <div class="pager_select_wrap {{showWrap === 1 ? 'show' : ''}} {{showWrap === 2 ? 'hide' : ''}}">
+                <div class="pager_select_item" *ngFor="let item of option"
+                     (click)="item === pageInfo.limit ? showWrap = 2 : selectLimit(item)"
+                     [ngClass]="{'current': item === pageInfo.limit}">{{item}}
+                </div>
+            </div>
+        </div>
+        <div class="pager_total">{{' of ' + pageInfo.itemsCount}}</div>
     </div>
-    <div class="pager_total">{{' of '+pageInfo.items}}</div>
-  </div>
-  <pbx-button [inactive]="pageInfo.page>=pageInfo.total" buttonType="pagination" value="Next" (onClick)="changePage(pageInfo.page + 1)"></pbx-button>
-  <pbx-button [inactive]="pageInfo.page>=pageInfo.total" buttonType="pagination" value="»" (onClick)="changePage(pageInfo.total)"></pbx-button>
+    <pbx-button [inactive]="pageInfo.page >= pageInfo.total" buttonType="pagination" value="Next"
+                (onClick)="changePage(pageInfo.page + 1)"></pbx-button>
+    <pbx-button [inactive]="pageInfo.page >= pageInfo.total" buttonType="pagination" value="»"
+                (onClick)="changePage(pageInfo.total)"></pbx-button>
 </div>

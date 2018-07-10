@@ -89,7 +89,7 @@ export class StorageComponent implements OnInit {
     private uploadFiles(files) {
         // console.log('uploadFiles', files);
         for (let i = 0; i < files.length; i++) {
-            // console.log('uploadFiles', files[i]);
+            console.log('uploadFiles', files[i]);
             if (files[i].type === 'audio/mp3' || files[i].type === 'audio/ogg' || files[i].type === 'audio/wav' || files[i].type === 'audio/mpeg' || files[i].type === 'audio/x-wav') {
                 this.checkFileExists(files[i]);
             } else {

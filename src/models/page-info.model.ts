@@ -3,6 +3,7 @@ export class PageInfoModel {
     public page: number;
     public pageCount: number;
     public limit: number;
+    public visible: boolean;
 }
 
 export class SortModel {
