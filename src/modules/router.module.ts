@@ -155,7 +155,7 @@ const Routes: Routes = [
                             {
                                 path: 'general',
                                 component: CallQueuesGeneralComponent,
-                                data: {title: 'Call queues create', indexed: true}
+                                data: {title: 'Create Call Queue', indexed: true}
                             },
                             {
                                 path: 'members', children: [
@@ -183,7 +183,7 @@ const Routes: Routes = [
                             {
                                 path: 'general',
                                 component: CallQueuesGeneralComponent,
-                                data: {title: 'Call queues edit', indexed: true}
+                                data: {title: 'Edit Call Queue', indexed: true}
                             },
                             {
                                 path: 'members', children: [
@@ -238,7 +238,7 @@ const Routes: Routes = [
                     {
                         path: ':id',
                         component: RingGroupsCreateComponent,
-                        data: {title: 'Create Ring Group', indexed: true},
+                        data: {title: 'Edit Ring Group', indexed: true},
                         children: [
                             {path: '', redirectTo: 'general', pathMatch: 'full'},
                             {
