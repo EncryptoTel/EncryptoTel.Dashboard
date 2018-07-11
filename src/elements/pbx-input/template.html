@@ -1,0 +1,16 @@
+<div class="pbx_input_wrap" [@Fade]>
+    <div class="pbx_input_item">
+        <div class="pbx_input_item_label">
+            <span>{{name}}</span>
+        </div>
+        <div [ngClass]="['pbx_input_item_input_wrap', inputClass]">
+            <input [type]="type"
+               [placeholder]="placeholder"
+               (value)="value[key]"
+               [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
+               (keyup)="onKeyUp($event)"
+            >
+            <span *ngIf="description">{{description}}</span>
+        </div>
+    </div>
+</div>
