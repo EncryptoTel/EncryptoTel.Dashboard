@@ -39,6 +39,7 @@ export class RefsServices {
         if (this.departments.length === 0) {
             return this.request.get(`v1/department`, true).then(departments => {
                 this.departments = departments['items'];
+                this.departments.unshift({id: 0, name: 'All'});
                 return Promise.resolve(this.departments);
             });
         } else {

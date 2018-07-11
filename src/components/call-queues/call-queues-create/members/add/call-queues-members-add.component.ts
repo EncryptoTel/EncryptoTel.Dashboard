@@ -90,7 +90,6 @@ export class CallQueuesMembersAddComponent {
         this.loading++;
         this.refs.getDepartments().then((res) => {
             this.departments = res;
-            this.departments.unshift({id: 0, name: 'All'});
             this.selectedDepartment = this.departments[0];
             this.loading--;
         }).catch(err => {
