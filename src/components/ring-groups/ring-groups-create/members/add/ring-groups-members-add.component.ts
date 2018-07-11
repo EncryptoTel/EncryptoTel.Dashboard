@@ -42,12 +42,17 @@ export class RingGroupsMembersAddComponent implements OnInit {
         }
     }
 
-    deleteMember(id: number): void {
-        const checkResult = this.service.item.queueMembers.findIndex(el => {
-            return el.sipId === id;
+    deleteMember(member): void {
+        let checkResult = this.service.item.queueMembers.findIndex(el => {
+            return el.sipId === member.id;
         });
         if (checkResult >= 0) {
             this.service.item.queueMembers.splice(checkResult, 1);
+        }
+        checkResult = this.service.userView.members.findIndex(el => {
+            return el.id === member.id;
+        });
+        if (checkResult >= 0) {
             this.service.userView.members.splice(checkResult, 1);
         }
     }
