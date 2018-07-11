@@ -65,11 +65,6 @@ export class ExtensionsComponent implements OnInit {
         this.sidebar = null;
     }
 
-    changePage(page: number): void {
-        this.pageInfo.page = page;
-        this.getList();
-    }
-
     viewExt(item: ExtensionItem) {
         if (!this.selected) {
             // console.log('viewExt');

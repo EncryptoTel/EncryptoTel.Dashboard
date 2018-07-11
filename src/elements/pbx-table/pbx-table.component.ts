@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TableInfoModel} from '../../models/table-info.model';
+import {PageInfoModel} from "../../models/base.model";
 
 @Component({
     selector: 'pbx-table',
@@ -13,9 +14,12 @@ export class TableComponent {
     @Input() tableInfo: TableInfoModel;
     @Input() editable: boolean;
     @Input() multiple: boolean;
+    @Input() pageInfo: PageInfoModel;
+
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
     @Output() onDelete: EventEmitter<number> = new EventEmitter<number>();
+    @Output() onPageChangeEx: EventEmitter<number> = new EventEmitter<number>();
 
     modal = {
         visible: false,
@@ -60,4 +64,9 @@ export class TableComponent {
         keyArray.forEach(k => item = item && item[k]);
         return item;
     }
+
+    changePage(): void {
+        this.onPageChangeEx.emit();
+    }
+
 }

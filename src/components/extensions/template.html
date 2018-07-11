@@ -53,8 +53,9 @@
         <div class="ext_table_message" *ngIf="loading.body === 0 && !loading.pagination && pageInfo.itemsCount === 0">Nothing
             found
         </div>
-        <pbx-pagination [pageInfo]="pageInfo"
-                        (onPageChange)="changePage($event)"></pbx-pagination>
+        <pbx-pagination [(pageInfo)]="pageInfo"
+                        (onPageChangeEx)="getList()">
+        </pbx-pagination>
     </div>
     <pbx-sidebar *ngIf="sidebar">
         <div class="ext_sidebar_contain">

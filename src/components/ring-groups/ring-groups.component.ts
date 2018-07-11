@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {RingGroupService} from '../../services/ring-group.service';
 import {RingGroupItem, RingGroupModel} from "../../models/ring-group.model";
+import {plainToClass} from "class-transformer";
 
 @Component({
     selector: 'ring-groups-component',
@@ -41,10 +42,11 @@ export class RingGroupsComponent implements OnInit {
         });
     }
 
+
     getItems(item = null): void {
         this.service.beginLoading(item ? item : this);
-        this.service.getItems(this.pageInfo).then(res => {
-            this.pageInfo = res;
+        this.service.getItems(this.pageInfo).then((res: RingGroupModel) => {
+            this.pageInfo = plainToClass(RingGroupModel, res);
             this.service.endLoading(item ? item : this);
         }).catch(err => {
             this.service.endLoading(item ? item : this);

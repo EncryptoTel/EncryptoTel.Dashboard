@@ -1,9 +1,11 @@
+///<reference path="../../../node_modules/class-transformer/index.d.ts"/>
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {CallQueueService} from '../../services/call-queue.service';
 import {CallQueueItem, CallQueueModel} from '../../models/call-queue.model';
 import {RingGroupItem} from "../../models/ring-group.model";
+import {plainToClass} from "class-transformer";
 
 @Component({
     selector: 'pbx-call-queues',
@@ -44,15 +46,10 @@ export class CallQueuesComponent implements OnInit {
         });
     }
 
-    setPage(page: number): void {
-        this.pageInfo.page = page;
-        this.getItems();
-    }
-
     getItems(item = null): void {
         this.service.beginLoading(item ? item : this);
-        this.service.getItems(this.pageInfo).then(res => {
-            this.pageInfo = res;
+        this.service.getItems(this.pageInfo).then((res: CallQueueModel) => {
+            this.pageInfo = plainToClass(CallQueueModel, res);
             this.service.endLoading(item ? item : this);
         }).catch(err => {
             this.service.endLoading(item ? item : this);

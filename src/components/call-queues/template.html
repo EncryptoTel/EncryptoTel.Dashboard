@@ -4,7 +4,12 @@
                     [inactive]="loading"></pbx-button>
     </div>
     <pbx-loader *ngIf="loading"></pbx-loader>
-    <pbx-table *ngIf="!loading" [tableInfo]="table" [tableItems]="pageInfo.items" [editable]="true"
+    <pbx-table *ngIf="!loading"
+               [tableInfo]="table"
+               [tableItems]="pageInfo.items"
+               [editable]="true"
+               [(pageInfo)]="pageInfo"
+               (onPageChangeEx)="getItems()"
                (onEdit)="edit($event)"
                (onDelete)="delete($event)"></pbx-table>
 </div>

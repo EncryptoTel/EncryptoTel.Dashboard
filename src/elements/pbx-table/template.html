@@ -20,3 +20,4 @@
     </div>
 </div>
 <pbx-modal [modal]="modal" (onConfirm)="deleteItem()">Are you sure?</pbx-modal>
+<pbx-pagination *ngIf="pageInfo" [(pageInfo)]="pageInfo" (onPageChangeEx)="changePage()"></pbx-pagination>
