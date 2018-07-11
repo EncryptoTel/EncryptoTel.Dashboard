@@ -18,7 +18,7 @@ export class TableComponent {
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
-    @Output() onDelete: EventEmitter<number> = new EventEmitter<number>();
+    @Output() onDelete: EventEmitter<object> = new EventEmitter<object>();
     @Output() onPageChangeEx: EventEmitter<number> = new EventEmitter<number>();
 
     modal = {
@@ -26,7 +26,7 @@ export class TableComponent {
         confirm: {type: 'error', value: 'Delete'},
         decline: {type: 'cancel', value: 'Cancel'}
     };
-
+    selectedDelete: any;
 
     isSelected(id: number): boolean {
         if (this.selected) {
@@ -51,12 +51,12 @@ export class TableComponent {
             ev.stopPropagation();
             ev.preventDefault();
         }
-        this.selected = item;
+        this.selectedDelete = item;
         this.modal.visible = true;
     }
 
     deleteItem(): void {
-        this.onDelete.emit(this.selected);
+        this.onDelete.emit(this.selectedDelete);
     }
 
     getValueByKey(item: any, key: string): string {
