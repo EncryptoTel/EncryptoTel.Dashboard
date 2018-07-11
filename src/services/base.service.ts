@@ -47,8 +47,16 @@ export class BaseService {
         return this.request.request(method, this.url + path, data);
     }
 
-    getItems(pageInfo: PageInfoModel, params = []) {
+    getItems(pageInfo: PageInfoModel, filter = null): Promise<any> {
         let url = `?page=${pageInfo.page}&limit=${pageInfo.limit}`;
+        if (filter) {
+            let keys = Object.keys(filter);
+            for (let i = 0; i < keys.length; i++) {
+                if (filter[keys[i]]) {
+                    url = `${url}&filter[${keys[i]}]=${filter[keys[i]]}`;
+                }
+            }
+        }
         return this.request.get(`${this.url}${url}`, true);
     }
 
