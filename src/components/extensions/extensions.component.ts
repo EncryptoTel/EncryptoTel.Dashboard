@@ -79,17 +79,17 @@ export class ExtensionsComponent implements OnInit {
     fillTableData(): void {
         this.table.data = [];
         for (let i = 0; i < this.pageinfo.limit && i < this.extensions.length; i++) {
+            let sip = this.extensions[i];
             this.table.data.push({
-                id: this.extensions[i].id,
-                extension: this.extensions[i].phoneNumber,
-                phone: this.extensions[i].sipOuter.phoneNumber,
-                firstname: this.extensions[i].user ? this.extensions[i].user.firstname : null,
-                // firstname: this.extensions[i].userFirstName,
-                lastname: this.extensions[i].user ? this.extensions[i].user.lastname : null,
-                email: this.extensions[i].user ? this.extensions[i].user.email : null,
-                mobileApp: this.extensions[i].mobileApp,
-                status: this.extensions[i].statusName,
-                default: this.extensions[i].default
+                id: sip.id,
+                extension: sip.phoneNumber,
+                phone: sip.sipOuter ? sip.sipOuter.phoneNumber : null,
+                firstname: sip.user ? sip.user.firstname : null,
+                lastname: sip.user ? sip.user.lastname : null,
+                email: sip.user ? sip.user.email : null,
+                mobileApp: sip.mobileApp,
+                status: sip.statusName,
+                default: sip.default
             });
         }
     }
