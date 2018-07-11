@@ -1,16 +1,16 @@
 import {Component} from '@angular/core';
-import {RingGroupService} from '../../../../../services/ring-group.service';
-import {FadeAnimation} from '../../../../../shared/fade-animation';
+import {CallQueueService} from '../../../../services/call-queue.service';
+import {FadeAnimation} from '../../../../shared/fade-animation';
 
 @Component({
-    selector: 'ring-groups-members',
+    selector: 'pbx-call-queues-members',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
 
-export class RingGroupsMembersComponent {
-    constructor(private service: RingGroupService) {
+export class CallQueuesMembersComponent {
+    constructor(private service: CallQueueService) {
         this.service.userView.isCurCompMembersAdd = false;
     }
 

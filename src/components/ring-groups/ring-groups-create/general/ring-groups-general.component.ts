@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FadeAnimation} from '../../../../../shared/fade-animation';
-import {RingGroupService} from '../../../../../services/ring-group.service';
-import {RefsServices} from '../../../../../services/refs.services';
-import {BaseParam} from "../../../../../models/base.model";
+import {FadeAnimation} from '../../../../shared/fade-animation';
+import {RingGroupService} from '../../../../services/ring-group.service';
+import {RefsServices} from '../../../../services/refs.services';
+import {BaseParam} from "../../../../models/base.model";
 
 @Component({
     selector: 'ring-groups-general',

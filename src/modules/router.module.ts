@@ -39,15 +39,15 @@ import {CallRulesCreateComponent} from '../components/call-rules/call-rules-crea
 
 import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
 import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
-import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
-import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
-import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
+import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/general/call-queues-general.component';
+import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/members/call-queues-members.component';
+import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/members/add/call-queues-members-add.component';
 
 import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
 import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
-import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/tabs/general/ring-groups-general.component';
-import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/tabs/members/ring-groups-members.component';
-import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/tabs/members/add/ring-groups-members-add.component';
+import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/general/ring-groups-general.component';
+import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/members/ring-groups-members.component';
+import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/members/add/ring-groups-members-add.component';
 
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
@@ -175,7 +175,7 @@ const Routes: Routes = [
                         ]
                     },
                     {
-                        path: 'edit/:id',
+                        path: ':id',
                         component: CallQueuesCreateComponent,
                         data: {title: 'Call queues edit', indexed: true},
                         children: [

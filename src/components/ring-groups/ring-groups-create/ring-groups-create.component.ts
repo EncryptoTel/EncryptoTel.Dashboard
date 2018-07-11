@@ -12,7 +12,8 @@ import {FadeAnimation} from '../../../shared/fade-animation';
 })
 
 export class RingGroupsCreateComponent implements OnInit, OnDestroy {
-    id: number;
+
+    id: number = 0;
     loading: number = 0;
     saving: number = 0;
 
@@ -23,9 +24,6 @@ export class RingGroupsCreateComponent implements OnInit, OnDestroy {
     }
 
     save(): void {
-        // if (this.validation()) {
-        //     return;
-        // }
         this.saving++;
         this.service.save(this.id).then(res => {
             this.saving--;
@@ -43,16 +41,7 @@ export class RingGroupsCreateComponent implements OnInit, OnDestroy {
         this.router.navigate(['members'], {relativeTo: this.activatedRoute});
     }
 
-    validation(): boolean {
-        let item = this.service.item;
-        if (!item.name || item.name.length >= 255) {
-
-        }
-
-        return this.service.validation();
-    }
-
-    private getItem(id: number) {
+    getItem(id: number) {
         this.loading++;
         this.service.getItem(id).then(res => {
             this.getParams();
@@ -67,9 +56,8 @@ export class RingGroupsCreateComponent implements OnInit, OnDestroy {
         this.service.getParams().then(res => {
             this.loading--;
         }).catch(res => {
-            this.loading--
+            this.loading--;
         });
-
     }
 
     ngOnInit() {

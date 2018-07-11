@@ -61,13 +61,13 @@ export class BaseService {
     }
 
     beginLoading(item) {
-        console.log('0', item.loading);
+        // console.log('0', item.loading);
         if (item.loading == undefined) {
             item.loading = 0;
         }
-        console.log('1', item.loading);
+        // console.log('1', item.loading);
         item.loading++;
-        console.log('2', item.loading);
+        // console.log('2', item.loading);
     }
 
     endLoading(item) {

@@ -14,7 +14,7 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
 
     id: number = 0;
     loading: number = 0;
-    saving: boolean = false;
+    saving: number = 0;
 
     constructor(public service: CallQueueService,
                 private activatedRoute: ActivatedRoute,
@@ -23,10 +23,12 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
     }
 
     save(): void {
-        this.saving = true;
+        this.saving++;
         this.service.save(this.id).then(res => {
-            this.router.navigate(['cabinet', 'call-queues']);
-            this.saving = false;
+            this.saving--;
+            this.cancel();
+        }).catch(res => {
+            this.saving--;
         });
     }
 
@@ -38,75 +40,37 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
         this.router.navigate(['members'], {relativeTo: this.activatedRoute});
     }
 
-    validation(): boolean {
-        return !(
-            this.service.item.sipId &&
-            this.service.item.name &&
-            (this.service.item.name.length < 255) &&
-            this.service.item.strategy &&
-            this.service.item.timeout &&
-            // this.service.item.maxlen &&
-            this.service.item.queueMembers.length > 0
-        );
-    }
-
-    private reset() {
-        this.service.reset();
-    }
-
-    private getParams() {
-        this.loading += 1;
-        this.service.getParams().then(res => {
-            this.loading -= 1;
-        }).catch(res => {
-            this.loading -= 1;
-        });
-    }
-
-    private getCallQueue(id) {
-        this.loading += 1;
+    getItem(id: number) {
+        this.loading++;
         this.service.getItem(id).then(res => {
-            this.service.item.sipId = res.sip.id;
-            this.service.item.name = res.name;
-            this.service.item.strategy = res.strategy;
-            this.service.item.timeout = res.timeout;
-            this.service.item.announceHoldtime = res.announceHoldtime;
-            this.service.item.announcePosition = res.announcePosition;
-            this.service.item.maxlen = res.maxlen;
-            this.service.item.description = res.description;
-            this.service.userView.phoneNumber = res.sip.phoneNumber;
-            this.service.userView.announceHoldtime = res.announceHoldtime !== 0;
-            this.setMembers(res.queueMembers);
             this.getParams();
-            this.loading -= 1;
+            this.loading--;
         }).catch(err => {
-            console.error(err);
-            this.loading -= 1;
+            this.loading--;
         });
     }
 
-    private setMembers(members) {
-        for (let i = 0; i < members.length; i++) {
-            this.service.item.queueMembers.push({sipId: members[i].sip.id});
-            this.service.userView.members.push(members[i].sip);
-            this.service.userView.members[i].sipOuterPhone = this.service.userView.phoneNumber;
-        }
-        // console.log(this.service.userView.members);
+    getParams() {
+        this.loading++;
+        this.service.getParams().then(res => {
+            this.loading--;
+        }).catch(res => {
+            this.loading--;
+        });
     }
 
     ngOnInit() {
-        this.reset();
+        this.service.reset();
+        this.service.editMode = this.id && this.id > 0;
         if (this.id) {
-            this.getCallQueue(this.id);
-            this.service.editMode = true;
+            this.getItem(this.id);
         } else {
-            this.service.editMode = false;
             this.getParams();
         }
     }
 
     ngOnDestroy() {
-        this.reset();
+
     }
 
 }

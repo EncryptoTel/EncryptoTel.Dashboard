@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {CallQueueService} from '../../../../../services/call-queue.service';
-import {FadeAnimation} from '../../../../../shared/fade-animation';
-import {RefsServices} from '../../../../../services/refs.services';
-import {BaseParam} from "../../../../../models/base.model";
+import {CallQueueService} from '../../../../services/call-queue.service';
+import {FadeAnimation} from '../../../../shared/fade-animation';
+import {RefsServices} from '../../../../services/refs.services';
+import {BaseParam} from "../../../../models/base.model";
 
 @Component({
     selector: 'pbx-call-queues-general',
