@@ -145,11 +145,11 @@ const Routes: Routes = [
             },
             {
                 path: 'call-queues', children: [
-                    {path: '', component: CallQueuesComponent, data: {title: 'Call queues create', indexed: true}},
+                    {path: '', component: CallQueuesComponent, data: {title: 'Call Queues', indexed: true}},
                     {
                         path: 'create',
                         component: CallQueuesCreateComponent,
-                        data: {title: 'Call queues create', indexed: true},
+                        data: {title: 'Create Call Queue', indexed: true},
                         children: [
                             {path: '', redirectTo: 'general', pathMatch: 'full'},
                             {
@@ -163,12 +163,12 @@ const Routes: Routes = [
                                         path: '',
                                         pathMatch: 'full',
                                         component: CallQueuesMembersComponent,
-                                        data: {title: 'Call queues create', indexed: true}
+                                        data: {title: 'Create Call Queue', indexed: true}
                                     },
                                     {
                                         path: 'add',
                                         component: CallQueuesMembersAddComponent,
-                                        data: {title: 'Call queues create', indexed: true}
+                                        data: {title: 'Create Call Queue', indexed: true}
                                     }
                                 ]
                             }
@@ -177,7 +177,7 @@ const Routes: Routes = [
                     {
                         path: ':id',
                         component: CallQueuesCreateComponent,
-                        data: {title: 'Call queues edit', indexed: true},
+                        data: {title: 'Edit Call Queue', indexed: true},
                         children: [
                             {path: '', redirectTo: 'general', pathMatch: 'full'},
                             {
@@ -191,12 +191,12 @@ const Routes: Routes = [
                                         path: '',
                                         pathMatch: 'full',
                                         component: CallQueuesMembersComponent,
-                                        data: {title: 'Call queues edit', indexed: true}
+                                        data: {title: 'Edit Call Queue', indexed: true}
                                     },
                                     {
                                         path: 'add',
                                         component: CallQueuesMembersAddComponent,
-                                        data: {title: 'Call queues edit', indexed: true}
+                                        data: {title: 'Edit Call Queue', indexed: true}
                                     }
                                 ]
                             }
@@ -229,7 +229,7 @@ const Routes: Routes = [
                                     {
                                         path: 'add',
                                         component: RingGroupsMembersAddComponent,
-                                        data: {title: 'Ring groups create', indexed: true}
+                                        data: {title: 'Create Ring Group', indexed: true}
                                     }
                                 ]
                             }
@@ -244,7 +244,7 @@ const Routes: Routes = [
                             {
                                 path: 'general',
                                 component: RingGroupsGeneralComponent,
-                                data: {title: 'Create Ring Group', indexed: true}
+                                data: {title: 'Edit Ring Group', indexed: true}
                             },
                             {
                                 path: 'members', children: [
@@ -252,12 +252,12 @@ const Routes: Routes = [
                                         path: '',
                                         pathMatch: 'full',
                                         component: RingGroupsMembersComponent,
-                                        data: {title: 'Create Ring Group', indexed: true}
+                                        data: {title: 'Edit Ring Group', indexed: true}
                                     },
                                     {
                                         path: 'add',
                                         component: RingGroupsMembersAddComponent,
-                                        data: {title: 'Ring groups create', indexed: true}
+                                        data: {title: 'Edit Ring Group', indexed: true}
                                     }
                                 ]
                             }
