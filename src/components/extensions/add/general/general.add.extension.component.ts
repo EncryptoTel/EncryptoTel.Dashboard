@@ -56,7 +56,7 @@ export class GeneralAddExtensionComponent implements OnInit {
         this.form.get('external').setValue(phone.title);
     }
     sendPassword(): void {
-        this.showModal('Reset password', 'Do you want to reset password and send new password to selected users?', 'Reset');
+        this.showModal('Reset password', 'Do you want to reset your password and send the new password to selected users?', 'Reset');
     }
 
     getSipOuters() {

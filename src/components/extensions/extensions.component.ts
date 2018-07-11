@@ -91,14 +91,14 @@ export class ExtensionsComponent implements OnInit {
         // console.log('send to admin!');
         this.selected = item;
         this.passwordTo = 1;
-        this.showModal('Reset password', 'Do you want to reset password and send new password to admin?', 'Reset');
+        this.showModal('Reset password', 'Do you want to reset your password and send the new password to admin?', 'Reset');
     }
 
     sendPasswordToUser(item: ExtensionItem): void {
         // console.log('send to user!');
         this.selected = item;
         this.passwordTo = 2;
-        this.showModal('Reset password', 'Do you want to reset password and send new password to user?', 'Reset');
+        this.showModal('Reset password', 'Do you want to reset your password and send the new password to user?', 'Reset');
     }
 
     confirmModal(): void {
