@@ -6,7 +6,7 @@
         <div [ngClass]="['pbx_input_item_input_wrap', inputClass]">
             <input [type]="type"
                [placeholder]="placeholder"
-               (value)="value[key]"
+               [(ngModel)]="value"
                [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
                (keyup)="onKeyUp($event)"
             >

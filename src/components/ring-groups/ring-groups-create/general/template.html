@@ -7,7 +7,7 @@
         <pbx-input name="Name"
                    key="name"
                    [(errors)]="service.errors"
-                   [(value)]="service.item">
+                   [(object)]="service.item">
         </pbx-input>
 
         <!--<div class="call_queues_general_item">-->
@@ -22,7 +22,7 @@
         <pbx-input name="Description"
                    key="description"
                    [(errors)]="service.errors"
-                   [(value)]="service.item">
+                   [(object)]="service.item">
         </pbx-input>
         <!--<div class="call_queues_general_item">-->
             <!--<div class="call_queues_general_item_label">-->
@@ -63,7 +63,7 @@
                    inputClass="time"
                    description="seconds"
                    [(errors)]="service.errors"
-                   [(value)]="service.item">
+                   [(object)]="service.item">
         </pbx-input>
 
         <!--<div class="call_queues_general_item">-->

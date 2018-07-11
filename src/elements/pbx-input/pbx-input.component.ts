@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
 
 @Component({
@@ -8,15 +8,17 @@ import {FadeAnimation} from '../../shared/fade-animation';
     animations: [FadeAnimation('300ms')]
 })
 
-export class InputComponent {
+export class InputComponent implements OnInit {
     @Input() key: string;
     @Input() name: string;
     @Input() description: string;
     @Input() inputClass: string;
     @Input() type: string;
     @Input() placeholder: string;
-    @Input() value: any;
+    @Input() object: any;
     @Input() errors: any;
+
+    value;
 
     constructor() {
         if (!this.type) this.type = 'text';
@@ -35,7 +37,11 @@ export class InputComponent {
         if (this.checkError()) {
             this.errors[this.key] = null;
         }
-        this.value[this.key] = $event.target.value;
+        this.object[this.key] = $event.target.value;
+    }
+
+    ngOnInit() {
+        this.value = this.object[this.key];
     }
 
 }
