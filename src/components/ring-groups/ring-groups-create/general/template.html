@@ -18,7 +18,8 @@
                 <span>Description</span>
             </div>
             <div class="call_queues_general_item_input_wrap">
-                <input type="text" placeholder="Description" [(ngModel)]="service.item.description">
+                <input type="text" placeholder="Description" [(ngModel)]="service.item.description"
+                       [ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.description}">
             </div>
         </div>
         <div class="call_queues_general_item">
@@ -50,7 +51,8 @@
                 <span>Ring Time</span>
             </div>
             <div class="call_queues_general_item_input_wrap time">
-                <input type="number" [(ngModel)]="service.item.timeout">
+                <input type="number" [(ngModel)]="service.item.timeout"
+                       [ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.timeout}">
                 <span>seconds</span>
             </div>
         </div>

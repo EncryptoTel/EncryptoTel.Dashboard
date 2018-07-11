@@ -10,7 +10,8 @@
                     <span>Name</span>
                 </div>
                 <div class="call_queues_general_item_input_wrap">
-                    <input type="text" placeholder="Unnamed" [(ngModel)]="service.item.name">
+                    <input type="text" placeholder="Unnamed" [(ngModel)]="service.item.name"
+                           [ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.name}">
                 </div>
             </div>
             <div class="call_queues_general_item">
@@ -18,7 +19,8 @@
                     <span>Description</span>
                 </div>
                 <div class="call_queues_general_item_input_wrap">
-                    <input type="text" placeholder="Description" [(ngModel)]="service.item.description">
+                    <input type="text" placeholder="Description" [(ngModel)]="service.item.description"
+                           [ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.description}">
                 </div>
             </div>
             <div class="call_queues_general_item">
@@ -28,6 +30,7 @@
                 <div class="call_queues_general_item_input_wrap">
                     <pbx-select [singleBorder]="true" [options]="numbers" [objectKey]="'phoneNumber'"
                                 [selected]="service.userView" (onSelect)="setNumber($event)"
+                                [errors]="service.errors ? service.errors.sip : null"
                                 [placeholder]="'[choose one]'"></pbx-select>
                 </div>
             </div>
@@ -38,6 +41,7 @@
                 <div class="call_queues_general_item_input_wrap">
                     <pbx-select [singleBorder]="true" [options]="service.params.strategies" [objectKey]="'code'"
                                 [selected]="service.userView.strategy" (onSelect)="setStrategies($event)"
+                                [errors]="service.errors ? service.errors.strategy : null"
                                 [placeholder]="'[choose one]'"></pbx-select>
                 </div>
             </div>
@@ -46,7 +50,8 @@
                     <span>Ring Time</span>
                 </div>
                 <div class="call_queues_general_item_input_wrap time">
-                    <input type="number" [(ngModel)]="service.item.timeout">
+                    <input type="number" [(ngModel)]="service.item.timeout"
+                           [ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.timeout}">
                 </div>
                 <div class="call_queues_general_item_description">seconds</div>
             </div>
@@ -55,7 +60,8 @@
                     <span>Maximum Callers in Queue</span>
                 </div>
                 <div class="call_queues_general_item_input_wrap time">
-                    <input type="number" [(ngModel)]="service.item.maxlen">
+                    <input type="number" [(ngModel)]="service.item.maxlen"
+                           [ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.maxlen}">
                 </div>
             </div>
             <div class="call_queues_general_item">
