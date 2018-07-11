@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DetailsAndRecordsServices} from '../../services/details-and-records.services';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {PlayerAnimation} from '../../shared/player-animation';
-
+import {Howl} from 'howler';
 
 @Component({
   selector: 'pbx-details-and-records',
@@ -223,6 +223,12 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   dropDirection = 'bottom';
 
+  player: any;
+  payerBlob: any;
+  playerId: any;
+  playerSeek: any;
+  playerFiles = [];
+
   constructor(
     private services: DetailsAndRecordsServices,
   ) {}
@@ -345,7 +351,7 @@ export class DetailsAndRecordsComponent implements OnInit {
   playerAction(index) {
     this.currentPlayerAction = index;
     const detailsLength = this.details.length;
-    // old realisation
+    // play only one from array, old realisation
     // for (let i = 0; i < index; i++) {
     //   this.details[i].play = false;
     // }
@@ -354,22 +360,49 @@ export class DetailsAndRecordsComponent implements OnInit {
     // }
     // this.details[index].play = this.details[index].play === false;
 
-    // realisation with syntactic sugar
-    for (let i = 0; i < detailsLength; i++) {
-      this.details[i].play = (index === i ? !this.details[i].play : false);
-    }
-
-    // if (this.details[this.currentPlayerAction].play === true && this.details[this.currentPlayerAction] && this.details[this.currentPlayerAction].playerAnimationState === 'min') {
-    //   this.details[this.currentPlayerAction].playerAnimationState = 'max';
-    // }
+    // if (this.details[this.currentPlayerAction].play === false) {
+    //   if (this.details[this.currentPlayerAction].payerBlob === '') {
 
     this.services.getSound(this.details[index].accountFile.id)
       .then(res => {
         console.log(res);
+        this.playerFiles = res;
+        // Blob creation
+        this.getBlob(res);
+        console.log(this.details[this.currentPlayerAction]);
+
+        this.details[this.currentPlayerAction].player = new Howl({
+          src: [this.details[this.currentPlayerAction].payerBlob],
+          html5: true
+        });
+
+
+        this.details[this.currentPlayerAction].player.play();
+
       })
       .catch( err => {
         console.error(err);
       });
+
+
+    // realisation with syntactic sugar
+    for (let i = 0; i < detailsLength; i++) {
+      this.details[i].play = (index === i ? !this.details[i].play : false);
+    }
+  }
+
+  getBlob(res) {
+    const dataURI = 'data:audio/x-mp3;base64,' + res.dataBase64;
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ab], {type: mimeString});
+    const blobUrl = window.URL.createObjectURL(blob);
+    this.details[this.currentPlayerAction].payerBlob = blobUrl;
   }
 
   playerOpenClose(index) {
@@ -379,8 +412,8 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   playerAnimationStart() {
     if (this.details[this.currentPlayerAction]) {
-      console.log('ALLLLLLOOOE1', this.details[this.currentPlayerAction].playerAnimationState);
-      console.log('ALLLLLLOOOE2', this.details[this.currentPlayerAction].playerContentShow);
+      console.log('PLAYER_ANIMATION1', this.details[this.currentPlayerAction].playerAnimationState);
+      console.log('PLAYER_ANIMATION2', this.details[this.currentPlayerAction].playerContentShow);
       if (this.details[this.currentPlayerAction].playerAnimationState === 'min') {
         this.details[this.currentPlayerAction].playerContentShow = false;
       }
@@ -432,6 +465,7 @@ export class DetailsAndRecordsComponent implements OnInit {
           this.details[i].play = false;
           this.details[i].playerAnimationState = 'min';
           this.details[i].playerContentShow = false;
+          this.details[i].payerBlob = '';
         });
       })
       .catch( err => {
