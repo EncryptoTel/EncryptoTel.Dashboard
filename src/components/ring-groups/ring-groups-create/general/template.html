@@ -9,54 +9,29 @@
                    [(errors)]="service.errors"
                    [(object)]="service.item">
         </pbx-input>
-
-        <!--<div class="call_queues_general_item">-->
-            <!--<div class="call_queues_general_item_label">-->
-                <!--<span>Name</span>-->
-            <!--</div>-->
-            <!--<div class="call_queues_general_item_input_wrap">-->
-                <!--<input type="text" placeholder="Unnamed" [(ngModel)]="service.item.name"-->
-                       <!--[ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.name}">-->
-            <!--</div>-->
-        <!--</div>-->
         <pbx-input name="Description"
                    key="description"
                    [(errors)]="service.errors"
                    [(object)]="service.item">
         </pbx-input>
-        <!--<div class="call_queues_general_item">-->
-            <!--<div class="call_queues_general_item_label">-->
-                <!--<span>Description</span>-->
-            <!--</div>-->
-            <!--<div class="call_queues_general_item_input_wrap">-->
-                <!--<input type="text" placeholder="Description" [(ngModel)]="service.item.description"-->
-                       <!--[ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.description}">-->
-            <!--</div>-->
-        <!--</div>-->
-        <div class="call_queues_general_item">
-            <div class="call_queues_general_item_label">
-                <span>Phone number</span>
-            </div>
-            <div class="call_queues_general_item_input_wrap">
-                <pbx-select [singleBorder]="true" [options]="numbers" [objectKey]="'phoneNumber'"
-                            [selected]="service.userView" (onSelect)="setNumber($event)"
-                            [placeholder]="'[choose one]'"
-                            [errors]="service.errors ? service.errors.sip : null">
-                </pbx-select>
-            </div>
-        </div>
-        <div class="call_queues_general_item">
-            <div class="call_queues_general_item_label">
-                <span>Ring Strategy</span>
-            </div>
-            <div class="call_queues_general_item_input_wrap">
-                <pbx-select [singleBorder]="true" [options]="service.params.strategies" [objectKey]="'code'"
-                            [selected]="service.userView.strategy" (onSelect)="setStrategies($event)"
-                            [placeholder]="'[choose one]'"
-                            [errors]="service.errors ? service.errors.strategy : null">
-                </pbx-select>
-            </div>
-        </div>
+        <pbx-input name="Phone number"
+                   key="sipId"
+                   displayKey="phoneNumber"
+                   errorKey="sip"
+                   [options]="numbers"
+                   [(errors)]="service.errors"
+                   [(objectView)]="service.userView"
+                   [(object)]="service.item">
+        </pbx-input>
+        <pbx-input name="Ring Strategy"
+                   key="strategy"
+                   displayKey="code"
+                   errorKey="strategy"
+                   [options]="service.params.strategies"
+                   [(errors)]="service.errors"
+                   [(objectView)]="service.userView"
+                   [(object)]="service.item">
+        </pbx-input>
         <pbx-input name="Ring Time"
                    key="timeout"
                    type="number"
@@ -66,16 +41,6 @@
                    [(object)]="service.item">
         </pbx-input>
 
-        <!--<div class="call_queues_general_item">-->
-            <!--<div class="call_queues_general_item_label">-->
-                <!--<span>Ring Time</span>-->
-            <!--</div>-->
-            <!--<div class="call_queues_general_item_input_wrap time">-->
-                <!--<input type="number" [(ngModel)]="service.item.timeout"-->
-                       <!--[ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.timeout}">-->
-                <!--<span>seconds</span>-->
-            <!--</div>-->
-        <!--</div>-->
         <!--<div class="call_queues_general_title">-->
             <!--<h3>Destination if no answer</h3>-->
         <!--</div>-->

@@ -4,13 +4,32 @@
             <span>{{name}}</span>
         </div>
         <div [ngClass]="['pbx_input_item_input_wrap', inputClass]">
-            <input [type]="type"
-               [placeholder]="placeholder"
-               [(ngModel)]="value"
-               [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
-               (keyup)="onKeyUp($event)"
-            >
+            <input *ngIf="!options && !checkbox"
+                   [type]="type"
+                   [placeholder]="placeholder"
+                   [(ngModel)]="value"
+                   [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
+                   (keyup)="onKeyUp($event)">
+
+            <pbx-select *ngIf="options"
+                        [singleBorder]="true"
+                        [options]="options"
+                        [objectKey]="displayKey"
+                        [selected]="value"
+                        (onSelect)="selectItem($event)"
+                        [errors]="checkError()"
+                        [placeholder]="placeholder">
+            </pbx-select>
+
+            <pbx-checkbox *ngIf="checkbox"
+                          (onToggle)="toggleCheckbox($event)"
+                          [value]="value">
+            </pbx-checkbox>
+            <!--<div class="call_queues_general_item_description">Announce Holdtime</div>-->
+
             <span *ngIf="description">{{description}}</span>
+
         </div>
+        <span class="pbx_input_error">{{checkError()}}</span>
     </div>
 </div>

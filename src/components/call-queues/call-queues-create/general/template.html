@@ -5,77 +5,67 @@
             <div class="call_queues_general_title">
                 <h3>Create New Queue</h3>
             </div>
-            <div class="call_queues_general_item">
-                <div class="call_queues_general_item_label">
-                    <span>Name</span>
-                </div>
-                <div class="call_queues_general_item_input_wrap">
-                    <input type="text" placeholder="Unnamed" [(ngModel)]="service.item.name"
-                           [ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.name}">
-                </div>
-            </div>
-            <div class="call_queues_general_item">
-                <div class="call_queues_general_item_label">
-                    <span>Description</span>
-                </div>
-                <div class="call_queues_general_item_input_wrap">
-                    <input type="text" placeholder="Description" [(ngModel)]="service.item.description"
-                           [ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.description}">
-                </div>
-            </div>
-            <div class="call_queues_general_item">
-                <div class="call_queues_general_item_label">
-                    <span>Phone number</span>
-                </div>
-                <div class="call_queues_general_item_input_wrap">
-                    <pbx-select [singleBorder]="true" [options]="numbers" [objectKey]="'phoneNumber'"
-                                [selected]="service.userView" (onSelect)="setNumber($event)"
-                                [errors]="service.errors ? service.errors.sip : null"
-                                [placeholder]="'[choose one]'"></pbx-select>
-                </div>
-            </div>
-            <div class="call_queues_general_item">
-                <div class="call_queues_general_item_label">
-                    <span>Ring Strategy</span>
-                </div>
-                <div class="call_queues_general_item_input_wrap">
-                    <pbx-select [singleBorder]="true" [options]="service.params.strategies" [objectKey]="'code'"
-                                [selected]="service.userView.strategy" (onSelect)="setStrategies($event)"
-                                [errors]="service.errors ? service.errors.strategy : null"
-                                [placeholder]="'[choose one]'"></pbx-select>
-                </div>
-            </div>
-            <div class="call_queues_general_item">
-                <div class="call_queues_general_item_label">
-                    <span>Ring Time</span>
-                </div>
-                <div class="call_queues_general_item_input_wrap time">
-                    <input type="number" [(ngModel)]="service.item.timeout"
-                           [ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.timeout}">
-                </div>
-                <div class="call_queues_general_item_description">seconds</div>
-            </div>
-            <div class="call_queues_general_item">
-                <div class="call_queues_general_item_label">
-                    <span>Maximum Callers in Queue</span>
-                </div>
-                <div class="call_queues_general_item_input_wrap time">
-                    <input type="number" [(ngModel)]="service.item.maxlen"
-                           [ngClass]="{'ng-invalid ng-touched': service.errors && service.errors.maxlen}">
-                </div>
-            </div>
-            <div class="call_queues_general_item">
-                <div class="call_queues_general_item_label"></div>
-                <pbx-checkbox [value]="service.item.announcePosition"
-                              (onToggle)="setAnnouncePosition($event)"></pbx-checkbox>
-                <div class="call_queues_general_item_description">Announce Queue position to caller</div>
-            </div>
-            <div class="call_queues_general_item">
-                <div class="call_queues_general_item_label"></div>
-                <pbx-checkbox [value]="service.userView.announceHoldtime"
-                              (onToggle)="setAnnounceHoldtime($event)"></pbx-checkbox>
-                <div class="call_queues_general_item_description">Announce Holdtime</div>
-            </div>
+            <pbx-input name="Name"
+                       key="name"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="Description"
+                       key="description"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="Phone number"
+                       key="sipId"
+                       displayKey="phoneNumber"
+                       errorKey="sip"
+                       [options]="numbers"
+                       [(errors)]="service.errors"
+                       [(objectView)]="service.userView"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="Ring Strategy"
+                       key="strategy"
+                       displayKey="code"
+                       errorKey="strategy"
+                       [options]="service.params.strategies"
+                       [(errors)]="service.errors"
+                       [(objectView)]="service.userView"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="Ring Time"
+                       key="timeout"
+                       description="seconds"
+                       inputClass="time"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="Maximum Callers in Queue"
+                       key="maxlen"
+                       description=""
+                       inputClass="time"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name=""
+                       key="announcePosition"
+                       description="Announce Queue position to caller"
+                       [checkbox]="true"
+                       inputClass="checkbox"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name=""
+                       key="announceHoldtime"
+                       description="Announce Holdtime"
+                       [checkbox]="true"
+                       inputClass="checkbox"
+                       trueValue="1"
+                       falseValue="0"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+
         </div>
         <div class="call_queues_general_ballast" *ngIf="!loading"></div>
     </div>

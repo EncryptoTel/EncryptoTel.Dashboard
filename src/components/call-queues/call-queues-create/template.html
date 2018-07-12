@@ -12,7 +12,7 @@
             <pbx-button *ngIf="!service.userView.isCurCompMembersAdd"
                         buttonType="cancel" value="Cancel" (onClick)="cancel()"></pbx-button>
             <pbx-button *ngIf="!service.userView.isCurCompMembersAdd"
-                        buttonType="success" value="Save" (onClick)="save()"></pbx-button>
+                        buttonType="success" value="Save" (onClick)="save()" [loading]="saving"></pbx-button>
             <pbx-button *ngIf="service.userView.isCurCompMembersAdd"
                         buttonType="cancel" value="Back" (onClick)="back()"></pbx-button>
         </div>

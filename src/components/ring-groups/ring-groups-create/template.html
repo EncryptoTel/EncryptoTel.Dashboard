@@ -5,9 +5,11 @@
             <div class="call_queues_create_tab">
                 <a routerLink="general" routerLinkActive="active" [skipLocationChange]="true">General</a>
             </div>
-            <div class="call_queues_create_tab">
+            <div class="call_queues_create_tab" *ngIf="service.item.sipId">
                 <a routerLink="members" routerLinkActive="active" [skipLocationChange]="true">Members</a>
             </div>
+            <div class="call_queues_create_tab blocked" *ngIf="!service.item.sipId">Members</div>
+
         </div>
         <div class="call_queues_create_buttons" [ngClass]="{'back-wrap':service.userView.isCurCompMembersAdd}">
             <pbx-button *ngIf="!service.userView.isCurCompMembersAdd"
