@@ -26,7 +26,7 @@ import {TemporaryCodeComponent} from '../components/temporary-code/temporary-cod
 import {CompanyComponent} from '../components/company/company.component';
 import {MarketplaceComponent} from '../components/marketplace/marketplace.component';
 import {StorageComponent} from '../components/storage/storage.component';
-import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
+import {DetailsAndRecordsComponent, TimePipe} from '../components/details-and-records/details-and-records.component';
 import {InvoicesComponent} from '../components/invoices/invoices.component';
 import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
 import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
@@ -124,7 +124,8 @@ import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-grou
     RingGroupsCreateComponent,
     RingGroupsGeneralComponent,
     RingGroupsMembersComponent,
-    RingGroupsMembersAddComponent
+    RingGroupsMembersAddComponent,
+    TimePipe
 
   ],
   exports: [

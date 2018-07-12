@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Pipe, PipeTransform} from '@angular/core';
 import {DetailsAndRecordsServices} from '../../services/details-and-records.services';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {PlayerAnimation} from '../../shared/player-animation';
 import {Howl} from 'howler';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'pbx-details-and-records',
@@ -223,6 +224,8 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   dropDirection = 'bottom';
 
+
+  private blobObs = new Subject<string>();
   player: any;
   payerBlob: any;
   playerId: any;
@@ -351,6 +354,7 @@ export class DetailsAndRecordsComponent implements OnInit {
   playerAction(index) {
     this.currentPlayerAction = index;
     const detailsLength = this.details.length;
+    console.log(this.details[this.currentPlayerAction]);
     // play only one from array, old realisation
     // for (let i = 0; i < index; i++) {
     //   this.details[i].play = false;
@@ -360,29 +364,50 @@ export class DetailsAndRecordsComponent implements OnInit {
     // }
     // this.details[index].play = this.details[index].play === false;
 
-    // if (this.details[this.currentPlayerAction].play === false) {
+    if (this.player) {
+      this.player.stop();
+    }
+
     //   if (this.details[this.currentPlayerAction].payerBlob === '') {
+    if (this.details[this.currentPlayerAction].play === false) {
+      this.details[this.currentPlayerAction].loading = true;
+      this.services.getSound(this.details[index].accountFile.id)
+        .then(res => {
+          console.log(res.dataBase64);
+          this.playerFiles = res;
 
-    this.services.getSound(this.details[index].accountFile.id)
-      .then(res => {
-        console.log(res);
-        this.playerFiles = res;
-        // Blob creation
-        this.getBlob(res);
-        console.log(this.details[this.currentPlayerAction]);
+          const dataURI = 'data:audio/x-mp3;base64,' + res.dataBase64;
+          const byteString = atob(dataURI.split(',')[1]);
+          const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+          const ab = new ArrayBuffer(byteString.length);
+          const ia = new Uint8Array(ab);
+          for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+          }
+          const blob = new Blob([ab], {type: mimeString});
+          const blobUrl = window.URL.createObjectURL(blob);
 
-        this.details[this.currentPlayerAction].player = new Howl({
-          src: [this.details[this.currentPlayerAction].payerBlob],
-          html5: true
+          const self = this;
+
+          this.details[this.currentPlayerAction].loading = false;
+          this.player = new Howl({
+            src: [blobUrl],
+            html5: true,
+            onplay: function(id) {
+              console.log(self.player.duration(id));
+            }
+          });
+          this.player.play();
+
+        })
+        .catch(err => {
+          console.error(err);
         });
-
-
-        this.details[this.currentPlayerAction].player.play();
-
-      })
-      .catch( err => {
-        console.error(err);
-      });
+    } else {
+      if (this.player) {
+        this.player.stop();
+      }
+    }
 
 
     // realisation with syntactic sugar
@@ -391,19 +416,6 @@ export class DetailsAndRecordsComponent implements OnInit {
     }
   }
 
-  getBlob(res) {
-    const dataURI = 'data:audio/x-mp3;base64,' + res.dataBase64;
-    const byteString = atob(dataURI.split(',')[1]);
-    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([ab], {type: mimeString});
-    const blobUrl = window.URL.createObjectURL(blob);
-    this.details[this.currentPlayerAction].payerBlob = blobUrl;
-  }
 
   playerOpenClose(index) {
     this.currentPlayerAction = index;
@@ -465,7 +477,8 @@ export class DetailsAndRecordsComponent implements OnInit {
           this.details[i].play = false;
           this.details[i].playerAnimationState = 'min';
           this.details[i].playerContentShow = false;
-          this.details[i].payerBlob = '';
+          this.details[i].payerCurrentTime = '';
+          this.details[i].loading = false;
         });
       })
       .catch( err => {
@@ -473,4 +486,22 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.loading = false;
       });
   }
+}
+
+@Pipe({
+  name: 'tp'
+})
+export class TimePipe implements PipeTransform {
+
+  transform(value: any): string {
+    const sec_num = parseInt(value, 10);
+    const hours   = Math.floor(sec_num / 3600) % 24;
+    const minutes = Math.floor(sec_num / 60) % 60;
+    const seconds = sec_num % 60;
+    return [hours, minutes, seconds]
+      .map(v => v < 10 ? '0' + v : v)
+      .filter((v, i) => v !== '00 ' || i > 0)
+      .join(':');
+  }
+
 }
