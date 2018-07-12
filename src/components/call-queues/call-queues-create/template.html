@@ -6,7 +6,8 @@
                [skipLocationChange]="true">General</a>
             <a class="call_queues_create_tab" *ngIf="service.item.sipId"
                routerLink="members" routerLinkActive="active" [skipLocationChange]="true">Members</a>
-            <div class="call_queues_create_tab blocked" *ngIf="!service.item.sipId">Members</div>
+            <div class="call_queues_create_tab blocked invalid" *ngIf="!service.item.sipId"
+                 [ngClass]="{'invalid': service.errors && service.errors.queueMembers}">Members</div>
         </div>
         <div class="call_queues_create_buttons">
             <pbx-button *ngIf="!service.userView.isCurCompMembersAdd"
