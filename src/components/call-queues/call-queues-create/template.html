@@ -5,7 +5,8 @@
             <a class="call_queues_create_tab" routerLink="general" routerLinkActive="active"
                [skipLocationChange]="true">General</a>
             <a class="call_queues_create_tab" *ngIf="service.item.sipId"
-               routerLink="members" routerLinkActive="active" [skipLocationChange]="true">Members</a>
+               routerLink="members" routerLinkActive="active" [skipLocationChange]="true"
+               [ngClass]="{'invalid': service.errors && service.errors.queueMembers}">Members</a>
             <div class="call_queues_create_tab blocked invalid" *ngIf="!service.item.sipId"
                  [ngClass]="{'invalid': service.errors && service.errors.queueMembers}">Members</div>
         </div>
