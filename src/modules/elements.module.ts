@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {AngularSvgIconModule} from 'angular-svg-icon';
 import {FormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 
 import {ClickOutsideDirective} from '../shared/click-outside.directive';
 
@@ -24,7 +25,8 @@ import {InputComponent} from '../elements/pbx-input/pbx-input.component';
         CommonModule,
         BrowserModule,
         AngularSvgIconModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ],
     declarations: [
         ClickOutsideDirective,

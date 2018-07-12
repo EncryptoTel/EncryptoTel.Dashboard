@@ -69,7 +69,7 @@ export class CallRulesComponent implements OnInit {
     this.callRules.forEach(callRule => {
       this.data.push({
         id: callRule.id,
-        phone: callRule.sip['phoneNumber'],
+        phone: callRule.sip ? callRule.sip['phoneNumber'] : null,
         name: callRule.name,
         status: callRule.statusParameter,
         description: callRule.description
@@ -79,7 +79,6 @@ export class CallRulesComponent implements OnInit {
 
   private getCallRules(): void {
     this.service.getCallRules(this.pageInfo.page).then(res => {
-      console.log(res);
       this.pageInfo.total = res.pageCount;
       this.callRules = res.items;
       this.callRules.forEach(callRule => {
@@ -88,7 +87,6 @@ export class CallRulesComponent implements OnInit {
       this.setTableData();
       this.loading = false;
     }).catch(err => {
-      console.error(err);
     });
   }
 

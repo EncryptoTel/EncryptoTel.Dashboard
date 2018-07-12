@@ -24,9 +24,13 @@ export class InputComponent implements OnInit {
     @Input() checkbox: boolean;
     @Input() trueValue: any;
     @Input() falseValue: any;
+    @Input() form: boolean;
+    @Input() formKey: string;
+    @Input() index: number;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
+    @Output() onKeyUp: EventEmitter<object> = new EventEmitter();
 
     value;
     checkboxValues;
@@ -41,28 +45,61 @@ export class InputComponent implements OnInit {
         return this.errorKey ? this.errorKey : this.key;
     }
 
-    checkError(): string {
+    checkError(textOnly = null): string {
         if (!this.errors) {
+            return textOnly ? null : this.checkForm();
+        }
+        return (this.errors && this.errors[this.getErrorKey()]) || (textOnly ? null : this.checkForm());
+    }
+
+    getFormKey() {
+        return this.formKey ? this.formKey : this.key;
+    }
+
+    getForm() {
+        if (this.index !== undefined) {
+            return this.object.get([this.index, this.getFormKey()]);
+        } else {
+            return this.object.get(this.getFormKey());
+        }
+    }
+
+    checkForm() {
+        if (!this.form) {
             return null;
         }
-        return this.errors && this.errors[this.getErrorKey()];
+        let form = this.getForm();
+        return form && form.touched && form.invalid;
     }
 
     resetError() {
         if (this.checkError()) {
-            this.errors[this.getErrorKey()] = null;
+            this.errors ? this.errors[this.getErrorKey()] = null : null;
+            if (this.form) {
+                let form = this.getForm();
+                form.markAsUntouched();
+            }
         }
     }
 
-    onKeyUp($event) {
+    inputKeyUp($event) {
         this.resetError();
         this.object[this.key] = $event.target.value;
+        this.onKeyUp.emit($event);
     }
 
     selectItem($event) {
         this.resetError();
-        this.object[this.key] = $event.id;
-        this.value[this.displayKey] = $event[this.displayKey];
+        if (this.form) {
+            this.value = $event;
+            // this.objectView.id = $event.id;
+            // this.objectView[this.displayKey] = $event[this.displayKey];
+            this.key ? this.object.get(this.key).setValue($event.id) : null;
+
+        } else {
+            this.object[this.key] = $event.id;
+            this.value[this.displayKey] = $event[this.displayKey];
+        }
         this.onSelect.emit($event);
     }
 
