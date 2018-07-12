@@ -23,7 +23,8 @@ export class CallQueueService extends BaseQueueService {
         });
     }
 
-    reset(): void {
+    reset() {
+        super.reset();
         this.item = new CallQueueItem();
         this.userView = {
             phoneNumber: '',

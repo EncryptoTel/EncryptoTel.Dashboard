@@ -35,6 +35,7 @@ export class RingGroupService extends BaseQueueService {
     }
 
     reset() {
+        super.reset();
         this.item = new RingGroupItem();
         this.userView = {
             phoneNumber: '',

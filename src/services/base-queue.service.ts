@@ -9,7 +9,7 @@ export class BaseQueueService extends BaseService {
     userView;
 
     reset() {
-
+        this.errors = null;
     }
 
     getMembers(sipId: number, search: string = null, departmentId: number = null) {
