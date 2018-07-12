@@ -45,22 +45,22 @@ export class DetailsAndRecordsServices {
       return `&filter[status]=${i}`;
     });
     if (sort === '' && sortDirection === '' && filter === []) {
-      return this.request.get(`v1/cdr?page=${page}&limit=${limit}`, true);
+      return this.request.get(`v1/cdr?page=${page}&limit=${limit}`);
 
     } else if (sort === '' && sortDirection === '') {
-      return this.request.get(`v1/cdr?page=${page}&limit=${limit}${filter}`, true);
+      return this.request.get(`v1/cdr?page=${page}&limit=${limit}${filter}`);
 
     } else if (filter === []) {
-      return this.request.get(`v1/cdr?page=${page}&limit=${limit}&sort[${sort}]=${sortDirection}`, true);
+      return this.request.get(`v1/cdr?page=${page}&limit=${limit}&sort[${sort}]=${sortDirection}`);
 
     } else {
-      return this.request.get(`v1/cdr?page=${page}&limit=${limit}&sort[${sort}]=${sortDirection}${filter}`, true);
+      return this.request.get(`v1/cdr?page=${page}&limit=${limit}&sort[${sort}]=${sortDirection}${filter}`);
     }
 
   }
 
   getSound(id) {
-    return this.request.get(`v1/account/file/${id}`, true);
+    return this.request.get(`v1/account/file/${id}`);
   }
 
 }

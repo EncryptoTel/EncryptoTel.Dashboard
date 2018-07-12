@@ -19,8 +19,8 @@ export class RingGroupsComponent implements OnInit {
     loading: number = 0;
 
     table = {
-        titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time'],
-        keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout']
+        titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time', 'Description'],
+        keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
     };
 
 

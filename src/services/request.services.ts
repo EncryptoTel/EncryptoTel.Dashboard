@@ -71,7 +71,7 @@ export class RequestServices {
                 if (this.lastCounter != this.counter && ticksBetween > 5 * 60) {
                     let token = this.getRefreshToken();
                     if (token) {
-                        this.post(`refresh-token`, {refresh_token: token}, true).then(res => {
+                        this.post(`refresh-token`, {refresh_token: token}).then(res => {
                             this.updateSecrets(res);
                             // console.log(res);
                         });
@@ -115,7 +115,7 @@ export class RequestServices {
       URI: string - request uri,
       Data: object - request params
      */
-    post(url: string, data: object, serverReady: boolean = false): Promise<any> {
+    post(url: string, data: object): Promise<any> {
         return this.request('POST', url, {...data});
     }
 
@@ -124,7 +124,7 @@ export class RequestServices {
       URI: string - request uri,
       Data: object - request params
      */
-    put(url: string, data: object, serverReady: boolean = false): Promise<any> {
+    put(url: string, data: object): Promise<any> {
         return this.request('PUT', url, {...data});
     }
 
@@ -132,7 +132,7 @@ export class RequestServices {
       Default GET request. Accepted params:
       URI: string - request uri with stringified params
      */
-    get(url: string, serverReady: boolean = false): Promise<any> {
+    get(url: string): Promise<any> {
         return this.request('GET', url, null);
     }
 
@@ -140,7 +140,7 @@ export class RequestServices {
       Default DELETE request. Accepted params:
       URI: string - request uri with stringified params
      */
-    del(url: string, serverReady: boolean = false): Promise<any> {
+    del(url: string): Promise<any> {
         return this.request('DELETE', url, null);
     }
 

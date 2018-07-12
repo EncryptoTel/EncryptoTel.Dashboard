@@ -7,11 +7,11 @@ export class ModuleServices {
     }
 
     getModulesList(): Promise<any> {
-        return this._req.get('v1/service/account', true);
+        return this._req.get('v1/service/account');
     }
 
     buyService(id: number): Promise<any> {
-        return this._req.post(`v1/order/service/${id}`, {}, true);
+        return this._req.post(`v1/order/service/${id}`, {});
     }
 
 }

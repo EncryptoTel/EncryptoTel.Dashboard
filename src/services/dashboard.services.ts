@@ -19,7 +19,7 @@ export class DashboardServices {
     // }
 
     getDashboard(): Promise<DashboardModel> {
-        return this.req.get('v1/dashboard', true).then(res => {
+        return this.req.get('v1/dashboard').then(res => {
             this.dashboard = res;
             this.ws.balance.balance = res.balance.value;
             const list = plainToClass(CallDetailItem, res['callDetail']);

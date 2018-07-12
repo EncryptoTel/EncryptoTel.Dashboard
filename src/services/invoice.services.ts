@@ -11,7 +11,7 @@ export class InvoiceServices {
     if (sort) {
       url = url + `&sort[${sort}]=${sortDirection}`;
     }
-    return this._req.get(url, true);
+    return this._req.get(url);
   }
 
 }

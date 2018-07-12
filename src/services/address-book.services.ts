@@ -9,34 +9,34 @@ export class AddressBookServices {
   }
 
   block(data: object): Promise<any> {
-    return this.request.post(`v1/blacklist`, data, true);
+    return this.request.post(`v1/blacklist`, data);
   }
 
   getContacts(): Promise<any> {
-    return this.request.get(`v1/contact`, true);
+    return this.request.get(`v1/contact`);
   }
 
   getCountries(): Promise<Countries> {
-    return this.request.get(`v1/countries`, true);
+    return this.request.get(`v1/countries`);
   }
 
   getTypes(): Promise<Types> {
-    return this.request.get(`v1/handbooks/contact/get-types`, true);
+    return this.request.get(`v1/handbooks/contact/get-types`);
   }
 
   saveContact(contact): Promise<any> {
-    return this.request.post(`v1/contact`, contact, true);
+    return this.request.post(`v1/contact`, contact);
   }
 
   delete(id: number): Promise<any> {
-    return this.request.del(`v1/contact/${id}`, true);
+    return this.request.del(`v1/contact/${id}`);
   }
 
   edit(id: number, contact): Promise<any> {
-    return this.request.put(`v1/contact/${id}`, contact, true);
+    return this.request.put(`v1/contact/${id}`, contact);
   }
 
   search(keyword: string): Promise<any> {
-    return this.request.get(`v1/contact?search=${keyword}`, true);
+    return this.request.get(`v1/contact?search=${keyword}`);
   }
 }

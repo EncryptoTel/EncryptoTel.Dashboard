@@ -8,31 +8,31 @@ import {plainToClass} from "class-transformer";
 export class ExtensionService extends BaseService {
 
     getExtension(id: number): Promise<any> {
-        return this.request.get(`v1/sip/inners/${id}`, true);
+        return this.request.get(`v1/sip/inners/${id}`);
     }
 
     deleteExtension(id: number): Promise<any> {
-        return this.request.del(`v1/sip/inners/${id}`, true);
+        return this.request.del(`v1/sip/inners/${id}`);
     }
 
     changePassword(id: number, data: any): Promise<any> {
-        return this.request.post(`v1/sip/inners/${id}/change-password`, data, true);
+        return this.request.post(`v1/sip/inners/${id}/change-password`, data);
     }
 
     create(data): Promise<any> {
-        return this.request.post('v1/sip/inners', data, true);
+        return this.request.post('v1/sip/inners', data);
     }
 
     edit(id: number, data): Promise<any> {
-        return this.request.put(`v1/sip/inners/${id}`, data, true);
+        return this.request.put(`v1/sip/inners/${id}`, data);
     }
 
     getAccessList(userId: number): Promise<any> {
-        return this.request.get(`v1/sip/inner/access-list` + (userId ? `?userId=${userId}` : ''), true);
+        return this.request.get(`v1/sip/inner/access-list` + (userId ? `?userId=${userId}` : ''));
     }
 
     saveAccessList(id: number, data: any): Promise<any> {
-        return this.request.post(`v1/sip/inners/access/${id}`, {access: data}, true);
+        return this.request.post(`v1/sip/inners/access/${id}`, {access: data});
     }
 
 

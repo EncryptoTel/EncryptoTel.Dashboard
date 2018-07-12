@@ -20,27 +20,27 @@ export class BaseService {
     }
 
     get(path: string): Promise<any> {
-        return this.request.get(this.url + path, true);
+        return this.request.get(this.url + path);
     }
 
     getById(id: number): Promise<any> {
-        return this.request.get(`${this.url}/${id}`, true);
+        return this.request.get(`${this.url}/${id}`);
     }
 
     post(path: string, data: any): Promise<any> {
-        return this.request.post(this.url + path, data, true);
+        return this.request.post(this.url + path, data);
     }
 
     delete(path: string): Promise<any> {
-        return this.request.del(this.url + path, true);
+        return this.request.del(this.url + path);
     }
 
     deleteById(id: number): Promise<any> {
-        return this.request.del(`${this.url}/${id}`, true);
+        return this.request.del(`${this.url}/${id}`);
     }
 
     putById(id: number, data: any): Promise<any> {
-        return this.request.put(`${this.url}/${id}`, data, true);
+        return this.request.put(`${this.url}/${id}`, data);
     }
 
     rawRequest(method: string, path: string, data: any): Promise<any> {
@@ -57,7 +57,7 @@ export class BaseService {
                 }
             }
         }
-        return this.request.get(`${this.url}${url}`, true);
+        return this.request.get(`${this.url}${url}`);
     }
 
     beginLoading(item) {

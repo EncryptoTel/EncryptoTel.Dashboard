@@ -16,11 +16,11 @@ export class BaseQueueService extends BaseService {
         let url = `v1/call_queue/members?sipOuter=${sipId}`;
         if (search) url = `${url}&filter[search]=${search}`;
         if (departmentId) url = `${url}&filter[department]=${departmentId}`;
-        return this.request.get(url, true);
+        return this.request.get(url);
     }
 
     getDepartments() {
-        return this.request.get(`v1/department`, true);
+        return this.request.get(`v1/department`);
     }
 
     setMembers(members) {

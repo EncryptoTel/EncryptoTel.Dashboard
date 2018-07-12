@@ -8,38 +8,38 @@ export class CallRulesServices {
   }
 
   deleteCallRules(id: number): Promise<any> {
-    return this.request.del(`v1/outer_rule/${id}`, true);
+    return this.request.del(`v1/outer_rule/${id}`);
   }
 
   edit(id: number, rules): Promise<any> {
-    return this.request.put(`v1/outer_rule/${id}`, rules, true);
+    return this.request.put(`v1/outer_rule/${id}`, rules);
   }
 
   getCallRules(page: number): Promise<any> {
-    return this.request.get(`v1/outer_rule?page=${page}`, true);
+    return this.request.get(`v1/outer_rule?page=${page}`);
   }
 
   getEditedCallRule(id: number): Promise<any> {
-    return this.request.get(`v1/outer_rule/${id}`, true);
+    return this.request.get(`v1/outer_rule/${id}`);
   }
 
   getExtensions(id: number): Promise<any> {
-    return this.request.get(`v1/sip/inners?sipOuter=${id}`, true);
+    return this.request.get(`v1/sip/inners?sipOuter=${id}`);
   }
 
   getFiles(): Promise<any> {
-    return this.request.get(`v1/account/file?type=audio`, true);
+    return this.request.get(`v1/account/file?type=audio`);
   }
 
   getParams(): Promise<any> {
-    return this.request.get(`v1/outer_rule/params`, true);
+    return this.request.get(`v1/outer_rule/params`);
   }
 
   getQueue(): Promise<any> {
-    return this.request.get(`v1/call_queue`, true);
+    return this.request.get(`v1/call_queue`);
   }
 
   save(rules): Promise<any> {
-    return this.request.post(`v1/outer_rule`, rules, true);
+    return this.request.post(`v1/outer_rule`, rules);
   }
 }

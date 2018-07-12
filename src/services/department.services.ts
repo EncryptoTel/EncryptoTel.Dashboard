@@ -8,18 +8,18 @@ export class DepartmentServices {
   }
 
   getDepartments(): Promise<any> {
-    return this._req.get(`v1/department`, true);
+    return this._req.get(`v1/department`);
   }
 
   saveDepartment(department): Promise<any> {
-    return this._req.post(`v1/department`, department, true);
+    return this._req.post(`v1/department`, department);
   }
 
   editDepartment(id: number, department): Promise<any> {
-    return this._req.put(`v1/department/${id}`, department, true);
+    return this._req.put(`v1/department/${id}`, department);
   }
 
   deleteDepartment(id: number): Promise<any> {
-    return this._req.del(`v1/department/${id}`, true);
+    return this._req.del(`v1/department/${id}`);
   }
 }
