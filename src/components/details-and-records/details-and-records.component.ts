@@ -220,17 +220,18 @@ export class DetailsAndRecordsComponent implements OnInit {
   rowHowerIndex: number;
 
   contactActionName = 'View contact';
-  currentPlayerAction: number;
 
   dropDirection = 'bottom';
 
 
-  private blobObs = new Subject<string>();
+
+  curID: number;
   player: any;
   payerBlob: any;
   playerId: any;
   playerSeek: any;
   playerFiles = [];
+  playerPrevState: any;
 
   constructor(
     private services: DetailsAndRecordsServices,
@@ -352,9 +353,9 @@ export class DetailsAndRecordsComponent implements OnInit {
   }
 
   playerAction(index) {
-    this.currentPlayerAction = index;
+    this.curID = index;
     const detailsLength = this.details.length;
-    console.log(this.details[this.currentPlayerAction]);
+    console.log(this.details[this.curID]);
     // play only one from array, old realisation
     // for (let i = 0; i < index; i++) {
     //   this.details[i].play = false;
@@ -368,9 +369,9 @@ export class DetailsAndRecordsComponent implements OnInit {
       this.player.stop();
     }
 
-    //   if (this.details[this.currentPlayerAction].payerBlob === '') {
-    if (this.details[this.currentPlayerAction].play === false) {
-      this.details[this.currentPlayerAction].loading = true;
+
+    if (this.details[this.curID].play === false) {
+      this.details[this.curID].loading = true;
       this.services.getSound(this.details[index].accountFile.id)
         .then(res => {
           console.log(res.dataBase64);
@@ -389,12 +390,12 @@ export class DetailsAndRecordsComponent implements OnInit {
 
           const self = this;
 
-          this.details[this.currentPlayerAction].loading = false;
+          this.details[this.curID].loading = false;
           this.player = new Howl({
             src: [blobUrl],
             html5: true,
             onplay: function(id) {
-              console.log(self.player.duration(id));
+              console.log(self.player.seek(id));
             }
           });
           this.player.play();
@@ -409,7 +410,6 @@ export class DetailsAndRecordsComponent implements OnInit {
       }
     }
 
-
     // realisation with syntactic sugar
     for (let i = 0; i < detailsLength; i++) {
       this.details[i].play = (index === i ? !this.details[i].play : false);
@@ -418,25 +418,25 @@ export class DetailsAndRecordsComponent implements OnInit {
 
 
   playerOpenClose(index) {
-    this.currentPlayerAction = index;
-    this.details[this.currentPlayerAction].playerAnimationState = this.details[this.currentPlayerAction].playerAnimationState === 'min' ? 'max' : 'min';
+    this.curID = index;
+    this.details[this.curID].playerAnimationState = this.details[this.curID].playerAnimationState === 'min' ? 'max' : 'min';
   }
 
   playerAnimationStart() {
-    if (this.details[this.currentPlayerAction]) {
-      console.log('PLAYER_ANIMATION1', this.details[this.currentPlayerAction].playerAnimationState);
-      console.log('PLAYER_ANIMATION2', this.details[this.currentPlayerAction].playerContentShow);
-      if (this.details[this.currentPlayerAction].playerAnimationState === 'min') {
-        this.details[this.currentPlayerAction].playerContentShow = false;
+    if (this.details[this.curID]) {
+      console.log('PLAYER_ANIMATION1', this.details[this.curID].playerAnimationState);
+      console.log('PLAYER_ANIMATION2', this.details[this.curID].playerContentShow);
+      if (this.details[this.curID].playerAnimationState === 'min') {
+        this.details[this.curID].playerContentShow = false;
       }
     }
   }
 
   playerAnimationEnd() {
-    if (this.details[this.currentPlayerAction]) {
-      this.details[this.currentPlayerAction].playerContentShow = this.details[this.currentPlayerAction].playerContentShow === false;
-      if (this.details[this.currentPlayerAction].playerAnimationState === 'min') {
-        this.details[this.currentPlayerAction].playerContentShow = false;
+    if (this.details[this.curID]) {
+      this.details[this.curID].playerContentShow = this.details[this.curID].playerContentShow === false;
+      if (this.details[this.curID].playerAnimationState === 'min') {
+        this.details[this.curID].playerContentShow = false;
       }
     }
   }
