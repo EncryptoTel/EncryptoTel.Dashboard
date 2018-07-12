@@ -22,6 +22,10 @@ export class CallQueuesCreateComponent implements OnInit, OnDestroy {
         this.id = this.activatedRoute.snapshot.params.id;
     }
 
+    selectMembersTab() {
+        this.service.errors && this.service.errors.queueMembers ? this.service.errors.queueMembers = null : null;
+    }
+
     save(): void {
         this.saving++;
         this.service.save(this.id).then(res => {
