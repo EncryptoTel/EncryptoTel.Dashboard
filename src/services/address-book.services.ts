@@ -21,7 +21,7 @@ export class AddressBookServices {
   }
 
   getTypes(): Promise<Types> {
-    return this.request.get(`v1/handbooks/contact/get-types`);
+    return this.request.get(`v1/contact/get-types`);
   }
 
   saveContact(contact): Promise<any> {
