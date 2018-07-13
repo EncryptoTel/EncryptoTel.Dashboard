@@ -146,7 +146,7 @@ export class CallRulesCreateComponent implements OnInit {
     private createRedirectToExternalNumber(): FormGroup {
         return this.fb.group({
             action: 2,
-            parameter: [null, [Validators.maxLength(12), Validators.pattern('[0-9]*'), Validators.required]],
+            parameter: [null, [Validators.maxLength(16), Validators.pattern('[0-9]*'), Validators.required]],
             timeout: [30, [Validators.min(5), Validators.max(300)]],
             timeRules: ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
         });
