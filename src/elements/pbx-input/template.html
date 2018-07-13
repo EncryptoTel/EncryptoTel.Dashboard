@@ -15,6 +15,7 @@
                    (keyup)="inputKeyUp($event)">
 
             <pbx-select *ngIf="options"
+                        [name]="key"
                         [singleBorder]="true"
                         [options]="options"
                         [objectKey]="displayKey"
@@ -52,6 +53,7 @@
             </pbx-checkbox>
 
             <pbx-select *ngIf="options"
+                        [name]="key"
                         [singleBorder]="true"
                         [options]="options"
                         [objectKey]="displayKey"
