@@ -1,5 +1,4 @@
-<pbx-loader *ngIf="loading"></pbx-loader>
-<div class="address_book" *ngIf="!loading">
+<!--<div class="address_book" *ngIf="!loading&&zerg">
   <div class="address_book_header">
     <div class="address_book_header_filters_wrap">
       <div class="address_book_header_filter">
@@ -17,10 +16,18 @@
       <pbx-button [buttonType]="'success'" [value]="'+ New Contact'" (onClick)="newContact()"></pbx-button>
     </div>
   </div>
-  <pbx-table [tableInfo]="tableInfo" [editable]="true" (onEdit)="edit($event)" (onSelect)="select($event)"
-             [tableItems]="contacts" (onDelete)="delete($event)"></pbx-table>
-</div>
-<pbx-sidebar *ngIf="sidebarVisible && !loading">
+  <pbx-table
+             [tableInfo]="tableInfo"
+             [tableItems]="contacts"
+             [editable]="true"
+             (onSelect)="select($event)"
+
+             (onEdit)="edit($event)"
+             (onDelete)="delete($event)"
+
+             ></pbx-table>
+</div>-->
+<!--<pbx-sidebar *ngIf="sidebarVisible&&zerg && !loading">
   <ng-container *ngIf="mode==='create' || mode==='edit'">
     <form class="sidebar_form" [formGroup]="addressForm">
       <div class="sidebar_row">
@@ -31,6 +38,8 @@
         <label for="last_name">Last Name</label>
         <input type="text" id="last_name" formControlName="lastname">
       </div>
+
+
       <div class="sidebar_row">
         <label>Phone</label>
         <ng-container formArrayName="contactPhones">
@@ -48,6 +57,8 @@
           </ng-container>
         </ng-container>
       </div>
+
+
       <div class="sidebar_row">
         <label>E-mail</label>
         <ng-container formArrayName="contactEmails">
@@ -132,4 +143,189 @@
       <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit(currentContact)"></pbx-button>
     </div>
   </ng-container>
-</pbx-sidebar>
+</pbx-sidebar>-->
+<div class="address">
+  <div class="address_wrap">
+    <div class="address_header">
+      <div class="address_header_wrap">Select Source:
+        <pbx-select [options]="sources.option"
+                    objectKey="value"
+                    [selected]="sources.select"
+                    (onSelect)="sources.select=$event"></pbx-select>
+      </div>
+      <div class="address_header_wrap"></div>
+      <div class="address_header_button_wrap">
+        <pbx-button value="Create Contact" buttonType="success" (onClick)="createUnit()"></pbx-button>
+      </div>
+    </div>
+    <div class="tablet">
+      <div class="tablet_header">
+        <div class="tablet_item" *ngFor="let item of table.title">{{item}}</div>
+        <div class="tablet_icon_wrap"></div>
+      </div>
+      <pbx-loader *ngIf="loading" [@Fade]></pbx-loader>
+      <div class="tablet_body" *ngIf="!loading" [@Fade]>
+        <div class="tablet_row" *ngFor="let item of table.data">
+          <div class="tablet_item"
+               *ngFor="let key of table.key"
+               (click)="clickContact(item)"
+          >{{item[key]}}</div>
+          <div class="tablet_icon_wrap">
+            <div class="tablet_icon edit">
+              <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+      <pbx-pagination [pageInfo]="pageInfo"></pbx-pagination>
+    </div>
+  </div>
+  <pbx-sidebar *ngIf="sidebar.visible" [@Swipe] [@Fade]>
+    <pbx-loader *ngIf="sidebar.loading"></pbx-loader>
+    <div class="side_wrap" *ngIf="!sidebar.loading&&sidebar.mode==='view'">
+      <div class="side_body">
+        <div class="side_view_item" *ngIf="!!sidebar.data.firstname">
+          <div class="side_view_key">First Name</div>
+          <div class="side_view_value">{{sidebar.data.firstname}}</div>
+        </div>
+        <div class="side_view_item" *ngIf="!!sidebar.data.lastname">
+          <div class="side_view_key">Last Name</div>
+          <div class="side_view_value">{{sidebar.data.lastname}}</div>
+        </div>
+        <div class="side_view_item" *ngIf="sidebar.data.phone.length > 0">
+          <div class="side_view_key">Phone{{sidebar.data.phone.length>1?'s':''}}</div>
+          <div class="side_view_value" *ngFor="let item of sidebar.data.phone">{{item}}</div>
+        </div>
+        <div class="side_view_item" *ngIf="sidebar.data.email.length > 0">
+          <div class="side_view_key">E-mail{{sidebar.data.email.length>1?'s':''}}</div>
+          <div class="side_view_value" *ngFor="let item of sidebar.data.email">{{item}}</div>
+        </div>
+        <div class="side_view_item" *ngIf="!!sidebar.data.company">
+          <div class="side_view_key">Company Name</div>
+          <div class="side_view_value">{{sidebar.data.company}}</div>
+        </div>
+        <div class="side_view_item" *ngIf="!!sidebar.data.department">
+          <div class="side_view_key">Department</div>
+          <div class="side_view_value">{{sidebar.data.department}}</div>
+        </div>
+        <div class="side_view_item" *ngIf="!!sidebar.data.country">
+          <div class="side_view_key">Country</div>
+          <div class="side_view_value">{{sidebar.data.country}}</div>
+        </div>
+        <div class="side_view_item" *ngIf="!!sidebar.data.address">
+          <div class="side_view_key">Address</div>
+          <div class="side_view_value">{{sidebar.data.address}}</div>
+        </div>
+        <div class="side_view_button">
+          <span (click)="modal.block.visible=true">Block contact</span>
+        </div>
+        <div class="side_view_button">
+          <span (click)="modal.del.visible=true">Delete contact</span>
+        </div>
+      </div>
+      <div class="side_control">
+        <pbx-button value="Close" buttonType="cancel" (onClick)="closeSidebar()"></pbx-button>
+        <pbx-button value="Edit" buttonType="success"></pbx-button>
+      </div>
+    </div>
+    <div class="side_wrap" *ngIf="!sidebar.loading&&sidebar.mode==='create'">
+      <div class="side_body">
+        <div class="side_unit_item" [ngClass]="{'error':!unit.firstname.req}">
+          <label for="firstname" class="side_unit_key">First Name</label>
+          <input id="firstname" type="text"
+                 [(ngModel)]="unit.firstname.value"
+                 (focus)="toggleHighlightLabel($event)"
+                 (blur)="toggleHighlightLabel($event)">
+        </div>
+        <div class="side_unit_item" [ngClass]="{'error':!unit.lastname.req}">
+          <label for="lastname" class="side_unit_key">Last Name</label>
+          <input id="lastname" type="text"
+                 [(ngModel)]="unit.lastname.value"
+                 (focus)="toggleHighlightLabel($event)"
+                 (blur)="toggleHighlightLabel($event)">
+        </div>
+        <div class="side_unit_item">
+          <label class="side_unit_key">Phone</label>
+          <div class="side_unit_row" *ngFor="let item of unit.phone;let i=index"
+               [ngClass]="{'error':!item.value.req||!item.typeId.req}">
+            <input [(ngModel)]="item.value.value">
+            <pbx-select [options]="types.phone"
+                        objectKey="type"
+                        [selected]="item.typeId.value"
+                        (onSelect)="item.typeId.value=$event"
+            ></pbx-select>
+            <div class="side_unit_icon_wrap">
+              <div class="side_unit_icon delete" *ngIf="unit.phone.length>1" (click)="unitDeleteOne('phone',i)">
+                <div class="side_unit_icon_minus"></div>
+              </div>
+              <div class="side_unit_icon plus" (click)="unitAddOne('phone')" *ngIf="i===unit.phone.length-1">
+                <svg-icon src="../../assets/icons/plus_13px.svg"></svg-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="side_unit_item">
+          <label class="side_unit_key">E-mails</label>
+          <div class="side_unit_row" *ngFor="let item of unit.email;let i=index"
+               [ngClass]="{'error':!item.value.req}">
+            <input [(ngModel)]="item.value.value">
+            <pbx-select [options]="types.email"
+                        objectKey="type"
+                        [selected]="item.typeId.value"
+                        (onSelect)="item.typeId.value=$event"
+            ></pbx-select>
+            <div class="side_unit_icon_wrap">
+              <div class="side_unit_icon delete" *ngIf="unit.email.length>1" (click)="unitDeleteOne('email',i)">
+                <div class="side_unit_icon_minus"></div>
+              </div>
+              <div class="side_unit_icon plus" (click)="unitAddOne('email')" *ngIf="i===unit.email.length-1">
+                <svg-icon src="../../assets/icons/plus_13px.svg"></svg-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="side_unit_item" [ngClass]="{'error':!unit.company.req}">
+          <label for="company" class="side_unit_key">Company</label>
+          <input id="company" type="text"
+                 [(ngModel)]="unit.company.value"
+                 (focus)="toggleHighlightLabel($event)"
+                 (blur)="toggleHighlightLabel($event)">
+        </div>
+        <div class="side_unit_item" [ngClass]="{'error':!unit.department.req}">
+          <label for="department" class="side_unit_key">Department</label>
+          <input id="department" type="text"
+                 [(ngModel)]="unit.department.value"
+                 (focus)="toggleHighlightLabel($event)"
+                 (blur)="toggleHighlightLabel($event)">
+        </div>
+        <div class="side_unit_item">
+          <label for="county" class="side_unit_key">Country</label>
+          <pbx-select id="county"
+                      [options]="country"
+                      objectKey="title"
+                      [selected]="unit.country.value"
+                      (onSelect)="unit.country.value=$event"
+          ></pbx-select>
+        </div>
+        <div class="side_unit_item">
+          <label for="address" class="side_unit_key">Address</label>
+          <input id="address" type="text"
+                 [(ngModel)]="unit.address.value"
+                 (focus)="toggleHighlightLabel($event)"
+                 (blur)="toggleHighlightLabel($event)">
+        </div>
+      </div>
+      <div class="side_control">
+        <pbx-button value="Cancel" buttonType="cancel" (onClick)="modal.exit.visible=true"></pbx-button>
+        <pbx-button value="Create" buttonType="success" (onClick)="validUnit('create')"></pbx-button>
+      </div>
+    </div>
+  </pbx-sidebar>
+</div>
+
+<pbx-modal [modal]="modal.block">Are you sure you want to block this contact?</pbx-modal>
+<pbx-modal [modal]="modal.del">Are you sure you want to delete this contact?</pbx-modal>
+<pbx-modal [modal]="modal.err">Please enter correct data.</pbx-modal>
+<pbx-modal [modal]="modal.exit" (onConfirm)="closeSidebar()">Are you sure you want to stop editing?</pbx-modal>
+
+<div class="zerg" (click)="zerg()">Z</div>
