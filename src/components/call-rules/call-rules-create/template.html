@@ -73,7 +73,7 @@
                             <ng-template [ngSwitchCase]="1">
 
                                 <pbx-input name="Extension number"
-                                           displayKey="phoneNumber"
+                                           key="phoneNumber"
                                            formKey="parameter"
                                            [form]="true"
                                            (onSelect)="selectSipInner(i, $event)"
@@ -115,6 +115,7 @@
 
                                 <pbx-input name="Queue"
                                            displayKey="name"
+                                           key="parameter"
                                            [form]="true"
                                            (onSelect)="selectQueue(i, $event)"
                                            [options]="queues"
@@ -147,6 +148,7 @@
 
                                 <pbx-input name="Voice greeting"
                                            displayKey="fileName"
+                                           key="parameter"
                                            [form]="true"
                                            (onSelect)="selectFile(i, $event)"
                                            [options]="files"
