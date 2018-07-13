@@ -14,17 +14,12 @@ import {CallRules, CallRulesItem, CallRulesModel} from '../../models/call-rules.
 })
 
 export class CallRulesComponent implements OnInit {
+
     table = {
         titles: ['Phone number', 'Call Rule Name', 'Status', 'Description'],
         keys: ['phoneNumber', 'name', 'statusName', 'description']
     };
     loading: number = 0;
-
-    modal = {
-        visible: false,
-        confirm: {type: 'error', value: 'Delete'},
-        decline: {type: 'cancel', value: 'Cancel'}
-    };
     pageInfo: CallRulesModel = new CallRulesModel();
 
     constructor(private service: CallRulesService,
