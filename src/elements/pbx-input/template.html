@@ -8,6 +8,7 @@
 
             <input *ngIf="!options && !checkbox"
                    [type]="type"
+                   [id]="key"
                    [placeholder]="placeholder"
                    [(ngModel)]="value"
                    [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
@@ -24,6 +25,7 @@
             </pbx-select>
 
             <pbx-checkbox *ngIf="checkbox"
+                          [id]="key"
                           (onToggle)="toggleCheckbox($event)"
                           [value]="value">
             </pbx-checkbox>
@@ -44,6 +46,7 @@
                    (keyup)="inputKeyUp($event)">
 
             <pbx-checkbox *ngIf="checkbox"
+                          [id]="key"
                           (onToggle)="toggleCheckbox($event)"
                           [value]="value">
             </pbx-checkbox>

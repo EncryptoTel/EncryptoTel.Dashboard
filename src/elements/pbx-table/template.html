@@ -4,7 +4,7 @@
     </div>
 </div>
 <div class="table_body" [ngClass]="{'multiple': multiple}">
-    <div class="table_row" *ngFor="let item of tableItems" (click)="selectItem(item)"
+    <div ngClass="['table_row', 'pbx_table_column_' + key]" *ngFor="let item of tableItems" (click)="selectItem(item)"
          [ngClass]="{'active': multiple ? isSelected(item.id) : selected?.id === item.id}">
         <pbx-loader *ngIf="item.loading"></pbx-loader>
         <div class="table_row_content" *ngIf="!item.loading">
