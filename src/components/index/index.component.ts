@@ -13,7 +13,6 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
-import {FormMessageModel} from '../../models/form-message.model';
 import {NotificatorServices} from '../../services/notificator.services';
 import {NotificatorModel} from '../../models/notificator.model';
 
@@ -25,13 +24,14 @@ import {NotificatorModel} from '../../models/notificator.model';
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
-    constructor (private _user: UserServices,
-                private _messages: MessageServices,
-                private _router: Router,
-                public _main: MainViewComponent,
-                private _ws: WsServices,
-                private _storage: LocalStorageServices,
-                 private  _serviceNotificator: NotificatorServices) {
+    constructor (
+      private _user: UserServices,
+      private _messages: MessageServices,
+      private _router: Router,
+      public _main: MainViewComponent,
+      private _ws: WsServices,
+      private _storage: LocalStorageServices,
+      private  _serviceNotificator: NotificatorServices) {
     }
 
     navigationList: NavigationItemModel[][];
@@ -80,6 +80,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     //   });
     //   this._balance.fetchBalanceParams().then(() => this.completedRequests++);
     // }
+
     navigationInit(): void {
         this._user.fetchNavigationParams().then(result => {
             this.navigationList = result;
