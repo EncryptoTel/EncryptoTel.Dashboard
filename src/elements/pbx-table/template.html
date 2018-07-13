@@ -8,7 +8,7 @@
          [ngClass]="{'active': multiple ? isSelected(item.id) : selected?.id === item.id}">
         <pbx-loader *ngIf="item.loading"></pbx-loader>
         <div class="table_row_content" *ngIf="!item.loading">
-            <div class="table_column" *ngFor="let key of tableInfo.keys">{{getValueByKey(item, key)}}</div>
+            <div [ngClass]="['table_column', 'pbx_table_item_' + key]" *ngFor="let key of tableInfo.keys">{{getValueByKey(item, key)}}</div>
             <div class="table_row_icon_wrap">
                 <svg-icon src="/assets/icons/edit_12px.svg" class="table_row_icon edit" *ngIf="editable"
                           (click)="editItem(item, $event)"></svg-icon>
