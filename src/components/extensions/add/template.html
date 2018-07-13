@@ -1,39 +1,60 @@
 <div class="add_ext">
-    <div class="add_ext_grid">
+    <div class="add_ext_grid" *ngIf="false">
         <div class="add_ext_header">
             <div class="add_ext_header_tab_wrap">
-              <div class="add_ext_header_tab"
-                   *ngFor="let item of tab.items"
-                   [ngClass]="{'active':item===tab.select, 'disabled':canActivateTab(item)}"
-                   (click)="selectTab(item)"
-              >{{item}}
-              </div>
+                <div class="add_ext_header_tab"
+                     *ngFor="let item of tab.items"
+                     [ngClass]="{'active':item===tab.select, 'disabled':canActivateTab(item)}"
+                     (click)="selectTab(item)"
+                >{{item}}
+                </div>
             </div>
-          <div></div>
+            <div></div>
             <div class="add_ext_header_button_wrap">
                 <pbx-button value="Cancel" buttonType="cancel" (onClick)="doCancel()"></pbx-button>
-                <pbx-button value="Save" buttonType="success" (onClick)="doSave()"></pbx-button>
+                <pbx-button value="Save" buttonType="success" [loading]="saving" (onClick)="doSave()"></pbx-button>
             </div>
         </div>
         <div class="add_ext_body">
             <pbx-loader *ngIf="loading"></pbx-loader>
             <div class="add_ext_body_contain" *ngIf="!loading">
                 <general-add-extension-component
-                  *ngIf="tab.select===tab.items[0]" class="add_ext_item"
-                  [(form)]="formExtension"
-                  [id]="id">
+                        *ngIf="tab.select===tab.items[0]" class="add_ext_item"
+                        [(form)]="formExtension"
+                        [id]="id">
                 </general-add-extension-component>
                 <options-add-extension-component
                         *ngIf="tab.select===tab.items[1]" class="add_ext_item"
                         [(form)]="formExtension">
                 </options-add-extension-component>
                 <rights-add-extension-component
-                  *ngIf="tab.select===tab.items[2]" class="add_ext_item"
-                  [(accessList)]="accessList">
+                        *ngIf="tab.select===tab.items[2]" class="add_ext_item"
+                        [(accessList)]="accessList">
                 </rights-add-extension-component>
             </div>
         </div>
     </div>
-    <pbx-sidebar>sidebar is not ready
+    <pbx-form [tabs]="tab.items"
+              [icons]="tab.icons"
+              [decline]="{value: 'Cancel', buttonType: 'cancel'}"
+              [confirm]="{value: 'Save', buttonType: 'success'}"
+              (onDecline)="doCancel()"
+              (onConfirm)="doSave()"
+              (onSelect)="selectTab($event)">
+        <general-add-extension-component
+            *ngIf="tab.select==='General'" class="add_ext_item"
+            [(form)]="formExtension"
+            [id]="id">
+        </general-add-extension-component>
+        <options-add-extension-component
+            *ngIf="tab.select==='Options'" class="add_ext_item"
+            [(form)]="formExtension">
+        </options-add-extension-component>
+        <rights-add-extension-component
+            *ngIf="tab.select==='Rights'" class="add_ext_item"
+            [(accessList)]="accessList">
+        </rights-add-extension-component>
+    </pbx-form>
+    <pbx-sidebar *ngIf="false">sidebar is not ready
     </pbx-sidebar>
 </div>

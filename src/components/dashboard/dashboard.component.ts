@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 
 import {DashboardModel} from '../../models/dashboard.model';
 import {DashboardServices} from "../../services/dashboard.services";
-import {DBHistoryServices} from '../../services/db.history.services';
 
 import {Subscription} from "rxjs/Subscription";
 import {WsServices} from "../../services/ws.services";
@@ -13,13 +12,11 @@ import {WsServices} from "../../services/ws.services";
     styleUrls: ['./local.sass'],
     providers: [
         DashboardServices,
-        DBHistoryServices
     ]
 })
 
 export class DashboardComponent {
     constructor(private _dashboard: DashboardServices,
-                private _history: DBHistoryServices,
                 private _ws: WsServices) {
         this.initDashboard();
     }

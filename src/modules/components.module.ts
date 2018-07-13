@@ -30,9 +30,9 @@ import {DetailsAndRecordsComponent, TimePipe} from '../components/details-and-re
 import {InvoicesComponent} from '../components/invoices/invoices.component';
 import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
 import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
-import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
-import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
-import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
+import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/general/call-queues-general.component';
+import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/members/call-queues-members.component';
+import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/members/add/call-queues-members-add.component';
 import {ProfileComponent} from '../components/settings/settings-items/profile/profile.component';
 import {AuthenticationComponent} from '../components/settings/settings-items/authentication/authentication.component';
 import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
@@ -54,10 +54,16 @@ import {CallRulesTimeRulesComponent} from '../components/call-rules/call-rules-c
 import {RightsAddExtensionComponent} from '../components/extensions/add/rights/rights.add.extension.component';
 import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
 import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
-import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/tabs/general/ring-groups-general.component';
-import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/tabs/members/ring-groups-members.component';
-import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/tabs/members/add/ring-groups-members-add.component';
+import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/general/ring-groups-general.component';
+import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/members/ring-groups-members.component';
+import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/members/add/ring-groups-members-add.component';
+import {ChatComponent} from '../components/chat/chat.component';
 
+import {PartnerProgramComponent} from '../components/partner-program/partner-program.component';
+import {OverviewPartnerProgramComponent} from '../components/partner-program/overview/overview.partner-program.component';
+import {LinksPartnerProgramComponent} from '../components/partner-program/links/links.partner-program.component';
+import {ReportsPartnerProgramComponent} from '../components/partner-program/reports/reports.partner-program.component';
+import {TermsPartnerProgramComponent} from '../components/partner-program/terms/terms.partner-program.component';
 
 /*
   Components declarations and exports
@@ -124,9 +130,14 @@ import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-grou
     RingGroupsCreateComponent,
     RingGroupsGeneralComponent,
     RingGroupsMembersComponent,
-    RingGroupsMembersAddComponent,
+    RingGroupsMembersAddComponent
+    ChatComponent,
+    PartnerProgramComponent,
+    OverviewPartnerProgramComponent,
+    LinksPartnerProgramComponent,
+    ReportsPartnerProgramComponent,
+    TermsPartnerProgramComponent,
     TimePipe
-
   ],
   exports: [
     ElementsModule,

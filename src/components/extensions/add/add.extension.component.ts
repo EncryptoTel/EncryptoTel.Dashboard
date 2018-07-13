@@ -1,25 +1,27 @@
 import {Component, OnInit /*, ViewChildren*/} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {emailRegExp} from '../../../shared/vars';
-import {ExtensionsServices} from '../../../services/extensions.services';
+import {ExtensionService} from '../../../services/extension.service';
 import {PhoneNumbersServices} from '../../../services/phone-numbers.services';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ExtensionModel} from "../../../models/extension.model";
+import {ExtensionItem} from "../../../models/extension.model";
 
 @Component({
     selector: 'add-extension-component',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    providers: [ExtensionsServices, PhoneNumbersServices]
+    providers: [ExtensionService, PhoneNumbersServices]
 })
 
 export class AddExtensionsComponent implements OnInit {
-    loading: number;
+    loading: number = 0;
+    saving: number = 0;
     mode = 'create';
     id: number;
 
     tab = {
-        items: ['General', 'Options', 'Rights'],
+        items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
+        icons: ['general_16px', 'voicemail_16px', 'forwarding_rules_16px_1', 'settings_16px', 'key_16px_3', 'security_16px'],
         select: 'General'
     };
     formExtension: FormGroup;
@@ -28,7 +30,7 @@ export class AddExtensionsComponent implements OnInit {
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
-                private _extension: ExtensionsServices) {
+                private _extension: ExtensionService) {
         this.id = activatedRoute.snapshot.params.id;
         this.id ? this.mode = 'edit' : this.mode = 'create';
 
@@ -126,7 +128,7 @@ export class AddExtensionsComponent implements OnInit {
         this.validate(this.formExtension);
         // console.log(this.formExtension.valid);
         if (this.formExtension.valid) {
-            this.loading += 1;
+            this.saving += 1;
 
             if (this.mode === 'create') {
                 this._extension.create({...this.formExtension.value}).then(extension => {
@@ -149,14 +151,15 @@ export class AddExtensionsComponent implements OnInit {
         const errors = res.errors;
         if (errors) {
             Object.keys(errors).forEach(key => {
+                // console.log('errorSaveExtension' , key, errors[key]);
                 this.formExtension.get(key).setErrors(errors[key]);
             });
         }
-        this.loading -= 1;
+        this.saving -= 1;
     }
 
-    afterSaveExtension(extension: ExtensionModel) {
-        this.loading -= 1;
+    afterSaveExtension(extension: ExtensionItem) {
+        this.saving -= 1;
         if (!extension.user) {
             this.doCancel();
             return;
@@ -169,13 +172,13 @@ export class AddExtensionsComponent implements OnInit {
             }
         }
 
-        this.loading += 1;
+        // this.loading += 1;
         this._extension.saveAccessList(extension.user.id, rights).then(res => {
             // console.log(res);
-            this.loading -= 1;
+            this.saving -= 1;
             this.doCancel();
         }).catch(res => {
-            this.loading -= 1;
+            this.saving -= 1;
             // console.log(res);
         });
     }

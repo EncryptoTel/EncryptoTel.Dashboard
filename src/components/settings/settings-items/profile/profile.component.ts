@@ -36,6 +36,7 @@ export class ProfileComponent implements OnInit {
   initialEmail: string;
 
   numberRegExp: RegExp = new RegExp(/^\d+$/);
+  phoneRegExp: RegExp = new RegExp(/^([\+]|[1-9]{1}|\+[1-9]{1})?[(]{0,1}[0-9]{1,3}[)]{0,1}[0-9]*$/g);
 
   constructor(private _services: SettingsServices,
               private router: Router) {}
@@ -73,6 +74,9 @@ export class ProfileComponent implements OnInit {
       ]),
       'patronymic': new FormControl('', [
         Validators.pattern(nameRegExp)
+      ]),
+      'phone': new FormControl('', [
+        Validators.pattern(this.phoneRegExp)
       ])
     });
     this.emailChange = new FormGroup({

@@ -1,0 +1,26 @@
+<div class="link_wrap" [@Fade]>
+    <div class="link_header">
+        <span>Generate Link</span>
+        <pbx-button buttonType="accent" value="Create Link" (onClick)="clickCreateLink()"></pbx-button>
+    </div>
+
+    <pbx-table [tableInfo]="table.title"
+               [tableItems]="items"
+               (onSelect)="select($event)"
+               (onEdit)="edit($event)"
+               (onDelete)="delete($event)"
+               [multiple]="false"
+               [editable]="true"
+               [@Fade]></pbx-table>
+</div>
+
+<pbx-modal *ngIf="selected" [modalEx]="modalCreate" (onConfirmEx)="doCreateLink()" (onDecline)="doCancelEdit()">
+    <div class="">
+        <label for="name">Name</label>
+        <input id="name"
+               [(ngModel)]="selected.name"
+               autofocus>
+    </div>
+</pbx-modal>
+
+<pbx-modal [modalEx]="modalDelete" (onConfirmEx)="doDeleteLink()"></pbx-modal>

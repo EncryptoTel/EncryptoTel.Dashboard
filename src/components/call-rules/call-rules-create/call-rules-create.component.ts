@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {FadeAnimation} from '../../../shared/fade-animation';
-import {CallRulesServices} from '../../../services/call-rules.services';
-import {Action, SipInner, SipOuter} from '../../../models/call-rules.model';
+import {CallRulesService} from '../../../services/call-rules.service';
+import {Action, SipInner, SipItem} from '../../../models/call-rules.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RefsServices} from "../../../services/refs.services";
 
@@ -15,23 +15,26 @@ import {RefsServices} from "../../../services/refs.services";
 })
 
 export class CallRulesCreateComponent implements OnInit {
+
+    saving: number = 0;
     actionsList: Action[];
     callRulesForm: FormGroup;
     files = [];
-    numbers: SipOuter[];
+    numbers: SipItem[];
     mode = 'create';
     ruleActions;
     selectedActions: Action[] = [];
     selectedFiles = [];
-    selectedNumber: SipOuter;
+    selectedNumber: SipItem;
     selectedSipInners: SipInner[] = [];
     selectedQueues = [];
     sipInners: SipInner[] = [];
     queues = [];
-    loading: number;
+    loading: number = 0;
+    loadingStuff: number = 0;
     timeRulePattern = /(\*|[0-9]*:[0-9]*-[0-9]*:[0-9]*)\|(\*|(sun|mon|tue|wed|thu|fri|sat)(&(sun|mon|tue|wed|thu|fri|sat))*)\|(\*|[0-9]*)\|(\*|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(&(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))*)/;
 
-    constructor(private service: CallRulesServices,
+    constructor(private service: CallRulesService,
                 private fb: FormBuilder,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
@@ -52,23 +55,27 @@ export class CallRulesCreateComponent implements OnInit {
     save(): void {
         this.validate();
         if (this.callRulesForm.valid) {
+            this.saving++;
             if (this.mode === 'create') {
                 this.service.save({...this.callRulesForm.value}).then(() => {
+                    this.saving--;
                     this.router.navigate(['cabinet', 'call-rules']);
                 }).catch(err => {
-                    console.error(err);
+                    this.saving--;
                 });
             } else if (this.mode === 'edit') {
                 this.service.edit(this.activatedRoute.snapshot.params.id, {...this.callRulesForm.value}).then(() => {
+                    this.saving--;
                     this.router.navigate(['cabinet', 'call-rules']);
                 }).catch(err => {
-                    console.error(err);
+                    this.saving--;
                 });
             }
         }
     }
 
     selectAction(action: Action, i: number = 0): void {
+        // console.log('selectAction', action, i);
         this.selectedActions[i] = action;
         switch (action.id) {
             case 1:
@@ -96,9 +103,8 @@ export class CallRulesCreateComponent implements OnInit {
         this.actionsControls.get([`${i}`, `parameter`]).setValue(file.id);
     }
 
-    selectNumber(number: SipOuter): void {
+    selectNumber(number: SipItem): void {
         this.selectedNumber = number;
-        this.callRulesForm.get('sipId').setValue(number.id);
         this.getExtensions(number.id);
     }
 
@@ -122,6 +128,7 @@ export class CallRulesCreateComponent implements OnInit {
 
     private buildForm(): void {
         this.callRulesForm = this.fb.group({
+            enabled: [null, []],
             name: [null, [Validators.required, Validators.maxLength(150), Validators.pattern('[A-Za-z0-9_-]*')]],
             description: [null, [Validators.maxLength(255)]],
             sipId: [null, [Validators.required]],
@@ -141,6 +148,7 @@ export class CallRulesCreateComponent implements OnInit {
             action: 2,
             parameter: [null, [Validators.maxLength(12), Validators.pattern('[0-9]*'), Validators.required]],
             timeout: [30, [Validators.min(5), Validators.max(300)]],
+            timeRules: ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
         });
     }
 
@@ -158,6 +166,7 @@ export class CallRulesCreateComponent implements OnInit {
             action: 3,
             parameter: [null, [Validators.required]],
             timeout: [30, [Validators.min(5), Validators.max(300)]],
+            timeRules: ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
         });
     }
 
@@ -247,13 +256,13 @@ export class CallRulesCreateComponent implements OnInit {
     }
 
     private getExtensions(id: number): void {
-        this.loading += 1;
+        this.loadingStuff += 1;
         this.service.getExtensions(id).then(res => {
-            this.loading -= 1;
+            this.loadingStuff -= 1;
             this.sipInners = res.items;
             this.formatForEdit(this.ruleActions);
         }).catch(err => {
-            this.loading -= 1;
+            this.loadingStuff -= 1;
             console.error(err);
         });
     }
@@ -326,7 +335,6 @@ export class CallRulesCreateComponent implements OnInit {
     }
 
     public getTimeout(index: number): number {
-        // console.log('get', this.actionsControls.get([index, 'timeout']).value);
         return this.actionsControls.get([index, 'timeout']).value;
     }
 
@@ -340,10 +348,10 @@ export class CallRulesCreateComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loading = 1;
+        this.loading++;
         this.buildForm();
         this.getNumbers();
         this.getParams();
-        this.loading -= 1;
+        this.loading--;
     }
 }

@@ -3,10 +3,13 @@ import {RequestServices} from './request.services';
 import {CallDetailItem, CallDetailModel, DashboardModel} from "../models/dashboard.model";
 import {plainToClass} from 'class-transformer';
 import {dateComparison} from '../shared/shared.functions';
+import {WsServices} from "./ws.services";
 
 @Injectable()
 export class DashboardServices {
-    constructor(private _req: RequestServices) {
+
+    constructor(private req: RequestServices,
+                private ws: WsServices) {
     }
 
     dashboard: DashboardModel;
@@ -16,8 +19,9 @@ export class DashboardServices {
     // }
 
     getDashboard(): Promise<DashboardModel> {
-        return this._req.get('v1/dashboard', true).then(res => {
+        return this.req.get('v1/dashboard').then(res => {
             this.dashboard = res;
+            this.ws.balance.balance = res.balance.value;
             const list = plainToClass(CallDetailItem, res['callDetail']);
             const dates: string[] = [];
             list.forEach(item => {
@@ -25,7 +29,9 @@ export class DashboardServices {
                 const dateObj = [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('.');
                 if (dates.indexOf(dateObj) === -1) {
                     dates.push(dateObj);
-                } else { return; }
+                } else {
+                    return;
+                }
             });
             this.dashboard.callDetail = [];
             dates.forEach(date => {

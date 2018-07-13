@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PhoneNumbersServices} from '../../../services/phone-numbers.services';
-import {calculateHeight} from '../../../shared/shared.functions';
-import {templateJitUrl} from '@angular/compiler';
+// import {calculateHeight} from '../../../shared/shared.functions';
+// import {templateJitUrl} from '@angular/compiler';
 import {CountryModel} from '../../../models/country.model';
 import {RefsServices} from '../../../services/refs.services';
 
@@ -49,6 +49,8 @@ export class BuyPhoneNumbersComponent implements OnInit {
     selectedCountry: CountryModel;
 
     matches = [{id: 0, title: 'Any part of number'}];
+
+    title = ['Number', 'Location', 'Monthly', 'Buy'];
 
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;

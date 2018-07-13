@@ -13,6 +13,6 @@
     <pbx-checkbox (id)="'right_' + item.id"
                   (onToggle)="item.userStatus = !item.userStatus"
                   [value]="item.userStatus"></pbx-checkbox>
-    <label (for)="'right_' + item.id">{{item.name}}</label>
+    <label (for)="'right_' + item.id" (click)="item.userStatus = !item.userStatus">{{item.name}}</label>
   </div>
 </form>

@@ -5,7 +5,7 @@ import {DepartmentServices} from '../../services/department.services';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {DepartmentModel, Sip} from '../../models/department.model';
 import {validateForm} from '../../shared/shared.functions';
-import {RefsServices} from "../../services/refs.services";
+import {RefsServices} from '../../services/refs.services';
 
 
 @Component({
@@ -29,10 +29,20 @@ export class DepartmentsComponent implements OnInit {
     departmentForm: FormGroup;
     loading = true;
     currentDepartment: DepartmentModel;
+    modal = {
+      visible: false,
+      confirm: {type: 'error', value: 'Delete'},
+      decline: {type: 'cancel', value: 'Cancel'}
+    };
 
     constructor(private _service: DepartmentServices,
                 private fb: FormBuilder,
                 private refs: RefsServices) {
+    }
+
+    showModal(department: DepartmentModel) {
+        this.currentDepartment = department;
+        this.modal.visible = true;
     }
 
     addPhone(): void {
@@ -61,6 +71,7 @@ export class DepartmentsComponent implements OnInit {
     }
 
     close(): void {
+        this.currentDepartment = null;
         this.sidebarVisible = false;
     }
 
@@ -157,10 +168,10 @@ export class DepartmentsComponent implements OnInit {
     }
 
     selectDepartment(department: DepartmentModel): void {
-        this.sidebarEdit = false;
-        this.sidebarVisible = true;
-        this.mode = 'edit';
-        this.currentDepartment = department;
+        if (this.sidebarVisible = this.currentDepartment !== department) {
+            this.sidebarEdit = false;
+            this.mode = 'edit'; }
+      this.currentDepartment = this.sidebarVisible ? department : null;
     }
 
     private createPhoneField(): FormControl {

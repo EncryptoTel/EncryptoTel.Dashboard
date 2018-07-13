@@ -37,6 +37,17 @@
               </div>
             </div>
           </div>
+
+          <div class="settings_input_item string">
+            <div class="settings_input_title" [ngClass]="{'error': inputValidation(generalForm, 'phone')}">Phone</div>
+            <div class="input_wrap">
+              <input name="Phone" id="phone" placeholder="Phone" formControlName="phone">
+              <div class="input_error" *ngIf="inputValidation(generalForm, 'phone')" [@Fade]>
+                <span class="input_error_item" *ngIf="inputValidation(generalForm, 'phone', 'pattern')">Please enter correct phone number</span>
+              </div>
+            </div>
+          </div>
+
         </div>
         <div class="settings_form_section" [formGroup]="emailChange">
           <div class="settings_form_title">Change E-mail</div>

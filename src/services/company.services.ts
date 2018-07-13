@@ -6,13 +6,13 @@ export class CompanyServices {
   constructor(private _req: RequestServices) {}
 
   getCountries(): Promise<any> {
-    return this._req.get(`v1/countries`, true);
+    return this._req.get(`v1/countries`);
   }
 
   save(formData): Promise<any> {
-    return this._req.post(`v1/company`, formData, true);
+    return this._req.post(`v1/company`, formData);
   }
   getCompany(): Promise<any> {
-    return this._req.get(`v1/company`, true);
+    return this._req.get(`v1/company`);
   }
 }

@@ -1,0 +1,28 @@
+<div class="partner_program">
+    <pbx-form [tabs]="tab.items"
+              [icons]="tab.icons"
+              [decline]="{value: 'Withdraw Funds', buttonType: 'accent'}"
+              [confirm]="{value: 'Transfer to Account', buttonType: 'success'}"
+              (onDecline)="clickWithdrawFunds()"
+              (onConfirm)="clickTransferToAccount()"
+              (onSelect)="selectTab($event)">
+        <pbx-loader *ngIf="loading"></pbx-loader>
+        <!--<overview-partner-program-component-->
+                <!--*ngIf="tab.select==='Overview'" class="partner_program_item"-->
+                <!--[(form)]="form">-->
+        <!--</overview-partner-program-component>-->
+        <links-partner-program-component
+                *ngIf="!loading && tab.select==='Links'" class="partner_program_item"
+                (onReload)="getItems($event)"
+                [(items)]="pageInfo.items">
+        </links-partner-program-component>
+        <!--<reports-partner-program-component-->
+                <!--*ngIf="tab.select==='Reports'" class="partner_program_item"-->
+                <!--[(form)]="form">-->
+        <!--</reports-partner-program-component>-->
+        <!--<terms-partner-program-component-->
+                <!--*ngIf="tab.select==='Terms and Conditions'" class="partner_program_item"-->
+                <!--[(form)]="form">-->
+        <!--</terms-partner-program-component>-->
+    </pbx-form>
+</div>

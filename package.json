@@ -26,6 +26,7 @@
     "howler": "^2.0.13",
     "libphonenumber-js": "^1.2.12",
     "ng-socket-io": "^0.2.4",
+    "ngx-clipboard": "^11.1.1",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
@@ -34,7 +35,7 @@
     "@angular/cli": "^1.6.0",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",
-    "@types/node": "~6.0.60",
+    "@types/node": "^6.0.113",
     "codelyzer": "~3.2.0",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",

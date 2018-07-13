@@ -2,25 +2,100 @@
 // Global variables import
 
 .departments
+  flex: 1
   display: flex
-  flex-flow: column
-  flex: 1 1 auto
+  flex-direction: column
+  color: $font-color
+  pbx-button
+    color: $dark_primary
+    width: unset
+  pbx-pagination
+    margin-top: rem(24)
   &_header
-    display: flex
-    flex-flow: row
     justify-content: flex-end
-    pbx-button
-      width: unset
-
+    margin-bottom: rem(24)
+  &_table
+    flex: 1
+    display: grid
+    grid-template-rows: auto 1fr
+    &_body
+      display: block
+      flex-direction: column
+      overflow-y: auto
+      flex: 1
+    &_header, &_row
+      flex-direction: row
+      height: rem(40)
+      align-items: center
+      border-bottom: rem(1) solid rgba($dark_primary,.1)
+    &_row
+      color: $dark_primary
+      &:hover
+        background: rgba($dark_primary,.05)
+        .departments_table_icon
+          opacity: 0.33
+          &:hover
+            opacity: 1
+    &_item
+      flex: 2
+      padding: rem(12) rem(16)
+      display: block
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+      cursor: pointer
+      &:nth-child(2)
+        flex: 1
+    &_icon
+      height: rem(16)
+      width: rem(16)
+      padding: rem(2)
+      cursor: pointer
+      opacity: 0
+      /deep/ *
+        cursor: pointer
+      svg-icon
+        flex: 1
+      &.edit
+        /deep/ rect,
+        /deep/ path
+          fill: $dark_success
+      &.delete
+        /deep/ polygon
+          fill: $dark_error
+      &_wrap
+        width: rem(64)
+        justify-content: space-evenly
+  &_empty
+    margin-top: rem(-16)
+    display: grid
+    grid-template-columns: 1fr auto 1fr
+    align-items: end
+    grid-gap: rem(16)
+    padding: 0 rem(128)
+    &_text
+      grid-column: 2/3
+      text-align: center
+      font-size: rem(32)
+    &_icon
+      max-height: 60vh
+      display: block
+      svg-icon
+        height: 100%
+        width: 100%
 .sidebar
-  &_form, &_info
-    display: flex
+  &_info, &_form
+    display: block
     flex-flow: column
-    flex: 1 0 auto
+    flex: 1
+    overflow-y: auto
+    margin-right: rem(-24)
+    padding-right: rem(24)
   &_row
     display: flex
     flex-flow: column
-    margin-bottom: 35px
+    &:not(:last-child)
+      margin-bottom: rem(32)
     label
       margin-bottom: 10px
       color: $font-color
@@ -41,6 +116,10 @@
         border: 1px solid $dark_accent
         outline: unset
     p
+      display: block
+      overflow-x: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
       font-size: rem(17)
       line-height: 22px
     span
@@ -60,13 +139,14 @@
         margin: 0 10px
         cursor: pointer
   &_controls
-    display: flex
-    flex-flow: row
-    justify-content: space-between
-    align-items: flex-end
-    flex: 1 0 auto
+    margin-top: rem(24)
+    display: grid
+    grid-gap: rem(24)
+    grid-template-columns: 1fr 1fr
     pbx-button
       width: unset
+      /deep/ button
+        flex: 1
 
 input:not([type='submit'])
   &.ng-valid:focus
@@ -89,7 +169,7 @@ input:not([type='submit'])
   margin-bottom: 0
 
 pbx-sidebar
-  /deep/
-    .sidebar
-      flex: 1 0 auto
-      overflow-y: auto
+  /deep/ .sidebar
+    flex: 1 0 auto
+    overflow-y: auto
+    overflow-x: hidden

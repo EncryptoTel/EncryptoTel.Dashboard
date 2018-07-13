@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ExtensionsServices} from '../../services/extensions.services';
+import {ExtensionService} from '../../services/extension.service';
 import {MainViewComponent} from '../main-view.component';
-import {ExtensionModel} from "../../models/extension.model";
+import {ExtensionItem, ExtensionModel, SipDepartmentItem} from "../../models/extension.model";
 import {Router} from "@angular/router";
 import {MessageServices} from "../../services/message.services";
 
@@ -9,18 +9,15 @@ import {MessageServices} from "../../services/message.services";
     selector: 'extensions-component',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    providers: [ExtensionsServices]
+    providers: [ExtensionService]
 })
 
 export class ExtensionsComponent implements OnInit {
 
-    extensions: ExtensionModel[];
-    departments = {
-        option: [{
-            id: null, title: 'All'
-        }],
-        selected: null
-    };
+    pageInfo: ExtensionModel = new ExtensionModel();
+    searchStr;
+    departmentSelected: SipDepartmentItem;
+
     loading: {
         body: number,
         pagination: boolean,
@@ -28,21 +25,13 @@ export class ExtensionsComponent implements OnInit {
         admin: boolean,
         user: boolean
     };
-    pageinfo: {
-        page: number,
-        limit: number,
-        search: string,
-        total: number,
-        items: number
-    };
-    sidebar: ExtensionModel;
-    selected: ExtensionModel;
+    sidebar: ExtensionItem;
+    selected: ExtensionItem;
     passwordTo: number;
     table = {
-        title: ['#Ext', 'Phone Number', 'First Name', 'Last Name', 'E-mail', 'Mobile', 'Status', 'Default', ''],
-        key: ['extension', 'phone', 'firstname', 'lastname', 'email', 'mobileApp', 'status', 'default'],
-        width: [true, false, false, false, false, false, true, true, true],
-        data: []
+        title: ['#Ext', 'Phone Number', 'First Name', 'Last Name', 'E-mail', 'Status', 'Default', ''],
+        key: ['extension', 'phone', 'userFirstName', 'userLastName', 'userEmail', 'status', 'default'],
+        width: [true, false, false, false, false, true, true, true],
     };
     text = MainViewComponent.prototype;
     modal = {
@@ -54,7 +43,7 @@ export class ExtensionsComponent implements OnInit {
     };
     timer;
 
-    constructor(private _extensions: ExtensionsServices,
+    constructor(private service: ExtensionService,
                 private router: Router,
                 private _messages: MessageServices) {
 
@@ -76,30 +65,7 @@ export class ExtensionsComponent implements OnInit {
         this.sidebar = null;
     }
 
-    fillTableData(): void {
-        this.table.data = [];
-        for (let i = 0; i < this.pageinfo.limit && i < this.extensions.length; i++) {
-            this.table.data.push({
-                id: this.extensions[i].id,
-                extension: this.extensions[i].phoneNumber,
-                phone: this.extensions[i].sipOuter.phoneNumber,
-                firstname: this.extensions[i].user ? this.extensions[i].user.firstname : null,
-                // firstname: this.extensions[i].userFirstName,
-                lastname: this.extensions[i].user ? this.extensions[i].user.lastname : null,
-                email: this.extensions[i].user ? this.extensions[i].user.email : null,
-                mobileApp: this.extensions[i].mobileApp,
-                status: this.extensions[i].statusName,
-                default: this.extensions[i].default
-            });
-        }
-    }
-
-    changePage(page: number): void {
-        this.pageinfo.page = page;
-        this.getExtensions();
-    }
-
-    viewExt(item: ExtensionModel) {
+    viewExt(item: ExtensionItem) {
         if (!this.selected) {
             // console.log('viewExt');
             this.sidebar = this.sidebar ? (this.sidebar.id === item.id ? null : item) : item;
@@ -110,29 +76,29 @@ export class ExtensionsComponent implements OnInit {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
             // console.log('timer');
-            this.getExtensions();
+            this.getList();
             clearTimeout(this.timer);
         }, 500);
 
     }
 
     departmentChanged(item) {
-        this.departments.selected = item;
-        this.getExtensions();
+        this.departmentSelected = item;
+        this.getList();
     }
 
-    sendPasswordToAdmin(item: ExtensionModel): void {
+    sendPasswordToAdmin(item: ExtensionItem): void {
         // console.log('send to admin!');
         this.selected = item;
         this.passwordTo = 1;
-        this.showModal('Reset password', 'Do you want to reset password and send new password to admin?', 'Reset');
+        this.showModal('Reset password', 'Do you want to reset your password and send the new password to admin?', 'Reset');
     }
 
-    sendPasswordToUser(item: ExtensionModel): void {
+    sendPasswordToUser(item: ExtensionItem): void {
         // console.log('send to user!');
         this.selected = item;
         this.passwordTo = 2;
-        this.showModal('Reset password', 'Do you want to reset password and send new password to user?', 'Reset');
+        this.showModal('Reset password', 'Do you want to reset your password and send the new password to user?', 'Reset');
     }
 
     confirmModal(): void {
@@ -140,33 +106,33 @@ export class ExtensionsComponent implements OnInit {
             // console.log(this.selected);
             this.loading.admin = this.passwordTo === 1;
             this.loading.user = this.passwordTo === 2;
-            this._extensions.changePassword(this.selected.id, {mobileApp: this.selected.mobileApp, toAdmin: this.passwordTo === 1, toUser: this.passwordTo === 2}).then(res => {
+            this.service.changePassword(this.selected.id, {mobileApp: this.selected.mobileApp, toAdmin: this.passwordTo === 1, toUser: this.passwordTo === 2}).then(res => {
                 this._messages.writeSuccess(res.message);
                 this.loading.admin = false;
                 this.loading.user = false;
                 // console.log(res);
             });
         } else {
-            this._extensions.deleteExtension(this.selected.id).then(res => {
-                this.getExtensions();
+            this.service.deleteExtension(this.selected.id).then(res => {
+                this.getList();
             });
         }
         this.cancelModal();
     }
 
     cancelModal() {
-        console.log('CancelModal');
+        // console.log('CancelModal');
         this.selected = null;
         this.passwordTo = 0;
     }
 
-    clickDeleteIcon(item: ExtensionModel) {
+    clickDeleteIcon(item: ExtensionItem) {
         // console.log('clickDeleteIcon');
         this.selected = item;
         this.showModal('Delete extension', 'Do you want to delete this extension?', 'Delete');
     }
 
-    clickEditIcon(item: ExtensionModel) {
+    clickEditIcon(item: ExtensionItem) {
         this.router.navigate(['cabinet', 'extensions', `${item.id}`]);
     }
 
@@ -178,31 +144,34 @@ export class ExtensionsComponent implements OnInit {
         this.modal.visible = true;
     }
 
-    getExtensions() {
+    getDepartmentId() {
+        return this.departmentSelected ? this.departmentSelected.id : null;
+    }
+
+    getList() {
         this.loading.body += 1;
-        this._extensions.getExtensions(this.pageinfo.page, this.pageinfo.limit, this.pageinfo.search, this.departments.selected).then(res => {
-            this.extensions = res['items'];
-            res['departmentFilter'].map(item => {
-                this.departments.option.push({id: item.id, title: `${item.name} (${item.sipCount})`});
-            });
-            this.pageinfo.page = res['page'];
-            this.pageinfo.total = res['pageCount'];
-            this.pageinfo.items = res['itemsCount'];
-            this.fillTableData();
+        this.service.getExtensions(this.pageInfo, {
+            search: this.searchStr,
+            department: this.getDepartmentId(),
+            departmentFilter: true
+        }).then((res: ExtensionModel) => {
+            this.pageInfo = res;
+            // console.log(this.pageInfo);
+            // res['departmentFilter'].map(item => {
+            //     this.departments.option.push({id: item.id, title: `${item.name} (${item.sipCount})`});
+            // });
+            // this.fillTableData();
+            if (!this.departmentSelected) this.departmentSelected = this.pageInfo.departmentFilter[0];
+
             this.loading.body -= 1;
+            this.loading.pagination = false;
         });
     }
 
     ngOnInit(): void {
         this.loading = {body: 0, pagination: true, sidebar: true, admin: false, user: false};
         this.sidebar = null;
-        this.departments.selected = this.departments.option[0];
-        this.pageinfo = {
-            page: 1, search: '', total: 1,
-            limit: 10, //(window.innerHeight - 296 - (window.innerHeight - 296) % 40) / 40,
-            items: 0
-        };
-        this.getExtensions();
+        this.getList();
     }
 
 }

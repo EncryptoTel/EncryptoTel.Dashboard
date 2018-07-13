@@ -1,12 +1,16 @@
-<script src="../../../../../Old/EncryptoUI/src/components/refill/refill.component.ts"></script>
+<!--<script src="../../../../../Old/EncryptoUI/src/components/refill/refill.component.ts"></script>-->
 <pbx-loader *ngIf="loading.body&&loading.sidebar"></pbx-loader>
 <div class="refill_grid" *ngIf="!(loading.body&&loading.sidebar)">
     <div class="refill_header" *ngIf="refill_status!=='processing'">
         <div class="refill_header_block">
             <div class="refill_header_block_key">Payment amount:</div>
-            <input class="refill_header_block_input"
+            <input class="refill_header_block_input {{validInput?'':'error'}}"
+                   #input
                    placeholder="Min ${{amount.min}}, Max ${{amount.max}}"
                    [(ngModel)]="amount.value"
+                   (blur)="validValue(amount.value)"
+                   (keyup)="keyup(input.value)"
+                   autofocus
                    [ngClass]="{'inactive':refill_status==='paying'}">
         </div>
         <div class="refill_header_block" *ngIf="refill_status==='paying' && selected.needReturnAddress">
@@ -32,8 +36,8 @@
             </div>
         </div>
         <div class="refill_paying" *ngIf="refill_status === 'paying'">
-            <div class="refill_paying_title">Payment method: {{selected.title}}</div>
-            <div class="refill_paying_wrap">
+            <div class="refill_paying_container">
+                <div class="refill_paying_title">Payment method: {{selected.title}}</div>
                 <!--<div class="refill_sidebar_item">-->
                 <!--<div class="refill_sidebar_item_title">Invoice number</div>-->
                 <!--<div class="refill_sidebar_item_value">{{invoice_number}}</div>-->
@@ -54,17 +58,10 @@
                 </div>
             </div>
         </div>
-        <div class="refill_processing" *ngIf="refill_status === 'processing'">
+
+        <!--<div class="refill_processing" *ngIf="refill_status === 'processing'">
             <div class="refill_processing_title">Invoice pay processing</div>
-            <!--<div class="refill_processing_item">-->
-            <!--<div class="refill_processing_item_key">Invoice number</div>-->
-            <!--<div class="refill_processing_item_value">{{invoice_number}}</div>-->
-            <!--</div>-->
             <div class="refill_processing_item">
-                <!--<div class="refill_processing_item_key"-->
-                <!--*ngIf="findById(picked_currency,rates).code">Payment amount-->
-                <!--{{findById(picked_currency,rates).code.toUpperCase()}}-->
-                <!--</div>-->
                 <div class="refill_processing_item_key">Payment amount
                     {{selected.title}}
                 </div>
@@ -76,6 +73,20 @@
             </div>
             <div class="refill_processing_copy">(click to copy)</div>
             <img class="qr_code_image" [src]="payment.qrCode">
+        </div>-->
+        <div class="refill_processing" *ngIf="refill_status==='processing'">
+            <div class="refill_processing_container">
+                <div class="refill_processing_title">Invoice pay processing</div>
+                <div class="refill_processing_amount">Payment amount {{selected.title}}:<span>{{'     '+payment.amount}}</span></div>
+                <div class="refill_processing_address">
+                    <div>{{selected.title}} payment address:</div>
+                    <div>{{payment.address}}</div>
+                    <div (click)="copyToClipboard()">(click to copy)</div>
+                </div>
+                <div class="refill_processing_qr_code_wrap">
+                    <img [src]="payment.qrCode">
+                </div>
+            </div>
         </div>
     </div>
     <div class="refill_sidebar" *ngIf="!loading.sidebar">
@@ -88,8 +99,7 @@
         </div>
         <div class="refill_sidebar_block" *ngIf="courses">
             <div class="refill_sidebar_title rates">Exchange Rates</div>
-            <div class="refill_sidebar_item"
-                 *ngFor="let item of courses">
+            <div class="refill_sidebar_item" *ngFor="let item of courses">
                 <div class="refill_sidebar_item_code" *ngIf="item.code">{{item.code.toUpperCase()}}</div>
                 <div class="refill_sidebar_item_code" *ngIf="!item.code">{{item.title}}</div>
                 <div class="refill_sidebar_item_title">{{item.title}}</div>

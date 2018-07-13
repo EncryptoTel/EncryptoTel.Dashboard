@@ -11,7 +11,6 @@ import {MainViewComponent} from '../main-view.component';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {ListServices} from '../../services/list.services';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {FormMessageModel} from '../../models/form-message.model';
@@ -29,7 +28,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     constructor (private _user: UserServices,
                 private _messages: MessageServices,
                 private _router: Router,
-                private _list: ListServices,
                 public _main: MainViewComponent,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
@@ -57,10 +55,6 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     @ViewChild('userWrap') userWrap: ElementRef;
 
-    initLists(): Promise<any> {
-        return Promise.all([this._list.fetchCurrenciesList(), this._list.fetchCountriesList()]);
-    }
-
     hideUserNavigation(): void {
         if (this.userNavigationVisible) {
             this.userNavigationVisible = false;
@@ -68,7 +62,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     logout(): void {
-        localStorage.clear();
+        this._storage.clearItem('pbx_user');
         this._messages.writeSuccess('Logout successful');
         this._router.navigate(['../sign-in']);
     }
@@ -123,7 +117,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     WebSocket(): void {
-        this._ws.connect(this.getToken());
+        this._ws.setToken(this.getToken());
         this.balanceSubscription = this._ws.getBalance().subscribe(balance => {
             this.user.balance.balance = balance.balance;
         });
@@ -135,11 +129,9 @@ export class IndexComponent implements OnInit, OnDestroy {
     ngOnInit() {
 
         this.completedRequests = 0;
-        this.initLists().then(() => {
-            this.userInit();
-            // this.balanceInit();
-            this.navigationInit();
-        });
+        this.userInit();
+        // this.balanceInit();
+        this.navigationInit();
         this.WebSocket();
 
         this.message = this._messages.messagesList().subscribe( mes => {

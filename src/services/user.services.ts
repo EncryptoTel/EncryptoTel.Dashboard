@@ -24,7 +24,7 @@ export class UserServices {
     Fetch initial user profile params
    */
   fetchProfileParams(): Promise<UserModel> {
-    return this._req.get('v1/account/info', true).then(res => {
+    return this._req.get('v1/account/info').then(res => {
       // for (const param in res['user']) {
       //   if (res['user'].hasOwnProperty(param)) {
       //     this.changeUserParam(param, res['user'][param]);
@@ -48,7 +48,7 @@ export class UserServices {
   changeUserParam = (param: string, value: any): void => {
     const user = this._storage.readItem('pbx_user');
     user[param] = value;
-    this.logger.log(`User after '${param}' changing to '${value}'`, user);
+    // this.logger.log(`User after '${param}' changing to '${value}'`, user);
     this._storage.writeItem('pbx_user', user);
     this.touchUser();
   }
@@ -56,7 +56,7 @@ export class UserServices {
     Fetch initial navigation params, based on current user tariff plan
    */
   fetchNavigationParams(): Promise<NavigationItemModel[][]> {
-    return this._req.get('v1/nav', true).then(res => {
+    return this._req.get('v1/nav').then(res => {
       return Promise.resolve(res['items']);
     }).catch();
   }

@@ -52,7 +52,7 @@
            *ngIf="activeButtonIndex !== (null || undefined)" [@Swipe]>
         <span *ngIf="activeButtonIndex === 0">call</span>
         <span *ngIf="activeButtonIndex === 1">contacts</span>
-        <span *ngIf="activeButtonIndex === 2">chat</span>
+        <pbx-chat *ngIf="activeButtonIndex === 2"></pbx-chat>
         <span *ngIf="activeButtonIndex === 3">notification</span>
       </div>
     </div>
@@ -62,7 +62,7 @@
       <div *ngFor="let navigationItem of block">
         <a [routerLink]="navigationItem.url"
            routerLinkActive="active"
-           class="navigation_item">
+           [ngClass]="['navigation_item', 'navigation-item-' + navigationItem.url]">
           <svg-icon class="navigation_item_icon"
                     [src]="'../../assets/icons/' + navigationItem.icon + '.svg'"></svg-icon>
           <div class="navigation_item_title">{{navigationItem.name}}</div>

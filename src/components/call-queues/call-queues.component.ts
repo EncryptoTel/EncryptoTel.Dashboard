@@ -1,53 +1,63 @@
-import {Component} from '@angular/core';
-import {QueuesListItem} from '../../models/queue.model';
-import {CallQueuesServices} from '../../services/call-queues.services';
+///<reference path="../../../node_modules/class-transformer/index.d.ts"/>
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FadeAnimation} from '../../shared/fade-animation';
+import {CallQueueService} from '../../services/call-queue.service';
+import {CallQueueItem, CallQueueModel} from '../../models/call-queue.model';
+import {RingGroupItem} from "../../models/ring-group.model";
+import {plainToClass} from "class-transformer";
 
 @Component({
-  selector: 'pbx-call-queues',
-  templateUrl: './template.html',
-  styleUrls: ['./local.sass'],
-  animations: [FadeAnimation('300ms')]
+    selector: 'pbx-call-queues',
+    templateUrl: './template.html',
+    styleUrls: ['./local.sass'],
+    animations: [FadeAnimation('300ms')]
 })
 
-export class CallQueuesComponent {
-  constructor(private _service: CallQueuesServices,
-              private router: Router,
-              private activatedRoute: ActivatedRoute) {
-    this.getQueues();
-  }
+export class CallQueuesComponent implements OnInit {
 
-  loading = true;
-  queues: QueuesListItem[] = [];
+    pageInfo: CallQueueModel = new CallQueueModel();
 
-  tableInfo = {
-    titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time'],
-    keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout']
-  };
+    loading: number = 0;
 
-  edit(queue: QueuesListItem): void {
-    this.router.navigate(['edit', queue.id], {relativeTo: this.activatedRoute});
-  }
+    table = {
+        titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time', 'Description'],
+        keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
+    };
 
-  delete(queue): void {
-    this.loading = true;
-    this._service.delete(queue.id).then(() => {
-      this.getQueues();
-    }).catch(err => {
-      console.error(err);
-    });
-  }
+    constructor(private service: CallQueueService,
+                private router: Router) {
+    }
 
-  private getQueues(): void {
-    this._service.getQueues().then(res => {
-      if (res.hasOwnProperty('items')) {
-        this.queues = res.items;
-        this.loading = false;
-      }
-    }).catch(err => {
-      console.error(err);
-      this.loading = false;
-    });
-  }
+    keys = ['name', 'phone', 'strategy', 'timeout', 'description'];
+
+
+    edit(item: CallQueueItem): void {
+        this.router.navigate(['cabinet', 'call-queues', `${item.id}`]);
+    }
+
+    delete(item: CallQueueItem): void {
+        this.service.beginLoading(item);
+        this.service.deleteById(item.id).then(() => {
+            this.getItems(item);
+            this.service.endLoading(item);
+        }).catch(err => {
+            this.service.endLoading(item);
+        });
+    }
+
+    getItems(item = null): void {
+        this.service.beginLoading(item ? item : this);
+        this.service.getItems(this.pageInfo).then((res: CallQueueModel) => {
+            this.pageInfo = plainToClass(CallQueueModel, res);
+            this.service.endLoading(item ? item : this);
+        }).catch(err => {
+            this.service.endLoading(item ? item : this);
+        });
+    }
+
+    ngOnInit() {
+        this.getItems();
+    }
+
 }
