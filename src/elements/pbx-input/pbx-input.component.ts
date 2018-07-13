@@ -94,7 +94,7 @@ export class InputComponent implements OnInit {
             this.value = $event;
             // this.objectView.id = $event.id;
             // this.objectView[this.displayKey] = $event[this.displayKey];
-            this.key ? this.object.get(this.key).setValue($event.id) : null;
+            this.key ? this.getForm().setValue($event.id) : null;
 
         } else {
             this.object[this.key] = $event.id;
@@ -104,12 +104,18 @@ export class InputComponent implements OnInit {
     }
 
     toggleCheckbox($event) {
-        this.object[this.key] = this.checkboxValues[$event ? 1 : 0];
+        if (this.form) {
+            this.getForm() ? this.getForm().setValue($event) : null;
+        } else {
+            this.object[this.key] = this.checkboxValues[$event ? 1 : 0];
+        }
         this.onToggle.emit($event);
     }
 
     ngOnInit() {
-        if (this.options) {
+        if (this.form && this.checkbox) {
+            this.value = this.getForm() ? this.getForm().value : false;
+        } else if (this.options) {
             this.value = this.objectView ? this.objectView : this.object;
         } else {
             this.value = this.object[this.key];

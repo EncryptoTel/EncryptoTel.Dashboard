@@ -128,6 +128,7 @@ export class CallRulesCreateComponent implements OnInit {
 
     private buildForm(): void {
         this.callRulesForm = this.fb.group({
+            enabled: [null, Validators.required],
             name: [null, [Validators.required, Validators.maxLength(150), Validators.pattern('[A-Za-z0-9_-]*')]],
             description: [null, [Validators.maxLength(255)]],
             sipId: [null, [Validators.required]],
