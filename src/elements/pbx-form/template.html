@@ -14,7 +14,7 @@
       <pbx-button *ngIf="confirm" [buttonType]="confirm.buttonType" [value]="confirm.value" (onClick)="clickConfirm()"></pbx-button>
     </div>
   </div>
-  <div class="form-body" [ngClass]="{'background':!!tabs||background}">
+  <div class="form-body" [ngClass]="{'background':background!==false&&!!tabs}">
     <div class="form-body-content">
       <ng-content></ng-content>
     </div>

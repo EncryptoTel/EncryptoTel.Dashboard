@@ -32,8 +32,8 @@ export class ModalComponent {
 
     hideModal(): void {
         this.onDecline.emit();
-        if (this.modal) this.modal.visible = false;
-        if (this.modalEx) this.modalEx.visible = false;
+        if (this.modal) {this.modal.visible = false; }
+        if (this.modalEx) {this.modalEx.visible = false; }
     }
 
     clickEx(button: ModalButton): void {
@@ -48,8 +48,8 @@ export class ModalComponent {
 }
 
 export class ModalButton {
-    tag: number;
-    type: string;
-    value: string;
-    loading: boolean;
+  tag: number;
+  type: string;
+  value: string;
+  loading: boolean;
 }
