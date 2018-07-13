@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {LoggerServices} from "../../../../services/logger.services";
 
 @Component({
     selector: 'call-rules-time-rules',
@@ -50,6 +51,11 @@ export class CallRulesTimeRulesComponent implements OnInit {
     selectedRuleTime;
     selectedDurationTime;
     selectedDuration;
+    errors = {ruleTime: '', durationTime: ''};
+
+    constructor(private logger: LoggerServices) {
+
+    }
 
     selectRuleTime(rule): void {
         if (!this.ruleTimeAsterisk) {
@@ -128,6 +134,9 @@ export class CallRulesTimeRulesComponent implements OnInit {
             }
             this.ruleTimeAsterisk.time = '*';
         } else if (duration.id === 2) {
+            if (this.ruleTimeAsterisk.time === '*') {
+                this.ruleTimeAsterisk.time = '';
+            }
             this.selectedDuration = [[], []];
             if (!this.ruleTimeAsterisk) {
                 this.ruleTimeAsterisk = {
@@ -151,7 +160,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
     }
 
     private formatAsterRule(): void {
-        let days = '*';
+        let days = this.selectedRuleTime && this.selectedRuleTime.id === 3 ? '' : '*';
         this.ruleTimeAsterisk.days.forEach((day, index) => {
             if (index === 0) {
                 days = day;
@@ -160,7 +169,10 @@ export class CallRulesTimeRulesComponent implements OnInit {
             }
         });
         let rule = `${this.ruleTimeAsterisk.time}|${days}|${this.ruleTimeAsterisk.date}|${this.ruleTimeAsterisk.month}`;
-        // console.log(rule);
+        this.logger.log('formatAsterRule', rule);
+        this.errors.ruleTime = days === '';
+        this.errors.durationTime = this.ruleTimeAsterisk.time === '' ||
+            (this.selectedDuration && (this.selectedDuration[0].timeAster === undefined || this.selectedDuration[1].timeAster === undefined));
         this.onChange.emit(rule);
     }
 

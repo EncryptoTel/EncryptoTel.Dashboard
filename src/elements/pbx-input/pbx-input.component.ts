@@ -49,7 +49,8 @@ export class InputComponent implements OnInit {
         if (!this.errors) {
             return textOnly ? null : this.checkForm();
         }
-        return (this.errors && this.errors[this.getErrorKey()]) || (textOnly ? null : this.checkForm());
+        let error = this.errors && this.errors[this.getErrorKey()];
+        return (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm());
     }
 
     getFormKey() {
@@ -69,6 +70,7 @@ export class InputComponent implements OnInit {
             return null;
         }
         let form = this.getForm();
+        let key = this.getFormKey();
         return form && form.touched && form.invalid;
     }
 
