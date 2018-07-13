@@ -23,6 +23,10 @@ export class BaseService {
         return this.request.get(this.url + path);
     }
 
+    getItemz(path: string, pageInfo: PageInfoModel): Promise<any> {
+        return this.request.get(`${this.url}${path}?page=${pageInfo.page}&limit=${pageInfo.limit}`);
+    }
+
     getById(id: number): Promise<any> {
         return this.request.get(`${this.url}/${id}`);
     }
