@@ -12,8 +12,11 @@ export class AddressBookServices {
     return this.request.post(`v1/blacklist`, data, true);
   }
 
-  getContacts(): Promise<any> {
-    return this.request.get(`v1/contact`, true);
+  getContacts(pageInfo: any): Promise<any> {
+    return this.request.get(`v1/contact?page=${pageInfo.page}&limit=${pageInfo.limit}`, true);
+  }
+  getContact(contactId: number): Promise<any> {
+    return this.request.get(`v1/contact/${contactId}`, true);
   }
 
   getCountries(): Promise<Countries> {
@@ -21,7 +24,7 @@ export class AddressBookServices {
   }
 
   getTypes(): Promise<Types> {
-    return this.request.get(`v1/handbooks/contact/get-types`, true);
+    return this.request.get(`v1/contact/get-types`, true);
   }
 
   saveContact(contact): Promise<any> {
