@@ -73,8 +73,8 @@
                             <ng-template [ngSwitchCase]="1">
 
                                 <pbx-input name="Extension number"
-                                           key="phoneNumber"
-                                           formKey="parameter"
+                                           displayKey="phoneNumber"
+                                           key="parameter"
                                            [form]="true"
                                            (onSelect)="selectSipInner(i, $event)"
                                            [options]="sipInners"
