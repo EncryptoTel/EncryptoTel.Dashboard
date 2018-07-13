@@ -53,7 +53,6 @@ export class RingGroupsComponent implements OnInit {
         });
     }
 
-
     getItems(item = null): void {
         this.service.beginLoading(item ? item : this);
         this.service.getItems(this.pageInfo).then((res: RingGroupModel) => {

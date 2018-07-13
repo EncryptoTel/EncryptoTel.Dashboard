@@ -1,10 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-
+import {Component} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {CallRulesService} from '../../services/call-rules.service';
-import {CallRules, CallRulesItem, CallRulesModel} from '../../models/call-rules.model';
-import {ButtonItem} from "../../elements/pbx-header/pbx-header.component";
+import {CallRulesModel} from '../../models/call-rules.model';
 
 
 @Component({
@@ -14,56 +11,17 @@ import {ButtonItem} from "../../elements/pbx-header/pbx-header.component";
     animations: [FadeAnimation('300ms')]
 })
 
-export class CallRulesComponent implements OnInit {
+export class CallRulesComponent {
 
     table = {
         titles: ['Phone number', 'Call Rule Name', 'Status', 'Description'],
         keys: ['phoneNumber', 'name', 'statusName', 'description']
     };
-    loading: number = 0;
     pageInfo: CallRulesModel = new CallRulesModel();
-    buttons: ButtonItem[] = [
-        {
-            id: 0,
-            title: 'Create Call Rule',
-            type: 'success',
-        }
-    ];
 
-    constructor(private service: CallRulesService,
-                private router: Router) {
+    constructor(private service: CallRulesService) {
+
     }
 
-    create() {
-        this.router.navigate(['cabinet', 'call-rules', 'create']);
-    }
-
-    edit(item: CallRulesItem) {
-        this.router.navigate(['cabinet', 'call-rules', `${item.id}`]);
-    }
-
-    delete(item: CallRulesItem) {
-        item.loading++;
-        this.service.deleteById(item.id).then(() => {
-            this.getItems(item);
-            item.loading--;
-        }).catch(err => {
-            item.loading--;
-        });
-    }
-
-    getItems(item = null) {
-        item ? item.loading++ : this.loading++;
-        this.service.getCallRules(this.pageInfo).then(res => {
-            this.pageInfo = res;
-            item ? item.loading-- : this.loading--;
-        }).catch(err => {
-            item ? item.loading-- : this.loading--;
-        });
-    }
-
-    ngOnInit() {
-        this.getItems();
-    }
 
 }

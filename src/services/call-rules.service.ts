@@ -37,8 +37,8 @@ export class CallRulesService extends BaseService {
 
 
 
-    getCallRules(pageInfo: PageInfoModel, filter = null): Promise<CallRulesModel> {
-        return this.getItems(pageInfo, filter).then((res: CallRulesModel) => {
+    getItems(pageInfo: PageInfoModel, filter = null): Promise<CallRulesModel> {
+        return super.getItems(pageInfo, filter).then((res: CallRulesModel) => {
             let pageInfo = plainToClass(CallRulesModel, res);
             pageInfo.items = [];
             res['items'].map(item => {
