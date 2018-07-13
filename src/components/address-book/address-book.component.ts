@@ -7,7 +7,7 @@ import {emailRegExp, nameRegExp} from '../../shared/vars';
 import {RefsServices} from '../../services/refs.services';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {PageInfoModel} from '../../models/page-info.model';
+import {PageInfoModel} from "../../models/base.model";
 
 @Component({
   selector: 'pbx-address-book',
