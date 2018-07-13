@@ -10,11 +10,13 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 })
 
 export class SelectComponent {
+  @Input() name: string;
   @Input() singleBorder: boolean;
   @Input() options: any[];
   @Input() objectKey: string;
   @Input() selected: object;
   @Input() placeholder: string;
+  @Input() errors: any[];
   @Output() onSelect: EventEmitter<object> = new EventEmitter();
   @Output() onOpen: EventEmitter<object> = new EventEmitter();
   @Output() onClose: EventEmitter<object> = new EventEmitter();

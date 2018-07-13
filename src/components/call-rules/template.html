@@ -1,37 +1,17 @@
 <div class="call_rules">
-  <pbx-loader *ngIf="loading"></pbx-loader>
-  <ng-container *ngIf="!loading">
-    <div class="call_rules_header">
-      <pbx-button [value]="'Create Call Rule'" [buttonType]="'success'" (onClick)="createCallRule()"></pbx-button>
-    </div>
-    <div class="call_rules_table">
-      <div class="call_rules_table_header">
-        <div class="call_rules_table_item" *ngFor="let item of tableInfo.titles">{{item}}</div>
-        <div class="call_rules_table_icon_wrap"></div>
-      </div>
-      <div class="call_rules_table_body">
-        <div class="call_rules_table_row" *ngFor="let item of data">
-          <div class="call_rules_table_item" *ngFor="let key of keys">{{item[key]}}</div>
-          <div class="call_rules_table_icon_wrap">
-            <div class="call_rules_table_icon edit"
-                 (click)="editCallRules(findById(callRules,item.id))"
-            ><svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
-            </div>
-            <div class="call_rules_table_icon delete"
-                 (click)="clickDeleteIcon(item.id)"
-            ><svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
-            </div>
-          </div>
+    <pbx-loader *ngIf="loading"></pbx-loader>
+    <ng-container *ngIf="!loading">
+        <div class="call_rules_header">
+            <pbx-button [value]="'Create Call Rule'" [buttonType]="'success'" (onClick)="create()"></pbx-button>
         </div>
-      </div>
-      <pbx-pagination *ngIf="pageInfo.total>1"
-                      [totalPages]="pageInfo.total"
-                      [currentPage]="pageInfo.page"
-                      (onPageChange)="changePage($event)"
-      ></pbx-pagination>
-    </div>
-  </ng-container>
+
+        <pbx-table [tableInfo]="table"
+                   [tableItems]="pageInfo.items"
+                   [editable]="true"
+                   [pageInfo]="pageInfo"
+                   (onEdit)="edit($event)"
+                   (onDelete)="delete($event)">
+        </pbx-table>
+
+    </ng-container>
 </div>
-<pbx-modal [modal]="modal"
-           (onConfirm)="deleteCallRule(del)"
->Are you really want delete this call rule?</pbx-modal>

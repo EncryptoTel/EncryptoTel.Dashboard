@@ -1,34 +1,50 @@
 <div class="call_queue_wrap">
-  <div class="call_queue_header">
-    <pbx-button routerLink="create" value="Create New Queue" buttonType="success" [inactive]="loading"></pbx-button>
-  </div>
-  <pbx-loader *ngIf="loading"></pbx-loader>
-  <div class="call_queue_table" *ngIf="!loading">
-    <div class="call_queue_table_header">
-      <div class="call_queue_table_item" *ngFor="let item of tableInfo.titles">{{item}}</div>
-      <div class="call_queue_table_icon_wrap"></div>
+    <div class="call_queue_header">
+        <pbx-button routerLink="create" value="Create Call Queue" buttonType="success"
+                    [inactive]="loading"></pbx-button>
     </div>
-    <div class="call_queue_table_body">
-      <div class="call_queue_table_row" *ngFor="let item of data">
-        <div class="call_queue_table_item" *ngFor="let key of keys">
-          {{item[key]}}
-        </div>
-        <div class="call_queue_table_icon_wrap">
-          <div class="call_queue_table_icon edit" (click)="edit(findById(queues,item.id))">
-            <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
-          </div>
-          <div class="call_queue_table_icon delete" (click)="clickDeleteIcon(item.id)">
-            <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
-          </div>
-        </div>
-      </div>
-    </div>
-    <pbx-pagination
-      *ngIf="pageInfo.total>1"
-      [totalPages]="pageInfo.total"
-      [currentPage]="pageInfo.page"
-      (onPageChange)="setPage($event)"
-    ></pbx-pagination>
-  </div>
+    <pbx-loader *ngIf="loading"></pbx-loader>
+    <pbx-table *ngIf="!loading"
+               [tableInfo]="table"
+               [tableItems]="pageInfo.items"
+               [editable]="true"
+               [(pageInfo)]="pageInfo"
+               (onPageChangeEx)="getItems()"
+               (onEdit)="edit($event)"
+               (onDelete)="delete($event)"></pbx-table>
 </div>
-<pbx-modal [modal]="modal" (onConfirm)="delete(pick)">Permanently delete this call queue?</pbx-modal>
+
+<!--<div class="call_queue_wrap">-->
+<!--<div class="call_queue_header">-->
+<!--<pbx-button routerLink="create" value="Create New Queue" buttonType="success" [inactive]="loading"></pbx-button>-->
+<!--</div>-->
+<!--<pbx-loader *ngIf="loading"></pbx-loader>-->
+<!---->
+<!---->
+<!--<div class="call_queue_table" *ngIf="!loading">-->
+<!--<div class="call_queue_table_header">-->
+<!--<div class="call_queue_table_item" *ngFor="let item of table.titles">{{item}}</div>-->
+<!--<div class="call_queue_table_icon_wrap"></div>-->
+<!--</div>-->
+<!--<div class="call_queue_table_body">-->
+<!--<div class="call_queue_table_row" *ngFor="let item of pageInfo.items">-->
+<!--<div class="call_queue_table_item" *ngFor="let key of keys">-->
+<!--{{item[key]}}-->
+<!--</div>-->
+<!--<div class="call_queue_table_icon_wrap">-->
+<!--<div class="call_queue_table_icon edit" (click)="edit(item)">-->
+<!--<svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>-->
+<!--</div>-->
+<!--<div class="call_queue_table_icon delete" (click)="clickDelete(item)">-->
+<!--<svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<pbx-pagination-->
+<!--[pageInfo]="pageInfo"-->
+<!--(onPageChange)="setPage($event)"-->
+<!--&gt;</pbx-pagination>-->
+<!--</div>-->
+<!--</div>-->
+<!--<pbx-modal [modal]="modal" (onConfirm)="delete(selected)">Permanently delete this call queue?</pbx-modal>-->

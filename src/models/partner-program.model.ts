@@ -1,4 +1,4 @@
-import {PageInfoModel} from "./page-info.model";
+import {PageInfoModel} from "./base.model";
 
 export class PartnerProgramModel extends PageInfoModel {
     public items: PartnerProgramItem[];

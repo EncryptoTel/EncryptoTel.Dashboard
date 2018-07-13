@@ -57,7 +57,7 @@ export class AuthorizationServices {
     signIn(data: SignInFormModel) {
         return this._req.post('login', {
             ...data
-        }, true).then(result => {
+        }).then(result => {
             if (result && !result.auth) {
                 this._services.saveUserData({secrets: result, image: 'http://via.placeholder.com/100x100'});
                 let URL = this.storage.readItem('pbx_url');
@@ -83,7 +83,7 @@ export class AuthorizationServices {
     }
 
     sendTemporaryPassword(data: object) {
-        return this._req.post('password/temporary', {...data}, true).then(result => {
+        return this._req.post('password/temporary', {...data}).then(result => {
             this.setMessage({
                 type: 'success',
                 message: result.message ? result.message : 'Temporary password sent to your e-mail'
@@ -103,7 +103,7 @@ export class AuthorizationServices {
       Hash: string - user-specific hash
      */
     codeConfirm(confirmationCode: object, hash: string) {
-        return this._req.post(`login/${hash}`, {...confirmationCode}, true).then(result => {
+        return this._req.post(`login/${hash}`, {...confirmationCode}).then(result => {
             this._services.saveUserData({secrets: result});
             this.router.navigateByUrl('/cabinet');
             this.clearMessage();
@@ -122,7 +122,7 @@ export class AuthorizationServices {
     signUp(data: SignUpFormModel) {
         return this._req.post('registration', {
             ...data
-        }, true).then(result => {
+        }).then(result => {
             this.setMessage({
                 type: 'success',
                 message: result.message
@@ -141,7 +141,7 @@ export class AuthorizationServices {
       E-mail: string - user e-mail address form value
      */
     sendEmail(email: object) {
-        return this._req.post(`password/reset`, {...email}, true).then(result => {
+        return this._req.post(`password/reset`, {...email}).then(result => {
             this.setMessage({
                 type: 'success',
                 message: result.message
@@ -160,7 +160,7 @@ export class AuthorizationServices {
       Hash: string - user-specific hash
      */
     changePassword(data: PasswordChangingFormModel, hash: string) {
-        return this._req.post(`password/reset/${hash}`, {...data}, true).then(result => {
+        return this._req.post(`password/reset/${hash}`, {...data}).then(result => {
             this.setMessage({
                 type: 'success',
                 message: 'Password successfully changed'
@@ -178,6 +178,6 @@ export class AuthorizationServices {
       Getting tariff plans list
      */
     getTariffPlans(): Promise<any> {
-        return this._req.get('v1/tariff-plan/account', true);
+        return this._req.get('v1/tariff-plan/account');
     }
 }

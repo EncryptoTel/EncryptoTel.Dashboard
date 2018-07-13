@@ -62,7 +62,7 @@
       <div *ngFor="let navigationItem of block">
         <a [routerLink]="navigationItem.url"
            routerLinkActive="active"
-           class="navigation_item">
+           [ngClass]="['navigation_item', 'navigation-item-' + navigationItem.url]">
           <svg-icon class="navigation_item_icon"
                     [src]="'../../assets/icons/' + navigationItem.icon + '.svg'"></svg-icon>
           <div class="navigation_item_title">{{navigationItem.name}}</div>

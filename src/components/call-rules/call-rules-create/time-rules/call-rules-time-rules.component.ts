@@ -142,7 +142,9 @@ export class CallRulesTimeRulesComponent implements OnInit {
     }
 
     selectTime(time, idx): void {
-        // console.log(time);
+        if (!time) {
+            return;
+        }
         this.selectedDuration[idx] = time;
         this.ruleTimeAsterisk.time = `${this.selectedDuration[0].timeAster}-${this.selectedDuration[1].timeAster}`;
         this.formatAsterRule();
@@ -158,7 +160,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
             }
         });
         let rule = `${this.ruleTimeAsterisk.time}|${days}|${this.ruleTimeAsterisk.date}|${this.ruleTimeAsterisk.month}`;
-        console.log(rule);
+        // console.log(rule);
         this.onChange.emit(rule);
     }
 
@@ -167,13 +169,10 @@ export class CallRulesTimeRulesComponent implements OnInit {
     }
 
     ngOnInit() {
-        // console.log('time-rules init', this.action);
-        const timeRules = this.action.get('timeRules').value;
-        // console.log(timeRules);
-        const rules = timeRules.split('|');
-        // console.log(rules);
+        const timeRules = this.action.get('timeRules') ? this.action.get('timeRules').value : null;
+        const rules = timeRules ? timeRules.split('|') : null;
 
-        if (rules[0] === '*') {
+        if (!rules || rules[0] === '*') {
             this.selectDurationTime(this.duration[0]);
         } else {
             this.selectDurationTime(this.duration[1]);
@@ -181,13 +180,12 @@ export class CallRulesTimeRulesComponent implements OnInit {
             this.selectTime(this.durationTime.find(item => item.timeAster === times[0]), 0);
             this.selectTime(this.durationTime.find(item => item.timeAster === times[1]), 1);
         }
-        if (rules[1] === '*') {
+        if (!rules || rules[1] === '*') {
             this.selectRuleTime(this.ruleTime[0]);
         } else {
             this.selectRuleTime(this.ruleTime[1]);
             const weekDays = rules[1].split('&');
             weekDays.forEach(day => {
-                console.log(day);
                 this.selectDay(this.days.indexOf(this.days.find(item => item.code === day)));
             });
         }

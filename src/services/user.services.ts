@@ -24,7 +24,7 @@ export class UserServices {
     Fetch initial user profile params
    */
   fetchProfileParams(): Promise<UserModel> {
-    return this._req.get('v1/account/info', true).then(res => {
+    return this._req.get('v1/account/info').then(res => {
       // for (const param in res['user']) {
       //   if (res['user'].hasOwnProperty(param)) {
       //     this.changeUserParam(param, res['user'][param]);
@@ -56,7 +56,7 @@ export class UserServices {
     Fetch initial navigation params, based on current user tariff plan
    */
   fetchNavigationParams(): Promise<NavigationItemModel[][]> {
-    return this._req.get('v1/nav', true).then(res => {
+    return this._req.get('v1/nav').then(res => {
       return Promise.resolve(res['items']);
     }).catch();
   }

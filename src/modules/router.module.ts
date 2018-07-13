@@ -5,147 +5,332 @@ import {AuthGuardServices} from '../services/auth-guard.services';
 
 import {PageNotFoundComponent} from '../components/errors/page-not-found/page-not-found.component';
 
+import {BlankComponent} from '../components/blank/blank.component';
+
 import {IndexComponent} from '../components/index/index.component';
+
 import {SignInComponent} from '../components/sign-in/sign-in.component';
+
 import {SignUpComponent} from '../components/sign-up/sign-up.component';
-import {EmailConfirmComponent} from '../components/confirmation/email-confirm.component';
-import {CodeConfirmComponent} from '../components/confirmation/code-confirm.component';
-import {PasswordRecoveryComponent} from '../components/password-recovery/password-recovery.component';
-import {PasswordResetComponent} from '../components/confirmation/password-reset.component';
-import {DashboardComponent} from '../components/dashboard/dashboard.component';
-import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.component';
 import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sign-up-tariff-plans.component';
 import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-form.component';
-import {BlankComponent} from '../components/blank/blank.component';
-import {SettingsComponent} from '../components/settings/settings.component';
+
 import {TemporaryCodeComponent} from '../components/temporary-code/temporary-code.component';
-import {CompanyComponent} from '../components/company/company.component';
-import {MarketplaceComponent} from '../components/marketplace/marketplace.component';
-import {StorageComponent} from '../components/storage/storage.component';
-import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
-import {InvoicesComponent} from '../components/invoices/invoices.component';
+
+import {EmailConfirmComponent} from '../components/confirmation/email-confirm.component';
+import {CodeConfirmComponent} from '../components/confirmation/code-confirm.component';
+import {PasswordResetComponent} from '../components/confirmation/password-reset.component';
+
+import {PasswordRecoveryComponent} from '../components/password-recovery/password-recovery.component';
+
+import {DashboardComponent} from '../components/dashboard/dashboard.component';
+
+import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
+
+import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.component';
+
+import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
+import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
+
+import {AddressBookComponent} from '../components/address-book/address-book.component';
+
+import {CallRulesComponent} from '../components/call-rules/call-rules.component';
+import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
 
 import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
 import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
-import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/tabs/general/call-queues-general.component';
-import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/tabs/members/call-queues-members.component';
-import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/tabs/members/add/call-queues-members-add.component';
+import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/general/call-queues-general.component';
+import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/members/call-queues-members.component';
+import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/members/add/call-queues-members-add.component';
 
+import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
+import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
+import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/general/ring-groups-general.component';
+import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/members/ring-groups-members.component';
+import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/members/add/ring-groups-members-add.component';
+
+import {ExtensionsComponent} from '../components/extensions/extensions.component';
+import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
+
+import {CompanyComponent} from '../components/company/company.component';
+
+import {DepartmentsComponent} from '../components/departments/department.component';
+
+import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
+
+import {InvoicesComponent} from '../components/invoices/invoices.component';
+
+import {MarketplaceComponent} from '../components/marketplace/marketplace.component';
+
+import {StorageComponent} from '../components/storage/storage.component';
+
+import {PartnerProgramComponent} from '../components/partner-program/partner-program.component';
+
+import {SettingsComponent} from '../components/settings/settings.component';
 import {ProfileComponent} from '../components/settings/settings-items/profile/profile.component';
 import {AuthenticationComponent} from '../components/settings/settings-items/authentication/authentication.component';
 import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
-import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
-import {AddressBookComponent} from '../components/address-book/address-book.component';
-import {DepartmentsComponent} from '../components/departments/department.component';
-import {CallRulesComponent} from '../components/call-rules/call-rules.component';
-import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
-import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
-import {ExtensionsComponent} from '../components/extensions/extensions.component';
-import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
-import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
-
-import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
-import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
-import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/tabs/general/ring-groups-general.component';
-import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/tabs/members/ring-groups-members.component';
-import {PartnerProgramComponent} from '../components/partner-program/partner-program.component';
-import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/tabs/members/add/ring-groups-members-add.component';
 
 const Routes: Routes = [
-  {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
-  {path: 'sign-in', component: SignInComponent, data: {title: 'Authorization', indexed: true}},
-  {path: 'sign-up', component: SignUpComponent, children: [
-      {path: '', component: SignUpFormComponent, data: {title: 'Registration', indexed: true}},
-      {path: 'tariff_plans', component: SignUpTariffPlansComponent, data: {title: 'Select tariff plans', indexed: false}}
-    ]},
-  {path: 'password-recovery', component: PasswordRecoveryComponent, data: {title: 'Password recovery', indexed: true}},
-  {path: 'temporary-code', component: TemporaryCodeComponent, data: {title: 'Temporary code authentication', indexed: true}},
-  {path: 'email-confirmation/:hash', component: EmailConfirmComponent, data: {title: 'Email confirmation', indexed: false}},
-  {path: 'code-confirmation/:hash', component: CodeConfirmComponent, data: {title: 'Code confirmation', indexed: false}},
-  {path: 'password-reset/:hash', component: PasswordResetComponent, data: {title: 'Password reset', indexed: false}},
-  {path: 'cabinet', canActivate: [AuthGuardServices], component: IndexComponent, children: [
-      {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-      {path: 'dashboard', component: DashboardComponent, data: {title: 'Dashboard', indexed: true}},
-      {path: 'phone-numbers', children: [
-          {path: '', component: PhoneNumbersComponent, data: {title: 'Phone numbers', indexed: true}},
-          {path: 'buy', component: BuyPhoneNumbersComponent, data: {title: 'Buy external phone numbers', indexed: true}},
-          {path: 'internal', component: BlankComponent, data: {title: 'Buy internal phone numbers', indexed: true}},
-          {path: 'external', component: BlankComponent, data: {title: 'Add external phone number', indexed: true}}
-        ]},
-      {path: 'address-book', component: AddressBookComponent, data: {title: 'Address book', indexed: true}},
-      {path: 'call-rules', data: {title: 'Call rules', indexed: true}, children: [
-          {path: '', component: CallRulesComponent, data: {title: 'Call rules', indexed: true}},
-          {path: 'create', component: CallRulesCreateComponent, data: {title: 'Create Call Rule', indexed: true}},
-          {path: ':id', component: CallRulesCreateComponent, data: {title: 'Edit Call Rule', indexed: true}}
-        ]},
-      {path: 'call-queues', children: [
-          {path: '', component: CallQueuesComponent, data: {title: 'Call queues create', indexed: true}},
-          {path: 'create', component: CallQueuesCreateComponent, data: {title: 'Call queues create', indexed: true}, children: [
-              {path: '', redirectTo: 'general', pathMatch: 'full'},
-              {path: 'general', component: CallQueuesGeneralComponent, data: {title: 'Call queues create', indexed: true}},
-              {path: 'members', children: [
-                  {path: '', pathMatch: 'full', component: CallQueuesMembersComponent, data: {title: 'Call queues create', indexed: true}},
-                  {path: 'add', component: CallQueuesMembersAddComponent, data: {title: 'Call queues create', indexed: true}}
-                ]}
-            ]},
-          {path: 'edit/:id', component: CallQueuesCreateComponent, data: {title: 'Call queues edit', indexed: true}, children: [
-              {path: '', redirectTo: 'general', pathMatch: 'full'},
-              {path: 'general', component: CallQueuesGeneralComponent, data: {title: 'Call queues edit', indexed: true}},
-              {path: 'members', children: [
-                  {path: '', pathMatch: 'full', component: CallQueuesMembersComponent, data: {title: 'Call queues edit', indexed: true}},
-                  {path: 'add', component: CallQueuesMembersAddComponent, data: {title: 'Call queues edit', indexed: true}}
-                ]}
-            ]}
-        ]},
-      {path: 'ring-groups', children: [
-          {path: '', component: RingGroupsComponent, data: {title: 'Ring Groups', indexed: true}},
-          {path: 'create', component: RingGroupsCreateComponent, data: {title: 'Create Ring Group', indexed: true}, children: [
-              {path: '', redirectTo: 'general', pathMatch: 'full'},
-              {path: 'general', component: RingGroupsGeneralComponent, data: {title: 'Create Ring Group', indexed: true}},
-              {path: 'members', children: [
-                  {path: '', pathMatch: 'full', component: RingGroupsMembersComponent, data: {title: 'Create Ring Group', indexed: true}},
-                  {path: 'add', component: RingGroupsMembersAddComponent, data: {title: 'Ring groups create', indexed: true}}
-                ]}
-            ]}
-        ]},
-      {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
-      {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},
-      {path: 'departments', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
-      {path: 'extensions', children: [
-          {path: '', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},
-          {path: 'create', component: AddExtensionsComponent, data: {title: 'Create Extension', indexed: true}},
-          {path: ':id', component: AddExtensionsComponent, data: {title: 'Edit Extension', indexed: true}}
-        ]},
-      {path: 'details-and-records', component: DetailsAndRecordsComponent, data: {title: 'Details and records', indexed: true}},
-      {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},
-      {path: 'storage', component: StorageComponent, data: {title: 'Storage', indexed: true}},
-      {path: 'marketplace', component: MarketplaceComponent, data: {title: 'Marketplace', indexed: true}},
-      {path: 'settings', children: [
-          {path: '', component: SettingsComponent, data: {title: 'Settings', indexed: true}},
-          {path: 'profile', component: ProfileComponent, data: {title: 'Profile settings', indexed: true}},
-          {path: 'authentication', component: AuthenticationComponent, data: {title: 'Authentication settings', indexed: true}},
-          {path: 'billing', component: BillingComponent, data: {title: 'Billing settings', indexed: true}},
-          {path: 'account-notifications', component: AccountNotificationsComponent, data: {title: 'Account notification settings', indexed: true}},
-          {path: 'user-notifications', component: UserNotificationsComponent, data: {title: 'User notification settings', indexed: true}}
-        ]},
-      {path: 'refill', component: RefillBalanceComponent, data: {title: 'Refill Balance', indexed: true}},
-      {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff plan', indexed: true}},
-      {path: 'partner-program', component: PartnerProgramComponent, data: {title: 'Partner program', indexed: true}}
-    ]},
-  {path: '**', component: PageNotFoundComponent, data: {title: 'Page not found', indexed: false}}
+    {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
+    {path: 'sign-in', component: SignInComponent, data: {title: 'Authorization', indexed: true}},
+    {
+        path: 'sign-up', component: SignUpComponent, children: [
+            {path: '', component: SignUpFormComponent, data: {title: 'Registration', indexed: true}},
+            {
+                path: 'tariff_plans',
+                component: SignUpTariffPlansComponent,
+                data: {title: 'Select tariff plans', indexed: false}
+            }
+        ]
+    },
+    {
+        path: 'password-recovery',
+        component: PasswordRecoveryComponent,
+        data: {title: 'Password recovery', indexed: true}
+    },
+    {
+        path: 'temporary-code',
+        component: TemporaryCodeComponent,
+        data: {title: 'Temporary code authentication', indexed: true}
+    },
+    {
+        path: 'email-confirmation/:hash',
+        component: EmailConfirmComponent,
+        data: {title: 'Email confirmation', indexed: false}
+    },
+    {
+        path: 'code-confirmation/:hash',
+        component: CodeConfirmComponent,
+        data: {title: 'Code confirmation', indexed: false}
+    },
+    {path: 'password-reset/:hash', component: PasswordResetComponent, data: {title: 'Password reset', indexed: false}},
+    {
+        path: 'cabinet', canActivate: [AuthGuardServices], component: IndexComponent, children: [
+            {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+            {path: 'dashboard', component: DashboardComponent, data: {title: 'Dashboard', indexed: true}},
+            {
+                path: 'phone-numbers', children: [
+                    {path: '', component: PhoneNumbersComponent, data: {title: 'Phone numbers', indexed: true}},
+                    {
+                        path: 'buy',
+                        component: BuyPhoneNumbersComponent,
+                        data: {title: 'Buy external phone numbers', indexed: true}
+                    },
+                    {
+                        path: 'internal',
+                        component: BlankComponent,
+                        data: {title: 'Buy internal phone numbers', indexed: true}
+                    },
+                    {
+                        path: 'external',
+                        component: BlankComponent,
+                        data: {title: 'Add external phone number', indexed: true}
+                    }
+                ]
+            },
+            {path: 'address-book', component: AddressBookComponent, data: {title: 'Address book', indexed: true}},
+            {
+                path: 'call-rules', data: {title: 'Call rules', indexed: true}, children: [
+                    {path: '', component: CallRulesComponent, data: {title: 'Call rules', indexed: true}},
+                    {
+                        path: 'create',
+                        component: CallRulesCreateComponent,
+                        data: {title: 'Create Call Rule', indexed: true}
+                    },
+                    {path: ':id', component: CallRulesCreateComponent, data: {title: 'Edit Call Rule', indexed: true}}
+                ]
+            },
+            {
+                path: 'call-queues', children: [
+                    {path: '', component: CallQueuesComponent, data: {title: 'Call Queues', indexed: true}},
+                    {
+                        path: 'create',
+                        component: CallQueuesCreateComponent,
+                        data: {title: 'Create Call Queue', indexed: true},
+                        children: [
+                            {path: '', redirectTo: 'general', pathMatch: 'full'},
+                            {
+                                path: 'general',
+                                component: CallQueuesGeneralComponent,
+                                data: {title: 'Create Call Queue', indexed: true}
+                            },
+                            {
+                                path: 'members', children: [
+                                    {
+                                        path: '',
+                                        pathMatch: 'full',
+                                        component: CallQueuesMembersComponent,
+                                        data: {title: 'Create Call Queue', indexed: true}
+                                    },
+                                    {
+                                        path: 'add',
+                                        component: CallQueuesMembersAddComponent,
+                                        data: {title: 'Create Call Queue', indexed: true}
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        path: ':id',
+                        component: CallQueuesCreateComponent,
+                        data: {title: 'Edit Call Queue', indexed: true},
+                        children: [
+                            {path: '', redirectTo: 'general', pathMatch: 'full'},
+                            {
+                                path: 'general',
+                                component: CallQueuesGeneralComponent,
+                                data: {title: 'Edit Call Queue', indexed: true}
+                            },
+                            {
+                                path: 'members', children: [
+                                    {
+                                        path: '',
+                                        pathMatch: 'full',
+                                        component: CallQueuesMembersComponent,
+                                        data: {title: 'Edit Call Queue', indexed: true}
+                                    },
+                                    {
+                                        path: 'add',
+                                        component: CallQueuesMembersAddComponent,
+                                        data: {title: 'Edit Call Queue', indexed: true}
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                path: 'ring-groups', children: [
+                    {path: '', component: RingGroupsComponent, data: {title: 'Ring Groups', indexed: true}},
+                    {
+                        path: 'create',
+                        component: RingGroupsCreateComponent,
+                        data: {title: 'Create Ring Group', indexed: true},
+                        children: [
+                            {path: '', redirectTo: 'general', pathMatch: 'full'},
+                            {
+                                path: 'general',
+                                component: RingGroupsGeneralComponent,
+                                data: {title: 'Create Ring Group', indexed: true}
+                            },
+                            {
+                                path: 'members', children: [
+                                    {
+                                        path: '',
+                                        pathMatch: 'full',
+                                        component: RingGroupsMembersComponent,
+                                        data: {title: 'Create Ring Group', indexed: true}
+                                    },
+                                    {
+                                        path: 'add',
+                                        component: RingGroupsMembersAddComponent,
+                                        data: {title: 'Create Ring Group', indexed: true}
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        path: ':id',
+                        component: RingGroupsCreateComponent,
+                        data: {title: 'Edit Ring Group', indexed: true},
+                        children: [
+                            {path: '', redirectTo: 'general', pathMatch: 'full'},
+                            {
+                                path: 'general',
+                                component: RingGroupsGeneralComponent,
+                                data: {title: 'Edit Ring Group', indexed: true}
+                            },
+                            {
+                                path: 'members', children: [
+                                    {
+                                        path: '',
+                                        pathMatch: 'full',
+                                        component: RingGroupsMembersComponent,
+                                        data: {title: 'Edit Ring Group', indexed: true}
+                                    },
+                                    {
+                                        path: 'add',
+                                        component: RingGroupsMembersAddComponent,
+                                        data: {title: 'Edit Ring Group', indexed: true}
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {path: 'ivr', component: BlankComponent, data: {title: 'IVR', indexed: true}},
+            {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},
+            {path: 'departments', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
+            {
+                path: 'extensions', children: [
+                    {path: '', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},
+                    {
+                        path: 'create',
+                        component: AddExtensionsComponent,
+                        data: {title: 'Create Extension', indexed: true}
+                    },
+                    {path: ':id', component: AddExtensionsComponent, data: {title: 'Edit Extension', indexed: true}}
+                ]
+            },
+            {
+                path: 'details-and-records',
+                component: DetailsAndRecordsComponent,
+                data: {title: 'Details and records', indexed: true}
+            },
+            {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},
+            {path: 'storage', component: StorageComponent, data: {title: 'Storage', indexed: true}},
+            {path: 'marketplace', component: MarketplaceComponent, data: {title: 'Marketplace', indexed: true}},
+            {
+                path: 'settings', children: [
+                    {path: '', component: SettingsComponent, data: {title: 'Settings', indexed: true}},
+                    {path: 'profile', component: ProfileComponent, data: {title: 'Profile settings', indexed: true}},
+                    {
+                        path: 'authentication',
+                        component: AuthenticationComponent,
+                        data: {title: 'Authentication settings', indexed: true}
+                    },
+                    {path: 'billing', component: BillingComponent, data: {title: 'Billing settings', indexed: true}},
+                    {
+                        path: 'account-notifications',
+                        component: AccountNotificationsComponent,
+                        data: {title: 'Account notification settings', indexed: true}
+                    },
+                    {
+                        path: 'user-notifications',
+                        component: UserNotificationsComponent,
+                        data: {title: 'User notification settings', indexed: true}
+                    }
+                ]
+            },
+            {path: 'refill', component: RefillBalanceComponent, data: {title: 'Refill Balance', indexed: true}},
+            {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff plan', indexed: true}},
+            {
+                path: 'partner-program',
+                component: PartnerProgramComponent,
+                data: {title: 'Partner program', indexed: true}
+            }
+        ]
+    },
+    {path: '**', component: PageNotFoundComponent, data: {title: 'Page not found', indexed: false}}
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(Routes)
-  ],
-  exports: [
-    RouterModule
-  ],
-  providers: [
-    AuthGuardServices
-  ]
+    imports: [
+        RouterModule.forRoot(Routes)
+    ],
+    exports: [
+        RouterModule
+    ],
+    providers: [
+        AuthGuardServices
+    ]
 })
-export class MainRouterModule {  }
+export class MainRouterModule {
+}

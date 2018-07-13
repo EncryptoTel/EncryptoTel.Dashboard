@@ -1,0 +1,60 @@
+<div class="call_queues_general_wrap" [@Fade]>
+    <pbx-loader *ngIf="loading"></pbx-loader>
+    <ng-container *ngIf="!loading">
+        <div class="call_queues_general_title">
+            <h3>Create Ring Group</h3>
+        </div>
+        <pbx-input name="Name"
+                   key="name"
+                   [(errors)]="service.errors"
+                   [(object)]="service.item">
+        </pbx-input>
+        <pbx-input name="Description"
+                   key="description"
+                   [(errors)]="service.errors"
+                   [(object)]="service.item">
+        </pbx-input>
+        <pbx-input name="Phone number"
+                   key="sipId"
+                   displayKey="phoneNumber"
+                   errorKey="sip"
+                   [options]="numbers"
+                   [(errors)]="service.errors"
+                   [(objectView)]="service.userView"
+                   [(object)]="service.item">
+        </pbx-input>
+        <pbx-input name="Ring Strategy"
+                   key="strategy"
+                   displayKey="code"
+                   errorKey="strategy"
+                   [options]="service.params.strategies"
+                   [(errors)]="service.errors"
+                   [(objectView)]="service.userView"
+                   [(object)]="service.item">
+        </pbx-input>
+        <pbx-input name="Ring Time"
+                   key="timeout"
+                   type="number"
+                   inputClass="time"
+                   description="seconds"
+                   [(errors)]="service.errors"
+                   [(object)]="service.item">
+        </pbx-input>
+
+        <!--<div class="call_queues_general_title">-->
+            <!--<h3>Destination if no answer</h3>-->
+        <!--</div>-->
+        <!--<div class="call_queues_general_item">-->
+            <!--<div class="call_queues_general_item_label">-->
+                <!--<span>Then</span>-->
+            <!--</div>-->
+            <!--<div class="call_queues_general_item_input_wrap">-->
+                <!--<pbx-select [singleBorder]="true" [options]="service.params.actions" [objectKey]="'code'"-->
+                            <!--[selected]="service.userView.action" (onSelect)="setAction($event)"-->
+                            <!--[placeholder]="'[choose one]'"-->
+                            <!--[errors]="service.errors ? service.errors.action : null">-->
+                <!--</pbx-select>-->
+            <!--</div>-->
+        <!--</div>-->
+    </ng-container>
+</div>

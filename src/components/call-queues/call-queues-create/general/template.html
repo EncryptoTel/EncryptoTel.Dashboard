@@ -1,0 +1,72 @@
+<div class="call_queues_general">
+    <div class="call_queues_general_wrap" [@Fade]>
+        <pbx-loader *ngIf="loading"></pbx-loader>
+        <div class="call_queues_general_body" *ngIf="!loading">
+            <div class="call_queues_general_title">
+                <h3>Create New Queue</h3>
+            </div>
+            <pbx-input name="Name"
+                       key="name"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="Description"
+                       key="description"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="Phone number"
+                       key="sipId"
+                       displayKey="phoneNumber"
+                       errorKey="sip"
+                       [options]="numbers"
+                       [(errors)]="service.errors"
+                       [(objectView)]="service.userView"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="Ring Strategy"
+                       key="strategy"
+                       displayKey="code"
+                       errorKey="strategy"
+                       [options]="service.params.strategies"
+                       [(errors)]="service.errors"
+                       [(objectView)]="service.userView"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="Ring Time"
+                       key="timeout"
+                       description="seconds"
+                       inputClass="time"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="Maximum Callers in Queue"
+                       key="maxlen"
+                       description=""
+                       inputClass="time"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name=""
+                       key="announcePosition"
+                       description="Announce Queue position to caller"
+                       [checkbox]="true"
+                       inputClass="checkbox"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name=""
+                       key="announceHoldtime"
+                       description="Announce Holdtime"
+                       [checkbox]="true"
+                       inputClass="checkbox"
+                       trueValue="1"
+                       falseValue="0"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+
+        </div>
+        <div class="call_queues_general_ballast" *ngIf="!loading"></div>
+    </div>
+</div>
