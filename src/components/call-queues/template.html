@@ -1,15 +1,6 @@
-<div class="call_queue_wrap">
-    <pbx-header [buttons]="buttons"
-                (onClick)="create()">
-    </pbx-header>
-    <pbx-loader *ngIf="loading"></pbx-loader>
-    <pbx-table *ngIf="!loading"
-               [tableInfo]="table"
-               [tableItems]="pageInfo.items"
-               [editable]="true"
-               [(pageInfo)]="pageInfo"
-               (onPageChangeEx)="getItems()"
-               (onEdit)="edit($event)"
-               (onDelete)="delete($event)">
-    </pbx-table>
-</div>
+<pbx-list [(pageInfo)]="pageInfo"
+          [table]="table"
+          key="call-queues"
+          name="Call Queue"
+          [service]="service">
+</pbx-list>
