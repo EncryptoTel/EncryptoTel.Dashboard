@@ -130,7 +130,7 @@ import {TermsPartnerProgramComponent} from '../components/partner-program/terms/
     RingGroupsCreateComponent,
     RingGroupsGeneralComponent,
     RingGroupsMembersComponent,
-    RingGroupsMembersAddComponent
+    RingGroupsMembersAddComponent,
     ChatComponent,
     PartnerProgramComponent,
     OverviewPartnerProgramComponent,
