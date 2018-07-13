@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import {NotificatorModel} from '../models/notificator.model';
+import { NotificatorModel } from '../models/notificator.model';
 
 @Injectable()
 export class NotificatorServices {
@@ -26,7 +26,7 @@ export class NotificatorServices {
   */
   private qHandler() {
     setInterval(() => {
-      console.log(this.input);
+      // console.log(this.input);
       this.queue = this.input;
       if (this.queue.length > 0) {
         this.notificator.next(this.queue.shift());

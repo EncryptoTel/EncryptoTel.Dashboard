@@ -14,6 +14,8 @@ import {FadeAnimation} from '../../shared/fade-animation';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {FormMessageModel} from '../../models/form-message.model';
+import {NotificatorServices} from '../../services/notificator.services';
+import {NotificatorModel} from '../../models/notificator.model';
 
 @Component({
     selector: 'pbx-index',
@@ -28,7 +30,8 @@ export class IndexComponent implements OnInit, OnDestroy {
                 private _router: Router,
                 public _main: MainViewComponent,
                 private _ws: WsServices,
-                private _storage: LocalStorageServices) {
+                private _storage: LocalStorageServices,
+                 private  _serviceNotificator: NotificatorServices) {
     }
 
     navigationList: NavigationItemModel[][];
@@ -47,12 +50,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     errorsSubscription: Subscription;
     message: any;
 
-    // notificator: {
-    //   visible: boolean,
-    //   type: string,
-    //   message: string,
-    //   actionName: string
-    // };
+    notificator: NotificatorModel;
 
 
     @ViewChild('userWrap') userWrap: ElementRef;
@@ -139,38 +137,14 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.message = this._messages.messagesList().subscribe( mes => {
           console.log(mes[0]);
             if (mes[0]) {
-              // this.notificator = {
-              //   visible: true,
-              //   type: mes[0].type,
-              //   message: mes[0].text,
-              //   actionName: 'Got it'
-              // };
-              // this.notificator.visible = true;
-              // this.notificator.type = mes[0].type;
-              // this.notificator.message = mes[0].text;
-              // this.notificator = Object.assign({}, this.notificator);
+              this.notificator = {
+                visible: true,
+                type: mes[0].type,
+                message: mes[0].text
+              };
+              this._serviceNotificator.setNotification(this.notificator);
             }
         });
-
-        // this._messages.messagesList().subscribe(messages => {
-        //   console.log(messages[0]);
-        //     if (messages[0]) {
-        //       this.notificator.visible = true;
-        //       this.notificator.type = messages[0].type;
-        //       this.notificator.message = messages[0].text;
-        //       this.notificator = Object.assign({}, this.notificator);
-        //     }
-        // });
-
-        // this._messages.messagesList().subscribe(messages => {
-        //   console.log(messages);
-        //   if (messages[0]) {
-        //     this.notificator.visible = true;
-        //     this.notificator.type = messages[0].type;
-        //     this.notificator.message = messages[0].text;
-        //     this.notificator = Object.assign({}, this.notificator);
-        //   }
-        // });
     }
 
     ngOnDestroy(): void {
