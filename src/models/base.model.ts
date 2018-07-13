@@ -8,6 +8,7 @@ export class PageInfoModel {
     constructor() {
         this.limit = 10;
         this.page = 1;
+        // console.log(this.constructor.name);
     }
 }
 
@@ -22,6 +23,7 @@ export class BaseItemModel {
 
     constructor() {
         this.loading = 0;
+        // console.log(this.constructor.name);
     }
 }
 

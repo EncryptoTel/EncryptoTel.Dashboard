@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {FadeAnimation} from '../../../shared/fade-animation';
-import {CallRulesServices} from '../../../services/call-rules.services';
-import {Action, SipInner, SipOuter} from '../../../models/call-rules.model';
+import {CallRulesService} from '../../../services/call-rules.service';
+import {Action, SipInner, SipItem} from '../../../models/call-rules.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RefsServices} from "../../../services/refs.services";
 
@@ -20,12 +20,12 @@ export class CallRulesCreateComponent implements OnInit {
     actionsList: Action[];
     callRulesForm: FormGroup;
     files = [];
-    numbers: SipOuter[];
+    numbers: SipItem[];
     mode = 'create';
     ruleActions;
     selectedActions: Action[] = [];
     selectedFiles = [];
-    selectedNumber: SipOuter;
+    selectedNumber: SipItem;
     selectedSipInners: SipInner[] = [];
     selectedQueues = [];
     sipInners: SipInner[] = [];
@@ -34,7 +34,7 @@ export class CallRulesCreateComponent implements OnInit {
     loadingStuff: number = 0;
     timeRulePattern = /(\*|[0-9]*:[0-9]*-[0-9]*:[0-9]*)\|(\*|(sun|mon|tue|wed|thu|fri|sat)(&(sun|mon|tue|wed|thu|fri|sat))*)\|(\*|[0-9]*)\|(\*|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(&(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))*)/;
 
-    constructor(private service: CallRulesServices,
+    constructor(private service: CallRulesService,
                 private fb: FormBuilder,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
@@ -103,7 +103,7 @@ export class CallRulesCreateComponent implements OnInit {
         this.actionsControls.get([`${i}`, `parameter`]).setValue(file.id);
     }
 
-    selectNumber(number: SipOuter): void {
+    selectNumber(number: SipItem): void {
         this.selectedNumber = number;
         this.getExtensions(number.id);
     }
