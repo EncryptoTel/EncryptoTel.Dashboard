@@ -2,8 +2,8 @@
     <div style="color: rgb(199,98,98); font-size: 40px; justify-content: center; align-items: center;">Error</div>
 </div><!--ToDo проверить на наличие полей currentPage и totalPage и удалить этот блок-->
 <div class="pager_wrap" *ngIf="!!pageInfo&&pageInfo.visible!==false&&pageInfo.itemsCount>10">
-    <pbx-button [inactive]="pageInfo.page < 2" buttonType="pagination" value="«" (onClick)="changePage(1)"></pbx-button>
-    <pbx-button [inactive]="pageInfo.page < 2" buttonType="pagination" value="Prev."
+    <pbx-button name="pagination_first" [inactive]="pageInfo.page < 2" buttonType="pagination" value="«" (onClick)="changePage(1)"></pbx-button>
+    <pbx-button name="pagination_prev" [inactive]="pageInfo.page < 2" buttonType="pagination" value="Prev."
                 (onClick)="changePage(pageInfo.page - 1)"></pbx-button>
     <div class="pager_info">
         <div class="pager_select" (clickOutside)="showWrap === 0 ? null : showWrap = 2">
@@ -20,8 +20,8 @@
         </div>
         <div class="pager_total">{{' of ' + pageInfo.itemsCount}}</div>
     </div>
-    <pbx-button [inactive]="pageInfo.page >= pageInfo.total" buttonType="pagination" value="Next"
+    <pbx-button name="pagination_next" [inactive]="pageInfo.page >= pageInfo.total" buttonType="pagination" value="Next"
                 (onClick)="changePage(pageInfo.page + 1)"></pbx-button>
-    <pbx-button [inactive]="pageInfo.page >= pageInfo.total" buttonType="pagination" value="»"
+    <pbx-button name="pagination_last" [inactive]="pageInfo.page >= pageInfo.total" buttonType="pagination" value="»"
                 (onClick)="changePage(pageInfo.total)"></pbx-button>
 </div>
