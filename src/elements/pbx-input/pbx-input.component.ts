@@ -27,6 +27,7 @@ export class InputComponent implements OnInit {
     @Input() form: boolean;
     @Input() formKey: string;
     @Input() index: number;
+    @Input() updateValueByKey: boolean;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -100,7 +101,12 @@ export class InputComponent implements OnInit {
 
         } else {
             this.object[this.key] = $event.id;
-            this.value[this.displayKey] = $event[this.displayKey];
+            if (this.updateValueByKey) {
+                // this.value.id = $event.id;
+                this.value[this.displayKey] = $event[this.displayKey];
+            } else {
+                this.value = $event;
+            }
         }
         this.onSelect.emit($event);
     }
