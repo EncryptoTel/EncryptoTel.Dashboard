@@ -4,6 +4,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 import {RingGroupService} from '../../services/ring-group.service';
 import {RingGroupItem, RingGroupModel} from "../../models/ring-group.model";
 import {plainToClass} from "class-transformer";
+import {ButtonItem} from "../../elements/pbx-header/pbx-header.component";
 
 @Component({
     selector: 'ring-groups-component',
@@ -22,10 +23,20 @@ export class RingGroupsComponent implements OnInit {
         titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time', 'Description'],
         keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
     };
-
+    buttons: ButtonItem[] = [
+        {
+            id: 0,
+            title: 'Create Ring Group',
+            type: 'success',
+        }
+    ];
 
     constructor(private service: RingGroupService,
                 private router: Router) {
+    }
+
+    create() {
+        this.router.navigate(['cabinet', 'ring-groups', 'create']);
     }
 
     edit(item: RingGroupItem): void {

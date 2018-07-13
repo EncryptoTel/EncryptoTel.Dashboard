@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {CallRulesService} from '../../services/call-rules.service';
 import {CallRules, CallRulesItem, CallRulesModel} from '../../models/call-rules.model';
+import {ButtonItem} from "../../elements/pbx-header/pbx-header.component";
 
 
 @Component({
@@ -21,6 +22,13 @@ export class CallRulesComponent implements OnInit {
     };
     loading: number = 0;
     pageInfo: CallRulesModel = new CallRulesModel();
+    buttons: ButtonItem[] = [
+        {
+            id: 0,
+            title: 'Create Call Rule',
+            type: 'success',
+        }
+    ];
 
     constructor(private service: CallRulesService,
                 private router: Router) {

@@ -6,6 +6,7 @@ import {CallQueueService} from '../../services/call-queue.service';
 import {CallQueueItem, CallQueueModel} from '../../models/call-queue.model';
 import {RingGroupItem} from "../../models/ring-group.model";
 import {plainToClass} from "class-transformer";
+import {ButtonItem} from "../../elements/pbx-header/pbx-header.component";
 
 @Component({
     selector: 'pbx-call-queues',
@@ -24,6 +25,13 @@ export class CallQueuesComponent implements OnInit {
         titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time', 'Description'],
         keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
     };
+    buttons: ButtonItem[] = [
+        {
+            id: 0,
+            title: 'Create Call Queue',
+            type: 'success',
+        }
+    ];
 
     constructor(private service: CallQueueService,
                 private router: Router) {
@@ -31,6 +39,10 @@ export class CallQueuesComponent implements OnInit {
 
     keys = ['name', 'phone', 'strategy', 'timeout', 'description'];
 
+
+    create() {
+        this.router.navigate(['cabinet', 'call-queues', 'create']);
+    }
 
     edit(item: CallQueueItem): void {
         this.router.navigate(['cabinet', 'call-queues', `${item.id}`]);
