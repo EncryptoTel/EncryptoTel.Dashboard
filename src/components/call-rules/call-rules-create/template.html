@@ -187,7 +187,8 @@
 
                             </ng-template>
 
-                            <pbx-input name="Action"
+                            <pbx-input *ngIf="checkNextAction(i)"
+                                       name="Action"
                                        displayKey="code"
                                        formKey="ruleActions"
                                        [form]="true"

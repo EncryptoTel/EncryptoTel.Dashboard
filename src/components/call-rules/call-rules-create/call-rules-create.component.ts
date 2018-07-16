@@ -43,6 +43,7 @@ export class CallRulesCreateComponent implements OnInit {
     }
 
     deleteAction(i: number): void {
+        // console.log(i);
         this.selectedActions.splice(i + 1, 1);
         this.actionsControls.removeAt(i + 1);
         // this.ruleTimeAsterisk.splice(i + 1, 1);
@@ -337,6 +338,17 @@ export class CallRulesCreateComponent implements OnInit {
 
     public onTimeRuleChange(index, event) {
         this.actionsControls.get([index, 'timeRules']).setValue(event);
+    }
+
+    checkNextAction(index: number) {
+        // console.log('checkNextAction', this.selectedActions[index]);
+        let valid = [1,5].includes(this.selectedActions[index].id);
+        if (!valid && this.actionsControls.length - 1 > index) {
+            for (let i = this.actionsControls.length - 1; i >= index; i--) {
+                this.deleteAction(i);
+            }
+        }
+        return valid;
     }
 
     ngOnInit() {
