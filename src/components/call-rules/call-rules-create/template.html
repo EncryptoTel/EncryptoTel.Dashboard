@@ -16,16 +16,19 @@
                        key="enabled"
                        [checkbox]="true"
                        [form]="true"
+                       [(errors)]="service.errors"
                        [object]="callRulesForm">
             </pbx-input>
             <pbx-input name="Rule Name"
                        key="name"
                        [form]="true"
+                       [(errors)]="service.errors"
                        [object]="callRulesForm">
             </pbx-input>
             <pbx-input name="Description"
                        key="description"
                        [form]="true"
+                       [(errors)]="service.errors"
                        [object]="callRulesForm">
             </pbx-input>
             <pbx-input *ngIf="mode !== 'edit'"
@@ -75,6 +78,7 @@
                                 <pbx-input name="Extension number"
                                            displayKey="phoneNumber"
                                            key="parameter"
+                                           [errorKey]="'ruleActions.new_' + i + '.parameter'"
                                            [form]="true"
                                            (onSelect)="selectSipInner(i, $event)"
                                            [options]="sipInners"
@@ -87,7 +91,9 @@
                                            description="seconds"
                                            inputClass="time"
                                            key="timeout"
+                                           [errorKey]="'ruleActions.new_' + i + '.timeout'"
                                            [form]="true"
+                                           [(errors)]="service.errors"
                                            [object]="action">
                                 </pbx-input>
 
@@ -104,7 +110,9 @@
                                            description="seconds"
                                            inputClass="time"
                                            key="timeout"
+                                           [errorKey]="'ruleActions.new_' + i + '.timeout'"
                                            [form]="true"
+                                           [(errors)]="service.errors"
                                            [object]="action">
                                 </pbx-input>
 
@@ -116,6 +124,7 @@
                                 <pbx-input name="Queue"
                                            displayKey="name"
                                            key="parameter"
+                                           [errorKey]="'ruleActions.new_' + i + '.parameter'"
                                            [form]="true"
                                            (onSelect)="selectQueue(i, $event)"
                                            [options]="queues"
@@ -128,7 +137,9 @@
                                            description="seconds"
                                            inputClass="time"
                                            key="timeout"
+                                           [errorKey]="'ruleActions.new_' + i + '.timeout'"
                                            [form]="true"
+                                           [(errors)]="service.errors"
                                            [object]="action">
                                 </pbx-input>
 
@@ -149,6 +160,7 @@
                                 <pbx-input name="Voice greeting"
                                            displayKey="fileName"
                                            key="parameter"
+                                           [errorKey]="'ruleActions.new_' + i + '.parameter'"
                                            [form]="true"
                                            (onSelect)="selectFile(i, $event)"
                                            [options]="files"
@@ -165,7 +177,9 @@
                                            description="seconds"
                                            inputClass="time"
                                            key="timeout"
+                                           [errorKey]="'ruleActions.new_' + i + '.timeout'"
                                            [form]="true"
+                                           [(errors)]="service.errors"
                                            [object]="action">
                                 </pbx-input>
 

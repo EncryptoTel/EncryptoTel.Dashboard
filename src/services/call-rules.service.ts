@@ -5,14 +5,6 @@ import {plainToClass} from "class-transformer";
 
 export class CallRulesService extends BaseService {
 
-    edit(id: number, rules): Promise<any> {
-        return this.request.put(`v1/outer_rule/${id}`, rules);
-    }
-
-    getEditedCallRule(id: number): Promise<any> {
-        return this.request.get(`v1/outer_rule/${id}`);
-    }
-
     getExtensions(id: number): Promise<any> {
         return this.request.get(`v1/sip/inners?sipOuter=${id}`);
     }
@@ -21,21 +13,17 @@ export class CallRulesService extends BaseService {
         return this.request.get(`v1/account/file?type=audio`);
     }
 
-    getParams(): Promise<any> {
-        return this.request.get(`v1/outer_rule/params`);
-    }
-
     getQueue(): Promise<any> {
         return this.request.get(`v1/call_queue`);
     }
 
-    save(rules): Promise<any> {
-        return this.request.post(`v1/outer_rule`, rules);
+    edit(id: number, data): Promise<any> {
+        return this.put(`/${id}`, data);
     }
 
-
-
-
+    save(data): Promise<any> {
+        return this.post('', data);
+    }
 
     getItems(pageInfo: PageInfoModel, filter = null): Promise<CallRulesModel> {
         return super.getItems(pageInfo, filter).then((res: CallRulesModel) => {

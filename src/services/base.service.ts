@@ -5,46 +5,50 @@ import {PageInfoModel} from "../models/base.model";
 @Injectable()
 export class BaseService {
 
-    public url: string;
+    url: string = '';
+    errors = null;
 
     constructor(public request: RequestServices) {
         this.onInit();
     }
 
-    getItem(id: number): Promise<any> {
-        return this.get(`/${id}`);
-    }
-
-    getParams(): Promise<any> {
-        return this.get(`/params`);
+    rawRequest(method: string, path: string, data: any): Promise<any> {
+        return this.request.request(method, `${this.url}${path}`, data).then(res => {
+            return Promise.resolve(res);
+        }).catch(res => {
+            if (res.errors) {
+                this.errors = res.errors;
+            }
+            return Promise.reject(res);
+        });
     }
 
     get(path: string): Promise<any> {
-        return this.request.get(this.url + path);
-    }
-
-    getById(id: number): Promise<any> {
-        return this.request.get(`${this.url}/${id}`);
+        return this.rawRequest('GET', path, null);
     }
 
     post(path: string, data: any): Promise<any> {
-        return this.request.post(this.url + path, data);
+        return this.rawRequest('POST', path, {...data});
+    }
+
+    put(path: string, data: any): Promise<any> {
+        return this.rawRequest('PUT', path, {...data});
     }
 
     delete(path: string): Promise<any> {
-        return this.request.del(this.url + path);
+        return this.rawRequest('DELETE', path, null);
     }
 
-    deleteById(id: number): Promise<any> {
-        return this.request.del(`${this.url}/${id}`);
+    getById(id: number): Promise<any> {
+        return this.get(`/${id}`);
     }
 
     putById(id: number, data: any): Promise<any> {
-        return this.request.put(`${this.url}/${id}`, data);
+        return this.put(`/${id}`, data);
     }
 
-    rawRequest(method: string, path: string, data: any): Promise<any> {
-        return this.request.request(method, this.url + path, data);
+    deleteById(id: number): Promise<any> {
+        return this.delete(`/${id}`);
     }
 
     getItems(pageInfo: PageInfoModel, filter = null): Promise<any> {
@@ -57,21 +61,15 @@ export class BaseService {
                 }
             }
         }
-        return this.request.get(`${this.url}${url}`);
+        return this.get(`${url}`);
     }
 
-    beginLoading(item) {
-        // console.log('0', item.loading);
-        if (item.loading == undefined) {
-            item.loading = 0;
-        }
-        // console.log('1', item.loading);
-        item.loading++;
-        // console.log('2', item.loading);
+    getItem(id: number): Promise<any> {
+        return this.get(`/${id}`);
     }
 
-    endLoading(item) {
-        item.loading--;
+    getParams(): Promise<any> {
+        return this.get(`/params`);
     }
 
     onInit() {

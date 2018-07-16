@@ -146,8 +146,8 @@ export class CallRulesCreateComponent implements OnInit {
     private createRedirectToExternalNumber(): FormGroup {
         return this.fb.group({
             action: 2,
-            parameter: [null, [Validators.maxLength(16), Validators.pattern('[0-9]*'), Validators.required]],
-            timeout: [30, [Validators.min(5), Validators.max(300)]],
+            parameter: [null, [Validators.minLength(6), Validators.maxLength(16), Validators.pattern('[0-9]*'), Validators.required]],
+            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
             timeRules: ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
         });
     }
@@ -156,7 +156,7 @@ export class CallRulesCreateComponent implements OnInit {
         return this.fb.group({
             action: 1,
             parameter: [null, [Validators.required]],
-            timeout: [30, [Validators.min(5), Validators.max(300)]],
+            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
             timeRules: ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
         });
     }
@@ -165,7 +165,7 @@ export class CallRulesCreateComponent implements OnInit {
         return this.fb.group({
             action: 3,
             parameter: [null, [Validators.required]],
-            timeout: [30, [Validators.min(5), Validators.max(300)]],
+            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
             timeRules: ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
         });
     }
@@ -174,7 +174,7 @@ export class CallRulesCreateComponent implements OnInit {
         return this.fb.group({
             action: 5,
             parameter: [null, [Validators.required]],
-            timeout: [30, [Validators.min(5), Validators.max(300)]],
+            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
             timeRules: ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
         });
     }
@@ -240,12 +240,13 @@ export class CallRulesCreateComponent implements OnInit {
 
     private getEditedCallRule(): void {
         this.loading += 1;
-        this.service.getEditedCallRule(this.activatedRoute.snapshot.params.id).then(res => {
+        this.service.getById(this.activatedRoute.snapshot.params.id).then(res => {
             this.loading -= 1;
-            const {description, name, sip, ruleActions} = res;
+            const {enabled, description, name, sip, ruleActions} = res;
             this.callRulesForm.get('description').setValue(description);
             this.callRulesForm.get('name').setValue(name);
             this.callRulesForm.get('sipId').setValue(sip.id);
+            this.callRulesForm.get('enabled').setValue(enabled);
             this.ruleActions = ruleActions;
             this.getExtensions(sip.id);
             // console.log(ruleActions);
@@ -332,15 +333,6 @@ export class CallRulesCreateComponent implements OnInit {
                 this.callRulesForm.get(`${control}`).markAsTouched();
             }
         });
-    }
-
-    public getTimeout(index: number): number {
-        return this.actionsControls.get([index, 'timeout']).value;
-    }
-
-    public onTimeoutChange(index, event) {
-        this.actionsControls.get([index, 'timeout']).setValue(event);
-
     }
 
     public onTimeRuleChange(index, event) {

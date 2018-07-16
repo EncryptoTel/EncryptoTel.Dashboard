@@ -46,11 +46,20 @@ export class InputComponent implements OnInit {
         return this.errorKey ? this.errorKey : this.key;
     }
 
+    getValueByKey(item: any, key: string) {
+        if (!key) {
+            return null;
+        }
+        const keyArray = key.split('.');
+        keyArray.forEach(k => item = item && item[k]);
+        return item;
+    }
+
     checkError(textOnly = null): string {
         if (!this.errors) {
             return textOnly ? null : this.checkForm();
         }
-        let error = this.errors && this.errors[this.getErrorKey()];
+        let error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
         return (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm());
     }
 
