@@ -60,7 +60,6 @@
 
                 <pbx-input name="Action"
                            displayKey="code"
-                           formKey="ruleActions"
                            [form]="true"
                            (onSelect)="selectAction($event)"
                            [options]="actionsList"
@@ -190,7 +189,6 @@
                             <pbx-input *ngIf="checkNextAction(i)"
                                        name="Action"
                                        displayKey="code"
-                                       formKey="ruleActions"
                                        [form]="true"
                                        (onSelect)="selectAction($event, i + 1)"
                                        [options]="actionsList"
