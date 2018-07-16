@@ -10,6 +10,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 
 export class HeaderComponent {
     @Input() buttons: ButtonItem[];
+    @Input() inactive: boolean;
     @Output() onClick: EventEmitter<ButtonItem> = new EventEmitter<ButtonItem>();
 
     clickButton(item: ButtonItem) {

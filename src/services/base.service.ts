@@ -13,6 +13,7 @@ export class BaseService {
     }
 
     rawRequest(method: string, path: string, data: any): Promise<any> {
+        this.resetErrors();
         return this.request.request(method, `${this.url}${path}`, data).then(res => {
             return Promise.resolve(res);
         }).catch(res => {
@@ -70,6 +71,10 @@ export class BaseService {
 
     getParams(): Promise<any> {
         return this.get(`/params`);
+    }
+
+    resetErrors() {
+        this.errors = null;
     }
 
     onInit() {
