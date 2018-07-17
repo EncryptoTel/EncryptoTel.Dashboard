@@ -58,12 +58,12 @@ import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-
 import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/members/ring-groups-members.component';
 import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/members/add/ring-groups-members-add.component';
 import {ChatComponent} from '../components/chat/chat.component';
-
 import {PartnerProgramComponent} from '../components/partner-program/partner-program.component';
 import {OverviewPartnerProgramComponent} from '../components/partner-program/overview/overview.partner-program.component';
 import {LinksPartnerProgramComponent} from '../components/partner-program/links/links.partner-program.component';
 import {ReportsPartnerProgramComponent} from '../components/partner-program/reports/reports.partner-program.component';
 import {TermsPartnerProgramComponent} from '../components/partner-program/terms/terms.partner-program.component';
+import {IvrComponent} from '../components/ivr/ivr.component';
 
 /*
   Components declarations and exports
@@ -137,7 +137,8 @@ import {TermsPartnerProgramComponent} from '../components/partner-program/terms/
         LinksPartnerProgramComponent,
         ReportsPartnerProgramComponent,
         TermsPartnerProgramComponent,
-        TimePipe
+        TimePipe,
+        IvrComponent
     ],
     exports: [
         ElementsModule,
@@ -186,7 +187,8 @@ import {TermsPartnerProgramComponent} from '../components/partner-program/terms/
         OverviewPartnerProgramComponent,
         LinksPartnerProgramComponent,
         ReportsPartnerProgramComponent,
-        TermsPartnerProgramComponent
+        TermsPartnerProgramComponent,
+        IvrComponent
     ]
 })
 export class ComponentsModule {
