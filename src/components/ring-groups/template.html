@@ -1,16 +1,6 @@
-<div class="ring_groups_wrap">
-    <div class="ring_groups_header">
-        <pbx-button routerLink="create" value="Create Ring Group" buttonType="success"
-                    [inactive]="loading"></pbx-button>
-    </div>
-    <pbx-loader *ngIf="loading"></pbx-loader>
-    <pbx-table *ngIf="!loading"
-               [tableInfo]="table"
-               [tableItems]="pageInfo.items"
-               [editable]="true"
-               [(pageInfo)]="pageInfo"
-               (onPageChangeEx)="getItems()"
-               (onEdit)="edit($event)"
-               (onDelete)="delete($event)">
-    </pbx-table>
-</div>
+<pbx-list [(pageInfo)]="pageInfo"
+          [table]="table"
+          key="ring-groups"
+          name="Ring Group"
+          [service]="service">
+</pbx-list>

@@ -19,7 +19,7 @@ import {UserServices} from '../services/user.services';
 import {CallQueueService} from '../services/call-queue.service';
 import {SettingsServices} from '../services/settings.services';
 import {DetailsAndRecordsServices} from '../services/details-and-records.services';
-import {AddressBookServices} from '../services/address-book.services';
+import {AddressBookService} from '../services/address-book.service';
 import {DepartmentServices} from '../services/department.services';
 import {CallRulesService} from '../services/call-rules.service';
 import {RingGroupService} from '../services/ring-group.service';
@@ -62,7 +62,7 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         SettingsServices,
         DepartmentServices,
         CallRulesService,
-        AddressBookServices,
+        AddressBookService,
         WsServices,
         RefsServices,
         RingGroupService,

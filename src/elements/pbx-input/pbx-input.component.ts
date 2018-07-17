@@ -27,6 +27,9 @@ export class InputComponent implements OnInit {
     @Input() form: boolean;
     @Input() formKey: string;
     @Input() index: number;
+    @Input() updateValueByKey: boolean;
+    @Input() updateObjectByObject: boolean;
+    @Input() labelPosition: string;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -45,11 +48,32 @@ export class InputComponent implements OnInit {
         return this.errorKey ? this.errorKey : this.key;
     }
 
+    getValueByKey(item: any, key: string) {
+        if (!key) {
+            return null;
+        }
+        const keyArray = key.split('.');
+        keyArray.forEach(k => item = item && item[k]);
+        return item;
+    }
+
+    setError(value) {
+        let key = this.getErrorKey();
+        if (!key) {
+            return null;
+        }
+        this.errors[key] = value;
+        // const keyArray = key.split('.');
+        // keyArray.forEach(k => item = item && item[k]);
+        // item = null;
+    }
+
     checkError(textOnly = null): string {
         if (!this.errors) {
             return textOnly ? null : this.checkForm();
         }
-        return (this.errors && this.errors[this.getErrorKey()]) || (textOnly ? null : this.checkForm());
+        let error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
+        return (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm());
     }
 
     getFormKey() {
@@ -74,7 +98,7 @@ export class InputComponent implements OnInit {
 
     resetError() {
         if (this.checkError()) {
-            this.errors ? this.errors[this.getErrorKey()] = null : null;
+            this.errors ? this.setError(null) : null;
             if (this.form) {
                 let form = this.getForm();
                 form.markAsUntouched();
@@ -97,8 +121,17 @@ export class InputComponent implements OnInit {
             this.key ? this.getForm().setValue($event.id) : null;
 
         } else {
-            this.object[this.key] = $event.id;
-            this.value[this.displayKey] = $event[this.displayKey];
+            if (this.updateObjectByObject) {
+                this.object[this.key] = $event;
+            } else {
+                this.object[this.key] = $event.id;
+            }
+            if (this.updateValueByKey) {
+                // this.value.id = $event.id;
+                this.value[this.displayKey] = $event[this.displayKey];
+            } else {
+                this.value = $event;
+            }
         }
         this.onSelect.emit($event);
     }
@@ -116,7 +149,11 @@ export class InputComponent implements OnInit {
         if (this.form && this.checkbox) {
             this.value = this.getForm() ? this.getForm().value : false;
         } else if (this.options) {
-            this.value = this.objectView ? this.objectView : this.object;
+            if (this.updateObjectByObject) {
+                this.value = this.object[this.key];
+            } else {
+                this.value = this.objectView ? this.objectView : this.object;
+            }
         } else {
             this.value = this.object[this.key];
         }

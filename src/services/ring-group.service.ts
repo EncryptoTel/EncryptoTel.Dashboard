@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
-import {RingGroupItem, RingGroupParams} from "../models/ring-group.model";
+import {RingGroupItem, RingGroupModel, RingGroupParams} from "../models/ring-group.model";
 import {BaseQueueService} from "./base-queue.service";
+import {plainToClass} from "class-transformer";
+import {PageInfoModel} from "../models/base.model";
 
 @Injectable()
 export class RingGroupService extends BaseQueueService {
@@ -61,6 +63,17 @@ export class RingGroupService extends BaseQueueService {
     setParams() {
         this.setStrategiesFromId();
         this.setActionFromId();
+    }
+
+    getItems(pageInfo: PageInfoModel, filter = null): Promise<RingGroupModel> {
+        return super.getItems(pageInfo, filter).then((res: RingGroupModel) => {
+            let pageInfo = plainToClass(RingGroupModel, res);
+            pageInfo.items = [];
+            res['items'].map(item => {
+                pageInfo.items.push(plainToClass(RingGroupItem, item));
+            });
+            return Promise.resolve(pageInfo);
+        });
     }
 
     onInit() {

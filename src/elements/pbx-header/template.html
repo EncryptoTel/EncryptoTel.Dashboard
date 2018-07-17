@@ -1,0 +1,10 @@
+<div class="pbx_header">
+    <div class="pbx_header_header">
+        <pbx-button *ngFor="let button of buttons"
+                    [inactive]="inactive"
+                    [value]="button.title"
+                    [buttonType]="button.type"
+                    (onClick)="clickButton(button)">
+        </pbx-button>
+    </div>
+</div>

@@ -1,5 +1,7 @@
-import {CallQueueItem, CallQueueParams} from '../models/call-queue.model';
+import {CallQueueItem, CallQueueModel, CallQueueParams} from '../models/call-queue.model';
 import {BaseQueueService} from "./base-queue.service";
+import {PageInfoModel} from "../models/base.model";
+import {plainToClass} from "class-transformer";
 
 export class CallQueueService extends BaseQueueService {
 
@@ -36,6 +38,17 @@ export class CallQueueService extends BaseQueueService {
                 code: ''
             },
         };
+    }
+
+    getItems(pageInfo: PageInfoModel, filter = null): Promise<CallQueueModel> {
+        return super.getItems(pageInfo, filter).then((res: CallQueueModel) => {
+            let pageInfo = plainToClass(CallQueueModel, res);
+            pageInfo.items = [];
+            res['items'].map(item => {
+                pageInfo.items.push(plainToClass(CallQueueItem, item));
+            });
+            return Promise.resolve(pageInfo);
+        });
     }
 
     onInit() {
