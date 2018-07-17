@@ -8,7 +8,7 @@
                [tableInfo]="table"
                [tableItems]="pageInfo.items"
                [editable]="true"
-               (onPageChangeEx)="getItems()"
+               (onSelect)="select($event)"
                (onEdit)="edit($event)"
                (onDelete)="delete($event)">
     </pbx-table>
