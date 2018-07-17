@@ -1,5 +1,10 @@
 @import '../../vars'
 
+input[_ngcontent-c10]
+  border: 1px solid rgba(255, 255, 255, 0.1)
+  height: 40px
+
+
 .address_book
   flex: 1 0 auto
   flex-flow: column
@@ -80,8 +85,8 @@
       justify-content: flex-end
 
 input
-  border: 1px solid rgba($dark_primary, .1)
   height: 40px
+  border: 1px solid rgba($dark_primary, .1)
   &.ng-valid:focus
     border-color: $dark_accent
   &.ng-touched.ng-invalid,
