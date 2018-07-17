@@ -71,7 +71,7 @@ export class AddressBookComponent implements OnInit {
             {id: 'company', title: 'Company'},
             {id: 'blacklist', title: 'Black List'},
         ], 'title'));
-        this.filters.push(new FilterItem(2, 'search', 'Search', null, 'Search by Name or Phone'));
+        this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
     }
 
     create() {
