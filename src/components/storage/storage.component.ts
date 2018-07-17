@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {StorageService} from "../../services/storage.service";
 import {MessageServices} from "../../services/message.services";
-import {StorageModel} from "../../models/storage.model";
 import {SizePipe} from '../../services/size.pipe';
 import {SortModel} from "../../models/base.model";
 
@@ -20,8 +19,6 @@ export class StorageComponent implements OnInit {
 
     }
 
-    loading = 0;
-    pageInfo: StorageModel = new StorageModel();
     search: string = '';
     source = {
         option: [
@@ -66,7 +63,6 @@ export class StorageComponent implements OnInit {
     sort: SortModel = new SortModel();
 
     player = {item: [], current: null};
-    select = [];
     modal = {
         visible: false,
         text: '',
@@ -74,95 +70,23 @@ export class StorageComponent implements OnInit {
         decline: {type: 'cancel', value: 'Cancel'}
     };
     searchTimeout = null;
-    files = [];
-    modalUpload = {
-        visible: false,
-        title: '',
-        body: 'A file with this name has already been created.  Do you want to replace or rename it?',
-        buttons: [
-            {tag: 1, type: 'error', value: 'Replace'},
-            {tag: 2, type: 'success', value: 'Rename'},
-            {tag: 0, type: 'cancel', value: 'Cancel'}
-        ]
-    };
 
     private uploadFiles(files) {
         // console.log('uploadFiles', files);
         for (let i = 0; i < files.length; i++) {
-            console.log('uploadFiles', files[i]);
-            if (files[i].type === 'audio/mp3' || files[i].type === 'audio/ogg' || files[i].type === 'audio/wav' || files[i].type === 'audio/mpeg' || files[i].type === 'audio/x-wav') {
-                this.checkFileExists(files[i]);
+            // console.log('uploadFiles', files[i]);
+            if (this.service.checkCompatibleType(files[i])) {
+                this.service.checkFileExists(files[i]);
             } else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
             }
         }
-        this.checkModal();
-    }
-
-    private checkModal() {
-        if (this.files.length > 0 && !this.modalUpload.visible) {
-            this.loading ++;
-            this.modalUpload.title = this.files[0].name;
-            setTimeout(() => {
-                this.modalUpload.visible = true;
-            }, 100);
-        }
-    }
-
-    private checkFileExists(file) {
-        const index = this.pageInfo.items.findIndex(item => item.fileName == file.name);
-        // console.log('checkFileExists', index);
-        if (index != -1) {
-            this.files.push(file);
-        } else {
-            let pageInfo: StorageModel = new StorageModel();
-            pageInfo.limit = 1;
-            pageInfo.page = 1;
-            this.loading++;
-            this.service.getList(pageInfo, null, file.name, null).then(res => {
-                // console.log(res);
-                if (res.itemsCount > 0) {
-                    this.files.push(file);
-                    this.checkModal();
-                } else {
-                    this.uploadFile(file, null);
-                }
-                this.loading--;
-            }).catch(res => {
-                this.loading--;
-            });
-        }
-    }
-
-    private deleteFileFromQueue() {
-        // console.log('deleteFileFromQueue', this.files);
-        this.files.splice(0, 1);
-        // console.log('deleteFileFromQueue', this.files);
-        this.checkModal();
-        this.loading--;
-    }
-
-    doUploadAction(button) {
-        // console.log('doUploadAction', button);
-        switch (button.tag) {
-            case 1:
-                this.uploadFile(this.files[0], 'replace');
-                break;
-            case 2:
-                this.uploadFile(this.files[0], 'new');
-                break;
-        }
-        this.deleteFileFromQueue();
-    }
-
-    cancelUploadAction() {
-        // console.log('cancelUploadAction')
-        this.deleteFileFromQueue();
+        this.service.checkModal();
     }
 
     selectSource(event) {
         if (event !== this.source.select) {
-            this.select = [];
+            this.service.select = [];
             this.player = {item: [], current: null};
             this.search = '';
             this.source.select = event;
@@ -200,14 +124,6 @@ export class StorageComponent implements OnInit {
         }
     }
 
-    selectItem(id: number): void {
-        if (this.find(this.select, id)) {
-            this.select.splice(this.select.indexOf(id), 1);
-        } else {
-            this.select.push(id);
-        }
-    }
-
     play(id: number): void {
         this.player.current = this.player.current === id ? null : id;
         if (!this.find(this.player.item, id)) {
@@ -225,7 +141,7 @@ export class StorageComponent implements OnInit {
     }
 
     clickDeleteIcon(id: number) {
-        this.selectItem(id);
+        this.service.selectItem(id);
         this.modal.visible = true;
     }
 
@@ -240,7 +156,7 @@ export class StorageComponent implements OnInit {
 
     dropHandler(e) {
         e.preventDefault();
-        if (!this.pageInfo.items) {
+        if (!this.service.pageInfo.items) {
             return ;
         }
         const files = e.dataTransfer.files;
@@ -272,7 +188,7 @@ export class StorageComponent implements OnInit {
     }
 
     setPage(page: number) {
-        this.pageInfo.page = page;
+        this.service.pageInfo.page = page;
         this.getList();
     }
 
@@ -281,15 +197,9 @@ export class StorageComponent implements OnInit {
     }
 
     doDeleteSelected() {
-        for (let i = 0; i < this.select.length; i++) {
-            const id = this.select[i];
-            this.loading++;
-            this.service.delete(`/${id}`).then(res => {
-                this.loading--;
-                if (!this.loading) this.getList();
-            }).catch(res => {
-                this.loading--;
-            });
+        for (let i = 0; i < this.service.select.length; i++) {
+            const id = this.service.select[i];
+            this.service.deleteById(id);
         }
     }
 
@@ -301,40 +211,15 @@ export class StorageComponent implements OnInit {
         }
     }
 
-    private uploadFile(file, mode) {
-        this.loading +=1;
-        const formData = new FormData();
-        formData.append('type', 'audio');
-        formData.append('account_file', file);
-        if (mode) formData.append('mode', mode);
-        this.service.uploadFile(formData).then(res => {
-            // console.log(res);
-            this.loading -= 1;
-            if (!this.loading) this.getList();
-        }).catch(err => {
-            // console.log(err);
-            this.loading -= 1;
-        });
-    }
-
     getSize(value: number) {
         return this._size.transform(value);
     }
 
     getList() {
-        this.loading++;
-        this.service.getList(this.pageInfo, this.source.select.type, this.search, this.sort).then(res => {
-            this.pageInfo = res;
-            this.pageInfo.limit = 10;
-            this.loading--;
-        }).catch(res => {
-            this.loading--;
-        });
+        this.service.getList(this.source.select.type, this.search, this.sort);
     }
 
     ngOnInit(): void {
-        this.pageInfo.page = 1;
-        this.pageInfo.limit = 10;
         this.selectSource(this.source.option[0]);
     }
 

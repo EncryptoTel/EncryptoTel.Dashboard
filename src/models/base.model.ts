@@ -4,6 +4,7 @@ export class PageInfoModel {
     public pageCount: number;
     public limit: number;
     public visible: boolean;
+    public items = [];
 
     constructor() {
         this.limit = 10;
@@ -20,11 +21,17 @@ export class SortModel {
 export class BaseItemModel {
     id: number;
     loading: number;
+    protected parentObject;
 
     constructor() {
         this.loading = 0;
         // console.log(this.constructor.name);
     }
+
+    setParentObject(value) {
+        this.parentObject = value;
+    }
+
 }
 
 export class BaseParam {

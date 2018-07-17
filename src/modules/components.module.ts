@@ -138,8 +138,6 @@ import {TermsPartnerProgramComponent} from '../components/partner-program/terms/
         ReportsPartnerProgramComponent,
         TermsPartnerProgramComponent,
         TimePipe
-
-
     ],
     exports: [
         ElementsModule,
@@ -189,7 +187,6 @@ import {TermsPartnerProgramComponent} from '../components/partner-program/terms/
         LinksPartnerProgramComponent,
         ReportsPartnerProgramComponent,
         TermsPartnerProgramComponent
-
     ]
 })
 export class ComponentsModule {

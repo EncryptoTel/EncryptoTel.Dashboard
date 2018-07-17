@@ -58,7 +58,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
     }
 
     selectRuleTime(rule): void {
-        console.log(this.ruleTime);
+        // console.log(this.ruleTime);
         if (!this.ruleTimeAsterisk) {
             this.ruleTimeAsterisk = {
                 days: [],
@@ -170,7 +170,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
             }
         });
         let rule = `${this.ruleTimeAsterisk.time}|${days}|${this.ruleTimeAsterisk.date}|${this.ruleTimeAsterisk.month}`;
-        this.logger.log('formatAsterRule', rule);
+        // this.logger.log('formatAsterRule', rule);
         this.errors.ruleTime = days === '';
         this.errors.durationTime = (this.ruleTimeAsterisk.time === '') ||
             (this.selectedDuration && (this.selectedDuration[0].timeAster === undefined || this.selectedDuration[1].timeAster === undefined));
