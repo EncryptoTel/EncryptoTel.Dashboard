@@ -1,21 +1,20 @@
-<div class="pbx_header">
-    <div class="pbx_header_wrap" *ngFor="let filter of filters">
-        <pbx-input [name]="filter.name"
-                   [key]="filter.key"
-                   [placeholder]="filter.placeHolder"
-                   [options]="filter.options"
-                   [displayKey]="filter.optionsDisplayKey"
-                   [object]="currentFilter"
-                   (onKeyUp)="reload()"
-                   (onSelect)="reload()">
+<div class="pbx_header" id="pbx_header">
+    <div class="pbx_header_wrap">
+        <pbx-input  *ngFor="let filter of filters"
+                    [name]="filter.name"
+                    [key]="filter.key"
+                    [placeholder]="filter.placeHolder"
+                    [options]="filter.options"
+                    [displayKey]="filter.optionsDisplayKey"
+                    [object]="currentFilter"
+                    (onKeyUp)="reload()"
+                    (onSelect)="reload()">
         </pbx-input>
     </div>
-    <div class="pbx_header_wrap">
-        <pbx-button *ngFor="let button of buttons"
-                    [inactive]="inactive"
-                    [value]="button.title"
-                    [buttonType]="button.type"
-                    (onClick)="clickButton(button)">
-        </pbx-button>
-    </div>
+    <pbx-button *ngFor="let button of buttons"
+                [inactive]="inactive"
+                [value]="button.title"
+                [buttonType]="button.type"
+                (onClick)="clickButton(button)">
+    </pbx-button>
 </div>
