@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TableInfoModel} from '../../models/table-info.model';
-import {PageInfoModel} from "../../models/base.model";
 
 @Component({
     selector: 'pbx-table',
@@ -14,7 +13,7 @@ export class TableComponent {
     @Input() tableInfo: TableInfoModel;
     @Input() editable: boolean;
     @Input() multiple: boolean;
-    @Input() pageInfo: PageInfoModel;
+    @Input() columnFormat: string[];
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();

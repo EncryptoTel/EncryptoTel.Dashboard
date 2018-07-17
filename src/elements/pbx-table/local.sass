@@ -64,3 +64,86 @@
     &_body > .table_row.active
       background: rgba($dark_primary, .10)
 
+.tablet
+  flex: 1
+  flex-direction: column
+  color: $font-color
+  pbx-pagination
+    flex: 0 1 rem(64)
+  &_header
+    flex-direction: row
+    height: rem(40)
+    border-bottom: rem(1) solid rgba($dark_primary,.15)
+    align-items: center
+  &_body
+    display: block
+    flex: 1
+    flex-direction: column
+    overflow-y: auto
+    overflow-x: hidden
+  &_row
+    height: rem(40)
+    border-bottom: rem(1) solid rgba($dark_primary,.15)
+    &:hover
+      background: rgba($dark_primary,.05)
+      .tablet_icon
+        opacity: .33
+        &:hover
+          opacity: 1
+    &.pick
+      background: rgba($dark_primary,.1)
+      &:hover
+        background: rgba($dark_primary,.15)
+      .tablet_icon
+        opacity: 0.33
+  &_content
+    flex: 1
+    flex-direction: row
+    align-items: center
+    max-width: 100%
+    .tablet_item
+      cursor: pointer
+    .tablet_icon
+      cursor: pointer
+      /deep/ *
+        cursor: pointer
+  &_item
+    align-items: center
+    display: block
+    flex: 3
+    overflow: hidden
+    text-overflow: ellipsis
+    padding: rem(12) rem(16)
+    &.tiny
+      flex: 1
+    &.small
+      flex: 2
+    &.medium
+      flex: 3
+    &.big
+      flex: 4
+    &.large
+      flex: 5
+    &.huge
+      flex: 6
+    &.error
+      color: $dark_error
+    &.success
+      color: $dark_success
+    &.accent
+      color: $dark_accent
+  &_icon
+    opacity: 0
+    width: rem(16)
+    height: rem(16)
+    padding: rem(2)
+    margin-left: rem(16)
+    &:last-child
+      margin-right: rem(16)
+    svg-icon
+      flex: 1
+    &.edit
+      /deep/ path, /deep/ rect
+        fill: $dark_success
+    &.delete /deep/ polygon
+      fill: $dark_error

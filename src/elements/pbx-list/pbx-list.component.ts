@@ -1,18 +1,18 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {BaseItemModel, PageInfoModel} from "../../models/base.model";
-import {ButtonItem} from "../pbx-header/pbx-header.component";
-import {Router} from "@angular/router";
-import {CallRulesItem} from "../../models/call-rules.model";
+import {BaseItemModel, PageInfoModel} from '../../models/base.model';
+import {ButtonItem} from '../pbx-header/pbx-header.component';
+import {Router} from '@angular/router';
+import {CallRulesItem} from '../../models/call-rules.model';
 
 @Component({
     selector: 'pbx-list',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    animations: [SwipeAnimation('y', '200ms')]
+  animations: [SwipeAnimation('y', '200ms')]
 })
 
-export class ListComponent implements OnInit{
+export class ListComponent implements OnInit {
     @Input() name: string;
     @Input() key: string;
     @Input() pageInfo: PageInfoModel;
@@ -20,11 +20,9 @@ export class ListComponent implements OnInit{
     @Input() service: any;
 
     buttons: ButtonItem[] = [];
-    loading: number = 0;
+    loading = 0;
 
-    constructor(private router: Router) {
-
-    }
+    constructor(private router: Router) {}
 
     create() {
         this.router.navigate(['cabinet', this.key, 'create']);
@@ -39,17 +37,19 @@ export class ListComponent implements OnInit{
         this.service.deleteById(item.id).then(() => {
             this.getItems(item);
             item.loading--;
-        }).catch(err => {
+        }).catch(() => {
             item.loading--;
         });
     }
 
     getItems(item = null) {
         item ? item.loading++ : this.loading++;
+        const limit = this.pageInfo.limit;
         this.service.getItems(this.pageInfo).then(res => {
             this.pageInfo = res;
+            this.pageInfo.limit = limit;
             item ? item.loading-- : this.loading--;
-        }).catch(err => {
+        }).catch(() => {
             item ? item.loading-- : this.loading--;
         });
     }

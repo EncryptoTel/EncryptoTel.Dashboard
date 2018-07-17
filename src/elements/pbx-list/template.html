@@ -1,15 +1,19 @@
 <div class="pbx_list">
-    <pbx-header [buttons]="buttons"
-                (onClick)="create()">
-    </pbx-header>
-    <pbx-loader *ngIf="loading"></pbx-loader>
-    <pbx-table *ngIf="!loading"
-               [tableInfo]="table"
-               [tableItems]="pageInfo.items"
-               [editable]="true"
-               [(pageInfo)]="pageInfo"
-               (onPageChangeEx)="getItems()"
-               (onEdit)="edit($event)"
-               (onDelete)="delete($event)">
-    </pbx-table>
+  <pbx-header [buttons]="buttons"
+              (onClick)="create()">
+  </pbx-header>
+  <pbx-loader *ngIf="loading"></pbx-loader>
+  <pbx-table *ngIf="!loading"
+             [tableInfo]="table"
+             [tableItems]="pageInfo.items"
+             [editable]="true"
+             (onPageChangeEx)="getItems()"
+             (onEdit)="edit($event)"
+             (onDelete)="delete($event)">
+  </pbx-table>
+  <pbx-pagination
+    [pageInfo]="pageInfo"
+    (onLimitSelect)="this.pageInfo.page=1;getItems()"
+    (onPageChange)="pageInfo.page=$event;getItems()"
+  ></pbx-pagination>
 </div>
