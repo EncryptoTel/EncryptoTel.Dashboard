@@ -24,7 +24,7 @@ export class PartnerProgramComponent implements OnInit {
         ],
         select: 'Overview'
     };
-    pageInfo: PageInfoModel = {page: 1, visible: true, pageCount: null, itemsCount: null, limit: 20};
+    pageInfo: PageInfoModel = {page: 1, visible: true, pageCount: null, itemsCount: null, limit: 20, items: []};
     form;
     items: PartnerProgramModel;
     tags: PartnerProgramModel;
@@ -70,7 +70,7 @@ export class PartnerProgramComponent implements OnInit {
 
     getTags(event = null) {
         if (!event || event.loading) {this.loading++; }
-        this.service.getItems({page: 1, limit: 999, pageCount: null, itemsCount: null, visible: null}).then(res => {
+        this.service.getItems({page: 1, limit: 999, pageCount: null, itemsCount: null, visible: null, items: []}).then(res => {
             this.tags = res.items;
             this.loading--;
         }).catch(() => {
