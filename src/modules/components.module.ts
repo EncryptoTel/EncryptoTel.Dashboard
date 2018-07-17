@@ -64,6 +64,7 @@ import {LinksPartnerProgramComponent} from '../components/partner-program/links/
 import {ReportsPartnerProgramComponent} from '../components/partner-program/reports/reports.partner-program.component';
 import {TermsPartnerProgramComponent} from '../components/partner-program/terms/terms.partner-program.component';
 import {IvrComponent} from '../components/ivr/ivr.component';
+import {IvrCreateComponent} from "../components/ivr/ivr-create/ivr-create.component";
 
 /*
   Components declarations and exports
@@ -138,7 +139,8 @@ import {IvrComponent} from '../components/ivr/ivr.component';
         ReportsPartnerProgramComponent,
         TermsPartnerProgramComponent,
         TimePipe,
-        IvrComponent
+        IvrComponent,
+        IvrCreateComponent
     ],
     exports: [
         ElementsModule,
@@ -188,7 +190,8 @@ import {IvrComponent} from '../components/ivr/ivr.component';
         LinksPartnerProgramComponent,
         ReportsPartnerProgramComponent,
         TermsPartnerProgramComponent,
-        IvrComponent
+        IvrComponent,
+        IvrCreateComponent
     ]
 })
 export class ComponentsModule {
