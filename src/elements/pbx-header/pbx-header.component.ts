@@ -1,11 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SwipeAnimation} from '../../shared/swipe-animation';
 
 @Component({
     selector: 'pbx-header',
     templateUrl: './template.html',
-    styleUrls: ['./local.sass'],
-    animations: [SwipeAnimation('y', '200ms')]
+    styleUrls: ['./local.sass']
 })
 
 export class HeaderComponent implements OnInit {
@@ -53,7 +51,7 @@ export class FilterItem {
     constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string) {
         this.id = id;
         this.key = key;
-        this.name = name
+        this.name = name;
         this.options = options;
         this.optionsDisplayKey = optionsDisplayKey;
         this.placeHolder = placeHolder;
