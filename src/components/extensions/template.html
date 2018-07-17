@@ -100,9 +100,9 @@
             <div class="ext_sidebar_button_grid">
                 <pbx-button [loading]="loading.admin" value="Admin E-mail"
                             (onClick)="sendPasswordToAdmin(sidebar)"></pbx-button>
-                <pbx-button *ngIf="!!extensions.user" [loading]="loading.user" value="User E-mail"
+                <pbx-button *ngIf="!!sidebar.user" [loading]="loading.user" value="User E-mail"
                             (onClick)="sendPasswordToUser(sidebar)"></pbx-button>
-                <div *ngIf="!extensions.user"></div>
+                <div *ngIf="!sidebar.user"></div>
                 <pbx-button value="Close" buttonType="cancel" (onClick)="closeExt()"></pbx-button>
                 <pbx-button value="Edit" buttonType="success" (onClick)="clickEditIcon(sidebar)"></pbx-button>
             </div>
