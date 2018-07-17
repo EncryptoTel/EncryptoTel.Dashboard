@@ -30,7 +30,7 @@ export class ExtensionsComponent implements OnInit {
     passwordTo: number;
     table = {
         title: ['#Ext', 'Phone Number', 'First Name', 'Last Name', 'E-mail', 'Status', 'Default', ''],
-        key: ['extension', 'phone', 'userFirstName', 'userLastName', 'userEmail', 'status', 'default'],
+        key: ['extension', 'phone', 'userFirstName', 'userLastName', 'userEmail', 'statusName', 'default'],
         width: [true, false, false, false, false, true, true, true],
     };
     text = MainViewComponent.prototype;
