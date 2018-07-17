@@ -351,6 +351,13 @@ export class CallRulesCreateComponent implements OnInit {
         return valid;
     }
 
+    getActionFormKey(index: number, last: boolean = false) {
+        let control = this.actionsControls.get([index, 'parameter']);
+        let key = !control && !last ? 'ruleActions' : '';
+        // console.log('getActionFormKey', control, index, key);
+        return key;
+    }
+
     ngOnInit() {
         this.loading++;
         this.buildForm();
