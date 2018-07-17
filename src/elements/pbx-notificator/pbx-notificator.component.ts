@@ -35,7 +35,7 @@ export class NotificatorComponent implements OnInit {
       if (notification) {
         // console.log(`NOTIFICATION WHICH GOT FROM SERVICE`, notification);
         this.notificator = notification;
-        setTimeout(() => { this.notificator.visible = false; }, 2000);
+        setTimeout(() => { this.notificator.visible = false; }, 4000);
       }
     });
   }

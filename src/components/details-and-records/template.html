@@ -123,12 +123,12 @@
               <div class="player-oreo"></div>
             </div>
           </div>
-          <div class="player--play-pause" (click)="playerAction(details.indexOf(detail))" *ngIf="detail.accountFile && !detail.loading">
+          <div class="player--play-pause" (click)="playerPlayPause(details.indexOf(detail))" *ngIf="detail.accountFile && !detail.playerLoading">
             <svg-icon src="../../assets/icons/play_24px.svg" class="details-table-cols-button" *ngIf="!detail.play"></svg-icon>
             <svg-icon src="../../assets/icons/pause_24px.svg" class="details-table-cols-button" *ngIf="detail.play"></svg-icon>
           </div>
-          <div class="player--loader" *ngIf="detail.loading">
-            <svg-icon src="../../assets/icons/player_loader.svg" class="player-loading"></svg-icon>
+          <div class="player--loader" *ngIf="detail.playerLoading">
+            <img src="../../assets/icons/player_loader.svg" alt="loading">
           </div>
         </div>
         <div class="details-table-cols">
