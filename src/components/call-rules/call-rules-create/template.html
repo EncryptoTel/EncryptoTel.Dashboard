@@ -97,7 +97,8 @@
                                            [object]="action">
                                 </pbx-input>
 
-                                <call-rules-time-rules [action]="action" (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
+                                <call-rules-time-rules [action]="action"
+                                                       (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
                             </ng-template>
                             <ng-template [ngSwitchCase]="2">
                                 <pbx-input name="External number"
@@ -116,7 +117,8 @@
                                            [object]="action">
                                 </pbx-input>
 
-                                <call-rules-time-rules [action]="action" (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
+                                <call-rules-time-rules [action]="action"
+                                                       (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
 
                             </ng-template>
                             <ng-template [ngSwitchCase]="3">
@@ -143,7 +145,8 @@
                                            [object]="action">
                                 </pbx-input>
 
-                                <call-rules-time-rules [action]="action" (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
+                                <call-rules-time-rules [action]="action"
+                                                       (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
 
                             </ng-template>
                             <ng-template [ngSwitchCase]="4">
@@ -168,8 +171,12 @@
                                            [(objectView)]="selectedFiles[i]"
                                            [object]="action">
                                     <div>
-                                        <pbx-button [value]="'Play'" [buttonType]="'accent'"></pbx-button>
-                                        <pbx-button [value]="'Upload'" [buttonType]="'accent'"></pbx-button>
+                                        <pbx-button value="Play" buttonType="accent"></pbx-button>
+                                        <div class="hidden_button_wrapper">
+                                            <pbx-button value="Upload" buttonType="accent" [loading]="storage.loading"></pbx-button>
+                                            <input type="file" class="hidden_input" #fileInput
+                                                   (change)="uploadFile($event)">
+                                        </div>
                                     </div>
                                 </pbx-input>
 
@@ -183,7 +190,8 @@
                                            [object]="action">
                                 </pbx-input>
 
-                                <call-rules-time-rules [action]="action" (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
+                                <call-rules-time-rules [action]="action"
+                                                       (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
 
                             </ng-template>
 
@@ -211,3 +219,4 @@
         </form>
     </div>
 </div>
+<pbx-modal [modalEx]="storage.modalUpload" (onConfirmEx)="doUploadAction($event)" (onDecline)="storage.cancelUploadAction()"></pbx-modal>

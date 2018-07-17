@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {RequestServices} from './request.services';
 import {PageInfoModel} from "../models/base.model";
+import {plainToClass} from "class-transformer";
+import {CallQueueItem, CallQueueModel} from "../models/call-queue.model";
+import {ClassType} from "class-transformer/ClassTransformer";
 
 @Injectable()
 export class BaseService {
@@ -10,6 +13,15 @@ export class BaseService {
 
     constructor(public request: RequestServices) {
         this.onInit();
+    }
+
+    plainToClassEx(classModel, classItems, res: PageInfoModel) {
+        let pageInfo: PageInfoModel = plainToClass(classModel, res);
+        pageInfo.items = [];
+        res['items'].map(item => {
+            pageInfo.items.push(plainToClass(classItems, item));
+        });
+        return pageInfo;
     }
 
     rawRequest(method: string, path: string, data: any): Promise<any> {

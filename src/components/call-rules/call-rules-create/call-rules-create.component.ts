@@ -6,12 +6,16 @@ import {CallRulesService} from '../../../services/call-rules.service';
 import {Action, SipInner, SipItem} from '../../../models/call-rules.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RefsServices} from "../../../services/refs.services";
+import {StorageService} from "../../../services/storage.service";
+import {StorageModel} from "../../../models/storage.model";
+import {MessageServices} from "../../../services/message.services";
 
 @Component({
     selector: 'pbx-call-rules-create',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    animations: [FadeAnimation('300ms')]
+    animations: [FadeAnimation('300ms')],
+    providers: [StorageService]
 })
 
 export class CallRulesCreateComponent implements OnInit {
@@ -38,7 +42,9 @@ export class CallRulesCreateComponent implements OnInit {
                 private fb: FormBuilder,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
-                private refs: RefsServices) {
+                private refs: RefsServices,
+                private storage: StorageService,
+                private message: MessageServices) {
         activatedRoute.snapshot.params.id ? this.mode = 'edit' : this.mode = 'create';
     }
 
@@ -253,7 +259,6 @@ export class CallRulesCreateComponent implements OnInit {
             // console.log(ruleActions);
         }).catch(err => {
             this.loading -= 1;
-            console.error(err);
         });
     }
 
@@ -265,7 +270,6 @@ export class CallRulesCreateComponent implements OnInit {
             this.formatForEdit(this.ruleActions);
         }).catch(err => {
             this.loadingStuff -= 1;
-            console.error(err);
         });
     }
 
@@ -280,7 +284,6 @@ export class CallRulesCreateComponent implements OnInit {
             }
         }).catch(err => {
             this.loading -= 1;
-            console.error(err);
         });
     }
 
@@ -291,7 +294,6 @@ export class CallRulesCreateComponent implements OnInit {
             this.numbers = res;
         }).catch(err => {
             this.loading -= 1;
-            console.error(err);
         });
     }
 
@@ -303,7 +305,6 @@ export class CallRulesCreateComponent implements OnInit {
             this.getFiles();
         }).catch(err => {
             this.loading -= 1;
-            console.error(err);
         });
     }
 
@@ -314,7 +315,6 @@ export class CallRulesCreateComponent implements OnInit {
             this.queues = res.items;
         }).catch(err => {
             this.loading -= 1;
-            console.error(err);
         });
     }
 
@@ -357,6 +357,46 @@ export class CallRulesCreateComponent implements OnInit {
         // console.log('getActionFormKey', control, index, key);
         return key;
     }
+
+    uploadFile(e) {
+        e.preventDefault();
+        const files = e.target.files;
+        if (files[0]) {
+            // console.log('uploadFile', files[0]);
+            if (this.storage.checkCompatibleType(files[0])) {
+                this.storage.checkFileExists(files[0]);
+            } else {
+                this.message.writeError('Accepted formats: mp3, ogg, wav');
+            }
+            this.storage.checkModal();
+        }
+    }
+
+    doUploadAction(button) {
+        switch (button.tag) {
+            case 1:
+                this.doUploadFile(this.storage.files[0], 'replace');
+                break;
+            case 2:
+                this.doUploadFile(this.storage.files[0], 'new');
+                break;
+        }
+        this.storage.deleteFileFromQueue();
+    }
+
+    doUploadFile(file, mode) {
+        this.storage.uploadFile(file, mode).then(res => {
+            this.storage.loading++;
+            this.service.getFiles().then((res) => {
+                this.files = res.items;
+                this.storage.loading--;
+            }).catch(err => {
+                this.storage.loading--;
+            });
+        });
+    }
+
+
 
     ngOnInit() {
         this.loading++;

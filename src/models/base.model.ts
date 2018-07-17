@@ -4,6 +4,7 @@ export class PageInfoModel {
     public pageCount: number;
     public limit: number;
     public visible: boolean;
+    public items = [];
 
     constructor() {
         this.limit = 10;
