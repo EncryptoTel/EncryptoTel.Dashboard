@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {BaseItemModel, PageInfoModel} from "../../models/base.model";
-import {ButtonItem} from "../pbx-header/pbx-header.component";
+import {ButtonItem, FilterItem} from "../pbx-header/pbx-header.component";
 import {Router} from "@angular/router";
 import {CallRulesItem} from "../../models/call-rules.model";
 
@@ -20,12 +20,14 @@ export class ListComponent implements OnInit{
     @Input() service: any;
     @Input() buttonTitle: string;
     @Input() loading: boolean;
+    @Input() filters: FilterItem;
     @Output() onCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
     @Output() onLoad: EventEmitter<object> = new EventEmitter<object>();
 
     buttons: ButtonItem[] = [];
+    currentFilter = [];
     loadingEx: number = 0;
 
     constructor(private router: Router) {
@@ -67,7 +69,7 @@ export class ListComponent implements OnInit{
     getItems(item = null) {
         item ? item.loading++ : this.loadingEx++;
         const limit = this.pageInfo.limit;
-        this.service.getItems(this.pageInfo).then(res => {
+        this.service.getItems(this.pageInfo, this.currentFilter).then(res => {
             this.pageInfo = res;
             this.pageInfo.limit = limit;
             this.onLoad.emit(this.pageInfo);
@@ -75,6 +77,11 @@ export class ListComponent implements OnInit{
         }).catch(err => {
             item ? item.loading-- : this.loadingEx--;
         });
+    }
+
+    updateFilter(filter) {
+        this.currentFilter = filter;
+        this.getItems();
     }
 
     ngOnInit() {

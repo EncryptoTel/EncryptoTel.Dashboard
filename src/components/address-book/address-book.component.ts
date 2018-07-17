@@ -13,6 +13,7 @@ import {PageInfoModel} from "../../models/base.model";
 import {CountryModel} from "../../models/country.model";
 import {classToPlain, plainToClass} from "class-transformer";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
+import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
 
 @Component({
     selector: 'pbx-address-book',
@@ -60,9 +61,16 @@ export class AddressBookComponent implements OnInit {
 
     countries: CountryModel[];
 
+    filters: FilterItem[] = [];
+
     constructor(private service: AddressBookService,
                 private refs: RefsServices) {
-
+        let filter = new FilterItem();
+        filter.id = 1;
+        filter.key = 'search';
+        filter.name = 'Search';
+        filter.placeHolder = 'Search by Name or Phone';
+        this.filters.push(filter);
     }
 
     create() {

@@ -1,6 +1,8 @@
 <div class="pbx_list">
     <pbx-header [buttons]="buttons"
+                [filters]="filters"
                 (onClick)="create()"
+                (onReload)="updateFilter($event)"
                 [inactive]="loading || loadingEx">
     </pbx-header>
     <pbx-loader *ngIf="loading || loadingEx"></pbx-loader>
