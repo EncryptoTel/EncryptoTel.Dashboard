@@ -1,0 +1,25 @@
+<div class="overview">
+    <div class="overview_header">Какой-нибудь текст</div>
+    <div class="overview_body">
+        <div class="overview_wrap">
+            <div class="overview_title">Earned</div>
+            <div class="overview_item">
+                <span>Available</span>
+                <span>475 ETT</span>
+            </div>
+            <div class="overview_item">
+                <span>Pending</span>
+                <span>275 ETT</span>
+            </div>
+            <div class="overview_title">Tags</div>
+            <div class="overview_tag_wrap" *ngIf="!loading.tag" [@Fade]>
+                <div class="overview_tag active color_{{item.color}}"
+                     *ngFor="let item of tag.active"
+                     (click)="clickActiveTag(item)">{{item.title}}</div>
+                <div class="overview_tag off"
+                     *ngFor="let item of tag.inactive"
+                     (click)="clickInactiveTag(item)">{{item.title}}</div>
+            </div>
+        </div>
+    </div>
+</div>

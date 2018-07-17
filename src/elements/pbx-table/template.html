@@ -1,4 +1,4 @@
-<div class="table_head">
+<!--<div class="table_head">
     <div class="table_row">
         <div class="table_column" *ngFor="let title of tableInfo.titles">{{title}}</div>
     </div>
@@ -19,6 +19,35 @@
             </div>
         </div>
     </div>
+</div>-->
+<div class="tablet">
+    <div class="tablet_header">
+        <div class="tablet_item" *ngFor="let item of tableInfo.titles">{{item}}</div>
+        <div class="tablet_icon edit" *ngIf="editable">
+            <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
+        </div>
+        <div class="tablet_icon delete">
+            <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+        </div>
+    </div>
+    <div class="tablet_body">
+        <div class="tablet_row" *ngFor="let item of tableItems"
+             [ngClass]="{'pick':multiple?isSelected(item.id):selected?.id===item.id}">
+            <pbx-loader *ngIf="item.loading"></pbx-loader>
+            <div class="tablet_content" *ngIf="!item.loading">
+                <div class="tablet_item {{!!columnFormat?columnFormat[i]:''}}"
+                     *ngFor="let key of tableInfo.keys;let i=index"
+                     (click)="selectItem(item)"
+                >{{getValueByKey(item,key)}}</div>
+                <div class="tablet_icon edit"
+                     *ngIf="editable" (click)="editItem(item,$event)">
+                    <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
+                </div>
+                <div class="tablet_icon delete" (click)="clickDeleteItem(item, $event)">
+                    <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <pbx-modal [modal]="modal" (onConfirm)="deleteItem()">Are you sure?</pbx-modal>
-<pbx-pagination *ngIf="pageInfo" [(pageInfo)]="pageInfo" (onPageChangeEx)="changePage()"></pbx-pagination>

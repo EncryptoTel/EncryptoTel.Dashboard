@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PageInfoModel} from "../../models/base.model";
+import {PageInfoModel} from '../../models/base.model';
 
 @Component({
     selector: 'pbx-pagination',
@@ -30,12 +30,14 @@ export class PaginationComponent {
     }
 
     selectLimit(limit: number): void {
+        this.pageInfo.limit = limit;
         this.showWrap = 2;
         if (this.onLimitSelect.observers.length > 0) {
             this.onLimitSelect.emit(limit);
         } else {
             this.pageInfo.limit = limit;
-            this.changePage(this.pageInfo.page)
+            this.changePage(1);
+            this.onLimitSelect.emit(limit);
         }
     }
 

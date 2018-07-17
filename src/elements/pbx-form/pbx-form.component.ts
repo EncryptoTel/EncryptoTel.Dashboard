@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {OnInit} from '@angular/core';
 
 @Component({
   selector: 'pbx-form',
@@ -6,7 +7,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrls: ['./local.sass']
 })
 
-export class FormComponent {
+export class FormComponent implements OnInit {
   selected: string;
   @Input() tabs;
   @Input() icons;

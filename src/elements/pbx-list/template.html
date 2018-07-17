@@ -8,10 +8,13 @@
                [tableInfo]="table"
                [tableItems]="pageInfo.items"
                [editable]="true"
-               [(pageInfo)]="pageInfo"
                (onPageChangeEx)="getItems()"
-               (onSelect)="select($event)"
                (onEdit)="edit($event)"
                (onDelete)="delete($event)">
     </pbx-table>
+    <pbx-pagination
+            [pageInfo]="pageInfo"
+            (onLimitSelect)="this.pageInfo.page=1;getItems()"
+            (onPageChange)="pageInfo.page=$event;getItems()">
+    </pbx-pagination>
 </div>

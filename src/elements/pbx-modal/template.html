@@ -1,26 +1,26 @@
 <div class="modal_overlay" *ngIf="(modal && modal.visible) || (modalEx && modalEx.visible)" [@Fade]>
-    <div class="modal_overlay_item" (click)="hideModal()"></div>
-    <div class="modal_wrap">
-        <div class="modal_title">{{modal ? modal.title : (modalEx ? modalEx.title : '')}}
-            <div class="modal_close" (click)="hideModal()">
-                <span></span><span></span>
-            </div>
-        </div>
-        <div *ngIf="!modalEx || !modalEx.body" class="modal_body">
-            <ng-content></ng-content>
-        </div>
-        <div *ngIf="modalEx && modalEx.body" class="modal_body">
-            {{modalEx.body}}
-        </div>
-        <div *ngIf="!modalEx" class="modal_buttons">
-            <pbx-button [value]="modal.decline.value" [buttonType]="modal.decline.type" [loading]="false"
-                        (onClick)="hideModal()"></pbx-button>
-            <pbx-button [value]="modal.confirm.value" [buttonType]="modal.confirm.type" [loading]="false"
-                        (onClick)="confirm()"></pbx-button>
-        </div>
-        <div *ngIf="modalEx" class="modal_buttons">
-            <pbx-button *ngFor="let button of modalEx.buttons" [value]="button.value" [buttonType]="button.type" [loading]="button.loading"
-                        (onClick)="clickEx(button)"></pbx-button>
-        </div>
+  <div class="modal_overlay_item" (click)="hideModal()"></div>
+  <div class="modal_wrap">
+    <div class="modal_title">{{modal ? modal.title : (modalEx ? modalEx.title : '')}}
+      <div class="modal_close" (click)="hideModal()">
+        <span></span><span></span>
+      </div>
     </div>
+    <div *ngIf="!modalEx || !modalEx.body" class="modal_body">
+      <ng-content></ng-content>
+    </div>
+    <div *ngIf="modalEx && modalEx.body" class="modal_body">
+      {{modalEx.body}}
+    </div>
+    <div *ngIf="!modalEx" class="modal_buttons">
+      <pbx-button [value]="modal.decline.value" [buttonType]="modal.decline.type" [loading]="false"
+                  (onClick)="hideModal()"></pbx-button>
+      <pbx-button [value]="modal.confirm.value" [buttonType]="modal.confirm.type" [loading]="false"
+                  (onClick)="confirm()"></pbx-button>
+    </div>
+    <div *ngIf="modalEx" class="modal_buttons">
+      <pbx-button *ngFor="let button of modalEx.buttons" [value]="button.value" [buttonType]="button.type" [loading]="button.loading"
+                  (onClick)="clickEx(button)"></pbx-button>
+    </div>
+  </div>
 </div>

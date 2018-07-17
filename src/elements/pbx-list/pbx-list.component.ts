@@ -59,15 +59,17 @@ export class ListComponent implements OnInit{
         this.service.deleteById(item.id).then(() => {
             this.getItems(item);
             item.loading--;
-        }).catch(err => {
+        }).catch(() => {
             item.loading--;
         });
     }
 
     getItems(item = null) {
         item ? item.loading++ : this.loadingEx++;
+        const limit = this.pageInfo.limit;
         this.service.getItems(this.pageInfo).then(res => {
             this.pageInfo = res;
+            this.pageInfo.limit = limit;
             this.onLoad.emit(this.pageInfo);
             item ? item.loading-- : this.loadingEx--;
         }).catch(err => {

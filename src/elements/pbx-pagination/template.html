@@ -20,8 +20,8 @@
         </div>
         <div class="pager_total">{{' of ' + pageInfo.itemsCount}}</div>
     </div>
-    <pbx-button name="pagination_next" [inactive]="pageInfo.page >= pageInfo.total" buttonType="pagination" value="Next"
+    <pbx-button name="pagination_next" [inactive]="pageInfo.page >= pageInfo.pageCount" buttonType="pagination" value="Next"
                 (onClick)="changePage(pageInfo.page + 1)"></pbx-button>
-    <pbx-button name="pagination_last" [inactive]="pageInfo.page >= pageInfo.total" buttonType="pagination" value="»"
-                (onClick)="changePage(pageInfo.total)"></pbx-button>
+    <pbx-button name="pagination_last" [inactive]="pageInfo.page >= pageInfo.pageCount" buttonType="pagination" value="»"
+                (onClick)="changePage(pageInfo.pageCount)"></pbx-button>
 </div>
