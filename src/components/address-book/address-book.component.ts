@@ -9,10 +9,10 @@ import {
 import {RefsServices} from '../../services/refs.services';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {PageInfoModel} from "../../models/base.model";
-import {CountryModel} from "../../models/country.model";
-import {classToPlain, plainToClass} from "class-transformer";
-import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
+import {PageInfoModel} from '../../models/base.model';
+import {CountryModel} from '../../models/country.model';
+import {classToPlain, plainToClass} from 'class-transformer';
+import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 
 @Component({
     selector: 'pbx-address-book',
@@ -39,7 +39,7 @@ export class AddressBookComponent implements OnInit {
         saving: 0,
         mode: ''
     };
-    loading: number = 0;
+    loading = 0;
 
     selected: AddressBookItem;
 
@@ -60,10 +60,8 @@ export class AddressBookComponent implements OnInit {
 
     countries: CountryModel[];
 
-    constructor(private service: AddressBookService,
-                private refs: RefsServices) {
-
-    }
+    constructor(public service: AddressBookService,
+                private refs: RefsServices) {}
 
     create() {
         this.sidebar.loading++;

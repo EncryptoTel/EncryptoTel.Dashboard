@@ -25,6 +25,7 @@
     "core-js": "^2.4.1",
     "howler": "^2.0.13",
     "libphonenumber-js": "^1.2.12",
+    "mediaelement": "^4.2.9",
     "ng-socket-io": "^0.2.4",
     "ngx-clipboard": "^11.1.1",
     "reflect-metadata": "^0.1.12",

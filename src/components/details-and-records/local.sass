@@ -272,23 +272,46 @@
       font-size: 10px
       color: rgba($dark_primary, 1)
     .player-wave
+      min-width: 72px
+      height: 6px
+      position: relative
       display: flex
       flex-direction: row
       justify-content: space-between
       align-items: center
-      span
-        display: block
-        width: 1px
+      .whiteline
+        position: absolute
         background-color: $dark_primary
-        margin-left: 2px
-        &:first-child
-          margin-left: 0
-        &.small
-          height: 6px
-        &.tall
-          height: 12px
-        &.active
-          background-color: $dark_accent
+        height: 100%
+        width: 100%
+        top: 0
+        left: 0
+      .progress
+        position: absolute
+        background-color: $dark_accent
+        height: 100%
+        width: 10%
+        top: 0
+        left: 0
+      .bars
+        position: absolute
+        background-color: transparent
+        height: 100%
+        width: 100%
+        top: 0
+        left: 0
+        span
+          overflow: hidden
+          display: block
+          width: 1px
+          background-color: transparent
+          margin-left: 2px
+          &:first-child
+            margin-left: 0
+          &.small
+            height: 6px
+          &.tall
+            height: 100%
 
 
 .details-table-cols-dropdown

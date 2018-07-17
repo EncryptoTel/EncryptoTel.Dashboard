@@ -60,7 +60,22 @@ export class DetailsAndRecordsServices {
   }
 
   getSound(id) {
-    return this.request.get(`v1/account/file/${id}`);
+    return this.request.get(`v1/account/file/${id}`).then(res => {
+      console.log(res);
+        const dataURI = 'data:audio/x-mp3;base64,' + res.dataBase64;
+        const byteString = atob(dataURI.split(',')[1]);
+        const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([ab], {type: mimeString});
+        return window.URL.createObjectURL(blob);
+
+    }).catch(err => {
+      console.error(err);
+    });
   }
 
 }

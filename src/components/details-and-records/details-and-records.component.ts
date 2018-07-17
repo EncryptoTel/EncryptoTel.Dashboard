@@ -371,58 +371,37 @@ export class DetailsAndRecordsComponent implements OnInit {
 
     if (this.details[index].play !== false) {
       if (this.details[index].player) {
+        console.log(this.details[index].player.state());
         this.details[index].player.pause();
         this.details[index].playerSeek = this.details[index].player.seek();
         console.log(this.details[index].playerSeek);
       }
     } else {
       this.details[index].playerLoading = true;
-      this.services.getSound(this.details[index].accountFile.id)
-        .then(res => {
-          console.log(res.dataBase64);
-          this.playerFiles = res;
-
-          if (this.details[index].playerSeek) {
-            this.details[index].player.seek(this.details[this.curID].playerSeek);
-            this.details[index].player.play();
-          } else {
-
-            const dataURI = 'data:audio/x-mp3;base64,' + res.dataBase64;
-            const byteString = atob(dataURI.split(',')[1]);
-            const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-            const ab = new ArrayBuffer(byteString.length);
-            const ia = new Uint8Array(ab);
-            for (let i = 0; i < byteString.length; i++) {
-              ia[i] = byteString.charCodeAt(i);
+      this.services.getSound(this.details[index].accountFile.id).then(res => {
+        console.log(res);
+        if (res) {
+          const self = this;
+          this.details[index].playerLoading = false;
+          /*
+          * Howler init
+          * */
+          this.details[index].player = new Howl({
+            src: [res],
+            html5: true,
+            onplay: function (id) {
+              setInterval(() => {
+                console.log(self.details[index].player.seek(id));
+                self.details[index].payerProgress = (self.details[index].player.seek(id) * 72) / 100;
+              }, 1000);
             }
-            const blob = new Blob([ab], {type: mimeString});
-            const blobUrl = window.URL.createObjectURL(blob);
-            const self = this;
-
-            this.details[index].playerLoading = false;
-            /*
-            * Howler init
-            * */
-            this.details[index].player = new Howl({
-              src: [blobUrl],
-              html5: true,
-              // onplay: function (id) {
-              //   console.log(self.player.seek(id));
-              // }
-              onend: function (id) {
-                console.log(self.player.seek(id));
-                self.details[index].play = false;
-              }
-            });
-            /*
-            * Howler play
-            * */
-            this.details[index].player.play();
-          }
-        })
-        .catch(err => {
-          console.error(err);
-        });
+          });
+          /*
+          * Howler play
+          * */
+          this.details[index].player.play();
+        }
+      });
     }
 
     // realisation with syntactic sugar
@@ -496,6 +475,7 @@ export class DetailsAndRecordsComponent implements OnInit {
           this.details[i].playerLoading = false;
           // this.details[i].payerState = 'stop';
           this.details[i].payerSeek = '';
+          this.details[i].payerProgress = '';
         });
       })
       .catch( err => {

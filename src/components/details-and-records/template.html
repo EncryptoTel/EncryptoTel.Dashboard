@@ -95,30 +95,34 @@
               </div>
               <div class="player-time" *ngIf="detail.playerContentShow" [@Fade]>{{detail.accountFile.duration | tp}}</div>
               <div class="player-wave" *ngIf="detail.playerContentShow" [@Fade]>
-                <span class="small active"></span>
-                <span class="tall active"></span>
-                <span class="small active"></span>
-                <span class="small active"></span>
-                <span class="tall active"></span>
-                <span class="small"></span>
-                <span class="small"></span>
-                <span class="tall"></span>
-                <span class="small"></span>
-                <span class="small"></span>
-                <span class="tall"></span>
-                <span class="small"></span>
-                <span class="small"></span>
-                <span class="tall"></span>
-                <span class="small"></span>
-                <span class="small"></span>
-                <span class="tall"></span>
-                <span class="small"></span>
-                <span class="small"></span>
-                <span class="tall"></span>
-                <span class="small"></span>
-                <span class="small"></span>
-                <span class="tall"></span>
-                <span class="small"></span>
+                <div class="whiteline"></div>
+                <div class="progress" [ngStyle]="{'width.px': detail.payerProgress}"></div>
+                <!--<div class="bars">-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="tall"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="tall"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="tall"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="tall"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="tall"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="tall"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="tall"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="small"></span>-->
+                  <!--<span class="tall"></span>-->
+                  <!--<span class="small"></span>-->
+                <!--</div>-->
               </div>
               <div class="player-oreo"></div>
             </div>
