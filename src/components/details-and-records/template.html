@@ -75,7 +75,7 @@
         <div class="details-table-cols" [ngClass]="{'payment-col': detail.statusName === 'payment'}">{{detail.source}}</div>
         <div class="details-table-cols">{{detail.destination}}</div>
         <div class="details-table-cols">{{detail.created}}</div>
-        <div class="details-table-cols">{{detail.duration}}</div>
+        <div class="details-table-cols">{{detail.duration | tp}}</div>
         <div class="details-table-cols tags">
           <button
             class="{{detail.tag}} details-button tag-button">
@@ -84,14 +84,16 @@
         </div>
         <div class="details-table-cols price" [ngClass]="{'payment-col': detail.statusName === 'payment'}">${{detail.price}}</div>
         <div class="details-table-cols player">
-          <div class="details-table-cols-button" (click)="playerAction(details.indexOf(detail))" *ngIf="detail.accountFile">
+          <div class="player-wrap">
             <div class="player-container"
-                 *ngIf="detail.playerOpen"
-                 [@Swipe]
-                 (@Swipe.start)="playerAnimationStart()"
-                 (@Swipe.done)="playerAnimationEnd()">
-              <div class="player-arrow"></div>
-              <div class="player-time" *ngIf="detail.playerContentShow" [@Fade]>00:01:08</div>
+                 *ngIf="detail.accountFile"
+                 [@PlayerAnimation]="detail.playerAnimationState"
+                 (@PlayerAnimation.start)="playerAnimationStart()"
+                 (@PlayerAnimation.done)="playerAnimationEnd()">
+              <div class="player-arrow" (click)="playerOpenClose(details.indexOf(detail))">
+                <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="player-arrow-icon" [ngClass]="{'collapse' : detail.playerContentShow}"></svg-icon>
+              </div>
+              <div class="player-time" *ngIf="detail.playerContentShow" [@Fade]>{{detail.accountFile.duration | tp}}</div>
               <div class="player-wave" *ngIf="detail.playerContentShow" [@Fade]>
                 <span class="small active"></span>
                 <span class="tall active"></span>
@@ -120,8 +122,13 @@
               </div>
               <div class="player-oreo"></div>
             </div>
+          </div>
+          <div class="player--play-pause" (click)="playerAction(details.indexOf(detail))" *ngIf="detail.accountFile && !detail.loading">
             <svg-icon src="../../assets/icons/play_24px.svg" class="details-table-cols-button" *ngIf="!detail.play"></svg-icon>
             <svg-icon src="../../assets/icons/pause_24px.svg" class="details-table-cols-button" *ngIf="detail.play"></svg-icon>
+          </div>
+          <div class="player--loader" *ngIf="detail.loading">
+            <svg-icon src="../../assets/icons/player_loader.svg" class="player-loading"></svg-icon>
           </div>
         </div>
         <div class="details-table-cols">
@@ -130,7 +137,7 @@
             <span></span>
             <span></span>
             <ul class="dd-menu" *ngIf="detail.ddShow" [ngClass]="{'top' : this.dropDirection === 'top', 'bottom' : this.dropDirection === 'bottom'}">
-              <li class="dd-menu-button" >Download file</li>
+              <li class="dd-menu-button" *ngIf="detail.accountFile">Download file</li>
               <li class="dd-menu-button">{{contactActionName}}</li>
               <li class="dd-menu-button ban">Block user</li>
             </ul>

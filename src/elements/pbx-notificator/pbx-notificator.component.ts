@@ -1,9 +1,6 @@
-// import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
-import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {Observable} from 'rxjs/Observable';
 import {NotificatorServices} from '../../services/notificator.services';
-import {log} from 'util';
 
 @Component({
   selector: 'pbx-notificator',

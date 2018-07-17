@@ -19,6 +19,8 @@ import {PaginationComponent} from '../elements/pbx-pagination/pbx-pagination.com
 import {NotificatorComponent} from '../elements/pbx-notificator/pbx-notificator.component';
 import {FormComponent} from '../elements/pbx-form/pbx-form.component';
 import {InputComponent} from '../elements/pbx-input/pbx-input.component';
+import {HeaderComponent} from '../elements/pbx-header/pbx-header.component';
+import {ListComponent} from '../elements/pbx-list/pbx-list.component';
 
 @NgModule({
     imports: [
@@ -41,7 +43,9 @@ import {InputComponent} from '../elements/pbx-input/pbx-input.component';
         PaginationComponent,
         NotificatorComponent,
         FormComponent,
-        InputComponent
+        InputComponent,
+        HeaderComponent,
+        ListComponent
     ],
     exports: [
         ClickOutsideDirective,
@@ -56,7 +60,9 @@ import {InputComponent} from '../elements/pbx-input/pbx-input.component';
         PaginationComponent,
         NotificatorComponent,
         FormComponent,
-        InputComponent
+        InputComponent,
+        HeaderComponent,
+        ListComponent
     ]
 })
 export class ElementsModule {

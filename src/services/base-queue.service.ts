@@ -3,7 +3,6 @@ import {BaseService} from "./base.service";
 export class BaseQueueService extends BaseService {
 
     editMode: boolean = false;
-    errors = null;
     item;
     params;
     userView;
@@ -48,14 +47,7 @@ export class BaseQueueService extends BaseService {
         if (this.editMode) {
             return this.putById(id, this.item);
         } else {
-            return this.post('', this.item).then(res => {
-                return Promise.resolve(res);
-            }).catch(res => {
-                if (res.errors) {
-                    this.errors = res.errors;
-                }
-                return Promise.reject(res);
-            });
+            return this.post('', this.item);
         }
     }
 

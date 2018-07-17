@@ -27,6 +27,7 @@ export class InputComponent implements OnInit {
     @Input() form: boolean;
     @Input() formKey: string;
     @Input() index: number;
+    @Input() updateValueByKey: boolean;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -45,11 +46,21 @@ export class InputComponent implements OnInit {
         return this.errorKey ? this.errorKey : this.key;
     }
 
+    getValueByKey(item: any, key: string) {
+        if (!key) {
+            return null;
+        }
+        const keyArray = key.split('.');
+        keyArray.forEach(k => item = item && item[k]);
+        return item;
+    }
+
     checkError(textOnly = null): string {
         if (!this.errors) {
             return textOnly ? null : this.checkForm();
         }
-        return (this.errors && this.errors[this.getErrorKey()]) || (textOnly ? null : this.checkForm());
+        let error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
+        return (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm());
     }
 
     getFormKey() {
@@ -69,6 +80,7 @@ export class InputComponent implements OnInit {
             return null;
         }
         let form = this.getForm();
+        let key = this.getFormKey();
         return form && form.touched && form.invalid;
     }
 
@@ -98,7 +110,12 @@ export class InputComponent implements OnInit {
 
         } else {
             this.object[this.key] = $event.id;
-            this.value[this.displayKey] = $event[this.displayKey];
+            if (this.updateValueByKey) {
+                // this.value.id = $event.id;
+                this.value[this.displayKey] = $event[this.displayKey];
+            } else {
+                this.value = $event;
+            }
         }
         this.onSelect.emit($event);
     }

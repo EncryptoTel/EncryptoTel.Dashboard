@@ -17,18 +17,18 @@ import {NotificatorModel} from '../../models/notificator.model';
                 value="Modal"
                 (onClick)="modal.visible = true">
               </pbx-button>
-              <pbx-button
-                style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;"
-                buttonType="success"
-                value="Notification success"
-                (onClick)="createNotificationSuccess()">
-              </pbx-button>
-              <pbx-button
-                style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;"
-                buttonType="error"
-                value="Notification error"
-                (onClick)="createNotificationError()">
-              </pbx-button>
+              <!--<pbx-button-->
+                <!--style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;"-->
+                <!--buttonType="success"-->
+                <!--value="Notification success"-->
+                <!--(onClick)="createNotificationSuccess()">-->
+              <!--</pbx-button>-->
+              <!--<pbx-button-->
+                <!--style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;"-->
+                <!--buttonType="error"-->
+                <!--value="Notification error"-->
+                <!--(onClick)="createNotificationError()">-->
+              <!--</pbx-button>-->
             </div>
             <pbx-select
               style="flex: 0 0 auto; width: 300px; margin-bottom: 16px"
@@ -153,23 +153,23 @@ export class BlankComponent implements OnInit {
   ngOnInit() {
   }
 
-  createNotificationSuccess() {
-    this.notificator = {
-      visible: true,
-      type: 'success',
-      message: 'Okay, dude'
-    };
-    this.serviceNotificator.setNotification(this.notificator);
-  }
-
-  createNotificationError() {
-    this.notificator = {
-      visible: true,
-      type: 'error',
-      message: 'Nope, dude'
-    };
-    this.serviceNotificator.setNotification(this.notificator);
-  }
+  // createNotificationSuccess() {
+  //   this.notificator = {
+  //     visible: true,
+  //     type: 'success',
+  //     message: 'Okay, dude'
+  //   };
+  //   this.serviceNotificator.setNotification(this.notificator);
+  // }
+  //
+  // createNotificationError() {
+  //   this.notificator = {
+  //     visible: true,
+  //     type: 'error',
+  //     message: 'Nope, dude'
+  //   };
+  //   this.serviceNotificator.setNotification(this.notificator);
+  // }
 
   selectItem(item): void {
     const selected = this.selectedRow.find(i => i.id === item.id);

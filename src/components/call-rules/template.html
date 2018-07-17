@@ -1,17 +1,6 @@
-<div class="call_rules">
-    <pbx-loader *ngIf="loading"></pbx-loader>
-    <ng-container *ngIf="!loading">
-        <div class="call_rules_header">
-            <pbx-button [value]="'Create Call Rule'" [buttonType]="'success'" (onClick)="create()"></pbx-button>
-        </div>
-
-        <pbx-table [tableInfo]="table"
-                   [tableItems]="pageInfo.items"
-                   [editable]="true"
-                   [pageInfo]="pageInfo"
-                   (onEdit)="edit($event)"
-                   (onDelete)="delete($event)">
-        </pbx-table>
-
-    </ng-container>
-</div>
+<pbx-list [(pageInfo)]="pageInfo"
+          [table]="table"
+          key="call-rules"
+          name="Call Rule"
+          [service]="service">
+</pbx-list>
