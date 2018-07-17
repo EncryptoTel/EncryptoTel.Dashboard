@@ -1,5 +1,5 @@
 <div class="pbx_header">
-    <div *ngFor="let filter of filters">
+    <div class="pbx_header_wrap" *ngFor="let filter of filters">
         <pbx-input [name]="filter.name"
                    [key]="filter.key"
                    [placeholder]="filter.placeHolder"
@@ -10,7 +10,7 @@
                    (onSelect)="reload()">
         </pbx-input>
     </div>
-    <div class="pbx_header_header">
+    <div class="pbx_header_wrap">
         <pbx-button *ngFor="let button of buttons"
                     [inactive]="inactive"
                     [value]="button.title"
