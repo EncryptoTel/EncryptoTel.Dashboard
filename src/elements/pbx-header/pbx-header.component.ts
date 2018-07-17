@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
         this.onClick.emit(item);
     }
 
-    keyUp() {
+    reload() {
         // console.log(this.currentFilter);
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
@@ -46,5 +46,16 @@ export class FilterItem {
     id: number;
     key: string;
     name: string;
+    options: any[];
+    optionsDisplayKey: string;
     placeHolder: string;
+
+    constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string) {
+        this.id = id;
+        this.key = key;
+        this.name = name
+        this.options = options;
+        this.optionsDisplayKey = optionsDisplayKey;
+        this.placeHolder = placeHolder;
+    }
 }

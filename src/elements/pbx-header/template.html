@@ -3,8 +3,11 @@
         <pbx-input [name]="filter.name"
                    [key]="filter.key"
                    [placeholder]="filter.placeHolder"
+                   [options]="filter.options"
+                   [displayKey]="filter.optionsDisplayKey"
                    [object]="currentFilter"
-                   (onKeyUp)="keyUp()">
+                   (onKeyUp)="reload()"
+                   (onSelect)="reload()">
         </pbx-input>
     </div>
     <div class="pbx_header_header">

@@ -65,12 +65,13 @@ export class AddressBookComponent implements OnInit {
 
     constructor(private service: AddressBookService,
                 private refs: RefsServices) {
-        let filter = new FilterItem();
-        filter.id = 1;
-        filter.key = 'search';
-        filter.name = 'Search';
-        filter.placeHolder = 'Search by Name or Phone';
-        this.filters.push(filter);
+        this.filters.push(new FilterItem(1, 'type', 'Select Source', [
+            {id: 'all', title: 'All'},
+            {id: 'my', title: 'My'},
+            {id: 'company', title: 'Company'},
+            {id: 'blacklist', title: 'Black List'},
+        ], 'title'));
+        this.filters.push(new FilterItem(2, 'search', 'Search', null, 'Search by Name or Phone'));
     }
 
     create() {
