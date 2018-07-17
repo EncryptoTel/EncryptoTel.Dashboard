@@ -1,13 +1,11 @@
-<div class="call-rules-create">
-    <div class="call-rules-create_header">
-        <div class="call-rules-create_header_controls">
-            <pbx-button [buttonType]="'cancel'" [value]="'Cancel'" (onClick)="cancel()"></pbx-button>
-            <pbx-button [buttonType]="'success'" [value]="'Save'" (onClick)="save()" [loading]="saving"></pbx-button>
-        </div>
-    </div>
+<pbx-form [background]="true"
+          [confirm]="{value: 'Save', buttonType: 'success', inactive: saving}"
+          [decline]="{value: 'Cancel', buttonType: 'cancel'}"
+          (onConfirm)="save()"
+          (onDecline)="cancel()"
+>
     <pbx-loader *ngIf="loading"></pbx-loader>
-    <div *ngIf="!loading" class="call-rules-create_body">
-        <form [formGroup]="callRulesForm" class="actions_form">
+        <form [formGroup]="callRulesForm" class="call-rules-create" *ngIf="!loading">
             <div class="call-rules-create_row">
                 <h3>General</h3>
             </div>
@@ -87,7 +85,7 @@
                                            [object]="action">
                                 </pbx-input>
 
-                                <pbx-input name="if I do not answer call within"
+                                <pbx-input name="If I do not answer call within"
                                            description="seconds"
                                            inputClass="time"
                                            key="timeout"
@@ -107,7 +105,7 @@
                                            [object]="action">
                                 </pbx-input>
 
-                                <pbx-input name="if I do not answer call within"
+                                <pbx-input name="If I do not answer call within"
                                            description="seconds"
                                            inputClass="time"
                                            key="timeout"
@@ -135,7 +133,7 @@
                                            [object]="action">
                                 </pbx-input>
 
-                                <pbx-input name="if I do not answer call within"
+                                <pbx-input name="If I do not answer call within"
                                            description="seconds"
                                            inputClass="time"
                                            key="timeout"
@@ -170,17 +168,16 @@
                                            [(errors)]="service.errors"
                                            [(objectView)]="selectedFiles[i]"
                                            [object]="action">
-                                    <div>
+                                    <div class="greeting">
                                         <pbx-button value="Play" buttonType="accent"></pbx-button>
                                         <div class="hidden_button_wrapper">
                                             <pbx-button value="Upload" buttonType="accent" [loading]="storage.loading"></pbx-button>
-                                            <input type="file" class="hidden_input" #fileInput
-                                                   (change)="uploadFile($event)">
+                                            <input type="file" class="hidden_input" #fileInput (change)="uploadFile($event)">
                                         </div>
                                     </div>
                                 </pbx-input>
 
-                                <pbx-input name="if I do not answer call within"
+                                <pbx-input name="If I do not answer call within"
                                            description="seconds"
                                            inputClass="time"
                                            key="timeout"
@@ -206,9 +203,9 @@
                                        [(objectView)]="selectedActions[i + 1]"
                                        [(object)]="callRulesForm">
                                 <div>
-                                    <svg-icon src="../../assets/icons/cancel_delete_12px.svg"
-                                              (click)="deleteAction(i)"
-                                              style="width: 13px; height: 13px; fill: #c76262; margin: 5px;"></svg-icon>
+                                    <div class="icon_wrap" (click)="deleteAction(i)">
+                                        <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+                                    </div>
                                 </div>
                             </pbx-input>
 
@@ -217,6 +214,5 @@
                 </ng-container>
             </ng-container>
         </form>
-    </div>
-</div>
+</pbx-form>
 <pbx-modal [modalEx]="storage.modalUpload" (onConfirmEx)="doUploadAction($event)" (onDecline)="storage.cancelUploadAction()"></pbx-modal>

@@ -19,7 +19,7 @@ export class CallRulesComponent {
     };
     pageInfo: CallRulesModel = new CallRulesModel();
 
-    constructor(private service: CallRulesService) {
+    constructor(public service: CallRulesService) {
 
     }
 
