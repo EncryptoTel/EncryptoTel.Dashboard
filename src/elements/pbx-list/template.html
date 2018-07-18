@@ -1,12 +1,24 @@
 <div class="pbx_list">
+
     <pbx-header [buttons]="buttons"
                 [filters]="filters"
                 (onClick)="create()"
                 (onReload)="updateFilter($event)"
                 [inactive]="loading || loadingEx">
     </pbx-header>
+
     <pbx-loader *ngIf="loading || loadingEx"></pbx-loader>
-    <pbx-table *ngIf="!loading && !loadingEx"
+
+    <div class="pbx_list_empty" *ngIf="!loading && !loadingEx && pageInfo.itemsCount === 0">
+        <div class="pbx_list_empty_text">
+            You do not have any {{name}}<br>Click on the button to create
+        </div>
+        <div class="pbx_list_empty_icon">
+            <svg-icon src="../../assets/icons/onbording_arrow.svg"></svg-icon>
+        </div>
+    </div>
+
+    <pbx-table *ngIf="!loading && !loadingEx && pageInfo.itemsCount > 0"
                [name]="itemName ? itemName : name"
                [tableInfo]="table"
                [tableItems]="pageInfo.items"
@@ -15,9 +27,11 @@
                (onEdit)="edit($event)"
                (onDelete)="delete($event)">
     </pbx-table>
+
     <pbx-pagination
             [pageInfo]="pageInfo"
             (onLimitSelect)="this.pageInfo.page=1;getItems()"
             (onPageChange)="pageInfo.page=$event;getItems()">
     </pbx-pagination>
+
 </div>
