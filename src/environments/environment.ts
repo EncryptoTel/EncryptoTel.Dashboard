@@ -1,10 +1,10 @@
 export const environment = {
     title: 'development',
     production: false,
-    back: 'http://pbx.loc/api',
-    // back: 'http://pbx-back-dev.encry.ru/api',
-    ws: 'localhost:3000',
-    // ws: 'ws.pbx-back-dev.encry.ru',
+    // back: 'http://pbx.loc/api',
+    back: 'http://pbx-back-dev.encry.ru/api',
+    // ws: 'localhost:3000',
+    ws: 'ws.pbx-back-dev.encry.ru',
     params: {
         messageDuration: 5000
     }
