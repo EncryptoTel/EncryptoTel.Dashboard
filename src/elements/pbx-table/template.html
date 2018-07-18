@@ -1,25 +1,3 @@
-<!--<div class="table_head">
-    <div class="table_row">
-        <div class="table_column" *ngFor="let title of tableInfo.titles">{{title}}</div>
-    </div>
-</div>
-<div class="table_body" [ngClass]="{'multiple': multiple}">
-    <div [ngClass]="['table_row', 'pbx_table_column_' + key, (multiple ? isSelected(item.id) : selected?.id === item.id) ? 'active' : '']"
-         *ngFor="let item of tableItems"
-         (click)="selectItem(item)">
-        <pbx-loader *ngIf="item.loading"></pbx-loader>
-        <div class="table_row_content" *ngIf="!item.loading">
-            <div [ngClass]="['table_column', 'pbx_table_item_' + key]" *ngFor="let key of tableInfo.keys">{{getValueByKey(item, key)}}</div>
-            <div class="table_row_icon_wrap">
-                <svg-icon src="/assets/icons/edit_12px.svg" class="table_row_icon edit" *ngIf="editable"
-                          (click)="editItem(item, $event)"></svg-icon>
-                <svg-icon src="/assets/icons/cancel_delete_12px.svg" class="table_row_icon delete"
-                          *ngIf="(!multiple || isSelected(item.id)) && !item.safe"
-                          (click)="clickDeleteItem(item, $event)"></svg-icon>
-            </div>
-        </div>
-    </div>
-</div>-->
 <div class="tablet">
     <div class="tablet_header">
         <div class="tablet_item" *ngFor="let item of tableInfo.titles">{{item}}</div>
@@ -50,4 +28,4 @@
         </div>
     </div>
 </div>
-<pbx-modal [modal]="modal" (onConfirm)="deleteItem()">Are you sure?</pbx-modal>
+<pbx-modal [modalEx]="modal" (onConfirmEx)="deleteItem()">Are you sure?</pbx-modal>

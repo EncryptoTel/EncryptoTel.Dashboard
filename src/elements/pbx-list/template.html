@@ -7,6 +7,7 @@
     </pbx-header>
     <pbx-loader *ngIf="loading || loadingEx"></pbx-loader>
     <pbx-table *ngIf="!loading && !loadingEx"
+               [name]="itemName ? itemName : name"
                [tableInfo]="table"
                [tableItems]="pageInfo.items"
                [editable]="true"

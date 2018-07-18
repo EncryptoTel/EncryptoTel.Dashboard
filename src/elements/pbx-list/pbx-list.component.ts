@@ -14,6 +14,7 @@ import {CallRulesItem} from "../../models/call-rules.model";
 
 export class ListComponent implements OnInit{
     @Input() name: string;
+    @Input() itemName: string;
     @Input() key: string;
     @Input() pageInfo: PageInfoModel;
     @Input() table: any;
@@ -57,6 +58,7 @@ export class ListComponent implements OnInit{
     }
 
     delete(item: CallRulesItem) {
+        console.log('delete', item);
         item.loading++;
         this.service.deleteById(item.id).then(() => {
             this.getItems(item);

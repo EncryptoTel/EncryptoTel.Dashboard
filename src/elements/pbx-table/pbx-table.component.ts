@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TableInfoModel} from '../../models/table-info.model';
+import {ModalEx} from "../pbx-modal/pbx-modal.component";
 
 @Component({
     selector: 'pbx-table',
@@ -7,24 +8,21 @@ import {TableInfoModel} from '../../models/table-info.model';
     styleUrls: ['./local.sass']
 })
 
-export class TableComponent {
+export class TableComponent implements OnInit {
     @Input() tableItems: any[];
     @Input() selected: any;
     @Input() tableInfo: TableInfoModel;
     @Input() editable: boolean;
     @Input() multiple: boolean;
     @Input() columnFormat: string[];
+    @Input() name: string;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
     @Output() onDelete: EventEmitter<object> = new EventEmitter<object>();
     @Output() onPageChangeEx: EventEmitter<number> = new EventEmitter<number>();
 
-    modal = {
-        visible: false,
-        confirm: {type: 'error', value: 'Delete'},
-        decline: {type: 'cancel', value: 'Cancel'}
-    };
+    modal: ModalEx = new ModalEx('Are you sure?', 1);
     selectedDelete: any;
 
     isSelected(id: number): boolean {
@@ -66,6 +64,10 @@ export class TableComponent {
 
     changePage(): void {
         this.onPageChangeEx.emit();
+    }
+
+    ngOnInit() {
+        this.name ? this.modal.body = `Are you sure you want to delete this ${this.name}?` : null;
     }
 
 }
