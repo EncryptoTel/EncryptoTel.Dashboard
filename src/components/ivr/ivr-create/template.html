@@ -1,0 +1,44 @@
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div *ngIf="!loading" class="ivr_create_wrap" [@Fade]>
+    <div class="ivr_create_header">
+        <div class="ivr_create_tab_wrap">
+            <pbx-button buttonType="accent"
+                        value="Add IVR Level"
+                        (onClick)="addLevel()">
+            </pbx-button>
+        </div>
+        <div class="ivr_create_buttons">
+            <pbx-button buttonType="cancel"
+                        value="Cancel"
+                        (onClick)="cancel()">
+            </pbx-button>
+            <pbx-button buttonType="success"
+                        value="Save"
+                        (onClick)="save()"
+                        [loading]="saving">
+            </pbx-button>
+        </div>
+    </div>
+    <div class="ivr_create_body">
+        <pbx-input name="Name"
+                   key="name"
+                   [(errors)]="service.errors"
+                   [(object)]="service.item">
+        </pbx-input>
+        <pbx-input name="Description"
+                   key="description"
+                   [(errors)]="service.errors"
+                   [(object)]="service.item">
+        </pbx-input>
+        <pbx-input name="Phone number"
+                   key="sipId"
+                   displayKey="phoneNumber"
+                   errorKey="sip"
+                   [options]="numbers"
+                   [(errors)]="service.errors"
+                   [(object)]="service.item"
+                   [(objectView)]="selectedNumber">
+        </pbx-input>
+
+    </div>
+</div>

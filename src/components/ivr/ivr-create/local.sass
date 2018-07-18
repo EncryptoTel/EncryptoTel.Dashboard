@@ -1,0 +1,38 @@
+@import "../../../vars"
+// Global variables import
+
+.ivr_create
+  &_wrap
+    flex: 1
+    flex-flow: column
+    pbx-button
+      width: unset
+      margin-left: rem(8)
+  &_header
+    flex-flow: row
+    justify-content: space-between
+  &_tab
+    background: rgba($dark_overlay,.33)
+    padding: rem(16)
+    color: $font-color
+    &:hover
+      background: rgba($dark_overlay,.67)
+    &.active
+      background: $dark_overlay
+      color: $dark_accent
+      cursor: default
+      &:hover
+        background: $dark_overlay
+    &.blocked
+      color: rgba($dark_primary,0.33)
+      &:hover
+        background: rgba($dark_overlay,.33)
+    &.invalid
+      color: rgba($dark_error,0.33)
+      &:hover
+        background: rgba($dark_overlay,.33)
+    &_wrap
+      flex-direction: row
+  &_body
+    display: grid
+    grid-gap: rem(16)

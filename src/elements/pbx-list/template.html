@@ -1,0 +1,22 @@
+<div class="pbx_list">
+    <pbx-header [buttons]="buttons"
+                [filters]="filters"
+                (onClick)="create()"
+                (onReload)="updateFilter($event)"
+                [inactive]="loading || loadingEx">
+    </pbx-header>
+    <pbx-loader *ngIf="loading || loadingEx"></pbx-loader>
+    <pbx-table *ngIf="!loading && !loadingEx"
+               [tableInfo]="table"
+               [tableItems]="pageInfo.items"
+               [editable]="true"
+               (onSelect)="select($event)"
+               (onEdit)="edit($event)"
+               (onDelete)="delete($event)">
+    </pbx-table>
+    <pbx-pagination
+            [pageInfo]="pageInfo"
+            (onLimitSelect)="this.pageInfo.page=1;getItems()"
+            (onPageChange)="pageInfo.page=$event;getItems()">
+    </pbx-pagination>
+</div>
