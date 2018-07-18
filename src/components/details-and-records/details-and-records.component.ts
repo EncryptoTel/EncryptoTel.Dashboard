@@ -18,166 +18,12 @@ import {TimerObservable} from 'rxjs/observable/TimerObservable';
     PlayerAnimation
   ]
 })
-
 export class DetailsAndRecordsComponent implements OnInit {
-  loading = false;
+  loading: boolean = false;
+  details: any = [];
+  detailPlayTimes: any = {};
 
-  // details = [
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   }
-  // ];
-
-  details = [];
-
-  sortingActive = 2;
+  sortingActive: number = 2;
   sorting = [
     {
       active: false,
@@ -213,21 +59,17 @@ export class DetailsAndRecordsComponent implements OnInit {
   inactiveFilters: string[] = ['no-answer', 'incoming', 'outgoing', 'missed', 'record'];
 
   pages: number;
-  page = 1;
+  page: number = 1;
 
   limit = Math.floor((window.innerHeight - 280) / 48);
 
-  sort = '';
-  sortDirection = '';
+  sort: string = '';
+  sortDirection: string = '';
   tags = [];
 
   rowHowerIndex: number;
-
-  contactActionName = 'View contact';
-
-  dropDirection = 'bottom';
-
-
+  contactActionName: string = 'View contact';
+  dropDirection: string = 'bottom';
 
   curID: number;
   player: any;
@@ -237,52 +79,69 @@ export class DetailsAndRecordsComponent implements OnInit {
   playerFiles = [];
   playerPrevState: any;
 
+  api: VgAPI;
+  selectedDetailIndex: number;
+  currentRecord: string;
+
+  @ViewChild(VgHLS) vgHls: VgHLS;
+
   constructor(
     private services: DetailsAndRecordsServices,
   ) {}
 
   ngOnInit() {
     this.fetchDetailsAndRecords();
-    console.log(window.innerHeight);
-    console.log(window.innerHeight - 280);
-
-    this.currentRecord = this.hlsRecords[0];
   }
-
-  api: VgAPI;
-  hlsRecords = [
-    'http://edge.flowplayer.org/fake_empire.m3u8',
-    'https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8'
-  ];
-  currentRecord: string;
   
-  @ViewChild(VgHLS) vgHls: VgHLS;
-
   onPlayerReady(api: VgAPI): void {
     this.api = api;
   }
 
   startPlayRecord(idx: number): void {
-    let record = this.hlsRecords[idx % 2];
-    
-    if (record != this.currentRecord) {
-      this.api.pause();
-      let timer: Subscription = TimerObservable.create(0, 10).subscribe(
-        () => {
-            this.currentRecord = record;
-            timer.unsubscribe();
+    if (this.loading) return;
 
-            let onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(
-              () => {
-                this.api.play();
-                onCanPlay.unsubscribe();
-              });
-        });
+    if (idx != this.selectedDetailIndex) {
+      this.api.pause();
+
+      // save current media playtime
+      if (this.details[this.selectedDetailIndex]) {
+        let selectedDetail = this.details[this.selectedDetailIndex];
+        this.detailPlayTimes[selectedDetail.source] = this.api.currentTime;
+        console.log(this.detailPlayTimes);
+      }
+
+      this.selectedDetailIndex = idx;
+
+      if (this.details[idx].record) {
+        this.loadRecordMedia();
+      }
     }
     else {
-      if (this.api.state == 'playing') this.api.pause();
-      else this.api.play();
+      if (this.details[this.selectedDetailIndex].record) {
+        if (this.api.state == 'playing')
+          this.api.pause();
+        else 
+          this.api.play();
+      }
     }
+  }
+
+  loadRecordMedia(): void {
+    let timer: Subscription = TimerObservable.create(0, 10).subscribe(
+      () => {
+          this.currentRecord = this.details[this.selectedDetailIndex].record;
+          timer.unsubscribe();
+
+          let onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(
+            () => {
+              // restore media playtime
+              let selectedDetail = this.details[this.selectedDetailIndex];
+              this.api.seekTime(this.detailPlayTimes[selectedDetail.source], false);
+              this.api.play();
+              
+              onCanPlay.unsubscribe();
+            });
+      });
   }
 
   toggleFilter(filter: string): void {
@@ -398,6 +257,7 @@ export class DetailsAndRecordsComponent implements OnInit {
     this.curID = index;
     const detailsLength = this.details.length;
     console.log(this.details[this.curID]);
+
     // play only one from array, old realisation
     // for (let i = 0; i < index; i++) {
     //   this.details[i].play = false;
@@ -517,40 +377,20 @@ export class DetailsAndRecordsComponent implements OnInit {
   }
 
   private fetchDetailsAndRecords(): void {
-    this.details = [
-      {
-        source: '+1(800)200 01 10 #101',
-        destination: '+1(800)200 01 10 #108',
-        created: '26/06/2017 14:47:25',
-        duration: '00:23:00',
-        statusName: 'outgoing',
-        tag: 'outgoing',
-        price: '0',
-        record: '',
-        ddShow: false,
-        play: false,
-        playerOpen: false,
-        playerContentShow: false,
-        hover: false
-      },
-      {
-        source: '+1(800)200 01 10 #101',
-        destination: '+1(800)200 01 10 #108',
-        created: '26/06/2017 14:47:25',
-        duration: '00:23:00',
-        statusName: 'outgoing',
-        tag: 'outgoing',
-        price: '0',
-        record: '',
-        ddShow: false,
-        play: false,
-        playerOpen: false,
-        playerContentShow: false,
-        hover: false
-      }
-    ];
-    this.loading = false;
-    console.log(this.details);
+    this.loading = true;
+    this.services.mockFetchDetailsAndRecords(this.page, this.limit, this.sort, this.sortDirection, this.tags)
+      .then(details => {
+        this.details = details;
+        this.selectedDetailIndex = -1;
+        // store playtimes independently as sorting and filtering may clear them
+        this.details.forEach(detail => {
+          if (!this.detailPlayTimes[detail.source]) {
+            this.detailPlayTimes[detail.source] = 0;
+          }
+        });
+        this.loading = false;
+        console.log(this.details);
+      });
 
     // this.loading = true;
     // if (this.limit < 10) {
