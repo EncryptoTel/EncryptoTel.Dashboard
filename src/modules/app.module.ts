@@ -32,6 +32,7 @@ import {RefsServices} from '../services/refs.services';
 import {NotificatorServices} from '../services/notificator.services';
 import {SizePipe} from '../services/size.pipe';
 import {ClipboardModule} from 'ngx-clipboard';
+import {DashboardServices} from "../services/dashboard.services";
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -69,7 +70,8 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         RingGroupService,
         NotificatorServices,
         SizePipe,
-        IvrService
+        IvrService,
+        DashboardServices
     ],
     bootstrap: [MainViewComponent]
 })

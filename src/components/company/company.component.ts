@@ -6,6 +6,7 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
 import {CompanyServices} from '../../services/company.services';
 import {CompanyModel, CountriesModel, CountryModel} from '../../models/company.model';
 import {emailRegExp} from '../../shared/vars';
+import {DashboardServices} from "../../services/dashboard.services";
 
 @Component({
     selector: 'pbx-company',
@@ -26,15 +27,17 @@ export class CompanyComponent implements OnInit {
     @ViewChildren('label') labelFields;
 
     constructor(private _services: CompanyServices,
-                private fb: FormBuilder) {
+                private fb: FormBuilder,
+                private dashboard: DashboardServices) {
         this.sidebarInfo = {
+            loading: 0,
             title: 'Information',
             description: [
-                {title: 'External numbers', value: 4},
-                {title: 'Internal numbers', value: 5},
-                {title: 'Unassigned Ext', value: 7},
-                {title: 'Storage space', value: '1500 Mb'},
-                {title: 'Available space', value: '430 Mb'},
+                {title: 'External numbers', value: null},
+                {title: 'Internal numbers', value: null},
+                // {title: 'Unassigned Ext', value: null},
+                {title: 'Storage space', value: null},
+                {title: 'Available space', value: null},
             ]
         };
 
@@ -149,7 +152,38 @@ export class CompanyComponent implements OnInit {
         });
     }
 
+    updateSidebar() {
+        this.sidebarInfo.loading++;
+        this.dashboard.getDashboard().then(res => {
+            for (let i = 0; i < this.sidebarInfo.description.length; i++) {
+                let item = this.sidebarInfo.description[i];
+                switch (item.title) {
+                    case 'External numbers':
+                        item.value = res.outersCount;
+                        break;
+                    case 'Internal numbers':
+                        item.value = res.innersCount;
+                        break;
+                    case 'Unassigned Ext':
+                        item.value = null;
+                        break;
+                    case 'Storage space':
+                        item.value = `${res.storage.totalSize} ${res.storage.measure}`;
+                        break;
+                    case 'Available space':
+                        item.value = `${res.storage.availableSize} ${res.storage.measure}`;
+                        break;
+                }
+            }
+            this.sidebarInfo.loading--;
+        }).catch(res => {
+            this.sidebarInfo.loading--;
+        });
+    }
+
     ngOnInit(): void {
+
         this.getCountries();
+        this.updateSidebar();
     }
 }

@@ -7,6 +7,19 @@ export class DashboardModel {
     numbers: NumberModel[];
     storage: StorageModel;
     callDetail: CallDetailModel[];
+
+    get outersCount() {
+        return this.numbers.length;
+    }
+
+    get innersCount() {
+        let result = 0;
+        this.numbers.map((item: NumberModel) => {
+            result += item.innerCount;
+        });
+        return result;
+    }
+
 }
 
 export class BalanceModel {
@@ -37,11 +50,12 @@ export class NumberModel {
 export class StorageModel {
     totalSize: number;
     usedSize: number;
-    availableSize: number;
+    // availableSize: number;
     measure: string;
-    // get availableSize(): number {
-    //     return Math.round((this.totalSize - this.usedSize) * 100) / 100;
-    // }
+
+    get availableSize(): number {
+        return Math.round((this.totalSize - this.usedSize) * 100) / 100;
+    }
 }
 
 

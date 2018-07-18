@@ -75,6 +75,7 @@ export class BlankComponent implements OnInit {
   selectedOption;
   checkboxStatus: boolean;
   sidebarInfo: SidebarInfo = {
+    loading: 0,
     title: 'Information',
     description: [
       {title: 'Available space', value: '4Mb'},
