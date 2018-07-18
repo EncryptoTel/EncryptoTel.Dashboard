@@ -1,72 +1,104 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
 <div class="company" *ngIf="!loading">
-  <div class="company_header">
-    <pbx-button [value]="'Cancel'" [buttonType]="'cancel'" (onClick)="cancel()"></pbx-button>
-    <pbx-button [value]="'Save'" [buttonType]="'success'" (onClick)="save()"></pbx-button>
-  </div>
-  <div class="company_contain">
-  <form [formGroup]="companyForm">
-    <div class="company_item">
-      <label for="organization">Organization</label>
-      <input id="organization"
-             formControlName="name"
-             autofocus
-             (focus)="toggleHighlightLabel($event)"
-             (blur)="toggleHighlightLabel($event)">
+    <div class="company_header">
+        <pbx-button [value]="'Cancel'" [buttonType]="'cancel'" (onClick)="cancel()"></pbx-button>
+        <pbx-button [value]="'Save'" [buttonType]="'success'" (onClick)="save()" [loading]="saving"></pbx-button>
     </div>
-    <div class="company_item">
-      <label [ngClass]="{'active': hightLightLabelSelect}">Country</label>
-      <pbx-select [options]="countries"
-                  [objectKey]="'title'"
-                  [singleBorder]="true"
-                  (onSelect)="selectCountry($event)"
-                  [selected]="selectedCountry"
-                  [ngClass]="{'invalid': companyForm.get(['companyAddress', '0','country']).invalid}"
-                  (onOpen)="hightLightLabelSelect = true"
-                  (onClose)="hightLightLabelSelect = false"></pbx-select>
+    <div class="company_contain">
+        <form [formGroup]="companyForm">
+
+            <pbx-input name="Organization"
+                       key="name"
+                       [form]="true"
+                       [errors]="service.errors"
+                       [object]="companyForm">
+            </pbx-input>
+
+            <pbx-input name="Country"
+                       displayKey="title"
+                       (onSelect)="selectCountry($event)"
+                       [options]="countries"
+                       [object]="companyForm"
+                       [errors]="service.errors"
+                       [objectView]="selectedCountry">
+            </pbx-input>
+
+            <ng-container formArrayName="companyAddress">
+                <ng-container *ngFor="let address of addressControls.controls;let i = index" [formGroupName]="i">
+
+                    <pbx-input name="State/Region"
+                               key="regionName"
+                               [form]="true"
+                               [errorKey]="'companyAddress.new_0.regionName'"
+                               [errors]="service.errors"
+                               [object]="address">
+                    </pbx-input>
+
+                    <pbx-input name="City"
+                               key="locationName"
+                               [form]="true"
+                               [errorKey]="'companyAddress.new_0.locationName'"
+                               [errors]="service.errors"
+                               [object]="address">
+                    </pbx-input>
+
+                    <pbx-input name="Street"
+                               key="street"
+                               [form]="true"
+                               [errorKey]="'companyAddress.new_0.street'"
+                               [errors]="service.errors"
+                               [object]="address">
+                    </pbx-input>
+
+                    <pbx-input name="House #"
+                               key="building"
+                               [form]="true"
+                               [errorKey]="'companyAddress.new_0.building'"
+                               [errors]="service.errors"
+                               [object]="address">
+                    </pbx-input>
+
+                    <pbx-input name="Office"
+                               key="office"
+                               [form]="true"
+                               [errorKey]="'companyAddress.new_0.office'"
+                               [errors]="service.errors"
+                               [object]="address">
+                    </pbx-input>
+
+                    <pbx-input name="Postal code"
+                               key="postalCode"
+                               [form]="true"
+                               [errorKey]="'companyAddress.new_0.postalCode'"
+                               [errors]="service.errors"
+                               [object]="address">
+                    </pbx-input>
+
+                </ng-container>
+            </ng-container>
+
+            <pbx-input name="Email"
+                       key="email"
+                       [form]="true"
+                       [errors]="service.errors"
+                       [object]="companyForm">
+            </pbx-input>
+
+            <pbx-input name="Phone"
+                       key="phone"
+                       [form]="true"
+                       [errors]="service.errors"
+                       [object]="companyForm">
+            </pbx-input>
+
+            <pbx-input name="VAT ID"
+                       key="vatId"
+                       [form]="true"
+                       [errors]="service.errors"
+                       [object]="companyForm">
+            </pbx-input>
+
+        </form>
     </div>
-    <ng-container formArrayName="companyAddress">
-      <ng-container [formGroupName]="0">
-        <div class="company_item">
-          <label for="state">State/Region</label>
-          <input type="text" id="state"  formControlName="regionName" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
-        </div>
-        <div class="company_item">
-          <label for="city">City</label>
-          <input type="text" id="city" formControlName="locationName" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
-        </div>
-        <div class="company_item">
-          <label for="street">Street</label>
-          <input type="text" id="street" formControlName="street" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
-        </div>
-        <div class="company_item">
-          <label for="house">House №</label>
-          <input type="text" id="house" formControlName="building" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
-        </div>
-        <div class="company_item">
-          <label for="office" #label>Office</label>
-          <input type="text" id="office" formControlName="office" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
-        </div>
-        <div class="company_item">
-          <label for="postal" #label>Postal code</label>
-          <input type="text" id="postal" formControlName="postalCode" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
-        </div>
-      </ng-container>
-    </ng-container>
-    <div class="company_item">
-      <label for="email" #label>Email</label>
-      <input type="email" id="email" formControlName="email" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
-    </div>
-    <div class="company_item">
-      <label for="phone" #label>Phone</label>
-      <input type="text" id="phone" (keyup)="formatPhone($event)" (blur)="formatPhone($event)" (focus)="toggleHighlightLabel($event)"
-             formControlName="phone">
-    </div>
-    <div class="company_item">
-      <label for="vat">VAT ID</label>
-      <input type="number" id="vat" formControlName="vatId" (focus)="toggleHighlightLabel($event)" (blur)="toggleHighlightLabel($event)">
-    </div>
-  </form>
-  </div>
 </div>
 <pbx-sidebar [sidebarInfo]="sidebarInfo" *ngIf="!loading"></pbx-sidebar>

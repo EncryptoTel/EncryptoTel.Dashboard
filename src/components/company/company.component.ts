@@ -1,34 +1,38 @@
 import {Component, OnInit, ViewChildren} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {formatNumber} from 'libphonenumber-js';
 import {SidebarInfo} from '../../models/sidebar-info.model';
-import {CompanyServices} from '../../services/company.services';
-import {CompanyModel, CountriesModel, CountryModel} from '../../models/company.model';
+import {CompanyService} from '../../services/company.service';
+import {CompanyModel} from '../../models/company.model';
 import {emailRegExp} from '../../shared/vars';
 import {DashboardServices} from "../../services/dashboard.services";
+import {RefsServices} from "../../services/refs.services";
+import {CountryModel} from "../../models/country.model";
 
 @Component({
     selector: 'pbx-company',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    providers: [CompanyServices]
+    providers: [CompanyService]
 })
 
 export class CompanyComponent implements OnInit {
     company: CompanyModel;
     companyForm: FormGroup;
     countries: CountryModel[] = [];
-    hightLightLabelSelect = false;
-    loading = true;
+    loading = 0;
+    saving = 0;
     selectedCountry: CountryModel;
     sidebarInfo: SidebarInfo;
 
     @ViewChildren('label') labelFields;
 
-    constructor(private _services: CompanyServices,
+    constructor(private service: CompanyService,
                 private fb: FormBuilder,
-                private dashboard: DashboardServices) {
+                private dashboard: DashboardServices,
+                private refs: RefsServices) {
+
         this.sidebarInfo = {
             loading: 0,
             title: 'Information',
@@ -61,6 +65,7 @@ export class CompanyComponent implements OnInit {
     }
 
     cancel(): void {
+        this.service.resetErrors();
         this.companyForm.reset();
         this.selectedCountry = null;
         this.fillCompany();
@@ -69,22 +74,16 @@ export class CompanyComponent implements OnInit {
 
     formatPhone(event): void {
         event.target.value = formatNumber(event.target.value, 'International');
-        this.toggleHighlightLabel(event);
-    }
-
-    toggleHighlightLabel(event): void {
-        event.target.labels[0].classList.toggle('active');
     }
 
     save(): void {
         this.validate();
         if (this.companyForm.valid) {
-            this.loading = true;
-            this._services.save({...this.companyForm.value}).then(() => {
-                this.loading = false;
-            }).catch(err => {
-                console.error(err);
-                this.loading = false;
+            this.saving++;
+            this.service.save({...this.companyForm.value}).then(() => {
+                this.saving--;
+            }).catch(() => {
+                this.saving--;
             });
         } else {
             this.companyForm.markAsTouched();
@@ -118,27 +117,6 @@ export class CompanyComponent implements OnInit {
         }
     }
 
-    private getCompany(): void {
-        this._services.getCompany().then((res: CompanyModel) => {
-            this.company = res;
-            this.fillCompany();
-            this.loading = false;
-        }).catch(err => {
-            console.error(err);
-            this.loading = false;
-        });
-    }
-
-    private getCountries(): void {
-        this._services.getCountries().then((res: CountriesModel) => {
-            this.countries = res.countries;
-            this.getCompany();
-        }).catch(err => {
-            console.error(err);
-            this.loading = false;
-        });
-    }
-
     private validate() {
         this.companyForm.updateValueAndValidity();
         Object.keys(this.companyForm.controls).forEach(field => {
@@ -152,7 +130,32 @@ export class CompanyComponent implements OnInit {
         });
     }
 
-    updateSidebar() {
+    get addressControls(): FormArray {
+        return this.companyForm.get('companyAddress') as FormArray;
+    }
+
+    private getCompany() {
+        this.loading++;
+        this.service.getCompany().then((res: CompanyModel) => {
+            this.company = res;
+            this.fillCompany();
+            this.loading--;
+        }).catch(err => {
+            this.loading--;
+        });
+    }
+
+    private getCountries() {
+        this.loading++;
+        this.refs.getCountries().then((res) => {
+            this.countries = res;
+            this.loading--;
+        }).catch(() => {
+            this.loading--;
+        });
+    }
+
+    private getSidebar() {
         this.sidebarInfo.loading++;
         this.dashboard.getDashboard().then(res => {
             for (let i = 0; i < this.sidebarInfo.description.length; i++) {
@@ -181,9 +184,9 @@ export class CompanyComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {
-
+    ngOnInit() {
+        this.getCompany();
         this.getCountries();
-        this.updateSidebar();
+        this.getSidebar();
     }
 }
