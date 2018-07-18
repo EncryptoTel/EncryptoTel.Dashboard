@@ -9,6 +9,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 })
 
 export class InputComponent implements OnInit {
+    @Input() location: string;
     @Input() key: string;
     @Input() name: string;
     @Input() description: string;
@@ -38,11 +39,14 @@ export class InputComponent implements OnInit {
     value;
     checkboxValues;
 
+
+
     constructor() {
         if (!this.type) this.type = 'text';
         if (!this.placeholder) this.placeholder = '';
         if (!this.inputClass) this.inputClass = '';
     }
+
 
     getErrorKey() {
         return this.errorKey ? this.errorKey : this.key;

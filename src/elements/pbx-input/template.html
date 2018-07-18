@@ -1,11 +1,11 @@
-<div class="pbx_input_wrap" [@Fade]>
+<div class="pbx_input_wrap" [@Fade]  [ngClass]="[location === 'sidebar' ? 'pbx_input_sidebar' : 'pbx_input_main']">
     <div class="pbx_input_item">
 
         <div [ngClass]="[labelPosition === 'top' ? 'pbx_input_item_top_label' : 'pbx_input_item_label']">
             <span>{{name}}</span>
         </div>
 
-        <div [ngClass]="['pbx_input_item_input_wrap']">
+        <div class="pbx_input_item_input_wrap">
 
             <div *ngIf="!form"
                  [ngClass]="['pbx_input_item_input_wrap', inputClass]">

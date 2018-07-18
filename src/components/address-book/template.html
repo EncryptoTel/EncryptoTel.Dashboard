@@ -66,6 +66,7 @@
 
                 <pbx-input name="First Name"
                            key="firstname"
+                           location="sidebar"
                            labelPosition="top"
                            [(errors)]="service.errors"
                            [object]="selected">
@@ -73,6 +74,7 @@
 
                 <pbx-input name="Last Name"
                            key="lastname"
+                           location="sidebar"
                            labelPosition="top"
                            [(errors)]="service.errors"
                            [object]="selected">
@@ -81,6 +83,7 @@
                 <pbx-input *ngFor="let phone of selected.contactPhone; let i = index"
                            name="Phone"
                            key="value"
+                           location="sidebar"
                            labelPosition="top"
                            [errorKey]="'contactPhone.new_' + i + '.value'"
                            [(errors)]="service.errors"
@@ -106,6 +109,7 @@
                 <pbx-input *ngFor="let email of selected.contactEmail; let i = index"
                            name="Email"
                            key="value"
+                           location="sidebar"
                            labelPosition="top"
                            [errorKey]="'contactEmail.new_' + i + '.value'"
                            [(errors)]="service.errors"
@@ -130,6 +134,7 @@
 
                 <pbx-input name="Company Name"
                            key="company"
+                           location="sidebar"
                            labelPosition="top"
                            [(errors)]="service.errors"
                            [object]="selected">
@@ -137,6 +142,7 @@
 
                 <pbx-input name="Department"
                            key="department"
+                           location="sidebar"
                            labelPosition="top"
                            [(errors)]="service.errors"
                            [object]="selected">
@@ -145,6 +151,7 @@
                 <pbx-input name="Country"
                            key="country"
                            displayKey="title"
+                           location="sidebar"
                            labelPosition="top"
                            [updateObjectByObject]="true"
                            [options]="countries"
@@ -154,6 +161,7 @@
 
                 <pbx-input name="Address"
                            key="address"
+                           location="sidebar"
                            labelPosition="top"
                            [(errors)]="service.errors"
                            [object]="selected">
