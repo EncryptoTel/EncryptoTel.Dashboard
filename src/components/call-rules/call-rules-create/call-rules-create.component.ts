@@ -6,12 +6,16 @@ import {CallRulesService} from '../../../services/call-rules.service';
 import {Action, SipInner, SipItem} from '../../../models/call-rules.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RefsServices} from "../../../services/refs.services";
+import {StorageService} from "../../../services/storage.service";
+import {StorageModel} from "../../../models/storage.model";
+import {MessageServices} from "../../../services/message.services";
 
 @Component({
     selector: 'pbx-call-rules-create',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    animations: [FadeAnimation('300ms')]
+    animations: [FadeAnimation('300ms')],
+    providers: [StorageService]
 })
 
 export class CallRulesCreateComponent implements OnInit {
@@ -38,11 +42,14 @@ export class CallRulesCreateComponent implements OnInit {
                 private fb: FormBuilder,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
-                private refs: RefsServices) {
+                private refs: RefsServices,
+                private storage: StorageService,
+                private message: MessageServices) {
         activatedRoute.snapshot.params.id ? this.mode = 'edit' : this.mode = 'create';
     }
 
     deleteAction(i: number): void {
+        // console.log(i);
         this.selectedActions.splice(i + 1, 1);
         this.actionsControls.removeAt(i + 1);
         // this.ruleTimeAsterisk.splice(i + 1, 1);
@@ -146,8 +153,8 @@ export class CallRulesCreateComponent implements OnInit {
     private createRedirectToExternalNumber(): FormGroup {
         return this.fb.group({
             action: 2,
-            parameter: [null, [Validators.maxLength(12), Validators.pattern('[0-9]*'), Validators.required]],
-            timeout: [30, [Validators.min(5), Validators.max(300)]],
+            parameter: [null, [Validators.minLength(6), Validators.maxLength(16), Validators.pattern('[0-9]*'), Validators.required]],
+            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
             timeRules: ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
         });
     }
@@ -156,7 +163,7 @@ export class CallRulesCreateComponent implements OnInit {
         return this.fb.group({
             action: 1,
             parameter: [null, [Validators.required]],
-            timeout: [30, [Validators.min(5), Validators.max(300)]],
+            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
             timeRules: ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
         });
     }
@@ -165,7 +172,7 @@ export class CallRulesCreateComponent implements OnInit {
         return this.fb.group({
             action: 3,
             parameter: [null, [Validators.required]],
-            timeout: [30, [Validators.min(5), Validators.max(300)]],
+            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
             timeRules: ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
         });
     }
@@ -174,7 +181,7 @@ export class CallRulesCreateComponent implements OnInit {
         return this.fb.group({
             action: 5,
             parameter: [null, [Validators.required]],
-            timeout: [30, [Validators.min(5), Validators.max(300)]],
+            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
             timeRules: ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
         });
     }
@@ -240,18 +247,18 @@ export class CallRulesCreateComponent implements OnInit {
 
     private getEditedCallRule(): void {
         this.loading += 1;
-        this.service.getEditedCallRule(this.activatedRoute.snapshot.params.id).then(res => {
+        this.service.getById(this.activatedRoute.snapshot.params.id).then(res => {
             this.loading -= 1;
-            const {description, name, sip, ruleActions} = res;
+            const {enabled, description, name, sip, ruleActions} = res;
             this.callRulesForm.get('description').setValue(description);
             this.callRulesForm.get('name').setValue(name);
             this.callRulesForm.get('sipId').setValue(sip.id);
+            this.callRulesForm.get('enabled').setValue(enabled);
             this.ruleActions = ruleActions;
             this.getExtensions(sip.id);
             // console.log(ruleActions);
         }).catch(err => {
             this.loading -= 1;
-            console.error(err);
         });
     }
 
@@ -263,7 +270,6 @@ export class CallRulesCreateComponent implements OnInit {
             this.formatForEdit(this.ruleActions);
         }).catch(err => {
             this.loadingStuff -= 1;
-            console.error(err);
         });
     }
 
@@ -278,7 +284,6 @@ export class CallRulesCreateComponent implements OnInit {
             }
         }).catch(err => {
             this.loading -= 1;
-            console.error(err);
         });
     }
 
@@ -289,7 +294,6 @@ export class CallRulesCreateComponent implements OnInit {
             this.numbers = res;
         }).catch(err => {
             this.loading -= 1;
-            console.error(err);
         });
     }
 
@@ -301,7 +305,6 @@ export class CallRulesCreateComponent implements OnInit {
             this.getFiles();
         }).catch(err => {
             this.loading -= 1;
-            console.error(err);
         });
     }
 
@@ -312,7 +315,6 @@ export class CallRulesCreateComponent implements OnInit {
             this.queues = res.items;
         }).catch(err => {
             this.loading -= 1;
-            console.error(err);
         });
     }
 
@@ -334,18 +336,67 @@ export class CallRulesCreateComponent implements OnInit {
         });
     }
 
-    public getTimeout(index: number): number {
-        return this.actionsControls.get([index, 'timeout']).value;
-    }
-
-    public onTimeoutChange(index, event) {
-        this.actionsControls.get([index, 'timeout']).setValue(event);
-
-    }
-
     public onTimeRuleChange(index, event) {
         this.actionsControls.get([index, 'timeRules']).setValue(event);
     }
+
+    checkNextAction(index: number) {
+        // console.log('checkNextAction', this.selectedActions[index]);
+        let valid = [1,5].includes(this.selectedActions[index].id);
+        if (!valid && this.actionsControls.length - 1 > index) {
+            for (let i = this.actionsControls.length - 1; i >= index; i--) {
+                this.deleteAction(i);
+            }
+        }
+        return valid;
+    }
+
+    getActionFormKey(index: number, last: boolean = false) {
+        let control = this.actionsControls.get([index, 'parameter']);
+        let key = !control && !last ? 'ruleActions' : '';
+        // console.log('getActionFormKey', control, index, key);
+        return key;
+    }
+
+    uploadFile(e) {
+        e.preventDefault();
+        const files = e.target.files;
+        if (files[0]) {
+            // console.log('uploadFile', files[0]);
+            if (this.storage.checkCompatibleType(files[0])) {
+                this.storage.checkFileExists(files[0]);
+            } else {
+                this.message.writeError('Accepted formats: mp3, ogg, wav');
+            }
+            this.storage.checkModal();
+        }
+    }
+
+    doUploadAction(button) {
+        switch (button.tag) {
+            case 1:
+                this.doUploadFile(this.storage.files[0], 'replace');
+                break;
+            case 2:
+                this.doUploadFile(this.storage.files[0], 'new');
+                break;
+        }
+        this.storage.deleteFileFromQueue();
+    }
+
+    doUploadFile(file, mode) {
+        this.storage.uploadFile(file, mode).then(res => {
+            this.storage.loading++;
+            this.service.getFiles().then((res) => {
+                this.files = res.items;
+                this.storage.loading--;
+            }).catch(err => {
+                this.storage.loading--;
+            });
+        });
+    }
+
+
 
     ngOnInit() {
         this.loading++;

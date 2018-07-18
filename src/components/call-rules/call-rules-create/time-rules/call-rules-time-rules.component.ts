@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {LoggerServices} from "../../../../services/logger.services";
 
 @Component({
     selector: 'call-rules-time-rules',
@@ -20,38 +21,44 @@ export class CallRulesTimeRulesComponent implements OnInit {
         {id: 2, code: 'Set the time'}
     ];
     durationTime = [
-        {time: '0 a.m', timeAster: '00:00'},
-        {time: '1 a.m', timeAster: '01:00'},
-        {time: '2 a.m', timeAster: '02:00'},
-        {time: '3 a.m', timeAster: '03:00'},
-        {time: '4 a.m', timeAster: '04:00'},
-        {time: '5 a.m', timeAster: '05:00'},
-        {time: '6 a.m', timeAster: '06:00'},
-        {time: '7 a.m', timeAster: '07:00'},
-        {time: '8 a.m', timeAster: '08:00'},
-        {time: '9 a.m', timeAster: '09:00'},
-        {time: '10 a.m', timeAster: '10:00'},
-        {time: '11 a.m', timeAster: '11:00'},
-        {time: '12 a.m', timeAster: '12:00'},
-        {time: '1 p.m', timeAster: '13:00'},
-        {time: '2 p.m', timeAster: '14:00'},
-        {time: '3 p.m', timeAster: '15:00'},
-        {time: '4 p.m', timeAster: '16:00'},
-        {time: '5 p.m', timeAster: '17:00'},
-        {time: '6 p.m', timeAster: '18:00'},
-        {time: '7 p.m', timeAster: '19:00'},
-        {time: '8 p.m', timeAster: '20:00'},
-        {time: '9 p.m', timeAster: '21:00'},
-        {time: '10 p.m', timeAster: '22:00'},
-        {time: '11 p.m', timeAster: '23:00'},
+        {time: '12:00 a.m', timeAster: '00:00'},
+        {time: '1:00 a.m', timeAster: '01:00'},
+        {time: '2:00 a.m', timeAster: '02:00'},
+        {time: '3:00 a.m', timeAster: '03:00'},
+        {time: '4:00 a.m', timeAster: '04:00'},
+        {time: '5:00 a.m', timeAster: '05:00'},
+        {time: '6:00 a.m', timeAster: '06:00'},
+        {time: '7:00 a.m', timeAster: '07:00'},
+        {time: '8:00 a.m', timeAster: '08:00'},
+        {time: '9:00 a.m', timeAster: '09:00'},
+        {time: '10:00 a.m', timeAster: '10:00'},
+        {time: '11:00 a.m', timeAster: '11:00'},
+        {time: '12:00 p.m', timeAster: '12:00'},
+        {time: '1:00 p.m', timeAster: '13:00'},
+        {time: '2:00 p.m', timeAster: '14:00'},
+        {time: '3:00 p.m', timeAster: '15:00'},
+        {time: '4:00 p.m', timeAster: '16:00'},
+        {time: '5:00 p.m', timeAster: '17:00'},
+        {time: '6:00 p.m', timeAster: '18:00'},
+        {time: '7:00 p.m', timeAster: '19:00'},
+        {time: '8:00 p.m', timeAster: '20:00'},
+        {time: '9:00 p.m', timeAster: '21:00'},
+        {time: '10:00 p.m', timeAster: '22:00'},
+        {time: '11:00 p.m', timeAster: '23:00'},
     ];
     days;
     ruleTimeAsterisk;
     selectedRuleTime;
     selectedDurationTime;
     selectedDuration;
+    errors = {ruleTime: false, durationTime: false};
+
+    constructor(private logger: LoggerServices) {
+
+    }
 
     selectRuleTime(rule): void {
+        // console.log(this.ruleTime);
         if (!this.ruleTimeAsterisk) {
             this.ruleTimeAsterisk = {
                 days: [],
@@ -128,6 +135,9 @@ export class CallRulesTimeRulesComponent implements OnInit {
             }
             this.ruleTimeAsterisk.time = '*';
         } else if (duration.id === 2) {
+            if (this.ruleTimeAsterisk && this.ruleTimeAsterisk.time === '*') {
+                this.ruleTimeAsterisk.time = '';
+            }
             this.selectedDuration = [[], []];
             if (!this.ruleTimeAsterisk) {
                 this.ruleTimeAsterisk = {
@@ -151,7 +161,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
     }
 
     private formatAsterRule(): void {
-        let days = '*';
+        let days = this.selectedRuleTime && this.selectedRuleTime.id === 3 ? '' : '*';
         this.ruleTimeAsterisk.days.forEach((day, index) => {
             if (index === 0) {
                 days = day;
@@ -160,7 +170,10 @@ export class CallRulesTimeRulesComponent implements OnInit {
             }
         });
         let rule = `${this.ruleTimeAsterisk.time}|${days}|${this.ruleTimeAsterisk.date}|${this.ruleTimeAsterisk.month}`;
-        // console.log(rule);
+        // this.logger.log('formatAsterRule', rule);
+        this.errors.ruleTime = days === '';
+        this.errors.durationTime = (this.ruleTimeAsterisk.time === '') ||
+            (this.selectedDuration && (this.selectedDuration[0].timeAster === undefined || this.selectedDuration[1].timeAster === undefined));
         this.onChange.emit(rule);
     }
 

@@ -69,7 +69,7 @@
         #row
         class="details-table-row"
         *ngFor="let detail of details"
-        [ngClass]="{'hide': setFilters(detail.statusName), 'hover' : detail.hover}"
+        
         (mouseenter)="rowHoverStart(details.indexOf(detail))"
         (mouseleave)="rowHoverEnd()">
         <div class="details-table-cols" [ngClass]="{'payment-col': detail.statusName === 'payment'}">{{detail.source}}</div>
@@ -78,7 +78,7 @@
         <div class="details-table-cols">{{detail.duration | tp}}</div>
         <div class="details-table-cols tags">
           <button
-            class="{{detail.tag}} details-button tag-button">
+            class="{{detail.tag}} details-button tag-button" (click)="startPlayRecord(details.indexOf(detail))">
             {{detail.statusName}}
           </button>
         </div>
@@ -86,7 +86,7 @@
         <div class="details-table-cols player">
           <div class="player-wrap">
             <div class="player-container"
-                 *ngIf="detail.accountFile"
+
                  [@PlayerAnimation]="detail.playerAnimationState"
                  (@PlayerAnimation.start)="playerAnimationStart()"
                  (@PlayerAnimation.done)="playerAnimationEnd()">
@@ -145,6 +145,36 @@
         </div>
       </div>
     </div>
+
+    <vg-player style="height: 50px" (onPlayerReady)="onPlayerReady($event)">
+      <vg-controls>
+          <vg-play-pause></vg-play-pause>
+          <vg-playback-button></vg-playback-button>
+  
+          <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+  
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+  
+          <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+          <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+  
+          <vg-mute></vg-mute>
+          <vg-volume></vg-volume>
+  
+          <vg-fullscreen></vg-fullscreen>
+      </vg-controls>
+  
+      <audio #media
+        [vgMedia]="media"
+        [vgHls]="currentRecord"
+        (onGetBitrates)="hlsBitrates = $event"
+        id="recordAudio"
+        type="audio/mp3">
+      </audio>
+    </vg-player>
 
     <pbx-loader *ngIf="loading"></pbx-loader>
 

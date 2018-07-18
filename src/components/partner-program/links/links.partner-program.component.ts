@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FadeAnimation} from "../../../shared/fade-animation";
-import {PartnerProgramService} from "../../../services/partner-program.service";
+import {FadeAnimation} from '../../../shared/fade-animation';
+import {PartnerProgramService} from '../../../services/partner-program.service';
+import {PageInfoModel} from '../../../models/base.model';
 
 @Component({
     selector: 'links-partner-program-component',
@@ -12,6 +13,7 @@ import {PartnerProgramService} from "../../../services/partner-program.service";
 
 export class LinksPartnerProgramComponent implements OnInit {
     @Input() items: any;
+    @Input() pageInfo: PageInfoModel;
 
     @Output() onReload: EventEmitter<any> = new EventEmitter<any>();
 
@@ -61,6 +63,16 @@ export class LinksPartnerProgramComponent implements OnInit {
 
     }
 
+    changePage(page: number) {
+        this.pageInfo.page = page;
+        this.onReload.emit({loading: false});
+    }
+    selectLimit(limit: number) {
+        this.pageInfo.limit = limit;
+        this.pageInfo.page = 1;
+        this.onReload.emit({loading: false});
+    }
+
     reload() {
         this.onReload.emit({loading: false});
     }
@@ -72,6 +84,7 @@ export class LinksPartnerProgramComponent implements OnInit {
     edit(item) {
         this.selected = item;
         this.selected.loading = true;
+        this.modalCreate.buttons[1].value = 'Edit';
         this.modalCreate.visible = true;
     }
 
@@ -93,7 +106,8 @@ export class LinksPartnerProgramComponent implements OnInit {
         this.service.save(this.selected.id, this.selected.name).then(res => {
             this.reload();
             this.loading--;
-        }).catch(res => {
+        }).catch(err => {
+            console.error(err);
             this.loading--;
         });
     }
@@ -103,13 +117,15 @@ export class LinksPartnerProgramComponent implements OnInit {
         this.selected.loading = true;
         this.service.deleteById(this.selected.id).then(res => {
             this.loading--;
-            if (!this.loading) this.reload();
-        }).catch(res => {
+            if (!this.loading) { this.reload(); }
+        }).catch(err => {
+            console.error(err);
             this.loading--;
         });
     }
 
     clickCreateLink() {
+        this.modalCreate.buttons[1].value = 'Create';
         this.selected = {id: 0, name: ''};
         this.modalCreate.visible = true;
     }

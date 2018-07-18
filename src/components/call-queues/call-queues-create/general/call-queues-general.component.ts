@@ -28,6 +28,7 @@ export class CallQueuesGeneralComponent {
             this.numbers = res;
             this.loading--;
         }).catch(err => {
+            this.loading--;
         });
     }
 }

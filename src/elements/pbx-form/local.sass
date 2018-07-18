@@ -35,17 +35,16 @@
         height: rem(16)
         /deep/ path
           fill: $font-color
-
   &-button-wrap
     margin-left: auto
     margin-bottom: rem(6)
-    >*:not(:last-child)
-      margin-right: rem(8)
+    pbx-button
+      width: unset
+      margin-left: rem(8)
   &-body
     display: block
     overflow-y: auto
     overflow-x: hidden
-    padding: rem(24) 0
     flex-direction: column
     &.background
       background: $dark_overlay

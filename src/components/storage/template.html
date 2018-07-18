@@ -12,92 +12,19 @@
                 Search: <input [(ngModel)]="search" (keyup)="onSearchKeyUp()">
             </div>
             <div class="store_header_button_wrap" *ngIf="source.select.type==='call_record'">
-                <pbx-button [value]="'Download Selected'" [inactive]="!select.length"></pbx-button>
-                <pbx-button [value]="'Delete'" [buttonType]="'error'" [inactive]="!select.length"></pbx-button>
+                <pbx-button [value]="'Download Selected'" [inactive]="!service.select.length"></pbx-button>
+                <pbx-button [value]="'Delete'" [buttonType]="'error'" [inactive]="!service.select.length"></pbx-button>
             </div>
             <div class="store_header_button_wrap" *ngIf="source.select.type==='audio'">
-                <pbx-button [value]="'Delete Selected'" [buttonType]="'error'" [inactive]="!select.length" (onClick)="deleteSelected()"></pbx-button>
+                <pbx-button [value]="'Delete Selected'" [buttonType]="'error'" [inactive]="!service.select.length" (onClick)="deleteSelected()"></pbx-button>
             </div>
             <div class="store_header_button_wrap" *ngIf="source.select.type==='trash'">
-                <pbx-button [value]="'Restore Selected'" [inactive]="!select.length"></pbx-button>
+                <pbx-button [value]="'Restore Selected'" [inactive]="!service.select.length"></pbx-button>
                 <pbx-button [value]="'Empty Trash'" [buttonType]="'error'"></pbx-button>
             </div>
         </div>
-        <pbx-loader *ngIf="loading!==0"></pbx-loader>
-        <!--<div class="store_table" *ngIf="loading === 0 && source.select.type === 'call_record' && pageInfo.items.length > 0">-->
-            <!--<div class="store_table_header">-->
-                <!--<div class="store_table_item {{item.width?'fix_'+item.width:''}}"-->
-                     <!--*ngFor="let item of table.call_record.head;let i=index">-->
-                    <!--<span (click)="setSort(i)" [ngClass]="{'sortable':item.sort}">{{item.title}}</span>-->
-                    <!--<div class="store_table_header_icon" *ngIf="sort.column===i">-->
-                        <!--<svg-icon src="../../assets/icons/sorting_{{sort.isDown?'down':'up'}}_16px.svg"></svg-icon>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="store_table_body">-->
-                <!--<div class="store_table_row" *ngFor="let item of pageInfo.items" (click)="selectItem(item.id)"-->
-                     <!--[ngClass]="{'select':find(select,item.id)}">-->
-                    <!--<div class="store_table_item{{table.call_record.head[0].width?' fix_'+table.call_record.head[0].width:''}}">-->
-                        <!--{{item.from}}-->
-                    <!--</div>-->
-                    <!--<div class="store_table_item{{table.call_record.head[1].width?' fix_'+table.call_record.head[1].width:''}}">-->
-                        <!--{{item.to}}-->
-                    <!--</div>-->
-                    <!--<div class="store_table_item{{table.call_record.head[2].width?' fix_'+table.call_record.head[2].width:''}}">-->
-                        <!--{{item.start}}-->
-                    <!--</div>-->
-                    <!--<div class="store_table_item{{table.call_record.head[3].width?' fix_'+table.call_record.head[3].width:''}}">-->
-                        <!--{{time(item.duration)}}-->
-                    <!--</div>-->
-                    <!--<div class="store_table_item{{table.call_record.head[4].width?' fix_'+table.call_record.head[4].width:''}}">-->
-                        <!--{{size(item.size)}}-->
-                    <!--</div>-->
-                    <!--<div class="store_table_item{{table.call_record.head[5].width?' fix_'+table.call_record.head[5].width:''}}">-->
-                        <!--<div class="store_player_wrap {{item.id===player.current?'play':''}}"-->
-                             <!--[ngClass]="{'show':find(player.item,item.id)}" (click)="selectItem(item.id)">-->
-                            <!--<div class="store_player_icon" (click)="play(item.id)">-->
-                                <!--<svg-icon-->
-                                        <!--src="../../assets/icons/{{item.id!==player.current?'play':'pause'}}_24px.svg"></svg-icon>-->
-                            <!--</div>-->
-                            <!--<div class="store_player_bar">-->
-                                <!--<div class="store_player_stick done big"></div>-->
-                                <!--<div class="store_player_stick done big"></div>-->
-                                <!--<div class="store_player_stick done medium"></div>-->
-                                <!--<div class="store_player_stick done small"></div>-->
-                                <!--<div class="store_player_stick done small"></div>-->
-                                <!--<div class="store_player_stick done medium"></div>-->
-                                <!--<div class="store_player_stick done small"></div>-->
-                                <!--<div class="store_player_stick done big"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick small"></div>-->
-                                <!--<div class="store_player_stick medium"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick small"></div>-->
-                                <!--<div class="store_player_stick medium"></div>-->
-                                <!--<div class="store_player_stick medium"></div>-->
-                                <!--<div class="store_player_stick small"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick small"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick large"></div>-->
-                                <!--<div class="store_player_stick large"></div>-->
-                                <!--<div class="store_player_stick small"></div>-->
-                            <!--</div>-->
-                            <!--<div class="store_player_time">{{time(item.duration)}}</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="store_table_item{{table.call_record.head[6].width?' fix_'+table.call_record.head[6].width:''}}">-->
-                        <!--<div class="store_table_item_icon" (click)="clickDeleteIcon(item.id)">-->
-                            <!--<svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<pbx-pagination></pbx-pagination>-->
-        <!--</div>-->
-        <div class="store_table" *ngIf="loading === 0 && source.select.type === 'audio' && pageInfo.items.length > 0">
+        <pbx-loader *ngIf="service.loading!==0"></pbx-loader>
+        <div class="store_table" *ngIf="service.loading === 0 && source.select.type === 'audio' && service.pageInfo.items.length > 0">
             <div class="store_table_header">
                 <div class="store_table_item {{item.width?'fix_'+item.width:''}}"
                      *ngFor="let item of table.audio.head;let i=index">
@@ -108,8 +35,8 @@
                 </div>
             </div>
             <div class="store_table_body">
-                <div class="store_table_row" *ngFor="let item of pageInfo.items" (click)="selectItem(item.id)"
-                     [ngClass]="{'select':find(select,item.id)}">
+                <div class="store_table_row" *ngFor="let item of service.pageInfo.items" (click)="service.selectItem(item.id)"
+                     [ngClass]="{'select':find(service.select,item.id)}">
                     <div class="store_table_item{{table.audio.head[0].width?' fix_'+table.audio.head[0].width:''}}">
                         {{item.fileName}}
                     </div>
@@ -119,72 +46,17 @@
                     <div class="store_table_item{{table.audio.head[2].width?' fix_'+table.audio.head[2].width:''}}">
                         {{ getSize(item.fileSize) }}
                     </div>
-                    <!--<div class="store_table_item{{table.call_record.head[3].width?' fix_'+table.call_record.head[3].width:''}}">-->
-                        <!--{{time(item.duration)}}-->
-                    <!--</div>-->
-                    <!--<div class="store_table_item{{table.call_record.head[4].width?' fix_'+table.call_record.head[4].width:''}}">-->
-                        <!--{{size(item.size)}}-->
-                    <!--</div>-->
-                    <!--<div class="store_table_item{{table.call_record.head[5].width?' fix_'+table.call_record.head[5].width:''}}">-->
-                        <!--<div class="store_player_wrap {{item.id===player.current?'play':''}}"-->
-                             <!--[ngClass]="{'show':find(player.item,item.id)}" (click)="selectItem(item.id)">-->
-                            <!--<div class="store_player_icon" (click)="play(item.id)">-->
-                                <!--<svg-icon-->
-                                        <!--src="../../assets/icons/{{item.id!==player.current?'play':'pause'}}_24px.svg"></svg-icon>-->
-                            <!--</div>-->
-                            <!--<div class="store_player_bar">-->
-                                <!--<div class="store_player_stick done big"></div>-->
-                                <!--<div class="store_player_stick done big"></div>-->
-                                <!--<div class="store_player_stick done medium"></div>-->
-                                <!--<div class="store_player_stick done small"></div>-->
-                                <!--<div class="store_player_stick done small"></div>-->
-                                <!--<div class="store_player_stick done medium"></div>-->
-                                <!--<div class="store_player_stick done small"></div>-->
-                                <!--<div class="store_player_stick done big"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick small"></div>-->
-                                <!--<div class="store_player_stick medium"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick small"></div>-->
-                                <!--<div class="store_player_stick medium"></div>-->
-                                <!--<div class="store_player_stick medium"></div>-->
-                                <!--<div class="store_player_stick small"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick small"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick big"></div>-->
-                                <!--<div class="store_player_stick large"></div>-->
-                                <!--<div class="store_player_stick large"></div>-->
-                                <!--<div class="store_player_stick small"></div>-->
-                            <!--</div>-->
-                            <!--<div class="store_player_time">{{time(item.duration)}}</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="store_table_item{{table.call_record.head[6].width?' fix_'+table.call_record.head[6].width:''}}">-->
-                        <!--<div class="store_table_item_icon" (click)="clickDeleteIcon(item.id)">-->
-                            <!--<svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>-->
-                        <!--</div>-->
-                    <!--</div>-->
                 </div>
             </div>
-            <pbx-pagination [pageInfo]="pageInfo"
+            <pbx-pagination [pageInfo]="service.pageInfo"
                             (onPageChange)="setPage($event)">
             </pbx-pagination>
         </div>
-        <!--<div class="store_table" *ngIf="loading === 0 && source.select.type === 'trash' && pageInfo.items.length > 0">3</div>-->
-        <div class="store_table" *ngIf="loading === 0 && pageInfo.items.length === 0">
+        <div class="store_table" *ngIf="service.loading === 0 && service.pageInfo.items.length === 0">
             <div class="store_table_message">Nothing found</div>
         </div>
     </div>
     <pbx-sidebar *ngIf="source.select.type!=='trash'">
-        <!--<div *ngIf="source.select.type==='call_record'" class="store_sidebar_call_record">-->
-        <!--<div class="store_sidebar_call_record_title">Information</div>-->
-        <!--<div class="store_sidebar_call_record_item" *ngIf="select.length===0">Nothing selected</div>-->
-        <!--<div class="store_sidebar_call_record_item" *ngIf="select.length>0">Selected: {{select.length}} files</div>-->
-        <!--<div class="store_sidebar_call_record_item" *ngIf="select.length>0">Total Size: {{size(totalSize())}} Mb</div>-->
-        <!--</div>-->
-        <!--<div *ngIf="source.select.type==='audio'" class="store_sidebar_audio">-->
         <div class="store_sidebar_audio" (drop)="dropHandler($event)"
              (dragover)="dragOverHandler($event)"
              (dragend)="dragEndHandler($event)"
@@ -202,4 +74,4 @@
     </pbx-sidebar>
 </div>
 <pbx-modal [modal]="modal" (onConfirm)="doDeleteSelected()">Do you really want to delete this file?</pbx-modal>
-<pbx-modal [modalEx]="modalUpload" (onConfirmEx)="doUploadAction($event)" (onDecline)="cancelUploadAction()"></pbx-modal>
+<pbx-modal [modalEx]="service.modalUpload" (onConfirmEx)="service.doUploadAction($event)" (onDecline)="service.cancelUploadAction()"></pbx-modal>

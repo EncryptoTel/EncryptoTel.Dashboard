@@ -1,9 +1,13 @@
-import {Component, OnInit, Pipe, PipeTransform} from '@angular/core';
+import {Component, OnInit, Pipe, PipeTransform, ViewChild} from '@angular/core';
 import {DetailsAndRecordsServices} from '../../services/details-and-records.services';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {PlayerAnimation} from '../../shared/player-animation';
 import {Howl} from 'howler';
 import {Subject} from 'rxjs/Subject';
+import {VgAPI} from 'videogular2/core';
+import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
+import {Subscription} from 'rxjs/Subscription';
+import {TimerObservable} from 'rxjs/observable/TimerObservable';
 
 @Component({
   selector: 'pbx-details-and-records',
@@ -241,6 +245,44 @@ export class DetailsAndRecordsComponent implements OnInit {
     this.fetchDetailsAndRecords();
     console.log(window.innerHeight);
     console.log(window.innerHeight - 280);
+
+    this.currentRecord = this.hlsRecords[0];
+  }
+
+  api: VgAPI;
+  hlsRecords = [
+    'http://edge.flowplayer.org/fake_empire.m3u8',
+    'https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8'
+  ];
+  currentRecord: string;
+  
+  @ViewChild(VgHLS) vgHls: VgHLS;
+
+  onPlayerReady(api: VgAPI): void {
+    this.api = api;
+  }
+
+  startPlayRecord(idx: number): void {
+    let record = this.hlsRecords[idx % 2];
+    
+    if (record != this.currentRecord) {
+      this.api.pause();
+      let timer: Subscription = TimerObservable.create(0, 10).subscribe(
+        () => {
+            this.currentRecord = record;
+            timer.unsubscribe();
+
+            let onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(
+              () => {
+                this.api.play();
+                onCanPlay.unsubscribe();
+              });
+        });
+    }
+    else {
+      if (this.api.state == 'playing') this.api.pause();
+      else this.api.play();
+    }
   }
 
   toggleFilter(filter: string): void {
@@ -475,33 +517,68 @@ export class DetailsAndRecordsComponent implements OnInit {
   }
 
   private fetchDetailsAndRecords(): void {
-    this.loading = true;
-    if (this.limit < 10) {
-      this.limit = 10;
-    }
-    this.services.fetchDetailsAndRecords(this.page, this.limit, this.sort, this.sortDirection, this.tags)
-      .then( res => {
-        console.log(res);
-        this.loading = false;
-        this.details = res.items;
-        this.pages = res.pageCount;
-        // this.playOld = this.details.length;
-        this.details.forEach( (item, i) => {
-          // this.details[i].tag = 'incoming';
-          this.details[i].ddShow = false;
-          this.details[i].play = false;
-          this.details[i].playerAnimationState = 'min';
-          this.details[i].playerContentShow = false;
-          this.details[i].player = {};
-          this.details[i].playerLoading = false;
-          // this.details[i].payerState = 'stop';
-          this.details[i].payerSeek = '';
-        });
-      })
-      .catch( err => {
-        console.error(err);
-        this.loading = false;
-      });
+    this.details = [
+      {
+        source: '+1(800)200 01 10 #101',
+        destination: '+1(800)200 01 10 #108',
+        created: '26/06/2017 14:47:25',
+        duration: '00:23:00',
+        statusName: 'outgoing',
+        tag: 'outgoing',
+        price: '0',
+        record: '',
+        ddShow: false,
+        play: false,
+        playerOpen: false,
+        playerContentShow: false,
+        hover: false
+      },
+      {
+        source: '+1(800)200 01 10 #101',
+        destination: '+1(800)200 01 10 #108',
+        created: '26/06/2017 14:47:25',
+        duration: '00:23:00',
+        statusName: 'outgoing',
+        tag: 'outgoing',
+        price: '0',
+        record: '',
+        ddShow: false,
+        play: false,
+        playerOpen: false,
+        playerContentShow: false,
+        hover: false
+      }
+    ];
+    this.loading = false;
+    console.log(this.details);
+
+    // this.loading = true;
+    // if (this.limit < 10) {
+    //   this.limit = 10;
+    // }
+    // this.services.fetchDetailsAndRecords(this.page, this.limit, this.sort, this.sortDirection, this.tags)
+    //   .then( res => {
+    //     console.log(res);
+    //     this.loading = false;
+    //     this.details = res.items;
+    //     this.pages = res.pageCount;
+    //     // this.playOld = this.details.length;
+    //     this.details.forEach( (item, i) => {
+    //       // this.details[i].tag = 'incoming';
+    //       this.details[i].ddShow = false;
+    //       this.details[i].play = false;
+    //       this.details[i].playerAnimationState = 'min';
+    //       this.details[i].playerContentShow = false;
+    //       this.details[i].player = {};
+    //       this.details[i].playerLoading = false;
+    //       // this.details[i].payerState = 'stop';
+    //       this.details[i].payerSeek = '';
+    //     });
+    //   })
+    //   .catch( err => {
+    //     console.error(err);
+    //     this.loading = false;
+    //   });
   }
 }
 

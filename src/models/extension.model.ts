@@ -15,7 +15,7 @@ export class ExtensionItem extends BaseItemModel {
     phoneNumber: string;
     sipOuter: SipOuterModel;
     status: number;
-    statusName: string;
+    // statusName: string;
     user: UserModel;
 
     get extension(): string {
@@ -36,6 +36,14 @@ export class ExtensionItem extends BaseItemModel {
 
     get phone(): string {
         return this.sipOuter ? this.sipOuter.phoneNumber : null;
+    }
+
+    get statusName(): string {
+        return this.status ? 'online' : 'offline';
+    }
+
+    get isMobileApp(): string {
+        return this.mobileApp ? 'Yes' : 'No';
     }
 
 }

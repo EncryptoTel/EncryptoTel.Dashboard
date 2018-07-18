@@ -1,50 +1,67 @@
 import {Injectable} from '@angular/core';
 import {RequestServices} from './request.services';
 import {PageInfoModel} from "../models/base.model";
+import {plainToClass} from "class-transformer";
+import {CallQueueItem, CallQueueModel} from "../models/call-queue.model";
+import {ClassType} from "class-transformer/ClassTransformer";
 
 @Injectable()
 export class BaseService {
 
-    public url: string;
+    url: string = '';
+    errors = null;
 
     constructor(public request: RequestServices) {
         this.onInit();
     }
 
-    getItem(id: number): Promise<any> {
-        return this.get(`/${id}`);
-    }
-
-    getParams(): Promise<any> {
-        return this.get(`/params`);
-    }
-
-    get(path: string): Promise<any> {
-        return this.request.get(this.url + path);
-    }
-
-    getById(id: number): Promise<any> {
-        return this.request.get(`${this.url}/${id}`);
-    }
-
-    post(path: string, data: any): Promise<any> {
-        return this.request.post(this.url + path, data);
-    }
-
-    delete(path: string): Promise<any> {
-        return this.request.del(this.url + path);
-    }
-
-    deleteById(id: number): Promise<any> {
-        return this.request.del(`${this.url}/${id}`);
-    }
-
-    putById(id: number, data: any): Promise<any> {
-        return this.request.put(`${this.url}/${id}`, data);
+    plainToClassEx(classModel, classItems, res: PageInfoModel) {
+        let pageInfo: PageInfoModel = plainToClass(classModel, res);
+        pageInfo.items = [];
+        res['items'].map(item => {
+            pageInfo.items.push(plainToClass(classItems, item));
+        });
+        return pageInfo;
     }
 
     rawRequest(method: string, path: string, data: any): Promise<any> {
-        return this.request.request(method, this.url + path, data);
+        this.resetErrors();
+        return this.request.request(method, `${this.url}${path}`, data).then(res => {
+            return Promise.resolve(res);
+        }).catch(res => {
+            if (res.errors) {
+                this.errors = res.errors;
+            }
+            return Promise.reject(res);
+        });
+    }
+
+    get(path: string): Promise<any> {
+        return this.rawRequest('GET', path, null);
+    }
+
+    post(path: string, data: any): Promise<any> {
+        return this.rawRequest('POST', path, {...data});
+    }
+
+    put(path: string, data: any): Promise<any> {
+        return this.rawRequest('PUT', path, {...data});
+    }
+
+    delete(path: string): Promise<any> {
+        return this.rawRequest('DELETE', path, null);
+    }
+
+    getById(id: number): Promise<any> {
+        return this.get(`/${id}`);
+    }
+
+    putById(id: number, data: any): Promise<any> {
+        return this.put(`/${id}`, data);
+    }
+
+    deleteById(id: number): Promise<any> {
+        return this.delete(`/${id}`);
     }
 
     getItems(pageInfo: PageInfoModel, filter = null): Promise<any> {
@@ -57,21 +74,19 @@ export class BaseService {
                 }
             }
         }
-        return this.request.get(`${this.url}${url}`);
+        return this.get(`${url}`);
     }
 
-    beginLoading(item) {
-        // console.log('0', item.loading);
-        if (item.loading == undefined) {
-            item.loading = 0;
-        }
-        // console.log('1', item.loading);
-        item.loading++;
-        // console.log('2', item.loading);
+    getItem(id: number): Promise<any> {
+        return this.get(`/${id}`);
     }
 
-    endLoading(item) {
-        item.loading--;
+    getParams(): Promise<any> {
+        return this.get(`/params`);
+    }
+
+    resetErrors() {
+        this.errors = null;
     }
 
     onInit() {

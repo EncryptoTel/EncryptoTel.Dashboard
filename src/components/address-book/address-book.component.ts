@@ -1,350 +1,248 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-
-import {AddressBookServices} from '../../services/address-book.services';
-import {ContactModel, Countries, Country, PhoneTypes, Types} from '../../models/address-book.model';
-import {emailRegExp} from '../../shared/vars';
-import {RefsServices} from "../../services/refs.services";
-
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {AddressBookService} from '../../services/address-book.service';
+import {
+    AddressBookItem,
+    AddressBookModel,
+    ContactValueModel,
+    TypesModel
+} from '../../models/address-book.model';
+import {RefsServices} from '../../services/refs.services';
+import {SwipeAnimation} from '../../shared/swipe-animation';
+import {FadeAnimation} from '../../shared/fade-animation';
+import {PageInfoModel} from "../../models/base.model";
+import {CountryModel} from "../../models/country.model";
+import {classToPlain, plainToClass} from "class-transformer";
+import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
+import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
 
 @Component({
-  selector: 'pbx-address-book',
-  templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+    selector: 'pbx-address-book',
+    templateUrl: './template.html',
+    styleUrls: ['./local.sass'],
+    providers: [PageInfoModel],
+    animations: [SwipeAnimation('x', '300ms'), FadeAnimation('300ms')]
 })
 
 export class AddressBookComponent implements OnInit {
-  addressForm: FormGroup;
-  contacts: ContactModel[] = [];
-  countries: Country[];
-  currentContact: ContactModel;
-  currentSource = {title: 'All'};
-  mode = 'create';
-  loading = true;
-  selectedCountry: Country;
-  selectedPhoneTypes: PhoneTypes[] = [];
-  sidebarVisible = false;
-  sipOuters;
-  sources = [
-    {title: 'All'},
-    {title: 'My Address Book'},
-    {title: 'Company'},
-    {title: '365 Office Contact'},
-    {title: 'Blacklisted Numbers'}
-  ];
-  tableInfo = {
-    titles: ['First Name', 'Last Name', 'Phone number', 'E-mail', 'Company Name', 'Country'],
-    keys: ['firstname', 'lastname', 'tablePhone', 'tableEmail', 'company', 'countryName']
-  };
-  _phoneTypes: PhoneTypes;
 
-  constructor(private fb: FormBuilder,
-              private _service: AddressBookServices,
-              private refs: RefsServices) {
-  }
+    @ViewChild(ListComponent) list;
 
-  addEmailField(): void {
-    this.contactEmails.push(this.createEmailFormField());
-  }
+    pageInfo: AddressBookModel = new AddressBookModel();
 
-  addPhoneField(): void {
-    this.contactPhones.push(this.createNumberFormField());
-  }
-
-  block(): void {
-    for (let i = 0; i < this.sipOuters.length; i++) {
-      this._service.block({blockContact: this.currentContact.id, sipOuter: this.sipOuters[i].id}).then(() => {
-      }).catch(err => {
-        console.error(err);
-      });
-    }
-    this.sidebarVisible = false;
-  }
-
-  cancel(): void {
-    if (this.currentContact) {
-      this.mode = 'view';
-    } else {
-      this.sidebarVisible = false;
-    }
-  }
-
-  close(): void {
-    this.sidebarVisible = false;
-  }
-
-  delete(contact: ContactModel): void {
-    this.sidebarVisible = false;
-    this._service.delete(contact.id).then(() => {
-      this.getContacts();
-    }).catch(err => {
-      console.error(err);
-    });
-  }
-
-  delPhoneField(i: number): void {
-    this.contactPhones.removeAt(i);
-    this.selectedPhoneTypes.splice(i, 1);
-  }
-
-  edit(value: ContactModel): void {
-    this.currentContact = value;
-    this.resetForm();
-    this.contactEmails.controls = [];
-    this.contactPhones.controls = [];
-    value.contactEmails.forEach(() => {
-      this.addEmailField();
-    });
-    value.contactPhones.forEach(phone => {
-      this.setPhoneTypeEdit(phone);
-      this.addPhoneField();
-    });
-    this.addressForm.setValue(this.formatForEdit(value));
-    if (value.countryId) {
-      this.addressForm.get('countryId').setValue(value.countryId);
-      const cntry = this.countries.find(country => {
-        if (value.countryId === country.id) {
-          return true;
-        }
-      });
-      this.selectedCountry = cntry;
-    }
-    this.mode = 'edit';
-    this.sidebarVisible = true;
-  }
-
-  newContact(): void {
-    this.currentContact = null;
-    this.sidebarVisible = true;
-    this.mode = 'create';
-    this.resetForm();
-  }
-
-  save(): void {
-    this.addressForm.markAsTouched();
-    this.validate(this.addressForm);
-    if (this.addressForm.valid) {
-      this.loading = true;
-      if (this.mode === 'create') {
-        this._service.saveContact({...this.addressForm.value}).then(() => {
-          this.getContacts();
-          this.resetForm();
-          this.loading = false;
-        }).catch(err => {
-            console.error(err);
-            this.loading = false;
-          }
-        );
-      } else if (this.mode === 'edit') {
-        this._service.edit(this.currentContact.id, {...this.addressForm.value}).then(() => {
-          this.getContacts();
-          this.resetForm();
-          this.loading = false;
-        }).catch(err => {
-          console.error(err);
-          this.loading = false;
-        });
-      }
-    }
-  }
-
-  search(event): void {
-    const keyword = event.target.value;
-    this._service.search(keyword).then(res => {
-      this.contacts = res.items;
-      this.contacts.forEach(contact => {
-        const cntry = this.countries.find(country => {
-          if (contact.countryId === country.id) {
-            return true;
-          }
-        });
-        if (cntry) {
-          contact.countryName = cntry.title;
-        }
-        contact.tablePhone = `${contact.contactPhones[0].value} #${contact.contactPhones[0].extension}`;
-        contact.tableEmail = contact.contactEmails[0].value;
-      });
-      this.loading = false;
-    }).catch(err => {
-      console.error(err);
-      this.loading = false;
-    });
-  }
-
-  select(value): void {
-    this.sidebarVisible = true;
-    this.mode = 'view';
-    this.currentContact = value;
-  }
-
-  selectCountry(country: Country): void {
-    this.addressForm.get('countryId').setValue(country.id);
-    this.selectedCountry = country;
-  }
-
-  selectPhoneType(phone, i): void {
-    this.addressForm.get(['contactPhones', `${i}`, 'typeId']).setValue(phone.value);
-    this.selectedPhoneTypes[i] = phone;
-  }
-
-  selectSource(source): void {
-    this.currentSource = source;
-  }
-
-  get contactEmails(): FormArray {
-    return this.addressForm.get('contactEmails') as FormArray;
-  }
-
-  get contactPhones(): FormArray {
-    return this.addressForm.get('contactPhones') as FormArray;
-  }
-
-  get phoneTypes(): PhoneTypes[] {
-    const phoneTypes = [];
-    Object.keys(this._phoneTypes).forEach(key => {
-      phoneTypes.push({type: key, value: this._phoneTypes[key]});
-    });
-    return phoneTypes;
-  }
-
-  private formatForEdit(contact): ContactModel {
-    let {contactAddresses, contactEmails, contactPhones} = contact;
-    contactAddresses = contactAddresses.map(address => {
-      return {value: address.value, typeId: ''};
-    });
-    contactEmails = contactEmails.map(email => {
-      return {value: email.value, typeId: ''};
-    });
-    contactPhones = contactPhones.map(phone => {
-      return {value: `${phone.value} #${phone.extension}`, typeId: phone.typeId};
-    });
-    return {
-      company: contact.company,
-      countryId: contact.countryId,
-      department: contact.department,
-      firstname: contact.firstname,
-      lastname: contact.lastname,
-      contactAddresses: contactAddresses,
-      contactEmails: contactEmails,
-      contactPhones: contactPhones
+    table = {
+        titles: ['First Name', 'Last Name', 'Phone Number', 'E-mail', 'Company Name', 'Country'],
+        keys: ['firstname', 'lastname', 'phone', 'email', 'company', 'country.title'],
     };
-  }
 
-  private buildForm(): void {
-    this.addressForm = this.fb.group({
-      countryId: '',
-      firstname: ['', [Validators.required]],
-      lastname: '',
-      department: '',
-      company: '',
-      contactAddresses: this.fb.array([this.fb.group({
-        value: ['', [Validators.required]],
-        typeId: ''
-      })]),
-      contactPhones: this.fb.array([this.createNumberFormField()]),
-      contactEmails: this.fb.array([this.createEmailFormField()])
-    });
-  }
+    sidebar = {
+        visible: false,
+        loading: 0,
+        saving: 0,
+        mode: ''
+    };
+    loading: number = 0;
 
-  private createEmailFormField(): FormGroup {
-    return this.fb.group({
-      value: ['', [Validators.required, Validators.pattern(emailRegExp)]],
-      typeId: ''
-    });
-  }
+    selected: AddressBookItem;
 
-  private createNumberFormField(): FormGroup {
-    return this.fb.group({
-      value: ['', [Validators.required, Validators.minLength(8)]],
-      typeId: ''
-    });
-  }
+    modal = {
+        delete: {
+            visible: false,
+            confirm: {type: 'error', value: 'Delete'},
+            decline: {type: 'cancel', value: 'Cancel'}
+        },
+        block: {
+            visible: false,
+            confirm: {type: 'error', value: 'Block'},
+            decline: {type: 'cancel', value: 'Cancel'}
+        },
+    };
 
-  private getContacts(): void {
-    this._service.getContacts().then(res => {
-      this.contacts = res.items;
-      this.contacts.forEach(contact => {
-        const cntry = this.countries.find(country => {
-          if (contact.countryId === country.id) {
-            return true;
-          }
+    types: TypesModel;
+
+    countries: CountryModel[];
+
+    filters: FilterItem[] = [];
+
+    constructor(private service: AddressBookService,
+                private refs: RefsServices) {
+        this.filters.push(new FilterItem(1, 'type', 'Select Source', [
+            {id: 'all', title: 'All'},
+            {id: 'my', title: 'My'},
+            {id: 'company', title: 'Company'},
+            {id: 'blacklist', title: 'Black List'},
+        ], 'title'));
+        this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
+    }
+
+    create() {
+        this.sidebar.loading++;
+        this.service.resetErrors();
+        this.selected = null;
+        this.selected = new AddressBookItem();
+        this.prepareData();
+        this.sidebar.mode = 'edit';
+        this.sidebar.visible = true;
+        setTimeout(() => {
+            this.sidebar.loading--;
+        }, 500);
+    }
+
+    select(item: AddressBookItem) {
+        this.selected = item;
+        this.prepareData();
+        this.sidebar.mode = 'view';
+        this.sidebar.visible = true;
+    }
+
+    edit(item: AddressBookItem) {
+        this.sidebar.loading++;
+        this.sidebar.mode = 'edit';
+        this.sidebar.visible = true;
+        this.service.resetErrors();
+        this.service.getById(item.id).then((res: AddressBookItem) => {
+            this.selected = new AddressBookItem(res);
+            console.log(this.selected);
+            this.prepareData();
+            this.sidebar.loading--;
+        }).catch(res => {
+            this.sidebar.loading--;
         });
-        if (cntry) {
-          contact.countryName = cntry.title;
+    }
+
+    updateTypes() {
+        this.pageInfo.types = this.types;
+    }
+
+    updateCountries() {
+        this.pageInfo.countries = this.countries;
+        for (let i = 0; i < this.pageInfo.items.length; i++) {
+            let contact = this.pageInfo.items[i];
+            contact.country = this.countries.find(item => item.id === contact.countryId);
         }
-        // contact.tablePhone = `${contact.contactPhones[0].value} #${contact.contactPhones[0].extension}`;
-        // contact.tableEmail = contact.contactEmails[0].value;
-      });
-      this.loading = false;
-    }).catch(err => {
-      console.error(err);
-    });
-  }
+    }
 
-  private getCountries(): void {
-    this._service.getCountries().then((res: Countries) => {
-      this.countries = res.countries;
-      this.getContacts();
-    }).catch(err => {
-      console.error(err);
-    });
-  }
+    load(pageInfo: AddressBookModel) {
+        // console.log('load');
+        this.pageInfo = pageInfo;
+        if (!this.types) {
+            this.loading++;
+            this.service.getTypes().then(res => {
+                this.types = res;
+                this.updateTypes();
+                this.loading--;
+            }).catch(err => {
+                this.loading--;
+            });
+        } else {
+            this.updateTypes();
+        }
+        if (!this.countries) {
+            this.loading++;
+            this.refs.getCountries().then(res => {
+                this.countries = res;
+                this.updateCountries();
+                this.loading--;
+            }).catch(err => {
+                this.loading--;
+            });
+        } else {
+            this.updateCountries();
+        }
+    }
 
-  private getTypes(): void {
-    this._service.getTypes().then((res: Types) => {
-      this._phoneTypes = res.contactPhone;
-    }).catch(err => {
-      console.error(err);
-    });
-  }
+    close(reload: boolean = false) {
+        this.sidebar.visible = false;
+        this.selected = null;
+        this.sidebar.mode = null;
+        if (reload) {
+            this.list.getItems();
+        }
+    }
 
-  private getSipOuters(): void {
-    this.refs.getSipOuters().then(res => {
-      this.sipOuters = res;
-    }).catch(err => {
-      console.error(err);
-    });
-  }
+    block() {
+        this.modal.block.visible = true;
+    }
 
-  private resetForm(): void {
-    this.addressForm.reset();
-    this.selectedCountry = null;
-    this.selectedPhoneTypes = [];
-    this.contactEmails.controls = [];
-    this.contactPhones.controls = [];
-    this.addPhoneField();
-    this.addEmailField();
-  }
+    confirmBlock() {
+        console.log('confirmBlock');
+    }
 
-  private setPhoneTypeEdit(phone): void {
-    this.phoneTypes.forEach(type => {
-      if (type.value === phone.typeId) {
-        this.selectedPhoneTypes.push(type);
-      }
-    });
-  }
+    delete() {
+        this.modal.delete.visible = true;
+    }
 
-  private validate(form: FormGroup): void {
-    Object.keys(form.controls).forEach(control => {
-      if (form.get(control) instanceof FormArray) {
-        const ctrl = form.get(control) as FormArray;
-        ctrl.controls.forEach(cont => {
-          const ctr = cont as FormGroup;
-          ctr.markAsTouched();
-          Object.keys(ctr.controls).forEach(c => {
-            ctr.get(c).markAsTouched();
-          });
-        });
-      } else {
-        form.get(control).markAsTouched();
-      }
-    });
-  }
+    confirmDelete() {
+        this.list.delete(this.selected);
+        this.close(true);
+    }
 
-  ngOnInit() {
-    this.getCountries();
-    this.getTypes();
-    this.buildForm();
-    this.getSipOuters();
-  }
+    addPhone() {
+        this.selected.contactPhone.push(new ContactValueModel());
+    }
+
+    deletePhone(index: number) {
+        this.selected.contactPhone.splice(index, 1);
+    }
+
+    addEmail() {
+        this.selected.contactEmail.push(new ContactValueModel());
+    }
+
+    deleteEmail(index: number) {
+        this.selected.contactEmail.splice(index, 1);
+    }
+
+    prepareData() {
+        if (this.selected.contactPhone.length === 0) this.selected.addContactPhone(new ContactValueModel());
+        if (this.selected.contactEmail.length === 0) this.selected.addContactEmail(new ContactValueModel());
+        for (let i = 0; i < this.selected.contactPhone.length; i++) {
+            let phone = this.selected.contactPhone[i];
+            phone.type = this.types.contactPhone.find(item => item.id === phone.typeId);
+        }
+        for (let i = 0; i < this.selected.contactEmail.length; i++) {
+            let email = this.selected.contactEmail[i];
+            email.type = this.types.contactEmail.find(item => item.id === email.typeId);
+        }
+        this.selected.country = this.countries.find(item => item.id === this.selected.countryId);
+    }
+
+    checkEmpty(items: ContactValueModel[]) {
+        if (items.length > 0) {
+            for (let i = items.length - 1; i >= 0; i--) {
+                items[i].resetType();
+                if (!items[i].value) {
+                    items.splice(i, 1);
+                }
+            }
+        }
+    }
+
+    save() {
+        this.sidebar.loading++;
+        this.checkEmpty(this.selected.contactPhone);
+        this.checkEmpty(this.selected.contactEmail);
+
+        if (this.selected.id) {
+            this.service.putById(this.selected.id, this.selected).then(res => {
+                this.sidebar.loading--;
+                this.close(true);
+            }).catch(res => {
+                this.prepareData();
+                this.sidebar.loading--;
+            });
+        } else {
+            this.service.post('', this.selected).then(res => {
+                this.sidebar.loading--;
+                this.close(true);
+            }).catch(res => {
+                this.prepareData();
+                this.sidebar.loading--;
+            });
+        }
+    }
+
+    ngOnInit() {
+
+    }
+
 }

@@ -1,64 +1,75 @@
 <div class="pbx_input_wrap" [@Fade]>
     <div class="pbx_input_item">
-        <div class="pbx_input_item_label">
+
+        <div [ngClass]="[labelPosition === 'top' ? 'pbx_input_item_top_label' : 'pbx_input_item_label']">
             <span>{{name}}</span>
         </div>
-        <div *ngIf="!form"
-             [ngClass]="['pbx_input_item_input_wrap', inputClass]">
 
-            <input *ngIf="!options && !checkbox"
-                   [type]="type"
-                   [placeholder]="placeholder"
-                   [(ngModel)]="value"
-                   [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
-                   (keyup)="inputKeyUp($event)">
+        <div [ngClass]="['pbx_input_item_input_wrap']">
 
-            <pbx-select *ngIf="options"
-                        [singleBorder]="true"
-                        [options]="options"
-                        [objectKey]="displayKey"
-                        [selected]="value"
-                        (onSelect)="selectItem($event)"
-                        [errors]="checkError()"
-                        [placeholder]="placeholder">
-            </pbx-select>
+            <div *ngIf="!form"
+                 [ngClass]="['pbx_input_item_input_wrap', inputClass]">
 
-            <pbx-checkbox *ngIf="checkbox"
-                          (onToggle)="toggleCheckbox($event)"
-                          [value]="value">
-            </pbx-checkbox>
+                <input *ngIf="!options && !checkbox"
+                       [type]="type"
+                       [id]="key"
+                       [placeholder]="placeholder"
+                       [(ngModel)]="value"
+                       [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
+                       (keyup)="inputKeyUp($event)">
 
-            <span *ngIf="description">{{description}}</span>
+                <pbx-select *ngIf="options"
+                            [name]="key"
+                            [singleBorder]="true"
+                            [options]="options"
+                            [objectKey]="displayKey"
+                            [selected]="value"
+                            (onSelect)="selectItem($event)"
+                            [errors]="checkError()"
+                            [placeholder]="placeholder">
+                </pbx-select>
 
-        </div>
+                <pbx-checkbox *ngIf="checkbox"
+                              [id]="key"
+                              (onToggle)="toggleCheckbox($event)"
+                              [value]="value">
+                </pbx-checkbox>
 
-        <div *ngIf="form"
-             [formGroup]="object"
-             [ngClass]="['pbx_input_item_input_wrap', inputClass]">
+                <span *ngIf="description">{{description}}</span>
 
-            <input *ngIf="!options && !checkbox"
-                   [type]="type"
-                   [id]="key"
-                   [title]="name"
-                   [formControlName]="[key]"
-                   (keyup)="inputKeyUp($event)">
+            </div>
 
-            <pbx-checkbox *ngIf="checkbox"
-                          (onToggle)="toggleCheckbox($event)"
-                          [value]="value">
-            </pbx-checkbox>
+            <div *ngIf="form"
+                 [formGroup]="object"
+                 [ngClass]="['pbx_input_item_input_wrap', inputClass]">
 
-            <pbx-select *ngIf="options"
-                        [singleBorder]="true"
-                        [options]="options"
-                        [objectKey]="displayKey"
-                        [selected]="value"
-                        (onSelect)="selectItem($event)"
-                        [errors]="checkError()"
-                        [placeholder]="placeholder">
-            </pbx-select>
+                <input *ngIf="!options && !checkbox"
+                       [type]="type"
+                       [id]="key"
+                       [title]="name"
+                       [formControlName]="[key]"
+                       (keyup)="inputKeyUp($event)">
 
-            <span *ngIf="description">{{description}}</span>
+                <pbx-checkbox *ngIf="checkbox"
+                              [id]="key"
+                              (onToggle)="toggleCheckbox($event)"
+                              [value]="value">
+                </pbx-checkbox>
+
+                <pbx-select *ngIf="options"
+                            [name]="key"
+                            [singleBorder]="true"
+                            [options]="options"
+                            [objectKey]="displayKey"
+                            [selected]="value"
+                            (onSelect)="selectItem($event)"
+                            [errors]="checkError()"
+                            [placeholder]="placeholder">
+                </pbx-select>
+
+                <span *ngIf="description">{{description}}</span>
+
+            </div>
 
             <ng-content></ng-content>
 

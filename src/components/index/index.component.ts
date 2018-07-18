@@ -135,15 +135,15 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.navigationInit();
         this.WebSocket();
 
-        this.message = this._messages.messagesList().subscribe( mes => {
-          console.log(mes[0]);
+        this.message = this._messages.messagesList().subscribe(mes => {
+            console.log(mes[0]);
             if (mes[0]) {
-              this.notificator = {
-                visible: true,
-                type: mes[0].type,
-                message: mes[0].text
-              };
-              this._serviceNotificator.setNotification(this.notificator);
+                this.notificator = {
+                    visible: true,
+                    type: mes[0].type,
+                    message: mes[0].text
+                };
+                this._serviceNotificator.setNotification(this.notificator);
             }
         });
     }
