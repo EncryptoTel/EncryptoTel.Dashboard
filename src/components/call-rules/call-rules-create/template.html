@@ -215,4 +215,4 @@
             </ng-container>
         </form>
 </pbx-form>
-<pbx-modal [modalEx]="storage.modalUpload" (onConfirmEx)="doUploadAction($event)" (onDecline)="storage.cancelUploadAction()"></pbx-modal>
+<pbx-modal [modalEx]="storage.modalUpload" (onConfirmEx)="storage.doUploadAction($event)" (onDecline)="storage.cancelUploadAction()"></pbx-modal>

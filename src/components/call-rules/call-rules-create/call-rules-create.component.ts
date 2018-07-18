@@ -342,7 +342,7 @@ export class CallRulesCreateComponent implements OnInit {
 
     checkNextAction(index: number) {
         // console.log('checkNextAction', this.selectedActions[index]);
-        let valid = [1,5].includes(this.selectedActions[index].id);
+        let valid = [1, 5].includes(this.selectedActions[index].id);
         if (!valid && this.actionsControls.length - 1 > index) {
             for (let i = this.actionsControls.length - 1; i >= index; i--) {
                 this.deleteAction(i);
@@ -359,12 +359,14 @@ export class CallRulesCreateComponent implements OnInit {
     }
 
     uploadFile(e) {
+        console.log('uploadFile');
         e.preventDefault();
         const files = e.target.files;
         if (files[0]) {
-            // console.log('uploadFile', files[0]);
             if (this.storage.checkCompatibleType(files[0])) {
-                this.storage.checkFileExists(files[0]);
+                this.storage.checkFileExists(files[0], () => {
+                    this.refreshFiles();
+                });
             } else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
             }
@@ -372,30 +374,15 @@ export class CallRulesCreateComponent implements OnInit {
         }
     }
 
-    doUploadAction(button) {
-        switch (button.tag) {
-            case 1:
-                this.doUploadFile(this.storage.files[0], 'replace');
-                break;
-            case 2:
-                this.doUploadFile(this.storage.files[0], 'new');
-                break;
-        }
-        this.storage.deleteFileFromQueue();
-    }
-
-    doUploadFile(file, mode) {
-        this.storage.uploadFile(file, mode).then(res => {
-            this.storage.loading++;
-            this.service.getFiles().then((res) => {
-                this.files = res.items;
-                this.storage.loading--;
-            }).catch(err => {
-                this.storage.loading--;
-            });
+    refreshFiles() {
+        this.storage.loading++;
+        this.service.getFiles().then((res) => {
+            this.files = res.items;
+            this.storage.loading--;
+        }).catch(err => {
+            this.storage.loading--;
         });
     }
-
 
 
     ngOnInit() {

@@ -25,13 +25,14 @@ export class StorageService extends BaseService {
         ]
     };
     select = [];
+    callback;
 
     checkCompatibleType(file) {
         return ['audio/mp3', 'audio/ogg', 'audio/wav', 'audio/mpeg', 'audio/x-wav'].includes(file.type);
     }
 
     checkModal() {
-        // console.log('checkModal');
+        console.log('checkModal', this.files.length, this.modalUpload.visible);
         if (this.files.length > 0 && !this.modalUpload.visible) {
             this.loading ++;
             this.modalUpload.title = this.files[0].name;
@@ -41,9 +42,9 @@ export class StorageService extends BaseService {
         }
     }
 
-    checkFileExists(file) {
+    checkFileExists(file, callback = null) {
+        this.callback = callback;
         const index = this.pageInfo.items.findIndex(item => item.fileName == file.name);
-        // console.log('checkFileExists', index);
         if (index != -1) {
             this.files.push(file);
         } else {
@@ -57,7 +58,7 @@ export class StorageService extends BaseService {
                     this.files.push(file);
                     this.checkModal();
                 } else {
-                    this.uploadFile(file, null);
+                    this.uploadFile(file, null, null);
                 }
                 this.loading--;
             }).catch(res => {
@@ -88,6 +89,9 @@ export class StorageService extends BaseService {
         return this.rawRequest('POST', '', data).then(() => {
             this.loading -= 1;
             if (!this.loading) this.getList(this.type, this.search, this.sort);
+            if (this.callback) {
+                this.callback();
+            }
         }).catch(() => {
             this.loading -= 1;
         });
