@@ -19,14 +19,6 @@ export class ExtensionService extends BaseService {
         return this.request.post(`v1/sip/inners/${id}/change-password`, data);
     }
 
-    create(data): Promise<any> {
-        return this.request.post('v1/sip/inners', data);
-    }
-
-    edit(id: number, data): Promise<any> {
-        return this.request.put(`v1/sip/inners/${id}`, data);
-    }
-
     getAccessList(userId: number): Promise<any> {
         return this.request.get(`v1/sip/inner/access-list` + (userId ? `?userId=${userId}` : ''));
     }
@@ -40,6 +32,14 @@ export class ExtensionService extends BaseService {
 
 
 
+
+    create(data): Promise<any> {
+        return this.post('', data);
+    }
+
+    edit(id: number, data): Promise<any> {
+        return this.putById(id, data);
+    }
 
     getExtensions(pageInfo: PageInfoModel, filter): Promise<ExtensionModel> {
         return this.getItems(pageInfo, filter).then((res: ExtensionModel) => {

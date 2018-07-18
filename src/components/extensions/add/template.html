@@ -34,25 +34,24 @@
             </div>
         </div>
     </div>
-    <pbx-form [tabs]="tab.items"
+    <pbx-form *ngIf="!loading"
+              [tabs]="tab.items"
               [icons]="tab.icons"
               [decline]="{value: 'Cancel', buttonType: 'cancel'}"
               [confirm]="{value: 'Save', buttonType: 'success'}"
               (onDecline)="doCancel()"
               (onConfirm)="doSave()"
               (onSelect)="selectTab($event)">
-        <general-add-extension-component
-            *ngIf="tab.select==='General'" class="add_ext_item"
-            [(form)]="formExtension"
-            [id]="id">
+        <general-add-extension-component *ngIf="tab.select==='General'" class="add_ext_item"
+                                         [service]="_extension"
+                                         [(form)]="formExtension"
+                                         [id]="id">
         </general-add-extension-component>
-        <options-add-extension-component
-            *ngIf="tab.select==='Options'" class="add_ext_item"
-            [(form)]="formExtension">
+        <options-add-extension-component *ngIf="tab.select==='Options'" class="add_ext_item"
+                                         [(form)]="formExtension">
         </options-add-extension-component>
-        <rights-add-extension-component
-            *ngIf="tab.select==='Rights'" class="add_ext_item"
-            [(accessList)]="accessList">
+        <rights-add-extension-component *ngIf="tab.select==='Rights'" class="add_ext_item"
+                                        [(accessList)]="accessList">
         </rights-add-extension-component>
     </pbx-form>
     <pbx-sidebar *ngIf="false">sidebar is not ready

@@ -16,7 +16,8 @@ import {RefsServices} from "../../../../services/refs.services";
 export class GeneralAddExtensionComponent implements OnInit {
     @Input() form: any;
     @Input() id: number;
-    loading: number;
+    @Input() service;
+    loading: number = 0;
     sipOuters = {
       option: [],
       selected: null,
@@ -120,41 +121,7 @@ export class GeneralAddExtensionComponent implements OnInit {
 
     }
 
-
-    /* doSave() {
-        this.form.markAsTouched();
-        this.validate(this.form);
-        // console.log(this.formGeneral.valid);
-        if (this.form.valid) {
-            this.loading += 1;
-            if (this.mode === 'create') {
-                this._extensions.save({...this.formGeneral.value}).then(() => {
-                    this.loading -= 1;
-                    this.router.navigate(['cabinet', 'extensions']);
-                }).catch(res => {
-                    const errors = res.errors;
-                    if (errors) {
-                        Object.keys(errors).forEach(key => {
-                            this.formGeneral.get(key).setErrors(errors[key]);
-                        });
-                    }
-                    this.loading -= 1;
-                });
-                // } else if (this.mode === 'edit') {
-                //     this._service.edit(this.currentContact.id, {...this.formGeneral.value}).then(() => {
-                //         this.getContacts();
-                //         this.resetForm();
-                //         this.loading = false;
-                //     }).catch(err => {
-                //         console.error(err);
-                //         this.loading = false;
-                //     });
-            }
-        }
-    } */
     ngOnInit(): void {
-        // console.log(this.id);
-        this.loading = 0;
         this.getSipOuters();
     }
 }

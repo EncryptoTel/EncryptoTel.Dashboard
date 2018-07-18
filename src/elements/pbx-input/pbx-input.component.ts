@@ -12,6 +12,7 @@ export class InputComponent implements OnInit {
     @Input() key: string;
     @Input() name: string;
     @Input() description: string;
+    @Input() descriptionClass: string;
     @Input() inputClass: string;
     @Input() type: string;
     @Input() placeholder: string;
@@ -119,7 +120,6 @@ export class InputComponent implements OnInit {
             // this.objectView.id = $event.id;
             // this.objectView[this.displayKey] = $event[this.displayKey];
             this.key ? this.getForm().setValue($event.id) : null;
-
         } else {
             if (this.updateObjectByObject) {
                 this.object[this.key] = $event;

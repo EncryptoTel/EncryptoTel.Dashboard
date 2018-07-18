@@ -67,7 +67,7 @@
                             [placeholder]="placeholder">
                 </pbx-select>
 
-                <span *ngIf="description">{{description}}</span>
+                <span *ngIf="description" [ngClass]="[descriptionClass ? descriptionClass : '']">{{description}}</span>
 
             </div>
 
