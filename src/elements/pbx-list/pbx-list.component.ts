@@ -17,16 +17,21 @@ export class ListComponent implements OnInit{
     @Input() name: string;
     @Input() itemName: string;
     @Input() key: string;
+    @Input() createKey: string = 'create';
     @Input() pageInfo: PageInfoModel;
     @Input() table: any;
     @Input() service: any;
     @Input() buttonTitle: string;
     @Input() loading: boolean;
     @Input() filters: FilterItem;
+    @Input() editable: boolean = true;
+    @Input() deletable: boolean = true;
+
     @Output() onCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
     @Output() onLoad: EventEmitter<object> = new EventEmitter<object>();
+
     @ViewChild(TableComponent) items;
 
     buttons: ButtonItem[] = [];
@@ -41,7 +46,7 @@ export class ListComponent implements OnInit{
         if (this.onCreate.observers.length > 0) {
             this.onCreate.emit();
         } else {
-            this.router.navigate(['cabinet', this.key, 'create']);
+            this.router.navigate(['cabinet', this.key, this.createKey]);
         }
     }
 

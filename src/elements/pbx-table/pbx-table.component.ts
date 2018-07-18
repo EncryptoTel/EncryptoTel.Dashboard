@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TableInfoModel} from '../../models/table-info.model';
+import {TableInfoModel} from '../../models/base.model';
 import {ModalEx} from "../pbx-modal/pbx-modal.component";
 
 @Component({
@@ -13,6 +13,7 @@ export class TableComponent implements OnInit {
     @Input() selected: any;
     @Input() tableInfo: TableInfoModel;
     @Input() editable: boolean;
+    @Input() deletable: boolean = true;
     @Input() multiple: boolean;
     @Input() columnFormat: string[];
     @Input() name: string;

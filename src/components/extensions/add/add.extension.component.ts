@@ -2,7 +2,7 @@ import {Component, OnInit /*, ViewChildren*/} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {emailRegExp} from '../../../shared/vars';
 import {ExtensionService} from '../../../services/extension.service';
-import {PhoneNumbersServices} from '../../../services/phone-numbers.services';
+import {PhoneNumberService} from '../../../services/phone-number.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ExtensionItem} from "../../../models/extension.model";
 
@@ -10,7 +10,7 @@ import {ExtensionItem} from "../../../models/extension.model";
     selector: 'add-extension-component',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    providers: [ExtensionService, PhoneNumbersServices]
+    providers: [ExtensionService, PhoneNumberService]
 })
 
 export class AddExtensionsComponent implements OnInit {

@@ -33,3 +33,8 @@ export class BaseParam {
     id: number;
     code: string;
 }
+
+export class TableInfoModel {
+    titles: string[];
+    keys: string[];
+}

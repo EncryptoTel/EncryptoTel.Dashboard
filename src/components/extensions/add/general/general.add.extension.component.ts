@@ -3,7 +3,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {emailRegExp} from '../../../../shared/vars';
 import {ExtensionService} from '../../../../services/extension.service';
-import {PhoneNumbersServices} from '../../../../services/phone-numbers.services';
+import {PhoneNumberService} from '../../../../services/phone-number.service';
 import {MessageServices} from "../../../../services/message.services";
 import {RefsServices} from "../../../../services/refs.services";
 
@@ -37,7 +37,7 @@ export class GeneralAddExtensionComponent implements OnInit {
     };
 
     @ViewChildren('label') labelFields;
-    constructor(private _numbers: PhoneNumbersServices,
+    constructor(private _numbers: PhoneNumberService,
                 private _extensions: ExtensionService,
                 private _messages: MessageServices,
                 private refs: RefsServices) {}
