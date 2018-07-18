@@ -1,17 +1,11 @@
-import {Injectable} from '@angular/core';
-import {RequestServices} from './request.services';
 import {CountryModel} from '../models/country.model';
-import {DepartmentModel} from "../models/department.model";
+import {DepartmentItem, DepartmentModel} from "../models/department.model";
+import {BaseService} from "./base.service";
 
-@Injectable()
-export class RefsServices {
+export class RefsServices extends BaseService {
     private countries: CountryModel[] = [];
     private sipOuters: any = [];
-    private departments: DepartmentModel[] = [];
-
-    constructor(private request: RequestServices) {
-
-    }
+    private departments: DepartmentModel = new DepartmentModel();
 
     getCountries(): Promise<CountryModel[]> {
         if (this.countries.length === 0) {
@@ -36,10 +30,10 @@ export class RefsServices {
     }
 
     getDepartments(): Promise<any> {
-        if (this.departments.length === 0) {
-            return this.request.get(`v1/department`).then(departments => {
-                this.departments = departments['items'];
-                this.departments.unshift({id: 0, name: 'All', comment: '', employees: 0, sipInnerIds: []});
+        if (this.departments.itemsCount === 0) {
+            return this.request.get(`v1/department`).then((res: DepartmentModel) => {
+                this.departments = this.plainToClassEx(DepartmentModel, DepartmentItem, res);
+                this.departments.items.unshift({id: 0, name: 'All', comment: '', employees: 0, sipInnerIds: [], loading: 0});
                 return Promise.resolve(this.departments);
             });
         } else {

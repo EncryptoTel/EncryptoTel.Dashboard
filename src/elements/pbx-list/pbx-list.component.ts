@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {BaseItemModel, PageInfoModel} from "../../models/base.model";
 import {ButtonItem, FilterItem} from "../pbx-header/pbx-header.component";
 import {Router} from "@angular/router";
 import {CallRulesItem} from "../../models/call-rules.model";
+import {TableComponent} from "../pbx-table/pbx-table.component";
 
 @Component({
     selector: 'pbx-list',
@@ -26,6 +27,7 @@ export class ListComponent implements OnInit{
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
     @Output() onLoad: EventEmitter<object> = new EventEmitter<object>();
+    @ViewChild(TableComponent) items;
 
     buttons: ButtonItem[] = [];
     currentFilter = [];
@@ -57,8 +59,7 @@ export class ListComponent implements OnInit{
         }
     }
 
-    delete(item: CallRulesItem) {
-        console.log('delete', item);
+    delete(item: BaseItemModel) {
         item.loading++;
         this.service.deleteById(item.id).then(() => {
             this.getItems(item);

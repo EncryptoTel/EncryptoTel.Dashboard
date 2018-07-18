@@ -1,11 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import {DepartmentServices} from '../../services/department.services';
+import {DepartmentService} from '../../services/department.service';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {DepartmentModel, Sip} from '../../models/department.model';
+import {DepartmentItem, DepartmentModel, Sip} from '../../models/department.model';
 import {validateForm} from '../../shared/shared.functions';
 import {RefsServices} from '../../services/refs.services';
+import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 
 
 @Component({
@@ -16,33 +17,35 @@ import {RefsServices} from '../../services/refs.services';
 })
 
 export class DepartmentsComponent implements OnInit {
-    sidebarEdit = false;
-    sidebarVisible = false;
-    mode = 'create';
-    departmentsList: DepartmentModel[] = [];
+    @ViewChild(ListComponent) list;
+
+    sidebar = {
+        visible: false,
+        loading: 0,
+        saving: 0,
+        mode: ''
+    };
     sips: Sip[] = [];
     selectedSips: Sip[] = [];
-    tableInfo = {
+    table = {
         titles: ['Department', 'Employees', 'Comment'],
         keys: ['name', 'employees', 'comment']
     };
     departmentForm: FormGroup;
-    loading = true;
-    currentDepartment: DepartmentModel;
-    modal = {
-      visible: false,
-      confirm: {type: 'error', value: 'Delete'},
-      decline: {type: 'cancel', value: 'Cancel'}
-    };
+    loading = 0;
+    selected: DepartmentItem;
+    pageInfo: DepartmentModel = new DepartmentModel();
 
-    constructor(private _service: DepartmentServices,
+    constructor(private service: DepartmentService,
                 private fb: FormBuilder,
                 private refs: RefsServices) {
-    }
 
-    showModal(department: DepartmentModel) {
-        this.currentDepartment = department;
-        this.modal.visible = true;
+        this.departmentForm = this.fb.group({
+            name: [null, [Validators.required, Validators.maxLength(255)]],
+            comment: [''],
+            sipInner: this.fb.array([])
+        });
+
     }
 
     addPhone(): void {
@@ -52,51 +55,30 @@ export class DepartmentsComponent implements OnInit {
         }
     }
 
-    addDepartment(): void {
+    create(): void {
         this.resetForEdit();
         this.reset();
         const sips = this.departmentForm.get('sipInner') as FormArray;
         sips.push(this.createPhoneField());
-        this.mode = 'create';
-        this.sidebarVisible = true;
-        this.sidebarEdit = true;
-    }
-
-    cancel(): void {
-        if (this.mode === 'create') {
-            this.sidebarVisible = false;
-        } else {
-            this.sidebarEdit = false;
-        }
+        this.sidebar.mode = 'edit';
+        this.sidebar.visible = true;
     }
 
     close(): void {
-        this.currentDepartment = null;
-        this.sidebarVisible = false;
+        this.selected = null;
+        this.sidebar.visible = false;
     }
 
-    delete(department: DepartmentModel): void {
-        this.loading = true;
-        this.sidebarVisible = false;
-        this._service.deleteDepartment(department.id).then(() => {
-            this.getDepartments();
-        }).catch(err => {
-            console.error(err);
-            this.loading = false;
-        });
-    }
-
-    edit(department: DepartmentModel): void {
-        this.mode = 'edit';
-        this.currentDepartment = department;
-        this.sidebarEdit = true;
-        this.sidebarVisible = true;
-        this.departmentForm.get('name').setValue(department.name);
-        this.departmentForm.get('comment').setValue(department.comment);
+    edit(item: DepartmentItem): void {
+        this.sidebar.mode = 'edit';
+        this.selected = item;
+        this.sidebar.visible = true;
+        this.departmentForm.get('name').setValue(item.name);
+        this.departmentForm.get('comment').setValue(item.comment);
         this.resetForEdit();
-        for (let i = 0; i < department.sipInnerIds.length; i++) {
+        for (let i = 0; i < item.sipInnerIds.length; i++) {
             for (let x = 0; x < this.sips.length; x++) {
-                if (department.sipInnerIds[i] === this.sips[x].id) {
+                if (item.sipInnerIds[i] === this.sips[x].id) {
                     this.sips[x].blocked = true;
                     this.selectedSips.push(this.sips[x]);
                     const sipsForm = this.departmentForm.get('sipInner') as FormArray;
@@ -117,7 +99,7 @@ export class DepartmentsComponent implements OnInit {
         return array;
     }
 
-    getPhonesCurrentDepartment(department: DepartmentModel): string[] {
+    getPhonesCurrentDepartment(department: DepartmentItem): string[] {
         const phoneNumbers = [];
         for (let i = 0; i < department.sipInnerIds.length; i++) {
             for (let x = 0; x < this.sips.length; x++) {
@@ -132,26 +114,15 @@ export class DepartmentsComponent implements OnInit {
     save(): void {
         validateForm(this.departmentForm);
         if (this.departmentForm.valid) {
-            this.sidebarEdit = false;
-            this.sidebarVisible = false;
-            this.loading = true;
-            if (this.mode === 'create') {
-                this._service.saveDepartment({...this.departmentForm.value}).then(() => {
-                    this.reset();
-                    this.getDepartments();
-                }).catch(err => {
-                    console.error(err);
-                    this.loading = false;
-                });
-            } else if (this.mode === 'edit') {
-                this._service.editDepartment(this.currentDepartment.id, {...this.departmentForm.value}).then(res => {
-                    this.reset();
-                    this.getDepartments();
-                }).catch(err => {
-                    console.error(err);
-                    this.loading = false;
-                });
-            }
+            this.loading++;
+            this.service.save(this.selected ? this.selected.id : null, this.departmentForm.value).then(() => {
+                this.reset();
+                this.getDepartments();
+                this.close();
+                this.loading--;
+            }).catch(() => {
+                this.loading--;
+            });
         }
     }
 
@@ -167,11 +138,10 @@ export class DepartmentsComponent implements OnInit {
         });
     }
 
-    selectDepartment(department: DepartmentModel): void {
-        if (this.sidebarVisible = this.currentDepartment !== department) {
-            this.sidebarEdit = false;
-            this.mode = 'edit'; }
-      this.currentDepartment = this.sidebarVisible ? department : null;
+    select(item: DepartmentItem): void {
+        this.sidebar.mode = 'view';
+        this.sidebar.visible = this.sidebar.visible ? this.selected !== item : true;
+        this.selected = item;
     }
 
     private createPhoneField(): FormControl {
@@ -208,33 +178,30 @@ export class DepartmentsComponent implements OnInit {
     }
 
     private getDepartments(): void {
-        this._service.getDepartments().then(res => {
-            this.departmentsList = res.items;
-            this.departmentsList.map(department => {
-                department.employees = department.sipInnerIds.length;
-            });
-            this.loading = false;
+        this.loading++;
+        this.service.getItems(this.pageInfo).then((res: DepartmentModel) => {
+            this.pageInfo = res;
+            // this.departmentsList.map(department => {
+            //     department.employees = department.sipInnerIds.length;
+            // });
+            this.loading--;
         }).catch(err => {
-            console.error(err);
-            this.loading = false;
+            this.loading--;
         });
     }
 
     private getSipOuters(): void {
+        this.sidebar.loading++;
         this.refs.getSipOuters().then(res => {
             this.formatSipOuters(res);
-        }).catch(err => {
-            console.error(err);
+            this.sidebar.loading--;
+        }).catch(() => {
+            this.sidebar.loading--;
         });
     }
 
     ngOnInit(): void {
         this.getDepartments();
         this.getSipOuters();
-        this.departmentForm = this.fb.group({
-            name: [null, [Validators.required, Validators.maxLength(255)]],
-            comment: [''],
-            sipInner: this.fb.array([])
-        });
     }
 }

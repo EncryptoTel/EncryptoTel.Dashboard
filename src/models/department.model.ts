@@ -1,3 +1,16 @@
+import {BaseItemModel, PageInfoModel} from "./base.model";
+
+export class DepartmentModel extends PageInfoModel {
+    items: DepartmentItem[];
+}
+
+export class DepartmentItem extends BaseItemModel {
+    name: string;
+    comment: string;
+    employees: number;
+    sipInnerIds: number[];
+}
+
 export class Sip {
     constructor(
         public id: number,
@@ -5,16 +18,4 @@ export class Sip {
         public blocked?: boolean
     ) {
     }
-}
-
-export class DepartmentModel {
-    constructor(
-        public comment: string,
-        public employees: null | number,
-        public id: number,
-        public name: string,
-        public sipInnerIds: number[]
-    ) {
-    }
-
 }
