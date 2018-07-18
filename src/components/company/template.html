@@ -14,17 +14,19 @@
                        [object]="companyForm">
             </pbx-input>
 
-            <pbx-input name="Country"
-                       displayKey="title"
-                       (onSelect)="selectCountry($event)"
-                       [options]="countries"
-                       [object]="companyForm"
-                       [errors]="service.errors"
-                       [objectView]="selectedCountry">
-            </pbx-input>
-
             <ng-container formArrayName="companyAddress">
                 <ng-container *ngFor="let address of addressControls.controls;let i = index" [formGroupName]="i">
+
+                    <pbx-input name="Country"
+                               key="country"
+                               displayKey="title"
+                               (onSelect)="selectCountry($event)"
+                               [form]="true"
+                               [options]="countries"
+                               [object]="address"
+                               [errors]="service.errors"
+                               [objectView]="selectedCountry">
+                    </pbx-input>
 
                     <pbx-input name="State/Region"
                                key="regionName"
