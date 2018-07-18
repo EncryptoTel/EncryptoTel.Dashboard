@@ -36,7 +36,7 @@ export class AddExtensionsComponent implements OnInit {
 
         this.formExtension = this.formBuilder.group({
             outer: [null, [Validators.required]],
-            phoneNumber: ['', [Validators.required]],
+            phoneNumber: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
             default: false,
             user: this.formBuilder.group({
                 firstName: ['', []],
