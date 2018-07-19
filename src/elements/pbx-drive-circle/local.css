@@ -1,0 +1,22 @@
+.progress__svg {
+  transform: rotate(-90deg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12.57142857rem;
+  height: 12.57142857rem;
+}
+
+.progress__meter,
+.progress__value {
+  fill: none;
+}
+
+.progress__meter {
+  stroke: hsla(0,0%,100%,.3);
+}
+
+.progress__value {
+  stroke: #fff;
+  transition: all;
+}

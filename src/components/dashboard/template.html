@@ -199,19 +199,29 @@
       </div>
       <div class="dashboard_drive_diagram">
         <div class="dashboard_drive_percentage">{{((dashboard.storage.usedSize)/(dashboard.storage.totalSize))*100 | number: '1.0-0'}}%</div>
+        <style>
+
+        </style>
         <!-- i try to create diagram -->
-        <svg class="dashboard_drive_circle dashboard_hide_low_resolution">
-          <circle cx="88" cy="88" r="76" stroke-width="24" fill="none"></circle>
-          <path class="circle-diagram" stroke-width="24" fill="none"
-                d="M 12,88 A 76,76 0 0,1 120.359226158946,19.2331440125825">
-          </path>
-        </svg>
-        <svg class="dashboard_drive_circle dashboard_hide_high_resolution">
-          <circle cx="48" cy="48" r="40" stroke-width="16" fill="none"></circle>
-          <path stroke-width="16" fill="none"
-                d="M 8,48 A 40,40 0 0,1 65.0311716626029,11.8069179013592">
-          </path>
-        </svg>
+
+        <pbx-circle-progress [value]="((dashboard.storage.usedSize)/(dashboard.storage.totalSize))*100 | number: '1.0-0'"></pbx-circle-progress>
+
+        <!--<svg width="120" height="120" viewBox="0 0 120 120" class="progress__svg">-->
+          <!--<circle [attr.r]="radius" cx="60" cy="60" stroke-width="12" class="progress__meter" />-->
+          <!--<circle [style.strokeDasharray]="circumference" [style.strokeDashoffset]="dashoffset" [attr.r]="radius" cx="60" cy="60" stroke-width="12" class="progress__value" />-->
+        <!--</svg>-->
+        <!--<svg class="dashboard_drive_circle dashboard_hide_low_resolution">-->
+          <!--<circle cx="88" cy="88" r="76" stroke-width="24" fill="none"></circle>-->
+          <!--<path class="circle-diagram" stroke-width="24" fill="none" stroke-dasharray="120, 477"-->
+                <!--d="M 12, 88 a 76,76 0 1,0 152,0 a 76,76 0 1,0 -152,0">-->
+          <!--</path>-->
+        <!--</svg>-->
+        <!--<svg class="dashboard_drive_circle dashboard_hide_high_resolution">-->
+          <!--<circle cx="48" cy="48" r="40" stroke-width="16" fill="none"></circle>-->
+          <!--<path stroke-width="16" fill="none"-->
+                <!--d="M 8,48 A 40,40 0 0,1 65.0311716626029,11.8069179013592">-->
+          <!--</path>-->
+        <!--</svg>-->
       </div>
     </div>
     <div class="dashboard_item_link_row">
