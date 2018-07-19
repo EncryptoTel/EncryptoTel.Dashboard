@@ -12,13 +12,13 @@ import {RefsServices} from '../../../../services/refs.services';
 
 export class CallQueuesGeneralComponent {
 
-    constructor(private service: CallQueueService,
+    constructor(public service: CallQueueService,
                 private refs: RefsServices) {
         this.getNumbers();
-        this.service.userView.isCurCompMembersAdd = false;
+        // this.service.userView.isCurCompMembersAdd = false;
     }
 
-    loading: number = 0;
+    loading = 0;
     numbers = [];
 
 
@@ -27,7 +27,7 @@ export class CallQueuesGeneralComponent {
         this.refs.getSipOuters().then(res => {
             this.numbers = res;
             this.loading--;
-        }).catch(err => {
+        }).catch(() => {
             this.loading--;
         });
     }

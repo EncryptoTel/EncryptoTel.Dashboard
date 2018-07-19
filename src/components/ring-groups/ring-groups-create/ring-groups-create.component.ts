@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RingGroupService} from '../../../services/ring-group.service';
 import {FadeAnimation} from '../../../shared/fade-animation';
@@ -11,11 +11,20 @@ import {FadeAnimation} from '../../../shared/fade-animation';
     animations: [FadeAnimation('300ms')]
 })
 
-export class RingGroupsCreateComponent implements OnInit, OnDestroy {
+export class RingGroupsCreateComponent implements OnInit {
 
-    id: number = 0;
-    loading: number = 0;
-    saving: number = 0;
+    id = 0;
+    loading = 0;
+    saving = 0;
+
+    tabs = ['General', 'Members'];
+    confirm = {value: 'save', buttonType: 'success', inactive: this.saving !== 0};
+    decline = {
+      standard: {value: 'Cancel', buttonType: 'cancel'},
+      member: {value: 'Back', buttonType: 'cancel'},
+    };
+    currentTab = 'General';
+    addMembers = false;
 
     constructor(public service: RingGroupService,
                 private activatedRoute: ActivatedRoute,
@@ -23,12 +32,17 @@ export class RingGroupsCreateComponent implements OnInit, OnDestroy {
         this.id = this.activatedRoute.snapshot.params.id;
     }
 
+    selectTab(tab: string): void {
+        this.addMembers = false;
+        this.currentTab = tab;
+    }
+
     save(): void {
         this.saving++;
-        this.service.save(this.id).then(res => {
+        this.service.save(this.id).then(() => {
             this.saving--;
             this.cancel();
-        }).catch(res => {
+        }).catch(() => {
             this.saving--;
         });
     }
@@ -38,6 +52,7 @@ export class RingGroupsCreateComponent implements OnInit, OnDestroy {
     }
 
     back(): void {
+        this.addMembers = false;
         this.router.navigate(['members'], {relativeTo: this.activatedRoute});
     }
 
@@ -68,10 +83,6 @@ export class RingGroupsCreateComponent implements OnInit, OnDestroy {
         } else {
             this.getParams();
         }
-    }
-
-    ngOnDestroy() {
-
     }
 
 }

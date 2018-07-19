@@ -1,36 +1,13 @@
-<pbx-loader *ngIf="loading"></pbx-loader>
-<div *ngIf="!loading" class="call_queues_create_wrap" [@Fade]>
-    <div class="call_queues_create_header">
-        <div class="call_queues_create_tabs">
-            <div class="call_queues_create_tab">
-                <a routerLink="general" routerLinkActive="active" [skipLocationChange]="true">General</a>
-            </div>
-            <div class="call_queues_create_tab" *ngIf="service.item.sipId">
-                <a routerLink="members" routerLinkActive="active" [skipLocationChange]="true">Members</a>
-            </div>
-            <div class="call_queues_create_tab blocked" *ngIf="!service.item.sipId">Members</div>
-
-        </div>
-        <div class="call_queues_create_buttons" [ngClass]="{'back-wrap':service.userView.isCurCompMembersAdd}">
-            <pbx-button *ngIf="!service.userView.isCurCompMembersAdd"
-                        (onClick)="cancel()"
-                        value="Cancel"
-                        buttonType="cancel">
-            </pbx-button>
-            <pbx-button *ngIf="!service.userView.isCurCompMembersAdd"
-                        (onClick)="save()"
-                        value="Save"
-                        buttonType="success"
-                        [loading]="saving">
-                        <!--[ngClass]="{'inactive':validation()}"-->
-            </pbx-button>
-            <pbx-button *ngIf="service.userView.isCurCompMembersAdd"
-                        (onClick)="back()"
-                        value="Back"
-                        buttonType="cancel">
-                Back
-            </pbx-button>
-        </div>
-    </div>
-    <router-outlet></router-outlet>
-</div>
+<pbx-form *ngIf="!loading"
+          [tabs]="tabs"
+          [inactiveTabs]="[false,!service.item.sipId]"
+          [background]="currentTab==='General'"
+          [confirm]="addMembers?{}:confirm"
+          [decline]="decline[addMembers?'member':'standard']"
+          (onConfirm)="save()"
+          (onDecline)="addMembers?back():cancel()"
+          (onSelect)="selectTab($event)">
+    <ring-groups-general *ngIf="currentTab===tabs[0]"></ring-groups-general>
+    <ring-groups-members *ngIf="currentTab===tabs[1]&&!addMembers" (onClick)="addMembers=true"></ring-groups-members>
+    <ring-groups-members-add *ngIf="addMembers"></ring-groups-members-add>
+</pbx-form>

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FadeAnimation} from '../../../../../shared/fade-animation';
 import {RingGroupService} from '../../../../../services/ring-group.service';
-import {RefsServices} from "../../../../../services/refs.services";
+import {RefsServices} from '../../../../../services/refs.services';
 
 @Component({
     selector: 'ring-groups-members-add',
@@ -12,24 +12,20 @@ import {RefsServices} from "../../../../../services/refs.services";
 
 export class RingGroupsMembersAddComponent implements OnInit {
 
-    loading: number = 0;
+    loading = 0;
     members = [];
     departments: any[] = [];
     selectedDepartment;
     table = {
-        title: {
-            titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
-            keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'statusName']
-        }
+        titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
+        keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'statusName']
     };
     searchTimeout;
-    searchStr: string = '';
-    id: number = 0;
+    searchStr = '';
+    id = 0;
 
-    constructor(private service: RingGroupService,
-                private refs: RefsServices) {
-        this.service.userView.isCurCompMembersAdd = true;
-    }
+    constructor(public service: RingGroupService,
+                private refs: RefsServices) {}
 
     selectMember(member): void {
         // console.log(member);
@@ -39,6 +35,16 @@ export class RingGroupsMembersAddComponent implements OnInit {
         if (!checkResult) {
             this.service.item.queueMembers.push({sipId: member.id});
             this.service.userView.members.push(member);
+        }
+        const index = this.service.item.queueMembers.findIndex(el => {
+          return el.sipId === member.id; });
+        if (index === -1) {
+            this.service.item.queueMembers.push({sipId: member.id});
+            this.service.userView.members.push(member);
+        } else {
+            this.service.item.queueMembers.splice(index, 1);
+            this.service.userView.members.splice(this.service.userView.members.findIndex(el => {
+              return el.id === member.id; }), 1);
         }
     }
 
@@ -79,7 +85,7 @@ export class RingGroupsMembersAddComponent implements OnInit {
             this.members = res.items;
             this.loading--;
             this.addPhoneNumberField();
-        }).catch(err => {
+        }).catch(() => {
             this.loading--;
             // console.error(err);
         });
@@ -97,7 +103,7 @@ export class RingGroupsMembersAddComponent implements OnInit {
             this.departments = res;
             this.selectedDepartment = this.departments[0];
             this.loading--;
-        }).catch(err => {
+        }).catch(() => {
             this.loading--;
             // console.error(err);
         });

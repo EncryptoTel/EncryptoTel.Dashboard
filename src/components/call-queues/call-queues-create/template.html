@@ -1,24 +1,14 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
-<div *ngIf="!loading" class="call_queues_create_wrap" [@Fade]>
-    <div class="call_queues_create_header">
-        <div class="call_queues_create_tab_wrap">
-            <a class="call_queues_create_tab" routerLink="general" routerLinkActive="active"
-               [skipLocationChange]="true">General</a>
-            <a class="call_queues_create_tab" *ngIf="service.item.sipId"
-               (click)="selectMembersTab()"
-               routerLink="members" routerLinkActive="active" [skipLocationChange]="true"
-               [ngClass]="{'invalid': service.errors && service.errors.queueMembers}">Members</a>
-            <div class="call_queues_create_tab blocked invalid" *ngIf="!service.item.sipId"
-                 [ngClass]="{'invalid': service.errors && service.errors.queueMembers}">Members</div>
-        </div>
-        <div class="call_queues_create_buttons">
-            <pbx-button *ngIf="!service.userView.isCurCompMembersAdd"
-                        buttonType="cancel" value="Cancel" (onClick)="cancel()"></pbx-button>
-            <pbx-button *ngIf="!service.userView.isCurCompMembersAdd"
-                        buttonType="success" value="Save" (onClick)="save()" [loading]="saving"></pbx-button>
-            <pbx-button *ngIf="service.userView.isCurCompMembersAdd"
-                        buttonType="cancel" value="Back" (onClick)="back()"></pbx-button>
-        </div>
-    </div>
-    <router-outlet></router-outlet>
-</div>
+<pbx-form *ngIf="!loading"
+          [tabs]="tabs"
+          [inactiveTabs]="[false,!service.item.sipId]"
+          [background]="currentTab==='General'"
+          [confirm]="!service.userView.isCurCompMembersAdd?confirm:{}"
+          [decline]="decline[!service.userView.isCurCompMembersAdd?'standard':'member']"
+          (onConfirm)="save()"
+          (onDecline)="!service.userView.isCurCompMembersAdd?cancel():back()"
+          (onSelect)="selectTab($event)">
+  <pbx-call-queues-general *ngIf="currentTab===tabs[0]"></pbx-call-queues-general>
+  <pbx-call-queues-members *ngIf="currentTab===tabs[1]&&!addMembers" (onClick)="addMembers=$event"></pbx-call-queues-members>
+  <pbx-call-queues-members-add *ngIf="addMembers"></pbx-call-queues-members-add>
+</pbx-form>

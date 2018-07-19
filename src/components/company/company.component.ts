@@ -6,9 +6,9 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
 import {CompanyService} from '../../services/company.service';
 import {CompanyModel} from '../../models/company.model';
 import {emailRegExp} from '../../shared/vars';
-import {DashboardServices} from "../../services/dashboard.services";
-import {RefsServices} from "../../services/refs.services";
-import {CountryModel} from "../../models/country.model";
+import {DashboardServices} from '../../services/dashboard.services';
+import {RefsServices} from '../../services/refs.services';
+import {CountryModel} from '../../models/country.model';
 
 @Component({
     selector: 'pbx-company',
@@ -25,10 +25,15 @@ export class CompanyComponent implements OnInit {
     saving = 0;
     selectedCountry: CountryModel;
     sidebarInfo: SidebarInfo;
+    modal = {
+        visible: false,
+        confirm: {type: 'success', value: 'Yes'},
+        decline: {type: 'cancel', value: 'Stay'}
+    };
 
-    @ViewChildren('label') labelFields;
+  @ViewChildren('label') labelFields;
 
-    constructor(private service: CompanyService,
+    constructor(public service: CompanyService,
                 private fb: FormBuilder,
                 private dashboard: DashboardServices,
                 private refs: RefsServices) {
@@ -140,14 +145,14 @@ export class CompanyComponent implements OnInit {
             this.company = res;
             this.fillCompany();
             this.loading--;
-        }).catch(err => {
+        }).catch(() => {
             this.loading--;
         });
     }
 
     private getCountries() {
         this.loading++;
-        this.refs.getCountries().then((res) => {
+        this.refs.getCountries().then(res => {
             this.countries = res;
             this.loading--;
         }).catch(() => {
@@ -159,7 +164,7 @@ export class CompanyComponent implements OnInit {
         this.sidebarInfo.loading++;
         this.dashboard.getDashboard().then(res => {
             for (let i = 0; i < this.sidebarInfo.description.length; i++) {
-                let item = this.sidebarInfo.description[i];
+                const item = this.sidebarInfo.description[i];
                 switch (item.title) {
                     case 'External numbers':
                         item.value = res.outersCount;
@@ -179,7 +184,7 @@ export class CompanyComponent implements OnInit {
                 }
             }
             this.sidebarInfo.loading--;
-        }).catch(res => {
+        }).catch(() => {
             this.sidebarInfo.loading--;
         });
     }

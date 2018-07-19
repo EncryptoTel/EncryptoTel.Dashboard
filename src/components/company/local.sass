@@ -1,38 +1,5 @@
 @import '../../vars'
-.company
-  display: grid
-  grid-gap: rem(24)
-  grid-template-rows: auto 1fr
+.company, form
   flex: 1
-  &_header
-    justify-content: flex-end
-    pbx-button
-      width: unset
-      &:not(:last-child)
-        margin-right: rem(8)
-  &_contain
-    flex: 1
-    //background: $dark_overlay
-    //padding: rem(24)
-    overflow: auto
-    form
-      flex: 1
-      display: grid
-      grid-gap: rem(16)
-      margin-bottom: auto
-      label
-        width: rem(176)
-        color: $font-color
-        cursor: pointer
-        &:hover, .active
-          color: $dark_accent
-  &_item
-    flex-direction: row
-    align-items: center
-    input, pbx-select
-      flex: 1
-      height: rem(40)
-      &:focus
-        background: $dark_background
-    .invalid /deep/ .selected
-      border-bottom-color: $dark_error !important
+  form
+    flex-direction: column

@@ -1,20 +1,20 @@
-<div class="call_queues_members_add_wrap" [@Fade]>
-    <div class="call_queues_members_add_header">
-        <div class="call_queues_members_add_filter">
+<div class="ring_groups_members_add" [@Fade]>
+    <div class="ring_groups_members_add_header">
+        <div class="ring_groups_members_add_filter">
             <span>Department:</span>
             <pbx-select [objectKey]="'name'"
                         [options]="departments"
                         [selected]="selectedDepartment"
                         (onSelect)="departmentChanged($event)"></pbx-select>
         </div>
-        <div class="call_queues_members_add_filter">
+        <div class="ring_groups_members_add_filter">
             <span>Search:</span>
             <input type="search" placeholder="Search by Name or Phone" (keyup)="search($event)">
         </div>
     </div>
     <pbx-loader *ngIf="loading"></pbx-loader>
     <pbx-table
-            [tableInfo]="table.title"
+            [tableInfo]="table"
             [tableItems]="members"
             (onSelect)="selectMember($event)"
             (onDelete)="deleteMember($event)"
