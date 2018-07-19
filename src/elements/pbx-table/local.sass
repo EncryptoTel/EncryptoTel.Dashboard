@@ -114,6 +114,17 @@
     overflow: hidden
     text-overflow: ellipsis
     padding: rem(12) rem(16)
+    &.fixed
+      min-width: rem(80)
+      max-width: rem(80)
+      text-align: center
+      padding: 0
+    &_circle
+      width: rem(12)
+      height: rem(12)
+      border-radius: 50%
+      background: $dark_success
+      margin: auto
     &.tiny
       flex: 1
     &.small

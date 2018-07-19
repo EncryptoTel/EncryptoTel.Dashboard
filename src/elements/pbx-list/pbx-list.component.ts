@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {BaseItemModel, PageInfoModel} from "../../models/base.model";
-import {ButtonItem, FilterItem} from "../pbx-header/pbx-header.component";
+import {ButtonItem, FilterItem, HeaderComponent} from "../pbx-header/pbx-header.component";
 import {Router} from "@angular/router";
 import {CallRulesItem} from "../../models/call-rules.model";
 import {TableComponent} from "../pbx-table/pbx-table.component";
@@ -33,10 +33,12 @@ export class ListComponent implements OnInit{
     @Output() onLoad: EventEmitter<object> = new EventEmitter<object>();
 
     @ViewChild(TableComponent) items;
+    @ViewChild(HeaderComponent) header;
 
     buttons: ButtonItem[] = [];
     currentFilter = [];
     loadingEx: number = 0;
+    filter = {loading: 0};
 
     constructor(private router: Router) {
 
@@ -81,21 +83,38 @@ export class ListComponent implements OnInit{
             this.pageInfo = res;
             this.pageInfo.limit = limit;
             this.onLoad.emit(this.pageInfo);
+            this.header.load();
             item ? item.loading-- : this.loadingEx--;
-        }).catch(err => {
+        }).catch(() => {
             item ? item.loading-- : this.loadingEx--;
         });
     }
 
+    reloadFilter(filter) {
+        this.currentFilter = filter;
+        this.getItems(this.filter);
+    }
+
     updateFilter(filter) {
         this.currentFilter = filter;
-        this.getItems();
+    }
+
+    activeFilter() {
+        let result = 0;
+        let keys = Object.keys(this.currentFilter);
+        for (let i = 0; i < keys.length; i++) {
+            if (this.currentFilter[keys[i]] !== null) {
+                result++;
+            }
+        }
+        // console.log(this.currentFilter, result > 0);
+        return result > 0;
     }
 
     ngOnInit() {
         this.buttons.push({
             id: 0,
-            title: this.buttonTitle ? this.buttonTitle : 'Create ' + this.name,
+            title: this.buttonTitle ? this.buttonTitle : 'Create ' + (this.itemName ? this.itemName : this.name),
             type: 'success',
         });
         this.getItems();

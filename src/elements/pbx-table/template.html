@@ -1,24 +1,30 @@
 <div class="tablet">
     <div class="tablet_header">
-        <div class="tablet_item" *ngFor="let item of tableInfo.titles">{{item}}</div>
+        <div class="tablet_item"
+             *ngFor="let item of tableInfo.titles; let i = index"
+             [ngClass]="{'fixed':tableInfo.widths ? tableInfo.widths[i] : false}"
+        >{{item}}</div>
         <div class="tablet_icon edit" *ngIf="editable">
             <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
         </div>
-        <div class="tablet_icon delete">
+        <div class="tablet_icon delete" *ngIf="deletable">
             <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
         </div>
     </div>
     <div class="tablet_body">
         <div class="tablet_row" *ngFor="let item of tableItems"
-             [ngClass]="{'pick':multiple?isSelected(item.id):selected?.id===item.id}">
+             [ngClass]="{'pick': multiple ? isSelected(item.id) : selected?.id === item.id}">
             <pbx-loader *ngIf="item.loading"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">
                 <div class="tablet_item {{!!columnFormat?columnFormat[i]:''}}"
                      *ngFor="let key of tableInfo.keys;let i=index"
-                     (click)="selectItem(item)"
-                >{{getValueByKey(item,key)}}</div>
+                     [ngClass]="{'fixed':tableInfo.widths ? tableInfo.widths[i] : null}"
+                     (click)="selectItem(item)">
+                    {{getValueByKey(item, key) === true || getValueByKey(item, key) === false ? '' : getValueByKey(item, key)}}
+                    <div class="tablet_item_circle" *ngIf="getValueByKey(item, key) === true"></div>
+                </div>
                 <div class="tablet_icon edit"
-                     *ngIf="editable" (click)="editItem(item,$event)">
+                     *ngIf="editable" (click)="editItem(item, $event)">
                     <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
                 </div>
                 <div class="tablet_icon delete"

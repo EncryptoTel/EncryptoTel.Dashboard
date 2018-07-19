@@ -13,9 +13,9 @@ export class InputComponent implements OnInit {
     @Input() name: string;
     @Input() description: string;
     @Input() descriptionClass: string;
-    @Input() inputClass: string;
-    @Input() type: string;
-    @Input() placeholder: string;
+    @Input() inputClass: string = '';
+    @Input() type: string = 'text';
+    @Input() placeholder: string = '';
     @Input() object: any;
     @Input() errorKey: string;
     @Input() errors: any;
@@ -31,6 +31,7 @@ export class InputComponent implements OnInit {
     @Input() updateValueByKey: boolean;
     @Input() updateObjectByObject: boolean;
     @Input() labelPosition: string;
+    @Input() singleBorder: boolean = true;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -40,9 +41,7 @@ export class InputComponent implements OnInit {
     checkboxValues;
 
     constructor() {
-        if (!this.type) this.type = 'text';
-        if (!this.placeholder) this.placeholder = '';
-        if (!this.inputClass) this.inputClass = '';
+
     }
 
     getErrorKey() {

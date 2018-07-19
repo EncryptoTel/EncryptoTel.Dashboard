@@ -4,6 +4,8 @@ import {MainViewComponent} from '../main-view.component';
 import {ExtensionItem, ExtensionModel, SipDepartmentItem} from "../../models/extension.model";
 import {Router} from "@angular/router";
 import {MessageServices} from "../../services/message.services";
+import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
+import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
 
 @Component({
     selector: 'extensions-component',
@@ -14,9 +16,9 @@ import {MessageServices} from "../../services/message.services";
 
 export class ExtensionsComponent implements OnInit {
 
+    @ViewChild(ListComponent) list;
+
     pageInfo: ExtensionModel = new ExtensionModel();
-    searchStr;
-    departmentSelected: SipDepartmentItem;
 
     loading: {
         body: number,
@@ -25,13 +27,13 @@ export class ExtensionsComponent implements OnInit {
         admin: boolean,
         user: boolean
     };
-    sidebar: ExtensionItem;
+    sidebar: ExtensionItem = null;
     selected: ExtensionItem;
     passwordTo: number;
     table = {
-        title: ['#Ext', 'Phone Number', 'First Name', 'Last Name', 'E-mail', 'Status', 'Default', ''],
-        key: ['extension', 'phone', 'userFirstName', 'userLastName', 'userEmail', 'statusName', 'default'],
-        width: [true, false, false, false, false, true, true, true],
+        titles: ['#Ext', 'Phone Number', 'First Name', 'Last Name', 'E-mail', 'Status', 'Default', ''],
+        keys: ['extension', 'phone', 'userFirstName', 'userLastName', 'userEmail', 'statusName', 'default'],
+        widths: [true, false, false, false, false, true, true, true],
     };
     text = MainViewComponent.prototype;
     modal = {
@@ -41,7 +43,7 @@ export class ExtensionsComponent implements OnInit {
         confirm: {type: 'error', value: 'Delete'},
         decline: {type: 'cancel', value: 'Cancel'}
     };
-    timer;
+    filters: FilterItem[] = [];
 
     constructor(private service: ExtensionService,
                 private router: Router,
@@ -49,42 +51,15 @@ export class ExtensionsComponent implements OnInit {
 
     }
 
-    // exportExt(): void {
-    //     etc.
-    // }
-    //
-    // importExt(): void {
-    //     etc.
-    // }
-
-    addExt(): void {
-        // etc.
-    }
-
     closeExt(): void {
         this.sidebar = null;
     }
 
-    viewExt(item: ExtensionItem) {
+    select(item: ExtensionItem) {
         if (!this.selected) {
             // console.log('viewExt');
             this.sidebar = this.sidebar ? (this.sidebar.id === item.id ? null : item) : item;
         }
-    }
-
-    doSearch() {
-        clearTimeout(this.timer);
-        this.timer = setTimeout(() => {
-            // console.log('timer');
-            this.getList();
-            clearTimeout(this.timer);
-        }, 500);
-
-    }
-
-    departmentChanged(item) {
-        this.departmentSelected = item;
-        this.getList();
     }
 
     sendPasswordToAdmin(item: ExtensionItem): void {
@@ -114,7 +89,7 @@ export class ExtensionsComponent implements OnInit {
             });
         } else {
             this.service.deleteExtension(this.selected.id).then(res => {
-                this.getList();
+                // this.getList();
             });
         }
         this.cancelModal();
@@ -126,16 +101,6 @@ export class ExtensionsComponent implements OnInit {
         this.passwordTo = 0;
     }
 
-    clickDeleteIcon(item: ExtensionItem) {
-        // console.log('clickDeleteIcon');
-        this.selected = item;
-        this.showModal('Delete extension', 'Do you want to delete this extension?', 'Delete');
-    }
-
-    clickEditIcon(item: ExtensionItem) {
-        this.router.navigate(['cabinet', 'extensions', `${item.id}`]);
-    }
-
     showModal(title: string, text: string, confirm: string): void {
         // console.log('showModal');
         this.modal.text = text;
@@ -144,34 +109,16 @@ export class ExtensionsComponent implements OnInit {
         this.modal.visible = true;
     }
 
-    getDepartmentId() {
-        return this.departmentSelected ? this.departmentSelected.id : null;
-    }
-
-    getList() {
-        this.loading.body += 1;
-        this.service.getExtensions(this.pageInfo, {
-            search: this.searchStr,
-            department: this.getDepartmentId(),
-            departmentFilter: true
-        }).then((res: ExtensionModel) => {
-            this.pageInfo = res;
-            // console.log(this.pageInfo);
-            // res['departmentFilter'].map(item => {
-            //     this.departments.option.push({id: item.id, title: `${item.name} (${item.sipCount})`});
-            // });
-            // this.fillTableData();
-            if (!this.departmentSelected) this.departmentSelected = this.pageInfo.departmentFilter[0];
-
-            this.loading.body -= 1;
-            this.loading.pagination = false;
-        });
+    load() {
+        this.sidebar = null;
+        if (this.filters.length === 0) {
+            this.filters.push(new FilterItem(1, 'department', 'Department', this.list.pageInfo.departmentFilter, 'displayName'));
+            this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
+        }
     }
 
     ngOnInit(): void {
         this.loading = {body: 0, pagination: true, sidebar: true, admin: false, user: false};
-        this.sidebar = null;
-        this.getList();
     }
 
 }
