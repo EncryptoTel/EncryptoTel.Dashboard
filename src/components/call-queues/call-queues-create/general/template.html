@@ -1,10 +1,6 @@
-<div class="call_queues_general">
-    <div class="call_queues_general_wrap" [@Fade]>
-        <pbx-loader *ngIf="loading"></pbx-loader>
-        <div class="call_queues_general_body" *ngIf="!loading">
-            <div class="call_queues_general_title">
-                <h3>Create New Queue</h3>
-            </div>
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div class="call_queues_general_body" *ngIf="!loading">
+            <h3 class="call_queues_general_title">Create New Queue</h3>
             <pbx-input name="Name"
                        key="name"
                        [(errors)]="service.errors"
@@ -67,8 +63,4 @@
                        [(errors)]="service.errors"
                        [(object)]="service.item">
             </pbx-input>
-
-        </div>
-        <div class="call_queues_general_ballast" *ngIf="!loading"></div>
-    </div>
 </div>

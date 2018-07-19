@@ -1,48 +1,48 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FadeAnimation} from '../../../../../shared/fade-animation';
 import {CallQueueService} from '../../../../../services/call-queue.service';
-import {RefsServices} from "../../../../../services/refs.services";
+import {RefsServices} from '../../../../../services/refs.services';
 
 @Component({
-    selector: 'pbx-call-queues-members-add',
-    templateUrl: './template.html',
-    styleUrls: ['./local.sass'],
-    animations: [FadeAnimation('300ms')]
+  selector: 'pbx-call-queues-members-add',
+  templateUrl: './template.html',
+  styleUrls: ['./local.sass'],
+  animations: [FadeAnimation('300ms')]
 })
 
-export class CallQueuesMembersAddComponent {
+export class CallQueuesMembersAddComponent implements OnInit {
 
-    loading: number = 0;
-    members = [];
-    departments: any[] = [];
-    selectedDepartment;
-    table = {
-        title: {
-            titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
-            keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'statusName']
-        }
-    };
-    searchTimeout;
-    searchStr: string = '';
-    id: number = 0;
+  loading = 0;
+  members = [];
+  departments: any[] = [];
+  selectedDepartment;
+  table = {
+    titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
+    keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'statusName']
+  };
+  searchTimeout;
+  searchStr = '';
+  id = 0;
 
-    constructor(private service: CallQueueService,
-                private refs: RefsServices) {
-        this.service.userView.isCurCompMembersAdd = true;
-    }
+  constructor(public service: CallQueueService,
+              private refs: RefsServices) {}
 
     selectMember(member): void {
         // console.log(member);
-        const checkResult = this.service.item.queueMembers.find(el => {
+        const index = this.service.item.queueMembers.findIndex(el => {
             return el.sipId === member.id;
         });
-        if (!checkResult) {
+        if (index === -1) {
             this.service.item.queueMembers.push({sipId: member.id});
             this.service.userView.members.push(member);
+        } else {
+            this.service.item.queueMembers.splice(index, 1);
+            this.service.userView.members.splice(this.service.userView.members.findIndex(el => {
+                return el.id === member.id; }), 1);
         }
     }
 
-    deleteMember(member): void {
+    /* deleteMember(member): void {
         let checkResult = this.service.item.queueMembers.findIndex(el => {
             return el.sipId === member.id;
         });
@@ -55,7 +55,7 @@ export class CallQueuesMembersAddComponent {
         if (checkResult >= 0) {
             this.service.userView.members.splice(checkResult, 1);
         }
-    }
+    } */
 
     departmentChanged(item) {
         this.selectedDepartment = item;
@@ -79,7 +79,7 @@ export class CallQueuesMembersAddComponent {
             this.members = res.items;
             this.loading--;
             this.addPhoneNumberField();
-        }).catch(err => {
+        }).catch(() => {
             this.loading--;
             // console.error(err);
         });

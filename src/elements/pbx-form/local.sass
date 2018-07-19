@@ -1,5 +1,8 @@
 @import '../../_vars.sass'
 .form
+  transition: 0s
+  *
+    transition: 0s
   flex: 1
   display: grid
   grid-template-rows: auto 1fr
@@ -8,8 +11,8 @@
   &-tab
     background: rgba($dark_overlay,.33)
     padding: rem(16)
-    cursor: pointer
     color: $font-color
+    cursor: pointer
     /deep/ *
       cursor: pointer
     span
@@ -26,6 +29,13 @@
         fill: $dark_accent
       &:hover
         background: $dark_overlay
+    &.blocked
+      cursor: default
+      /deep/ *
+        cursor: default
+      color: rgba($dark_primary,0.33)
+      &:hover
+        background: rgba($dark_overlay,.33)
     &-wrap
       flex-direction: row
     &-icon-wrap
@@ -42,16 +52,15 @@
       width: unset
       margin-left: rem(8)
   &-body
-    display: block
     overflow-y: auto
     overflow-x: hidden
     flex-direction: column
-    &.background
-      background: $dark_overlay
-      padding: rem(24)
     &-content
       display: grid
       grid-gap: rem(16)
+      &.background
+        background: $dark_overlay
+        padding: rem(24)
     /deep/ .form-title
       font-size: rem(16)
       color: $dark_primary
@@ -81,4 +90,5 @@
     /deep/ input, /deep/ pbx-select, /deep/ pbx-button
       height: rem(40)
   &-ballast
-    margin-top: auto
+    flex: 1
+    background: $dark_overlay
