@@ -22,9 +22,11 @@
     <pbx-table *ngIf="!loading && !loadingEx && !filter.loading && pageInfo.itemsCount > 0"
                [name]="itemName ? itemName : name"
                [tableInfo]="table"
+               [tableInfoEx]="tableInfo"
                [tableItems]="pageInfo.items"
                [editable]="editable"
                [deletable]="deletable"
+               (onSort)="sort($event)"
                (onSelect)="select($event)"
                (onEdit)="edit($event)"
                (onDelete)="delete($event)">

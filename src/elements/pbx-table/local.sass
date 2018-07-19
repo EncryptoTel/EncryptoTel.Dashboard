@@ -143,6 +143,25 @@
       color: $dark_success
     &.accent
       color: $dark_accent
+    >span
+      float: left
+      height: rem(16)
+      align-items: center
+      &.sort
+        cursor: pointer
+        /deep/ *
+          cursor: pointer
+        &:hover
+          color: $dark_accent
+    &_icon
+      flex: 1
+      &.sort /deep/ .st1
+        fill: $dark_accent
+      &.search /deep/ path
+        fill: $dark_primary
+      &_wrap
+        width: rem(32)
+        padding-left: rem(16)
   &_icon
     opacity: 0
     width: rem(16)

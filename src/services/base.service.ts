@@ -64,7 +64,7 @@ export class BaseService {
         return this.delete(`/${id}`);
     }
 
-    getItems(pageInfo: PageInfoModel, filter = null): Promise<any> {
+    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<any> {
         let url = `?page=${pageInfo.page}&limit=${pageInfo.limit}`;
         if (filter) {
             let keys = Object.keys(filter);
@@ -73,6 +73,9 @@ export class BaseService {
                     url = `${url}&filter[${keys[i]}]=${filter[keys[i]]}`;
                 }
             }
+        }
+        if (sort) {
+            url = `${url}&sort[${sort.column}]=${sort.isDown ? 'desc' : 'asc'}`;
         }
         return this.get(`${url}`);
     }

@@ -38,3 +38,19 @@ export class TableInfoModel {
     titles: string[];
     keys: string[];
 }
+
+export class TableInfoExModel {
+    items: TableInfoItem[] = [];
+    sort: {
+        isDown: boolean;
+        column: string;
+    } = {isDown: false, column: null};
+}
+
+export class TableInfoItem {
+    title: string;
+    key: string;
+    width: boolean;
+    sort: string;
+}
+

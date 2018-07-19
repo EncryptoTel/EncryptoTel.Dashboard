@@ -5,7 +5,7 @@
 <div class="ext">
     <pbx-list style="width: 100%"
               [(pageInfo)]="pageInfo"
-              [table]="table"
+              [tableInfo]="table"
               [filters]="filters"
               key="extensions"
               name="Extensions"
@@ -15,61 +15,6 @@
               [service]="service">
     </pbx-list>
 
-
-    <!--<div class="ext_grid">-->
-        <!--<div class="ext_header">-->
-            <!--<div class="ext_header_wrap">-->
-                <!--<div class="ext_header_wrap_key">Department:</div>-->
-                <!--<pbx-select [objectKey]="'displayName'"-->
-                            <!--[options]="pageInfo.departmentFilter"-->
-                            <!--[selected]="departmentSelected"-->
-                            <!--(onSelect)="departmentChanged($event)"></pbx-select>-->
-            <!--</div>-->
-            <!--<div class="ext_header_wrap">-->
-                <!--<div class="ext_header_wrap_key">Search:</div>-->
-                <!--<input #search-->
-                       <!--[(ngModel)]="searchStr"-->
-                       <!--(keyup)="doSearch()">-->
-            <!--</div>-->
-            <!--<div class="ext_header_wrap">-->
-                <!--&lt;!&ndash;<pbx-button value="Export" buttonType="accent" (onClick)="exportExt()"></pbx-button>&ndash;&gt;-->
-                <!--&lt;!&ndash;<pbx-button value="Import" buttonType="accent" (onClick)="importExt()"></pbx-button>&ndash;&gt;-->
-                <!--<pbx-button value="Add" buttonType="success" (onClick)="addExt()" routerLink="create"></pbx-button>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<pbx-loader *ngIf="loading.body!==0||loading.pagination"></pbx-loader>-->
-        <!--<div class="ext_table" *ngIf="loading.body === 0 && !loading.pagination && pageInfo.itemsCount > 0">-->
-            <!--<div class="ext_table_row">-->
-                <!--<div class="ext_table_item" *ngFor="let item of table.title;let i=index"-->
-                     <!--[ngClass]="{'fixed':table.width[i]}">{{item}}-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="ext_table_row {{item.id===(sidebar ? sidebar.id : null)}}"-->
-                 <!--*ngFor="let item of pageInfo.items"-->
-                 <!--(click)="viewExt(item)">-->
-                <!--<div class="ext_table_item" *ngFor="let key of table.key;let i=index"-->
-                     <!--[ngClass]="{'fixed':table.width[i]}">-->
-                    <!--{{item[key]===true||item[key]===false?'':item[key]}}-->
-                    <!--<div class="ext_table_item_circle" *ngIf="item[key]===true"></div>-->
-                <!--</div>-->
-                <!--<div class="ext_table_item_icon_block ext_table_item fixed">-->
-                    <!--<div class="ext_table_item_icon_wrap" (click)="clickEditIcon(item)">-->
-                        <!--<svg-icon class="ext_table_item_icon edit" src="../../assets/icons/edit_12px.svg"></svg-icon>-->
-                    <!--</div>-->
-                    <!--<div class="ext_table_item_icon_wrap" (click)="clickDeleteIcon(item)">-->
-                        <!--<svg-icon class="ext_table_item_icon delete"-->
-                                  <!--src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="ext_table_message" *ngIf="loading.body === 0 && !loading.pagination && pageInfo.itemsCount === 0">Nothing-->
-            <!--found-->
-        <!--</div>-->
-        <!--<pbx-pagination [(pageInfo)]="pageInfo"-->
-                        <!--(onPageChangeEx)="getList()">-->
-        <!--</pbx-pagination>-->
-    <!--</div>-->
     <pbx-sidebar *ngIf="sidebar">
         <div class="ext_sidebar_contain">
             <div class="ext_sidebar_contain_data">

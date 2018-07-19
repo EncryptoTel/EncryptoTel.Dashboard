@@ -1,9 +1,14 @@
 <div class="tablet">
     <div class="tablet_header">
         <div class="tablet_item"
-             *ngFor="let item of tableInfo.titles; let i = index"
-             [ngClass]="{'fixed':tableInfo.widths ? tableInfo.widths[i] : false}"
-        >{{item}}</div>
+             *ngFor="let item of tableInfoEx.items; let i = index"
+             [ngClass]="{'fixed': item.width, 'sort': item.sort}">
+            <span [ngClass]="{'sort':item.sort}" (click)="sort(item)">{{item.title}}</span>
+            <div *ngIf="tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
+                <svg-icon [src]="'../../assets/icons/sorting_'+(tableInfoEx.sort.isDown ? 'down' : 'up') + '_16px.svg'"
+                          class="tablet_item_icon sort"></svg-icon>
+            </div>
+        </div>
         <div class="tablet_icon edit" *ngIf="editable">
             <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
         </div>
@@ -17,11 +22,11 @@
             <pbx-loader *ngIf="item.loading"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">
                 <div class="tablet_item {{!!columnFormat?columnFormat[i]:''}}"
-                     *ngFor="let key of tableInfo.keys;let i=index"
-                     [ngClass]="{'fixed':tableInfo.widths ? tableInfo.widths[i] : null}"
+                     *ngFor="let tableItem of tableInfoEx.items;let i=index"
+                     [ngClass]="{'fixed':tableItem.width}"
                      (click)="selectItem(item)">
-                    {{getValueByKey(item, key) === true || getValueByKey(item, key) === false ? '' : getValueByKey(item, key)}}
-                    <div class="tablet_item_circle" *ngIf="getValueByKey(item, key) === true"></div>
+                    {{getValueByKeyEx(item, tableItem.key)}}
+                    <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
                 </div>
                 <div class="tablet_icon edit"
                      *ngIf="editable" (click)="editItem(item, $event)">

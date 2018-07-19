@@ -1,9 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {BaseItemModel, PageInfoModel} from "../../models/base.model";
+import {BaseItemModel, PageInfoModel, TableInfoExModel, TableInfoItem} from "../../models/base.model";
 import {ButtonItem, FilterItem, HeaderComponent} from "../pbx-header/pbx-header.component";
 import {Router} from "@angular/router";
-import {CallRulesItem} from "../../models/call-rules.model";
 import {TableComponent} from "../pbx-table/pbx-table.component";
 
 @Component({
@@ -13,19 +12,21 @@ import {TableComponent} from "../pbx-table/pbx-table.component";
     animations: [SwipeAnimation('y', '200ms')]
 })
 
-export class ListComponent implements OnInit{
+export class ListComponent implements OnInit {
     @Input() name: string;
     @Input() itemName: string;
     @Input() key: string;
     @Input() createKey: string = 'create';
     @Input() pageInfo: PageInfoModel;
     @Input() table: any;
+    @Input() tableInfo: TableInfoExModel;
     @Input() service: any;
     @Input() buttonTitle: string;
     @Input() loading: boolean;
     @Input() filters: FilterItem;
     @Input() editable: boolean = true;
     @Input() deletable: boolean = true;
+    @Input() buttons: ButtonItem[] = [];
 
     @Output() onCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
@@ -35,7 +36,6 @@ export class ListComponent implements OnInit{
     @ViewChild(TableComponent) items;
     @ViewChild(HeaderComponent) header;
 
-    buttons: ButtonItem[] = [];
     currentFilter = [];
     loadingEx: number = 0;
     filter = {loading: 0};
@@ -79,7 +79,7 @@ export class ListComponent implements OnInit{
     getItems(item = null) {
         item ? item.loading++ : this.loadingEx++;
         const limit = this.pageInfo.limit;
-        this.service.getItems(this.pageInfo, this.currentFilter).then(res => {
+        this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null).then(res => {
             this.pageInfo = res;
             this.pageInfo.limit = limit;
             this.onLoad.emit(this.pageInfo);
@@ -111,13 +111,22 @@ export class ListComponent implements OnInit{
         return result > 0;
     }
 
-    ngOnInit() {
-        this.buttons.push({
-            id: 0,
-            title: this.buttonTitle ? this.buttonTitle : 'Create ' + (this.itemName ? this.itemName : this.name),
-            type: 'success',
-        });
+    sort() {
         this.getItems();
+    }
+
+    ngOnInit() {
+        if (this.buttons.length === 0) {
+            this.buttons.push({
+                id: 0,
+                title: this.buttonTitle ? this.buttonTitle : 'Create ' + (this.itemName ? this.itemName : this.name),
+                type: 'success',
+            });
+        }
+
+        this.getItems();
+
+
     }
 
 }

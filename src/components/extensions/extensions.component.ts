@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {MessageServices} from "../../services/message.services";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
+import {TableInfoExModel} from "../../models/base.model";
 
 @Component({
     selector: 'extensions-component',
@@ -30,11 +31,20 @@ export class ExtensionsComponent implements OnInit {
     sidebar: ExtensionItem = null;
     selected: ExtensionItem;
     passwordTo: number;
-    table = {
-        titles: ['#Ext', 'Phone Number', 'First Name', 'Last Name', 'E-mail', 'Status', 'Default', ''],
-        keys: ['extension', 'phone', 'userFirstName', 'userLastName', 'userEmail', 'statusName', 'default'],
-        widths: [true, false, false, false, false, true, true, true],
-    };
+    table: TableInfoExModel = {
+        sort: {
+            isDown: false,
+            column: null,
+        },
+        items: [
+            {title: '#Ext', key: 'extension', width: true, sort: null},
+            {title: 'Phone Number', key: 'phone', width: false, sort: null},
+            {title: 'First Name', key: 'userFirstName', width: false, sort: null},
+            {title: 'Last Name', key: 'userLastName', width: false, sort: null},
+            {title: 'E-mail', key: 'userEmail', width: false, sort: null},
+            {title: 'Status', key: 'statusName', width: true, sort: null},
+            {title: 'Default', key: 'default', width: true, sort: null},
+        ]};
     text = MainViewComponent.prototype;
     modal = {
         visible: false,
