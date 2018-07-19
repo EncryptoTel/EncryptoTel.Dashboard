@@ -18,7 +18,7 @@ export class RingGroupsCreateComponent implements OnInit {
     saving = 0;
 
     tabs = ['General', 'Members'];
-    confirm = {value: 'save', buttonType: 'success', inactive: this.saving !== 0};
+    confirm = {value: 'Save', buttonType: 'success', inactive: this.saving !== 0};
     decline = {
       standard: {value: 'Cancel', buttonType: 'cancel'},
       member: {value: 'Back', buttonType: 'cancel'},
