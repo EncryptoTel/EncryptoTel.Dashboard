@@ -42,7 +42,7 @@ export class DetailsAndRecordsServices {
 
   fetchDetailsAndRecords (page: number, limit: number, sort: string, sortDirection: string, tags: any): Promise<any> {
     const filter = tags.map((i) => {
-      return `&filter[status]=${i}`;
+      return `&filter[status][]=${i}`;
     });
     if (sort === '' && sortDirection === '' && filter === []) {
       return this.request.get(`v1/cdr?page=${page}&limit=${limit}`);
