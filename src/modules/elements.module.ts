@@ -21,6 +21,7 @@ import {FormComponent} from '../elements/pbx-form/pbx-form.component';
 import {InputComponent} from '../elements/pbx-input/pbx-input.component';
 import {HeaderComponent} from '../elements/pbx-header/pbx-header.component';
 import {ListComponent} from '../elements/pbx-list/pbx-list.component';
+import {DiskUsedComponent} from '../elements/pbx-drive-circle/pbx-drive-circle.component';
 
 @NgModule({
     imports: [
@@ -45,7 +46,8 @@ import {ListComponent} from '../elements/pbx-list/pbx-list.component';
         FormComponent,
         InputComponent,
         HeaderComponent,
-        ListComponent
+        ListComponent,
+        DiskUsedComponent
     ],
     exports: [
         ClickOutsideDirective,
@@ -62,7 +64,8 @@ import {ListComponent} from '../elements/pbx-list/pbx-list.component';
         FormComponent,
         InputComponent,
         HeaderComponent,
-        ListComponent
+        ListComponent,
+        DiskUsedComponent
     ]
 })
 export class ElementsModule {
