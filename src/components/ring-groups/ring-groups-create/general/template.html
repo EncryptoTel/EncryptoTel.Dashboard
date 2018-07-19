@@ -1,9 +1,7 @@
-<div class="call_queues_general_wrap" [@Fade]>
-    <pbx-loader *ngIf="loading"></pbx-loader>
-    <ng-container *ngIf="!loading">
-        <div class="call_queues_general_title">
-            <h3>Create Ring Group</h3>
-        </div>
+
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div *ngIf="!loading" class="ring_groups_general_body">
+        <h3 class="call_queues_general_title">Create Ring Group</h3>
         <pbx-input name="Name"
                    key="name"
                    [(errors)]="service.errors"
@@ -58,5 +56,4 @@
                 <!--</pbx-select>-->
             <!--</div>-->
         <!--</div>-->
-    </ng-container>
 </div>

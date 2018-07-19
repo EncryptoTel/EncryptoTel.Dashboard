@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {RingGroupService} from '../../../../services/ring-group.service';
 import {FadeAnimation} from '../../../../shared/fade-animation';
 
@@ -10,29 +10,28 @@ import {FadeAnimation} from '../../../../shared/fade-animation';
 })
 
 export class RingGroupsMembersComponent {
+    @Output() onClick: EventEmitter<boolean> = new EventEmitter<boolean>();
     constructor(private service: RingGroupService) {
-        this.service.userView.isCurCompMembersAdd = false;
+        // this.service.userView.isCurCompMembersAdd = false;
     }
 
     members = this.service.userView.members;
 
     table = {
-        title: {
-            titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
-            keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'statusName']
-        }
+        titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
+        keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'statusName']
     };
+
+    onClickMembers(): void {
+        this.onClick.emit(true);
+    }
 
     deleteMember(memberId) {
         const indexCallQueue = this.service.item.queueMembers.findIndex(el => {
-            if (el.sipId === memberId) {
-                return true;
-            }
+            return el.sipId === memberId;
         });
         const indexView = this.service.userView.members.findIndex(el => {
-            if (el.id === memberId) {
-                return true;
-            }
+          return el.id === memberId;
         });
         this.service.item.queueMembers.splice(indexCallQueue, 1);
         this.service.userView.members.splice(indexView, 1);
