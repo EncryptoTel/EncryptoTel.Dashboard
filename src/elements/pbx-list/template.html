@@ -29,6 +29,9 @@
                (onEdit)="edit($event)"
                (onDelete)="delete($event)">
     </pbx-table>
+    <div class="pbx_list_message" *ngIf="!loading && !loadingEx && !filter.loading && activeFilter() && pageInfo.itemsCount === 0">
+        Nothing found
+    </div>
 
     <pbx-pagination
             [pageInfo]="pageInfo"
