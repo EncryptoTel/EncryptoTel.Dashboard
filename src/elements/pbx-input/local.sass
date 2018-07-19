@@ -13,7 +13,7 @@
       flex: 1
       height: rem(40)
       &:focus
-        background: $dark_background
+        //background: $dark_background
         border-color: $dark_accent
   &_title
     width: 100%
@@ -26,7 +26,7 @@
   &_item
     display: grid
     grid-template-columns: auto 1fr
-    margin-bottom: 20px
+    margin-bottom: 10px
     &_label
       display: flex
       flex-flow: column
@@ -42,6 +42,26 @@
       display: flex
       flex-flow: row
       align-items: center
+    .pbx_input_error
+      position: absolute
+      top: 100%
+      left: 300px
+      min-width: 200px
+      padding: 10px
+      background-color: $dark_error
+      color: $dark_primary
+      font-size: rem(12)
+      &:before
+        position: absolute
+        display: block
+        content: ''
+        width: 0
+        height: 0
+        top: -6px
+        left: 20px
+        border-left: 6px solid transparent
+        border-right: 6px solid transparent
+        border-bottom: 6px solid $dark_error
 
 span
   font-size: rem(13)
@@ -62,7 +82,7 @@ span
 input:not([type='submit'])
   &.ng-valid:focus
     border-color: $dark_accent
-  &.ng-touched,&.ng-invalid,&.ng-dirty,&.ng-invalid
+  &.ng-invalid,&.ng-dirty,&.ng-invalid:focus
     color: $dark_error
     border-color: $dark_error
     &::placeholder
@@ -74,9 +94,17 @@ input:not([type='submit'])
   .pbx_input_item
     display: flex
     flex-direction: column
+    margin-bottom: 20px
     input:not([type='submit'])
       height: 40px
       border: 1px solid rgba($dark_primary, .1)
+      &.ng-valid:focus
+        border-color: $dark_accent
+      &.ng-invalid,&.ng-dirty,&.ng-invalid:focus
+        color: $dark_error
+        border-color: $dark_error
+        &::placeholder
+          color: $dark_error
     //.pbx_input_item_input_wrap
     /deep/
       pbx-select:nth-child(2)
@@ -85,6 +113,7 @@ input:not([type='submit'])
       position: absolute
       top: 23px
       right: 100%
+      left: auto
       margin-right: 10px
       min-width: 200px
       padding: 10px

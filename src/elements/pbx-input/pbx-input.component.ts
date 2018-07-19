@@ -38,6 +38,7 @@ export class InputComponent implements OnInit {
 
     value;
     checkboxValues;
+    onfocus: false;
 
 
 
