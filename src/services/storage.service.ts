@@ -1,6 +1,6 @@
 import {BaseService} from "./base.service";
 import {Injectable} from '@angular/core';
-import {SortModel} from "../models/base.model";
+import {PageInfoModel, SortModel} from "../models/base.model";
 import {StorageItem, StorageModel} from "../models/storage.model";
 import {plainToClass} from "class-transformer";
 
@@ -9,9 +9,8 @@ import {plainToClass} from "class-transformer";
 export class StorageService extends BaseService {
 
     pageInfo: StorageModel = new StorageModel();
-    type: string;
-    search: string;
-    sort: SortModel;
+    filter;
+    sort;
     loading = 0;
     files = [];
     modalUpload = {
@@ -31,10 +30,20 @@ export class StorageService extends BaseService {
         return ['audio/mp3', 'audio/ogg', 'audio/wav', 'audio/mpeg', 'audio/x-wav'].includes(file.type);
     }
 
+    updateLoading(inc: number) {
+        this.loading += inc;
+        this.callback ? this.callback(this.loading) : null;
+        // console.log('updateLoading', this.loading);
+        if (this.callback && this.loading === 0 && this.files.length === 0 && !this.modalUpload.visible) {
+            // console.log('done', this.loading);
+            this.callback = null;
+        }
+    }
+    
     checkModal() {
-        console.log('checkModal', this.files.length, this.modalUpload.visible);
+        // console.log('checkModal', this.files.length, this.modalUpload.visible);
         if (this.files.length > 0 && !this.modalUpload.visible) {
-            this.loading ++;
+            this.updateLoading(1);
             this.modalUpload.title = this.files[0].name;
             setTimeout(() => {
                 this.modalUpload.visible = true;
@@ -51,8 +60,8 @@ export class StorageService extends BaseService {
             let pageInfo: StorageModel = new StorageModel();
             pageInfo.limit = 1;
             pageInfo.page = 1;
-            this.loading++;
-            this.getList(null, file.name, null).then(res => {
+            this.updateLoading(1);
+            this.get(`?q=${file.name}`).then(res => {
                 // console.log(res);
                 if (res.itemsCount > 0) {
                     this.files.push(file);
@@ -60,40 +69,36 @@ export class StorageService extends BaseService {
                 } else {
                     this.uploadFile(file, null, null);
                 }
-                this.loading--;
-            }).catch(res => {
-                this.loading--;
+                this.updateLoading(-1);
+            }).catch(() => {
+                this.updateLoading(-1);
             });
         }
     }
 
     deleteFileFromQueue() {
-        // console.log('deleteFileFromQueue', this.files);
         this.files.splice(0, 1);
-        // console.log('deleteFileFromQueue', this.files);
         this.checkModal();
-        this.loading--;
+        this.updateLoading(-1);
     }
 
     cancelUploadAction() {
-        // console.log('cancelUploadAction')
+        this.modalUpload.visible = false;
         this.deleteFileFromQueue();
     }
 
     uploadFile(file, mode, type = null): Promise<any> {
-        this.loading +=1;
+        this.updateLoading(1);
         const data = new FormData();
         data.append('type', type ? type : 'audio');
         data.append('account_file', file);
         if (mode) data.append('mode', mode);
+        this.callback ? this.callback(this.loading) : null;
         return this.rawRequest('POST', '', data).then(() => {
-            this.loading -= 1;
-            if (!this.loading) this.getList(this.type, this.search, this.sort);
-            if (this.callback) {
-                this.callback();
-            }
+            if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);
+            this.updateLoading(-1);
         }).catch(() => {
-            this.loading -= 1;
+            this.updateLoading(-1);
         });
     }
 
@@ -106,12 +111,13 @@ export class StorageService extends BaseService {
                 this.doUploadFile(this.files[0], 'new');
                 break;
         }
+        this.modalUpload.visible = false;
         this.deleteFileFromQueue();
     }
 
     doUploadFile(file, mode) {
         this.uploadFile(file, mode).then(res => {
-            if (!this.loading) this.getList(this.type, this.search, this.sort);
+            if (!this.loading) this.getItems(this.pageInfo, this.filter, this.sort);
         });
     }
 
@@ -132,37 +138,27 @@ export class StorageService extends BaseService {
         }
     }
 
-    getList(type: string, search: string, sort: SortModel): Promise<StorageModel> {
-        this.loading++;
-        this.select = [];
-        this.type = type;
-        this.search = search;
-        this.sort = sort;
-        let url = `?limit=${this.pageInfo.limit}&page=${this.pageInfo.page}`;
-        if (type) url += `&type=${type}`;
-        if (search) url += `&q=${search}`;
-        if (sort) url = url + `&sort[${sort.column}]=${sort.isDown ? 'down' : 'up'}`;
-        return this.get(url).then((res: StorageModel) => {
-            this.pageInfo = this.plainToClassEx(StorageModel, StorageItem, res);
-            this.loading--;
-            return Promise.resolve(this.pageInfo);
+    deleteById(id: number): Promise<any> {
+        this.updateLoading(1);
+        return super.deleteById(id).then(res => {
+            if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);
+            this.updateLoading(-1);
         }).catch(() => {
-            this.loading--;
-            return Promise.reject(this.pageInfo);
+            this.updateLoading(-1);
         });
     }
 
-    // getTypes(): Promise<any> {
-    //   return this._req.get('v1/handbooks/account/file/get-types', true);
-    // }
-
-    deleteById(id: number): Promise<any> {
-        this.loading++;
-        return super.deleteById(id).then(res => {
-            this.loading--;
-            if (!this.loading) this.getList(this.type, this.search, this.sort);
-        }).catch(res => {
-            this.loading--;
+    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<StorageModel> {
+        this.updateLoading(1);
+        this.filter = filter;
+        this.sort = sort;
+        return super.getItems(pageInfo, filter, sort).then((res: StorageModel) => {
+            this.pageInfo = this.plainToClassEx(StorageModel, StorageItem, res);
+            this.updateLoading(-1);
+            return Promise.resolve(this.pageInfo);
+        }).catch(() => {
+            this.updateLoading(-1);
+            return Promise.reject(this.pageInfo);
         });
     }
 

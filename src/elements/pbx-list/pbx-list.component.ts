@@ -27,6 +27,8 @@ export class ListComponent implements OnInit {
     @Input() editable: boolean = true;
     @Input() deletable: boolean = true;
     @Input() buttons: ButtonItem[] = [];
+    @Input() multiple: boolean;
+    @Input() selected: any[];
 
     @Output() onCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();

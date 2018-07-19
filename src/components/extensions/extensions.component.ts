@@ -37,13 +37,13 @@ export class ExtensionsComponent implements OnInit {
             column: null,
         },
         items: [
-            {title: '#Ext', key: 'extension', width: true, sort: null},
-            {title: 'Phone Number', key: 'phone', width: false, sort: null},
-            {title: 'First Name', key: 'userFirstName', width: false, sort: null},
-            {title: 'Last Name', key: 'userLastName', width: false, sort: null},
-            {title: 'E-mail', key: 'userEmail', width: false, sort: null},
-            {title: 'Status', key: 'statusName', width: true, sort: null},
-            {title: 'Default', key: 'default', width: true, sort: null},
+            {title: '#Ext', key: 'extension', width: 80, sort: null},
+            {title: 'Phone Number', key: 'phone', width: null, sort: null},
+            {title: 'First Name', key: 'userFirstName', width: null, sort: null},
+            {title: 'Last Name', key: 'userLastName', width: null, sort: null},
+            {title: 'E-mail', key: 'userEmail', width: null, sort: null},
+            {title: 'Status', key: 'statusName', width: 80, sort: null},
+            {title: 'Default', key: 'default', width: 80, sort: null},
         ]};
     text = MainViewComponent.prototype;
     modal = {

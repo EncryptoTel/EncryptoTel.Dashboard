@@ -23,13 +23,13 @@ export class InvoicesComponent implements OnInit {
             column: 'date',
         },
         items: [
-            {title: 'Invoice Number', key: 'number', width: false, sort: null},
-            {title: 'Invoice Type', key: 'type', width: false, sort: null},
-            {title: 'Transaction Date', key: 'dateTime', width: false, sort: 'date'},
-            {title: 'Status', key: 'status', width: false, sort: null},
-            {title: 'Amount (excl. VAT)', key: 'sumWithVat', width: false, sort: 'amount'},
-            {title: 'Amount', key: 'sum', width: true, sort: 'amount_vat'},
-            {title: 'Transaction ID', key: 'transaction', width: false, sort: null},
+            {title: 'Invoice Number', key: 'number', width: null, sort: null},
+            {title: 'Invoice Type', key: 'type', width: null, sort: null},
+            {title: 'Transaction Date', key: 'dateTime', width: null, sort: 'date'},
+            {title: 'Status', key: 'status', width: null, sort: null},
+            {title: 'Amount (excl. VAT)', key: 'sumWithVat', width: null, sort: 'amount'},
+            {title: 'Amount', key: 'sum', width: null, sort: 'amount_vat'},
+            {title: 'Transaction ID', key: 'transaction', width: null, sort: null},
         ]
     };
     buttons: ButtonItem[] = [];

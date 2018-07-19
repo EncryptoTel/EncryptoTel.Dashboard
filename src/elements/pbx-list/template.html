@@ -26,6 +26,8 @@
                [tableItems]="pageInfo.items"
                [editable]="editable"
                [deletable]="deletable"
+               [multiple]="multiple"
+               [selected]="selected"
                (onSort)="sort($event)"
                (onSelect)="select($event)"
                (onEdit)="edit($event)"

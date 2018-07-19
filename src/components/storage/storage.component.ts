@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {StorageService} from "../../services/storage.service";
 import {MessageServices} from "../../services/message.services";
 import {SizePipe} from '../../services/size.pipe';
-import {SortModel} from "../../models/base.model";
+import {TableInfoExModel} from "../../models/base.model";
+import {ButtonItem, FilterItem} from "../../elements/pbx-header/pbx-header.component";
+import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 
 @Component({
     selector: 'pbx-storage',
@@ -13,11 +15,7 @@ import {SortModel} from "../../models/base.model";
 
 export class StorageComponent implements OnInit {
 
-    constructor(private service: StorageService,
-                private message: MessageServices,
-                private _size: SizePipe) {
-
-    }
+    @ViewChild(ListComponent) list;
 
     search: string = '';
     source = {
@@ -28,39 +26,17 @@ export class StorageComponent implements OnInit {
             ],
         select: {title: '', type: ''}
     };
-    table = {
-        audio: {
-            head: [
-                {title: 'Name', sort: true, width: null},
-                {title: 'Date', sort: true, width: 168},
-                {title: 'Size, MB', sort: true, width: 104},
-                ],
-            key: ['name', 'date', 'size'],
-            defaultSort: {isDown: true, column: 'date'}
+    table: TableInfoExModel = {
+        sort: {
+            isDown: false,
+            column: 'date',
         },
-        // call_record: {
-        //     head: [
-        //         {title: 'From', sort: true, width: null},
-        //         {title: 'To', sort: true, width: null},
-        //         {title: 'Start time', sort: true, width: 168},
-        //         {title: 'Duration', sort: false, width: 88},
-        //         {title: 'Size, Mbyte', sort: false, width: 104},
-        //         {title: 'Record', sort: false, width: 200},
-        //         {title: '', sort: false, width: 48}],
-        //     key: ['from', 'to', 'start', 'duration', 'size'],
-        //     defaultSort: {isDown: true, column: 2}
-        // },
-        // trash: {
-        //     head: [
-        //         {title: 'Name', sort: true, width: null},
-        //         {title: 'Date', sort: true, width: 168},
-        //         {title: 'Size, Mbyte', sort: false, width: 104},
-        //         {title: '', sort: false, width: 48}],
-        //     key: ['name', 'date', 'size'],
-        //     defaultSort: {isDown: true, column: 1}
-        // },
+        items: [
+            {title: 'Name', key: 'name', width: null, sort: 'name'},
+            {title: 'Date',  key: 'date', width: 168, sort: 'date'},
+            {title: 'Size, MB', key: 'size', width: 104, sort: 'size'},
+        ]
     };
-    sort: SortModel = new SortModel();
 
     player = {item: [], current: null};
     modal = {
@@ -69,40 +45,37 @@ export class StorageComponent implements OnInit {
         confirm: {type: 'error', value: 'Delete'},
         decline: {type: 'cancel', value: 'Cancel'}
     };
-    searchTimeout = null;
+    buttons: ButtonItem[] = [];
+    filters: FilterItem[] = [];
+
+    constructor(private service: StorageService,
+                private message: MessageServices,
+                private _size: SizePipe) {
+        this.buttons.push({
+            id: 0,
+            title: 'Delete Selected',
+            type: 'error',
+        });
+        this.filters.push(new FilterItem(1, 'type', 'Select Source:', [
+            {id: 'audio', title: 'Audio'}
+        ], 'title'));
+        this.filters.push(new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'));
+    }
 
     private uploadFiles(files) {
         // console.log('uploadFiles', files);
         for (let i = 0; i < files.length; i++) {
             // console.log('uploadFiles', files[i]);
             if (this.service.checkCompatibleType(files[i])) {
-                this.service.checkFileExists(files[i]);
+                this.service.checkFileExists(files[i], (loading) => {
+                    this.list.loading = loading;
+                });
             } else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
             }
         }
         this.service.checkModal();
     }
-
-    selectSource(event) {
-        if (event !== this.source.select) {
-            this.service.select = [];
-            this.player = {item: [], current: null};
-            this.search = '';
-            this.source.select = event;
-            this.sort.isDown = this.table[this.source.select.type].defaultSort.isDown;
-            this.sort.column = this.table[this.source.select.type].defaultSort.column;
-            this.getList();
-        }
-    }
-
-    // totalSize(): number {
-    //     let sum = 0;
-    //     for (let i = 0; i < this.select.length; i++) {
-    //         sum += this.findById(this.fake[this.source.select.type], this.select[i]).size;
-    //     }
-    //     return sum;
-    // }
 
     time(value: number): string {
         const sec = (value % 60);
@@ -111,24 +84,11 @@ export class StorageComponent implements OnInit {
         return (hour < 10 ? '0' : '') + hour + ':' + (min < 10 ? '0' : '') + min + ':' + (sec < 10 ? '0' : '') + sec;
     }
 
-    size(value: number): string {
-        return (value / (1024 * 1024)).toFixed(1);
-    }
-
-    setSort(index: number): void {
-        const table = this.table[this.source.select.type];
-        if (table.head[index].sort) {
-            this.sort.isDown = !(this.sort.column === table.key[index] && this.sort.isDown);
-            this.sort.column = table.key[index];
-            this.getList();
-        }
-    }
-
     play(id: number): void {
-        this.player.current = this.player.current === id ? null : id;
-        if (!this.find(this.player.item, id)) {
-            this.player.item.push(id);
-        }
+        // this.player.current = this.player.current === id ? null : id;
+        // if (!this.find(this.player.item, id)) {
+        //     this.player.item.push(id);
+        // }
     }
 
     findById(array, id) {
@@ -138,11 +98,6 @@ export class StorageComponent implements OnInit {
             }
         }
         return null;
-    }
-
-    clickDeleteIcon(id: number) {
-        this.service.selectItem(id);
-        this.modal.visible = true;
     }
 
     find(array, value): boolean {
@@ -178,20 +133,6 @@ export class StorageComponent implements OnInit {
         // console.log('dragLeaveHandler', e);
     }
 
-    onSearchKeyUp() {
-        clearTimeout(this.searchTimeout);
-        this.searchTimeout = setTimeout(() => {
-            // console.log('timer');
-            this.getList();
-            clearTimeout(this.searchTimeout);
-        }, 500);
-    }
-
-    setPage(page: number) {
-        this.service.pageInfo.page = page;
-        this.getList();
-    }
-
     deleteSelected() {
         this.modal.visible = true;
     }
@@ -199,7 +140,13 @@ export class StorageComponent implements OnInit {
     doDeleteSelected() {
         for (let i = 0; i < this.service.select.length; i++) {
             const id = this.service.select[i];
-            this.service.deleteById(id);
+            const item = this.list.pageInfo.items.find(item => item.id === id);
+            item ? item.loading++ : null;
+            this.service.deleteById(id).then(() => {
+                item ? item.loading-- : null;
+            }).catch(() => {
+                item ? item.loading-- : null;
+            });
         }
     }
 
@@ -211,16 +158,8 @@ export class StorageComponent implements OnInit {
         }
     }
 
-    getSize(value: number) {
-        return this._size.transform(value);
-    }
-
-    getList() {
-        this.service.getList(this.source.select.type, this.search, this.sort);
-    }
-
     ngOnInit(): void {
-        this.selectSource(this.source.option[0]);
+
     }
 
 }

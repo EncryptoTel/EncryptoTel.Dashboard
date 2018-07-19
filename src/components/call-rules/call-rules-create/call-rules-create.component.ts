@@ -359,13 +359,13 @@ export class CallRulesCreateComponent implements OnInit {
     }
 
     uploadFile(e) {
-        console.log('uploadFile');
+        // console.log('uploadFile');
         e.preventDefault();
         const files = e.target.files;
         if (files[0]) {
             if (this.storage.checkCompatibleType(files[0])) {
                 this.storage.checkFileExists(files[0], () => {
-                    this.refreshFiles();
+                    if (!this.storage.loading) this.refreshFiles();
                 });
             } else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');

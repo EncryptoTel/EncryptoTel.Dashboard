@@ -30,7 +30,9 @@ export class TableComponent implements OnInit {
 
     isSelected(id: number): boolean {
         if (this.selected) {
-            return !!this.selected.find(item => item.id === id);
+            return !!this.selected.find(item => {
+                return Number.isInteger(item) ? item === id : item.id === id;
+            });
         }
     }
 
@@ -82,6 +84,10 @@ export class TableComponent implements OnInit {
         }
     }
 
+    headerClass(item: TableInfoItem) {
+        return [item.sort ? 'sort' : '', item.width ? ('fix' + item.width) : ''];
+    }
+
     ngOnInit() {
         this.name ? this.modal.body = `Are you sure you want to delete this ${this.name}?` : null;
         if (!this.tableInfoEx) {
@@ -90,7 +96,7 @@ export class TableComponent implements OnInit {
                 let item: TableInfoItem = {
                     title: this.tableInfo.titles[i],
                     key: this.tableInfo.keys[i],
-                    width: false,
+                    width: null,
                     sort: null,
                 };
                 this.tableInfoEx.items.push(item);

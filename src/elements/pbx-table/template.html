@@ -1,10 +1,10 @@
 <div class="tablet">
     <div class="tablet_header">
-        <div class="tablet_item"
-             *ngFor="let item of tableInfoEx.items; let i = index"
-             [ngClass]="{'fixed': item.width, 'sort': item.sort}">
+        <div *ngFor="let item of tableInfoEx.items; let i = index"
+             class="tablet_item {{item.width ? 'fix_' + item.width : ''}}"
+             [ngClass]="{'sort': item.sort}">
             <span [ngClass]="{'sort':item.sort}" (click)="sort(item)">{{item.title}}</span>
-            <div *ngIf="tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
+            <div *ngIf="item.sort && tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
                 <svg-icon [src]="'../../assets/icons/sorting_'+(tableInfoEx.sort.isDown ? 'down' : 'up') + '_16px.svg'"
                           class="tablet_item_icon sort"></svg-icon>
             </div>
@@ -21,9 +21,8 @@
              [ngClass]="{'pick': multiple ? isSelected(item.id) : selected?.id === item.id}">
             <pbx-loader *ngIf="item.loading"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">
-                <div class="tablet_item {{!!columnFormat?columnFormat[i]:''}}"
-                     *ngFor="let tableItem of tableInfoEx.items;let i=index"
-                     [ngClass]="{'fixed':tableItem.width}"
+                <div *ngFor="let tableItem of tableInfoEx.items;let i=index"
+                     class="tablet_item {{!!columnFormat?columnFormat[i]:''}} {{tableItem.width ? 'fix_' + tableItem.width : ''}}"
                      (click)="selectItem(item)">
                     {{getValueByKeyEx(item, tableItem.key)}}
                     <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>

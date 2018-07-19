@@ -50,7 +50,7 @@ export class TableInfoExModel {
 export class TableInfoItem {
     title: string;
     key: string;
-    width: boolean;
+    width: number;
     sort: string;
 }
 
