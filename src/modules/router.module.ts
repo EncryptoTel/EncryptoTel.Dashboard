@@ -85,59 +85,59 @@ const Routes: Routes = [
             {
                 path: 'tariff_plans',
                 component: SignUpTariffPlansComponent,
-                data: {title: 'Select tariff plans', indexed: false}
+                data: {title: 'Select Tariff Plans', indexed: false}
             }
         ]
     },
     {
         path: 'password-recovery',
         component: PasswordRecoveryComponent,
-        data: {title: 'Password recovery', indexed: true}
+        data: {title: 'Password Recovery', indexed: true}
     },
     {
         path: 'temporary-code',
         component: TemporaryCodeComponent,
-        data: {title: 'Temporary code authentication', indexed: true}
+        data: {title: 'Temporary Code Authentication', indexed: true}
     },
     {
         path: 'email-confirmation/:hash',
         component: EmailConfirmComponent,
-        data: {title: 'Email confirmation', indexed: false}
+        data: {title: 'Email Confirmation', indexed: false}
     },
     {
         path: 'code-confirmation/:hash',
         component: CodeConfirmComponent,
-        data: {title: 'Code confirmation', indexed: false}
+        data: {title: 'Code Confirmation', indexed: false}
     },
-    {path: 'password-reset/:hash', component: PasswordResetComponent, data: {title: 'Password reset', indexed: false}},
+    {path: 'password-reset/:hash', component: PasswordResetComponent, data: {title: 'Password Reset', indexed: false}},
     {
         path: 'cabinet', canActivate: [AuthGuardServices], component: IndexComponent, children: [
             {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
             {path: 'dashboard', component: DashboardComponent, data: {title: 'Dashboard', indexed: true}},
             {
                 path: 'phone-numbers', children: [
-                    {path: '', component: PhoneNumbersComponent, data: {title: 'Phone numbers', indexed: true}},
+                    {path: '', component: PhoneNumbersComponent, data: {title: 'Phone Numbers', indexed: true}},
                     {
                         path: 'buy',
                         component: BuyPhoneNumbersComponent,
-                        data: {title: 'Buy external phone numbers', indexed: true}
+                        data: {title: 'Buy External Phone Numbers', indexed: true}
                     },
                     {
                         path: 'internal',
                         component: BlankComponent,
-                        data: {title: 'Buy internal phone numbers', indexed: true}
+                        data: {title: 'Buy Internal Phone Numbers', indexed: true}
                     },
                     {
                         path: 'external',
                         component: BlankComponent,
-                        data: {title: 'Add external phone number', indexed: true}
+                        data: {title: 'Add External Phone Number', indexed: true}
                     }
                 ]
             },
-            {path: 'address-book', component: AddressBookComponent, data: {title: 'Address book', indexed: true}},
+            {path: 'address-book', component: AddressBookComponent, data: {title: 'Address Book', indexed: true}},
             {
-                path: 'call-rules', data: {title: 'Call rules', indexed: true}, children: [
-                    {path: '', component: CallRulesComponent, data: {title: 'Call rules', indexed: true}},
+                path: 'call-rules', data: {title: 'Call Rules', indexed: true}, children: [
+                    {path: '', component: CallRulesComponent, data: {title: 'Call Rules', indexed: true}},
                     {
                         path: 'create',
                         component: CallRulesCreateComponent,
@@ -279,7 +279,7 @@ const Routes: Routes = [
                     {
                         path: ':id',
                         component: IvrCreateComponent,
-                        data: {title: 'Edit Ivr', indexed: true},
+                        data: {title: 'Edit IVR', indexed: true},
                     }
                 ]
             },
@@ -299,7 +299,7 @@ const Routes: Routes = [
             {
                 path: 'details-and-records',
                 component: DetailsAndRecordsComponent,
-                data: {title: 'Details and records', indexed: true}
+                data: {title: 'Details and Records', indexed: true}
             },
             {path: 'invoices', component: InvoicesComponent, data: {title: 'Invoices', indexed: true}},
             {path: 'storage', component: StorageComponent, data: {title: 'Storage', indexed: true}},
@@ -307,35 +307,35 @@ const Routes: Routes = [
             {
                 path: 'settings', children: [
                     {path: '', component: SettingsComponent, data: {title: 'Settings', indexed: true}},
-                    {path: 'profile', component: ProfileComponent, data: {title: 'Profile settings', indexed: true}},
+                    {path: 'profile', component: ProfileComponent, data: {title: 'Profile Settings', indexed: true}},
                     {
                         path: 'authentication',
                         component: AuthenticationComponent,
-                        data: {title: 'Authentication settings', indexed: true}
+                        data: {title: 'Authentication Settings', indexed: true}
                     },
-                    {path: 'billing', component: BillingComponent, data: {title: 'Billing settings', indexed: true}},
+                    {path: 'billing', component: BillingComponent, data: {title: 'Billing Settings', indexed: true}},
                     {
                         path: 'account-notifications',
                         component: AccountNotificationsComponent,
-                        data: {title: 'Account notification settings', indexed: true}
+                        data: {title: 'Account Notification Settings', indexed: true}
                     },
                     {
                         path: 'user-notifications',
                         component: UserNotificationsComponent,
-                        data: {title: 'User notification settings', indexed: true}
+                        data: {title: 'User Notification Settings', indexed: true}
                     }
                 ]
             },
             {path: 'refill', component: RefillBalanceComponent, data: {title: 'Refill Balance', indexed: true}},
-            {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff plan', indexed: true}},
+            {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff Plan', indexed: true}},
             {
                 path: 'partner-program',
                 component: PartnerProgramComponent,
-                data: {title: 'Partner program', indexed: true}
+                data: {title: 'Partner Program', indexed: true}
             }
         ]
     },
-    {path: '**', component: PageNotFoundComponent, data: {title: 'Page not found', indexed: false}}
+    {path: '**', component: PageNotFoundComponent, data: {title: 'Page not Found', indexed: false}}
 ];
 
 @NgModule({
