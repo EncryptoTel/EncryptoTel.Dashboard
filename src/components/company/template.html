@@ -1,22 +1,19 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
 <div class="company" *ngIf="!loading">
-    <div class="company_header">
-        <pbx-button [value]="'Cancel'" [buttonType]="'cancel'" (onClick)="cancel()"></pbx-button>
-        <pbx-button [value]="'Save'" [buttonType]="'success'" (onClick)="save()" [loading]="saving"></pbx-button>
-    </div>
-    <div class="company_contain">
+    <pbx-form [background]="false"
+              [decline]="{value: 'Cancel', buttonType: 'cancel'}"
+              [confirm]="{value: 'Save', buttonType: 'success'}"
+              (onDecline)="modal.visible=true"
+              (onConfirm)="save()">
         <form [formGroup]="companyForm">
-
             <pbx-input name="Organization"
                        key="name"
                        [form]="true"
                        [errors]="service.errors"
                        [object]="companyForm">
             </pbx-input>
-
             <ng-container formArrayName="companyAddress">
                 <ng-container *ngFor="let address of addressControls.controls;let i = index" [formGroupName]="i">
-
                     <pbx-input name="Country"
                                key="country"
                                displayKey="title"
@@ -27,7 +24,6 @@
                                [errors]="service.errors"
                                [objectView]="selectedCountry">
                     </pbx-input>
-
                     <pbx-input name="State/Region"
                                key="regionName"
                                [form]="true"
@@ -35,7 +31,6 @@
                                [errors]="service.errors"
                                [object]="address">
                     </pbx-input>
-
                     <pbx-input name="City"
                                key="locationName"
                                [form]="true"
@@ -43,7 +38,6 @@
                                [errors]="service.errors"
                                [object]="address">
                     </pbx-input>
-
                     <pbx-input name="Street"
                                key="street"
                                [form]="true"
@@ -51,7 +45,6 @@
                                [errors]="service.errors"
                                [object]="address">
                     </pbx-input>
-
                     <pbx-input name="House #"
                                key="building"
                                [form]="true"
@@ -59,7 +52,6 @@
                                [errors]="service.errors"
                                [object]="address">
                     </pbx-input>
-
                     <pbx-input name="Office"
                                key="office"
                                [form]="true"
@@ -67,7 +59,6 @@
                                [errors]="service.errors"
                                [object]="address">
                     </pbx-input>
-
                     <pbx-input name="Postal code"
                                key="postalCode"
                                [form]="true"
@@ -75,32 +66,28 @@
                                [errors]="service.errors"
                                [object]="address">
                     </pbx-input>
-
                 </ng-container>
             </ng-container>
-
             <pbx-input name="Email"
                        key="email"
                        [form]="true"
                        [errors]="service.errors"
                        [object]="companyForm">
             </pbx-input>
-
             <pbx-input name="Phone"
                        key="phone"
                        [form]="true"
                        [errors]="service.errors"
                        [object]="companyForm">
             </pbx-input>
-
             <pbx-input name="VAT ID"
                        key="vatId"
                        [form]="true"
                        [errors]="service.errors"
                        [object]="companyForm">
             </pbx-input>
-
         </form>
-    </div>
+    </pbx-form>
+    <pbx-sidebar [sidebarInfo]="sidebarInfo"></pbx-sidebar>
 </div>
-<pbx-sidebar [sidebarInfo]="sidebarInfo" *ngIf="!loading"></pbx-sidebar>
+<pbx-modal [modal]="modal" (onConfirm)="cancel()">Stop editing?</pbx-modal>

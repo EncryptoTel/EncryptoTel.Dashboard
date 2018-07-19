@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FadeAnimation} from '../../../../shared/fade-animation';
 import {RingGroupService} from '../../../../services/ring-group.service';
 import {RefsServices} from '../../../../services/refs.services';
-import {BaseParam} from "../../../../models/base.model";
 
 @Component({
     selector: 'ring-groups-general',
@@ -11,14 +10,15 @@ import {BaseParam} from "../../../../models/base.model";
     animations: [FadeAnimation('300ms')]
 })
 
-export class RingGroupsGeneralComponent implements OnInit {
+export class RingGroupsGeneralComponent {
 
-    loading: number = 0;
+    loading = 0;
     numbers = [];
 
-    constructor(private service: RingGroupService,
+    constructor(public service: RingGroupService,
                 private refs: RefsServices) {
-        this.service.userView.isCurCompMembersAdd = false;
+        this.getNumbers();
+        // this.service.userView.isCurCompMembersAdd = false;
     }
 
     private getNumbers(): void {
@@ -26,13 +26,8 @@ export class RingGroupsGeneralComponent implements OnInit {
         this.refs.getSipOuters().then(res => {
             this.numbers = res;
             this.loading--;
-        }).catch(err => {
+        }).catch(() => {
             this.loading--;
         });
     }
-
-    ngOnInit() {
-        this.getNumbers();
-    }
-
 }

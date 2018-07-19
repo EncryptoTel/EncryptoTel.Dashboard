@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
     @Input() inactive: boolean;
     @Output() onClick: EventEmitter<ButtonItem> = new EventEmitter<ButtonItem>();
     @Output() onReload: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onUpdate: EventEmitter<any> = new EventEmitter<any>();
 
     currentFilter = [];
     private timeout = null;
@@ -26,6 +27,16 @@ export class HeaderComponent implements OnInit {
         this.timeout = setTimeout(() => {
             this.onReload.emit(this.currentFilter);
         }, 500);
+    }
+
+    load() {
+        let keys = Object.keys(this.currentFilter);
+        for (let i = 0; i < keys.length; i++) {
+            if (!this.currentFilter[keys[i]]) {
+                this.currentFilter[keys[i]] = null;
+            }
+        }
+        this.onUpdate.emit(this.currentFilter);
     }
 
     ngOnInit() {

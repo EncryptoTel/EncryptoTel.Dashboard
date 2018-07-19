@@ -1,4 +1,4 @@
-<div class="call_queues_members_add_wrap" [@Fade]>
+<div class="call_queues_members_add">
     <div class="call_queues_members_add_header">
         <div class="call_queues_members_add_filter">
             <span>Department:</span>
@@ -13,14 +13,12 @@
         </div>
     </div>
     <pbx-loader *ngIf="loading"></pbx-loader>
-    <pbx-table
-            [tableInfo]="table.title"
+    <pbx-table *ngIf="!loading"
+            [tableInfo]="table"
             [tableItems]="members"
             (onSelect)="selectMember($event)"
-            (onDelete)="deleteMember($event)"
+            (onDelete)="selectMember($event)"
             [multiple]="true"
             [selected]="service.userView.members"
-            *ngIf="!loading"
-            [@Fade]>
-    </pbx-table>
+            ></pbx-table>
 </div>

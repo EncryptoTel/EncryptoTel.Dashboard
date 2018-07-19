@@ -1,24 +1,25 @@
 <div class="pbx_list">
 
     <pbx-header [buttons]="buttons"
-                [filters]="filters"
+                [filters]="!loading && !loadingEx && (pageInfo.itemsCount > 0 || activeFilter()) ? filters : null"
                 (onClick)="create()"
-                (onReload)="updateFilter($event)"
+                (onUpdate)="updateFilter($event)"
+                (onReload)="reloadFilter($event)"
                 [inactive]="loading || loadingEx">
     </pbx-header>
 
-    <pbx-loader *ngIf="loading || loadingEx"></pbx-loader>
+    <pbx-loader *ngIf="loading || loadingEx || filter.loading"></pbx-loader>
 
-    <div class="pbx_list_empty" *ngIf="!loading && !loadingEx && pageInfo.itemsCount === 0">
+    <div class="pbx_list_empty" *ngIf="!loading && !loadingEx && pageInfo.itemsCount === 0 && !activeFilter()">
         <div class="pbx_list_empty_text">
-            You do not have any {{name}}<br>Click on the button to create
+            You do not have any {{itemName ? itemName : name}}<br>Click on the button to create
         </div>
         <div class="pbx_list_empty_icon">
             <svg-icon src="../../assets/icons/onbording_arrow.svg"></svg-icon>
         </div>
     </div>
 
-    <pbx-table *ngIf="!loading && !loadingEx && pageInfo.itemsCount > 0"
+    <pbx-table *ngIf="!loading && !loadingEx && !filter.loading && pageInfo.itemsCount > 0"
                [name]="itemName ? itemName : name"
                [tableInfo]="table"
                [tableItems]="pageInfo.items"
@@ -28,6 +29,9 @@
                (onEdit)="edit($event)"
                (onDelete)="delete($event)">
     </pbx-table>
+    <div class="pbx_list_message" *ngIf="!loading && !loadingEx && !filter.loading && activeFilter() && pageInfo.itemsCount === 0">
+        Nothing found
+    </div>
 
     <pbx-pagination
             [pageInfo]="pageInfo"
