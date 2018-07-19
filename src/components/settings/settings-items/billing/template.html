@@ -1,10 +1,8 @@
-<pbx-loader *ngIf="loading.body"></pbx-loader>
-<div class="main_wrap" *ngIf="!loading.body" [@Fade]>
-  <div class="overlay_pre_row">
-    <pbx-button buttonType="cancel" value="Cancel" (onClick)="goBack()"></pbx-button>
-  </div>
-  <div class="overlay">
-    <div class="overlay_content">
+<pbx-form [confirm]="{buttonType: 'cancel', value: 'Cancel'}"
+          (onConfirm)="goBack()"
+          [background]="true">
+    <pbx-loader *ngIf="loading.body"></pbx-loader>
+    <div class="overlay_content" *ngIf="!loading.body" [@Fade]>
       <div class="settings_form_section" *ngFor="let key of getKeys(settings)">
         <div class="settings_form_title">{{NormalizeTitle(settings[key].title)}}</div>
         <div class="settings_input_item" *ngFor="let inputKey of getKeys(settings[key].children)" [ngClass]="{
@@ -17,11 +15,11 @@
                           [value]="settings[key].children[inputKey].value === '1'"
                           (onToggle)="saveOption($event, key, inputKey)"></pbx-checkbox>
             <pbx-select *ngIf="settings[key].children[inputKey].type === 'list'"
-              placeholder="[choose one]"
-              [options]="generateOptions(settings[key].children[inputKey]['list_value'])"
-              (onSelect)="saveOption($event, key, inputKey)"
-              [selected]="selectedItems[inputKey]"
-              objectKey="title"></pbx-select>
+                        placeholder="[choose one]"
+                        [options]="generateOptions(settings[key].children[inputKey]['list_value'])"
+                        (onSelect)="saveOption($event, key, inputKey)"
+                        [selected]="selectedItems[inputKey]"
+                        objectKey="title"></pbx-select>
             <input #temp *ngIf="settings[key].children[inputKey].type === 'string'"
                    title="{{settings[key].children[inputKey].title}}"
                    [name]="settings[key].children[inputKey].title"
@@ -60,8 +58,4 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="overlay_pre_row">
-    <pbx-button buttonType="cancel" value="Cancel" (onClick)="goBack()"></pbx-button>
-  </div>
-</div>
+</pbx-form>
