@@ -1,23 +1,35 @@
 <div class="form">
-  <div class="form-header">
-    <div class="form-tab-wrap" *ngIf="tabs">
-      <div class="form-tab {{selected===tab?'selected':''}}" *ngFor="let tab of tabs;let i=index"
-           [ngClass]="{'blocked':!!inactiveTabs&&inactiveTabs[i]}"
-           (click)="selectingTab(tab, i)"
-      >
-        <div class="form-tab-icon-wrap" *ngIf="icons && i<icons.length &&icons[i]">
-          <svg-icon src="../../assets/icons/{{icons[i]}}.svg"></svg-icon>
-        </div><span>{{tab}}</span></div>
+    <div class="form-header">
+        <div class="form-tab-wrap" *ngIf="tabs">
+            <div class="form-tab {{selected===tab?'selected':''}}" *ngFor="let tab of tabs;let i=index"
+                 [ngClass]="{'blocked':!!inactiveTabs&&inactiveTabs[i]}"
+                 (click)="selectingTab(tab, i)">
+                <div class="form-tab-icon-wrap" *ngIf="icons && i<icons.length &&icons[i]">
+                    <svg-icon src="../../assets/icons/{{icons[i]}}.svg"></svg-icon>
+                </div>
+                <span>{{tab}}</span></div>
+        </div>
+        <div class="form-button-wrap">
+            <pbx-button *ngIf="decline&&decline!=={}"
+                        [buttonType]="decline.buttonType"
+                        [value]="decline.value"
+                        (onClick)="clickDecline()"
+                        [loading]="decline.loading"
+                        [inactive]="decline.inactive"
+            ></pbx-button>
+            <pbx-button *ngIf="confirm&&confirm!=={}"
+                        [buttonType]="confirm.buttonType"
+                        [value]="confirm.value"
+                        (onClick)="clickConfirm()"
+                        [loading]="confirm.loading"
+                        [inactive]="confirm.inactive"
+            ></pbx-button>
+        </div>
     </div>
-    <div class="form-button-wrap">
-      <pbx-button *ngIf="decline&&decline!=={}" [buttonType]="decline.buttonType" [value]="decline.value" (onClick)="clickDecline()" [inactive]="decline.inactive"></pbx-button>
-      <pbx-button *ngIf="confirm&&confirm!=={}" [buttonType]="confirm.buttonType" [value]="confirm.value" (onClick)="clickConfirm()"></pbx-button>
+    <div class="form-body">
+        <div class="form-body-content" [ngClass]="{'background':(background===undefined&&!!tabs)||background}">
+            <ng-content></ng-content>
+        </div>
+        <div class="form-ballast" *ngIf="fillBackground!==false&&((background===undefined&&!!tabs)||background)"></div>
     </div>
-  </div>
-  <div class="form-body">
-    <div class="form-body-content" [ngClass]="{'background':(background===undefined&&!!tabs)||background}">
-      <ng-content></ng-content>
-    </div>
-    <div class="form-ballast" *ngIf="fillBackground!==false&&((background===undefined&&!!tabs)||background)"></div>
-  </div>
 </div>

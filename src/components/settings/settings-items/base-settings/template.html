@@ -1,5 +1,7 @@
-<pbx-form [confirm]="{value: 'Cancel', buttonType: 'cancel'}"
-          (onConfirm)="goBack()"
+<pbx-form [confirm]="saveButton"
+          [decline]="{buttonType:'cancel',value:'Cancel'}"
+          (onConfirm)="saveSettings()"
+          (onDecline)="goBack()"
           [background]="true">
     <pbx-loader *ngIf="loading.body"></pbx-loader>
     <div class="overlay_content" *ngIf="!loading.body" [@Fade]>

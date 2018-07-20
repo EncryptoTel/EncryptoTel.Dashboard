@@ -25,6 +25,10 @@ export class BaseSettingsComponent implements OnInit {
 
     qrCode: string;
 
+    options = [];
+
+    saveButton = {buttonType: 'success', value: 'Save', inactive: true, loading: false};
+
     constructor(private router: Router,
                 private service: SettingsService) {
 
@@ -62,18 +66,48 @@ export class BaseSettingsComponent implements OnInit {
     }
 
     saveOption(ev: any, key: string, inputKey: string, childrenKey?: string): void {
-        if (this.settings[key].children[inputKey].type === 'list') {
+        let childItem = this.settings[key].children[inputKey];
+
+        if (childItem.type === 'list') {
             childrenKey ? this.selectedItems[childrenKey] = ev : this.selectedItems[inputKey] = ev;
-        } else if (this.settings[key].children[inputKey].type === 'group_field') {
+        } else if (childItem.type === 'group_field') {
             this.selectedItems[childrenKey] = ev;
         }
 
-        this.service.saveSetting(!childrenKey ?
-            this.settings[key].children[inputKey].id : this.settings[key].children[inputKey].children[childrenKey].id, this.getEventValue(ev), this.path)
-            .then(() => {
-                if (ev.title === 'google') {
-                    this.getQR();
-                } else { this.qrCode = null; }}).catch();
+        let id = !childrenKey ? childItem.id : childItem.children[childrenKey].id;
+        let settingsItem = this.options.find(item => item.id === id);
+
+        if (!settingsItem) {
+            settingsItem = {id: id, value: null};
+            this.options.push(settingsItem);
+        }
+        settingsItem.value = this.getEventValue(ev);
+
+        this.saveButton.inactive = this.options.length === 0;
+
+        if (inputKey === 'two_factor_auth_type') {
+            if (ev.title === 'google') {
+                this.getQR();
+            } else {
+                this.qrCode = null;
+            }
+        }
+
+        // this.service.saveSetting(id, this.getEventValue(ev), this.path).then(() => {
+        //     if (ev.title === 'google') {
+        //         this.getQR();
+        //     } else { this.qrCode = null; }}).catch();
+    }
+
+    saveSettings() {
+        this.saveButton.loading = true;
+        this.service.saveSettings(this.options, this.path).then(res => {
+            this.options = [];
+            this.saveButton.inactive = true;
+            this.saveButton.loading = false;
+        }).catch(() => {
+            this.saveButton.loading = false;
+        });
     }
 
     getInitialParams(): void {
@@ -110,11 +144,10 @@ export class BaseSettingsComponent implements OnInit {
     }
 
     getQR(): void {
-        this.service.getQRCode()
-            .then(res => {
-                this.qrCode = res.qrImage;
-            })
-            .catch();
+        this.service.getQRCode().then(res => {
+            this.qrCode = res.qrImage;
+            console.log(this.qrCode);
+        }).catch();
     }
 
     ngOnInit() {
