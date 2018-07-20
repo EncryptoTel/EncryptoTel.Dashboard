@@ -36,6 +36,7 @@ export class InputComponent implements OnInit {
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
     @Output() onKeyUp: EventEmitter<object> = new EventEmitter();
+    @Output() onBlur: EventEmitter<object> = new EventEmitter();
 
     value;
     checkboxValues;
@@ -110,6 +111,10 @@ export class InputComponent implements OnInit {
         this.resetError();
         this.object[this.key] = $event.target.value;
         this.onKeyUp.emit($event);
+    }
+
+    blur($event) {
+        this.onBlur.emit($event);
     }
 
     selectItem($event) {

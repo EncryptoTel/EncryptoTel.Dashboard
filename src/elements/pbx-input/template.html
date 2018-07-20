@@ -16,7 +16,8 @@
                        [placeholder]="placeholder"
                        [(ngModel)]="value"
                        [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
-                       (keyup)="inputKeyUp($event)">
+                       (keyup)="inputKeyUp($event)"
+                       (blur)="blur($event)">
 
                 <pbx-select *ngIf="options"
                             [name]="key"

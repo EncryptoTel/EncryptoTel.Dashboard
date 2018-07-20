@@ -93,6 +93,8 @@ export class BaseSettingsComponent implements OnInit {
             }
         }
 
+        console.log(JSON.stringify(this.options));
+
         // this.service.saveSetting(id, this.getEventValue(ev), this.path).then(() => {
         //     if (ev.title === 'google') {
         //         this.getQR();
