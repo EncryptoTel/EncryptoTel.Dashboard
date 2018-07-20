@@ -26,22 +26,6 @@ export class SettingsService extends BaseService {
         return this.post('/user/profile/change-password', form);
     }
 
-    getAuthParams(): Promise<any> {
-        return this.get('/account/auth');
-    }
-
-    getBillingParams(): Promise<any> {
-        return this.get('/account/billing');
-    }
-
-    getNotificationsParams(): Promise<any> {
-        return this.get('/account/notifications');
-    }
-
-    getUserNotificationsParams(): Promise<any> {
-        return this.get('/user/notifications');
-    }
-
     getQRCode(): Promise<any> {
         return this.get('/account/auth/get-qr-code');
     }
@@ -49,7 +33,11 @@ export class SettingsService extends BaseService {
     saveSetting(id, value, path): Promise<any> {
         const data = {};
         data[id] = value;
-        return this.post(`/${path}`, {settings: [{id: id, value: value}]});
+        return this.post(`${path}`, {settings: [{id: id, value: value}]});
+    }
+
+    getSettingsParams(path: string): Promise<any> {
+        return this.get(path);
     }
 
     onInit() {
