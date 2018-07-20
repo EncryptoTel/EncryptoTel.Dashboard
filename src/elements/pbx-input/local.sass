@@ -80,9 +80,9 @@ span
     cursor: pointer
 
 input:not([type='submit'])
-  &.ng-valid:focus
+  &.input-valid:focus
     border-color: $dark_accent
-  &.ng-invalid,&.ng-dirty,&.ng-invalid:focus
+  &.ng-invalid,&.ng-invalid:focus,&.input-invalid
     color: $dark_error
     border-color: $dark_error
     &::placeholder
@@ -98,14 +98,25 @@ input:not([type='submit'])
     input:not([type='submit'])
       height: 40px
       border: 1px solid rgba($dark_primary, .1)
-      &.ng-valid:focus
+      &.input-valid:focus
         border-color: $dark_accent
-      &.ng-invalid,&.ng-dirty,&.ng-invalid:focus
+      &.ng-invalid,&.ng-invalid:focus,&.input-invalid
         color: $dark_error
         border-color: $dark_error
         &::placeholder
           color: $dark_error
-    //.pbx_input_item_input_wrap
+    .pbx_input_main_wrap
+      .pbx_input_item_input_wrap
+        position: relative
+        //&:before
+        //  position: absolute
+        //  display: block
+        //  content: ''
+        //  width: 14px
+        //  height: 14px
+        //  right: 7px
+        //  background: url('../../assets/icons/info_14px.svg') no-repeat;
+        //  background-size: 100%
     /deep/
       pbx-select:nth-child(2)
         margin-left: 10px

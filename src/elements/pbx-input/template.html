@@ -5,7 +5,7 @@
             <span>{{name}}</span>
         </div>
 
-        <div class="pbx_input_item_input_wrap">
+        <div class="pbx_input_main_wrap">
 
             <div *ngIf="!form"
                  [ngClass]="['pbx_input_item_input_wrap', inputClass]">
@@ -15,7 +15,7 @@
                        [id]="key"
                        [placeholder]="placeholder"
                        [(ngModel)]="value"
-                       [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
+                       [ngClass]="[checkError() ? 'input-invalid' : 'input-valid']"
                        (keyup)="inputKeyUp($event)">
 
                 <pbx-select *ngIf="options"

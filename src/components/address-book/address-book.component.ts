@@ -61,7 +61,9 @@ export class AddressBookComponent implements OnInit {
     countries: CountryModel[];
 
     constructor(public service: AddressBookService,
-                private refs: RefsServices) {}
+                private refs: RefsServices) {
+      // console.log(this.service.errors);
+    }
 
     create() {
         this.sidebar.loading++;
