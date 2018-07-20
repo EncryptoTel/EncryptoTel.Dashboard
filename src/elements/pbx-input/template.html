@@ -46,6 +46,7 @@
                 <input *ngIf="!options && !checkbox"
                        [type]="type"
                        [id]="key"
+                       [placeholder]="placeholder"
                        [title]="name"
                        [formControlName]="[key]"
                        (keyup)="inputKeyUp($event)">

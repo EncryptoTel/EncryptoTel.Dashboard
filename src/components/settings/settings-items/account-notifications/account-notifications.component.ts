@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {SettingsServices} from '../../../../services/settings.services';
+import {SettingsService} from '../../../../services/settings.service';
 import {FadeAnimation} from '../../../../shared/fade-animation';
 
 @Component({
   selector: 'account-notifications-component',
   templateUrl: './template.html',
-  providers: [SettingsServices],
+  providers: [SettingsService],
   styleUrls: ['../local.sass'],
   animations: [FadeAnimation('300ms')]
 })
@@ -21,7 +21,7 @@ export class AccountNotificationsComponent implements OnInit {
 
   selectedItems: any = {};
 
-  constructor(private _services: SettingsServices,
+  constructor(private _services: SettingsService,
               private router: Router) {
   }
 
