@@ -124,6 +124,8 @@ export class ListComponent implements OnInit {
                 id: 0,
                 title: this.buttonTitle ? this.buttonTitle : 'Create ' + (this.itemName ? this.itemName : this.name),
                 type: 'success',
+                visible: true,
+                inactive: false
             });
         }
 

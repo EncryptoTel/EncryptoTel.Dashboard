@@ -39,6 +39,16 @@ export class HeaderComponent implements OnInit {
         this.onUpdate.emit(this.currentFilter);
     }
 
+    activeButtons() {
+        let result = [];
+        for (let i = 0; i < this.buttons.length; i++) {
+            if (this.buttons[i].visible) {
+                result.push(this.buttons[i]);
+            }
+        }
+        return result;
+    }
+
     ngOnInit() {
 
     }
@@ -49,6 +59,8 @@ export class ButtonItem {
     id: number;
     title: string;
     type: string;
+    visible: boolean;
+    inactive: boolean;
 }
 
 export class FilterItem {

@@ -39,6 +39,8 @@ export class InvoicesComponent implements OnInit {
             id: 0,
             title: '',
             type: 'cancel',
+            visible: true,
+            inactive: false
         });
     }
 

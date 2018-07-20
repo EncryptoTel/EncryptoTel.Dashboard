@@ -12,8 +12,8 @@
                     (onSelect)="reload()">
         </pbx-input>
     </div>
-    <pbx-button *ngFor="let button of buttons"
-                [inactive]="inactive"
+    <pbx-button *ngFor="let button of activeButtons()"
+                [inactive]="inactive || button.inactive"
                 [value]="button.title"
                 [buttonType]="button.type"
                 (onClick)="clickButton(button)">

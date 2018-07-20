@@ -55,11 +55,21 @@ export class StorageComponent implements OnInit {
             id: 0,
             title: 'Delete Selected',
             type: 'error',
+            visible: false,
+            inactive: false,
         });
         this.filters.push(new FilterItem(1, 'type', 'Select Source:', [
             {id: 'audio', title: 'Audio'}
         ], 'title'));
         this.filters.push(new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'));
+    }
+
+    updateLoading(loading) {
+        this.list.loading = loading;
+        // console.log('updateLoading', loading);
+        if (!loading) {
+            this.load();
+        }
     }
 
     private uploadFiles(files) {
@@ -68,7 +78,7 @@ export class StorageComponent implements OnInit {
             // console.log('uploadFiles', files[i]);
             if (this.service.checkCompatibleType(files[i])) {
                 this.service.checkFileExists(files[i], (loading) => {
-                    this.list.loading = loading;
+                    this.updateLoading(loading);
                 });
             } else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
@@ -142,7 +152,9 @@ export class StorageComponent implements OnInit {
             const id = this.service.select[i];
             const item = this.list.pageInfo.items.find(item => item.id === id);
             item ? item.loading++ : null;
-            this.service.deleteById(id).then(() => {
+            this.service.deleteById(id, (loading) => {
+                this.updateLoading(loading);
+            }).then(() => {
                 item ? item.loading-- : null;
             }).catch(() => {
                 item ? item.loading-- : null;
@@ -156,6 +168,18 @@ export class StorageComponent implements OnInit {
         if (e.target.files[0]) {
             this.uploadFiles(files);
         }
+    }
+
+    selectItem(id: number) {
+        this.service.selectItem(id);
+        this.buttons[0].inactive = this.service.select.length === 0;
+    }
+
+    load() {
+        // console.log('load', this.service.pageInfo.itemsCount);
+        this.service.select = [];
+        this.buttons[0].visible = this.service.pageInfo.itemsCount > 0;
+        this.buttons[0].inactive = true;
     }
 
     ngOnInit(): void {
