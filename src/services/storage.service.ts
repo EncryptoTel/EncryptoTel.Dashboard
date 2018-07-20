@@ -61,7 +61,7 @@ export class StorageService extends BaseService {
             pageInfo.limit = 1;
             pageInfo.page = 1;
             this.updateLoading(1);
-            this.get(`?q=${file.name}`).then(res => {
+            this.get(`?filter[search]=${file.name}`).then(res => {
                 // console.log(res);
                 if (res.itemsCount > 0) {
                     this.files.push(file);
