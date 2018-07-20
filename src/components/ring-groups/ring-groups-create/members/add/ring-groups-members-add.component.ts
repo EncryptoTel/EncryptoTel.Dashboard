@@ -29,15 +29,8 @@ export class RingGroupsMembersAddComponent implements OnInit {
 
     selectMember(member): void {
         // console.log(member);
-        const checkResult = this.service.item.queueMembers.find(el => {
-            return el.sipId === member.id;
-        });
-        if (!checkResult) {
-            this.service.item.queueMembers.push({sipId: member.id});
-            this.service.userView.members.push(member);
-        }
         const index = this.service.item.queueMembers.findIndex(el => {
-          return el.sipId === member.id; });
+            return el.sipId === member.id; });
         if (index === -1) {
             this.service.item.queueMembers.push({sipId: member.id});
             this.service.userView.members.push(member);
