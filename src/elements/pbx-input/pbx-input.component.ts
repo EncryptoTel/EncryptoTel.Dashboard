@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
 
 @Component({
@@ -32,18 +32,38 @@ export class InputComponent implements OnInit {
     @Input() updateObjectByObject: boolean;
     @Input() labelPosition: string;
     @Input() singleBorder: boolean = true;
+    @Input() floatError: boolean = true;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
     @Output() onKeyUp: EventEmitter<object> = new EventEmitter();
-    @Output() onBlur: EventEmitter<object> = new EventEmitter();
+
+    @ViewChild('errorSpan') errorSpan: ElementRef;
 
     value;
     checkboxValues;
+    errorVisible = false;
 
     constructor() {
 
     }
+
+    setFocus(): void {
+        // if (this.checkError()) {
+            // this.errorSpan.nativeElement.focus();
+        this.errorVisible = true;
+        // console.log('setFocus', this.errorVisible);
+        // }
+    }
+
+    removeFocus(): void {
+        // if (this.checkError()) {
+            // this.errorSpan.nativeElement.blur();
+        this.errorVisible = false;
+        // console.log('removeFocus', this.errorVisible);
+        // }
+    }
+
 
     getErrorKey() {
         return this.errorKey ? this.errorKey : this.key;
@@ -71,10 +91,12 @@ export class InputComponent implements OnInit {
 
     checkError(textOnly = null): string {
         if (!this.errors) {
-            return textOnly ? null : this.checkForm();
+            return this.checkForm(textOnly);
         }
         let error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
-        return (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm());
+        let result = (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm(textOnly));
+        // this.key === 'firstname' ? console.log('checkError', this.key, result) : null;
+        return result;
     }
 
     getFormKey() {
@@ -89,11 +111,26 @@ export class InputComponent implements OnInit {
         }
     }
 
-    checkForm() {
+    checkForm(textOnly = null) {
         if (!this.form) {
             return null;
         }
         let form = this.getForm();
+        if (textOnly) {
+            if (form && form.touched && form.invalid && form.errors) {
+                // this.key === 'name' ? console.log('checkForm', form.errors) : null;
+                let keys = Object.keys(form.errors);
+                for (let i = 0; i < keys.length; i++) {
+                    switch (keys[i]) {
+                        case 'required':
+                            return 'This value is required';
+                        default:
+                            return 'This field is invalid';
+                    }
+                }
+            }
+            return null;
+        }
         return form && form.touched && form.invalid;
     }
 
@@ -108,13 +145,13 @@ export class InputComponent implements OnInit {
     }
 
     inputKeyUp($event) {
+        if ($event && !['Tab', 'ArrowRight', 'ArrowLeft'].includes($event.key)) {
+            // console.log($event.key);
+            this.resetError();
+        }
         this.resetError();
         this.object[this.key] = $event.target.value;
         this.onKeyUp.emit($event);
-    }
-
-    blur($event) {
-        this.onBlur.emit($event);
     }
 
     selectItem($event) {

@@ -38,14 +38,47 @@
       justify-content: center
       align-items: flex-start
       width: 150px
-    &_top_label //TODO сделать перенос
-      width: 100%
-      flex-flow: row wrap
     &_input_wrap
       width: 100%
       display: flex
       flex-flow: row
       align-items: center
+  &_row
+    display: flex
+    flex-flow: column
+    margin-bottom: 10px
+    &_input_wrap
+      width: 100%
+    &_label
+      width: 100%
+      font-weight: 500
+      font-size: rem(15)
+      height: 5%
+      display: flex
+      flex-flow: column
+      justify-content: center
+      margin-bottom: 10px
+
+.pbx_input_error_float
+  display: none
+  &_focus
+    position: absolute
+    margin-top: 23px
+    margin-left: -260px
+    padding: 10px
+    background-color: $dark_error
+    color: white
+    width: 250px
+    display: flex
+  &_left_focus
+    position: absolute
+    margin-top: 0
+    margin-left: -110px
+    padding: 10px
+    background-color: $dark_error
+    color: white
+    width: 250px
+    display: flex
 
 span
   font-size: rem(13)
@@ -65,6 +98,8 @@ span
 
 input:not([type='submit'])
   border-bottom: 1px solid rgba($dark_primary, .1)
+  &.show-border
+    border: 1px solid rgba($dark_primary, .1)
   &.ng-valid:focus
     border-bottom-color: $dark_accent
   &.ng-touched.ng-invalid,
@@ -73,6 +108,9 @@ input:not([type='submit'])
     border-bottom-color: $dark_error
     &::placeholder
       color: $dark_error
+
+.error-border
+  border-color: $dark_error !important
 
 @media all and (max-width: 768px)
   .pbx_input

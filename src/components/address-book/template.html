@@ -1,13 +1,13 @@
 <div class="address">
     <pbx-list style="width: 100%"
-              [(pageInfo)]="pageInfo"
-              [table]="table"
-              [loading]="loading"
-              [filters]="filters"
               key="address-book"
               name="Address Book"
               itemName="Contact"
               buttonTitle="New Contact"
+              [(pageInfo)]="pageInfo"
+              [table]="table"
+              [loading]="loading"
+              [filters]="filters"
               (onCreate)="create()"
               (onEdit)="edit($event)"
               (onSelect)="select($event)"
@@ -70,6 +70,7 @@
                            key="firstname"
                            labelPosition="top"
                            [(errors)]="service.errors"
+                           [singleBorder]="false"
                            [object]="selected">
                 </pbx-input>
 
@@ -77,6 +78,7 @@
                            key="lastname"
                            labelPosition="top"
                            [(errors)]="service.errors"
+                           [singleBorder]="false"
                            [object]="selected">
                 </pbx-input>
 
@@ -86,8 +88,9 @@
                            labelPosition="top"
                            [errorKey]="'contactPhone.new_' + i + '.value'"
                            [(errors)]="service.errors"
+                           [singleBorder]="false"
                            [object]="phone">
-                    <pbx-select style="min-width: 100px;"
+                    <pbx-select class="value-type"
                                 [options]="types.contactPhone"
                                 objectKey="value"
                                 [selected]="phone.type"
@@ -111,8 +114,9 @@
                            labelPosition="top"
                            [errorKey]="'contactEmail.new_' + i + '.value'"
                            [(errors)]="service.errors"
+                           [singleBorder]="false"
                            [object]="email">
-                    <pbx-select style="min-width: 100px;"
+                    <pbx-select class="value-type"
                                 [options]="types.contactEmail"
                                 objectKey="value"
                                 [selected]="email.type"
@@ -134,6 +138,7 @@
                            key="company"
                            labelPosition="top"
                            [(errors)]="service.errors"
+                           [singleBorder]="false"
                            [object]="selected">
                 </pbx-input>
 
@@ -141,6 +146,7 @@
                            key="department"
                            labelPosition="top"
                            [(errors)]="service.errors"
+                           [singleBorder]="false"
                            [object]="selected">
                 </pbx-input>
 
@@ -151,6 +157,7 @@
                            [updateObjectByObject]="true"
                            [options]="countries"
                            [(errors)]="service.errors"
+                           [singleBorder]="false"
                            [object]="selected">
                 </pbx-input>
 
@@ -158,6 +165,7 @@
                            key="address"
                            labelPosition="top"
                            [(errors)]="service.errors"
+                           [singleBorder]="false"
                            [object]="selected">
                 </pbx-input>
 

@@ -1,23 +1,25 @@
 <div class="pbx_input_wrap" [@Fade]>
-    <div class="pbx_input_item">
+    <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item' : 'pbx_input_row']">
 
-        <div [ngClass]="[labelPosition === 'top' ? 'pbx_input_item_top_label' : 'pbx_input_item_label']">
+        <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label']">
             <span>{{name}}</span>
         </div>
 
-        <div [ngClass]="['pbx_input_item_input_wrap']">
+        <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_input_wrap' : 'pbx_input_row_input_wrap']">
 
             <div *ngIf="!form"
-                 [ngClass]="['pbx_input_item_input_wrap', inputClass]">
+                 [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_input_wrap' : 'pbx_input_row_input_wrap', inputClass]">
 
                 <input *ngIf="!options && !checkbox"
+                       class="{{singleBorder ? '' : 'show-border'}} {{checkError() ? 'error-border' : ''}}"
                        [type]="type"
                        [id]="key"
                        [placeholder]="placeholder"
                        [(ngModel)]="value"
                        [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
                        (keyup)="inputKeyUp($event)"
-                       (blur)="blur($event)">
+                       (focus)="setFocus()"
+                       (blur)="removeFocus()">
 
                 <pbx-select *ngIf="options"
                             [name]="key"
@@ -27,7 +29,9 @@
                             [selected]="value"
                             (onSelect)="selectItem($event)"
                             [errors]="checkError()"
-                            [placeholder]="placeholder">
+                            [placeholder]="placeholder"
+                            (onFocus)="setFocus()"
+                            (onBlur)="removeFocus()">
                 </pbx-select>
 
                 <pbx-checkbox *ngIf="checkbox"
@@ -45,12 +49,15 @@
                  [ngClass]="['pbx_input_item_input_wrap', inputClass]">
 
                 <input *ngIf="!options && !checkbox"
+                       [ngClass]="{'show-border': !singleBorder}"
                        [type]="type"
                        [id]="key"
                        [placeholder]="placeholder"
                        [title]="name"
                        [formControlName]="[key]"
-                       (keyup)="inputKeyUp($event)">
+                       (keyup)="inputKeyUp($event)"
+                       (focus)="setFocus()"
+                       (blur)="removeFocus()">
 
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
@@ -66,7 +73,9 @@
                             [selected]="value"
                             (onSelect)="selectItem($event)"
                             [errors]="checkError()"
-                            [placeholder]="placeholder">
+                            [placeholder]="placeholder"
+                            (onFocus)="setFocus()"
+                            (onBlur)="removeFocus()">
                 </pbx-select>
 
                 <span *ngIf="description" [ngClass]="[descriptionClass ? descriptionClass : '']">{{description}}</span>
@@ -78,7 +87,9 @@
         </div>
 
         <span *ngIf="checkError()"
-              class="pbx_input_error">{{checkError(true)}}</span>
+              #errorSpan
+              [ngClass]="[floatError ? (errorVisible ? (labelPosition !== 'top' ? 'pbx_input_error_float_left_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+        >{{checkError(true)}}</span>
 
     </div>
 </div>
