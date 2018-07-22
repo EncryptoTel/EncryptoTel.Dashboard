@@ -32,17 +32,19 @@ export class InputComponent implements OnInit {
     @Input() updateObjectByObject: boolean;
     @Input() labelPosition: string;
     @Input() singleBorder: boolean = true;
-    @Input() floatError: boolean = true;
+    @Input() floatError: boolean = false;
+    @Input() errorVisible: boolean = false;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
     @Output() onKeyUp: EventEmitter<object> = new EventEmitter();
 
-    @ViewChild('errorSpan') errorSpan: ElementRef;
+    // @ViewChild('errorSpan') errorSpan: ElementRef;
+    @ViewChild('inputDiv') inputDiv: ElementRef;
 
     value;
     checkboxValues;
-    errorVisible = false;
+    prevError;
 
     constructor() {
 
@@ -149,7 +151,7 @@ export class InputComponent implements OnInit {
             // console.log($event.key);
             this.resetError();
         }
-        this.resetError();
+        // this.resetError();
         this.object[this.key] = $event.target.value;
         this.onKeyUp.emit($event);
     }
@@ -185,6 +187,42 @@ export class InputComponent implements OnInit {
         }
         this.onToggle.emit($event);
     }
+
+    findInput(element) {
+        if (!element) {
+            return null;
+        }
+        if (element.children) {
+            for (let i = 0; i < element.children.length; i++) {
+                if (element.children[i].localName === 'input') {
+                    // console.log(element.children[i]);
+                    element.children[i].focus();
+                } else {
+                    this.findInput(element.children[i]);
+                }
+            }
+        }
+    }
+
+    getErrorVisible() {
+        if (this.errors) {
+            if (this.errors != this.prevError) {
+                this.prevError = this.errors;
+                let keys = Object.keys(this.errors);
+                if (keys.length > 0) {
+                    if (keys[0] === this.getErrorKey()) {
+                        // console.log(this.inputDiv);
+                        this.inputDiv ? this.findInput(this.inputDiv.nativeElement) : null;
+                        // this.inputItem1 ? this.inputItem1.nativeElement.setFocus() : null;
+                        this.errorVisible = true;
+                    }
+                }
+            }
+
+        }
+        return this.errorVisible;
+    }
+
 
     ngOnInit() {
         if (this.form && this.checkbox) {

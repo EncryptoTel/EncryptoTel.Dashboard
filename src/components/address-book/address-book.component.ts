@@ -204,6 +204,7 @@ export class AddressBookComponent implements OnInit {
             email.type = this.types.contactEmail.find(item => item.id === email.typeId);
         }
         this.selected.country = this.countries.find(item => item.id === this.selected.countryId);
+
     }
 
     checkEmpty(items: ContactValueModel[]) {
