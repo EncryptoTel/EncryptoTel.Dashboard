@@ -20,7 +20,7 @@ export class DetailsAndRecordsServices {
       params += `&sort[${sort}]=${sortDirection}`;
 
     const filter = tags.map((tag) => {
-      return `&filter[]=${tag}`;
+      return `&filter[status][]=${tag}`;
     });
     if (filter !== [])
       params += filter.join('');
