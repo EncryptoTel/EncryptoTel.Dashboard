@@ -25,6 +25,8 @@ export class StorageService extends BaseService {
     };
     select = [];
     callback;
+    successCount = 0;
+    errorCount = 0;
 
     checkCompatibleType(file) {
         return ['audio/mp3', 'audio/ogg', 'audio/wav', 'audio/mpeg', 'audio/x-wav'].includes(file.type);
@@ -92,8 +94,11 @@ export class StorageService extends BaseService {
         this.callback ? this.callback(this.loading) : null;
         return this.rawRequest('POST', '', data).then(() => {
             if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);
+            this.successCount++;
+            this.errorCount++;
             this.updateLoading(-1);
         }).catch(() => {
+            this.errorCount++;
             this.updateLoading(-1);
         });
     }
@@ -134,13 +139,15 @@ export class StorageService extends BaseService {
         }
     }
 
-    deleteById(id: number, callback = null): Promise<any> {
+    deleteById(id: number, callback = null, showMessage = true): Promise<any> {
         this.callback = callback;
         this.updateLoading(1);
-        return super.deleteById(id).then(res => {
+        return super.deleteById(id, showMessage).then(res => {
             if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);
+            this.successCount++;
             this.updateLoading(-1);
         }).catch(() => {
+            this.errorCount++;
             this.updateLoading(-1);
         });
     }
@@ -157,6 +164,11 @@ export class StorageService extends BaseService {
             this.updateLoading(-1);
             return Promise.reject(this.pageInfo);
         });
+    }
+
+    resetCount() {
+        this.successCount = 0;
+        this.errorCount = 0;
     }
 
     onInit() {

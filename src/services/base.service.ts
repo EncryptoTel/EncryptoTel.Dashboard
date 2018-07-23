@@ -54,9 +54,11 @@ export class BaseService {
         });
     }
 
-    delete(path: string): Promise<any> {
+    delete(path: string, showMessage = true): Promise<any> {
         return this.rawRequest('DELETE', path, null).then((res) => {
-            this.message.writeSuccess(res.message ? res.message : 'Successfully deleted.');
+            if (showMessage) {
+                this.message.writeSuccess(res.message ? res.message : 'Successfully deleted.');
+            }
             return Promise.resolve(res);
         });
     }
@@ -69,8 +71,8 @@ export class BaseService {
         return this.put(`/${id}`, data);
     }
 
-    deleteById(id: number): Promise<any> {
-        return this.delete(`/${id}`);
+    deleteById(id: number, showMessage = true): Promise<any> {
+        return this.delete(`/${id}`, showMessage);
     }
 
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<any> {

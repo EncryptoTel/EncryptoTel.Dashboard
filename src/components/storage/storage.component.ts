@@ -64,14 +64,16 @@ export class StorageComponent implements OnInit {
         this.filters.push(new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'));
     }
 
-    updateLoading(loading) {
+    updateLoading(loading, deleting = false) {
         this.list.loading = loading;
         if (!loading) {
             this.load();
+            this.message.writeSuccess(`Successfully ${deleting ? 'deleted' : 'uploaded'} ${this.service.successCount} file(s).`);
         }
     }
 
     private uploadFiles(files) {
+        this.service.resetCount();
         for (let i = 0; i < files.length; i++) {
             if (this.service.checkCompatibleType(files[i])) {
                 this.service.checkFileExists(files[i], (loading) => {
@@ -141,13 +143,14 @@ export class StorageComponent implements OnInit {
     }
 
     doDeleteSelected() {
+        this.service.resetCount();
         for (let i = 0; i < this.service.select.length; i++) {
             const id = this.service.select[i];
             const item = this.list.pageInfo.items.find(item => item.id === id);
             item ? item.loading++ : null;
             this.service.deleteById(id, (loading) => {
-                this.updateLoading(loading);
-            }).then(() => {
+                this.updateLoading(loading, true);
+            }, false).then(() => {
                 item ? item.loading-- : null;
             }).catch(() => {
                 item ? item.loading-- : null;
