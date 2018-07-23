@@ -99,7 +99,11 @@ export class RequestServices {
                 break;
             }
             default: {
-                this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
+                if (response.error && response.error.message) {
+                    this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
+                } else if (response.message) {
+                    this._messages.writeError(response.message || 'Internal server error'); // Adding warning message
+                }
                 break;
             }
         }

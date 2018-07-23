@@ -115,11 +115,12 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
     modalConfirm = (): void => {
         this.selected.loading = true;
-        this._services.buyNumber(this.selected.params)
-            .then(() => {
-                this.selected.loading = false;
-                this.selected.inactive = true;
-            }).catch();
+        this._services.buyNumber(this.selected.params).then(() => {
+            this.selected.loading = false;
+            this.selected.inactive = true;
+        }).catch(() => {
+            this.selected.loading = false;
+        });
         // console.log('Modal confirmed!');
     }
     modalDecline = (): void => {
