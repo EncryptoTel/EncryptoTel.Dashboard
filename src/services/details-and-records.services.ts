@@ -4,65 +4,31 @@ import {IfObservable} from 'rxjs/observable/IfObservable';
 import {Observable} from 'rxjs/Observable';
 import {filter} from 'rxjs/operator/filter';
 import {compareValues} from '../shared/shared.functions';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class DetailsAndRecordsServices {
   constructor(
-    private request: RequestServices
+    private request: RequestServices,
+    private http: HttpClient
   ) {}
 
-  // getDetailsAndRecords(page: number, limit): Promise<any> {
-  //   return this.request.get(`v1/cdr?limit=${limit}&page=${page}`, true);
-  // }
-  //
-  // sortByFrom(dir, limit): Promise<any> {
-  //   return this.request.get(`v1/cdr?sort[source]=${dir}&limit=${limit}`, true);
-  // }
-  //
-  // sortByTo(dir, limit): Promise<any> {
-  //   return this.request.get(`v1/cdr?sort[destination]=${dir}&limit=${limit}`, true);
-  // }
-  //
-  // sortByStart(dir, limit): Promise<any> {
-  //   return this.request.get(`v1/cdr?sort[_______]=${dir}&limit=${limit}`, true);
-  // }
-  //
-  // sortByDuration(dir, limit): Promise<any> {
-  //   return this.request.get(`v1/cdr?sort[duration]=${dir}&limit=${limit}`, true);
-  // }
-  //
-  // sortByTag(dir, limit): Promise<any> {
-  //   return this.request.get(`v1/cdr?sort[status]=${dir}&limit=${limit}`, true);
-  // }
-  //
-  // sortByPrice(dir, limit): Promise<any> {
-  //   return this.request.get(`v1/cdr?sort[_______]=${dir}&limit=${limit}`, true);
-  // }
-  //
-  // sortByRecord(dir, limit): Promise<any> {
-  //   return this.request.get(`v1/cdr?sort[_______]=${dir}&limit=${limit}`, true);
-  // }
+  getDetailsAndRecords(page: number, limit: number, sort: string, sortDirection: string, tags: any): Promise<any> {
+    let params = `page=${page}&limit=${limit}`;
+    
+    if (sort && sortDirection)
+      params += `&sort[${sort}]=${sortDirection}`;
 
-
-  fetchDetailsAndRecords(page: number, limit: number, sort: string, sortDirection: string, tags: any): Promise<any> {
-    const filter = tags.map((i) => {
-      return `&filter[status]=${i}`;
+    const filter = tags.map((tag) => {
+      return `&filter[]=${tag}`;
     });
-    if (sort === '' && sortDirection === '' && filter === []) {
-      return this.request.get(`v1/cdr?page=${page}&limit=${limit}`);
+    if (filter !== [])
+      params += filter.join('');
 
-    } else if (sort === '' && sortDirection === '') {
-      return this.request.get(`v1/cdr?page=${page}&limit=${limit}${filter}`);
-
-    } else if (filter === []) {
-      return this.request.get(`v1/cdr?page=${page}&limit=${limit}&sort[${sort}]=${sortDirection}`);
-
-    } else {
-      return this.request.get(`v1/cdr?page=${page}&limit=${limit}&sort[${sort}]=${sortDirection}${filter}`);
-    }
+    return this.request.get(`v1/cdr?${params}`);
   }
 
-  mockFetchDetailsAndRecords(page: number, limit: number, sort: string, sortDirection: string, tags: string[]): Promise<any> {
+  mockGetDetailsAndRecords(page: number, limit: number, sort: string, sortDirection: string, tags: string[]): Promise<any> {
     let mockDetails = [
       {
         source: '+1(800)200 01 10 #101',
@@ -93,51 +59,6 @@ export class DetailsAndRecordsServices {
         playerOpen: false,
         playerContentShow: false,
         hover: false
-      },
-      {
-        source: '+1(800)200 01 12 #301',
-        destination: '+1(800)200 01 13 #308',
-        created: '01/07/2017 09:47:25',
-        duration: '00:56:00',
-        statusName: 'record',
-        tag: 'record',
-        price: '40',
-        record: 'http://edge.flowplayer.org/fake_empire.m3u8',
-        ddShow: false,
-        play: false,
-        playerOpen: false,
-        playerContentShow: false,
-        hover: false
-      },
-      {
-        source: '+1(800)200 01 13 #401',
-        destination: '+1(800)200 01 13 #408',
-        created: '01/07/2017 12:47:25',
-        duration: '00:12:00',
-        statusName: 'missed',
-        tag: 'missed',
-        price: '0',
-        record: 'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
-        ddShow: false,
-        play: false,
-        playerOpen: false,
-        playerContentShow: false,
-        hover: false
-      },
-      {
-        source: '+1(800)200 01 14 #501',
-        destination: '+1(800)200 01 14 #508',
-        created: '01/07/2017 11:47:25',
-        duration: '00:12:00',
-        statusName: 'no-answer',
-        tag: 'noAnswered',
-        price: '0',
-        record: '',
-        ddShow: false,
-        play: false,
-        playerOpen: false,
-        playerContentShow: false,
-        hover: false
       }
     ];
     
@@ -152,8 +73,20 @@ export class DetailsAndRecordsServices {
     return Observable.of(details).toPromise().then(data => { return data; });
   }
   
-  getSound(id) {
+  getRecordMedia(id: number): Promise<any> {
     return this.request.get(`v1/account/file/${id}`);
+    // return this.request.get(`v1/account/file/${id}`)
+    //   .then(result => {
+    //     console.log(result);
+    //     return this.http.get(result.fileLink).toPromise()
+    //       .then(response => {
+    //         console.log(response);
+    //         return Promise.resolve(response);
+    //       })
+    //       .catch((error) => {
+    //         console.log(error);
+    //         return Promise.reject(error);
+    //       });
+    //   });
   }
-
 }
