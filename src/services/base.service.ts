@@ -2,8 +2,7 @@ import {Injectable} from '@angular/core';
 import {RequestServices} from './request.services';
 import {PageInfoModel} from "../models/base.model";
 import {plainToClass} from "class-transformer";
-import {CallQueueItem, CallQueueModel} from "../models/call-queue.model";
-import {ClassType} from "class-transformer/ClassTransformer";
+import {MessageServices} from "./message.services";
 
 @Injectable()
 export class BaseService {
@@ -11,7 +10,8 @@ export class BaseService {
     url: string = '';
     errors = null;
 
-    constructor(public request: RequestServices) {
+    constructor(public request: RequestServices,
+                public message: MessageServices) {
         this.onInit();
     }
 
@@ -41,15 +41,24 @@ export class BaseService {
     }
 
     post(path: string, data: any): Promise<any> {
-        return this.rawRequest('POST', path, {...data});
+        return this.rawRequest('POST', path, {...data}).then((res) => {
+            this.message.writeSuccess(res.message ? res.message : 'Successfully created.');
+            return Promise.resolve(res);
+        });
     }
 
     put(path: string, data: any): Promise<any> {
-        return this.rawRequest('PUT', path, {...data});
+        return this.rawRequest('PUT', path, {...data}).then((res) => {
+            this.message.writeSuccess(res.message ? res.message : 'Successfully saved.');
+            return Promise.resolve(res);
+        });
     }
 
     delete(path: string): Promise<any> {
-        return this.rawRequest('DELETE', path, null);
+        return this.rawRequest('DELETE', path, null).then((res) => {
+            this.message.writeSuccess(res.message ? res.message : 'Successfully deleted.');
+            return Promise.resolve(res);
+        });
     }
 
     getById(id: number): Promise<any> {
