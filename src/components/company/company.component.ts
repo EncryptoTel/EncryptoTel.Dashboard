@@ -9,6 +9,7 @@ import {emailRegExp} from '../../shared/vars';
 import {DashboardServices} from '../../services/dashboard.services';
 import {RefsServices} from '../../services/refs.services';
 import {CountryModel} from '../../models/country.model';
+import {MessageServices} from "../../services/message.services";
 
 @Component({
     selector: 'pbx-company',
@@ -36,7 +37,8 @@ export class CompanyComponent implements OnInit {
     constructor(public service: CompanyService,
                 private fb: FormBuilder,
                 private dashboard: DashboardServices,
-                private refs: RefsServices) {
+                private refs: RefsServices,
+                private message: MessageServices) {
 
         this.sidebarInfo = {
             loading: 0,
@@ -86,6 +88,7 @@ export class CompanyComponent implements OnInit {
         if (this.companyForm.valid) {
             this.saving++;
             this.service.save({...this.companyForm.value}).then(() => {
+                this.message.writeSuccess('Company successfully updated.');
                 this.saving--;
             }).catch(() => {
                 this.saving--;
