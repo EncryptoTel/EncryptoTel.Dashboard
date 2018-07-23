@@ -173,7 +173,7 @@ export class InputComponent implements OnInit {
                 this.object[this.key] = $event.id;
             }
             if (this.updateValueByKey) {
-                // this.value.id = $event.id;
+                this.value.id = $event.id;
                 this.value[this.displayKey] = $event[this.displayKey];
             } else {
                 this.value = $event;

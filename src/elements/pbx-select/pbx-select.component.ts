@@ -1,6 +1,7 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild} from '@angular/core';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
+import {assertNumber} from "@angular/core/src/render3/assert";
 
 @Component({
     selector: 'pbx-select',
@@ -96,7 +97,9 @@ export class SelectComponent {
       Arrows navigation
      */
     keyboardNavigation(event: KeyboardEvent) {
-        const currentIndex = this.options.indexOf(this.selected); // Index of selected item
+        const currentIndex = this.options.findIndex(item => {
+            return Number.isInteger(item) ? item === this.selected : item.id === this.selected.id;
+        });
         switch (event.code) {
             case 'Space': {
                 this.toggleOptions();
@@ -131,6 +134,10 @@ export class SelectComponent {
             default:
                 break;
         }
+    }
+
+    isCurrent(item) {
+        return Number.isInteger(item) ? item === this.selected : item.id === this.selected.id;
     }
 
     opened() {
