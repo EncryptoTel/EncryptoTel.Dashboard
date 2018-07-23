@@ -7,6 +7,7 @@ import {FadeAnimation} from '../../../../shared/fade-animation';
 import {passwordConfirmation} from '../../../../shared/password-confirmation';
 import {Router} from '@angular/router';
 import {MessageServices} from "../../../../services/message.services";
+import {UserServices} from "../../../../services/user.services";
 
 @Component({
     selector: 'profile-component',
@@ -39,7 +40,8 @@ export class ProfileComponent implements OnInit {
 
     constructor(private service: SettingsService,
                 private router: Router,
-                private message: MessageServices) {
+                private message: MessageServices,
+                private user: UserServices) {
     }
 
     inputValidation = (form: FormGroup, name: string, errorType?: string): boolean => {
@@ -138,6 +140,7 @@ export class ProfileComponent implements OnInit {
                 this.service.saveProfileSettings(this.generalForm.value)
                     .then(() => {
                         this.getSettings();
+                        this.user.fetchProfileParams().then();
                     })
                     .catch(() => this.loading.buttons = false);
             }
