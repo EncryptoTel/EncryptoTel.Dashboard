@@ -10,16 +10,31 @@
     //padding: 20px
     /deep/ pbx-select
       flex: 1
-      height: rem(40)
+      min-width: 100px
+      height: 40px
+      &:nth-child(2)
+        margin-left: 8px
       &:focus
-        background: $dark_background
         border-color: $dark_accent
   &_error
-    grid-column: 2/3
-    //width: 30%
-    color: $dark_error
-    font-size: rem(12)
-    margin-top: 1px
+    position: absolute
+    margin-top: 47px
+    margin-left: 260px
+    padding: 10px
+    background-color: $dark_error
+    color: $dark_primary
+    width: 250px
+    &:before
+      position: absolute
+      display: block
+      content: ''
+      width: 0
+      height: 0
+      top: -6px
+      left: 20px
+      border-left: 6px solid transparent
+      border-right: 6px solid transparent
+      border-bottom: 6px solid $dark_error
   &_title
     width: 100%
     font-weight: 500
@@ -63,13 +78,24 @@
   display: none
   &_focus
     position: absolute
-    margin-top: 23px
+    margin-top: 27px
     margin-left: -260px
     padding: 10px
     background-color: $dark_error
     color: white
     width: 250px
     display: flex
+    &:before
+      position: absolute
+      display: block
+      content: ''
+      width: 0
+      height: 0
+      top: 10px
+      left: 100%
+      border-top: 6px solid transparent
+      border-bottom: 6px solid transparent
+      border-left: 6px solid $dark_error
   &_left_focus
     position: absolute
     margin-top: 0
@@ -97,15 +123,15 @@ span
     cursor: pointer
 
 input:not([type='submit'])
+  height: 40px
   border-bottom: 1px solid rgba($dark_primary, .1)
   &.show-border
     border: 1px solid rgba($dark_primary, .1)
-  &.ng-valid:focus
-    border-bottom-color: $dark_accent
-  &.ng-touched.ng-invalid,
-  &.ng-dirty.ng-invalid
+  &.input-valid:focus
+    border-color: $dark_accent
+  &.input-invalid
     color: $dark_error
-    border-bottom-color: $dark_error
+    border-color: $dark_error
     &::placeholder
       color: $dark_error
 
@@ -131,6 +157,7 @@ textarea
 
 .error-border
   border-color: $dark_error !important
+
 
 @media all and (max-width: 768px)
   .pbx_input
