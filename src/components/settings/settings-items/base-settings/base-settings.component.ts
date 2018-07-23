@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {SettingsService} from '../../../../services/settings.service';
 import {FadeAnimation} from '../../../../shared/fade-animation';
+import {MessageServices} from "../../../../services/message.services";
 
 @Component({
     selector: 'base-settings-component',
@@ -30,7 +31,8 @@ export class BaseSettingsComponent implements OnInit {
     saveButton = {buttonType: 'success', value: 'Save', inactive: true, loading: false};
 
     constructor(private router: Router,
-                private service: SettingsService) {
+                private service: SettingsService,
+                private message: MessageServices) {
 
     }
 
@@ -104,6 +106,7 @@ export class BaseSettingsComponent implements OnInit {
     saveSettings() {
         this.saveButton.loading = true;
         this.service.saveSettings(this.options, this.path).then(res => {
+            this.message.writeSuccess(res.message);
             this.options = [];
             this.saveButton.inactive = true;
             this.saveButton.loading = false;
