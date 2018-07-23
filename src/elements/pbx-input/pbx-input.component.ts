@@ -49,6 +49,7 @@ export class InputComponent implements OnInit {
     checkboxValues;
     prevError;
     prevFormError;
+    hoverActive = false;
 
     constructor() {
 
@@ -256,6 +257,14 @@ export class InputComponent implements OnInit {
             }
         }
         return this.errorVisible;
+    }
+
+    mouseEnter() {
+        this.hoverActive = this.floatError;
+    }
+
+    mouseLeave() {
+        this.hoverActive = false;
     }
 
 

@@ -19,7 +19,10 @@
                        [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
                        (keyup)="inputKeyUp($event)"
                        (focus)="setFocus()"
-                       (blur)="removeFocus()">
+                       (blur)="removeFocus()"
+                       (mouseenter)="mouseEnter()"
+                       (mouseleave)="mouseLeave()"
+                >
 
                 <pbx-select *ngIf="options"
                             [name]="key"
@@ -31,8 +34,10 @@
                             [errors]="checkError()"
                             [placeholder]="placeholder"
                             (onFocus)="setFocus()"
-                            (onBlur)="removeFocus()">
-                </pbx-select>
+                            (onBlur)="removeFocus()"
+                            (mouseenter)="mouseEnter()"
+                            (mouseleave)="mouseLeave()"
+                ></pbx-select>
 
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
@@ -57,7 +62,10 @@
                        [formControlName]="[key]"
                        (keyup)="inputKeyUp($event)"
                        (focus)="setFocus()"
-                       (blur)="removeFocus()">
+                       (blur)="removeFocus()"
+                       (mouseenter)="mouseEnter()"
+                       (mouseleave)="mouseLeave()"
+                >
 
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
@@ -75,8 +83,10 @@
                             [errors]="checkError()"
                             [placeholder]="placeholder"
                             (onFocus)="setFocus()"
-                            (onBlur)="removeFocus()">
-                </pbx-select>
+                            (onBlur)="removeFocus()"
+                            (mouseenter)="mouseEnter()"
+                            (mouseleave)="mouseLeave()"
+                ></pbx-select>
 
                 <textarea *ngIf="type === 'textarea'"
                           class="{{singleBorder ? '' : 'show-border'}} {{checkError() ? 'error-border' : ''}}"
@@ -88,6 +98,8 @@
                           (keyup)="inputKeyUp($event)"
                           (focus)="setFocus()"
                           (blur)="removeFocus()"
+                          (mouseenter)="mouseEnter()"
+                          (mouseleave)="mouseLeave()"
                 ></textarea>
 
                 <span *ngIf="description" [ngClass]="[descriptionClass ? descriptionClass : '']">{{description}}</span>
@@ -100,7 +112,7 @@
 
         <span *ngIf="checkError()"
               #errorSpan
-              [ngClass]="[floatError ? (getErrorVisible() ? (labelPosition !== 'top' ? 'pbx_input_error_float_left_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+              [ngClass]="[floatError ? (getErrorVisible() || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_left_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
         >{{checkError(true)}}</span>
 
     </div>
