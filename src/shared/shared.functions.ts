@@ -44,3 +44,28 @@ export function calculateHeight(table: ElementRef, row: ElementRef, row2?: Eleme
         : table.nativeElement.clientHeight - (row.nativeElement.clientHeight + +getComputedStyle(row.nativeElement).marginBottom.split('px')[0]) * 2;
     return Math.round((height - height % 41) / 41) - 1;
 }
+
+export function compareValues(key: string, order: string = 'asc') {
+  return (a, b) => {
+      const varA = evalByKey(key, a);
+      const varB = evalByKey(key, b);
+
+      let comparison = 0;
+      if (varA > varB) {
+          comparison = 1;
+      } 
+      else if (varA < varB) {
+          comparison = -1;
+      }
+      
+      return (order == 'desc') ? (comparison * -1) : comparison;
+  };
+}
+
+export function evalByKey(key: string, variable: any): any {
+  var value = 0;
+  if(variable.hasOwnProperty(key)) {
+      value = (typeof variable[key] === 'string') ? variable[key].toUpperCase() : variable[key];
+  }
+  return value;
+}

@@ -3,24 +3,25 @@
 
     <div class="details-header">
 
+      <!-- filter tags -->
       <div class="details-header__wrap">
         <div class="details-header__wrap-filters">
           <div class="filters">
             <button
-              class="{{filter}} details-button"
-              (click)="toggleFilter(filter)"
-              *ngFor="let filter of activeFilters"
-              [ngClass]="{'uppercase' : filter === 'sms'}">
-              {{filter}}
+              *ngFor="let tag of grid.filter.selectedTags"
+              class="{{ tag.title }} details-button"
+              [ngClass]="{'uppercase' : tag.key === 'sms'}"
+              (click)="grid.filter.toggleTag(tag.key)">
+              {{ tag.title }}
             </button>
           </div>
           <div class="filters">
             <button
+              *ngFor="let tag of grid.filter.unselectedTags"
               class="inactive-button details-button"
-              (click)="toggleFilter(filter)"
-              *ngFor="let filter of inactiveFilters"
-              [ngClass]="{'uppercase' : filter === 'sms'}">
-              {{filter}}
+              [ngClass]="{'uppercase' : tag.key === 'sms'}"
+              (click)="grid.filter.toggleTag(tag.key)">
+              {{ tag.title }}
             </button>
           </div>
         </div>
@@ -29,34 +30,11 @@
         </div>
       </div>
 
+      <!-- grid header -->
       <div class="details-table-row titles">
-        <div class="details-table-cols" (click)="sortCol(0)">
-          From
-          <svg-icon src="../../assets/icons/sorting_{{sorting[0].direction}}_16px.svg" class="details-icons" *ngIf="sorting[0].active"></svg-icon>
-        </div>
-        <div class="details-table-cols" (click)="sortCol(1)">
-          To
-          <svg-icon src="../../assets/icons/sorting_{{sorting[1].direction}}_16px.svg" class="details-icons" *ngIf="sorting[1].active"></svg-icon>
-        </div>
-        <div class="details-table-cols" (click)="sortCol(2)">
-          Date
-          <svg-icon src="../../assets/icons/sorting_{{sorting[2].direction}}_16px.svg" class="details-icons" *ngIf="sorting[2].active"></svg-icon>
-        </div>
-        <div class="details-table-cols" (click)="sortCol(3)">
-          Duration
-          <svg-icon src="../../assets/icons/sorting_{{sorting[3].direction}}_16px.svg" class="details-icons" *ngIf="sorting[3].active"></svg-icon>
-        </div>
-        <div class="details-table-cols tag" [ngClass]="{'no-padding' : sorting[4].active}" (click)="sortCol(4)">
-          Tag
-          <svg-icon src="../../assets/icons/sorting_{{sorting[4].direction}}_16px.svg" class="details-icons" *ngIf="sorting[4].active"></svg-icon>
-        </div>
-        <div class="details-table-cols price" (click)="sortCol(5)">
-          Price
-          <svg-icon src="../../assets/icons/sorting_{{sorting[5].direction}}_16px.svg" class="details-icons" *ngIf="sorting[5].active"></svg-icon>
-        </div>
-        <div class="details-table-cols" (click)="sortCol(6)">
-          Record
-          <svg-icon src="../../assets/icons/sorting_{{sorting[6].direction}}_16px.svg" class="details-icons" *ngIf="sorting[6].active"></svg-icon>
+        <div *ngFor="let column of grid.columns" (click)="sort(column)" class="details-table-cols">
+          {{ column.title }}
+          <svg-icon src="../../assets/icons/sorting_{{ column.iconSuffix }}_16px.svg" class="details-icons" *ngIf="column.sorted"></svg-icon>
         </div>
         <div class="details-table-cols">
         </div>
@@ -64,36 +42,35 @@
 
     </div>
 
-    <div class="details-table-wrapper" *ngIf="!loading">
+    <div class="details-table-wrapper" *ngIf="!detailsDataLoading">
       <div
         #row
         class="details-table-row"
         *ngFor="let detail of details"
-        [ngClass]="{'hide': setFilters(detail.statusName), 'hover' : detail.hover}"
+        [ngClass]="{ 'hover': detail.hover }"
         (mouseenter)="rowHoverStart(details.indexOf(detail))"
         (mouseleave)="rowHoverEnd()">
-        <div class="details-table-cols" [ngClass]="{'payment-col': detail.statusName === 'payment'}">{{detail.source}}</div>
-        <div class="details-table-cols">{{detail.destination}}</div>
-        <div class="details-table-cols">{{detail.created}}</div>
-        <div class="details-table-cols">{{detail.duration | tp}}</div>
+        <div class="details-table-cols" [ngClass]="{'payment-col': detail.statusName === 'payment'}">{{ detail.source }}</div>
+        <div class="details-table-cols">{{ detail.destination }}</div>
+        <div class="details-table-cols">{{ detail.created }}</div>
+        <div class="details-table-cols">{{ detail.duration | tp }}</div>
         <div class="details-table-cols tags">
-          <button
-            class="{{detail.tag}} details-button tag-button">
-            {{detail.statusName}}
+          <button class="{{detail.tag}} details-button tag-button" (click)="startPlayRecord(details.indexOf(detail))">
+            {{ detail.statusName }}
           </button>
         </div>
-        <div class="details-table-cols price" [ngClass]="{'payment-col': detail.statusName === 'payment'}">${{detail.price}}</div>
+        <div class="details-table-cols price" [ngClass]="{'payment-col': detail.statusName === 'payment'}">${{ detail.price }}</div>
         <div class="details-table-cols player">
           <div class="player-wrap">
             <div class="player-container"
-                 *ngIf="detail.accountFile"
+                 *ngIf="detail.playable"
                  [@PlayerAnimation]="detail.playerAnimationState"
                  (@PlayerAnimation.start)="playerAnimationStart()"
                  (@PlayerAnimation.done)="playerAnimationEnd()">
               <div class="player-arrow" (click)="playerOpenClose(details.indexOf(detail))">
-                <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="player-arrow-icon" [ngClass]="{'collapse' : detail.playerContentShow}"></svg-icon>
+                <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="player-arrow-icon" [ngClass]="{ 'collapse': detail.playerContentShow }"></svg-icon>
               </div>
-              <div class="player-time" *ngIf="detail.playerContentShow" [@Fade]>{{detail.accountFile.duration | tp}}</div>
+              <div class="player-time" *ngIf="detail.playerContentShow" [@Fade]>{{ detail.accountFile.duration | tp }}</div>
               <div class="player-wave" *ngIf="detail.playerContentShow" [@Fade]>
                 <span class="small active"></span>
                 <span class="tall active"></span>
@@ -123,11 +100,11 @@
               <div class="player-oreo"></div>
             </div>
           </div>
-          <div class="player--play-pause" (click)="playerPlayPause(details.indexOf(detail))" *ngIf="detail.accountFile && !detail.playerLoading">
-            <svg-icon src="../../assets/icons/play_24px.svg" class="details-table-cols-button" *ngIf="!detail.play"></svg-icon>
-            <svg-icon src="../../assets/icons/pause_24px.svg" class="details-table-cols-button" *ngIf="detail.play"></svg-icon>
+          <div class="player--play-pause" (click)="togglePlayerPlay(detail)" *ngIf="detail.playable && !detail.mediaLoading">
+            <svg-icon src="../../assets/icons/play_24px.svg" class="details-table-cols-button" *ngIf="!detail.playing"></svg-icon>
+            <svg-icon src="../../assets/icons/pause_24px.svg" class="details-table-cols-button" *ngIf="detail.playing"></svg-icon>
           </div>
-          <div class="player--loader" *ngIf="detail.playerLoading">
+          <div class="player--loader" *ngIf="detail.playable && detail.mediaLoading">
             <img src="../../assets/icons/player_loader.svg" alt="loading">
           </div>
         </div>
@@ -137,8 +114,8 @@
             <span></span>
             <span></span>
             <ul class="dd-menu" *ngIf="detail.ddShow" [ngClass]="{'top' : this.dropDirection === 'top', 'bottom' : this.dropDirection === 'bottom'}">
-              <li class="dd-menu-button" *ngIf="detail.accountFile">Download file</li>
-              <li class="dd-menu-button">{{contactActionName}}</li>
+              <li class="dd-menu-button" *ngIf="detail.playable">Download file</li>
+              <li class="dd-menu-button">{{ contactActionName }}</li>
               <li class="dd-menu-button ban">Block user</li>
             </ul>
           </div>
@@ -146,18 +123,46 @@
       </div>
     </div>
 
-    <pbx-loader *ngIf="loading"></pbx-loader>
+    <vg-player (onPlayerReady)="onPlayerReady($event)">
+      <vg-controls>
+          <vg-play-pause></vg-play-pause>
+          <vg-playback-button></vg-playback-button>
+  
+          <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+  
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+  
+          <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+          <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+  
+          <vg-mute></vg-mute>
+          <vg-volume></vg-volume>
+      </vg-controls>
+  
+      <audio #media
+        [vgMedia]="media"
+        [vgHls]="currentMediaStream"
+        (onGetBitrates)="hlsBitrates = $event"
+        id="recordAudio"
+        type="audio/mp3">
+      </audio>
+    </vg-player>
+
+    <pbx-loader *ngIf="detailsDataLoading"></pbx-loader>
 
     <div class="details-pagination-wrapper">
       <div class="details-pagination">
         <div class="details-pagination-controls">
-          <button (click)="goToPage(1)" class="inactive-button" [ngClass]="{'active-button' : paginatorLeftState}">&#171;</button>
-          <button (click)="goToPage(page - 1)" class="inactive-button prev-next" [ngClass]="{'active-button' : paginatorLeftState}">Prev</button>
+          <button (click)="grid.moveToFirst()" class="inactive-button" [ngClass]="{'active-button' : grid.canPrev()}">&#171;</button>
+          <button (click)="grid.movePrevious()" class="inactive-button prev-next" [ngClass]="{'active-button' : grid.canPrev()}">Prev</button>
         </div>
-        <div class="details-pagination-pages">{{page}} of {{pages}}</div>
+        <div class="details-pagination-pages">{{ grid.page }} of {{ grid.pageCount }}</div>
         <div class="details-pagination-controls">
-          <button (click)="goToPage(page + 1)" class="inactive-button prev-next" [ngClass]="{'active-button' : paginatorRightState}">Next</button>
-          <button (click)="goToPage(pages)" class="inactive-button" [ngClass]="{'active-button' : paginatorRightState}">&#187;</button>
+          <button (click)="grid.moveNext()" class="inactive-button prev-next" [ngClass]="{'active-button' : grid.canNext()}">Next</button>
+          <button (click)="grid.moveToLast()" class="inactive-button" [ngClass]="{'active-button' : grid.canNext()}">&#187;</button>
         </div>
       </div>
     </div>

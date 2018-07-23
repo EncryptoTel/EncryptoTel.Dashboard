@@ -1,9 +1,16 @@
-import {Component, OnInit, Pipe, PipeTransform} from '@angular/core';
-import {DetailsAndRecordsServices} from '../../services/details-and-records.services';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {PlayerAnimation} from '../../shared/player-animation';
-import {Howl} from 'howler';
-import {Subject} from 'rxjs/Subject';
+import { Component, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
+import { TimerObservable } from 'rxjs/observable/TimerObservable';
+import { VgAPI } from 'videogular2/core';
+import { VgHLS } from 'videogular2/src/streaming/vg-hls/vg-hls';
+
+import { environment } from '../../environments/environment';
+import { FadeAnimation } from '../../shared/fade-animation';
+import { PlayerAnimation } from '../../shared/player-animation';
+import { DetailsAndRecordsServices } from '../../services/details-and-records.services';
+// import { LocalStorageServices } from '../../services/local-storage.services';
+import { MediaGridColumn, MediaGrid } from '../../models/media-grid.model';
 
 @Component({
   selector: 'pbx-details-and-records',
@@ -14,218 +21,15 @@ import {Subject} from 'rxjs/Subject';
     PlayerAnimation
   ]
 })
-
 export class DetailsAndRecordsComponent implements OnInit {
-  loading = false;
-
-  // details = [
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   },
-  //   {
-  //     source: '+1(800)200 01 10 #101',
-  //     destination: '+1(800)200 01 10 #108',
-  //     created: '26/06/2017 14:47:25',
-  //     duration: '00:23:00',
-  //     statusName: 'outgoing',
-  //     tag: 'outgoing',
-  //     price: '0',
-  //     record: '',
-  //     ddShow: false,
-  //     play: false,
-  //     playerOpen: false,
-  //     playerContentShow: false,
-  //     hover: false
-  //   }
-  // ];
-
-  details = [];
-
-  sortingActive = 2;
-  sorting = [
-    {
-      active: false,
-      direction: 'down'
-    },
-    {
-      active: false,
-      direction: 'down'
-    },
-    {
-      active: true,
-      direction: 'down'
-    },
-    {
-      active: false,
-      direction: 'down'
-    },
-    {
-      active: false,
-      direction: 'down'
-    },
-    {
-      active: false,
-      direction: 'down'
-    },
-    {
-      active: false,
-      direction: 'down'
-    }
-  ];
-
-  activeFilters: string[] = [];
-  inactiveFilters: string[] = ['no-answer', 'incoming', 'outgoing', 'missed', 'record'];
-
-  pages: number;
-  page = 1;
-
-  limit = Math.floor((window.innerHeight - 280) / 48);
-
-  sort = '';
-  sortDirection = '';
-  tags = [];
+  detailsDataLoading: boolean = false;
+  details: any = [];
 
   rowHowerIndex: number;
+  contactActionName: string = 'View contact';
+  dropDirection: string = 'bottom';
 
-  contactActionName = 'View contact';
-
-  dropDirection = 'bottom';
-
-
-
-  curID: number;
+  // curID: number;
   player: any;
   payerBlob: any;
   playerId: any;
@@ -233,98 +37,200 @@ export class DetailsAndRecordsComponent implements OnInit {
   playerFiles = [];
   playerPrevState: any;
 
-  constructor(
-    private services: DetailsAndRecordsServices,
-  ) {}
+  @ViewChild(VgHLS) vgHls: VgHLS;
+  api: VgAPI;
+
+  selectedDetailIndex: number;
+  
+  selectedDetail: any;
+  currentMediaStream: string;
+
+  grid: MediaGrid;
+  
+  /* ------------------------------------------------------
+   * Component initialization
+   * ------------------------------------------------------
+   */
+
+   constructor(
+    private services: DetailsAndRecordsServices
+    ) {
+    this.grid = new MediaGrid([
+        new MediaGridColumn('source', 'From', true),
+        new MediaGridColumn('destination', 'To', true),
+        new MediaGridColumn('date', 'Date', false),
+        new MediaGridColumn('duration', 'Duration'),
+        new MediaGridColumn('status', 'Tag', true),
+        new MediaGridColumn('price', 'Price', false),
+        new MediaGridColumn('record', 'Record', false),
+      ]);
+
+    this.grid.dataUpdateRequired.subscribe(event => {
+      this.getDetailsAndRecords();
+    });
+
+    // TODO: track window.resize
+    this.grid.limit = Math.floor((window.innerHeight - 280) / 48);
+
+    this.grid.setFilterTags([
+      { key: 'noAnswer', title: 'no-answer' },
+      { key: 'incoming', title: 'incoming' },
+      { key: 'outgoing', title: 'outgoing' },
+      { key: 'missed', title: 'missed' },
+      { key: 'record', title: 'record' },
+    ]);
+}
 
   ngOnInit() {
-    this.fetchDetailsAndRecords();
+    // sort 1st column by default
+    this.grid.sortByIndex(0);
+  }
+  
+  onPlayerReady(api: VgAPI): void {
+    this.api = api;
   }
 
-  toggleFilter(filter: string): void {
-    const activeIndex = this.activeFilters.findIndex(el => {
-      return el === filter;
-    });
-    const inactiveIndex = this.inactiveFilters.findIndex(el => {
-      return el === filter;
-    });
-    if (activeIndex >= 0) {
-      this.inactiveFilters.unshift(this.activeFilters[activeIndex]);
-      this.activeFilters.splice(activeIndex, 1);
-    } else if (inactiveIndex >= 0) {
-      this.activeFilters.push(this.inactiveFilters[inactiveIndex]);
-      this.inactiveFilters.splice(inactiveIndex, 1);
-    }
+  /* ------------------------------------------------------
+   * Media player
+   * ------------------------------------------------------
+   */
 
-    this.tags = [];
-    for (let i = 0; i < this.activeFilters.length; i++) {
-      switch (this.activeFilters[i]) {
-        case 'incoming':
-          this.tags.push('incoming');
-          break;
-        case 'outgoing':
-          this.tags.push('outgoing');
-          break;
-        case 'missed':
-          this.tags.push('missed');
-          break;
-        case 'record':
-          this.tags.push('record');
-          break;
-        case 'no-answer':
-          this.tags.push('noAnswered');
-          break;
+  startMediaPlaying(detail: any, forceSeekTime: boolean = false): void {
+    if (!detail.playable) return;
+
+    if (forceSeekTime) this.api.seekTime(detail.mediaPlayTime, false);
+    this.api.play();
+    detail.playing = true;
+  }
+
+  stopMediaPlaying(detail: any): void {
+    if (!detail.playable) return;
+
+    this.api.pause();
+    detail.mediaPlayTime = this.api.currentTime;
+    detail.playing = false;
+  }
+
+  togglePlayerPlay(detail: any): void {
+    if (!detail.playable) return;
+
+    if (detail == this.selectedDetail) {
+      // toggle current media stream playing
+      if (detail.playing) {
+        this.stopMediaPlaying(detail);
+      }
+      else {
+        this.startMediaPlaying(detail);
       }
     }
-    this.fetchDetailsAndRecords();
-  }
-
-  setFilters(tag: string): boolean {
-    return this.inactiveFilters.includes(tag);
-  }
-
-  sortCol(index: number): void {
-    this.sortDirection = 'desc';
-    if (this.sortingActive === index) {
-      this.sorting[index].direction = this.sorting[index].direction === 'down' ? 'up' : 'down';
-    } else {
-      this.sorting[index].active = true;
-      this.sorting[this.sortingActive].direction = 'down';
-      this.sorting[this.sortingActive].active = false;
-      this.sortingActive = index;
-    }
-    this.sortDirection = this.sorting[index].direction === 'down' ? 'desc' : 'asc';
-    switch (index) {
-      case 0:
-        this.sort = 'source';
-        this.fetchDetailsAndRecords();
-        break;
-      case 1:
-        this.sort = 'destination';
-        this.fetchDetailsAndRecords();
-        break;
-      case 2:
-        this.sort = 'date';
-        this.fetchDetailsAndRecords();
-        break;
-      case 3:
-        this.sort = 'duration';
-        this.fetchDetailsAndRecords();
-        break;
-      case 4:
-        this.sort = 'tag';
-        this.fetchDetailsAndRecords();
-        break;
-      case 5:
-        this.sort = 'price';
-        this.fetchDetailsAndRecords();
-        break;
-      case 6:
-        this.sort = 'record';
-        this.fetchDetailsAndRecords();
-        break;
+    else {
+      if (this.selectedDetail && this.selectedDetail.playing) {
+        // save current media playtime
+        this.stopMediaPlaying(this.selectedDetail);
+      }
+      
+      this.selectedDetail = detail;
+      if (!detail.mediaStream) {
+        // load selected detail media data
+        this.loadRecordMedia();
+      }
+      else {
+        // switch to selected detail media stream
+        this.startPlayRecord();
+      }
     }
   }
+
+  startPlayRecord(): void {
+    this.selectedDetail.mediaLoading = true;
+    let timer: Subscription = TimerObservable.create(0, 10).subscribe(
+      () => {
+        this.currentMediaStream = this.selectedDetail.mediaStream;
+        timer.unsubscribe();
+
+        let onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(
+          () => {
+            onCanPlay.unsubscribe();
+    
+            this.startMediaPlaying(this.selectedDetail, true);
+            this.selectedDetail.mediaLoading = false;
+          });
+      });
+  }
+
+  loadRecordMedia(): void {
+    this.selectedDetail.mediaLoading = true;
+    this.services.getRecordMedia(this.selectedDetail.accountFile.id)
+      .then(result => {
+        console.log(result);
+        this.selectedDetail.mediaStream = result.fileLink;
+        this.startPlayRecord();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  // method is deprecated, but kept for knowledge base
+  convertMediaDataToBlob(base64data: string): string {
+    // const dataURI = 'data:audio/x-mp3;base64,' + base64data;
+    const mimeType = 'audio/x-mp3';
+    
+    const byteString = atob(base64data);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ab], { type: mimeType });
+    const blobUrl = window.URL.createObjectURL(blob);
+    
+    return blobUrl;
+  }
+
+  playerOpenClose(index) {
+    this.selectedDetailIndex = index;
+    this.details[this.selectedDetailIndex].playerAnimationState = this.details[this.selectedDetailIndex].playerAnimationState === 'min' 
+      ? 'max' 
+      : 'min';
+  }
+
+  playerAnimationStart() {
+    if (this.details[this.selectedDetailIndex]) {
+      console.log('PLAYER_ANIMATION1', this.details[this.selectedDetailIndex].playerAnimationState);
+      console.log('PLAYER_ANIMATION2', this.details[this.selectedDetailIndex].playerContentShow);
+      if (this.details[this.selectedDetailIndex].playerAnimationState === 'min') {
+        this.details[this.selectedDetailIndex].playerContentShow = false;
+      }
+    }
+  }
+
+  playerAnimationEnd() {
+    if (this.details[this.selectedDetailIndex]) {
+      this.details[this.selectedDetailIndex].playerContentShow = this.details[this.selectedDetailIndex].playerContentShow === false;
+      if (this.details[this.selectedDetailIndex].playerAnimationState === 'min') {
+        this.details[this.selectedDetailIndex].playerContentShow = false;
+      }
+    }
+  }
+
+  /* ------------------------------------------------------
+   * Records sorting and filtering
+   * ------------------------------------------------------
+   */
+
+  checkTagUnselected(tag: string): boolean {
+    return !this.grid.filter.checkTagSelected(tag);
+  }
+
+  sort(column: MediaGridColumn): void {
+    this.grid.sort(column);
+  }
+
+  /* ------------------------------------------------------
+   * Record row dropdown
+   * ------------------------------------------------------
+   */
 
   rowHoverStart(index) {
     this.rowHowerIndex = index;
@@ -332,162 +238,68 @@ export class DetailsAndRecordsComponent implements OnInit {
   }
 
   rowHoverEnd() {
-    this.details.forEach( (item, i) => {
+    this.details.forEach((item, i) => {
       this.details[i].hover = false;
       this.details[i].ddShow = false;
     });
   }
 
-  dropOpen(event, id) {
+  dropOpen(event, idx) {
     this.details[this.rowHowerIndex].ddShow = this.details[this.rowHowerIndex].ddShow === false;
 
-    if ((this.details.length - 4) < id) {
+    if ((this.details.length - 4) < idx) {
       this.dropDirection = 'top';
     } else {
       this.dropDirection = 'bottom';
     }
   }
 
-  playerPlayPause(index) {
-    this.curID = index;
-    const detailsLength = this.details.length;
-    // play only one from array, old realisation
-    // for (let i = 0; i < index; i++) {
-    //   this.details[i].play = false;
-    // }
-    // for (let i = index + 1; i < detailsLength; i++) {
-    //   this.details[i].play = false;
-    // }
-    // this.details[index].play = this.details[index].play === false;
+  /* ------------------------------------------------------
+   * Details & Records data retirieval
+   * ------------------------------------------------------
+   */
 
-    // if (this.player) {
-    //   this.player.stop();
-    // }
+   private getDetailsAndRecords(): void {
+    this.detailsDataLoading = true;
+    let tags = this.grid.filter.selectedTags.map(t => { return t.key; });
+    this.services.getDetailsAndRecords(
+        this.grid.page,
+        this.grid.limit,
+        this.grid.sortedColumn.field,
+        this.grid.sortedColumn.direction,
+        tags)
+      .then(result => {
+        this.detailsDataLoading = false;
+        console.log(result);
+        
+        this.grid.items = result.items;
+        this.grid.pageCount = result.pageCount;
+        this.grid.page = result.page;
 
-    if (this.details[index].play !== false) {
-      if (this.details[index].player) {
-        this.details[index].player.pause();
-        this.details[index].playerSeek = this.details[index].player.seek();
-      }
-    } else {
-      this.details[index].playerLoading = true;
-      this.services.getSound(this.details[index].accountFile.id)
-        .then(res => {
-          this.playerFiles = res;
-
-          if (this.details[index].playerSeek) {
-            this.details[index].player.seek(this.details[this.curID].playerSeek);
-            this.details[index].player.play();
-          } else {
-
-            const dataURI = 'data:audio/x-mp3;base64,' + res.dataBase64;
-            const byteString = atob(dataURI.split(',')[1]);
-            const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-            const ab = new ArrayBuffer(byteString.length);
-            const ia = new Uint8Array(ab);
-            for (let i = 0; i < byteString.length; i++) {
-              ia[i] = byteString.charCodeAt(i);
-            }
-            const blob = new Blob([ab], {type: mimeString});
-            const blobUrl = window.URL.createObjectURL(blob);
-            const self = this;
-
-            this.details[index].playerLoading = false;
-            /*
-            * Howler init
-            * */
-            this.details[index].player = new Howl({
-              src: [blobUrl],
-              html5: true,
-              // onplay: function (id) {
-              // }
-              onend: function (id) {
-                self.details[index].play = false;
-              }
-            });
-            /*
-            * Howler play
-            * */
-            this.details[index].player.play();
-          }
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    }
-
-    // realisation with syntactic sugar
-    for (let i = 0; i < detailsLength; i++) {
-      this.details[i].play = (index === i ? !this.details[i].play : false);
-    }
-  }
-
-
-  playerOpenClose(index) {
-    this.curID = index;
-    this.details[this.curID].playerAnimationState = this.details[this.curID].playerAnimationState === 'min' ? 'max' : 'min';
-  }
-
-  playerAnimationStart() {
-    if (this.details[this.curID]) {
-      if (this.details[this.curID].playerAnimationState === 'min') {
-        this.details[this.curID].playerContentShow = false;
-      }
-    }
-  }
-
-  playerAnimationEnd() {
-    if (this.details[this.curID]) {
-      this.details[this.curID].playerContentShow = this.details[this.curID].playerContentShow === false;
-      if (this.details[this.curID].playerAnimationState === 'min') {
-        this.details[this.curID].playerContentShow = false;
-      }
-    }
-  }
-
-  goToPage(page: number): void {
-    if (page <= this.pages) {
-      if (page > 0) {
-        this.page = page;
-        this.fetchDetailsAndRecords();
-      }
-    }
-  }
-
-  get paginatorLeftState(): boolean {
-    return (this.page <= this.pages && this.page !== 1);
-  }
-
-  get paginatorRightState(): boolean {
-    return (this.page < this.pages);
-  }
-
-  private fetchDetailsAndRecords(): void {
-    this.loading = true;
-    if (this.limit < 10) {
-      this.limit = 10;
-    }
-    this.services.fetchDetailsAndRecords(this.page, this.limit, this.sort, this.sortDirection, this.tags)
-      .then( res => {
-        this.loading = false;
-        this.details = res.items;
-        this.pages = res.pageCount;
-        // this.playOld = this.details.length;
-        this.details.forEach( (item, i) => {
-          // this.details[i].tag = 'incoming';
+        this.details = result.items;
+        this.details.forEach((item, i) => {
           this.details[i].ddShow = false;
+
           this.details[i].play = false;
           this.details[i].playerAnimationState = 'min';
           this.details[i].playerContentShow = false;
           this.details[i].player = {};
           this.details[i].playerLoading = false;
           // this.details[i].payerState = 'stop';
-          this.details[i].payerSeek = '';
+          this.details[i].playerSeek = '';
+
+          this.details[i].playable = this.details[i].accountFile && this.details[i].duration > 0;
+          this.details[i].playing = false;
+          this.details[i].mediaStream = null;
+          this.details[i].mediaLoading = false;
+          this.details[i].mediaPlayTime = 0;
         });
+        
+        this.selectedDetailIndex = -1;
       })
-      .catch( err => {
-        console.error(err);
-        this.loading = false;
+      .catch(error => {
+        this.detailsDataLoading = false;
+        console.error(error);
       });
   }
 }

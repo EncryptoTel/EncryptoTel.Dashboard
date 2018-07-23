@@ -66,6 +66,11 @@ import {TermsPartnerProgramComponent} from '../components/partner-program/terms/
 import {IvrComponent} from '../components/ivr/ivr.component';
 import {IvrCreateComponent} from "../components/ivr/ivr-create/ivr-create.component";
 import {BaseSettingsComponent} from "../components/settings/settings-items/base-settings/base-settings.component";
+import {VgCoreModule} from 'videogular2/core';
+import {VgControlsModule} from 'videogular2/controls';
+import {VgOverlayPlayModule} from 'videogular2/overlay-play';
+import {VgBufferingModule} from 'videogular2/buffering';
+import {VgStreamingModule} from 'videogular2/streaming';
 
 /*
   Components declarations and exports
@@ -78,7 +83,12 @@ import {BaseSettingsComponent} from "../components/settings/settings-items/base-
         AngularSvgIconModule,
         ElementsModule,
         MainRouterModule,
-        FormsModule
+        FormsModule,
+    	VgCoreModule,
+    	VgControlsModule,
+    	VgOverlayPlayModule,
+    	VgBufferingModule,
+    	VgStreamingModule
     ],
     declarations: [
         PageNotFoundComponent,
