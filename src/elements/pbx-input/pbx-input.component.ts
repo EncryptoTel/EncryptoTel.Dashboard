@@ -1,12 +1,13 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {FormArray, FormGroup} from "@angular/forms";
+import {SwipeAnimation} from "../../shared/swipe-animation";
 
 @Component({
     selector: 'pbx-input',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    animations: [FadeAnimation('300ms')]
+    animations: [FadeAnimation('300ms'), SwipeAnimation('y', '200ms')]
 })
 
 export class InputComponent implements OnInit {
@@ -231,7 +232,7 @@ export class InputComponent implements OnInit {
         }
         if (this.form) {
             let form = this.object;
-            let errors = [];
+            let errors = {};
             Object.keys(form.controls).forEach(field => {
                 const control = form.get(field);
                 if (control instanceof FormArray) {
@@ -249,9 +250,9 @@ export class InputComponent implements OnInit {
                 }
 
             });
-            if (errors != this.prevFormError) {
-                // console.log(errors);
-                this.prevFormError = errors;
+            if (JSON.stringify(errors) != this.prevFormError) {
+                // console.log(JSON.stringify(errors));
+                this.prevFormError = JSON.stringify(errors);
                 let key = this.index2 === undefined ? this.getFormKey() : `${this.getFormKey()}_${this.index2}`;
                 this.checkControlError(errors, key);
             }
