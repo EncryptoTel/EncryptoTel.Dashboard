@@ -15,7 +15,7 @@ export class SelectComponent {
     @Input() singleBorder: boolean;
     @Input() options: any[];
     @Input() objectKey: string;
-    @Input() selected: object;
+    @Input() selected: any;
     @Input() placeholder: string;
     @Input() errors: any[];
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
