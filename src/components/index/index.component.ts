@@ -15,6 +15,7 @@ import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {NotificatorServices} from '../../services/notificator.services';
 import {NotificatorModel} from '../../models/notificator.model';
+import {RefsServices} from "../../services/refs.services";
 
 @Component({
     selector: 'pbx-index',
@@ -30,7 +31,8 @@ export class IndexComponent implements OnInit, OnDestroy {
                 public _main: MainViewComponent,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
-                private  _serviceNotificator: NotificatorServices) {
+                private  _serviceNotificator: NotificatorServices,
+                private refs: RefsServices) {
     }
 
     navigationList: NavigationItemModel[][];
@@ -61,9 +63,8 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     logout(): void {
-        this._storage.clearItem('pbx_user');
+        this.refs.request.logout();
         this._messages.writeSuccess('Logout successful');
-        this._router.navigate(['../sign-in']);
     }
 
     userInit(): void {

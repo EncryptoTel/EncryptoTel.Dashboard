@@ -1,11 +1,13 @@
 import {CountryModel} from '../models/country.model';
 import {DepartmentItem, DepartmentModel} from "../models/department.model";
 import {BaseService} from "./base.service";
+import {Subscription} from "rxjs/Subscription";
 
 export class RefsServices extends BaseService {
     private countries: CountryModel[] = [];
     private sipOuters: any = [];
     private departments: DepartmentModel = new DepartmentModel();
+    private logoutSubscription: Subscription;
 
     getCountries(): Promise<CountryModel[]> {
         if (this.countries.length === 0) {
@@ -39,6 +41,19 @@ export class RefsServices extends BaseService {
         } else {
             return Promise.resolve(this.departments);
         }
+    }
+
+    clearCache() {
+        this.countries = [];
+        this.sipOuters = [];
+        this.departments = new DepartmentModel();
+    }
+
+    onInit() {
+        this.logoutSubscription = this.request.logoutSubscription().subscribe(() => {
+            this.clearCache();
+        });
+
     }
 
 }

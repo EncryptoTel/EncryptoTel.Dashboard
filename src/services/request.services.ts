@@ -6,6 +6,8 @@ import {MessageServices} from './message.services';
 import {environment as _env} from '../environments/environment';
 import {Router} from '@angular/router';
 import {LocalStorageServices} from './local-storage.services';
+import {Subject} from "rxjs/Subject";
+import {Observable} from "rxjs/Observable";
 
 /*
   Parent request services. Processing errors and console output for responses
@@ -21,6 +23,7 @@ export class RequestServices {
         this.lastTick = null;
         this.setTimer();
     }
+    private logoutSub: Subject<any> = new Subject<any>();
 
     protected counter = 0;
     protected lastCounter = 0;
@@ -94,15 +97,16 @@ export class RequestServices {
         this.endRequest();
         switch (response.status) { // Switch response error status
             case 401: {
-                localStorage.removeItem('pbx_user');
-                this.router.navigate(['/sign-in']);
+                this.logout();
                 break;
             }
             default: {
                 if (response.error && response.error.message) {
-                    this._messages.writeError(response.error.message || 'Internal server error'); // Adding warning message
+                    this._messages.writeError(response.error.message); // Adding warning message
                 } else if (response.message) {
-                    this._messages.writeError(response.message || 'Internal server error'); // Adding warning message
+                    this._messages.writeError(response.message); // Adding warning message
+                } else {
+                    this._messages.writeError('Internal server error');
                 }
                 break;
             }
@@ -163,5 +167,16 @@ export class RequestServices {
             this.storage.writeItem('pbx_url', URL);
         }
     }
+
+    logout() {
+        this.logoutSub.next();
+        localStorage.removeItem('pbx_user');
+        this.router.navigate(['/sign-in']);
+    }
+
+    logoutSubscription(): Observable<any> {
+        return this.logoutSub.asObservable();
+    }
+
 
 }
