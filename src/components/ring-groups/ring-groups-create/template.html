@@ -1,3 +1,4 @@
+<pbx-loader *ngIf="loading"></pbx-loader>
 <pbx-form *ngIf="!loading"
           [tabs]="tabs"
           [inactiveTabs]="[false,!service.item.sipId]"
