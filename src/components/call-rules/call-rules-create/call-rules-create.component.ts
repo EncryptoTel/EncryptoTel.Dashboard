@@ -49,7 +49,6 @@ export class CallRulesCreateComponent implements OnInit {
     }
 
     deleteAction(i: number): void {
-        // console.log(i);
         this.selectedActions.splice(i + 1, 1);
         this.actionsControls.removeAt(i + 1);
         // this.ruleTimeAsterisk.splice(i + 1, 1);
@@ -82,7 +81,6 @@ export class CallRulesCreateComponent implements OnInit {
     }
 
     selectAction(action: Action, i: number = 0): void {
-        // console.log('selectAction', action, i);
         this.selectedActions[i] = action;
         switch (action.id) {
             case 1:
@@ -256,7 +254,6 @@ export class CallRulesCreateComponent implements OnInit {
             this.callRulesForm.get('enabled').setValue(enabled);
             this.ruleActions = ruleActions;
             this.getExtensions(sip.id);
-            // console.log(ruleActions);
         }).catch(err => {
             this.loading -= 1;
         });
@@ -341,7 +338,6 @@ export class CallRulesCreateComponent implements OnInit {
     }
 
     checkNextAction(index: number) {
-        // console.log('checkNextAction', this.selectedActions[index]);
         let valid = [1, 5].includes(this.selectedActions[index].id);
         if (!valid && this.actionsControls.length - 1 > index) {
             for (let i = this.actionsControls.length - 1; i >= index; i--) {
@@ -354,12 +350,10 @@ export class CallRulesCreateComponent implements OnInit {
     getActionFormKey(index: number, last: boolean = false) {
         let control = this.actionsControls.get([index, 'parameter']);
         let key = !control && !last ? 'ruleActions' : '';
-        // console.log('getActionFormKey', control, index, key);
         return key;
     }
 
     uploadFile(e) {
-        // console.log('uploadFile');
         e.preventDefault();
         const files = e.target.files;
         if (files[0]) {

@@ -58,7 +58,6 @@ export class CallRulesTimeRulesComponent implements OnInit {
     }
 
     selectRuleTime(rule): void {
-        // console.log(this.ruleTime);
         if (!this.ruleTimeAsterisk) {
             this.ruleTimeAsterisk = {
                 days: [],

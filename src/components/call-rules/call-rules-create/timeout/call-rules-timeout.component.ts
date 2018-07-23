@@ -12,12 +12,10 @@ export class CallRulesTimeoutComponent implements OnInit {
 
     onKeyUpEvent(event): void {
         this.value = event.target.value;
-        // console.log(this.timeout);
         this.onChange.emit(this.value);
     }
 
     ngOnInit() {
-        // console.log('timeout init', this.value);
     }
 
 }

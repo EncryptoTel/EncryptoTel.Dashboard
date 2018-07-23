@@ -33,15 +33,12 @@ export class StorageService extends BaseService {
     updateLoading(inc: number) {
         this.loading += inc;
         this.callback ? this.callback(this.loading) : null;
-        // console.log('updateLoading', this.loading);
         if (this.callback && this.loading === 0 && this.files.length === 0 && !this.modalUpload.visible) {
-            // console.log('done', this.loading);
             this.callback = null;
         }
     }
     
     checkModal() {
-        // console.log('checkModal', this.files.length, this.modalUpload.visible);
         if (this.files.length > 0 && !this.modalUpload.visible) {
             this.updateLoading(1);
             this.modalUpload.title = this.files[0].name;
@@ -62,7 +59,6 @@ export class StorageService extends BaseService {
             pageInfo.page = 1;
             this.updateLoading(1);
             this.get(`?filter[search]=${file.name}`).then(res => {
-                // console.log(res);
                 if (res.itemsCount > 0) {
                     this.files.push(file);
                     this.checkModal();

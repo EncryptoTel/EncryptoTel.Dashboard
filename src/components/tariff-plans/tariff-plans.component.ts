@@ -76,11 +76,9 @@ export class TariffPlansComponent implements OnInit {
                         this.selected.loading = false;
                     });
             }).catch();
-//    console.log('Modal confirmed!');
     }
 
     modalDecline = (): void => {
-        // console.log('Modal declined!');
     }
 
     ngOnInit(): void {
@@ -89,7 +87,6 @@ export class TariffPlansComponent implements OnInit {
                 let price = 0;
                 tariff.offers.map(offer => {
                     price += offer.service.sum;
-                    // console.log(offer.service);
                 });
                 price = Math.round(price * 100) / 100;
                 this.tariffs.push({

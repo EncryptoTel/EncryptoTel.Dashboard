@@ -101,7 +101,6 @@ export class AddressBookComponent implements OnInit {
         this.service.resetErrors();
         this.service.getById(item.id).then((res: AddressBookItem) => {
             this.selected = new AddressBookItem(res);
-            console.log(this.selected);
             this.prepareData();
             this.sidebar.loading--;
         }).catch(res => {
@@ -122,7 +121,6 @@ export class AddressBookComponent implements OnInit {
     }
 
     load(pageInfo: AddressBookModel) {
-        // console.log('load');
         this.pageInfo = pageInfo;
         if (!this.types) {
             this.loading++;
@@ -164,7 +162,6 @@ export class AddressBookComponent implements OnInit {
     }
 
     confirmBlock() {
-        console.log('confirmBlock');
     }
 
     delete() {

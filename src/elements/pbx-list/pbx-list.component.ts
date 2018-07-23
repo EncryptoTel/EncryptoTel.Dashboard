@@ -111,7 +111,6 @@ export class ListComponent implements OnInit {
                 result++;
             }
         }
-        // console.log(this.currentFilter, result > 0);
         return result > 0;
     }
 

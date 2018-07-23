@@ -33,7 +33,6 @@ export class NotificatorComponent implements OnInit {
   ngOnInit() {
     this.service.notification().subscribe(notification => {
       if (notification) {
-        // console.log(`NOTIFICATION WHICH GOT FROM SERVICE`, notification);
         this.notificator = notification;
         setTimeout(() => { this.notificator.visible = false; }, 4000);
       }
@@ -47,7 +46,6 @@ export class NotificatorComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
 
   onResize(event) {
-    console.log('Width: ' + event.target.innerWidth);
     this.notificatorWidth = (window.innerWidth - 616);
   }
 

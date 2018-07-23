@@ -11,7 +11,6 @@ export class PhoneNumberService extends BaseService {
     }
 
     buyNumber(params): Promise<any> {
-        // console.log(params);
         return this.request.post(`v1/number/fast_order`, params);
     }
 

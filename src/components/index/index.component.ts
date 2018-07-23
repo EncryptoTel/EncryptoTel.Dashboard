@@ -136,7 +136,6 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.WebSocket();
 
         this.message = this._messages.messagesList().subscribe(mes => {
-            console.log(mes[0]);
             if (mes[0]) {
                 this.notificator = {
                     visible: true,

@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit {
     }
 
     reload() {
-        // console.log(this.currentFilter);
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
             this.onReload.emit(this.currentFilter);

@@ -112,7 +112,6 @@ export class AddExtensionsComponent implements OnInit {
         this.loading += 1;
         this._extension.getAccessList(user ? user.id : null).then(res => {
             this.accessList = res;
-            // console.log(this.accessList);
             this.loading -= 1;
         }).catch(res => {
             this.loading -= 1;
@@ -126,7 +125,6 @@ export class AddExtensionsComponent implements OnInit {
     doSave() {
         this.formExtension.markAsTouched();
         this.validate(this.formExtension);
-        // console.log(this.formExtension.valid);
         if (this.formExtension.valid) {
             this.saving += 1;
 
@@ -151,7 +149,6 @@ export class AddExtensionsComponent implements OnInit {
         const errors = res.errors;
         if (errors) {
             Object.keys(errors).forEach(key => {
-                // console.log('errorSaveExtension' , key, errors[key]);
                 this.formExtension.get(key).setErrors(errors[key]);
             });
         }
@@ -174,12 +171,10 @@ export class AddExtensionsComponent implements OnInit {
 
         // this.loading += 1;
         this._extension.saveAccessList(extension.user.id, rights).then(res => {
-            // console.log(res);
             this.saving -= 1;
             this.doCancel();
         }).catch(res => {
             this.saving -= 1;
-            // console.log(res);
         });
     }
 

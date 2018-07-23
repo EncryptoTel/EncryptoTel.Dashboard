@@ -60,7 +60,6 @@ export class InputComponent implements OnInit {
         // if (this.checkError()) {
             // this.errorSpan.nativeElement.focus();
         this.errorVisible = true;
-        // console.log('setFocus', this.errorVisible);
         // }
     }
 
@@ -68,7 +67,6 @@ export class InputComponent implements OnInit {
         // if (this.checkError()) {
             // this.errorSpan.nativeElement.blur();
         this.errorVisible = false;
-        // console.log('removeFocus', this.errorVisible);
         // }
     }
 
@@ -103,7 +101,6 @@ export class InputComponent implements OnInit {
         }
         let error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
         let result = (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm(textOnly));
-        // this.key === 'firstname' ? console.log('checkError', this.key, result) : null;
         return result;
     }
 
@@ -126,10 +123,8 @@ export class InputComponent implements OnInit {
             return null;
         }
         let form = this.getForm();
-        // form && form.errors ? console.log('checkForm', this.getFormKey(), form.touched, form.invalid) : null;
         if (textOnly) {
             if (form && form.touched && form.invalid && form.errors) {
-                // this.key === 'name' ? console.log('checkForm', form.errors) : null;
                 let keys = Object.keys(form.errors);
                 for (let i = 0; i < keys.length; i++) {
                     switch (keys[i]) {
@@ -157,7 +152,6 @@ export class InputComponent implements OnInit {
 
     inputKeyUp($event) {
         if ($event && !['Tab', 'ArrowRight', 'ArrowLeft'].includes($event.key)) {
-            // console.log($event.key);
             this.resetError();
         }
         // this.resetError();
@@ -204,7 +198,6 @@ export class InputComponent implements OnInit {
         if (element.children) {
             for (let i = 0; i < element.children.length; i++) {
                 if (element.children[i].localName === 'input') {
-                    // console.log(element.children[i]);
                     element.children[i].focus();
                 } else {
                     this.findInput(element.children[i]);
@@ -239,7 +232,6 @@ export class InputComponent implements OnInit {
                     let index = 0;
                     control.controls.forEach((ctrl: FormGroup) => {
                         if (ctrl.errors) {
-                            // console.log(field, ctrl);
                             errors[`${field}_${index}`] = ctrl.errors;
                         }
                         index++;
@@ -251,7 +243,6 @@ export class InputComponent implements OnInit {
 
             });
             if (JSON.stringify(errors) != this.prevFormError) {
-                // console.log(JSON.stringify(errors));
                 this.prevFormError = JSON.stringify(errors);
                 let key = this.index2 === undefined ? this.getFormKey() : `${this.getFormKey()}_${this.index2}`;
                 this.checkControlError(errors, key);

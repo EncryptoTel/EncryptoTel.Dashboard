@@ -28,7 +28,6 @@ export class CallQueuesMembersAddComponent implements OnInit {
               private refs: RefsServices) {}
 
     selectMember(member): void {
-        // console.log(member);
         const index = this.service.item.queueMembers.findIndex(el => {
             return el.sipId === member.id;
         });

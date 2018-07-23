@@ -26,7 +26,6 @@ export class NotificatorServices {
   */
   private qHandler() {
     setInterval(() => {
-      // console.log(this.input);
       this.queue = this.input;
       if (this.queue.length > 0) {
         this.notificator.next(this.queue.shift());

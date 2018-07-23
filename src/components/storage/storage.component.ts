@@ -66,16 +66,13 @@ export class StorageComponent implements OnInit {
 
     updateLoading(loading) {
         this.list.loading = loading;
-        // console.log('updateLoading', loading);
         if (!loading) {
             this.load();
         }
     }
 
     private uploadFiles(files) {
-        // console.log('uploadFiles', files);
         for (let i = 0; i < files.length; i++) {
-            // console.log('uploadFiles', files[i]);
             if (this.service.checkCompatibleType(files[i])) {
                 this.service.checkFileExists(files[i], (loading) => {
                     this.updateLoading(loading);
@@ -126,21 +123,17 @@ export class StorageComponent implements OnInit {
         }
         const files = e.dataTransfer.files;
         this.uploadFiles(files);
-        // console.log('dropHandler', e);
     }
 
     dragOverHandler(e) {
         e.preventDefault();
-        // console.log('dragOverHandler', e);
     }
 
     dragEndHandler(e) {
-        // console.log('dragEndHandler', e);
     }
 
     dragLeaveHandler(e) {
         e.preventDefault();
-        // console.log('dragLeaveHandler', e);
     }
 
     deleteSelected() {
@@ -176,7 +169,6 @@ export class StorageComponent implements OnInit {
     }
 
     load() {
-        // console.log('load', this.service.pageInfo.itemsCount);
         this.service.select = [];
         this.buttons[0].visible = this.service.pageInfo.itemsCount > 0;
         this.buttons[0].inactive = true;

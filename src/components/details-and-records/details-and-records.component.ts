@@ -239,8 +239,6 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   ngOnInit() {
     this.fetchDetailsAndRecords();
-    console.log(window.innerHeight);
-    console.log(window.innerHeight - 280);
   }
 
   toggleFilter(filter: string): void {
@@ -258,7 +256,6 @@ export class DetailsAndRecordsComponent implements OnInit {
       this.inactiveFilters.splice(inactiveIndex, 1);
     }
 
-    console.log(this.activeFilters);
     this.tags = [];
     for (let i = 0; i < this.activeFilters.length; i++) {
       switch (this.activeFilters[i]) {
@@ -279,7 +276,6 @@ export class DetailsAndRecordsComponent implements OnInit {
           break;
       }
     }
-    console.log(this.tags);
     this.fetchDetailsAndRecords();
   }
 
@@ -355,7 +351,6 @@ export class DetailsAndRecordsComponent implements OnInit {
   playerPlayPause(index) {
     this.curID = index;
     const detailsLength = this.details.length;
-    console.log(this.details[this.curID]);
     // play only one from array, old realisation
     // for (let i = 0; i < index; i++) {
     //   this.details[i].play = false;
@@ -373,13 +368,11 @@ export class DetailsAndRecordsComponent implements OnInit {
       if (this.details[index].player) {
         this.details[index].player.pause();
         this.details[index].playerSeek = this.details[index].player.seek();
-        console.log(this.details[index].playerSeek);
       }
     } else {
       this.details[index].playerLoading = true;
       this.services.getSound(this.details[index].accountFile.id)
         .then(res => {
-          console.log(res.dataBase64);
           this.playerFiles = res;
 
           if (this.details[index].playerSeek) {
@@ -407,10 +400,8 @@ export class DetailsAndRecordsComponent implements OnInit {
               src: [blobUrl],
               html5: true,
               // onplay: function (id) {
-              //   console.log(self.player.seek(id));
               // }
               onend: function (id) {
-                console.log(self.player.seek(id));
                 self.details[index].play = false;
               }
             });
@@ -439,8 +430,6 @@ export class DetailsAndRecordsComponent implements OnInit {
 
   playerAnimationStart() {
     if (this.details[this.curID]) {
-      console.log('PLAYER_ANIMATION1', this.details[this.curID].playerAnimationState);
-      console.log('PLAYER_ANIMATION2', this.details[this.curID].playerContentShow);
       if (this.details[this.curID].playerAnimationState === 'min') {
         this.details[this.curID].playerContentShow = false;
       }
@@ -457,7 +446,6 @@ export class DetailsAndRecordsComponent implements OnInit {
   }
 
   goToPage(page: number): void {
-    console.log(page);
     if (page <= this.pages) {
       if (page > 0) {
         this.page = page;
@@ -481,7 +469,6 @@ export class DetailsAndRecordsComponent implements OnInit {
     }
     this.services.fetchDetailsAndRecords(this.page, this.limit, this.sort, this.sortDirection, this.tags)
       .then( res => {
-        console.log(res);
         this.loading = false;
         this.details = res.items;
         this.pages = res.pageCount;

@@ -79,7 +79,6 @@ export class BuyPhoneNumbersComponent implements OnInit {
                 this.requestDetails.limit = res['numbers'].length;
                 // this.list = [res['items'].slice(0, this.requestDetails.limit / 2), res['items'].slice(this.requestDetails.limit / 2)];
                 this.list = [res['numbers'].slice(0, this.requestDetails.limit / 2), res['numbers'].slice(this.requestDetails.limit / 2)];
-                // console.log(this.list);
                 this.pagination.total = 1; // res.pages;
                 this.loading -= 1;
             });
@@ -121,15 +120,12 @@ export class BuyPhoneNumbersComponent implements OnInit {
         }).catch(() => {
             this.selected.loading = false;
         });
-        // console.log('Modal confirmed!');
     }
     modalDecline = (): void => {
-        // console.log('Modal declined!');
     }
 
     private getCountries(): void {
         this.refs.getCountries().then(res => {
-            // console.log(res);
             this.countries = res;
             this.selectedCountry = this.countries.find(country => country.code === 'US');
         }).catch(err => {

@@ -39,7 +39,6 @@ export class DashboardComponent {
 
         this.balanceSubscription = this._ws.getBalance().subscribe(balance => {
             this.dashboard.balance.value = balance.balance;
-            // console.log('dashboard balance');
         });
     }
 }

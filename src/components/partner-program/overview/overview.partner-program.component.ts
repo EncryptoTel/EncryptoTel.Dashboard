@@ -39,7 +39,6 @@ export class OverviewPartnerProgramComponent implements OnInit {
 
     ngOnInit(): void {
         this.setTag();
-        console.log(this.tag.active);
     }
 
 }

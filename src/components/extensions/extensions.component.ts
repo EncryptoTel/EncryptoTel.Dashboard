@@ -67,20 +67,17 @@ export class ExtensionsComponent implements OnInit {
 
     select(item: ExtensionItem) {
         if (!this.selected) {
-            // console.log('viewExt');
             this.sidebar = this.sidebar ? (this.sidebar.id === item.id ? null : item) : item;
         }
     }
 
     sendPasswordToAdmin(item: ExtensionItem): void {
-        // console.log('send to admin!');
         this.selected = item;
         this.passwordTo = 1;
         this.showModal('Reset password', 'Do you want to reset your password and send the new password to admin?', 'Reset');
     }
 
     sendPasswordToUser(item: ExtensionItem): void {
-        // console.log('send to user!');
         this.selected = item;
         this.passwordTo = 2;
         this.showModal('Reset password', 'Do you want to reset your password and send the new password to user?', 'Reset');
@@ -88,14 +85,12 @@ export class ExtensionsComponent implements OnInit {
 
     confirmModal(): void {
         if (this.passwordTo > 0) {
-            // console.log(this.selected);
             this.loading.admin = this.passwordTo === 1;
             this.loading.user = this.passwordTo === 2;
             this.service.changePassword(this.selected.id, {mobileApp: this.selected.mobileApp, toAdmin: this.passwordTo === 1, toUser: this.passwordTo === 2}).then(res => {
                 this._messages.writeSuccess(res.message);
                 this.loading.admin = false;
                 this.loading.user = false;
-                // console.log(res);
             });
         } else {
             this.service.deleteExtension(this.selected.id).then(res => {
@@ -106,13 +101,11 @@ export class ExtensionsComponent implements OnInit {
     }
 
     cancelModal() {
-        // console.log('CancelModal');
         this.selected = null;
         this.passwordTo = 0;
     }
 
     showModal(title: string, text: string, confirm: string): void {
-        // console.log('showModal');
         this.modal.text = text;
         this.modal.title = title;
         this.modal.confirm.value = confirm;

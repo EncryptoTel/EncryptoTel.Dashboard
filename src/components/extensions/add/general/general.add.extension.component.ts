@@ -97,7 +97,6 @@ export class GeneralAddExtensionComponent implements OnInit {
     }
 
     showModal(title: string, text: string, confirm: string): void {
-        // console.log('showModal');
         this.modal.text = text;
         this.modal.title = title;
         this.modal.confirm.value = confirm;

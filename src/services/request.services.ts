@@ -70,13 +70,11 @@ export class RequestServices {
             if (this.lastTick) {
                 let currentTick = new Date();
                 let ticksBetween = Math.round((currentTick.getTime() - this.lastTick.getTime()) / 1000);
-                // console.log(ticksBetween);
                 if (this.lastCounter != this.counter && ticksBetween > 5 * 60) {
                     let token = this.getRefreshToken();
                     if (token) {
                         this.post(`refresh-token`, {refresh_token: token}).then(res => {
                             this.updateSecrets(res);
-                            // console.log(res);
                         });
                         this.lastCounter = this.counter;
                         this.lastTick = new Date();

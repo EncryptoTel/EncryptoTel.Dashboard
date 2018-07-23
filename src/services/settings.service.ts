@@ -10,7 +10,6 @@ export class SettingsService extends BaseService {
     }
 
     saveProfileSettings(settings: any): Promise<any> {
-        // console.log(settings);
         return this.post('/user/profile', settings);
     }
 

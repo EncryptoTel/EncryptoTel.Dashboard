@@ -32,7 +32,6 @@ export class MarketplaceComponent implements OnInit {
         this.selected.loading = true;
         this._services.buyService(this.selected.id)
             .then(res => {
-                console.log(res);
                 this.selected.loading = false;
                 this.getModulesList();
             });

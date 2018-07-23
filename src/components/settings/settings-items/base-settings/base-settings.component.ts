@@ -95,8 +95,6 @@ export class BaseSettingsComponent implements OnInit {
             }
         }
 
-        console.log(JSON.stringify(this.options));
-
         // this.service.saveSetting(id, this.getEventValue(ev), this.path).then(() => {
         //     if (ev.title === 'google') {
         //         this.getQR();
@@ -152,7 +150,6 @@ export class BaseSettingsComponent implements OnInit {
     getQR(): void {
         this.service.getQRCode().then(res => {
             this.qrCode = res.qrImage;
-            console.log(this.qrCode);
         }).catch();
     }
 

@@ -83,7 +83,6 @@ export class ContactValueModel extends BaseItemModel {
     get type() {
         return this._type;
         // let item = this.types.contactPhone.find(item => item.id === this.typeId);
-        // console.log('type', item);
         // return item;
     }
 
