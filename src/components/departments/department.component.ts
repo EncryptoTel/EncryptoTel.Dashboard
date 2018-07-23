@@ -56,7 +56,7 @@ export class DepartmentsComponent implements OnInit {
 
         this.departmentForm = this.fb.group({
             name: [null, [Validators.required, Validators.maxLength(255)]],
-            comment: [null, [Validators.maxLength(1024)]],
+            comment: [null, [Validators.maxLength(255)]],
             sipInner: this.fb.array([])
         });
 
@@ -159,7 +159,7 @@ export class DepartmentsComponent implements OnInit {
     }
 
     private createPhoneField(): FormControl {
-        return this.fb.control('', Validators.required);
+        return this.fb.control('', []);
     }
 
     private formatSipOuters(items): void {
