@@ -28,7 +28,7 @@ export class MainViewComponent implements OnInit, OnDestroy {
                 private title: Title) {
     }
 
-    messagesList: MessageModel[];
+    // messagesList: MessageModel[];
     routerSubscription: Subscription;
     loading = false;
 
@@ -42,9 +42,9 @@ export class MainViewComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.setUserTheme('dark_theme');
-        this._services.messagesList().subscribe(messages => {
-            this.messagesList = messages;
-        });
+        // this._services.messagesList().subscribe(messages => {
+        //     this.messagesList = messages;
+        // });
         this.routerSubscription = this.router.events
             .filter((event) => event instanceof NavigationEnd)
             .map(() => this.activatedRoute)

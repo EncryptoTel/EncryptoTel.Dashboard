@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TableInfoModel} from '../../models/base.model';
 import {SidebarInfo} from '../../models/sidebar-info.model';
-import {NotificatorServices} from '../../services/notificator.services';
-import {NotificatorModel} from '../../models/notificator.model';
 
 @Component({
   selector: 'pbx-blank',
@@ -137,11 +135,7 @@ export class BlankComponent implements OnInit {
     decline: {type: string, value: string}
   };
 
-  notificator: NotificatorModel;
-
-  constructor(
-    private serviceNotificator: NotificatorServices
-  ) {
+  constructor() {
     this.modal = {
       visible: false,
       title: 'Diablo',

@@ -11,7 +11,6 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {PageInfoModel} from "../../models/base.model";
 import {CountryModel} from "../../models/country.model";
-import {classToPlain, plainToClass} from "class-transformer";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
 

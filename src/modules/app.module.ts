@@ -29,7 +29,6 @@ import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import {WsServices} from '../services/ws.services';
 import {environment} from '../environments/environment';
 import {RefsServices} from '../services/refs.services';
-import {NotificatorServices} from '../services/notificator.services';
 import {SizePipe} from '../services/size.pipe';
 import {ClipboardModule} from 'ngx-clipboard';
 import {DashboardServices} from "../services/dashboard.services";
@@ -68,7 +67,6 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         WsServices,
         RefsServices,
         RingGroupService,
-        NotificatorServices,
         SizePipe,
         IvrService,
         DashboardServices

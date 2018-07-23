@@ -13,8 +13,6 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
-import {NotificatorServices} from '../../services/notificator.services';
-import {NotificatorModel} from '../../models/notificator.model';
 import {RefsServices} from "../../services/refs.services";
 
 @Component({
@@ -26,19 +24,18 @@ import {RefsServices} from "../../services/refs.services";
 
 export class IndexComponent implements OnInit, OnDestroy {
     constructor(private _user: UserServices,
-                private _messages: MessageServices,
+                private message: MessageServices,
                 private _router: Router,
                 public _main: MainViewComponent,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
-                private  _serviceNotificator: NotificatorServices,
                 private refs: RefsServices) {
+        
     }
 
     navigationList: NavigationItemModel[][];
     user: UserModel = this._user.fetchUser();
     userSubscription: Subscription;
-    // balance: BalanceModel = this._balance.fetchBalance();
     balanceSubscription: Subscription;
     serviceSubscription: Subscription;
     completedRequests = 0;
@@ -46,13 +43,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     headerButtonsVisible = true;
     userNavigationVisible = false;
     mobileNavigationVisible = false;
-    mobileUserVisible = false;
-
-    errorsSubscription: Subscription;
-    message: any;
-
-    notificator: NotificatorModel;
-
 
     @ViewChild('userWrap') userWrap: ElementRef;
 
@@ -64,7 +54,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     logout(): void {
         this.refs.request.logout();
-        this._messages.writeSuccess('Logout successful');
+        this.message.writeSuccess('Logout successful');
     }
 
     userInit(): void {
@@ -134,17 +124,6 @@ export class IndexComponent implements OnInit, OnDestroy {
         // this.balanceInit();
         this.navigationInit();
         this.WebSocket();
-
-        this.message = this._messages.messagesList().subscribe(mes => {
-            if (mes[0]) {
-                this.notificator = {
-                    visible: true,
-                    type: mes[0].type,
-                    message: mes[0].text
-                };
-                this._serviceNotificator.setNotification(this.notificator);
-            }
-        });
     }
 
     ngOnDestroy(): void {

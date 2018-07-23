@@ -1,20 +1,20 @@
 <div class="notificator-wrap"
-     *ngIf="notificator && notificator.visible"
+     *ngIf="visible"
      [ngClass]="{
-       'warning' : notificator.type === 'warning',
-       'success' : notificator.type === 'success',
-       'error' : notificator.type === 'error'
+       'warning' : queue[0].type === 'warning',
+       'success' : queue[0].type === 'success',
+       'error' : queue[0].type === 'error'
       }"
      [ngStyle]="{'width.px' : notificatorWidth}"
      [@Swipe]
-     (click)="notificatorAction()">
+     (click)="close()">
 
-  <div class="notificator-message">
-      {{notificator.message}}
-  </div>
+    <div class="notificator-message">
+        {{queue[0].message}}
+    </div>
 
-  <div class="notificator-action">
-    Close
-  </div>
+    <div class="notificator-action">
+        Close
+    </div>
 
 </div>
