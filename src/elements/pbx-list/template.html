@@ -11,8 +11,11 @@
     <pbx-loader *ngIf="loading || loadingEx || filter.loading"></pbx-loader>
 
     <div class="pbx_list_empty" *ngIf="showEmptyInfo && !loading && !loadingEx && pageInfo.itemsCount === 0 && !activeFilter()">
-        <div class="pbx_list_empty_text">
+        <div class="pbx_list_empty_text" *ngIf="!EmptyInfo">
             You do not have any {{itemName ? itemName : name}}<br>Click on the button to create
+        </div>
+        <div class="pbx_list_empty_text" *ngIf="EmptyInfo">
+            {{EmptyInfo}}
         </div>
         <div class="pbx_list_empty_icon">
             <svg-icon src="../../assets/icons/onbording_arrow.svg"></svg-icon>

@@ -109,6 +109,26 @@ input:not([type='submit'])
     &::placeholder
       color: $dark_error
 
+textarea
+  border: 1px solid rgba($dark_primary, .1)
+  background: transparent
+  color: #ffffff
+  cursor: text
+  padding: 11px 16px
+  font-size: rem(14)
+  width: 100%
+  &:focus
+    border: 1px solid $dark_accent
+    outline: unset
+  &.ng-valid:focus
+    border-color: $dark_accent
+  &.ng-touched.ng-invalid,
+  &.ng-dirty.ng-invalid
+    color: $dark_error
+    border-color: $dark_error
+    &::placeholder
+      color: $dark_error
+
 .error-border
   border-color: $dark_error !important
 

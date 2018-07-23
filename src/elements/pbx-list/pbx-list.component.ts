@@ -30,6 +30,7 @@ export class ListComponent implements OnInit {
     @Input() multiple: boolean;
     @Input() selected: any[];
     @Input() showEmptyInfo: boolean = true;
+    @Input() EmptyInfo: string;
 
     @Output() onCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();

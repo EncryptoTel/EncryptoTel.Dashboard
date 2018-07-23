@@ -48,8 +48,8 @@
                  [formGroup]="object"
                  [ngClass]="['pbx_input_item_input_wrap', inputClass]">
 
-                <input *ngIf="!options && !checkbox"
-                       [ngClass]="{'show-border': !singleBorder}"
+                <input *ngIf="!options && !checkbox && type !== 'textarea'"
+                       class="{{singleBorder ? '' : 'show-border'}} {{checkError() ? 'error-border' : ''}}"
                        [type]="type"
                        [id]="key"
                        [placeholder]="placeholder"
@@ -77,6 +77,18 @@
                             (onFocus)="setFocus()"
                             (onBlur)="removeFocus()">
                 </pbx-select>
+
+                <textarea *ngIf="type === 'textarea'"
+                          class="{{singleBorder ? '' : 'show-border'}} {{checkError() ? 'error-border' : ''}}"
+                          [id]="key"
+                          [placeholder]="placeholder"
+                          [title]="name"
+                          [formControlName]="[key]"
+                          [rows]="rows"
+                          (keyup)="inputKeyUp($event)"
+                          (focus)="setFocus()"
+                          (blur)="removeFocus()"
+                ></textarea>
 
                 <span *ngIf="description" [ngClass]="[descriptionClass ? descriptionClass : '']">{{description}}</span>
 

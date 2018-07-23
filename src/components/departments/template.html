@@ -9,7 +9,8 @@
               key="departments"
               name="Departments"
               itemName="Department"
-              buttonTitle="Add Department"
+              [EmptyInfo]="companyActive ? null : 'Please fill company info first.'"
+              [buttons]="buttons"
               (onCreate)="create()"
               (onEdit)="edit($event)"
               (onSelect)="select($event)"
@@ -20,28 +21,59 @@
     <pbx-loader *ngIf="sidebar.loading"></pbx-loader>
     <ng-container *ngIf="!sidebar.loading && sidebar.mode === 'edit'">
         <form class="sidebar_form" [formGroup]="departmentForm">
-            <div class="sidebar_row">
-                <label for="department">Department</label>
-                <input type="text" id="department" formControlName="name" autofocus>
-            </div>
+
+            <pbx-input name="Department"
+                       key="name"
+                       labelPosition="top"
+                       [form]="true"
+                       [singleBorder]="false"
+                       [floatError]="true"
+                       [object]="departmentForm"
+            ></pbx-input>
+
             <div class="sidebar_row select_row">
-                <label for="comment">Department Phone</label>
                 <div formArrayName="sipInner" class="sidebar_row unmargin">
                     <div class="sidebar_row_select"
                          *ngFor="let sip of departmentForm.get('sipInner')['controls']; let i=index"
                          [formGroupName]="i">
-                        <pbx-select [options]="getSelectNumbers()"
-                                    [selected]="selectedSips[i]"
-                                    [objectKey]="'phoneNumber'"
-                                    (onSelect)="selectPhone($event, i)"></pbx-select>
-                        <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone()"></svg-icon>
+
+                        <pbx-input name="Department Phone"
+                                   displayKey="phoneNumber"
+                                   formKey="sipInner"
+                                   labelPosition="top"
+                                   [options]="getSelectNumbers()"
+                                   [singleBorder]="false"
+                                   [index2]="i"
+                                   [form]="true"
+                                   [floatError]="true"
+                                   [object]="departmentForm"
+                                   [objectView]="selectedSips[i]"
+                                   (onSelect)="selectPhone($event, i)"
+                        >
+                            <div class="icon_wrap" (click)="addPhone(i)">
+                                <svg-icon src="../../assets/icons/plus_13px.svg"></svg-icon>
+                            </div>
+                        </pbx-input>
+
+                        <!--<pbx-select [options]="getSelectNumbers()"-->
+                                    <!--[selected]="selectedSips[i]"-->
+                                    <!--[objectKey]="'phoneNumber'"-->
+                                    <!--(onSelect)="selectPhone($event, i)"></pbx-select>-->
+                        <!--<svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone()"></svg-icon>-->
                     </div>
                 </div>
             </div>
-            <div class="sidebar_row">
-                <label for="comment">Comment</label>
-                <textarea id="comment" rows="5" formControlName="comment"></textarea>
-            </div>
+
+            <pbx-input name="Comment"
+                       key="comment"
+                       labelPosition="top"
+                       type="textarea"
+                       [form]="true"
+                       [singleBorder]="false"
+                       [floatError]="true"
+                       [object]="departmentForm"
+            ></pbx-input>
+
         </form>
         <div class="sidebar_controls">
             <pbx-button [value]="'Cancel'" [buttonType]="'cancel'" (onClick)="close()"></pbx-button>
@@ -51,7 +83,7 @@
     <ng-container *ngIf="!sidebar.loading && sidebar.mode === 'view'">
         <div class="sidebar_info">
             <div class="sidebar_row">
-                <label for="department">Department</label>
+                <label>Department</label>
                 <p>{{selected.name}}</p>
             </div>
             <div class="sidebar_row">

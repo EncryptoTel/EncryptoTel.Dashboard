@@ -7,12 +7,15 @@ import {DepartmentItem, DepartmentModel, Sip} from '../../models/department.mode
 import {validateForm} from '../../shared/shared.functions';
 import {RefsServices} from '../../services/refs.services';
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
+import {CompanyService} from "../../services/company.service";
+import {ButtonItem} from "../../elements/pbx-header/pbx-header.component";
 
 
 @Component({
     selector: 'pbx-department',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
+    providers: [CompanyService],
     animations: [FadeAnimation('300ms')]
 })
 
@@ -35,14 +38,25 @@ export class DepartmentsComponent implements OnInit {
     loading = 0;
     selected: DepartmentItem;
     pageInfo: DepartmentModel = new DepartmentModel();
+    companyActive = false;
+    buttons: ButtonItem[] = [];
 
     constructor(private service: DepartmentService,
                 private fb: FormBuilder,
-                private refs: RefsServices) {
+                private refs: RefsServices,
+                private company: CompanyService) {
+
+        this.buttons.push({
+            id: 0,
+            title: 'Add Department',
+            type: 'success',
+            visible: true,
+            inactive: true,
+        });
 
         this.departmentForm = this.fb.group({
             name: [null, [Validators.required, Validators.maxLength(255)]],
-            comment: [''],
+            comment: [null, [Validators.maxLength(1024)]],
             sipInner: this.fb.array([])
         });
 
@@ -200,7 +214,19 @@ export class DepartmentsComponent implements OnInit {
         });
     }
 
+    private getCompany() {
+        this.loading++;
+        this.company.getCompany().then((res) => {
+            this.companyActive = !!res.id;
+            this.buttons[0].inactive = !this.companyActive;
+            this.loading--;
+        }).catch((res) => {
+            this.loading--;
+        });
+    }
+
     ngOnInit(): void {
+        this.getCompany();
         this.getDepartments();
         this.getSipOuters();
     }

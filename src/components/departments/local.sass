@@ -136,8 +136,10 @@
       svg-icon
         width: 15px
         fill: $dark_success
-        margin: 0 10px
+        margin: rem(10) auto
         cursor: pointer
+      pbx-input
+        flex: 1
   &_controls
     margin-top: rem(24)
     display: grid
@@ -173,3 +175,18 @@ pbx-sidebar
     flex: 1 0 auto
     overflow-y: auto
     overflow-x: hidden
+.icon_wrap
+  opacity: .5
+  width: rem(16)
+  height: rem(16)
+  padding: rem(2)
+  margin-left: rem(10)
+  cursor: pointer
+  /deep/ *
+    cursor: pointer
+  /deep/ polygon
+    fill: $dark_error
+  &:hover
+    opacity: 1
+  svg-icon
+    flex: 1

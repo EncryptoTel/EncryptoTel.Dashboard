@@ -1,5 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
+import {FormArray, FormGroup} from "@angular/forms";
 
 @Component({
     selector: 'pbx-input',
@@ -28,12 +29,14 @@ export class InputComponent implements OnInit {
     @Input() form: boolean;
     @Input() formKey: string;
     @Input() index: number;
+    @Input() index2: number;
     @Input() updateValueByKey: boolean;
     @Input() updateObjectByObject: boolean;
     @Input() labelPosition: string;
     @Input() singleBorder: boolean = true;
     @Input() floatError: boolean = false;
     @Input() errorVisible: boolean = false;
+    @Input() rows: number = 5;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -45,6 +48,7 @@ export class InputComponent implements OnInit {
     value;
     checkboxValues;
     prevError;
+    prevFormError;
 
     constructor() {
 
@@ -108,6 +112,8 @@ export class InputComponent implements OnInit {
     getForm() {
         if (this.index !== undefined) {
             return this.object.get([this.index, this.getFormKey()]);
+        } else if (this.index2 !== undefined) {
+            return this.object.get([this.getFormKey(), this.index2]);
         } else {
             return this.object.get(this.getFormKey());
         }
@@ -118,6 +124,7 @@ export class InputComponent implements OnInit {
             return null;
         }
         let form = this.getForm();
+        // form && form.errors ? console.log('checkForm', this.getFormKey(), form.touched, form.invalid) : null;
         if (textOnly) {
             if (form && form.touched && form.invalid && form.errors) {
                 // this.key === 'name' ? console.log('checkForm', form.errors) : null;
@@ -204,21 +211,49 @@ export class InputComponent implements OnInit {
         }
     }
 
+    checkControlError(errors, key) {
+        let keys = Object.keys(errors);
+        if (keys.length > 0) {
+            if (keys[0] === key) {
+                this.inputDiv ? this.findInput(this.inputDiv.nativeElement) : null;
+                this.errorVisible = true;
+            }
+        }
+    }
+
     getErrorVisible() {
         if (this.errors) {
             if (this.errors != this.prevError) {
                 this.prevError = this.errors;
-                let keys = Object.keys(this.errors);
-                if (keys.length > 0) {
-                    if (keys[0] === this.getErrorKey()) {
-                        // console.log(this.inputDiv);
-                        this.inputDiv ? this.findInput(this.inputDiv.nativeElement) : null;
-                        // this.inputItem1 ? this.inputItem1.nativeElement.setFocus() : null;
-                        this.errorVisible = true;
-                    }
-                }
+                this.checkControlError(this.errors, this.getErrorKey());
             }
+        }
+        if (this.form) {
+            let form = this.object;
+            let errors = [];
+            Object.keys(form.controls).forEach(field => {
+                const control = form.get(field);
+                if (control instanceof FormArray) {
+                    let index = 0;
+                    control.controls.forEach((ctrl: FormGroup) => {
+                        if (ctrl.errors) {
+                            // console.log(field, ctrl);
+                            errors[`${field}_${index}`] = ctrl.errors;
+                        }
+                        index++;
+                    });
+                } else if (control.errors) {
+                    errors[field] = control.errors;
+                    // return this.checkControlError(field, control);
+                }
 
+            });
+            if (errors != this.prevFormError) {
+                // console.log(errors);
+                this.prevFormError = errors;
+                let key = this.index2 === undefined ? this.getFormKey() : `${this.getFormKey()}_${this.index2}`;
+                this.checkControlError(errors, key);
+            }
         }
         return this.errorVisible;
     }
