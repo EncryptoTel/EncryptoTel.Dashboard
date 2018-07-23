@@ -107,6 +107,7 @@ export class BaseSettingsComponent implements OnInit {
             this.options = [];
             this.saveButton.inactive = true;
             this.saveButton.loading = false;
+            this.goBack();
         }).catch(() => {
             this.saveButton.loading = false;
         });
