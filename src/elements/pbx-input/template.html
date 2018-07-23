@@ -16,7 +16,7 @@
                        [id]="key"
                        [placeholder]="placeholder"
                        [(ngModel)]="value"
-                       [ngClass]="[checkError() ? 'ng-invalid ng-touched' : 'ng-valid']"
+                       [ngClass]="[checkError() ? 'input-invalid' : 'input-valid']"
                        (keyup)="inputKeyUp($event)"
                        (focus)="setFocus()"
                        (blur)="removeFocus()"
