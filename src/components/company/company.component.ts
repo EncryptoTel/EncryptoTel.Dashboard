@@ -87,7 +87,7 @@ export class CompanyComponent implements OnInit {
         this.validate();
         if (this.companyForm.valid) {
             this.saving++;
-            this.service.save({...this.companyForm.value}).then(() => {
+            this.service.save({...this.companyForm.value}, false).then(() => {
                 this.message.writeSuccess('Company successfully updated.');
                 this.saving--;
             }).catch(() => {

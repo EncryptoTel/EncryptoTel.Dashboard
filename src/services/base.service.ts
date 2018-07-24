@@ -40,9 +40,11 @@ export class BaseService {
         return this.rawRequest('GET', path, null);
     }
 
-    post(path: string, data: any): Promise<any> {
+    post(path: string, data: any, showMessage = true): Promise<any> {
         return this.rawRequest('POST', path, {...data}).then((res) => {
-            this.message.writeSuccess(res.message ? res.message : 'Successfully created.');
+            if (showMessage) {
+                this.message.writeSuccess(res.message ? res.message : 'Successfully created.');
+            }
             return Promise.resolve(res);
         });
     }
