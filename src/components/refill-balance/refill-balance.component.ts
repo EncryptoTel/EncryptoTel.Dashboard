@@ -82,12 +82,13 @@ export class RefillBalanceComponent implements OnInit {
 
     pay(): void {
         this.payment.loading = true;
-        this._refill.setRefillMethod(this.selected.id, this.amount.value, this.returnAddress)
-            .then(res => {
-                this.payment = res;
-                this.refill_status = 'processing';
-                this.payment.loading = false;
-            });
+        this._refill.setRefillMethod(this.selected.id, this.amount.value, this.returnAddress).then(res => {
+            this.payment = res;
+            this.refill_status = 'processing';
+            this.payment.loading = false;
+        }).catch(() => {
+            this.payment.loading = false;
+        });
     }
 
     getRefillMethods() {
