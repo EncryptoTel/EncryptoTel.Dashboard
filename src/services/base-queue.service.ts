@@ -6,16 +6,50 @@ export class BaseQueueService extends BaseService {
     item;
     params;
     userView;
-    membersAdded = 0;
-    membersDeleted = 0;
+    membersBefore;
 
     reset() {
         this.errors = null;
     }
 
-    resetMemberCounters() {
-        this.membersAdded = 0;
-        this.membersDeleted = 0;
+    getMembersMessage() {
+        let message = '';
+        let membersAdded = 0;
+        let membersDeleted = 0;
+
+        this.userView.members.map(item1 => {
+            let isExists = false;
+            this.membersBefore.map(item2 => {
+                if (item1.id === item2.id) {
+                    isExists = true;
+                }
+            });
+            if (!isExists) {
+                membersAdded++;
+            }
+        });
+        this.membersBefore.map(item1 => {
+            let isExists = false;
+            this.userView.members.map(item2 => {
+                if (item1.id === item2.id) {
+                    isExists = true;
+                }
+            });
+            if (!isExists) {
+                membersDeleted++;
+            }
+        });
+
+        membersAdded > 0 ? message = `${membersAdded} member(s) added successfully` : null;
+        membersDeleted > 0 ? message = `${message ? `${message}, ` : ''}${membersDeleted} member(s) removed successfully` : null;
+        return message;
+    }
+
+    saveMembersBefore() {
+        this.membersBefore = [];
+        this.userView.members.map(item => {
+            this.membersBefore.push(item);
+        });
     }
 
     addMember(member) {
@@ -24,13 +58,11 @@ export class BaseQueueService extends BaseService {
         if (index === -1) {
             this.item.queueMembers.push({sipId: member.id});
             this.userView.members.push(member);
-            this.membersAdded++;
 
         } else {
             this.item.queueMembers.splice(index, 1);
             this.userView.members.splice(this.userView.members.findIndex(el => {
                 return el.id === member.id; }), 1);
-            this.membersDeleted++;
         }
 
     }
@@ -47,7 +79,6 @@ export class BaseQueueService extends BaseService {
         });
         if (checkResult >= 0) {
             this.userView.members.splice(checkResult, 1);
-            this.membersDeleted++;
         }
     }
 

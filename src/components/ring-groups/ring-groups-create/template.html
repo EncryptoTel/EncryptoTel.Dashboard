@@ -9,6 +9,6 @@
           (onDecline)="addMembers?back():cancel()"
           (onSelect)="selectTab($event)">
     <ring-groups-general *ngIf="currentTab===tabs[0]"></ring-groups-general>
-    <ring-groups-members *ngIf="currentTab===tabs[1]&&!addMembers" (onClick)="addMembers=true"></ring-groups-members>
+    <ring-groups-members *ngIf="currentTab===tabs[1]&&!addMembers" (onClick)="doAddMembers($event)"></ring-groups-members>
     <ring-groups-members-add *ngIf="addMembers"></ring-groups-members-add>
 </pbx-form>

@@ -3,12 +3,12 @@
           [tabs]="tabs"
           [inactiveTabs]="[false,!service.item.sipId]"
           [background]="currentTab==='General'"
-          [confirm]="!service.userView.isCurCompMembersAdd?confirm:{}"
-          [decline]="decline[!service.userView.isCurCompMembersAdd?'standard':'member']"
+          [confirm]="addMembers?{}:confirm"
+          [decline]="decline[addMembers?'member':'standard']"
           (onConfirm)="save()"
-          (onDecline)="!service.userView.isCurCompMembersAdd?cancel():back()"
+          (onDecline)="addMembers?back():cancel()"
           (onSelect)="selectTab($event)">
   <pbx-call-queues-general *ngIf="currentTab===tabs[0]"></pbx-call-queues-general>
-  <pbx-call-queues-members *ngIf="currentTab===tabs[1]&&!addMembers" (onClick)="addMembers=$event"></pbx-call-queues-members>
+  <pbx-call-queues-members *ngIf="currentTab===tabs[1]&&!addMembers" (onClick)="doAddMembers($event)"></pbx-call-queues-members>
   <pbx-call-queues-members-add *ngIf="addMembers"></pbx-call-queues-members-add>
 </pbx-form>

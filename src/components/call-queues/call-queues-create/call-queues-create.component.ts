@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CallQueueService} from '../../../services/call-queue.service';
 import {FadeAnimation} from '../../../shared/fade-animation';
+import {MessageServices} from "../../../services/message.services";
 
 @Component({
     selector: 'pbx-call-queues-create',
@@ -26,7 +27,8 @@ export class CallQueuesCreateComponent implements OnInit {
 
     constructor(public service: CallQueueService,
                 private activatedRoute: ActivatedRoute,
-                public router: Router) {
+                public router: Router,
+                private message: MessageServices) {
         this.id = this.activatedRoute.snapshot.params.id;
     }
 
@@ -55,6 +57,8 @@ export class CallQueuesCreateComponent implements OnInit {
 
     back(): void {
         this.addMembers = false;
+        let message = this.service.getMembersMessage();
+        message ? this.message.writeSuccess(message) : null;
         this.router.navigate(['members'], {relativeTo: this.activatedRoute});
     }
 
@@ -75,6 +79,11 @@ export class CallQueuesCreateComponent implements OnInit {
         }).catch(() => {
             this.loading--;
         });
+    }
+
+    doAddMembers($event) {
+        this.addMembers = $event;
+        this.service.saveMembersBefore();
     }
 
     ngOnInit() {

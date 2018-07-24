@@ -55,11 +55,8 @@ export class RingGroupsCreateComponent implements OnInit {
 
     back(): void {
         this.addMembers = false;
-        let message = '';
-        this.service.membersAdded > 0 ? message = `${this.service.membersAdded} member(s) added successfully` : null;
-        this.service.membersDeleted > 0 ? message = `${message ? `${message}, ` : ''}${this.service.membersDeleted} member(s) removed successfully` : null;
+        let message = this.service.getMembersMessage();
         message ? this.message.writeSuccess(message) : null;
-        this.service.resetMemberCounters();
         this.router.navigate(['members'], {relativeTo: this.activatedRoute});
     }
 
@@ -80,6 +77,11 @@ export class RingGroupsCreateComponent implements OnInit {
         }).catch(res => {
             this.loading--;
         });
+    }
+
+    doAddMembers($event) {
+        this.addMembers = $event;
+        this.service.saveMembersBefore();
     }
 
     ngOnInit() {
