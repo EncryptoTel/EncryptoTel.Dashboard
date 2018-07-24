@@ -14,10 +14,10 @@
         <div class="pbx_list_empty_text" *ngIf="!EmptyInfo">
             You do not have any {{itemName ? itemName : name}}<br>Click on the button to create
         </div>
-        <div class="pbx_list_empty_text" *ngIf="EmptyInfo">
-            {{EmptyInfo}}
+        <div class="pbx_list_empty_text" *ngIf="EmptyInfo" [innerHTML]="EmptyInfo">
+
         </div>
-        <div class="pbx_list_empty_icon">
+        <div class="pbx_list_empty_icon" *ngIf="!hideArrow">
             <svg-icon src="../../assets/icons/onbording_arrow.svg"></svg-icon>
         </div>
     </div>
