@@ -53,7 +53,7 @@ export class MarketplaceComponent implements OnInit {
                             title: module.service.title,
                             content: module.service.description,
                             price: Math.round(module.currentPrice.sum * 100) / 100,
-                            status: false, // TODO: required status in backend response
+                            status: module.service.isUserBuy, // TODO: required status in backend response
                             color: Math.round(Math.random() * 5 + 1) // TODO: required color in backend response
                         });
                     }
