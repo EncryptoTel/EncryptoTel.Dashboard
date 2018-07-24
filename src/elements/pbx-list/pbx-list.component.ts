@@ -15,6 +15,7 @@ import {TableComponent} from "../pbx-table/pbx-table.component";
 export class ListComponent implements OnInit {
     @Input() name: string;
     @Input() itemName: string;
+    @Input() itemsName: string;
     @Input() key: string;
     @Input() createKey: string = 'create';
     @Input() pageInfo: PageInfoModel;
