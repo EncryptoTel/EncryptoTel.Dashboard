@@ -22,6 +22,7 @@ import {InputComponent} from '../elements/pbx-input/pbx-input.component';
 import {HeaderComponent} from '../elements/pbx-header/pbx-header.component';
 import {ListComponent} from '../elements/pbx-list/pbx-list.component';
 import {DiskUsedComponent} from '../elements/pbx-drive-circle/pbx-drive-circle.component';
+import {CalendarComponent} from '../elements/pbx-calendar/pbx-calendar.component';
 
 @NgModule({
     imports: [
@@ -47,7 +48,8 @@ import {DiskUsedComponent} from '../elements/pbx-drive-circle/pbx-drive-circle.c
         InputComponent,
         HeaderComponent,
         ListComponent,
-        DiskUsedComponent
+        DiskUsedComponent,
+        CalendarComponent
     ],
     exports: [
         ClickOutsideDirective,
@@ -65,7 +67,8 @@ import {DiskUsedComponent} from '../elements/pbx-drive-circle/pbx-drive-circle.c
         InputComponent,
         HeaderComponent,
         ListComponent,
-        DiskUsedComponent
+        DiskUsedComponent,
+        CalendarComponent
     ]
 })
 export class ElementsModule {

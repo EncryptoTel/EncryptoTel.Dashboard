@@ -1,0 +1,127 @@
+@import "../../vars" // Global variables import
+
+.calendar
+  z-index: 1
+  width: rem(224)
+  border-bottom: rem(1) solid
+  position: relative
+  margin-left: auto
+  color: $font-color
+  &.fullBorder
+    border: rem(1) solid
+  &.fullLength
+    flex: 1
+    margin-left: 0
+  &-head
+    flex: 1
+    height: rem(40)
+    align-items: center
+    padding: 0 rem(16)
+    justify-content: space-between
+    cursor: pointer
+    /deep/ *
+      cursor: pointer
+  &-icon
+    width: rem(16)
+    height: rem(16)
+    svg-icon
+      flex: 1
+  &-wrap
+    overflow-y: hidden
+    position: absolute
+    border: rem(1) solid
+    top: 100%
+    right: rem(-1)
+    background: $dark_background
+    flex-direction: row
+    &.left-side
+      left: 0
+      right: unset
+  &-block
+    flex: 1
+    padding: rem(2)
+    flex-direction: column
+    height: rem(352)
+    position: relative
+    &:first-child>.calendar-block-icon
+      left: rem(8)
+      svg-icon
+        transform: rotate(90deg)
+    &:last-child>.calendar-block-icon
+      right: rem(8)
+      svg-icon
+        transform: rotate(270deg)
+    &-month
+      padding: 0 rem(16)
+      min-height: rem(40)
+      justify-content: center
+      align-items: center
+    &-week
+      margin: 0 rem(2)
+      flex-direction: row
+      min-height: rem(24)
+      &.hide
+        opacity: 0
+      &-item
+        align-items: center
+        flex: 1
+        justify-content: center
+    &-day
+      margin: rem(2)
+      display: grid
+      grid-template-columns: repeat(7, auto)
+      color: $dark_primary
+      &-item
+        transition: 0s
+        min-height: rem(40)
+        width: rem(40)
+        align-items: center
+        justify-content: center
+        &.mid
+          cursor: pointer
+          background: $dark_overlay
+        &.able:hover, &.mid:hover, &.pick
+          cursor: pointer
+          background: rgba($dark_success,.75)
+        &.block
+          color: $dark_pagination_inactive
+    &-icon
+      position: absolute
+      height: rem(24)
+      width: rem(24)
+      top: rem(8)
+      padding: rem(6)
+      &.unblocked
+        cursor: pointer
+        /deep/ *
+          cursor: pointer
+        &:hover
+          background: rgba($dark_primary,.1)
+      &.blocked /deep/ polygon
+        fill: $dark_pagination_inactive
+      svg-icon
+        flex: 1
+  &-button
+    padding: 0 rem(12)
+    min-height: rem(40)
+    margin-top: auto
+    align-items: center
+    justify-content: left
+    pbx-checkbox
+      margin-right: rem(16)
+    span:hover
+      cursor: pointer
+      color: $dark_accent
+    &.right span
+      margin-left: auto
+// Themes styles
+\:host-context(.dark_theme)
+  .calendar, .calendar-wrap
+    border-color: rgba($dark_primary,.1)
+    &-block
+      border-color: rgba($dark_primary,.1)
+      &-week
+        color: $font-color
+  /deep/
+    circle, path, polygon
+      fill: $dark_primary

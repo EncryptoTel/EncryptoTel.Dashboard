@@ -332,7 +332,8 @@ const Routes: Routes = [
                 path: 'partner-program',
                 component: PartnerProgramComponent,
                 data: {title: 'Partner Program', indexed: true}
-            }
+            },
+            {path: 'blank', component: BlankComponent, data: {title: 'Blank Component', indexed: true}},
         ]
     },
     {path: '**', component: PageNotFoundComponent, data: {title: 'Page not Found', indexed: false}}

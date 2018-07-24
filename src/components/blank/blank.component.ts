@@ -5,6 +5,8 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
 @Component({
   selector: 'pbx-blank',
   template: `
+            <pbx-calendar (newDates)="test($event)" [isSetting]="true"></pbx-calendar>
+            <pbx-calendar (newDates)="test($event)"></pbx-calendar>
             <div style="flex-direction: row; flex: 0 0 auto">
               <pbx-button style="flex: 0 0 auto; margin-bottom: 16px;"></pbx-button>
               <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;" buttonType="success" value="Accept"></pbx-button>
@@ -51,7 +53,7 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
                        (onDecline)="modalDecline()">
               <div style="font-size: 16px">Modal body</div>
             </pbx-modal>
-            <div style="flex-direction: row; width: 100%">
+            <!--<div style="flex-direction: row; width: 100%">
               <pbx-table [tableItems]="tableData"
                          [multiple]="true"
                          [tableInfo]="tableInfo"
@@ -63,7 +65,7 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
                           style="flex: 1 0 auto"></pbx-table>
               <pbx-sidebar [sidebarInfo]="sidebarInfo" style="flex: 0 0 auto;"></pbx-sidebar>
               <pbx-notificator></pbx-notificator>
-            </div>
+            </div>-->
   `,
   styles: ['pbx-button { width: auto;}']
 })
@@ -195,5 +197,8 @@ export class BlankComponent implements OnInit {
   }
   modalDecline = (): void => {
     console.log('Modal declined!');
+  }
+  test(item): void {
+    console.log(item);
   }
 }
