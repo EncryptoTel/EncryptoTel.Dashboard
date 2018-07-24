@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
     numberRegExp: RegExp = new RegExp(/^\d+$/);
     phoneRegExp: RegExp = new RegExp(/^([\+]|[1-9]{1}|\+[1-9]{1})?[(]{0,1}[0-9]{1,3}[)]{0,1}[0-9]*$/g);
 
-    saveButton = {buttonType: 'success', value: 'Save', inactive: true, loading: false};
+    saveButton = {buttonType: 'success', value: 'Save', inactive: false, loading: false};
 
     constructor(private service: SettingsService,
                 private router: Router,
@@ -243,7 +243,7 @@ export class ProfileComponent implements OnInit {
 
     change() {
         validateForm(this.generalForm);
-        this.saveButton.inactive = !this.generalForm.valid;
+        // this.saveButton.inactive = !this.generalForm.valid;
     }
 
     ngOnInit() {

@@ -28,7 +28,7 @@ export class BaseSettingsComponent implements OnInit {
 
     options = [];
 
-    saveButton = {buttonType: 'success', value: 'Save', inactive: true, loading: false};
+    saveButton = {buttonType: 'success', value: 'Save', inactive: false, loading: false};
 
     constructor(private router: Router,
                 private service: SettingsService,
@@ -88,7 +88,7 @@ export class BaseSettingsComponent implements OnInit {
         }
         settingsItem.value = this.getEventValue(ev);
 
-        this.saveButton.inactive = this.options.length === 0;
+        // this.saveButton.inactive = this.options.length === 0;
 
         if (inputKey === 'two_factor_auth_type') {
             if (ev.title === 'google') {
@@ -105,11 +105,15 @@ export class BaseSettingsComponent implements OnInit {
     }
 
     saveSettings() {
+        if (this.options.length === 0) {
+            this.message.writeSuccess('The changes have been saved');
+            return;
+        }
         this.saveButton.loading = true;
         this.service.saveSettings(this.options, this.path).then(res => {
             this.message.writeSuccess(res.message);
             this.options = [];
-            this.saveButton.inactive = true;
+            // this.saveButton.inactive = true;
             this.saveButton.loading = false;
             this.goBack();
         }).catch(() => {
