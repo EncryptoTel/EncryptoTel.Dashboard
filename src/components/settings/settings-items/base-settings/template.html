@@ -21,7 +21,7 @@
                            [checkbox]="settings[key].children[inputKey].type === 'bool'"
                            [object]="settings[key].children[inputKey]"
                            [objectView]="selectedItems[inputKey]"
-                           [options]="settings[key].children[inputKey].type === 'list' && generateOptions(settings[key].children[inputKey]['list_value'])"
+                           [options]="generateOptions(settings[key].children[inputKey])"
                            (onToggle)="saveOption($event, key, inputKey)"
                            (onSelect)="saveOption($event, key, inputKey)"
                            (onKeyUp)="saveOption($event.target.value, key, inputKey)"
@@ -42,11 +42,19 @@
                                    [checkbox]="settings[key].children[inputKey].children[childrenKey].type === 'bool'"
                                    [object]="settings[key].children[inputKey].children[childrenKey]"
                                    [objectView]="selectedItems[childrenKey]"
-                                   [options]="settings[key].children[inputKey].children[childrenKey].type === 'list' && generateOptions(settings[key].children[inputKey].children[childrenKey]['list_value'])"
+                                   [options]="generateOptions(settings[key].children[inputKey].children[childrenKey])"
                                    (onToggle)="saveOption($event, key, inputKey, childrenKey)"
                                    (onSelect)="saveOption($event, key, inputKey, childrenKey)"
                                    (onKeyUp)="saveOption($event.target.value, key, inputKey, childrenKey)"
                         ></pbx-input>
+
+                        <!--<pbx-select style="width: 500px;"-->
+                                <!--*ngIf="settings[key].children[inputKey].children[childrenKey].type === 'list'"-->
+                                <!--placeholder="[choose one]"-->
+                                <!--[options]="generateOptions(settings[key].children[inputKey].children[childrenKey])"-->
+                                <!--(onSelect)="saveOption($event, key, inputKey, childrenKey)"-->
+                                <!--[selected]="selectedItems[childrenKey]"-->
+                                <!--objectKey="title"></pbx-select>-->
 
                     </div>
 

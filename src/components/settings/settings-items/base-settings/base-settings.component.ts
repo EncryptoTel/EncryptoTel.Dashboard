@@ -51,9 +51,12 @@ export class BaseSettingsComponent implements OnInit {
         return obj && Object.keys(obj);
     }
     generateOptions = (obj: any): any[] => {
+        if (obj.type !== 'list') {
+            return null;
+        }
         const tmp = [];
-        Object.keys(obj).forEach(key => {
-            tmp.push({id: key, title: obj[key]});
+        Object.keys(obj.list_value).forEach(key => {
+            tmp.push({id: key, title: obj.list_value[key]});
         });
         return tmp;
     }
