@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RingGroupService} from '../../../services/ring-group.service';
 import {FadeAnimation} from '../../../shared/fade-animation';
+import {MessageServices} from "../../../services/message.services";
 
 
 @Component({
@@ -28,7 +29,8 @@ export class RingGroupsCreateComponent implements OnInit {
 
     constructor(public service: RingGroupService,
                 private activatedRoute: ActivatedRoute,
-                private router: Router) {
+                private router: Router,
+                private message: MessageServices) {
         this.id = this.activatedRoute.snapshot.params.id;
     }
 
@@ -53,6 +55,11 @@ export class RingGroupsCreateComponent implements OnInit {
 
     back(): void {
         this.addMembers = false;
+        let message = '';
+        this.service.membersAdded > 0 ? message = `${this.service.membersAdded} member(s) added successfully` : null;
+        this.service.membersDeleted > 0 ? message = `${message ? `${message}, ` : ''}${this.service.membersDeleted} member(s) removed successfully` : null;
+        message ? this.message.writeSuccess(message) : null;
+        this.service.resetMemberCounters();
         this.router.navigate(['members'], {relativeTo: this.activatedRoute});
     }
 

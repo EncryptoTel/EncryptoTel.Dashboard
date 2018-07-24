@@ -6,9 +6,49 @@ export class BaseQueueService extends BaseService {
     item;
     params;
     userView;
+    membersAdded = 0;
+    membersDeleted = 0;
 
     reset() {
         this.errors = null;
+    }
+
+    resetMemberCounters() {
+        this.membersAdded = 0;
+        this.membersDeleted = 0;
+    }
+
+    addMember(member) {
+        const index = this.item.queueMembers.findIndex(el => {
+            return el.sipId === member.id; });
+        if (index === -1) {
+            this.item.queueMembers.push({sipId: member.id});
+            this.userView.members.push(member);
+            this.membersAdded++;
+
+        } else {
+            this.item.queueMembers.splice(index, 1);
+            this.userView.members.splice(this.userView.members.findIndex(el => {
+                return el.id === member.id; }), 1);
+            this.membersDeleted++;
+        }
+
+    }
+
+    deleteMember(member): void {
+        let checkResult = this.item.queueMembers.findIndex(el => {
+            return el.sipId === member.id;
+        });
+        if (checkResult >= 0) {
+            this.item.queueMembers.splice(checkResult, 1);
+        }
+        checkResult = this.userView.members.findIndex(el => {
+            return el.id === member.id;
+        });
+        if (checkResult >= 0) {
+            this.userView.members.splice(checkResult, 1);
+            this.membersDeleted++;
+        }
     }
 
     getMembers(sipId: number, search: string = null, departmentId: number = null) {

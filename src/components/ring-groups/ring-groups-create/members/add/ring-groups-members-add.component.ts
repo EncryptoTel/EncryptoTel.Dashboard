@@ -28,31 +28,11 @@ export class RingGroupsMembersAddComponent implements OnInit {
                 private refs: RefsServices) {}
 
     selectMember(member): void {
-        const index = this.service.item.queueMembers.findIndex(el => {
-            return el.sipId === member.id; });
-        if (index === -1) {
-            this.service.item.queueMembers.push({sipId: member.id});
-            this.service.userView.members.push(member);
-        } else {
-            this.service.item.queueMembers.splice(index, 1);
-            this.service.userView.members.splice(this.service.userView.members.findIndex(el => {
-              return el.id === member.id; }), 1);
-        }
+        this.service.addMember(member);
     }
 
     deleteMember(member): void {
-        let checkResult = this.service.item.queueMembers.findIndex(el => {
-            return el.sipId === member.id;
-        });
-        if (checkResult >= 0) {
-            this.service.item.queueMembers.splice(checkResult, 1);
-        }
-        checkResult = this.service.userView.members.findIndex(el => {
-            return el.id === member.id;
-        });
-        if (checkResult >= 0) {
-            this.service.userView.members.splice(checkResult, 1);
-        }
+        this.service.deleteMember(member);
     }
 
     departmentChanged(item) {
