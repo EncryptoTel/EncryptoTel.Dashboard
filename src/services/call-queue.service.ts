@@ -33,7 +33,6 @@ export class CallQueueService extends BaseQueueService {
             announceHoldtime: false,
             announcePosition: false,
             members: [],
-            isCurCompMembersAdd: false,
             strategy: {
                 code: ''
             },

@@ -42,7 +42,6 @@ export class RingGroupService extends BaseQueueService {
         this.userView = {
             phoneNumber: '',
             members: [],
-            isCurCompMembersAdd: false,
             strategy: {
                 code: ''
             },
