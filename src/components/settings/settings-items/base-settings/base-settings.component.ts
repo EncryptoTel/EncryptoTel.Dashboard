@@ -106,7 +106,7 @@ export class BaseSettingsComponent implements OnInit {
 
     saveSettings() {
         if (this.options.length === 0) {
-            this.message.writeSuccess('The changes have been saved');
+            this.message.writeSuccess('The data have been saved');
             return;
         }
         this.saveButton.loading = true;
