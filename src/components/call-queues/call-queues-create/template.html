@@ -1,7 +1,6 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
 <pbx-form *ngIf="!loading"
           [tabs]="tabs"
-          [inactiveTabs]="[false,!service.item.sipId]"
           [background]="currentTab==='General'"
           [confirm]="addMembers?{}:confirm"
           [decline]="decline[addMembers?'member':'standard']"

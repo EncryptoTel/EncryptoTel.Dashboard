@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CallQueueService} from '../../../services/call-queue.service';
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {MessageServices} from "../../../services/message.services";
+import {FormComponent} from "../../../elements/pbx-form/pbx-form.component";
 
 @Component({
     selector: 'pbx-call-queues-create',
@@ -13,17 +14,18 @@ import {MessageServices} from "../../../services/message.services";
 
 export class CallQueuesCreateComponent implements OnInit {
 
-  id = 0;
-  loading = 0;
-  saving = 0;
-  tabs = ['General', 'Members'];
-  confirm = {value: 'Save', buttonType: 'success', inactive: this.saving !== 0};
-  decline = {
-    standard: {value: 'Cancel', buttonType: 'cancel'},
-    member: {value: 'Back', buttonType: 'cancel'},
-  };
-  currentTab = 'General';
-  addMembers = false;
+    @ViewChild(FormComponent) form: FormComponent;
+    id = 0;
+    loading = 0;
+    saving = 0;
+    tabs = ['General', 'Members'];
+    confirm = {value: 'Save', buttonType: 'success', inactive: this.saving !== 0};
+    decline = {
+        standard: {value: 'Cancel', buttonType: 'cancel'},
+        member: {value: 'Back', buttonType: 'cancel'},
+    };
+    currentTab = 'General';
+    addMembers = false;
 
     constructor(public service: CallQueueService,
                 private activatedRoute: ActivatedRoute,
@@ -38,6 +40,11 @@ export class CallQueuesCreateComponent implements OnInit {
 
     selectTab(tab: string): void {
         this.addMembers = false;
+        if (tab === 'Members' && !this.service.item.sipId) {
+            this.form.selected = 'General';
+            this.service.errors = {sip: 'Please select phone number'};
+            return;
+        }
         this.currentTab = tab;
     }
 
