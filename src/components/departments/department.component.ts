@@ -36,6 +36,7 @@ export class DepartmentsComponent implements OnInit {
     };
     departmentForm: FormGroup;
     loading = 0;
+    saving = 0;
     selected: DepartmentItem;
     pageInfo: DepartmentModel = new DepartmentModel();
     companyActive = false;
@@ -125,17 +126,32 @@ export class DepartmentsComponent implements OnInit {
         return phoneNumbers;
     }
 
+    checkEmpty() {
+        const sips = this.departmentForm.get('sipInner') as FormArray;
+        if (sips.length > 0) {
+            for (let i = sips.length - 1; i >= 0; i--) {
+                console.log(i, sips[i]);
+                if (!sips[i]) {
+                    sips.removeAt(i);
+                }
+            }
+        }
+    }
+
     save(): void {
         validateForm(this.departmentForm);
         if (this.departmentForm.valid) {
-            this.loading++;
+            this.checkEmpty();
+            this.saving++;
+            // console.log(this.departmentForm.value);
             this.service.save(this.selected ? this.selected.id : null, this.departmentForm.value).then(() => {
                 this.reset();
-                this.getDepartments();
+                this.list.getItems();
                 this.close();
-                this.loading--;
+                this.saving--;
             }).catch(() => {
-                this.loading--;
+                this.addPhone();
+                this.saving--;
             });
         }
     }
@@ -191,19 +207,6 @@ export class DepartmentsComponent implements OnInit {
         });
     }
 
-    private getDepartments(): void {
-        this.loading++;
-        this.service.getItems(this.pageInfo).then((res: DepartmentModel) => {
-            this.pageInfo = res;
-            // this.departmentsList.map(department => {
-            //     department.employees = department.sipInnerIds.length;
-            // });
-            this.loading--;
-        }).catch(err => {
-            this.loading--;
-        });
-    }
-
     private getSipOuters(): void {
         this.sidebar.loading++;
         this.refs.getSipOuters().then(res => {
@@ -231,7 +234,6 @@ export class DepartmentsComponent implements OnInit {
 
     ngOnInit(): void {
         this.getCompany();
-        this.getDepartments();
         this.getSipOuters();
     }
 }
