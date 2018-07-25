@@ -90,10 +90,19 @@ export class InputComponent implements OnInit {
         if (!key) {
             return null;
         }
-        this.errors[key] = value;
-        // const keyArray = key.split('.');
-        // keyArray.forEach(k => item = item && item[k]);
-        // item = null;
+//        this.errors[key] = value;
+        const keys = key.split('.');
+        switch (keys.length) {
+            case 1:
+                this.errors[keys[0]] = null;
+                break;
+            case 2:
+                this.errors[keys[0]][keys[1]] = null;
+                break;
+            case 3:
+                this.errors[keys[0]][keys[1]][keys[2]] = null;
+                break;
+        }
     }
 
     checkError(textOnly = null): string {
