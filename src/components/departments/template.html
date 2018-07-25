@@ -1,8 +1,7 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
 <div class="departments" *ngIf="!loading">
 
-    <pbx-list style="width: 100%"
-              [(pageInfo)]="pageInfo"
+    <pbx-list [(pageInfo)]="pageInfo"
               [table]="table"
               [loading]="loading"
               [filters]="filters"

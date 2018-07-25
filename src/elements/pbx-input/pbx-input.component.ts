@@ -130,8 +130,11 @@ export class InputComponent implements OnInit {
                     switch (keys[i]) {
                         case 'required':
                             return 'This value is required';
+                        case 'maxlength':
+                            return 'This value is too long';
                         default:
-                            return 'This field is invalid';
+                            // console.log(keys[i]);
+                            return 'This value is invalid';
                     }
                 }
             }
