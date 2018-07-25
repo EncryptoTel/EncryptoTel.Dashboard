@@ -1,7 +1,7 @@
 <div class="pbx_input_wrap" [@Fade]>
     <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item' : 'pbx_input_row']">
 
-        <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label']">
+        <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']">
             <span>{{name}}</span>
             <span class="required" *ngIf="required">*</span>
         </div>
