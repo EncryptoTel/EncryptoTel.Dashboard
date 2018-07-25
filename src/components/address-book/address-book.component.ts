@@ -62,15 +62,8 @@ export class AddressBookComponent implements OnInit {
 
     filters: FilterItem[] = [];
 
-    constructor(private service: AddressBookService,
-                private refs: RefsServices) {
-        this.filters.push(new FilterItem(1, 'type', 'Select Source', [
-            {id: 'all', title: 'All'},
-            {id: 'my', title: 'My'},
-            {id: 'company', title: 'Company'},
-            {id: 'blacklist', title: 'Black List'},
-        ], 'title'));
-        this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
+    constructor(private service: AddressBookService, private refs: RefsServices) {
+
     }
 
     create() {
@@ -121,6 +114,16 @@ export class AddressBookComponent implements OnInit {
 
     load(pageInfo: AddressBookModel) {
         this.pageInfo = pageInfo;
+        if(this.filters.length === 0) {
+          const filterValue = [];
+          this.pageInfo.contactFilter.forEach(item => {
+            filterValue.push({id: item.value, title: item.title + ' (' + item.count + ')'});
+          });
+
+          this.filters.push(new FilterItem(1, 'type', 'Select Source', filterValue, 'title'));
+          this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
+        }
+
         if (!this.types) {
             this.loading++;
             this.service.getTypes().then(res => {
