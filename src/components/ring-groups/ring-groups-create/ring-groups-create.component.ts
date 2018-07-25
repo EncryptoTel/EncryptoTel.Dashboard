@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RingGroupService} from '../../../services/ring-group.service';
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {MessageServices} from "../../../services/message.services";
+import {FormComponent} from "../../../elements/pbx-form/pbx-form.component";
 
 
 @Component({
@@ -14,6 +15,7 @@ import {MessageServices} from "../../../services/message.services";
 
 export class RingGroupsCreateComponent implements OnInit {
 
+    @ViewChild(FormComponent) form: FormComponent;
     id = 0;
     loading = 0;
     saving = 0;
@@ -36,6 +38,11 @@ export class RingGroupsCreateComponent implements OnInit {
 
     selectTab(tab: string): void {
         this.addMembers = false;
+        if (tab === 'Members' && !this.service.item.sipId) {
+            this.form.selected = 'General';
+            this.service.errors = {sip: 'Please select phone number'};
+            return;
+        }
         this.currentTab = tab;
     }
 
