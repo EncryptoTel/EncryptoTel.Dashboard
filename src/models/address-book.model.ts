@@ -18,6 +18,7 @@ export class AddressBookItem extends BaseItemModel {
     company: string;
     department: string;
     address: string;
+    blacklist: boolean;
 
     protected _country: CountryModel;
 

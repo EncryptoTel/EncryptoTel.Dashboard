@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
 
     currentFilter = [];
     private timeout = null;
+    selectedFilter = [];
 
     clickButton(item: ButtonItem) {
         this.onClick.emit(item);
@@ -25,7 +26,7 @@ export class HeaderComponent implements OnInit {
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
             this.onReload.emit(this.currentFilter);
-        }, 500);
+        }, 100);
     }
 
     load() {

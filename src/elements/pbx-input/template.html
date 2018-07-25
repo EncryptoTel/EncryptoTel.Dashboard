@@ -1,4 +1,4 @@
-<div class="pbx_input_wrap" [@Fade]>
+<div *ngIf="!loading" class="pbx_input_wrap" [@Fade]>
     <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item' : 'pbx_input_row']">
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']">

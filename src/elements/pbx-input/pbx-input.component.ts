@@ -52,6 +52,7 @@ export class InputComponent implements OnInit {
     prevError;
     prevFormError;
     hoverActive = false;
+    loading = 0;
 
     constructor() {
 
@@ -274,6 +275,7 @@ export class InputComponent implements OnInit {
 
 
     ngOnInit() {
+        this.loading++;
         if (this.form && this.checkbox) {
             this.value = this.getForm() ? this.getForm().value : false;
         } else if (this.options) {
@@ -290,6 +292,7 @@ export class InputComponent implements OnInit {
             this.falseValue ? this.falseValue : false,
             this.trueValue ? this.trueValue : true
         ];
+        this.loading--;
     }
 
 }

@@ -53,7 +53,7 @@
                     <div class="side_view_value">{{selected.address}}</div>
                 </div>
                 <div class="side_view_button">
-                    <span (click)="block()">Block contact</span>
+                    <span (click)="block()">{{selected.blacklist ? 'Unblock contact' : 'Block contact'}}</span>
                 </div>
                 <div class="side_view_button">
                     <span (click)="delete()">Delete contact</span>

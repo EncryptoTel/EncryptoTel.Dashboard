@@ -24,7 +24,7 @@ export class ListComponent implements OnInit {
     @Input() service: any;
     @Input() buttonTitle: string;
     @Input() loading: boolean;
-    @Input() filters: FilterItem;
+    @Input() filters: FilterItem[];
     @Input() editable: boolean = true;
     @Input() deletable: boolean = true;
     @Input() buttons: ButtonItem[] = [];
@@ -40,7 +40,7 @@ export class ListComponent implements OnInit {
     @Output() onLoad: EventEmitter<object> = new EventEmitter<object>();
 
     @ViewChild(TableComponent) items;
-    @ViewChild(HeaderComponent) header;
+    @ViewChild(HeaderComponent) header: HeaderComponent;
 
     currentFilter = [];
     loadingEx: number = 0;
@@ -111,6 +111,18 @@ export class ListComponent implements OnInit {
         for (let i = 0; i < keys.length; i++) {
             if (this.currentFilter[keys[i]] !== null) {
                 result++;
+            }
+        }
+        if (this.filters && this.filters.length > 0) {
+            for (let i = 0; i < this.filters.length; i++) {
+                let filter = this.filters[i];
+                if (filter && filter.options && filter.options.length > 0) {
+                    for (let j = 0; j < filter.options.length; j++) {
+                        if (filter.options[j] && filter.options[j].count) {
+                            result++;
+                        }
+                    }
+                }
             }
         }
         return result > 0;
