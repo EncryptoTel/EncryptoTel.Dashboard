@@ -30,9 +30,6 @@ import {DetailsAndRecordsComponent, TimePipe} from '../components/details-and-re
 import {InvoicesComponent} from '../components/invoices/invoices.component';
 import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
 import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
-import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/general/call-queues-general.component';
-import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/members/call-queues-members.component';
-import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/members/add/call-queues-members-add.component';
 import {ProfileComponent} from '../components/settings/settings-items/profile/profile.component';
 import {AuthenticationComponent} from '../components/settings/settings-items/authentication/authentication.component';
 import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
@@ -54,9 +51,6 @@ import {CallRulesTimeRulesComponent} from '../components/call-rules/call-rules-c
 import {RightsAddExtensionComponent} from '../components/extensions/add/rights/rights.add.extension.component';
 import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
 import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
-import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/general/ring-groups-general.component';
-import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/members/ring-groups-members.component';
-import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/members/add/ring-groups-members-add.component';
 import {ChatComponent} from '../components/chat/chat.component';
 import {PartnerProgramComponent} from '../components/partner-program/partner-program.component';
 import {KnowledgeBaseComponent} from '../components/knowledge-base/knowledge-base.component';
@@ -115,9 +109,6 @@ import {VgStreamingModule} from 'videogular2/streaming';
         InvoicesComponent,
         CallQueuesComponent,
         CallQueuesCreateComponent,
-        CallQueuesGeneralComponent,
-        CallQueuesMembersComponent,
-        CallQueuesMembersAddComponent,
         ProfileComponent,
         AuthenticationComponent,
         BillingComponent,
@@ -141,9 +132,6 @@ import {VgStreamingModule} from 'videogular2/streaming';
         RightsAddExtensionComponent,
         RingGroupsComponent,
         RingGroupsCreateComponent,
-        RingGroupsGeneralComponent,
-        RingGroupsMembersComponent,
-        RingGroupsMembersAddComponent,
         ChatComponent,
         PartnerProgramComponent,
         OverviewPartnerProgramComponent,
@@ -174,9 +162,6 @@ import {VgStreamingModule} from 'videogular2/streaming';
         StorageComponent,
         CallQueuesComponent,
         CallQueuesCreateComponent,
-        CallQueuesGeneralComponent,
-        CallQueuesMembersComponent,
-        CallQueuesMembersAddComponent,
         ProfileComponent,
         AuthenticationComponent,
         BillingComponent,
@@ -196,9 +181,6 @@ import {VgStreamingModule} from 'videogular2/streaming';
         RightsAddExtensionComponent,
         RingGroupsComponent,
         RingGroupsCreateComponent,
-        RingGroupsGeneralComponent,
-        RingGroupsMembersComponent,
-        RingGroupsMembersAddComponent,
         PartnerProgramComponent,
         OverviewPartnerProgramComponent,
         LinksPartnerProgramComponent,

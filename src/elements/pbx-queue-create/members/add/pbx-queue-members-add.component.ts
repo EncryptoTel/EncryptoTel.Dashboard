@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {FadeAnimation} from '../../../../../shared/fade-animation';
-import {RingGroupService} from '../../../../../services/ring-group.service';
-import {RefsServices} from '../../../../../services/refs.services';
+import {Component, Input, OnInit} from '@angular/core';
+import {FadeAnimation} from '../../../../shared/fade-animation';
+import {RefsServices} from '../../../../services/refs.services';
 
 @Component({
-    selector: 'ring-groups-members-add',
+    selector: 'pbx-queue-members-add',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
 
-export class RingGroupsMembersAddComponent implements OnInit {
+export class QueueMembersAddComponent implements OnInit {
+    @Input() service;
 
     loading = 0;
     members = [];
@@ -24,15 +24,15 @@ export class RingGroupsMembersAddComponent implements OnInit {
     searchStr = '';
     id = 0;
 
-    constructor(public service: RingGroupService,
-                private refs: RefsServices) {}
+    constructor(private refs: RefsServices) {
+    }
 
     selectMember(member): void {
         this.service.addMember(member);
     }
 
     deleteMember(member): void {
-        this.service.deleteMember(member);
+        // this.service.deleteMember(member);
     }
 
     departmentChanged(item) {
@@ -65,7 +65,7 @@ export class RingGroupsMembersAddComponent implements OnInit {
 
     private addPhoneNumberField(): void {
         for (let i = 0; i < this.members.length; i++) {
-            this.members[i].sipOuterPhone = this.service.userView.phoneNumber;
+            this.members[i].sipOuterPhone = this.service.userView.phoneNumber.code;
         }
     }
 
@@ -75,7 +75,7 @@ export class RingGroupsMembersAddComponent implements OnInit {
             this.departments = res;
             this.selectedDepartment = this.departments[0];
             this.loading--;
-        }).catch(() => {
+        }).catch(err => {
             this.loading--;
             // console.error(err);
         });

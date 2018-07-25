@@ -39,15 +39,9 @@ import {CallRulesCreateComponent} from '../components/call-rules/call-rules-crea
 
 import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
 import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
-import {CallQueuesGeneralComponent} from '../components/call-queues/call-queues-create/general/call-queues-general.component';
-import {CallQueuesMembersComponent} from '../components/call-queues/call-queues-create/members/call-queues-members.component';
-import {CallQueuesMembersAddComponent} from '../components/call-queues/call-queues-create/members/add/call-queues-members-add.component';
 
 import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
 import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
-import {RingGroupsGeneralComponent} from '../components/ring-groups/ring-groups-create/general/ring-groups-general.component';
-import {RingGroupsMembersComponent} from '../components/ring-groups/ring-groups-create/members/ring-groups-members.component';
-import {RingGroupsMembersAddComponent} from '../components/ring-groups/ring-groups-create/members/add/ring-groups-members-add.component';
 
 import {IvrComponent} from '../components/ivr/ivr.component';
 import {IvrCreateComponent} from "../components/ivr/ivr-create/ivr-create.component";
@@ -154,57 +148,11 @@ const Routes: Routes = [
                         path: 'create',
                         component: CallQueuesCreateComponent,
                         data: {title: 'Create Call Queue', indexed: true},
-                        children: [
-                            {path: '', redirectTo: 'general', pathMatch: 'full'},
-                            {
-                                path: 'general',
-                                component: CallQueuesGeneralComponent,
-                                data: {title: 'Create Call Queue', indexed: true}
-                            },
-                            {
-                                path: 'members', children: [
-                                    {
-                                        path: '',
-                                        pathMatch: 'full',
-                                        component: CallQueuesMembersComponent,
-                                        data: {title: 'Create Call Queue', indexed: true}
-                                    },
-                                    {
-                                        path: 'add',
-                                        component: CallQueuesMembersAddComponent,
-                                        data: {title: 'Create Call Queue', indexed: true}
-                                    }
-                                ]
-                            }
-                        ]
                     },
                     {
                         path: ':id',
                         component: CallQueuesCreateComponent,
                         data: {title: 'Edit Call Queue', indexed: true},
-                        children: [
-                            {path: '', redirectTo: 'general', pathMatch: 'full'},
-                            {
-                                path: 'general',
-                                component: CallQueuesGeneralComponent,
-                                data: {title: 'Edit Call Queue', indexed: true}
-                            },
-                            {
-                                path: 'members', children: [
-                                    {
-                                        path: '',
-                                        pathMatch: 'full',
-                                        component: CallQueuesMembersComponent,
-                                        data: {title: 'Edit Call Queue', indexed: true}
-                                    },
-                                    {
-                                        path: 'add',
-                                        component: CallQueuesMembersAddComponent,
-                                        data: {title: 'Edit Call Queue', indexed: true}
-                                    }
-                                ]
-                            }
-                        ]
                     }
                 ]
             },
@@ -215,57 +163,11 @@ const Routes: Routes = [
                         path: 'create',
                         component: RingGroupsCreateComponent,
                         data: {title: 'Create Ring Group', indexed: true},
-                        children: [
-                            {path: '', redirectTo: 'general', pathMatch: 'full'},
-                            {
-                                path: 'general',
-                                component: RingGroupsGeneralComponent,
-                                data: {title: 'Create Ring Group', indexed: true}
-                            },
-                            {
-                                path: 'members', children: [
-                                    {
-                                        path: '',
-                                        pathMatch: 'full',
-                                        component: RingGroupsMembersComponent,
-                                        data: {title: 'Create Ring Group', indexed: true}
-                                    },
-                                    {
-                                        path: 'add',
-                                        component: RingGroupsMembersAddComponent,
-                                        data: {title: 'Create Ring Group', indexed: true}
-                                    }
-                                ]
-                            }
-                        ]
                     },
                     {
                         path: ':id',
                         component: RingGroupsCreateComponent,
                         data: {title: 'Edit Ring Group', indexed: true},
-                        children: [
-                            {path: '', redirectTo: 'general', pathMatch: 'full'},
-                            {
-                                path: 'general',
-                                component: RingGroupsGeneralComponent,
-                                data: {title: 'Edit Ring Group', indexed: true}
-                            },
-                            {
-                                path: 'members', children: [
-                                    {
-                                        path: '',
-                                        pathMatch: 'full',
-                                        component: RingGroupsMembersComponent,
-                                        data: {title: 'Edit Ring Group', indexed: true}
-                                    },
-                                    {
-                                        path: 'add',
-                                        component: RingGroupsMembersAddComponent,
-                                        data: {title: 'Edit Ring Group', indexed: true}
-                                    }
-                                ]
-                            }
-                        ]
                     }
                 ]
             },

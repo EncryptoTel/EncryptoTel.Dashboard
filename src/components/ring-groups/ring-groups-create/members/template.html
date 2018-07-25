@@ -1,7 +1,0 @@
-<div class="ring_groups_members" [@Fade]>
-    <div class="ring_groups_members_header">
-        Ring Groups Members
-        <pbx-button (onClick)="onClickMembers()" value="Add Member"></pbx-button>
-    </div>
-    <pbx-table [tableInfo]="table" [tableItems]="members" (onDelete)="deleteMember($event)"></pbx-table>
-</div>

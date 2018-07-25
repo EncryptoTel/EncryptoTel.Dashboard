@@ -23,6 +23,10 @@ import {HeaderComponent} from '../elements/pbx-header/pbx-header.component';
 import {ListComponent} from '../elements/pbx-list/pbx-list.component';
 import {DiskUsedComponent} from '../elements/pbx-drive-circle/pbx-drive-circle.component';
 import {CalendarComponent} from '../elements/pbx-calendar/pbx-calendar.component';
+import {QueueCreateComponent} from "../elements/pbx-queue-create/pbx-queue-create.component";
+import {QueueGeneralComponent} from "../elements/pbx-queue-create/general/pbx-queue-general.component";
+import {QueueMembersComponent} from "../elements/pbx-queue-create/members/pbx-queue-members.component";
+import {QueueMembersAddComponent} from "../elements/pbx-queue-create/members/add/pbx-queue-members-add.component";
 
 @NgModule({
     imports: [
@@ -49,7 +53,11 @@ import {CalendarComponent} from '../elements/pbx-calendar/pbx-calendar.component
         HeaderComponent,
         ListComponent,
         DiskUsedComponent,
-        CalendarComponent
+        CalendarComponent,
+        QueueCreateComponent,
+        QueueGeneralComponent,
+        QueueMembersComponent,
+        QueueMembersAddComponent
     ],
     exports: [
         ClickOutsideDirective,
@@ -68,7 +76,11 @@ import {CalendarComponent} from '../elements/pbx-calendar/pbx-calendar.component
         HeaderComponent,
         ListComponent,
         DiskUsedComponent,
-        CalendarComponent
+        CalendarComponent,
+        QueueCreateComponent,
+        QueueGeneralComponent,
+        QueueMembersComponent,
+        QueueMembersAddComponent
     ]
 })
 export class ElementsModule {

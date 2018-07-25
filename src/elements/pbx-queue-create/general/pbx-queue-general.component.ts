@@ -1,25 +1,25 @@
-import {Component} from '@angular/core';
-import {FadeAnimation} from '../../../../shared/fade-animation';
-import {RingGroupService} from '../../../../services/ring-group.service';
-import {RefsServices} from '../../../../services/refs.services';
+import {Component, Input} from '@angular/core';
+import {FadeAnimation} from '../../../shared/fade-animation';
+import {RefsServices} from '../../../services/refs.services';
 
 @Component({
-    selector: 'ring-groups-general',
+    selector: 'pbx-queue-general',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
 
-export class RingGroupsGeneralComponent {
+export class QueueGeneralComponent {
+    @Input() service;
+
+    constructor(private refs: RefsServices) {
+        this.getNumbers();
+        // this.service.userView.isCurCompMembersAdd = false;
+    }
 
     loading = 0;
     numbers = [];
 
-    constructor(public service: RingGroupService,
-                private refs: RefsServices) {
-        this.getNumbers();
-        // this.service.userView.isCurCompMembersAdd = false;
-    }
 
     private getNumbers(): void {
         this.loading++;
