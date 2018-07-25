@@ -140,7 +140,6 @@ export class ProfileComponent implements OnInit {
                 this.service.saveProfileSettings(this.generalForm.value)
                     .then((res) => {
                         // this.getSettings();
-                        this.message.writeSuccess(res.message);
                         this.user.fetchProfileParams().then();
                         this.goBack();
                     })
