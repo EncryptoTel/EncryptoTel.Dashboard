@@ -3,6 +3,7 @@
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label']">
             <span>{{name}}</span>
+            <span class="required" *ngIf="required">*</span>
         </div>
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_input_wrap' : 'pbx_input_row_input_wrap']" #inputDiv>

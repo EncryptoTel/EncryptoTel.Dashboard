@@ -6,6 +6,7 @@
                key="outer"
                placeholder="Please select phone"
                [form]="true"
+               [required]="true"
                [options]="sipOuters.option"
                [errors]="service.errors"
                [object]="form"
@@ -15,6 +16,7 @@
     <pbx-input name="Extension"
                key="phoneNumber"
                [form]="true"
+               [required]="true"
                [errors]="service.errors"
                [object]="form"
     ></pbx-input>
@@ -47,6 +49,7 @@
                key="email"
                errorKey="user.email"
                [form]="true"
+               [required]="!!form.controls.user.get('firstName').value || !!form.controls.user.get('lastName').value"
                [errors]="service.errors"
                [object]="form.controls.user"
     ></pbx-input>

@@ -9,6 +9,8 @@
             <pbx-input name="Organization"
                        key="name"
                        [form]="true"
+                       [required]="true"
+                       [floatError]="true"
                        [errors]="service.errors"
                        [object]="companyForm">
             </pbx-input>
@@ -19,6 +21,8 @@
                                displayKey="title"
                                (onSelect)="selectCountry($event)"
                                [form]="true"
+                               [required]="true"
+                               [floatError]="true"
                                [options]="countries"
                                [object]="address"
                                [errors]="service.errors"
@@ -27,6 +31,8 @@
                     <pbx-input name="State/Region"
                                key="regionName"
                                [form]="true"
+                               [required]="true"
+                               [floatError]="true"
                                [errorKey]="'companyAddress.new_0.regionName'"
                                [errors]="service.errors"
                                [object]="address">
@@ -34,6 +40,8 @@
                     <pbx-input name="City"
                                key="locationName"
                                [form]="true"
+                               [required]="true"
+                               [floatError]="true"
                                [errorKey]="'companyAddress.new_0.locationName'"
                                [errors]="service.errors"
                                [object]="address">
@@ -41,6 +49,8 @@
                     <pbx-input name="Street"
                                key="street"
                                [form]="true"
+                               [required]="true"
+                               [floatError]="true"
                                [errorKey]="'companyAddress.new_0.street'"
                                [errors]="service.errors"
                                [object]="address">
@@ -48,6 +58,8 @@
                     <pbx-input name="House #"
                                key="building"
                                [form]="true"
+                               [required]="true"
+                               [floatError]="true"
                                [errorKey]="'companyAddress.new_0.building'"
                                [errors]="service.errors"
                                [object]="address">
@@ -55,6 +67,8 @@
                     <pbx-input name="Office"
                                key="office"
                                [form]="true"
+                               [floatError]="true"
+                               [required]="true"
                                [errorKey]="'companyAddress.new_0.office'"
                                [errors]="service.errors"
                                [object]="address">
@@ -62,6 +76,8 @@
                     <pbx-input name="Postal code"
                                key="postalCode"
                                [form]="true"
+                               [floatError]="true"
+                               [required]="true"
                                [errorKey]="'companyAddress.new_0.postalCode'"
                                [errors]="service.errors"
                                [object]="address">
@@ -71,18 +87,24 @@
             <pbx-input name="Email"
                        key="email"
                        [form]="true"
+                       [floatError]="true"
+                       [required]="true"
                        [errors]="service.errors"
                        [object]="companyForm">
             </pbx-input>
             <pbx-input name="Phone"
                        key="phone"
                        [form]="true"
+                       [required]="true"
+                       [floatError]="true"
                        [errors]="service.errors"
                        [object]="companyForm">
             </pbx-input>
             <pbx-input name="VAT ID"
                        key="vatId"
                        [form]="true"
+                       [floatError]="true"
+                       [required]="true"
                        [errors]="service.errors"
                        [object]="companyForm">
             </pbx-input>

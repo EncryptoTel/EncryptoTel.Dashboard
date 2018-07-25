@@ -49,8 +49,8 @@
     margin-bottom: 10px
     &_label
       display: flex
-      flex-flow: column
-      justify-content: center
+      flex-flow: row
+      justify-content: right
       align-items: flex-start
       width: 150px
     &_input_wrap
@@ -70,9 +70,13 @@
       font-size: rem(15)
       height: 5%
       display: flex
-      flex-flow: column
-      justify-content: center
+      flex-flow: row
+      justify-content: right
       margin-bottom: 10px
+
+.required
+  color: $dark_error
+  margin-left: 5px
 
 .pbx_input_error_float
   display: none

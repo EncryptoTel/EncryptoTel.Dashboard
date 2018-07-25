@@ -226,25 +226,25 @@ export class AddressBookComponent implements OnInit {
     }
 
     save() {
-        this.sidebar.loading++;
+        this.sidebar.saving++;
         this.checkEmpty(this.selected.contactPhone);
         this.checkEmpty(this.selected.contactEmail);
 
         if (this.selected.id) {
             this.service.putById(this.selected.id, this.selected).then(res => {
-                this.sidebar.loading--;
+                this.sidebar.saving--;
                 this.close(true);
             }).catch(res => {
                 this.prepareData();
-                this.sidebar.loading--;
+                this.sidebar.saving--;
             });
         } else {
             this.service.post('', this.selected).then(res => {
-                this.sidebar.loading--;
+                this.sidebar.saving--;
                 this.close(true);
             }).catch(res => {
                 this.prepareData();
-                this.sidebar.loading--;
+                this.sidebar.saving--;
             });
         }
     }
