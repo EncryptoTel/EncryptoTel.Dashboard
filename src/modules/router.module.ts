@@ -68,6 +68,7 @@ import {MarketplaceComponent} from '../components/marketplace/marketplace.compon
 import {StorageComponent} from '../components/storage/storage.component';
 
 import {PartnerProgramComponent} from '../components/partner-program/partner-program.component';
+import {KnowledgeBaseComponent} from '../components/knowledge-base/knowledge-base.component';
 
 import {SettingsComponent} from '../components/settings/settings.component';
 import {ProfileComponent} from '../components/settings/settings-items/profile/profile.component';
@@ -332,6 +333,11 @@ const Routes: Routes = [
                 path: 'partner-program',
                 component: PartnerProgramComponent,
                 data: {title: 'Partner Program', indexed: true}
+            },
+            {
+                path: 'knowledge-base',
+                component: KnowledgeBaseComponent,
+                data: {title: 'Knowledge Base', indexed: true}
             },
             {path: 'blank', component: BlankComponent, data: {title: 'Blank Component', indexed: true}},
         ]
