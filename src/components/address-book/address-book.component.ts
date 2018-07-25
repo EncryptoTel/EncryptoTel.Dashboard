@@ -114,14 +114,15 @@ export class AddressBookComponent implements OnInit {
 
     load(pageInfo: AddressBookModel) {
         this.pageInfo = pageInfo;
+        const filterValue = [];
+        this.pageInfo.contactFilter.forEach(item => {
+          filterValue.push({id: item.value, title: item.title + ' (' + item.count + ')'});
+        });
         if(this.filters.length === 0) {
-          const filterValue = [];
-          this.pageInfo.contactFilter.forEach(item => {
-            filterValue.push({id: item.value, title: item.title + ' (' + item.count + ')'});
-          });
-
           this.filters.push(new FilterItem(1, 'type', 'Select Source', filterValue, 'title'));
           this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
+        } else {
+          this.filters[0].options = filterValue;
         }
 
         if (!this.types) {
