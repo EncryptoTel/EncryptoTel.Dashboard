@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {assertNumber} from "@angular/core/src/render3/assert";
@@ -10,7 +10,7 @@ import {assertNumber} from "@angular/core/src/render3/assert";
     animations: [SwipeAnimation('y', '200ms')]
 })
 
-export class SelectComponent {
+export class SelectComponent implements OnInit {
     @Input() name: string;
     @Input() singleBorder: boolean;
     @Input() options: any[];
@@ -137,7 +137,7 @@ export class SelectComponent {
     }
 
     isCurrent(item) {
-        return Number.isInteger(item) ? item === this.selected : item.id === this.selected.id;
+        return this.selected ? (Number.isInteger(item) ? item === this.selected : item.id === this.selected.id) : false;
     }
 
     opened() {
@@ -147,4 +147,9 @@ export class SelectComponent {
     closed() {
         this.onClose.emit();
     }
+
+    ngOnInit() {
+
+    }
+
 }
