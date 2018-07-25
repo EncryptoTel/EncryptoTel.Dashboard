@@ -3,7 +3,4 @@ export const environment = {
     production: false,
     back: 'http://pbx-back-dev.encry.ru/api',
     ws: 'ws.pbx-back-dev.encry.ru',
-    params: {
-        messageDuration: 5000
-    }
 };

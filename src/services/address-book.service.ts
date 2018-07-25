@@ -1,10 +1,13 @@
-import {Injectable} from '@angular/core';
 import {BaseService} from "./base.service";
 import {PageInfoModel} from "../models/base.model";
 import {plainToClass} from "class-transformer";
-import {AddressBookItem, AddressBookModel, TypeItem, TypesModel} from "../models/address-book.model";
-
-@Injectable()
+import {
+    AddressBookItem,
+    AddressBookModel,
+    ContactFilterModel,
+    TypeItem,
+    TypesModel
+} from "../models/address-book.model";
 
 export class AddressBookService extends BaseService {
     //
@@ -66,12 +69,12 @@ export class AddressBookService extends BaseService {
 
     getItems(pageInfo: PageInfoModel, filter = null): Promise<AddressBookModel> {
         return super.getItems(pageInfo, filter).then((res: AddressBookModel) => {
-            let pageInfo = plainToClass(AddressBookModel, res);
-            pageInfo.items = [];
-            res['items'].map(item => {
-                pageInfo.items.push(plainToClass(AddressBookItem, item));
+            let pageinfo: AddressBookModel = this.plainToClassEx(AddressBookModel, AddressBookItem, res) as AddressBookModel;
+            pageinfo.contactFilter = [];
+            res.contactFilter.map(filter => {
+                pageinfo.contactFilter.push(plainToClass(ContactFilterModel, filter));
             });
-            return Promise.resolve(pageInfo);
+            return Promise.resolve(pageinfo);
         });
     }
 

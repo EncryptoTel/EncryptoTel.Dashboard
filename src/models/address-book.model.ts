@@ -6,6 +6,7 @@ export class AddressBookModel extends PageInfoModel {
     items: AddressBookItem[];
     countries: CountryModel[];
     types: TypesModel;
+    contactFilter: ContactFilterModel[];
 }
 
 export class AddressBookItem extends BaseItemModel {
@@ -105,4 +106,15 @@ export class TypesModel {
 export class TypeItem {
     id: number;
     value: string;
+}
+
+export class ContactFilterModel {
+    title: string;
+    value: string;
+    count: number;
+    sort: number;
+
+    get displayTitle() {
+        return `${this.title} (${this.count})`;
+    }
 }

@@ -7,7 +7,4 @@ export const environment = {
     // back: 'http://back-symfony.loc/api',
     ws: 'ws.pbx-back-dev.encry.ru',
     // ws: 'localhost:3000',
-  params: {
-        messageDuration: 5000
-    }
 };
