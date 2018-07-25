@@ -1,3 +1,9 @@
 <div class="knowledge-base">
-
+  <pbx-header
+              [buttons]="buttons"
+              [filters]="filters"
+              (onUpdate)="updateFilter($event)"
+              (onReload)="reloadFilter($event)"
+              [inactive]="loading || loadingEx">
+  </pbx-header>
 </div>
