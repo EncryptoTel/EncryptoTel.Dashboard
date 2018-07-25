@@ -165,6 +165,13 @@ export class AddressBookComponent implements OnInit {
     }
 
     confirmBlock() {
+        this.selected.loading++;
+        this.service.blockByContact(this.selected.id).then(res => {
+            this.close(true);
+            this.selected.loading--;
+        }).catch(() => {
+            this.selected.loading--;
+        });
     }
 
     delete() {

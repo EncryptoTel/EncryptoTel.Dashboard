@@ -10,11 +10,11 @@ import {
 } from "../models/address-book.model";
 
 export class AddressBookService extends BaseService {
-    //
-    // block(data: object): Promise<any> {
-    //     return this.request.post(`v1/blacklist`, data);
-    // }
-    //
+
+    blockByContact(id: number): Promise<any> {
+        return this.request.post('v1/blacklist', {contact: id});
+    }
+
     // getContacts(pageInfo: any): Promise<any> {
     //     return this.request.get(`v1/contact?page=${pageInfo.page}&limit=${pageInfo.limit}`);
     // }
