@@ -94,13 +94,13 @@ export class InputComponent implements OnInit {
         const keys = key.split('.');
         switch (keys.length) {
             case 1:
-                this.errors[keys[0]] = null;
+                this.errors[keys[0]] = value;
                 break;
             case 2:
-                this.errors[keys[0]][keys[1]] = null;
+                this.errors[keys[0]][keys[1]] = value;
                 break;
             case 3:
-                this.errors[keys[0]][keys[1]][keys[2]] = null;
+                this.errors[keys[0]][keys[1]][keys[2]] = value;
                 break;
         }
     }
