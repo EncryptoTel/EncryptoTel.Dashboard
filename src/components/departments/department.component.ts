@@ -56,7 +56,7 @@ export class DepartmentsComponent implements OnInit {
         });
 
         this.departmentForm = this.fb.group({
-            name: [null, [Validators.required, Validators.maxLength(255)]],
+            name: [null, [Validators.required, Validators.maxLength(190)]],
             comment: [null, [Validators.maxLength(255)]],
             sipInner: this.fb.array([])
         });
