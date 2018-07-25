@@ -98,6 +98,10 @@ export class RequestServices {
                 this.logout();
                 break;
             }
+            case 403: {
+                this.router.navigate(['/cabinet/dashboard'])
+                break;
+            }
             default: {
                 if (response.error && response.error.message) {
                     this._messages.writeError(response.error.message); // Adding warning message

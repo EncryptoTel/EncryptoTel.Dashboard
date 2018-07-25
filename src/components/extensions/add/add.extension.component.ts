@@ -83,6 +83,7 @@ export class AddExtensionsComponent implements OnInit {
 
     getExtension() {
         if (this.mode === 'create') {
+            this.formExtension.get('toAdmin').setValue(true);
             this.getAccessList(null);
             return;
         }

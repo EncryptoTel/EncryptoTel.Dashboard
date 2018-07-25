@@ -3,6 +3,7 @@
             <h3 class="call_queues_general_title">Create New Queue</h3>
             <pbx-input name="Name"
                        key="name"
+                       [required]="true"
                        [(errors)]="service.errors"
                        [(object)]="service.item">
             </pbx-input>
@@ -15,6 +16,7 @@
                        key="sipId"
                        displayKey="phoneNumber"
                        errorKey="sip"
+                       [required]="true"
                        [updateValueByKey]="true"
                        [options]="numbers"
                        [(errors)]="service.errors"
@@ -25,6 +27,7 @@
                        key="strategy"
                        displayKey="code"
                        errorKey="strategy"
+                       [required]="true"
                        [updateValueByKey]="true"
                        [options]="service.params.strategies"
                        [(errors)]="service.errors"

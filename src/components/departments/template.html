@@ -1,8 +1,7 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
 <div class="departments" *ngIf="!loading">
 
-    <pbx-list style="width: 100%"
-              [(pageInfo)]="pageInfo"
+    <pbx-list [(pageInfo)]="pageInfo"
               [table]="table"
               [loading]="loading"
               [filters]="filters"
@@ -10,7 +9,7 @@
               name="Departments"
               itemName="Department"
               [EmptyInfo]="companyActive ? null : getEmptyInfo()"
-              [hideArrow]="true"
+              [hideArrow]="!companyActive"
               [buttons]="buttons"
               (onCreate)="create()"
               (onEdit)="edit($event)"
@@ -30,6 +29,7 @@
                        [form]="true"
                        [singleBorder]="false"
                        [floatError]="true"
+                       [required]="true"
                        [object]="departmentForm"
                        [errors]="service.errors"
             ></pbx-input>

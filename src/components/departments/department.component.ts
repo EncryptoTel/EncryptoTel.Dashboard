@@ -56,7 +56,7 @@ export class DepartmentsComponent implements OnInit {
         });
 
         this.departmentForm = this.fb.group({
-            name: [null, [Validators.required, Validators.maxLength(255)]],
+            name: [null, [Validators.required, Validators.maxLength(190)]],
             comment: [null, [Validators.maxLength(255)]],
             sipInner: this.fb.array([])
         });
@@ -87,21 +87,26 @@ export class DepartmentsComponent implements OnInit {
     edit(item: DepartmentItem): void {
         this.sidebar.mode = 'edit';
         this.selected = item;
-        this.sidebar.visible = true;
         this.departmentForm.get('name').setValue(item.name);
         this.departmentForm.get('comment').setValue(item.comment);
         this.resetForEdit();
+        const sipsForm = this.departmentForm.get('sipInner') as FormArray;
+
+        if (item.sipInnerIds.length === 0) {
+            sipsForm.push(this.createPhoneField());
+        }
+
         for (let i = 0; i < item.sipInnerIds.length; i++) {
             for (let x = 0; x < this.sips.length; x++) {
                 if (item.sipInnerIds[i] === this.sips[x].id) {
                     this.sips[x].blocked = true;
                     this.selectedSips.push(this.sips[x]);
-                    const sipsForm = this.departmentForm.get('sipInner') as FormArray;
                     sipsForm.push(this.createPhoneField());
                     sipsForm.get(`${i}`).setValue(this.sips[x].id);
                 }
             }
         }
+        this.sidebar.visible = true;
     }
 
     getSelectNumbers(): Sip[] {

@@ -64,7 +64,8 @@
             </div>
         </div>
         <div class="side_wrap" *ngIf="!loading && !sidebar.loading && sidebar.mode === 'edit'">
-            <div class="side_body">
+            <pbx-loader *ngIf="sidebar.saving"></pbx-loader>
+            <div class="side_body" *ngIf="!sidebar.saving">
 
                 <pbx-input name="First Name"
                            key="firstname"
@@ -72,6 +73,7 @@
                            [(errors)]="service.errors"
                            [singleBorder]="false"
                            [floatError]="true"
+                           [required]="true"
                            [object]="selected">
                 </pbx-input>
 

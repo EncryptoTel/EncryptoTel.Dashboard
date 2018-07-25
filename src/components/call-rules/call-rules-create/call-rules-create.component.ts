@@ -275,7 +275,6 @@ export class CallRulesCreateComponent implements OnInit {
         this.service.getFiles().then((res) => {
             this.loading -= 1;
             this.files = res.items;
-            this.getQueue();
             if (this.mode === 'edit') {
                 this.getEditedCallRule();
             }
@@ -299,7 +298,20 @@ export class CallRulesCreateComponent implements OnInit {
         this.service.getParams().then(res => {
             this.loading -= 1;
             this.actionsList = res.actions;
-            this.getFiles();
+
+            res.actions.map(action => {
+                switch (action.id) {
+                    case 1:
+                        this.getNumbers();
+                        break;
+                    case 3:
+                        this.getQueue();
+                        break;
+                    case 5:
+                        this.getFiles();
+                        break;
+                }
+            });
         }).catch(err => {
             this.loading -= 1;
         });
@@ -382,7 +394,6 @@ export class CallRulesCreateComponent implements OnInit {
     ngOnInit() {
         this.loading++;
         this.buildForm();
-        this.getNumbers();
         this.getParams();
         this.loading--;
     }

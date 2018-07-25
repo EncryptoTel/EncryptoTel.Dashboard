@@ -20,6 +20,7 @@
             <pbx-input name="Rule Name"
                        key="name"
                        [form]="true"
+                       [required]="true"
                        [(errors)]="service.errors"
                        [object]="callRulesForm">
             </pbx-input>
@@ -35,6 +36,7 @@
                        displayKey="phoneNumber"
                        errorKey="sip"
                        [form]="true"
+                       [required]="true"
                        (onSelect)="selectNumber($event)"
                        [options]="numbers"
                        [(errors)]="service.errors"
@@ -59,6 +61,7 @@
                 <pbx-input name="Action"
                            displayKey="code"
                            [form]="true"
+                           [required]="true"
                            [formKey]="getActionFormKey(0)"
                            (onSelect)="selectAction($event)"
                            [options]="actionsList"
@@ -78,6 +81,7 @@
                                            key="parameter"
                                            [errorKey]="'ruleActions.new_' + i + '.parameter'"
                                            [form]="true"
+                                           [required]="true"
                                            (onSelect)="selectSipInner(i, $event)"
                                            [options]="sipInners"
                                            [(errors)]="service.errors"
@@ -102,6 +106,7 @@
                                 <pbx-input name="External number"
                                            key="parameter"
                                            [form]="true"
+                                           [required]="true"
                                            [object]="action">
                                 </pbx-input>
 
@@ -126,6 +131,7 @@
                                            key="parameter"
                                            [errorKey]="'ruleActions.new_' + i + '.parameter'"
                                            [form]="true"
+                                           [required]="true"
                                            (onSelect)="selectQueue(i, $event)"
                                            [options]="queues"
                                            [(errors)]="service.errors"
@@ -163,6 +169,7 @@
                                            key="parameter"
                                            [errorKey]="'ruleActions.new_' + i + '.parameter'"
                                            [form]="true"
+                                           [required]="true"
                                            (onSelect)="selectFile(i, $event)"
                                            [options]="files"
                                            [(errors)]="service.errors"

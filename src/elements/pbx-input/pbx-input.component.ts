@@ -38,6 +38,7 @@ export class InputComponent implements OnInit {
     @Input() floatError: boolean = false;
     @Input() errorVisible: boolean = false;
     @Input() rows: number = 5;
+    @Input() required: boolean;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -89,10 +90,19 @@ export class InputComponent implements OnInit {
         if (!key) {
             return null;
         }
-        this.errors[key] = value;
-        // const keyArray = key.split('.');
-        // keyArray.forEach(k => item = item && item[k]);
-        // item = null;
+//        this.errors[key] = value;
+        const keys = key.split('.');
+        switch (keys.length) {
+            case 1:
+                this.errors[keys[0]] = value;
+                break;
+            case 2:
+                this.errors[keys[0]][keys[1]] = value;
+                break;
+            case 3:
+                this.errors[keys[0]][keys[1]][keys[2]] = value;
+                break;
+        }
     }
 
     checkError(textOnly = null): string {
@@ -130,8 +140,11 @@ export class InputComponent implements OnInit {
                     switch (keys[i]) {
                         case 'required':
                             return 'This value is required';
+                        case 'maxlength':
+                            return 'This value is too long';
                         default:
-                            return 'This field is invalid';
+                            // console.log(keys[i]);
+                            return 'This value is invalid';
                     }
                 }
             }
