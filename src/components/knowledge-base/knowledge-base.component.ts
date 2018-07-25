@@ -8,7 +8,7 @@ import {ButtonItem, FilterItem, HeaderComponent} from '../../elements/pbx-header
 @Component({
     selector: 'partner-program-component',
     templateUrl: './template.html',
-    styleUrls: ['./local.less'],
+    styleUrls: ['./local.sass'],
     providers: [PartnerProgramService],
     animations: [SwipeAnimation('x', '300ms')]
 })
