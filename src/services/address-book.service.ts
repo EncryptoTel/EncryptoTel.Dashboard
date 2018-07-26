@@ -11,8 +11,12 @@ import {
 
 export class AddressBookService extends BaseService {
 
-    blockByContact(id: number): Promise<any> {
-        return this.request.post('v1/blacklist', {contact: id});
+    blockByContact(id: number, blacklist = false): Promise<any> {
+        if (blacklist) {
+            return this.request.del(`v1/blacklist/${id}`);
+        } else {
+            return this.request.post('v1/blacklist', {contact: id});
+        }
     }
 
     // getContacts(pageInfo: any): Promise<any> {

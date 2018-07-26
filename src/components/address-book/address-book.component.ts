@@ -51,6 +51,7 @@ export class AddressBookComponent implements OnInit {
         },
         block: {
             visible: false,
+            body: '',
             confirm: {type: 'error', value: 'Block'},
             decline: {type: 'cancel', value: 'Cancel'}
         },
@@ -162,12 +163,14 @@ export class AddressBookComponent implements OnInit {
     }
 
     block() {
+        this.modal.block.confirm.value = this.selected.blacklist ? 'Unblock' : 'Block';
+        this.modal.block.body = `Are you sure you want to ${this.selected.blacklist ? 'unblock' : 'block'} this contact?`;
         this.modal.block.visible = true;
     }
 
     confirmBlock() {
         this.selected.loading++;
-        this.service.blockByContact(this.selected.id).then(res => {
+        this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
             this.close(true);
             this.selected.loading--;
         }).catch(() => {

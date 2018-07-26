@@ -118,7 +118,7 @@ export class ListComponent implements OnInit {
                 let filter = this.filters[i];
                 if (filter && filter.options && filter.options.length > 0) {
                     for (let j = 0; j < filter.options.length; j++) {
-                        if (filter.options[j] && filter.options[j].count) {
+                        if (filter.options[j] && filter.options[j].count && filter.options[j].count > 0) {
                             result++;
                         }
                     }

@@ -190,7 +190,7 @@
     </pbx-sidebar>
 </div>
 
-<pbx-modal [modal]="modal.block" (onConfirm)="confirmBlock()">Are you sure you want to block this contact?</pbx-modal>
+<pbx-modal [modal]="modal.block" (onConfirm)="confirmBlock()">{{modal.block.body}}</pbx-modal>
 <pbx-modal [modal]="modal.delete" (onConfirm)="confirmDelete()">Are you sure you want to delete this contact?
 </pbx-modal>
 <!--<pbx-modal [modal]="modal.err">Please enter correct data.</pbx-modal>-->
