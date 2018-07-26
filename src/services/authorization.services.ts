@@ -120,6 +120,10 @@ export class AuthorizationServices {
       Data - sign up form values
      */
     signUp(data: SignUpFormModel) {
+        if (localStorage.getItem('ref') && localStorage.getItem('uniqueHash')) {
+            data.ref = localStorage.getItem('ref');
+            data.uniqueHash = localStorage.getItem('uniqueHash');
+        }
         return this._req.post('registration', {
             ...data
         }).then(result => {
