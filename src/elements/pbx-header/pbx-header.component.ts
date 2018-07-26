@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
+import {InputComponent} from "../pbx-input/pbx-input.component";
 
 @Component({
     selector: 'pbx-header',
@@ -14,9 +15,15 @@ export class HeaderComponent implements OnInit {
     @Output() onReload: EventEmitter<any> = new EventEmitter<any>();
     @Output() onUpdate: EventEmitter<any> = new EventEmitter<any>();
 
+    @ViewChildren(InputComponent) inputs: QueryList<InputComponent>;
+
     currentFilter = [];
     private timeout = null;
     selectedFilter = [];
+
+    constructor() {
+
+    }
 
     clickButton(item: ButtonItem) {
         this.onClick.emit(item);
@@ -26,7 +33,7 @@ export class HeaderComponent implements OnInit {
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
             this.onReload.emit(this.currentFilter);
-        }, 100);
+        }, 500);
     }
 
     load() {
@@ -47,6 +54,14 @@ export class HeaderComponent implements OnInit {
             }
         }
         return result;
+    }
+
+    updateFilter(idx, filter) {
+        this.selectedFilter[idx] = filter;
+        let item = this.inputs.find((item, index) => {
+            return index === idx;
+        });
+        if (item) item.value = filter;
     }
 
     ngOnInit() {
