@@ -70,6 +70,7 @@ import {AuthenticationComponent} from '../components/settings/settings-items/aut
 import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
+import {RefComponent} from "../components/confirmation/ref.component";
 
 const Routes: Routes = [
     {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -103,6 +104,11 @@ const Routes: Routes = [
         path: 'code-confirmation/:hash',
         component: CodeConfirmComponent,
         data: {title: 'Code Confirmation', indexed: false}
+    },
+    {
+        path: 'ref/:hash',
+        component: RefComponent,
+        data: {title: 'Ref link', indexed: false}
     },
     {path: 'password-reset/:hash', component: PasswordResetComponent, data: {title: 'Password Reset', indexed: false}},
     {

@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {PartnerProgramService} from '../../../services/partner-program.service';
-import {PageInfoModel} from '../../../models/base.model';
+import {PartnerProgramItem, PartnerProgramModel} from "../../../models/partner-program.model";
 
 @Component({
     selector: 'links-partner-program-component',
@@ -12,9 +12,7 @@ import {PageInfoModel} from '../../../models/base.model';
 })
 
 export class LinksPartnerProgramComponent implements OnInit {
-    @Input() items: any;
-    @Input() pageInfo: PageInfoModel;
-
+    @Input() partners: PartnerProgramModel;
     @Output() onReload: EventEmitter<any> = new EventEmitter<any>();
 
     table = {
@@ -57,76 +55,76 @@ export class LinksPartnerProgramComponent implements OnInit {
         ]
     };
     loading = 0;
-    selected;
+    selected: PartnerProgramItem;
 
     constructor(private service: PartnerProgramService) {
 
     }
 
     changePage(page: number) {
-        this.pageInfo.page = page;
-        this.onReload.emit({loading: false});
-    }
-    selectLimit(limit: number) {
-        this.pageInfo.limit = limit;
-        this.pageInfo.page = 1;
-        this.onReload.emit({loading: false});
+        this.partners.page = page;
+        this.onReload.emit();
     }
 
-    reload() {
-        this.onReload.emit({loading: false});
+    selectLimit(limit: number) {
+        this.partners.limit = limit;
+        this.partners.page = 1;
+        this.onReload.emit();
+    }
+
+    reload(item) {
+        this.onReload.emit(item);
     }
 
     select() {
 
     }
 
-    edit(item) {
+    edit(item: PartnerProgramItem) {
         this.selected = item;
-        this.selected.loading = true;
+        this.selected.loading++;
         this.modalCreate.buttons[1].value = 'Edit';
         this.modalCreate.visible = true;
     }
 
     doCancelEdit() {
-        this.selected.loading = false;
+        this.selected.loading--;
     }
 
-    delete(item) {
+    delete(item: PartnerProgramItem) {
         this.selected = item;
         this.modalDelete.title = item.name;
         this.modalDelete.visible = true;
     }
 
     doCreateLink() {
-        this.loading++;
+        let item = this.selected;
         if (!this.selected.id) {
-            this.items.push({loading: true});
+            item = new PartnerProgramItem();
+            this.partners.items.push(item);
         }
+        item.loading++;
         this.service.save(this.selected.id, this.selected.name).then(res => {
-            this.reload();
-            this.loading--;
-        }).catch(err => {
-            console.error(err);
-            this.loading--;
+            this.reload(item);
+            item.loading--;
+        }).catch(() => {
+            item.loading--;
         });
     }
 
     doDeleteLink() {
-        this.loading++;
-        this.selected.loading = true;
+        this.selected.loading++;
         this.service.deleteById(this.selected.id).then(res => {
-            this.loading--;
-            if (!this.loading) { this.reload(); }
-        }).catch(err => {
-            console.error(err);
-            this.loading--;
+            this.reload(this.selected);
+            this.selected.loading--;
+        }).catch(() => {
+            this.selected.loading--;
         });
     }
 
     clickCreateLink() {
         this.modalCreate.buttons[1].value = 'Create';
-        this.selected = {id: 0, name: ''};
+        this.selected = new PartnerProgramItem();
         this.modalCreate.visible = true;
     }
 

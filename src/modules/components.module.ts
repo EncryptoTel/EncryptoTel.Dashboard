@@ -66,6 +66,7 @@ import {VgControlsModule} from 'videogular2/controls';
 import {VgOverlayPlayModule} from 'videogular2/overlay-play';
 import {VgBufferingModule} from 'videogular2/buffering';
 import {VgStreamingModule} from 'videogular2/streaming';
+import {RefComponent} from "../components/confirmation/ref.component";
 
 /*
   Components declarations and exports
@@ -142,7 +143,8 @@ import {VgStreamingModule} from 'videogular2/streaming';
         TimePipe,
         IvrComponent,
         IvrCreateComponent,
-        BaseSettingsComponent
+        BaseSettingsComponent,
+        RefComponent
     ],
     exports: [
         ElementsModule,
@@ -188,7 +190,8 @@ import {VgStreamingModule} from 'videogular2/streaming';
         TermsPartnerProgramComponent,
         IvrComponent,
         IvrCreateComponent,
-        BaseSettingsComponent
+        BaseSettingsComponent,
+        RefComponent
     ]
 })
 export class ComponentsModule {

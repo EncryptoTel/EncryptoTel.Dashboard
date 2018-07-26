@@ -18,7 +18,7 @@
             <div class="tablet_icon_wrap"></div>
         </div>
         <div class="tablet_body">
-            <div class="tablet_row" *ngFor="let item of items">
+            <div class="tablet_row" *ngFor="let item of partners.items">
                 <div style="width: 100%;" *ngIf="!item.loading">
                     <div class="tablet_item"
                          *ngFor="let key of table.title.keys"
@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <pbx-pagination [pageInfo]="pageInfo" (onPageChange)="changePage($event)" (onLimitSelect)="selectLimit($event)"></pbx-pagination>
+    <pbx-pagination [pageInfo]="partners" (onPageChange)="changePage($event)" (onLimitSelect)="selectLimit($event)"></pbx-pagination>
 </div>
 
 <pbx-modal *ngIf="selected" [modalEx]="modalCreate" (onConfirmEx)="doCreateLink()" (onDecline)="doCancelEdit()">

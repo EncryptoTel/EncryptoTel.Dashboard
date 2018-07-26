@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {PartnerProgramService} from '../../services/partner-program.service';
 import {PartnerProgramModel} from '../../models/partner-program.model';
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {PageInfoModel} from '../../models/base.model';
 
 @Component({
     selector: 'partner-program-component',
@@ -24,19 +23,15 @@ export class PartnerProgramComponent implements OnInit {
         ],
         select: 'Overview'
     };
-    pageInfo: PageInfoModel = {page: 1, visible: true, pageCount: null, itemsCount: null, limit: 20, items: []};
     form;
-    items: PartnerProgramModel;
-    tags: PartnerProgramModel;
+    partners: PartnerProgramModel = new PartnerProgramModel();
 
     constructor(private service: PartnerProgramService) {
 
     }
 
     selectTab(text: string): void {
-        if (text !== this.tab.select) {
         this.tab.select = text;
-        }
     }
 
     clickWithdrawFunds() {
@@ -48,39 +43,17 @@ export class PartnerProgramComponent implements OnInit {
     }
 
     getItems(event = null) {
-        if (!event || event.loading) {this.loading++; }
-        this.service.getItems(this.pageInfo).then(res => {
-            if (this.pageInfo.page > res.totalPages) {
-                this.pageInfo.page = res.totalPages;
-                this.service.getItems(this.pageInfo).then(rez => {
-                    this.pageInfo.visible = (this.pageInfo.itemsCount = res.totalCount ) > 10;
-                    this.pageInfo.pageCount = res.totalPages;
-                    this.items = rez.items;
-                });
-            } else {
-                this.pageInfo.visible = (this.pageInfo.itemsCount = res.totalCount ) > 10;
-                this.pageInfo.pageCount = res.totalPages;
-                this.items = res.items;
-            }
-            if (!event || event.loading) {this.loading--; }
+        (event ? event : this).loading++;
+        this.service.getItems(this.partners).then(res => {
+            this.partners = res;
+            (event ? event : this).loading--;
         }).catch(() => {
-            if (!event || event.loading) {this.loading--; }
-        });
-    }
-
-    getTags(event = null) {
-        if (!event || event.loading) {this.loading++; }
-        this.service.getItems({page: 1, limit: 999, pageCount: null, itemsCount: null, visible: null, items: []}).then(res => {
-            this.tags = res.items;
-            this.loading--;
-        }).catch(() => {
-          if (!event || event.loading) {this.loading--; }
+            (event ? event : this).loading--;
         });
     }
 
     ngOnInit(): void {
         this.getItems();
-        this.getTags();
     }
 
 }
