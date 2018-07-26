@@ -11,6 +11,7 @@ import {RefsServices} from '../../../services/refs.services';
 
 export class QueueGeneralComponent {
     @Input() service;
+    @Input() name;
 
     constructor(private refs: RefsServices) {
         this.getNumbers();
