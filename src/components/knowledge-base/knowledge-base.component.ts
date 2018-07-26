@@ -16,6 +16,8 @@ import {ButtonItem, FilterItem, HeaderComponent} from '../../elements/pbx-header
 export class KnowledgeBaseComponent implements OnInit {
     @Input() buttons: ButtonItem[] = [];
     filters: FilterItem[] = [];
+    show: boolean = true;
+    visible = [];
 
     constructor(private service: PartnerProgramService) {
       const filterValue = [
@@ -24,6 +26,14 @@ export class KnowledgeBaseComponent implements OnInit {
       ];
       this.filters.push(new FilterItem(1, 'type', 'Select Source', filterValue, 'title'));
       this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search Pbx support'));
+    }
+
+    hideQuestions(){
+      this.show = !this.show; 
+    }
+
+    showAnswer(item){
+      this.visible[item] = !this.visible[item];
     }
 
     reloadFilter(filter) {

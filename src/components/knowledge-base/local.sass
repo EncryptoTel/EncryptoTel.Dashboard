@@ -6,31 +6,76 @@
         background: $dark_overlay
         padding: 126px 190px
         margin-top: 32px
-        .left, .right
-            width: 50%;
-            flex-direction: column
-            .inner
-                margin-bottom: 42px
+        flex-direction: column
+        .blocks
+            .left, .right
+                width: 50%;
+                flex-direction: column
+                .inner
+                    margin-bottom: 42px
+                    display: block
+                    .title
+                        font-family: Roboto, Arial, sans-serif
+                        font-weight: 400
+                        font-size: 32px
+                        line-height: 32px
+                        color: $dark_white
+                        margin-bottom: 16px
+                        cursor: pointer
+                        display: block
+                    .desc
+                        font-family: Roboto, Arial, sans-serif
+                        font-weight: 300
+                        font-size: 24px
+                        line-height: 32px
+                        color: $dark_white
+                        margin-bottom: 16px
+                        display: block
+            .left
+                border-right: 1px solid rgba(193, 254, 255, .19)
+                .inner
+                    margin-right: 80px
+            .right
+                .inner
+                    margin-left: 80px
+        .questions
+            display: block
+            margin-top: -86px
+            margin-left: -76px
+            .item
                 display: block
+                margin-bottom: 32px
+                position: relative
                 .title
                     font-family: Roboto, Arial, sans-serif
                     font-weight: 400
-                    font-size: 32px
-                    line-height: 32px
-                    color: #fff
-                    margin-bottom: 16px
+                    font-size: 14px
+                    line-height: 16px
+                    color: $dark_white
+                    margin-bottom: 24px
                     cursor: pointer
+                    .arrow
+                        fill: $dark_white
+                        width: 12px
+                        height: 12px
+                        position: absolute
+                        left: -26px
+                        top: 0
+                        transform: rotate(-90deg)
+                        &.rotate
+                            transform: rotate(0deg)
+                            /deep/ .cls-1
+                                fill: $dark_salad
+                        /deep/ .cls-1
+                            fill: $dark_white
+                    &:hover
+                        color: $dark_salad
+                    &:hover .arrow
+                        /deep/ .cls-1
+                            fill: $dark_salad
                 .desc
                     font-family: Roboto, Arial, sans-serif
                     font-weight: 300
-                    font-size: 24px
-                    line-height: 32px
-                    color: #fff
-                    margin-bottom: 16px
-        .left
-            border-right: 1px solid rgba(193, 254, 255, .19)
-            .inner
-                margin-right: 80px
-        .right
-            .inner
-                margin-left: 80px
+                    font-size: 14px
+                    line-height: 20px
+                    color: $dark_white
