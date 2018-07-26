@@ -13,6 +13,7 @@ import {PageInfoModel} from "../../models/base.model";
 import {CountryModel} from "../../models/country.model";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
+import {MessageServices} from "../../services/message.services";
 
 @Component({
     selector: 'pbx-address-book',
@@ -63,7 +64,9 @@ export class AddressBookComponent implements OnInit {
 
     filters: FilterItem[] = [];
 
-    constructor(private service: AddressBookService, private refs: RefsServices) {
+    constructor(private service: AddressBookService,
+                private refs: RefsServices,
+                private message: MessageServices) {
 
     }
 
@@ -171,6 +174,7 @@ export class AddressBookComponent implements OnInit {
     confirmBlock() {
         this.selected.loading++;
         this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
+            this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
             this.close(true);
             this.selected.loading--;
         }).catch(() => {
