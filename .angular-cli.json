@@ -21,11 +21,14 @@
       "styles": [
         "styles.sass"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/hls.js/dist/hls.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
+        "prod": "environments/environment.prod.ts",
+        "test": "environments/environment.test.ts"
       }
     }
   ],

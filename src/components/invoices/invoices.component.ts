@@ -1,162 +1,75 @@
-import {Component} from '@angular/core';
-
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {InvoiceService} from '../../services/invoice.service';
+import {InvoiceModel} from "../../models/invoice.model";
+import {TableInfoExModel} from "../../models/base.model";
+import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
+import {ButtonItem} from "../../elements/pbx-header/pbx-header.component";
 
 @Component({
-  selector: 'pbx-invoices',
-  templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+    selector: 'pbx-invoices',
+    templateUrl: './template.html',
+    styleUrls: ['./local.sass'],
+    providers: [InvoiceService]
 })
 
-export class InvoicesComponent {
-  constructor() {
-    this.markForWaitingPayment();
-  }
+export class InvoicesComponent implements OnInit {
 
-  invoices = [
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'refill balance',
-      date: '01/07/2017 14:47:25',
-      status: 'waiting payment',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'canceled',
-      amount_vat: '68.00',
-      amount: '150.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
-    },
-    {
-      number: 'TC00001729',
-      type: 'bill',
-      date: '01/07/2017 14:47:25',
-      status: 'paid',
-      amount_vat: '68.00',
-      amount: '68.00',
-      transaction: 're4dqweqweqsk8m'
+    @ViewChild(ListComponent) list;
+    loading = 0;
+    pageInfo: InvoiceModel = new InvoiceModel();
+    table: TableInfoExModel = {
+        sort: {
+            isDown: false,
+            column: 'date',
+        },
+        items: [
+            {title: 'Invoice Number', key: 'number', width: null, sort: null},
+            {title: 'Invoice Type', key: 'type', width: null, sort: null},
+            {title: 'Transaction Date', key: 'dateTime', width: null, sort: 'date'},
+            {title: 'Status', key: 'status', width: null, sort: null},
+            {title: 'Amount (excl. VAT)', key: 'sumWithVat', width: null, sort: 'amount'},
+            {title: 'Amount', key: 'sum', width: null, sort: 'amount_vat'},
+            {title: 'Transaction ID', key: 'transaction', width: null, sort: null},
+        ]
+    };
+    buttons: ButtonItem[] = [];
+
+    constructor(private service: InvoiceService) {
+        this.buttons.push({
+            id: 0,
+            title: '',
+            type: 'cancel',
+            visible: true,
+            inactive: false
+        });
     }
-  ];
-  sorting = 'down';
-  showPagination = true;
-  waitingPayment: boolean[] = [];
 
-  sort() {
-    this.sorting = this.sorting === 'up' ? 'down' : 'up';
-  }
+    getInterval() {
+        let max = null;
+        let min = null;
+        if (this.list.pageInfo) {
+            for (let i in this.list.pageInfo.items) {
+                let item = this.list.pageInfo.items[i];
+                min = !min || item.created < min.created ? item : min;
+                max = !max || item.created > max.created ? item : max;
+            }
+        }
+        return max && min ? `${min.date} - ${max.date}` : '';
+    }
 
-  getPDF() {
-  }
+    load() {
+        this.buttons[0].title = this.getInterval();
+    }
 
-  getPay() {
-  }
+    create() {
 
-  markForWaitingPayment() {
-    this.invoices.map(el => {
-      el.status === 'waiting payment' ? this.waitingPayment.push(true) : this.waitingPayment.push(false);
-    });
-  }
+    }
+
+    select() {
+
+    }
+
+    ngOnInit() {
+
+    }
 }

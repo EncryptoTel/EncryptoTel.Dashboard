@@ -1,12 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {PhoneNumbersServices} from '../../../services/phone-numbers.services';
+import {PhoneNumberService} from '../../../services/phone-number.service';
 import {calculateHeight} from '../../../shared/shared.functions';
 
 @Component({
   selector: 'buy-phone-numbers-component',
   templateUrl: './template.html',
   styleUrls: ['./local.sass'],
-  providers: [PhoneNumbersServices]
+  providers: [PhoneNumberService]
 })
 
 export class BuyPhoneNumbersComponent implements OnInit {
@@ -31,7 +31,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
   @ViewChild('row') row: ElementRef;
   @ViewChild('table') table: ElementRef;
 
-  constructor(private _services: PhoneNumbersServices) {
+  constructor(private _services: PhoneNumberService) {
     this.pagination = {page: 1, total: 1};
   }
 

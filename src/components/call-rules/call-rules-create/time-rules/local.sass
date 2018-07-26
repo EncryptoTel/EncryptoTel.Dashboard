@@ -1,0 +1,29 @@
+@import "../../../../vars"
+
+.call-rules-create
+  display: grid
+  grid-gap: rem(16)
+  flex: 1
+  &_row
+    flex: 1
+    align-items: center
+    pbx-button
+      &:not(:last-child)
+        margin-right: rem(8)
+      width: unset
+      /deep/ .button
+        min-width: rem(80)
+    label
+      width: 150px
+      color: $font-color
+      font-size: rem(13)
+    pbx-select
+      flex: 1
+    .error_select /deep/ .select_item.selected.no_border
+      border-bottom: 1px solid $dark_error
+    .time_wrap
+      align-items: center
+      pbx-select
+        width: rem(120)
+      span
+        margin: 0 rem(8)

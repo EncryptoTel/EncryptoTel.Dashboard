@@ -1,0 +1,26 @@
+@import '../../vars'
+
+.notificator-wrap
+  position: fixed
+  z-index: 12
+  display: flex
+  align-items: center
+  justify-content: space-between
+  height: 80px
+  background: $dark_overlay
+  padding: 8px 25px
+  top: 0px
+  left: 240px
+  .notificator-message
+    font-size: 16px
+    color: $dark_primary
+  .notificator-action
+    cursor: pointer
+    font-size: 16px
+    color: $dark_primary
+  &.error
+    background: $dark_error
+  &.warning
+    background: $dark_error
+  &.success
+    background: $dark_success

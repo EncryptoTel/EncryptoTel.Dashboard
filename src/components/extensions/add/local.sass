@@ -1,0 +1,89 @@
+@import "../../../_vars.sass"
+// import global variables
+.add_ext
+  flex-direction: row
+  flex: 1
+  &_grid
+    display: grid
+    flex: 1
+    grid-template-rows: auto 1fr
+    color: $font-color
+  &_header
+    grid-column: 1/2
+    grid-row: 1/2
+    flex-direction: row
+    &_tab
+      padding: rem(16)
+      cursor: pointer
+      background: rgba($dark_overlay, .33)
+      &:hover
+        background: rgba($dark_overlay, .67)
+      &.active
+        background: $dark_overlay
+        color: $dark_accent
+        &:hover
+          background: $dark_overlay
+      &_wrap
+        flex-direction: row
+    &_button_wrap
+      color: $dark_primary
+      margin-left: auto
+      pbx-button:not(:last-child)
+        margin-right: rem(8)
+  &_body
+    grid-column: 1/2
+    grid-row: 2/3
+    background: $dark_overlay
+    display: block
+    overflow-y: auto
+    padding: rem(24)
+    pbx-loader
+      height: 100%
+  &_item
+    flex: 1
+  &_form
+    flex: 1
+    display: grid
+    grid-gap: rem(16)
+    /deep/ input
+      flex: 1
+      height: rem(40)
+      &:focus
+        border-color: $dark_accent
+    /deep/ pbx-select
+      flex: 1
+    /deep/ pbx-checkbox
+      margin-right: rem(16)
+    /deep/ pbx-button
+      color: $dark_primary
+    > *
+      align-items: center
+    &_title
+      font-size:  rem(16)
+      color: $dark_primary
+      &:not(:first-child)
+        margin-top: rem(24)
+      span
+        font-size: rem(14)
+        padding-left: rem(8)
+        margin-top: auto
+        opacity: .5
+    &_item
+      flex-direction: row
+      >*:last-child
+        flex: 1
+      &_description
+        font-size: rem(12)
+        margin: auto auto auto rem(24)
+        opacity: 0.5
+    label
+      width: rem(176)
+      font-weight: 100
+      font-size: rem(12)
+      align-items: center
+      cursor: pointer
+      &.active, &:hover
+        color: $dark_accent
+
+
+

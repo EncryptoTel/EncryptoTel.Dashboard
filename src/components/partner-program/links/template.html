@@ -1,0 +1,55 @@
+<div class="link_wrap" [@Fade]>
+    <div class="link_header">
+        <span>Generate Link</span>
+        <pbx-button buttonType="accent" value="Create Link" (onClick)="clickCreateLink()"></pbx-button>
+    </div>
+
+    <!--<pbx-table [tableInfo]="table.title"
+               [tableItems]="items"
+               (onSelect)="select($event)"
+               (onEdit)="edit($event)"
+               (onDelete)="delete($event)"
+               [multiple]="false"
+               [editable]="true"
+               [@Fade]></pbx-table>-->
+    <div class="tablet">
+        <div class="tablet_header">
+            <div class="tablet_item" *ngFor="let item of table.title.titles">{{item}}</div>
+            <div class="tablet_icon_wrap"></div>
+        </div>
+        <div class="tablet_body">
+            <div class="tablet_row" *ngFor="let item of partners.items">
+                <div style="width: 100%;" *ngIf="!item.loading">
+                    <div class="tablet_item"
+                         *ngFor="let key of table.title.keys"
+                         (click)="select(item)"
+                         >{{key === 'refLink' ? '' : ((item[key] === true || item[key] === false) ? '' : item[key])}}
+                        <a *ngIf="key === 'refLink'" href="/ref/{{item[key]}}" target="_blank">{{item[key]}}</a>
+                        <div class="tablet_item_circle" *ngIf="item[key] === true"></div>
+                    </div>
+                    <div class="tablet_icon_wrap">
+                    <div class="tablet_icon edit" (click)="edit(item)">
+                        <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
+                    </div>
+                    <div class="tablet_icon delete" (click)="delete(item)">
+                        <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+                    </div>
+                </div>
+                </div>
+                <pbx-loader *ngIf="item.loading"></pbx-loader>
+            </div>
+        </div>
+    </div>
+    <pbx-pagination [pageInfo]="partners" (onPageChange)="changePage($event)" (onLimitSelect)="selectLimit($event)"></pbx-pagination>
+</div>
+
+<pbx-modal *ngIf="selected" [modalEx]="modalCreate" (onConfirmEx)="doCreateLink()" (onDecline)="doCancelEdit()">
+    <div class="">
+        <label for="name">Name</label>
+        <input id="name"
+               [(ngModel)]="selected.name"
+               autofocus>
+    </div>
+</pbx-modal>
+
+<pbx-modal [modalEx]="modalDelete" (onConfirmEx)="doDeleteLink()"></pbx-modal>

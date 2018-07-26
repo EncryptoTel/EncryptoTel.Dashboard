@@ -1,4 +1,5 @@
 export interface SidebarInfo {
-  title: string;
-  description: any[];
+    loading: number;
+    title: string;
+    description: any[];
 }

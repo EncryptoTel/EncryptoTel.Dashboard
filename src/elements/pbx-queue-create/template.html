@@ -1,0 +1,25 @@
+<pbx-loader *ngIf="loading"></pbx-loader>
+<pbx-form
+        *ngIf="!loading"
+        [tabs]="tabs"
+        [background]="currentTab==='General'"
+        [confirm]="addMembers?{}:confirm"
+        [decline]="decline[addMembers?'member':'standard']"
+        (onConfirm)="save()"
+        (onDecline)="addMembers?back():cancel()"
+        (onSelect)="selectTab($event)">
+    <pbx-queue-general
+            *ngIf="currentTab===tabs[0]"
+            [service]="service"
+            [name]="name"
+    ></pbx-queue-general>
+    <pbx-queue-members
+            *ngIf="currentTab===tabs[1]&&!addMembers"
+            [service]="service"
+            (onClick)="doAddMembers($event)"
+    ></pbx-queue-members>
+    <pbx-queue-members-add
+            *ngIf="addMembers"
+            [service]="service"
+    ></pbx-queue-members-add>
+</pbx-form>

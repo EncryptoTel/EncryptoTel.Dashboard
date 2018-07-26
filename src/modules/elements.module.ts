@@ -2,6 +2,8 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {AngularSvgIconModule} from 'angular-svg-icon';
+import {FormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 
 import {ClickOutsideDirective} from '../shared/click-outside.directive';
 
@@ -14,36 +16,72 @@ import {SidebarComponent} from '../elements/pbx-sidebar/pbx-sidebar.component';
 import {CheckboxComponent} from '../elements/pbx-checkbox/pbx-checkbox.component';
 import {ModalComponent} from '../elements/pbx-modal/pbx-modal.component';
 import {PaginationComponent} from '../elements/pbx-pagination/pbx-pagination.component';
+import {NotificatorComponent} from '../elements/pbx-notificator/pbx-notificator.component';
+import {FormComponent} from '../elements/pbx-form/pbx-form.component';
+import {InputComponent} from '../elements/pbx-input/pbx-input.component';
+import {HeaderComponent} from '../elements/pbx-header/pbx-header.component';
+import {ListComponent} from '../elements/pbx-list/pbx-list.component';
+import {DiskUsedComponent} from '../elements/pbx-drive-circle/pbx-drive-circle.component';
+import {CalendarComponent} from '../elements/pbx-calendar/pbx-calendar.component';
+import {QueueCreateComponent} from "../elements/pbx-queue-create/pbx-queue-create.component";
+import {QueueGeneralComponent} from "../elements/pbx-queue-create/general/pbx-queue-general.component";
+import {QueueMembersComponent} from "../elements/pbx-queue-create/members/pbx-queue-members.component";
+import {QueueMembersAddComponent} from "../elements/pbx-queue-create/members/add/pbx-queue-members-add.component";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    BrowserModule,
-    AngularSvgIconModule
-  ],
-  declarations: [
-    ClickOutsideDirective,
-    LoaderComponent,
-    SelectComponent,
-    ButtonComponent,
-    TariffComponent,
-    CheckboxComponent,
-    TableComponent,
-    SidebarComponent,
-    ModalComponent,
-    PaginationComponent
-  ],
-  exports: [
-    ClickOutsideDirective,
-    LoaderComponent,
-    SelectComponent,
-    ButtonComponent,
-    TariffComponent,
-    CheckboxComponent,
-    TableComponent,
-    SidebarComponent,
-    ModalComponent,
-    PaginationComponent
-  ]
+    imports: [
+        CommonModule,
+        BrowserModule,
+        AngularSvgIconModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    declarations: [
+        ClickOutsideDirective,
+        LoaderComponent,
+        SelectComponent,
+        ButtonComponent,
+        TariffComponent,
+        CheckboxComponent,
+        TableComponent,
+        SidebarComponent,
+        ModalComponent,
+        PaginationComponent,
+        NotificatorComponent,
+        FormComponent,
+        InputComponent,
+        HeaderComponent,
+        ListComponent,
+        DiskUsedComponent,
+        CalendarComponent,
+        QueueCreateComponent,
+        QueueGeneralComponent,
+        QueueMembersComponent,
+        QueueMembersAddComponent
+    ],
+    exports: [
+        ClickOutsideDirective,
+        LoaderComponent,
+        SelectComponent,
+        ButtonComponent,
+        TariffComponent,
+        CheckboxComponent,
+        TableComponent,
+        SidebarComponent,
+        ModalComponent,
+        PaginationComponent,
+        NotificatorComponent,
+        FormComponent,
+        InputComponent,
+        HeaderComponent,
+        ListComponent,
+        DiskUsedComponent,
+        CalendarComponent,
+        QueueCreateComponent,
+        QueueGeneralComponent,
+        QueueMembersComponent,
+        QueueMembersAddComponent
+    ]
 })
-export class ElementsModule {  }
+export class ElementsModule {
+}

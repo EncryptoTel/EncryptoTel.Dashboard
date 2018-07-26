@@ -1,0 +1,33 @@
+@import "../../vars"
+
+.pbx_header
+  flex: 1
+  display: flex
+  flex-direction: row
+  color: $font-color
+  margin-bottom: rem(24)
+  &_wrap
+    flex: 1
+    flex-flow: row wrap
+    margin-right: rem(24)
+    pbx-input
+      margin-right: rem(24)
+    /deep/
+      .pbx_input_item
+        margin-bottom: 0
+      .pbx_input_item_label
+        width: unset
+        margin-right: rem(8)
+      .select_wrap, input
+        width: rem(200)
+        height: rem(40)
+      input
+        border: rem(1) solid rgba($dark_primary,.1)
+        &:focus
+          border-color: $dark_accent
+  &.height
+    background: $dark_overlay
+  pbx-button
+    margin-left: rem(8)
+    color: $dark_primary
+    width: unset

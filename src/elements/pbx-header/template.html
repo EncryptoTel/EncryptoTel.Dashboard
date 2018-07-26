@@ -1,0 +1,24 @@
+<div class="pbx_header" id="pbx_header">
+    <div class="pbx_header_wrap">
+        <pbx-input  *ngFor="let filter of filters; let i = index"
+                    [name]="filter.name"
+                    [key]="filter.key"
+                    [placeholder]="filter.placeHolder"
+                    [options]="filter.options"
+                    [displayKey]="filter.optionsDisplayKey"
+                    [singleBorder]="false"
+                    labelPosition="center"
+                    [object]="currentFilter"
+                    [objectView]="selectedFilter[i]"
+                    [inputWidth]="filter.width"
+                    (onKeyUp)="reload()"
+                    (onSelect)="reload()">
+        </pbx-input>
+    </div>
+    <pbx-button *ngFor="let button of activeButtons()"
+                [inactive]="inactive || button.inactive"
+                [value]="button.title"
+                [buttonType]="button.type"
+                (onClick)="clickButton(button)">
+    </pbx-button>
+</div>

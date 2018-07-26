@@ -1,11 +1,69 @@
-<div class="table_container">
-  <div class="table_wrap" #table>
-    <div class="table_pre_row" #row>
-      <a routerLink="buy">
-        <pbx-button value="Add Number" buttonType="success" [propogation]="true"></pbx-button>
-      </a>
-    </div>
-    <pbx-loader *ngIf="loading"></pbx-loader>
-    <pbx-pagination [currentPage]="pagination.page" [totalPages]="pagination.total" (onPageChange)="onPageChange($event)" *ngIf="pagination.total !== 1"></pbx-pagination>
-  </div>
+<pbx-modal [modal]="modal"
+           (onConfirm)="confirmModal()"
+           (onDecline)="cancelModal()">{{modal.text}}
+</pbx-modal>
+<div class="ext">
+    <pbx-list style="width: 100%"
+              [(pageInfo)]="pageInfo"
+              [tableInfo]="table"
+              [filters]="filters"
+              key="extensions"
+              name="Extensions"
+              itemName="Extension"
+              (onLoad)="load()"
+              (onSelect)="select($event)"
+              [service]="service">
+    </pbx-list>
+
+    <pbx-sidebar *ngIf="sidebar">
+        <div class="ext_sidebar_contain">
+            <div class="ext_sidebar_contain_data">
+                <div class="ext_sidebar_item_row">
+                    <div class="ext_sidebar_item">
+                        <div class="ext_sidebar_item_key"># Ext</div>
+                        <div class="ext_sidebar_item_value">{{sidebar.extension}}</div>
+                    </div>
+                    <div class="ext_sidebar_item">
+                        <div class="ext_sidebar_item_key">Phone</div>
+                        <div class="ext_sidebar_item_value">{{sidebar.phone}}</div>
+                    </div>
+                </div>
+                <div class="ext_sidebar_item">
+                    <div class="ext_sidebar_item_key">First Name</div>
+                    <div class="ext_sidebar_item_value">{{sidebar.userFirstName}}</div>
+                </div>
+                <div class="ext_sidebar_item">
+                    <div class="ext_sidebar_item_key">Last Name</div>
+                    <div class="ext_sidebar_item_value">{{sidebar.userLastName}}</div>
+                </div>
+                <div class="ext_sidebar_item">
+                    <div class="ext_sidebar_item_key">E-mail</div>
+                    <div class="ext_sidebar_item_value">{{sidebar.userEmail}}</div>
+                </div>
+                <div class="ext_sidebar_item">
+                    <div class="ext_sidebar_item_key">Mobile</div>
+                    <div class="ext_sidebar_item_value">{{sidebar.isMobileApp}}</div>
+                </div>
+                <div class="ext_sidebar_item">
+                    <div class="ext_sidebar_item_key">Department</div>
+                    <div class="ext_sidebar_item_value">{{sidebar.department}}</div>
+                </div>
+            </div>
+            <div class="ext_sidebar_service_wrap">
+                <div class="ext_sidebar_service_button" (click)="list.items.clickDeleteItem(sidebar)">Delete extension</div>
+            </div>
+        </div>
+        <div class="ext_sidebar_button_wrap">
+            <div class="ext_sidebar_button_title">Generate new password and send to:</div>
+            <div class="ext_sidebar_button_grid">
+                <pbx-button [loading]="loading.admin" value="Admin E-mail"
+                            (onClick)="sendPasswordToAdmin(sidebar)"></pbx-button>
+                <pbx-button *ngIf="!!sidebar.user" [loading]="loading.user" value="User E-mail"
+                            (onClick)="sendPasswordToUser(sidebar)"></pbx-button>
+                <div *ngIf="!sidebar.user"></div>
+                <pbx-button value="Close" buttonType="cancel" (onClick)="closeExt()"></pbx-button>
+                <pbx-button value="Edit" buttonType="success" (onClick)="list.edit(sidebar)"></pbx-button>
+            </div>
+        </div>
+    </pbx-sidebar>
 </div>

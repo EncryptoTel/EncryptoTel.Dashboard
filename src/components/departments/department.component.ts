@@ -1,224 +1,244 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import {DepartmentServices} from '../../services/department.services';
+import {DepartmentService} from '../../services/department.service';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {DepartmentModel, Sip} from '../../models/departments.model';
+import {DepartmentItem, DepartmentModel, Sip} from '../../models/department.model';
 import {validateForm} from '../../shared/shared.functions';
+import {RefsServices} from '../../services/refs.services';
+import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
+import {CompanyService} from "../../services/company.service";
+import {ButtonItem} from "../../elements/pbx-header/pbx-header.component";
 
 
 @Component({
-  selector: 'pbx-department',
-  templateUrl: './template.html',
-  styleUrls: ['./local.sass'],
-  animations: [FadeAnimation('300ms')]
+    selector: 'pbx-department',
+    templateUrl: './template.html',
+    styleUrls: ['./local.sass'],
+    providers: [CompanyService],
+    animations: [FadeAnimation('300ms')]
 })
 
 export class DepartmentsComponent implements OnInit {
-  sidebarEdit = false;
-  sidebarVisible = false;
-  mode = 'create';
-  departmentsList: DepartmentModel[] = [];
-  sips: Sip[] = [];
-  selectedSips: Sip[] = [];
-  tableInfo = {
-    titles: ['Department', 'Employees', 'Employees with Ext numbers', 'Comment'],
-    keys: ['name', 'employees', 'employeesExt', 'comment']
-  };
-  departmentForm: FormGroup;
-  loading = true;
-  currentDepartment: DepartmentModel;
+    @ViewChild(ListComponent) list;
 
-  constructor(private _service: DepartmentServices, private fb: FormBuilder) {
-  }
+    sidebar = {
+        visible: false,
+        loading: 0,
+        saving: 0,
+        mode: ''
+    };
+    sips: Sip[] = [];
+    selectedSips: Sip[] = [];
+    table = {
+        titles: ['Department', 'Employees', 'Comment'],
+        keys: ['name', 'employees', 'comment']
+    };
+    departmentForm: FormGroup;
+    loading = 0;
+    saving = 0;
+    selected: DepartmentItem;
+    pageInfo: DepartmentModel = new DepartmentModel();
+    companyActive = false;
+    buttons: ButtonItem[] = [];
 
-  addPhone(): void {
-    const sips = this.departmentForm.get('sipInner') as FormArray;
-    if (sips.valid && (this.selectedSips.length < this.sips.length)) {
-      sips.push(this.createPhoneField());
+    constructor(private service: DepartmentService,
+                private fb: FormBuilder,
+                private refs: RefsServices,
+                private company: CompanyService) {
+
+        this.buttons.push({
+            id: 0,
+            title: 'Add Department',
+            type: 'success',
+            visible: true,
+            inactive: true,
+        });
+
+        this.departmentForm = this.fb.group({
+            name: [null, [Validators.required, Validators.maxLength(190)]],
+            comment: [null, [Validators.maxLength(255)]],
+            sipInner: this.fb.array([])
+        });
+
     }
-  }
 
-  addDepartment(): void {
-    this.resetForEdit();
-    this.reset();
-    const sips = this.departmentForm.get('sipInner') as FormArray;
-    sips.push(this.createPhoneField());
-    this.mode = 'create';
-    this.sidebarVisible = true;
-    this.sidebarEdit = true;
-  }
-
-  cancel(): void {
-    if (this.mode === 'create') {
-      this.sidebarVisible = false;
-    } else {
-      this.sidebarEdit = false;
-    }
-  }
-
-  close(): void {
-    this.sidebarVisible = false;
-  }
-
-
-  delete(department: DepartmentModel): void {
-    this.loading = true;
-    this.sidebarVisible = false;
-    this._service.deleteDepartment(department.id).then(() => {
-      this.getDepartments();
-    }).catch(err => {
-      console.error(err);
-      this.loading = false;
-    });
-  }
-
-  edit(department: DepartmentModel): void {
-    this.mode = 'edit';
-    this.currentDepartment = department;
-    this.sidebarEdit = true;
-    this.sidebarVisible = true;
-    this.departmentForm.get('name').setValue(department.name);
-    this.departmentForm.get('comment').setValue(department.comment);
-    this.resetForEdit();
-    for (let i = 0; i < department.sipInnerIds.length; i++) {
-      for (let x = 0; x < this.sips.length; x++) {
-        if (department.sipInnerIds[i] === this.sips[x].id) {
-          this.sips[x].blocked = true;
-          this.selectedSips.push(this.sips[x]);
-          const sipsForm = this.departmentForm.get('sipInner') as FormArray;
-          sipsForm.push(this.createPhoneField());
-          sipsForm.get(`${i}`).setValue(this.sips[x].id);
+    addPhone(): void {
+        const sips = this.departmentForm.get('sipInner') as FormArray;
+        if (sips.valid && (this.selectedSips.length < this.sips.length)) {
+            sips.push(this.createPhoneField());
         }
-      }
     }
-  }
 
-  getSelectNumbers(): Sip[] {
-    const array = [];
-    this.sips.forEach(sip => {
-      if (!sip.blocked) {
-        array.push(sip);
-      }
-    });
-    return array;
-  }
+    create(): void {
+        this.resetForEdit();
+        this.reset();
+        const sips = this.departmentForm.get('sipInner') as FormArray;
+        sips.push(this.createPhoneField());
+        this.sidebar.mode = 'edit';
+        this.sidebar.visible = true;
+    }
 
-  getPhonesCurrentDepartment(department: DepartmentModel): string[] {
-    const phoneNumbers = [];
-    for (let i = 0; i < department.sipInnerIds.length; i++) {
-      for (let x = 0; x < this.sips.length; x++) {
-        if (department.sipInnerIds[i] === this.sips[x].id) {
-          phoneNumbers.push(this.sips[x].phoneNumber);
+    close(): void {
+        this.selected = null;
+        this.sidebar.visible = false;
+    }
+
+    edit(item: DepartmentItem): void {
+        this.sidebar.mode = 'edit';
+        this.selected = item;
+        this.departmentForm.get('name').setValue(item.name);
+        this.departmentForm.get('comment').setValue(item.comment);
+        this.resetForEdit();
+        const sipsForm = this.departmentForm.get('sipInner') as FormArray;
+
+        if (item.sipInnerIds.length === 0) {
+            sipsForm.push(this.createPhoneField());
         }
-      }
+
+        for (let i = 0; i < item.sipInnerIds.length; i++) {
+            for (let x = 0; x < this.sips.length; x++) {
+                if (item.sipInnerIds[i] === this.sips[x].id) {
+                    this.sips[x].blocked = true;
+                    this.selectedSips.push(this.sips[x]);
+                    sipsForm.push(this.createPhoneField());
+                    sipsForm.get(`${i}`).setValue(this.sips[x].id);
+                }
+            }
+        }
+        this.sidebar.visible = true;
     }
-    return phoneNumbers;
-  }
 
-  save(): void {
-    validateForm(this.departmentForm);
-    if (this.departmentForm.valid) {
-      this.sidebarEdit = false;
-      this.sidebarVisible = false;
-      this.loading = true;
-      if (this.mode === 'create') {
-        this._service.saveDepartment({...this.departmentForm.value}).then(() => {
-          this.reset();
-          this.getDepartments();
-        }).catch(err => {
-          console.error(err);
-          this.loading = false;
+    getSelectNumbers(): Sip[] {
+        const array = [];
+        this.sips.forEach(sip => {
+            if (!sip.blocked) {
+                array.push(sip);
+            }
         });
-      } else if (this.mode === 'edit') {
-        this._service.editDepartment(this.currentDepartment.id, {...this.departmentForm.value}).then(res => {
-          this.reset();
-          this.getDepartments();
-        }).catch(err => {
-          console.error(err);
-          this.loading = false;
-        });
-      }
+        return array;
     }
-  }
 
-  selectPhone(phone: Sip, index: number): void {
-    this.selectedSips[index] = phone;
-    const sips = this.departmentForm.get('sipInner') as FormArray;
-    sips.controls[index].setValue(phone.id);
-    this.sips.forEach(sip => {
-      sip.blocked = false;
-    });
-    this.selectedSips.forEach(sip => {
-      sip.blocked = true;
-    });
-  }
-
-  selectDepartment(department: DepartmentModel): void {
-    this.sidebarEdit = false;
-    this.sidebarVisible = true;
-    this.mode = 'edit';
-    this.currentDepartment = department;
-  }
-
-  private createPhoneField(): FormControl {
-    return this.fb.control('', Validators.required);
-  }
-
-  private formatSipOuters(res): void {
-    for (let x = 0; x < res.items.length; x++) {
-      for (let i = 0; i < res.items[x].sipInners.length; i++) {
-        this.sips.push({
-          id: res.items[x].sipInners[i].id,
-          phoneNumber: `${res.items[x].phoneNumber}-${res.items[x].sipInners[i].phoneNumber}`,
-          blocked: false
-        });
-      }
+    getPhonesCurrentDepartment(department: DepartmentItem): string[] {
+        const phoneNumbers = [];
+        for (let i = 0; i < department.sipInnerIds.length; i++) {
+            for (let x = 0; x < this.sips.length; x++) {
+                if (department.sipInnerIds[i] === this.sips[x].id) {
+                    phoneNumbers.push(this.sips[x].phoneNumber);
+                }
+            }
+        }
+        return phoneNumbers;
     }
-  }
 
-  private reset(): void {
-    this.departmentForm.reset();
-    this.selectedSips = [];
-    this.sips.forEach(sip => {
-      sip.blocked = false;
-    });
-  }
+    checkEmpty() {
+        const sips = this.departmentForm.get('sipInner') as FormArray;
+        if (sips.length > 0) {
+            for (let i = sips.length - 1; i >= 0; i--) {
+                console.log(i, sips[i]);
+                if (!sips[i]) {
+                    sips.removeAt(i);
+                }
+            }
+        }
+    }
 
-  private resetForEdit(): void {
-    const sipsForm = this.departmentForm.get('sipInner') as FormArray;
-    sipsForm.controls = [];
-    this.selectedSips = [];
-    this.sips.forEach(sip => {
-      sip.blocked = false;
-    });
-  }
+    save(): void {
+        validateForm(this.departmentForm);
+        if (this.departmentForm.valid) {
+            this.checkEmpty();
+            this.saving++;
+            // console.log(this.departmentForm.value);
+            this.service.save(this.selected ? this.selected.id : null, this.departmentForm.value).then(() => {
+                this.reset();
+                this.list.getItems();
+                this.close();
+                this.saving--;
+            }).catch(() => {
+                this.addPhone();
+                this.saving--;
+            });
+        }
+    }
 
-  private getDepartments(): void {
-    this._service.getDepartments().then(res => {
-      this.departmentsList = res.items;
-      this.loading = false;
-    }).catch(err => {
-      console.error(err);
-      this.loading = false;
-    });
-  }
+    selectPhone(phone: Sip, index: number): void {
+        this.selectedSips[index] = phone;
+        const sips = this.departmentForm.get('sipInner') as FormArray;
+        sips.controls[index].setValue(phone.id);
+        this.sips.forEach(sip => {
+            sip.blocked = false;
+        });
+        this.selectedSips.forEach(sip => {
+            sip.blocked = true;
+        });
+    }
 
-  private getSipOuters(): void {
-    this._service.getSipOuters().then(res => {
-      this.formatSipOuters(res);
-    }).catch(err => {
-      console.error(err);
-    });
-  }
+    select(item: DepartmentItem): void {
+        this.sidebar.mode = 'view';
+        this.sidebar.visible = this.sidebar.visible ? this.selected !== item : true;
+        this.selected = item;
+    }
 
-  ngOnInit(): void {
-    this.getDepartments();
-    this.getSipOuters();
-    this.departmentForm = this.fb.group({
-      name: [null, [Validators.required, Validators.maxLength(255)]],
-      comment: [''],
-      sipInner: this.fb.array([])
-    });
-  }
+    private createPhoneField(): FormControl {
+        return this.fb.control('', []);
+    }
+
+    private formatSipOuters(items): void {
+        for (let x = 0; x < items.length; x++) {
+            for (let i = 0; i < items[x].sipInners.length; i++) {
+                this.sips.push({
+                    id: items[x].sipInners[i].id,
+                    phoneNumber: `${items[x].phoneNumber}-${items[x].sipInners[i].phoneNumber}`,
+                    blocked: false
+                });
+            }
+        }
+    }
+
+    private reset(): void {
+        this.departmentForm.reset();
+        this.selectedSips = [];
+        this.sips.forEach(sip => {
+            sip.blocked = false;
+        });
+    }
+
+    private resetForEdit(): void {
+        const sipsForm = this.departmentForm.get('sipInner') as FormArray;
+        sipsForm.controls = [];
+        this.selectedSips = [];
+        this.sips.forEach(sip => {
+            sip.blocked = false;
+        });
+    }
+
+    private getSipOuters(): void {
+        this.sidebar.loading++;
+        this.refs.getSipOuters().then(res => {
+            this.formatSipOuters(res);
+            this.sidebar.loading--;
+        }).catch(() => {
+            this.sidebar.loading--;
+        });
+    }
+
+    private getCompany() {
+        this.loading++;
+        this.company.getCompany().then((res) => {
+            this.companyActive = !!res.id;
+            this.buttons[0].inactive = !this.companyActive;
+            this.loading--;
+        }).catch((res) => {
+            this.loading--;
+        });
+    }
+
+    getEmptyInfo() {
+        return "<span>To get started with the module Departments<br/>fill in the data in the <a class=\"link\" href=\"/cabinet/company\">module Company</a></span";
+    }
+
+    ngOnInit(): void {
+        this.getCompany();
+        this.getSipOuters();
+    }
 }

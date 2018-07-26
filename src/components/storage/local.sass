@@ -1,5 +1,23 @@
 @import "../../vars" // Global variables import
 
+.hidden_input
+  font-size: 30px
+  position: absolute
+  opacity: 0
+  top: 0
+  left: 0
+
+.hidden_button_wrapper
+  position: relative
+  overflow: hidden
+  display: inline-block
+  p
+    margin: 0
+
+.select_file
+  text-decoration: underline
+  color: $dark_accent
+
 .storage
   &_wrap
     display: grid
@@ -163,3 +181,212 @@
       background: $dark-pagination
       &_inactive
         background: $dark-pagination-inactive
+.store
+  flex: 1
+  flex-direction: row
+  color: $font-color
+  input
+    border: rem(1) solid rgba($dark_primary,.1)
+    &:focus
+      border-color: $dark_accent
+  pbx-pagination
+    margin-top: rem(24)
+    flex: unset
+  &_grid
+    flex: 1
+    flex-direction: column
+  &_header
+    flex-direction: row
+    margin-bottom: rem(24)
+    &_block
+      flex-direction: row
+      align-items: center
+      &:not(:first-child)
+        margin-left: rem(16)
+      pbx-select, input
+        width: rem(240)
+        height: rem(40)
+        margin-left: rem(8)
+    &_button_wrap
+      flex-direction: row
+      margin-left: auto
+      pbx-button
+        width: unset
+        &:not(:first-child)
+          margin-left: rem(8)
+  &_table
+    flex: 1
+    flex-direction: column
+    &_header
+      align-items: center
+      height: rem(40)
+      border-bottom: rem(1) solid rgba($dark_primary,.1)
+      span
+        margin-top: rem(2)
+        float: left
+        &.sortable:hover
+          cursor: pointer
+          color: $dark_accent
+      &_icon
+        height: rem(16)
+        width: rem(24)
+        padding-left: rem(8)
+        svg-icon
+          flex: 1
+          /deep/ .st1
+            fill: $dark_accent
+    &_body
+      display: block
+      flex: 1
+      flex-direction: column
+      overflow: auto
+    &_row
+      height: rem(40)
+      align-items: center
+      border-bottom: rem(1) solid rgba($dark_primary,.1)
+      color: $dark_primary
+      &:hover
+        cursor: pointer
+        background: rgba($dark_primary,.05)
+        .store_table_item_icon
+          opacity: .33
+          &:hover
+            opacity: 1
+      &.select
+        background: rgba($dark_primary,.1)
+        .store_table_item_icon
+          opacity: .5
+          &:hover
+            opacity: 1
+        &:hover
+          background: rgba($dark_primary,.15)
+      .store_table_item
+        cursor: pointer
+    &_item
+      padding: 0 rem(16)
+      align-items: center
+      display: block
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+      flex: 1
+      &.fix
+        &_48
+          flex: 0 0 rem(48)
+        &_88
+          flex: 0 0 rem(88)
+        &_104
+          flex: 0 0 rem(104)
+        &_168
+          flex: 0 0 rem(168)
+        &_200
+          flex: 0 0 rem(200)
+      &_icon
+        width: rem(16)
+        height: rem(16)
+        padding: rem(2)
+        cursor: pointer
+        opacity: 0
+        &:hover
+          opacity: 1
+        /deep/ *
+          cursor: pointer
+        svg-icon
+          flex: 1
+          /deep/ polygon
+            fill: $dark_error
+    &_message
+      flex: 1
+      align-items: center
+      justify-content: center
+      text-align: center
+      font-size: rem(32)
+  &_player
+    &_wrap
+      width: rem(32)
+      height: rem(32)
+      border-radius: 100vmax
+      padding: 0 rem(4)
+      flex-direction: row-reverse
+      align-items: center
+      margin-left: auto
+      cursor: default
+      overflow: hidden
+      &.show
+        width: rem(168)
+        padding-left: rem(8)
+        background: lighten($dark_background,15%)
+        >.store_player_time,>.store_player_bar
+          opacity: .67
+      &.play
+        background: lighten($dark_background,25%)
+    &_time
+      font-size: rem(10)
+    &_bar
+      flex-direction: row
+      align-items: center
+      margin: 0 rem(12)
+      cursor: pointer
+      /deep/ *
+        cursor: pointer
+    &_icon
+      min-width: rem(24)
+      max-width: rem(24)
+      height: rem(24)
+      border-radius: 50%
+      cursor: pointer
+      /deep/ *
+        cursor: pointer
+      &:hover
+        background: rgba($dark_primary,.2)
+      svg-icon
+        flex: 1
+        /deep/ path
+          fill: $font-color
+    &_stick
+      background: $dark_primary
+      width: rem(2)
+      margin: 0 rem(0.5)
+      &.small
+        height: rem(8)
+      &.medium
+        height: rem(12)
+      &.big
+        height: rem(16)
+      &.large
+        height: rem(20)
+      &.done, &:hover
+        background-color: $dark_accent
+      &.done:hover
+        background-color: $dark_primary
+  &_sidebar
+    &_call_record
+      flex-direction: column
+      &_title
+        font-size: rem(32)
+        margin-bottom: rem(32)
+      &_item
+        &:not(:last-child)
+          margin-bottom: rem(16)
+    &_audio
+      margin-top: rem(-16)
+      flex: 1
+      background: rgba($dark_background,.5)
+      border: rem(1) dashed $dark_accent
+      display: grid
+      align-content: center
+      justify-items: center
+      grid-gap: rem(4)
+      &_icon
+        width: rem(24)
+        height: rem(24)
+        margin-bottom: rem(12)
+        svg-icon
+          flex: 1
+          /deep/ path
+            fill: $font-color
+      &_select
+        color: $dark_accent
+        &:hover
+          cursor: pointer
+          text-decoration: underline

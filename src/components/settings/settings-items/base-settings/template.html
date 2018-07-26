@@ -1,0 +1,66 @@
+<pbx-form [confirm]="saveButton"
+          [decline]="{buttonType:'cancel',value:'Cancel'}"
+          (onConfirm)="saveSettings()"
+          (onDecline)="goBack()"
+          [background]="true">
+
+    <pbx-loader *ngIf="loading.body"></pbx-loader>
+
+    <div class="overlay_content" *ngIf="!loading.body" [@Fade]>
+        <div class="settings_form_section" *ngFor="let key of getKeys(settings)">
+
+            <div class="settings_form_title">{{NormalizeTitle(settings[key].title)}}</div>
+
+            <div *ngFor="let inputKey of getKeys(settings[key].children)">
+
+                <pbx-input *ngIf="settings[key].children[inputKey].type !== 'group_field'"
+                           style="width: 100%"
+                           [name]="NormalizeTitle(settings[key].children[inputKey].title)"
+                           key="value"
+                           displayKey="title"
+                           [checkbox]="settings[key].children[inputKey].type === 'bool'"
+                           [object]="settings[key].children[inputKey]"
+                           [objectView]="selectedItems[inputKey]"
+                           [options]="generateOptions(settings[key].children[inputKey])"
+                           (onToggle)="saveOption($event, key, inputKey)"
+                           (onSelect)="saveOption($event, key, inputKey)"
+                           (onKeyUp)="saveOption($event.target.value, key, inputKey)"
+                ></pbx-input>
+
+                <div class="settings_form_section" style="width: 100%"
+                     *ngIf="settings[key].children[inputKey].type === 'group_field'">
+                    <div class="settings_form_title">
+                        {{NormalizeTitle(settings[key].children[inputKey].title)}}
+                    </div>
+
+                    <div *ngFor="let childrenKey of getKeys(settings[key].children[inputKey].children)">
+
+                        <pbx-input style="width: 100%"
+                                   [name]="NormalizeTitle(settings[key].children[inputKey].children[childrenKey].title)"
+                                   key="value"
+                                   displayKey="title"
+                                   [checkbox]="settings[key].children[inputKey].children[childrenKey].type === 'bool'"
+                                   [object]="settings[key].children[inputKey].children[childrenKey]"
+                                   [objectView]="selectedItems[childrenKey]"
+                                   [options]="generateOptions(settings[key].children[inputKey].children[childrenKey])"
+                                   (onToggle)="saveOption($event, key, inputKey, childrenKey)"
+                                   (onSelect)="saveOption($event, key, inputKey, childrenKey)"
+                                   (onKeyUp)="saveOption($event.target.value, key, inputKey, childrenKey)"
+                        ></pbx-input>
+
+                        <!--<pbx-select style="width: 500px;"-->
+                                <!--*ngIf="settings[key].children[inputKey].children[childrenKey].type === 'list'"-->
+                                <!--placeholder="[choose one]"-->
+                                <!--[options]="generateOptions(settings[key].children[inputKey].children[childrenKey])"-->
+                                <!--(onSelect)="saveOption($event, key, inputKey, childrenKey)"-->
+                                <!--[selected]="selectedItems[childrenKey]"-->
+                                <!--objectKey="title"></pbx-select>-->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="settings_code" [@Fade] *ngIf="qrCode" [style.background-image]="'url(' + qrCode + ')'"></div>
+    </div>
+</pbx-form>

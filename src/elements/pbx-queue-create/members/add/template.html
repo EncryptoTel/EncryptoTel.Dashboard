@@ -1,0 +1,24 @@
+<div class="call_queues_members_add">
+    <div class="call_queues_members_add_header">
+        <div class="call_queues_members_add_filter">
+            <span>Department:</span>
+            <pbx-select [objectKey]="'name'"
+                        [options]="departments"
+                        [selected]="selectedDepartment"
+                        (onSelect)="departmentChanged($event)"></pbx-select>
+        </div>
+        <div class="call_queues_members_add_filter">
+            <span>Search:</span>
+            <input type="search" placeholder="Search by Name or Phone" (keyup)="search($event)">
+        </div>
+    </div>
+    <pbx-loader *ngIf="loading"></pbx-loader>
+    <pbx-table *ngIf="!loading"
+            [tableInfo]="table"
+            [tableItems]="members"
+            (onSelect)="selectMember($event)"
+            (onDelete)="selectMember($event)"
+            [multiple]="true"
+            [selected]="service.userView.members"
+            ></pbx-table>
+</div>

@@ -100,6 +100,9 @@
       overflow: hidden
       text-overflow: ellipsis
       font-size: rem(12)
+    &_name
+      overflow: hidden
+      text-overflow: ellipsis
 //.content_wrap
   flex-direction: column
   flex: 1 0 auto
@@ -138,7 +141,7 @@
           right: -352px
           top: 80px
           height: calc(100vh - 80px)
-          width: 352px
+          width: 452px
           flex-direction: column
           transition: all linear 200ms
           margin-right: -32px
@@ -375,6 +378,7 @@
     // background: rgba($dark_accent, .1) // trash
     overflow-y: auto
     max-height: calc(100vh - 80px)
+    max-width: calc(100vw - 192px)
 
 @media (max-width: 767px)
   .main_grid

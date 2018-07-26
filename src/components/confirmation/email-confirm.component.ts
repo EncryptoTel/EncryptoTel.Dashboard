@@ -20,7 +20,7 @@ export class EmailConfirmComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this._route.params.subscribe(params => {
       if (params['hash']) {
-        this._req.get(`registration/confirm/${params['hash']}`, true).then(result => {
+        this._req.get(`registration/confirm/${params['hash']}`).then(result => {
           this._services.setMessage({type: 'success', message: 'E-mail confirmed'});
           this._router.navigateByUrl('/sign-in');
         }).catch(() => {

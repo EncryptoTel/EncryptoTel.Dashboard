@@ -1,33 +1,184 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {StorageService} from "../../services/storage.service";
+import {MessageServices} from "../../services/message.services";
+import {SizePipe} from '../../services/size.pipe';
+import {TableInfoExModel} from "../../models/base.model";
+import {ButtonItem, FilterItem} from "../../elements/pbx-header/pbx-header.component";
+import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 
 @Component({
-  selector: 'pbx-storage',
-  templateUrl: './template.html',
-  styleUrls: ['./local.sass']
+    selector: 'pbx-storage',
+    templateUrl: './template.html',
+    styleUrls: ['./local.sass'],
+    providers: [StorageService],
 })
 
-export class StorageComponent {
-  modules = [
-    new Module(1, 'Module COMPANY', 'Company information', 0, true, 1),
-new Module(2, 'Module IVR', 'Interactive voice response (IVR) is a technology that allows a computer to interact with humans through the use of voice and DTMF tones input via keypad.', 10, false, 2),
-    new Module(3, 'Module Call-center', '', 10, false, 2),
-    new Module(4, 'Module Queue', '', 10, false, 2),
-    new Module(5, 'Module SIP TRAFFIC ENCRYPTION', '', 10, false, 3),
-    new Module(6, 'Module Ext 50', 'Amount of Ext numbers 50', 0, false, 4),
-    new Module(7, 'Module Ext 100', 'Amount of Ext numbers 100', 10, false, 4),
-    new Module(8, 'Module Schedule', '', 0, false, 5),
-    new Module(9, 'Module Storage 500', 'Storage space 500 mb', 10, false, 6),
-    new Module(10, 'Module Storage 1000', 'Storage space 1000 mb', 10, false, 6),
-    new Module(11, 'Module Storage 1500', 'Storage space 1500 mb', 10, false, 6),
-  ];
-}
+export class StorageComponent implements OnInit {
 
-export class Module {
-  constructor (
-    public id: number,
-    public title: string,
-    public content: string,
-    public cost: number,
-    public status: boolean,
-    public color: number) {}
+    @ViewChild(ListComponent) list;
+
+    search: string = '';
+    source = {
+        option: [
+            {title: 'Audio', type: 'audio'},
+            // {title: 'Call Records', type: 'call_record'},
+            // {title: 'Trash', type: 'trash'}
+            ],
+        select: {title: '', type: ''}
+    };
+    table: TableInfoExModel = {
+        sort: {
+            isDown: false,
+            column: 'date',
+        },
+        items: [
+            {title: 'Name', key: 'name', width: null, sort: 'name'},
+            {title: 'Date',  key: 'date', width: 168, sort: 'date'},
+            {title: 'Size, MB', key: 'size', width: 104, sort: 'size'},
+        ]
+    };
+
+    player = {item: [], current: null};
+    modal = {
+        visible: false,
+        text: '',
+        confirm: {type: 'error', value: 'Delete'},
+        decline: {type: 'cancel', value: 'Cancel'}
+    };
+    buttons: ButtonItem[] = [];
+    filters: FilterItem[] = [];
+
+    constructor(private service: StorageService,
+                private message: MessageServices,
+                private _size: SizePipe) {
+        this.buttons.push({
+            id: 0,
+            title: 'Delete Selected',
+            type: 'error',
+            visible: false,
+            inactive: false,
+        });
+        this.filters.push(new FilterItem(1, 'type', 'Select Source:', [
+            {id: 'audio', title: 'Audio'}
+        ], 'title'));
+        this.filters.push(new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'));
+    }
+
+    updateLoading(loading, deleting = false) {
+        this.list.loading = loading;
+        if (!loading) {
+            this.load();
+            this.message.writeSuccess(`Successfully ${deleting ? 'deleted' : 'uploaded'} ${this.service.successCount} file(s).`);
+        }
+    }
+
+    private uploadFiles(files) {
+        this.service.resetCount();
+        for (let i = 0; i < files.length; i++) {
+            if (this.service.checkCompatibleType(files[i])) {
+                this.service.checkFileExists(files[i], (loading) => {
+                    this.updateLoading(loading);
+                });
+            } else {
+                this.message.writeError('Accepted formats: mp3, ogg, wav');
+            }
+        }
+        this.service.checkModal();
+    }
+
+    time(value: number): string {
+        const sec = (value % 60);
+        const min = Math.round(value / 60) % 60;
+        const hour = Math.round(value / 3600);
+        return (hour < 10 ? '0' : '') + hour + ':' + (min < 10 ? '0' : '') + min + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    play(id: number): void {
+        // this.player.current = this.player.current === id ? null : id;
+        // if (!this.find(this.player.item, id)) {
+        //     this.player.item.push(id);
+        // }
+    }
+
+    findById(array, id) {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].id === id) {
+                return array[i]
+            }
+        }
+        return null;
+    }
+
+    find(array, value): boolean {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i] === value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    dropHandler(e) {
+        e.preventDefault();
+        if (!this.service.pageInfo.items) {
+            return ;
+        }
+        const files = e.dataTransfer.files;
+        this.uploadFiles(files);
+    }
+
+    dragOverHandler(e) {
+        e.preventDefault();
+    }
+
+    dragEndHandler(e) {
+    }
+
+    dragLeaveHandler(e) {
+        e.preventDefault();
+    }
+
+    deleteSelected() {
+        this.modal.visible = true;
+    }
+
+    doDeleteSelected() {
+        this.service.resetCount();
+        for (let i = 0; i < this.service.select.length; i++) {
+            const id = this.service.select[i];
+            const item = this.list.pageInfo.items.find(item => item.id === id);
+            item ? item.loading++ : null;
+            this.service.deleteById(id, (loading) => {
+                this.updateLoading(loading, true);
+            }, false).then(() => {
+                item ? item.loading-- : null;
+            }).catch(() => {
+                item ? item.loading-- : null;
+            });
+        }
+    }
+
+    sendFile(e) {
+        e.preventDefault();
+        const files = e.target.files;
+        if (e.target.files[0]) {
+            this.uploadFiles(files);
+        }
+    }
+
+    selectItem(id: number) {
+        this.service.selectItem(id);
+        this.buttons[0].inactive = this.service.select.length === 0;
+    }
+
+    load() {
+        this.service.select = [];
+        this.buttons[0].visible = this.service.pageInfo.itemsCount > 0;
+        this.buttons[0].inactive = true;
+    }
+
+    ngOnInit(): void {
+
+    }
+
 }

@@ -10,6 +10,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 })
 
 export class ButtonComponent {
+  @Input() name: string;
   @Input() value: string;
   @Input() buttonType: string;
   @Input() loading: boolean;

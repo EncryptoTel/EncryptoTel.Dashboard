@@ -1,0 +1,195 @@
+@import "../../vars"
+
+.pbx_input
+  &_wrap
+    //background: $dark_pagination_inactive
+    width: 100%
+    //height: 100%
+    display: flex
+    flex-flow: column
+    //padding: 20px
+    /deep/ pbx-select
+      flex: 1
+      min-width: 100px
+      height: 40px
+      &:nth-child(2)
+        margin-left: 8px
+      &:focus
+        border-color: $dark_accent
+  &_error
+    position: absolute
+    margin-top: 47px
+    margin-left: 260px
+    padding: 10px
+    background-color: $dark_error
+    color: $dark_primary
+    width: 250px
+    &:before
+      position: absolute
+      display: block
+      content: ''
+      width: 0
+      height: 0
+      top: -6px
+      left: 20px
+      border-left: 6px solid transparent
+      border-right: 6px solid transparent
+      border-bottom: 6px solid $dark_error
+  &_title
+    width: 100%
+    font-weight: 500
+    font-size: rem(15)
+    height: 5%
+    display: flex
+    flex-flow: column
+    justify-content: center
+  &_item
+    display: grid
+    grid-template-columns: auto 1fr
+    margin-bottom: 10px
+    &_label
+      display: flex
+      flex-flow: column
+      justify-content: center
+      align-items: flex-start
+      width: 150px
+    &_input_wrap
+      width: 100%
+      display: flex
+      flex-flow: row
+      align-items: center
+  &_row
+    display: flex
+    flex-flow: column
+    margin-bottom: 10px
+    &_input_wrap
+      width: 100%
+    &_label
+      width: 100%
+      font-weight: 500
+      font-size: rem(15)
+      height: 5%
+      display: flex
+      flex-flow: column
+      justify-content: center
+      margin-bottom: 10px
+
+//.required
+//  color: $dark_error
+//  margin-left: 5px
+
+.pbx_input_error_float
+  display: none
+  &_focus
+    position: absolute
+    margin-top: 27px
+    margin-left: -260px
+    padding: 10px
+    background-color: $dark_error
+    color: white
+    width: 250px
+    display: flex
+    &:before
+      position: absolute
+      display: block
+      content: ''
+      width: 0
+      height: 0
+      top: 10px
+      left: 100%
+      border-top: 6px solid transparent
+      border-bottom: 6px solid transparent
+      border-left: 6px solid $dark_error
+  &_left_focus
+    position: absolute
+    margin-top: 0
+    margin-left: -110px
+    padding: 10px
+    background-color: $dark_error
+    color: white
+    width: 250px
+    display: flex
+  &_down_focus
+    position: absolute
+    margin-top: 0
+    margin-left: 0
+    padding: 10px
+    background-color: $dark_error
+    color: white
+    width: 250px
+    display: flex
+    margin-left: 300px;
+    margin-top: 44px;
+    &:before
+      position: absolute
+      display: block
+      content: ''
+      width: 0
+      height: 0
+      top: -4px
+      left: 10px
+      border-right: 6px solid transparent
+      border-left: 6px solid transparent
+      border-bottom: 6px solid $dark_error
+
+span
+  font-size: rem(13)
+
+.time
+  span
+    margin-left: 15px
+  input
+    width: 50px
+
+.checkbox
+  span
+    margin-left: 15px
+  input
+    width: 15px
+    cursor: pointer
+
+input:not([type='submit'])
+  height: 40px
+  border-bottom: 1px solid rgba($dark_primary, .1)
+  &.show-border
+    border: 1px solid rgba($dark_primary, .1)
+  &.input-valid:focus
+    border-color: $dark_accent
+  &.input-invalid
+    color: $dark_error
+    border-color: $dark_error
+    &::placeholder
+      color: $dark_error
+
+textarea
+  border: 1px solid rgba($dark_primary, .1)
+  background: transparent
+  color: #ffffff
+  cursor: text
+  padding: 11px 16px
+  font-size: rem(14)
+  width: 100%
+  &:focus
+    border: 1px solid $dark_accent
+    outline: unset
+  &.ng-valid:focus
+    border-color: $dark_accent
+  &.ng-touched.ng-invalid,
+  &.ng-dirty.ng-invalid
+    color: $dark_error
+    border-color: $dark_error
+    &::placeholder
+      color: $dark_error
+
+.error-border
+  border-color: $dark_error !important
+.error-text
+  color: $dark_error !important
+
+
+@media all and (max-width: 768px)
+  .pbx_input
+    &_item
+      flex-flow: column
+      &_label
+        margin: 5px 0

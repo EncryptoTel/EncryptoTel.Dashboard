@@ -1,0 +1,86 @@
+@import '../../../_vars.sass'
+
+
+
+.overview
+  flex: 1
+  flex-direction: column
+  &_header
+    padding: rem(24)
+    background: $dark_overlay
+    text-align: center
+    justify-content: center
+  &_body
+    flex-direction: row
+  &_wrap
+    flex-direction: column
+    width: rem(352)
+    margin-right: rem(24)
+  &_item, &_title
+    height: rem(40)
+    border-bottom: 1px solid $dark_overlay
+    align-items: center
+    padding: 0 rem(16)
+    justify-content: space-between
+  &_title
+    color: $dark_primary
+    margin-top: rem(16)
+  &_tag
+    cursor: pointer
+    align-items: center
+    border-radius: 100vmax
+    padding: rem(12) rem(24)
+    margin: 0 rem(8) rem(8) 0
+    display: block
+    max-width: rem(168)
+    overflow-x: hidden
+    text-overflow: ellipsis
+    border: rem(1) solid
+    &.active
+      color: $dark_primary
+    &.off
+      color: rgba($dark_primary,.4)
+      border-color: rgba($dark_primary,.4)
+      &:hover
+        background: rgba($dark_primary,.05)
+    &_wrap
+      margin-top: rem(16)
+      flex-flow: row wrap
+.color
+  &_1
+    background: rgba(237,138,138,0.75)
+    border-color: rgba(237,138,138,0.75)
+    &:hover
+      background: rgb(237,138,138)
+      border-color: rgb(237,138,138)
+  &_2
+    background: rgba(183,183,95,0.75)
+    border-color: rgba(183,183,95,0.75)
+    &:hover
+      background: rgb(183,183,95)
+      border-color: rgb(183,183,95)
+  &_3
+    background: rgba(110,189,110,0.75)
+    border-color: rgba(110,189,110,0.75)
+    &:hover
+      background: rgb(110,189,110)
+      border-color: rgb(110,189,110)
+  &_4
+    background: rgba(105,204,204,0.75)
+    border-color: rgba(105,204,204,0.75)
+    &:hover
+      background: rgb(105,204,204)
+      border-color: rgb(105,204,204)
+  &_5
+    background: rgba(138,138,237,0.75)
+    border-color: rgba(138,138,237,0.75)
+    &:hover
+      background: rgb(138,138,237)
+      border-color: rgb(138,138,237)
+  &_6
+    background: rgba(204,105,204,0.75)
+    border-color: rgba(204,105,204,0.75)
+    &:hover
+      background: rgb(204,105,204)
+      border-color: rgb(204,105,204)
+

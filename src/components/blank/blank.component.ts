@@ -1,19 +1,34 @@
-import {Component} from '@angular/core';
-import {TableInfoModel} from '../../models/table-info.model';
+import {Component, OnInit} from '@angular/core';
+import {TableInfoModel} from '../../models/base.model';
 import {SidebarInfo} from '../../models/sidebar-info.model';
 
 @Component({
   selector: 'pbx-blank',
   template: `
+            <pbx-calendar (newDates)="test($event)" [isSetting]="true"></pbx-calendar>
+            <pbx-calendar (newDates)="test($event)"></pbx-calendar>
             <div style="flex-direction: row; flex: 0 0 auto">
-              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;"></pbx-button>
-              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;" buttonType="success" value="Accept"></pbx-button>
-              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;" buttonType="cancel" value="Cancel"></pbx-button>
+              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px;"></pbx-button>
+              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;" buttonType="success" value="Accept"></pbx-button>
+              <pbx-button style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;" buttonType="cancel" value="Cancel"></pbx-button>
               <pbx-button
-                style="flex: 0 0 auto; margin-bottom: 16px; width: 100px;"
+                style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;"
                 buttonType="error"
                 value="Modal"
-                (onClick)="modal.visible = true"></pbx-button>
+                (onClick)="modal.visible = true">
+              </pbx-button>
+              <!--<pbx-button-->
+                <!--style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;"-->
+                <!--buttonType="success"-->
+                <!--value="Notification success"-->
+                <!--(onClick)="createNotificationSuccess()">-->
+              <!--</pbx-button>-->
+              <!--<pbx-button-->
+                <!--style="flex: 0 0 auto; margin-bottom: 16px; margin-left: 10px;"-->
+                <!--buttonType="error"-->
+                <!--value="Notification error"-->
+                <!--(onClick)="createNotificationError()">-->
+              <!--</pbx-button>-->
             </div>
             <pbx-select
               style="flex: 0 0 auto; width: 300px; margin-bottom: 16px"
@@ -22,21 +37,23 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
               [selected]="selectedOption"
               [objectKey]="'title'"
               [placeholder]="'Please select something'"
-              (onSelect)="selectOption($event)"></pbx-select>
+              (onSelect)="selectOption($event)">
+            </pbx-select>
             <pbx-select
               style="flex: 0 0 auto; width: 300px; margin-bottom: 16px"
               [options]="selectOptions"
               [selected]="selectedOption"
               [objectKey]="'title'"
               [placeholder]="'Please select something'"
-              (onSelect)="selectOption($event)"></pbx-select>
+              (onSelect)="selectOption($event)">
+            </pbx-select>
             <pbx-checkbox style="flex: 0 0 auto; margin-bottom: 16px" [value]="checkboxStatus" (onToggle)="checkbox($event)"></pbx-checkbox>
             <pbx-modal [modal]="modal"
                        (onConfirm)="modalConfirm()"
                        (onDecline)="modalDecline()">
               <div style="font-size: 16px">Modal body</div>
             </pbx-modal>
-            <div style="flex-direction: row; width: 100%">
+            <!--<div style="flex-direction: row; width: 100%">
               <pbx-table [tableItems]="tableData"
                          [multiple]="true"
                          [tableInfo]="tableInfo"
@@ -47,14 +64,18 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
                          (onEdit)="editItem($event)"
                           style="flex: 1 0 auto"></pbx-table>
               <pbx-sidebar [sidebarInfo]="sidebarInfo" style="flex: 0 0 auto;"></pbx-sidebar>
-            </div>`
+              <pbx-notificator></pbx-notificator>
+            </div>-->
+  `,
+  styles: ['pbx-button { width: auto;}']
 })
 
-export class BlankComponent {
+export class BlankComponent implements OnInit {
   selectedRow = [];
   selectedOption;
   checkboxStatus: boolean;
   sidebarInfo: SidebarInfo = {
+    loading: 0,
     title: 'Information',
     description: [
       {title: 'Available space', value: '4Mb'},
@@ -123,7 +144,29 @@ export class BlankComponent {
       confirm: {type: 'success', value: 'OK'},
       decline: {type: 'error', value: 'No'}
     };
+
   }
+
+  ngOnInit() {
+  }
+
+  // createNotificationSuccess() {
+  //   this.notificator = {
+  //     visible: true,
+  //     type: 'success',
+  //     message: 'Okay, dude'
+  //   };
+  //   this.serviceNotificator.setNotification(this.notificator);
+  // }
+  //
+  // createNotificationError() {
+  //   this.notificator = {
+  //     visible: true,
+  //     type: 'error',
+  //     message: 'Nope, dude'
+  //   };
+  //   this.serviceNotificator.setNotification(this.notificator);
+  // }
 
   selectItem(item): void {
     const selected = this.selectedRow.find(i => i.id === item.id);
@@ -154,5 +197,8 @@ export class BlankComponent {
   }
   modalDecline = (): void => {
     console.log('Modal declined!');
+  }
+  test(item): void {
+    console.log(item);
   }
 }

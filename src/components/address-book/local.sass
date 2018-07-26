@@ -74,8 +74,8 @@
     flex: 1 0 auto
     pbx-button
       /deep/
-        button
-          width: 85%
+      button
+        width: 85%
     pbx-button:last-child
       justify-content: flex-end
 
@@ -94,12 +94,21 @@ label
 
 pbx-sidebar
   /deep/
-    .sidebar
-      justify-content: space-between
-      flex: 1 0 auto
-      overflow-y: auto
+  .sidebar
+    justify-content: space-between
+    flex: 1 0 auto
+    overflow-y: auto
 
-
+// ToDo Удалить нахер
+.zerg
+  position: fixed
+  bottom: rem(16)
+  right: rem(16)
+  width: rem(32)
+  height: rem(32)
+  background: $dark_error
+  justify-content: center
+  align-items: center
 .alert
   color: $dark_error
   p
@@ -107,3 +116,209 @@ pbx-sidebar
     font-weight: 500
     &:first-child
       margin-bottom: 20px
+.address
+  color: $font-color
+  flex: 1
+  flex-direction: row
+  margin-right: rem(-32)
+  padding-right: rem(32)
+  overflow-x: hidden
+  pbx-button
+    color: $dark_primary
+  &_wrap
+    flex: 1
+    flex-direction: column
+  &_header
+    flex-direction: row
+    margin-bottom: rem(24)
+    input, pbx-select
+      width: rem(240)
+      height: rem(40)
+      margin-left: rem(8)
+    input
+      border: rem(1) solid rgba($dark_primary,.1)
+      &:focus
+        border-color: $dark_accent
+    &_wrap
+      flex-direction: row
+      margin-right: rem(24)
+      align-items: center
+    &_button_wrap
+      margin-left: auto
+      pbx-button
+        width: unset
+        margin-left: rem(8)
+
+.tablet
+  flex: 1
+  display: grid
+  grid-template-rows: auto 1fr
+  pbx-pagination
+    margin-top: rem(24)
+  pbx-loader
+    grid-row: 2/3
+    grid-column: 1/2
+  &_body
+    display: block
+    flex-direction: column
+    overflow-y: auto
+    overflow-x: hidden
+    grid-row: 2/3
+    grid-column: 1/2
+  &_header, &_row
+    flex-direction: row
+    height: rem(40)
+    align-items: center
+    border-bottom: rem(1) solid rgba($dark_primary,.1)
+  &_row
+    color: $dark_primary
+    .tablet_item
+      cursor: pointer
+    &:hover
+      background: rgba($dark_primary,.05)
+      .tablet_icon
+        opacity: .33
+        &:hover
+          opacity: 1
+    &.selected
+      background: rgba($dark_primary,.1)
+      &:hover
+        background: rgba($dark_primary,.15)
+  &_item
+    flex: 1
+    padding: rem(12) rem(16)
+    align-items: center
+    display: block
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+    &:nth-child(4)
+      flex: 2
+  &_icon
+    opacity: 0
+    height: rem(16)
+    width: rem(16)
+    padding: rem(2)
+    cursor: pointer
+    /deep/ *
+      cursor: pointer
+    &.edit
+      /deep/ path, /deep/ rect
+        fill: $dark_success
+    &.delete /deep/ polygon
+      fill: $dark_error
+    svg-icon
+      flex: 1
+    &_wrap
+      justify-content: space-evenly
+      width: rem(80)
+.side
+  &_wrap
+    flex: 1
+    display: grid
+    grid-template-rows: 1fr auto
+    margin: rem(-40) rem(-24) rem(-24)
+    grid-gap: rem(24)
+    input, pbx-select
+      height: rem(40)
+    input:focus
+      background-color: $dark_background
+      border-color: $dark_accent
+  &_body
+    flex: 1
+    display: block
+    overflow: auto
+    padding: rem(40) rem(24) 0
+  &_control
+    padding: rem(0) rem(24) rem(24)
+    display: grid
+    grid-gap: rem(24)
+    grid-template-columns: 1fr 1fr
+    pbx-button
+      flex: 1
+      /deep/ .button
+        flex: 1
+  &_view
+    &_item
+      flex-direction: column
+      margin-bottom: rem(16)
+    &_key
+      margin-bottom: rem(8)
+      font-size: rem(12)
+    &_value
+      color: $dark_primary
+      display: block
+      text-overflow: ellipsis
+      overflow-x: hidden
+      white-space: nowrap
+      font-size: rem(16)
+      height: rem(24)
+    &_button
+      color: $dark_error
+      font-size: rem(16)
+      font-weight: 600
+      &:not(:last-child)
+        margin-bottom: rem(24)
+      span
+        cursor: pointer
+
+  &_unit
+    &_item
+      flex-direction: column
+      margin-bottom: rem(24)
+    &_key
+      margin-bottom: rem(4)
+      font-size: rem(12)
+      margin-right: auto
+      cursor: pointer
+      &:hover, &.active
+        color: $dark_accent
+      &.error
+        color: $dark_error
+        &:focus
+          color: $dark_error
+    &_row
+      justify-content: flex-end
+      flex-direction: row
+      transition: 0s
+      &:not(:last-child)
+        margin-bottom: rem(8)
+      input
+        flex: 4
+        margin-right: rem(8)
+      pbx-select
+        flex: 3
+        margin-right: rem(8)
+    &_icon
+      height: rem(16)
+      width: rem(16)
+      padding: rem(2)
+      opacity: 0.5
+      cursor: pointer
+      /deep/ *
+        cursor: pointer
+      &:hover
+        opacity: 1
+      svg-icon
+        flex: 1
+      &.plus /deep/ .st1
+        fill: $dark_success
+      &.delete /deep/ polygon
+        fill: $dark_error
+      &_wrap
+        flex-direction: column
+        width: rem(40)
+        justify-content: space-around
+        align-items: center
+      &_minus
+        width: rem(12)
+        height: rem(1)
+        margin: auto
+        background: $dark_error
+    &_item, &_row
+      &.error
+        label, label:hover
+          color: $dark_error
+        input, input:focus
+          border-color: $dark_error
+          color: $dark_error

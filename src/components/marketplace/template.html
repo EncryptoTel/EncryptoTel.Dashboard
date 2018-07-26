@@ -1,15 +1,23 @@
+<pbx-modal [modal]="modal"
+           (onConfirm)="modalConfirm()"
+           (onDecline)="modalDecline()">
+    <div style="font-size: 16px">Are you sure you want to buy this service?</div>
+</pbx-modal>
 <div class="marketplace_wrap">
-  <div *ngFor="let item of modules" class="marketplace_item color_{{item.color}}">
-    <div class="marketplace_column">
-      <div class="marketplace_title">{{item.title}}</div>
-      <div class="marketplace_info" *ngIf="item.content">{{item.content}}</div>
+    <div *ngFor="let item of modules" class="marketplace_item color_{{item.color}}">
+        <div class="marketplace_column">
+            <div class="marketplace_title">{{item.title}}</div>
+            <div class="marketplace_info" *ngIf="item.content">{{item.content}}</div>
+        </div>
+        <div class="marketplace_row">
+            <div *ngIf="item.price" class="marketplace_cost">${{item.price}} monthly</div>
+            <div *ngIf="!item.price" class="marketplace_cost">free</div>
+            <div *ngIf="item.status" class="marketplace_button">bought</div>
+            <div *ngIf="!item.status" class="marketplace_button" (click)="buyService(item)">
+                <span *ngIf="!item.loading">buy now</span>
+                <pbx-loader *ngIf="item.loading"></pbx-loader>
+            </div>
+        </div>
+        <svg-icon *ngIf="item.status" src="../../assets/icons/ok_32px.svg" class="marketplace_icon"></svg-icon>
     </div>
-    <div class="marketplace_row">
-      <div *ngIf="item.price" class="marketplace_cost">${{item.price}} monthly</div>
-      <div *ngIf="!item.price" class="marketplace_cost">free</div>
-      <div *ngIf="item.status" class="marketplace_button">bought</div>
-      <div *ngIf="!item.status" class="marketplace_button">buy now</div>
-    </div>
-    <svg-icon *ngIf="item.status" src="../../assets/icons/ok_32px.svg" class="marketplace_icon"></svg-icon>
-  </div>
 </div>

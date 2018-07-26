@@ -1,0 +1,48 @@
+<div class="knowledge-base">
+    <pbx-header
+            [buttons]="buttons"
+            [filters]="filters"
+            (onReload)="reloadFilter($event)"
+            (onClick)="back($event)">
+    </pbx-header>
+
+    <div class="content">
+        <pbx-loader *ngIf="loading"></pbx-loader>
+
+        <div class="blocks" *ngIf="!loading && !selectedGroup && helps.items.length === 0">
+            <div class="left">
+
+                <div class="inner" *ngFor="let item of leftGroups">
+                    <div class="title" (click)="showQuestions(item)">{{item.title}}</div>
+                    <div class="desc">
+                        {{item.description}}
+                    </div> <!-- desc -->
+                </div> <!-- inner -->
+
+            </div> <!-- left -->
+
+            <div class="right">
+
+                <div class="inner" *ngFor="let item of rightGroups">
+                    <div class="title" (click)="showQuestions(item)">{{item.title}}</div>
+                    <div class="desc">
+                        {{item.description}}
+                    </div> <!-- desc -->
+                </div> <!-- inner -->
+
+            </div> <!-- right -->
+        </div> <!-- blocks -->
+
+        <div class="questions" *ngIf="!loading && (selectedGroup || helps.items.length > 0)">
+            <div class="item" *ngFor="let item of helps.items">
+                <div class="title" (click)="showAnswer(item)">{{item.title}}
+                    <svg-icon class="arrow rotate" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+                </div>
+                <div class="desc" *ngIf="selectedHelp && selectedHelp.id === item.id">
+                    {{item.text}}
+                </div>
+            </div> <!-- item -->
+
+        </div> <!-- questions -->
+    </div> <!-- content -->
+</div> <!-- knowledge-base -->

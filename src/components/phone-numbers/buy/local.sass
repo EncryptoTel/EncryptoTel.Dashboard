@@ -1,6 +1,6 @@
 @import '../../../vars'
 
-.table
+// .table
   &:first-child
     margin-right: rem(24)
   &_column
@@ -15,3 +15,85 @@
       margin-left: auto
       /deep/ .button
         height: rem(32)
+.buy_phone
+  &_grid
+    flex: 1
+    display: grid
+    grid-template-rows: auto auto 1fr
+    pbx-loader
+      grid-row: 2/4
+  &_header
+    padding: rem(24)
+    background: $dark_overlay
+    flex-direction: row
+    margin-bottom: rem(24)
+    /deep/ pbx-select, /deep/ input
+      width: rem(240)
+      height: rem(40)
+    /deep/ input
+      border: rem(1) solid rgba($dark_primary,.1)
+      &:focus
+        border-color: $dark_accent
+    &_block
+      display: grid
+      grid-template-columns: auto 1fr
+      grid-gap: rem(24)
+      align-items: center
+      margin-right: rem(24)
+      &_key
+        color: $font-color
+        margin-left: auto
+    &_options
+      display: grid
+      grid-template-columns: auto auto auto
+      grid-gap: rem(16)
+      margin: auto 0
+      align-items: center
+      pbx-checkbox
+        grid-column: 2/3
+      &_title
+        color: $font-color
+    &_refresh
+      margin: auto 0 auto auto
+      cursor: pointer
+      align-items: center
+      /deep/ *
+        cursor: pointer
+      &_icon
+        width: rem(16)
+        height: rem(16)
+        margin-left: rem(8)
+        /deep/ path
+          fill: $dark_primary
+  &_table
+    flex-direction: column
+    &_contain
+      display: grid
+      grid-template-columns: 1fr 1fr
+      grid-gap: rem(24)
+      &.scroll
+        overflow: auto
+    &_title, &_row
+      border-bottom: rem(1) solid rgba($dark_primary,.1)
+      flex-direction: row
+      height: rem(40)
+      align-items: center
+    &_body
+      flex-direction: column
+    &_title
+      color: $font-color
+    &_row
+      color: $dark_primary
+      pbx-button
+        width: unset
+      /deep/ .button
+        height: rem(32)
+        min-width: unset
+    &_item
+      flex: 1
+      padding: 0 rem(16)
+      &:last-child
+        padding: 0
+        width: rem(80)
+        flex: unset
+        justify-content: center

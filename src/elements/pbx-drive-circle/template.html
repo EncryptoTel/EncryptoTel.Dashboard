@@ -1,0 +1,9 @@
+<svg width="176" height="176" viewBox="0 0 176 176" class="progress__svg">
+  <circle [attr.r]="radius" cx="88" cy="88" stroke-width="24" class="progress__meter" />
+  <circle
+    [style.strokeDasharray]="circumference"
+    [style.strokeDashoffset]="dashoffset"
+    [attr.r]="radius" cx="88" cy="88"
+    stroke-width="24"
+    class="progress__value" />
+</svg>

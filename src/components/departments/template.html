@@ -1,62 +1,112 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
 <div class="departments" *ngIf="!loading">
-  <div class="departments_header">
-    <pbx-button [value]="'Add Department'" [buttonType]="'success'" (onClick)="addDepartment()"></pbx-button>
-  </div>
-  <pbx-table [tableInfo]="tableInfo" [editable]="true" (onEdit)="edit($event)" (onDelete)="delete($event)" [tableItems]="departmentsList" (onSelect)="selectDepartment($event)"></pbx-table>
+
+    <pbx-list [(pageInfo)]="pageInfo"
+              [table]="table"
+              [loading]="loading"
+              [filters]="filters"
+              key="departments"
+              name="Departments"
+              itemName="Department"
+              [EmptyInfo]="companyActive ? null : getEmptyInfo()"
+              [hideArrow]="!companyActive"
+              [buttons]="buttons"
+              (onCreate)="create()"
+              (onEdit)="edit($event)"
+              (onSelect)="select($event)"
+              [service]="service">
+    </pbx-list>
 </div>
-<pbx-sidebar *ngIf="sidebarVisible">
-  <ng-container *ngIf="sidebarEdit">
-    <form class="sidebar_form" [formGroup]="departmentForm">
-      <div class="sidebar_row">
-        <label for="department">Department</label>
-        <input type="text" id="department" formControlName="name" autofocus>
-      </div>
-      <div class="sidebar_row select_row">
-        <label for="comment">Department Phone</label>
-        <div formArrayName="sipInner" class="sidebar_row unmargin">
-          <div class="sidebar_row_select"
-               *ngFor="let sip of departmentForm.get('sipInner').controls; let i=index"
-               [formGroupName]="i">
-            <pbx-select [options]="getSelectNumbers()"
-                        [selected]="selectedSips[i]"
-                        [objectKey]="'phoneNumber'"
-                        (onSelect)="selectPhone($event, i)"></pbx-select>
-            <svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone()"></svg-icon>
-          </div>
+<pbx-sidebar *ngIf="sidebar.visible">
+    <pbx-loader *ngIf="sidebar.loading"></pbx-loader>
+    <ng-container *ngIf="!sidebar.loading && sidebar.mode === 'edit'">
+        <pbx-loader *ngIf="saving"></pbx-loader>
+        <form class="sidebar_form" [formGroup]="departmentForm" *ngIf="!saving">
+
+            <pbx-input name="Department"
+                       key="name"
+                       labelPosition="top"
+                       [form]="true"
+                       [singleBorder]="false"
+                       [floatError]="true"
+                       [required]="true"
+                       [object]="departmentForm"
+                       [errors]="service.errors"
+            ></pbx-input>
+
+            <div class="sidebar_row select_row">
+                <div formArrayName="sipInner" class="sidebar_row unmargin">
+                    <div class="sidebar_row_select"
+                         *ngFor="let sip of departmentForm.get('sipInner')['controls']; let i=index"
+                         [formGroupName]="i">
+
+                        <pbx-input name="Department Phone"
+                                   displayKey="phoneNumber"
+                                   formKey="sipInner"
+                                   errorKey="sipInner"
+                                   labelPosition="top"
+                                   [options]="getSelectNumbers()"
+                                   [singleBorder]="false"
+                                   [index2]="i"
+                                   [form]="true"
+                                   [floatError]="true"
+                                   [object]="departmentForm"
+                                   [objectView]="selectedSips[i]"
+                                   [errors]="service.errors"
+                                   (onSelect)="selectPhone($event, i)"
+                        >
+                            <div class="icon_wrap" (click)="addPhone(i)">
+                                <svg-icon src="../../assets/icons/plus_13px.svg"></svg-icon>
+                            </div>
+                        </pbx-input>
+
+                        <!--<pbx-select [options]="getSelectNumbers()"-->
+                                    <!--[selected]="selectedSips[i]"-->
+                                    <!--[objectKey]="'phoneNumber'"-->
+                                    <!--(onSelect)="selectPhone($event, i)"></pbx-select>-->
+                        <!--<svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone()"></svg-icon>-->
+                    </div>
+                </div>
+            </div>
+
+            <pbx-input name="Comment"
+                       key="comment"
+                       labelPosition="top"
+                       type="textarea"
+                       [form]="true"
+                       [singleBorder]="false"
+                       [floatError]="true"
+                       [object]="departmentForm"
+                       [errors]="service.errors"
+            ></pbx-input>
+
+        </form>
+        <div class="sidebar_controls">
+            <pbx-button [value]="'Cancel'" [buttonType]="'cancel'" (onClick)="close()"></pbx-button>
+            <pbx-button [value]="'Save'" [buttonType]="'success'" [loading]="saving" (onClick)="save()"></pbx-button>
         </div>
-      </div>
-      <div class="sidebar_row">
-        <label for="comment">Comment</label>
-        <textarea id="comment" rows="5" formControlName="comment"></textarea>
-      </div>
-    </form>
-    <div class="sidebar_controls">
-      <pbx-button [value]="'Cancel'" [buttonType]="'cancel'" (onClick)="cancel()"></pbx-button>
-      <pbx-button [value]="'Save'" [buttonType]="'success'" (onClick)="save()"></pbx-button>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="!sidebarEdit">
-    <div class="sidebar_info">
-      <div class="sidebar_row">
-        <label for="department">Department</label>
-        <p>{{currentDepartment.name}}</p>
-      </div>
-      <div class="sidebar_row">
-        <label>Department Phones</label>
-        <p *ngFor="let phone of getPhonesCurrentDepartment(currentDepartment)">{{phone}}</p>
-      </div>
-      <div class="sidebar_row">
-        <label>Comment</label>
-        <p>{{currentDepartment.comment}}</p>
-      </div>
-      <div class="sidebar_row" (click)="delete(currentDepartment)">
-        <span>Delete Department</span>
-      </div>
-    </div>
-    <div class="sidebar_controls">
-      <pbx-button [value]="'Close'" [buttonType]="'cancel'" (onClick)="close()"></pbx-button>
-      <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit(currentDepartment)"></pbx-button>
-    </div>
-  </ng-container>
+    </ng-container>
+    <ng-container *ngIf="!sidebar.loading && sidebar.mode === 'view'">
+        <div class="sidebar_info">
+            <div class="sidebar_row">
+                <label>Department</label>
+                <p>{{selected.name}}</p>
+            </div>
+            <div class="sidebar_row">
+                <label>Department Phones</label>
+                <p *ngFor="let phone of getPhonesCurrentDepartment(selected)">{{phone}}</p>
+            </div>
+            <div class="sidebar_row">
+                <label>Comment</label>
+                <p>{{selected.comment}}</p>
+            </div>
+            <div class="sidebar_row" (click)="list.items.clickDeleteItem(selected)">
+                <span>Delete Department</span>
+            </div>
+        </div>
+        <div class="sidebar_controls">
+            <pbx-button [value]="'Close'" [buttonType]="'cancel'" (onClick)="close()"></pbx-button>
+            <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit(selected)"></pbx-button>
+        </div>
+    </ng-container>
 </pbx-sidebar>

@@ -73,7 +73,11 @@ pbx-tariff-plans
 pbx-call-queues-general,
 pbx-call-queues-members,
 pbx-call-queues-members-add,
-pbx-pagination
+pbx-pagination,
+pbx-list,
+pbx-table,
+ring-groups-general,
+ring-groups-members
   flex: 1
 
 pbx-department
@@ -81,7 +85,7 @@ pbx-department
 
 input
   width: 100%
-  height: rem(48)
+  height: rem(40)
   padding: 0 rem(8)
   cursor: text
   &:-webkit-autofill
@@ -226,14 +230,14 @@ pbx-table
     animation: button_animation ease-in 350ms
 
 .overlay
-  flex: 1 0 auto
-  max-height: 100%
-  overflow-x: hidden
+  // flex: 1 0 auto
+  // max-height: 100%
+  // overflow-x: hidden
   &_content
-    flex: 1 0 auto
+    // flex: 1 0 auto
     flex-direction: column
-    padding: rem(32)
-  &_pre_row
+    // padding: rem(32)
+  //&_pre_row
     flex-direction: row
     flex: 0 0 auto
     justify-content: flex-end
