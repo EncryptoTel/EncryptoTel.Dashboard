@@ -23,7 +23,10 @@
                     <div class="tablet_item"
                          *ngFor="let key of table.title.keys"
                          (click)="select(item)"
-                         >{{item[key]}}</div>
+                         >{{key === 'refLink' ? '' : ((item[key] === true || item[key] === false) ? '' : item[key])}}
+                        <a *ngIf="key === 'refLink'" href="/ref/{{item[key]}}" target="_blank">{{item[key]}}</a>
+                        <div class="tablet_item_circle" *ngIf="item[key] === true"></div>
+                    </div>
                     <div class="tablet_icon_wrap">
                     <div class="tablet_icon edit" (click)="edit(item)">
                         <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>

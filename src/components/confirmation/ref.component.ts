@@ -7,34 +7,33 @@ import {AuthorizationServices} from '../../services/authorization.services';
 
 @Component({
     selector: 'ref',
-    template: `
-        <div class="auth_form"></div>`
+    template: `<div class="auth_form"></div>`
 })
 
 export class RefComponent implements OnInit, OnDestroy {
-    constructor(private _route: ActivatedRoute,
-                private _router: Router,
-                private _services: AuthorizationServices,
+    constructor(private route: ActivatedRoute,
+                private router: Router,
                 private message: MessageServices,
-                private _req: RequestServices) {
+                private request: RequestServices) {
     }
 
     subscription: Subscription;
 
     ngOnInit() {
-        this.subscription = this._route.params.subscribe(params => {
+        this.subscription = this.route.params.subscribe(params => {
             if (params['hash']) {
-                this._req.get(`first-visit?ref=${params['hash']}`).then(result => {
+                localStorage.removeItem('pbx_user');
+                this.request.get(`first-visit?ref=${params['hash']}`).then(result => {
                     localStorage.setItem('ref', params['hash']);
                     localStorage.setItem('uniqueHash', result.uniqueHash);
-                    this._router.navigateByUrl('/sign-up');
+                    this.router.navigateByUrl('/sign-up');
                 }).catch(() => {
                     this.message.writeError('Invalid Ref Link');
-                    this._router.navigateByUrl('/sign-in');
+                    this.router.navigateByUrl('/sign-in');
                 });
             } else {
                 this.message.writeError('Ref Link is not presented');
-                this._router.navigateByUrl('/sign-in');
+                this.router.navigateByUrl('/sign-in');
             }
         });
     }
