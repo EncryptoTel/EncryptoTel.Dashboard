@@ -85,13 +85,15 @@ export class FilterItem {
     options: any[];
     optionsDisplayKey: string;
     placeHolder: string;
+    width: number;
 
-    constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string) {
+    constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string, width?: number) {
         this.id = id;
         this.key = key;
         this.name = name;
         this.options = options;
         this.optionsDisplayKey = optionsDisplayKey;
         this.placeHolder = placeHolder;
+        this.width = width;
     }
 }

@@ -13,6 +13,7 @@
 
                 <input *ngIf="!options && !checkbox"
                        class="{{singleBorder ? '' : 'show-border'}} {{checkError() ? 'error-border' : ''}}"
+                       [style.width]="inputWidth ? inputWidth + 'px' : '100%'"
                        [type]="type"
                        [id]="key"
                        [placeholder]="placeholder"
