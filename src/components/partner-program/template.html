@@ -1,34 +1,3 @@
-<!--
-<div class="partner_program">
-    <pbx-form [tabs]="tab.items"
-              [decline]="{value: 'Withdraw Funds', buttonType: 'accent'}"
-              [confirm]="{value: 'Transfer to Account', buttonType: 'success'}"
-              [background]="false"
-              (onDecline)="clickWithdrawFunds()"
-              (onConfirm)="clickTransferToAccount()"
-              (onSelect)="selectTab($event)">
-        <pbx-loader *ngIf="loading"></pbx-loader>
-        <overview-partner-program-component
-                *ngIf="tab.select==='Overview'" class="partner_program_item"
-                [(form)]="form">
-        </overview-partner-program-component>
-        <links-partner-program-component
-                *ngIf="!loading && tab.select==='Links'" class="partner_program_item"
-                (onReload)="getItems($event)"
-                [(items)]="pageInfo.items">
-        </links-partner-program-component>
-        <reports-partner-program-component
-                *ngIf="tab.select==='Reports'" class="partner_program_item"
-                [(form)]="form">
-        </reports-partner-program-component>
-        <terms-partner-program-component
-                *ngIf="tab.select==='Terms and Conditions'" class="partner_program_item"
-                [(form)]="form">
-        </terms-partner-program-component>
-    </pbx-form>
-    <pbx-sidebar *ngIf="!loading && tab.select==='Links'" [@Swipe]>sidebar</pbx-sidebar>
-</div>
--->
 <div class="partner">
     <div class="partner_wrap">
         <div class="partner_header">
@@ -36,32 +5,38 @@
                 <div class="partner_tab"
                      *ngFor="let item of tab.items"
                      [ngClass]="{'active':item===tab.select}"
-                     (click)="selectTab(item)">{{item}}</div>
+                     (click)="selectTab(item)">{{item}}
+                </div>
             </div>
             <div class="partner_control">
                 <pbx-button value="Withdraw Funds" buttonType="accent" (onClick)="clickWithdrawFunds()"></pbx-button>
-                <pbx-button value="Transfer to Account" buttonType="success" (onClick)="clickTransferToAccount()"></pbx-button>
+                <pbx-button value="Transfer to Account" buttonType="success"
+                            (onClick)="clickTransferToAccount()"></pbx-button>
             </div>
         </div>
         <pbx-loader *ngIf="loading"></pbx-loader>
         <overview-partner-program-component
-            *ngIf="!loading && tab.select==='Overview'" class="partner_body"
-            [(items)]="tags"
-            [(form)]="form">
+                *ngIf="!loading && tab.select==='Overview'"
+                class="partner_body"
+                [(partners)]="partners"
+                [(form)]="form">
         </overview-partner-program-component>
         <links-partner-program-component
-            *ngIf="!loading && tab.select==='Links'" class="partner_body"
-            (onReload)="getItems($event)"
-            [(items)]="items" [(pageInfo)]="pageInfo">
+                *ngIf="!loading && tab.select==='Links'"
+                class="partner_body"
+                (onReload)="getItems($event)"
+                [(partners)]="partners">
         </links-partner-program-component>
         <reports-partner-program-component
-            *ngIf="tab.select==='Reports'" class="partner_body"
-            [(form)]="form">
+                *ngIf="tab.select==='Reports'"
+                class="partner_body"
+                [(form)]="form">
         </reports-partner-program-component>
         <terms-partner-program-component
-            *ngIf="tab.select==='Terms and Conditions'" class="partner_body"
-            [(form)]="form">
+                *ngIf="tab.select==='Terms and Conditions'"
+                class="partner_body"
+                [(form)]="form">
         </terms-partner-program-component>
     </div>
-    <pbx-sidebar *ngIf="!loading && tab.select==='Links'" [@Swipe]>sidebar</pbx-sidebar>
+    <pbx-sidebar *ngIf="tab.select==='Links'" [@Swipe]>sidebar</pbx-sidebar>
 </div>

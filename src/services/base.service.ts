@@ -77,7 +77,7 @@ export class BaseService {
         return this.delete(`/${id}`, showMessage);
     }
 
-    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<any> {
+    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<PageInfoModel> {
         let url = `?page=${pageInfo.page}&limit=${pageInfo.limit}`;
         if (filter) {
             let keys = Object.keys(filter);
@@ -90,7 +90,11 @@ export class BaseService {
         if (sort) {
             url = `${url}&sort[${sort.column}]=${sort.isDown ? 'desc' : 'asc'}`;
         }
-        return this.get(`${url}`);
+        return this.get(`${url}`).then(res => {
+            let pageinfo = res;
+            pageinfo.limit = pageInfo.limit;
+            return Promise.resolve(pageinfo);
+        });
     }
 
     getItem(id: number): Promise<any> {

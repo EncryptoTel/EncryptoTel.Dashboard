@@ -1,95 +1,48 @@
 <div class="knowledge-base">
-  <pbx-header
-              [buttons]="buttons"
-              [filters]="filters"
-              (onUpdate)="updateFilter($event)"
-              (onReload)="reloadFilter($event)"
-              [inactive]="loading || loadingEx">
-  </pbx-header>
+    <pbx-header
+            [buttons]="buttons"
+            [filters]="filters"
+            (onReload)="reloadFilter($event)"
+            (onClick)="back($event)">
+    </pbx-header>
 
-  <div class="content">
+    <div class="content">
+        <pbx-loader *ngIf="loading"></pbx-loader>
 
-    <div class="blocks" *ngIf="show">
-        <div class="left" id="test">
+        <div class="blocks" *ngIf="!loading && !selectedGroup && helps.items.length === 0">
+            <div class="left">
 
-            <div class="inner">
-              <div class="title" (click)="hideQuestions()">Account management</div>
-              <div class="desc">
-                  Use the tips and tricks listed on this page to create Call Rules, Queues, Groups, IVR, Schedule faster using PBX.
-              </div> <!-- desc -->
-            </div> <!-- inner -->
-      
-            <div class="inner">
-                <div class="title">Plans and membership</div>
-                <div class="desc">
-                    Use the tips and tricks listed on this page to create Call Rules, Queues, Groups, IVR, Schedule faster using PBX.
-                </div> <!-- desc -->
-            </div> <!-- inner -->
-      
-            <div class="inner">
-                <div class="title">Common questions</div>
-                <div class="desc">
-                    Use the tips and tricks listed on this page to create Call Rules, Queues, Groups, IVR, Schedule faster using PBX.
-                </div> <!-- desc -->
-            </div> <!-- inner -->
-      
-        </div> <!-- left -->
-      
-          <div class="right">
-      
-              <div class="inner">
-                  <div class="title">Tips and tricks</div>
-                  <div class="desc">
-                      Use the tips and tricks listed on this page to create Call Rules, Queues, Groups, IVR, Schedule faster using PBX.
-                  </div> <!-- desc -->
-              </div> <!-- inner -->
-      
-              <div class="inner">
-                  <div class="title">Profile, ID, and Password</div>
-                  <div class="desc">
-                      Use the tips and tricks listed on this page to create Call Rules, Queues, Groups, IVR, Schedule faster using PBX.
-                  </div> <!-- desc -->
-              </div> <!-- inner -->
-      
-          </div> <!-- right -->
-    </div> <!-- blocks -->
+                <div class="inner" *ngFor="let item of leftGroups">
+                    <div class="title" (click)="showQuestions(item)">{{item.title}}</div>
+                    <div class="desc">
+                        {{item.description}}
+                    </div> <!-- desc -->
+                </div> <!-- inner -->
 
-    <div class="questions" *ngIf="!show">
-        <div class="item">
-            <div class="title" (click)="showAnswer(1)">How can I change my password?
-                <svg-icon class="arrow rotate" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-            </div>
-            <div class="desc" *ngIf="visible[1]">Sign in to your PBX account page with your current ID and password. From there, click the Settings, and then click Profile tab. Change under Password. From there, click the Settings, and then click Profile tab. Change under Password and click Save button.</div>
-        </div> <!-- item -->
+            </div> <!-- left -->
 
-        <div class="item">
-            <div class="title" (click)="showAnswer(2)">How can I change my credit card info?
-                <svg-icon class="arrow" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-            </div>
-            <div class="desc" *ngIf="visible[2]">Sign in to your PBX account page with your current ID and password. From there, click the Settings, and then click Profile tab. Change under Password. From there, click the Settings, and then click Profile tab. Change under Password and click Save button.</div>
-        </div> <!-- item -->
+            <div class="right">
 
-        <div class="item">
-            <div class="title" (click)="showAnswer(3)">How can I change my passwoHow do I upgrade from the Starter plan to a paid plan?
-                <svg-icon class="arrow" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-            </div>
-            <div class="desc" *ngIf="visible[3]">Sign in to your PBX account page with your current ID and password. From there, click the Settings, and then click Profile tab. Change under Password. From there, click the Settings, and then click Profile tab. Change under Password and click Save button.</div>
-        </div> <!-- item -->
+                <div class="inner" *ngFor="let item of rightGroups">
+                    <div class="title" (click)="showQuestions(item)">{{item.title}}</div>
+                    <div class="desc">
+                        {{item.description}}
+                    </div> <!-- desc -->
+                </div> <!-- inner -->
 
-        <div class="item">
-            <div class="title" (click)="showAnswer(4)">I am currently in a trial of PBX. How do I get the Starter plan?
-                <svg-icon class="arrow" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-            </div>
-            <div class="desc" *ngIf="visible[4]">Sign in to your PBX account page with your current ID and password. From there, click the Settings, and then click Profile tab. Change under Password. From there, click the Settings, and then click Profile tab. Change under Password and click Save button.</div>
-        </div>
+            </div> <!-- right -->
+        </div> <!-- blocks -->
 
-        <div class="item">
-            <div class="title" (click)="showAnswer(5)">How do I cancel and what happens to my files and my access to PBX?
-                <svg-icon class="arrow" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-            </div>
-            <div class="desc" *ngIf="visible[5]">Sign in to your PBX account page with your current ID and password. From there, click the Settings, and then click Profile tab. Change under Password. From there, click the Settings, and then click Profile tab. Change under Password and click Save button.</div>
-        </div>
+        <div class="questions" *ngIf="!loading && (selectedGroup || helps.items.length > 0)">
+            <div class="item" *ngFor="let item of helps.items">
+                <div class="title" (click)="showAnswer(item)">{{item.title}}
+                    <svg-icon class="arrow rotate" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+                </div>
+                <div class="desc" *ngIf="selectedHelp && selectedHelp.id === item.id">
+                    {{item.text}}
+                </div>
+            </div> <!-- item -->
 
-    </div> <!-- questions -->
-  </div> <!-- content -->
+        </div> <!-- questions -->
+    </div> <!-- content -->
 </div> <!-- knowledge-base -->

@@ -1,4 +1,6 @@
 import {BaseService} from "./base.service";
+import {PageInfoModel} from "../models/base.model";
+import {PartnerProgramItem, PartnerProgramModel} from "../models/partner-program.model";
 
 export class PartnerProgramService extends BaseService {
 
@@ -8,6 +10,13 @@ export class PartnerProgramService extends BaseService {
         } else {
             return this.post('', {name: name});
         }
+    }
+
+    getItems(pageInfo: PageInfoModel, filter = null): Promise<PartnerProgramModel> {
+        return super.getItems(pageInfo, filter).then((res: PartnerProgramModel) => {
+            let pageInfo = this.plainToClassEx(PartnerProgramModel, PartnerProgramItem, res);
+            return Promise.resolve(pageInfo);
+        });
     }
 
     onInit() {

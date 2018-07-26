@@ -10,6 +10,7 @@
                     labelPosition="center"
                     [object]="currentFilter"
                     [objectView]="selectedFilter[i]"
+                    [inputWidth]="filter.width"
                     (onKeyUp)="reload()"
                     (onSelect)="reload()">
         </pbx-input>

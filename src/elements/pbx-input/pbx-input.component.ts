@@ -39,6 +39,7 @@ export class InputComponent implements OnInit {
     @Input() errorVisible: boolean = false;
     @Input() rows: number = 5;
     @Input() required: boolean;
+    @Input() inputWidth: number;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -174,6 +175,7 @@ export class InputComponent implements OnInit {
     }
 
     selectItem($event) {
+        console.log('before', this.key, this.value);
         this.resetError();
         if (this.form) {
             this.value = $event;
@@ -193,6 +195,7 @@ export class InputComponent implements OnInit {
                 this.value = $event;
             }
         }
+        console.log('after', this.key, this.value);
         this.onSelect.emit($event);
     }
 
@@ -293,6 +296,7 @@ export class InputComponent implements OnInit {
             this.trueValue ? this.trueValue : true
         ];
         this.loading--;
+        // console.log(this.key, JSON.stringify(this.value));
     }
 
 }
