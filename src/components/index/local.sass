@@ -251,6 +251,77 @@
         &:active
           background: darken($dark_overlay, 5%)
 
+\:host-context(.light_theme)
+  .user
+    &_navigation
+      &_wrap
+        background: lighten($dark_background, 15%)
+        /deep/ path
+          fill: $dark_primary
+      &_item:hover
+        background: lighten($dark_background, 25%)
+    &_wrap
+      &:after
+        background: lighten($dark_background, 15%)
+      &.active > .dropdown_arrow
+        transform: rotate(180deg)
+      .dropdown_arrow
+        /deep/ path, /deep/ polygon
+          fill: $dark_primary
+    &_profile_image
+      border-color: $dark_primary
+    &_details
+      &_balance
+        color: $dark_success
+  .navigation
+    &_block
+      border-bottom-color: lighten($dark_background, 15%)
+    &_item
+      &.inactive
+        color: lighten($dark_background, 15%)
+        /deep/ path, /deep/ polygon
+          fill: lighten($dark_background, 15%)
+      &:hover, &:focus, &.active
+        color: $dark_accent
+        > .navigation_item_icon
+          /deep/ path, /deep/ polygon
+            fill: $dark_accent
+      &_icon
+        /deep/ path, /deep/ polygon
+          fill: $dark_primary
+  .header
+    &_title
+      color: $dark_accent
+    &_button
+      background: $dark_accent
+      /deep/ path, /deep/ circle
+        fill: $dark_primary
+      &_row
+        .sidebar
+        &_wrap
+          background: $dark_overlay
+      &:after
+        background: $dark_overlay
+      &:hover
+        background: lighten($dark_accent, 5%)
+      &:active
+        background: darken($dark_accent, 5%)
+      &.active
+        &:after
+          height: 100%
+        &:hover::after
+          background: lighten($dark_overlay, 5%)
+        &:active::after
+          background: darken($dark_overlay, 5%)
+      &_hide
+        background: $dark_overlay
+        /deep/ polygon
+          fill: $dark_primary
+        &:hover
+          background: lighten($dark_overlay, 5%)
+        &:active
+          background: darken($dark_overlay, 5%)
+
 .mobile
   &_header
     display: none
@@ -371,7 +442,7 @@
   max-height: 100vh
   min-height: 100vh
   overflow: hidden
-  background: $dark_background
+  //background: $dark_background
   >.body_wrap
     // padding: 0
     // padding: rem(24) rem(32) rem(24) rem(48)
