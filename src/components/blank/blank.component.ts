@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {TableInfoModel} from '../../models/base.model';
-import {SidebarInfo} from '../../models/sidebar-info.model';
+import {SidebarInfoModel, TableInfoModel} from '../../models/base.model';
 
 @Component({
   selector: 'pbx-blank',
@@ -74,38 +73,12 @@ export class BlankComponent implements OnInit {
   selectedRow = [];
   selectedOption;
   checkboxStatus: boolean;
-  sidebarInfo: SidebarInfo = {
+  sidebarInfo: SidebarInfoModel = {
     loading: 0,
+      position: '',
     title: 'Information',
-    description: [
-      {title: 'Available space', value: '4Mb'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'},
-      {title: 'Available external numbers', value: '16'}
-    ]
+    items: [],
+    buttons: [],
   };
   selectOptions = [
     {id: 1, title: 'Option 1', description: 'Select option 1'},

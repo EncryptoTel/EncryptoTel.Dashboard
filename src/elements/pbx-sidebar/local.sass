@@ -26,8 +26,31 @@
         flex: 1 0 auto
         justify-content: space-between
         min-height: rem(32)
+        &.column
+          flex-direction: column
       .description_text
         align-items: center
+        //&.column
+        //  margin-top: 15px
+        &.title
+          margin-bottom: rem(16)
+          font-size: rem(12)
+          opacity: .8
+    &_link
+      cursor: pointer
+      &:hover
+        text-decoration: underline
+      &.warning
+        color: $dark_error
+  &_buttons
+    //padding: rem(0) rem(24) rem(24)
+    display: grid
+    grid-gap: rem(24)
+    grid-template-columns: 1fr 1fr
+    pbx-button
+      flex: 1
+      /deep/ .button
+        flex: 1
 
 // Theme styles
 \:host-context(.dark_theme)

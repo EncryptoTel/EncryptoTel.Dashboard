@@ -11,39 +11,13 @@
               [deletable]="false"
               (onEdit)="edit($event)"
               (onSelect)="select($event)"
-              [service]="service">
-    </pbx-list>
+              [service]="service"
+    ></pbx-list>
 
-    <pbx-sidebar *ngIf="selected" [@Swipe]>
-        <div class="sidebar_item">
-            <div class="sidebar_item_title">Phone number</div>
-            <div class="sidebar_item_value">{{selected.phoneNumber}}</div>
-        </div>
-        <div class="sidebar_item">
-            <div class="sidebar_item_title">Amount of phone Exts</div>
-            <div class="sidebar_item_value">{{selected.innersCount}}</div>
-        </div>
-        <div class="sidebar_item">
-            <div class="sidebar_item_title">Default Ext</div>
-            <div class="sidebar_item_value">{{selected.defaultInner}}</div>
-        </div>
-        <div class="sidebar_item">
-            <div class="sidebar_item_title">Status</div>
-            <div class="sidebar_item_value">{{selected.statusName}}</div>
-        </div>
-        <div class="sidebar_item">
-            <div class="sidebar_item_title">Phone number type</div>
-            <div class="sidebar_item_value">{{selected.typeName}}</div>
-        </div>
-        <div class="sidebar_item" *ngIf="!selected.status">
-            <div class="sidebar_item_value warning" (click)="list.items.clickDeleteItem(selected)">
-                Delete phone number {{selected.innersCount === 1 ? 'and 1 Ext' : selected.innersCount > 1 ? 'and ' + selected.innersCount + 'Exts' : ''}}
-            </div>
-        </div>
-        <div class="sidebar_buttons">
-            <pbx-button value="Cancel" buttonType="cancel" (onClick)="cancel()"></pbx-button>
-            <pbx-button [value]="!!selected.status ? 'Disable' : 'Enable'" buttonType="accent"
-                        (onClick)="toggleNumber()" [loading]="selected.loading"></pbx-button>
-        </div>
-    </pbx-sidebar>
+    <pbx-sidebar
+            *ngIf="selected"
+            [sidebarInfo]="sidebar"
+            (onClick)="click($event)"
+            [@Swipe]
+    ></pbx-sidebar>
 </div>
