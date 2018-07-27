@@ -53,9 +53,13 @@ export class TableInfoItem {
 }
 
 export class SidebarInfoModel {
-    loading: number;
+    loading: number = 0;
+    saving: number = 0;
+    visible: boolean;
     title: string;
-    position: string;
+    mode: string;
+    position: string = 'column';
+    hideEmpty: boolean;
     items: SidebarInfoItem[] = [];
     buttons: SidebarButtonItem[] = [];
 

@@ -47,6 +47,10 @@ export class AddressBookItem extends BaseItemModel {
         }
     }
 
+    get countryName() {
+        return this.country ? this.country.title : null;
+    }
+
     get phone() {
         return this.contactPhone.length > 0 ? this.contactPhone[0].value : null;
     }

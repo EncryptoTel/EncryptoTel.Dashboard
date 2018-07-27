@@ -42,6 +42,7 @@ export class CompanyComponent implements OnInit {
 
         this.sidebarInfo.loading = 0;
         this.sidebarInfo.title = 'Information';
+        this.sidebarInfo.position = '';
         this.sidebarInfo.items.push(new SidebarInfoItem(0, 'External numbers', null));
         this.sidebarInfo.items.push(new SidebarInfoItem(1, 'Internal numbers', null));
         this.sidebarInfo.items.push(new SidebarInfoItem(2, 'Storage space', null));

@@ -75,7 +75,11 @@ export class BlankComponent implements OnInit {
   checkboxStatus: boolean;
   sidebarInfo: SidebarInfoModel = {
     loading: 0,
-      position: '',
+    visible: true,
+    saving: 0,
+    mode: '',
+    hideEmpty: false,
+    position: '',
     title: 'Information',
     items: [],
     buttons: [],

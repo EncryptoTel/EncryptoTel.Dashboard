@@ -176,7 +176,6 @@ export class InputComponent implements OnInit {
     }
 
     selectItem($event) {
-        console.log('before', this.key, this.value);
         this.resetError();
         if (this.form) {
             this.value = $event;
@@ -196,7 +195,6 @@ export class InputComponent implements OnInit {
                 this.value = $event;
             }
         }
-        console.log('after', this.key, this.value);
         this.onSelect.emit($event);
     }
 

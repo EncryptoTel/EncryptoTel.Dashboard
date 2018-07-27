@@ -9,7 +9,7 @@ import {
 import {RefsServices} from '../../services/refs.services';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {PageInfoModel} from "../../models/base.model";
+import {PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
 import {CountryModel} from "../../models/country.model";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
@@ -34,12 +34,6 @@ export class AddressBookComponent implements OnInit {
         keys: ['firstname', 'lastname', 'phone', 'email', 'company', 'country.title'],
     };
 
-    sidebar = {
-        visible: false,
-        loading: 0,
-        saving: 0,
-        mode: ''
-    };
     loading: number = 0;
 
     selected: AddressBookItem;
@@ -64,20 +58,19 @@ export class AddressBookComponent implements OnInit {
 
     filters: FilterItem[] = [];
 
+    sidebar: SidebarInfoModel = new SidebarInfoModel();
+
     constructor(private service: AddressBookService,
                 private refs: RefsServices,
                 private message: MessageServices) {
-
+        this.sidebar.hideEmpty = true;
     }
 
     create() {
         this.sidebar.loading++;
-        this.service.resetErrors();
         this.selected = null;
         this.selected = new AddressBookItem();
-        this.prepareData();
-        this.sidebar.mode = 'edit';
-        this.sidebar.visible = true;
+        this.doEdit();
         setTimeout(() => {
             this.sidebar.loading--;
         }, 500);
@@ -87,17 +80,67 @@ export class AddressBookComponent implements OnInit {
         this.selected = item;
         this.prepareData();
         this.sidebar.mode = 'view';
+        this.sidebar.buttons = [];
+        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(2, 'Edit', 'success'));
+        this.sidebar.items = [];
+        this.sidebar.items.push(new SidebarInfoItem(4, 'First Name', this.selected.firstname));
+        this.sidebar.items.push(new SidebarInfoItem(5, 'Last Name', this.selected.lastname));
+        let phones = [];
+        this.selected.contactPhone.map(item => {
+            if (item.value) phones.push(item.value);
+        });
+        this.sidebar.items.push(new SidebarInfoItem(6, phones.length > 1 ? 'Phones' : 'Phone', phones));
+        let emails = [];
+        this.selected.contactEmail.map(item => {
+            if (item.value) emails.push(item.value);
+        });
+        this.sidebar.items.push(new SidebarInfoItem(7, emails.length > 1 ? 'Emails' : 'Email', emails));
+        this.sidebar.items.push(new SidebarInfoItem(8, 'Company Name', this.selected.company));
+        // this.sidebar.items.push(new SidebarInfoItem(9, 'Department', this.selected.department));
+        this.sidebar.items.push(new SidebarInfoItem(10, 'Country', this.selected.countryName));
+        // this.sidebar.items.push(new SidebarInfoItem(11, 'Address', this.selected.address));
+        this.sidebar.items.push(new SidebarInfoItem(12, this.selected.blacklist ? 'Unblock contact' : 'Block contact', null, true, false, true));
+        this.sidebar.items.push(new SidebarInfoItem(13, 'Delete contact', null, true, false, true));
+        this.sidebar.visible = true;
+    }
+
+    click(item) {
+        switch (item.id) {
+            case 1:
+                this.close();
+                break;
+            case 2:
+                this.edit(this.selected);
+                break;
+            case 3:
+                this.save();
+                break;
+            case 12:
+                this.block();
+                break;
+            case 13:
+                this.delete();
+                break;
+        }
+    }
+
+    doEdit() {
+        this.sidebar.buttons = [];
+        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(3, this.selected.id ? 'Save' : 'Create', 'success'));
+        this.service.resetErrors();
+        this.prepareData();
+        this.sidebar.mode = 'edit';
         this.sidebar.visible = true;
     }
 
     edit(item: AddressBookItem) {
         this.sidebar.loading++;
-        this.sidebar.mode = 'edit';
         this.sidebar.visible = true;
-        this.service.resetErrors();
         this.service.getById(item.id).then((res: AddressBookItem) => {
             this.selected = new AddressBookItem(res);
-            this.prepareData();
+            this.doEdit();
             this.sidebar.loading--;
         }).catch(res => {
             this.sidebar.loading--;

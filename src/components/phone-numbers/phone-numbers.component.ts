@@ -35,7 +35,6 @@ export class PhoneNumbersComponent implements OnInit {
     constructor(private service: PhoneNumberService,
                 public router: Router) {
         this.sidebar.title = '';
-        this.sidebar.position = 'column';
     }
 
     // ripple(ev: MouseEvent): void {
