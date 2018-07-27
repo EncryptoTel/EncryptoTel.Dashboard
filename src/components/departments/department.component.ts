@@ -227,6 +227,7 @@ export class DepartmentsComponent implements OnInit {
         this.company.getCompany().then((res) => {
             this.companyActive = !!res.id;
             this.buttons[0].inactive = !this.companyActive;
+            this.buttons[0].visible = this.companyActive;
             this.loading--;
         }).catch((res) => {
             this.loading--;
@@ -234,7 +235,7 @@ export class DepartmentsComponent implements OnInit {
     }
 
     getEmptyInfo() {
-        return "<span>To get started with the module Departments<br/>fill in the data in the <a class=\"link\" href=\"/cabinet/company\">module Company</a></span";
+        return "<span class=\"empty_company\">To get started with the module Departments<br/>fill in the data in the <a class=\"link_empty_company\" href=\"/cabinet/company\">module Company</a></span";
     }
 
     ngOnInit(): void {
