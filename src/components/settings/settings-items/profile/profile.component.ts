@@ -141,7 +141,7 @@ export class ProfileComponent implements OnInit {
                     .then((res) => {
                         // this.getSettings();
                         this.user.fetchProfileParams().then();
-                        this.goBack();
+                        //this.goBack();
                     })
                     .catch(() => this.loading.buttons = false);
             }

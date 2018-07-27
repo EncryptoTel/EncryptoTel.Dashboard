@@ -65,14 +65,14 @@ export class CallRulesCreateComponent implements OnInit {
             if (this.mode === 'create') {
                 this.service.save({...this.callRulesForm.value}).then(() => {
                     this.saving--;
-                    this.router.navigate(['cabinet', 'call-rules']);
+                    this.cancel();
                 }).catch(err => {
                     this.saving--;
                 });
             } else if (this.mode === 'edit') {
                 this.service.edit(this.activatedRoute.snapshot.params.id, {...this.callRulesForm.value}).then(() => {
                     this.saving--;
-                    this.router.navigate(['cabinet', 'call-rules']);
+                    // this.cancel();
                 }).catch(err => {
                     this.saving--;
                 });
