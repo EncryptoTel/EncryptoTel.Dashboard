@@ -1,10 +1,9 @@
-.phone-block
-   pbx-input
-       .pbx_input_row_label
-           display: none
-   pbx-input:nth-child(1),
-   pbx-input:nth-child(2),
-   pbx-input:nth-child(3),
-   pbx-input:nth-last-child(-n+5)
-       .pbx_input_row_label
-           display: block
+.sidebar
+    .phone-block,
+    .email-block
+        pbx-input
+            .pbx_input_row_label
+                display: none
+        pbx-input:nth-child(1)
+            .pbx_input_row_label
+                display: block
