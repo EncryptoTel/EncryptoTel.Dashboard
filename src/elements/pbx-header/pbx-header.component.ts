@@ -92,8 +92,10 @@ export class FilterItem {
     placeHolder: string;
     width: number;
     hidden: boolean;
+    inputCenter: boolean;
 
-    constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string, width?: number, hidden?: boolean) {
+    constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string,
+                width?: number, hidden?: boolean, inputCenter?: boolean) {
         this.id = id;
         this.key = key;
         this.name = name;
@@ -102,5 +104,6 @@ export class FilterItem {
         this.placeHolder = placeHolder;
         this.width = width;
         this.hidden = hidden;
+        this.inputCenter = inputCenter;
     }
 }

@@ -40,6 +40,7 @@ export class InputComponent implements OnInit {
     @Input() rows: number = 5;
     @Input() required: boolean;
     @Input() inputWidth: number;
+    @Input() inputCenter: boolean;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
