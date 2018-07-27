@@ -104,7 +104,7 @@
                 <div class="refill_sidebar_item_value">{{balance.symbol}} {{balance.balance}}</div>
             </div>
         </div>
-        <div class="refill_sidebar_block" *ngIf="courses">
+        <div class="refill_sidebar_block" *ngIf="courses && refill_status !== 'processing'">
             <div class="refill_sidebar_title rates">Exchange Rates</div>
             <div class="refill_sidebar_item {{selected && item.code === selected.currency.code ? 'picked' : ''}}" *ngFor="let item of courses">
                 <div class="refill_sidebar_item_code" *ngIf="item.code">{{item.code.toUpperCase()}}</div>

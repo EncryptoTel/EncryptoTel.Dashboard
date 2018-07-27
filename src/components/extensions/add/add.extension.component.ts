@@ -173,7 +173,7 @@ export class AddExtensionsComponent implements OnInit {
         // this.loading += 1;
         this._extension.saveAccessList(extension.user.id, rights).then(res => {
             this.saving -= 1;
-            this.doCancel();
+            if (this.mode === 'create') this.doCancel();
         }).catch(res => {
             this.saving -= 1;
         });

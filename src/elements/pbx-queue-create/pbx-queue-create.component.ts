@@ -50,7 +50,7 @@ export class QueueCreateComponent implements OnInit {
         this.saving++;
         this.service.save(this.id).then(res => {
             this.saving--;
-            this.cancel();
+            if (!this.id) this.cancel();
         }).catch(res => {
             this.saving--;
         });
