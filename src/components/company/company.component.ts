@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChildren} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {formatNumber} from 'libphonenumber-js';
-import {SidebarInfo} from '../../models/sidebar-info.model';
 import {CompanyService} from '../../services/company.service';
 import {CompanyModel} from '../../models/company.model';
 import {emailRegExp} from '../../shared/vars';
@@ -10,6 +9,7 @@ import {DashboardServices} from '../../services/dashboard.services';
 import {RefsServices} from '../../services/refs.services';
 import {CountryModel} from '../../models/country.model';
 import {MessageServices} from "../../services/message.services";
+import {SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
 
 @Component({
     selector: 'pbx-company',
@@ -25,7 +25,7 @@ export class CompanyComponent implements OnInit {
     loading = 0;
     saving = 0;
     selectedCountry: CountryModel;
-    sidebarInfo: SidebarInfo;
+    sidebarInfo: SidebarInfoModel = new SidebarInfoModel();
     modal = {
         visible: false,
         confirm: {type: 'success', value: 'Yes'},
@@ -40,17 +40,12 @@ export class CompanyComponent implements OnInit {
                 private refs: RefsServices,
                 private message: MessageServices) {
 
-        this.sidebarInfo = {
-            loading: 0,
-            title: 'Information',
-            description: [
-                {title: 'External numbers', value: null},
-                {title: 'Internal numbers', value: null},
-                // {title: 'Unassigned Ext', value: null},
-                {title: 'Storage space', value: null},
-                {title: 'Available space', value: null},
-            ]
-        };
+        this.sidebarInfo.loading = 0;
+        this.sidebarInfo.title = 'Information';
+        this.sidebarInfo.items.push(new SidebarInfoItem(0, 'External numbers', null));
+        this.sidebarInfo.items.push(new SidebarInfoItem(1, 'Internal numbers', null));
+        this.sidebarInfo.items.push(new SidebarInfoItem(2, 'Storage space', null));
+        this.sidebarInfo.items.push(new SidebarInfoItem(3, 'Available space', null));
 
         this.companyForm = this.fb.group({
             name: ['', [Validators.required]],
@@ -166,8 +161,8 @@ export class CompanyComponent implements OnInit {
     private getSidebar() {
         this.sidebarInfo.loading++;
         this.dashboard.getDashboard().then(res => {
-            for (let i = 0; i < this.sidebarInfo.description.length; i++) {
-                const item = this.sidebarInfo.description[i];
+            for (let i = 0; i < this.sidebarInfo.items.length; i++) {
+                const item = this.sidebarInfo.items[i];
                 switch (item.title) {
                     case 'External numbers':
                         item.value = res.outersCount;

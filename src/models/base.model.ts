@@ -52,3 +52,44 @@ export class TableInfoItem {
     sort: string;
 }
 
+export class SidebarInfoModel {
+    loading: number;
+    title: string;
+    position: string;
+    items: SidebarInfoItem[] = [];
+    buttons: SidebarButtonItem[] = [];
+
+    constructor() {
+
+    }
+}
+
+export class SidebarInfoItem {
+    id: number;
+    title: string;
+    value: any;
+    view: boolean;
+    edit: boolean;
+    link: boolean;
+
+    constructor(id: number, title: string, value: any, view = true, edit = false, link = false) {
+        this.id = id;
+        this.title = title;
+        this.value = value;
+        this.view = view;
+        this.edit = edit;
+        this.link = link;
+    }
+}
+
+export class SidebarButtonItem {
+    id: number;
+    title: string;
+    type: string;
+
+    constructor(id: number, title: string, type: string) {
+        this.id = id;
+        this.title = title;
+        this.type = type;
+    }
+}
