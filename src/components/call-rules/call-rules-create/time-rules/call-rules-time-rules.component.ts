@@ -51,7 +51,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
     selectedRuleTime;
     selectedDurationTime;
     selectedDuration;
-    errors = {ruleTime: false, durationTime: false};
+    errors = {ruleTime: '', durationTime: ''};
 
     constructor(private logger: LoggerServices) {
 
@@ -170,9 +170,9 @@ export class CallRulesTimeRulesComponent implements OnInit {
         });
         let rule = `${this.ruleTimeAsterisk.time}|${days}|${this.ruleTimeAsterisk.date}|${this.ruleTimeAsterisk.month}`;
         // this.logger.log('formatAsterRule', rule);
-        this.errors.ruleTime = days === '';
-        this.errors.durationTime = (this.ruleTimeAsterisk.time === '') ||
-            (this.selectedDuration && (this.selectedDuration[0].timeAster === undefined || this.selectedDuration[1].timeAster === undefined));
+        this.errors.ruleTime = days === '' ? 'Please select days' : '';
+        this.errors.durationTime = ((this.ruleTimeAsterisk.time === '') ||
+            (this.selectedDuration && (this.selectedDuration[0].timeAster === undefined || this.selectedDuration[1].timeAster === undefined))) ? 'Please select time' : '';
         this.onChange.emit(rule);
     }
 
