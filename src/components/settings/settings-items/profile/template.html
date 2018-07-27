@@ -13,6 +13,7 @@
                            key="firstname"
                            placeholder="First Name"
                            [form]="true"
+                           [required]="true"
                            [errors]="getErrors(generalForm, 'firstname')"
                            [object]="generalForm"
                            (onKeyUp)="change()"
@@ -51,6 +52,7 @@
 
                 <pbx-input name="E-mail"
                            key="email"
+                           [required]="true"
                            placeholder="Please enter your e-mail address"
                            [form]="true"
                            [errors]="getErrors(emailChange, 'email')"
