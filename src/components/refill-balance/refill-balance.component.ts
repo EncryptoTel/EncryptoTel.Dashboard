@@ -1,4 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Router, NavigationEnd} from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {RefillServices} from '../../services/refill.services';
 import {RefillModel} from '../../models/refill.model';
@@ -16,7 +18,7 @@ import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
     providers: [RefillServices, ClipboardService],
     styleUrls: ['./local.sass']
 })
-export class RefillBalanceComponent implements OnInit {
+export class RefillBalanceComponent implements OnInit, OnDestroy {
     refillMethods: RefillModel[];
     courses: CoursesModel[];
     amount = {
@@ -43,17 +45,26 @@ export class RefillBalanceComponent implements OnInit {
     };
     currentFilter = [];
 
+    navigationSubscription: Subscription;
+
     constructor(private _refill: RefillServices,
                 private _storage: LocalStorageServices,
                 private _message: MessageServices,
-                private clipboard: ClipboardService) {
+                private clipboard: ClipboardService,
+                private _router: Router) {
         this.filters.push(new FilterItem(1, 'amount',
             `Payment amount:`, null, null,
             `Min $${this.amount.min}, Max $${this.amount.max}`, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`));
         this.filters.push(new FilterItem(2,  'returnAddress',
             'Return address:', null, null, '', 300, true));
-    }
 
+        this.navigationSubscription = this._router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                this.ngOnInit();
+            }
+        });
+    }
+    
     selectRefillMethod(refillMethod: RefillModel) {
         if (this.validValue(this.currentFilter['amount'])) {
             refillMethod.loading = true;
@@ -133,10 +144,18 @@ export class RefillBalanceComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.refill_status = 'main';
+        this.filters[1].hidden = true;
         this.validInput = true;
         this.loading = {body: true, sidebar: true};
         this.getRefillMethods();
         this.getCourses();
         this.balance = this.getBalance();
+    }
+
+    ngOnDestroy(): void {
+        if (this.navigationSubscription) {  
+            this.navigationSubscription.unsubscribe();
+        }
     }
 }
