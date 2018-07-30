@@ -18,7 +18,7 @@ import {AuthorizationServices} from '../services/authorization.services';
 import {UserServices} from '../services/user.services';
 import {CallQueueService} from '../services/call-queue.service';
 import {SettingsService} from '../services/settings.service';
-import {DetailsAndRecordsServices} from '../services/details-and-records.services';
+import {CdrService} from '../services/cdr.service';
 import {AddressBookService} from '../services/address-book.service';
 import {DepartmentService} from '../services/department.service';
 import {CallRulesService} from '../services/call-rules.service';
@@ -59,7 +59,7 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         UserServices,
         CallQueueService,
         SettingsService,
-        DetailsAndRecordsServices,
+        CdrService,
         SettingsService,
         DepartmentService,
         CallRulesService,
