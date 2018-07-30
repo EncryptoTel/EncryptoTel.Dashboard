@@ -3,6 +3,29 @@
         input
             text-align: center
 
-.pbx_input_item_label
-  .labels-second-line
-    color: red
+.pbx_header_wrap
+    pbx-input
+        .pbx_input_item_label
+            .labels-second-line
+                margin-left: 5px
+
+@media screen and (max-width: 1431px)
+    .pbx_header_wrap
+        pbx-input
+            .pbx_input_item
+                align-items: center
+                .pbx_input_item_label
+                    flex-direction: column
+                    align-items: flex-start
+                    .labels-second-line
+                        margin-top: 5px
+                        color: inherit
+                        margin-left: 0
+
+@media screen and (max-width: 1151px)
+    .pbx_header_wrap
+        pbx-input
+            .pbx_input_item
+                .pbx_input_item_label
+                    .labels-second-line
+                        display: none
