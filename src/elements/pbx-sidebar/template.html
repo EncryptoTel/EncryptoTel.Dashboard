@@ -1,28 +1,57 @@
 <div class="sidebar">
     <pbx-loader *ngIf="sidebarInfo && sidebarInfo.loading"></pbx-loader>
-    <div class="sidebar_info_wrap" *ngIf="sidebarInfo && !sidebarInfo.loading && sidebarInfo.mode !== 'edit'">
-        <div class="sidebar_info_title">{{sidebarInfo.title}}</div>
+    <div class="sidebar_info_wrap" *ngIf="sidebarInfo && !sidebarInfo.loading">
+        <div
+                *ngIf="sidebarInfo.title"
+                class="sidebar_info_title"
+        >{{sidebarInfo.title}}</div>
         <div class="sidebar_description_wrap">
-            <div class="sidebar_info_description" *ngFor="let item of viewItems()">
-                <div class="description_text" *ngIf="!item.value && !item.link">
+            <div
+                    *ngFor="let item of sidebarInfo.mode === 'edit' ? editItems() : viewItems()"
+                    class="sidebar_info_description">
+                <div
+                        *ngIf="sidebarInfo.mode !== 'edit' && !item.value && !item.link"
+                        class="description_text">
                     {{item.title}}
                 </div>
-                <div class="description_item_wrap {{sidebarInfo.position}}" *ngIf="item.value && !item.link && !isArray(item)">
+                <div
+                        *ngIf="sidebarInfo.mode !== 'edit' && item.value && !item.link && !isArray(item)"
+                        class="description_item_wrap {{sidebarInfo.position}}">
                     <div class="description_text title">{{item.title}}</div>
                     <div class="description_text">{{item.value}}</div>
                 </div>
-                <div class="description_item_wrap {{sidebarInfo.position}}" *ngIf="item.value && !item.link && isArray(item)">
+                <div
+                        *ngIf="sidebarInfo.mode !== 'edit' && item.value && !item.link && isArray(item)"
+                        class="description_item_wrap {{sidebarInfo.position}}">
                     <div class="description_text title">{{item.title}}</div>
                     <div class="description_text" *ngFor="let value of item.value">{{value}}</div>
                 </div>
-                <div class="sidebar_description_link warning" *ngIf="item.link" (click)="click(item)">
+                <div
+                        *ngIf="sidebarInfo.mode !== 'edit' && item.link" (click)="click(item)"
+                        class="sidebar_description_link  {{item.className ? item.className : 'warning'}}">
                     {{item.title}}
+                </div>
+                <div
+                        *ngIf="sidebarInfo.mode === 'edit'"
+                        style="width: 100%"
+                >
+                    <pbx-input
+                            labelPosition="top"
+                            style="width: 100%"
+                            [singleBorder]="false"
+                            [name]="item.title"
+                            [key]="item.key"
+                            [object]="item.value"
+                            [checkbox]="item.checkbox"
+                    ></pbx-input>
                 </div>
             </div>
         </div>
     </div>
     <ng-content></ng-content>
-    <div class="sidebar_buttons" *ngIf="sidebarInfo && sidebarInfo.buttons.length > 0">
+    <div
+            *ngIf="sidebarInfo && sidebarInfo.buttons.length > 0"
+            class="sidebar_buttons">
         <pbx-button
                 *ngFor="let button of sidebarInfo.buttons"
                 [value]="button.title"
