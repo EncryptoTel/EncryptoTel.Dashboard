@@ -1,13 +1,15 @@
 @import "../../vars"
 
 .knowledge-base
-    display: block
+    flex-direction: column
+    flex: 0 0 auto
+    min-height: calc(100vh - 104px)
     .content
         background: $dark_overlay
-        padding: 126px 190px
-        margin-top: 32px
         flex-direction: column
+        min-height: calc(100vh - 173px)
         .blocks
+            padding: 126px 190px
             .left, .right
                 width: 50%
                 flex-direction: column
@@ -40,8 +42,7 @@
                     margin-left: 80px
         .questions
             display: block
-            margin-top: -86px
-            margin-left: -76px
+            padding: 44px 114px
             .item
                 display: block
                 margin-bottom: 32px
@@ -84,10 +85,9 @@
 
 @media screen and (max-width: 1800px)
 	.knowledge-base .content
-        padding-left: 126px
-        padding-right: 126px
         .blocks
             display: block
+            padding: 70px 100px
             .left
                 border-right: none
                 width: 100%
@@ -98,3 +98,5 @@
                 width: 100%
                 .inner
                     margin-left: 0
+        .questions
+            padding: 70px 100px
