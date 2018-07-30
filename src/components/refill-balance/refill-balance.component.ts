@@ -49,7 +49,7 @@ export class RefillBalanceComponent implements OnInit {
                 private clipboard: ClipboardService) {
         this.filters.push(new FilterItem(1, 'amount',
             `Payment amount:`, null, null,
-            `Min $${this.amount.min}, Max $${this.amount.max}`, 150, false, true));
+            `Min $${this.amount.min}, Max $${this.amount.max}`, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`));
         this.filters.push(new FilterItem(2,  'returnAddress',
             'Return address:', null, null, '', 300, true));
     }
