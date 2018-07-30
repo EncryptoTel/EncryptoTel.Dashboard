@@ -6,8 +6,8 @@ import {PaymentModel} from '../../models/payment.model';
 import {CoursesModel} from '../../models/courses.model';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {MessageServices} from '../../services/message.services';
-import {normalizeSlashes} from 'ts-node/dist';
 import {ClipboardService} from 'ngx-clipboard';
+import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
 
 @Component({
     selector: 'refill-balance',
@@ -20,9 +20,8 @@ export class RefillBalanceComponent implements OnInit {
     refillMethods: RefillModel[];
     courses: CoursesModel[];
     amount = {
-        value: null,
         min: 5,
-        max: 1000
+        max: 10000
     };
     loading: {
         body: boolean,
@@ -32,7 +31,8 @@ export class RefillBalanceComponent implements OnInit {
     selected: RefillModel;
     payment: PaymentModel;
     validInput: boolean;
-    returnAddress: string;
+    filters: FilterItem[] = [];
+    errors;
 
     balance;
     modal = {
@@ -41,52 +41,64 @@ export class RefillBalanceComponent implements OnInit {
         confirm: {type: 'success', value: 'Yes'},
         decline: {type: 'cancel', value: 'No'}
     };
+    currentFilter = [];
 
     constructor(private _refill: RefillServices,
                 private _storage: LocalStorageServices,
                 private _message: MessageServices,
-                private clipboard: ClipboardService) {}
+                private clipboard: ClipboardService) {
+        this.filters.push(new FilterItem(1, 'amount',
+            `Payment amount:`, null, null,
+            `Min $${this.amount.min}, Max $${this.amount.max}`, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`));
+        this.filters.push(new FilterItem(2,  'returnAddress',
+            'Return address:', null, null, '', 300, true));
+    }
 
     selectRefillMethod(refillMethod: RefillModel) {
-        if (this.validValue(this.amount.value)) {
+        if (this.validValue(this.currentFilter['amount'])) {
             refillMethod.loading = true;
-            this._refill.getRefillMethod(refillMethod.id, this.amount.value)
-                .then(res => {
-                    refillMethod.loading = false;
-                    this.refill_status = 'paying';
-                    this.selected = refillMethod;
-                    this.payment = res;
-                    this.returnAddress = this.payment.address;
-                });
+            this._refill.getRefillMethod(refillMethod.id, this.currentFilter['amount']).then(res => {
+                refillMethod.loading = false;
+                this.refill_status = 'paying';
+                this.selected = refillMethod;
+                this.payment = res;
+                this.currentFilter['returnAddress'] = this.payment.address;
+                this.filters[1].hidden = !this.selected.needReturnAddress;
+            });
         } else {
-          this._message.writeError('Please input correct value');
+            this.errors = {amount: 'Please input correct value'};
         }
     }
 
     validValue(text) {
         if (parseInt(text, 10)) {
-            this.amount.value = parseInt(text, 10);
-            return (this.validInput = this.amount.min <= this.amount.value && this.amount.value <= this.amount.max);
+            this.currentFilter['amount'] = parseInt(text, 10);
+            return (this.validInput = this.amount.min <= this.currentFilter['amount'] && this.currentFilter['amount'] <= this.amount.max);
         }
         return this.validInput = false;
     }
 
     keyup(text) {
-        if (!this.validInput) {this.validValue(text); }
+        if (!this.validInput) {
+            this.validValue(text);
+        }
     }
 
     cancelPay(): void {
         this.refill_status = 'main';
         this.selected = null;
+        this.errors = null;
+        this.filters[1].hidden = true;
     }
 
     pay(): void {
         this.payment.loading = true;
-        this._refill.setRefillMethod(this.selected.id, this.amount.value, this.returnAddress).then(res => {
+        this._refill.setRefillMethod(this.selected.id, this.currentFilter['amount'], this.currentFilter['returnAddress']).then(res => {
             this.payment = res;
             this.refill_status = 'processing';
             this.payment.loading = false;
-        }).catch(() => {
+        }).catch(res => {
+            this.errors = res.errors;
             this.payment.loading = false;
         });
     }
@@ -114,6 +126,10 @@ export class RefillBalanceComponent implements OnInit {
 
     copyToClipboard() {
         this.clipboard.copyFromContent(this.payment.address);
+    }
+
+    reloadFilter(filter) {
+        this.currentFilter = filter;
     }
 
     ngOnInit(): void {

@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
     @Input() buttons: ButtonItem[];
     @Input() filters: FilterItem[] = [];
     @Input() inactive: boolean;
+    @Input() errors: any;
     @Output() onClick: EventEmitter<ButtonItem> = new EventEmitter<ButtonItem>();
     @Output() onReload: EventEmitter<any> = new EventEmitter<any>();
     @Output() onUpdate: EventEmitter<any> = new EventEmitter<any>();
@@ -64,6 +65,10 @@ export class HeaderComponent implements OnInit {
         if (item) item.value = filter;
     }
 
+    activeFilter() {
+        return this.filters ? this.filters.filter(item => !item.hidden) : null;
+    }
+
     ngOnInit() {
 
     }
@@ -86,8 +91,14 @@ export class FilterItem {
     optionsDisplayKey: string;
     placeHolder: string;
     width: number;
+    hidden: boolean;
+    inputCenter: boolean;
+    minMaxText: string;
+    min: string;
+    max: string;
 
-    constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string, width?: number) {
+    constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string,
+                width?: number, hidden?: boolean, inputCenter?: boolean, minMaxText?: string, min?: string, max?: string) {
         this.id = id;
         this.key = key;
         this.name = name;
@@ -95,5 +106,10 @@ export class FilterItem {
         this.optionsDisplayKey = optionsDisplayKey;
         this.placeHolder = placeHolder;
         this.width = width;
+        this.hidden = hidden;
+        this.inputCenter = inputCenter;
+        this.minMaxText = minMaxText;
+        this.min = min;
+        this.max = max;
     }
 }

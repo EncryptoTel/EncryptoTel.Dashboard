@@ -27,6 +27,7 @@ export class KnowledgeBaseComponent implements OnInit {
     visible = [];
     selectedGroup: HelpGroupItem;
     selectedHelp: HelpItem;
+    lastIndex: number;
 
     constructor(private service: KnowledgeBaseService) {
         this.buttons.push({
@@ -54,8 +55,18 @@ export class KnowledgeBaseComponent implements OnInit {
         this.buttons[0].visible = true;
     }
 
-    showAnswer(item: HelpItem){
-        this.selectedHelp = item;
+    showAnswer(index) {
+        if (this.selectedHelp === this.helps.items[index]) {
+            this.selectedHelp = this.helps.items[index];
+            this.helps.items[index].open = !this.helps.items[index].open;
+        } else {
+            this.selectedHelp = this.helps.items[index];
+            this.helps.items[index].open = true;
+            if (this.lastIndex === 0 || this.lastIndex > 0) {
+                this.helps.items[this.lastIndex].open = false;
+            }
+        }
+        this.lastIndex = index;
     }
 
     reloadFilter(filter) {

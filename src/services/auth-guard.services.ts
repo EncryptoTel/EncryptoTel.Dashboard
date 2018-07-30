@@ -16,7 +16,7 @@ export class AuthGuardServices implements CanActivate {
 
     canActivate(): boolean {
         if (!this._services.fetchUser()) {
-            localStorage.clear();
+            // localStorage.clear();
             this.router.navigateByUrl('/sign-in');
             return false;
         }

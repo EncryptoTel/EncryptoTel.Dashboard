@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {SidebarInfo} from '../../models/sidebar-info.model';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {SidebarInfoModel} from "../../models/base.model";
 
 @Component({
     selector: 'pbx-sidebar',
@@ -8,9 +8,22 @@ import {SidebarInfo} from '../../models/sidebar-info.model';
 })
 
 export class SidebarComponent {
-    @Input() sidebarInfo: SidebarInfo;
+    @Input() sidebarInfo: SidebarInfoModel;
+    @Output() onClick: EventEmitter<SidebarInfoModel> = new EventEmitter<SidebarInfoModel>();
 
-    isSingleLine = (description): boolean => {
-        return typeof description === 'string';
+    viewItems() {
+        return this.sidebarInfo.items.filter(item => {
+            return item.view && (item.link || !this.sidebarInfo.hideEmpty || ((this.isArray(item) && item.value.length > 0) || (!this.isArray(item) && item.value)));
+        });
     }
+
+    click(item) {
+        this.onClick.emit(item);
+    }
+
+    isArray(item) {
+        // console.log(item.title, JSON.stringify(item.value), Array.isArray(item.value) ? item.value.length : null);
+        return Array.isArray(item.value);
+    }
+
 }

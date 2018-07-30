@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PhoneNumberService} from '../../services/phone-number.service';
-import {TableInfoModel} from '../../models/base.model';
+import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel} from '../../models/base.model';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {Router} from '@angular/router';
 import {PhoneNumberItem, PhoneNumberModel} from "../../models/phone-number.model";
@@ -25,6 +25,7 @@ export class PhoneNumbersComponent implements OnInit {
     selected: PhoneNumberItem;
 
     pageInfo: PhoneNumberModel = new PhoneNumberModel();
+    sidebar: SidebarInfoModel = new SidebarInfoModel();
 
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
@@ -33,7 +34,7 @@ export class PhoneNumbersComponent implements OnInit {
 
     constructor(private service: PhoneNumberService,
                 public router: Router) {
-
+        this.sidebar.title = '';
     }
 
     // ripple(ev: MouseEvent): void {
@@ -67,6 +68,17 @@ export class PhoneNumbersComponent implements OnInit {
 
     select(item: any): void {
         this.selected = item;
+        this.sidebar.buttons = [];
+        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(2, this.selected.status ? 'Disable' : 'Enable', 'accent'));
+        this.sidebar.items = [];
+        this.sidebar.items.push(new SidebarInfoItem(3, 'Phone number', this.selected.phoneNumber));
+        this.sidebar.items.push(new SidebarInfoItem(4, 'Amount of phone Exts', this.selected.innersCount));
+        this.sidebar.items.push(new SidebarInfoItem(5, 'Default Ext', this.selected.defaultInner));
+        this.sidebar.items.push(new SidebarInfoItem(6, 'Status', this.selected.statusName));
+        this.sidebar.items.push(new SidebarInfoItem(7, 'Phone number type', this.selected.typeName));
+        this.sidebar.items.push(new SidebarInfoItem(8, 'Delete phone number ' +
+            (this.selected.innersCount === 1 ? 'and 1 Ext' : this.selected.innersCount > 1 ? 'and ' + this.selected.innersCount + 'Exts' : ''), null, true, false, true));
     }
 
     cancel(): void {
@@ -82,6 +94,19 @@ export class PhoneNumbersComponent implements OnInit {
         }).catch(() => {
             this.selected.loading--;
         });
+    }
+
+    click(item) {
+        switch (item.id) {
+            case 8:
+                this.list.items.clickDeleteItem(this.selected);
+                break;
+            case 1:
+                this.cancel();
+                break;
+            case 2:
+                this.toggleNumber();
+        }
     }
 
     ngOnInit() {

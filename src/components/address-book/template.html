@@ -16,54 +16,7 @@
               [service]="service">
     </pbx-list>
 
-    <pbx-sidebar *ngIf="sidebar.visible" [@Swipe] [@Fade]>
-        <pbx-loader *ngIf="sidebar.loading || loading"></pbx-loader>
-        <div class="side_wrap" *ngIf="!loading && !sidebar.loading && sidebar.mode === 'view'">
-            <div class="side_body">
-                <div class="side_view_item" *ngIf="!!selected.firstname">
-                    <div class="side_view_key">First Name</div>
-                    <div class="side_view_value">{{selected.firstname}}</div>
-                </div>
-                <div class="side_view_item" *ngIf="!!selected.lastname">
-                    <div class="side_view_key">Last Name</div>
-                    <div class="side_view_value">{{selected.lastname}}</div>
-                </div>
-                <div class="side_view_item" *ngIf="selected.contactPhone.length > 0">
-                    <div class="side_view_key">Phone{{selected.contactPhone.length>1?'s':''}}</div>
-                    <div class="side_view_value" *ngFor="let item of selected.contactPhone">{{item.value}}</div>
-                </div>
-                <div class="side_view_item" *ngIf="selected.contactEmail.length > 0">
-                    <div class="side_view_key">E-mail{{selected.contactEmail.length>1?'s':''}}</div>
-                    <div class="side_view_value" *ngFor="let item of selected.contactEmail">{{item.value}}</div>
-                </div>
-                <div class="side_view_item" *ngIf="!!selected.company">
-                    <div class="side_view_key">Company Name</div>
-                    <div class="side_view_value">{{selected.company}}</div>
-                </div>
-                <div class="side_view_item" *ngIf="!!selected.department">
-                    <div class="side_view_key">Department</div>
-                    <div class="side_view_value">{{selected.department}}</div>
-                </div>
-                <div class="side_view_item" *ngIf="!!selected.country">
-                    <div class="side_view_key">Country</div>
-                    <div class="side_view_value">{{selected.country.title}}</div>
-                </div>
-                <div class="side_view_item" *ngIf="!!selected.address">
-                    <div class="side_view_key">Address</div>
-                    <div class="side_view_value">{{selected.address}}</div>
-                </div>
-                <div class="side_view_button">
-                    <span (click)="block()">{{selected.blacklist ? 'Unblock contact' : 'Block contact'}}</span>
-                </div>
-                <div class="side_view_button">
-                    <span (click)="delete()">Delete contact</span>
-                </div>
-            </div>
-            <div class="side_control">
-                <pbx-button value="Close" buttonType="cancel" (onClick)="close()"></pbx-button>
-                <pbx-button value="Edit" buttonType="success" (onClick)="edit(selected)"></pbx-button>
-            </div>
-        </div>
+    <pbx-sidebar *ngIf="sidebar.visible" [sidebarInfo]="sidebar" (onClick)="click($event)" [@Swipe] [@Fade]>
         <div class="side_wrap" *ngIf="!loading && !sidebar.loading && sidebar.mode === 'edit'">
             <pbx-loader *ngIf="sidebar.saving"></pbx-loader>
             <div class="side_body" *ngIf="!sidebar.saving">
@@ -87,59 +40,63 @@
                            [object]="selected">
                 </pbx-input>
 
-                <pbx-input *ngFor="let phone of selected.contactPhone; let i = index"
-                           name="Phone"
-                           key="value"
-                           labelPosition="top"
-                           [errorKey]="'contactPhone.new_' + i + '.value'"
-                           [(errors)]="service.errors"
-                           [singleBorder]="false"
-                           [floatError]="true"
-                           [object]="phone">
-                    <pbx-select class="value-type"
-                                [options]="types.contactPhone"
-                                objectKey="value"
-                                [selected]="phone.type"
-                                (onSelect)="phone.type = $event">
-                    </pbx-select>
-                    <div class="side_unit_icon_wrap">
-                        <div class="side_unit_icon delete" *ngIf="selected.contactPhone.length > 1"
-                             (click)="deletePhone(i)">
-                            <div class="side_unit_icon_minus"></div>
+                <div class="phone-block" style="display: block;">
+                    <pbx-input *ngFor="let phone of selected.contactPhone; let i = index"
+                               name="Phone"
+                               key="value"
+                               labelPosition="top"
+                               [errorKey]="phone.id ? 'contactPhone.' + phone.id + '.value' : 'contactPhone.new_' + i + '.value'"
+                               [(errors)]="service.errors"
+                               [singleBorder]="false"
+                               [floatError]="true"
+                               [object]="phone">
+                        <pbx-select class="value-type"
+                                    [options]="types.contactPhone"
+                                    objectKey="value"
+                                    [selected]="phone.type"
+                                    (onSelect)="phone.type = $event">
+                        </pbx-select>
+                        <div class="side_unit_icon_wrap">
+                            <div class="side_unit_icon delete" *ngIf="selected.contactPhone.length > 1"
+                                 (click)="deletePhone(i)">
+                                <div class="side_unit_icon_minus"></div>
+                            </div>
+                            <div class="side_unit_icon plus" (click)="addPhone()"
+                                 *ngIf="i === selected.contactPhone.length - 1">
+                                <svg-icon src="../../assets/icons/plus_13px.svg"></svg-icon>
+                            </div>
                         </div>
-                        <div class="side_unit_icon plus" (click)="addPhone()"
-                             *ngIf="i === selected.contactPhone.length - 1">
-                            <svg-icon src="../../assets/icons/plus_13px.svg"></svg-icon>
-                        </div>
-                    </div>
-                </pbx-input>
+                    </pbx-input>
+                </div>
 
-                <pbx-input *ngFor="let email of selected.contactEmail; let i = index"
-                           name="Email"
-                           key="value"
-                           labelPosition="top"
-                           [errorKey]="'contactEmail.new_' + i + '.value'"
-                           [(errors)]="service.errors"
-                           [singleBorder]="false"
-                           [floatError]="true"
-                           [object]="email">
-                    <pbx-select class="value-type"
-                                [options]="types.contactEmail"
-                                objectKey="value"
-                                [selected]="email.type"
-                                (onSelect)="email.type = $event">
-                    </pbx-select>
-                    <div class="side_unit_icon_wrap">
-                        <div class="side_unit_icon delete" *ngIf="selected.contactEmail.length > 1"
-                             (click)="deleteEmail(i)">
-                            <div class="side_unit_icon_minus"></div>
+                <div class="email-block" style="display: block;">
+                    <pbx-input *ngFor="let email of selected.contactEmail; let i = index"
+                               name="Email"
+                               key="value"
+                               labelPosition="top"
+                               [errorKey]="email.id ? 'contactEmail.' + email.id + '.value' : 'contactEmail.new_' + i + '.value'"
+                               [(errors)]="service.errors"
+                               [singleBorder]="false"
+                               [floatError]="true"
+                               [object]="email">
+                        <pbx-select class="value-type"
+                                    [options]="types.contactEmail"
+                                    objectKey="value"
+                                    [selected]="email.type"
+                                    (onSelect)="email.type = $event">
+                        </pbx-select>
+                        <div class="side_unit_icon_wrap">
+                            <div class="side_unit_icon delete" *ngIf="selected.contactEmail.length > 1"
+                                 (click)="deleteEmail(i)">
+                                <div class="side_unit_icon_minus"></div>
+                            </div>
+                            <div class="side_unit_icon plus" (click)="addEmail()"
+                                 *ngIf="i === selected.contactEmail.length - 1">
+                                <svg-icon src="../../assets/icons/plus_13px.svg"></svg-icon>
+                            </div>
                         </div>
-                        <div class="side_unit_icon plus" (click)="addEmail()"
-                             *ngIf="i === selected.contactEmail.length - 1">
-                            <svg-icon src="../../assets/icons/plus_13px.svg"></svg-icon>
-                        </div>
-                    </div>
-                </pbx-input>
+                    </pbx-input>
+                </div>
 
                 <pbx-input name="Company Name"
                            key="company"
@@ -180,11 +137,6 @@
                            [object]="selected">
                 </pbx-input>
 
-            </div>
-            <div class="side_control">
-                <pbx-button value="Cancel" buttonType="cancel" (onClick)="close()"></pbx-button>
-                <pbx-button [value]="selected.id ? 'Save' : 'Create'" buttonType="success"
-                            (onClick)="save()" [loading]="sidebar.saving"></pbx-button>
             </div>
         </div>
     </pbx-sidebar>

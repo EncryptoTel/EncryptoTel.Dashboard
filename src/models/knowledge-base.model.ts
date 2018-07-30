@@ -16,4 +16,5 @@ export class HelpModel extends PageInfoModel {
 export class HelpItem extends BaseItemModel {
     title: string;
     text; string;
+    open: boolean = false;
 }

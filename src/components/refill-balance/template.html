@@ -2,22 +2,29 @@
 <pbx-loader *ngIf="loading.body&&loading.sidebar"></pbx-loader>
 <div class="refill_grid" *ngIf="!(loading.body&&loading.sidebar)">
     <div class="refill_header" *ngIf="refill_status!=='processing'">
-        <div class="refill_header_block">
-            <div class="refill_header_block_key">Payment amount:</div>
-            <input class="refill_header_block_input {{validInput?'':'error'}}"
-                   #input
-                   placeholder="Min ${{amount.min}}, Max ${{amount.max}}"
-                   [(ngModel)]="amount.value"
-                   (blur)="validValue(amount.value)"
-                   (keyup)="keyup(input.value)"
-                   autofocus
-                   [ngClass]="{'inactive':refill_status==='paying'}">
-        </div>
-        <div class="refill_header_block" *ngIf="refill_status==='paying' && selected.needReturnAddress">
-            <div class="refill_header_block_key">Return address:</div>
-            <input class="refill_header_block_input"
-                   [(ngModel)]="returnAddress">
-        </div>
+        <pbx-header
+                [buttons]="[]"
+                [filters]="filters"
+                [errors]="errors"
+                (onReload)="reloadFilter($event)"
+        ></pbx-header>
+
+        <!--<div class="refill_header_block">-->
+            <!--<div class="refill_header_block_key">Payment amount:</div>-->
+            <!--<input class="refill_header_block_input {{validInput?'':'error'}}"-->
+                   <!--#input-->
+                   <!--placeholder="Min ${{amount.min}}, Max ${{amount.max}}"-->
+                   <!--[(ngModel)]="amount.value"-->
+                   <!--(blur)="validValue(amount.value)"-->
+                   <!--(keyup)="keyup(input.value)"-->
+                   <!--autofocus-->
+                   <!--[ngClass]="{'inactive':refill_status==='paying'}">-->
+        <!--</div>-->
+        <!--<div class="refill_header_block" *ngIf="refill_status==='paying' && selected.needReturnAddress">-->
+            <!--<div class="refill_header_block_key">Return address:</div>-->
+            <!--<input class="refill_header_block_input"-->
+                   <!--[(ngModel)]="returnAddress">-->
+        <!--</div>-->
     </div>
     <div class="refill_body {{refill_status}}">
         <pbx-loader *ngIf="loading.body"></pbx-loader>
@@ -97,9 +104,9 @@
                 <div class="refill_sidebar_item_value">{{balance.symbol}} {{balance.balance}}</div>
             </div>
         </div>
-        <div class="refill_sidebar_block" *ngIf="courses">
+        <div class="refill_sidebar_block" *ngIf="courses && refill_status !== 'processing'">
             <div class="refill_sidebar_title rates">Exchange Rates</div>
-            <div class="refill_sidebar_item" *ngFor="let item of courses">
+            <div class="refill_sidebar_item {{selected && item.code === selected.currency.code ? 'picked' : ''}}" *ngFor="let item of courses">
                 <div class="refill_sidebar_item_code" *ngIf="item.code">{{item.code.toUpperCase()}}</div>
                 <div class="refill_sidebar_item_code" *ngIf="!item.code">{{item.title}}</div>
                 <div class="refill_sidebar_item_title">{{item.title}}</div>

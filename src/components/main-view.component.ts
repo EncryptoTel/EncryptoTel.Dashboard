@@ -8,8 +8,6 @@ import 'rxjs/add/operator/mergeMap';
 
 import {MessageServices} from '../services/message.services';
 
-import {MessageModel} from '../models/message.model';
-
 import {FadeAnimation} from '../shared/fade-animation';
 
 @Component({
@@ -17,6 +15,7 @@ import {FadeAnimation} from '../shared/fade-animation';
     template: `
         <pbx-loader *ngIf="loading"></pbx-loader>
         <router-outlet *ngIf="!loading"></router-outlet>
+        <pbx-notificator></pbx-notificator>
     `,
     animations: [FadeAnimation('300ms')]
 })

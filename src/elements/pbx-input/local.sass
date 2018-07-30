@@ -47,6 +47,7 @@
     display: grid
     grid-template-columns: auto 1fr
     margin-bottom: 10px
+    position: relative
     &_label
       display: flex
       flex-flow: column
@@ -118,8 +119,8 @@
     color: white
     width: 250px
     display: flex
-    margin-left: 300px;
-    margin-top: 44px;
+    margin-left: 300px
+    margin-top: 44px
     &:before
       position: absolute
       display: block
@@ -193,3 +194,11 @@ textarea
       flex-flow: column
       &_label
         margin: 5px 0
+
+.pbx_input_item_label,
+.pbx_input_row_label
+  flex-direction: row
+  justify-content: flex-start
+  align-items: center
+  span:nth-child(2)
+    margin-left: 4px

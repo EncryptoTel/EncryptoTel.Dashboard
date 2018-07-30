@@ -1,7 +1,8 @@
 <div class="pbx_header" id="pbx_header">
     <div class="pbx_header_wrap">
-        <pbx-input  *ngFor="let filter of filters; let i = index"
+        <pbx-input  *ngFor="let filter of activeFilter(); let i = index"
                     [name]="filter.name"
+                    [filter] = "filter"
                     [key]="filter.key"
                     [placeholder]="filter.placeHolder"
                     [options]="filter.options"
@@ -11,6 +12,8 @@
                     [object]="currentFilter"
                     [objectView]="selectedFilter[i]"
                     [inputWidth]="filter.width"
+                    [inputCenter]="filter.inputCenter"
+                    [errors]="errors"
                     (onKeyUp)="reload()"
                     (onSelect)="reload()">
         </pbx-input>

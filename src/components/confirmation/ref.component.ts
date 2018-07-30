@@ -13,8 +13,8 @@ import {AuthorizationServices} from '../../services/authorization.services';
 export class RefComponent implements OnInit, OnDestroy {
     constructor(private route: ActivatedRoute,
                 private router: Router,
-                private message: MessageServices,
-                private request: RequestServices) {
+                private request: RequestServices,
+                private message: MessageServices) {
     }
 
     subscription: Subscription;
@@ -23,12 +23,12 @@ export class RefComponent implements OnInit, OnDestroy {
         this.subscription = this.route.params.subscribe(params => {
             if (params['hash']) {
                 localStorage.removeItem('pbx_user');
-                this.request.get(`first-visit?ref=${params['hash']}`).then(result => {
+                this.request.get(`first-visit?ref=${params['hash']}`, false).then(result => {
                     localStorage.setItem('ref', params['hash']);
                     localStorage.setItem('uniqueHash', result.uniqueHash);
                     this.router.navigateByUrl('/sign-up');
                 }).catch(() => {
-                    this.message.writeError('Invalid Ref Link');
+                    this.message.writeError('Ref Link not found or invalid');
                     this.router.navigateByUrl('/sign-in');
                 });
             } else {

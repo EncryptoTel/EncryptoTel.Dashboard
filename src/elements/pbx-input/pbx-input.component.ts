@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 import {FadeAnimation} from '../../shared/fade-animation';
 import {FormArray, FormGroup} from "@angular/forms";
 import {SwipeAnimation} from "../../shared/swipe-animation";
+import {FilterItem} from '../pbx-header/pbx-header.component';
 
 @Component({
     selector: 'pbx-input',
@@ -40,6 +41,8 @@ export class InputComponent implements OnInit {
     @Input() rows: number = 5;
     @Input() required: boolean;
     @Input() inputWidth: number;
+    @Input() inputCenter: boolean;
+    @Input() filter: FilterItem[] = [];
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -175,7 +178,6 @@ export class InputComponent implements OnInit {
     }
 
     selectItem($event) {
-        console.log('before', this.key, this.value);
         this.resetError();
         if (this.form) {
             this.value = $event;
@@ -195,7 +197,6 @@ export class InputComponent implements OnInit {
                 this.value = $event;
             }
         }
-        console.log('after', this.key, this.value);
         this.onSelect.emit($event);
     }
 

@@ -36,8 +36,9 @@
     </pbx-input>
     <pbx-input name="Ring Time"
                key="timeout"
-               description="seconds"
+               description="seconds (min 15 seconds, max 600 seconds)"
                inputClass="time"
+               [inputWidth]="40"
                [(errors)]="service.errors"
                [(object)]="service.item">
     </pbx-input>
@@ -46,6 +47,7 @@
                key="maxlen"
                description=""
                inputClass="time"
+               [inputWidth]="40"
                [(errors)]="service.errors"
                [(object)]="service.item">
     </pbx-input>

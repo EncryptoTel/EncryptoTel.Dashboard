@@ -1,16 +1,33 @@
 <div class="sidebar">
     <pbx-loader *ngIf="sidebarInfo && sidebarInfo.loading"></pbx-loader>
-    <div class="sidebar_info_wrap" *ngIf="sidebarInfo && !sidebarInfo.loading">
-        <div class="sidebar_info_title">{{sidebarInfo['title']}}</div>
+    <div class="sidebar_info_wrap" *ngIf="sidebarInfo && !sidebarInfo.loading && sidebarInfo.mode !== 'edit'">
+        <div class="sidebar_info_title">{{sidebarInfo.title}}</div>
         <div class="sidebar_description_wrap">
-            <div class="sidebar_info_description" *ngFor="let description of sidebarInfo['description']">
-                <div class="description_text" *ngIf="isSingleLine(description)">{{description}}</div>
-                <div class="description_item_wrap" *ngIf="!isSingleLine(description)">
-                    <div class="description_text">{{description['title']}}</div>
-                    <div class="description_text">{{description['value']}}</div>
+            <div class="sidebar_info_description" *ngFor="let item of viewItems()">
+                <div class="description_text" *ngIf="!item.value && !item.link">
+                    {{item.title}}
+                </div>
+                <div class="description_item_wrap {{sidebarInfo.position}}" *ngIf="item.value && !item.link && !isArray(item)">
+                    <div class="description_text title">{{item.title}}</div>
+                    <div class="description_text">{{item.value}}</div>
+                </div>
+                <div class="description_item_wrap {{sidebarInfo.position}}" *ngIf="item.value && !item.link && isArray(item)">
+                    <div class="description_text title">{{item.title}}</div>
+                    <div class="description_text" *ngFor="let value of item.value">{{value}}</div>
+                </div>
+                <div class="sidebar_description_link warning" *ngIf="item.link" (click)="click(item)">
+                    {{item.title}}
                 </div>
             </div>
         </div>
     </div>
     <ng-content></ng-content>
+    <div class="sidebar_buttons" *ngIf="sidebarInfo && sidebarInfo.buttons.length > 0">
+        <pbx-button
+                *ngFor="let button of sidebarInfo.buttons"
+                [value]="button.title"
+                [buttonType]="button.type"
+                (onClick)="click(button)"
+        ></pbx-button>
+    </div>
 </div>
