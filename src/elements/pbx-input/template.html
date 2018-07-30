@@ -3,7 +3,7 @@
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']">
             <span>{{name}}</span>
-            <div class="labels-second-line" *ngIf="filter && (filter.min || filter.max)"><span *ngIf="filter.min">Min {{filter.minMaxText}} {{filter.min}}</span>, <span *ngIf="filter.max">Max {{filter.minMaxText}} {{filter.max}}</span></div>
+            <div class="labels-second-line" *ngIf="filter && (filter.min || filter.max)">(<span *ngIf="filter.min">Min {{filter.minMaxText}} {{filter.min}}</span>, <span *ngIf="filter.max">Max {{filter.minMaxText}} {{filter.max}}</span>):</div>
             <span class="required" *ngIf="required">*</span>
         </div>
 
@@ -17,7 +17,7 @@
                        [style.width]="inputWidth ? inputWidth + 'px' : '100%'"
                        [type]="type"
                        [id]="key"
-                       [placeholder]="placeholder"
+                       placeholder="{{placeholder.length > 0 ? placeholder : ''}}"
                        [(ngModel)]="value"
                        [ngClass]="[checkError() ? 'input-invalid' : 'input-valid']"
                        (keyup)="inputKeyUp($event)"

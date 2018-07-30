@@ -23,7 +23,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     courses: CoursesModel[];
     amount = {
         min: 5,
-        max: 10000
+        max: "10 000"
     };
     loading: {
         body: boolean,
@@ -53,8 +53,8 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                 private clipboard: ClipboardService,
                 private _router: Router) {
         this.filters.push(new FilterItem(1, 'amount',
-            `Payment amount:`, null, null,
-            `Min $${this.amount.min}, Max $${this.amount.max}`, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`));
+            `Payment amount`, null, null,
+            ``, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`));
         this.filters.push(new FilterItem(2,  'returnAddress',
             'Return address:', null, null, '', 300, true));
 
