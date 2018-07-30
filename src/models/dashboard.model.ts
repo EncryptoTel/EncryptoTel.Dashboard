@@ -69,6 +69,8 @@ export class CallDetailItem {
     status: number;
     isSms: number;
     name: string;
+    loading: number = 0;
+
     get calculateDuration(): string {
         const sec = this.duration % 60;
         const min = ((this.duration - sec) / 60) % 60;
@@ -81,7 +83,8 @@ export class CallDetailModel {
     @Type(() => Date)
     date: Date;
     @Type(() => CallDetailItem)
-    list: CallDetailItem[];
+    list: CallDetailItem[] = [];
+
     get analyzeDate(): string {
         const _date: Date = new Date();
         return _date.getMonth() === this.date.getMonth() ?
@@ -91,28 +94,3 @@ export class CallDetailModel {
             : `${months[this.date.getMonth()]}/${this.date.getDate()}/${this.date.getFullYear()}`;
     }
 }
-//
-// export class CallDetailModel {
-//     @Type(() => Date)
-//     callDate: Date;
-//     direction: number;
-//     source: string;
-//     destination: string;
-//     duration: number;
-//     isSms: number;
-//     name: string;
-//     get analyzeDate(): string {
-//         const _date: Date = new Date();
-//         return _date.getMonth() === this.callDate.getMonth() ?
-//             _date.getDate() === this.callDate.getDate() ?
-//                 'Today' : _date.getDate() - 1 === this.callDate.getDate() ?
-//                 'Yesterday' : `${months[this.callDate.getMonth()]}/${this.callDate.getDate()}/${this.callDate.getFullYear()}`
-//             : `${months[this.callDate.getMonth()]}/${this.callDate.getDate()}/${this.callDate.getFullYear()}`;
-//     }
-//     get calculateDuration(): string {
-//         const sec = this.duration % 60;
-//         const min = ((this.duration - sec) / 60) % 60;
-//         const hr = ((this.duration - (sec + (min * 60))) / 60) / 60;
-//         return hr ? `${hr}h ${min}m ${sec}s` : min ? `${min}m ${sec}s` : sec ? `${sec}s` : null;
-//     }
-// }
