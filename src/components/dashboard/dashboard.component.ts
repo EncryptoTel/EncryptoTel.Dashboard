@@ -24,6 +24,7 @@ export class DashboardComponent {
     dashboard: DashboardModel;
     loading = true;
     balanceSubscription: Subscription;
+    cdrSubscription: Subscription;
 
     fetchDashboard(): Promise<void> {
         return this._dashboard.getDashboard().then(dashboard => {
@@ -39,6 +40,9 @@ export class DashboardComponent {
 
         this.balanceSubscription = this._ws.getBalance().subscribe(balance => {
             this.dashboard.balance.value = balance.balance;
+        });
+        this.cdrSubscription = this._ws.subCdr().subscribe(() => {
+            this.fetchDashboard();
         });
     }
 }
