@@ -95,7 +95,7 @@ export class PartnerProgramComponent implements OnInit {
                 this.edit(this.selected);
                 break;
             case 3:
-                console.log(this.selected);
+                // console.log(this.selected);
                 this.save(this.selected);
                 break;
             case 6:
@@ -107,7 +107,7 @@ export class PartnerProgramComponent implements OnInit {
 
     save(item: PartnerProgramItem) {
         if (!item.id) {
-            item = new PartnerProgramItem();
+            // item = new PartnerProgramItem();
             this.partners.items.push(item);
         }
         this.partners.items.map(partner => {
