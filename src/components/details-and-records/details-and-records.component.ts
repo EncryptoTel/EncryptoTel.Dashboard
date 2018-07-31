@@ -37,7 +37,7 @@ export class DetailsAndRecordsComponent implements OnInit {
     selectedDetailIndex: number;
 
     selectedDetail: any;
-    currentMediaStream: string;
+    currentMediaStream: string = '/assets/mp3/rington.mp3';
 
     onPlayerReady(api: VgAPI): void {
         this.api = api;
