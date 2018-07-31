@@ -153,7 +153,7 @@ const Routes: Routes = [
                     {
                         path: 'create',
                         component: CallQueuesCreateComponent,
-                        data: {title: 'Create Call Queue', indexed: true},
+                        data: {title: 'Create Call Queues', indexed: true},
                     },
                     {
                         path: ':id',
