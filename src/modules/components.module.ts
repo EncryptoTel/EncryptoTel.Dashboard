@@ -140,7 +140,6 @@ import {RefComponent} from "../components/confirmation/ref.component";
         ReportsPartnerProgramComponent,
         TermsPartnerProgramComponent,
         KnowledgeBaseComponent,
-        TimePipe,
         IvrComponent,
         IvrCreateComponent,
         BaseSettingsComponent,
