@@ -27,6 +27,7 @@ export class BaseSettingsComponent implements OnInit {
     qrCode: string;
 
     options = [];
+    inputOptions = [];
 
     saveButton = {buttonType: 'success', value: 'Save', inactive: false, loading: false};
 
@@ -58,6 +59,7 @@ export class BaseSettingsComponent implements OnInit {
         Object.keys(obj.list_value).forEach(key => {
             tmp.push({id: key, title: obj.list_value[key]});
         });
+        console.log(tmp);
         return tmp;
     }
     getEventValue = (ev: any): any => {
@@ -123,35 +125,41 @@ export class BaseSettingsComponent implements OnInit {
 
     getInitialParams(): void {
         this.loading.body = true;
-        this.service.getSettingsParams(this.path)
-            .then(res => {
-                Object.keys(res.settings).forEach(key => {
-                    Object.keys(res.settings[key].children).map(inputKey => {
-                        if (res.settings[key].children[inputKey].type === 'list') {
-                            const selectedId = res.settings[key].children[inputKey].value;
-                            this.selectedItems[inputKey] = {
-                                id: selectedId,
-                                title: res.settings[key].children[inputKey].list_value[selectedId]
-                            };
-                            if (res.settings[key].children[inputKey].list_value[selectedId] === 'google') {
-                                this.getQR();
-                            }
-                        } else if (res.settings[key].children[inputKey].type === 'group_field') {
-                            Object.keys(res.settings[key].children[inputKey].children).forEach(childrenKey => {
-                                if (res.settings[key].children[inputKey].children[childrenKey].type === 'list') {
-                                    const selectedId = res.settings[key].children[inputKey].children[childrenKey].value;
-                                    this.selectedItems[childrenKey] = {
-                                        id: selectedId,
-                                        title: res.settings[key].children[inputKey].children[childrenKey].list_value[selectedId]
-                                    };
-                                }
-                            });
+        this.inputOptions = [];
+        this.service.getSettingsParams(this.path).then(res => {
+            Object.keys(res.settings).forEach(key => {
+                Object.keys(res.settings[key].children).map(inputKey => {
+                    if (res.settings[key].children[inputKey].type === 'list') {
+
+                        this.inputOptions[`${key}_${inputKey}`] = this.generateOptions(res.settings[key].children[inputKey]);
+
+                        const selectedId = res.settings[key].children[inputKey].value;
+                        this.selectedItems[inputKey] = {
+                            id: selectedId,
+                            title: res.settings[key].children[inputKey].list_value[selectedId]
+                        };
+                        if (res.settings[key].children[inputKey].list_value[selectedId] === 'google') {
+                            this.getQR();
                         }
-                    });
+                    } else if (res.settings[key].children[inputKey].type === 'group_field') {
+                        Object.keys(res.settings[key].children[inputKey].children).forEach(childrenKey => {
+                            if (res.settings[key].children[inputKey].children[childrenKey].type === 'list') {
+
+                                this.inputOptions[`${key}_${inputKey}_${childrenKey}`] = this.generateOptions(res.settings[key].children[inputKey].children[childrenKey]);
+
+                                const selectedId = res.settings[key].children[inputKey].children[childrenKey].value;
+                                this.selectedItems[childrenKey] = {
+                                    id: selectedId,
+                                    title: res.settings[key].children[inputKey].children[childrenKey].list_value[selectedId]
+                                };
+                            }
+                        });
+                    }
                 });
-                this.settings = res.settings;
-                this.loading.body = false;
-            }).catch(() => this.loading.body = false);
+            });
+            this.settings = res.settings;
+            this.loading.body = false;
+        }).catch(() => this.loading.body = false);
     }
 
     getQR(): void {
