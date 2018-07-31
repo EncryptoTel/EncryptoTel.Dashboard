@@ -6,7 +6,7 @@ import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {PlayerAnimation} from '../../shared/player-animation';
 import {CdrService} from '../../services/cdr.service';
-import {MediaGridColumn, MediaGrid, MediaGridFilter} from '../../models/media-grid.model';
+import {MediaGridFilter} from '../../models/media-grid.model';
 import {WsServices} from "../../services/ws.services";
 import {CdrItem, CdrModel} from "../../models/cdr.model";
 import {TableInfoAction, TableInfoActionOption, TableInfoExModel, TableInfoItem} from "../../models/base.model";
@@ -61,9 +61,9 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.table.items.push(new TableInfoItem('Duration', 'displayDuration'));
         this.table.items.push(new TableInfoItem('Tag', 'displayStatus', 'status'));
         this.table.items.push(new TableInfoItem('Price', 'displayPrice'));
-        // this.table.items.push(new TableInfoItem('Record', 'record'));
-        this.table.actions.push(new TableInfoAction(1, 'player', 100));
-        this.table.actions.push(new TableInfoAction(2, 'drop-down', 22));
+        this.table.items.push(new TableInfoItem('Record', 'record', null, 200, 0));
+        this.table.actions.push(new TableInfoAction(1, 'player', 175));
+        this.table.actions.push(new TableInfoAction(2, 'drop-down', 25));
 
         this.filters.dataUpdateRequired.subscribe(event => {
             // console.log('dataUpdateRequired');
@@ -164,17 +164,17 @@ export class DetailsAndRecordsComponent implements OnInit {
     startMediaPlaying(detail: any, forceSeekTime: boolean = false): void {
         if (!detail.playable) return;
 
-        if (forceSeekTime) this.api.seekTime(detail.mediaPlayTime, false);
+        if (forceSeekTime) this.api.seekTime(detail.player.playTime, false);
         this.api.play();
-        detail.playing = true;
+        detail.player.playing = true;
     }
 
     stopMediaPlaying(detail: any): void {
         if (!detail.playable) return;
 
         this.api.pause();
-        detail.mediaPlayTime = this.api.currentTime;
-        detail.playing = false;
+        detail.player.playTime = this.api.currentTime;
+        detail.player.playing = false;
     }
 
     playerClick(item) {
@@ -182,7 +182,7 @@ export class DetailsAndRecordsComponent implements OnInit {
 
         if (item == this.selectedDetail) {
             // toggle current media stream playing
-            if (item.playing) {
+            if (item.player.playing) {
                 this.stopMediaPlaying(item);
             }
             else {
@@ -190,7 +190,7 @@ export class DetailsAndRecordsComponent implements OnInit {
             }
         }
         else {
-            if (this.selectedDetail && this.selectedDetail.playing) {
+            if (this.selectedDetail && this.selectedDetail.player.playing) {
                 // save current media playtime
                 this.stopMediaPlaying(this.selectedDetail);
             }

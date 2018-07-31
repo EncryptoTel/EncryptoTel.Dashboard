@@ -22,7 +22,7 @@
             <pbx-loader *ngIf="item.loading"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">
                 <div *ngFor="let tableItem of tableInfoEx.items;let i=index"
-                     class="tablet_item {{!!columnFormat?columnFormat[i]:''}} {{tableItem.width ? 'fix_' + tableItem.width : ''}}"
+                     class="tablet_item {{!!columnFormat?columnFormat[i]:''}} {{tableItem.dataWidth !== undefined ? ('fix_' + tableItem.dataWidth) : (tableItem.width ? 'fix_' + tableItem.width : '')}}"
                      (click)="selectItem(item)"
                      (mouseenter)="mouseEnter($event, item)"
                      (mouseleave)="mouseLeave($event, item)"
@@ -71,17 +71,17 @@
                             <div
                                     class="player-container"
                                     *ngIf="item.playable"
-                                    [@PlayerAnimation]="item.playerAnimationState"
+                                    [@PlayerAnimation]="item.player.animationState"
                                     (@PlayerAnimation.start)="playerAnimationStart(item)"
                                     (@PlayerAnimation.done)="playerAnimationEnd(item)">
                                 <div class="player-arrow" (click)="playerOpenClose(item)">
                                     <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="player-arrow-icon"
-                                              [ngClass]="{ 'collapse': item.playerContentShow }"></svg-icon>
+                                              [ngClass]="{ 'collapse': item.player.contentShow }"></svg-icon>
                                 </div>
-                                <div class="player-time" *ngIf="item.playerContentShow" [@Fade]>{{
+                                <div class="player-time" *ngIf="item.player.contentShow" [@Fade]>{{
                                     item.displayDuration }}
                                 </div>
-                                <div class="player-wave" *ngIf="item.playerContentShow" [@Fade]>
+                                <div class="player-wave" *ngIf="item.player.contentShow" [@Fade]>
                                     <span class="small active"></span>
                                     <span class="tall active"></span>
                                     <span class="small active"></span>
@@ -113,9 +113,9 @@
                         <div class="player--play-pause" (click)="playerClick(item)"
                              *ngIf="item.playable && !item.mediaLoading">
                             <svg-icon src="../../assets/icons/play_24px.svg" class="details-table-cols-button"
-                                      *ngIf="!item.playing"></svg-icon>
+                                      *ngIf="!item.player.playing"></svg-icon>
                             <svg-icon src="../../assets/icons/pause_24px.svg" class="details-table-cols-button"
-                                      *ngIf="item.playing"></svg-icon>
+                                      *ngIf="item.player.playing"></svg-icon>
                         </div>
                         <div class="player--loader" *ngIf="item.playable && item.mediaLoading">
                             <img src="../../assets/icons/player_loader.svg" alt="loading">

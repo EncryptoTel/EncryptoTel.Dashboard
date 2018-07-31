@@ -9,8 +9,6 @@ import {TableInfoExModel, TableInfoItem, TableInfoModel} from '../../models/base
 import {ModalEx} from "../pbx-modal/pbx-modal.component";
 import {PlayerAnimation} from "../../shared/player-animation";
 import {FadeAnimation} from "../../shared/fade-animation";
-import {TimerObservable} from "rxjs/observable/TimerObservable";
-import {Subscription} from "rxjs/Subscription";
 
 @Component({
     selector: 'pbx-table',
@@ -144,24 +142,24 @@ export class TableComponent implements OnInit {
     }
 
     playerOpenClose(item) {
-        item.playerAnimationState = item.playerAnimationState === 'min' ? 'max' : 'min';
+        item.player.animationState = item.player.animationState === 'min' ? 'max' : 'min';
     }
 
     playerAnimationStart(item) {
         if (item) {
-            // console.log('PLAYER_ANIMATION1', item.playerAnimationState);
-            // console.log('PLAYER_ANIMATION2', item.playerContentShow);
-            if (item.playerAnimationState === 'min') {
-                item.playerContentShow = false;
+            // console.log('PLAYER_ANIMATION1', item.player.animationState);
+            // console.log('PLAYER_ANIMATION2', item.player.contentShow);
+            if (item.player.animationState === 'min') {
+                item.player.contentShow = false;
             }
         }
     }
 
     playerAnimationEnd(item) {
         if (item) {
-            item.playerContentShow = item.playerContentShow === false;
-            if (item.playerAnimationState === 'min') {
-                item.playerContentShow = false;
+            item.player.contentShow = item.player.contentShow === false;
+            if (item.player.animationState === 'min') {
+                item.player.contentShow = false;
             }
         }
     }
@@ -175,6 +173,7 @@ export class TableComponent implements OnInit {
                     title: this.tableInfo.titles[i],
                     key: this.tableInfo.keys[i],
                     width: null,
+                    dataWidth: undefined,
                     sort: null,
                 };
                 this.tableInfoEx.items.push(item);
