@@ -6,7 +6,7 @@ import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {PlayerAnimation} from '../../shared/player-animation';
 import {CdrService} from '../../services/cdr.service';
-import {MediaGridColumn, MediaGrid, MediaGridFilter} from '../../models/media-grid.model';
+import {MediaGridFilter} from '../../models/media-grid.model';
 import {WsServices} from "../../services/ws.services";
 import {CdrItem, CdrModel} from "../../models/cdr.model";
 import {TableInfoAction, TableInfoActionOption, TableInfoExModel, TableInfoItem} from "../../models/base.model";
@@ -61,9 +61,9 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.table.items.push(new TableInfoItem('Duration', 'displayDuration'));
         this.table.items.push(new TableInfoItem('Tag', 'displayStatus', 'status'));
         this.table.items.push(new TableInfoItem('Price', 'displayPrice'));
-        // this.table.items.push(new TableInfoItem('Record', 'record'));
-        this.table.actions.push(new TableInfoAction(1, 'player', 100));
-        this.table.actions.push(new TableInfoAction(2, 'drop-down', 22));
+        this.table.items.push(new TableInfoItem('Record', 'record', null, 200, 0));
+        this.table.actions.push(new TableInfoAction(1, 'player', 175));
+        this.table.actions.push(new TableInfoAction(2, 'drop-down', 25));
 
         this.filters.dataUpdateRequired.subscribe(event => {
             // console.log('dataUpdateRequired');

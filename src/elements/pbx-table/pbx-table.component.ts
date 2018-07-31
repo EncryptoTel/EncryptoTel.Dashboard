@@ -9,8 +9,6 @@ import {TableInfoExModel, TableInfoItem, TableInfoModel} from '../../models/base
 import {ModalEx} from "../pbx-modal/pbx-modal.component";
 import {PlayerAnimation} from "../../shared/player-animation";
 import {FadeAnimation} from "../../shared/fade-animation";
-import {TimerObservable} from "rxjs/observable/TimerObservable";
-import {Subscription} from "rxjs/Subscription";
 
 @Component({
     selector: 'pbx-table',
@@ -175,6 +173,7 @@ export class TableComponent implements OnInit {
                     title: this.tableInfo.titles[i],
                     key: this.tableInfo.keys[i],
                     width: null,
+                    dataWidth: undefined,
                     sort: null,
                 };
                 this.tableInfoEx.items.push(item);

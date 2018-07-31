@@ -50,12 +50,14 @@ export class TableInfoItem {
     title: string;
     key: string;
     width: number;
+    dataWidth: number;
     sort: string;
 
-    constructor(title: string, key: string, sort?: string, width?: number) {
+    constructor(title: string, key: string, sort?: string, width?: number, dataWidth?: number) {
         this.title = title;
         this.key = key;
         this.width = width;
+        this.dataWidth = dataWidth;
         this.sort = sort;
     }
 }
