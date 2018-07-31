@@ -23,8 +23,10 @@
             <div class="tablet_content" *ngIf="!item.loading">
                 <div *ngFor="let tableItem of tableInfoEx.items;let i=index"
                      class="tablet_item {{!!columnFormat?columnFormat[i]:''}} {{tableItem.width ? 'fix_' + tableItem.width : ''}}"
-                     (click)="selectItem(item)">
-                    {{getValueByKeyEx(item, tableItem.key)}}
+                     (click)="selectItem(item)"
+                     (mouseenter)="mouseEnter($event, item)"
+                     (mouseleave)="mouseLeave($event, item)"
+                >{{getValueByKeyEx(item, tableItem.key)}}
                     <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
                 </div>
                 <div class="tablet_icon edit"
@@ -35,8 +37,95 @@
                      *ngIf="deletable" (click)="clickDeleteItem(item, $event)">
                     <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
                 </div>
+
+                <div
+                        *ngFor="let action of tableInfoEx.actions; let i = index;"
+                        [style.width]="action.width ? action.width + 'px' : '20px'">
+                    <div
+                            *ngIf="action.type === 'drop-down'"
+                            class="tablet_item_cols">
+                        <div
+                                class="tablet_item_cols_dropdown"
+                                (click)="dropOpen(action, item)">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <ul
+                                    class="dd-menu"
+                                    *ngIf="item.ddShow"
+                                    [ngClass]="{'top' : dropDirection === 'top', 'bottom' : dropDirection === 'bottom'}">
+                                <li
+                                        *ngFor="let option of action.options"
+                                        class="dd-menu-button {{option.className}}"
+                                        (click)="dropClick(action, option, item)"
+                                >{{option.title}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                            *ngIf="action.type === 'player'"
+                            class="tablet_item_cols player">
+                        <div class="player-wrap">
+                            <div
+                                    class="player-container"
+                                    *ngIf="item.playable"
+                                    [@PlayerAnimation]="item.playerAnimationState"
+                                    (@PlayerAnimation.start)="playerAnimationStart(item)"
+                                    (@PlayerAnimation.done)="playerAnimationEnd(item)">
+                                <div class="player-arrow" (click)="playerOpenClose(item)">
+                                    <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="player-arrow-icon"
+                                              [ngClass]="{ 'collapse': item.playerContentShow }"></svg-icon>
+                                </div>
+                                <div class="player-time" *ngIf="item.playerContentShow" [@Fade]>{{
+                                    item.displayDuration }}
+                                </div>
+                                <div class="player-wave" *ngIf="item.playerContentShow" [@Fade]>
+                                    <span class="small active"></span>
+                                    <span class="tall active"></span>
+                                    <span class="small active"></span>
+                                    <span class="small active"></span>
+                                    <span class="tall active"></span>
+                                    <span class="small"></span>
+                                    <span class="small"></span>
+                                    <span class="tall"></span>
+                                    <span class="small"></span>
+                                    <span class="small"></span>
+                                    <span class="tall"></span>
+                                    <span class="small"></span>
+                                    <span class="small"></span>
+                                    <span class="tall"></span>
+                                    <span class="small"></span>
+                                    <span class="small"></span>
+                                    <span class="tall"></span>
+                                    <span class="small"></span>
+                                    <span class="small"></span>
+                                    <span class="tall"></span>
+                                    <span class="small"></span>
+                                    <span class="small"></span>
+                                    <span class="tall"></span>
+                                    <span class="small"></span>
+                                </div>
+                                <div class="player-oreo"></div>
+                            </div>
+                        </div>
+                        <div class="player--play-pause" (click)="playerClick(item)"
+                             *ngIf="item.playable && !item.mediaLoading">
+                            <svg-icon src="../../assets/icons/play_24px.svg" class="details-table-cols-button"
+                                      *ngIf="!item.playing"></svg-icon>
+                            <svg-icon src="../../assets/icons/pause_24px.svg" class="details-table-cols-button"
+                                      *ngIf="item.playing"></svg-icon>
+                        </div>
+                        <div class="player--loader" *ngIf="item.playable && item.mediaLoading">
+                            <img src="../../assets/icons/player_loader.svg" alt="loading">
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <pbx-modal [modalEx]="modal" (onConfirmEx)="deleteItem()">Are you sure?</pbx-modal>

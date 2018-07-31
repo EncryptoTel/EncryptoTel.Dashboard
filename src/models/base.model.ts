@@ -39,6 +39,7 @@ export class TableInfoModel {
 
 export class TableInfoExModel {
     items: TableInfoItem[] = [];
+    actions: TableInfoAction[] = [];
     sort: {
         isDown: boolean;
         column: string;
@@ -50,6 +51,38 @@ export class TableInfoItem {
     key: string;
     width: number;
     sort: string;
+
+    constructor(title: string, key: string, sort?: string, width?: number) {
+        this.title = title;
+        this.key = key;
+        this.width = width;
+        this.sort = sort;
+    }
+}
+
+export class TableInfoAction {
+    id: number;
+    type: string; //drop-down, player
+    options: TableInfoActionOption[] = [];
+    width: number = 50;
+
+    constructor(id: number, type: string, width?: number) {
+        this.id = id;
+        this.type = type;
+        this.width = width;
+    }
+}
+
+export class TableInfoActionOption {
+    id: number;
+    title: string;
+    className: string;
+
+    constructor(id: number, title: string, className?: string) {
+        this.id = id;
+        this.title = title;
+        this.className = className;
+    }
 }
 
 export class SidebarInfoModel {

@@ -17,7 +17,7 @@ export class MediaGrid {
 
     constructor(columns: MediaGridColumn[]) {
         this.columns = columns;
-        this.filter = new MediaGridFilter(this.dataUpdateRequired);
+        this.filter = new MediaGridFilter();
     }
 
     sort(column: MediaGridColumn): void {
@@ -83,6 +83,7 @@ export class MediaGridColumn {
 }
 
 export class MediaGridFilter {
+    public dataUpdateRequired: EventEmitter<void> = new EventEmitter<void>();
     private _tags: MediaTag[];
     private _selectedTags: MediaTag[];
 
@@ -97,9 +98,7 @@ export class MediaGridFilter {
         return (selectedKeys) ? this._tags.filter(t => !selectedKeys.includes(t.key)) : [];
     }
 
-    constructor(
-        public dataUpdateRequired: EventEmitter<void>
-    ) {
+    constructor() {
         this._tags = [];
         this._selectedTags = [];
     }

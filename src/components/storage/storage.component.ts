@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {StorageService} from "../../services/storage.service";
 import {MessageServices} from "../../services/message.services";
 import {SizePipe} from '../../services/size.pipe';
-import {TableInfoExModel} from "../../models/base.model";
+import {TableInfoExModel, TableInfoItem} from "../../models/base.model";
 import {ButtonItem, FilterItem} from "../../elements/pbx-header/pbx-header.component";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 
@@ -26,17 +26,7 @@ export class StorageComponent implements OnInit {
             ],
         select: {title: '', type: ''}
     };
-    table: TableInfoExModel = {
-        sort: {
-            isDown: false,
-            column: 'date',
-        },
-        items: [
-            {title: 'Name', key: 'name', width: null, sort: 'name'},
-            {title: 'Date',  key: 'date', width: 168, sort: 'date'},
-            {title: 'Size, MB', key: 'size', width: 104, sort: 'size'},
-        ]
-    };
+    table: TableInfoExModel = new TableInfoExModel();
 
     player = {item: [], current: null};
     modal = {
@@ -51,6 +41,13 @@ export class StorageComponent implements OnInit {
     constructor(private service: StorageService,
                 private message: MessageServices,
                 private _size: SizePipe) {
+        this.table.sort.isDown = false;
+        this.table.sort.column = 'date';
+        this.table.items.push(new TableInfoItem('Name', 'name', 'name'));
+        this.table.items.push(new TableInfoItem('Date', 'date', 'date', 168));
+        this.table.items.push(new TableInfoItem('Size, MB', 'size', 'size', 104));
+
+
         this.buttons.push({
             id: 0,
             title: 'Delete Selected',

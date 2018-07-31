@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 import {MessageServices} from "../../services/message.services";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
-import {TableInfoExModel} from "../../models/base.model";
+import {TableInfoExModel, TableInfoItem} from "../../models/base.model";
 
 @Component({
     selector: 'extensions-component',
@@ -31,20 +31,7 @@ export class ExtensionsComponent implements OnInit {
     sidebar: ExtensionItem = null;
     selected: ExtensionItem;
     passwordTo: number;
-    table: TableInfoExModel = {
-        sort: {
-            isDown: false,
-            column: null,
-        },
-        items: [
-            {title: '#Ext', key: 'extension', width: 80, sort: null},
-            {title: 'Phone Number', key: 'phone', width: null, sort: null},
-            {title: 'First Name', key: 'userFirstName', width: null, sort: null},
-            {title: 'Last Name', key: 'userLastName', width: null, sort: null},
-            {title: 'E-mail', key: 'userEmail', width: null, sort: null},
-            {title: 'Status', key: 'statusName', width: 80, sort: null},
-            {title: 'Default', key: 'default', width: 80, sort: null},
-        ]};
+    table: TableInfoExModel = new TableInfoExModel();
     text = MainViewComponent.prototype;
     modal = {
         visible: false,
@@ -58,6 +45,13 @@ export class ExtensionsComponent implements OnInit {
     constructor(private service: ExtensionService,
                 private router: Router,
                 private _messages: MessageServices) {
+        this.table.items.push(new TableInfoItem('#Ext', 'extension', null, 80));
+        this.table.items.push(new TableInfoItem('Phone Number', 'phone'));
+        this.table.items.push(new TableInfoItem('First Name', 'userFirstName'));
+        this.table.items.push(new TableInfoItem('Last Name', 'userLastName'));
+        this.table.items.push(new TableInfoItem('E-mail', 'userEmail'));
+        this.table.items.push(new TableInfoItem('Status', 'statusName', null, 80));
+        this.table.items.push(new TableInfoItem('Default', 'default', null, 80));
 
     }
 

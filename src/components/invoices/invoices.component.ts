@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {InvoiceService} from '../../services/invoice.service';
 import {InvoiceModel} from "../../models/invoice.model";
-import {TableInfoExModel} from "../../models/base.model";
+import {TableInfoExModel, TableInfoItem} from "../../models/base.model";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 import {ButtonItem} from "../../elements/pbx-header/pbx-header.component";
 
@@ -17,24 +17,20 @@ export class InvoicesComponent implements OnInit {
     @ViewChild(ListComponent) list;
     loading = 0;
     pageInfo: InvoiceModel = new InvoiceModel();
-    table: TableInfoExModel = {
-        sort: {
-            isDown: false,
-            column: 'date',
-        },
-        items: [
-            {title: 'Invoice Number', key: 'number', width: null, sort: null},
-            {title: 'Invoice Type', key: 'type', width: null, sort: null},
-            {title: 'Transaction Date', key: 'dateTime', width: null, sort: 'date'},
-            {title: 'Status', key: 'status', width: null, sort: null},
-            {title: 'Amount (excl. VAT)', key: 'sumWithVat', width: null, sort: 'amount'},
-            {title: 'Amount', key: 'sum', width: null, sort: 'amount_vat'},
-            {title: 'Transaction ID', key: 'transaction', width: null, sort: null},
-        ]
-    };
+    table: TableInfoExModel = new TableInfoExModel();
     buttons: ButtonItem[] = [];
 
     constructor(private service: InvoiceService) {
+        this.table.sort.isDown = false;
+        this.table.sort.column = 'date';
+        this.table.items.push(new TableInfoItem('Invoice Number', 'number'));
+        this.table.items.push(new TableInfoItem('Invoice Type', 'type'));
+        this.table.items.push(new TableInfoItem('Transaction Date', 'dateTime', 'date'));
+        this.table.items.push(new TableInfoItem('Status', 'status'));
+        this.table.items.push(new TableInfoItem('Amount (excl. VAT)', 'sumWithVat', 'amount'));
+        this.table.items.push(new TableInfoItem('Amount', 'sum', 'amount_vat'));
+        this.table.items.push(new TableInfoItem('Transaction ID', 'transaction'));
+
         this.buttons.push({
             id: 0,
             title: '',
