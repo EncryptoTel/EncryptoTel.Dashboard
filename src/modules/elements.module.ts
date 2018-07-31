@@ -5,6 +5,12 @@ import {AngularSvgIconModule} from 'angular-svg-icon';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
 
+import {VgCoreModule} from 'videogular2/core';
+import {VgControlsModule} from 'videogular2/controls';
+import {VgOverlayPlayModule} from 'videogular2/overlay-play';
+import {VgBufferingModule} from 'videogular2/buffering';
+import {VgStreamingModule} from 'videogular2/streaming';
+
 import {ClickOutsideDirective} from '../shared/click-outside.directive';
 
 import {LoaderComponent} from '../elements/pbx-loader/pbx-loader.component';
@@ -27,6 +33,9 @@ import {QueueCreateComponent} from "../elements/pbx-queue-create/pbx-queue-creat
 import {QueueGeneralComponent} from "../elements/pbx-queue-create/general/pbx-queue-general.component";
 import {QueueMembersComponent} from "../elements/pbx-queue-create/members/pbx-queue-members.component";
 import {QueueMembersAddComponent} from "../elements/pbx-queue-create/members/add/pbx-queue-members-add.component";
+import {MediaTableComponent, TimePipe} from '../elements/pbx-media-table/pbx-media-table.component';
+import {MediaPlayerComponent} from '../elements/pbx-media-player/pbx-media-player.component';
+import {TagSelectorComponent} from '../elements/pbx-tag-selector/pbx-tag-selector.component';
 
 @NgModule({
     imports: [
@@ -34,7 +43,12 @@ import {QueueMembersAddComponent} from "../elements/pbx-queue-create/members/add
         BrowserModule,
         AngularSvgIconModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+    	VgCoreModule,
+    	VgControlsModule,
+    	VgOverlayPlayModule,
+    	VgBufferingModule,
+    	VgStreamingModule,
     ],
     declarations: [
         ClickOutsideDirective,
@@ -44,6 +58,9 @@ import {QueueMembersAddComponent} from "../elements/pbx-queue-create/members/add
         TariffComponent,
         CheckboxComponent,
         TableComponent,
+        MediaTableComponent,
+        TimePipe,
+        MediaPlayerComponent,
         SidebarComponent,
         ModalComponent,
         PaginationComponent,
@@ -57,7 +74,8 @@ import {QueueMembersAddComponent} from "../elements/pbx-queue-create/members/add
         QueueCreateComponent,
         QueueGeneralComponent,
         QueueMembersComponent,
-        QueueMembersAddComponent
+        QueueMembersAddComponent,
+        TagSelectorComponent,
     ],
     exports: [
         ClickOutsideDirective,
@@ -67,6 +85,13 @@ import {QueueMembersAddComponent} from "../elements/pbx-queue-create/members/add
         TariffComponent,
         CheckboxComponent,
         TableComponent,
+        MediaTableComponent,
+        MediaPlayerComponent,
+        VgCoreModule,
+    	VgControlsModule,
+    	VgOverlayPlayModule,
+    	VgBufferingModule,
+    	VgStreamingModule,
         SidebarComponent,
         ModalComponent,
         PaginationComponent,
@@ -80,7 +105,8 @@ import {QueueMembersAddComponent} from "../elements/pbx-queue-create/members/add
         QueueCreateComponent,
         QueueGeneralComponent,
         QueueMembersComponent,
-        QueueMembersAddComponent
+        QueueMembersAddComponent,
+        TagSelectorComponent,
     ]
 })
 export class ElementsModule {

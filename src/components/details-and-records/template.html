@@ -5,26 +5,12 @@
 
             <!-- filter tags -->
             <div class="details-header__wrap">
-                <div class="details-header__wrap-filters">
-                    <div class="filters">
-                        <button
-                                *ngFor="let tag of filters.selectedTags"
-                                class="{{ tag.title }} details-button"
-                                [ngClass]="{'uppercase' : tag.key === 'sms'}"
-                                (click)="filters.toggleTag(tag.key)">
-                            {{ tag.title }}
-                        </button>
-                    </div>
-                    <div class="filters">
-                        <button
-                                *ngFor="let tag of filters.unselectedTags"
-                                class="inactive-button details-button"
-                                [ngClass]="{'uppercase' : tag.key === 'sms'}"
-                                (click)="filters.toggleTag(tag.key)">
-                            {{ tag.title }}
-                        </button>
-                    </div>
-                </div>
+                
+                <pbx-tag-selector #tagSelector
+                    [tags]="tags"
+                    (selectionChanged)="onTagSelection()">
+                </pbx-tag-selector>
+                
                 <div class="details-header__wrap-daterange-wrapper">
                     <div class="details-header__daterange">{{getInterval()}}</div>
                 </div>
@@ -32,47 +18,20 @@
 
         </div>
 
-        <pbx-table
+        <pbx-media-table
                 *ngIf="!loading"
-                style="width: 100%;"
+                #mediaTable
+                style="width: 100%; margin-top: 10px;"
                 [tableInfoEx]="table"
                 [tableItems]="pageInfo.items"
                 [editable]="false"
                 [deletable]="false"
                 (onDropDown)="dropDown($event)"
                 (onDropDownClick)="dropDownClick($event)"
-                (onPlayerClick)="playerClick($event)"
+                (onGetMediaData)="getMediaData($event)"
                 (onPageChangeEx)="getItems()"
-                (onSort)="getItems()"
-        ></pbx-table>
-
-        <vg-player (onPlayerReady)="onPlayerReady($event)">
-            <vg-controls>
-                <vg-play-pause></vg-play-pause>
-                <vg-playback-button></vg-playback-button>
-
-                <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
-
-                <vg-scrub-bar>
-                    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-                    <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-                </vg-scrub-bar>
-
-                <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
-                <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
-
-                <vg-mute></vg-mute>
-                <vg-volume></vg-volume>
-            </vg-controls>
-
-            <audio #media
-                   [vgMedia]="media"
-                   [vgHls]="currentMediaStream"
-                   (onGetBitrates)="hlsBitrates = $event"
-                   id="recordAudio"
-                   type="audio/mp3">
-            </audio>
-        </vg-player>
+                (onSort)="getItems()">
+        </pbx-media-table>
 
         <pbx-loader *ngIf="loading"></pbx-loader>
 

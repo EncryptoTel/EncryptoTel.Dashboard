@@ -1,0 +1,20 @@
+<div class="tags-header__wrap-filters">
+    <div class="filters">
+        <button
+            *ngFor="let tag of selectedTags"
+            class="{{ tag.title }} tags-button"
+            [ngClass]="{'uppercase' : tag.key === 'sms'}"
+            (click)="toggleTag(tag.key)">
+            {{ tag.title }}
+        </button>
+    </div>
+    <div class="filters">
+        <button
+            *ngFor="let tag of unselectedTags"
+            class="inactive-button tags-button"
+            [ngClass]="{'uppercase' : tag.key === 'sms'}"
+            (click)="toggleTag(tag.key)">
+            {{ tag.title }}
+        </button>
+    </div>
+</div>
