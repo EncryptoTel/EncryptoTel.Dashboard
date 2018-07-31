@@ -23,7 +23,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     courses: CoursesModel[];
     amount = {
         min: 5,
-        max: "10 000"
+        max: 10000
     };
     loading: {
         body: boolean,
