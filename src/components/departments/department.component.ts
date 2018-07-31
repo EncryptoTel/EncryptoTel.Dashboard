@@ -8,7 +8,7 @@ import {validateForm} from '../../shared/shared.functions';
 import {RefsServices} from '../../services/refs.services';
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 import {CompanyService} from "../../services/company.service";
-import {ButtonItem} from "../../elements/pbx-header/pbx-header.component";
+import {ButtonItem} from "../../models/base.model";
 
 
 @Component({

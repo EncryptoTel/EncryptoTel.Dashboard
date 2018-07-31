@@ -9,10 +9,9 @@ import {
 import {RefsServices} from '../../services/refs.services';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
+import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
 import {CountryModel} from "../../models/country.model";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
-import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
 import {MessageServices} from "../../services/message.services";
 
 @Component({

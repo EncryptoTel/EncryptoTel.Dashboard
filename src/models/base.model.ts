@@ -143,3 +143,42 @@ export class PlayerModel {
     playing: boolean = false;
     playTime: number = 0;
 }
+
+export class ButtonItem {
+    id: number;
+    title: string;
+    type: string;
+    visible: boolean;
+    inactive: boolean;
+}
+
+export class FilterItem {
+    id: number;
+    key: string;
+    name: string;
+    options: any[];
+    optionsDisplayKey: string;
+    placeHolder: string;
+    width: number;
+    hidden: boolean;
+    inputCenter: boolean;
+    minMaxText: string;
+    min: string;
+    max: string;
+
+    constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string,
+                width?: number, hidden?: boolean, inputCenter?: boolean, minMaxText?: string, min?: string, max?: string) {
+        this.id = id;
+        this.key = key;
+        this.name = name;
+        this.options = options;
+        this.optionsDisplayKey = optionsDisplayKey;
+        this.placeHolder = placeHolder;
+        this.width = width;
+        this.hidden = hidden;
+        this.inputCenter = inputCenter;
+        this.minMaxText = minMaxText;
+        this.min = min;
+        this.max = max;
+    }
+}

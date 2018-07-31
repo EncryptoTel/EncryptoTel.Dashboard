@@ -2,8 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {StorageService} from "../../services/storage.service";
 import {MessageServices} from "../../services/message.services";
 import {SizePipe} from '../../services/size.pipe';
-import {TableInfoExModel, TableInfoItem} from "../../models/base.model";
-import {ButtonItem, FilterItem} from "../../elements/pbx-header/pbx-header.component";
+import {ButtonItem, FilterItem, TableInfoExModel, TableInfoItem} from "../../models/base.model";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 
 @Component({

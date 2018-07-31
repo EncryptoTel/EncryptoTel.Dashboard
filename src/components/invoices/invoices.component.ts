@@ -1,9 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {InvoiceService} from '../../services/invoice.service';
 import {InvoiceModel} from "../../models/invoice.model";
-import {TableInfoExModel, TableInfoItem} from "../../models/base.model";
+import {ButtonItem, TableInfoExModel, TableInfoItem} from "../../models/base.model";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
-import {ButtonItem} from "../../elements/pbx-header/pbx-header.component";
 
 @Component({
     selector: 'pbx-invoices',

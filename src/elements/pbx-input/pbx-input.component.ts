@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 import {FadeAnimation} from '../../shared/fade-animation';
 import {FormArray, FormGroup} from "@angular/forms";
 import {SwipeAnimation} from "../../shared/swipe-animation";
-import {FilterItem} from '../pbx-header/pbx-header.component';
+import {FilterItem} from "../../models/base.model";
 
 @Component({
     selector: 'pbx-input',
@@ -42,7 +42,7 @@ export class InputComponent implements OnInit {
     @Input() required: boolean;
     @Input() inputWidth: number;
     @Input() inputCenter: boolean;
-    @Input() filter: FilterItem[] = [];
+    @Input() filter: FilterItem;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();

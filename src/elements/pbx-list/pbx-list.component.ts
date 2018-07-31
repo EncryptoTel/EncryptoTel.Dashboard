@@ -1,7 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {BaseItemModel, PageInfoModel, TableInfoExModel, TableInfoItem} from "../../models/base.model";
-import {ButtonItem, FilterItem, HeaderComponent} from "../pbx-header/pbx-header.component";
+import {
+    BaseItemModel,
+    ButtonItem,
+    FilterItem,
+    PageInfoModel,
+    TableInfoExModel,
+    TableInfoItem
+} from "../../models/base.model";
+import {HeaderComponent} from "../pbx-header/pbx-header.component";
 import {Router} from "@angular/router";
 import {TableComponent} from "../pbx-table/pbx-table.component";
 
