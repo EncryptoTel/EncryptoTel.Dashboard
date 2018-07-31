@@ -75,14 +75,18 @@ export class SidebarInfoItem {
     view: boolean;
     edit: boolean;
     link: boolean;
+    key: string;
+    checkbox: boolean;
+    className: string;
 
-    constructor(id: number, title: string, value: any, view = true, edit = false, link = false) {
+    constructor(id: number, title: string, value: any, view = true, edit = false, link = false, className = '') {
         this.id = id;
         this.title = title;
         this.value = value;
         this.view = view;
         this.edit = edit;
         this.link = link;
+        this.className = className;
     }
 }
 

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Socket} from 'ng-socket-io';
 import {Subject} from "rxjs/Subject";
-import {BalanceModel, ServiceModel} from "../models/ws.model";
+import {BalanceModel, CdrModel, ServiceModel} from "../models/ws.model";
 import {Observable} from "rxjs/Observable";
 import {LoggerServices} from "./logger.services";
 import {ChatModel, MessageModel} from "../models/chat.model";
@@ -13,6 +13,9 @@ export class WsServices {
 
     balance: BalanceModel;
     balanceSubscription: Subject<BalanceModel> = new Subject<BalanceModel>();
+
+    cdr: CdrModel[] = [];
+    cdrSubscription: Subject<CdrModel[]> = new Subject<CdrModel[]>();
 
     service: ServiceModel;
     serviceSubscription: Subject<ServiceModel> = new Subject<ServiceModel>();
@@ -72,6 +75,10 @@ export class WsServices {
             _this.log('<<< close', data);
             _this.onClose(data);
         });
+        socket.on('cdr', function (data) {
+            _this.log('<<< cdr', data);
+            _this.onCdr(data);
+        });
     }
 
     log(details: string, data: any) {
@@ -117,6 +124,15 @@ export class WsServices {
     }
 
     private onNotification(data) {
+
+    }
+
+    private onCdr(data) {
+        if (typeof data === 'string') {
+            data = JSON.parse(data);
+        }
+        this.cdr.push(new CdrModel(data.id));
+        this.cdrSubscription.next(this.cdr);
     }
 
     private onMessage(data) {
@@ -221,6 +237,10 @@ export class WsServices {
 
     subChats(): Observable<ChatModel[]> {
         return this.chatsSubscription.asObservable();
+    }
+
+    subCdr(): Observable<CdrModel[]> {
+        return this.cdrSubscription.asObservable();
     }
 
 }

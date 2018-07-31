@@ -9,3 +9,9 @@ export class ServiceModel {
         public id: number,
     ) {}
 }
+
+export class CdrModel {
+    constructor(
+        public id: number,
+    ) {}
+}

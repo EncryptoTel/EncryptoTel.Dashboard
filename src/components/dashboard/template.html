@@ -1,258 +1,168 @@
-<!--
 <div class="dashboard_wrap">
-  <div class="dashboard_item balance" [ngClass]="{'inactive': loading.balance}">
-    <pbx-loader *ngIf="loading.balance"></pbx-loader>
-    <div class="dashboard_item_body" *ngIf="!loading.balance">
-      <div class="dashboard_item_row">
-        <div class="dashboard_item_title">Balance</div>
-        <div class="dashboard_item_value">{{balance.symbol}}{{balance.balance}}</div>
-      </div>
-      <div class="dashboard_item_row">
-        <div class="dashboard_item_title">ETT</div>
-        <div class="dashboard_item_value">{{balance.ett}}</div>
-      </div>
-      <div class="dashboard_item_link_row">
-        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Transaction history</a>
-        <a [routerLink]="'../invoices'" routerLinkActive="active" class="dashboard_item_link">Invoices</a>
-        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Refill</a>
-      </div>
-    </div>
-  </div>
-  <div class="dashboard_item tariff" [ngClass]="{'inactive': loading.tariff}">
-    <pbx-loader *ngIf="loading.tariff"></pbx-loader>
-    <div class="dashboard_item_body" *ngIf="!loading.tariff">
-      <div class="dashboard_item_row">
-        <div class="dashboard_item_title">Tariff plan</div>
-        <div class="dashboard_item_value">{{tariff.title}}</div>
-      </div>
-      <div class="dashboard_item_row">
-        <div class="dashboard_item_key">Next monthly payment</div>
-        <div class="dashboard_item_value" *ngIf="balance">{{balance.symbol}}{{tariff.price}}</div>
-      </div>
-      <div class="dashboard_item_row">
-        <div class="dashboard_item_key">Payment date</div>
-        <div class="dashboard_item_value">{{tariff.paymentDate}}</div>
-      </div>
-      <div class="dashboard_item_link_row">
-        <a [routerLink]="'../tariff'" routerLinkActive="active" class="dashboard_item_link">Change tariff plan</a>
-      </div>
-    </div>
-  </div>
-  <div class="dashboard_item phone_numbers" [ngClass]="{'inactive': loading.phone_numbers}">
-    <pbx-loader *ngIf="loading.phone_numbers"></pbx-loader>
-    <div class="dashboard_item_body" *ngIf="!loading.phone_numbers">
-      <div class="dashboard_item_row">
-        <div class="dashboard_item_title">Phone numbers</div>
-      </div>
-      <div class="dashboard_item_row" *ngFor="let number of phone_numbers">
-        <div class="dashboard_item_key">{{number.phone_number.fullNumber}}</div>
-        <div class="dashboard_item_value">{{number.online}} of {{number.exts}} online</div>
-      </div>
-      <div class="dashboard_item_link_row">
-        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Details</a>
-      </div>
-    </div>
-  </div>
-  <div class="dashboard_item drive" [ngClass]="{'inactive': loading.drive}">
-    <pbx-loader *ngIf="loading.drive"></pbx-loader>
-    <div class="dashboard_item_row" *ngIf="!loading.drive">
-      <div class="dashboard_item_body">
-        <div class="dashboard_item_row">
-          <div class="dashboard_item_title">Drive</div>
+    <pbx-loader class="inactive dashboard_balance" *ngIf="loading"></pbx-loader>
+    <div class="dashboard_item dashboard_balance" *ngIf="!loading">
+        <div class="dashboard_item_title_row">
+            <div class="dashboard_item_title_key">Balance</div>
+            <div class="dashboard_balance_value">{{dashboard.balance.currency.shortName}}{{dashboard.balance.value}}
+            </div>
         </div>
-        <div class="dashboard_item_row">
-          <div class="dashboard_item_key">Total size</div>
-          <div class="dashboard_item_value">{{drive.total}} Mb</div>
-        </div>
-        <div class="dashboard_item_row">
-          <div class="dashboard_item_key">Available space</div>
-          <div class="dashboard_item_value">{{drive.available}} Mb</div>
-        </div>
-        <div class="dashboard_item_row">
-          <div class="dashboard_item_key">Used space</div>
-          <div class="dashboard_item_value">{{drive.used}} Mb</div>
+        <div class="dashboard_item_title_row">
+            <div class="dashboard_item_title_key">ETT</div>
+            <div class="dashboard_balance_value">{{dashboard.balance.ett}}</div>
         </div>
         <div class="dashboard_item_link_row">
-          <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Details</a>
+            <a class="dashboard_item_link_item" [routerLink]="'../dashboard'" routerLinkActive="active">
+                Transaction history
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+            </a>
+            <a class="dashboard_item_link_item dashboard_center" [routerLink]="'../dashboard'"
+               routerLinkActive="active">
+                Invoices
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+            </a>
+            <a class="dashboard_item_link_item" routerLink="/cabinet/refill" routerLinkActive="active">
+                Refill
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+            </a>
         </div>
-      </div>
-      <div class="dashboard_item_body">
-        <div class="drive_percentage">{{((drive.used)/(drive.total))*100 | number: '1.0-0'}}%</div>
-        <!--TODO: Drive usage chart-->
-<!--
-      </div>
     </div>
-  </div>
-  <div class="dashboard_item history" [ngClass]="{'inactive': loading.history}">
-    <pbx-loader *ngIf="loading.history"></pbx-loader>
-    <div class="dashboard_item_body" *ngIf="!loading.history">
-      <div class="dashboard_item_row">
-        <div class="dashboard_item_title">History</div>
-      </div>
-      <div class="dashboard_history_body" *ngIf="history.length > 0">
-        <div class="dashboard_history_item_wrap" *ngFor="let historyBlock of history">
-          <div class="dashboard_history_item_date">{{historyBlock.analyzeDate}}</div>
-          <div class="dashboard_history_item" *ngFor="let historyItem of historyBlock.list" [ngClass]="{'missed': !historyItem.status}">
-            <div class="dashboard_history_details">
-              <div class="dashboard_history_details_item">{{historyItem.phone_number.fullName || 'Unknown'}}</div>
-              <div class="dashboard_history_details_item">{{historyItem.phone_number.fullNumber}}</div>
-            </div>
-            <div class="dashboard_history_details">
-              <div class="dashboard_history_details_item" *ngIf="historyItem.calculateDuration">{{historyItem.calculateDuration}}</div>
-              <div class="dashboard_history_details_item">{{historyItem.status ? historyItem.direction : 'missed'}}</div>
-              <div class="dashboard_history_details_item" *ngIf="!historyItem.calculateDuration">{{historyItem.direction}}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="dashboard_item_link_row">
-        <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link">Details</a>
-      </div>
-    </div>
-  </div>
-</div>
--->
-
-<div class="dashboard_wrap">
-  <pbx-loader class="inactive dashboard_balance" *ngIf="loading"></pbx-loader>
-  <div class="dashboard_item dashboard_balance" *ngIf="!loading">
-    <div class="dashboard_item_title_row">
-      <div class="dashboard_item_title_key">Balance</div>
-      <div class="dashboard_balance_value">{{dashboard.balance.currency.shortName}}{{dashboard.balance.value}}</div>
-    </div>
-    <div class="dashboard_item_title_row">
-      <div class="dashboard_item_title_key">ETT</div>
-      <div class="dashboard_balance_value">{{dashboard.balance.ett}}</div>
-    </div>
-    <div class="dashboard_item_link_row">
-      <a class="dashboard_item_link_item" [routerLink]="'../dashboard'" routerLinkActive="active">
-        Transaction history
-        <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-      </a>
-      <a class="dashboard_item_link_item dashboard_center" [routerLink]="'../dashboard'" routerLinkActive="active">
-        Invoices
-        <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-      </a>
-      <a class="dashboard_item_link_item" routerLink="/cabinet/refill" routerLinkActive="active">
-        Refill
-        <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-      </a>
-    </div>
-  </div>
-  <pbx-loader class="inactive dashboard_tariff" *ngIf="loading"></pbx-loader>
-  <div class="dashboard_item dashboard_tariff" *ngIf="!loading">
-    <div class="dashboard_item_title_row">
-      <div class="dashboard_item_title_key">Tariff plan</div>
-      <div class="dashboard_item_title_value">{{dashboard.tariffPlan.title}}</div>
-    </div>
-    <div class="dashboard_item_content_row">
-      <div class="dashboard_item_content_key">Next monthly payment</div>
-      <div class="dashboard_item_content_value">{{dashboard.balance.currency.shortName}}{{dashboard.tariffPlan.sum}}</div>
-    </div>
-    <div class="dashboard_item_content_row">
-      <div class="dashboard_item_content_key">Payment date</div>
-      <div class="dashboard_item_content_value">{{dashboard.tariffPlan.expired}}</div>
-    </div>
-    <div class="dashboard_item_link_row">
-      <a [routerLink]="'../tariff'" routerLinkActive="active" class="dashboard_item_link_item">
-        Change tariff plan
-        <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-      </a>
-    </div>
-  </div>
-  <pbx-loader class="inactive dashboard_numbers" *ngIf="loading"></pbx-loader>
-  <div class="dashboard_item dashboard_numbers" *ngIf="!loading">
-    <div class="dashboard_item_title_row">
-      <div class="dashboard_item_title_name">Phone numbers</div>
-    </div>
-    <div class="dashboard_numbers_body">
-      <div class="dashboard_item_content_row" *ngFor="let number of dashboard.numbers">
-        <div class="dashboard_item_content_key">{{number.phoneNumber}}</div>
-        <div class="dashboard_item_content_value">{{number.innerOnlineCount}} of {{number.innerCount}} online</div>
-      </div>
-    </div>
-    <div class="dashboard_item_link_row">
-      <a class="dashboard_item_link_item dashboard_right" [routerLink]="'../dashboard'" routerLinkActive="active">
-        Details
-        <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon></a>
-    </div>
-  </div>
-  <pbx-loader class="inactive dashboard_drive" *ngIf="loading"></pbx-loader>
-  <div class="dashboard_item dashboard_drive" *ngIf="!loading">
-    <div class="dashboard_drive_row">
-      <div class="dashboard_drive_content">
+    <pbx-loader class="inactive dashboard_tariff" *ngIf="loading"></pbx-loader>
+    <div class="dashboard_item dashboard_tariff" *ngIf="!loading">
         <div class="dashboard_item_title_row">
-          <div class="dashboard_item_title_name">Drive</div>
+            <div class="dashboard_item_title_key">Tariff plan</div>
+            <div class="dashboard_item_title_value">{{dashboard.tariffPlan.title}}</div>
         </div>
         <div class="dashboard_item_content_row">
-          <div class="dashboard_item_content_key">Total size</div>
-          <div class="dashboard_item_content_value">{{dashboard.storage.totalSize}} {{dashboard.storage.measure}}</div>
+            <div class="dashboard_item_content_key">Next monthly payment</div>
+            <div class="dashboard_item_content_value">
+                {{dashboard.balance.currency.shortName}}{{dashboard.tariffPlan.sum}}
+            </div>
         </div>
         <div class="dashboard_item_content_row">
-          <div class="dashboard_item_content_key">Available space</div>
-          <div class="dashboard_item_content_value">{{dashboard.storage.availableSize}} {{dashboard.storage.measure}}</div>
+            <div class="dashboard_item_content_key">Payment date</div>
+            <div class="dashboard_item_content_value">{{dashboard.tariffPlan.expired}}</div>
         </div>
-        <div class="dashboard_item_content_row">
-          <div class="dashboard_item_content_key">Used space</div>
-          <div class="dashboard_item_content_value">{{dashboard.storage.usedSize}} {{dashboard.storage.measure}}</div>
+        <div class="dashboard_item_link_row">
+            <a [routerLink]="'../tariff'" routerLinkActive="active" class="dashboard_item_link_item">
+                Change tariff plan
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+            </a>
         </div>
-      </div>
-      <div class="dashboard_drive_diagram">
-        <div class="dashboard_drive_percentage">{{((dashboard.storage.usedSize)/(dashboard.storage.totalSize))*100 | number: '1.0-0'}}%</div>
-        <style>
+    </div>
+    <pbx-loader class="inactive dashboard_numbers" *ngIf="loading"></pbx-loader>
+    <div class="dashboard_item dashboard_numbers" *ngIf="!loading">
+        <div class="dashboard_item_title_row">
+            <div class="dashboard_item_title_name">Phone numbers</div>
+        </div>
+        <div class="dashboard_numbers_body">
+            <div class="dashboard_item_content_row" *ngFor="let number of dashboard.numbers">
+                <div class="dashboard_item_content_key">{{number.phoneNumber}}</div>
+                <div class="dashboard_item_content_value">{{number.innerOnlineCount}} of {{number.innerCount}} online
+                </div>
+            </div>
+        </div>
+        <div class="dashboard_item_link_row">
+            <a class="dashboard_item_link_item dashboard_right" [routerLink]="'../dashboard'" routerLinkActive="active">
+                Details
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+            </a>
+        </div>
+    </div>
+    <pbx-loader class="inactive dashboard_drive" *ngIf="loading"></pbx-loader>
+    <div class="dashboard_item dashboard_drive" *ngIf="!loading">
+        <div class="dashboard_drive_row">
+            <div class="dashboard_drive_content">
+                <div class="dashboard_item_title_row">
+                    <div class="dashboard_item_title_name">Drive</div>
+                </div>
+                <div class="dashboard_item_content_row">
+                    <div class="dashboard_item_content_key">Total size</div>
+                    <div class="dashboard_item_content_value">{{dashboard.storage.totalSize}}
+                        {{dashboard.storage.measure}}
+                    </div>
+                </div>
+                <div class="dashboard_item_content_row">
+                    <div class="dashboard_item_content_key">Available space</div>
+                    <div class="dashboard_item_content_value">{{dashboard.storage.availableSize}}
+                        {{dashboard.storage.measure}}
+                    </div>
+                </div>
+                <div class="dashboard_item_content_row">
+                    <div class="dashboard_item_content_key">Used space</div>
+                    <div class="dashboard_item_content_value">{{dashboard.storage.usedSize}}
+                        {{dashboard.storage.measure}}
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard_drive_diagram">
+                <div class="dashboard_drive_percentage">
+                    {{((dashboard.storage.usedSize)/(dashboard.storage.totalSize))*100 | number: '1.0-0'}}%
+                </div>
+                <style>
 
-        </style>
-        <!-- i try to create diagram -->
+                </style>
+                <!-- i try to create diagram -->
 
-        <pbx-circle-progress [value]="((dashboard.storage.usedSize)/(dashboard.storage.totalSize))*100 | number: '1.0-0'"></pbx-circle-progress>
+                <pbx-circle-progress
+                        [value]="((dashboard.storage.usedSize)/(dashboard.storage.totalSize))*100 | number: '1.0-0'"></pbx-circle-progress>
 
-        <!--<svg width="120" height="120" viewBox="0 0 120 120" class="progress__svg">-->
-          <!--<circle [attr.r]="radius" cx="60" cy="60" stroke-width="12" class="progress__meter" />-->
-          <!--<circle [style.strokeDasharray]="circumference" [style.strokeDashoffset]="dashoffset" [attr.r]="radius" cx="60" cy="60" stroke-width="12" class="progress__value" />-->
-        <!--</svg>-->
-        <!--<svg class="dashboard_drive_circle dashboard_hide_low_resolution">-->
-          <!--<circle cx="88" cy="88" r="76" stroke-width="24" fill="none"></circle>-->
-          <!--<path class="circle-diagram" stroke-width="24" fill="none" stroke-dasharray="120, 477"-->
+                <!--<svg width="120" height="120" viewBox="0 0 120 120" class="progress__svg">-->
+                <!--<circle [attr.r]="radius" cx="60" cy="60" stroke-width="12" class="progress__meter" />-->
+                <!--<circle [style.strokeDasharray]="circumference" [style.strokeDashoffset]="dashoffset" [attr.r]="radius" cx="60" cy="60" stroke-width="12" class="progress__value" />-->
+                <!--</svg>-->
+                <!--<svg class="dashboard_drive_circle dashboard_hide_low_resolution">-->
+                <!--<circle cx="88" cy="88" r="76" stroke-width="24" fill="none"></circle>-->
+                <!--<path class="circle-diagram" stroke-width="24" fill="none" stroke-dasharray="120, 477"-->
                 <!--d="M 12, 88 a 76,76 0 1,0 152,0 a 76,76 0 1,0 -152,0">-->
-          <!--</path>-->
-        <!--</svg>-->
-        <!--<svg class="dashboard_drive_circle dashboard_hide_high_resolution">-->
-          <!--<circle cx="48" cy="48" r="40" stroke-width="16" fill="none"></circle>-->
-          <!--<path stroke-width="16" fill="none"-->
+                <!--</path>-->
+                <!--</svg>-->
+                <!--<svg class="dashboard_drive_circle dashboard_hide_high_resolution">-->
+                <!--<circle cx="48" cy="48" r="40" stroke-width="16" fill="none"></circle>-->
+                <!--<path stroke-width="16" fill="none"-->
                 <!--d="M 8,48 A 40,40 0 0,1 65.0311716626029,11.8069179013592">-->
-          <!--</path>-->
-        <!--</svg>-->
-      </div>
-    </div>
-    <div class="dashboard_item_link_row">
-      <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link_item">
-        Details
-        <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-      </a>
-    </div>
-  </div>
-  <pbx-loader class="inactive dashboard_history" *ngIf="loading"></pbx-loader>
-  <div class="dashboard_history" *ngIf="!loading">
-    <div class="dashboard_item_title_row">
-      <div class="dashboard_item_title_name">History</div>
-    </div>
-    <div class="dashboard_history_body" *ngIf="dashboard.callDetail.length > 0">
-      <div class="dashboard_history_wrap" *ngFor="let historyBlock of dashboard.callDetail">
-        <div class="dashboard_history_date">{{historyBlock.analyzeDate}}</div>
-        <div class="dashboard_history_item" *ngFor="let historyItem of historyBlock.list" [ngClass]="{'missed': !historyItem.status}">
-          <div class="dashboard_history_row">
-            <div class="dashboard_history_details">{{historyItem.name || 'Unknown'}}</div>
-            <div class="dashboard_history_details">{{historyItem.direction === 0 ? historyItem.source : historyItem.destination}}</div>
-          </div>
-          <div class="dashboard_history_row">
-            <div class="dashboard_history_details" *ngIf="historyItem.calculateDuration">{{historyItem.calculateDuration}}</div>
-            <div class="dashboard_history_details">{{historyItem.status === 0 ? historyItem.direction : 'missed'}}</div>
-            <div class="dashboard_history_details" *ngIf="!historyItem.calculateDuration">{{historyItem.direction === 0 ? 'incoming' : 'outgoing'}}</div>
-          </div>
+                <!--</path>-->
+                <!--</svg>-->
+            </div>
         </div>
-      </div>
+        <div class="dashboard_item_link_row">
+            <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link_item">
+                Details
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+            </a>
+        </div>
     </div>
-    <a class="dashboard_item_link_row" [routerLink]="'../dashboard'" routerLinkActive="active">Details</a>
-  </div>
+    <pbx-loader class="inactive dashboard_history" *ngIf="loading"></pbx-loader>
+    <div class="dashboard_history" *ngIf="!loading">
+        <div class="dashboard_item_title_row">
+            <div class="dashboard_item_title_name">History</div>
+        </div>
+        <div class="dashboard_history_body" *ngIf="dashboard.callDetail.length > 0">
+            <div class="dashboard_history_wrap" *ngFor="let historyBlock of dashboard.callDetail">
+                <div class="dashboard_history_date">{{historyBlock.analyzeDate}}</div>
+                <div class="dashboard_history_item" *ngFor="let historyItem of historyBlock.list"
+                     [ngClass]="{'missed': !historyItem.status}">
+                    <pbx-loader *ngIf="historyItem.loading"></pbx-loader>
+                    <div *ngIf="!historyItem.loading" class="dashboard_history_row">
+                        <div class="dashboard_history_details">{{historyItem.name || 'Unknown'}}</div>
+                        <div class="dashboard_history_details">{{historyItem.direction === 0 ? historyItem.source :
+                            historyItem.destination}}
+                        </div>
+                    </div>
+                    <div *ngIf="!historyItem.loading" class="dashboard_history_row">
+                        <div class="dashboard_history_details" *ngIf="historyItem.calculateDuration">
+                            {{historyItem.calculateDuration}}
+                        </div>
+                        <div class="dashboard_history_details">{{historyItem.status === 0 ? historyItem.direction :
+                            'missed'}}
+                        </div>
+                        <div class="dashboard_history_details" *ngIf="!historyItem.calculateDuration">
+                            {{historyItem.direction === 0 ? 'incoming' : 'outgoing'}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="dashboard_item_link_row" [routerLink]="'/cabinet/details-and-records'" routerLinkActive="active">Details</a>
+    </div>
 </div>
 

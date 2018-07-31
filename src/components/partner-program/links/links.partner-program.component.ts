@@ -14,6 +14,8 @@ import {PartnerProgramItem, PartnerProgramModel} from "../../../models/partner-p
 export class LinksPartnerProgramComponent implements OnInit {
     @Input() partners: PartnerProgramModel;
     @Output() onReload: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onSelect: EventEmitter<PartnerProgramItem> = new EventEmitter();
+    @Output() onEdit: EventEmitter<PartnerProgramItem> = new EventEmitter();
 
     table = {
         title: {
@@ -36,15 +38,6 @@ export class LinksPartnerProgramComponent implements OnInit {
         }
     };
 
-    modalCreate = {
-        visible: false,
-        title: 'Generate Link',
-        body: null,
-        buttons: [
-            {type: 'cancel', value: 'Cancel'},
-            {type: 'success', value: 'Create'},
-        ]
-    };
     modalDelete = {
         visible: false,
         title: '',
@@ -76,40 +69,18 @@ export class LinksPartnerProgramComponent implements OnInit {
         this.onReload.emit(item);
     }
 
-    select() {
-
+    select(item: PartnerProgramItem) {
+        this.onSelect.emit(item);
     }
 
     edit(item: PartnerProgramItem) {
-        this.selected = item;
-        this.selected.loading++;
-        this.modalCreate.buttons[1].value = 'Edit';
-        this.modalCreate.visible = true;
-    }
-
-    doCancelEdit() {
-        this.selected.loading--;
+        this.onEdit.emit(item);
     }
 
     delete(item: PartnerProgramItem) {
         this.selected = item;
         this.modalDelete.title = item.name;
         this.modalDelete.visible = true;
-    }
-
-    doCreateLink() {
-        let item = this.selected;
-        if (!this.selected.id) {
-            item = new PartnerProgramItem();
-            this.partners.items.push(item);
-        }
-        item.loading++;
-        this.service.save(this.selected.id, this.selected.name).then(res => {
-            this.reload(item);
-            item.loading--;
-        }).catch(() => {
-            item.loading--;
-        });
     }
 
     doDeleteLink() {
@@ -123,9 +94,8 @@ export class LinksPartnerProgramComponent implements OnInit {
     }
 
     clickCreateLink() {
-        this.modalCreate.buttons[1].value = 'Create';
-        this.selected = new PartnerProgramItem();
-        this.modalCreate.visible = true;
+        let item = new PartnerProgramItem();
+        this.onEdit.emit(item);
     }
 
     ngOnInit(): void {

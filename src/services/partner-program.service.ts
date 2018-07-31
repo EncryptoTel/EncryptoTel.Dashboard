@@ -4,9 +4,9 @@ import {PartnerProgramItem, PartnerProgramModel} from "../models/partner-program
 
 export class PartnerProgramService extends BaseService {
 
-    save(id: number, name: string): Promise<any> {
+    save(id: number, name: string, status: boolean): Promise<any> {
         if (id) {
-            return this.putById(id, {name: name});
+            return this.putById(id, {name: name, status: status});
         } else {
             return this.post('', {name: name});
         }

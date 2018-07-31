@@ -17,6 +17,12 @@ export class SidebarComponent {
         });
     }
 
+    editItems() {
+        return this.sidebarInfo.items.filter(item => {
+            return item.edit;
+        });
+    }
+
     click(item) {
         this.onClick.emit(item);
     }

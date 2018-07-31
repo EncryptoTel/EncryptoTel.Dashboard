@@ -235,7 +235,12 @@ const Routes: Routes = [
                     }
                 ]
             },
-            {path: 'refill', component: RefillBalanceComponent, data: {title: 'Refill Balance', indexed: true}},
+            {
+                path: 'refill', 
+                component: RefillBalanceComponent, 
+                data: {title: 'Refill Balance', indexed: true},
+                runGuardsAndResolvers: 'always',
+            },
             {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff Plan', indexed: true}},
             {
                 path: 'partner-program',
@@ -255,7 +260,7 @@ const Routes: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(Routes)
+        RouterModule.forRoot(Routes, { onSameUrlNavigation: 'reload' })
     ],
     exports: [
         RouterModule

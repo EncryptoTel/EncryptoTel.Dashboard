@@ -93,7 +93,12 @@ export class BaseService {
         return this.get(`${url}`).then(res => {
             let pageinfo = res;
             pageinfo.limit = pageInfo.limit;
-            return Promise.resolve(pageinfo);
+            if (res.items.length === 0 && pageInfo.page > 1) {
+                pageInfo.page--;
+                return this.getItems(pageInfo, filter, sort);
+            } else {
+                return Promise.resolve(pageinfo);
+            }
         });
     }
 

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {DashboardModel} from '../../models/dashboard.model';
+import {CallDetailItem, CallDetailModel, DashboardModel} from '../../models/dashboard.model';
 import {DashboardServices} from "../../services/dashboard.services";
 
 import {Subscription} from "rxjs/Subscription";
@@ -24,13 +24,15 @@ export class DashboardComponent {
     dashboard: DashboardModel;
     loading = true;
     balanceSubscription: Subscription;
+    cdrSubscription: Subscription;
 
-    fetchDashboard(): Promise<void> {
-        return this._dashboard.getDashboard().then(dashboard => {
+    fetchDashboard(item = null) {
+        (item ? item : this).loading = true;
+        this._dashboard.getDashboard().then(dashboard => {
             this.dashboard = dashboard;
-            this.loading = false;
+            (item ? item : this).loading = false;
         }).catch(() => {
-            this.loading = false;
+            (item ? item : this).loading = false;
         });
     }
 
@@ -39,6 +41,20 @@ export class DashboardComponent {
 
         this.balanceSubscription = this._ws.getBalance().subscribe(balance => {
             this.dashboard.balance.value = balance.balance;
+        });
+        this.cdrSubscription = this._ws.subCdr().subscribe(() => {
+            let model = null;
+            if (this.dashboard.callDetail.length > 0) {
+                model = this.dashboard.callDetail[0];
+            }
+            if (!model) {
+                model = new CallDetailModel();
+                model.date = new Date();
+                this.dashboard.callDetail.unshift(model);
+            }
+            let item = new CallDetailItem();
+            model.list.unshift(item);
+            this.fetchDashboard(item);
         });
     }
 }
