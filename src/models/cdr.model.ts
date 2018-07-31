@@ -1,4 +1,4 @@
-import {BaseItemModel, PageInfoModel} from "./base.model";
+import {BaseItemModel, PageInfoModel, PlayerModel} from "./base.model";
 import {Type} from "class-transformer";
 
 export class CdrModel extends PageInfoModel {
@@ -19,18 +19,16 @@ export class CdrItem extends BaseItemModel {
     public price: number;
     public contactId: number;
 
-    public hover: boolean = false;
+    public player: PlayerModel = new PlayerModel();
+
+    // public hover: boolean = false;
     public ddShow: boolean = false;
     public play: boolean = false;
-    public playerAnimationState: string = 'min';
-    public playerContentShow: boolean = false;
-    public player: any = {};
+    // public player: any = {};
     public playerLoading: boolean = false;
     public playerSeek: string = '';
-    public playing: boolean = false;
     public mediaStream: any = null;
     public mediaLoading: boolean = false;
-    public mediaPlayTime: number = 0;
 
     get playable() {
         return this.accountFile && this.duration > 0;

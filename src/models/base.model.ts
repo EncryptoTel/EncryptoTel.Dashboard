@@ -136,3 +136,10 @@ export class SidebarButtonItem {
         this.type = type;
     }
 }
+
+export class PlayerModel {
+    animationState: string = 'min';
+    contentShow: boolean = false;
+    playing: boolean = false;
+    playTime: number = 0;
+}

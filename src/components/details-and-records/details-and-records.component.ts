@@ -164,17 +164,17 @@ export class DetailsAndRecordsComponent implements OnInit {
     startMediaPlaying(detail: any, forceSeekTime: boolean = false): void {
         if (!detail.playable) return;
 
-        if (forceSeekTime) this.api.seekTime(detail.mediaPlayTime, false);
+        if (forceSeekTime) this.api.seekTime(detail.player.playTime, false);
         this.api.play();
-        detail.playing = true;
+        detail.player.playing = true;
     }
 
     stopMediaPlaying(detail: any): void {
         if (!detail.playable) return;
 
         this.api.pause();
-        detail.mediaPlayTime = this.api.currentTime;
-        detail.playing = false;
+        detail.player.playTime = this.api.currentTime;
+        detail.player.playing = false;
     }
 
     playerClick(item) {
@@ -182,7 +182,7 @@ export class DetailsAndRecordsComponent implements OnInit {
 
         if (item == this.selectedDetail) {
             // toggle current media stream playing
-            if (item.playing) {
+            if (item.player.playing) {
                 this.stopMediaPlaying(item);
             }
             else {
@@ -190,7 +190,7 @@ export class DetailsAndRecordsComponent implements OnInit {
             }
         }
         else {
-            if (this.selectedDetail && this.selectedDetail.playing) {
+            if (this.selectedDetail && this.selectedDetail.player.playing) {
                 // save current media playtime
                 this.stopMediaPlaying(this.selectedDetail);
             }

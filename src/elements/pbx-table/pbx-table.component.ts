@@ -142,24 +142,24 @@ export class TableComponent implements OnInit {
     }
 
     playerOpenClose(item) {
-        item.playerAnimationState = item.playerAnimationState === 'min' ? 'max' : 'min';
+        item.player.animationState = item.player.animationState === 'min' ? 'max' : 'min';
     }
 
     playerAnimationStart(item) {
         if (item) {
-            // console.log('PLAYER_ANIMATION1', item.playerAnimationState);
-            // console.log('PLAYER_ANIMATION2', item.playerContentShow);
-            if (item.playerAnimationState === 'min') {
-                item.playerContentShow = false;
+            // console.log('PLAYER_ANIMATION1', item.player.animationState);
+            // console.log('PLAYER_ANIMATION2', item.player.contentShow);
+            if (item.player.animationState === 'min') {
+                item.player.contentShow = false;
             }
         }
     }
 
     playerAnimationEnd(item) {
         if (item) {
-            item.playerContentShow = item.playerContentShow === false;
-            if (item.playerAnimationState === 'min') {
-                item.playerContentShow = false;
+            item.player.contentShow = item.player.contentShow === false;
+            if (item.player.animationState === 'min') {
+                item.player.contentShow = false;
             }
         }
     }
