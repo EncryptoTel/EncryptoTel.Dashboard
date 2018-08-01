@@ -70,7 +70,7 @@ export class AddressBookComponent implements OnInit {
         this.prepareData();
         this.sidebar.mode = 'view';
         this.sidebar.buttons = [];
-        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Close', 'cancel'));
         this.sidebar.buttons.push(new SidebarButtonItem(2, 'Edit', 'success'));
         this.sidebar.items = [];
         this.sidebar.items.push(new SidebarInfoItem(4, 'First Name', this.selected.firstname));
