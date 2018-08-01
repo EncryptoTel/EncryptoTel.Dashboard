@@ -67,6 +67,7 @@ import {VgOverlayPlayModule} from 'videogular2/overlay-play';
 import {VgBufferingModule} from 'videogular2/buffering';
 import {VgStreamingModule} from 'videogular2/streaming';
 import {RefComponent} from "../components/confirmation/ref.component";
+import {BaseComponent} from "../elements/pbx-component/pbx-component.component";
 
 /*
   Components declarations and exports
@@ -87,6 +88,7 @@ import {RefComponent} from "../components/confirmation/ref.component";
     	VgStreamingModule
     ],
     declarations: [
+        BaseComponent,
         PageNotFoundComponent,
         IndexComponent,
         SignInComponent,
@@ -147,6 +149,7 @@ import {RefComponent} from "../components/confirmation/ref.component";
         RefComponent
     ],
     exports: [
+        BaseComponent,
         ElementsModule,
         PageNotFoundComponent,
         IndexComponent,
