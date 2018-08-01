@@ -95,7 +95,7 @@ export class ModalEx {
                 break;
             case 'deleteFiles':
                 this.title = 'Confirm';
-                this.body = 'Do you really want to delete this file(s)?';
+                this.body = 'Are you sure you want to delete the file(s)?';
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('error', 'Delete'));
                 break;
