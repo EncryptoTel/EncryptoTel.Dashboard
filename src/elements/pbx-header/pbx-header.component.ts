@@ -32,12 +32,12 @@ export class HeaderComponent implements OnInit {
     }
 
     reload() {
-        if (this.currentFilter['search'].length >= 3 || this.currentFilter['search'].length === 0) {
-            clearTimeout(this.timeout);
-            this.timeout = setTimeout(() => {
-                this.onReload.emit(this.currentFilter);
-            }, 500);
-        }
+        // if (this.currentFilter['search'].length >= 3 || this.currentFilter['search'].length === 0) {
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            this.onReload.emit(this.currentFilter);
+        }, 500);
+        // }
     }
 
     load() {
