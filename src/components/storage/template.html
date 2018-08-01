@@ -91,5 +91,5 @@
         </div>
     </pbx-sidebar>
 </div>
-<pbx-modal [modal]="modal" (onConfirm)="doDeleteSelected()">Do you really want to delete this file?</pbx-modal>
+<pbx-modal [modal]="modal" (onConfirm)="doDeleteSelected()">Do you really want to delete this file(s)?</pbx-modal>
 <pbx-modal [modalEx]="service.modalUpload" (onConfirmEx)="service.doUploadAction($event)" (onDecline)="service.cancelUploadAction()"></pbx-modal>
