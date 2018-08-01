@@ -3,6 +3,7 @@ import {RequestServices} from './request.services';
 import {PageInfoModel} from "../models/base.model";
 import {plainToClass} from "class-transformer";
 import {MessageServices} from "./message.services";
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class BaseService {
@@ -11,7 +12,8 @@ export class BaseService {
     errors = null;
 
     constructor(public request: RequestServices,
-                public message: MessageServices) {
+                public message: MessageServices,
+                public http: HttpClient) {
         this.onInit();
     }
 
@@ -116,8 +118,31 @@ export class BaseService {
         this.errors = null;
     }
 
-    onInit() {
-
+    getMediaData(mediaId: number): Promise<any> {
+        return this.request.get(`v1/account/file/${mediaId}`)
+            .then(mediaDataResponse => {
+                return this.http.get(mediaDataResponse['fileLink']).toPromise()
+                    .then(response => {
+                        return this.validateMediaStreamResponse(response)
+                            ? Promise.resolve(mediaDataResponse)
+                            : Promise.reject(response);
+                    })
+                    .catch(error => {
+                        return this.validateMediaStreamResponse(error)
+                            ? Promise.resolve(mediaDataResponse)
+                            : Promise.reject(error);
+                    });
+            });
     }
 
+    validateMediaStreamResponse(response: any): boolean {
+        if (response.status != 200) {
+            this.message.writeError('File not found');
+            console.log('Media stream error', response);
+            return false;
+        }
+        return true;
+    }
+
+    onInit(): void {}
 }

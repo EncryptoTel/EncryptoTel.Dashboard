@@ -34,6 +34,7 @@ import {QueueGeneralComponent} from "../elements/pbx-queue-create/general/pbx-qu
 import {QueueMembersComponent} from "../elements/pbx-queue-create/members/pbx-queue-members.component";
 import {QueueMembersAddComponent} from "../elements/pbx-queue-create/members/add/pbx-queue-members-add.component";
 import {MediaTableComponent, TimePipe} from '../elements/pbx-media-table/pbx-media-table.component';
+import {MediaTablePlayerComponent} from '../elements/pbx-media-table-player/pbx-media-table-player.component';
 import {MediaPlayerComponent} from '../elements/pbx-media-player/pbx-media-player.component';
 import {TagSelectorComponent} from '../elements/pbx-tag-selector/pbx-tag-selector.component';
 
@@ -60,6 +61,7 @@ import {TagSelectorComponent} from '../elements/pbx-tag-selector/pbx-tag-selecto
         TableComponent,
         MediaTableComponent,
         TimePipe,
+        MediaTablePlayerComponent,
         MediaPlayerComponent,
         SidebarComponent,
         ModalComponent,
@@ -86,6 +88,7 @@ import {TagSelectorComponent} from '../elements/pbx-tag-selector/pbx-tag-selecto
         CheckboxComponent,
         TableComponent,
         MediaTableComponent,
+        MediaTablePlayerComponent,
         MediaPlayerComponent,
         VgCoreModule,
     	VgControlsModule,

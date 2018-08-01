@@ -6,7 +6,7 @@ import {VgHLS} from "videogular2/src/streaming/vg-hls/vg-hls";
 import {TableComponent} from "../pbx-table/pbx-table.component";
 import {FadeAnimation} from "../../shared/fade-animation";
 import {PlayerAnimation} from "../../shared/player-animation";
-import {MediaPlayerComponent} from "../pbx-media-player/pbx-media-player.component";
+import {MediaTablePlayerComponent} from "../pbx-media-table-player/pbx-media-table-player.component";
 import {CdrItem} from "../../models/cdr.model";
 
 @Component({
@@ -25,8 +25,8 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
     private _selectedItem: any;
     private _itemsSubscribed = false;
 
-    @ViewChildren('mediaPlayer') players: QueryList<MediaPlayerComponent>;
-    @ViewChild(VgHLS) vgHls: VgHLS;
+    @ViewChildren('mediaPlayer') players: QueryList<MediaTablePlayerComponent>;
+    // @ViewChild(VgHLS) vgHls: VgHLS;
     api: VgAPI;
 
     @Output() onGetMediaData: EventEmitter<CdrItem> = new EventEmitter<CdrItem>();

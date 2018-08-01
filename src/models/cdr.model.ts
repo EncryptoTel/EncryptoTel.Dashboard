@@ -79,6 +79,24 @@ export class AccountFileItem {
     public type: string;
 }
 
+export class CdrMediaInfo {
+    id: number;
+    accountId: number;
+    @Type(() => Date)
+    created: Date;
+    description: string;
+    downloadHash: string;
+    duration: number;
+    externalId: number;
+    fileLink: string;
+    fileName: string;
+    fileNameMd5: string;
+    fileSize: number;
+    md5: string;
+    originalFileName: string;
+    type: string;
+}
+
 export class PlayerModel {
     public animationState: string = 'min';
     public expanded: boolean = false;
@@ -94,4 +112,11 @@ export class RecordModel {
     public mediaPlayTime: number = 0;
     public onTimeChange: Subscription = null;
     public onPlayEnd: Subscription = null;
+}
+
+export enum MediaState {
+    Loading = 'loading',
+    Playing = 'playing',
+    Paused = 'paused',
+    Ended = 'ended'
 }

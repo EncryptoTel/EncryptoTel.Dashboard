@@ -1,58 +1,121 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { PlayerAnimation } from '../../shared/player-animation';
-import { FadeAnimation } from '../../shared/fade-animation';
+import {Component, ViewChild, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
+import {VgAPI} from 'videogular2/core';
+import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
+import {Subscription} from '../../../node_modules/rxjs/Subscription';
+import {TimerObservable} from '../../../node_modules/rxjs/observable/TimerObservable';
+import { MediaState } from '../../models/cdr.model';
 
 @Component({
-  selector: 'pbx-media-player',
-  templateUrl: './template.html',
-  styleUrls: ['./local.sass'],
-  animations: [
-    FadeAnimation('200ms'),
-    PlayerAnimation
-  ]
+    selector: 'pbx-media-player',
+    templateUrl: './template.html',
+    styleUrls: ['./local.sass'],
 })
-export class MediaPlayerComponent {
-    waveRange: Array<string>;
+export class MediaPlayerComponent implements OnChanges {
+    api: VgAPI;
 
-    @Input() item: any;
+    mediaStreams: {};
+    selectedMediaId: number;
+    loading: number;
+    
+    @Input() mediaStream: string;
 
-    @Output() onTogglePlay: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onTimeUpdate: EventEmitter<object>;
+    @Output() onPlayEnd: EventEmitter<number>;
+    @Output() onGetMediaData: EventEmitter<number>;
+    @Output() onMediaStateChanged: EventEmitter<MediaState>;
+
+    @ViewChild(VgHLS) vgHls: VgHLS;
+
+    get state(): MediaState {
+        if (this.loading) return MediaState.Loading;
+        return (this.api && this.api.state == 'playing') 
+            ? MediaState.Playing 
+            : MediaState.Paused;
+    }
 
     constructor() {
-        this.updateWaveRange();
+        this.selectedMediaId = 0;
+        this.onTimeUpdate = new EventEmitter();
+        this.onPlayEnd = new EventEmitter();
+        this.onGetMediaData = new EventEmitter();
+        this.onMediaStateChanged = new EventEmitter();
+        this.mediaStreams = {};
+        this.loading = 0;
     }
 
-    updateWaveRange(): void {
-        this.waveRange = [];
-        for (let i = 0; i < 24; ++ i) {
-            let className = (i + 2) % 3 == 0 ? 'tall' : 'small';
-            if (this.item) {
-                className += ((this.item.record.mediaPlayTime / this.item.record.duration) * 24 > i) 
-                    ? ' active' 
-                    : '';
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.mediaStream && changes.mediaStream.currentValue) {
+            this.loading --;
+            this.mediaStreams[this.selectedMediaId] = changes.mediaStream.currentValue;
+            this.startPlayRecord();
+        }
+    }
+
+    onPlayerReady(api: VgAPI): void {
+        this.api = api;
+        this.api.subscriptions.timeUpdate.subscribe(e => {
+            this.onTimeUpdate.emit(this.api.currentTime);
+        });
+        this.api.subscriptions.ended.subscribe((e) => {
+            this.onPlayEnd.emit(this.selectedMediaId);
+            this.fireOnMediaStateChanged();
+        });
+    }
+
+    fireOnMediaStateChanged(): void {
+        let timer: Subscription = TimerObservable.create(100, 0).subscribe(
+            () => {
+                timer.unsubscribe();
+                this.onMediaStateChanged.emit(this.state);
             }
-            this.waveRange.push(className);
+        );
+    }
+
+    stopPlay(): void {
+        if (this.api && this.api.state == <string>MediaState.Playing) {
+            this.api.pause();
+            this.fireOnMediaStateChanged();
         }
     }
 
-    animationStart(): void {
-        if (this.item.player.animationState === 'min') {
-            this.item.player.expanded = false;
+    togglePlay(mediaId: number) {
+        if (this.mediaStreams[mediaId]) {
+            if (mediaId != this.selectedMediaId) {
+                this.selectedMediaId = mediaId;
+                this.startPlayRecord();
+            }
+            else {
+                // states are: playing, pause, ended
+                if (this.api.state == <string>MediaState.Playing) {
+                    this.api.pause();
+                }
+                else {
+                    this.api.play();
+                }
+                this.fireOnMediaStateChanged();
+            }
+        }
+        else {
+            if (mediaId != this.selectedMediaId) {
+                this.selectedMediaId = mediaId;
+                this.onGetMediaData.emit(mediaId);
+                this.loading ++;
+                this.fireOnMediaStateChanged();
+            }
         }
     }
 
-    animationEnd(): void {
-        this.item.player.expanded = !this.item.player.expanded;
-        if (this.item.player.animationState === 'min') {
-            this.item.player.expanded = false;
-        }
-    }
+    startPlayRecord(): void {
+        let timer: Subscription = TimerObservable.create(0, 100).subscribe(
+            () => {
+                timer.unsubscribe();
+                this.mediaStream = this.mediaStreams[this.selectedMediaId];
 
-    toggleView(): void {
-        this.item.player.animationState = this.item.player.animationState === 'min' ? 'max' : 'min';
-    }
-
-    togglePlay(): void {
-        this.onTogglePlay.emit(this.item);
+                let onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(
+                    () => {
+                        onCanPlay.unsubscribe();
+                        this.fireOnMediaStateChanged();
+                    });
+            });
     }
 }

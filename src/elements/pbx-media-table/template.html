@@ -66,12 +66,12 @@
                     <div
                             *ngIf="action.type === 'player'"
                             class="tablet_item_cols player">
-                        <pbx-media-player
+                        <pbx-media-table-player
                             style="position: relative; right: -144px;"
                             #mediaPlayer
                             [item]="item"
                             (onTogglePlay)="togglePlay($event)">
-                        </pbx-media-player>
+                        </pbx-media-table-player>
                     </div>
                 </div>
             </div>

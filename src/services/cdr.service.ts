@@ -14,7 +14,7 @@ export class CdrService extends BaseService {
         public message: MessageServices,
         public http: HttpClient
     ) {
-        super(request, message);
+        super(request, message, http);
     }
 
     isRecordPlayable(item: CdrItem): boolean {
@@ -32,32 +32,6 @@ export class CdrService extends BaseService {
             });
             return Promise.resolve(pageInfo);
         });
-    }
-
-    getMediaData(mediaId: number): Promise<any> {
-        return this.request.get(`v1/account/file/${mediaId}`)
-            .then(mediaDataResponse => {
-                return this.http.get(mediaDataResponse['fileLink']).toPromise()
-                    .then(response => {
-                        return this.validateMediaStreamResponse(response)
-                            ? Promise.resolve(mediaDataResponse)
-                            : Promise.reject(response);
-                    })
-                    .catch(error => {
-                        return this.validateMediaStreamResponse(error)
-                            ? Promise.resolve(mediaDataResponse)
-                            : Promise.reject(error);
-                    });
-            });
-    }
-
-    validateMediaStreamResponse(response: any): boolean {
-        if (response.status != 200) {
-            this.message.writeError('File not found');
-            console.log('Media stream error', response);
-            return false;
-        }
-        return true;
     }
 
     onInit() {
