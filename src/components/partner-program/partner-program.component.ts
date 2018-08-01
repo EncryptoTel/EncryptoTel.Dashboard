@@ -31,7 +31,7 @@ export class PartnerProgramComponent implements OnInit {
     sidebar = new SidebarInfoModel();
     selected: PartnerProgramItem;
 
-    constructor(private service: PartnerProgramService,
+    constructor(public service: PartnerProgramService,
                 private clipboard: ClipboardService,
                 private message: MessageServices) {
 
