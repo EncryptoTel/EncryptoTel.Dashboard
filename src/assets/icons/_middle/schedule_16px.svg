@@ -1,0 +1,17 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <title>schedule</title>
+  <g>
+    <circle id="Ellipse_306" data-name="Ellipse 306" cx="4" cy="7" r="1"/>
+    <circle id="Ellipse_307" data-name="Ellipse 307" cx="4" cy="13" r="1"/>
+    <circle id="Ellipse_308" data-name="Ellipse 308" cx="4" cy="10" r="1"/>
+    <circle id="Ellipse_309" data-name="Ellipse 309" cx="8" cy="7" r="1"/>
+    <circle id="Ellipse_310" data-name="Ellipse 310" cx="8" cy="13" r="1"/>
+    <circle id="Ellipse_311" data-name="Ellipse 311" cx="8" cy="10" r="1"/>
+    <circle id="Ellipse_312" data-name="Ellipse 312" cx="12" cy="7" r="1"/>
+    <circle id="Ellipse_313" data-name="Ellipse 313" cx="12" cy="13" r="1"/>
+    <circle id="Ellipse_314" data-name="Ellipse 314" cx="12" cy="10" r="1"/>
+    <path id="Path_3847" data-name="Path 3847" d="M14,2a2,2,0,0,1-4,0H6A2,2,0,0,1,2,2H0V16H16V2Zm1,13H1V5H15Z"/>
+    <circle id="Ellipse_315" data-name="Ellipse 315" cx="4" cy="2" r="1"/>
+    <circle id="Ellipse_316" data-name="Ellipse 316" cx="12" cy="2" r="1"/>
+  </g>
+</svg>
