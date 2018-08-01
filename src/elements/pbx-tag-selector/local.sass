@@ -1,0 +1,72 @@
+@import "../../vars"
+// Global variables import
+
+.tags
+    &-header
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+        width: 100%
+        flex: 0 0 auto
+        &__wrap
+            display: flex
+            flex-flow: row
+            justify-content: space-between
+            height: 50px
+            width: 100%
+            overflow-y: auto
+            &-filters
+                display: flex
+                flex-flow: row
+                align-items: center
+                .filters
+                    display: flex
+                    flex-flow: row
+                    justify-content: space-around
+                    align-items: center
+                    border-right: 1px solid rgba($dark_primary, .2)
+                    height: 70%
+                    &:last-child
+                        border-right: unset
+
+.tags-button
+    cursor: pointer
+    height: 100%
+    display: flex
+    flex-flow: row
+    justify-content: center
+    align-items: center
+    border-radius: 30px
+    width: auto
+    padding: 0 24px
+    margin: 0 5px
+    text-transform: capitalize
+
+.outgoing
+    background: #EF77B2
+
+.incoming
+    background: #C882DD
+
+.record
+    background: $dark_success
+
+.no-answer
+    background: #8d539e
+
+.missed
+    background: #F88181
+
+.sms
+    background: rgb(106, 108, 154)
+
+.voicemail
+    background: #5983BE
+
+.uppercase
+    text-transform: uppercase
+
+.inactive-button
+    background: transparent
+    border: 1px solid rgba($dark_primary, .4)
+    color: rgba($dark_primary, .4)
