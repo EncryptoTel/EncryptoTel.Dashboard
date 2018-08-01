@@ -1,13 +1,18 @@
 // phone and email labels
+// and position for error messages
 .sidebar
     .phone-block,
     .email-block
         pbx-input
             .pbx_input_row_label
                 display: none
+            .pbx_input_error_float_focus
+                margin-top: 0
         pbx-input:nth-child(1)
             .pbx_input_row_label
                 display: block
+            .pbx_input_error_float_focus
+                margin-top: 23px
 
 // long string
 pbx-address-book
