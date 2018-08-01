@@ -1,6 +1,6 @@
 <div class="call_queues_members">
   <div class="call_queues_members_header">
-    Call Queue Members
+    {{headerText}}
     <pbx-button (onClick)="onClickMembers()" value="Add Member"></pbx-button>
   </div>
   <pbx-table [tableInfo]="table" [tableItems]="members" (onDelete)="deleteMember($event)"></pbx-table>

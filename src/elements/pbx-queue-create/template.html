@@ -16,6 +16,7 @@
     <pbx-queue-members
             *ngIf="currentTab===tabs[1]&&!addMembers"
             [service]="service"
+            [headerText]="headerText"
             (onClick)="doAddMembers($event)"
     ></pbx-queue-members>
     <pbx-queue-members-add
