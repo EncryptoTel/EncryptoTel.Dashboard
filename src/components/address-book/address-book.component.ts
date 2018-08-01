@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {OnInit, ViewChild} from '@angular/core';
 import {AddressBookService} from '../../services/address-book.service';
 import {
     AddressBookItem,
@@ -7,23 +7,22 @@ import {
     TypesModel
 } from '../../models/address-book.model';
 import {RefsServices} from '../../services/refs.services';
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {FadeAnimation} from '../../shared/fade-animation';
 import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
 import {CountryModel} from "../../models/country.model";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 import {MessageServices} from "../../services/message.services";
 import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
+import {AnimationComponent} from "../../shared/shared.functions";
+import {BaseComponent} from "../../elements/pbx-component/pbx-component.component";
 
-@Component({
+@AnimationComponent({
     selector: 'pbx-address-book',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
     providers: [PageInfoModel],
-    animations: [SwipeAnimation('x', '300ms'), FadeAnimation('300ms')]
 })
 
-export class AddressBookComponent implements OnInit {
+export class AddressBookComponent extends BaseComponent implements OnInit {
 
     @ViewChild(ListComponent) list: ListComponent;
 
@@ -52,6 +51,7 @@ export class AddressBookComponent implements OnInit {
     constructor(public service: AddressBookService,
                 private refs: RefsServices,
                 private message: MessageServices) {
+        super();
         this.sidebar.hideEmpty = true;
     }
 
