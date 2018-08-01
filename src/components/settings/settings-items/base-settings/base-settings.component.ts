@@ -112,7 +112,7 @@ export class BaseSettingsComponent implements OnInit {
             return;
         }
         this.saveButton.loading = true;
-        this.service.saveSettings(this.options, this.path).then(res => {
+        this.service.saveSettings(this.options, this.path, false).then(res => {
             this.message.writeSuccess(res.message);
             this.options = [];
             // this.saveButton.inactive = true;
