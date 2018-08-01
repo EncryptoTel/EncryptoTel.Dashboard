@@ -1,3 +1,4 @@
+///<reference path="../../shared/swipe-animation.ts"/>
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PhoneNumberService} from '../../services/phone-number.service';
 import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel} from '../../models/base.model';
@@ -30,9 +31,9 @@ export class PhoneNumbersComponent implements OnInit {
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
     @ViewChild('button') button: ElementRef;
-    @ViewChild(ListComponent) list;
+    @ViewChild(ListComponent) list: ListComponent;
 
-    constructor(private service: PhoneNumberService,
+    constructor(public service: PhoneNumberService,
                 public router: Router) {
         this.sidebar.title = '';
     }
@@ -88,9 +89,8 @@ export class PhoneNumbersComponent implements OnInit {
     toggleNumber(): void {
         this.selected.loading++;
         this.service.toggleNumber(this.selected.id, !this.selected.status).then(() => {
-            this.list.getItems();
+            this.list.getItems(this.selected);
             this.selected.loading--;
-            this.selected = null;
         }).catch(() => {
             this.selected.loading--;
         });
@@ -107,6 +107,10 @@ export class PhoneNumbersComponent implements OnInit {
             case 2:
                 this.toggleNumber();
         }
+    }
+
+    load() {
+        this.selected = null;
     }
 
     ngOnInit() {
