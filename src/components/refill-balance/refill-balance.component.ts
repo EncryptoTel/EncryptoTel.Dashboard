@@ -37,12 +37,6 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     errors;
 
     balance;
-    modal = {
-        visible: false,
-        title: 'Confirm payment',
-        confirm: {type: 'success', value: 'Yes'},
-        decline: {type: 'cancel', value: 'No'}
-    };
     currentFilter = [];
 
     navigationSubscription: Subscription;

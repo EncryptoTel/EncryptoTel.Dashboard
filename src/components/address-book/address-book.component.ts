@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {AddressBookService} from '../../services/address-book.service';
 import {
     AddressBookItem,
-    AddressBookModel, 
+    AddressBookModel,
     ContactValueModel,
     TypesModel
 } from '../../models/address-book.model';
@@ -13,6 +13,7 @@ import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarIn
 import {CountryModel} from "../../models/country.model";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 import {MessageServices} from "../../services/message.services";
+import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 
 @Component({
     selector: 'pbx-address-book',
@@ -37,19 +38,8 @@ export class AddressBookComponent implements OnInit {
 
     selected: AddressBookItem;
 
-    modal = {
-        delete: {
-            visible: false,
-            confirm: {type: 'error', value: 'Delete'},
-            decline: {type: 'cancel', value: 'Cancel'}
-        },
-        block: {
-            visible: false,
-            body: '',
-            confirm: {type: 'error', value: 'Block'},
-            decline: {type: 'cancel', value: 'Cancel'}
-        },
-    };
+
+    modalBlock = new ModalEx('', 'block');
 
     types: TypesModel;
 
@@ -59,7 +49,7 @@ export class AddressBookComponent implements OnInit {
 
     sidebar: SidebarInfoModel = new SidebarInfoModel();
 
-    constructor(private service: AddressBookService,
+    constructor(public service: AddressBookService,
                 private refs: RefsServices,
                 private message: MessageServices) {
         this.sidebar.hideEmpty = true;
@@ -119,7 +109,7 @@ export class AddressBookComponent implements OnInit {
                 this.block();
                 break;
             case 13:
-                this.delete();
+                this.list.items.clickDeleteItem(this.selected);
                 break;
         }
     }
@@ -208,29 +198,19 @@ export class AddressBookComponent implements OnInit {
     }
 
     block() {
-        this.modal.block.confirm.value = this.selected.blacklist ? 'Unblock' : 'Block';
-        this.modal.block.body = `Are you sure you want to ${this.selected.blacklist ? 'unblock' : 'block'} this contact?`;
-        this.modal.block.visible = true;
+        this.modalBlock = new ModalEx('', this.selected.blacklist ? 'unblock' : 'block');
+        this.modalBlock.visible = true;
     }
 
     confirmBlock() {
         this.selected.loading++;
         this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
             this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
-            this.close(true);
             this.selected.loading--;
+            this.close(true);
         }).catch(() => {
             this.selected.loading--;
         });
-    }
-
-    delete() {
-        this.modal.delete.visible = true;
-    }
-
-    confirmDelete() {
-        this.list.delete(this.selected);
-        this.close(true);
     }
 
     addPhone() {

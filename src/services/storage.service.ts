@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {PageInfoModel, SortModel} from "../models/base.model";
 import {StorageItem, StorageModel} from "../models/storage.model";
 import {plainToClass} from "class-transformer";
+import {ModalEx} from "../elements/pbx-modal/pbx-modal.component";
 
 @Injectable()
 
@@ -13,16 +14,7 @@ export class StorageService extends BaseService {
     sort;
     loading = 0;
     files = [];
-    modalUpload = {
-        visible: false,
-        title: '',
-        body: 'A file with this name has already been created.  Do you want to replace or rename it?',
-        buttons: [
-            {tag: 1, type: 'error', value: 'Replace'},
-            {tag: 2, type: 'success', value: 'Rename'},
-            {tag: 0, type: 'cancel', value: 'Cancel'}
-        ]
-    };
+    modalUpload = new ModalEx('', 'replaceFiles');
     select = [];
     callback;
     successCount = 0;

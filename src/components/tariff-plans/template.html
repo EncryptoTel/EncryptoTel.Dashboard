@@ -1,56 +1,61 @@
-<pbx-modal [modal]="modal"
-           (onConfirm)="modalConfirm()"
-           (onDecline)="modalDecline()">
-  <div style="font-size: 16px">Are you sure you want to change tariff plan?</div>
-</pbx-modal>
+<pbx-modal
+        [modalEx]="modal"
+        (onConfirmEx)="modalConfirm()"
+></pbx-modal>
 
 <pbx-loader *ngIf="loading"></pbx-loader>
 <div class="tariff_message" *ngIf="!loading&&!tariffs.length">No available tariff</div>
-<div class="tariff_wrap tariff_high_resolution" [ngClass]="{'not_enough':tariffs.length<5}" *ngIf="!loading&&tariffs.length" [@Fade]>
-  <div class="tariff_wrap_button" [ngClass]="{'tariff_inactive':page===1}"
-       (click)="page=(page===1?1:page-1)">
-    <svg-icon class="tariff_wrap_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-  </div>
-  <div class="tariff_list">
-    <pbx-tariff *ngIf="tariffs.length > page * 4 - 4" [value]="tariffs[page * 4 - 4]" [current]="getCurrentTariff()" (onBuy)="chooseTariff(tariffs[page * 4 - 4])"></pbx-tariff>
-    <pbx-tariff *ngIf="tariffs.length > page * 4 - 3" [value]="tariffs[page * 4 - 3]" [current]="getCurrentTariff()" (onBuy)="chooseTariff(tariffs[page * 4 - 3])"></pbx-tariff>
-    <pbx-tariff *ngIf="tariffs.length > page * 4 - 2" [value]="tariffs[page * 4 - 2]" [current]="getCurrentTariff()" (onBuy)="chooseTariff(tariffs[page * 4 - 2])"></pbx-tariff>
-    <pbx-tariff *ngIf="tariffs.length > page * 4 - 1" [value]="tariffs[page * 4 - 1]" [current]="getCurrentTariff()" (onBuy)="chooseTariff(tariffs[page * 4 - 1])"></pbx-tariff>
-  </div>
-  <div class="tariff_wrap_button" [ngClass]="{'tariff_inactive':page===PageCount()}"
-       (click)="page=(page===PageCount()?page:page+1)">
-    <svg-icon class="tariff_wrap_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
-  </div>
+<div class="tariff_wrap tariff_high_resolution" [ngClass]="{'not_enough':tariffs.length<5}"
+     *ngIf="!loading&&tariffs.length" [@Fade]>
+    <div class="tariff_wrap_button" [ngClass]="{'tariff_inactive':page===1}"
+         (click)="page=(page===1?1:page-1)">
+        <svg-icon class="tariff_wrap_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+    </div>
+    <div class="tariff_list">
+        <pbx-tariff *ngIf="tariffs.length > page * 4 - 4" [value]="tariffs[page * 4 - 4]" [current]="getCurrentTariff()"
+                    (onBuy)="chooseTariff(tariffs[page * 4 - 4])"></pbx-tariff>
+        <pbx-tariff *ngIf="tariffs.length > page * 4 - 3" [value]="tariffs[page * 4 - 3]" [current]="getCurrentTariff()"
+                    (onBuy)="chooseTariff(tariffs[page * 4 - 3])"></pbx-tariff>
+        <pbx-tariff *ngIf="tariffs.length > page * 4 - 2" [value]="tariffs[page * 4 - 2]" [current]="getCurrentTariff()"
+                    (onBuy)="chooseTariff(tariffs[page * 4 - 2])"></pbx-tariff>
+        <pbx-tariff *ngIf="tariffs.length > page * 4 - 1" [value]="tariffs[page * 4 - 1]" [current]="getCurrentTariff()"
+                    (onBuy)="chooseTariff(tariffs[page * 4 - 1])"></pbx-tariff>
+    </div>
+    <div class="tariff_wrap_button" [ngClass]="{'tariff_inactive':page===PageCount()}"
+         (click)="page=(page===PageCount()?page:page+1)">
+        <svg-icon class="tariff_wrap_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+    </div>
 </div>
 
 <div class="tariff_wrap tariff_mid_resolution" *ngIf="!loading&&tariffs.length" [@Fade]>
-  <pbx-tariff *ngFor="let item of tariffs" [value]="item" [current]="getCurrentTariff()" (onBuy)="chooseTariff(item)"></pbx-tariff>
-  <!--<div class="tariff_item" *ngFor="let item of tariffs" [ngClass]="{'current_tariff':isCurrentTariff(item)}">-->
+    <pbx-tariff *ngFor="let item of tariffs" [value]="item" [current]="getCurrentTariff()"
+                (onBuy)="chooseTariff(item)"></pbx-tariff>
+    <!--<div class="tariff_item" *ngFor="let item of tariffs" [ngClass]="{'current_tariff':isCurrentTariff(item)}">-->
     <!--<h3 class="tariff_item_title"-->
-        <!--(click)="currentPick=(item.id===currentPick?-1:item.id)">{{item.title}}</h3>-->
+    <!--(click)="currentPick=(item.id===currentPick?-1:item.id)">{{item.title}}</h3>-->
     <!--<div class="tariff_item_body">-->
-      <!--<ul class="tariff_item_ul">-->
-        <!--<li class="tariff_item_ul_li" *ngFor="let service of item.services">-->
-          <!--{{service.title}}</li>-->
-      <!--</ul>-->
-      <!--<div class="tariff_item_price">-->
-        <!--{{tariffCost(item)}}-->
-      <!--</div>-->
-      <!--<button class="tariff_item_button" (click)="chooseTariff(item)">-->
-        <!--{{tariffStatus(item)}}-->
-      <!--</button>-->
+    <!--<ul class="tariff_item_ul">-->
+    <!--<li class="tariff_item_ul_li" *ngFor="let service of item.services">-->
+    <!--{{service.title}}</li>-->
+    <!--</ul>-->
+    <!--<div class="tariff_item_price">-->
+    <!--{{tariffCost(item)}}-->
+    <!--</div>-->
+    <!--<button class="tariff_item_button" (click)="chooseTariff(item)">-->
+    <!--{{tariffStatus(item)}}-->
+    <!--</button>-->
     <!--</div>-->
     <!--<div class="tariff_item_body" *ngIf="item.id===currentPick" [@Swipe]>-->
-      <!--<ul class="tariff_item_ul">-->
-        <!--<li class="tariff_item_ul_li" *ngFor="let service of item.services">-->
-          <!--{{service.title}}</li>-->
-      <!--</ul>-->
-      <!--<div class="tariff_item_price">-->
-        <!--{{tariffCost(item)}}-->
-      <!--</div>-->
-      <!--<button class="tariff_item_button" (click)="chooseTariff(item)">-->
-        <!--{{tariffStatus(item)}}-->
-      <!--</button>-->
+    <!--<ul class="tariff_item_ul">-->
+    <!--<li class="tariff_item_ul_li" *ngFor="let service of item.services">-->
+    <!--{{service.title}}</li>-->
+    <!--</ul>-->
+    <!--<div class="tariff_item_price">-->
+    <!--{{tariffCost(item)}}-->
     <!--</div>-->
-  <!--</div>-->
+    <!--<button class="tariff_item_button" (click)="chooseTariff(item)">-->
+    <!--{{tariffStatus(item)}}-->
+    <!--</button>-->
+    <!--</div>-->
+    <!--</div>-->
 </div>

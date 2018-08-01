@@ -10,6 +10,7 @@ import {RefsServices} from '../../services/refs.services';
 import {CountryModel} from '../../models/country.model';
 import {MessageServices} from "../../services/message.services";
 import {SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
+import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 
 @Component({
     selector: 'pbx-company',
@@ -26,13 +27,9 @@ export class CompanyComponent implements OnInit {
     saving = 0;
     selectedCountry: CountryModel;
     sidebarInfo: SidebarInfoModel = new SidebarInfoModel();
-    modal = {
-        visible: false,
-        confirm: {type: 'success', value: 'Yes'},
-        decline: {type: 'cancel', value: 'Stay'}
-    };
+    modal = new ModalEx('', 'cancelEdit');
 
-  @ViewChildren('label') labelFields;
+    @ViewChildren('label') labelFields;
 
     constructor(public service: CompanyService,
                 private fb: FormBuilder,

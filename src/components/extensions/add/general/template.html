@@ -31,7 +31,7 @@
 
     <pbx-input name="First Name"
                key="firstName"
-               errorKey="user.firstName"
+               errorKey="firstName"
                [form]="true"
                [errors]="service.errors"
                [object]="form.controls.user"
@@ -39,7 +39,7 @@
 
     <pbx-input name="Last Name"
                key="lastName"
-               errorKey="user.lastName"
+               errorKey="lastName"
                [form]="true"
                [errors]="service.errors"
                [object]="form.controls.user"
@@ -97,14 +97,15 @@
     ></pbx-input>
 
 
-    <div class="add_ext_form_item" *ngIf="id">
+    <div class="add_ext_form_item" *ngIf="id" style="width: 400px;">
         <label class="inactive"></label>
-        <pbx-button [value]="'Generate and Send Password'" (onClick)="sendPassword()"></pbx-button>
+        <pbx-button [value]="'Generate and Send Password'" (onClick)="sendPassword()" [loading]="passwordLoading" [inactive]="!getValue('toAdmin') && !getValue('toUser')"></pbx-button>
     </div>
 
 </form>
 <pbx-loader *ngIf="loading!==0"></pbx-loader>
-<pbx-modal [modal]="modal"
-           (onConfirm)="confirmModal()"
-           (onDecline)="cancelModal()">{{modal.text}}
-</pbx-modal>
+<pbx-modal
+        [modalEx]="modal"
+        (onConfirmEx)="confirmModal()"
+        (onDecline)="cancelModal()"
+></pbx-modal>

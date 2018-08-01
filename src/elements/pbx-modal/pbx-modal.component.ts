@@ -52,14 +52,84 @@ export class ModalEx {
     body: string;
     buttons: ModalButton[];
 
-    constructor(body?, create?) {
+    constructor(body?: string, create?: string) {
         this.visible = false;
         this.title = '';
         this.body = body;
         this.buttons = [];
-        if (create === 1) {
-            this.buttons.push(new ModalButton('error', 'Delete'));
-            this.buttons.push(new ModalButton('cancel', 'Cancel'));
+        switch (create) {
+            case 'delete':
+                this.title = 'Confirm';
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
+                this.buttons.push(new ModalButton('error', 'Delete'));
+                break;
+            case 'block':
+                this.title = 'Confirm';
+                this.body = 'Are you sure you want to block this contact?';
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
+                this.buttons.push(new ModalButton('error', 'Block'));
+                break;
+            case 'unblock':
+                this.title = 'Confirm';
+                this.body = 'Are you sure you want to unblock this contact?';
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
+                this.buttons.push(new ModalButton('success', 'Unblock'));
+                break;
+            case 'changeTariff':
+                this.title = 'Confirm';
+                this.body = 'Are you sure you want to change tariff plan?';
+                this.buttons.push(new ModalButton('cancel', 'No'));
+                this.buttons.push(new ModalButton('success', 'Yes'));
+                break;
+            case 'buyModule':
+                this.title = 'Confirm';
+                this.body = 'Are you sure you want to buy this service?';
+                this.buttons.push(new ModalButton('cancel', 'No'));
+                this.buttons.push(new ModalButton('success', 'Yes'));
+                break;
+            case 'buyNumber':
+                this.title = 'Confirm';
+                this.body = 'Are you sure you want to buy this number?';
+                this.buttons.push(new ModalButton('cancel', 'No'));
+                this.buttons.push(new ModalButton('success', 'Yes'));
+                break;
+            case 'deleteFiles':
+                this.title = 'Confirm';
+                this.body = 'Do you really want to delete this file(s)?';
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
+                this.buttons.push(new ModalButton('error', 'Delete'));
+                break;
+            case 'replaceFiles':
+                this.title = 'Confirm';
+                this.body = 'A file with this name has already been created.  Do you want to replace or rename it?';
+                this.buttons.push(new ModalButton('cancel', 'Cancel', 0));
+                this.buttons.push(new ModalButton('error', 'Replace', 1));
+                this.buttons.push(new ModalButton('success', 'Rename', 2));
+                break;
+            case 'resetToAdmin':
+                this.title = 'Reset password';
+                this.body = 'Do you want to reset your password and send the new password to admin?';
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
+                this.buttons.push(new ModalButton('error', 'Reset'));
+                break;
+            case 'resetToUser':
+                this.title = 'Reset password';
+                this.body = 'Do you want to reset your password and send the new password to user?';
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
+                this.buttons.push(new ModalButton('error', 'Reset'));
+                break;
+            case 'resetToSelected':
+                this.title = 'Reset password';
+                this.body = 'Do you want to reset your password and send the new password to selected users?';
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
+                this.buttons.push(new ModalButton('error', 'Reset'));
+                break;
+            case 'cancelEdit':
+                this.title = 'Confirm';
+                this.body = 'Stop editing?';
+                this.buttons.push(new ModalButton('cancel', 'Stay'));
+                this.buttons.push(new ModalButton('success', 'Yes'));
+                break;
         }
     }
 }
@@ -70,8 +140,9 @@ export class ModalButton {
     value: string;
     loading: boolean;
 
-    constructor(type?, value?) {
+    constructor(type?, value?, tag?) {
         this.type = type;
         this.value = value;
+        this.tag = tag;
     }
 }
