@@ -39,9 +39,17 @@ export class QueueCreateComponent implements OnInit {
 
     selectTab(tab: string): void {
         this.addMembers = false;
-        if (tab === 'Members' && !this.service.item.sipId) {
+        if (tab === 'Members' && (!this.service.item.sipId || !this.service.item.name || !this.service.item.strategy)) {
             this.form.selected = 'General';
-            this.service.errors = {sip: 'Please select phone number'};
+            let errors = [];
+            if (!this.service.item.sipId)
+                errors['sip'] = 'Please select phone number';
+            if (!this.service.item.name)
+                errors['name'] = 'Please enter name';
+            if (!this.service.item.strategy)
+                errors['strategy'] = 'Please select ring strategy';
+
+            this.service.errors = errors;
             return;
         }
         this.currentTab = tab;
