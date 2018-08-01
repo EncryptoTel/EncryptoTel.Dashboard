@@ -12,6 +12,7 @@ import {FadeAnimation} from '../../../shared/fade-animation';
 export class QueueMembersComponent implements OnInit {
     @Input() service;
     @Output() onClick: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Input() headerText = 'Call Queue Members';
 
     members;
 

@@ -9,6 +9,8 @@ import {RingGroupService} from '../../../services/ring-group.service';
 
 export class RingGroupsCreateComponent {
 
+    headerText = 'Ring Group Members';
+
     constructor(public service: RingGroupService) {
 
     }
