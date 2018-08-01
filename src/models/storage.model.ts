@@ -1,5 +1,6 @@
 import {BaseItemModel, PageInfoModel} from "./base.model";
 import {Type} from "class-transformer";
+import {formatDateTime} from "../shared/shared.functions";
 
 export class StorageModel extends PageInfoModel {
     public items: StorageItem[];
@@ -16,8 +17,8 @@ export class StorageItem extends BaseItemModel {
         return this.fileName;
     }
 
-    get date() {
-        return `${this.created.toLocaleDateString()} ${this.created.toLocaleTimeString()}`
+    get displayDateTime() {
+        return formatDateTime(this.created);
     }
 
     get size() {

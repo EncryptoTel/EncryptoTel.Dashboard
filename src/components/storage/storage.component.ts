@@ -43,7 +43,7 @@ export class StorageComponent implements OnInit {
         this.table.sort.isDown = false;
         this.table.sort.column = 'date';
         this.table.items.push(new TableInfoItem('Name', 'name', 'name'));
-        this.table.items.push(new TableInfoItem('Date', 'date', 'date', 168));
+        this.table.items.push(new TableInfoItem('Date', 'displayDateTime', 'date', 168));
         this.table.items.push(new TableInfoItem('Size, MB', 'size', 'size', 104));
 
 

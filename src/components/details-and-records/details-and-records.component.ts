@@ -10,6 +10,7 @@ import {MediaGridFilter} from '../../models/media-grid.model';
 import {WsServices} from "../../services/ws.services";
 import {CdrItem, CdrModel} from "../../models/cdr.model";
 import {TableInfoAction, TableInfoActionOption, TableInfoExModel, TableInfoItem} from "../../models/base.model";
+import {getInterval} from "../../shared/shared.functions";
 
 @Component({
     selector: 'pbx-details-and-records',
@@ -57,7 +58,7 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.table.sort.column = 'callDate';
         this.table.items.push(new TableInfoItem('From', 'source', 'source'));
         this.table.items.push(new TableInfoItem('To', 'destination', 'destination'));
-        this.table.items.push(new TableInfoItem('Date', 'displayDate', 'callDate'));
+        this.table.items.push(new TableInfoItem('Date', 'displayDateTime', 'callDate'));
         this.table.items.push(new TableInfoItem('Duration', 'displayDuration'));
         this.table.items.push(new TableInfoItem('Tag', 'displayStatus', 'status'));
         this.table.items.push(new TableInfoItem('Price', 'displayPrice'));
@@ -88,16 +89,7 @@ export class DetailsAndRecordsComponent implements OnInit {
     }
 
     getInterval() {
-        let max = null;
-        let min = null;
-        if (this.pageInfo) {
-            for (let i in this.pageInfo.items) {
-                let item = this.pageInfo.items[i];
-                min = !min || item.created < min.created ? item : min;
-                max = !max || item.created > max.created ? item : max;
-            }
-        }
-        return max && min ? `${min.date} - ${max.date}` : '';
+        return getInterval(this.pageInfo.items, 'created', 'displayDate');
     }
 
     dropDown(event) {

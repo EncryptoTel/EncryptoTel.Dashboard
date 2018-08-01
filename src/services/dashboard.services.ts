@@ -1,6 +1,12 @@
 import {Injectable} from '@angular/core';
 import {RequestServices} from './request.services';
-import {CallDetailItem, CallDetailModel, DashboardModel, StorageModel} from "../models/dashboard.model";
+import {
+    CallDetailItem,
+    CallDetailModel,
+    DashboardModel,
+    StorageModel,
+    TariffPlanModel
+} from "../models/dashboard.model";
 import {plainToClass} from 'class-transformer';
 import {dateComparison} from '../shared/shared.functions';
 import {WsServices} from "./ws.services";
@@ -22,6 +28,7 @@ export class DashboardServices {
         return this.req.get('v1/dashboard').then((res: DashboardModel) => {
             this.dashboard = plainToClass(DashboardModel, res);
             this.dashboard.storage = plainToClass(StorageModel, res['storage']);
+            this.dashboard.tariffPlan = plainToClass(TariffPlanModel, res['tariffPlan']);
             this.ws.balance.balance = res.balance.value;
             const list = plainToClass(CallDetailItem, res['callDetail']);
             const dates: string[] = [];

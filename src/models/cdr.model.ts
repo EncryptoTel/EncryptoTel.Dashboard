@@ -1,5 +1,6 @@
 import {BaseItemModel, PageInfoModel, PlayerModel} from "./base.model";
 import {Type} from "class-transformer";
+import {formatDate, formatDateTime} from "../shared/shared.functions";
 
 export class CdrModel extends PageInfoModel {
     items: CdrItem[];
@@ -34,12 +35,12 @@ export class CdrItem extends BaseItemModel {
         return this.accountFile && this.duration > 0;
     }
 
-    get date() {
-        return this.created.toLocaleDateString();
+    get displayDate() {
+        return formatDate(this.created);
     }
 
-    get displayDate() {
-        return `${this.created.toLocaleDateString()} ${this.created.toLocaleTimeString()}`;
+    get displayDateTime() {
+        return formatDateTime(this.created);
     }
 
     get displayDuration() {
