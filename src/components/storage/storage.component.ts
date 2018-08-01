@@ -64,7 +64,9 @@ export class StorageComponent implements OnInit {
         this.list.loading = loading;
         if (!loading) {
             this.load();
-            this.message.writeSuccess(`Successfully ${deleting ? 'deleted' : 'uploaded'} ${this.service.successCount} file(s).`);
+            if(this.service.successCount) {
+                this.message.writeSuccess(`Successfully ${deleting ? 'deleted' : 'uploaded'} ${this.service.successCount} file(s).`);
+            }
         }
     }
 
