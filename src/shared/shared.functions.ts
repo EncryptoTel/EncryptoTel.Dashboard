@@ -2,7 +2,7 @@ import {FormArray, FormGroup} from '@angular/forms';
 import {plainToClass} from 'class-transformer';
 import {CountryModel} from '../models/country.model';
 import {CurrencyModel} from '../models/currency.model';
-import {ElementRef} from '@angular/core';
+import {ElementRef, Component} from '@angular/core';
 import {DatePipe} from "@angular/common";
 
 export function getCountryById(id: number): CountryModel {
@@ -92,3 +92,32 @@ export function getInterval(items, dateAttr, displayAttr) {
     return max && min ? `${min[displayAttr]} - ${max[displayAttr]}` : '';
 }
 
+export function AnimationComponent(extendedConfig: Component = {}) {
+    return function (target: Function) {
+        const ANNOTATIONS = '__annotations__';
+        const PARAMETERS = '__paramaters__';
+        const PROP_METADATA = '__prop__metadata__';
+
+        const annotations = target[ANNOTATIONS] || [];
+        const parameters = target[PARAMETERS] || [];
+        const propMetadata = target[PROP_METADATA] || [];
+
+        if (annotations.length > 0) {
+            const parentAnnotations = Object.assign({}, annotations[0]);
+
+            Object.keys(parentAnnotations).forEach(key => {
+                if (parentAnnotations.hasOwnProperty(key)) {
+                    if (!extendedConfig.hasOwnProperty(key)) {
+                        extendedConfig[key] = parentAnnotations[key];
+                        annotations[0][key] = '';
+                    } else {
+                        if (extendedConfig[key] === parentAnnotations[key]){
+                             annotations[0][key] = '';
+                        }
+                    }
+                }
+            });
+        }
+        return Component(extendedConfig)(target);
+    };
+}

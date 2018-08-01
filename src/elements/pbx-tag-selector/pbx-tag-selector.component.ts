@@ -1,12 +1,14 @@
 import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {TagModel} from "../../models/base.model";
+import {BaseComponent} from "../pbx-component/pbx-component.component";
+import {AnimationComponent} from "../../shared/shared.functions";
 
-@Component({
+@AnimationComponent({
     selector: 'pbx-tag-selector',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
 })
-export class TagSelectorComponent {
+export class TagSelectorComponent extends BaseComponent {
     @Input() public tags: TagModel[];
     @Output() selectionChanged: EventEmitter<void>;
 
@@ -22,6 +24,8 @@ export class TagSelectorComponent {
     }
 
     constructor() {
+        super();
+
         this.tags = [];
         this._selectedTags = [];
         this.selectionChanged = new EventEmitter();
