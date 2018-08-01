@@ -42,7 +42,7 @@ export class DepartmentsComponent implements OnInit {
     companyActive = false;
     buttons: ButtonItem[] = [];
 
-    constructor(private service: DepartmentService,
+    constructor(public service: DepartmentService,
                 private fb: FormBuilder,
                 private refs: RefsServices,
                 private company: CompanyService) {
@@ -135,8 +135,7 @@ export class DepartmentsComponent implements OnInit {
         const sips = this.departmentForm.get('sipInner') as FormArray;
         if (sips.length > 0) {
             for (let i = sips.length - 1; i >= 0; i--) {
-                console.log(i, sips[i]);
-                if (!sips[i]) {
+                if (!sips.controls[i].value) {
                     sips.removeAt(i);
                 }
             }
