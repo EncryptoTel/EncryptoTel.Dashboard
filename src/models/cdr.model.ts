@@ -1,4 +1,4 @@
-import {BaseItemModel, PageInfoModel, PlayerModel} from "./base.model";
+import {BaseItemModel, PageInfoModel} from "./base.model";
 import {Type} from "class-transformer";
 import {formatDate, formatDateTime} from "../shared/shared.functions";
 import { Subscription } from "rxjs/Subscription";
