@@ -1,79 +1,23 @@
 <div class="store">
-    <pbx-list style="width: 100%"
-              [(pageInfo)]="service.pageInfo"
-              [tableInfo]="table"
-              [buttons]="buttons"
-              [filters]="filters"
-              [editable]="false"
-              [deletable]="false"
-              [multiple]="true"
-              [selected]="service.select"
-              [showEmptyInfo]="false"
-              key="storage"
-              name="Storage"
-              buttonTitle="Delete Selected"
-              (onLoad)="load()"
-              (onCreate)="deleteSelected()"
-              (onSelect)="selectItem($event.id)"
-              [service]="service">
+    <pbx-list
+            style="width: 100%"
+            [(pageInfo)]="service.pageInfo"
+            [tableInfo]="table"
+            [buttons]="buttons"
+            [filters]="filters"
+            [editable]="false"
+            [deletable]="false"
+            [multiple]="true"
+            [selected]="service.select"
+            [showEmptyInfo]="false"
+            key="storage"
+            name="Storage"
+            buttonTitle="Delete Selected"
+            (onLoad)="load()"
+            (onCreate)="deleteSelected()"
+            (onSelect)="selectItem($event.id)"
+            [service]="service">
     </pbx-list>
-    <!--<div class="store_grid">-->
-        <!--<div class="store_header">-->
-            <!--<div class="store_header_block">-->
-                <!--Select Source:-->
-                <!--<pbx-select [options]="source.option"-->
-                            <!--[selected]="source.select"-->
-                            <!--[objectKey]="'title'"-->
-                            <!--(onSelect)="selectSource($event)"></pbx-select>-->
-            <!--</div>-->
-            <!--<div class="store_header_block">-->
-                <!--Search: <input [(ngModel)]="search" (keyup)="onSearchKeyUp()">-->
-            <!--</div>-->
-            <!--<div class="store_header_button_wrap" *ngIf="source.select.type==='call_record'">-->
-                <!--<pbx-button [value]="'Download Selected'" [inactive]="!service.select.length"></pbx-button>-->
-                <!--<pbx-button [value]="'Delete'" [buttonType]="'error'" [inactive]="!service.select.length"></pbx-button>-->
-            <!--</div>-->
-            <!--<div class="store_header_button_wrap" *ngIf="source.select.type==='audio'">-->
-                <!--<pbx-button [value]="'Delete Selected'" [buttonType]="'error'" [inactive]="!service.select.length" (onClick)="deleteSelected()"></pbx-button>-->
-            <!--</div>-->
-            <!--<div class="store_header_button_wrap" *ngIf="source.select.type==='trash'">-->
-                <!--<pbx-button [value]="'Restore Selected'" [inactive]="!service.select.length"></pbx-button>-->
-                <!--<pbx-button [value]="'Empty Trash'" [buttonType]="'error'"></pbx-button>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<pbx-loader *ngIf="service.loading!==0"></pbx-loader>-->
-        <!--<div class="store_table" *ngIf="service.loading === 0 && source.select.type === 'audio' && service.pageInfo.items.length > 0">-->
-            <!--<div class="store_table_header">-->
-                <!--<div class="store_table_item {{item.width?'fix_'+item.width:''}}"-->
-                     <!--*ngFor="let item of table.audio.head;let i=index">-->
-                    <!--<span (click)="setSort(i)" [ngClass]="{'sortable':item.sort}">{{item.title}}</span>-->
-                    <!--<div class="store_table_header_icon" *ngIf="sort.column===table.audio.key[i]">-->
-                        <!--<svg-icon src="../../assets/icons/sorting_{{sort.isDown?'down':'up'}}_16px.svg"></svg-icon>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="store_table_body">-->
-                <!--<div class="store_table_row" *ngFor="let item of service.pageInfo.items" (click)="service.selectItem(item.id)"-->
-                     <!--[ngClass]="{'select':find(service.select,item.id)}">-->
-                    <!--<div class="store_table_item{{table.audio.head[0].width?' fix_'+table.audio.head[0].width:''}}">-->
-                        <!--{{item.fileName}}-->
-                    <!--</div>-->
-                    <!--<div class="store_table_item{{table.audio.head[1].width?' fix_'+table.audio.head[1].width:''}}">-->
-                        <!--{{item.created}}-->
-                    <!--</div>-->
-                    <!--<div class="store_table_item{{table.audio.head[2].width?' fix_'+table.audio.head[2].width:''}}">-->
-                        <!--{{ getSize(item.fileSize) }}-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<pbx-pagination [pageInfo]="service.pageInfo"-->
-                            <!--(onPageChange)="setPage($event)">-->
-            <!--</pbx-pagination>-->
-        <!--</div>-->
-        <!--<div class="store_table" *ngIf="service.loading === 0 && service.pageInfo.items.length === 0">-->
-            <!--<div class="store_table_message">Nothing found</div>-->
-        <!--</div>-->
-    <!--</div>-->
     <pbx-sidebar *ngIf="source.select.type!=='trash'">
         <div class="store_sidebar_audio" (drop)="dropHandler($event)"
              (dragover)="dragOverHandler($event)"
@@ -91,5 +35,6 @@
         </div>
     </pbx-sidebar>
 </div>
-<pbx-modal [modal]="modal" (onConfirm)="doDeleteSelected()">Do you really want to delete this file(s)?</pbx-modal>
-<pbx-modal [modalEx]="service.modalUpload" (onConfirmEx)="service.doUploadAction($event)" (onDecline)="service.cancelUploadAction()"></pbx-modal>
+<pbx-modal [modalEx]="modal" (onConfirmEx)="doDeleteSelected()"></pbx-modal>
+<pbx-modal [modalEx]="service.modalUpload" (onConfirmEx)="service.doUploadAction($event)"
+           (onDecline)="service.cancelUploadAction()"></pbx-modal>

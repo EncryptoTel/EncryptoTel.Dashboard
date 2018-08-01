@@ -1,5 +1,6 @@
 import {PageInfoModel} from "./base.model";
 import {Type} from "class-transformer";
+import {formatDate, formatDateTime} from "../shared/shared.functions";
 
 export class InvoiceModel extends PageInfoModel {
     items: InvoiceItem[];
@@ -9,19 +10,18 @@ export class InvoiceModel extends PageInfoModel {
 export class InvoiceItem {
     @Type(() => Date)
     created: Date;
-    // number: string;
-    // type: string;
-    // date: Date;
-    // status: string;
-    // amount: number;
-    // amount_vat: number;
-    // transaction: string;
+    number: string;
+    type: string;
+    status: string;
+    sum: number;
+    sumWithVat: number;
 
-    get dateTime() {
-        return `${this.created.toLocaleDateString()} ${this.created.toLocaleTimeString()}`;
+    get displayDate() {
+        return formatDate(this.created);
     }
 
-    get date() {
-        return this.created.toLocaleDateString();
+    get displayDateTime() {
+        return formatDateTime(this.created);
     }
+
 }

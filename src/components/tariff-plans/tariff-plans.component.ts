@@ -5,6 +5,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {LocalStorageServices} from "../../services/local-storage.services";
 import {UserServices} from "../../services/user.services";
+import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 
 @Component({
     selector: 'pbx-tariff-plans',
@@ -18,27 +19,15 @@ export class TariffPlansComponent implements OnInit {
     loading = true;
 
     tariffs = [];
-    // currentTariff = 2;
-    currentPick = -1;
     page = 1;
     selected: any;
 
-    modal: {
-        visible: boolean,
-        title: string,
-        confirm: { type: string, value: string },
-        decline: { type: string, value: string }
-    };
+    modal = new ModalEx('', 'changeTariff');
 
     constructor(private _service: TariffPlanServices,
                 private _storage: LocalStorageServices,
                 private _user: UserServices) {
-        this.modal = {
-            visible: false,
-            title: '',
-            confirm: {type: 'success', value: 'Yes'},
-            decline: {type: 'error', value: 'No'}
-        };
+
     }
 
     PageCount() {
@@ -69,16 +58,13 @@ export class TariffPlansComponent implements OnInit {
 
     modalConfirm = (): void => {
         this.selected.loading = true;
-        this._service.selectTariffPlan(this.selected.id)
-            .then(res => {
-                this._user.fetchProfileParams()
-                    .then(res => {
-                        this.selected.loading = false;
-                    });
-            }).catch();
-    }
-
-    modalDecline = (): void => {
+        this._service.selectTariffPlan(this.selected.id).then(res => {
+            this._user.fetchProfileParams().then(res => {
+                this.selected.loading = false;
+            });
+        }).catch(() => {
+            this.selected.loading = false;
+        });
     }
 
     ngOnInit(): void {
@@ -102,7 +88,9 @@ export class TariffPlansComponent implements OnInit {
                 });
             });
             this.loading = false;
-        }).catch();
+        }).catch(() => {
+            this.loading = false;
+        });
     }
 
 }

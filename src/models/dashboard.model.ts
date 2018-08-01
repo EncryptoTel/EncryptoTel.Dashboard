@@ -1,5 +1,5 @@
 import {Type} from "class-transformer";
-import {months} from "../shared/vars";
+import {formatDate} from "../shared/shared.functions";
 
 export class DashboardModel {
     balance: BalanceModel;
@@ -39,6 +39,10 @@ export class TariffPlanModel {
     @Type(() => Date)
     expired: Date;
     sum: number;
+
+    get displayExpired() {
+        return formatDate(this.expired);
+    }
 }
 
 export class NumberModel {
@@ -86,11 +90,6 @@ export class CallDetailModel {
     list: CallDetailItem[] = [];
 
     get analyzeDate(): string {
-        const _date: Date = new Date();
-        return _date.getMonth() === this.date.getMonth() ?
-            _date.getDate() === this.date.getDate() ?
-                'Today' : _date.getDate() - 1 === this.date.getDate() ?
-                'Yesterday' : `${months[this.date.getMonth()]}/${this.date.getDate()}/${this.date.getFullYear()}`
-            : `${months[this.date.getMonth()]}/${this.date.getDate()}/${this.date.getFullYear()}`;
+        return formatDate(this.date);
     }
 }

@@ -40,7 +40,7 @@ export class TableComponent implements OnInit {
     @Output() onDropDownClick: EventEmitter<object> = new EventEmitter<object>();
     @Output() onPlayerClick: EventEmitter<object> = new EventEmitter<object>();
 
-    modal: ModalEx = new ModalEx('Are you sure?', 1);
+    modal: ModalEx = new ModalEx('Are you sure?', 'delete');
     selectedDelete: any;
     dropDirection = '';
 

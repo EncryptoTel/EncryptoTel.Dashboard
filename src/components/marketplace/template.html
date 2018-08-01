@@ -1,8 +1,7 @@
-<pbx-modal [modal]="modal"
-           (onConfirm)="modalConfirm()"
-           (onDecline)="modalDecline()">
-    <div style="font-size: 16px">Are you sure you want to buy this service?</div>
-</pbx-modal>
+<pbx-modal
+        [modalEx]="modal"
+        (onConfirmEx)="modalConfirm()"
+></pbx-modal>
 <div class="marketplace_wrap">
     <div *ngFor="let item of modules" class="marketplace_item color_{{item.color}}">
         <div class="marketplace_column">

@@ -5,7 +5,7 @@ export class PartnerProgramModel extends PageInfoModel {
 }
 
 export class PartnerProgramItem extends BaseItemModel {
-    public name: string;
+    public name: string = '';
     public refLink: string;
     public status: boolean;
 

@@ -4,6 +4,7 @@ import {MessageServices} from "../../services/message.services";
 import {SizePipe} from '../../services/size.pipe';
 import {ButtonItem, FilterItem, TableInfoExModel, TableInfoItem} from "../../models/base.model";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
+import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 
 @Component({
     selector: 'pbx-storage',
@@ -28,22 +29,17 @@ export class StorageComponent implements OnInit {
     table: TableInfoExModel = new TableInfoExModel();
 
     player = {item: [], current: null};
-    modal = {
-        visible: false,
-        text: '',
-        confirm: {type: 'error', value: 'Delete'},
-        decline: {type: 'cancel', value: 'Cancel'}
-    };
+    modal = new ModalEx('', 'deleteFiles');
     buttons: ButtonItem[] = [];
     filters: FilterItem[] = [];
 
-    constructor(private service: StorageService,
+    constructor(public service: StorageService,
                 private message: MessageServices,
                 private _size: SizePipe) {
         this.table.sort.isDown = false;
         this.table.sort.column = 'date';
         this.table.items.push(new TableInfoItem('Name', 'name', 'name'));
-        this.table.items.push(new TableInfoItem('Date', 'date', 'date', 168));
+        this.table.items.push(new TableInfoItem('Date', 'displayDateTime', 'date', 168));
         this.table.items.push(new TableInfoItem('Size, MB', 'size', 'size', 104));
 
 

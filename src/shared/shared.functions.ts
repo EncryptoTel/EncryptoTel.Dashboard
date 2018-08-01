@@ -3,6 +3,7 @@ import {plainToClass} from 'class-transformer';
 import {CountryModel} from '../models/country.model';
 import {CurrencyModel} from '../models/currency.model';
 import {ElementRef} from '@angular/core';
+import {DatePipe} from "@angular/common";
 
 export function getCountryById(id: number): CountryModel {
     const list: CountryModel[] = plainToClass(CountryModel, JSON.parse(localStorage.getItem('pbx_countries')));
@@ -46,26 +47,48 @@ export function calculateHeight(table: ElementRef, row: ElementRef, row2?: Eleme
 }
 
 export function compareValues(key: string, order: string = 'asc') {
-  return (a, b) => {
-      const varA = evalByKey(key, a);
-      const varB = evalByKey(key, b);
+    return (a, b) => {
+        const varA = evalByKey(key, a);
+        const varB = evalByKey(key, b);
 
-      let comparison = 0;
-      if (varA > varB) {
-          comparison = 1;
-      } 
-      else if (varA < varB) {
-          comparison = -1;
-      }
-      
-      return (order == 'desc') ? (comparison * -1) : comparison;
-  };
+        let comparison = 0;
+        if (varA > varB) {
+            comparison = 1;
+        }
+        else if (varA < varB) {
+            comparison = -1;
+        }
+
+        return (order == 'desc') ? (comparison * -1) : comparison;
+    };
 }
 
 export function evalByKey(key: string, variable: any): any {
-  var value = 0;
-  if(variable.hasOwnProperty(key)) {
-      value = (typeof variable[key] === 'string') ? variable[key].toUpperCase() : variable[key];
-  }
-  return value;
+    let value = 0;
+    if (variable.hasOwnProperty(key)) {
+        value = (typeof variable[key] === 'string') ? variable[key].toUpperCase() : variable[key];
+    }
+    return value;
 }
+
+export function formatDate(value: Date): string {
+    let datePipe = new DatePipe('en-US');
+    return datePipe.transform(value, 'MMM d, yyyy');
+}
+
+export function formatDateTime(value: Date): string {
+    let datePipe = new DatePipe('en-US');
+    return datePipe.transform(value, 'MMM d, yyyy hh:mm:ss');
+}
+
+export function getInterval(items, dateAttr, displayAttr) {
+    let max = null;
+    let min = null;
+    for (let i in items) {
+        let item = items[i];
+        min = !min || item[dateAttr] < min[dateAttr] ? item : min;
+        max = !max || item[dateAttr] > max[dateAttr] ? item : max;
+    }
+    return max && min ? `${min[displayAttr]} - ${max[displayAttr]}` : '';
+}
+

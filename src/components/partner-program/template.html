@@ -44,6 +44,7 @@
             *ngIf="tab.select==='Links' && this.selected"
             [sidebarInfo]="sidebar"
             (onClick)="click($event)"
+            [errors]="service.errors"
             [@Swipe]
     ></pbx-sidebar>
 </div>
