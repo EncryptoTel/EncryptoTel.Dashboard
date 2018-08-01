@@ -24,28 +24,28 @@
       <div class="header_button_wrap" [ngClass]="{'visible': headerButtonsVisible}">
         <div class="header_button phone" [ngClass]="{'active': activeButtonIndex === 0}"
              (click)="toggleActiveButton(0, $event)">
-          <svg-icon src="../../assets/icons/phone_16px.svg"></svg-icon>
+          <svg-icon src="../../assets/icons/_call_panel/dialer_24px.svg"></svg-icon>
           <div class="button_animation" *ngIf="activeButtonIndex === 0"></div>
         </div>
         <div class="header_button contacts" [ngClass]="{'active': activeButtonIndex === 1}"
              (click)="toggleActiveButton(1, $event)">
-          <svg-icon src="../../assets/icons/contacts.svg"></svg-icon>
+          <svg-icon src="../../assets/icons/_call_panel/contacts_24px.svg"></svg-icon>
           <div class="button_animation" *ngIf="activeButtonIndex === 1"></div>
         </div>
         <div class="header_button chat" [ngClass]="{'active': activeButtonIndex === 2}"
              (click)="toggleActiveButton(2, $event)">
-          <svg-icon src="../../assets/icons/chat.svg"></svg-icon>
+          <svg-icon src="../../assets/icons/_call_panel/chat_24px.svg"></svg-icon>
           <div class="button_animation" *ngIf="activeButtonIndex === 2"></div>
         </div>
         <div class="header_button notifications" [ngClass]="{'active': activeButtonIndex === 3}"
              (click)="toggleActiveButton(3, $event)">
-          <svg-icon src="../../assets/icons/notification_48px.svg"></svg-icon>
+          <svg-icon src="../../assets/icons/_call_panel/notification_24px.svg"></svg-icon>
           <div class="button_animation" *ngIf="activeButtonIndex === 3"></div>
         </div>
       </div>
       <div class="header_button_hide" (click)="toggleHeaderButtons($event)"
            [ngClass]="{'initial': headerButtonsVisible}">
-        <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+        <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
       </div>
       <div class="sidebar_wrap" [ngClass]="{'visible': headerButtonsVisible}"
            *ngIf="activeButtonIndex !== (null || undefined)" [@Swipe]>
@@ -63,7 +63,7 @@
            routerLinkActive="active"
            [ngClass]="['navigation_item', 'navigation-item-' + navigationItem.url]">
           <svg-icon class="navigation_item_icon"
-                    [src]="'../../assets/icons/' + navigationItem.icon + '.svg'"></svg-icon>
+                    [src]="'../../assets/icons/_menu/' + navigationItem.icon + '.svg'"></svg-icon>
           <div class="navigation_item_title">{{navigationItem.name}}</div>
         </a>
       </div>
