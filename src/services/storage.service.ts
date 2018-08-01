@@ -131,10 +131,10 @@ export class StorageService extends BaseService {
         }
     }
 
-    deleteById(id: number, callback = null, showMessage = true): Promise<any> {
+    deleteById(id: number, callback = null, ShowSuccess = true): Promise<any> {
         this.callback = callback;
         this.updateLoading(1);
-        return super.deleteById(id, showMessage).then(res => {
+        return super.deleteById(id, ShowSuccess).then(res => {
             if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);
             this.successCount++;
             this.updateLoading(-1);

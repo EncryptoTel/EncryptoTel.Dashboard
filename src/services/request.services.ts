@@ -91,7 +91,7 @@ export class RequestServices {
         return Promise.resolve(response.body); // Return response body to children method
     }
 
-    private catchError(response, showMessage = true): Promise<any> {
+    private catchError(response, ShowError = null): Promise<any> {
         this.endRequest();
         switch (response.status) { // Switch response error status
             case 401: {
@@ -103,8 +103,8 @@ export class RequestServices {
                 break;
             }
             default: {
-                if (!showMessage) {
-
+                if (ShowError && ShowError(response.error ? response.error : response)) {
+                    //error handled by caller
                 } else if (response.error && response.error.message) {
                     this._messages.writeError(response.error.message); // Adding warning message
                 } else if (response.message) {
@@ -144,8 +144,8 @@ export class RequestServices {
       Default GET request. Accepted params:
       URI: string - request uri with stringified params
      */
-    get(url: string, showMessage = true): Promise<any> {
-        return this.request('GET', url, null, showMessage);
+    get(url: string, ShowSuccess = true): Promise<any> {
+        return this.request('GET', url, null, ShowSuccess);
     }
 
     /*
@@ -156,12 +156,12 @@ export class RequestServices {
         return this.request('DELETE', url, null);
     }
 
-    request(method: string, url: string, body: any, showMessage = true): Promise<any> {
+    request(method: string, url: string, body: any, ShowSuccess = true, ShowError = null): Promise<any> {
         this.beginRequest();
         return this.http.request(method, `${_env.back}/${url}`, {body: body, observe: 'response'}).toPromise().then(response => {
             return this.catchSuccess(response);
         }).catch(response => {
-            return this.catchError(response, showMessage);
+            return this.catchError(response, ShowError);
         });
     }
 

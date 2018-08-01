@@ -35,8 +35,8 @@ export class SettingsService extends BaseService {
         return this.post(`${path}`, {settings: [{id: id, value: value}]});
     }
 
-    saveSettings(settings, path, showMessage = true): Promise<any> {
-        return this.post(`${path}`, {settings: settings}, showMessage);
+    saveSettings(settings, path, ShowSuccess = true): Promise<any> {
+        return this.post(`${path}`, {settings: settings}, ShowSuccess);
     }
 
     getSettingsParams(path: string): Promise<any> {

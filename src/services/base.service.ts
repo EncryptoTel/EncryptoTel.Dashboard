@@ -24,9 +24,9 @@ export class BaseService {
         return pageInfo;
     }
 
-    rawRequest(method: string, path: string, data: any): Promise<any> {
+    rawRequest(method: string, path: string, data: any, ShowSuccess = true, ShowError = null): Promise<any> {
         this.resetErrors();
-        return this.request.request(method, `${this.url}${path}`, data).then(res => {
+        return this.request.request(method, `${this.url}${path}`, data, ShowSuccess, ShowError).then(res => {
             return Promise.resolve(res);
         }).catch(res => {
             if (res.errors) {
@@ -40,25 +40,27 @@ export class BaseService {
         return this.rawRequest('GET', path, null);
     }
 
-    post(path: string, data: any, showMessage = true): Promise<any> {
-        return this.rawRequest('POST', path, {...data}).then((res) => {
-            if (showMessage) {
+    post(path: string, data: any, ShowSucess = true, ShowError = null): Promise<any> {
+        return this.rawRequest('POST', path, {...data}, ShowSucess, ShowError).then((res) => {
+            if (ShowSucess) {
                 this.message.writeSuccess(res.message ? res.message : 'Successfully created.');
             }
             return Promise.resolve(res);
         });
     }
 
-    put(path: string, data: any): Promise<any> {
-        return this.rawRequest('PUT', path, {...data}).then((res) => {
-            this.message.writeSuccess(res.message ? res.message : 'Successfully saved.');
+    put(path: string, data: any, ShowSucess = true, ShowError = null): Promise<any> {
+        return this.rawRequest('PUT', path, {...data}, ShowSucess, ShowError).then((res) => {
+            if (ShowSucess) {
+                this.message.writeSuccess(res.message ? res.message : 'Successfully saved.');
+            }
             return Promise.resolve(res);
         });
     }
 
-    delete(path: string, showMessage = true): Promise<any> {
+    delete(path: string, ShowSucess = true): Promise<any> {
         return this.rawRequest('DELETE', path, null).then((res) => {
-            if (showMessage) {
+            if (ShowSucess) {
                 this.message.writeSuccess(res.message ? res.message : 'Successfully deleted.');
             }
             return Promise.resolve(res);
@@ -69,12 +71,12 @@ export class BaseService {
         return this.get(`/${id}`);
     }
 
-    putById(id: number, data: any): Promise<any> {
-        return this.put(`/${id}`, data);
+    putById(id: number, data: any, ShowSuccess = true, ShowError = null): Promise<any> {
+        return this.put(`/${id}`, data, ShowSuccess, ShowError);
     }
 
-    deleteById(id: number, showMessage = true): Promise<any> {
-        return this.delete(`/${id}`, showMessage);
+    deleteById(id: number, ShowSucess = true): Promise<any> {
+        return this.delete(`/${id}`, ShowSucess);
     }
 
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<PageInfoModel> {

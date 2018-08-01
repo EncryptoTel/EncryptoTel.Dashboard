@@ -57,10 +57,18 @@ export class QueueCreateComponent implements OnInit {
 
     save(): void {
         this.saving++;
-        this.service.save(this.id).then(res => {
+        this.service.save(this.id, true, (res) => {
+            // console.log('save', res);
+            if (res && res.errors) {
+                if (res.errors.queueMembers) {
+                    this.message.writeError(this.form.selected === 'Members' ? 'You have not selected members' : 'You must select members');
+                }
+                return true;
+            }
+        }).then(() => {
             this.saving--;
             if (!this.id) this.cancel();
-        }).catch(res => {
+        }).catch(() => {
             this.saving--;
         });
     }
