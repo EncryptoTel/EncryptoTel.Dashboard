@@ -22,7 +22,7 @@ export class SettingsComponent {
         id: 1,
         available: true,
         icon: true,
-        src: '../../assets/icons/profile_48px.svg',
+        src: '../../assets/icons/_settings/profile_48px.svg',
         title: 'Profile',
         routerLink: 'profile'
       },
@@ -30,7 +30,7 @@ export class SettingsComponent {
         id: 2,
         available: true,
         icon: true,
-        src: '../../assets/icons/notifications.svg',
+        src: '../../assets/icons/_settings/notification_48px.svg',
         title: 'Notifications',
         routerLink: 'user-notifications'
       }
@@ -40,14 +40,14 @@ export class SettingsComponent {
         id: 1,
         value: 'light_theme',
         available: true,
-        src: '../../assets/icons/ok_32px.svg',
+        src: '../../assets/icons/_middle/_middle/ok_32px.svg',
         text: 'white'
       },
       {
         id: 2,
         value: 'dark_theme',
         available: true,
-        src: '../../assets/icons/ok_32px.svg',
+        src: '../../assets/icons/_middle/_middle/ok_32px.svg',
         text: 'black'
       }
     ],
@@ -80,7 +80,7 @@ export class SettingsComponent {
         id: 4,
         available: true,
         icon: true,
-        src: '../../assets/icons/billing_48px.svg',
+        src: '../../assets/icons/_settings/billing_48px.svg',
         title: 'Billing',
         routerLink: 'billing'
       },
@@ -88,7 +88,7 @@ export class SettingsComponent {
         id: 5,
         available: true,
         icon: true,
-        src: '../../assets/icons/backup_48px.svg',
+        src: '../../assets/icons/_settings/backup_48px.svg',
         title: 'Backup',
         routerLink: ''
       },
@@ -96,7 +96,7 @@ export class SettingsComponent {
         id: 6,
         available: true,
         icon: true,
-        src: '../../assets/icons/notifications.svg',
+        src: '../../assets/icons/_settings/notification_48px.svg',
         title: 'Notifications',
         routerLink: 'account-notifications'
       },
@@ -122,7 +122,7 @@ export class SettingsComponent {
         id: 1,
         available: true,
         icon: true,
-        src: '../../assets/icons/profile_48px.svg',
+        src: '../../assets/icons/_settings/profile_48px.svg',
         title: 'Profile',
         routerLink: 'profile'
       },
@@ -130,7 +130,7 @@ export class SettingsComponent {
         id: 2,
         available: true,
         icon: true,
-        src: '../../assets/icons/settings.svg',
+        src: '../../assets/icons/_menu/settings.svg',
         title: 'Security',
         routerLink: ''
       },
@@ -138,7 +138,7 @@ export class SettingsComponent {
         id: 3,
         available: true,
         icon: true,
-        src: '../../assets/icons/billing_48px.svg',
+        src: '../../assets/icons/_settings/billing_48px.svg',
         title: 'Billing',
         routerLink: 'billing'
       },
@@ -146,7 +146,7 @@ export class SettingsComponent {
         id: 4,
         available: true,
         icon: true,
-        src: '../../assets/icons/backup_48px.svg',
+        src: '../../assets/icons/_settings/backup_48px.svg',
         title: 'Backup',
         routerLink: ''
       },
@@ -154,7 +154,7 @@ export class SettingsComponent {
         id: 5,
         available: true,
         icon: true,
-        src: '../../assets/icons/notifications.svg',
+        src: '../../assets/icons/_settings/notification_48px.svg',
         title: 'Notifications',
         routerLink: 'user-notifications'
       },

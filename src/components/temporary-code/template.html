@@ -1,5 +1,5 @@
 <div class="auth_form">
-  <svg-icon src="/assets/icons/logo.svg" class="auth_form_icon"></svg-icon>
+  <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg" class="auth_form_icon"></svg-icon>
   <form (submit)="sendTemporaryPassword($event)" [formGroup]="temporaryCodeForm" (keyup)="clearMessage($event)">
     <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="_services.clearMessage()">{{message.message}}</div>
     <div class="input_wrap">

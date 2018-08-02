@@ -1,6 +1,6 @@
 <div class="auth_form">
   <a class="auth_form_icon_wrap auth_form_icon" [@Fade] routerLink="../sign-in">
-    <svg-icon [src]="'/assets/icons/logo.svg'" class="auth_form_icon"></svg-icon>
+    <svg-icon [src]="'/assets/icons/_logo/encryptotel_logo.svg'" class="auth_form_icon"></svg-icon>
   </a>
   <form (submit)="signUp($event)" [formGroup]="signUpForm" [@Fade] (keyup)="_services.clearMessage()">
     <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="_services.clearMessage()">{{message.message}}</div>
