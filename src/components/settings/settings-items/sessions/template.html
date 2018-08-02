@@ -1,5 +1,9 @@
-<pbx-list [pageInfo]="sessions"
-          [tableInfo]="table"
-          [buttons]="buttons"
-          [service]="service">
-</pbx-list>
+<pbx-list
+        [pageInfo]="sessions"
+        [tableInfo]="table"
+        [buttons]="buttons"
+        [service]="service"
+        [editable]="false"
+        [deletable]="false"
+        (onCreate)="back()"
+></pbx-list>
