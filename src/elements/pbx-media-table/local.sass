@@ -1,5 +1,9 @@
 @import '../../vars'
 
+\:host
+  width: 100%
+  margin-top: 10px
+
 .table
   &_head, &_body
     flex-direction: column
@@ -361,28 +365,3 @@
           height: 12px
         &.active
           background-color: $dark_accent
-
-vg-player
-  /* height: 21px */
-  height: 0px
-  position: absolute
-  top: -23px
-
-vg-play-pause,
-vg-playback-button,
-vg-time-display,
-vg-scrub-bar,
-vg-mute,
-vg-volume,
-vg-controls
-  height: 21px
-  font-size: 10px
-  line-height: 21px
-
-vg-volume .volumeKnob
-  width: 10px
-  height: 10px
-
-vg-volume .volumeBackground,
-vg-volume .volumeValue
-  height: 3px

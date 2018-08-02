@@ -19,6 +19,7 @@ export class MediaPlayerComponent implements OnChanges {
     
     @Input() mediaStream: string;
 
+    @Output() onPlayerReady: EventEmitter<VgAPI>;
     @Output() onTimeUpdate: EventEmitter<object>;
     @Output() onPlayEnd: EventEmitter<number>;
     @Output() onGetMediaData: EventEmitter<number>;
@@ -35,6 +36,7 @@ export class MediaPlayerComponent implements OnChanges {
 
     constructor() {
         this.selectedMediaId = 0;
+        this.onPlayerReady = new EventEmitter();
         this.onTimeUpdate = new EventEmitter();
         this.onPlayEnd = new EventEmitter();
         this.onGetMediaData = new EventEmitter();
@@ -51,7 +53,7 @@ export class MediaPlayerComponent implements OnChanges {
         }
     }
 
-    onPlayerReady(api: VgAPI): void {
+    playerReady(api: VgAPI): void {
         this.api = api;
         this.api.subscriptions.timeUpdate.subscribe(e => {
             this.onTimeUpdate.emit(this.api.currentTime);
@@ -60,6 +62,7 @@ export class MediaPlayerComponent implements OnChanges {
             this.onPlayEnd.emit(this.selectedMediaId);
             this.fireOnMediaStateChanged();
         });
+        this.onPlayerReady.emit(api);
     }
 
     fireOnMediaStateChanged(): void {

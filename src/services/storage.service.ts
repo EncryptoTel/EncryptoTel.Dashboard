@@ -150,12 +150,20 @@ export class StorageService extends BaseService {
         this.sort = sort;
         return super.getItems(pageInfo, filter, sort).then((res: StorageModel) => {
             this.pageInfo = this.plainToClassEx(StorageModel, StorageItem, res);
+            this.pageInfo.items.forEach((item: StorageItem) => {
+                item.record.playable = this.isRecordPlayable(item);
+                item.record.duration = item.duration;
+            });
             this.updateLoading(-1);
             return Promise.resolve(this.pageInfo);
-        }).catch(() => {
+        }).catch((error) => {
             this.updateLoading(-1);
-            return Promise.reject(this.pageInfo);
+            return Promise.reject(error);
         });
+    }
+
+    isRecordPlayable(item: StorageItem): boolean {
+        return item.fileSize > 0;
     }
 
     resetCount() {

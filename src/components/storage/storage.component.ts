@@ -2,9 +2,11 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {StorageService} from "../../services/storage.service";
 import {MessageServices} from "../../services/message.services";
 import {SizePipe} from '../../services/size.pipe';
-import {ButtonItem, FilterItem, TableInfoExModel, TableInfoItem} from "../../models/base.model";
+import {ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction} from "../../models/base.model";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
+import {StorageModel, StorageItem} from '../../models/storage.model';
+import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
 
 @Component({
     selector: 'pbx-storage',
@@ -14,6 +16,14 @@ import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 })
 
 export class StorageComponent implements OnInit {
+
+    pageInfo: StorageModel = new StorageModel();
+    table: TableInfoExModel = new TableInfoExModel();
+    loading: number = 0;
+    
+    @ViewChild('mediaTable') mediaTable: MediaTableComponent;
+
+    // --- old --------------------------------------------
 
     @ViewChild(ListComponent) list;
 
@@ -26,9 +36,9 @@ export class StorageComponent implements OnInit {
             ],
         select: {title: '', type: ''}
     };
-    table: TableInfoExModel = new TableInfoExModel();
 
     player = {item: [], current: null};
+    
     modal = new ModalEx('', 'deleteFiles');
     buttons: ButtonItem[] = [];
     filters: FilterItem[] = [];
@@ -36,12 +46,16 @@ export class StorageComponent implements OnInit {
     constructor(public service: StorageService,
                 private message: MessageServices,
                 private _size: SizePipe) {
+
         this.table.sort.isDown = false;
         this.table.sort.column = 'date';
         this.table.items.push(new TableInfoItem('Name', 'name', 'name'));
         this.table.items.push(new TableInfoItem('Date', 'displayDateTime', 'date', 168));
         this.table.items.push(new TableInfoItem('Size, MB', 'size', 'size', 104));
+        this.table.items.push(new TableInfoItem('Record', 'record', null, 200, 0));
+        this.table.actions.push(new TableInfoAction(1, 'player', 175));
 
+        // --- old --------------------------------------------
 
         this.buttons.push({
             id: 0,
@@ -50,10 +64,46 @@ export class StorageComponent implements OnInit {
             visible: false,
             inactive: false,
         });
+        
         this.filters.push(new FilterItem(1, 'type', 'Select Source:', [
             {id: 'audio', title: 'Audio'}
         ], 'title'));
+        
         this.filters.push(new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'));
+    }
+
+    ngOnInit() {
+        this.pageInfo.limit = Math.floor((window.innerHeight - 180) / 48);
+        this.getItems();
+    }
+
+    private getItems(): void {
+        this.loading ++;
+        // let tags = this.tagSelector.selectedTags.map(t => {
+        //     return t.key;
+        // });
+        this.service.getItems(this.pageInfo, null, this.table.sort).then(result => {
+            this.pageInfo = result;
+            this.loading --;
+        }).catch((error) => {
+            console.log('get items failed', error);
+            this.loading --;
+        });
+    }
+
+    getMediaData(item: StorageItem): void {
+        item.record.mediaLoading = true;
+
+        this.service.getMediaData(item.id)
+            .then(result => {
+                item.record.mediaStream = result.fileLink;
+                this.mediaTable.setMediaData(item);
+            })
+            .catch(error => {
+                console.log(error);
+                item.record.mediaLoading = false;
+                item.record.playable = false;
+            });
     }
 
     updateLoading(loading, deleting = false) {
@@ -170,9 +220,4 @@ export class StorageComponent implements OnInit {
         this.buttons[0].visible = this.service.pageInfo.itemsCount > 0;
         this.buttons[0].inactive = true;
     }
-
-    ngOnInit(): void {
-
-    }
-
 }

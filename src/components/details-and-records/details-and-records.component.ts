@@ -30,8 +30,6 @@ export class DetailsAndRecordsComponent implements OnInit {
     cdrSubscription: Subscription;
     table: TableInfoExModel = new TableInfoExModel();
 
-    // dropDirection: string = 'bottom';
-
     tags: TagModel[];
 
     @ViewChild('mediaTable') mediaTable: MediaTableComponent;

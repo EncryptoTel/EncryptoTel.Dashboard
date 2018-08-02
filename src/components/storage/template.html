@@ -1,6 +1,6 @@
 <div class="store">
-    <pbx-list
-            style="width: 100%"
+    <pbx-list *ngIf="false"
+            style="width: 100%;"
             [(pageInfo)]="service.pageInfo"
             [tableInfo]="table"
             [buttons]="buttons"
@@ -18,6 +18,23 @@
             (onSelect)="selectItem($event.id)"
             [service]="service">
     </pbx-list>
+
+    <pbx-media-table
+        *ngIf="!loading"
+        #mediaTable
+        [tableInfoEx]="table"
+        [tableItems]="pageInfo.items"
+        [editable]="false"
+        [deletable]="false"
+        (onGetMediaData)="getMediaData($event)"
+        (onPageChangeEx)="getItems()"
+        (onSort)="getItems()">
+    </pbx-media-table>
+
+    <pbx-loader *ngIf="loading"></pbx-loader>
+
+    <pbx-pagination [pageInfo]="pageInfo" (onPageChangeEx)="getItems()" style="position: absolute; height: 0px; bottom: 65px;"></pbx-pagination>
+
     <pbx-sidebar *ngIf="source.select.type!=='trash'">
         <div class="store_sidebar_audio" (drop)="dropHandler($event)"
              (dragover)="dragOverHandler($event)"

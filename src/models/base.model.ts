@@ -1,3 +1,5 @@
+import {Subscription} from "../../node_modules/rxjs/Subscription";
+
 export class PageInfoModel {
     public itemsCount: number;
     public page: number;
@@ -199,5 +201,21 @@ export class InputAction {
         this.type = type;
         this.objects = objects;
     }
+}
 
+export class PlayerModel {
+    public animationState: string = 'min';
+    public expanded: boolean = false;
+}
+
+export class RecordModel {
+    public playing: boolean = false;
+    public playable: boolean = false;
+    public duration: number = 0;
+    public mediaStream: string = null;
+    public mediaStreamId: number = 0;
+    public mediaLoading: boolean = false;
+    public mediaPlayTime: number = 0;
+    public onTimeChange: Subscription = null;
+    public onPlayEnd: Subscription = null;
 }

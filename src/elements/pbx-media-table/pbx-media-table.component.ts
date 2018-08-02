@@ -7,7 +7,6 @@ import {TableComponent} from "../pbx-table/pbx-table.component";
 import {FadeAnimation} from "../../shared/fade-animation";
 import {PlayerAnimation} from "../../shared/player-animation";
 import {MediaTablePlayerComponent} from "../pbx-media-table-player/pbx-media-table-player.component";
-import {CdrItem} from "../../models/cdr.model";
 
 @Component({
     selector: 'pbx-media-table',
@@ -29,7 +28,7 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
     // @ViewChild(VgHLS) vgHls: VgHLS;
     api: VgAPI;
 
-    @Output() onGetMediaData: EventEmitter<CdrItem> = new EventEmitter<CdrItem>();
+    @Output() onGetMediaData: EventEmitter<any> = new EventEmitter<any>();
 
     // - component level methdos --------------------------
 
@@ -37,6 +36,7 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
     
     ngOnChanges(changes: SimpleChanges) {
         if (changes.tableItems) {
+            console.log('tableItems loaded', changes.tableItems);
             this.subscribePlayerEvents();
         }
     }
@@ -53,7 +53,7 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
     subscribePlayerEvents(): void {
         this._itemsSubscribed = false;
         if (this.api) {
-            this.tableItems.forEach((item: CdrItem) => {
+            this.tableItems.forEach((item: any) => {
                 item.record.onTimeChange = this.api.subscriptions.timeUpdate.subscribe((e) => {
                     if (item.record.playing) {
                         item.record.mediaPlayTime = this.api.currentTime;
@@ -73,7 +73,7 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
         }
     }
 
-    startMediaPlaying(item: CdrItem, forceTimeSeek?: boolean): void {
+    startMediaPlaying(item: any, forceTimeSeek?: boolean): void {
         if (!item.record.playable) return;
 
         if (item.record.mediaPlayTime >= item.record.duration) {
@@ -89,7 +89,7 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
         item.record.playing = true;
     }
 
-    stopMediaPlaying(item: CdrItem): void {
+    stopMediaPlaying(item: any): void {
         if (!item || !item.record.playable) return;
 
         this.api.pause();
@@ -97,7 +97,7 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
         item.record.playing = false;
     }
 
-    togglePlay(item: CdrItem): void {
+    togglePlay(item: any): void {
         if (!item.record.playable) return;
 
         if (item == this._selectedItem) {
@@ -130,11 +130,11 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
         }
     }
     
-    loadMediaData(item: CdrItem): void {
+    loadMediaData(item: any): void {
         this.onGetMediaData.emit(item);
     }
 
-    setMediaData(item: CdrItem): void {
+    setMediaData(item: any): void {
         if (item == this._selectedItem) {
             this.startPlayRecord();
         }

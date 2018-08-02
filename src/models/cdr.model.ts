@@ -1,7 +1,6 @@
-import {BaseItemModel, PageInfoModel} from "./base.model";
+import {BaseItemModel, PageInfoModel, PlayerModel, RecordModel} from "./base.model";
 import {Type} from "class-transformer";
 import {formatDate, formatDateTime} from "../shared/shared.functions";
-import { Subscription } from "rxjs/Subscription";
 
 export class CdrModel extends PageInfoModel {
     items: CdrItem[];
@@ -95,23 +94,6 @@ export class CdrMediaInfo {
     md5: string;
     originalFileName: string;
     type: string;
-}
-
-export class PlayerModel {
-    public animationState: string = 'min';
-    public expanded: boolean = false;
-}
-
-export class RecordModel {
-    public playing: boolean = false;
-    public playable: boolean = false;
-    public duration: number = 0;
-    public mediaStream: string = null;
-    public mediaStreamId: number = 0;
-    public mediaLoading: boolean = false;
-    public mediaPlayTime: number = 0;
-    public onTimeChange: Subscription = null;
-    public onPlayEnd: Subscription = null;
 }
 
 export enum MediaState {
