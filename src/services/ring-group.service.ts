@@ -13,6 +13,7 @@ export class RingGroupService extends BaseQueueService {
 
     getItem(id: number): Promise<any> {
         return this.getById(id).then(res => {
+            this.item.id = res.id;
             this.item.sipId = res.sip.id;
             this.item.name = res.name;
             this.item.strategy = res.strategy;
