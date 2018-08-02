@@ -25,7 +25,7 @@ export class LocalStorageServices {
         if (data) {
             return JSON.parse(data);
         } else {
-            this.logger.log(`Reading storage item ${name}`, `Item with name '${name}' was not found at storage`);
+            // this.logger.log(`Reading storage item ${name}`, `Item with name '${name}' was not found at storage`);
             return null;
         }
     }

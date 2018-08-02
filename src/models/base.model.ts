@@ -148,6 +148,14 @@ export class ButtonItem {
     type: string;
     visible: boolean;
     inactive: boolean;
+
+    constructor(id?: number, title?: string, type?: string, visible?: boolean, inactive?: boolean) {
+        this.id = id;
+        this.title = title;
+        this.type = type;
+        this.visible = visible;
+        this.inactive = inactive;
+    }
 }
 
 export class FilterItem {

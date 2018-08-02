@@ -85,7 +85,7 @@ export class IndexComponent implements OnInit, OnDestroy {
             //   navigationItem['status'] = resultItem.status;
             //   navigationItem['visible'] = resultItem.visible;
             // });
-        }).then(() => this.completedRequests++);
+        }).then(() => this.completedRequests++).catch();
     }
 
     toggleActiveButton(ix: number, ev: MouseEvent): void {

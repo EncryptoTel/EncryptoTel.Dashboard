@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {RequestServices} from './request.services';
 import {BaseService} from "./base.service";
 
 @Injectable()
@@ -27,12 +26,6 @@ export class SettingsService extends BaseService {
 
     getQRCode(): Promise<any> {
         return this.get('/account/auth/get-qr-code');
-    }
-
-    saveSetting(id, value, path): Promise<any> {
-        const data = {};
-        data[id] = value;
-        return this.post(`${path}`, {settings: [{id: id, value: value}]});
     }
 
     saveSettings(settings, path, ShowSuccess = true): Promise<any> {

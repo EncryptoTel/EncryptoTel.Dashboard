@@ -58,7 +58,7 @@ export class SettingsComponent {
         icon: false,
         src: '',
         title: 'Active sessions',
-        routerLink: ''
+        routerLink: 'sessions'
       },
       {
         id: 2,

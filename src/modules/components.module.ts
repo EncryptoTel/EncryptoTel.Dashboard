@@ -68,6 +68,7 @@ import {VgBufferingModule} from 'videogular2/buffering';
 import {VgStreamingModule} from 'videogular2/streaming';
 import {RefComponent} from "../components/confirmation/ref.component";
 import {BaseComponent} from "../elements/pbx-component/pbx-component.component";
+import {SessionsComponent} from "../components/settings/settings-items/sessions/sessions.component";
 
 /*
   Components declarations and exports
@@ -145,7 +146,8 @@ import {BaseComponent} from "../elements/pbx-component/pbx-component.component";
         IvrComponent,
         IvrCreateComponent,
         BaseSettingsComponent,
-        RefComponent
+        RefComponent,
+        SessionsComponent
     ],
     exports: [
         BaseComponent,
@@ -193,7 +195,8 @@ import {BaseComponent} from "../elements/pbx-component/pbx-component.component";
         IvrComponent,
         IvrCreateComponent,
         BaseSettingsComponent,
-        RefComponent
+        RefComponent,
+        SessionsComponent
     ]
 })
 export class ComponentsModule {

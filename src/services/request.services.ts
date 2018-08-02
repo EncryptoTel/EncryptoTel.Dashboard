@@ -91,7 +91,7 @@ export class RequestServices {
         return Promise.resolve(response.body); // Return response body to children method
     }
 
-    private catchError(response, ShowError = null): Promise<any> {
+    private catchError(method: string, url: string, response, ShowError = null): Promise<any> {
         this.endRequest();
         switch (response.status) { // Switch response error status
             case 401: {
@@ -116,6 +116,8 @@ export class RequestServices {
             }
         }
         this.logger.log('request error', { // Console output for response error details
+            method: method,
+            url: url,
             status: response.status || 'Response status is empty',
             message: response.error.message || 'Unknown internal server error'
         });
@@ -161,7 +163,7 @@ export class RequestServices {
         return this.http.request(method, `${_env.back}/${url}`, {body: body, observe: 'response'}).toPromise().then(response => {
             return this.catchSuccess(response);
         }).catch(response => {
-            return this.catchError(response, ShowError);
+            return this.catchError(method, url, response, ShowError);
         });
     }
 
