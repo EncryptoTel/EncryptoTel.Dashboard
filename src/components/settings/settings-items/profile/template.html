@@ -110,3 +110,33 @@
         </form>
     </div>
 </pbx-form>
+
+<div class="profile_settings">
+
+    <div class="grey"></div>
+
+    <div class="img_wrap">
+
+    </div> <!-- img_wrap -->
+
+    <div class="grey"></div>
+    
+    <div class="store">
+    <pbx-sidebar>
+        <div class="store_sidebar_audio" (drop)="dropHandler($event)"
+                (dragover)="dragOverHandler($event)"
+                (dragend)="dragEndHandler($event)"
+                (dragleave)="dragLeaveHandler($event)">
+            <div class="store_sidebar_audio_icon">
+                <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
+            </div>
+            <div class="store_sidebar_audio_text">Drop files here to upload</div>
+            <div class="store_sidebar_audio_text">or</div>
+            <div class="store_sidebar_audio_select hidden_button_wrapper">
+                <p class="select_file">select files</p>
+                <input type="file" class="hidden_input" #fileInput (change)="sendFile($event)">
+            </div>
+        </div>
+    </pbx-sidebar>
+    </div>
+</div> <!-- profile_settings -->
