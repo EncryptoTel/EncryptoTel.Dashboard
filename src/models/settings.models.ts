@@ -11,6 +11,7 @@ export class SessionItem extends BaseItemModel {
     ip: string;
     userAgent: string;
     userToken: string;
+    session: string;
     @Type(() => Date)
     expires: Date;
     active: boolean;

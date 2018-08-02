@@ -22,7 +22,7 @@ export class SessionsComponent extends BaseComponent implements OnInit {
     constructor(public service: SessionsService,
                 private router: Router) {
         super();
-        this.table.items.push(new TableInfoItem('User Token', 'userToken', null, 300));
+        this.table.items.push(new TableInfoItem('Session', 'session'));
         this.table.items.push(new TableInfoItem('IP', 'ip'));
         this.table.items.push(new TableInfoItem('Country', 'country'));
         this.table.items.push(new TableInfoItem('Expires At', 'displayExpires'));
