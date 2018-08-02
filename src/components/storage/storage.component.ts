@@ -22,6 +22,7 @@ export class StorageComponent implements OnInit {
     loading: number = 0;
     
     @ViewChild('mediaTable') mediaTable: MediaTableComponent;
+    islist: boolean = false;
 
     // --- old --------------------------------------------
 
