@@ -206,3 +206,30 @@ textarea
   align-items: center
   span:nth-child(2)
     margin-left: 4px
+
+.input_icon
+  height: rem(16)
+  width: rem(16)
+  padding: rem(2)
+  opacity: 0.5
+  cursor: pointer
+  /deep/ *
+    cursor: pointer
+  &:hover
+    opacity: 1
+  svg-icon
+    flex: 1
+  &.plus /deep/ .st1
+    fill: $dark_success
+  &.delete /deep/ polygon
+    fill: $dark_error
+  &_wrap
+    flex-direction: column
+    width: rem(40)
+    justify-content: space-around
+    align-items: center
+  &_minus
+    width: rem(12)
+    height: rem(1)
+    margin: auto
+    background: $dark_error

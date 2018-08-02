@@ -1,8 +1,8 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {FormArray, FormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {SwipeAnimation} from "../../shared/swipe-animation";
-import {FilterItem} from "../../models/base.model";
+import {FilterItem, InputAction} from "../../models/base.model";
 
 @Component({
     selector: 'pbx-input',
@@ -43,6 +43,8 @@ export class InputComponent implements OnInit {
     @Input() inputWidth: number;
     @Input() inputCenter: boolean;
     @Input() filter: FilterItem;
+    @Input() actions: InputAction[] = [];
+    @Input() formBuilder: FormBuilder;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -59,7 +61,6 @@ export class InputComponent implements OnInit {
     loading = 0;
 
     constructor() {
-
     }
 
     setFocus(): void {
@@ -277,6 +278,17 @@ export class InputComponent implements OnInit {
         this.hoverActive = false;
     }
 
+    actionAdd(action: InputAction) {
+        if (this.formBuilder) {
+            action.objects.push(this.formBuilder.control('', []));
+        }
+    }
+
+    actionDelete(action: InputAction, index: number) {
+        if (this.formBuilder) {
+            action.objects.removeAt(index);
+        }
+    }
 
     ngOnInit() {
         this.loading++;

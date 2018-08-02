@@ -180,3 +180,16 @@ export class FilterItem {
         this.max = max;
     }
 }
+
+export class InputAction {
+    id: number;
+    type: string; //add-delete
+    objects: any;
+
+    constructor(id: number, type: string, objects?: any) {
+        this.id = id;
+        this.type = type;
+        this.objects = objects;
+    }
+
+}

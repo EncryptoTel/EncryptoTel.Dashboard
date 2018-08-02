@@ -8,7 +8,7 @@ import {validateForm} from '../../shared/shared.functions';
 import {RefsServices} from '../../services/refs.services';
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
 import {CompanyService} from "../../services/company.service";
-import {ButtonItem} from "../../models/base.model";
+import {ButtonItem, InputAction} from "../../models/base.model";
 
 
 @Component({
@@ -41,9 +41,10 @@ export class DepartmentsComponent implements OnInit {
     pageInfo: DepartmentModel = new DepartmentModel();
     companyActive = false;
     buttons: ButtonItem[] = [];
+    phoneActions: InputAction[] = [];
 
     constructor(public service: DepartmentService,
-                private fb: FormBuilder,
+                public fb: FormBuilder,
                 private refs: RefsServices,
                 private company: CompanyService) {
 
@@ -61,12 +62,17 @@ export class DepartmentsComponent implements OnInit {
             sipInner: this.fb.array([])
         });
 
+        this.phoneActions.push(new InputAction(1, 'add-delete', this.sipInners()));
+
+    }
+
+    sipInners() {
+        return this.departmentForm.get('sipInner') as FormArray;
     }
 
     addPhone(): void {
-        const sips = this.departmentForm.get('sipInner') as FormArray;
-        if (sips.valid && (this.selectedSips.length < this.sips.length)) {
-            sips.push(this.createPhoneField());
+        if (this.sipInners().valid && (this.selectedSips.length < this.sips.length)) {
+            this.sipInners().push(this.createPhoneField());
         }
     }
 
