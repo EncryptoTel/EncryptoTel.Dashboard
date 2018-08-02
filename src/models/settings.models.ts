@@ -13,6 +13,7 @@ export class SessionItem extends BaseItemModel {
     userToken: string;
     @Type(() => Date)
     expires: Date;
+    active: boolean;
 
     get displayExpires() {
         return formatDateTime(this.expires);

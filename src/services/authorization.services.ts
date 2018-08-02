@@ -55,11 +55,9 @@ export class AuthorizationServices {
       Data - sign in form values
      */
     signIn(data: SignInFormModel) {
-        return this._req.post('login', {
-            ...data
-        }).then(result => {
+        return this._req.post('login', {...data}).then(result => {
             if (result && !result.auth) {
-                this._services.saveUserData({secrets: result, image: 'http://via.placeholder.com/100x100'});
+                this._services.saveUserData({secrets: this._req.getSecrets(result)});
                 let URL = this.storage.readItem('pbx_url');
                 if (URL && URL.startsWith('/cabinet/')) {
                     this.router.navigateByUrl(URL);

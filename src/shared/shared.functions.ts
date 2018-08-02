@@ -78,7 +78,7 @@ export function formatDate(value: Date): string {
 
 export function formatDateTime(value: Date): string {
     let datePipe = new DatePipe('en-US');
-    return datePipe.transform(value, 'MMM d, yyyy hh:mm:ss');
+    return datePipe.transform(value, 'MMM d, yyyy HH:mm:ss');
 }
 
 export function getInterval(items, dateAttr, displayAttr) {

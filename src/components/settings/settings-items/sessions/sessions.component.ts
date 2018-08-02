@@ -26,6 +26,7 @@ export class SessionsComponent extends BaseComponent implements OnInit {
         this.table.items.push(new TableInfoItem('IP', 'ip'));
         this.table.items.push(new TableInfoItem('Country', 'country'));
         this.table.items.push(new TableInfoItem('Expires At', 'displayExpires'));
+        this.table.items.push(new TableInfoItem('Active', 'active', null, 80));
         // this.table.items.push(new TableInfoItem('User Agent', 'userAgent'));
         this.buttons.push(new ButtonItem(0, 'Back', 'cancel', true));
     }

@@ -23,12 +23,14 @@ export class RequestServices {
         this.lastTick = null;
         this.setTimer();
     }
+
     private logoutSub: Subject<any> = new Subject<any>();
 
     protected counter = 0;
     protected lastCounter = 0;
     protected timer = null;
     protected lastTick;
+    protected expiresIn;
 
     protected beginRequest() {
         this.counter += 1;
@@ -52,15 +54,35 @@ export class RequestServices {
         return user['secrets']['refresh_token'];
     }
 
+    public getSecrets(secrets) {
+        // console.log(secrets);
+        let result = {
+            access_token: secrets.access_token,
+            refresh_token: secrets.refresh_token,
+            expires_in: secrets.expires_in,
+            updated_at: new Date().getTime()
+        };
+        // console.log(JSON.stringify(result));
+        return result;
+    }
+
     protected updateSecrets(secrets) {
         const user = this.storage.readItem('pbx_user');
-        user['secrets'] = secrets;
+        user['secrets'] = this.getSecrets(secrets);
         this.storage.writeItem('pbx_user', user);
     }
 
     public updateTick() {
         if (!this.lastTick) {
-            this.lastTick = new Date();
+            const user = this.storage.readItem('pbx_user');
+            if (user && user['secrets'] && user['secrets']['updated_at']) {
+                this.lastTick = new Date(user['secrets']['updated_at']);
+                this.expiresIn = user['secrets']['expires_in'];
+                // console.log('lastTick', this.lastTick);
+            } else {
+                this.lastTick = new Date();
+                this.expiresIn = 3600;
+            }
         }
     }
 
@@ -70,7 +92,7 @@ export class RequestServices {
             if (this.lastTick) {
                 let currentTick = new Date();
                 let ticksBetween = Math.round((currentTick.getTime() - this.lastTick.getTime()) / 1000);
-                if (this.lastCounter != this.counter && ticksBetween > 5 * 60) {
+                if (this.lastCounter != this.counter && ticksBetween > 5 * this.expiresIn / 5) {
                     let token = this.getRefreshToken();
                     if (token) {
                         this.post(`refresh-token`, {refresh_token: token}).then(res => {
@@ -160,7 +182,10 @@ export class RequestServices {
 
     request(method: string, url: string, body: any, ShowSuccess = true, ShowError = null): Promise<any> {
         this.beginRequest();
-        return this.http.request(method, `${_env.back}/${url}`, {body: body, observe: 'response'}).toPromise().then(response => {
+        return this.http.request(method, `${_env.back}/${url}`, {
+            body: body,
+            observe: 'response'
+        }).toPromise().then(response => {
             return this.catchSuccess(response);
         }).catch(response => {
             return this.catchError(method, url, response, ShowError);

@@ -40,7 +40,7 @@ export class UserServices {
     /*
       Saving user data
      */
-    saveUserData = (user: UserModel): void => {
+    saveUserData = (user): void => {
         this._storage.writeItem('pbx_user', user);
         this.touchUser();
     }
