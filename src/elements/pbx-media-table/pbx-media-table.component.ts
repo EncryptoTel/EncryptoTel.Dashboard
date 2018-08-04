@@ -1,4 +1,4 @@
-import {Component, PipeTransform, Pipe, ViewChild, ViewChildren, QueryList, Output, EventEmitter, OnChanges, SimpleChanges} from "@angular/core";
+import {Component, PipeTransform, Pipe, ViewChild, ViewChildren, QueryList, Output, EventEmitter, OnChanges, SimpleChanges, Input} from "@angular/core";
 import {Subscription} from "rxjs/Subscription";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
 import {VgAPI} from "videogular2/core";
@@ -28,7 +28,10 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
     // @ViewChild(VgHLS) vgHls: VgHLS;
     api: VgAPI;
 
+    @Input() selectedItems: any[];
+
     @Output() onGetMediaData: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onSelect: EventEmitter<any> = new EventEmitter<any>();
 
     // - component level methdos --------------------------
 
@@ -36,12 +39,22 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
     
     ngOnChanges(changes: SimpleChanges) {
         if (changes.tableItems) {
-            console.log('tableItems loaded', changes.tableItems);
             this.subscribePlayerEvents();
         }
     }
 
-    // - media player properties --------------------------
+    // - selection methods --------------------------------
+
+    selectItem(item: any): void {
+        this.onSelect.emit(item);
+    }
+
+    isItemSelected(item: any): boolean {
+        // console.log('is', this.selectedItems);
+        return this.selectedItems.some(i => i == item.id);
+    }
+
+    // - media player methods -----------------------------
 
     onPlayerReady(api: VgAPI): void {
         this.api = api;

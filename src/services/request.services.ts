@@ -182,6 +182,7 @@ export class RequestServices {
 
     request(method: string, url: string, body: any, ShowSuccess = true, ShowError = null): Promise<any> {
         this.beginRequest();
+        console.log('request', `${_env.back}/${url}`);
         return this.http.request(method, `${_env.back}/${url}`, {
             body: body,
             observe: 'response'

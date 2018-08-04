@@ -73,23 +73,21 @@ export class BaseService {
         return this.get(`/${id}`);
     }
 
-    putById(id: number, data: any, ShowSuccess = true, ShowError = null): Promise<any> {
-        return this.put(`/${id}`, data, ShowSuccess, ShowError);
+    putById(id: number, data: any, showSuccess = true, showError = null): Promise<any> {
+        return this.put(`/${id}`, data, showSuccess, showError);
     }
 
-    deleteById(id: number, ShowSucess = true): Promise<any> {
-        return this.delete(`/${id}`, ShowSucess);
+    deleteById(id: number, showSucess = true): Promise<any> {
+        return this.delete(`/${id}`, showSucess);
     }
 
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<PageInfoModel> {
         let url = `?page=${pageInfo.page}&limit=${pageInfo.limit}`;
         if (filter) {
             let keys = Object.keys(filter);
-            for (let i = 0; i < keys.length; i++) {
-                if (filter[keys[i]]) {
-                    url = `${url}&filter[${keys[i]}]=${filter[keys[i]]}`;
-                }
-            }
+            keys.forEach(key => {
+                if (filter[key]) url = `${url}&filter[${key}]=${filter[key]}`;
+            });
         }
         if (sort) {
             url = `${url}&sort[${sort.column}]=${sort.isDown ? 'desc' : 'asc'}`;

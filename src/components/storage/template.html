@@ -13,13 +13,21 @@
             key="storage"
             name="Storage"
             buttonTitle="Delete Selected"
-            (onLoad)="load()"
+            (onLoad)="onMediaDataLoaded()"
             (onCreate)="deleteSelected()"
-            (onSelect)="selectItem($event.id)"
+            (onSelect)="selectItem($event)"
             [service]="service">
     </pbx-list>
 
     <div class="media-table-wrapper" *ngIf="!islist">
+        <pbx-header [buttons]="buttons"
+                    [filters]="filters"
+                    (onClick)="create()"
+                    (onUpdate)="updateFilter($event)"
+                    (onReload)="reloadFilter($event)"
+                    [inactive]="loading || loadingEx">
+        </pbx-header>
+
         <pbx-media-table
             *ngIf="!loading"
             #mediaTable
@@ -27,17 +35,24 @@
             [tableItems]="pageInfo.items"
             [editable]="false"
             [deletable]="false"
+            [selectedItems]="service.select"
             (onGetMediaData)="getMediaData($event)"
             (onPageChangeEx)="getItems()"
-            (onSort)="getItems()">
+            (onSort)="getItems()"
+            (onSelect)="selectItem($event)">
         </pbx-media-table>
 
         <pbx-loader *ngIf="loading"></pbx-loader>
 
+        <div class="media-table-message" *ngIf="!loading && activeFilter && pageInfo.itemsCount === 0">
+            Nothing found
+        </div>
+
         <pbx-pagination [pageInfo]="pageInfo" (onPageChangeEx)="getItems()"></pbx-pagination>
     </div>
-    <pbx-sidebar *ngIf="source.select.type!=='trash'">
-        <div class="store_sidebar_audio" (drop)="dropHandler($event)"
+    <pbx-sidebar *ngIf="source.select.type != 'trash'">
+        <div class="store_sidebar_audio" 
+             (drop)="dropHandler($event)"
              (dragover)="dragOverHandler($event)"
              (dragend)="dragEndHandler($event)"
              (dragleave)="dragLeaveHandler($event)">
@@ -53,6 +68,12 @@
         </div>
     </pbx-sidebar>
 </div>
-<pbx-modal [modalEx]="modal" (onConfirmEx)="doDeleteSelected()"></pbx-modal>
-<pbx-modal [modalEx]="service.modalUpload" (onConfirmEx)="service.doUploadAction($event)"
-           (onDecline)="service.cancelUploadAction()"></pbx-modal>
+<pbx-modal 
+    [modalEx]="modal"
+    (onConfirmEx)="deleteConfirmed()">
+</pbx-modal>
+<pbx-modal
+    [modalEx]="service.modalUpload"
+    (onConfirmEx)="service.doUploadAction($event)"
+    (onDecline)="service.cancelUploadAction()">
+</pbx-modal>
