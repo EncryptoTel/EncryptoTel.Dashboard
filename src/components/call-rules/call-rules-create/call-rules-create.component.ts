@@ -376,29 +376,35 @@ export class CallRulesCreateComponent implements OnInit {
         return key;
     }
 
-    uploadFile(e) {
-        e.preventDefault();
-        const files = e.target.files;
-        if (files[0]) {
-            if (this.storage.checkCompatibleType(files[0])) {
-                this.storage.checkFileExists(files[0], () => {
-                    if (!this.storage.loading) this.refreshFiles();
-                });
-            } else {
+    uploadFile(event: any): void {
+        event.preventDefault();
+        const file = event.target.files[0];
+        if (file) {
+            if (this.storage.checkCompatibleType(file)) {
+                this.storage.checkFileExists(
+                    file,
+                    (loading) => {
+                        if (!this.storage.loading) this.refreshFiles(loading);
+                    });
+            }
+            else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
             }
             this.storage.checkModal();
         }
     }
 
-    refreshFiles() {
-        this.storage.loading++;
-        this.service.getFiles().then((res) => {
-            this.files = res.items;
-            this.storage.loading--;
-        }).catch(err => {
-            this.storage.loading--;
-        });
+    refreshFiles(loading: number): void {
+        if (!loading) {
+            this.storage.loading ++;
+            this.service.getFiles()
+                .then((result) => {
+                    this.files = result.items;
+                    this.storage.loading --;
+                }).catch(error => {
+                    this.storage.loading --;
+                });
+        }
     }
 
     togglePlay(i: number): void {
