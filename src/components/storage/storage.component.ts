@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { StorageService } from "../../services/storage.service";
-import { MessageServices } from "../../services/message.services";
 import { MediaTableComponent } from '../../elements/pbx-media-table/pbx-media-table.component';
-import { ListComponent } from "../../elements/pbx-list/pbx-list.component";
 import { ModalEx } from "../../elements/pbx-modal/pbx-modal.component";
 import { SizePipe } from '../../services/size.pipe';
+import { StorageService } from "../../services/storage.service";
+import { MessageServices } from "../../services/message.services";
 import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from "../../models/base.model";
 import { StorageModel, StorageItem } from '../../models/storage.model';
 
@@ -26,7 +25,6 @@ export class StorageComponent implements OnInit {
     
     @ViewChild('mediaTable')
     public mediaTable: MediaTableComponent;
-    public islist: boolean = false;
 
     public modal: ModalEx;
 
@@ -34,9 +32,6 @@ export class StorageComponent implements OnInit {
     public source = {
         select: {title: '', type: ''}
     };
-
-    // --- old --------------------------------------------
-    @ViewChild(ListComponent) list;
 
     // --- component methods ------------------------------
 
@@ -111,7 +106,6 @@ export class StorageComponent implements OnInit {
                 this.mediaTable.setMediaData(item);
             })
             .catch(error => {
-                console.log(error);
                 item.record.mediaLoading = false;
                 item.record.playable = false;
             });
@@ -119,20 +113,19 @@ export class StorageComponent implements OnInit {
 
     onMediaDataLoaded(): void {
         this.service.select = [];
-        this.buttons[0].visible = this.service.pageInfo.itemsCount > 0;
+        this.pageInfo = this.service.pageInfo;
+        this.buttons[0].visible = this.pageInfo.itemsCount > 0;
         this.buttons[0].inactive = this.service.select.length == 0;
     }
 
     // --- filter methods ---------------------------------
 
     reloadFilter(filter: any): void {
-        console.log('reload filter', filter);
         this.currentFilter = filter;
         this.getItems();
     }
 
     updateFilter(filter: any): void {
-        console.log('update filter', filter);
         this.currentFilter = filter;
     }
 
@@ -153,7 +146,6 @@ export class StorageComponent implements OnInit {
     // --- file uploading ---------------------------------
     
     updateLoading(loading, deleting = false) {
-        console.log('loading', loading);
         this.loading = loading;
         if (!loading) {
             this.onMediaDataLoaded();
@@ -204,7 +196,16 @@ export class StorageComponent implements OnInit {
         event.preventDefault();
     }
 
-    // --- old --------------------------------------------
+    sendFile(event) {
+        console.log('sendFile', event);
+        event.preventDefault();
+        const files = event.target.files;
+        if (event.target.files[0]) {
+            this.uploadFiles(files);
+        }
+    }
+
+    // --- file deletion methods --------------------------
 
     deleteSelected() {
         this.modal.visible = true;
@@ -213,7 +214,7 @@ export class StorageComponent implements OnInit {
     deleteConfirmed() {
         this.service.resetCount();
         this.service.select.forEach(id => {
-            const item = this.list.pageInfo.items.find(item => item.id == id);
+            const item = this.mediaTable.tableItems.find(item => item.id == id);
             item ? item.loading ++ : null;
             this.service.deleteById(
                 id,
@@ -227,14 +228,5 @@ export class StorageComponent implements OnInit {
                         item ? item.loading -- : null;
                     });
         });
-    }
-
-    sendFile(event) {
-        console.log('sendFile', event);
-        event.preventDefault();
-        const files = event.target.files;
-        if (event.target.files[0]) {
-            this.uploadFiles(files);
-        }
     }
 }

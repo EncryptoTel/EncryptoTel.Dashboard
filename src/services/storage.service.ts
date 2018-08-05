@@ -53,7 +53,7 @@ export class StorageService extends BaseService {
     updateLoading(increment: number) {
         this.loading += increment;
         this.callback ? this.callback(this.loading) : null;
-        if (this.callback && this.loading === 0 && this.files.length === 0 && !this.modalUpload.visible) {
+        if (this.callback && this.loading == 0 && this.files.length == 0 && !this.modalUpload.visible) {
             this.callback = null;
         }
     }
@@ -167,7 +167,7 @@ export class StorageService extends BaseService {
 
         return super.deleteById(id, showSuccess)
             .then(result => {
-                if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);
+                if (this.loading == 1) this.getItems(this.pageInfo, this.filter, this.sort);
                 this.successCount ++;
                 this.updateLoading(-1);
             }).catch(() => {
@@ -182,8 +182,8 @@ export class StorageService extends BaseService {
         this.filter = filter;
         this.sort = sort;
         return super.getItems(pageInfo, filter, sort)
-            .then((res: StorageModel) => {
-                this.pageInfo = this.plainToClassEx(StorageModel, StorageItem, res);
+            .then((result: StorageModel) => {
+                this.pageInfo = this.plainToClassEx(StorageModel, StorageItem, result);
                 this.pageInfo.items.forEach((item: StorageItem) => {
                     item.record.playable = this.isRecordPlayable(item);
                     item.record.duration = item.duration;

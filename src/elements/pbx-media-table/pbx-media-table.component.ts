@@ -154,6 +154,10 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
     }
 
     startPlayRecord(): void {
+        if (this.currentMediaStream == this._selectedItem.record.mediaStream) {
+            this.startMediaPlaying(this._selectedItem, true);
+        }
+        
         this._selectedItem.record.mediaLoading = true;
         let timer: Subscription = TimerObservable.create(0, 100).subscribe(
             () => {

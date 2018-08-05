@@ -1,28 +1,8 @@
 <div class="store">
-    <pbx-list *ngIf="islist"
-            style="width: 100%;"
-            [(pageInfo)]="service.pageInfo"
-            [tableInfo]="table"
-            [buttons]="buttons"
-            [filters]="filters"
-            [editable]="false"
-            [deletable]="false"
-            [multiple]="true"
-            [selected]="service.select"
-            [showEmptyInfo]="false"
-            key="storage"
-            name="Storage"
-            buttonTitle="Delete Selected"
-            (onLoad)="onMediaDataLoaded()"
-            (onCreate)="deleteSelected()"
-            (onSelect)="selectItem($event)"
-            [service]="service">
-    </pbx-list>
-
-    <div class="media-table-wrapper" *ngIf="!islist">
+    <div class="media-table-wrapper">
         <pbx-header [buttons]="buttons"
                     [filters]="filters"
-                    (onClick)="create()"
+                    (onClick)="deleteSelected()"
                     (onUpdate)="updateFilter($event)"
                     (onReload)="reloadFilter($event)"
                     [inactive]="loading || loadingEx">
@@ -48,7 +28,11 @@
             Nothing found
         </div>
 
-        <pbx-pagination [pageInfo]="pageInfo" (onPageChangeEx)="getItems()"></pbx-pagination>
+        <pbx-pagination 
+            *ngIf="!loading"
+            [pageInfo]="pageInfo" 
+            (onPageChangeEx)="getItems()">
+        </pbx-pagination>
     </div>
     <pbx-sidebar *ngIf="source.select.type != 'trash'">
         <div class="store_sidebar_audio" 
@@ -68,10 +52,12 @@
         </div>
     </pbx-sidebar>
 </div>
+
 <pbx-modal 
     [modalEx]="modal"
     (onConfirmEx)="deleteConfirmed()">
 </pbx-modal>
+
 <pbx-modal
     [modalEx]="service.modalUpload"
     (onConfirmEx)="service.doUploadAction($event)"
