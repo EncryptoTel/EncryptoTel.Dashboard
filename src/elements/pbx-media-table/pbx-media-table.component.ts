@@ -50,8 +50,9 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
     }
 
     isItemSelected(item: any): boolean {
-        // console.log('is', this.selectedItems);
-        return this.selectedItems.some(i => i == item.id);
+        return (this.selectedItems)
+            ? this.selectedItems.some(i => i == item.id)
+            : false;
     }
 
     // - media player methods -----------------------------
