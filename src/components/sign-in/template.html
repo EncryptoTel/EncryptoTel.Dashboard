@@ -5,8 +5,8 @@
     <div class="input_wrap">
       <input name="Username" id="username" placeholder="Email or internal number" formControlName="login">
       <div class="input_error" *ngIf="inputValidation('login')" [@Fade]>
-        <span class="input_error_item" *ngIf="inputValidation('login', 'required')">Please enter your e-mail address</span>
-        <span class="input_error_item" *ngIf="inputValidation('login', 'pattern')">Please enter correct e-mail address</span>
+        <span class="input_error_item" *ngIf="inputValidation('login', 'required')">Please enter your e-mail address or internal number</span>
+        <span class="input_error_item" *ngIf="inputValidation('login', 'pattern')">Please enter correct e-mail address or internal number</span>
       </div>
     </div>
     <div class="input_wrap">
