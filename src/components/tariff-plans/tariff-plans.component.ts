@@ -59,6 +59,7 @@ export class TariffPlansComponent implements OnInit {
     modalConfirm = (): void => {
         this.selected.loading = true;
         this._service.selectTariffPlan(this.selected.id).then(res => {
+            this._user.fetchNavigationParams();
             this._user.fetchProfileParams().then(res => {
                 this.selected.loading = false;
             });

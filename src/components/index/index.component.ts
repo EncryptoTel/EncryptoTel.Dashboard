@@ -23,7 +23,7 @@ import {RefsServices} from "../../services/refs.services";
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
-    constructor(private _user: UserServices,
+    constructor(public _user: UserServices,
                 private message: MessageServices,
                 private _router: Router,
                 public _main: MainViewComponent,
@@ -73,7 +73,8 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     navigationInit(): void {
         this._user.fetchNavigationParams().then(result => {
-            this.navigationList = result;
+            // this.navigationList = result;
+
             // result.map(resultItem => {
             //   const navigationItem = this.navigationList.find(block => {
             //     return !!block.find(item => {

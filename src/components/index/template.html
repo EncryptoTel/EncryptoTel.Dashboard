@@ -57,7 +57,7 @@
     </div>
   </div>
   <div class="navigation_block_wrap">
-    <div class="navigation_block" *ngFor="let block of navigationList">
+    <div class="navigation_block" *ngFor="let block of _user.navigation">
       <div *ngFor="let navigationItem of block">
         <a [routerLink]="navigationItem.url"
            routerLinkActive="active"
