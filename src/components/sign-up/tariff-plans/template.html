@@ -19,7 +19,7 @@
         <button class="tariff_item__button"
                 [ngClass]="{'current_tariff': tariff.id === _services.signUpData.controls.tariffPlanId}"
                 (click)="chooseTariff(tariff.id)">
-          {{tariff.title === 'Basic' ? 'SIGN UP NOW' : 'Buy Now'}}
+          {{tariff.title === 'Basic' ? 'SIGN UP NOW' : 'Try it free'}}
         </button>
         <div class="tariff_item__free">
           <p>{{tariff.title !== 'Basic'? 'Free for 7 days' : ''}}</p>
