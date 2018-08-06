@@ -3,7 +3,7 @@
 </div><!--ToDo проверить на наличие полей currentPage и totalPage и удалить этот блок-->
 <div class="pager_wrap" *ngIf="!!pageInfo&&pageInfo.visible!==false&&pageInfo.itemsCount>10">
     <pbx-button name="pagination_first" [inactive]="pageInfo.page < 2" buttonType="pagination" value="«" (onClick)="changePage(1)"></pbx-button>
-    <pbx-button name="pagination_prev" [inactive]="pageInfo.page < 2" buttonType="pagination" value="Prev."
+    <pbx-button name="pagination_prev" [inactive]="pageInfo.page < 2" buttonType="pagination" value="Prev"
                 (onClick)="changePage(pageInfo.page - 1)"></pbx-button>
     <div class="pager_info">
         <div class="pager_select" (clickOutside)="showWrap === 0 ? null : showWrap = 2">
