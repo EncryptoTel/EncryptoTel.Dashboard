@@ -5,6 +5,6 @@ export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.
 
 export const nameRegExp = new RegExp(/^[\a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]+([\a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9-. '])+$/i);
 
-export const phoneRegExp = new RegExp(/^[0-9]{7,16}$/gm);
+export const phoneRegExp = new RegExp(/^[0-9]{6,16}$/gm);
 
 export const week: string[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
