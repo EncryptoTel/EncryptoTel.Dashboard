@@ -1,4 +1,4 @@
-import {FormArray, FormGroup} from '@angular/forms';
+import {FormArray, FormGroup, FormControl} from '@angular/forms';
 import {plainToClass} from 'class-transformer';
 import {CountryModel} from '../models/country.model';
 import {CurrencyModel} from '../models/currency.model';
@@ -21,19 +21,17 @@ export function dateComparison(date0: Date, date1: Date) {
 
 export function validateForm(form: FormGroup): void {
     form.updateValueAndValidity();
+    this.validateFormControls(form);
+}
+
+export function validateFormControls(form: FormGroup): void {
     Object.keys(form.controls).forEach(field => {
         const control = form.get(field);
-        control.markAsTouched();
-        if (control instanceof FormArray) {
-            const controlsArray = control as FormArray;
-            controlsArray.controls.forEach((ctrl: FormGroup) => {
-                ctrl.markAsTouched();
-                if (ctrl.controls) {
-                    Object.keys(ctrl.controls).forEach(key => {
-                        ctrl.get(key).markAsTouched();
-                    });
-                }
-            });
+        if (control instanceof FormControl) {
+            control.markAsTouched({ onlySelf: true });
+        }
+        else if (control instanceof FormGroup || control instanceof FormArray) {
+            this.validateFormControls(control);
         }
     });
 }
