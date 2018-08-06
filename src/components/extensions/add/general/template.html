@@ -1,5 +1,5 @@
 <form [formGroup]="form" class="add_ext_form" *ngIf="loading===0">
-    <div class="add_ext_form_title">User information</div>
+    <div class="add_ext_form_title">Extension Info</div>
 
     <pbx-input name="Phone"
                displayKey="title"
@@ -29,6 +29,8 @@
                [object]="form"
     ></pbx-input>
 
+    <div class="add_ext_form_title">Employee Info <span>Email is required if First or Last Name fields are filled.</span></div>
+
     <pbx-input name="First Name"
                key="firstName"
                errorKey="firstName"
@@ -54,7 +56,7 @@
                [object]="form.controls.user"
     ></pbx-input>
 
-    <div class="add_ext_form_title">Mobile. Allows to make calls through the mobile app.</div>
+    <div class="add_ext_form_title">Mobile APP</div>
 
     <pbx-input name="Enable"
                key="mobileApp"
@@ -64,7 +66,7 @@
                [object]="form"
     ></pbx-input>
 
-    <div class="add_ext_form_title">Enable call encryption</div>
+    <div class="add_ext_form_title">Encryption</div>
 
     <pbx-input name="Enable"
                key="encryption"

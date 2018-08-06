@@ -1,18 +1,9 @@
 <form class="add_ext_form">
-  <!--<div class="add_ext_form_title">Role</div>-->
-  <!--<pbx-select [options]="role.option"-->
-              <!--[objectKey]="'title'"-->
-              <!--[placeholder]="'Please select role'"-->
-              <!--[selected]="role.selected"-->
-              <!--[singleBorder]="'true'"-->
-              <!--(onOpen)="role.isOpen=true"-->
-              <!--(onClose)="role.isOpen=false"-->
-              <!--(onSelect)="selectRole($event)"-->
-              <!--&gt;</pbx-select>-->
-  <div class="add_ext_form_item" *ngFor="let item of accessList">
-    <pbx-checkbox (id)="'right_' + item.id"
-                  (onToggle)="item.userStatus = !item.userStatus"
-                  [value]="item.userStatus"></pbx-checkbox>
-    <label (for)="'right_' + item.id" (click)="item.userStatus = !item.userStatus">{{item.name}}</label>
-  </div>
+    <div class="add_ext_form_title">System Management</div>
+    <div class="add_ext_form_item" *ngFor="let item of accessList">
+        <pbx-checkbox (id)="'right_' + item.id"
+                      (onToggle)="item.userStatus = !item.userStatus"
+                      [value]="item.userStatus"></pbx-checkbox>
+        <label (for)="'right_' + item.id" (click)="item.userStatus = !item.userStatus">{{item.name}}</label>
+    </div>
 </form>
