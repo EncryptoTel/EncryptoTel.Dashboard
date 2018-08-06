@@ -42,7 +42,8 @@
           <svg-icon src="../../assets/icons/_call_panel/notification_24px.svg"></svg-icon>
           <div class="button_animation" *ngIf="activeButtonIndex === 3"></div>
         </div>
-      </div>
+        <div class="desc">© Encrypto Telecom, 2017-2018 v.0.1.0</div>
+      </div> <!-- header_button_wrap -->
       <div class="header_button_hide" (click)="toggleHeaderButtons($event)"
            [ngClass]="{'initial': headerButtonsVisible}">
         <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
@@ -54,7 +55,7 @@
         <pbx-chat *ngIf="activeButtonIndex === 2"></pbx-chat>
         <span *ngIf="activeButtonIndex === 3">notification</span>
       </div>
-      <div class="desc">© Encrypto Telecom, 2017-2018 v.0.1.0</div>
+      <!-- <div class="desc">© Encrypto Telecom, 2017-2018 v.0.1.0</div> -->
     </div> <!-- header_button_row -->
   </div>
   <div class="navigation_block_wrap">
