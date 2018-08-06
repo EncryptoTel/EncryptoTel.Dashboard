@@ -12,6 +12,7 @@
             *ngIf="currentTab===tabs[0]"
             [service]="service"
             [name]="name"
+            [generalHeaderText]="generalHeaderText"
     ></pbx-queue-general>
     <pbx-queue-members
             *ngIf="currentTab===tabs[1]&&!addMembers"

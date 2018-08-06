@@ -1,5 +1,8 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
 <div class="call_queues_general_body" *ngIf="!loading">
+    <div class="queue-group-create">
+        <h3 class="queue-group-create_h3">{{generalHeaderText}}</h3>
+    </div>
     <!--<h3 class="call_queues_general_title">Create New Queue</h3>-->
     <pbx-input
             name="Name"
@@ -58,6 +61,9 @@
             [(errors)]="service.errors"
             [(object)]="service.item">
     </pbx-input>
+    <div class="queue-group" *ngIf="name === 'call-queues'">
+        <h3 class="queue-group_h3">Queue options</h3>
+    </div>
     <pbx-input
             *ngIf="name === 'call-queues'"
             name=""

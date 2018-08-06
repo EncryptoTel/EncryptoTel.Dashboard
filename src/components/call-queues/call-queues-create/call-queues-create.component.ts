@@ -9,9 +9,9 @@ import {CallQueueService} from "../../../services/call-queue.service";
 export class CallQueuesCreateComponent {
 
     headerText = 'Call Queue Members';
+    generalHeaderText = 'Create New Queue';
 
     constructor(public service: CallQueueService) {
-
     }
 
 }

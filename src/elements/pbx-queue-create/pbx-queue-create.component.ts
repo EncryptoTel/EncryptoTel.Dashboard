@@ -16,6 +16,7 @@ export class QueueCreateComponent implements OnInit {
     @Input() service;
     @Input() name: string;
     @Input() headerText: string;
+    @Input() generalHeaderText: string;
 
     @ViewChild(FormComponent) form: FormComponent;
 
