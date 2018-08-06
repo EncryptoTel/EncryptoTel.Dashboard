@@ -51,6 +51,7 @@ export class BaseSettingsComponent implements OnInit {
     getKeys = (obj: any): string[] => {
         return obj && Object.keys(obj);
     }
+
     generateOptions = (obj: any): any[] => {
         if (obj.type !== 'list') {
             return null;
@@ -62,6 +63,7 @@ export class BaseSettingsComponent implements OnInit {
         console.log(tmp);
         return tmp;
     }
+
     getEventValue = (ev: any): any => {
         if (typeof ev === 'boolean') {
             return ev;

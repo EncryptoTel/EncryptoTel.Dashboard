@@ -8,6 +8,7 @@ import {passwordConfirmation} from '../../../../shared/password-confirmation';
 import {Router} from '@angular/router';
 import {MessageServices} from "../../../../services/message.services";
 import {UserServices} from "../../../../services/user.services";
+import forEach = require('core-js/fn/array/for-each');
 
 @Component({
     selector: 'profile-component',
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
     messageSent: boolean;
 
     generalForm: FormGroup;
+    oldForm: FormGroup;
     emailChange: FormGroup;
     passwordChange: FormGroup;
 
@@ -106,6 +108,24 @@ export class ProfileComponent implements OnInit {
                 Validators.minLength(6)
             ]),
         }, passwordConfirmation);
+
+        this.oldForm = new FormGroup({
+            'firstname': new FormControl('', [
+                Validators.required,
+                Validators.pattern(nameRegExp)
+            ]),
+            'lastname': new FormControl('', [
+                Validators.pattern(nameRegExp)
+            ]),
+            'patronymic': new FormControl('', [
+                Validators.pattern(nameRegExp)
+            ]),
+            'phone': new FormControl('', [
+                Validators.pattern(phoneRegExp),
+                Validators.minLength(7),
+                Validators.maxLength(16),
+            ])
+        });
     }
 
     goBack(): void {
@@ -120,6 +140,7 @@ export class ProfileComponent implements OnInit {
                 Object.keys(this.generalForm.controls).map(key => {
                     if (res.profile.user.hasOwnProperty(key)) {
                         this.generalForm.controls[key].setValue(res.profile.user[key] || null);
+                        this.oldForm.controls[key].setValue(res.profile.user[key] || null);
                     }
                 });
                 this.emailChange.controls.email.setValue(res.profile.user.email);
@@ -129,6 +150,10 @@ export class ProfileComponent implements OnInit {
     }
 
     saveSettings(ev?: Event): void {
+        if ( JSON.stringify(this.generalForm.value) === JSON.stringify(this.oldForm.value) ) {
+            this.message.writeSuccess('The data have been saved');
+            return;
+        }
         if (ev) {
             ev.preventDefault();
             ev.stopPropagation();
