@@ -1,13 +1,12 @@
-.form-body-content
-    .call-rules-create
-        pbx-input
-            .pbx_input_wrap
-                .pbx_input_item
-                    .pbx_input_item_label
-                        //width: 157px
-                    .pbx_input_item_input_wrap
-                        .time
-                            padding-left: 16px
+.call-rules-create
+    pbx-input
+        .pbx_input_wrap
+            .pbx_input_item
+                .pbx_input_item_label
+                    //width: 157px
+                .pbx_input_item_input_wrap
+                    .time
+                        padding-left: 16px
 
 // loader
 pbx-call-rules-create
@@ -23,3 +22,28 @@ pbx-call-rules-create
 pbx-call-rules-create
     .pbx_input_error
         z-index: 1
+
+pbx-call-rules-create
+    .form-body-content
+        padding: 24px !important
+    .call-rules-create
+        grid-gap: 0 !important
+        .pbx_input_item_input_wrap
+            position: relative
+            width: 100%
+        .icon_wrap
+            margin-left: 24px
+    pbx-input
+        margin-right: 40px
+        margin-bottom: 16px
+    pbx-input.noMargin
+        margin-right: 0
+    .call-rules-create_row
+        h3
+            color: $dark-white
+            opacity: .8
+            margin-bottom: 23px
+    .pbx_input_item_label
+        span
+            color: $dark-white
+            opacity: .7
