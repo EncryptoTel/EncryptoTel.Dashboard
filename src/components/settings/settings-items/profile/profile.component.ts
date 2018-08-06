@@ -8,7 +8,6 @@ import {passwordConfirmation} from '../../../../shared/password-confirmation';
 import {Router} from '@angular/router';
 import {MessageServices} from '../../../../services/message.services';
 import {UserServices} from '../../../../services/user.services';
-import forEach = require('core-js/fn/array/for-each');
 
 @Component({
     selector: 'profile-component',
