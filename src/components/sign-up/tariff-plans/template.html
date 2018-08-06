@@ -5,7 +5,7 @@
     <h1 class="tariff_title" *ngIf="!loading" [@Fade]>Plans Available for Everyone</h1>
     <div class="tariff_wrap_items" *ngIf="!loading" [@Fade]>
       <div class="tariff_item" *ngFor="let tariff of tariffs"
-           [ngClass]="{'current_tariff': tariff.id === _services.signUpData.controls.tariffPlanId}">
+           [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}">
         <div class="tariff_item__description">
           <h3 class="tariff_item__description_title">{{tariff.title}}</h3>
           <ul class="tariff_item__description_list">
@@ -17,7 +17,7 @@
           </p>
         </div>
         <button class="tariff_item__button"
-                [ngClass]="{'current_tariff': tariff.id === _services.signUpData.controls.tariffPlanId}"
+                [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}"
                 (click)="chooseTariff(tariff.id)">
           {{tariff.title === 'Basic' ? 'SIGN UP NOW' : 'Try it free'}}
         </button>
@@ -34,7 +34,7 @@
   <pbx-loader *ngIf="loading"></pbx-loader>
   <div class="mobile_body" *ngIf="!loading" [@Fade]>
     <div class="mobile_item" *ngFor="let tariff of tariffs"
-         [ngClass]="{'current_tariff': tariff.id === _services.signUpData.controls.tariffPlanId}">
+         [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}">
       <h3 class="mobile_item_title"
           (click)="current_pick === tariff.id ? current_pick = -1 : current_pick = tariff.id">{{tariff.title}}</h3>
       <div class="mobile_item_body" *ngIf="tariff.id === current_pick" [@Swipe]>
@@ -46,7 +46,7 @@
           {{tariff.title === 'Basic' ? 'FREE' : 'From $' + tariff.price +'/monthly'}}</div>
         <div class="mobile_item_free" *ngIf="tariff.title !== 'Basic'">Free for 7 days<br>No credit card needed</div>
         <button class="mobile_item_button"
-                [ngClass]="{'current_tariff': tariff.id === _services.signUpData.controls.tariffPlanId}"
+                [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}"
                 (click)="chooseTariff(tariff.id)">
           {{tariff.title === 'Basic' ? 'SIGN UP NOW' : 'Buy Now'}}
         </button>

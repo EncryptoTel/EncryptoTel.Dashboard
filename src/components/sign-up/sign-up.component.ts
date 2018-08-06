@@ -10,25 +10,26 @@ import {passwordConfirmation} from '../../shared/password-confirmation';
   template: '<router-outlet></router-outlet>'
 })
 export class SignUpComponent {
-  constructor(private _services: AuthorizationServices) {
-    this._services.signUpData = new FormGroup({
-        'firstname': new FormControl('', [
-          Validators.required,
-          Validators.pattern(_vars.nameRegExp)
-        ]),
-        'email': new FormControl('', [
-          Validators.required,
-          Validators.pattern(_vars.emailRegExp)
-        ]),
-        'password': new FormControl('', [
-          Validators.required,
-          Validators.minLength(6)
-        ]),
-        'password_confirmation': new FormControl('', [
-          Validators.required,
-          Validators.minLength(6)
-        ]),
-        'tariffPlanId': new FormControl(4),
-      }, passwordConfirmation);
-  }
+    constructor(private _services: AuthorizationServices) {
+        this._services.signUpData = new FormGroup({
+                'firstname': new FormControl('', [
+                    Validators.required,
+                    Validators.pattern(_vars.nameRegExp)
+                ]),
+                'email': new FormControl('', [
+                    Validators.required,
+                    Validators.pattern(_vars.emailRegExp)
+                ]),
+                'password': new FormControl('', [
+                    Validators.required,
+                    Validators.minLength(6)
+                ]),
+                'password_confirmation': new FormControl('', [
+                    Validators.required,
+                    Validators.minLength(6)
+                ]),
+                'tariffPlanId': new FormControl(4),
+            },
+            passwordConfirmation);
+    }
 }
