@@ -1,6 +1,8 @@
 main-view.dark_theme    
     sign-in,
-    sign-up-form
+    sign-up-form,
+    password-recovery,
+    temporary-code
         form
             .auth_form_message.error,
             .input_error 
@@ -17,6 +19,11 @@ main-view.dark_theme
                 min-width: 200px
                 height: 32px
                 margin-left: 8px
+                background: $dark_error_message
+                color: $dark_white
+                padding: 0 10px
+                &_item
+                    color: $dark_white
                 &:before
                     content: ''
                     position: absolute
