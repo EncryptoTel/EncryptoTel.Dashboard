@@ -67,9 +67,13 @@ export class BuyPhoneNumbersComponent implements OnInit {
         this._services.getAvailableNumbersList(this.requestDetails)
             .then(res => {
                 this.requestDetails.limit = res['numbers'].length;
-                // this.list = [res['items'].slice(0, this.requestDetails.limit / 2), res['items'].slice(this.requestDetails.limit / 2)];
-                this.list = [res['numbers'].slice(0, this.requestDetails.limit / 2), res['numbers'].slice(this.requestDetails.limit / 2)];
-                this.pagination.total = 1; // res.pages;
+                const remainder = (res['numbers'].length % 2);
+                const part1 = this.requestDetails.limit / 2;
+                if (remainder > 0) {
+                    part1 = part1 + remainder;
+                }
+                this.list = [res['numbers'].slice(0, part1), res['numbers'].slice(part1)];
+                this.pagination.total = 1;
                 this.loading -= 1;
             });
     }
