@@ -2,7 +2,7 @@
     <div class="form-header">
         <div class="form-tab-wrap" *ngIf="tabs">
             <div class="form-tab {{selected===tab?'selected':''}}" *ngFor="let tab of tabs;let i=index"
-                 [ngClass]="{'blocked':!!inactiveTabs&&inactiveTabs[i]}"
+
                  (click)="selectingTab(tab, i)">
                 <div class="form-tab-icon-wrap" *ngIf="icons && i<icons.length &&icons[i]">
                     <svg-icon src="../../assets/icons/{{icons[i]}}.svg"></svg-icon>
