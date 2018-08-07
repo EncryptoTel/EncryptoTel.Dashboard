@@ -26,6 +26,7 @@ export class AuthorizationServices {
     message: FormMessageModel;
     subscription: Subject<FormMessageModel> = new Subject<FormMessageModel>();
     signUpData: FormGroup;
+    tariffPlans: any;
 
     /*
       Service error reset to initial params
@@ -180,6 +181,23 @@ export class AuthorizationServices {
       Getting tariff plans list
      */
     getTariffPlans(): Promise<any> {
-        return this._req.get('v1/tariff-plan/account');
+        return this._req.get('v1/tariff-plan/account').then(result => {
+            this.tariffPlans = result;
+            return Promise.resolve(result);
+        });
+    }
+
+    getSelectedTarifPlan(): any {
+        if (!this.tariffPlans) {
+            console.error('Tariff plans are not obtained');
+            return null;
+        }
+        if (!this.signUpData.controls.tariffPlanId) {
+            console.error('Tariff plan is not selected');
+            return null;
+        }
+        
+        let tariffId = this.signUpData.controls.tariffPlanId.value;
+        return this.tariffPlans.find(tariff => tariff.id == tariffId);
     }
 }
