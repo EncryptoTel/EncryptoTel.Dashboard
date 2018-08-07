@@ -67,8 +67,8 @@ export class BuyPhoneNumbersComponent implements OnInit {
         this._services.getAvailableNumbersList(this.requestDetails)
             .then(res => {
                 this.requestDetails.limit = res['numbers'].length;
-                const remainder = (res['numbers'].length % 2);
-                const part1 = this.requestDetails.limit / 2;
+                let remainder = (res['numbers'].length % 2);
+                let part1 = this.requestDetails.limit / 2;
                 if (remainder > 0) {
                     part1 = part1 + remainder;
                 }
