@@ -10,7 +10,6 @@ import {FilterItem, InputAction} from "../../models/base.model";
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms'), SwipeAnimation('y', '200ms')]
 })
-
 export class InputComponent implements OnInit {
     @Input() key: string;
     @Input() name: string;
@@ -45,6 +44,13 @@ export class InputComponent implements OnInit {
     @Input() filter: FilterItem;
     @Input() actions: InputAction[] = [];
     @Input() formBuilder: FormBuilder;
+    @Input() animationMode: string; // Possible values: Fade, Swipe (default)
+
+    // -- errors redefinitions
+    @Input() validatorRequiredMsg: string;
+    @Input() validatorMinLengthMsg: string;
+    @Input() validatorMaxLengthMsg: string;
+    @Input() validatorPatternMsg: string;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -135,28 +141,34 @@ export class InputComponent implements OnInit {
     }
 
     checkForm(textOnly = null) {
-        if (!this.form) {
-            return null;
-        }
+        if (!this.form) return null;
+
         let form = this.getForm();
         if (textOnly) {
             if (form && form.touched && form.invalid && form.errors) {
                 let keys = Object.keys(form.errors);
-                for (let i = 0; i < keys.length; i++) {
-                    switch (keys[i]) {
-                        case 'required':
-                            return 'This value is required';
-                        case 'maxlength':
-                            return 'This value is too long';
-                        default:
-                            // console.log(keys[i]);
-                            return 'This value is invalid';
-                    }
-                }
+                // TODO: map validation result for multiple errors
+                return this.getValidatorMessage(keys[0]);
             }
             return null;
         }
+        
         return form && form.touched && form.invalid;
+    }
+
+    getValidatorMessage(errorKey: string): string {
+        switch (errorKey) {
+            case 'required':
+                return this.validatorRequiredMsg ? this.validatorRequiredMsg : 'This value is required';
+            case 'minlength':
+                return this.validatorMinLengthMsg ? this.validatorMinLengthMsg : 'This value is too short';
+            case 'maxlength':
+                return this.validatorMaxLengthMsg ? this.validatorMaxLengthMsg : 'This value is too long';
+            case 'pattern':
+                return this.validatorPatternMsg ? this.validatorPatternMsg : 'This value is invalid';
+            default:
+                return 'This value is invalid';
+        }
     }
 
     resetError() {
@@ -288,6 +300,10 @@ export class InputComponent implements OnInit {
         if (this.formBuilder) {
             action.objects.removeAt(index);
         }
+    }
+
+    isSwipeAnimation(): boolean {
+        return !this.animationMode || this.animationMode.toLowerCase() != 'fade';
     }
 
     ngOnInit() {

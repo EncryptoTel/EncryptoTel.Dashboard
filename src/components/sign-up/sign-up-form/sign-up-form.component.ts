@@ -17,7 +17,7 @@ import {FormMessageModel} from '../../../models/form-message.model';
     styleUrls: ['./local.sass']
 })
 export class SignUpFormComponent implements OnInit, OnDestroy {
-    loading = false;
+    loading: boolean = false;
     errorsSubscription: Subscription;
     message: FormMessageModel;
     success: string;

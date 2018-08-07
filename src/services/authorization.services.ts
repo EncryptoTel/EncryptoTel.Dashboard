@@ -16,17 +16,18 @@ import {LocalStorageServices} from "./local-storage.services";
 
 @Injectable()
 export class AuthorizationServices {
+    message: FormMessageModel;
+    subscription: Subject<FormMessageModel> = new Subject<FormMessageModel>();
+    signUpData: FormGroup;
+    tariffPlans: any;
+    error: any;
+
     constructor(private router: Router,
                 private _services: UserServices,
                 private _req: RequestServices,
                 private storage: LocalStorageServices,
                 private logger: LoggerServices) {
     }
-
-    message: FormMessageModel;
-    subscription: Subject<FormMessageModel> = new Subject<FormMessageModel>();
-    signUpData: FormGroup;
-    tariffPlans: any;
 
     /*
       Service error reset to initial params
@@ -196,8 +197,14 @@ export class AuthorizationServices {
             console.error('Tariff plan is not selected');
             return null;
         }
-        
+
         let tariffId = this.signUpData.controls.tariffPlanId.value;
+        if (!tariffId) {
+            let basicPlan = this.tariffPlans.find(tariff => tariff.title == 'Basic');
+            tariffId = basicPlan.id;
+            this.signUpData.controls.tariffPlanId.setValue(tariffId);
+        }
+
         return this.tariffPlans.find(tariff => tariff.id == tariffId);
     }
 }

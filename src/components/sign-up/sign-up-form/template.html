@@ -33,8 +33,22 @@
         <div class="input_error_item" *ngIf="signUpForm.errors && passwordsMismatch()">Passwords don't match</div>
       </div>
     </div>
+    
+    <pbx-input name="I confirm that I have read and agree to the Terms and Conditions and privacy statement. I consent to the processing of my Personal Data as set out in Encrypto Telecom's Data Protection Statement."
+            key="agreementConfirmation"
+            [checkbox]="true"
+            [form]="true"
+            [object]="signUpForm"
+            [(errors)]="services.error"
+            [animationMode]="'fade'"
+            [validatorRequiredMsg]="'You need to confirm Terms and Conditions and privacy statement agreement'"
+            >
+    </pbx-input>
+
     <div class="auth_form_text" style="margin-top: 8px;">Your tariff plan is {{ tariffPlanTitleText }}.&nbsp;<a routerLink="tariff_plans" class="auth_form_link">Change it?</a></div>
+
     <pbx-button [buttonType]="'accent'" [value]="signUpButtonText" [loading]="loading" (onClick)="signUp()"></pbx-button>
+    
     <div class="auth_form_text">Already have an EncryptoTel Account?</div>
     <a routerLink="../sign-in" class="auth_form_link">Sign in now</a>
   </form>
