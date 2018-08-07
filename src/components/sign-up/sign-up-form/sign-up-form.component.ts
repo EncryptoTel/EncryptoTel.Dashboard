@@ -32,7 +32,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         if (!this.loading) {
             const plan = this.services.getSelectedTarifPlan();
             const suffix = plan && plan.sum > 0 ? '' : ' FREE';
-            return `Sign Up${suffix}`;
+            return `Start now${suffix}`;
         }
         return null;
     }
