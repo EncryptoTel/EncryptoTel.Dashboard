@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {LoggerServices} from "../../../../services/logger.services";
+import {AsteriskTimeRule} from '../../../../models/call-rules.model';
 
 @Component({
     selector: 'call-rules-time-rules',
@@ -47,39 +48,27 @@ export class CallRulesTimeRulesComponent implements OnInit {
         {time: '11:00 p.m', timeAster: '23:00'},
     ];
     days;
-    ruleTimeAsterisk;
+    ruleTimeAsterisk: AsteriskTimeRule;
     selectedRuleTime;
     selectedDurationTime;
     selectedDuration;
     errors = {ruleTime: '', durationTime: ''};
 
     constructor(private logger: LoggerServices) {
-
+        this.ruleTimeAsterisk = new AsteriskTimeRule();
     }
 
     selectRuleTime(rule): void {
-        if (!this.ruleTimeAsterisk) {
-            this.ruleTimeAsterisk = {
-                days: [],
-                date: '',
-                month: '',
-                time: ''
-            };
-        }
         this.selectedRuleTime = rule;
         // this.actionsControls.get([`${i}`, `parameter`]).setValue(rule.id);
         switch (rule.id) {
             case 1:
                 this.days = [];
-                this.ruleTimeAsterisk.days = ['*'];
-                this.ruleTimeAsterisk.date = '*';
-                this.ruleTimeAsterisk.month = '*';
+                this.ruleTimeAsterisk.initForAlwaysRule();
                 break;
             case 2:
                 this.days = [];
-                this.ruleTimeAsterisk.days = ['*'];
-                this.ruleTimeAsterisk.date = '';
-                this.ruleTimeAsterisk.month = '';
+                this.ruleTimeAsterisk.initForDatePeriodRule();
                 break;
             case 3:
                 this.days = [
@@ -91,15 +80,11 @@ export class CallRulesTimeRulesComponent implements OnInit {
                     {type: 'cancel', day: 'Sat', code: 'sat'},
                     {type: 'cancel', day: 'Sun', code: 'sun'}
                 ];
-                this.ruleTimeAsterisk.days = [];
-                this.ruleTimeAsterisk.date = '*';
-                this.ruleTimeAsterisk.month = '*';
+                this.ruleTimeAsterisk.initForWeekDaysRule();
                 break;
             default:
                 this.days = [];
-                this.ruleTimeAsterisk.days = [];
-                this.ruleTimeAsterisk.date = '';
-                this.ruleTimeAsterisk.month = '';
+                this.ruleTimeAsterisk.empty();
                 break;
         }
         this.formatAsterRule();
@@ -124,36 +109,21 @@ export class CallRulesTimeRulesComponent implements OnInit {
         this.selectedDurationTime = duration;
         // this.actionsControls.get([`${i}`, `parameter`]).setValue(duration.id);
         if (duration.id === 1) {
-            if (!this.ruleTimeAsterisk) {
-                this.ruleTimeAsterisk = {
-                    days: [],
-                    date: '',
-                    month: '',
-                    time: ''
-                };
-            }
             this.ruleTimeAsterisk.time = '*';
-        } else if (duration.id === 2) {
-            if (this.ruleTimeAsterisk && this.ruleTimeAsterisk.time === '*') {
-                this.ruleTimeAsterisk.time = '';
-            }
+        } 
+        else if (duration.id === 2) {
             this.selectedDuration = [[], []];
-            if (!this.ruleTimeAsterisk) {
-                this.ruleTimeAsterisk = {
-                    days: [],
-                    date: '',
-                    month: '',
-                    time: ''
-                };
+            if (this.ruleTimeAsterisk && this.ruleTimeAsterisk.time === '*') {
+                this.selectTime(this.durationTime[0], 0);
+                this.selectTime(this.durationTime[0], 1);
             }
         }
         this.formatAsterRule();
     }
 
     selectTime(time, idx): void {
-        if (!time) {
-            return;
-        }
+        if (!time) return;
+
         this.selectedDuration[idx] = time;
         this.ruleTimeAsterisk.time = `${this.selectedDuration[0].timeAster}-${this.selectedDuration[1].timeAster}`;
         this.formatAsterRule();
@@ -161,18 +131,20 @@ export class CallRulesTimeRulesComponent implements OnInit {
 
     private formatAsterRule(): void {
         let days = this.selectedRuleTime && this.selectedRuleTime.id === 3 ? '' : '*';
-        this.ruleTimeAsterisk.days.forEach((day, index) => {
-            if (index === 0) {
-                days = day;
-            } else {
-                days = days + '&' + day;
-            }
-        });
+        if (this.ruleTimeAsterisk.days.length > 0) {
+            days = this.ruleTimeAsterisk.days.join('&');
+        }
         let rule = `${this.ruleTimeAsterisk.time}|${days}|${this.ruleTimeAsterisk.date}|${this.ruleTimeAsterisk.month}`;
         // this.logger.log('formatAsterRule', rule);
+        
         this.errors.ruleTime = days === '' ? 'Please select days' : '';
-        this.errors.durationTime = ((this.ruleTimeAsterisk.time === '') ||
-            (this.selectedDuration && (this.selectedDuration[0].timeAster === undefined || this.selectedDuration[1].timeAster === undefined))) ? 'Please select time' : '';
+        this.errors.durationTime = (
+                (this.ruleTimeAsterisk.time === '')
+                || (this.selectedDuration && (this.selectedDuration[0].timeAster === undefined || this.selectedDuration[1].timeAster === undefined))
+            )
+            ? 'Please select time' 
+            : '';
+        
         this.onChange.emit(rule);
     }
 
