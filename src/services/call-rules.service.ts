@@ -1,20 +1,24 @@
-import {BaseService} from "./base.service";
-import {CallRulesItem, CallRulesModel} from "../models/call-rules.model";
-import {PageInfoModel} from "../models/base.model";
-import {plainToClass} from "class-transformer";
+import {BaseService} from './base.service';
+import {CallRulesItem, CallRulesModel} from '../models/call-rules.model';
+import {PageInfoModel} from '../models/base.model';
+import {plainToClass} from 'class-transformer';
 
 export class CallRulesService extends BaseService {
 
+    getOuters(): Promise<any> {
+        return this.request.get(`v1/outer_rule/outers?limit=1000`);
+    }
+
     getExtensions(id: number): Promise<any> {
-        return this.request.get(`v1/sip/inners?sipOuter=${id}`);
+        return this.request.get(`v1/outer_rule/inners?sipOuter=${id}`);
     }
 
     getFiles(): Promise<any> {
-        return this.request.get(`v1/account/file?type=audio`);
+        return this.request.get(`v1/outer_rule/files?type=audio`);
     }
 
     getQueue(): Promise<any> {
-        return this.request.get(`v1/call_queue`);
+        return this.request.get(`v1/outer_rule/call-queue`);
     }
 
     edit(id: number, data): Promise<any> {

@@ -296,7 +296,7 @@ export class CallRulesCreateComponent implements OnInit {
 
     private getNumbers(): void {
         this.loading += 1;
-        this.refs.getSipOuters().then(res => {
+        this.service.getOuters().then(res => {
             this.loading -= 1;
             this.numbers = res;
         }).catch(err => {
@@ -417,7 +417,7 @@ export class CallRulesCreateComponent implements OnInit {
     stopPlayerPlay(): void {
         this.mediaPlayer.stopPlay();
     }
-    
+
     getMediaData(fileId: number): void {
         this.storage.getMediaData(fileId)
             .then((media: CdrMediaInfo) => {
