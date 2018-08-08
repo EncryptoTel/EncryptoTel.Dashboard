@@ -29,7 +29,7 @@
                        (mouseleave)="mouseLeave()"
                 >
 
-                <pbx-select *ngIf="options"
+                <pbx-select *ngIf="options && !editable"
                             [name]="key"
                             [singleBorder]="singleBorder"
                             [options]="options"
@@ -43,6 +43,21 @@
                             (mouseenter)="mouseEnter()"
                             (mouseleave)="mouseLeave()"
                 ></pbx-select>
+
+                <pbx-editable-select *ngIf="options && editable"
+                            [name]="key"
+                            [singleBorder]="singleBorder"
+                            [options]="options"
+                            [objectKey]="displayKey"
+                            [selected]="value"
+                            (onSelect)="selectItem($event)"
+                            [errors]="checkError()"
+                            [placeholder]="placeholder"
+                            (onFocus)="setFocus()"
+                            (onBlur)="removeFocus()"
+                            (mouseenter)="mouseEnter()"
+                            (mouseleave)="mouseLeave()"
+                ></pbx-editable-select>
 
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
@@ -78,7 +93,7 @@
                               [value]="value">
                 </pbx-checkbox>
 
-                <pbx-select *ngIf="options"
+                <pbx-select *ngIf="options && !editable"
                             [name]="key"
                             [singleBorder]="singleBorder"
                             [options]="options"
@@ -92,6 +107,21 @@
                             (mouseenter)="mouseEnter()"
                             (mouseleave)="mouseLeave()"
                 ></pbx-select>
+
+                <pbx-editable-select *ngIf="options && editable"
+                            [name]="key"
+                            [singleBorder]="singleBorder"
+                            [options]="options"
+                            [objectKey]="displayKey"
+                            [selected]="value"
+                            (onSelect)="selectItem($event)"
+                            [errors]="checkError()"
+                            [placeholder]="placeholder"
+                            (onFocus)="setFocus()"
+                            (onBlur)="removeFocus()"
+                            (mouseenter)="mouseEnter()"
+                            (mouseleave)="mouseLeave()"
+                ></pbx-editable-select>
 
                 <textarea *ngIf="type === 'textarea'"
                           class="{{singleBorder ? '' : 'show-border'}} {{checkError() ? 'error-border' : ''}}"
