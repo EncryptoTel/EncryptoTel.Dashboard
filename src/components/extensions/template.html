@@ -1,7 +1,6 @@
-<pbx-modal [modal]="modal"
-           (onConfirm)="confirmModal()"
-           (onDecline)="cancelModal()">{{modal.text}}
-</pbx-modal>
+<pbx-modal [modalEx]="modal"
+           (onConfirmEx)="confirmModal()"
+></pbx-modal>
 <div class="ext">
     <pbx-list style="width: 100%"
               [(pageInfo)]="pageInfo"

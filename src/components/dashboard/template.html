@@ -11,18 +11,18 @@
             <div class="dashboard_balance_value">{{dashboard.balance.ett}}</div>
         </div>
         <div class="dashboard_item_link_row">
-            <a class="dashboard_item_link_item" [routerLink]="'../dashboard'" routerLinkActive="active">
+            <a class="dashboard_item_link_item" [routerLink]="'../invoices'" routerLinkActive="active">
                 Transaction history
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
-            <a class="dashboard_item_link_item dashboard_center" [routerLink]="'../dashboard'"
+            <a class="dashboard_item_link_item dashboard_center" [routerLink]="'../invoices'"
                routerLinkActive="active">
                 Invoices
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
             <a class="dashboard_item_link_item" routerLink="/cabinet/refill" routerLinkActive="active">
                 Refill
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
         </div>
     </div>
@@ -40,12 +40,12 @@
         </div>
         <div class="dashboard_item_content_row">
             <div class="dashboard_item_content_key">Payment date</div>
-            <div class="dashboard_item_content_value">{{dashboard.tariffPlan.expired}}</div>
+            <div class="dashboard_item_content_value">{{dashboard.tariffPlan.displayExpired}}</div>
         </div>
         <div class="dashboard_item_link_row">
             <a [routerLink]="'../tariff'" routerLinkActive="active" class="dashboard_item_link_item">
                 Change tariff plan
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
         </div>
     </div>
@@ -62,9 +62,9 @@
             </div>
         </div>
         <div class="dashboard_item_link_row">
-            <a class="dashboard_item_link_item dashboard_right" [routerLink]="'../dashboard'" routerLinkActive="active">
+            <a class="dashboard_item_link_item dashboard_right" [routerLink]="'../phone-numbers'" routerLinkActive="active">
                 Details
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
         </div>
     </div>
@@ -102,32 +102,15 @@
 
                 </style>
                 <!-- i try to create diagram -->
-
                 <pbx-circle-progress
-                        [value]="((dashboard.storage.usedSize)/(dashboard.storage.totalSize))*100 | number: '1.0-0'"></pbx-circle-progress>
-
-                <!--<svg width="120" height="120" viewBox="0 0 120 120" class="progress__svg">-->
-                <!--<circle [attr.r]="radius" cx="60" cy="60" stroke-width="12" class="progress__meter" />-->
-                <!--<circle [style.strokeDasharray]="circumference" [style.strokeDashoffset]="dashoffset" [attr.r]="radius" cx="60" cy="60" stroke-width="12" class="progress__value" />-->
-                <!--</svg>-->
-                <!--<svg class="dashboard_drive_circle dashboard_hide_low_resolution">-->
-                <!--<circle cx="88" cy="88" r="76" stroke-width="24" fill="none"></circle>-->
-                <!--<path class="circle-diagram" stroke-width="24" fill="none" stroke-dasharray="120, 477"-->
-                <!--d="M 12, 88 a 76,76 0 1,0 152,0 a 76,76 0 1,0 -152,0">-->
-                <!--</path>-->
-                <!--</svg>-->
-                <!--<svg class="dashboard_drive_circle dashboard_hide_high_resolution">-->
-                <!--<circle cx="48" cy="48" r="40" stroke-width="16" fill="none"></circle>-->
-                <!--<path stroke-width="16" fill="none"-->
-                <!--d="M 8,48 A 40,40 0 0,1 65.0311716626029,11.8069179013592">-->
-                <!--</path>-->
-                <!--</svg>-->
+                        [value]="((dashboard.storage.usedSize)/(dashboard.storage.totalSize))*100 | number: '1.0-0'">
+                </pbx-circle-progress>
             </div>
         </div>
         <div class="dashboard_item_link_row">
-            <a [routerLink]="'../dashboard'" routerLinkActive="active" class="dashboard_item_link_item">
+            <a [routerLink]="'../storage'" routerLinkActive="active" class="dashboard_item_link_item">
                 Details
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
         </div>
     </div>

@@ -1,8 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {ButtonItem, FilterItem, HeaderComponent} from '../../elements/pbx-header/pbx-header.component';
+import {HeaderComponent} from '../../elements/pbx-header/pbx-header.component';
 import {KnowledgeBaseService} from "../../services/knowledge-base.service";
 import {HelpGroupItem, HelpGroupModel, HelpItem, HelpModel} from "../../models/knowledge-base.model";
+import {ButtonItem, FilterItem} from "../../models/base.model";
 
 @Component({
     selector: 'partner-program-component',

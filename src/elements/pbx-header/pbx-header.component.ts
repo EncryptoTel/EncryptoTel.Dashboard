@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {InputComponent} from "../pbx-input/pbx-input.component";
+import {ButtonItem, FilterItem} from "../../models/base.model";
 
 @Component({
     selector: 'pbx-header',
@@ -31,10 +32,12 @@ export class HeaderComponent implements OnInit {
     }
 
     reload() {
+        // if (this.currentFilter['search'].length >= 3 || this.currentFilter['search'].length === 0) {
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
             this.onReload.emit(this.currentFilter);
         }, 500);
+        // }
     }
 
     load() {
@@ -73,43 +76,4 @@ export class HeaderComponent implements OnInit {
 
     }
 
-}
-
-export class ButtonItem {
-    id: number;
-    title: string;
-    type: string;
-    visible: boolean;
-    inactive: boolean;
-}
-
-export class FilterItem {
-    id: number;
-    key: string;
-    name: string;
-    options: any[];
-    optionsDisplayKey: string;
-    placeHolder: string;
-    width: number;
-    hidden: boolean;
-    inputCenter: boolean;
-    minMaxText: string;
-    min: string;
-    max: string;
-
-    constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string,
-                width?: number, hidden?: boolean, inputCenter?: boolean, minMaxText?: string, min?: string, max?: string) {
-        this.id = id;
-        this.key = key;
-        this.name = name;
-        this.options = options;
-        this.optionsDisplayKey = optionsDisplayKey;
-        this.placeHolder = placeHolder;
-        this.width = width;
-        this.hidden = hidden;
-        this.inputCenter = inputCenter;
-        this.minMaxText = minMaxText;
-        this.min = min;
-        this.max = max;
-    }
 }

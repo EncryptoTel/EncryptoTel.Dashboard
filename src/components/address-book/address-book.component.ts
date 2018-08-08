@@ -1,29 +1,28 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {OnInit, ViewChild} from '@angular/core';
 import {AddressBookService} from '../../services/address-book.service';
 import {
     AddressBookItem,
-    AddressBookModel, 
+    AddressBookModel,
     ContactValueModel,
     TypesModel
 } from '../../models/address-book.model';
 import {RefsServices} from '../../services/refs.services';
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
+import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
 import {CountryModel} from "../../models/country.model";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
-import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
 import {MessageServices} from "../../services/message.services";
+import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
+import {AnimationComponent} from "../../shared/shared.functions";
+import {BaseComponent} from "../../elements/pbx-component/pbx-component.component";
 
-@Component({
+@AnimationComponent({
     selector: 'pbx-address-book',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
     providers: [PageInfoModel],
-    animations: [SwipeAnimation('x', '300ms'), FadeAnimation('300ms')]
 })
 
-export class AddressBookComponent implements OnInit {
+export class AddressBookComponent extends BaseComponent implements OnInit {
 
     @ViewChild(ListComponent) list: ListComponent;
 
@@ -38,19 +37,8 @@ export class AddressBookComponent implements OnInit {
 
     selected: AddressBookItem;
 
-    modal = {
-        delete: {
-            visible: false,
-            confirm: {type: 'error', value: 'Delete'},
-            decline: {type: 'cancel', value: 'Cancel'}
-        },
-        block: {
-            visible: false,
-            body: '',
-            confirm: {type: 'error', value: 'Block'},
-            decline: {type: 'cancel', value: 'Cancel'}
-        },
-    };
+
+    modalBlock = new ModalEx('', 'block');
 
     types: TypesModel;
 
@@ -60,9 +48,10 @@ export class AddressBookComponent implements OnInit {
 
     sidebar: SidebarInfoModel = new SidebarInfoModel();
 
-    constructor(private service: AddressBookService,
+    constructor(public service: AddressBookService,
                 private refs: RefsServices,
                 private message: MessageServices) {
+        super();
         this.sidebar.hideEmpty = true;
     }
 
@@ -81,7 +70,7 @@ export class AddressBookComponent implements OnInit {
         this.prepareData();
         this.sidebar.mode = 'view';
         this.sidebar.buttons = [];
-        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Close', 'cancel'));
         this.sidebar.buttons.push(new SidebarButtonItem(2, 'Edit', 'success'));
         this.sidebar.items = [];
         this.sidebar.items.push(new SidebarInfoItem(4, 'First Name', this.selected.firstname));
@@ -120,7 +109,7 @@ export class AddressBookComponent implements OnInit {
                 this.block();
                 break;
             case 13:
-                this.delete();
+                this.list.items.clickDeleteItem(this.selected);
                 break;
         }
     }
@@ -209,29 +198,19 @@ export class AddressBookComponent implements OnInit {
     }
 
     block() {
-        this.modal.block.confirm.value = this.selected.blacklist ? 'Unblock' : 'Block';
-        this.modal.block.body = `Are you sure you want to ${this.selected.blacklist ? 'unblock' : 'block'} this contact?`;
-        this.modal.block.visible = true;
+        this.modalBlock = new ModalEx('', this.selected.blacklist ? 'unblock' : 'block');
+        this.modalBlock.visible = true;
     }
 
     confirmBlock() {
         this.selected.loading++;
         this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
             this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
-            this.close(true);
             this.selected.loading--;
+            this.close(true);
         }).catch(() => {
             this.selected.loading--;
         });
-    }
-
-    delete() {
-        this.modal.delete.visible = true;
-    }
-
-    confirmDelete() {
-        this.list.delete(this.selected);
-        this.close(true);
     }
 
     addPhone() {

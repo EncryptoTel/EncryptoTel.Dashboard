@@ -12,10 +12,13 @@
             *ngIf="currentTab===tabs[0]"
             [service]="service"
             [name]="name"
+            [generalHeaderText]="generalHeaderText"
+            [cmpType]="cmpType"
     ></pbx-queue-general>
     <pbx-queue-members
             *ngIf="currentTab===tabs[1]&&!addMembers"
             [service]="service"
+            [headerText]="headerText"
             (onClick)="doAddMembers($event)"
     ></pbx-queue-members>
     <pbx-queue-members-add

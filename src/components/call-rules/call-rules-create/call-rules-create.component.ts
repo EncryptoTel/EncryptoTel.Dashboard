@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {FadeAnimation} from '../../../shared/fade-animation';
@@ -9,6 +9,8 @@ import {RefsServices} from "../../../services/refs.services";
 import {StorageService} from "../../../services/storage.service";
 import {StorageModel} from "../../../models/storage.model";
 import {MessageServices} from "../../../services/message.services";
+import {MediaPlayerComponent} from '../../../elements/pbx-media-player/pbx-media-player.component';
+import {CdrMediaInfo, MediaState} from '../../../models/cdr.model';
 
 @Component({
     selector: 'pbx-call-rules-create',
@@ -37,6 +39,11 @@ export class CallRulesCreateComponent implements OnInit {
     loading: number = 0;
     loadingStuff: number = 0;
     timeRulePattern = /(\*|[0-9]*:[0-9]*-[0-9]*:[0-9]*)\|(\*|(sun|mon|tue|wed|thu|fri|sat)(&(sun|mon|tue|wed|thu|fri|sat))*)\|(\*|[0-9]*)\|(\*|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(&(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))*)/;
+    currentMediaStream: string;
+    playButtonText: string;
+
+    @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
+
 
     constructor(private service: CallRulesService,
                 private fb: FormBuilder,
@@ -46,6 +53,7 @@ export class CallRulesCreateComponent implements OnInit {
                 private storage: StorageService,
                 private message: MessageServices) {
         activatedRoute.snapshot.params.id ? this.mode = 'edit' : this.mode = 'create';
+        this.playButtonText = 'Play';
     }
 
     deleteAction(i: number): void {
@@ -103,7 +111,10 @@ export class CallRulesCreateComponent implements OnInit {
         }
     }
 
-    selectFile(file, i: number): void {
+    selectFile(i: number, file: any): void {
+        if (this.mediaPlayer.selectedMediaId != file.id && this.mediaPlayer.state == MediaState.Playing) {
+            this.stopPlayerPlay();
+        }
         this.selectedFiles[i] = file;
         this.actionsControls.get([`${i}`, `parameter`]).setValue(file.id);
     }
@@ -134,7 +145,7 @@ export class CallRulesCreateComponent implements OnInit {
     private buildForm(): void {
         this.callRulesForm = this.fb.group({
             enabled: [null, []],
-            name: [null, [Validators.required, Validators.maxLength(150), Validators.pattern('[A-Za-z0-9_-]*')]],
+            name: [null, [Validators.required, Validators.maxLength(150)]],
             description: [null, [Validators.maxLength(255)]],
             sipId: [null, [Validators.required]],
             ruleActions: this.fb.array([], Validators.required)
@@ -285,7 +296,7 @@ export class CallRulesCreateComponent implements OnInit {
 
     private getNumbers(): void {
         this.loading += 1;
-        this.refs.getSipOuters().then(res => {
+        this.service.getOuters().then(res => {
             this.loading -= 1;
             this.numbers = res;
         }).catch(err => {
@@ -365,31 +376,73 @@ export class CallRulesCreateComponent implements OnInit {
         return key;
     }
 
-    uploadFile(e) {
-        e.preventDefault();
-        const files = e.target.files;
-        if (files[0]) {
-            if (this.storage.checkCompatibleType(files[0])) {
-                this.storage.checkFileExists(files[0], () => {
-                    if (!this.storage.loading) this.refreshFiles();
-                });
-            } else {
+    uploadFile(event: any): void {
+        event.preventDefault();
+        const file = event.target.files[0];
+        if (file) {
+            if (this.storage.checkCompatibleType(file)) {
+                this.storage.checkFileExists(
+                    file,
+                    (loading) => {
+                        if (!this.storage.loading) this.refreshFiles(loading);
+                    });
+            }
+            else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
             }
             this.storage.checkModal();
         }
     }
 
-    refreshFiles() {
-        this.storage.loading++;
-        this.service.getFiles().then((res) => {
-            this.files = res.items;
-            this.storage.loading--;
-        }).catch(err => {
-            this.storage.loading--;
-        });
+    refreshFiles(loading: number): void {
+        if (!loading) {
+            this.storage.loading ++;
+            this.service.getFiles()
+                .then((result) => {
+                    this.files = result.items;
+                    this.storage.loading --;
+                }).catch(error => {
+                    this.storage.loading --;
+                });
+        }
     }
 
+    togglePlay(i: number): void {
+        let fileId = this.actionsControls.get([`${i}`, `parameter`]).value;
+        if (fileId) {
+            this.mediaPlayer.togglePlay(fileId);
+        }
+    }
+
+    stopPlayerPlay(): void {
+        this.mediaPlayer.stopPlay();
+    }
+
+    getMediaData(fileId: number): void {
+        this.storage.getMediaData(fileId)
+            .then((media: CdrMediaInfo) => {
+                this.currentMediaStream = media.fileLink;
+            })
+            .catch(error => {
+                console.log(error);
+                // Error handling here ...
+            });
+    }
+
+    mediaStateChanged(state: MediaState): void {
+        switch (state) {
+            case MediaState.Loading:
+                this.playButtonText = 'Loading';
+                break;
+            case MediaState.Playing:
+                this.playButtonText = 'Pause';
+                break;
+            case MediaState.Paused:
+            default:
+                this.playButtonText = 'Play';
+                break;
+        }
+    }
 
     ngOnInit() {
         this.loading++;

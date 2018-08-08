@@ -113,12 +113,12 @@ export class BaseQueueService extends BaseService {
         this.setStrategiesFromId();
     }
 
-    save(id: number): Promise<any> {
+    save(id: number, ShowSuccess = true, ShowError = null): Promise<any> {
         this.errors = null;
         if (this.editMode) {
-            return this.putById(id, this.item);
+            return this.putById(id, this.item, ShowSuccess, ShowError);
         } else {
-            return this.post('', this.item);
+            return this.post('', this.item, ShowSuccess, ShowError);
         }
     }
 

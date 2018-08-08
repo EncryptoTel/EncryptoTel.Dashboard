@@ -1,0 +1,23 @@
+<div class="player-wrap">
+    <div class="player-container"
+    *ngIf="item.record.playable"
+    [@PlayerAnimation]="item.player.animationState"
+    (@PlayerAnimation.start)="animationStart()"
+    (@PlayerAnimation.done)="animationEnd()">
+        <div class="player-arrow" (click)="toggleView()">
+            <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="player-arrow-icon" [ngClass]="{ 'collapse': item.player.expanded }"></svg-icon>
+        </div>
+        <div class="player-time" *ngIf="item.player.expanded" [@Fade]>{{ item.record.mediaPlayTime | tp }}</div>
+        <div class="player-wave" *ngIf="item.player.expanded" [@Fade]>
+            <span class="{{ waveClass }}" *ngFor="let waveClass of waveRange"></span>
+        </div>
+        <div class="player-oreo"></div>
+    </div>
+</div>
+<div class="player--play-pause" (click)="togglePlay()" *ngIf="item.record.playable && !item.record.mediaLoading">
+    <svg-icon src="../../assets/icons/play_24px.svg" class="details-table-cols-button" *ngIf="!item.record.playing"></svg-icon>
+    <svg-icon src="../../assets/icons/pause_24px.svg" class="details-table-cols-button" *ngIf="item.record.playing"></svg-icon>
+</div>
+<div class="player--loader" *ngIf="item.record.playable && item.record.mediaLoading">
+    <img src="../../assets/icons/player_loader.svg" alt="loading">
+</div>

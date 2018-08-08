@@ -1,3 +1,5 @@
+import {Subscription} from "../../node_modules/rxjs/Subscription";
+
 export class PageInfoModel {
     public itemsCount: number;
     public page: number;
@@ -39,6 +41,7 @@ export class TableInfoModel {
 
 export class TableInfoExModel {
     items: TableInfoItem[] = [];
+    actions: TableInfoAction[] = [];
     sort: {
         isDown: boolean;
         column: string;
@@ -49,7 +52,41 @@ export class TableInfoItem {
     title: string;
     key: string;
     width: number;
+    dataWidth: number;
     sort: string;
+
+    constructor(title: string, key: string, sort?: string, width?: number, dataWidth?: number) {
+        this.title = title;
+        this.key = key;
+        this.width = width;
+        this.dataWidth = dataWidth;
+        this.sort = sort;
+    }
+}
+
+export class TableInfoAction {
+    id: number;
+    type: string; //drop-down, player
+    options: TableInfoActionOption[] = [];
+    width: number = 50;
+
+    constructor(id: number, type: string, width?: number) {
+        this.id = id;
+        this.type = type;
+        this.width = width;
+    }
+}
+
+export class TableInfoActionOption {
+    id: number;
+    title: string;
+    className: string;
+
+    constructor(id: number, title: string, className?: string) {
+        this.id = id;
+        this.title = title;
+        this.className = className;
+    }
 }
 
 export class SidebarInfoModel {
@@ -100,4 +137,85 @@ export class SidebarButtonItem {
         this.title = title;
         this.type = type;
     }
+}
+
+export class TagModel {
+    key: string;
+    title: string;
+}
+
+export class ButtonItem {
+    id: number;
+    title: string;
+    type: string;
+    visible: boolean;
+    inactive: boolean;
+
+    constructor(id?: number, title?: string, type?: string, visible?: boolean, inactive?: boolean) {
+        this.id = id;
+        this.title = title;
+        this.type = type;
+        this.visible = visible;
+        this.inactive = inactive;
+    }
+}
+
+export class FilterItem {
+    id: number;
+    key: string;
+    name: string;
+    options: any[];
+    optionsDisplayKey: string;
+    placeHolder: string;
+    width: number;
+    hidden: boolean;
+    inputCenter: boolean;
+    minMaxText: string;
+    min: string;
+    max: string;
+
+    constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string,
+                width?: number, hidden?: boolean, inputCenter?: boolean, minMaxText?: string, min?: string, max?: string) {
+        this.id = id;
+        this.key = key;
+        this.name = name;
+        this.options = options;
+        this.optionsDisplayKey = optionsDisplayKey;
+        this.placeHolder = placeHolder;
+        this.width = width;
+        this.hidden = hidden;
+        this.inputCenter = inputCenter;
+        this.minMaxText = minMaxText;
+        this.min = min;
+        this.max = max;
+    }
+}
+
+export class InputAction {
+    id: number;
+    type: string; //add-delete
+    objects: any;
+
+    constructor(id: number, type: string, objects?: any) {
+        this.id = id;
+        this.type = type;
+        this.objects = objects;
+    }
+}
+
+export class PlayerModel {
+    public animationState: string = 'min';
+    public expanded: boolean = false;
+}
+
+export class RecordModel {
+    public playing: boolean = false;
+    public playable: boolean = false;
+    public duration: number = 0;
+    public mediaStream: string = null;
+    public mediaStreamId: number = 0;
+    public mediaLoading: boolean = false;
+    public mediaPlayTime: number = 0;
+    public onTimeChange: Subscription = null;
+    public onPlayEnd: Subscription = null;
 }

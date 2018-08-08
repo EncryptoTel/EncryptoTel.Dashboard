@@ -2,13 +2,13 @@
 <div class="main_grid" *ngIf="completedRequests > 1">
   <div class="user_wrap" [ngClass]="{'active': userNavigationVisible}"
        (click)="userNavigationVisible = !userNavigationVisible" (clickOutside)="hideUserNavigation()" #userWrap>
-    <div class="user_profile_image" [ngStyle]="{'background-image': 'url(' + (user.image) + ')'}"></div>
+    <div class="user_profile_image" [ngStyle]="{'background-image': user.image ? 'url(' + (user.image) + ')' : ''}"></div>
     <div class="user_details_wrap">
       <div class="user_details_name">{{user.profile.firstname}}</div>
       <div class="user_details_balance" *ngIf="completedRequests > 1">{{user.balance.symbol}}{{user.balance.balance}}
       </div>
     </div>
-    <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
+    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
     <div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">
       <a routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item">Refill balance</a>
       <a routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item">Tariff plan</a>
@@ -24,28 +24,29 @@
       <div class="header_button_wrap" [ngClass]="{'visible': headerButtonsVisible}">
         <div class="header_button phone" [ngClass]="{'active': activeButtonIndex === 0}"
              (click)="toggleActiveButton(0, $event)">
-          <svg-icon src="../../assets/icons/phone_16px.svg"></svg-icon>
+          <svg-icon src="../../assets/icons/_call_panel/dialer_24px.svg"></svg-icon>
           <div class="button_animation" *ngIf="activeButtonIndex === 0"></div>
         </div>
         <div class="header_button contacts" [ngClass]="{'active': activeButtonIndex === 1}"
              (click)="toggleActiveButton(1, $event)">
-          <svg-icon src="../../assets/icons/contacts.svg"></svg-icon>
+          <svg-icon src="../../assets/icons/_call_panel/contacts_24px.svg"></svg-icon>
           <div class="button_animation" *ngIf="activeButtonIndex === 1"></div>
         </div>
         <div class="header_button chat" [ngClass]="{'active': activeButtonIndex === 2}"
              (click)="toggleActiveButton(2, $event)">
-          <svg-icon src="../../assets/icons/chat.svg"></svg-icon>
+          <svg-icon src="../../assets/icons/_call_panel/chat_24px.svg"></svg-icon>
           <div class="button_animation" *ngIf="activeButtonIndex === 2"></div>
         </div>
         <div class="header_button notifications" [ngClass]="{'active': activeButtonIndex === 3}"
              (click)="toggleActiveButton(3, $event)">
-          <svg-icon src="../../assets/icons/notification_48px.svg"></svg-icon>
+          <svg-icon src="../../assets/icons/_call_panel/notification_24px.svg"></svg-icon>
           <div class="button_animation" *ngIf="activeButtonIndex === 3"></div>
         </div>
-      </div>
+        <div class="desc">© Encrypto Telecom, 2017-2018 v.0.1.0</div>
+      </div> <!-- header_button_wrap -->
       <div class="header_button_hide" (click)="toggleHeaderButtons($event)"
            [ngClass]="{'initial': headerButtonsVisible}">
-        <svg-icon src="../../assets/icons/dropdown_arrow_12px.svg"></svg-icon>
+        <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
       </div>
       <div class="sidebar_wrap" [ngClass]="{'visible': headerButtonsVisible}"
            *ngIf="activeButtonIndex !== (null || undefined)" [@Swipe]>
@@ -54,16 +55,17 @@
         <pbx-chat *ngIf="activeButtonIndex === 2"></pbx-chat>
         <span *ngIf="activeButtonIndex === 3">notification</span>
       </div>
-    </div>
+      <!-- <div class="desc">© Encrypto Telecom, 2017-2018 v.0.1.0</div> -->
+    </div> <!-- header_button_row -->
   </div>
   <div class="navigation_block_wrap">
-    <div class="navigation_block" *ngFor="let block of navigationList">
+    <div class="navigation_block" *ngFor="let block of _user.navigation">
       <div *ngFor="let navigationItem of block">
         <a [routerLink]="navigationItem.url"
            routerLinkActive="active"
            [ngClass]="['navigation_item', 'navigation-item-' + navigationItem.url]">
           <svg-icon class="navigation_item_icon"
-                    [src]="'../../assets/icons/' + navigationItem.icon + '.svg'"></svg-icon>
+                    [src]="'../../assets/icons/_menu/' + navigationItem.icon + '.svg'"></svg-icon>
           <div class="navigation_item_title">{{navigationItem.name}}</div>
         </a>
       </div>

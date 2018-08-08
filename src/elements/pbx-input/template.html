@@ -3,7 +3,9 @@
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']">
             <span>{{name}}</span>
-            <div class="labels-second-line" *ngIf="filter && (filter.min || filter.max)">(<span *ngIf="filter.min">Min {{filter.minMaxText}} {{filter.min}}</span>, <span *ngIf="filter.max">Max {{filter.minMaxText}} {{filter.max}}</span>):</div>
+            <div class="labels-second-line" *ngIf="filter && (filter.min || filter.max)">(<span *ngIf="filter.min">Min {{filter.minMaxText}} {{filter.min}}</span>,
+                <span *ngIf="filter.max">Max {{filter.minMaxText}} {{filter.max}}</span>):
+            </div>
             <span class="required" *ngIf="required">*</span>
         </div>
 
@@ -109,15 +111,43 @@
 
             </div>
 
+            <div *ngFor="let action of actions; let i = index">
+                <div
+                        *ngIf="action.type === 'add-delete'"
+                        class="input_icon_wrap">
+                    <div
+                            *ngIf="action.objects.length > 1"
+                            class="input_icon delete"
+                            (click)="actionDelete(action, index2)">
+                        <div class="input_icon_minus"></div>
+                    </div>
+                    <div
+                            *ngIf="index2 === action.objects.length - 1"
+                            class="input_icon plus"
+                            (click)="actionAdd(action)">
+                        <svg-icon src="../../assets/icons/_middle/plus.svg"></svg-icon>
+                    </div>
+                </div>
+            </div>
+
             <ng-content></ng-content>
 
         </div>
 
-        <div *ngIf="checkError()"
-              [@Swipe]
-              #errorSpan
-              [ngClass]="[floatError ? (getErrorVisible() || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
-        >{{checkError(true)}}</div>
+        <div *ngIf="checkError() && isSwipeAnimation()"
+             [@Swipe]
+             #errorSpan
+             [ngClass]="[floatError ? (getErrorVisible() || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+            >
+            {{ checkError(true) }}
+        </div>
+        <div *ngIf="checkError() && !isSwipeAnimation()"
+            [@Fade]
+            #errorSpan
+            [ngClass]="[floatError ? (getErrorVisible() || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+            >
+            {{ checkError(true) }}
+        </div>
 
     </div>
 </div>

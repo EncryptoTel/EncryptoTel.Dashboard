@@ -33,6 +33,7 @@
     flex-direction: column
     margin-left: auto
     width: 12px
+    height: 12px
   &_options
     position: absolute
     left: 0
@@ -47,6 +48,10 @@
     position: absolute
     top: calc(100% + 4px)
     font-size: rem(12)
+
+.select-icon svg polygon,
+.select-icon svg path,
+  fill: #ffffff !important
 
 // Theme styles
 \:host-context(.dark_theme)
@@ -71,7 +76,7 @@
       &:focus > .selected
         border-color: $dark_accent
       &.active > .selected /deep/ .cls-1
-        fill: $dark_accent
+        fill: $dark_accent !important
       &.error > .selected
         border-color: $dark_error
       &.top > .select_options
@@ -83,7 +88,11 @@
     &_error
       color: $dark_error
     &_icon /deep/ .cls-1
-      fill: $dark_primary
+      fill: $dark_primary !important
+  
+  .select_icon /deep/ path, .select_icon /deep/ polygon
+    fill: $dark_primary !important
+
 \:host-context(.light_theme)
   .select
     &_item
@@ -114,3 +123,6 @@
       color: $dark_error
     &_icon /deep/ .cls-1
       fill: $dark_background
+
+  .select_icon /deep/ path, .select_icon /deep/ polygon
+    fill: $dark_background !important

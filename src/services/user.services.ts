@@ -1,46 +1,45 @@
-import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
-import {RequestServices} from './request.services';
-import {LocalStorageServices} from './local-storage.services';
+import { RequestServices } from './request.services';
+import { LocalStorageServices } from './local-storage.services';
 
-import {UserModel} from '../models/user.model';
-import {NavigationItemModel} from '../models/navigation-item.model';
+import { UserModel } from '../models/user.model';
+import { NavigationItemModel } from '../models/navigation-item.model';
 
 /*
   User services. Authentication, user params changing etc.
 */
-
 @Injectable()
 export class UserServices {
-    constructor(private _req: RequestServices,
-                private _storage: LocalStorageServices) {
-    }
+    public navigation: any[];
+    public user: UserModel;
+    public subscription: Subject<UserModel>;
 
-    user: UserModel;
-    subscription: Subject<UserModel> = new Subject<UserModel>();
+    constructor(
+        private _request: RequestServices,
+        private _storage: LocalStorageServices) {
+
+        this.subscription = new Subject<UserModel>();
+    }
 
     /*
       Fetch initial user profile params
      */
     fetchProfileParams(): Promise<UserModel> {
-        return this._req.get('v1/account/info').then(res => {
-            // for (const param in res['user']) {
-            //   if (res['user'].hasOwnProperty(param)) {
-            //     this.changeUserParam(param, res['user'][param]);
-            //   }
-            // }
-            this.changeUserParam('profile', res['user']);
-            this.changeUserParam('balance', res['balance']);
-            return Promise.resolve(this.fetchUser());
-        }).catch();
+        return this._request.get('v1/account/info')
+            .then(result => {
+                this.changeUserParam('profile', result['user']);
+                this.changeUserParam('balance', result['balance']);
+                return Promise.resolve(this.fetchUser());
+            });
     }
 
     /*
       Saving user data
      */
-    saveUserData = (user: UserModel): void => {
+    saveUserData = (user): void => {
         this._storage.writeItem('pbx_user', user);
         this.touchUser();
     }
@@ -59,9 +58,11 @@ export class UserServices {
       Fetch initial navigation params, based on current user tariff plan
      */
     fetchNavigationParams(): Promise<NavigationItemModel[][]> {
-        return this._req.get('v1/nav').then(res => {
-            return Promise.resolve(res['items']);
-        }).catch();
+        return this._request.get('v1/nav')
+            .then(result => {
+                this.navigation = result['items'];
+                return Promise.resolve(result['items']);
+            });
     }
 
     /*

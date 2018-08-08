@@ -58,3 +58,39 @@ export class CallRules {
                 public status?: number) {
     }
 }
+
+export class AsteriskTimeRule {
+    public days: any[];
+    public date: string;
+    public time: string;
+    public month: string;
+
+    constructor() {
+        this.empty();
+    }
+
+    empty(): void {
+        this.days = [];
+        this.date = '';
+        this.time = '';
+        this.month = '';
+    }
+
+    initForAlwaysRule(): void {
+        this.days = ['*'];
+        this.date  = '*';
+        this.month = '*';
+    }
+
+    initForWeekDaysRule(): void {
+        this.days = [];
+        this.date = '*';
+        this.month = '*';
+    }
+
+    initForDatePeriodRule(): void {
+        this.days = ['*'];
+        this.date = '';
+        this.month = '';
+    }
+}

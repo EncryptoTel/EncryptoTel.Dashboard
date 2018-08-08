@@ -13,6 +13,7 @@ export class RingGroupService extends BaseQueueService {
 
     getItem(id: number): Promise<any> {
         return this.getById(id).then(res => {
+            this.item.id = res.id;
             this.item.sipId = res.sip.id;
             this.item.name = res.name;
             this.item.strategy = res.strategy;
@@ -73,6 +74,10 @@ export class RingGroupService extends BaseQueueService {
             });
             return Promise.resolve(pageInfo);
         });
+    }
+
+    getOuters(): Promise<any> {
+        return this.request.get(`v1/ring_group/outers?limit=1000`);
     }
 
     onInit() {

@@ -1,11 +1,23 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output
+} from '@angular/core';
 import {TableInfoExModel, TableInfoItem, TableInfoModel} from '../../models/base.model';
 import {ModalEx} from "../pbx-modal/pbx-modal.component";
+import {PlayerAnimation} from "../../shared/player-animation";
+import {FadeAnimation} from "../../shared/fade-animation";
 
 @Component({
     selector: 'pbx-table',
     templateUrl: './template.html',
-    styleUrls: ['./local.sass']
+    styleUrls: ['./local.sass'],
+    animations: [
+        FadeAnimation('200ms'),
+        PlayerAnimation
+    ]
 })
 
 export class TableComponent implements OnInit {
@@ -24,9 +36,13 @@ export class TableComponent implements OnInit {
     @Output() onDelete: EventEmitter<object> = new EventEmitter<object>();
     @Output() onPageChangeEx: EventEmitter<number> = new EventEmitter<number>();
     @Output() onSort: EventEmitter<object> = new EventEmitter<object>();
+    @Output() onDropDown: EventEmitter<object> = new EventEmitter<object>();
+    @Output() onDropDownClick: EventEmitter<object> = new EventEmitter<object>();
+    @Output() onPlayerClick: EventEmitter<object> = new EventEmitter<object>();
 
-    modal: ModalEx = new ModalEx('Are you sure?', 1);
+    modal: ModalEx = new ModalEx('Are you sure?', 'delete');
     selectedDelete: any;
+    dropDirection = '';
 
     isSelected(id: number): boolean {
         if (this.selected) {
@@ -88,6 +104,66 @@ export class TableComponent implements OnInit {
         return [item.sort ? 'sort' : '', item.width ? ('fix' + item.width) : ''];
     }
 
+    dropOpen(action, item) {
+        let prev = item.ddShow;
+        this.tableItems.forEach((item) => {
+            item.ddShow = false;
+        });
+        this.onDropDown.emit({action: action, item: item});
+        item.ddShow = prev === false;
+
+        if ((this.tableItems.length - 4) < this.tableItems.indexOf(item)) {
+            this.dropDirection = 'top';
+        } else {
+            this.dropDirection = 'bottom';
+        }
+    }
+
+    dropClick(action, option, item) {
+        this.onDropDownClick.emit({action: action, option: option, item: item});
+    }
+
+    mouseEnter(event, item) {
+        // console.log('mouseEnter', item.id);
+
+    }
+
+    mouseLeave(event, item) {
+        // console.log('mouseLeave', item.id);
+    }
+
+    /* ------------------------------------------------------
+     * Media player
+     * ------------------------------------------------------
+     */
+
+    playerClick(item) {
+        this.onPlayerClick.emit(item);
+    }
+
+    playerOpenClose(item) {
+        item.player.animationState = item.player.animationState === 'min' ? 'max' : 'min';
+    }
+
+    playerAnimationStart(item) {
+        if (item) {
+            // console.log('PLAYER_ANIMATION1', item.player.animationState);
+            // console.log('PLAYER_ANIMATION2', item.player.contentShow);
+            if (item.player.animationState === 'min') {
+                item.player.contentShow = false;
+            }
+        }
+    }
+
+    playerAnimationEnd(item) {
+        if (item) {
+            item.player.contentShow = item.player.contentShow === false;
+            if (item.player.animationState === 'min') {
+                item.player.contentShow = false;
+            }
+        }
+    }
+
     ngOnInit() {
         this.name ? this.modal.body = `Are you sure you want to delete this ${this.name}?` : null;
         if (!this.tableInfoEx) {
@@ -97,6 +173,7 @@ export class TableComponent implements OnInit {
                     title: this.tableInfo.titles[i],
                     key: this.tableInfo.keys[i],
                     width: null,
+                    dataWidth: undefined,
                     sort: null,
                 };
                 this.tableInfoEx.items.push(item);
@@ -105,3 +182,4 @@ export class TableComponent implements OnInit {
     }
 
 }
+

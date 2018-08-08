@@ -71,6 +71,7 @@ import {BillingComponent} from '../components/settings/settings-items/billing/bi
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 import {RefComponent} from "../components/confirmation/ref.component";
+import {SessionsComponent} from "../components/settings/settings-items/sessions/sessions.component";
 
 const Routes: Routes = [
     {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -153,7 +154,7 @@ const Routes: Routes = [
                     {
                         path: 'create',
                         component: CallQueuesCreateComponent,
-                        data: {title: 'Create Call Queue', indexed: true},
+                        data: {title: 'Create Call Queues', indexed: true},
                     },
                     {
                         path: ':id',
@@ -232,12 +233,17 @@ const Routes: Routes = [
                         path: 'user-notifications',
                         component: UserNotificationsComponent,
                         data: {title: 'User Notification Settings', indexed: true}
+                    },
+                    {
+                        path: 'sessions',
+                        component: SessionsComponent,
+                        data: {title: 'Active Sessions', indexed: true}
                     }
                 ]
             },
             {
-                path: 'refill', 
-                component: RefillBalanceComponent, 
+                path: 'refill',
+                component: RefillBalanceComponent,
                 data: {title: 'Refill Balance', indexed: true},
                 runGuardsAndResolvers: 'always',
             },
@@ -260,7 +266,7 @@ const Routes: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(Routes, { onSameUrlNavigation: 'reload' })
+        RouterModule.forRoot(Routes, {onSameUrlNavigation: 'reload'})
     ],
     exports: [
         RouterModule

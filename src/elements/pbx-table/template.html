@@ -10,10 +10,10 @@
             </div>
         </div>
         <div class="tablet_icon edit" *ngIf="editable">
-            <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
+            <svg-icon src="../../assets/icons/_middle/edit_12px.svg"></svg-icon>
         </div>
         <div class="tablet_icon delete" *ngIf="deletable">
-            <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+            <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
         </div>
     </div>
     <div class="tablet_body">
@@ -22,21 +22,52 @@
             <pbx-loader *ngIf="item.loading"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">
                 <div *ngFor="let tableItem of tableInfoEx.items;let i=index"
-                     class="tablet_item {{!!columnFormat?columnFormat[i]:''}} {{tableItem.width ? 'fix_' + tableItem.width : ''}}"
-                     (click)="selectItem(item)">
-                    {{getValueByKeyEx(item, tableItem.key)}}
+                     class="tablet_item {{!!columnFormat?columnFormat[i]:''}} {{tableItem.dataWidth !== undefined ? ('fix_' + tableItem.dataWidth) : (tableItem.width ? 'fix_' + tableItem.width : '')}}"
+                     (click)="selectItem(item)"
+                     (mouseenter)="mouseEnter($event, item)"
+                     (mouseleave)="mouseLeave($event, item)">
+                     {{ getValueByKeyEx(item, tableItem.key) }}
                     <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
                 </div>
                 <div class="tablet_icon edit"
                      *ngIf="editable" (click)="editItem(item, $event)">
-                    <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
+                    <svg-icon src="../../assets/icons/_middle/edit_12px.svg"></svg-icon>
                 </div>
                 <div class="tablet_icon delete"
                      *ngIf="deletable" (click)="clickDeleteItem(item, $event)">
-                    <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+                    <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
+                </div>
+
+                <div
+                        *ngFor="let action of tableInfoEx.actions; let i = index;"
+                        [style.width]="action.width ? action.width + 'px' : '20px'">
+                    <div
+                            *ngIf="action.type === 'drop-down'"
+                            class="tablet_item_cols">
+                        <div
+                                class="tablet_item_cols_dropdown"
+                                (click)="dropOpen(action, item)">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <ul
+                                    class="dd-menu"
+                                    *ngIf="item.ddShow"
+                                    [ngClass]="{'top' : dropDirection === 'top', 'bottom' : dropDirection === 'bottom'}">
+                                <li
+                                        *ngFor="let option of action.options"
+                                        class="dd-menu-button {{option.className}}"
+                                        (click)="dropClick(action, option, item)"
+                                >{{option.title}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <pbx-modal [modalEx]="modal" (onConfirmEx)="deleteItem()">Are you sure?</pbx-modal>

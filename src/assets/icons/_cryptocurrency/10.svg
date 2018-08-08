@@ -1,0 +1,11 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>ethereum</title>
+  <g>
+    <polygon points="50 37 18.89 51 50 0 50 37" fill="#8792b4"/>
+    <polygon points="50 0 81.11 51 50 37 50 0" fill="#606891"/>
+    <polygon points="50 37 18.89 51 50 69 50 37" fill="#606891"/>
+    <polygon points="50 69 81.11 51 50 37 50 69" fill="#414977"/>
+    <polygon points="50 75 18.89 57 50 100 50 75" fill="#8792b4"/>
+    <polygon points="50 100 81.11 57 50 75 50 100" fill="#606891"/>
+  </g>
+</svg>

@@ -9,6 +9,7 @@ import {SidebarInfoModel} from "../../models/base.model";
 
 export class SidebarComponent {
     @Input() sidebarInfo: SidebarInfoModel;
+    @Input() errors: any;
     @Output() onClick: EventEmitter<SidebarInfoModel> = new EventEmitter<SidebarInfoModel>();
 
     viewItems() {

@@ -11,6 +11,7 @@ export class CallQueueService extends BaseQueueService {
 
     getItem(id: number): Promise<any> {
         return this.getById(id).then(res => {
+            this.item.id = res.id;
             this.item.sipId = res.sip.id;
             this.item.name = res.name;
             this.item.strategy = res.strategy;
@@ -48,6 +49,10 @@ export class CallQueueService extends BaseQueueService {
             });
             return Promise.resolve(pageInfo);
         });
+    }
+
+    getOuters(): Promise<any> {
+        return this.request.get(`v1/call_queue/outers?limit=1000`);
     }
 
     onInit() {

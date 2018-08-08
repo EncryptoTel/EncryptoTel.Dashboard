@@ -112,4 +112,6 @@
     </pbx-form>
     <pbx-sidebar [sidebarInfo]="sidebarInfo"></pbx-sidebar>
 </div>
-<pbx-modal [modal]="modal" (onConfirm)="cancel()">Stop editing?</pbx-modal>
+<pbx-modal
+        [modalEx]="modal" (onConfirmEx)="cancel()"
+></pbx-modal>

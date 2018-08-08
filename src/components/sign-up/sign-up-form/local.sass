@@ -17,3 +17,41 @@
     &::before, &::after
       position: fixed
       top: 0
+
+pbx-input
+    /deep/ .pbx_input_item
+        grid-template-columns: auto 0fr
+        direction: rtl
+    /deep/ .pbx_input_item_label
+        max-width: 305px
+        width: auto
+        direction: ltr
+        white-space: normal
+        line-height: 1.1
+        span
+            font-size: 11px
+            line-height: 1.4
+            padding: 3px 6px 0 10px
+            opacity: 0.4
+    /deep/ .pbx_input_item_input_wrap
+        align-self: flex-start
+    /deep/ .pbx_input_error
+        left: 76px
+        margin-top: 0
+        background-color: #dd6262
+        font-size: 12px
+        direction: ltr
+        width: 300px
+        &:before
+            content: ''
+            position: absolute
+            left: -14px
+            top: 50%
+            -webkit-transform: translateY(-50%)
+            transform: translateY(-50%)
+            width: 0
+            height: 0
+            border-top: 8px solid transparent
+            border-right: 8px solid #dd6262
+            border-bottom: 8px solid transparent
+

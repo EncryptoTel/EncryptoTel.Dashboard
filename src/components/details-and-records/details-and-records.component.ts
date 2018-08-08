@@ -6,9 +6,13 @@ import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {PlayerAnimation} from '../../shared/player-animation';
 import {CdrService} from '../../services/cdr.service';
-import {MediaGridColumn, MediaGrid} from '../../models/media-grid.model';
+import {MediaGridFilter} from '../../models/media-grid.model';
 import {WsServices} from "../../services/ws.services";
 import {CdrItem, CdrModel} from "../../models/cdr.model";
+import {getInterval} from "../../shared/shared.functions";
+import {TableInfoAction, TableInfoActionOption, TableInfoExModel, TableInfoItem, TagModel} from "../../models/base.model";
+import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
+import {TagSelectorComponent} from '../../elements/pbx-tag-selector/pbx-tag-selector.component';
 
 @Component({
     selector: 'pbx-details-and-records',
@@ -22,8 +26,14 @@ import {CdrItem, CdrModel} from "../../models/cdr.model";
 export class DetailsAndRecordsComponent implements OnInit {
 
     pageInfo: CdrModel = new CdrModel();
-    loading = 0;
+    loading: number = 0;
     cdrSubscription: Subscription;
+    table: TableInfoExModel = new TableInfoExModel();
+
+    tags: TagModel[];
+
+    @ViewChild('mediaTable') mediaTable: MediaTableComponent;
+    @ViewChild('tagSelector') tagSelector: TagSelectorComponent;
 
     /* ------------------------------------------------------
      * Component initialization
@@ -32,33 +42,74 @@ export class DetailsAndRecordsComponent implements OnInit {
 
     constructor(private service: CdrService,
                 private ws: WsServices) {
+
+        this.table.sort.isDown = true;
+        this.table.sort.column = 'callDate';
+        this.table.items.push(new TableInfoItem('From', 'source', 'source'));
+        this.table.items.push(new TableInfoItem('To', 'destination', 'destination'));
+        this.table.items.push(new TableInfoItem('Date', 'displayDateTime', 'callDate'));
+        this.table.items.push(new TableInfoItem('Duration', 'displayDuration'));
+        this.table.items.push(new TableInfoItem('Tag', 'displayStatus', 'status'));
+        this.table.items.push(new TableInfoItem('Price', 'displayPrice'));
+        this.table.items.push(new TableInfoItem('Record', 'record', null, 200, 0));
+        this.table.actions.push(new TableInfoAction(1, 'player', 175));
+        this.table.actions.push(new TableInfoAction(2, 'drop-down', 25));
+
         this.cdrSubscription = this.ws.subCdr().subscribe(() => {
             let item = new CdrItem();
             this.pageInfo.items.unshift(item);
             this.getItems(item);
         });
-        this.grid = new MediaGrid([
-            new MediaGridColumn('source', 'From', true),
-            new MediaGridColumn('destination', 'To', true),
-            new MediaGridColumn('callDate', 'Date', true),
-            new MediaGridColumn('duration', 'Duration'),
-            new MediaGridColumn('status', 'Tag', true),
-            new MediaGridColumn('price', 'Price', false),
-            new MediaGridColumn('record', 'Record', false),
-        ]);
 
-        this.grid.dataUpdateRequired.subscribe(event => {
-            // console.log('dataUpdateRequired');
-            this.getItems();
-        });
-
-        this.grid.setFilterTags([
+        this.tags = [
             {key: 'noAnswer', title: 'no-answer'},
             {key: 'incoming', title: 'incoming'},
             {key: 'outgoing', title: 'outgoing'},
             {key: 'missed', title: 'missed'},
             {key: 'record', title: 'record'},
-        ]);
+        ];
+    }
+
+    ngOnInit() {
+        this.pageInfo.limit = Math.floor((window.innerHeight - 180) / 48);
+        this.getItems();
+    }
+
+    getInterval() {
+        return getInterval(this.pageInfo.items, 'created', 'displayDate');
+    }
+
+    dropDown(event) {
+        switch (event.action.id) {
+            case 2:
+                event.action.options = [];
+                if (event.item.playable) event.action.options.push(new TableInfoActionOption(1, 'Download file'));
+                if (event.item.contactId) event.action.options.push(new TableInfoActionOption(2, 'View contact'));
+                event.action.options.push(new TableInfoActionOption(3, 'Block user', 'ban'));
+                break;
+        }
+    }
+
+    dropDownClick(event) {
+        switch (event.action.id) {
+            case 2:
+                switch (event.option.id) {
+                    case 1:
+                        console.log('Download file');
+                        break;
+                    case 2:
+                        console.log('View contact');
+                        break;
+                    case 3:
+                        console.log('Block user');
+                        break;
+                }
+                break;
+        }
+    }
+
+    onTagSelection(): void {
+        this.getItems();
     }
 
     /* ------------------------------------------------------
@@ -67,235 +118,30 @@ export class DetailsAndRecordsComponent implements OnInit {
      */
 
     private getItems(item = null): void {
-        // console.log('getItems');
         (item ? item : this).loading++;
-        let tags = this.grid.filter.selectedTags.map(t => {
+        let tags = this.tagSelector.selectedTags.map(t => {
             return t.key;
         });
-        this.service.getItems(this.pageInfo, {status: tags.length > 0 ? tags : null},
-            {
-                column: this.grid.sortedColumn.field,
-                isDown: this.grid.sortedColumn.direction === 'desc'
-            }).then(result => {
+        this.service.getItems(this.pageInfo, {status: tags.length > 0 ? tags : null}, this.table.sort).then(result => {
             this.pageInfo = result;
-            this.grid.items = result.items;
-            this.selectedDetailIndex = -1;
             (item ? item : this).loading--;
         }).catch(() => {
             (item ? item : this).loading--;
         });
     }
 
-    ngOnInit() {
-        // sort 1st column by default
-        this.grid.sortByIndex(2);
-    }
+    getMediaData(item: CdrItem): void {
+        item.record.mediaLoading = true;
 
-
-    rowHowerIndex: number;
-    contactActionName: string = 'View contact';
-    dropDirection: string = 'bottom';
-
-    // curID: number;
-    player: any;
-    payerBlob: any;
-    playerId: any;
-    playerSeek: any;
-    playerFiles = [];
-    playerPrevState: any;
-
-    @ViewChild(VgHLS) vgHls: VgHLS;
-    api: VgAPI;
-
-    selectedDetailIndex: number;
-
-    selectedDetail: any;
-    currentMediaStream: string;
-
-    grid: MediaGrid;
-
-    onPlayerReady(api: VgAPI): void {
-        this.api = api;
-    }
-
-    /* ------------------------------------------------------
-     * Media player
-     * ------------------------------------------------------
-     */
-
-    startMediaPlaying(detail: any, forceSeekTime: boolean = false): void {
-        if (!detail.playable) return;
-
-        if (forceSeekTime) this.api.seekTime(detail.mediaPlayTime, false);
-        this.api.play();
-        detail.playing = true;
-    }
-
-    stopMediaPlaying(detail: any): void {
-        if (!detail.playable) return;
-
-        this.api.pause();
-        detail.mediaPlayTime = this.api.currentTime;
-        detail.playing = false;
-    }
-
-    togglePlayerPlay(detail: any): void {
-        if (!detail.playable) return;
-
-        if (detail == this.selectedDetail) {
-            // toggle current media stream playing
-            if (detail.playing) {
-                this.stopMediaPlaying(detail);
-            }
-            else {
-                this.startMediaPlaying(detail);
-            }
-        }
-        else {
-            if (this.selectedDetail && this.selectedDetail.playing) {
-                // save current media playtime
-                this.stopMediaPlaying(this.selectedDetail);
-            }
-
-            this.selectedDetail = detail;
-            if (!detail.mediaStream) {
-                // load selected detail media data
-                this.loadRecordMedia();
-            }
-            else {
-                // switch to selected detail media stream
-                this.startPlayRecord();
-            }
-        }
-    }
-
-    startPlayRecord(): void {
-        this.selectedDetail.mediaLoading = true;
-        let timer: Subscription = TimerObservable.create(0, 10).subscribe(() => {
-            this.currentMediaStream = this.selectedDetail.mediaStream;
-            timer.unsubscribe();
-
-            let onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(() => {
-                onCanPlay.unsubscribe();
-
-                this.startMediaPlaying(this.selectedDetail, true);
-                this.selectedDetail.mediaLoading = false;
-            });
-        });
-    }
-
-    loadRecordMedia(): void {
-        this.selectedDetail.mediaLoading = true;
-        this.service.getRecordMedia(this.selectedDetail.accountFile.id)
+        this.service.getMediaData(item.accountFile.id)
             .then(result => {
-                console.log(result);
-                this.selectedDetail.mediaStream = result.fileLink;
-                this.startPlayRecord();
+                item.record.mediaStream = result.fileLink;
+                this.mediaTable.setMediaData(item);
             })
             .catch(error => {
                 console.log(error);
+                item.record.mediaLoading = false;
+                item.record.playable = false;
             });
     }
-
-    // method is deprecated, but kept for knowledge base
-    convertMediaDataToBlob(base64data: string): string {
-        // const dataURI = 'data:audio/x-mp3;base64,' + base64data;
-        const mimeType = 'audio/x-mp3';
-
-        const byteString = atob(base64data);
-        const ab = new ArrayBuffer(byteString.length);
-        const ia = new Uint8Array(ab);
-        for (let i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-        const blob = new Blob([ab], {type: mimeType});
-        const blobUrl = window.URL.createObjectURL(blob);
-
-        return blobUrl;
-    }
-
-    playerOpenClose(index) {
-        this.selectedDetailIndex = index;
-        this.pageInfo.items[this.selectedDetailIndex].playerAnimationState = this.pageInfo.items[this.selectedDetailIndex].playerAnimationState === 'min'
-            ? 'max'
-            : 'min';
-    }
-
-    playerAnimationStart() {
-        if (this.pageInfo.items[this.selectedDetailIndex]) {
-            console.log('PLAYER_ANIMATION1', this.pageInfo.items[this.selectedDetailIndex].playerAnimationState);
-            console.log('PLAYER_ANIMATION2', this.pageInfo.items[this.selectedDetailIndex].playerContentShow);
-            if (this.pageInfo.items[this.selectedDetailIndex].playerAnimationState === 'min') {
-                this.pageInfo.items[this.selectedDetailIndex].playerContentShow = false;
-            }
-        }
-    }
-
-    playerAnimationEnd() {
-        if (this.pageInfo.items[this.selectedDetailIndex]) {
-            this.pageInfo.items[this.selectedDetailIndex].playerContentShow = this.pageInfo.items[this.selectedDetailIndex].playerContentShow === false;
-            if (this.pageInfo.items[this.selectedDetailIndex].playerAnimationState === 'min') {
-                this.pageInfo.items[this.selectedDetailIndex].playerContentShow = false;
-            }
-        }
-    }
-
-    /* ------------------------------------------------------
-     * Records sorting and filtering
-     * ------------------------------------------------------
-     */
-
-    checkTagUnselected(tag: string): boolean {
-        return !this.grid.filter.checkTagSelected(tag);
-    }
-
-    sort(column: MediaGridColumn): void {
-        this.grid.sort(column);
-    }
-
-    /* ------------------------------------------------------
-     * Record row dropdown
-     * ------------------------------------------------------
-     */
-
-    rowHoverStart(index) {
-        this.rowHowerIndex = index;
-        this.pageInfo.items[index].hover = true;
-    }
-
-    rowHoverEnd() {
-        this.pageInfo.items.forEach((item, i) => {
-            this.pageInfo.items[i].hover = false;
-            this.pageInfo.items[i].ddShow = false;
-        });
-    }
-
-    dropOpen(event, idx) {
-        this.pageInfo.items[this.rowHowerIndex].ddShow = this.pageInfo.items[this.rowHowerIndex].ddShow === false;
-
-        if ((this.pageInfo.items.length - 4) < idx) {
-            this.dropDirection = 'top';
-        } else {
-            this.dropDirection = 'bottom';
-        }
-    }
-
-}
-
-@Pipe({
-    name: 'tp'
-})
-export class TimePipe implements PipeTransform {
-
-    transform(value: any): string {
-        const sec_num = parseInt(value, 10);
-        const hours = Math.floor(sec_num / 3600) % 24;
-        const minutes = Math.floor(sec_num / 60) % 60;
-        const seconds = sec_num % 60;
-        return [hours, minutes, seconds]
-            .map(v => v < 10 ? '0' + v : v)
-            .filter((v, i) => v !== '00 ' || i > 0)
-            .join(':');
-    }
-
 }

@@ -1,0 +1,65 @@
+.call-rules-create
+    pbx-input
+        .pbx_input_wrap
+            .pbx_input_item
+                .pbx_input_item_label
+                    //width: 157px
+                .pbx_input_item_input_wrap
+                    .time
+                        padding-left: 16px
+
+// loader
+pbx-call-rules-create
+    pbx-form
+        position: relative
+        pbx-loader
+            position: absolute
+            top: 50%
+            left: 50%
+            transform: translate(-50%, -50%)
+
+// z-index for errors
+pbx-call-rules-create
+    .pbx_input_error
+        z-index: 1
+
+pbx-call-rules-create
+    .form-body-content
+        padding: 24px !important
+    .call-rules-create
+        grid-gap: 0 !important
+        .pbx_input_item_input_wrap
+            position: relative
+            width: 100%
+        .icon_wrap
+            margin-left: 24px
+    pbx-input
+        margin-right: 40px
+        height: 48px
+        align-items: center
+        // margin-bottom: 16px
+    pbx-input[name="Action"]
+        .pbx_input_item_label
+            span
+                color: $dark-white
+                opacity: 1
+                font-weight: 500
+    pbx-input.noMargin
+        margin-right: 0
+    .call-rules-create_row
+        height: 32px
+        align-items: center
+        margin-bottom: 0 !important
+        margin-top: 16px !important
+        &.days
+            margin-top: 8px !important
+            height: 48px !important
+        pbx-button
+            height: 32px !important
+            button
+                height: 32px !important
+        h3
+            color: $dark-white
+            opacity: .8
+    .call-rules-create_row:nth-child(1)
+        margin-top: 0 !important

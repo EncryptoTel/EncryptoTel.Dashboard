@@ -1,12 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ExtensionService} from '../../services/extension.service';
 import {MainViewComponent} from '../main-view.component';
-import {ExtensionItem, ExtensionModel, SipDepartmentItem} from "../../models/extension.model";
+import {ExtensionItem, ExtensionModel} from "../../models/extension.model";
 import {Router} from "@angular/router";
 import {MessageServices} from "../../services/message.services";
 import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
-import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
-import {TableInfoExModel} from "../../models/base.model";
+import {FilterItem, TableInfoExModel, TableInfoItem} from "../../models/base.model";
+import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 
 @Component({
     selector: 'extensions-component',
@@ -31,33 +31,21 @@ export class ExtensionsComponent implements OnInit {
     sidebar: ExtensionItem = null;
     selected: ExtensionItem;
     passwordTo: number;
-    table: TableInfoExModel = {
-        sort: {
-            isDown: false,
-            column: null,
-        },
-        items: [
-            {title: '#Ext', key: 'extension', width: 80, sort: null},
-            {title: 'Phone Number', key: 'phone', width: null, sort: null},
-            {title: 'First Name', key: 'userFirstName', width: null, sort: null},
-            {title: 'Last Name', key: 'userLastName', width: null, sort: null},
-            {title: 'E-mail', key: 'userEmail', width: null, sort: null},
-            {title: 'Status', key: 'statusName', width: 80, sort: null},
-            {title: 'Default', key: 'default', width: 80, sort: null},
-        ]};
+    table: TableInfoExModel = new TableInfoExModel();
     text = MainViewComponent.prototype;
-    modal = {
-        visible: false,
-        title: '',
-        text: '',
-        confirm: {type: 'error', value: 'Delete'},
-        decline: {type: 'cancel', value: 'Cancel'}
-    };
+    modal = new ModalEx();
     filters: FilterItem[] = [];
 
-    constructor(private service: ExtensionService,
+    constructor(public service: ExtensionService,
                 private router: Router,
                 private _messages: MessageServices) {
+        this.table.items.push(new TableInfoItem('#Ext', 'extension', null, 80));
+        this.table.items.push(new TableInfoItem('Phone Number', 'phone'));
+        this.table.items.push(new TableInfoItem('First Name', 'userFirstName'));
+        this.table.items.push(new TableInfoItem('Last Name', 'userLastName'));
+        this.table.items.push(new TableInfoItem('E-mail', 'userEmail'));
+        this.table.items.push(new TableInfoItem('Status', 'statusName', null, 80));
+        this.table.items.push(new TableInfoItem('Default', 'default', null, 80));
 
     }
 
@@ -74,13 +62,15 @@ export class ExtensionsComponent implements OnInit {
     sendPasswordToAdmin(item: ExtensionItem): void {
         this.selected = item;
         this.passwordTo = 1;
-        this.showModal('Reset password', 'Do you want to reset your password and send the new password to admin?', 'Reset');
+        this.modal = new ModalEx('', 'resetToAdmin');
+        this.modal.visible = true;
     }
 
     sendPasswordToUser(item: ExtensionItem): void {
         this.selected = item;
         this.passwordTo = 2;
-        this.showModal('Reset password', 'Do you want to reset your password and send the new password to user?', 'Reset');
+        this.modal = new ModalEx('', 'resetToUser');
+        this.modal.visible = true;
     }
 
     confirmModal(): void {
@@ -103,13 +93,6 @@ export class ExtensionsComponent implements OnInit {
     cancelModal() {
         this.selected = null;
         this.passwordTo = 0;
-    }
-
-    showModal(title: string, text: string, confirm: string): void {
-        this.modal.text = text;
-        this.modal.title = title;
-        this.modal.confirm.value = confirm;
-        this.modal.visible = true;
     }
 
     load() {

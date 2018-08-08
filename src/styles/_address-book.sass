@@ -1,16 +1,46 @@
 // phone and email labels
+// and position for error messages
 .sidebar
+    svg-icon
+        /deep/ *
+            fill: $dark_green_dark
+    pbx-select
+        svg-icon
+            /deep/ *
+                fill: $dark-white
     .phone-block,
     .email-block
         pbx-input
             .pbx_input_row_label
                 display: none
+            .pbx_input_error_float_focus
+                margin-top: 0
         pbx-input:nth-child(1)
             .pbx_input_row_label
                 display: block
+            .pbx_input_error_float_focus
+                margin-top: 23px
 
-// long name
-.address
+// long string
+pbx-address-book
+    pbx-list
+        width: calc(100% - 344px) !important
+
+
+pbx-address-book
     pbx-table
-        .tablet_item
-            max-width: 400px
+        .tablet
+            .tablet_row
+                &:hover
+                    .tablet_icon
+                        // opacity: .33 !important
+                svg-icon
+                    width: 100% !important
+                .tablet_icon
+                    // opacity: 0 !important
+                    &:hover
+                        // opacity: 1 !important
+                    
+
+
+        

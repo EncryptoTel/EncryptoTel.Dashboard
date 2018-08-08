@@ -16,16 +16,18 @@ import {LocalStorageServices} from "./local-storage.services";
 
 @Injectable()
 export class AuthorizationServices {
+    message: FormMessageModel;
+    subscription: Subject<FormMessageModel> = new Subject<FormMessageModel>();
+    signUpData: FormGroup;
+    tariffPlans: any;
+    error: any;
+
     constructor(private router: Router,
                 private _services: UserServices,
                 private _req: RequestServices,
                 private storage: LocalStorageServices,
                 private logger: LoggerServices) {
     }
-
-    message: FormMessageModel;
-    subscription: Subject<FormMessageModel> = new Subject<FormMessageModel>();
-    signUpData: FormGroup;
 
     /*
       Service error reset to initial params
@@ -55,11 +57,9 @@ export class AuthorizationServices {
       Data - sign in form values
      */
     signIn(data: SignInFormModel) {
-        return this._req.post('login', {
-            ...data
-        }).then(result => {
+        return this._req.post('login', {...data}).then(result => {
             if (result && !result.auth) {
-                this._services.saveUserData({secrets: result, image: 'http://via.placeholder.com/100x100'});
+                this._services.saveUserData({secrets: this._req.getSecrets(result)});
                 let URL = this.storage.readItem('pbx_url');
                 if (URL && URL.startsWith('/cabinet/')) {
                     this.router.navigateByUrl(URL);
@@ -182,6 +182,29 @@ export class AuthorizationServices {
       Getting tariff plans list
      */
     getTariffPlans(): Promise<any> {
-        return this._req.get('v1/tariff-plan/account');
+        return this._req.get('v1/tariff-plan/account').then(result => {
+            this.tariffPlans = result;
+            return Promise.resolve(result);
+        });
+    }
+
+    getSelectedTarifPlan(): any {
+        if (!this.tariffPlans) {
+            console.error('Tariff plans are not obtained');
+            return null;
+        }
+        if (!this.signUpData.controls.tariffPlanId) {
+            console.error('Tariff plan is not selected');
+            return null;
+        }
+
+        let tariffId = this.signUpData.controls.tariffPlanId.value;
+        if (!tariffId) {
+            let basicPlan = this.tariffPlans.find(tariff => tariff.title == 'Basic');
+            tariffId = basicPlan.id;
+            this.signUpData.controls.tariffPlanId.setValue(tariffId);
+        }
+
+        return this.tariffPlans.find(tariff => tariff.id == tariffId);
     }
 }

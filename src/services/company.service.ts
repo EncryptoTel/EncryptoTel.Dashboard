@@ -4,8 +4,8 @@ import {plainToClass} from "class-transformer";
 
 export class CompanyService extends BaseService {
 
-    save(formData, showMessage = true): Promise<any> {
-        return this.post('', formData, showMessage);
+    save(formData, ShowSucess = true): Promise<any> {
+        return this.post('', formData, ShowSucess);
     }
 
     getCompany(): Promise<CompanyModel> {

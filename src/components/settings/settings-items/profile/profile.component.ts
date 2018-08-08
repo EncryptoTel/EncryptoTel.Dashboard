@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {SettingsService} from '../../../../services/settings.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {emailRegExp, nameRegExp} from '../../../../shared/vars';
+import {emailRegExp, nameRegExp, phoneRegExp} from '../../../../shared/vars';
 import {validateForm} from '../../../../shared/shared.functions';
 import {FadeAnimation} from '../../../../shared/fade-animation';
 import {passwordConfirmation} from '../../../../shared/password-confirmation';
 import {Router} from '@angular/router';
-import {MessageServices} from "../../../../services/message.services";
-import {UserServices} from "../../../../services/user.services";
+import {MessageServices} from '../../../../services/message.services';
+import {UserServices} from '../../../../services/user.services';
 
 @Component({
     selector: 'profile-component',
@@ -28,13 +28,13 @@ export class ProfileComponent implements OnInit {
     messageSent: boolean;
 
     generalForm: FormGroup;
+    oldForm: FormGroup;
     emailChange: FormGroup;
     passwordChange: FormGroup;
 
     initialEmail: string;
 
     numberRegExp: RegExp = new RegExp(/^\d+$/);
-    phoneRegExp: RegExp = new RegExp(/^([\+]|[1-9]{1}|\+[1-9]{1})?[(]{0,1}[0-9]{1,3}[)]{0,1}[0-9]*$/g);
 
     saveButton = {buttonType: 'success', value: 'Save', inactive: false, loading: false};
 
@@ -77,7 +77,9 @@ export class ProfileComponent implements OnInit {
                 Validators.pattern(nameRegExp)
             ]),
             'phone': new FormControl('', [
-                Validators.pattern(this.phoneRegExp)
+                Validators.pattern(phoneRegExp),
+                Validators.minLength(7),
+                Validators.maxLength(16),
             ])
         });
         this.emailChange = new FormGroup({
@@ -105,6 +107,24 @@ export class ProfileComponent implements OnInit {
                 Validators.minLength(6)
             ]),
         }, passwordConfirmation);
+
+        this.oldForm = new FormGroup({
+            'firstname': new FormControl('', [
+                Validators.required,
+                Validators.pattern(nameRegExp)
+            ]),
+            'lastname': new FormControl('', [
+                Validators.pattern(nameRegExp)
+            ]),
+            'patronymic': new FormControl('', [
+                Validators.pattern(nameRegExp)
+            ]),
+            'phone': new FormControl('', [
+                Validators.pattern(phoneRegExp),
+                Validators.minLength(7),
+                Validators.maxLength(16),
+            ])
+        });
     }
 
     goBack(): void {
@@ -119,6 +139,7 @@ export class ProfileComponent implements OnInit {
                 Object.keys(this.generalForm.controls).map(key => {
                     if (res.profile.user.hasOwnProperty(key)) {
                         this.generalForm.controls[key].setValue(res.profile.user[key] || null);
+                        this.oldForm.controls[key].setValue(res.profile.user[key] || null);
                     }
                 });
                 this.emailChange.controls.email.setValue(res.profile.user.email);
@@ -128,6 +149,10 @@ export class ProfileComponent implements OnInit {
     }
 
     saveSettings(ev?: Event): void {
+        if ( JSON.stringify(this.generalForm.value) === JSON.stringify(this.oldForm.value) ) {
+            this.message.writeSuccess('The data have been saved');
+            return;
+        }
         if (ev) {
             ev.preventDefault();
             ev.stopPropagation();
@@ -141,7 +166,6 @@ export class ProfileComponent implements OnInit {
                     .then((res) => {
                         this.getSettings();
                         this.user.fetchProfileParams().then();
-                        //this.goBack();
                     })
                     .catch(() => this.loading.buttons = false);
             }
@@ -195,8 +219,8 @@ export class ProfileComponent implements OnInit {
 
     getErrors(form: FormGroup, key: string) {
         if (this.inputValidation(form, key) || (key === 'password_confirmation' && this.passwordsMismatch())) {
-            let formErrors = form.controls[key].errors;
-            let errors = [];
+            const formErrors = form.controls[key].errors;
+            const errors = [];
             switch (key) {
                 case 'firstname':
                     formErrors.required ? errors.push('Please enter your first name') : null;
@@ -233,7 +257,7 @@ export class ProfileComponent implements OnInit {
                     formErrors.pattern ? errors.push('Please enter correct confirmation code') : null;
                     break;
             }
-            let result = {};
+            const result = {};
             result[key] = errors;
             return result;
         }

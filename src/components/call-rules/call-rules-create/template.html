@@ -176,13 +176,21 @@
                                            [(objectView)]="selectedFiles[i]"
                                            [object]="action">
                                     <div class="greeting">
-                                        <pbx-button value="Play" buttonType="accent"></pbx-button>
+                                        <pbx-button [value]="playButtonText" buttonType="accent" (onClick)="togglePlay(i)"></pbx-button>
                                         <div class="hidden_button_wrapper">
                                             <pbx-button value="Upload" buttonType="accent" [loading]="storage.loading"></pbx-button>
                                             <input type="file" class="hidden_input" #fileInput (change)="uploadFile($event)">
                                         </div>
                                     </div>
                                 </pbx-input>
+
+                                <pbx-media-player
+                                    #mediaPlayer
+                                    [mediaStream]="currentMediaStream"
+                                    (onGetMediaData)="getMediaData($event)"
+                                    (onMediaStateChanged)="mediaStateChanged($event)"
+                                    >
+                                </pbx-media-player>
 
                                 <pbx-input name="If I do not answer call within"
                                            description="seconds"
@@ -208,10 +216,11 @@
                                        [options]="actionsList"
                                        [(errors)]="service.errors"
                                        [(objectView)]="selectedActions[i + 1]"
-                                       [(object)]="callRulesForm">
+                                       [(object)]="callRulesForm"
+                                       class="noMargin">
                                 <div>
                                     <div class="icon_wrap" (click)="deleteAction(i)">
-                                        <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+                                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
                                     </div>
                                 </div>
                             </pbx-input>

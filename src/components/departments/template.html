@@ -53,18 +53,11 @@
                                    [object]="departmentForm"
                                    [objectView]="selectedSips[i]"
                                    [errors]="service.errors"
+                                   [actions]="phoneActions"
+                                   [formBuilder]="fb"
                                    (onSelect)="selectPhone($event, i)"
-                        >
-                            <div class="icon_wrap" (click)="addPhone(i)">
-                                <svg-icon src="../../assets/icons/plus_13px.svg"></svg-icon>
-                            </div>
-                        </pbx-input>
+                        ></pbx-input>
 
-                        <!--<pbx-select [options]="getSelectNumbers()"-->
-                                    <!--[selected]="selectedSips[i]"-->
-                                    <!--[objectKey]="'phoneNumber'"-->
-                                    <!--(onSelect)="selectPhone($event, i)"></pbx-select>-->
-                        <!--<svg-icon src="../../assets/icons/plus_13px.svg" (click)="addPhone()"></svg-icon>-->
                     </div>
                 </div>
             </div>

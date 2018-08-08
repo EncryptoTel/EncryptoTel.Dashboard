@@ -1,10 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {StorageService} from "../../services/storage.service";
-import {MessageServices} from "../../services/message.services";
-import {SizePipe} from '../../services/size.pipe';
-import {TableInfoExModel} from "../../models/base.model";
-import {ButtonItem, FilterItem} from "../../elements/pbx-header/pbx-header.component";
-import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MediaTableComponent } from '../../elements/pbx-media-table/pbx-media-table.component';
+import { ModalEx } from "../../elements/pbx-modal/pbx-modal.component";
+import { SizePipe } from '../../services/size.pipe';
+import { StorageService } from "../../services/storage.service";
+import { MessageServices } from "../../services/message.services";
+import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from "../../models/base.model";
+import { StorageModel, StorageItem } from '../../models/storage.model';
+
 
 @Component({
     selector: 'pbx-storage',
@@ -12,173 +14,219 @@ import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
     styleUrls: ['./local.sass'],
     providers: [StorageService],
 })
-
 export class StorageComponent implements OnInit {
+    public pageInfo: StorageModel = new StorageModel();
+    public table: TableInfoExModel = new TableInfoExModel();
+    public loading: number;
 
-    @ViewChild(ListComponent) list;
+    public filters: FilterItem[];
+    public buttons: ButtonItem[];
+    public currentFilter: any;
+    
+    @ViewChild('mediaTable')
+    public mediaTable: MediaTableComponent;
 
-    search: string = '';
-    source = {
-        option: [
-            {title: 'Audio', type: 'audio'},
-            // {title: 'Call Records', type: 'call_record'},
-            // {title: 'Trash', type: 'trash'}
-            ],
+    public modal: ModalEx;
+
+    // TODO: ???
+    public source = {
         select: {title: '', type: ''}
     };
-    table: TableInfoExModel = {
-        sort: {
-            isDown: false,
-            column: 'date',
-        },
-        items: [
-            {title: 'Name', key: 'name', width: null, sort: 'name'},
-            {title: 'Date',  key: 'date', width: 168, sort: 'date'},
-            {title: 'Size, MB', key: 'size', width: 104, sort: 'size'},
-        ]
-    };
 
-    player = {item: [], current: null};
-    modal = {
-        visible: false,
-        text: '',
-        confirm: {type: 'error', value: 'Delete'},
-        decline: {type: 'cancel', value: 'Cancel'}
-    };
-    buttons: ButtonItem[] = [];
-    filters: FilterItem[] = [];
+    // --- component methods ------------------------------
 
-    constructor(private service: StorageService,
-                private message: MessageServices,
-                private _size: SizePipe) {
-        this.buttons.push({
-            id: 0,
-            title: 'Delete Selected',
-            type: 'error',
-            visible: false,
-            inactive: false,
-        });
-        this.filters.push(new FilterItem(1, 'type', 'Select Source:', [
-            {id: 'audio', title: 'Audio'}
-        ], 'title'));
-        this.filters.push(new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'));
+    constructor(
+        public service: StorageService,
+        private _message: MessageServices,
+        private _size: SizePipe
+    ) {
+        this.loading = 0;
+        this.modal = new ModalEx('', 'deleteFiles');
+
+        this.table.sort.isDown = false;
+        this.table.sort.column = 'date';
+        this.table.items = [
+            new TableInfoItem('Name', 'name', 'name'),
+            new TableInfoItem('Date', 'displayDateTime', 'date', 168),
+            new TableInfoItem('Size, MB', 'size', 'size', 104),
+            new TableInfoItem('Record', 'record', null, 200, 0),
+        ];
+        this.table.actions = [
+            new TableInfoAction(1, 'player', 175),
+        ];
+
+        this.filters = [
+            new FilterItem(1, 'type', 'Select Source:', [ 
+                { id: 'audio', title: 'Audio' },
+                { id: 'call_record', title: 'Call Record' },
+                { id: 'voice_mail', title: 'Voice Mail' },
+                { id: 'certificate', title: 'Certificate' },
+            ], 'title'),
+            new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'),
+        ];
+
+        this.buttons = [
+            {
+                id: 0,
+                title: 'Delete Selected',
+                type: 'error',
+                visible: false,
+                inactive: true,
+            }
+        ];
     }
 
+    ngOnInit() {
+        this.pageInfo.limit = Math.floor((window.innerHeight - 180) / 48);
+        this.getItems();
+    }
+
+    // --- data methods -----------------------------------
+
+    private getItems(): void {
+        this.loading ++;
+
+        this.service.getItems(this.pageInfo, this.currentFilter, this.table.sort)
+            .then(result => {
+                this.pageInfo = result;
+                this.onMediaDataLoaded();
+                this.loading --;
+            }).catch((error) => {
+                console.log('get items failed', error);
+                this.loading --;
+            });
+    }
+
+    getMediaData(item: StorageItem): void {
+        item.record.mediaLoading = true;
+
+        this.service.getMediaData(item.id)
+            .then(result => {
+                item.record.mediaStream = result.fileLink;
+                this.mediaTable.setMediaData(item);
+            })
+            .catch(error => {
+                item.record.mediaLoading = false;
+                item.record.playable = false;
+            });
+    }
+
+    onMediaDataLoaded(): void {
+        this.service.select = [];
+        this.pageInfo = this.service.pageInfo;
+        this.buttons[0].visible = this.pageInfo.itemsCount > 0;
+        this.buttons[0].inactive = this.service.select.length == 0;
+    }
+
+    // --- filter methods ---------------------------------
+
+    reloadFilter(filter: any): void {
+        this.currentFilter = filter;
+        this.getItems();
+    }
+
+    updateFilter(filter: any): void {
+        this.currentFilter = filter;
+    }
+
+    get activeFilter(): boolean {
+        if (this.currentFilter) {
+            let keys = Object.keys(this.currentFilter);
+            return keys.some(key => this.currentFilter[key] != undefined && this.currentFilter[key]);
+        }
+    }
+    
+    // --- selection --------------------------------------
+
+    selectItem(item: StorageItem): void {
+        this.service.selectItem(item.id);
+        this.buttons[0].inactive = this.service.select.length == 0;
+    }
+
+    // --- file uploading ---------------------------------
+    
     updateLoading(loading, deleting = false) {
-        this.list.loading = loading;
+        this.loading = loading;
         if (!loading) {
-            this.load();
-            this.message.writeSuccess(`Successfully ${deleting ? 'deleted' : 'uploaded'} ${this.service.successCount} file(s).`);
+            this.onMediaDataLoaded();
+            if(this.service.successCount) {
+                let messageText = this.service.successCount > 1
+                    ? `${this.service.successCount} files have been successfully ${deleting ? 'deleted' : 'uploaded'}.`
+                    : `${this.service.successCount} file has been successfully ${deleting ? 'deleted' : 'uploaded'}.`;
+                this._message.writeSuccess(messageText);
+            }
         }
     }
 
     private uploadFiles(files) {
         this.service.resetCount();
-        for (let i = 0; i < files.length; i++) {
+        for (let i = 0; i < files.length; i ++) {
             if (this.service.checkCompatibleType(files[i])) {
-                this.service.checkFileExists(files[i], (loading) => {
-                    this.updateLoading(loading);
-                });
-            } else {
-                this.message.writeError('Accepted formats: mp3, ogg, wav');
+                this.service.checkFileExists(
+                    files[i],
+                    (loading) => {
+                        this.updateLoading(loading);
+                    });
+            } 
+            else {
+                this._message.writeError('Accepted formats: mp3, ogg, wav');
             }
         }
         this.service.checkModal();
     }
 
-    time(value: number): string {
-        const sec = (value % 60);
-        const min = Math.round(value / 60) % 60;
-        const hour = Math.round(value / 3600);
-        return (hour < 10 ? '0' : '') + hour + ':' + (min < 10 ? '0' : '') + min + ':' + (sec < 10 ? '0' : '') + sec;
-    }
-
-    play(id: number): void {
-        // this.player.current = this.player.current === id ? null : id;
-        // if (!this.find(this.player.item, id)) {
-        //     this.player.item.push(id);
-        // }
-    }
-
-    findById(array, id) {
-        for (let i = 0; i < array.length; i++) {
-            if (array[i].id === id) {
-                return array[i]
-            }
-        }
-        return null;
-    }
-
-    find(array, value): boolean {
-        for (let i = 0; i < array.length; i++) {
-            if (array[i] === value) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    dropHandler(e) {
-        e.preventDefault();
+    dropHandler(event) {
+        event.preventDefault();
+        // TODO: strange things. needs to be clarified.
         if (!this.service.pageInfo.items) {
-            return ;
+            return;
         }
-        const files = e.dataTransfer.files;
+        const files = event.dataTransfer.files;
         this.uploadFiles(files);
     }
 
-    dragOverHandler(e) {
-        e.preventDefault();
+    dragOverHandler(event): void {
+        event.preventDefault();
     }
 
-    dragEndHandler(e) {
+    dragEndHandler(event): void {
     }
 
-    dragLeaveHandler(e) {
-        e.preventDefault();
+    dragLeaveHandler(event): void {
+        event.preventDefault();
     }
+
+    sendFile(event) {
+        console.log('sendFile', event);
+        event.preventDefault();
+        const files = event.target.files;
+        if (event.target.files[0]) {
+            this.uploadFiles(files);
+        }
+    }
+
+    // --- file deletion methods --------------------------
 
     deleteSelected() {
         this.modal.visible = true;
     }
 
-    doDeleteSelected() {
+    deleteConfirmed() {
         this.service.resetCount();
-        for (let i = 0; i < this.service.select.length; i++) {
-            const id = this.service.select[i];
-            const item = this.list.pageInfo.items.find(item => item.id === id);
-            item ? item.loading++ : null;
-            this.service.deleteById(id, (loading) => {
-                this.updateLoading(loading, true);
-            }, false).then(() => {
-                item ? item.loading-- : null;
-            }).catch(() => {
-                item ? item.loading-- : null;
-            });
-        }
+        this.service.select.forEach(id => {
+            const item = this.mediaTable.tableItems.find(item => item.id == id);
+            item ? item.loading ++ : null;
+            this.service.deleteById(
+                id,
+                (loading) => {
+                    this.updateLoading(loading, true);
+                }, 
+                false)
+                    .then(() => {
+                        item ? item.loading -- : null;
+                    }).catch(() => {
+                        item ? item.loading -- : null;
+                    });
+        });
     }
-
-    sendFile(e) {
-        e.preventDefault();
-        const files = e.target.files;
-        if (e.target.files[0]) {
-            this.uploadFiles(files);
-        }
-    }
-
-    selectItem(id: number) {
-        this.service.selectItem(id);
-        this.buttons[0].inactive = this.service.select.length === 0;
-    }
-
-    load() {
-        this.service.select = [];
-        this.buttons[0].visible = this.service.pageInfo.itemsCount > 0;
-        this.buttons[0].inactive = true;
-    }
-
-    ngOnInit(): void {
-
-    }
-
 }

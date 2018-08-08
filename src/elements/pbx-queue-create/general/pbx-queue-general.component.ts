@@ -1,6 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {RefsServices} from '../../../services/refs.services';
+import {CallQueueService} from '../../../services/call-queue.service';
+import {RingGroupService} from '../../../services/ring-group.service';
 
 @Component({
     selector: 'pbx-queue-general',
@@ -12,10 +14,16 @@ import {RefsServices} from '../../../services/refs.services';
 export class QueueGeneralComponent {
     @Input() service;
     @Input() name;
+    @Input() generalHeaderText;
 
-    constructor(private refs: RefsServices) {
+    private _cmpType: string;
+
+    constructor() {}
+
+    @Input()
+    set cmpType(cmpType: string) {
+        this._cmpType = cmpType;
         this.getNumbers();
-        // this.service.userView.isCurCompMembersAdd = false;
     }
 
     loading = 0;
@@ -24,7 +32,7 @@ export class QueueGeneralComponent {
 
     private getNumbers(): void {
         this.loading++;
-        this.refs.getSipOuters().then(res => {
+        this.service.getOuters().then(res => {
             this.numbers = res;
             this.loading--;
         }).catch(() => {

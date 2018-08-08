@@ -34,7 +34,7 @@
                  (click)="selectRefillMethod(item)">
                 <svg-icon *ngIf="!item.loading"
                           class="refill_currency_item_icon"
-                          src="../../assets/images/payments/{{item.id}}.svg"></svg-icon>
+                          src="../../assets/icons/_cryptocurrency/{{item.id}}.svg"></svg-icon>
                 <pbx-loader *ngIf="item.loading"></pbx-loader>
                 <div class="refill_currency_item_title">{{item.title}}
                     <!--<span *ngIf="item.discount"> (discount {{item.discount*100}}%)</span>-->
@@ -115,6 +115,3 @@
         </div>
     </div>
 </div>
-<pbx-modal [modal]="modal"
-           (onConfirm)="pay()">Are you sure?
-</pbx-modal>

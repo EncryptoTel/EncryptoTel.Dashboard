@@ -4,6 +4,7 @@ import {PhoneNumberService} from '../../../services/phone-number.service';
 // import {templateJitUrl} from '@angular/compiler';
 import {CountryModel} from '../../../models/country.model';
 import {RefsServices} from '../../../services/refs.services';
+import {ModalEx} from "../../../elements/pbx-modal/pbx-modal.component";
 
 @Component({
     selector: 'buy-phone-numbers-component',
@@ -34,12 +35,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
         total: number;
     };
 
-    modal: {
-        visible: boolean,
-        title: string,
-        confirm: { type: string, value: string },
-        decline: { type: string, value: string }
-    };
+    modal = new ModalEx('', 'buyNumber');
 
     searchTimeout;
 
@@ -58,12 +54,6 @@ export class BuyPhoneNumbersComponent implements OnInit {
     constructor(private _services: PhoneNumberService,
                 private refs: RefsServices) {
         this.pagination = {page: 1, total: 1};
-        this.modal = {
-            visible: false,
-            title: '',
-            confirm: {type: 'success', value: 'Yes'},
-            decline: {type: 'error', value: 'No'}
-        };
     }
 
     selectCountry(country: CountryModel) {
@@ -77,9 +67,13 @@ export class BuyPhoneNumbersComponent implements OnInit {
         this._services.getAvailableNumbersList(this.requestDetails)
             .then(res => {
                 this.requestDetails.limit = res['numbers'].length;
-                // this.list = [res['items'].slice(0, this.requestDetails.limit / 2), res['items'].slice(this.requestDetails.limit / 2)];
-                this.list = [res['numbers'].slice(0, this.requestDetails.limit / 2), res['numbers'].slice(this.requestDetails.limit / 2)];
-                this.pagination.total = 1; // res.pages;
+                let remainder = (res['numbers'].length % 2);
+                let part1 = this.requestDetails.limit / 2;
+                if (remainder > 0) {
+                    part1 = part1 + remainder;
+                }
+                this.list = [res['numbers'].slice(0, part1), res['numbers'].slice(part1)];
+                this.pagination.total = 1;
                 this.loading -= 1;
             });
     }
@@ -120,8 +114,6 @@ export class BuyPhoneNumbersComponent implements OnInit {
         }).catch(() => {
             this.selected.loading = false;
         });
-    }
-    modalDecline = (): void => {
     }
 
     private getCountries(): void {

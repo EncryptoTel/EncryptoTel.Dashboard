@@ -9,7 +9,7 @@ import {CoursesModel} from '../../models/courses.model';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {MessageServices} from '../../services/message.services';
 import {ClipboardService} from 'ngx-clipboard';
-import {FilterItem} from "../../elements/pbx-header/pbx-header.component";
+import {FilterItem} from "../../models/base.model";
 
 @Component({
     selector: 'refill-balance',
@@ -37,12 +37,6 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     errors;
 
     balance;
-    modal = {
-        visible: false,
-        title: 'Confirm payment',
-        confirm: {type: 'success', value: 'Yes'},
-        decline: {type: 'cancel', value: 'No'}
-    };
     currentFilter = [];
 
     navigationSubscription: Subscription;
