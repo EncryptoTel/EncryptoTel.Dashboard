@@ -18,10 +18,7 @@ export class QueueGeneralComponent {
 
     private _cmpType: string;
 
-    constructor(private refs: RefsServices,
-                private queueService: CallQueueService,
-                private ringGroupService: RingGroupService) {
-    }
+    constructor() {}
 
     @Input()
     set cmpType(cmpType: string) {
@@ -35,21 +32,11 @@ export class QueueGeneralComponent {
 
     private getNumbers(): void {
         this.loading++;
-        if (this._cmpType === 'callQueue') {
-            this.queueService.getOuters().then(res => {
-                this.numbers = res;
-                this.loading--;
-            }).catch(() => {
-                this.loading--;
-            });
-        }
-        if (this._cmpType === 'ringGroup') {
-            this.ringGroupService.getOuters().then(res => {
-                this.numbers = res;
-                this.loading--;
-            }).catch(() => {
-                this.loading--;
-            });
-        }
+        this.service.getOuters().then(res => {
+            this.numbers = res;
+            this.loading--;
+        }).catch(() => {
+            this.loading--;
+        });
     }
 }
