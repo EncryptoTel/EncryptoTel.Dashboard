@@ -1,6 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {RefsServices} from '../../../services/refs.services';
+import {CallQueueService} from '../../../services/call-queue.service';
+import {RingGroupService} from '../../../services/ring-group.service';
 
 @Component({
     selector: 'pbx-queue-general',
@@ -14,9 +16,17 @@ export class QueueGeneralComponent {
     @Input() name;
     @Input() generalHeaderText;
 
-    constructor(private refs: RefsServices) {
+    private _cmpType: string;
+
+    constructor(private refs: RefsServices,
+                private queueService: CallQueueService,
+                private ringGroupService: RingGroupService) {
+    }
+
+    @Input()
+    set cmpType(cmpType: string) {
+        this._cmpType = cmpType;
         this.getNumbers();
-        // this.service.userView.isCurCompMembersAdd = false;
     }
 
     loading = 0;
@@ -25,11 +35,21 @@ export class QueueGeneralComponent {
 
     private getNumbers(): void {
         this.loading++;
-        this.refs.getSipOuters().then(res => {
-            this.numbers = res;
-            this.loading--;
-        }).catch(() => {
-            this.loading--;
-        });
+        if (this._cmpType === 'callQueue') {
+            this.queueService.getOuters().then(res => {
+                this.numbers = res;
+                this.loading--;
+            }).catch(() => {
+                this.loading--;
+            });
+        }
+        if (this._cmpType === 'ringGroup') {
+            this.ringGroupService.getOuters().then(res => {
+                this.numbers = res;
+                this.loading--;
+            }).catch(() => {
+                this.loading--;
+            });
+        }
     }
 }

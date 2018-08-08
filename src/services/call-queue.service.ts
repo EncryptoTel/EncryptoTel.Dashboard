@@ -51,6 +51,10 @@ export class CallQueueService extends BaseQueueService {
         });
     }
 
+    getOuters(): Promise<any> {
+        return this.request.get(`v1/call_queue/outers?limit=1000`);
+    }
+
     onInit() {
         this.url = 'v1/call_queue';
     }

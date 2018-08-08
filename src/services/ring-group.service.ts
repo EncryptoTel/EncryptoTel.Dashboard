@@ -76,6 +76,10 @@ export class RingGroupService extends BaseQueueService {
         });
     }
 
+    getOuters(): Promise<any> {
+        return this.request.get(`v1/ring_group/outers?limit=1000`);
+    }
+
     onInit() {
         this.url = 'v1/ring_group';
     }

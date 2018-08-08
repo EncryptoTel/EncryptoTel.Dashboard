@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {MessageServices} from "../../services/message.services";
-import {FormComponent} from "../pbx-form/pbx-form.component";
+import {MessageServices} from '../../services/message.services';
+import {FormComponent} from '../pbx-form/pbx-form.component';
 
 @Component({
     selector: 'pbx-queue-create',
@@ -17,6 +17,7 @@ export class QueueCreateComponent implements OnInit {
     @Input() name: string;
     @Input() headerText: string;
     @Input() generalHeaderText: string;
+    @Input() cmpType;
 
     @ViewChild(FormComponent) form: FormComponent;
 
@@ -43,13 +44,15 @@ export class QueueCreateComponent implements OnInit {
         if (tab === 'Members' && (!this.service.item.sipId || !this.service.item.name || !this.service.item.strategy)) {
             this.form.selected = 'General';
             let errors = [];
-            if (!this.service.item.sipId)
+            if (!this.service.item.sipId) {
                 errors['sip'] = 'Please select phone number';
-            if (!this.service.item.name)
+            }
+            if (!this.service.item.name) {
                 errors['name'] = 'Please enter name';
-            if (!this.service.item.strategy)
+            }
+            if (!this.service.item.strategy) {
                 errors['strategy'] = 'Please select ring strategy';
-
+            }
             this.service.errors = errors;
             return;
         }
@@ -59,7 +62,6 @@ export class QueueCreateComponent implements OnInit {
     save(): void {
         this.saving++;
         this.service.save(this.id, true, (res) => {
-            // console.log('save', res);
             if (res && res.errors) {
                 if (res.errors.queueMembers) {
                     this.message.writeError(this.form.selected === 'Members' ? 'You have not selected members' : 'You must select members');
@@ -68,7 +70,9 @@ export class QueueCreateComponent implements OnInit {
             }
         }).then(() => {
             this.saving--;
-            if (!this.id) this.cancel();
+            if (!this.id) {
+                this.cancel();
+            }
         }).catch(() => {
             this.saving--;
         });
@@ -82,7 +86,6 @@ export class QueueCreateComponent implements OnInit {
         this.addMembers = false;
         let message = this.service.getMembersMessage();
         message ? this.message.writeSuccess(message) : null;
-        // this.router.navigate(['members'], {relativeTo: this.activatedRoute});
     }
 
     getItem(id: number) {

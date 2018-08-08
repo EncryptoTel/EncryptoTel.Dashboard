@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CallQueueService} from "../../../services/call-queue.service";
+import {CallQueueService} from '../../../services/call-queue.service';
 
 @Component({
     selector: 'pbx-call-queues-create',
@@ -10,6 +10,7 @@ export class CallQueuesCreateComponent {
 
     headerText = 'Call Queue Members';
     generalHeaderText = 'Create New Queue';
+    cmpType = 'callQueue';
 
     constructor(public service: CallQueueService) {
     }
