@@ -19,9 +19,28 @@ export function dateComparison(date0: Date, date1: Date) {
     return (date0.getMonth() === date1.getMonth()) && (date0.getDate() === date1.getDate());
 }
 
+// export function validateForm(form: FormGroup): void {
+//     form.updateValueAndValidity();
+//     this.validateFormControls(form);
+// }
+
 export function validateForm(form: FormGroup): void {
     form.updateValueAndValidity();
-    this.validateFormControls(form);
+    Object.keys(form.controls).forEach(field => {
+        const control = form.get(field);
+        control.markAsTouched();
+        if (control instanceof FormArray) {
+            const controlsArray = control as FormArray;
+            controlsArray.controls.forEach((ctrl: FormGroup) => {
+                ctrl.markAsTouched();
+                if (ctrl.controls) {
+                    Object.keys(ctrl.controls).forEach(key => {
+                        ctrl.get(key).markAsTouched();
+                    });
+                }
+            });
+        }
+    });
 }
 
 export function validateFormControls(form: FormGroup): void {
