@@ -28,7 +28,8 @@
             [options]="numbers"
             [(errors)]="service.errors"
             [(objectView)]="service.userView"
-            [(object)]="service.item">
+            [(object)]="service.item"
+            [placeholder]="'[choose one]'">
     </pbx-input>
     <pbx-input
             name="Ring Strategy"
@@ -40,7 +41,8 @@
             [options]="service.params.strategies"
             [(errors)]="service.errors"
             [(objectView)]="service.userView.strategy"
-            [(object)]="service.item">
+            [(object)]="service.item"
+            [placeholder]="'[choose one]'">
     </pbx-input>
     <pbx-input
             name="Ring Time"

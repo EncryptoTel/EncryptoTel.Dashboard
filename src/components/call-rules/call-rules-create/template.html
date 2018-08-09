@@ -41,7 +41,8 @@
                        [options]="numbers"
                        [(errors)]="service.errors"
                        [(objectView)]="selectedNumber"
-                       [(object)]="callRulesForm">
+                       [(object)]="callRulesForm"
+                       [placeholder]="'[choose one]'">
             </pbx-input>
 
             <ng-container *ngIf="!callRulesForm.get('sipId').value">
@@ -67,7 +68,8 @@
                            [options]="actionsList"
                            [(errors)]="service.errors"
                            [(objectView)]="selectedActions[0]"
-                           [(object)]="callRulesForm">
+                           [(object)]="callRulesForm"
+                           [placeholder]="'[choose one]'">
                 </pbx-input>
 
 
@@ -86,7 +88,8 @@
                                            [options]="sipInners"
                                            [(errors)]="service.errors"
                                            [(objectView)]="selectedSipInners[i]"
-                                           [object]="action">
+                                           [object]="action"
+                                           [placeholder]="'[choose one]'">
                                 </pbx-input>
 
                                 <pbx-input name="If I do not answer call within"
@@ -207,16 +210,17 @@
 
                             </ng-template>
 
-                            <pbx-input *ngIf="checkNextAction(i)"
-                                       name="Action"
+                            <pbx-input *ngIf="checkNextAction(i)" name="Action"
                                        displayKey="code"
                                        [form]="true"
+                                       [required]="true"
                                        [formKey]="getActionFormKey(i + 1, true)"
                                        (onSelect)="selectAction($event, i + 1)"
                                        [options]="actionsList"
                                        [(errors)]="service.errors"
                                        [(objectView)]="selectedActions[i + 1]"
                                        [(object)]="callRulesForm"
+                                       [placeholder]="'[choose one]'"
                                        class="noMargin">
                                 <div>
                                     <div class="icon_wrap" (click)="deleteAction(i)">
@@ -224,7 +228,6 @@
                                     </div>
                                 </div>
                             </pbx-input>
-
                         </ng-container>
                     </ng-container>
                 </ng-container>

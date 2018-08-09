@@ -47,18 +47,18 @@ export class CompanyComponent implements OnInit {
 
         this.companyForm = this.fb.group({
             name: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.pattern(emailRegExp)]],
-            phone: ['', [Validators.required]],
-            vatId: ['', [Validators.required]],
+            email: ['', [Validators.pattern(emailRegExp)]],
+            phone: [''],
+            vatId: [''],
             companyAddress: this.fb.array([
                 this.fb.group({
-                    country: ['', [Validators.required]],
-                    postalCode: ['', [Validators.required]],
-                    regionName: ['', [Validators.required]],
-                    locationName: ['', [Validators.required]],
-                    street: ['', [Validators.required]],
-                    building: ['', [Validators.required]],
-                    office: ['', [Validators.required]]
+                    country: [''],
+                    postalCode: [''],
+                    regionName: [''],
+                    locationName: [''],
+                    street: [''],
+                    building: [''],
+                    office: ['']
                 })
             ])
         });
@@ -97,23 +97,32 @@ export class CompanyComponent implements OnInit {
     }
 
     private fillCompany() {
-        if (this.company.name && this.company.phone && this.company.phone) {
-            const company = {
-                name: this.company.name,
-                email: this.company.email,
-                phone: formatNumber(`+${this.company.phone}`, 'International'),
-                vatId: this.company.vatId,
-                companyAddress: [{
-                    country: this.company.companyAddress[0].country.id,
+        if (this.company.name) {
+            let company = {};
+            if (this.company.name) {
+                company['name'] = this.company.name;
+            }
+            if (this.company.email) {
+                company['email'] = this.company.email;
+            }
+            if (this.company.phone) {
+                company['phone'] = formatNumber(`+${this.company.phone}`, 'International');
+            }
+            if (this.company.vatId) {
+                company['vatId'] = this.company.vatId;
+            }
+            if (this.company.companyAddress) {
+                company['companyAddress'] = [{
                     postalCode: this.company.companyAddress[0].postalCode,
                     regionName: this.company.companyAddress[0].regionName,
                     locationName: this.company.companyAddress[0].locationName,
                     street: this.company.companyAddress[0].street,
                     building: this.company.companyAddress[0].building,
                     office: this.company.companyAddress[0].office,
-                }]
+                }];
             };
-            this.companyForm.setValue(company);
+
+            this.companyForm.patchValue(company);
             this.selectedCountry = this.company.companyAddress[0].country;
         }
     }
