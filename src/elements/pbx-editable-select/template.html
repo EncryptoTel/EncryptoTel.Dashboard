@@ -13,7 +13,7 @@
             #selectInput
             type="text"
             id="{{ name }}_filter"
-            placeholder="{{ placeholder.length > 0 ? placeholder : '' }}"
+            placeholder="{{ placeholder ? placeholder : '' }}"
             [(ngModel)]="filterValue"
             [ngClass]="[ checkError() ? 'input-invalid' : 'input-valid' ]"
             (keyup)="inputKey($event)"

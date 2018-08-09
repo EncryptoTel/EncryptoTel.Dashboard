@@ -33,6 +33,12 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     @ViewChild('selectWrap') selectWrap: ElementRef;
     @ViewChild('selectInput') selectInput: ElementRef;
 
+    get currentIndex(): number {
+        return this.filteredOptions.findIndex(item => {
+            return Number.isInteger(item) ? item === this.selected : item.id === this.selected.id;
+        });
+    }
+
 
     constructor() {
         this.isVisible = false;
@@ -46,7 +52,11 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
+        console.log('selected', this.selected);
         this.filterOptions();
+        // TODO: __DEBUG__
+        this.placeholder = 'Select Country';
+        console.log('selected', this.selected);
     }
     
     ngOnChanges(): void {
@@ -57,11 +67,6 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         console.log('filterValue', this.filterValue);
         this.filteredOptions = this.options
             .filter(opt => !this.filterValue || this.objectTitle(opt).toLowerCase().search(this.filterValue.toLowerCase()) >= 0);
-        // this.filteredOptions = this.options
-        //     .filter(opt => { 
-        //         // console.log('title', this.objectTitle(opt));
-        //         return !this.filterValue || this.objectTitle(opt).search(/this.filterValue/i) >= 0;
-        //     });
     }
 
     objectTitle(obj: any): string {
@@ -92,14 +97,14 @@ export class EditableSelectComponent implements OnInit, OnChanges {
 
     ctrlKeyDown(event: KeyboardEvent) {
         // console.log('ctrlKeyDown($event)', event);
-        this.keyboardNavigation(event);
+        // this.keyboardNavigation(event);
     }
 
     inputKey(event: KeyboardEvent): void {
         console.log('inputKeyDown($event)', event);
         if (event.code == 'Enter') {
             if (this.isVisible) {
-                // take item and select it
+                this.selectItem(this.filteredOptions[this.currentIndex]);
                 this.hideOptions();
             }
             else {
@@ -112,6 +117,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         
         // TODO: key filtering
         this.filterOptions();
+        if (!this.isVisible) this.showOptions();
         this.keyboardNavigation(event);
     }
 
@@ -147,6 +153,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
       Toggle options visibility
      */
     toggleOptions(): void {
+        console.log('selected', this.selected);
         this.isVisible ? this.hideOptions() : this.showOptions();
     }
 
@@ -166,7 +173,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     showOptions(): void {
         this.selectWrap.nativeElement.focus();
         this.isVisible = true;
-        const currentIndex = this.selected ? this.options.indexOf(this.selected) : 0; // Index of selected item
+        const currentIndex = this.selected ? this.filteredOptions.indexOf(this.selected) : 0; // Index of selected item
         setTimeout(() => this.scrollToCurrent(currentIndex), 1);
         this.opened();
         this.onFocus.emit();
@@ -187,53 +194,47 @@ export class EditableSelectComponent implements OnInit, OnChanges {
      * @param option object
      */
     selectItem(option: object, event?: Event): void {
-        if (event) {
-            // event.stopPropagation();
-            // event.preventDefault();
-        }
+        this.selected = option;
+        
+        this.filterValue = this.objectTitle(option);
+        this.filterOptions();
+        
         this.onSelect.emit(option);
         this.hideOptions();
     }
 
     /**
-     * Arrows navigation
+     * Arrows navigation handling at select dropdown.
      * @param event KeyboardEvent
      */
     keyboardNavigation(event: KeyboardEvent) {
-        const currentIndex = this.options.findIndex(item => {
-            return Number.isInteger(item) ? item === this.selected : item.id === this.selected.id;
-        });
         switch (event.code) {
-            // case 'Space': {
-            //     this.toggleOptions();
-            //     break;
-            // }
             case 'ArrowDown': {
-                if ((currentIndex + 1) !== this.options.length) {
-                    this.onSelect.emit(this.options[currentIndex + 1]);
-                    this.scrollToCurrent(currentIndex + 1);
+                if ((this.currentIndex + 1) !== this.filteredOptions.length) {
+                    this.onSelect.emit(this.filteredOptions[this.currentIndex + 1]);
+                    this.scrollToCurrent(this.currentIndex + 1);
                 } else {
-                    this.onSelect.emit(this.options[0]);
+                    this.onSelect.emit(this.filteredOptions[0]);
                     this.scrollToCurrent(0);
                 }
                 break;
             }
             case 'ArrowUp': {
-                if (currentIndex > 0) {
-                    this.onSelect.emit(this.options[currentIndex - 1]);
-                    this.scrollToCurrent(currentIndex - 1);
+                if (this.currentIndex > 0) {
+                    this.onSelect.emit(this.filteredOptions[this.currentIndex - 1]);
+                    this.scrollToCurrent(this.currentIndex - 1);
                 } else {
-                    this.onSelect.emit(this.options[this.options.length - 1]);
-                    this.scrollToCurrent(this.options.length - 1);
+                    this.onSelect.emit(this.filteredOptions[this.filteredOptions.length - 1]);
+                    this.scrollToCurrent(this.filteredOptions.length - 1);
                 }
                 break;
             }
-            case 'Enter': {
-                if (this.isVisible) {
-                    this.selectItem(this.options[currentIndex]);
-                }
-                break;
-            }
+            // case 'Enter': {
+            //     if (this.isVisible) {
+            //         this.selectItem(this.filteredOptions[currentIndex]);
+            //     }
+            //     break;
+            // }
             default:
                 break;
         }
