@@ -1,0 +1,113 @@
+.body_wrap pbx-company
+    // flex-direction: column
+        //////////////////////////////////
+        //////////////////////////////////
+        /////////// remove it later //////
+        //////////////////////////////////
+        //////////////////////////////////
+    .company
+        display: none
+        //////////////////////////////////
+        //////////////////////////////////
+        //////////////////////////////////
+
+    .company_details
+        background: $dark_overlay
+        flex-direction: column
+        min-height: 100%
+        width: 100%
+        display: grid
+        grid-template-columns: 1fr 2fr 2fr 3fr
+        grid-template-columns: minmax(264px, 1fr) minmax(352px, 2fr) minmax(352px, 2fr) minmax(352px, 3fr)
+        overflow-y: auto
+        // display: none
+        .item
+            padding: 40px
+            border-right: 1px solid $dark_background_2
+            flex-direction: column
+            &:last-child
+                border-right: none
+            .img_wr
+                display: block
+                margin-bottom: 32px
+                .inner
+                    margin: 0 auto
+                    overflow: hidden
+                    border-radius: 100%
+                    width: 112px
+                    height: 112px
+                    border: 1px solid $dark_sidebar_pic_border
+                    position: relative
+                    img
+                        position: absolute
+                        top: 50%
+                        left: 50%
+                        transform: translate(-50%, -50%)
+                        min-height: 112px
+                        min-width: 112px
+                        max-height: 112px
+                        min-height: 112px
+                        width: auto
+                        height: auto
+            .mini
+                flex-direction: column
+                margin-bottom: 16px
+                &.organization
+                    .info
+                        text-transform: uppercase
+                .title
+                    margin-bottom: 4px
+                    font-family: 'Roboto', sans-serif
+                    font-weight: 300
+                    font-size: 12px
+                    line-height: 16px
+                    color: $dark-white_70
+                .info
+                    font-family: 'Roboto', sans-serif
+                    font-weight: 300
+                    font-size: 14px
+                    line-height: 19px
+                    color: $dark-white
+            .big
+                flex-direction: column
+                margin-bottom: 48px
+                .title
+                    margin-bottom: 24px
+                    font-family: 'Roboto', sans-serif
+                    font-weight: 300
+                    font-size: 40px
+                    line-height: 53px
+                    color: $dark_salad
+                .line,
+                .number
+                    display: grid
+                    grid-template-columns: 2fr 1fr
+                    margin-bottom: 16px
+                    .key,
+                    .val,
+                    .status
+                        font-family: 'Roboto', sans-serif
+                        font-weight: 200
+                        font-size: 16px
+                        line-height: 16px
+                        color: $dark-white
+                    .val,
+                    .status
+                        justify-content: flex-end
+                .number
+                    grid-template-columns: 3fr 1fr 1fr
+
+@media screen and (max-width: 1680px)
+    .body_wrap pbx-company
+        .company_details
+            grid-template-columns: 1fr 1fr 1fr
+
+@media screen and (max-width: 1400px)
+    .body_wrap pbx-company
+        .company_details
+            grid-template-columns: 1fr 1fr
+
+@media screen and (max-width: 1130px)
+    .body_wrap pbx-company
+        .company_details
+            grid-template-columns: 1fr
