@@ -2,11 +2,11 @@
     <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item' : 'pbx_input_row']">
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']">
-            <span>{{name}}</span>
+            <span class="{{errorVisible ? 'label-focus' : ''}}">{{name}}</span>
             <div class="labels-second-line" *ngIf="filter && (filter.min || filter.max)">(<span *ngIf="filter.min">Min {{filter.minMaxText}} {{filter.min}}</span>,
                 <span *ngIf="filter.max">Max {{filter.minMaxText}} {{filter.max}}</span>):
             </div>
-            <span class="required" *ngIf="required">*</span>
+            <span class="required {{errorVisible ? 'label-focus' : ''}}" *ngIf="required">*</span>
         </div>
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_input_wrap' : 'pbx_input_row_input_wrap']" #inputDiv>
@@ -50,7 +50,7 @@
                               [value]="value">
                 </pbx-checkbox>
 
-                <span *ngIf="description">{{description}}</span>
+                <span class="qewrqwerq {{errorVisible ? 'label-focus' : ''}}" *ngIf="description">{{description}}</span>
 
             </div>
 

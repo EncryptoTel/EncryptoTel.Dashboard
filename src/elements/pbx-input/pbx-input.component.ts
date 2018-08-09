@@ -70,17 +70,11 @@ export class InputComponent implements OnInit {
     }
 
     setFocus(): void {
-        // if (this.checkError()) {
-            // this.errorSpan.nativeElement.focus();
         this.errorVisible = true;
-        // }
     }
 
     removeFocus(): void {
-        // if (this.checkError()) {
-            // this.errorSpan.nativeElement.blur();
         this.errorVisible = false;
-        // }
     }
 
 
@@ -152,7 +146,7 @@ export class InputComponent implements OnInit {
             }
             return null;
         }
-        
+
         return form && form.touched && form.invalid;
     }
 
