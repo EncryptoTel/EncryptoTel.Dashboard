@@ -25,11 +25,15 @@ export class SelectComponent implements OnInit {
     @Input()
     set placeholder(placeholder: string) {
         this._placeholder = placeholder;
-        if (this.selected[this.objectKey] != '') {
-            this.selectedObject = true;
-        }
-        if ( this.selected[this.objectKey] === undefined) {
+        if (this.selected === undefined) {
             this.selectedObject = false;
+        } else {
+            if (this.selected[this.objectKey] != '') {
+                this.selectedObject = true;
+            }
+            if (this.selected[this.objectKey] === undefined) {
+                this.selectedObject = false;
+            }
         }
     }
 

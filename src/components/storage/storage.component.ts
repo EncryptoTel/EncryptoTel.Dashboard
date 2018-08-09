@@ -22,7 +22,7 @@ export class StorageComponent implements OnInit {
     public filters: FilterItem[];
     public buttons: ButtonItem[];
     public currentFilter: any;
-    
+
     @ViewChild('mediaTable')
     public mediaTable: MediaTableComponent;
 
@@ -56,12 +56,12 @@ export class StorageComponent implements OnInit {
         ];
 
         this.filters = [
-            new FilterItem(1, 'type', 'Select Source:', [ 
+            new FilterItem(1, 'type', 'Select Source:', [
                 { id: 'audio', title: 'Audio' },
                 { id: 'call_record', title: 'Call Record' },
                 { id: 'voice_mail', title: 'Voice Mail' },
                 { id: 'certificate', title: 'Certificate' },
-            ], 'title'),
+            ], 'title', '[choose one]'),
             new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'),
         ];
 
@@ -135,7 +135,7 @@ export class StorageComponent implements OnInit {
             return keys.some(key => this.currentFilter[key] != undefined && this.currentFilter[key]);
         }
     }
-    
+
     // --- selection --------------------------------------
 
     selectItem(item: StorageItem): void {
@@ -144,7 +144,7 @@ export class StorageComponent implements OnInit {
     }
 
     // --- file uploading ---------------------------------
-    
+
     updateLoading(loading, deleting = false) {
         this.loading = loading;
         if (!loading) {
@@ -167,7 +167,7 @@ export class StorageComponent implements OnInit {
                     (loading) => {
                         this.updateLoading(loading);
                     });
-            } 
+            }
             else {
                 this._message.writeError('Accepted formats: mp3, ogg, wav');
             }
@@ -220,7 +220,7 @@ export class StorageComponent implements OnInit {
                 id,
                 (loading) => {
                     this.updateLoading(loading, true);
-                }, 
+                },
                 false)
                     .then(() => {
                         item ? item.loading -- : null;
