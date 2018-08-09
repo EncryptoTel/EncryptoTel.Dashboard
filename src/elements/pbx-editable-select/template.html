@@ -16,7 +16,7 @@
             placeholder="{{ placeholder.length > 0 ? placeholder : '' }}"
             [(ngModel)]="filterValue"
             [ngClass]="[ checkError() ? 'input-invalid' : 'input-valid' ]"
-            (keydown)="inputKeyDown($event)"
+            (keyup)="inputKey($event)"
             (focus)="inputFocus($event)"
             (blur)="inputBlur($event)"
             (mouseenter)="inputMouseEnter($event)"
@@ -27,7 +27,7 @@
     </div>
         
     <div class="select_options" *ngIf="isVisible" [@Swipe] #optionsWrap>
-        <div class="select_item" *ngFor="let option of options" [ngClass]="{ 'current': isCurrent(option) }"
+        <div class="select_item" *ngFor="let option of filteredOptions" [ngClass]="{ 'current': isCurrent(option) }"
              (mousedown)="selectItem(option, $event)">{{ option[objectKey] }}
         </div>
     </div>

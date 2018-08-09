@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges} from '@angular/core';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {assertNumber} from "@angular/core/src/render3/assert";
@@ -9,9 +9,10 @@ import {assertNumber} from "@angular/core/src/render3/assert";
     styleUrls: ['./local.sass'],
     animations: [SwipeAnimation('y', '200ms')]
 })
-export class EditableSelectComponent implements OnInit {
+export class EditableSelectComponent implements OnInit, OnChanges {
     isVisible: boolean;
     filterValue: string;
+    filteredOptions: any[];
 
     @Input() name: string;
     @Input() singleBorder: boolean;
@@ -35,6 +36,7 @@ export class EditableSelectComponent implements OnInit {
 
     constructor() {
         this.isVisible = false;
+        this.filterValue = '';
 
         this.onSelect = new EventEmitter();
         this.onOpen = new EventEmitter();
@@ -43,7 +45,31 @@ export class EditableSelectComponent implements OnInit {
         this.onBlur = new EventEmitter();
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.filterOptions();
+    }
+    
+    ngOnChanges(): void {
+        // TODO: track option changes
+    }
+
+    filterOptions(): void {
+        console.log('filterValue', this.filterValue);
+        this.filteredOptions = this.options
+            .filter(opt => !this.filterValue || this.objectTitle(opt).toLowerCase().search(this.filterValue.toLowerCase()) >= 0);
+        // this.filteredOptions = this.options
+        //     .filter(opt => { 
+        //         // console.log('title', this.objectTitle(opt));
+        //         return !this.filterValue || this.objectTitle(opt).search(/this.filterValue/i) >= 0;
+        //     });
+    }
+
+    objectTitle(obj: any): string {
+        if ('title' in obj) return obj['title'];
+        if ('name' in obj) return obj['name'];
+        if ('id' in obj) return obj['id'];
+        return '';
+    }
 
     @HostListener('window:keydown', ['$event']) globalHide(event: KeyboardEvent) {
         if (event.code === 'Escape') {
@@ -69,7 +95,7 @@ export class EditableSelectComponent implements OnInit {
         this.keyboardNavigation(event);
     }
 
-    inputKeyDown(event: KeyboardEvent): void {
+    inputKey(event: KeyboardEvent): void {
         console.log('inputKeyDown($event)', event);
         if (event.code == 'Enter') {
             if (this.isVisible) {
@@ -85,6 +111,8 @@ export class EditableSelectComponent implements OnInit {
         }
         
         // TODO: key filtering
+        this.filterOptions();
+        this.keyboardNavigation(event);
     }
 
     inputFocus(event) {
