@@ -23,6 +23,7 @@ export class InputComponent implements OnInit {
     @Input() errors: any;
     @Input() objectView: any;
     @Input() options: any[];
+    @Input() editable: boolean;
     @Input() displayKey: string;
     @Input() checkbox: boolean;
     @Input() trueValue: any;
