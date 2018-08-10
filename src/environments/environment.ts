@@ -4,4 +4,3 @@ export const environment = {
     back: 'http://pbx-back-dev.encry.ru/api',
     ws: 'ws.pbx-back-dev.encry.ru'
 };
-

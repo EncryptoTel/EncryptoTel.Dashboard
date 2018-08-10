@@ -66,16 +66,19 @@ export class InputComponent implements OnInit {
     prevFormError;
     hoverActive = false;
     loading = 0;
+    pbxInputFocus = false;
 
     constructor() {
     }
 
     setFocus(): void {
         this.errorVisible = true;
+        this.pbxInputFocus = true;
     }
 
     removeFocus(): void {
         this.errorVisible = false;
+        this.pbxInputFocus = false;
     }
 
 
