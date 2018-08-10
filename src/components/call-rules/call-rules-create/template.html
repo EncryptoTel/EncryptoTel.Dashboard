@@ -78,7 +78,7 @@
                 <ng-container formArrayName="ruleActions">
                     <ng-container *ngFor="let action of actionsControls.controls;let i = index" [formGroupName]="i">
                         <ng-container [ngSwitch]="selectedActions[i].id">
-                            <ng-template [ngSwitchCase]="1">
+                            <ng-template [ngSwitchCase]="1" let>
                                 <pbx-input name="Extension number"
                                            displayKey="phoneNumber"
                                            key="parameter"

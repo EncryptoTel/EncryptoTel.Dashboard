@@ -1,7 +1,6 @@
 export const environment = {
     title: 'development',
     production: false,
-    back: 'http://pbx-back-dev.encry.ru/api',
-    ws: 'ws.pbx-back-dev.encry.ru'
+    back: 'http://back-symfony.loc/api',
+    ws: 'localhost:3000'
 };
-

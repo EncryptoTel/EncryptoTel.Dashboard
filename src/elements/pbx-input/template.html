@@ -65,7 +65,7 @@
                               [value]="value">
                 </pbx-checkbox>
 
-                <span class="qewrqwerq {{errorVisible ? 'label-focus' : ''}}" *ngIf="description">{{description}}</span>
+                <span class="pbx-input-description {{pbxInputFocus ? 'label-focus' : ''}}" *ngIf="description">{{description}}</span>
 
             </div>
 
@@ -137,8 +137,7 @@
                           (mouseleave)="mouseLeave()"
                 ></textarea>
 
-                <span *ngIf="description" [ngClass]="[descriptionClass ? descriptionClass : '']">{{description}}</span>
-
+                <span class="{{pbxInputFocus ? 'label-focus' : ''}}" *ngIf="description" [ngClass]="[descriptionClass ? descriptionClass : '']">{{description}}</span>
             </div>
 
             <div *ngFor="let action of actions; let i = index">
