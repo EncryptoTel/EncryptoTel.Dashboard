@@ -4,41 +4,36 @@
      [ngClass]="[errors ? 'error' : '', isVisible ? 'active' : '', calcPosition()]"
      (clickOutside)="clickOutside()"
      (focus)="ctrlFocus($event)"
-     (blur)="ctrlBlur(event)"
      (mousedown)="ctrlMouseDown($event)"
      (keydown)="ctrlKeyDown($event)">
-    <span *ngIf="!selectedObject" class="pbx-select-placeholder">{{_placeholder}}</span>
-    <div [ngClass]="['select_item', 'selected', !selected ? 'blank' : '', singleBorder ? 'no_border' : '', errors ? 'error' : '', name ? 'pbx_select_' + name : '']">
-        {{selected ? selected[objectKey] : ''}}
+    
+    <span *ngIf="isPlaceholder && !isVisible" class="pbx-select-placeholder">{{ placeholder }}</span>
+    <div [ngClass]="[ 'select_item', 'selected', !selected ? 'blank' : '', singleBorder ? 'no_border' : '', errors ? 'error' : '', name ? 'pbx_select_' + name : '' ]">
+        <span *ngIf="!isVisible">{{ selected ? selected[objectKey] : '' }}</span>
+            <input *ngIf="isVisible"
+                class="{{ singleBorder ? '' : 'show-border' }} pbx_select_edit_input"
+                #selectInput
+                type="text"
+                id="{{ name }}_filter"
+                [(ngModel)]="filterValue"
+                [ngClass]="[ checkError() ? 'input-invalid' : 'input-valid' ]"
+                (keydown)="inputKeyDown($event)"
+                (keyup)="inputKeyUp($event)"
+                (mousedown)="inputMouseDown($event)"
+                >
         <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg" class="select_icon"></svg-icon>
     </div>
-<div class="outer {{ isVisible ? '' : 'hide' }}">
+    
     <div class="{{ isVisible ? '' : 'hide' }} select_options"
-         [@Swipe]
-         #optionsWrap
-         >
-         <div style="width: 100%; position: relative; margin-bottom: 40px;">
-        <input class="{{ singleBorder ? '' : 'show-border' }} {{ checkError() ? 'error-border' : '' }} pbx_select_edit_input"
-            #selectInput
-            type="text"
-            id="{{ name }}_filter"
-            [(ngModel)]="filterValue"
-            [ngClass]="[ checkError() ? 'input-invalid' : 'input-valid' ]"
-            (keydown)="inputKeyDown($event)"
-            (keyup)="inputKeyUp($event)"
-            (focus)="inputFocus($event)"
-            (blur)="inputBlur($event)"
-            (mouseenter)="inputMouseEnter($event)"
-            (mouseleave)="inputMouseLeave($event)"
-            (mousedown)="inputMouseDown($event)"
-            >
-        </div>
+        [@Swipe]
+        #optionsWrap
+        >
         <div *ngFor="let option of filteredOptions"
-             class="select_item"
-             [ngClass]="{'current': isCurrent(option)}"
-             (mousedown)="selectItem(option, $event)">
-             {{ option[objectKey] }}
+                class="select_item"
+                [ngClass]="{ 'current': isItemSelected(option) }"
+                (mousedown)="selectItem(option, $event)"
+            >
+            {{ option[objectKey] }}
         </div>
     </div>
-    </div> <!-- outer -->
 </div>

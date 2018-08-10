@@ -1,7 +1,5 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
-
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {assertNumber} from "@angular/core/src/render3/assert";
 
 @Component({
     selector: 'pbx-editable-select',
@@ -10,35 +8,21 @@ import {assertNumber} from "@angular/core/src/render3/assert";
     animations: [SwipeAnimation('y', '200ms')]
 })
 export class EditableSelectComponent implements OnInit, OnChanges {
-    isVisible: boolean;
-    filterValue: string;
-    filteredSelectedItem: any;
-    filteredOptions: any[];
-    inFocus: boolean;
+    public isVisible: boolean;
+    public filterValue: string;
+    public filteredSelectedItem: any;
+    public filteredOptions: any[];
+    public inFocus: boolean;
+
+    private _placeholder: string;
 
     @Input() name: string;
     @Input() singleBorder: boolean;
     @Input() options: any[];
     @Input() objectKey: string;
     @Input() selected: any; // read selectedItem
-    @Input()
-    set placeholder(placeholder: string) {
-        this._placeholder = placeholder;
-        if (this.selected === undefined) {
-            this.selectedObject = false;
-        } else {
-            if (this.selected[this.objectKey] != '') {
-                this.selectedObject = true;
-            }
-            if (this.selected[this.objectKey] === undefined) {
-                this.selectedObject = false;
-            }
-        }
-    }
-
-    _placeholder: string;
     @Input() errors: any[];
-
+    
     @Output() onSelect: EventEmitter<object>;
     @Output() onOpen: EventEmitter<object>;
     @Output() onClose: EventEmitter<object>;
@@ -49,7 +33,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     @ViewChild('selectWrap') selectWrap: ElementRef;
     @ViewChild('selectInput') selectInput: ElementRef;
 
-    selectedObject = false;
+    // -- component lifecycle functions -------------------
 
     constructor() {
         this.isVisible = false;
@@ -72,6 +56,23 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         }
     }
 
+    // -- placeholder functions ---------------------------
+
+    @Input()
+    set placeholder(placeholder: string) {
+        this._placeholder = placeholder;
+    }
+    
+    get placeholder(): string {
+        return this._placeholder;
+    }
+
+    get isPlaceholder(): boolean {
+        return this.currentIndex < 0;
+    }
+
+    // -- selection functions -----------------------------
+
     get currentIndex(): number {
         return this.filteredOptions.findIndex(item => this.isItemSelected(item));
     }
@@ -80,26 +81,58 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         return Number.isInteger(item) ? item === this.filteredSelectedItem : item.id === this.filteredSelectedItem.id;
     }
 
-    isCurrent(item) {
-        return this.filteredSelectedItem ? this.isItemSelected(item) : false;
+    selectItem(option: object, event?: Event): void {
+        if (event) this.killEvent(event);
+
+        this.onSelect.emit(option);
+        this.hideOptions();
     }
 
-    @HostListener('window:keydown', ['$event']) globalHide(event: KeyboardEvent) {
+    // -- event handlers ----------------------------------
+
+    @HostListener('window:keydown', ['$event'])
+    globalHide(event: KeyboardEvent) {
         if (event.code === 'Escape') {
             this.hideOptions();
         }
     }
 
-    calcPosition(): string {
-        const comparison = (window.innerHeight - this.selectWrap.nativeElement.offsetTop + 40) > 230;
-        return comparison ? 'bottom' : 'top';
+    inputKeyDown(event) {
+        this.handleInputKeyboardEvent(event);
     }
 
-    objectTitle(obj: any): string {
-        if ('title' in obj) return obj['title'];
-        if ('name' in obj) return obj['name'];
-        if ('id' in obj) return obj['id'];
-        return '';
+    inputKeyUp(event) {
+        if (['ArrowDown', 'ArrowUp', 'Enter', 'Tab'].indexOf(event.code) < 0) {
+            this.filterOptions();
+        }
+    }
+
+    ctrlKeyDown(event) {
+        this.handleCtrlKeyboardEvent(event);
+    }
+
+    ctrlFocus(event) {
+        this.inFocus = true;
+    }
+
+    inputMouseDown(event) {
+        if (this.isVisible) this.hideOptions();
+        this.killEvent(event);
+    }
+
+    ctrlMouseDown(event) {
+        if (!this.inFocus) {
+            this.inFocus = true;
+            this.setSelectCtrlFocus(true);
+        }
+        this.toggleOptions();
+        this.killEvent(event);
+    }
+
+    clickOutside(): void {
+        this.inFocus = false;
+        this.setSelectCtrlFocus(false);
+        this.hideOptions();
     }
 
     setSelectCtrlFocus(state: boolean): void {
@@ -120,100 +153,28 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         }
     }
 
-    resetFilter(): void {
-        this.filteredSelectedItem = this.selected;
-        this.filterValue = '';
-        this.filterOptions();
-    }
-
-    filterOptions(): void {
-        this.filteredOptions = this.options
-            .filter(opt => !this.filterValue || this.objectTitle(opt).toLowerCase().search(this.filterValue.toLowerCase()) >= 0);
-        this.filteredSelectedItem = this.filteredOptions[0];
-        this.scrollToCurrent(0);
-    }
-
-    /*
-      Toggle options visibility
-     */
-    toggleOptions(): void {
-        this.isVisible ? this.hideOptions() : this.showOptions();
-    }
-
-    /*
-      Hide options
-     */
-    hideOptions(): void {
-        if (this.inFocus) this.setSelectCtrlFocus(true);
-        this.isVisible = false;
-        this.resetFilter();
-        this.closed();
-        this.onBlur.emit();
-    }
-
-    /*
-      Show options
-     */
-    showOptions(): void {
-        // this.selectWrap.nativeElement.focus();
-        this.isVisible = true;
-        const currentIndex = this.selected ? this.options.indexOf(this.selected) : 0; // Index of selected item
-        setTimeout(() => this.scrollToCurrent(currentIndex), 1);
-        this.opened();
-        this.onFocus.emit();
-        this.setSelectInputFocus(true);
-    }
-
-    /*
-      Scroll to selected option
-     */
-    scrollToCurrent(currentIndex: number): void {
-        if (this.isVisible && this.optionsWrap) {
-            const optionsWrap = this.optionsWrap.nativeElement; // Options list HTML element
-            optionsWrap.scrollTop = (currentIndex - 2) * 40;
-        }
-    }
-
-    /*
-      Select option
-     */
-    selectItem(option: object, event?: Event): void {
-        if (option) {
-            this.selectedObject = true;
-        }
-        if (event) this.killEvent(event);
-
-        this.onSelect.emit(option);
-        this.hideOptions();
-    }
-
-    /*
-      Arrows navigation
-     */
     handleInputKeyboardEvent(event: KeyboardEvent): void {
         switch (event.code) {
             case 'ArrowDown': {
                 if ((this.currentIndex + 1) !== this.filteredOptions.length) {
-                    // this.onSelect.emit(this.filteredOptions[this.currentIndex + 1]);
                     this.filteredSelectedItem = this.filteredOptions[this.currentIndex + 1];
-                    this.scrollToCurrent(this.currentIndex + 1);
+                    this.scrollToCurrent();
                 } else {
-                    // this.onSelect.emit(this.filteredOptions[0]);
                     this.filteredSelectedItem = this.filteredOptions[0];
-                    this.scrollToCurrent(0);
+                    this.scrollToCurrent();
                 }
+                this.killEvent(event);
                 break;
             }
             case 'ArrowUp': {
                 if (this.currentIndex > 0) {
-                    // this.onSelect.emit(this.filteredOptions[this.currentIndex - 1]);
                     this.filteredSelectedItem = this.filteredOptions[this.currentIndex - 1];
-                    this.scrollToCurrent(this.currentIndex - 1);
+                    this.scrollToCurrent();
                 } else {
-                    // this.onSelect.emit(this.filteredOptions[this.filteredOptions.length - 1]);
                     this.filteredSelectedItem = this.filteredOptions[this.filteredOptions.length - 1];
-                    this.scrollToCurrent(this.filteredOptions.length - 1);
+                    this.scrollToCurrent();
                 }
+                this.killEvent(event);
                 break;
             }
             case 'Enter': {
@@ -243,63 +204,58 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         }
     }
 
-    opened() {
-        this.onOpen.emit();
-    }
-
-    closed() {
-        this.onClose.emit();
-    }
-
     killEvent(event: Event): void {
         event.stopPropagation();
         event.preventDefault();
     }
 
-    // ---
-    checkError() {}
+    // -- dropdown & filtering ----------------------------
 
-    inputKeyDown(event) {
-        this.handleInputKeyboardEvent(event);
+    toggleOptions(): void {
+        this.isVisible ? this.hideOptions() : this.showOptions();
     }
 
-    inputKeyUp(event) {
-        if (['ArrowDown', 'ArrowUp', 'Enter', 'Tab'].indexOf(event.code) < 0) {
-            this.filterOptions();
+    showOptions(): void {
+        this.isVisible = true;
+        this.onOpen.emit();
+        this.onFocus.emit();
+        this.setSelectInputFocus(true);
+        this.scrollToCurrent(true);
+    }
+
+    hideOptions(): void {
+        if (this.inFocus) this.setSelectCtrlFocus(true);
+        this.isVisible = false;
+        this.resetFilter();
+        this.onClose.emit();
+        this.onBlur.emit();
+    }
+
+    filterOptions(): void {
+        this.filteredOptions = this.options
+            .filter(opt => !this.filterValue || opt[this.objectKey].toLowerCase().search(this.filterValue.toLowerCase()) >= 0);
+        this.filteredSelectedItem = (this.filterValue) ? this.filteredOptions[0] : this.selected;
+        this.scrollToCurrent();
+    }
+
+    resetFilter(): void {
+        this.filteredSelectedItem = this.selected;
+        this.filterValue = '';
+        this.filterOptions();
+    }
+
+    // -- helpers -----------------------------------------
+
+    calcPosition(): string {
+        const comparison = (window.innerHeight - this.selectWrap.nativeElement.offsetTop + 40) > 230;
+        return comparison ? 'bottom' : 'top';
+    }
+
+    scrollToCurrent(deferred: boolean = false): void {
+        if (this.isVisible && this.optionsWrap) {
+            const optionsWrap = this.optionsWrap.nativeElement;
+            let scrollFn = () => { optionsWrap.scrollTop = (this.currentIndex - 2) * 40; }
+            (deferred) ? setTimeout(scrollFn, 0) : scrollFn();
         }
-    }
-
-    inputFocus(event) { /*console.log('inputFocus', event);*/ }
-    inputBlur(event) { /*console.log('inputBlur', event);*/ }
-
-    ctrlKeyDown(event) {
-        this.handleCtrlKeyboardEvent(event);
-    }
-
-    inputMouseEnter(event) { /*console.log('inputMouseEnter', event);*/ }
-    inputMouseLeave(event) { /*console.log('inputMouseLeave', event);*/ }
-    ctrlBlur(event) { /* console.log('ctrlBlur', event); */ }
-
-    ctrlFocus(event) {
-        this.inFocus = true;
-    }
-
-    inputMouseDown(event) {
-        this.killEvent(event);
-    }
-
-    ctrlMouseDown(event) {
-        if (!this.inFocus) {
-            this.inFocus = true;
-            this.setSelectCtrlFocus(true);
-        }
-        this.toggleOptions();
-        this.killEvent(event);
-    }
-
-    clickOutside(): void {
-        this.inFocus = false;
-        this.setSelectCtrlFocus(false);
-        this.hideOptions();
     }
 }
