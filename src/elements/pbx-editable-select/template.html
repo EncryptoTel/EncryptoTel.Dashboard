@@ -7,14 +7,14 @@
      (blur)="ctrlBlur(event)"
      (mousedown)="ctrlMouseDown($event)"
      (keydown)="ctrlKeyDown($event)">
-    
+    <span *ngIf="!selectedObject" class="pbx-select-placeholder">{{_placeholder}}</span>
     <div [ngClass]="['select_item', 'selected', !selected ? 'blank' : '', singleBorder ? 'no_border' : '', errors ? 'error' : '', name ? 'pbx_select_' + name : '']">
-        {{selected ? selected[objectKey] : placeholder}}
+        {{selected ? selected[objectKey] : ''}}
         <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg" class="select_icon"></svg-icon>
     </div>
-    
-    <div class="{{ isVisible ? '' : 'hide' }} select_options" 
-         [@Swipe] 
+
+    <div class="{{ isVisible ? '' : 'hide' }} select_options"
+         [@Swipe]
          #optionsWrap
          >
          <div style="width: 100%; position: relative;">
@@ -22,7 +22,6 @@
             #selectInput
             type="text"
             id="{{ name }}_filter"
-            placeholder="{{ placeholder ? placeholder : '' }}"
             [(ngModel)]="filterValue"
             [ngClass]="[ checkError() ? 'input-invalid' : 'input-valid' ]"
             (keydown)="inputKeyDown($event)"
@@ -34,7 +33,7 @@
             (mousedown)="inputMouseDown($event)"
             >
         </div>
-        <div *ngFor="let option of filteredOptions" 
+        <div *ngFor="let option of filteredOptions"
              class="select_item"
              [ngClass]="{'current': isCurrent(option)}"
              (mousedown)="selectItem(option, $event)">

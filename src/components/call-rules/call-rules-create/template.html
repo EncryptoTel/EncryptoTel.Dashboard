@@ -42,7 +42,8 @@
                        [(errors)]="service.errors"
                        [(objectView)]="selectedNumber"
                        [(object)]="callRulesForm"
-                       [placeholder]="'[choose one]'">
+                       [placeholder]="'[choose one]'"
+                       [editable]="true">
             </pbx-input>
 
             <ng-container *ngIf="!callRulesForm.get('sipId').value">
@@ -69,7 +70,8 @@
                            [(errors)]="service.errors"
                            [(objectView)]="selectedActions[0]"
                            [(object)]="callRulesForm"
-                           [placeholder]="'[choose one]'">
+                           [placeholder]="'[choose one]'"
+                           [editable]="true">
                 </pbx-input>
 
 
@@ -88,7 +90,8 @@
                                            [(errors)]="service.errors"
                                            [(objectView)]="selectedSipInners[i]"
                                            [object]="action"
-                                           [placeholder]="'[choose one]'">
+                                           [placeholder]="'[choose one]'"
+                                           [editable]="true">
                                 </pbx-input>
 
                                 <pbx-input name="If I do not answer call within"

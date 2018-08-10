@@ -21,7 +21,22 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     @Input() options: any[];
     @Input() objectKey: string;
     @Input() selected: any; // read selectedItem
-    @Input() placeholder: string;
+    @Input()
+    set placeholder(placeholder: string) {
+        this._placeholder = placeholder;
+        if (this.selected === undefined) {
+            this.selectedObject = false;
+        } else {
+            if (this.selected[this.objectKey] != '') {
+                this.selectedObject = true;
+            }
+            if (this.selected[this.objectKey] === undefined) {
+                this.selectedObject = false;
+            }
+        }
+    }
+
+    _placeholder: string;
     @Input() errors: any[];
 
     @Output() onSelect: EventEmitter<object>;
@@ -33,6 +48,8 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     @ViewChild('optionsWrap') optionsWrap: ElementRef;
     @ViewChild('selectWrap') selectWrap: ElementRef;
     @ViewChild('selectInput') selectInput: ElementRef;
+
+    selectedObject = false;
 
     constructor() {
         this.isVisible = false;
@@ -161,6 +178,9 @@ export class EditableSelectComponent implements OnInit, OnChanges {
       Select option
      */
     selectItem(option: object, event?: Event): void {
+        if (option) {
+            this.selectedObject = true;
+        }
         if (event) this.killEvent(event);
 
         this.onSelect.emit(option);
@@ -239,7 +259,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     // ---
     checkError() {}
 
-    inputKeyDown(event) { 
+    inputKeyDown(event) {
         this.handleInputKeyboardEvent(event);
     }
 
@@ -259,16 +279,16 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     inputMouseEnter(event) { /*console.log('inputMouseEnter', event);*/ }
     inputMouseLeave(event) { /*console.log('inputMouseLeave', event);*/ }
     ctrlBlur(event) { /* console.log('ctrlBlur', event); */ }
-    
-    ctrlFocus(event) { 
+
+    ctrlFocus(event) {
         this.inFocus = true;
     }
-    
+
     inputMouseDown(event) {
         this.killEvent(event);
     }
-    
-    ctrlMouseDown(event) { 
+
+    ctrlMouseDown(event) {
         if (!this.inFocus) {
             this.inFocus = true;
             this.setSelectCtrlFocus(true);
