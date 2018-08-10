@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {assertNumber} from "@angular/core/src/render3/assert";
@@ -12,16 +12,17 @@ import {assertNumber} from "@angular/core/src/render3/assert";
 export class EditableSelectComponent implements OnInit, OnChanges {
     isVisible: boolean;
     filterValue: string;
+    filteredSelectedItem: any;
     filteredOptions: any[];
+    inFocus: boolean;
 
     @Input() name: string;
     @Input() singleBorder: boolean;
     @Input() options: any[];
     @Input() objectKey: string;
-    @Input() selected: any;
+    @Input() selected: any; // read selectedItem
     @Input() placeholder: string;
     @Input() errors: any[];
-    @Input() inputWidth: number;
 
     @Output() onSelect: EventEmitter<object>;
     @Output() onOpen: EventEmitter<object>;
@@ -33,16 +34,9 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     @ViewChild('selectWrap') selectWrap: ElementRef;
     @ViewChild('selectInput') selectInput: ElementRef;
 
-    get currentIndex(): number {
-        return this.filteredOptions.findIndex(item => {
-            return Number.isInteger(item) ? item === this.selected : item.id === this.selected.id;
-        });
-    }
-
-
     constructor() {
         this.isVisible = false;
-        this.filterValue = '';
+        this.inFocus = false;
 
         this.onSelect = new EventEmitter();
         this.onOpen = new EventEmitter();
@@ -52,21 +46,36 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-        console.log('selected', this.selected);
-        this.filterOptions();
-        // TODO: __DEBUG__
-        this.placeholder = 'Select Country';
-        console.log('selected', this.selected);
-    }
-    
-    ngOnChanges(): void {
-        // TODO: track option changes
+        this.resetFilter();
     }
 
-    filterOptions(): void {
-        console.log('filterValue', this.filterValue);
-        this.filteredOptions = this.options
-            .filter(opt => !this.filterValue || this.objectTitle(opt).toLowerCase().search(this.filterValue.toLowerCase()) >= 0);
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.selected && changes.selected.currentValue) {
+            this.filteredSelectedItem = changes.selected.currentValue;
+        }
+    }
+
+    get currentIndex(): number {
+        return this.filteredOptions.findIndex(item => this.isItemSelected(item));
+    }
+
+    isItemSelected(item: any): boolean {
+        return Number.isInteger(item) ? item === this.filteredSelectedItem : item.id === this.filteredSelectedItem.id;
+    }
+
+    isCurrent(item) {
+        return this.filteredSelectedItem ? this.isItemSelected(item) : false;
+    }
+
+    @HostListener('window:keydown', ['$event']) globalHide(event: KeyboardEvent) {
+        if (event.code === 'Escape') {
+            this.hideOptions();
+        }
+    }
+
+    calcPosition(): string {
+        const comparison = (window.innerHeight - this.selectWrap.nativeElement.offsetTop + 40) > 230;
+        return comparison ? 'bottom' : 'top';
     }
 
     objectTitle(obj: any): string {
@@ -76,84 +85,41 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         return '';
     }
 
-    @HostListener('window:keydown', ['$event']) globalHide(event: KeyboardEvent) {
-        if (event.code === 'Escape') {
-            this.hideOptions();
+    setSelectCtrlFocus(state: boolean): void {
+        if (state) {
+            setTimeout(() => this.selectWrap.nativeElement.focus(), 0);
+        }
+        else {
+            setTimeout(() => this.selectWrap.nativeElement.blur(), 0);
         }
     }
 
-    ctrlFocus(event) {
-        // console.log('ctrlFocus($event)', event);
-    }
-
-    ctrlBlur(event) {
-        // console.log('ctrlBlur($event)', event);
-    }
-
-    ctrlMouseDown(event: MouseEvent) {
-        // console.log('ctrlMouseDown($event)', event);
-        this.toggleOptions();
-    }
-
-    ctrlKeyDown(event: KeyboardEvent) {
-        // console.log('ctrlKeyDown($event)', event);
-        // this.keyboardNavigation(event);
-    }
-
-    inputKey(event: KeyboardEvent): void {
-        console.log('inputKeyDown($event)', event);
-        if (event.code == 'Enter') {
-            if (this.isVisible) {
-                this.selectItem(this.filteredOptions[this.currentIndex]);
-                this.hideOptions();
-            }
-            else {
-                this.showOptions();
-                this.selectInput.nativeElement.focus();
-            }
-            this.killEvent(event);
-            return;
+    setSelectInputFocus(state: boolean): void {
+        if (state) {
+            setTimeout(() => this.selectInput.nativeElement.focus(), 0);
         }
-        
-        // TODO: key filtering
+        else {
+            setTimeout(() => this.selectInput.nativeElement.blur(), 0);
+        }
+    }
+
+    resetFilter(): void {
+        this.filteredSelectedItem = this.selected;
+        this.filterValue = '';
         this.filterOptions();
-        if (!this.isVisible) this.showOptions();
-        this.keyboardNavigation(event);
     }
 
-    inputFocus(event) {
-        // console.log('inputFocus($event)', event);
-    }
-
-    inputBlur(event) {
-        // console.log('inputBlur($event)', event);
-    }
-
-    inputMouseEnter(event) {
-        // console.log('inputMouseEnter($event)', event);
-    }
-
-    inputMouseLeave(event) {
-        // console.log('inputMouseLeave($event)', event);
-    }
-
-    killEvent(event: Event): void {
-        if (event) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
-    }
-
-    calcPosition(): string {
-        const comparison = (window.innerHeight - this.selectWrap.nativeElement.offsetTop + 40) > 230;
-        return comparison ? 'bottom' : 'top';
+    filterOptions(): void {
+        this.filteredOptions = this.options
+            .filter(opt => !this.filterValue || this.objectTitle(opt).toLowerCase().search(this.filterValue.toLowerCase()) >= 0);
+        this.filteredSelectedItem = this.filteredOptions[0];
+        this.scrollToCurrent(0);
     }
 
     /*
       Toggle options visibility
      */
     toggleOptions(): void {
-        console.log('selected', this.selected);
         this.isVisible ? this.hideOptions() : this.showOptions();
     }
 
@@ -161,8 +127,9 @@ export class EditableSelectComponent implements OnInit, OnChanges {
       Hide options
      */
     hideOptions(): void {
-        this.selectWrap.nativeElement.blur();
+        if (this.inFocus) this.setSelectCtrlFocus(true);
         this.isVisible = false;
+        this.resetFilter();
         this.closed();
         this.onBlur.emit();
     }
@@ -171,12 +138,13 @@ export class EditableSelectComponent implements OnInit, OnChanges {
       Show options
      */
     showOptions(): void {
-        this.selectWrap.nativeElement.focus();
+        // this.selectWrap.nativeElement.focus();
         this.isVisible = true;
-        const currentIndex = this.selected ? this.filteredOptions.indexOf(this.selected) : 0; // Index of selected item
+        const currentIndex = this.selected ? this.options.indexOf(this.selected) : 0; // Index of selected item
         setTimeout(() => this.scrollToCurrent(currentIndex), 1);
         this.opened();
         this.onFocus.emit();
+        this.setSelectInputFocus(true);
     }
 
     /*
@@ -189,59 +157,70 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         }
     }
 
-    /**
-     * Select option
-     * @param option object
+    /*
+      Select option
      */
     selectItem(option: object, event?: Event): void {
-        this.selected = option;
-        
-        this.filterValue = this.objectTitle(option);
-        this.filterOptions();
-        
+        if (event) this.killEvent(event);
+
         this.onSelect.emit(option);
         this.hideOptions();
     }
 
-    /**
-     * Arrows navigation handling at select dropdown.
-     * @param event KeyboardEvent
+    /*
+      Arrows navigation
      */
-    keyboardNavigation(event: KeyboardEvent) {
+    handleInputKeyboardEvent(event: KeyboardEvent): void {
         switch (event.code) {
             case 'ArrowDown': {
                 if ((this.currentIndex + 1) !== this.filteredOptions.length) {
-                    this.onSelect.emit(this.filteredOptions[this.currentIndex + 1]);
+                    // this.onSelect.emit(this.filteredOptions[this.currentIndex + 1]);
+                    this.filteredSelectedItem = this.filteredOptions[this.currentIndex + 1];
                     this.scrollToCurrent(this.currentIndex + 1);
                 } else {
-                    this.onSelect.emit(this.filteredOptions[0]);
+                    // this.onSelect.emit(this.filteredOptions[0]);
+                    this.filteredSelectedItem = this.filteredOptions[0];
                     this.scrollToCurrent(0);
                 }
                 break;
             }
             case 'ArrowUp': {
                 if (this.currentIndex > 0) {
-                    this.onSelect.emit(this.filteredOptions[this.currentIndex - 1]);
+                    // this.onSelect.emit(this.filteredOptions[this.currentIndex - 1]);
+                    this.filteredSelectedItem = this.filteredOptions[this.currentIndex - 1];
                     this.scrollToCurrent(this.currentIndex - 1);
                 } else {
-                    this.onSelect.emit(this.filteredOptions[this.filteredOptions.length - 1]);
+                    // this.onSelect.emit(this.filteredOptions[this.filteredOptions.length - 1]);
+                    this.filteredSelectedItem = this.filteredOptions[this.filteredOptions.length - 1];
                     this.scrollToCurrent(this.filteredOptions.length - 1);
                 }
                 break;
             }
-            // case 'Enter': {
-            //     if (this.isVisible) {
-            //         this.selectItem(this.filteredOptions[currentIndex]);
-            //     }
-            //     break;
-            // }
-            default:
+            case 'Enter': {
+                this.selectItem(this.filteredOptions[this.currentIndex]);
+                this.killEvent(event);
                 break;
+            }
+            case 'Tab': {
+                if (this.isVisible) this.hideOptions();
+                this.inFocus = false;
+                break;
+            }
         }
     }
 
-    isCurrent(item) {
-        return this.selected ? (Number.isInteger(item) ? item === this.selected : item.id === this.selected.id) : false;
+    handleCtrlKeyboardEvent(event: KeyboardEvent): void {
+        switch (event.code) {
+            case 'Enter': {
+                this.showOptions();
+                break;
+            }
+            case 'Tab': {
+                if (this.isVisible) this.hideOptions();
+                this.inFocus = false;
+                break;
+            }
+        }
     }
 
     opened() {
@@ -252,12 +231,55 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         this.onClose.emit();
     }
 
-    checkError() {}
-    
-    setFilterFocus() {
-        this.showOptions();
+    killEvent(event: Event): void {
+        event.stopPropagation();
+        event.preventDefault();
     }
 
-    removeFilterFocus() {
+    // ---
+    checkError() {}
+
+    inputKeyDown(event) { 
+        this.handleInputKeyboardEvent(event);
+    }
+
+    inputKeyUp(event) {
+        if (['ArrowDown', 'ArrowUp', 'Enter', 'Tab'].indexOf(event.code) < 0) {
+            this.filterOptions();
+        }
+    }
+
+    inputFocus(event) { /*console.log('inputFocus', event);*/ }
+    inputBlur(event) { /*console.log('inputBlur', event);*/ }
+
+    ctrlKeyDown(event) {
+        this.handleCtrlKeyboardEvent(event);
+    }
+
+    inputMouseEnter(event) { /*console.log('inputMouseEnter', event);*/ }
+    inputMouseLeave(event) { /*console.log('inputMouseLeave', event);*/ }
+    ctrlBlur(event) { /* console.log('ctrlBlur', event); */ }
+    
+    ctrlFocus(event) { 
+        this.inFocus = true;
+    }
+    
+    inputMouseDown(event) {
+        this.killEvent(event);
+    }
+    
+    ctrlMouseDown(event) { 
+        if (!this.inFocus) {
+            this.inFocus = true;
+            this.setSelectCtrlFocus(true);
+        }
+        this.toggleOptions();
+        this.killEvent(event);
+    }
+
+    clickOutside(): void {
+        this.inFocus = false;
+        this.setSelectCtrlFocus(false);
+        this.hideOptions();
     }
 }

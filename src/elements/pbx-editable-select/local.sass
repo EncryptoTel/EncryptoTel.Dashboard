@@ -34,8 +34,6 @@
     margin-left: auto
     width: 12px
     height: 12px
-    position: absolute
-    right: 0
   &_options
     position: absolute
     left: 0
@@ -46,23 +44,33 @@
     z-index: 10
     &.ng-animating
       overflow: hidden
+    input
+      width: 100%
+      max-width: 350px
+      min-height: 40px
+      padding: 0 16px
+      font: inherit
+      font-size: 13px
+      position: fixed
+      color: #22b2b4
+      background: #262424
   &_error
     position: absolute
     top: calc(100% + 4px)
     font-size: rem(12)
 
-.select_control_wrap
-  padding: 0
-
 .select-icon svg polygon,
 .select-icon svg path,
   fill: #ffffff !important
 
+.select_options > .select_item:first-child
+  margin-top: 40px
+
 \:host
   width: 100%
 
-.pbx_select_edit_input
-  flex: 0 0 100%
+.hide
+  display: none
 
 // Theme styles
 \:host-context(.dark_theme)
