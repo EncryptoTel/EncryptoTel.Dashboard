@@ -12,7 +12,7 @@
         {{selected ? selected[objectKey] : ''}}
         <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg" class="select_icon"></svg-icon>
     </div>
-
+<div class="outer {{ isVisible ? '' : 'hide' }}">
     <div class="{{ isVisible ? '' : 'hide' }} select_options"
          [@Swipe]
          #optionsWrap
@@ -40,4 +40,5 @@
              {{ option[objectKey] }}
         </div>
     </div>
+    </div> <!-- outer -->
 </div>
