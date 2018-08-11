@@ -11,6 +11,7 @@ import {CountryModel} from '../../models/country.model';
 import {MessageServices} from "../../services/message.services";
 import {SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
 import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
+import {classToPlain} from '../../../node_modules/class-transformer';
 
 @Component({
     selector: 'pbx-company',
@@ -18,25 +19,36 @@ import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
     styleUrls: ['./local.sass'],
     providers: [CompanyService]
 })
-
 export class CompanyComponent implements OnInit {
     company: CompanyModel;
+    // uses to store database company data to track changes
+    originalCompany: CompanyModel;
     companyForm: FormGroup;
-    countries: CountryModel[] = [];
+    countries: CountryModel[];
     loading = 0;
     saving = 0;
     selectedCountry: CountryModel;
-    sidebarInfo: SidebarInfoModel = new SidebarInfoModel();
-    modal = new ModalEx('', 'cancelEdit');
+    sidebarInfo: SidebarInfoModel;
+    modal: ModalEx;
+    editMode: boolean;
 
     @ViewChildren('label') labelFields;
 
     constructor(public service: CompanyService,
-                private fb: FormBuilder,
-                private dashboard: DashboardServices,
-                private refs: RefsServices,
-                private message: MessageServices) {
+                private _fb: FormBuilder,
+                private _dashboard: DashboardServices,
+                private _refs: RefsServices,
+                private _message: MessageServices) {
 
+        this.editMode = false;
+
+        this.countries = [];
+        this.loading = 0;
+        this.saving = 0;
+
+        this.modal = new ModalEx('Company has been changed. Your data will be lost. Dou you really want to continue?', 'cancelEdit');
+        
+        this.sidebarInfo = new SidebarInfoModel();
         this.sidebarInfo.loading = 0;
         this.sidebarInfo.title = 'Information';
         this.sidebarInfo.position = '';
@@ -45,31 +57,57 @@ export class CompanyComponent implements OnInit {
         this.sidebarInfo.items.push(new SidebarInfoItem(2, 'Storage space', null));
         this.sidebarInfo.items.push(new SidebarInfoItem(3, 'Available space', null));
 
-        this.companyForm = this.fb.group({
-            name: ['', [Validators.required]],
-            email: ['', [Validators.pattern(emailRegExp)]],
+        this.initCompanyForm();
+    }
+
+    initCompanyForm(): void {
+        this.companyForm = this._fb.group({
+            name:  ['', [ Validators.required ]],
+            email: ['', [ Validators.pattern(emailRegExp) ]],
             phone: [''],
             vatId: [''],
-            companyAddress: this.fb.array([
-                this.fb.group({
-                    country: [''],
-                    postalCode: [''],
+            companyAddress: this._fb.array([
+                this._fb.group({
+                    id: [null],
+                    type: [null],
+                    postalCode: [null],
                     regionName: [''],
                     locationName: [''],
                     street: [''],
                     building: [''],
-                    office: ['']
+                    office: [''],
+                    country: this._fb.group({
+                        id: [''],
+                        code: [''],
+                        title: ['']
+                    }),
                 })
-            ])
+            ]),
+            id: [null]
         });
+    }
+
+    decline(): void {
+        const currentCompany = JSON.stringify(this.company);
+        // console.log('current', currentCompany);
+        const formCompany = JSON.stringify(this.companyForm.value);
+        // console.log('form', formCompany);
+
+        if (currentCompany !== formCompany) {
+            this.modal.visible = true;
+        }
+        else {
+            this.cancel();
+        }
     }
 
     cancel(): void {
         this.service.resetErrors();
         this.companyForm.reset();
         this.selectedCountry = null;
-        this.fillCompany();
+        this.setCompanyFormData();
         this.validate();
+        this.editMode = false;
     }
 
     formatPhone(event): void {
@@ -79,12 +117,15 @@ export class CompanyComponent implements OnInit {
     save(): void {
         this.validate();
         if (this.companyForm.valid) {
-            this.saving++;
+            this.saving ++;
             this.service.save({...this.companyForm.value}, false).then(() => {
-                this.message.writeSuccess('Company successfully updated.');
-                this.saving--;
-            }).catch(() => {
-                this.saving--;
+                this._message.writeSuccess('Company successfully updated.');
+                this.editMode = false;
+                this.saving --;
+            }).catch(error => {
+                this._message.writeError('Company update error.');
+                console.log('Company update error', error);
+                this.saving --;
             });
         } else {
             this.companyForm.markAsTouched();
@@ -93,35 +134,12 @@ export class CompanyComponent implements OnInit {
 
     selectCountry(country: CountryModel): void {
         this.selectedCountry = country;
-        this.companyForm.get(['companyAddress']).get('0').get('country').setValue(country.id);
+        this.companyForm.get(['companyAddress']).get('0').get('country').setValue(country);
     }
 
-    private fillCompany() {
+    setCompanyFormData() {
         if (this.company.name) {
-            let company = {};
-            if (this.company.name) {
-                company['name'] = this.company.name;
-            }
-            if (this.company.email) {
-                company['email'] = this.company.email;
-            }
-            if (this.company.phone) {
-                company['phone'] = formatNumber(`+${this.company.phone}`, 'International');
-            }
-            if (this.company.vatId) {
-                company['vatId'] = this.company.vatId;
-            }
-            if (this.company.companyAddress) {
-                company['companyAddress'] = [{
-                    postalCode: this.company.companyAddress[0].postalCode,
-                    regionName: this.company.companyAddress[0].regionName,
-                    locationName: this.company.companyAddress[0].locationName,
-                    street: this.company.companyAddress[0].street,
-                    building: this.company.companyAddress[0].building,
-                    office: this.company.companyAddress[0].office,
-                }];
-            };
-
+            let company = classToPlain(this.company);
             this.companyForm.patchValue(company);
             this.selectedCountry = this.company.companyAddress[0].country;
         }
@@ -144,30 +162,33 @@ export class CompanyComponent implements OnInit {
         return this.companyForm.get('companyAddress') as FormArray;
     }
 
-    private getCompany() {
-        this.loading++;
-        this.service.getCompany().then((res: CompanyModel) => {
-            this.company = res;
-            this.fillCompany();
-            this.loading--;
+    private getCompany(): void {
+        this.loading ++;
+        this.service.getCompany().then((company: CompanyModel) => {
+            console.log('db data', company);
+            this.company = company;
+            this.originalCompany = company;
+            this.setCompanyFormData();
+            this.editMode = !company.isValid;
+            this.loading --;
         }).catch(() => {
-            this.loading--;
+            this.loading --;
         });
     }
 
     private getCountries() {
-        this.loading++;
-        this.refs.getCountries().then(res => {
+        this.loading ++;
+        this._refs.getCountries().then(res => {
             this.countries = res;
-            this.loading--;
+            this.loading --;
         }).catch(() => {
-            this.loading--;
+            this.loading --;
         });
     }
 
     private getSidebar() {
         this.sidebarInfo.loading++;
-        this.dashboard.getDashboard().then(res => {
+        this._dashboard.getDashboard().then(res => {
             for (let i = 0; i < this.sidebarInfo.items.length; i++) {
                 const item = this.sidebarInfo.items[i];
                 switch (item.title) {
@@ -192,6 +213,10 @@ export class CompanyComponent implements OnInit {
         }).catch(() => {
             this.sidebarInfo.loading--;
         });
+    }
+
+    edit(): void {
+        this.editMode = true;
     }
 
     ngOnInit() {

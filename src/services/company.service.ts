@@ -4,13 +4,13 @@ import {plainToClass} from "class-transformer";
 
 export class CompanyService extends BaseService {
 
-    save(formData, ShowSucess = true): Promise<any> {
-        return this.post('', formData, ShowSucess);
+    save(formData, showSucess = true): Promise<any> {
+        return this.post('', formData, showSucess);
     }
 
     getCompany(): Promise<CompanyModel> {
-        return this.get('').then((res: CompanyModel) => {
-            let company = plainToClass(CompanyModel, res);
+        return this.get().then((result: CompanyModel) => {
+            let company = plainToClass(CompanyModel, result);
             return Promise.resolve(company);
         });
     }

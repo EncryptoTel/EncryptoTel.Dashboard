@@ -78,7 +78,10 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     isItemSelected(item: any): boolean {
-        return Number.isInteger(item) ? item === this.filteredSelectedItem : item.id === this.filteredSelectedItem.id;
+        if (Number.isInteger(item)) {
+            return item === this.filteredSelectedItem;
+        }
+        return item && this.filteredSelectedItem && item.id === this.filteredSelectedItem.id;
     }
 
     selectItem(option: object, event?: Event): void {
@@ -91,36 +94,36 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     // -- event handlers ----------------------------------
 
     @HostListener('window:keydown', ['$event'])
-    globalHide(event: KeyboardEvent) {
+    globalHide(event: KeyboardEvent): void {
         if (event.code === 'Escape') {
             this.hideOptions();
         }
     }
 
-    inputKeyDown(event) {
+    inputKeyDown(event: KeyboardEvent): void {
         this.handleInputKeyboardEvent(event);
     }
 
-    inputKeyUp(event) {
+    inputKeyUp(event: KeyboardEvent): void {
         if (['ArrowDown', 'ArrowUp', 'Enter', 'Tab'].indexOf(event.code) < 0) {
             this.filterOptions();
         }
     }
 
-    ctrlKeyDown(event) {
+    ctrlKeyDown(event: KeyboardEvent): void {
         this.handleCtrlKeyboardEvent(event);
     }
 
-    ctrlFocus(event) {
+    ctrlFocus(event: Event): void {
         this.inFocus = true;
     }
 
-    inputMouseDown(event) {
+    inputMouseDown(event: MouseEvent): void {
         if (this.isVisible) this.hideOptions();
         this.killEvent(event);
     }
 
-    ctrlMouseDown(event) {
+    ctrlMouseDown(event: MouseEvent): void {
         if (!this.inFocus) {
             this.inFocus = true;
             this.setSelectCtrlFocus(true);
@@ -239,16 +242,22 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     resetFilter(): void {
-        this.filteredSelectedItem = this.selected;
         this.filterValue = '';
         this.filterOptions();
+    }
+
+    // -- error handling ----------------------------------
+
+    checkError(): string {
+        return '';
     }
 
     // -- helpers -----------------------------------------
 
     calcPosition(): string {
-        const comparison = (window.innerHeight - this.selectWrap.nativeElement.offsetTop + 40) > 230;
-        return comparison ? 'bottom' : 'top';
+        // const comparison = (window.innerHeight - this.selectWrap.nativeElement.offsetTop + 40) > 230;
+        // return comparison ? 'bottom' : 'top';
+        return 'bottom';
     }
 
     scrollToCurrent(deferred: boolean = false): void {

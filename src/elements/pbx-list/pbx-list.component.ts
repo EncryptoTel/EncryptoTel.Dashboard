@@ -41,7 +41,7 @@ export class ListComponent implements OnInit {
     @Input() EmptyInfo: string;
     @Input() hideArrow: boolean;
     @Input()
-    set sidebar(sidebar: object) {
+    set sidebar(sidebar: any) {
         this._sidebar = sidebar;
     }
     @Output() onCreate: EventEmitter<any> = new EventEmitter<any>();
@@ -55,7 +55,12 @@ export class ListComponent implements OnInit {
     currentFilter = [];
     loadingEx: number = 0;
     filter = {loading: 0};
-    _sidebar: object;
+    
+    _sidebar: any;
+    
+    get sidebarVisible(): boolean {
+        return this._sidebar ? this._sidebar.visible : false;
+    }
 
     constructor(private router: Router) {
 

@@ -1,9 +1,10 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
-<div class="company" *ngIf="!loading">
+
+<div class="company" *ngIf="!loading && editMode">
     <pbx-form [background]="false"
               [decline]="{value: 'Cancel', buttonType: 'cancel'}"
               [confirm]="{value: 'Save', buttonType: 'success'}"
-              (onDecline)="modal.visible=true"
+              (onDecline)="decline()"
               (onConfirm)="save()">
         <form [formGroup]="companyForm">
             <pbx-input name="Organization"
@@ -28,6 +29,7 @@
                                [object]="address"
                                [errors]="service.errors"
                                [objectView]="selectedCountry"
+                               objectKey="id"
                                [placeholder]="'[choose one]'">
                     </pbx-input>
                     <pbx-input name="State/Region"
@@ -115,7 +117,11 @@
     <pbx-sidebar [sidebarInfo]="sidebarInfo"></pbx-sidebar>
 </div>
 
-<div class="company_details">
+<div class="form_button_wrap" *ngIf="!loading && !editMode">
+    <pbx-button [value]="'Edit'" [buttonType]="'success'" [loading]="loading" (onClick)="edit()"></pbx-button>
+</div>
+
+<div class="company_details" *ngIf="!loading && !editMode">
 
             <div class="item">
                 <div class="img_wr">

@@ -38,7 +38,7 @@ export class BaseService {
         });
     }
 
-    get(path: string): Promise<any> {
+    get(path: string = ''): Promise<any> {
         return this.rawRequest('GET', path, null);
     }
 

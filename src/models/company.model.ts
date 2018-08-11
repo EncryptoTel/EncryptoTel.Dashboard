@@ -9,6 +9,10 @@ export class CompanyModel {
                 public companyDetailFieldValue?: any[],
                 public id?: number) {
     }
+
+    get isValid(): boolean {
+        return this.id > 0;
+    }
 }
 
 export class CompanyAddress {

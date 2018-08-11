@@ -188,27 +188,27 @@ export class InputComponent implements OnInit {
         this.onKeyUp.emit($event);
     }
 
-    selectItem($event) {
+    selectItem(event: any): void {
         this.resetError();
         if (this.form) {
-            this.value = $event;
+            this.value = event;
             // this.objectView.id = $event.id;
             // this.objectView[this.displayKey] = $event[this.displayKey];
-            this.key ? this.getForm().setValue($event.id) : null;
+            this.key ? this.getForm().setValue(event) : null;
         } else {
             if (this.updateObjectByObject) {
-                this.object[this.key] = $event;
+                this.object[this.key] = event;
             } else {
-                this.object[this.key] = $event.id;
+                this.object[this.key] = event.id;
             }
             if (this.updateValueByKey) {
-                this.value.id = $event.id;
-                this.value[this.displayKey] = $event[this.displayKey];
+                this.value.id = event.id;
+                this.value[this.displayKey] = event[this.displayKey];
             } else {
-                this.value = $event;
+                this.value = event;
             }
         }
-        this.onSelect.emit($event);
+        this.onSelect.emit(event);
     }
 
     toggleCheckbox($event) {
