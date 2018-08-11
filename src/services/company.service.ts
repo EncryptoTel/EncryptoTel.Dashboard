@@ -16,6 +16,6 @@ export class CompanyService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/company';
+        this.url = 'company';
     }
 }

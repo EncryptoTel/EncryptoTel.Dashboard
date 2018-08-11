@@ -37,7 +37,7 @@ export class SettingsService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/settings';
+        this.url = 'settings';
     }
 
 }

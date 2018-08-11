@@ -4,12 +4,21 @@ import {PageInfoModel} from "../models/base.model";
 import {plainToClass} from "class-transformer";
 import {MessageServices} from "./message.services";
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class BaseService {
+    public errors = null;
 
-    url: string = '';
-    errors = null;
+    private _url: string = '';
+
+    public get url(): string {
+        return this._url;
+    }
+    
+    public set url(uri: string) {
+        this._url = [ environment.backApiVersion, uri ].join('/');
+    }
 
     constructor(public request: RequestServices,
                 public message: MessageServices,
@@ -28,8 +37,8 @@ export class BaseService {
 
     rawRequest(method: string, path: string, data: any, ShowSuccess = true, ShowError = null): Promise<any> {
         this.resetErrors();
-        return this.request.request(method, `${this.url}${path}`, data, ShowSuccess, ShowError).then(res => {
-            return Promise.resolve(res);
+        return this.request.request(method, `${this.url}${path}`, data, ShowSuccess, ShowError).then(response => {
+            return Promise.resolve(response);
         }).catch(res => {
             if (res.errors) {
                 this.errors = res.errors;

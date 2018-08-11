@@ -20,7 +20,7 @@ export class PartnerProgramService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/partner';
+        this.url = 'partner';
     }
 
 }

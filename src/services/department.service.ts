@@ -20,7 +20,7 @@ export class DepartmentService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/department';
+        this.url = 'department';
     }
 
 }

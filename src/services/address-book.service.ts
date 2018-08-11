@@ -83,7 +83,7 @@ export class AddressBookService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/contact';
+        this.url = 'contact';
     }
 
 }

@@ -165,7 +165,6 @@ export class CompanyComponent implements OnInit {
     private getCompany(): void {
         this.loading ++;
         this.service.getCompany().then((company: CompanyModel) => {
-            console.log('db data', company);
             this.company = company;
             this.originalCompany = company;
             this.setCompanyFormData();

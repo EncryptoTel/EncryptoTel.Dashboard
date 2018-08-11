@@ -35,7 +35,7 @@ export class CdrService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/cdr';
+        this.url = 'cdr';
     }
 
 }
