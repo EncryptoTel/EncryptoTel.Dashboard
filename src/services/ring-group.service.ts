@@ -81,7 +81,7 @@ export class RingGroupService extends BaseQueueService {
     }
 
     onInit() {
-        this.url = 'v1/ring_group';
+        this.url = 'ring_group';
     }
 
 }
