@@ -44,8 +44,8 @@
                     "cssClass": "line",
                     "items": [
                         { "key": "tariffPlan.title", "title": "Tariff Plan" },
-                        { "key": "tariffPlan.expired", "title": "Next monthly payment", "type": "date" },
-                        { "key": "", "title": "Estimated Payment" },
+                        { "key": "tariffPlan.expired", "title": "Next monthly payment", "type": "date", "format": "MMMM d" },
+                        { "key": "tariffPlan.sum", "title": "Estimated Payment", "type": "currency", "format": "${balance.currency.shortName}|1.1-2" },
                         { "key": "", "title": "Auto-payment" },
                         { "key": "balance.currency.code", "title": "Account currency" }
                     ]
