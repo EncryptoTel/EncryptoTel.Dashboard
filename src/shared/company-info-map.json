@@ -1,0 +1,70 @@
+{
+    "logotype": "./assets/images/avatar/company_details.png",
+    "company": [
+        { "key": "name", "title": "Organization", "cssClass": "organization" },
+        { "key": "companyAddress[0].country.title", "title": "Country" },
+        { "key": "companyAddress[0].regionName", "title": "State/Region" },
+        { "key": "companyAddress[0].locationName", "title": "City" },
+        { "key": "companyAddress[0].street", "title": "Street" },
+        { "key": "companyAddress[0].building", "title": "House #" },
+        { "key": "companyAddress[0].office", "title": "Office" },
+        { "key": "companyAddress[0].postalCode", "title": "Postal code" },
+        { "key": "email", "title": "Email" },
+        { "key": "phone", "title": "Phone" }
+    ],
+    "sectionGroups": [ 
+        {
+            "sections": [
+                {
+                    "title": "Information",
+                    "cssClass": "line",
+                    "items": []
+                },
+                {
+                    "title": "Extensions",
+                    "cssClass": "line",
+                    "items": []
+                },
+                {
+                    "title": "IVR",
+                    "cssClass": "line",
+                    "items": []
+                }
+            ]
+        },
+        {
+            "sections": [
+                {
+                    "title": "CDR",
+                    "cssClass": "line",
+                    "items": []
+                },
+                {
+                    "title": "Tariff Plan",
+                    "cssClass": "line",
+                    "items": [
+                        { "key": "tariffPlan.title", "title": "Tariff Plan" },
+                        { "key": "tariffPlan.expired", "title": "Next monthly payment", "type": "date" },
+                        { "key": "", "title": "Estimated Payment" },
+                        { "key": "", "title": "Auto-payment" },
+                        { "key": "balance.currency.code", "title": "Account currency" }
+                    ]
+                },
+                {
+                    "title": "Invoices",
+                    "cssClass": "line",
+                    "items": []
+                }
+            ]
+        },
+        {
+            "sections": [
+                {
+                    "title": "Phone numbers",
+                    "cssClass": "number",
+                    "items": []
+                }
+            ]
+        }
+    ]
+}

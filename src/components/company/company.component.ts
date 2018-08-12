@@ -1,22 +1,27 @@
 import {Component, OnInit, ViewChildren} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import {formatNumber} from 'libphonenumber-js';
 import {CompanyService} from '../../services/company.service';
-import {CompanyModel} from '../../models/company.model';
-import {emailRegExp} from '../../shared/vars';
 import {DashboardServices} from '../../services/dashboard.services';
 import {RefsServices} from '../../services/refs.services';
-import {CountryModel} from '../../models/country.model';
 import {MessageServices} from "../../services/message.services";
+
+import {CompanyModel, CompanyInfoModel} from '../../models/company.model';
+import {CountryModel} from '../../models/country.model';
 import {SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
+import {DashboardModel} from '../../models/dashboard.model';
+
+import {formatNumber} from 'libphonenumber-js';
+import {emailRegExp} from '../../shared/vars';
 import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 import {classToPlain} from '../../../node_modules/class-transformer';
+
 
 @Component({
     selector: 'pbx-company',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
+    // TODO: WTF?
     providers: [CompanyService]
 })
 export class CompanyComponent implements OnInit {
@@ -24,6 +29,7 @@ export class CompanyComponent implements OnInit {
     // uses to store database company data to track changes
     originalCompany: CompanyModel;
     companyForm: FormGroup;
+    companyInfo: CompanyInfoModel;
     countries: CountryModel[];
     loading = 0;
     saving = 0;
@@ -31,6 +37,9 @@ export class CompanyComponent implements OnInit {
     sidebarInfo: SidebarInfoModel;
     modal: ModalEx;
     editMode: boolean;
+
+    // TODO: временная переменная для отладки/дизайна
+    templateView: boolean = false;
 
     @ViewChildren('label') labelFields;
 
@@ -56,6 +65,8 @@ export class CompanyComponent implements OnInit {
         this.sidebarInfo.items.push(new SidebarInfoItem(1, 'Internal numbers', null));
         this.sidebarInfo.items.push(new SidebarInfoItem(2, 'Storage space', null));
         this.sidebarInfo.items.push(new SidebarInfoItem(3, 'Available space', null));
+
+        this.companyInfo = this.service.companyInfo;
 
         this.initCompanyForm();
     }
@@ -89,10 +100,7 @@ export class CompanyComponent implements OnInit {
 
     decline(): void {
         const currentCompany = JSON.stringify(this.company);
-        // console.log('current', currentCompany);
         const formCompany = JSON.stringify(this.companyForm.value);
-        // console.log('form', formCompany);
-
         if (currentCompany !== formCompany) {
             this.modal.visible = true;
         }
@@ -145,6 +153,11 @@ export class CompanyComponent implements OnInit {
         }
     }
 
+    setCompanyInfo(dashboard: DashboardModel): void {
+        console.log('dashboard', dashboard);
+        this.service.companyInfo.setSectionData("Tariff Plan", dashboard);
+    }
+
     private validate() {
         this.companyForm.updateValueAndValidity();
         Object.keys(this.companyForm.controls).forEach(field => {
@@ -166,6 +179,8 @@ export class CompanyComponent implements OnInit {
         this.loading ++;
         this.service.getCompany().then((company: CompanyModel) => {
             this.company = company;
+            console.log('company', company);
+            console.log('companyInfo', this.companyInfo);
             this.originalCompany = company;
             this.setCompanyFormData();
             this.editMode = !company.isValid;
@@ -186,31 +201,33 @@ export class CompanyComponent implements OnInit {
     }
 
     private getSidebar() {
-        this.sidebarInfo.loading++;
-        this._dashboard.getDashboard().then(res => {
+        this.sidebarInfo.loading ++;
+        this._dashboard.getDashboard().then(response => {
+            this.setCompanyInfo(response);
+
             for (let i = 0; i < this.sidebarInfo.items.length; i++) {
                 const item = this.sidebarInfo.items[i];
                 switch (item.title) {
                     case 'External numbers':
-                        item.value = res.outersCount;
+                        item.value = response.outersCount;
                         break;
                     case 'Internal numbers':
-                        item.value = res.innersCount;
+                        item.value = response.innersCount;
                         break;
                     case 'Unassigned Ext':
                         item.value = null;
                         break;
                     case 'Storage space':
-                        item.value = `${res.storage.totalSize} ${res.storage.measure}`;
+                        item.value = `${response.storage.totalSize} ${response.storage.measure}`;
                         break;
                     case 'Available space':
-                        item.value = `${res.storage.availableSize} ${res.storage.measure}`;
+                        item.value = `${response.storage.availableSize} ${response.storage.measure}`;
                         break;
                 }
             }
-            this.sidebarInfo.loading--;
+            this.sidebarInfo.loading --;
         }).catch(() => {
-            this.sidebarInfo.loading--;
+            this.sidebarInfo.loading --;
         });
     }
 

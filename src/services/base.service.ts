@@ -151,5 +151,5 @@ export class BaseService {
         return true;
     }
 
-    onInit(): void {}
+    public onInit(): void {}
 }

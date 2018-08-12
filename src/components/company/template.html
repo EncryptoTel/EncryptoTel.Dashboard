@@ -126,62 +126,29 @@
             <div class="item">
                 <div class="img_wr">
                     <div class="inner">
-                            <img src="./assets/images/avatar/company_details.png" />
+                        <img src="{{ companyInfo.logotype }}" />
                     </div> <!-- inner -->
                 </div> <!-- img_wr -->
         
-                <div class="mini organization">
-                    <div class="title">Organization</div>
-                    <div class="info">Fish food LTD</div>
+                <div class="mini" *ngFor="let item of companyInfo.company">
+                    <div class="title">{{ item.title }}</div>
+                    <div class="info" [ngClass]="item.cssClass">{{ item.value }}</div>
                 </div> <!-- mini -->
-        
-                <div class="mini">
-                    <div class="title">Country</div>
-                    <div class="info">United States</div>
-                </div> <!-- mini -->
-        
-                <div class="mini">
-                    <div class="title">State/Region</div>
-                    <div class="info">San Francisco</div>
-                </div> <!-- mini -->
-        
-                <div class="mini">
-                    <div class="title">City</div>
-                    <div class="info">San Francisco</div>
-                </div> <!-- mini -->
-        
-                <div class="mini">
-                    <div class="title">Street</div>
-                    <div class="info">California Street</div>
-                </div> <!-- mini -->
-        
-                <div class="mini">
-                    <div class="title">House №</div>
-                    <div class="info">17/2</div>
-                </div> <!-- mini -->
-        
-                <div class="mini">
-                    <div class="title">Office</div>
-                    <div class="info">16</div>
-                </div> <!-- mini -->
-        
-                <div class="mini">
-                    <div class="title">Postal code</div>
-                    <div class="info">546353</div>
-                </div> <!-- mini -->
-        
-                <div class="mini">
-                    <div class="title">Email</div>
-                    <div class="info">info@expressdelivery.com</div>
-                </div> <!-- mini -->
-        
-                <div class="mini">
-                    <div class="title">Phone</div>
-                    <div class="info">+1 (987) 789 65 54</div>
-                </div> <!-- mini -->        
             </div> <!-- item -->
         
-            <div class="item">
+        <ng-template [ngIf]="!templateView">
+            <div class="item" *ngFor="let group of companyInfo.sectionGroups">
+                <div class="big" *ngFor="let section of group.sections">
+                    <div class="title">{{ section.title }}</div>
+                    <div [ngClass]="section.cssClass" *ngFor="let item of section.items">
+                        <div class="key">{{ item.title }}</div>
+                        <div class="val">{{ item.value }}</div>
+                    </div> <!-- line -->
+                </div>
+            </div>
+        </ng-template>
+
+            <div class="item" *ngIf="templateView">
 
                 <div class="big">
                     <div class="title">Information</div>
@@ -242,7 +209,7 @@
 
             </div> <!-- item -->
 
-            <div class="item">
+            <div class="item" *ngIf="templateView">
 
                 <div class="big">
                     <div class="title">CDR</div>
@@ -312,7 +279,7 @@
                 </div> <!-- big -->
             </div> <!-- item -->
 
-            <div class="item">
+            <div class="item" *ngIf="templateView">
                 <div class="big">
                     <div class="title">Phone numbers</div>
 
