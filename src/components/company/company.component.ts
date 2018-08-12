@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChildren} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 
 import {CompanyService} from '../../services/company.service';
 import {DashboardServices} from '../../services/dashboard.services';
@@ -21,8 +21,6 @@ import {classToPlain} from '../../../node_modules/class-transformer';
     selector: 'pbx-company',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    // TODO: WTF?
-    providers: [CompanyService]
 })
 export class CompanyComponent implements OnInit {
     company: CompanyModel;
@@ -101,12 +99,32 @@ export class CompanyComponent implements OnInit {
     decline(): void {
         const currentCompany = JSON.stringify(this.company);
         const formCompany = JSON.stringify(this.companyForm.value);
-        if (currentCompany !== formCompany) {
-            this.modal.visible = true;
-        }
-        else {
+        if (currentCompany == formCompany || (!this.company.id && this.isFormEmpty(this.companyForm))) {
             this.cancel();
         }
+        else {
+            this.modal.visible = true;
+        }
+    }
+
+    isFormEmpty(formGroup: any): boolean {
+        let count = this.countFormNonEmptyFields(formGroup);
+        console.log('count', count);
+        return count == 0;
+    }
+
+    countFormNonEmptyFields(formGroup: any, count: number = 0): number {
+        Object.keys(formGroup.controls).forEach(field => {
+            const control = formGroup.get(field);
+    
+            if (control instanceof FormControl) {
+                if (control.value) count ++;
+            }
+            else if (control instanceof FormGroup || control instanceof FormArray) {
+                count += this.countFormNonEmptyFields(control, count);
+            }
+        });
+        return count;
     }
 
     cancel(): void {
@@ -115,7 +133,9 @@ export class CompanyComponent implements OnInit {
         this.selectedCountry = null;
         this.setCompanyFormData();
         this.validate();
-        this.editMode = false;
+        if (this.company.id) {
+            this.editMode = false;
+        }
     }
 
     formatPhone(event): void {
