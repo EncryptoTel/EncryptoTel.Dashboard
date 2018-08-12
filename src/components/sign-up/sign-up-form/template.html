@@ -28,7 +28,7 @@
     <div class="input_wrap">
       <input type="password" name="Confirm password" placeholder="Confirm password" [ngClass]="{'ng-invalid ng-touched': signUpForm.errors || inputValidation('password_confirmation')}" formControlName="password_confirmation">
       <div class="input_error" *ngIf="inputValidation('password_confirmation') || signUpForm.errors" [@Fade]>
-        <span class="input_error_item" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'required')">Please enter password</span>
+        <span class="input_error_item" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'required')">Please confirm your password</span>
         <span class="input_error_item" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'minlength')">Password is too short</span>
         <div class="input_error_item" *ngIf="signUpForm.errors && passwordsMismatch()">Passwords don't match</div>
       </div>
