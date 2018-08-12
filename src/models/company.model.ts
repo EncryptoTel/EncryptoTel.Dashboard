@@ -59,7 +59,20 @@ export class CompanyInfoModel {
         });
     }
 
-    public setPhoneNumbersData(group: number, title: string, section: any): void {}
+    public setPhoneNumbersData(title: string, data: any): void {
+        this.sectionGroups.forEach(group => {
+            let section = group.sections.find(s => s.title == title);
+            if (section) {
+                data.numbers.forEach(phone => {
+                    let item = new CompanyInfoItem();
+                    item.title = phone.phoneNumber;
+                    item.value = `${phone.innerOnlineCount} of ${phone.innerCount}`;
+                    item.value2 = phone.innerOnlineCount > 0 ? 'online' : 'offline';
+                    section.items.push(item);
+                });
+            }
+        });
+    }
 }
 
 export class CompanyInfoSectionGroup {
@@ -76,6 +89,7 @@ export class CompanyInfoItem {
     public key: string;
     public title: string;
     public value: any;
+    public value2: any;
 
     public cssClass: string;
     public type: string;
@@ -119,19 +133,17 @@ export class CompanyInfoEvaluator {
             return this.eval(restProperty, evalObj, applyFormatting);
         }
         else {
-            if (data.hasOwnProperty(property)) {
-                let value = data[property];
-                if (applyFormatting) {
-                    value = this.evalFormat(value, this._item.type, this._item.format);
-                }
-                return value;
+            let value = data[property];
+            if (applyFormatting) {
+                value = this.evalFormat(value, this._item.type, this._item.format);
             }
-            return null;
+            return value;
         }
     }
     
     private evalFormat(value: any, type: string, format: string): any {
         let formatPipe;
+        let args;
 
         switch (type) {
             case 'date':
@@ -139,7 +151,7 @@ export class CompanyInfoEvaluator {
                 // Pattern: {DatePipeFormat}
                 // --
                 formatPipe = new DatePipe('en-US');
-                format = format ? format : 'MMMM d, yyyy';
+                format = format ? format : 'MMM d, yyyy';
                 value = formatPipe.transform(value, format);
                 break;
             case 'number':
@@ -154,7 +166,7 @@ export class CompanyInfoEvaluator {
                 // --
                 // Pattern: [ symbol | ${evalExpression} ] `|` {DecimalPipeFormat}
                 // --
-                let args = format.split('|');
+                args = format.split('|');
                 if (args.length == 1) {
                     value = this.evalFormat(value, 'number', args[0]);
                 }
@@ -169,6 +181,28 @@ export class CompanyInfoEvaluator {
                     }
                     let numberValue = this.evalFormat(value, 'number', args[1]);
                     return `${symbol}${numberValue}`;
+                }
+                break;
+            case 'measure':
+                // --
+                // Pattern: {DecimalPipeFormat} `|` [ symbol | ${evalExpression} ]
+                // --
+                args = format.split('|');
+                if (args.length == 1) {
+                    value = this.evalFormat(value, 'number', args[0]);
+                }
+                else {
+                    let symbol = '';
+                    let matches = args[1].match(/^(\s*)\${([^}]+)}/);
+                    if (matches && matches.length) {
+                        symbol = this.eval(matches[2], this._baseData, false);
+                        symbol = `${matches[1]}${symbol}`;
+                    }
+                    else {
+                        symbol = args[1];
+                    }
+                    let numberValue = this.evalFormat(value, 'number', args[0]);
+                    return `${numberValue}${symbol}`;
                 }
                 break;
             case 'phone':

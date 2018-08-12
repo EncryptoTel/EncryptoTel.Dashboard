@@ -143,6 +143,7 @@
                     <div [ngClass]="section.cssClass" *ngFor="let item of section.items">
                         <div class="key">{{ item.title }}</div>
                         <div class="val">{{ item.value }}</div>
+                        <div class="status" *ngIf="section.cssClass == 'number'">{{ item.value2 }}</div>
                     </div> <!-- line -->
                 </div>
             </div>

@@ -154,8 +154,14 @@ export class CompanyComponent implements OnInit {
     }
 
     setCompanyInfo(dashboard: DashboardModel): void {
-        console.log('dashboard', dashboard);
+        // console.log('dashboard', dashboard);
+        this.service.companyInfo.setSectionData("Information", dashboard);
+        this.service.companyInfo.setSectionData("Extensions", dashboard);
+        this.service.companyInfo.setSectionData("IVR", dashboard);
+        this.service.companyInfo.setSectionData("CDR", dashboard);
         this.service.companyInfo.setSectionData("Tariff Plan", dashboard);
+        this.service.companyInfo.setSectionData("Invoices", dashboard);
+        this.service.companyInfo.setPhoneNumbersData("Phone numbers", dashboard);
     }
 
     private validate() {
@@ -179,8 +185,8 @@ export class CompanyComponent implements OnInit {
         this.loading ++;
         this.service.getCompany().then((company: CompanyModel) => {
             this.company = company;
-            console.log('company', company);
-            console.log('companyInfo', this.companyInfo);
+            // console.log('company', company);
+            // console.log('companyInfo', this.companyInfo);
             this.originalCompany = company;
             this.setCompanyFormData();
             this.editMode = !company.isValid;
