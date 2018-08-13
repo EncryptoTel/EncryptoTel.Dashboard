@@ -15,3 +15,35 @@ input:not([type='submit'])
 
 .select_wrap:focus > .selected
     border-color: $dark_accent !important
+
+
+form
+    .input_wrap
+        .input_error
+            display: none
+    .input_wrap:nth-child(1)
+        .input_error
+            display: flex
+    .input_wrap:hover
+        .input_error
+            display: flex
+
+pbx-queue-create
+    pbx-form
+        .form
+            .form-body
+                pbx-queue-general
+                    .call_queues_general_body
+                        pbx-input
+                            .pbx_input_item
+                                .pbx_input_error
+                                    display: none
+                        pbx-input:nth-child(2)
+                            .pbx_input_item
+                                .pbx_input_error
+                                    display: flex
+                        pbx-input
+                            .pbx_input_item
+                                .pbx_input_item_input_wrap:hover
+                                 + .pbx_input_error
+                                        display: flex
