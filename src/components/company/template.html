@@ -123,7 +123,7 @@
 
 <div class="company_details" *ngIf="!loading && !editMode">
 
-            <div class="item">
+            <div class="item left_part">
                 <div class="img_wr">
                     <div class="inner">
                         <img src="{{ companyInfo.logotype }}" />
@@ -135,20 +135,22 @@
                     <div class="info" [ngClass]="item.cssClass">{{ item.value }}</div>
                 </div> <!-- mini -->
             </div> <!-- item -->
-        
-        <ng-template [ngIf]="!templateView">
-            <div class="item" *ngFor="let group of companyInfo.sectionGroups">
-                <div class="big" *ngFor="let section of group.sections">
-                    <div class="title">{{ section.title }}</div>
-                    <div [ngClass]="section.cssClass" *ngFor="let item of section.items">
-                        <div class="key">{{ item.title }}</div>
-                        <div class="val">{{ item.value }}</div>
-                        <div class="status" *ngIf="section.cssClass == 'number'">{{ item.value2 }}</div>
-                    </div> <!-- line -->
-                </div>
-            </div>
-        </ng-template>
 
+        <div class="right_part">
+
+            <ng-template [ngIf]="!templateView">
+                <div class="item" *ngFor="let group of companyInfo.sectionGroups">
+                    <div class="big" *ngFor="let section of group.sections">
+                        <div class="title">{{ section.title }}</div>
+                        <div [ngClass]="section.cssClass" *ngFor="let item of section.items">
+                            <div class="key">{{ item.title }}</div>
+                            <div class="val">{{ item.value }}</div>
+                            <div class="status" *ngIf="section.cssClass == 'number'">{{ item.value2 }}</div>
+                        </div> <!-- line -->
+                    </div>
+                </div>
+            </ng-template>
+        
             <div class="item" *ngIf="templateView">
 
                 <div class="big">
@@ -303,6 +305,8 @@
                     </div> <!-- number -->
                 </div> <!-- big -->
             </div> <!-- item -->
+
+        </div> <!-- right_part -->
 
 </div> <!-- company_details -->
 
