@@ -96,7 +96,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
     buyItem(number): void {
         this.selected = number;
-        this.modal.title = number.fullNumber;
+        this.modal.body = `Are you sure you want to buy ${number.fullNumber} number?`;
         this.modal.visible = true;
         // number.loading = true;
         // this._services.buyNumber(number.params)

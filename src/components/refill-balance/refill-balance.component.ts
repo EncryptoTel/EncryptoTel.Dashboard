@@ -50,7 +50,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
             `Payment amount`, null, null,
             ``, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`));
         this.filters.push(new FilterItem(2,  'returnAddress',
-            'Return address:', null, null, '', 300, true));
+            'Return address:', null, null, '', 220, true));
 
         this.navigationSubscription = this._router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
@@ -67,6 +67,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                 this.refill_status = 'paying';
                 this.selected = refillMethod;
                 this.payment = res;
+                console.log('payment', this.payment);
                 this.currentFilter['returnAddress'] = this.payment.address;
                 this.filters[1].hidden = !this.selected.needReturnAddress;
             });
@@ -83,6 +84,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         return this.validInput = false;
     }
 
+    // TODO: deprecated
     keyup(text) {
         if (!this.validInput) {
             this.validValue(text);
@@ -103,6 +105,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
             this.refill_status = 'processing';
             this.payment.loading = false;
         }).catch(res => {
+            console.log('errors', res);
             this.errors = res.errors;
             this.payment.loading = false;
         });
@@ -111,6 +114,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     getRefillMethods() {
         this._refill.getRefillMethods()
             .then(res => {
+                console.log('methods', res);
                 this.refillMethods = res;
                 this.loading.body = false;
             });

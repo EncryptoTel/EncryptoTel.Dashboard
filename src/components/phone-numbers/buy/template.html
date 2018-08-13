@@ -7,11 +7,11 @@
     <div class="buy_phone_header">
         <div class="buy_phone_header_block">
             <div class="buy_phone_header_block_key">Select country:</div>
-            <pbx-select [options]="countries"
-                        [objectKey]="'title'"
-                        (onSelect)="selectCountry($event)"
-                        [selected]="selectedCountry">
-            </pbx-select>
+            <pbx-editable-select [options]="countries"
+                                 [objectKey]="'title'"
+                                 (onSelect)="selectCountry($event)"
+                                 [selected]="selectedCountry">
+            </pbx-editable-select>
             <div class="buy_phone_header_block_key">Search:</div>
             <input type="text" placeholder="Type city prefix" (keyup)="searchInit()"
                    [(ngModel)]="requestDetails.areaCode">
