@@ -3,7 +3,7 @@
     padding-top: 74px
 
 main-view.dark_theme /deep/ *::-webkit-scrollbar-thumb
-    background-color: transparent
+    background-color: $dark_accent
 
 .notArrow
 	flex: 1
@@ -24,26 +24,31 @@ form
     .input_wrap:nth-child(1)
         .input_error
             display: flex
-    .input_wrap:hover
-        .input_error
+    .input_wrap input:focus
+        + .input_error
             display: flex
 
-pbx-queue-create
+pbx-queue-create,
+pbx-call-rules-create
     pbx-form
         .form
             .form-body
-                pbx-queue-general
-                    .call_queues_general_body
-                        pbx-input
-                            .pbx_input_item
-                                .pbx_input_error
-                                    display: none
-                        pbx-input:nth-child(2)
-                            .pbx_input_item
-                                .pbx_input_error
-                                    display: flex
-                        pbx-input
-                            .pbx_input_item
-                                .pbx_input_item_input_wrap:hover
-                                 + .pbx_input_error
-                                        display: flex
+                pbx-input
+                    .pbx_input_item
+                        .pbx_input_error
+                            display: none
+                pbx-input
+                    .pbx_input_item
+                        .pbx_input_item_input_wrap:focus
+                            + .pbx_input_error
+                                display: flex
+pbx-queue-create
+    pbx-input:nth-child(2)
+        .pbx_input_item
+            .pbx_input_error
+                display: flex !important
+pbx-call-rules-create
+    pbx-input:nth-child(3)
+        .pbx_input_item
+            .pbx_input_error
+                display: flex !important
