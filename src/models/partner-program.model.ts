@@ -5,20 +5,24 @@ export class PartnerProgramModel extends PageInfoModel {
 }
 
 export class PartnerProgramItem extends BaseItemModel {
-    public name: string = '';
+    public name: string;
     public refLink: string;
     public status: boolean;
 
-    get statusName() {
+    get statusName(): string {
         return this.status ? 'Active' : 'Disabled';
     }
 
-    get refLinkUrl() {
-        return `/ref/${this.refLink}`;
+    get refLinkUrl(): string {
+        let location = window.location;
+        let linkUrl = `${location.protocol}//${location.host}/ref/${this.refLink}`;
+        // return `/ref/${this.refLink}`;
+        return linkUrl;
     }
 
     constructor(response?: any) {
         super();
+        this.name = '';
         if (response) {
             this.id = response.id;
             this.name = response.name;

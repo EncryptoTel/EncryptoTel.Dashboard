@@ -13,9 +13,11 @@ import {PartnerProgramItem, PartnerProgramModel} from "../../../models/partner-p
 
 export class LinksPartnerProgramComponent implements OnInit {
     @Input() partners: PartnerProgramModel;
+    
     @Output() onReload: EventEmitter<any> = new EventEmitter<any>();
     @Output() onSelect: EventEmitter<PartnerProgramItem> = new EventEmitter();
     @Output() onEdit: EventEmitter<PartnerProgramItem> = new EventEmitter();
+    @Output() onCopyToClipboard: EventEmitter<PartnerProgramItem> = new EventEmitter();
 
     table = {
         title: {
@@ -50,8 +52,7 @@ export class LinksPartnerProgramComponent implements OnInit {
     loading = 0;
     selected: PartnerProgramItem;
 
-    constructor(private service: PartnerProgramService) {
-
+    constructor(private _service: PartnerProgramService) {
     }
 
     changePage(page: number) {
@@ -85,7 +86,7 @@ export class LinksPartnerProgramComponent implements OnInit {
 
     doDeleteLink() {
         this.selected.loading++;
-        this.service.deleteById(this.selected.id).then(res => {
+        this._service.deleteById(this.selected.id).then(res => {
             this.reload(this.selected);
             this.selected.loading--;
         }).catch(() => {
@@ -98,8 +99,16 @@ export class LinksPartnerProgramComponent implements OnInit {
         this.onEdit.emit(item);
     }
 
-    ngOnInit(): void {
-
+    copyToClipboard(item: PartnerProgramItem, event: MouseEvent): void {
+        this.onCopyToClipboard.emit(item);
+        this.killEvent(event);
     }
 
+    killEvent(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    ngOnInit(): void {
+    }
 }

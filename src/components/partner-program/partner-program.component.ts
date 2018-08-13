@@ -32,8 +32,8 @@ export class PartnerProgramComponent implements OnInit {
     selected: PartnerProgramItem;
 
     constructor(public service: PartnerProgramService,
-                private clipboard: ClipboardService,
-                private message: MessageServices) {
+                private _clipboard: ClipboardService,
+                private _message: MessageServices) {
 
     }
 
@@ -60,7 +60,8 @@ export class PartnerProgramComponent implements OnInit {
         this.sidebar.items = [];
         this.sidebar.items.push(new SidebarInfoItem(4, 'Name', this.selected.name));
         this.sidebar.items.push(new SidebarInfoItem(5, 'Status', this.selected.statusName));
-        this.sidebar.items.push(new SidebarInfoItem(6, 'Copy Ref Link', null, true, false, true, 'white'));
+        this.sidebar.items.push(new SidebarInfoItem(6, 'Link', this.selected.refLinkUrl));
+        this.sidebar.items.push(new SidebarInfoItem(7, 'Copy Link to Clipboard', this.selected, true, false, true, 'white'));
     }
 
     edit(item: PartnerProgramItem) {
@@ -98,9 +99,8 @@ export class PartnerProgramComponent implements OnInit {
                 // console.log(this.selected);
                 this.save(this.selected);
                 break;
-            case 6:
-                this.clipboard.copyFromContent(window.location.origin + this.selected.refLinkUrl);
-                this.message.writeSuccess('Ref Link copied to clipboard');
+            case 7:
+                this.copyToClipboard(this.selected);
                 break;
         }
     }
@@ -135,6 +135,40 @@ export class PartnerProgramComponent implements OnInit {
             (event ? event : this).loading--;
         });
     }
+
+    copyToClipboard(item: PartnerProgramItem): void {
+        if (this._clipboard.copyFromContent(item.refLinkUrl)) {
+            this._message.writeSuccess('Link has been copied to clipboard');
+        }
+    }
+
+    // copyToClipboard(value: string): Promise<boolean> {
+    //     let promise = new Promise<boolean>((resolve, reject): void => {
+    //         let textarea = null;
+    //         try {
+    //             textarea = document.createElement('textarea');
+    //             textarea.style.height = '0px';
+    //             textarea.style.left = '-100px';
+    //             textarea.style.opacity = '0';
+    //             textarea.style.position = 'fixed';
+    //             textarea.style.top = '-100px';
+    //             textarea.style.width = '0px';
+    //             document.body.appendChild(textarea);
+    
+    //             textarea.value = value;
+    //             textarea.select();
+    //             document.execCommand('copy');
+
+    //             resolve(true);
+    //         }
+    //         finally {
+    //             if (textarea && textarea.parentNode) {
+    //                 textarea.parentNode.removeChild(textarea);
+    //             }
+    //         }
+    //     });
+    //     return promise;
+    // }
 
     ngOnInit(): void {
         this.getItems();
