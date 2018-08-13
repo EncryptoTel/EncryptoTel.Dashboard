@@ -8,3 +8,10 @@ main-view.dark_theme /deep/ *::-webkit-scrollbar-thumb
 .notArrow
 	flex: 1
 	align-items: center !important
+
+input:not([type='submit'])
+    &:focus
+        border-color: $dark_accent !important
+
+.select_wrap:focus > .selected
+    border-color: $dark_accent !important
