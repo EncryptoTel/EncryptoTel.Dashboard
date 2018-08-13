@@ -13,7 +13,8 @@
               (onEdit)="edit($event)"
               (onSelect)="select($event)"
               (onLoad)="load($event)"
-              [service]="service">
+              [service]="service"
+              [sidebar]="sidebar">
     </pbx-list>
 
     <pbx-sidebar *ngIf="sidebar.visible" [sidebarInfo]="sidebar" (onClick)="click($event)" [@Swipe] [@Fade]>
