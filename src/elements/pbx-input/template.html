@@ -166,14 +166,14 @@
         <div *ngIf="checkError() && isSwipeAnimation()"
              [@Swipe]
              #errorSpan
-             [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+             [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
             >
             {{ checkError(true) }}
         </div>
         <div *ngIf="checkError() && !isSwipeAnimation()"
             [@Fade]
             #errorSpan
-            [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+            [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
             >
             {{ checkError(true) }}
         </div>
