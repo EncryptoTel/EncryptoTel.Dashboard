@@ -45,9 +45,12 @@ export class IndexComponent implements OnInit, OnDestroy {
     
     get username(): string {
         if (this.user && this.user.profile) {
-            let username = `${this.user.profile.firstname} ${this.user.profile.lastname}`;
+            let firstName = this.user.profile.firstname ? this.user.profile.firstname : '';
+            let lastName = this.user.profile.lastname ? this.user.profile.lastname : '';
+
+            let username = `${firstName} ${lastName}`;
             if (username.length > 12) {
-                username = `${this.user.profile.firstname} ${this.user.profile.lastname[0]}.`;
+                username =  (lastName != '') ? `${firstName} ${lastName[0]}` : firstName;
             }
             return username;
         }
