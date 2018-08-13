@@ -17,38 +17,38 @@ input:not([type='submit'])
     border-color: $dark_accent !important
 
 
-form
-    .input_wrap
-        .input_error
-            display: none
-    .input_wrap:nth-child(1)
-        .input_error
-            display: flex
-    .input_wrap input:focus
-        + .input_error
-            display: flex
+// form
+//     .input_wrap
+//         .input_error
+//             display: none
+//     .input_wrap:nth-child(1)
+//         .input_error
+//             display: flex
+//     .input_wrap input:focus
+//         + .input_error
+//             display: flex
 
-pbx-queue-create,
-pbx-call-rules-create
-    pbx-form
-        .form
-            .form-body
-                pbx-input
-                    .pbx_input_item
-                        .pbx_input_error
-                            display: none
-                pbx-input
-                    .pbx_input_item
-                        .pbx_input_item_input_wrap:focus
-                            + .pbx_input_error
-                                display: flex
-pbx-queue-create
-    pbx-input:nth-child(2)
-        .pbx_input_item
-            .pbx_input_error
-                display: flex !important
-pbx-call-rules-create
-    pbx-input:nth-child(3)
-        .pbx_input_item
-            .pbx_input_error
-                display: flex !important
+// pbx-queue-create,
+// pbx-call-rules-create
+//     pbx-form
+//         .form
+//             .form-body
+//                 pbx-input
+//                     .pbx_input_item
+//                         .pbx_input_error
+//                             display: none
+//                 pbx-input
+//                     .pbx_input_item
+//                         .pbx_input_item_input_wrap:focus
+//                             + .pbx_input_error
+//                                 display: flex
+// pbx-queue-create
+//     pbx-input:nth-child(2)
+//         .pbx_input_item
+//             .pbx_input_error
+//                 display: flex !important
+// pbx-call-rules-create
+//     pbx-input:nth-child(3)
+//         .pbx_input_item
+//             .pbx_input_error
+//                 display: flex !important
