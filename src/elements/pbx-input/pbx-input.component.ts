@@ -164,6 +164,8 @@ export class InputComponent implements OnInit {
                 return this.validatorMaxLengthMsg ? this.validatorMaxLengthMsg : 'This value is too long';
             case 'pattern':
                 return this.validatorPatternMsg ? this.validatorPatternMsg : 'This value is invalid';
+            case 'duplicated':
+                return this.validatorPatternMsg ? this.validatorPatternMsg : 'Extension number cannot be the same as previous';
             default:
                 return 'This value is invalid';
         }

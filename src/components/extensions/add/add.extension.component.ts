@@ -27,18 +27,18 @@ export class AddExtensionsComponent implements OnInit {
     formExtension: FormGroup;
     accessList;
 
-    constructor(private formBuilder: FormBuilder,
-                private router: Router,
-                private activatedRoute: ActivatedRoute,
+    constructor(private _fb: FormBuilder,
+                private _router: Router,
+                private _activatedRoute: ActivatedRoute,
                 private _extension: ExtensionService) {
-        this.id = activatedRoute.snapshot.params.id;
+        this.id = _activatedRoute.snapshot.params.id;
         this.id ? this.mode = 'edit' : this.mode = 'create';
 
-        this.formExtension = this.formBuilder.group({
+        this.formExtension = this._fb.group({
             outer: [null, [Validators.required]],
             phoneNumber: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
             default: false,
-            user: this.formBuilder.group({
+            user: this._fb.group({
                 firstName: ['', []],
                 lastName: ['', []],
                 email: ['', [Validators.pattern(emailRegExp)]]
@@ -120,7 +120,7 @@ export class AddExtensionsComponent implements OnInit {
     }
 
     doCancel() {
-        this.router.navigate(['cabinet', 'extensions']);
+        this._router.navigate(['cabinet', 'extensions']);
     }
 
     doSave() {

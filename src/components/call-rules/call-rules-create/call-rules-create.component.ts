@@ -11,6 +11,7 @@ import {StorageModel} from "../../../models/storage.model";
 import {MessageServices} from "../../../services/message.services";
 import {MediaPlayerComponent} from '../../../elements/pbx-media-player/pbx-media-player.component';
 import {CdrMediaInfo, MediaState} from '../../../models/cdr.model';
+import {redirectToExtensionValidator} from '../../../shared/encry-form-validators';
 
 @Component({
     selector: 'pbx-call-rules-create',
@@ -69,20 +70,20 @@ export class CallRulesCreateComponent implements OnInit {
     save(): void {
         this.validate();
         if (this.callRulesForm.valid) {
-            this.saving++;
+            this.saving ++;
             if (this.mode === 'create') {
                 this.service.save({...this.callRulesForm.value}).then(() => {
-                    this.saving--;
+                    this.saving --;
                     this.cancel();
                 }).catch(err => {
-                    this.saving--;
+                    this.saving --;
                 });
             } else if (this.mode === 'edit') {
                 this.service.edit(this.activatedRoute.snapshot.params.id, {...this.callRulesForm.value}).then(() => {
-                    this.saving--;
+                    this.saving --;
                     // this.cancel();
                 }).catch(err => {
-                    this.saving--;
+                    this.saving --;
                 });
             }
         }
@@ -149,6 +150,10 @@ export class CallRulesCreateComponent implements OnInit {
             description: [null, [Validators.maxLength(255)]],
             sipId: [null, [Validators.required]],
             ruleActions: this.fb.array([], Validators.required)
+        }, {
+            validator: (formGroup: FormGroup) => {
+                return redirectToExtensionValidator(formGroup);
+            }
         });
     }
 
