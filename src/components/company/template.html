@@ -117,24 +117,29 @@
     <pbx-sidebar [sidebarInfo]="sidebarInfo"></pbx-sidebar>
 </div>
 
-<div class="form_button_wrap" *ngIf="!loading && !editMode">
+<!-- <div class="form_button_wrap" *ngIf="!loading && !editMode">
     <pbx-button [value]="'Edit'" [buttonType]="'success'" [loading]="loading" (onClick)="edit()"></pbx-button>
-</div>
+</div> -->
 
 <div class="company_details" *ngIf="!loading && !editMode">
 
-            <div class="item left_part">
-                <div class="img_wr">
-                    <div class="inner">
-                        <img src="{{ companyInfo.logotype }}" />
-                    </div> <!-- inner -->
-                </div> <!-- img_wr -->
-        
-                <div class="mini" *ngFor="let item of companyInfo.company">
-                    <div class="title">{{ item.title }}</div>
-                    <div class="info" [ngClass]="item.cssClass">{{ item.value }}</div>
-                </div> <!-- mini -->
-            </div> <!-- item -->
+    <div class="form_button_wrap" *ngIf="!loading && !editMode">
+        <pbx-button [value]="'Edit'" [buttonType]="'success'" [loading]="loading" (onClick)="edit()"></pbx-button>
+    </div>
+
+    <div class="inner">
+        <div class="item left_part">
+            <div class="img_wr">
+                <div class="inner">
+                    <img src="{{ companyInfo.logotype }}" />
+                </div> <!-- inner -->
+            </div> <!-- img_wr -->
+    
+            <div class="mini" *ngFor="let item of companyInfo.company">
+                <div class="title">{{ item.title }}</div>
+                <div class="info" [ngClass]="item.cssClass">{{ item.value }}</div>
+            </div> <!-- mini -->
+        </div> <!-- item -->
 
         <div class="right_part">
 
@@ -307,6 +312,7 @@
             </div> <!-- item -->
 
         </div> <!-- right_part -->
+    </div> <!-- inner -->
 
 </div> <!-- company_details -->
 

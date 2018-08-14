@@ -1,15 +1,25 @@
 .body_wrap pbx-company
-    // flex-direction: column
-
     .company_details
-        background: $dark_overlay
         flex-direction: column
         min-height: 100%
         width: 100%
         display: grid
-        grid-template-columns: minmax(264px, 1fr) 5fr
-        overflow-y: auto
-        // display: none
+        overflow-y: hidden
+        .form_button_wrap
+            justify-content: flex-end
+            pbx-button
+                position: unset
+                top: unset
+                right: unset
+                margin-bottom: 8px
+        .inner
+            background: $dark_overlay
+            flex-direction: column
+            min-height: 100%
+            width: 100%
+            display: grid
+            grid-template-columns: minmax(264px, 1fr) 5fr
+            overflow-y: auto
         .left_part
         .right_part
             display: grid
@@ -115,7 +125,7 @@
 @media screen and (max-width: 940px)
     .body_wrap pbx-company
         .company_details
-            grid-template-columns: minmax(264px, 1fr)
-            .left_part
-                .item
-                    border-right: 1px solid transparent
+            .inner
+                grid-template-columns: minmax(264px, 1fr)
+            .item.left_part
+                border-right: 1px solid transparent
