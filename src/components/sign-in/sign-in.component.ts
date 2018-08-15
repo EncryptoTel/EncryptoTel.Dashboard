@@ -10,7 +10,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 import {validateForm} from '../../shared/shared.functions';
 import * as _vars from '../../shared/vars';
 import {FormMessageModel} from '../../models/form-message.model';
-import {MessageServices} from "../../services/message.services";
+import {MessageServices} from '../../services/message.services';
 
 @Component({
     selector: 'sign-in',
@@ -30,8 +30,10 @@ export class SignInComponent implements OnInit, OnDestroy {
     errorsSubscription: Subscription;
     message: FormMessageModel;
     signInForm: FormGroup;
-    errorName: boolean = false;
-    errorPassword: boolean = false;
+    errorName = false;
+    errorPassword = false;
+    passwordFormError = false;
+    passwordFormErrorMessage: string = 'rqwerqwerqwerqwerqwer';
 
     setFocus(element): void {
         switch (element.name) {
@@ -99,13 +101,24 @@ export class SignInComponent implements OnInit, OnDestroy {
       Sign-in action
      */
     signIn(ev?: Event): void {
+        this.passwordFormError = false;
         if (ev) {
             ev.preventDefault();
         }
         validateForm(this.signInForm);
         if (this.signInForm.valid) {
             this.loading = true;
-            this._services.signIn(this.signInForm.value).then(() => {
+            this._services.signIn(this.signInForm.value).then(res => {
+                let errorKey: string = '';
+
+                if (res.errors) {
+                    for (errorKey in res.errors) {
+                        if (errorKey === 'password') {
+                            this.passwordFormError = true;
+                            this.passwordFormErrorMessage = res.errors[errorKey][0];
+                        }
+                    }
+                }
                 this.loading = false;
             }).catch(() => this.loading = false);
         } else {
@@ -138,7 +151,7 @@ export class SignInComponent implements OnInit, OnDestroy {
                 Validators.minLength(6)
             ])
         });
-        let msg = JSON.parse(localStorage.getItem('pbx_message'));
+        const msg = JSON.parse(localStorage.getItem('pbx_message'));
         localStorage.removeItem('pbx_message');
         if (msg) {
             console.log('SignInComponent', msg);
