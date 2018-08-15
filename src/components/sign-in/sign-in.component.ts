@@ -30,6 +30,55 @@ export class SignInComponent implements OnInit, OnDestroy {
     errorsSubscription: Subscription;
     message: FormMessageModel;
     signInForm: FormGroup;
+    errorName: boolean = false;
+    errorPassword: boolean = false;
+
+    setFocus(element): void {
+        switch (element.name) {
+            case 'Username':
+                this.errorName = true;
+                break;
+            case 'Password':
+                this.errorPassword = true;
+                break;
+        }
+    }
+
+    removeFocus(element): void {
+        switch (element.name) {
+            case 'Username':
+                this.errorName = false;
+                break;
+            case 'Password':
+                this.errorPassword = false;
+                break;
+        }
+    }
+
+    mouseEnter(element) {
+        switch (element.name) {
+            case 'Username':
+                this.errorName = true;
+                break;
+            case 'Password':
+                this.errorPassword = true;
+                break;
+        }
+    }
+
+    mouseLeave(element) {
+        if (document.activeElement === element) {
+            return;
+        }
+        switch (element.name) {
+            case 'Username':
+                this.errorName = false;
+                break;
+            case 'Password':
+                this.errorPassword = false;
+                break;
+        }
+    }
 
     /*
       Form field validation. Accepted params:
@@ -59,6 +108,9 @@ export class SignInComponent implements OnInit, OnDestroy {
             this._services.signIn(this.signInForm.value).then(() => {
                 this.loading = false;
             }).catch(() => this.loading = false);
+        } else {
+            if (this.inputValidation('login')) this.errorName = true;
+            if (this.inputValidation('password') && !this.errorName) this.errorPassword = true;
         }
     }
 

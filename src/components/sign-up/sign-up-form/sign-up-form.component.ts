@@ -33,8 +33,6 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     {}
 
     setFocus(element): void {
-        console.log(element);
-        console.log('activeElement',document.activeElement);
         switch (element.name) {
             case 'Name':
                 this.errorName = true;

@@ -3,15 +3,15 @@
   <form (submit)="signIn($event)" [formGroup]="signInForm" (keyup)="clearMessage($event)">
     <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="_services.clearMessage()">{{message.message}}</div>
     <div class="input_wrap">
-      <input name="Username" id="username" placeholder="Email or internal number" formControlName="login">
-      <div class="input_error" *ngIf="inputValidation('login')" [@Fade]>
+      <input #nameInput name="Username" id="username" placeholder="Email or internal number" formControlName="login" (focus)="setFocus(nameInput)" (blur)="removeFocus(nameInput)" (mouseenter)="mouseEnter(nameInput)" (mouseleave)="mouseLeave(nameInput)">
+      <div class="input_error" *ngIf="inputValidation('login') && errorName" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('login', 'required')">Please enter your e-mail address or internal number</span>
         <span class="input_error_item" *ngIf="inputValidation('login', 'pattern')">Please enter correct e-mail address or internal number</span>
       </div>
     </div>
     <div class="input_wrap">
-      <input type="password" name="Password" placeholder="Password" formControlName="password">
-      <div class="input_error" *ngIf="inputValidation('password')" [@Fade]>
+      <input #passwordInput type="password" name="Password" placeholder="Password" formControlName="password" (focus)="setFocus(passwordInput)" (blur)="removeFocus(passwordInput)" (mouseenter)="mouseEnter(passwordInput)" (mouseleave)="mouseLeave(passwordInput)">
+      <div class="input_error" *ngIf="inputValidation('password') && errorPassword" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('password', 'required')">Please enter password</span>
         <span class="input_error_item" *ngIf="inputValidation('password', 'minlength')">Password is too short</span>
       </div>
