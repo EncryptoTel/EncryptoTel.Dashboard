@@ -21,23 +21,30 @@ export class SelectComponent implements OnInit {
     @Input() singleBorder: boolean;
     @Input() options: any[];
     @Input() objectKey: string;
-    @Input() selected: any;
+    @Input()
+    set selected(selected: any) {
+        this._selected = selected;
+        if (this._selected && this._selected.title)
+            this.selectedObject = true;
+    }
+    _selected: any;
+
     @Input()
     set placeholder(placeholder: string) {
         this._placeholder = placeholder;
-        if (this.selected === undefined) {
+        if (this._selected === undefined) {
             this.selectedObject = false;
         } else {
-            if (this.selected[this.objectKey] != '') {
+            if (this._selected[this.objectKey] != '') {
                 this.selectedObject = true;
             }
-            if (this.selected[this.objectKey] === undefined) {
+            if (this._selected[this.objectKey] === undefined) {
                 this.selectedObject = false;
             }
         }
     }
-
     _placeholder: string;
+
     @Input() errors: any[];
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onOpen: EventEmitter<object> = new EventEmitter();
