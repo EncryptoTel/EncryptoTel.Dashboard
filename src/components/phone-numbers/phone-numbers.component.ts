@@ -79,7 +79,7 @@ export class PhoneNumbersComponent implements OnInit {
         this.sidebar.items.push(new SidebarInfoItem(6, 'Status', this.selected.statusName));
         this.sidebar.items.push(new SidebarInfoItem(7, 'Phone number type', this.selected.typeName));
         this.sidebar.items.push(new SidebarInfoItem(8, 'Delete phone number ' +
-            (this.selected.innersCount === 1 ? 'and 1 Ext' : this.selected.innersCount > 1 ? 'and ' + this.selected.innersCount + 'Exts' : ''), null, true, false, true));
+            (this.selected.innersCount === 1 ? 'and 1 Ext' : this.selected.innersCount > 1 ? 'and ' + this.selected.innersCount + ' Exts' : ''), null, true, false, true));
     }
 
     cancel(): void {
