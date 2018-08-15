@@ -8,7 +8,7 @@
      (mousedown)="toggleOptions($event)"
      (keydown)="keyboardNavigation($event)">
 
-    <span *ngIf="!selectedObject && !selected[objectKey]" class="pbx-select-placeholder">{{_placeholder}}</span>
+    <span *ngIf="!selectedObject" class="pbx-select-placeholder">{{_placeholder}}</span>
     <div [ngClass]="['select_item', 'selected', !selected ? 'blank' : '', singleBorder ? 'no_border' : '', errors ? 'error' : '', name ? 'pbx_select_' + name : '']">
         {{selected ? selected[objectKey] : ''}}
         <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg" class="select_icon"></svg-icon>
