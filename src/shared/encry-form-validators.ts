@@ -22,12 +22,6 @@ export function redirectToExtensionValidator(formGroup: FormGroup) {
         }
 
         duplicates.forEach(idx => actions.get([idx, 'parameter']).setErrors({ 'duplicated': true }));
-
-        return { 
-            ruleActions: { 
-                valid: false, 
-                controls: duplicates 
-        }};
     }
     return null;
 }
