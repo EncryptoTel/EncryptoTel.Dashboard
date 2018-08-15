@@ -38,35 +38,6 @@ export class PhoneNumbersComponent implements OnInit {
         this.sidebar.title = '';
     }
 
-    // ripple(ev: MouseEvent): void {
-    //     if (ev) {
-    //         ev.stopPropagation();
-    //         ev.preventDefault();
-    //     }
-    //     const div = document.createElement('div');
-    //     const radius = this.button.nativeElement.clientWidth;
-    //     div.style.width = div.style.height = radius + 'px';
-    //     div.style.top = ev.offsetY - radius / 2 + 'px';
-    //     div.style.left = ev.offsetX - radius / 2 + 'px';
-    //     div.classList.add('button_overlay');
-    //     this.button.nativeElement.appendChild(div);
-    //     if (radius < 150) {
-    //         div.classList.add('small');
-    //         setTimeout(() => {
-    //             this.button.nativeElement.removeChild(div);
-    //         }, 300);
-    //     } else if (radius >= 150 && radius < 300) {
-    //         div.classList.add('medium');
-    //         setTimeout(() => {
-    //             this.button.nativeElement.removeChild(div);
-    //         }, 400);
-    //     } else {
-    //         setTimeout(() => {
-    //             this.button.nativeElement.removeChild(div);
-    //         }, 550);
-    //     }
-    // }
-
     select(item: any): void {
         this.selected = item;
         this.sidebar.buttons = [];
@@ -78,8 +49,10 @@ export class PhoneNumbersComponent implements OnInit {
         this.sidebar.items.push(new SidebarInfoItem(5, 'Default Ext', this.selected.defaultInner));
         this.sidebar.items.push(new SidebarInfoItem(6, 'Status', this.selected.statusName));
         this.sidebar.items.push(new SidebarInfoItem(7, 'Phone number type', this.selected.typeName));
-        this.sidebar.items.push(new SidebarInfoItem(8, 'Delete phone number ' +
-            (this.selected.innersCount === 1 ? 'and 1 Ext' : this.selected.innersCount > 1 ? 'and ' + this.selected.innersCount + ' Exts' : ''), null, true, false, true));
+        if (!this.selected.delete) {
+            this.sidebar.items.push(new SidebarInfoItem(8, 'Delete phone number ' +
+                (this.selected.innersCount === 1 ? 'and 1 Ext' : this.selected.innersCount > 1 ? 'and ' + this.selected.innersCount + ' Exts' : ''), null, true, false, true));
+        }
     }
 
     cancel(): void {
