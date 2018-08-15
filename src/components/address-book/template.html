@@ -80,12 +80,12 @@
                                [singleBorder]="false"
                                [floatError]="true"
                                [object]="email">
-                        <pbx-select class="value-type"
-                                    [options]="types.contactEmail"
-                                    objectKey="value"
-                                    [selected]="email.type"
-                                    (onSelect)="email.type = $event">
-                        </pbx-select>
+                        <!--<pbx-select class="value-type"-->
+                                    <!--[options]="types.contactEmail"-->
+                                    <!--objectKey="value"-->
+                                    <!--[selected]="email.type"-->
+                                    <!--(onSelect)="email.type = $event">-->
+                        <!--</pbx-select>-->
                         <div class="side_unit_icon_wrap">
                             <div class="side_unit_icon delete" *ngIf="selected.contactEmail.length > 1"
                                  (click)="deleteEmail(i)">
