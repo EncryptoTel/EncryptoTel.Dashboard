@@ -160,6 +160,7 @@ export class CallRulesCreateComponent implements OnInit {
     private createCancelCall(): FormGroup {
         return this.fb.group({
             action: 4,
+            parameter: [null],
             timeout: [30, [Validators.min(5), Validators.max(300)]],
         });
     }
