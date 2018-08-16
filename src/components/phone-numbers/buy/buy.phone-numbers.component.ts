@@ -119,6 +119,9 @@ export class BuyPhoneNumbersComponent implements OnInit {
     private getCountries(): void {
         this.refs.getCountries().then(res => {
             this.countries = res;
+            this.countries.forEach( country => {
+                country.title = country.title + ' (+' + country.phoneCode + ')';
+            });
             this.selectedCountry = this.countries.find(country => country.code === 'US');
         }).catch(err => {
             // console.error(err);
