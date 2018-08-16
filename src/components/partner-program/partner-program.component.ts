@@ -61,7 +61,7 @@ export class PartnerProgramComponent implements OnInit {
         this.sidebar.items.push(new SidebarInfoItem(4, 'Name', this.selected.name));
         this.sidebar.items.push(new SidebarInfoItem(5, 'Status', this.selected.statusName));
         this.sidebar.items.push(new SidebarInfoItem(6, 'Link', this.selected.refLinkUrl));
-        this.sidebar.items.push(new SidebarInfoItem(7, 'Copy Link to Clipboard', this.selected, true, false, true, 'white'));
+        this.sidebar.items.push(new SidebarInfoItem(7, 'Copy Link to Clipboard', this.selected, true, false, true, 'accent'));
     }
 
     edit(item: PartnerProgramItem) {
