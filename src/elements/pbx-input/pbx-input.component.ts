@@ -53,6 +53,12 @@ export class InputComponent implements OnInit {
     @Input() validatorMinLengthMsg: string;
     @Input() validatorMaxLengthMsg: string;
     @Input() validatorPatternMsg: string;
+    @Input()
+    set errorShow(errorShow:boolean) {
+        this._errorShow = errorShow;
+        this.checkError();
+    }
+    _errorShow: boolean = false;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -118,7 +124,11 @@ export class InputComponent implements OnInit {
 
     checkError(textOnly = null): string {
         if (!this.errors) {
-            return this.checkForm(textOnly);
+            if(this._errorShow) {
+                return this.checkForm(textOnly);
+            } else {
+                return '';
+            }
         }
         let error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
         let result = (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm(textOnly));
@@ -309,10 +319,10 @@ export class InputComponent implements OnInit {
 
     ngOnInit() {
         this.loading ++;
-        
+
         if (this.form && this.checkbox) {
             this.value = this.getForm() ? this.getForm().value : false;
-        } 
+        }
         else if (this.options) {
             if (this.updateObjectByObject) {
                 this.value = this.object[this.key];

@@ -26,6 +26,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     errorEmail: boolean = false;
     errorPassword: boolean = false;
     errorConfirmPassword: boolean = false;
+    errorCheck: boolean = false;
 
     constructor(private _router: Router,
                 private _user: UserServices,
@@ -155,6 +156,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
      Sign-up action
     */
     signUp(event?: Event): void {
+        this.errorCheck = false;
         if (event) event.preventDefault();
 
         validateForm(this.signUpForm);
@@ -171,6 +173,8 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
             if ((this.inputValidation('email')) && (!this.errorName)) this.errorEmail = true;
             if ((this.inputValidation('password')) && (!this.errorEmail && !this.errorName)) this.errorPassword = true;
             if ((this.inputValidation('password_confirmation')) && (!this.errorPassword && !this.errorEmail && !this.errorName)) this.errorConfirmPassword = true;
+            if (!this.errorConfirmPassword &&!this.errorPassword && !this.errorEmail && !this.errorName)
+                this.errorCheck = true;
         }
     }
 
