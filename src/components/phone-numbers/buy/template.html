@@ -18,7 +18,7 @@
         </div>
         <div class="buy_phone_header_block">
             <div class="buy_phone_header_block_key">Number:</div>
-            <input type="text" placeholder="Search by digits" (keyup)="searchInit()"
+            <input #myNumberOnly type="text" placeholder="Search by digits" (keyup)="searchInit()"
                    [(ngModel)]="requestDetails.contains">
             <div class="buy_phone_header_block_key">Match to:</div>
             <pbx-select [options]="matches" [objectKey]="'title'" [selected]="matches[0]"></pbx-select>
