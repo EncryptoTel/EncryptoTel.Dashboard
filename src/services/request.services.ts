@@ -127,7 +127,7 @@ export class RequestServices {
             default: {
                 if (ShowError && ShowError(response.error ? response.error : response)) {
                     //error handled by caller
-                } else if (!ShowError) {
+                } else if (ShowError === false) {
                     break;
                 } else if (response.error && response.error.message) {
                     this._messages.writeError(response.error.message); // Adding warning message
