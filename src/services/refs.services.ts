@@ -10,14 +10,10 @@ export class RefsServices extends BaseService {
     private logoutSubscription: Subscription;
 
     getCountries(): Promise<CountryModel[]> {
-        if (this.countries.length === 0) {
-            return this.request.get(`v1/countries`).then(response => {
-                this.countries = response.countries;
-                return Promise.resolve(this.countries);
-            });
-        } else {
+        return this.request.get(`v1/countries`).then(response => {
+            this.countries = response.countries;
             return Promise.resolve(this.countries);
-        }
+        });
     }
 
     getSipOuters(): Promise<any> {
