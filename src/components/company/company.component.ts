@@ -1,42 +1,61 @@
 import {Component, OnInit, ViewChildren} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 
-import {formatNumber} from 'libphonenumber-js';
 import {CompanyService} from '../../services/company.service';
-import {CompanyModel} from '../../models/company.model';
-import {emailRegExp} from '../../shared/vars';
 import {DashboardServices} from '../../services/dashboard.services';
 import {RefsServices} from '../../services/refs.services';
-import {CountryModel} from '../../models/country.model';
 import {MessageServices} from "../../services/message.services";
+
+import {CompanyModel, CompanyInfoModel} from '../../models/company.model';
+import {CountryModel} from '../../models/country.model';
 import {SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
+import {DashboardModel} from '../../models/dashboard.model';
+
+import {formatNumber} from 'libphonenumber-js';
+import {emailRegExp} from '../../shared/vars';
 import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
+import {classToPlain} from '../../../node_modules/class-transformer';
+
 
 @Component({
     selector: 'pbx-company',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    providers: [CompanyService]
 })
-
 export class CompanyComponent implements OnInit {
     company: CompanyModel;
+    // uses to store database company data to track changes
+    originalCompany: CompanyModel;
     companyForm: FormGroup;
-    countries: CountryModel[] = [];
+    companyInfo: CompanyInfoModel;
+    countries: CountryModel[];
     loading = 0;
     saving = 0;
     selectedCountry: CountryModel;
-    sidebarInfo: SidebarInfoModel = new SidebarInfoModel();
-    modal = new ModalEx('', 'cancelEdit');
+    sidebarInfo: SidebarInfoModel;
+    modal: ModalEx;
+    editMode: boolean;
+
+    // TODO: временная переменная для отладки/дизайна
+    templateView: boolean = false;
 
     @ViewChildren('label') labelFields;
 
     constructor(public service: CompanyService,
-                private fb: FormBuilder,
-                private dashboard: DashboardServices,
-                private refs: RefsServices,
-                private message: MessageServices) {
+                private _fb: FormBuilder,
+                private _dashboard: DashboardServices,
+                private _refs: RefsServices,
+                private _message: MessageServices) {
 
+        this.editMode = false;
+
+        this.countries = [];
+        this.loading = 0;
+        this.saving = 0;
+
+        this.modal = new ModalEx('Company has been changed. Your data will be lost. Dou you really want to continue?', 'cancelEdit');
+        
+        this.sidebarInfo = new SidebarInfoModel();
         this.sidebarInfo.loading = 0;
         this.sidebarInfo.title = 'Information';
         this.sidebarInfo.position = '';
@@ -45,31 +64,78 @@ export class CompanyComponent implements OnInit {
         this.sidebarInfo.items.push(new SidebarInfoItem(2, 'Storage space', null));
         this.sidebarInfo.items.push(new SidebarInfoItem(3, 'Available space', null));
 
-        this.companyForm = this.fb.group({
-            name: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.pattern(emailRegExp)]],
-            phone: ['', [Validators.required]],
-            vatId: ['', [Validators.required]],
-            companyAddress: this.fb.array([
-                this.fb.group({
-                    country: ['', [Validators.required]],
-                    postalCode: ['', [Validators.required]],
-                    regionName: ['', [Validators.required]],
-                    locationName: ['', [Validators.required]],
-                    street: ['', [Validators.required]],
-                    building: ['', [Validators.required]],
-                    office: ['', [Validators.required]]
+        this.companyInfo = this.service.companyInfo;
+
+        this.initCompanyForm();
+    }
+
+    initCompanyForm(): void {
+        this.companyForm = this._fb.group({
+            name:  ['', [ Validators.required ]],
+            email: ['', [ Validators.pattern(emailRegExp) ]],
+            phone: [''],
+            vatId: [''],
+            companyAddress: this._fb.array([
+                this._fb.group({
+                    id: [null],
+                    type: [null],
+                    postalCode: [null],
+                    regionName: [''],
+                    locationName: [''],
+                    street: [''],
+                    building: [''],
+                    office: [''],
+                    country: this._fb.group({
+                        id: [''],
+                        code: [''],
+                        title: ['']
+                    }),
                 })
-            ])
+            ]),
+            id: [null]
         });
+    }
+
+    decline(): void {
+        const currentCompany = JSON.stringify(this.company);
+        const formCompany = JSON.stringify(this.companyForm.value);
+        if (currentCompany == formCompany || (!this.company.id && this.isFormEmpty(this.companyForm))) {
+            this.cancel();
+        }
+        else {
+            this.modal.visible = true;
+        }
+    }
+
+    isFormEmpty(formGroup: any): boolean {
+        let count = this.countFormNonEmptyFields(formGroup);
+        console.log('count', count);
+        return count == 0;
+    }
+
+    countFormNonEmptyFields(formGroup: any, count: number = 0): number {
+        Object.keys(formGroup.controls).forEach(field => {
+            const control = formGroup.get(field);
+    
+            if (control instanceof FormControl) {
+                if (control.value) count ++;
+            }
+            else if (control instanceof FormGroup || control instanceof FormArray) {
+                count += this.countFormNonEmptyFields(control, count);
+            }
+        });
+        return count;
     }
 
     cancel(): void {
         this.service.resetErrors();
         this.companyForm.reset();
         this.selectedCountry = null;
-        this.fillCompany();
+        this.setCompanyFormData();
         this.validate();
+        if (this.company.id) {
+            this.editMode = false;
+        }
     }
 
     formatPhone(event): void {
@@ -79,12 +145,15 @@ export class CompanyComponent implements OnInit {
     save(): void {
         this.validate();
         if (this.companyForm.valid) {
-            this.saving++;
+            this.saving ++;
             this.service.save({...this.companyForm.value}, false).then(() => {
-                this.message.writeSuccess('Company successfully updated.');
-                this.saving--;
-            }).catch(() => {
-                this.saving--;
+                this._message.writeSuccess('Company successfully updated.');
+                this.editMode = false;
+                this.saving --;
+            }).catch(error => {
+                this._message.writeError('Company update error.');
+                console.log('Company update error', error);
+                this.saving --;
             });
         } else {
             this.companyForm.markAsTouched();
@@ -93,29 +162,26 @@ export class CompanyComponent implements OnInit {
 
     selectCountry(country: CountryModel): void {
         this.selectedCountry = country;
-        this.companyForm.get(['companyAddress']).get('0').get('country').setValue(country.id);
+        this.companyForm.get(['companyAddress']).get('0').get('country').setValue(country);
     }
 
-    private fillCompany() {
-        if (this.company.name && this.company.phone && this.company.phone) {
-            const company = {
-                name: this.company.name,
-                email: this.company.email,
-                phone: formatNumber(`+${this.company.phone}`, 'International'),
-                vatId: this.company.vatId,
-                companyAddress: [{
-                    country: this.company.companyAddress[0].country.id,
-                    postalCode: this.company.companyAddress[0].postalCode,
-                    regionName: this.company.companyAddress[0].regionName,
-                    locationName: this.company.companyAddress[0].locationName,
-                    street: this.company.companyAddress[0].street,
-                    building: this.company.companyAddress[0].building,
-                    office: this.company.companyAddress[0].office,
-                }]
-            };
-            this.companyForm.setValue(company);
+    setCompanyFormData() {
+        if (this.company.name) {
+            let company = classToPlain(this.company);
+            this.companyForm.patchValue(company);
             this.selectedCountry = this.company.companyAddress[0].country;
         }
+    }
+
+    setCompanyInfo(dashboard: DashboardModel): void {
+        // console.log('dashboard', dashboard);
+        this.service.companyInfo.setSectionData("Information", dashboard);
+        this.service.companyInfo.setSectionData("Extensions", dashboard);
+        this.service.companyInfo.setSectionData("IVR", dashboard);
+        this.service.companyInfo.setSectionData("CDR", dashboard);
+        this.service.companyInfo.setSectionData("Tariff Plan", dashboard);
+        this.service.companyInfo.setSectionData("Invoices", dashboard);
+        this.service.companyInfo.setPhoneNumbersData("Phone numbers", dashboard);
     }
 
     private validate() {
@@ -135,54 +201,64 @@ export class CompanyComponent implements OnInit {
         return this.companyForm.get('companyAddress') as FormArray;
     }
 
-    private getCompany() {
-        this.loading++;
-        this.service.getCompany().then((res: CompanyModel) => {
-            this.company = res;
-            this.fillCompany();
-            this.loading--;
+    private getCompany(): void {
+        this.loading ++;
+        this.service.getCompany().then((company: CompanyModel) => {
+            this.company = company;
+            // console.log('company', company);
+            // console.log('companyInfo', this.companyInfo);
+            this.originalCompany = company;
+            this.setCompanyFormData();
+            this.editMode = !company.isValid;
+            this.loading --;
         }).catch(() => {
-            this.loading--;
+            this.loading --;
         });
     }
 
     private getCountries() {
-        this.loading++;
-        this.refs.getCountries().then(res => {
+        this.loading ++;
+        this._refs.getCountries().then(res => {
             this.countries = res;
-            this.loading--;
+            this.loading --;
         }).catch(() => {
-            this.loading--;
+            this.loading --;
         });
     }
 
     private getSidebar() {
-        this.sidebarInfo.loading++;
-        this.dashboard.getDashboard().then(res => {
+        this.sidebarInfo.loading ++;
+        this._dashboard.getDashboard().then(response => {
+            this.setCompanyInfo(response);
+
             for (let i = 0; i < this.sidebarInfo.items.length; i++) {
                 const item = this.sidebarInfo.items[i];
                 switch (item.title) {
                     case 'External numbers':
-                        item.value = res.outersCount;
+                        item.value = response.outersCount;
                         break;
                     case 'Internal numbers':
-                        item.value = res.innersCount;
+                        item.value = response.innersCount;
                         break;
                     case 'Unassigned Ext':
                         item.value = null;
                         break;
                     case 'Storage space':
-                        item.value = `${res.storage.totalSize} ${res.storage.measure}`;
+                        item.value = `${response.storage.totalSize} ${response.storage.measure}`;
                         break;
                     case 'Available space':
-                        item.value = `${res.storage.availableSize} ${res.storage.measure}`;
+                        item.value = `${response.storage.availableSize} ${response.storage.measure}`;
                         break;
                 }
             }
-            this.sidebarInfo.loading--;
+            this.sidebarInfo.loading --;
         }).catch(() => {
-            this.sidebarInfo.loading--;
+            this.sidebarInfo.loading --;
         });
+    }
+
+    edit(): void {
+        this.editMode = true;
     }
 
     ngOnInit() {

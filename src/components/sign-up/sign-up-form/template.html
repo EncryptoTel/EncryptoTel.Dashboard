@@ -5,35 +5,37 @@
   <form (submit)="signUp($event)" [formGroup]="signUpForm" [@Fade] (keyup)="services.clearMessage()">
     <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="services.clearMessage()">{{message.message}}</div>
     <div class="input_wrap">
-      <input name="Name" placeholder="Name" formControlName="firstname">
-      <div class="input_error" *ngIf="inputValidation('firstname')" [@Fade]>
+      <input #nameInput name="Name" placeholder="Name" formControlName="firstname" (focus)="setFocus(nameInput)" (blur)="removeFocus(nameInput)" (mouseenter)="mouseEnter(nameInput)" (mouseleave)="mouseLeave(nameInput)">
+      <div class="input_error" *ngIf="inputValidation('firstname') && errorName" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('firstname', 'required')">Please enter your name</span>
         <span class="input_error_item" *ngIf="inputValidation('firstname', 'pattern')">Name should contain only letters and "-", "'" or "."</span>
       </div>
     </div>
     <div class="input_wrap">
-      <input name="E-mail" placeholder="E-mail" formControlName="email">
-      <div class="input_error" *ngIf="inputValidation('email')" [@Fade]>
+      <input #emailInput name="E-mail" placeholder="E-mail" formControlName="email" (focus)="setFocus(emailInput)" (blur)="removeFocus(emailInput)" (mouseenter)="mouseEnter(emailInput)" (mouseleave)="mouseLeave(emailInput)">
+      <div class="input_error" *ngIf="inputValidation('email') && errorEmail" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('email', 'required')">Please enter your e-mail</span>
         <span class="input_error_item" *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>
       </div>
     </div>
     <div class="input_wrap">
-      <input type="password" name="Password" placeholder="Password" formControlName="password">
-      <div class="input_error" *ngIf="inputValidation('password')" [@Fade]>
+      <input #passwordInput type="password" name="Password" placeholder="Password" formControlName="password" (focus)="setFocus(passwordInput)" (blur)="removeFocus(passwordInput)" (mouseenter)="mouseEnter(passwordInput)" (mouseleave)="mouseLeave(passwordInput)">
+      <div class="input_error" *ngIf="inputValidation('password') && errorPassword" [@Fade]>
         <span class="input_error_item" *ngIf="inputValidation('password', 'required')">Please enter password</span>
         <span class="input_error_item" *ngIf="inputValidation('password', 'minlength')">Password is too short</span>
       </div>
     </div>
     <div class="input_wrap">
-      <input type="password" name="Confirm password" placeholder="Confirm password" [ngClass]="{'ng-invalid ng-touched': signUpForm.errors || inputValidation('password_confirmation')}" formControlName="password_confirmation">
-      <div class="input_error" *ngIf="inputValidation('password_confirmation') || signUpForm.errors" [@Fade]>
-        <span class="input_error_item" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'required')">Please enter password</span>
+      <input #passwordConfirmInput type="password" name="Confirm password" placeholder="Confirm password" [ngClass]="{'ng-invalid ng-touched': signUpForm.errors || inputValidation('password_confirmation')}" formControlName="password_confirmation" (focus)="setFocus(passwordConfirmInput)" (blur)="removeFocus(passwordConfirmInput)" (mouseenter)="mouseEnter(passwordConfirmInput)" (mouseleave)="mouseLeave(passwordConfirmInput)">
+      <div class="input_error" *ngIf="(inputValidation('password_confirmation') || signUpForm.errors) && errorConfirmPassword" [@Fade]>
+        <span class="input_error_item" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'required')">Please confirm your password</span>
         <span class="input_error_item" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'minlength')">Password is too short</span>
         <div class="input_error_item" *ngIf="signUpForm.errors && passwordsMismatch()">Passwords don't match</div>
       </div>
     </div>
-    
+
+    <div class="auth_form_text" style="margin-top: 8px;">Your tariff plan is {{ tariffPlanTitleText }}.&nbsp;<a routerLink="tariff_plans" class="auth_form_link">Change it?</a></div>
+
     <pbx-input name="I confirm that I have read and agree to the Terms and Conditions and privacy statement. I consent to the processing of my Personal Data as set out in Encrypto Telecom's Data Protection Statement."
             key="agreementConfirmation"
             [checkbox]="true"
@@ -42,13 +44,12 @@
             [(errors)]="services.error"
             [animationMode]="'fade'"
             [validatorRequiredMsg]="'You need to confirm Terms and Conditions and privacy statement agreement'"
+            [errorShow]="errorCheck"
             >
     </pbx-input>
 
-    <div class="auth_form_text" style="margin-top: 8px;">Your tariff plan is {{ tariffPlanTitleText }}.&nbsp;<a routerLink="tariff_plans" class="auth_form_link">Change it?</a></div>
-
     <pbx-button [buttonType]="'accent'" [value]="signUpButtonText" [loading]="loading" (onClick)="signUp()"></pbx-button>
-    
+
     <div class="auth_form_text">Already have an EncryptoTel Account?</div>
     <a routerLink="../sign-in" class="auth_form_link">Sign in now</a>
   </form>

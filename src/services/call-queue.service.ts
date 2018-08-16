@@ -56,7 +56,7 @@ export class CallQueueService extends BaseQueueService {
     }
 
     onInit() {
-        this.url = 'v1/call_queue';
+        this.url = 'call_queue';
     }
 
 }

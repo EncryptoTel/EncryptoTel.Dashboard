@@ -26,7 +26,7 @@ export class PhoneNumberService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/sip/outers';
+        this.url = 'sip/outers';
     }
 
 }

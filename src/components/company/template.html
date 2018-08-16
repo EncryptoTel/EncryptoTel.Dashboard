@@ -1,9 +1,10 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
-<div class="company" *ngIf="!loading">
+
+<div class="company" *ngIf="!loading && editMode">
     <pbx-form [background]="false"
               [decline]="{value: 'Cancel', buttonType: 'cancel'}"
               [confirm]="{value: 'Save', buttonType: 'success'}"
-              (onDecline)="modal.visible=true"
+              (onDecline)="decline()"
               (onConfirm)="save()">
         <form [formGroup]="companyForm">
             <pbx-input name="Organization"
@@ -21,17 +22,20 @@
                                displayKey="title"
                                (onSelect)="selectCountry($event)"
                                [form]="true"
-                               [required]="true"
+                               [required]="false"
                                [floatError]="true"
                                [options]="countries"
+                               [editable]="true"
                                [object]="address"
                                [errors]="service.errors"
-                               [objectView]="selectedCountry">
+                               [objectView]="selectedCountry"
+                               objectKey="id"
+                               [placeholder]="'[choose one]'">
                     </pbx-input>
                     <pbx-input name="State/Region"
                                key="regionName"
                                [form]="true"
-                               [required]="true"
+                               [required]="false"
                                [floatError]="true"
                                [errorKey]="'companyAddress.new_0.regionName'"
                                [errors]="service.errors"
@@ -40,7 +44,7 @@
                     <pbx-input name="City"
                                key="locationName"
                                [form]="true"
-                               [required]="true"
+                               [required]="false"
                                [floatError]="true"
                                [errorKey]="'companyAddress.new_0.locationName'"
                                [errors]="service.errors"
@@ -49,7 +53,7 @@
                     <pbx-input name="Street"
                                key="street"
                                [form]="true"
-                               [required]="true"
+                               [required]="false"
                                [floatError]="true"
                                [errorKey]="'companyAddress.new_0.street'"
                                [errors]="service.errors"
@@ -58,7 +62,7 @@
                     <pbx-input name="House #"
                                key="building"
                                [form]="true"
-                               [required]="true"
+                               [required]="false"
                                [floatError]="true"
                                [errorKey]="'companyAddress.new_0.building'"
                                [errors]="service.errors"
@@ -68,7 +72,7 @@
                                key="office"
                                [form]="true"
                                [floatError]="true"
-                               [required]="true"
+                               [required]="false"
                                [errorKey]="'companyAddress.new_0.office'"
                                [errors]="service.errors"
                                [object]="address">
@@ -77,7 +81,7 @@
                                key="postalCode"
                                [form]="true"
                                [floatError]="true"
-                               [required]="true"
+                               [required]="false"
                                [errorKey]="'companyAddress.new_0.postalCode'"
                                [errors]="service.errors"
                                [object]="address">
@@ -88,14 +92,14 @@
                        key="email"
                        [form]="true"
                        [floatError]="true"
-                       [required]="true"
+                       [required]="false"
                        [errors]="service.errors"
                        [object]="companyForm">
             </pbx-input>
             <pbx-input name="Phone"
                        key="phone"
                        [form]="true"
-                       [required]="true"
+                       [required]="false"
                        [floatError]="true"
                        [errors]="service.errors"
                        [object]="companyForm">
@@ -104,7 +108,7 @@
                        key="vatId"
                        [form]="true"
                        [floatError]="true"
-                       [required]="true"
+                       [required]="false"
                        [errors]="service.errors"
                        [object]="companyForm">
             </pbx-input>
@@ -112,6 +116,206 @@
     </pbx-form>
     <pbx-sidebar [sidebarInfo]="sidebarInfo"></pbx-sidebar>
 </div>
+
+<!-- <div class="form_button_wrap" *ngIf="!loading && !editMode">
+    <pbx-button [value]="'Edit'" [buttonType]="'success'" [loading]="loading" (onClick)="edit()"></pbx-button>
+</div> -->
+
+<div class="company_details" *ngIf="!loading && !editMode">
+
+    <div class="form_button_wrap" *ngIf="!loading && !editMode">
+        <pbx-button [value]="'Edit'" [buttonType]="'success'" [loading]="loading" (onClick)="edit()"></pbx-button>
+    </div>
+
+    <div class="inner">
+        <div class="item left_part">
+            <div class="img_wr">
+                <div class="inner">
+                    <img src="{{ companyInfo.logotype }}" />
+                </div> <!-- inner -->
+            </div> <!-- img_wr -->
+    
+            <div class="mini" *ngFor="let item of companyInfo.company">
+                <div class="title">{{ item.title }}</div>
+                <div class="info" [ngClass]="item.cssClass">{{ item.value }}</div>
+            </div> <!-- mini -->
+        </div> <!-- item -->
+
+        <div class="right_part">
+
+            <ng-template [ngIf]="!templateView">
+                <div class="item" *ngFor="let group of companyInfo.sectionGroups">
+                    <div class="big" *ngFor="let section of group.sections">
+                        <div class="title">{{ section.title }}</div>
+                        <div [ngClass]="section.cssClass" *ngFor="let item of section.items">
+                            <div class="key">{{ item.title }}</div>
+                            <div class="val">{{ item.value }}</div>
+                            <div class="status" *ngIf="section.cssClass == 'number'">{{ item.value2 }}</div>
+                        </div> <!-- line -->
+                    </div>
+                </div>
+            </ng-template>
+        
+            <div class="item" *ngIf="templateView">
+
+                <div class="big">
+                    <div class="title">Information</div>
+
+                    <div class="line">
+                        <div class="key">External numbers</div>
+                        <div class="val">4</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Internal numbers</div>
+                        <div class="val">3</div>
+                    </div> <!-- line -->
+                    
+                    <div class="line">
+                        <div class="key">Unassigned Ext</div>
+                        <div class="val">45</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Storage space</div>
+                        <div class="val">1500 mb</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Available space</div>
+                        <div class="val">1499 mb</div>
+                    </div> <!-- line -->
+                </div> <!-- big -->
+
+                <div class="big">
+                    <div class="title">Extensions</div>
+
+                    <div class="line">
+                        <div class="key">All</div>
+                        <div class="val">845</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Unsorted</div>
+                        <div class="val">2</div>
+                    </div> <!-- line -->
+                </div> <!-- big -->
+
+                <div class="big">
+                    <div class="title">IVR</div>
+
+                    <div class="line">
+                        <div class="key">Unnamed</div>
+                        <div class="val">Disabled</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Sales</div>
+                        <div class="val">Enabled</div>
+                    </div> <!-- line -->
+                </div> <!-- big -->
+
+            </div> <!-- item -->
+
+            <div class="item" *ngIf="templateView">
+
+                <div class="big">
+                    <div class="title">CDR</div>
+
+                    <div class="line">
+                        <div class="key">15:12:23</div>
+                        <div class="val">&#36;210</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Incoming</div>
+                        <div class="val">421</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Outgoing</div>
+                        <div class="val">874</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Missed</div>
+                        <div class="val">56</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">No-answer</div>
+                        <div class="val">48</div>
+                    </div> <!-- line -->
+                </div> <!-- big -->
+
+                <div class="big">
+                    <div class="title">Tariff Plan</div>
+
+                    <div class="line">
+                        <div class="key">Tariff Plan</div>
+                        <div class="val">Maximum</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Next monthly payment</div>
+                        <div class="val">July 23</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Estimated Payment</div>
+                        <div class="val">&#36;99</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Auto-payment</div>
+                        <div class="val">Enabled</div>
+                    </div> <!-- line -->
+
+                    <div class="line">
+                        <div class="key">Account currency</div>
+                        <div class="val">USD</div>
+                    </div> <!-- line -->
+                </div> <!-- big -->
+
+                <div class="big">
+                    <div class="title">Invoices</div>
+
+                    <div class="line">
+                        <div class="key">Unpaid</div>
+                        <div class="val">0</div>
+                    </div> <!-- line -->
+                </div> <!-- big -->
+            </div> <!-- item -->
+
+            <div class="item" *ngIf="templateView">
+                <div class="big">
+                    <div class="title">Phone numbers</div>
+
+                    <div class="number">
+                        <div class="key">1000001</div>
+                        <div class="val">2 of 8 ext.</div>
+                        <div class="status">online</div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="key">1000002</div>
+                        <div class="val">1 of 3 ext.</div>
+                        <div class="status">online</div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="key">+43 14654 8458</div>
+                        <div class="val"></div>
+                        <div class="status">online</div>
+                    </div> <!-- number -->
+                </div> <!-- big -->
+            </div> <!-- item -->
+
+        </div> <!-- right_part -->
+    </div> <!-- inner -->
+
+</div> <!-- company_details -->
+
 <pbx-modal
         [modalEx]="modal" (onConfirmEx)="cancel()"
 ></pbx-modal>

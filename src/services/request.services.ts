@@ -127,6 +127,8 @@ export class RequestServices {
             default: {
                 if (ShowError && ShowError(response.error ? response.error : response)) {
                     //error handled by caller
+                } else if (ShowError === false) {
+                    break;
                 } else if (response.error && response.error.message) {
                     this._messages.writeError(response.error.message); // Adding warning message
                 } else if (response.message) {
@@ -151,8 +153,8 @@ export class RequestServices {
       URI: string - request uri,
       Data: object - request params
      */
-    post(url: string, data: object): Promise<any> {
-        return this.request('POST', url, {...data});
+    post(url: string, data: object, ShowError = null): Promise<any> {
+        return this.request('POST', url, {...data}, true, ShowError);
     }
 
     /*

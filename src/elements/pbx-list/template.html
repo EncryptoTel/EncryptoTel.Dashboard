@@ -10,14 +10,14 @@
 
     <pbx-loader *ngIf="loading || loadingEx || filter.loading"></pbx-loader>
 
-    <div class="pbx_list_empty" *ngIf="showEmptyInfo && !loading && !loadingEx && pageInfo.itemsCount === 0 && !activeFilter()">
+    <div class="pbx_list_empty {{sidebarVisible?'notArrow':''}}" *ngIf="showEmptyInfo && !loading && !loadingEx && pageInfo.itemsCount === 0 && !activeFilter()">
         <div class="pbx_list_empty_text" *ngIf="!EmptyInfo">
             You do not have any {{itemsName ? itemsName : name}}<br>Click on the button to create
         </div>
         <div class="pbx_list_empty_text" *ngIf="EmptyInfo" [innerHTML]="EmptyInfo">
 
         </div>
-        <div class="pbx_list_empty_icon" *ngIf="!hideArrow">
+        <div class="pbx_list_empty_icon" *ngIf="!sidebarVisible && !EmptyInfo">
             <svg-icon id="arrow_edge" src="../../assets/icons/_onbording/onbording_arrow.svg"></svg-icon>
             <object id="arrow_safari" data="../../assets/icons/_onbording/onbording_arrow.svg" type="image/svg+xml"></object>
         </div>

@@ -26,57 +26,57 @@
 // Tags styles
 
 *
-  display: flex
-  cursor: default
-  box-sizing: border-box
-  transition: all linear 100ms
+    display: flex
+    cursor: default
+    box-sizing: border-box
+    transition: all linear 100ms
 
 title, head, script
-  display: none
+    display: none
 
 body
-  width: 100vw
-  max-width: 100vw
-  max-height: 100vh
-  overflow-x: hidden
+    width: 100vw
+    max-width: 100vw
+    max-height: 100vh
+    overflow-x: hidden
 
 a, a > *, a /deep/ *
-  cursor: pointer
+    cursor: pointer
 
 // Components styles
 
 main-view
-  flex-direction: column
-  flex: 1 0 auto
-  height: 100vh
-  transition: none
-  > *:not(.messages_wrap)
     flex-direction: column
     flex: 1 0 auto
-  pbx-loader
-    flex-direction: column
-    flex: 1 0 auto
+    height: 100vh
+    transition: none
+    > *:not(.messages_wrap)
+        flex-direction: column
+        flex: 1 0 auto
+    pbx-loader
+        flex-direction: column
+        flex: 1 0 auto
 
 sign-up
-  height: 100%
-  width: 100%
+    height: 100%
+    width: 100%
 
 pbx-sign-up-tariff-plans
-  height: 100%
-  width: 100%
-  display: flex
-  flex-flow: column
-  justify-content: space-around
-  align-items: center
+    height: 100%
+    width: 100%
+    display: flex
+    flex-flow: column
+    justify-content: space-around
+    align-items: center
 
 pbx-index, pbx-address-book
-  flex-direction: row !important
+    flex-direction: row !important
 
 pbx-tariff-plans
-  display: flex
-  flex-flow: row
-  justify-content: space-around
-  align-items: center
+    display: flex
+    flex-flow: row
+    justify-content: space-around
+    align-items: center
 
 pbx-call-queues-general,
 pbx-call-queues-members,
@@ -86,392 +86,391 @@ pbx-list,
 pbx-table,
 ring-groups-general,
 ring-groups-members
-  flex: 1
+    flex: 1
 
 pbx-department
-  flex-direction: row !important
+    flex-direction: row !important
 
 input
-  width: 100%
-  height: rem(40)
-  padding: 0 rem(8)
-  cursor: text
-  &:-webkit-autofill
-    animation: auto_fill 0s forwards
+    width: 100%
+    height: rem(40)
+    padding: 0 rem(8)
+    cursor: text
+    &:-webkit-autofill
+        animation: auto_fill 0s forwards
 
 input[type='number']
-  &::-webkit-inner-spin-button
-    display: none
+    &::-webkit-inner-spin-button
+        display: none
 
 textarea
-  font-family: inherit
+    font-family: inherit
 
 pbx-button
-  width: 100%
+    width: 100%
 
 pbx-table
-  flex-direction: column
+    flex-direction: column
 
 // Classes styles
 
 .inactive
-  background: $dark_overlay !important
-  pointer-events: none
+    background: $dark_overlay !important
+    pointer-events: none
 
 .body_wrap
-  height: 100%
-  width: 100%
-  padding: 24px 32px 24px 48px
-  > *:not(router-outlet)
-    flex-direction: column
-    width: 100%
     height: 100%
-  pbx-company
-    flex-direction: row
+    width: 100%
+    padding: 24px 32px 24px 48px
+    > *:not(router-outlet)
+        flex-direction: column
+        width: 100%
+        height: 100%
+    pbx-company
+        flex-direction: row
 
 .messages
-  &_wrap
-    position: absolute
-    top: 8px
-    right: 8px
-    flex-direction: column
-    width: 328px
-    max-width: calc(100% - 32px)
-    z-index: 10
-  &_item
-    justify-content: center
-    min-height: 40px
-    width: 100%
-    padding: 16px
-    cursor: pointer
-    &:not(:first-child)
-      margin-top: 8px
+    &_wrap
+        position: absolute
+        top: 8px
+        right: 8px
+        flex-direction: column
+        width: 328px
+        max-width: calc(100% - 32px)
+        z-index: 10
+    &_item
+        justify-content: center
+        min-height: 40px
+        width: 100%
+        padding: 16px
+        cursor: pointer
+        &:not(:first-child)
+            margin-top: 8px
 
 .auth_form
-  flex-direction: column
-  height: 100vh
-  width: 100vw
-  background: url('./assets/images/auth_bg.jpg') center no-repeat
-  background-size: cover
-  overflow-y: scroll
-  position: relative
-  z-index: 1
-  overflow-x: hidden
-  &::-webkit-scrollbar
-    width: 0
-    background-color: transparent
-  &::-webkit-scrollbar-thumb
-    background-color: transparent
-  &:after
-    content: ''
-    position: absolute
-    left: 0
-    top: 0
+    flex-direction: column
     height: 100vh
     width: 100vw
-    background: $dark_background
-    filter: blur(8px) brightness(-50)
-    opacity: .6
-  &:before
-    content: ''
-    position: absolute
-    left: calc(50% - 196px)
-    top: 0
-    width: 392px
-    height: 100vh
-    background: rgba(#000, .8)
-  pbx-button /deep/ .button
-    flex: 1 0 auto
-  form
+    background: url('./assets/images/auth_bg.jpg') center no-repeat
+    background-size: cover
+    overflow-y: scroll
     position: relative
-    flex: 0 0 auto
-    flex-direction: column
-    width: 328px
-    max-width: calc(100% - 32px)
-    margin: 88px auto auto
     z-index: 1
-  &_icon
-    flex: 0 0 auto
-    margin: auto auto 0
-    width: 90px
-    z-index: 1
-  &_text
-    margin: 16px 0 8px
-    font-size: rem(14)
-    justify-content: center
-  &_link
-    justify-content: center
-  &_message
-    position: absolute
-    bottom: 100%
-    left: 0
-    flex-direction: column
-    width: 100%
-    margin-bottom: 8px
-    padding: 16px
-    text-align: center
-    cursor: pointer
-    line-height: 20px
-  .button
-    margin: 16px 0 24px
+    overflow-x: hidden
+    &::-webkit-scrollbar
+        width: 0
+        background-color: transparent
+    &::-webkit-scrollbar-thumb
+        background-color: transparent
+    &:after
+        content: ''
+        position: absolute
+        left: 0
+        top: 0
+        height: 100vh
+        width: 100vw
+        background: $dark_background
+        filter: blur(8px) brightness(-50)
+        opacity: .6
+    &:before
+        content: ''
+        position: absolute
+        left: calc(50% - 196px)
+        top: 0
+        width: 392px
+        height: 100vh
+        background: rgba(#000, .8)
+    pbx-button /deep/ .button
+        flex: 1 0 auto
+    form
+        position: relative
+        flex: 0 0 auto
+        flex-direction: column
+        width: 328px
+        max-width: calc(100% - 32px)
+        margin: 88px auto auto
+        z-index: 1
+    &_icon
+        flex: 0 0 auto
+        margin: auto auto 0
+        width: 90px
+        z-index: 1
+    &_text
+        margin: 16px 0 8px
+        font-size: rem(14)
+        justify-content: center
+    &_link
+        justify-content: center
+    &_message
+        position: absolute
+        bottom: 100%
+        left: 0
+        flex-direction: column
+        width: 100%
+        margin-bottom: 8px
+        padding: 16px
+        text-align: center
+        cursor: pointer
+        line-height: 20px
+    .button
+        margin: 16px 0 24px
 
 .input
-  &_wrap
-    position: relative
-    margin-bottom: rem(24)
-  &_error
-    position: absolute
-    top: calc(100% + 4px)
-    &_item
-      font-size: rem(12)
+    &_wrap
+        position: relative
+        margin-bottom: rem(24)
+    &_error
+        position: absolute
+        top: calc(100% + 4px)
+        &_item
+            font-size: rem(12)
 
 .button_overlay
-  position: absolute
-  z-index: 1
-  border-radius: 50%
-  animation: button_animation ease-in 500ms
-  transform: scale(0)
-  pointer-events: none
-  &.small
-    animation: button_animation ease-in 250ms
-  &.medium
-    animation: button_animation ease-in 350ms
+    position: absolute
+    z-index: 1
+    border-radius: 50%
+    animation: button_animation ease-in 500ms
+    transform: scale(0)
+    pointer-events: none
+    &.small
+        animation: button_animation ease-in 250ms
+    &.medium
+        animation: button_animation ease-in 350ms
 
 .overlay
-  // flex: 1 0 auto
-  // max-height: 100%
-  // overflow-x: hidden
-  &_content
     // flex: 1 0 auto
-    flex-direction: column
-    // padding: rem(32)
-  //&_pre_row
-    flex-direction: row
-    flex: 0 0 auto
-    justify-content: flex-end
-    margin-bottom: rem(8)
-    > pbx-button
-      width: fit-content
-      &:last-child
-        margin-left: rem(8)
+    // max-height: 100%
+    // overflow-x: hidden
+    &_content
+        // flex: 1 0 auto
+        flex-direction: column
+// padding: rem(32)
+//&_pre_row
+  flex-direction: row
+  flex: 0 0 auto
+  justify-content: flex-end
+  margin-bottom: rem(8)
+  > pbx-button
+    width: fit-content
+    &:last-child
+      margin-left: rem(8)
 
 .settings
-  flex-direction: column
-  &_form
     flex-direction: column
-    flex: 1 0 auto
-    &_section
-      flex-direction: column
-      > pbx-button
-        width: fit-content
-        margin-left: rem(160)
-        overflow-x: hidden
-    &_title
-      margin-bottom: rem(24)
-  &_input
-    &_title
-      flex: 0 0 rem(160)
-      font-size: rem(12)
-      padding-right: rem(24)
-      margin-bottom: rem(24)
-    &_item
-      align-items: center
-      .input_wrap
-        flex: 1 0 auto
+    &_form
         flex-direction: column
+        flex: 1 0 auto
+        &_section
+            flex-direction: column
+            > pbx-button
+                width: fit-content
+                margin-left: rem(160)
+                overflow-x: hidden
+        &_title
+            margin-bottom: rem(24)
+    &_input
+        &_title
+            flex: 0 0 rem(160)
+            font-size: rem(12)
+            padding-right: rem(24)
+            margin-bottom: rem(24)
+        &_item
+            align-items: center
+            .input_wrap
+                flex: 1 0 auto
+                flex-direction: column
 
 .sidebar
-  &_item
-    flex-direction: column
-    &:not(:first-child) > &_title
-      margin-top: rem(24)
-    &_title
-      margin-bottom: rem(16)
-      font-size: rem(12)
-      opacity: .8
-    &_value
-      &.warning
-        margin-top: rem(24)
-        cursor: pointer
-        &:hover
-          text-decoration: underline
-  &_buttons
-    margin-top: auto
-
-.table
-  &_container
-    height: 100%
-  &_wrap
-    flex-direction: column
-    flex: 1 0 auto
-    > *:not(.table_pre_row)
-      flex: 1 0 auto
-  &_pre_row
-    min-height: rem(40)
-    align-items: center
-    &:first-child
-      margin-bottom: rem(16)
-    &:last-child
-      margin-top: rem(16)
-    &.overlay
-      flex: 0 0 auto
-      padding: rem(24) rem(16)
-    .pre_row
-      &_input
-        height: rem(40)
-        padding: 0 rem(16)
-        width: unset
-        &_wrap
-          align-items: center
+    &_item
+        flex-direction: column
+        &:not(:first-child) > &_title
+            margin-top: rem(24)
         &_title
-          margin-right: rem(24)
+            margin-bottom: rem(16)
+            font-size: rem(12)
+            opacity: .8
+        &_value
+            &.warning
+                margin-top: rem(24)
+                cursor: pointer
+                &:hover
+                    text-decoration: underline
+    &_buttons
+        margin-top: auto
 
 .table
-  flex: 1 0 auto
-  flex-direction: column
-  &_head, &_body
-    flex-direction: column
-  &_head &_column
-    text-transform: capitalize
-  &_column
-    flex-direction: column
-    flex: 1
-    height: rem(40)
-    justify-content: center
-    pointer-events: none
-    &:first-child
-      padding-left: rem(16)
-    &:last-child
-      padding-right: rem(16)
-  &_body
-    &.multiple > .table_row.active .table_row_icon
-      opacity: 1
-    > .table_row
-      cursor: pointer
-  &_row
+    &_container
+        height: 100%
+    &_wrap
+        flex-direction: column
+        flex: 1 0 auto
+        > *:not(.table_pre_row)
+            flex: 1 0 auto
+    &_pre_row
+        min-height: rem(40)
+        align-items: center
+        &:first-child
+            margin-bottom: rem(16)
+        &:last-child
+            margin-top: rem(16)
+        &.overlay
+            flex: 0 0 auto
+            padding: rem(24) rem(16)
+        .pre_row
+            &_input
+                height: rem(40)
+                padding: 0 rem(16)
+                width: unset
+                &_wrap
+                    align-items: center
+                &_title
+                    margin-right: rem(24)
+
+.table
     flex: 1 0 auto
-    position: relative
-    height: rem(41)
-    cursor: pointer
-    > *, *
-      cursor: pointer
-    & > .table_row_icon
-      cursor: pointer
-    &:hover .table_row_icon,
-    &.active .table_row_icon
-      opacity: 1
-    &_content
-      flex: 1 0 auto
-    &_icon
-      width: rem(12)
-      height: rem(12)
-      cursor: pointer
-      pointer-events: initial
-      opacity: 0
-      & *, /deep/ *
+    flex-direction: column
+    &_head, &_body
+        flex-direction: column
+    &_head &_column
+        text-transform: capitalize
+    &_column
+        flex-direction: column
+        flex: 1
+        height: rem(40)
+        justify-content: center
+        pointer-events: none
+        &:first-child
+            padding-left: rem(16)
+        &:last-child
+            padding-right: rem(16)
+    &_body
+        &.multiple > .table_row.active .table_row_icon
+            opacity: 1
+        > .table_row
+            cursor: pointer
+    &_row
+        flex: 1 0 auto
+        position: relative
+        height: rem(41)
         cursor: pointer
-      &.edit
-        margin-right: rem(12)
-      &_wrap
-        position: absolute
-        right: rem(16)
-        top: rem(12)
+        > *, *
+            cursor: pointer
+        & > .table_row_icon
+            cursor: pointer
+        &:hover .table_row_icon,
+        &.active .table_row_icon
+            opacity: 1
+        &_content
+            flex: 1 0 auto
+        &_icon
+            width: rem(12)
+            height: rem(12)
+            cursor: pointer
+            pointer-events: initial
+            opacity: 0
+            & *, /deep/ *
+                cursor: pointer
+            &.edit
+                margin-right: rem(12)
+            &_wrap
+                position: absolute
+                right: rem(16)
+                top: rem(12)
 // ID's styles
 
 // Theme styles
 main-view
-  &.dark_theme
-    color: $dark_primary
-    background: $dark_background
-    /deep/ *
-      &::-webkit-scrollbar
-        width: 4px
-        background: $dark_overlay
-      &::-webkit-scrollbar-thumb
-        background-color: $dark_accent
-    input:not([type='submit'])
-      border-bottom: 1px solid rgba($dark_primary, .1)
-      &.ng-valid:focus
-        border-bottom-color: $dark_accent
-      &.ng-touched.ng-invalid,
-      &.ng-dirty.ng-invalid
-        color: $dark_error
-        border-bottom-color: $dark_error
-        &::placeholder
-          color: $dark_error
-    .button_overlay
-      background: rgba($dark_primary, .35)
-    .input_error_item
-      color: $dark_error
-    .auth_form
-      &_icon
-        fill: $dark_accent
-        &_title
-          color: $dark_accent
-      &_text
-        color: rgba($dark_primary, .5)
-      &_link
+    &.dark_theme
         color: $dark_primary
-        &:hover
-          color: $dark_accent
-      &_message
-        &.error
-          background: $dark_error
-        &.success
-          background: $dark_success
-    .messages_item
-      &.error
-        background: $dark_error
-      &.warning
-        background: $dark_warning
-      &.success
-        background: $dark_success
-    .overlay
-      background: $dark_overlay
-    .settings
-      &_input
-        &_title
-          color: darken($dark_primary, 40%)
-          &.error
+        background: $dark_background
+        /deep/ *
+            &::-webkit-scrollbar
+                width: 4px
+                background: $dark_overlay
+            &::-webkit-scrollbar-thumb
+                background-color: $dark_accent
+        input:not([type='submit'])
+            border-bottom: 1px solid rgba($dark_primary, .1)
+            &.ng-valid:focus
+                border-bottom-color: $dark_accent
+            &.ng-touched.ng-invalid,
+            &.ng-dirty.ng-invalid
+                color: $dark_error
+                border-bottom-color: $dark_error
+                &::placeholder
+                    color: $dark_error
+        .button_overlay
+            background: rgba($dark_primary, .35)
+        .input_error_item
             color: $dark_error
-    .sidebar_item_value.warning
-      color: $dark_error
-    .table_pre_row.overlay
-      background: $dark_overlay
-      .pre_row_input
-        border: 1px solid rgba($dark_primary, .1)
-        &:active
-          border-color: $dark_accent
-    .table
-      &_head
-        color: darken($dark_primary, 35%)
-      &_row
-        border-bottom: 1px solid $dark_overlay
-        &_icon
-          &.delete
-            /deep/ polygon
-              fill: $dark_error
-          &.edit
-            /deep/ path, /deep/ rect
-              fill: $dark_success
-      &_body > .table_row:hover
-        background: rgba($dark_primary, .05)
-      &_body > .table_row.active
-        background: rgba($dark_primary, .10)
-  &.light_theme
-    color: $dark_background
-    background: $dark_primary
-    .button
-      color: $dark_primary
-      &.accent
-        background: $dark_accent
-        &:hover
-          background: lighten($dark_accent, 5%)
-        &:active
-          background: darken($dark_accent, 5%)
-        &:disabled
-          background: darken($dark_primary, 85%)
-
+        .auth_form
+            &_icon
+                fill: $dark_accent
+                &_title
+                    color: $dark_accent
+            &_text
+                color: rgba($dark_primary, .5)
+            &_link
+                color: $dark_primary
+                &:hover
+                    color: $dark_accent
+            &_message
+                &.error
+                    background: $dark_error
+                &.success
+                    background: $dark_success
+        .messages_item
+            &.error
+                background: $dark_error
+            &.warning
+                background: $dark_warning
+            &.success
+                background: $dark_success
+        .overlay
+            background: $dark_overlay
+        .settings
+            &_input
+                &_title
+                    color: darken($dark_primary, 40%)
+                    &.error
+                        color: $dark_error
+        .sidebar_item_value.warning
+            color: $dark_error
+        .table_pre_row.overlay
+            background: $dark_overlay
+            .pre_row_input
+                border: 1px solid rgba($dark_primary, .1)
+                &:active
+                    border-color: $dark_accent
+        .table
+            &_head
+                color: darken($dark_primary, 35%)
+            &_row
+                border-bottom: 1px solid $dark_overlay
+                &_icon
+                    &.delete
+                        /deep/ polygon
+                            fill: $dark_error
+                    &.edit
+                        /deep/ path, /deep/ rect
+                            fill: $dark_success
+            &_body > .table_row:hover
+                background: rgba($dark_primary, .05)
+            &_body > .table_row.active
+                background: rgba($dark_primary, .10)
+    &.light_theme
+        color: $dark_background
+        background: $dark_primary
+        .button
+            color: $dark_primary
+            &.accent
+                background: $dark_accent
+                &:hover
+                    background: lighten($dark_accent, 5%)
+                &:active
+                    background: darken($dark_accent, 5%)
+                &:disabled
+                    background: darken($dark_primary, 85%)
 
 @import './styles/address-book'
 @import './styles/departments'
@@ -495,3 +494,8 @@ main-view
 @import './styles/extensions'
 @import './styles/fix-edge-safari'
 @import './styles/marketplace'
+@import './styles/sidebar'
+@import './styles/pbx-editable-select'
+@import './styles/company-details'
+@import './styles/pbx-modal'
+@import './styles/knowledge-base'

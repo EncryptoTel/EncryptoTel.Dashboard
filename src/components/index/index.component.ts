@@ -24,13 +24,12 @@ import {RefsServices} from "../../services/refs.services";
 
 export class IndexComponent implements OnInit, OnDestroy {
     constructor(public _user: UserServices,
-                private message: MessageServices,
+                private _message: MessageServices,
                 private _router: Router,
                 public _main: MainViewComponent,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
-                private refs: RefsServices) {
-        
+                private _refs: RefsServices) {
     }
 
     navigationList: NavigationItemModel[][];
@@ -38,11 +37,25 @@ export class IndexComponent implements OnInit, OnDestroy {
     userSubscription: Subscription;
     balanceSubscription: Subscription;
     serviceSubscription: Subscription;
-    completedRequests = 0;
+    completedRequests: number = 0;
     activeButtonIndex: number;
-    headerButtonsVisible = true;
-    userNavigationVisible = false;
-    mobileNavigationVisible = false;
+    headerButtonsVisible: boolean = true;
+    userNavigationVisible: boolean = false;
+    mobileNavigationVisible: boolean = false;
+    
+    get username(): string {
+        if (this.user && this.user.profile) {
+            let firstName = this.user.profile.firstname ? this.user.profile.firstname : '';
+            let lastName = this.user.profile.lastname ? this.user.profile.lastname : '';
+
+            let username = `${firstName} ${lastName}`;
+            if (username.length > 12) {
+                username =  (lastName != '') ? `${firstName} ${lastName[0]}` : firstName;
+            }
+            return username;
+        }
+        return '';
+    }
 
     @ViewChild('userWrap') userWrap: ElementRef;
 
@@ -53,8 +66,8 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     logout(): void {
-        this.refs.request.logout();
-        this.message.writeSuccess('Logout successful');
+        this._refs.request.logout();
+        this._message.writeSuccess('Logout successful');
     }
 
     userInit(): void {
@@ -118,8 +131,7 @@ export class IndexComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnInit() {
-
+    ngOnInit(): void {
         this.completedRequests = 0;
         this.userInit();
         // this.balanceInit();

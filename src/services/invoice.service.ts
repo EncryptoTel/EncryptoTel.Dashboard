@@ -12,7 +12,7 @@ export class InvoiceService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/invoice';
+        this.url = 'invoice';
     }
 
 }

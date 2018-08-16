@@ -37,7 +37,7 @@ export class IvrService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/ivr';
+        this.url = 'ivr';
     }
 
 }

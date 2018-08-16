@@ -17,6 +17,7 @@ export class AddressBookItem extends BaseItemModel {
     countryId: number;
     company: string;
     department: string;
+    position: string;
     address: string;
     blacklist: boolean;
 
@@ -31,6 +32,7 @@ export class AddressBookItem extends BaseItemModel {
             this.countryId = response.countryId;
             this.company = response.company;
             this.department = response.department;
+            this.position = response.position;
             this.address = response.address;
             if (response.contactPhone) {
                 for (let i = 0; i < response.contactPhone.length; i++) {

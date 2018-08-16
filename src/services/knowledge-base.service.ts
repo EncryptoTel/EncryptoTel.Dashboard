@@ -5,7 +5,7 @@ import {HelpGroupItem, HelpGroupModel, HelpItem, HelpModel} from "../models/know
 export class KnowledgeBaseService extends BaseService {
 
     getGroups(pageInfo: PageInfoModel, filter = null): Promise<HelpGroupModel> {
-        this.url = 'v1/help/group';
+        this.url = 'help/group';
         return super.getItems(pageInfo, filter).then((res: HelpGroupModel) => {
             let pageInfo = this.plainToClassEx(HelpGroupModel, HelpGroupItem, res);
             return Promise.resolve(pageInfo);
@@ -13,7 +13,7 @@ export class KnowledgeBaseService extends BaseService {
     }
 
     getHelps(pageInfo: PageInfoModel, filter = null): Promise<HelpModel> {
-        this.url = 'v1/help';
+        this.url = 'help';
         return super.getItems(pageInfo, filter).then((res: HelpModel) => {
             let pageInfo = this.plainToClassEx(HelpModel, HelpItem, res);
             return Promise.resolve(pageInfo);

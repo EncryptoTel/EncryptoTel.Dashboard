@@ -2,6 +2,12 @@ import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {assertNumber} from "@angular/core/src/render3/assert";
+import {StorageService} from '../../services/storage.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CallRulesService} from '../../services/call-rules.service';
+import {MessageServices} from '../../services/message.services';
+import {FormBuilder} from '@angular/forms';
+import {RefsServices} from '../../services/refs.services';
 
 @Component({
     selector: 'pbx-select',
@@ -15,8 +21,30 @@ export class SelectComponent implements OnInit {
     @Input() singleBorder: boolean;
     @Input() options: any[];
     @Input() objectKey: string;
-    @Input() selected: any;
-    @Input() placeholder: string;
+    @Input()
+    set selected(selected: any) {
+        this._selected = selected;
+        if (this._selected && this._selected.title)
+            this.selectedObject = true;
+    }
+    _selected: any;
+
+    @Input()
+    set placeholder(placeholder: string) {
+        this._placeholder = placeholder;
+        if (this._selected === undefined) {
+            this.selectedObject = false;
+        } else {
+            if (this._selected[this.objectKey] != '') {
+                this.selectedObject = true;
+            }
+            if (this._selected[this.objectKey] === undefined) {
+                this.selectedObject = false;
+            }
+        }
+    }
+    _placeholder: string;
+
     @Input() errors: any[];
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onOpen: EventEmitter<object> = new EventEmitter();
@@ -24,6 +52,9 @@ export class SelectComponent implements OnInit {
     @Output() onFocus: EventEmitter<object> = new EventEmitter();
     @Output() onBlur: EventEmitter<object> = new EventEmitter();
     isVisible = false;
+
+    selectedObject = false;
+
     @ViewChild('optionsWrap') optionsWrap: ElementRef;
     @ViewChild('selectWrap') selectWrap: ElementRef;
 
@@ -31,6 +62,10 @@ export class SelectComponent implements OnInit {
         if (event.code === 'Escape') {
             this.hideOptions();
         }
+    }
+
+    constructor() {
+
     }
 
     calcPosition(): string {
@@ -85,6 +120,9 @@ export class SelectComponent implements OnInit {
       Select option
      */
     selectItem(option: object, event?: Event): void {
+        if (option) {
+            this.selectedObject = true;
+        }
         if (event) {
             event.stopPropagation();
             event.preventDefault();
@@ -149,7 +187,6 @@ export class SelectComponent implements OnInit {
     }
 
     ngOnInit() {
-
     }
 
 }

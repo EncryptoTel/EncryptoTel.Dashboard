@@ -43,7 +43,7 @@ export class StorageService extends BaseService {
     }
 
     onInit(): void {
-        this.url = 'v1/account/file';
+        this.url = 'account/file';
     }
 
     checkCompatibleType(file: any): boolean {

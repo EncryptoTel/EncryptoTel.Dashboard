@@ -105,18 +105,33 @@ export class SidebarInfoModel {
     }
 }
 
+/**
+ * class SidebarInfoItem
+ * Represetns item to display inside SidebarComponent
+ */
 export class SidebarInfoItem {
-    id: number;
-    title: string;
-    value: any;
-    view: boolean;
-    edit: boolean;
-    link: boolean;
-    key: string;
-    checkbox: boolean;
-    className: string;
+    public id: number;                 // item internal identifier
+    public title: string;              // title: view/form label
+    public value: any;                 // data value
+    public key: string;                // data object key
 
-    constructor(id: number, title: string, value: any, view = true, edit = false, link = false, className = '') {
+    public view: boolean;              // whether item should be displayed in non-edit mode
+    public edit: boolean;              // whether item should be displayed in edit mode
+    public link: boolean;              // TODO: link logic is quite strange for now
+
+    public checkbox: boolean;          // checkbox flag
+    public checkboxGroup: string;      // checkbox group name
+
+    public dropdown: boolean;          // dropdown flag
+    public options: any[];             // dropdown options array
+
+    public disabled: boolean;          // disabled flag (non-editable in edit mode)
+    public className: string;          // specific css class to be added to component
+
+    private type: SidebarInfoItemType;  // type of item control: input, checkbox, dropdown
+
+    
+    constructor(id: number, title: string, value: any, view: boolean = true, edit: boolean = false, link: boolean = false, className: string = '') {
         this.id = id;
         this.title = title;
         this.value = value;
@@ -124,7 +139,46 @@ export class SidebarInfoItem {
         this.edit = edit;
         this.link = link;
         this.className = className;
+        
+        this.disabled = false;
+
+        this.init({});
     }
+
+    // { view: true, className: 'css', options: [ 'up', 'down' ] ... }
+    init(options: any): void {
+        Object.keys(options).forEach(key => {
+            this[key] = options[key];
+        });
+        if (this.options && this.options.length > 0) {
+            this.type = SidebarInfoItemType.Select;
+            this.checkbox = this.link = this.edit = false;
+        }
+        else if (this.checkbox) {
+            this.type = SidebarInfoItemType.Checkbox;
+            this.dropdown = this.link = this.edit = false;
+        }
+        else if (this.link) {
+            this.type = SidebarInfoItemType.Link;
+            this.dropdown = this.checkbox = this.edit = false;
+        }
+        else if (this.edit) {
+            this.type = SidebarInfoItemType.Edit;
+            this.dropdown = this.checkbox = this.link = false;
+        }
+        else {
+            this.type = SidebarInfoItemType.View;
+            this.dropdown = this.checkbox = this.link = this.edit = false;
+        }
+    }
+}
+
+export enum SidebarInfoItemType {
+    View,
+    Edit,
+    Link,
+    Select,
+    Checkbox,
 }
 
 export class SidebarButtonItem {

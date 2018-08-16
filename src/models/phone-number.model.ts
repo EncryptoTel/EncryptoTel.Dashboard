@@ -9,6 +9,7 @@ export class PhoneNumberItem extends BaseItemModel {
     status: number;
     providerId: number;
     sipInners: SipInnerModel[] = [];
+    safe: boolean = false;
 
     get innersCount() {
         return this.sipInners.length;
@@ -30,6 +31,10 @@ export class PhoneNumberItem extends BaseItemModel {
 
     get typeName() {
         return this.providerId === 1 ? 'Internal' : 'External';
+    }
+
+    get delete() {
+        return this.safe;
     }
 
 }

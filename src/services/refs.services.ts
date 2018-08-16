@@ -11,8 +11,8 @@ export class RefsServices extends BaseService {
 
     getCountries(): Promise<CountryModel[]> {
         if (this.countries.length === 0) {
-            return this.request.get(`v1/countries`).then(countries => {
-                this.countries = countries['countries'];
+            return this.request.get(`v1/countries`).then(response => {
+                this.countries = response.countries;
                 return Promise.resolve(this.countries);
             });
         } else {

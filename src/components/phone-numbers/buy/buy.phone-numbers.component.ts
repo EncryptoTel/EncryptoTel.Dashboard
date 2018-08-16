@@ -1,10 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {PhoneNumberService} from '../../../services/phone-number.service';
-// import {calculateHeight} from '../../../shared/shared.functions';
-// import {templateJitUrl} from '@angular/compiler';
 import {CountryModel} from '../../../models/country.model';
 import {RefsServices} from '../../../services/refs.services';
-import {ModalEx} from "../../../elements/pbx-modal/pbx-modal.component";
+import {ModalEx} from '../../../elements/pbx-modal/pbx-modal.component';
 
 @Component({
     selector: 'buy-phone-numbers-component',
@@ -51,6 +49,23 @@ export class BuyPhoneNumbersComponent implements OnInit {
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
 
+    @ViewChild('myNumberOnly') numberInput: ElementRef;
+
+    @HostListener('window:keydown', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        console.log(event);
+
+        let specialKeys: Array<string> = [ 'Backspace', 'Tab', 'End', 'Home'];
+        if (specialKeys.indexOf(event.key) !== -1) {
+            return;
+        }
+        let current: string = this.numberInput.nativeElement.value;
+        let next: string = current.concat(event.key);
+        if (next && !String(next).match(new RegExp(/^-?[0-9]+(\.[0-9]*){0,1}$/g))) {
+            event.preventDefault();
+        }
+    }
+
     constructor(private _services: PhoneNumberService,
                 private refs: RefsServices) {
         this.pagination = {page: 1, total: 1};
@@ -96,14 +111,8 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
     buyItem(number): void {
         this.selected = number;
-        this.modal.title = number.fullNumber;
+        this.modal.body = `Are you sure you want to buy ${number.fullNumber} number?`;
         this.modal.visible = true;
-        // number.loading = true;
-        // this._services.buyNumber(number.params)
-        //   .then(() => {
-        //     number.loading = false;
-        //     number.inactive = true;
-        //   }).catch();
     }
 
     modalConfirm = (): void => {
@@ -119,6 +128,9 @@ export class BuyPhoneNumbersComponent implements OnInit {
     private getCountries(): void {
         this.refs.getCountries().then(res => {
             this.countries = res;
+            this.countries.forEach( country => {
+                country.title = country.title + ' (+' + country.phoneCode + ')';
+            });
             this.selectedCountry = this.countries.find(country => country.code === 'US');
         }).catch(err => {
             // console.error(err);

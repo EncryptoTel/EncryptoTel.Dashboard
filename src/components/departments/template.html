@@ -14,7 +14,8 @@
               (onCreate)="create()"
               (onEdit)="edit($event)"
               (onSelect)="select($event)"
-              [service]="service">
+              [service]="service"
+              [sidebar]="sidebar">
     </pbx-list>
 </div>
 <pbx-sidebar *ngIf="sidebar.visible">
@@ -56,6 +57,7 @@
                                    [actions]="phoneActions"
                                    [formBuilder]="fb"
                                    (onSelect)="selectPhone($event, i)"
+                                   [placeholder]="'[choose one]'"
                         ></pbx-input>
 
                     </div>

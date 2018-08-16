@@ -20,7 +20,8 @@
                 class="partner_body"
                 [(partners)]="partners"
                 [(form)]="form"
-        ></overview-partner-program-component>
+                >
+        </overview-partner-program-component>
         <links-partner-program-component
                 *ngIf="!loading && tab.select==='Links'"
                 class="partner_body"
@@ -28,23 +29,29 @@
                 (onEdit)="edit($event)"
                 [(partners)]="partners"
                 (onSelect)="select($event)"
-        ></links-partner-program-component>
+                (onCopyToClipboard)="copyToClipboard($event)"
+                >
+        </links-partner-program-component>
         <reports-partner-program-component
                 *ngIf="tab.select==='Reports'"
                 class="partner_body"
                 [(form)]="form"
-        ></reports-partner-program-component>
+                >
+        </reports-partner-program-component>
         <terms-partner-program-component
                 *ngIf="tab.select==='Terms and Conditions'"
                 class="partner_body"
                 [(form)]="form"
-        ></terms-partner-program-component>
+                >
+        </terms-partner-program-component>
     </div>
     <pbx-sidebar
             *ngIf="tab.select==='Links' && this.selected"
             [sidebarInfo]="sidebar"
             (onClick)="click($event)"
+            (onSelect)="selectItemStatus($event)"
             [errors]="service.errors"
             [@Swipe]
-    ></pbx-sidebar>
+            >
+    </pbx-sidebar>
 </div>

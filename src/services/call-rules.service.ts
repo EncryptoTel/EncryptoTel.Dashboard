@@ -41,7 +41,7 @@ export class CallRulesService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/outer_rule';
+        this.url = 'outer_rule';
     }
 
 }

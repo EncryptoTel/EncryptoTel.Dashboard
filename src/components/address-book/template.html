@@ -13,7 +13,8 @@
               (onEdit)="edit($event)"
               (onSelect)="select($event)"
               (onLoad)="load($event)"
-              [service]="service">
+              [service]="service"
+              [sidebar]="sidebar">
     </pbx-list>
 
     <pbx-sidebar *ngIf="sidebar.visible" [sidebarInfo]="sidebar" (onClick)="click($event)" [@Swipe] [@Fade]>
@@ -79,12 +80,12 @@
                                [singleBorder]="false"
                                [floatError]="true"
                                [object]="email">
-                        <pbx-select class="value-type"
-                                    [options]="types.contactEmail"
-                                    objectKey="value"
-                                    [selected]="email.type"
-                                    (onSelect)="email.type = $event">
-                        </pbx-select>
+                        <!--<pbx-select class="value-type"-->
+                                    <!--[options]="types.contactEmail"-->
+                                    <!--objectKey="value"-->
+                                    <!--[selected]="email.type"-->
+                                    <!--(onSelect)="email.type = $event">-->
+                        <!--</pbx-select>-->
                         <div class="side_unit_icon_wrap">
                             <div class="side_unit_icon delete" *ngIf="selected.contactEmail.length > 1"
                                  (click)="deleteEmail(i)">
@@ -116,6 +117,15 @@
                            [object]="selected">
                 </pbx-input>
 
+                <pbx-input name="Position"
+                           key="position"
+                           labelPosition="top"
+                           [(errors)]="service.errors"
+                           [singleBorder]="false"
+                           [floatError]="true"
+                           [object]="selected">
+                </pbx-input>
+
                 <pbx-input name="Country"
                            key="country"
                            displayKey="title"
@@ -125,7 +135,9 @@
                            [(errors)]="service.errors"
                            [singleBorder]="false"
                            [floatError]="true"
-                           [object]="selected">
+                           [object]="selected"
+                           [placeholder]="'[choose one]'"
+                           [editable]="true">
                 </pbx-input>
 
                 <pbx-input name="Address"

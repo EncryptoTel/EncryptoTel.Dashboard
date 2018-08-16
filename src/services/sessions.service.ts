@@ -11,7 +11,7 @@ export class SessionsService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/settings/user/profile/sessions';
+        this.url = 'settings/user/profile/sessions';
     }
 
 }

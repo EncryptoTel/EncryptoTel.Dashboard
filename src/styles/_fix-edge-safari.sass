@@ -3,9 +3,48 @@
 #arrow_edge
     display: none
 
+// Safari - Tariff plans - remove black cover
+.tariff_container:after
+    z-index: -1
+
 // if Edge
 @supports (-ms-ime-align:auto)
     #arrow_edge
         display: block
     #arrow_safari
         display: none
+    main-view.dark_theme /deep/ *::-webkit-scrollbar-thumb
+        background-color: transparent
+
+// scrollbar
+// ::-webkit-scrollbar-button
+    // background-image: url('')
+    // background-repeat: no-repeat
+    // width: 5px
+    // height: 0px
+
+// ::-webkit-scrollbar-track
+    // background-color: red
+
+// ::-webkit-scrollbar-thumb
+//     -webkit-border-radius: 0px
+//     border-radius: 0px
+    // background-color: green
+
+// ::-webkit-scrollbar-thumb:hover
+//     background-color: #56999f
+
+// ::-webkit-resizer
+//     background-image: url('')
+//     background-repeat: no-repeat
+//     width: 4px
+//     height: 0px
+
+// ::-webkit-scrollbar
+//     width: 4px
+
+// safari scrollbar
+::-webkit-scrollbar
+    width: 4px
+::-webkit-scrollbar-thumb
+    background: $dark_accent

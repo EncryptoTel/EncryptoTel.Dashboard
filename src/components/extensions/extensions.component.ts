@@ -98,7 +98,7 @@ export class ExtensionsComponent implements OnInit {
     load() {
         this.sidebar = null;
         if (this.filters.length === 0) {
-            this.filters.push(new FilterItem(1, 'department', 'Department', this.list.pageInfo.departmentFilter, 'displayName'));
+            this.filters.push(new FilterItem(1, 'department', 'Department', this.list.pageInfo.departmentFilter, 'displayName', '[choose one]'));
             this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
         }
     }

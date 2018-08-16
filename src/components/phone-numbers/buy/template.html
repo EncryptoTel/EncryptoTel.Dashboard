@@ -7,18 +7,18 @@
     <div class="buy_phone_header">
         <div class="buy_phone_header_block">
             <div class="buy_phone_header_block_key">Select country:</div>
-            <pbx-select [options]="countries"
-                        [objectKey]="'title'"
-                        (onSelect)="selectCountry($event)"
-                        [selected]="selectedCountry">
-            </pbx-select>
+            <pbx-editable-select [options]="countries"
+                                 [objectKey]="'title'"
+                                 (onSelect)="selectCountry($event)"
+                                 [selected]="selectedCountry">
+            </pbx-editable-select>
             <div class="buy_phone_header_block_key">Search:</div>
             <input type="text" placeholder="Type city prefix" (keyup)="searchInit()"
                    [(ngModel)]="requestDetails.areaCode">
         </div>
         <div class="buy_phone_header_block">
             <div class="buy_phone_header_block_key">Number:</div>
-            <input type="text" placeholder="Search by digits" (keyup)="searchInit()"
+            <input #myNumberOnly type="text" placeholder="Search by digits" (keyup)="searchInit()"
                    [(ngModel)]="requestDetails.contains">
             <div class="buy_phone_header_block_key">Match to:</div>
             <pbx-select [options]="matches" [objectKey]="'title'" [selected]="matches[0]"></pbx-select>
@@ -40,7 +40,7 @@
         </div>
     </div>
     <pbx-loader *ngIf="loading"></pbx-loader>
-    <div class="buy_phone_table_contain" *ngIf="!loading">
+    <div class="buy_phone_table_contain" *ngIf="!loading && list[0].length > 0">
         <div class="buy_phone_table_title">
             <div class="buy_phone_table_item" *ngFor="let item of title">{{item}}</div>
         </div>
@@ -60,6 +60,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="table-message" *ngIf="!loading && list[0].length === 0">
+        <span *ngIf="!requestDetails.contains">No data to display</span>
+        <span *ngIf="requestDetails.contains">Sorry, no matches were found for "{{requestDetails.contains}}"</span>
     </div>
     <div class="buy_phone_pagination" *ngIf="pagination.total>1">
         <pbx-pagination [currentPage]="pagination.page"

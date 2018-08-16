@@ -30,6 +30,10 @@
           flex-direction: column
       .description_text
         align-items: center
+        overflow: hidden
+        text-overflow: ellipsis
+        width: 300px
+        display: block
         //&.column
         //  margin-top: 15px
         &.title
@@ -44,6 +48,8 @@
         color: $dark_error
       &.white
         color: $dark-white
+      &.white:hover
+        color: #22b2b4
   &_buttons
     //padding: rem(0) rem(24) rem(24)
     display: grid

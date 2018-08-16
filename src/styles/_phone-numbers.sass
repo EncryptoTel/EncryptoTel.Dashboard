@@ -1,6 +1,42 @@
 pbx-sidebar
     .description_item_wrap
         margin-bottom: 24px
+
+buy-phone-numbers-component
+    .table-message
+        margin: auto
+        font-family: Roboto, sans-serif
+        color: $dark-white_70
+        font-size: 32px
+        line-height: 32px
+
+phone-numbers-component
+    pbx-table
+        .tablet_body
+            .tablet_row
+                .tablet_content
+                    .tablet_item:last-child
+                        position: relative
+                        padding-right: 56px
+                        &:after
+                            content: url('data:image/svg+xml; utf8, <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"> <title>edit_12px</title> <g fill="#8BA55A"> <rect x="4" y="11" width="8" height="1"/> <path d="M8.59.59,1.51,7.66,0,12l4.32-1.48,7.07-7.07A2.00122,2.00122,0,0,0,8.59.59ZM3.64,9.78l-2.09.66.67-2.08ZM9.29,4.12,4.34,9.07,2.93,7.66,7.88,2.71ZM10.7,2.71l-.7.7L8.59,2l.71-.71A1,1,0,0,1,10.71,2.7Z"/></g></svg>')
+                            position: absolute
+                            top: 50%
+                            transform: translateY(-50%)
+                            right: 22px
+                            width: 12px
+                            height: 12px
+                            opacity: 0
+                &:hover
+                    .tablet_item:last-child
+                        &:after
+                            opacity: 1
+
+
+
+
+
+
     
 @media screen and (max-width: 1389px)
     buy-phone-numbers-component

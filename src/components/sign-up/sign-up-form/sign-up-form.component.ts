@@ -22,11 +22,87 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     message: FormMessageModel;
     success: string;
     signUpForm: FormGroup;
+    errorName: boolean = false;
+    errorEmail: boolean = false;
+    errorPassword: boolean = false;
+    errorConfirmPassword: boolean = false;
+    errorCheck: boolean = false;
 
     constructor(private _router: Router,
                 private _user: UserServices,
                 public services: AuthorizationServices)
     {}
+
+    setFocus(element): void {
+        switch (element.name) {
+            case 'Name':
+                this.errorName = true;
+                break;
+            case 'E-mail':
+                this.errorEmail = true;
+                break;
+            case 'Password':
+                this.errorPassword = true;
+                break;
+            case 'Confirm password':
+                this.errorConfirmPassword = true;
+                break;
+        }
+    }
+
+    removeFocus(element): void {
+        switch (element.name) {
+            case 'Name':
+                this.errorName = false;
+                break;
+            case 'E-mail':
+                this.errorEmail = false;
+                break;
+            case 'Password':
+                this.errorPassword = false;
+                break;
+            case 'Confirm password':
+                this.errorConfirmPassword = false;
+                break;
+        }
+    }
+
+    mouseEnter(element) {
+        switch (element.name) {
+            case 'Name':
+                this.errorName = true;
+                break;
+            case 'E-mail':
+                this.errorEmail = true;
+                break;
+            case 'Password':
+                this.errorPassword = true;
+                break;
+            case 'Confirm password':
+                this.errorConfirmPassword = true;
+                break;
+        }
+    }
+
+    mouseLeave(element) {
+        if (document.activeElement === element) {
+            return;
+        }
+        switch (element.name) {
+            case 'Name':
+                this.errorName = false;
+                break;
+            case 'E-mail':
+                this.errorEmail = false;
+                break;
+            case 'Password':
+                this.errorPassword = false;
+                break;
+            case 'Confirm password':
+                this.errorConfirmPassword = false;
+                break;
+        }
+    }
 
     get signUpButtonText(): string {
         if (!this.loading) {
@@ -80,6 +156,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
      Sign-up action
     */
     signUp(event?: Event): void {
+        this.errorCheck = false;
         if (event) event.preventDefault();
 
         validateForm(this.signUpForm);
@@ -91,6 +168,13 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
             .catch(() => {
                 this.loading = false;
             });
+        } else {
+            if (this.inputValidation('firstname')) this.errorName = true;
+            if ((this.inputValidation('email')) && (!this.errorName)) this.errorEmail = true;
+            if ((this.inputValidation('password')) && (!this.errorEmail && !this.errorName)) this.errorPassword = true;
+            if ((this.inputValidation('password_confirmation')) && (!this.errorPassword && !this.errorEmail && !this.errorName)) this.errorConfirmPassword = true;
+            if (!this.errorConfirmPassword &&!this.errorPassword && !this.errorEmail && !this.errorName)
+                this.errorCheck = true;
         }
     }
 

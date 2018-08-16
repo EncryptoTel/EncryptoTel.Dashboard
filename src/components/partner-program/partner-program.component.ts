@@ -32,8 +32,8 @@ export class PartnerProgramComponent implements OnInit {
     selected: PartnerProgramItem;
 
     constructor(public service: PartnerProgramService,
-                private clipboard: ClipboardService,
-                private message: MessageServices) {
+                private _clipboard: ClipboardService,
+                private _message: MessageServices) {
 
     }
 
@@ -54,13 +54,14 @@ export class PartnerProgramComponent implements OnInit {
         this.sidebar.mode = 'view';
 
         this.sidebar.buttons = [];
-        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Close', 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
         this.sidebar.buttons.push(new SidebarButtonItem(2, 'Edit', 'success'));
 
         this.sidebar.items = [];
         this.sidebar.items.push(new SidebarInfoItem(4, 'Name', this.selected.name));
         this.sidebar.items.push(new SidebarInfoItem(5, 'Status', this.selected.statusName));
-        this.sidebar.items.push(new SidebarInfoItem(6, 'Copy Ref Link', null, true, false, true, 'white'));
+        this.sidebar.items.push(new SidebarInfoItem(6, 'Link', this.selected.refLinkUrl));
+        this.sidebar.items.push(new SidebarInfoItem(7, 'Copy Link to Clipboard', this.selected, true, false, true, 'white'));
     }
 
     edit(item: PartnerProgramItem) {
@@ -68,22 +69,27 @@ export class PartnerProgramComponent implements OnInit {
         this.sidebar.mode = 'edit';
 
         this.sidebar.buttons = [];
-        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Close', 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
         this.sidebar.buttons.push(new SidebarButtonItem(3, 'Save', 'success'));
 
         this.sidebar.items = [];
+        // TODO: is value really used?
+        let editItem = new SidebarInfoItem(4, 'Name', this.selected.name);
+        editItem.init({ key: 'name', object: this.selected, edit: true });
+        this.sidebar.items.push(editItem);
+        
+        editItem = new SidebarInfoItem(6, 'Link', this.selected.refLinkUrl);
+        editItem.init({ key: 'refLinkUrl', object: this.selected, edit: true, disabled: true });
+        this.sidebar.items.push(editItem);
 
-        let option = new SidebarInfoItem(4, 'Name', this.selected, false, true);
-        option.key = 'name';
-        this.sidebar.items.push(option);
-
-        if (item.id) {
-            option = new SidebarInfoItem(4, 'Enabled', this.selected, false, true);
-            option.key = 'status';
-            option.checkbox = true;
-            this.sidebar.items.push(option);
-        }
-
+        let statusOptions = [
+            { title: 'Active', value: true, id: 1 },
+            { title: 'Disabled', value: false, id: 2 }
+        ];
+        let selectedStatusIndex = this.selected.status ? 0 : 1;
+        editItem = new SidebarInfoItem(5, 'Status', null);
+        editItem.init({ key: 'status', object: statusOptions[selectedStatusIndex], options: statusOptions });
+        this.sidebar.items.push(editItem);
     }
 
     click(item) {
@@ -98,11 +104,14 @@ export class PartnerProgramComponent implements OnInit {
                 // console.log(this.selected);
                 this.save(this.selected);
                 break;
-            case 6:
-                this.clipboard.copyFromContent(window.location.origin + this.selected.refLinkUrl);
-                this.message.writeSuccess('Ref Link copied to clipboard');
+            case 7:
+                this.copyToClipboard(this.selected);
                 break;
         }
+    }
+
+    selectItemStatus(item: any): void {
+        this.selected.status = item.value;
     }
 
     save(item: PartnerProgramItem) {
@@ -111,17 +120,17 @@ export class PartnerProgramComponent implements OnInit {
             this.partners.items.push(item);
         }
         this.partners.items.map(partner => {
-            if (item.id === partner.id) partner.loading++;
+            if (item.id === partner.id) partner.loading ++;
         });
         this.service.save(item.id, item.name, item.status).then(res => {
             this.getItems(item);
             this.selected = null;
             this.partners.items.map(partner => {
-                if (item.id === partner.id) partner.loading--;
+                if (item.id === partner.id) partner.loading --;
             });
         }).catch(() => {
             this.partners.items.map(partner => {
-                if (item.id === partner.id) partner.loading--;
+                if (item.id === partner.id) partner.loading --;
             });
         });
     }
@@ -134,6 +143,12 @@ export class PartnerProgramComponent implements OnInit {
         }).catch(() => {
             (event ? event : this).loading--;
         });
+    }
+
+    copyToClipboard(item: PartnerProgramItem): void {
+        if (this._clipboard.copyFromContent(item.refLinkUrl)) {
+            this._message.writeSuccess('Link has been copied to clipboard');
+        }
     }
 
     ngOnInit(): void {

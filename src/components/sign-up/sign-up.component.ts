@@ -12,9 +12,9 @@ import {passwordConfirmation} from '../../shared/password-confirmation';
 export class SignUpComponent {
 
     constructor(private _services: AuthorizationServices,
-                private _builder: FormBuilder) {
+                private _fb: FormBuilder) {
 
-        this._services.signUpData = this._builder.group({
+        this._services.signUpData = this._fb.group({
                 firstname: [ null, [ Validators.required, Validators.pattern(_vars.nameRegExp) ] ],
                 email: [ null, [ Validators.required, Validators.pattern(_vars.emailRegExp) ] ],
                 password: [ null, [ Validators.required, Validators.minLength(6) ] ],

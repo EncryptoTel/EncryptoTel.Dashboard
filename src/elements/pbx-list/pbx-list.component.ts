@@ -7,10 +7,10 @@ import {
     PageInfoModel,
     TableInfoExModel,
     TableInfoItem
-} from "../../models/base.model";
-import {HeaderComponent} from "../pbx-header/pbx-header.component";
-import {Router} from "@angular/router";
-import {TableComponent} from "../pbx-table/pbx-table.component";
+} from '../../models/base.model';
+import {HeaderComponent} from '../pbx-header/pbx-header.component';
+import {Router} from '@angular/router';
+import {TableComponent} from '../pbx-table/pbx-table.component';
 
 @Component({
     selector: 'pbx-list',
@@ -40,7 +40,10 @@ export class ListComponent implements OnInit {
     @Input() showEmptyInfo: boolean = true;
     @Input() EmptyInfo: string;
     @Input() hideArrow: boolean;
-
+    @Input()
+    set sidebar(sidebar: any) {
+        this._sidebar = sidebar;
+    }
     @Output() onCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
@@ -52,6 +55,12 @@ export class ListComponent implements OnInit {
     currentFilter = [];
     loadingEx: number = 0;
     filter = {loading: 0};
+    
+    _sidebar: any;
+    
+    get sidebarVisible(): boolean {
+        return this._sidebar ? this._sidebar.visible : false;
+    }
 
     constructor(private router: Router) {
 

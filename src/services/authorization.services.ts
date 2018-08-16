@@ -57,7 +57,7 @@ export class AuthorizationServices {
       Data - sign in form values
      */
     signIn(data: SignInFormModel) {
-        return this._req.post('login', {...data}).then(result => {
+        return this._req.post('login', {...data}, false).then(result => {
             if (result && !result.auth) {
                 this._services.saveUserData({secrets: this._req.getSecrets(result)});
                 let URL = this.storage.readItem('pbx_url');
@@ -68,17 +68,21 @@ export class AuthorizationServices {
                     this.router.navigateByUrl('/cabinet');
                 }
             } else if (result && result.auth) {
-                this.setMessage({
-                    type: 'success',
-                    message: result.message ? result.message : 'Confirmation code was sent to your e-mail address'
-                });
+                // this.setMessage({
+                //     type: 'success',
+                //     message: result.message ? result.message : 'Confirmation code was sent to your e-mail address'
+                // });
                 this.router.navigate(['/code-confirmation', result.hash]);
             }
         }).catch(result => {
-            this.setMessage({
-                type: 'error',
-                message: result.message ? result.message : 'Unknown server error'
-            });
+            if (result.errors) {
+                return result;
+            } else {
+                this.setMessage({
+                    type: 'error',
+                    message: result.message ? result.message : 'Unknown server error'
+                });
+            }
         });
     }
 

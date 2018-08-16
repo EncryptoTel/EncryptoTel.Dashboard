@@ -1,0 +1,90 @@
+{
+    "logotype": "./assets/images/avatar/company_details.png",
+    "company": [
+        { "key": "name", "title": "Organization", "cssClass": "organization" },
+        { "key": "companyAddress[0].country.title", "title": "Country" },
+        { "key": "companyAddress[0].regionName", "title": "State/Region" },
+        { "key": "companyAddress[0].locationName", "title": "City" },
+        { "key": "companyAddress[0].street", "title": "Street" },
+        { "key": "companyAddress[0].building", "title": "House #" },
+        { "key": "companyAddress[0].office", "title": "Office" },
+        { "key": "companyAddress[0].postalCode", "title": "Postal code" },
+        { "key": "email", "title": "Email" },
+        { "key": "phone", "title": "Phone" }
+    ],
+    "sectionGroups": [ 
+        {
+            "sections": [
+                {
+                    "title": "Information",
+                    "cssClass": "line",
+                    "items": [
+                        { "key": "outersCount", "title": "External numbers" },
+                        { "key": "innersCount", "title": "Internal numbers" },
+                        { "key": "", "title": "Unassigned Ext" },
+                        { "key": "storage.totalSize", "title": "Storage space", "type": "measure", "format": "1.0-2| ${storage.measure}" },
+                        { "key": "storage.availableSize", "title": "Available space", "type": "measure", "format": "1.0-2| ${storage.measure}" }
+                    ]
+                },
+                {
+                    "title": "Extensions",
+                    "cssClass": "line",
+                    "items": [
+                        { "key": "", "title": "All" },
+                        { "key": "", "title": "Unsorted" }
+                    ]
+                },
+                {
+                    "title": "IVR",
+                    "cssClass": "line",
+                    "items": [
+                        { "key": "", "title": "Unnamed" },
+                        { "key": "", "title": "Sales" }
+                    ]
+                }
+            ]
+        },
+        {
+            "sections": [
+                {
+                    "title": "CDR",
+                    "cssClass": "line",
+                    "items": [
+                        { "key": "", "title": "15:12:23" },
+                        { "key": "", "title": "Incoming" },
+                        { "key": "", "title": "Outgoing" },
+                        { "key": "", "title": "Missed" },
+                        { "key": "", "title": "No-answer" }
+                    ]
+                },
+                {
+                    "title": "Tariff Plan",
+                    "cssClass": "line",
+                    "items": [
+                        { "key": "tariffPlan.title", "title": "Tariff Plan" },
+                        { "key": "tariffPlan.expired", "title": "Next monthly payment", "type": "date" },
+                        { "key": "tariffPlan.sum", "title": "Estimated Payment", "type": "currency", "format": "${balance.currency.shortName}|1.1-2" },
+                        { "key": "", "title": "Auto-payment" },
+                        { "key": "balance.currency.code", "title": "Account currency" }
+                    ]
+                },
+                {
+                    "title": "Invoices",
+                    "cssClass": "line",
+                    "items": [
+                        { "key": "", "title": "Unpaid" }
+                    ]
+                }
+            ]
+        },
+        {
+            "sections": [
+                {
+                    "title": "Phone numbers",
+                    "cssClass": "number",
+                    "items": []
+                }
+            ]
+        }
+    ]
+}

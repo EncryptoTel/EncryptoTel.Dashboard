@@ -69,7 +69,7 @@ export class ExtensionService extends BaseService {
     }
 
     onInit() {
-        this.url = 'v1/sip/inners';
+        this.url = 'sip/inners';
     }
 
 }

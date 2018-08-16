@@ -15,6 +15,7 @@ export class InputComponent implements OnInit {
     @Input() name: string;
     @Input() description: string;
     @Input() descriptionClass: string;
+    @Input() disabled: boolean;
     @Input() inputClass: string = '';
     @Input() type: string = 'text';
     @Input() placeholder: string = '';
@@ -23,6 +24,7 @@ export class InputComponent implements OnInit {
     @Input() errors: any;
     @Input() objectView: any;
     @Input() options: any[];
+    @Input() editable: boolean;
     @Input() displayKey: string;
     @Input() checkbox: boolean;
     @Input() trueValue: any;
@@ -51,6 +53,12 @@ export class InputComponent implements OnInit {
     @Input() validatorMinLengthMsg: string;
     @Input() validatorMaxLengthMsg: string;
     @Input() validatorPatternMsg: string;
+    @Input()
+    set errorShow(errorShow:boolean) {
+        this._errorShow = errorShow;
+        this.checkError();
+    }
+    _errorShow: boolean = false;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -65,22 +73,19 @@ export class InputComponent implements OnInit {
     prevFormError;
     hoverActive = false;
     loading = 0;
+    pbxInputFocus = false;
 
     constructor() {
     }
 
     setFocus(): void {
-        // if (this.checkError()) {
-            // this.errorSpan.nativeElement.focus();
         this.errorVisible = true;
-        // }
+        this.pbxInputFocus = true;
     }
 
     removeFocus(): void {
-        // if (this.checkError()) {
-            // this.errorSpan.nativeElement.blur();
         this.errorVisible = false;
-        // }
+        this.pbxInputFocus = false;
     }
 
 
@@ -119,7 +124,11 @@ export class InputComponent implements OnInit {
 
     checkError(textOnly = null): string {
         if (!this.errors) {
-            return this.checkForm(textOnly);
+            if(this._errorShow) {
+                return this.checkForm(textOnly);
+            } else {
+                return '';
+            }
         }
         let error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
         let result = (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm(textOnly));
@@ -152,7 +161,7 @@ export class InputComponent implements OnInit {
             }
             return null;
         }
-        
+
         return form && form.touched && form.invalid;
     }
 
@@ -166,6 +175,8 @@ export class InputComponent implements OnInit {
                 return this.validatorMaxLengthMsg ? this.validatorMaxLengthMsg : 'This value is too long';
             case 'pattern':
                 return this.validatorPatternMsg ? this.validatorPatternMsg : 'This value is invalid';
+            case 'duplicated':
+                return this.validatorPatternMsg ? this.validatorPatternMsg : 'Extension number cannot be the same as previous';
             default:
                 return 'This value is invalid';
         }
@@ -190,27 +201,27 @@ export class InputComponent implements OnInit {
         this.onKeyUp.emit($event);
     }
 
-    selectItem($event) {
+    selectItem(event: any): void {
         this.resetError();
         if (this.form) {
-            this.value = $event;
+            this.value = event;
             // this.objectView.id = $event.id;
             // this.objectView[this.displayKey] = $event[this.displayKey];
-            this.key ? this.getForm().setValue($event.id) : null;
+            this.key ? this.getForm().setValue(event) : null;
         } else {
             if (this.updateObjectByObject) {
-                this.object[this.key] = $event;
+                this.object[this.key] = event;
             } else {
-                this.object[this.key] = $event.id;
+                this.object[this.key] = event.id;
             }
             if (this.updateValueByKey) {
-                this.value.id = $event.id;
-                this.value[this.displayKey] = $event[this.displayKey];
+                this.value.id = event.id;
+                this.value[this.displayKey] = event[this.displayKey];
             } else {
-                this.value = $event;
+                this.value = event;
             }
         }
-        this.onSelect.emit($event);
+        this.onSelect.emit(event);
     }
 
     toggleCheckbox($event) {
@@ -307,16 +318,20 @@ export class InputComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loading++;
+        this.loading ++;
+
         if (this.form && this.checkbox) {
             this.value = this.getForm() ? this.getForm().value : false;
-        } else if (this.options) {
+        }
+        else if (this.options) {
             if (this.updateObjectByObject) {
                 this.value = this.object[this.key];
-            } else {
+            }
+            else {
                 this.value = this.objectView ? this.objectView : this.object;
             }
-        } else {
+        }
+        else {
             this.value = this.object[this.key];
         }
 
@@ -324,7 +339,8 @@ export class InputComponent implements OnInit {
             this.falseValue ? this.falseValue : false,
             this.trueValue ? this.trueValue : true
         ];
-        this.loading--;
+
+        this.loading --;
         // console.log(this.key, JSON.stringify(this.value));
     }
 
