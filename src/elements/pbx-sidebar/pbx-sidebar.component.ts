@@ -10,7 +10,10 @@ import {SidebarInfoModel} from "../../models/base.model";
 export class SidebarComponent {
     @Input() sidebarInfo: SidebarInfoModel;
     @Input() errors: any;
+    
     @Output() onClick: EventEmitter<SidebarInfoModel> = new EventEmitter<SidebarInfoModel>();
+    @Output() onSelect: EventEmitter<any> = new EventEmitter<any>();
+
 
     viewItems() {
         return this.sidebarInfo.items.filter(item => {
@@ -19,9 +22,9 @@ export class SidebarComponent {
     }
 
     editItems() {
-        return this.sidebarInfo.items.filter(item => {
-            return item.edit;
-        });
+        return this.sidebarInfo.items.filter(item => 
+            item.edit || item.options
+        );
     }
 
     click(item) {
@@ -33,4 +36,7 @@ export class SidebarComponent {
         return Array.isArray(item.value);
     }
 
+    selectItem(item: any): void {
+        this.onSelect.emit(item);
+    }
 }

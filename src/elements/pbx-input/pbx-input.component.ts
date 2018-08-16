@@ -15,6 +15,7 @@ export class InputComponent implements OnInit {
     @Input() name: string;
     @Input() description: string;
     @Input() descriptionClass: string;
+    @Input() disabled: boolean;
     @Input() inputClass: string = '';
     @Input() type: string = 'text';
     @Input() placeholder: string = '';
@@ -307,16 +308,20 @@ export class InputComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loading++;
+        this.loading ++;
+        
         if (this.form && this.checkbox) {
             this.value = this.getForm() ? this.getForm().value : false;
-        } else if (this.options) {
+        } 
+        else if (this.options) {
             if (this.updateObjectByObject) {
                 this.value = this.object[this.key];
-            } else {
+            }
+            else {
                 this.value = this.objectView ? this.objectView : this.object;
             }
-        } else {
+        }
+        else {
             this.value = this.object[this.key];
         }
 
@@ -324,7 +329,8 @@ export class InputComponent implements OnInit {
             this.falseValue ? this.falseValue : false,
             this.trueValue ? this.trueValue : true
         ];
-        this.loading--;
+
+        this.loading --;
         // console.log(this.key, JSON.stringify(this.value));
     }
 

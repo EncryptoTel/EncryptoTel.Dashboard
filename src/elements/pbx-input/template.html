@@ -27,7 +27,8 @@
                        (blur)="removeFocus()"
                        (mouseenter)="mouseEnter()"
                        (mouseleave)="mouseLeave()"
-                >
+                       [disabled]="disabled"
+                       >
 
                 <pbx-select *ngIf="options && !editable"
                             [name]="key"

@@ -6,45 +6,49 @@
                 class="sidebar_info_title"
         >{{sidebarInfo.title}}</div>
         <div class="sidebar_description_wrap">
-            <div
-                    *ngFor="let item of sidebarInfo.mode === 'edit' ? editItems() : viewItems()"
-                    class="sidebar_info_description">
-                <div
-                        *ngIf="sidebarInfo.mode !== 'edit' && !item.value && !item.link"
-                        class="description_text">
-                    {{item.title}}
+            <div *ngFor="let item of sidebarInfo.mode === 'edit' ? editItems() : viewItems()"
+                 class="sidebar_info_description"
+                 >
+                <div *ngIf="sidebarInfo.mode !== 'edit' && !item.value && !item.link"
+                     class="description_text"
+                     >
+                    {{ item.title }}
                 </div>
-                <div
-                        *ngIf="sidebarInfo.mode !== 'edit' && item.value && !item.link && !isArray(item)"
-                        class="description_item_wrap {{sidebarInfo.position}}">
-                    <div class="description_text title">{{item.title}}</div>
-                    <div class="description_text">{{item.value}}</div>
+                <div *ngIf="sidebarInfo.mode !== 'edit' && item.value && !item.link && !isArray(item)"
+                     class="description_item_wrap {{ sidebarInfo.position }}">
+                    <div class="description_text title">{{ item.title }}</div>
+                    <div class="description_text">{{ item.value }}</div>
                 </div>
-                <div
-                        *ngIf="sidebarInfo.mode !== 'edit' && item.value && !item.link && isArray(item)"
-                        class="description_item_wrap {{sidebarInfo.position}}">
-                    <div class="description_text title">{{item.title}}</div>
-                    <div class="description_text" *ngFor="let value of item.value">{{value}}</div>
+                <div *ngIf="sidebarInfo.mode !== 'edit' && item.value && !item.link && isArray(item)"
+                     class="description_item_wrap {{ sidebarInfo.position }}"
+                     >
+                    <div class="description_text title">{{ item.title }}</div>
+                    <div class="description_text" *ngFor="let value of item.value">{{ value }}</div>
                 </div>
-                <div
-                        *ngIf="sidebarInfo.mode !== 'edit' && item.link" (click)="click(item)"
-                        class="sidebar_description_link  {{item.className ? item.className : 'warning'}}">
-                    {{item.title}}
+                
+                <div *ngIf="sidebarInfo.mode !== 'edit' && item.link"
+                     (click)="click(item)"
+                     class="sidebar_description_link {{ item.className ? item.className : 'warning' }}"
+                     >
+                    {{ item.title }}
                 </div>
-                <div
-                        *ngIf="sidebarInfo.mode === 'edit'"
-                        style="width: 100%"
-                >
-                    <pbx-input
-                            labelPosition="top"
-                            style="width: 100%"
-                            [singleBorder]="false"
-                            [name]="item.title"
-                            [key]="item.key"
-                            [object]="item.value"
-                            [checkbox]="item.checkbox"
-                            [errors]="errors"
-                    ></pbx-input>
+                
+                <div *ngIf="sidebarInfo.mode === 'edit'" style="width: 100%">
+                    <pbx-input labelPosition="top"
+                               style="width: 100%"
+                               [singleBorder]="false"
+                               [name]="item.title"
+                               [key]="item.key"
+                               [object]="item.object"
+                               [checkbox]="item.checkbox"
+                               [options]="item.options"
+                               [editable]="false"
+                               [displayKey]="'title'"
+                               [errors]="errors"
+                               [disabled]="item.disabled"
+                               (onSelect)="selectItem($event)"
+                        >
+                    </pbx-input>
                 </div>
             </div>
         </div>

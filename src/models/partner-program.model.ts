@@ -5,9 +5,12 @@ export class PartnerProgramModel extends PageInfoModel {
 }
 
 export class PartnerProgramItem extends BaseItemModel {
+    public id: number;
     public name: string;
     public refLink: string;
     public status: boolean;
+    public totalBonus: number;
+    public created: Date;
 
     get statusName(): string {
         return this.status ? 'Active' : 'Disabled';
@@ -23,10 +26,14 @@ export class PartnerProgramItem extends BaseItemModel {
     constructor(response?: any) {
         super();
         this.name = '';
+
         if (response) {
             this.id = response.id;
             this.name = response.name;
             this.status = response.status;
+            this.refLink = response.refLink;
+            this.totalBonus = response.totalBonus;
+            this.created = new Date(Date.parse(response.created));
         }
     }
 

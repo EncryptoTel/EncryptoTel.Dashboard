@@ -54,7 +54,7 @@ export class PartnerProgramComponent implements OnInit {
         this.sidebar.mode = 'view';
 
         this.sidebar.buttons = [];
-        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Close', 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
         this.sidebar.buttons.push(new SidebarButtonItem(2, 'Edit', 'success'));
 
         this.sidebar.items = [];
@@ -69,22 +69,27 @@ export class PartnerProgramComponent implements OnInit {
         this.sidebar.mode = 'edit';
 
         this.sidebar.buttons = [];
-        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Close', 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
         this.sidebar.buttons.push(new SidebarButtonItem(3, 'Save', 'success'));
 
         this.sidebar.items = [];
+        // TODO: is value really used?
+        let editItem = new SidebarInfoItem(4, 'Name', this.selected.name);
+        editItem.init({ key: 'name', object: this.selected, edit: true });
+        this.sidebar.items.push(editItem);
+        
+        editItem = new SidebarInfoItem(6, 'Link', this.selected.refLinkUrl);
+        editItem.init({ key: 'refLinkUrl', object: this.selected, edit: true, disabled: true });
+        this.sidebar.items.push(editItem);
 
-        let option = new SidebarInfoItem(4, 'Name', this.selected, false, true);
-        option.key = 'name';
-        this.sidebar.items.push(option);
-
-        if (item.id) {
-            option = new SidebarInfoItem(4, 'Enabled', this.selected, false, true);
-            option.key = 'status';
-            option.checkbox = true;
-            this.sidebar.items.push(option);
-        }
-
+        let statusOptions = [
+            { title: 'Active', value: true, id: 1 },
+            { title: 'Disabled', value: false, id: 2 }
+        ];
+        let selectedStatusIndex = this.selected.status ? 0 : 1;
+        editItem = new SidebarInfoItem(5, 'Status', null);
+        editItem.init({ key: 'status', object: statusOptions[selectedStatusIndex], options: statusOptions });
+        this.sidebar.items.push(editItem);
     }
 
     click(item) {
@@ -105,23 +110,27 @@ export class PartnerProgramComponent implements OnInit {
         }
     }
 
+    selectItemStatus(item: any): void {
+        this.selected.status = item.value;
+    }
+
     save(item: PartnerProgramItem) {
         if (!item.id) {
             // item = new PartnerProgramItem();
             this.partners.items.push(item);
         }
         this.partners.items.map(partner => {
-            if (item.id === partner.id) partner.loading++;
+            if (item.id === partner.id) partner.loading ++;
         });
         this.service.save(item.id, item.name, item.status).then(res => {
             this.getItems(item);
             this.selected = null;
             this.partners.items.map(partner => {
-                if (item.id === partner.id) partner.loading--;
+                if (item.id === partner.id) partner.loading --;
             });
         }).catch(() => {
             this.partners.items.map(partner => {
-                if (item.id === partner.id) partner.loading--;
+                if (item.id === partner.id) partner.loading --;
             });
         });
     }
@@ -141,34 +150,6 @@ export class PartnerProgramComponent implements OnInit {
             this._message.writeSuccess('Link has been copied to clipboard');
         }
     }
-
-    // copyToClipboard(value: string): Promise<boolean> {
-    //     let promise = new Promise<boolean>((resolve, reject): void => {
-    //         let textarea = null;
-    //         try {
-    //             textarea = document.createElement('textarea');
-    //             textarea.style.height = '0px';
-    //             textarea.style.left = '-100px';
-    //             textarea.style.opacity = '0';
-    //             textarea.style.position = 'fixed';
-    //             textarea.style.top = '-100px';
-    //             textarea.style.width = '0px';
-    //             document.body.appendChild(textarea);
-    
-    //             textarea.value = value;
-    //             textarea.select();
-    //             document.execCommand('copy');
-
-    //             resolve(true);
-    //         }
-    //         finally {
-    //             if (textarea && textarea.parentNode) {
-    //                 textarea.parentNode.removeChild(textarea);
-    //             }
-    //         }
-    //     });
-    //     return promise;
-    // }
 
     ngOnInit(): void {
         this.getItems();
