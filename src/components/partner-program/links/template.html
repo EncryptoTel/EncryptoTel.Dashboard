@@ -3,12 +3,12 @@
         <span>Generate Link</span>
         <pbx-button buttonType="accent" value="Create Link" (onClick)="clickCreateLink()"></pbx-button>
     </div>
-
     <pbx-table [tableInfoEx]="table"
                [tableItems]="partners.items"
                [editable]="true"
                [deletable]="true"
                [multiple]="false"
+               [tableReload]="tableReload"
                (onSelect)="select($event)"
                (onEdit)="edit($event)"
                (onDelete)="delete($event)"

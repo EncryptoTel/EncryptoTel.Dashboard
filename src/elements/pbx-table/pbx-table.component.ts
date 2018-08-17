@@ -30,6 +30,7 @@ export class TableComponent implements OnInit {
     @Input() multiple: boolean;
     @Input() columnFormat: string[];
     @Input() name: string;
+    @Input() tableReload: number = 0;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();

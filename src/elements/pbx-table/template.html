@@ -16,7 +16,8 @@
             <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
         </div>
     </div>
-    <div class="tablet_body">
+    <pbx-loader *ngIf="tableReload"></pbx-loader>
+    <div class="tablet_body" *ngIf="!tableReload">
         <div class="tablet_row" *ngFor="let item of tableItems"
              [ngClass]="{'pick': multiple ? isSelected(item.id) : selected?.id === item.id}">
             <pbx-loader *ngIf="item.loading"></pbx-loader>

@@ -33,6 +33,7 @@ export class LinksPartnerProgramComponent implements OnInit {
     };
     loading = 0;
     selected: PartnerProgramItem;
+    tableReload = 0;
 
     constructor(private _service: PartnerProgramService) {
         this.table.sort.isDown = false;
@@ -92,9 +93,12 @@ export class LinksPartnerProgramComponent implements OnInit {
     }
 
     sort() {
+        this.tableReload++;
         this._service.getItems(this.partners, null, this.table ? this.table.sort : null).then(res => {
             this.partners = res;
+            this.tableReload--;
         }).catch(() => {
+            this.tableReload--;
         });
     }
 
