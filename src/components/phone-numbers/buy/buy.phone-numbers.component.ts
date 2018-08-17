@@ -147,9 +147,8 @@ export class BuyPhoneNumbersComponent implements OnInit {
             areaCode: '',
             contains: '',
             page: 1,
-            // limit: calculateHeight(this.table, this.row) * 2
             limit: 40,
-            local: true,
+            local: false,
             mobile: false,
             tollFree: false
         };

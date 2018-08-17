@@ -12,8 +12,8 @@ export class PartnerProgramService extends BaseService {
         }
     }
 
-    getItems(pageInfo: PageInfoModel, filter = null): Promise<PartnerProgramModel> {
-        return super.getItems(pageInfo, filter).then((res: PartnerProgramModel) => {
+    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<PartnerProgramModel> {
+        return super.getItems(pageInfo, filter, sort).then((res: PartnerProgramModel) => {
             let pageInfo = this.plainToClassEx(PartnerProgramModel, PartnerProgramItem, res);
             return Promise.resolve(pageInfo);
         });
