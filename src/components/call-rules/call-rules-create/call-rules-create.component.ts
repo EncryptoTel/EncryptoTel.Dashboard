@@ -40,7 +40,7 @@ export class CallRulesCreateComponent implements OnInit {
     loading: number = 0;
     loadingStuff: number = 0;
     timeRulePattern = /(\*|[0-9]*:[0-9]*-[0-9]*:[0-9]*)\|(\*|(sun|mon|tue|wed|thu|fri|sat)(&(sun|mon|tue|wed|thu|fri|sat))*)\|(\*|[0-9]*)\|(\*|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(&(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))*)/;
-    currentMediaStream: string;
+    currentMediaStream: string = '/assets/mp3/rington.mp3';
     playButtonText: string;
 
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;

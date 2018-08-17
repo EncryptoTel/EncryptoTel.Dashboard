@@ -84,7 +84,7 @@ export class TableComponent implements OnInit {
 
     getValueByKeyEx(item: any, key: string): string {
         let result: any = this.getValueByKey(item, key);
-        return result === true || result === false ? '' : result
+        return result === true || result === false ? '' : result;
     }
 
     getValueByKey(item: any, key: string): string {

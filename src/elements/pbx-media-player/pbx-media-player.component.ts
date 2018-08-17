@@ -16,8 +16,8 @@ export class MediaPlayerComponent implements OnChanges {
     mediaStreams: {};
     selectedMediaId: number;
     loading: number;
-    
-    @Input() mediaStream: string;
+
+    @Input() mediaStream: string = '/assets/mp3/rington.mp3';
 
     @Output() onPlayerReady: EventEmitter<VgAPI>;
     @Output() onTimeUpdate: EventEmitter<object>;
@@ -29,8 +29,8 @@ export class MediaPlayerComponent implements OnChanges {
 
     get state(): MediaState {
         if (this.loading) return MediaState.Loading;
-        return (this.api && this.api.state == 'playing') 
-            ? MediaState.Playing 
+        return (this.api && this.api.state == 'playing')
+            ? MediaState.Playing
             : MediaState.Paused;
     }
 

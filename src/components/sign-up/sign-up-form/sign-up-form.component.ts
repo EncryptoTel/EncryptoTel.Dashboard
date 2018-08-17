@@ -34,6 +34,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     {}
 
     setFocus(element): void {
+        this.errorCheck = false;
         switch (element.name) {
             case 'Name':
                 this.errorName = true;
