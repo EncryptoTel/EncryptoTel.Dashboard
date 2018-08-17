@@ -61,7 +61,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
         let current: string;
         current = this.numberInput.nativeElement.value;
-        if (document.activeElement.name === this.numberInput.nativeElement.name) {
+        if (document.activeElement.getAttribute('name') === this.numberInput.nativeElement.name) {
             let next: string;
             next = current.concat(event.key);
             if (next && !String(next).match(new RegExp(/^-?[0-9]+(\.[0-9]*){0,1}$/g))) {
