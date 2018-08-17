@@ -3,6 +3,25 @@ pbx-sidebar
         overflow: hidden
         .side_unit_icon *
             fill: $dark_success
+    &.sidebar_partner_program
+        .sidebar_description_wrap
+            .sidebar_info_description:nth-child(2)
+                input
+                    background: $dark_sidebar_input_link
+        .sidebar_description_link.accent
+            color: $dark_accent
+    pbx-input[name="Country"]
+        .pbx_input_row_input_wrap
+            .select_item
+                position: relative
+                input
+                    position: absolute
+                    top: 0
+                    bottom: 0
+                    right: 0
+                    left: 0
+
+
 
 .sidebar
     .sidebar_description_wrap
