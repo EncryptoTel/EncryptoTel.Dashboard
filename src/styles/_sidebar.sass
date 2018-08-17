@@ -1,6 +1,9 @@
 pbx-sidebar
     .sidebar
         overflow: hidden
+        .sidebar_description_wrap .description_text.title
+            color: rgba(255, 255, 255, .8) !important
+            opacity: 1 !important
         .side_unit_icon *
             fill: $dark_success
     &.sidebar_partner_program
@@ -20,6 +23,8 @@ pbx-sidebar
                     bottom: 0
                     right: 0
                     left: 0
+        .select_wrap.active
+            border: 1px solid $dark_accent !important
 
 
 
