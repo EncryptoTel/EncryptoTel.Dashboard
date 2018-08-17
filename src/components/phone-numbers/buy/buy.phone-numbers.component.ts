@@ -53,16 +53,20 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
     @HostListener('window:keydown', ['$event'])
     keyEvent(event: KeyboardEvent) {
-        console.log(event);
-
-        let specialKeys: Array<string> = [ 'Backspace', 'Tab', 'End', 'Home'];
+        let specialKeys: Array<string>;
+        specialKeys = [ 'Backspace', 'Tab', 'End', 'Home'];
         if (specialKeys.indexOf(event.key) !== -1) {
             return;
         }
-        let current: string = this.numberInput.nativeElement.value;
-        let next: string = current.concat(event.key);
-        if (next && !String(next).match(new RegExp(/^-?[0-9]+(\.[0-9]*){0,1}$/g))) {
-            event.preventDefault();
+
+        let current: string;
+        current = this.numberInput.nativeElement.value;
+        if (document.activeElement.name === this.numberInput.nativeElement.name) {
+            let next: string;
+            next = current.concat(event.key);
+            if (next && !String(next).match(new RegExp(/^-?[0-9]+(\.[0-9]*){0,1}$/g))) {
+                event.preventDefault();
+            }
         }
     }
 
