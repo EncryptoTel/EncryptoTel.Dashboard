@@ -18,7 +18,7 @@
         <vg-volume></vg-volume>
     </vg-controls>
 
-    <audio #media muted autoplay
+    <audio #media muted
         [vgMedia]="media"
         [vgHls]="mediaStream"
         (onGetBitrates)="hlsBitrates = $event"
