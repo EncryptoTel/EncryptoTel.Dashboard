@@ -52,6 +52,7 @@ import {AddExtensionsComponent} from '../components/extensions/add/add.extension
 import {CompanyComponent} from '../components/company/company.component';
 
 import {DepartmentsComponent} from '../components/departments/department.component';
+import {DepartmentCreateComponent} from '../components/departments/department-create/department-create.component';
 
 import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
 
@@ -194,7 +195,21 @@ const Routes: Routes = [
                 ]
             },
             {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},
-            {path: 'departments', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
+            {
+                path: 'departments', children: [
+                    {path: '', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
+                    {
+                        path: 'create',
+                        component: DepartmentCreateComponent,
+                        data: {title: 'Create Department', indexed: true},
+                    },
+                    {
+                        path: ':id',
+                        component: DepartmentCreateComponent,
+                        data: {title: 'Edit Departments', indexed: true},
+                    }
+                ]
+            },
             {
                 path: 'extensions', children: [
                     {path: '', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},

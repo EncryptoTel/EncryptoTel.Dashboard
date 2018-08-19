@@ -29,6 +29,24 @@ export class BaseItemModel {
 
 }
 
+export class BaseButton implements Lockable {
+    value: string;
+    action: string;     // used to fire button action
+    buttonType: string; // 'success|cancel'
+    inactive: boolean;
+
+    locker: Locker;
+
+    constructor(value: string, action: string, type: string = 'success', inactive: boolean = false) {
+        this.value = value;
+        this.action = action;
+        this.buttonType = type;
+        this.inactive = inactive;
+
+        this.locker = new Locker();
+    }
+}
+
 export class BaseParam {
     id: number;
     code: string;
@@ -272,4 +290,36 @@ export class RecordModel {
     public mediaPlayTime: number = 0;
     public onTimeChange: Subscription = null;
     public onPlayEnd: Subscription = null;
+}
+
+/**
+ * interface Lockable
+ * declares ability of the object to count locks
+ */
+export interface Lockable {
+    locker: Locker;
+}
+
+/**
+ * class Locker
+ * Implements interface to count locks for on the object
+ */
+export class Locker {
+    private _lockCount: number;
+    
+    get free(): boolean {
+        return this._lockCount == 0;
+    }
+
+    constructor() {
+        this._lockCount = 0;
+    }
+
+    public lock(): void {
+        this._lockCount ++;
+    }
+
+    public unlock(): void {
+        this._lockCount --;
+    }
 }

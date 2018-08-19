@@ -18,8 +18,8 @@ import {ButtonItem, InputAction} from "../../models/base.model";
     providers: [CompanyService],
     animations: [FadeAnimation('300ms')]
 })
-
 export class DepartmentsComponent implements OnInit {
+    
     @ViewChild(ListComponent) list;
 
     sidebar = {
@@ -44,9 +44,9 @@ export class DepartmentsComponent implements OnInit {
     phoneActions: InputAction[] = [];
 
     constructor(public service: DepartmentService,
-                public fb: FormBuilder,
-                private refs: RefsServices,
-                private company: CompanyService) {
+                private _fb: FormBuilder,
+                private _refs: RefsServices,
+                private _company: CompanyService) {
 
         this.buttons.push({
             id: 0,
@@ -56,10 +56,10 @@ export class DepartmentsComponent implements OnInit {
             inactive: true,
         });
 
-        this.departmentForm = this.fb.group({
+        this.departmentForm = this._fb.group({
             name: [null, [Validators.required, Validators.maxLength(190)]],
             comment: [null, [Validators.maxLength(255)]],
-            sipInner: this.fb.array([])
+            sipInner: this._fb.array([])
         });
 
         this.phoneActions.push(new InputAction(1, 'add-delete', this.sipInners()));
@@ -185,7 +185,7 @@ export class DepartmentsComponent implements OnInit {
     }
 
     private createPhoneField(): FormControl {
-        return this.fb.control('', []);
+        return this._fb.control('', []);
     }
 
     private formatSipOuters(items): void {
@@ -219,7 +219,7 @@ export class DepartmentsComponent implements OnInit {
 
     private getSipOuters(): void {
         this.sidebar.loading++;
-        this.refs.getSipOuters().then(res => {
+        this._refs.getSipOuters().then(res => {
             this.formatSipOuters(res);
             this.sidebar.loading--;
         }).catch(() => {
@@ -229,7 +229,7 @@ export class DepartmentsComponent implements OnInit {
 
     private getCompany() {
         this.loading++;
-        this.company.getCompany().then((res) => {
+        this._company.getCompany().then((res) => {
             this.companyActive = !!res.id;
             this.buttons[0].inactive = !this.companyActive;
             this.buttons[0].visible = this.companyActive;

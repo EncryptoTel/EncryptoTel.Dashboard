@@ -10,15 +10,13 @@
               itemName="Department"
               [EmptyInfo]="companyActive ? null : getEmptyInfo()"
               [hideArrow]="!companyActive"
-              [buttons]="buttons"
-              (onCreate)="create()"
-              (onEdit)="edit($event)"
               (onSelect)="select($event)"
               [service]="service"
-              [sidebar]="sidebar">
+              >
     </pbx-list>
 </div>
-<pbx-sidebar *ngIf="sidebar.visible">
+
+<!-- <pbx-sidebar *ngIf="sidebar.visible">
     <pbx-loader *ngIf="sidebar.loading"></pbx-loader>
     <ng-container *ngIf="!sidebar.loading && sidebar.mode === 'edit'">
         <pbx-loader *ngIf="saving"></pbx-loader>
@@ -104,4 +102,4 @@
             <pbx-button [value]="'Edit'" [buttonType]="'success'" (onClick)="edit(selected)"></pbx-button>
         </div>
     </ng-container>
-</pbx-sidebar>
+</pbx-sidebar> -->

@@ -14,20 +14,20 @@ import {Router} from '@angular/router';
 
 @Injectable()
 export class UserTokenInterceptor implements HttpInterceptor {
-    constructor(
-        private _storage: LocalStorageServices,
-        private router: Router
-    ) {}
+    
+    constructor(private _storage: LocalStorageServices,
+                private _router: Router)
+    {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const user: UserModel = this._storage.readItem('pbx_user');
         if ((request.url.includes('encry') || request.url.includes('.loc')) && !request.url.match(/files.*encry/i) && user) {
-        const type = user.secrets.token_type;
-        return next.handle(request.clone({
-            headers: request.headers.append('Authorization', `Bearer ${user.secrets.access_token}`)
-        }));
-        }else {
-            console.log('handle', request);
+            const type = user.secrets.token_type;
+            return next.handle(request.clone({
+                headers: request.headers.append('Authorization', `Bearer ${user.secrets.access_token}`)
+            }));
+        }
+        else {
             return next.handle(request);
         }
     }
