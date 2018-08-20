@@ -1,3 +1,13 @@
 .light_theme
     .navigation_block_wrap
-        
+        .navigation_item_icon
+            path, polygon, circle
+                fill: $white_black !important
+        .navigation_block
+            > div:hover
+                path, polygon, circle
+                    fill: $white_salad !important
+        .navigation_item.active
+            path, polygon, circle
+                fill: $white_salad !important
+
