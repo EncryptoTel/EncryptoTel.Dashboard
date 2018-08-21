@@ -71,15 +71,18 @@ export class TableComponent implements OnInit {
             ev.preventDefault();
         }
         this.selectedDelete = item;
-        this.modal.body = '';
-        let body: string = '';
-        let innerCount;
-        innerCount = 0;
-        if (item.sipInners.length > 0) {
-           innerCount = item.sipInners.length;
+        if (this.name === 'Phone Number') {
+            this.modal.body = '';
+            let body: string;
+            body = '';
+            let innerCount;
+            innerCount = 0;
+            if (item.sipInners && item.sipInners.length > 0) {
+                innerCount = item.sipInners.length;
+            }
+            body = body.concat('Are you sure you want to delete ', item.phoneNumber, ' and ', innerCount, ' Ext(s)?');
+            this.modal.body = body;
         }
-        body = body.concat('Are you sure you want to delete ', item.phoneNumber, ' and ', innerCount, ' Ext(s)?');
-        this.modal.body = body;
         this.modal.visible = true;
     }
 
