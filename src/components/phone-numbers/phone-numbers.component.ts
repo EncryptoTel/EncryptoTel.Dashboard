@@ -67,12 +67,12 @@ export class PhoneNumbersComponent implements OnInit {
             this.list.getItems(this.selected);
             let status: string;
             if (this.selected.status = 0) {
-                status = '"Enable"';
+                status = 'enabled';
             }
             if (this.selected.status = 1) {
-                status = '"Disable"';
+                status = 'disabled';
             }
-            this.message.writeSuccess('Phone number has ben ' + status);
+            this.message.writeSuccess('The phone number has been ' + status);
             this.selected.loading--;
         }).catch(() => {
             this.selected.loading--;
