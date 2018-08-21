@@ -7,3 +7,26 @@
         button.success
             background: $white_button_success
             color: $dark-white
+        input:not([type="submit"])
+            color: $white_black
+            border: 1px solid $white_black !important
+            &:focus
+                border: 1px solid $white_salad !important
+        pbx-editable-select,
+        pbx-select
+            .select_item.selected
+                border: 1px solid $white_black !important
+            .select_options
+                background: $white_grey_dark !important
+            .select_item
+                color: $white_black !important
+        pbx-select
+            .select_wrap
+                &.active
+                    .select_item.selected
+                        border: 1px solid $white_salad !important
+        .checkbox
+            &.active
+                &:after
+                    content: url('data:image/svg+xml; utf8, <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><title>ok_32px</title><polygon fill="#000" points="31.91 5.75 31.2 5.04 10.71 25.55 0.8 15.62 0.09 16.33 10.71 26.96 10.71 26.96 10.71 26.96 31.91 5.75"/></svg>') !important
+                    background: none
