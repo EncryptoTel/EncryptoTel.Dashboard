@@ -1,12 +1,12 @@
-import {Component, PipeTransform, Pipe, ViewChild, ViewChildren, QueryList, Output, EventEmitter, OnChanges, SimpleChanges, Input} from "@angular/core";
-import {Subscription} from "rxjs/Subscription";
-import {TimerObservable} from "rxjs/observable/TimerObservable";
-import {VgAPI} from "videogular2/core";
-import {VgHLS} from "videogular2/src/streaming/vg-hls/vg-hls";
-import {TableComponent} from "../pbx-table/pbx-table.component";
-import {FadeAnimation} from "../../shared/fade-animation";
-import {PlayerAnimation} from "../../shared/player-animation";
-import {MediaTablePlayerComponent} from "../pbx-media-table-player/pbx-media-table-player.component";
+import {Component, PipeTransform, Pipe, ViewChild, ViewChildren, QueryList, Output, EventEmitter, OnChanges, SimpleChanges, Input} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
+import {TimerObservable} from 'rxjs/observable/TimerObservable';
+import {VgAPI} from 'videogular2/core';
+import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
+import {TableComponent} from '../pbx-table/pbx-table.component';
+import {FadeAnimation} from '../../shared/fade-animation';
+import {PlayerAnimation} from '../../shared/player-animation';
+import {MediaTablePlayerComponent} from '../pbx-media-table-player/pbx-media-table-player.component';
 
 @Component({
     selector: 'pbx-media-table',
@@ -19,7 +19,7 @@ import {MediaTablePlayerComponent} from "../pbx-media-table-player/pbx-media-tab
 })
 export class MediaTableComponent extends TableComponent implements OnChanges {
 
-    public currentMediaStream: string;
+    public currentMediaStream: string = '/assets/mp3/rington.mp3';
 
     private _selectedItem: any;
     private _itemsSubscribed = false;
@@ -36,7 +36,7 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
     // - component level methdos --------------------------
 
     ngOnInit(): void {}
-    
+
     ngOnChanges(changes: SimpleChanges) {
         if (changes.tableItems) {
             this.subscribePlayerEvents();
@@ -143,7 +143,7 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
             }
         }
     }
-    
+
     loadMediaData(item: any): void {
         this.onGetMediaData.emit(item);
     }
@@ -158,7 +158,7 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
         if (this.currentMediaStream == this._selectedItem.record.mediaStream) {
             this.startMediaPlaying(this._selectedItem, true);
         }
-        
+
         this._selectedItem.record.mediaLoading = true;
         let timer: Subscription = TimerObservable.create(0, 100).subscribe(
             () => {
@@ -174,22 +174,6 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
                     });
             });
     }
-    // method is deprecated, but kept for knowledge base
-    // convertMediaDataToBlob(base64data: string): string {
-    //     // const dataURI = 'data:audio/x-mp3;base64,' + base64data;
-    //     const mimeType = 'audio/x-mp3';
-    //
-    //     const byteString = atob(base64data);
-    //     const ab = new ArrayBuffer(byteString.length);
-    //     const ia = new Uint8Array(ab);
-    //     for (let i = 0; i < byteString.length; i++) {
-    //         ia[i] = byteString.charCodeAt(i);
-    //     }
-    //     const blob = new Blob([ab], {type: mimeType});
-    //     const blobUrl = window.URL.createObjectURL(blob);
-    //
-    //     return blobUrl;
-    // }
 }
 
 @Pipe({

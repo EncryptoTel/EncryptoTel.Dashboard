@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {PartnerProgramService} from '../../../services/partner-program.service';
 import {PartnerProgramItem, PartnerProgramModel} from "../../../models/partner-program.model";
+import {TableInfoExModel, TableInfoItem} from '../../../models/base.model';
 
 @Component({
     selector: 'links-partner-program-component',
@@ -13,32 +14,13 @@ import {PartnerProgramItem, PartnerProgramModel} from "../../../models/partner-p
 
 export class LinksPartnerProgramComponent implements OnInit {
     @Input() partners: PartnerProgramModel;
-    
+
     @Output() onReload: EventEmitter<any> = new EventEmitter<any>();
     @Output() onSelect: EventEmitter<PartnerProgramItem> = new EventEmitter();
     @Output() onEdit: EventEmitter<PartnerProgramItem> = new EventEmitter();
     @Output() onCopyToClipboard: EventEmitter<PartnerProgramItem> = new EventEmitter();
 
-    table = {
-        title: {
-            titles: [
-                'Name',
-                'Link',
-                'Status',
-                'Visited',
-                'Registered',
-                'Rewards Summary'
-            ],
-            keys: [
-                'name',
-                'refLink',
-                'status',
-                'visited',
-                'registered',
-                'totalBonus'
-            ]
-        }
-    };
+    public table: TableInfoExModel = new TableInfoExModel();
 
     modalDelete = {
         visible: false,
@@ -51,8 +33,19 @@ export class LinksPartnerProgramComponent implements OnInit {
     };
     loading = 0;
     selected: PartnerProgramItem;
+    tableReload = 0;
 
     constructor(private _service: PartnerProgramService) {
+        this.table.sort.isDown = false;
+        this.table.sort.column = 'name';
+        this.table.items = [
+            new TableInfoItem('Name', 'name', 'name'),
+            new TableInfoItem('Link', 'refLink', 'refLink'),
+            new TableInfoItem('Status', 'status', 'status'),
+            new TableInfoItem('Visited', 'visited', 'visited'),
+            new TableInfoItem('Registered', 'registered', 'registered'),
+            new TableInfoItem('Rewards Summary', 'totalBonus', 'totalBonus'),
+        ];
     }
 
     changePage(page: number) {
@@ -97,6 +90,16 @@ export class LinksPartnerProgramComponent implements OnInit {
     clickCreateLink() {
         let item = new PartnerProgramItem();
         this.onEdit.emit(item);
+    }
+
+    sort() {
+        this.tableReload++;
+        this._service.getItems(this.partners, null, this.table ? this.table.sort : null).then(res => {
+            this.partners = res;
+            this.tableReload--;
+        }).catch(() => {
+            this.tableReload--;
+        });
     }
 
     copyToClipboard(item: PartnerProgramItem, event: MouseEvent): void {

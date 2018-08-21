@@ -1,12 +1,40 @@
 pbx-sidebar
     .sidebar
         overflow: hidden
+        .sidebar_description_wrap
+            display: grid
+            .description_text.title
+                color: rgba(255, 255, 255, .8) !important
+                opacity: unset !important
         .side_unit_icon *
             fill: $dark_success
+    &.sidebar_partner_program
+        .sidebar_description_wrap
+            .sidebar_info_description:nth-child(2)
+                input
+                    background: $dark_sidebar_input_link
+        .sidebar_description_link.accent
+            color: $dark_accent
+    pbx-input[name="Country"]
+        .pbx_input_row_input_wrap
+            .select_options
+                margin-top: 1px
+            .select_item
+                position: relative
+                input
+                    position: absolute
+                    top: 0
+                    bottom: 0
+                    right: 0
+                    left: 0
+        .select_wrap.active
+            border: 1px solid $dark_accent !important
+
+
 
 .sidebar
     .sidebar_description_wrap
-        overflow-y: unset !important
+        // overflow-y: unset !important
 
     .error-text
         span

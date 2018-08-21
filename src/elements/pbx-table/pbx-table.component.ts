@@ -30,6 +30,7 @@ export class TableComponent implements OnInit {
     @Input() multiple: boolean;
     @Input() columnFormat: string[];
     @Input() name: string;
+    @Input() tableReload: number = 0;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
@@ -70,6 +71,18 @@ export class TableComponent implements OnInit {
             ev.preventDefault();
         }
         this.selectedDelete = item;
+        if (this.name === 'Phone Number') {
+            this.modal.body = '';
+            let body: string;
+            body = '';
+            let innerCount;
+            innerCount = 0;
+            if (item.sipInners && item.sipInners.length > 0) {
+                innerCount = item.sipInners.length;
+            }
+            body = body.concat('Are you sure you want to delete ', item.phoneNumber, ' and ', innerCount, ' Ext(s)?');
+            this.modal.body = body;
+        }
         this.modal.visible = true;
     }
 
@@ -79,7 +92,7 @@ export class TableComponent implements OnInit {
 
     getValueByKeyEx(item: any, key: string): string {
         let result: any = this.getValueByKey(item, key);
-        return result === true || result === false ? '' : result
+        return result === true || result === false ? '' : result;
     }
 
     getValueByKey(item: any, key: string): string {

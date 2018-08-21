@@ -15,7 +15,7 @@ export class BaseService {
     public get url(): string {
         return this._url;
     }
-    
+
     public set url(uri: string) {
         this._url = [ environment.backApiVersion, uri ].join('/');
     }
@@ -30,6 +30,9 @@ export class BaseService {
         let pageInfo: PageInfoModel = plainToClass(classModel, res);
         pageInfo.items = [];
         res['items'].map(item => {
+            if(item.created) {
+                item.created = item.created.replace(/-/g, '/');
+            }
             pageInfo.items.push(plainToClass(classItems, item));
         });
         return pageInfo;

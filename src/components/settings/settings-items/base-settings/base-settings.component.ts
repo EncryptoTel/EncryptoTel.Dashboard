@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {SettingsService} from '../../../../services/settings.service';
 import {FadeAnimation} from '../../../../shared/fade-animation';
-import {MessageServices} from "../../../../services/message.services";
+import {MessageServices} from '../../../../services/message.services';
 
 @Component({
     selector: 'base-settings-component',
