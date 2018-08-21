@@ -66,10 +66,10 @@ export class PhoneNumbersComponent implements OnInit {
         this.service.toggleNumber(this.selected.id, !this.selected.status).then(() => {
             this.list.getItems(this.selected);
             let status: string;
-            if (this.selected.status = 0) {
+            if (this.selected.status === 0) {
                 status = 'enabled';
             }
-            if (this.selected.status = 1) {
+            if (this.selected.status === 1) {
                 status = 'disabled';
             }
             this.message.writeSuccess('The phone number has been ' + status);
