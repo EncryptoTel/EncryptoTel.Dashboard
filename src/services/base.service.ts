@@ -30,7 +30,9 @@ export class BaseService {
         let pageInfo: PageInfoModel = plainToClass(classModel, res);
         pageInfo.items = [];
         res['items'].map(item => {
-            item.created = item.created.replace(/-/g, '/');
+            if(item.created) {
+                item.created = item.created.replace(/-/g, '/');
+            }
             pageInfo.items.push(plainToClass(classItems, item));
         });
         return pageInfo;
