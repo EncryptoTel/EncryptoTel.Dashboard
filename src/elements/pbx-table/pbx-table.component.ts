@@ -73,7 +73,12 @@ export class TableComponent implements OnInit {
         this.selectedDelete = item;
         this.modal.body = '';
         let body: string = '';
-        body = body.concat('Are you sure you want to delete ', item.phoneNumber, ' and ', item.sipInners.length, ' Ext(s)?');
+        let innerCount;
+        innerCount = 0;
+        if (item.sipInners.length > 0) {
+           innerCount = item.sipInners.length;
+        }
+        body = body.concat('Are you sure you want to delete ', item.phoneNumber, ' and ', innerCount, ' Ext(s)?');
         this.modal.body = body;
         this.modal.visible = true;
     }
