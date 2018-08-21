@@ -7,7 +7,6 @@ import {Router} from '@angular/router';
 import {PhoneNumberItem, PhoneNumberModel} from '../../models/phone-number.model';
 import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {MessageServices} from '../../services/message.services';
-import {stat} from 'fs';
 
 @Component({
     selector: 'phone-numbers-component',
