@@ -5,11 +5,17 @@
             .pbx_input_row_label
                 span
                     color: $white_black_60
-            input,
-            textarea
+            input
                 border-color: $white_input_border
                 color: $white_black
                 font-weight: 300
+                border-top: none !important
+                border-left: none !important
+                border-right: none !important
+                &:focus
+                    border-top: none !important
+                    border-left: none !important
+                    border-right: none !important
         pbx-view-edit-control
             .view-edit-control-header
                 background: $white_grey_dark
