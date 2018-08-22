@@ -1,0 +1,20 @@
+<div class="view-edit-control-wrapper" *ngIf="!editMode">
+    <div class="view-edit-control-header">
+        {{ headerText }}
+        <pbx-button (onClick)="toggleEditMode()" value="{{ buttonText }}"></pbx-button>
+    </div>
+    <pbx-table [tableInfo]="tableInfo"
+               [tableItems]="selectedItems" 
+               (onDelete)="deleteItem($event)">
+    </pbx-table>
+</div>
+<div class="view-edit-control-wrapper" *ngIf="editMode">
+    <div class="view-edit-control-header">
+        <ng-content></ng-content>
+    </div>
+    <pbx-table [tableInfo]="tableInfo" 
+               [tableItems]="remainingItems" 
+               (onSelect)="selectItem($event)"
+               (onDelete)="selectItem($event)">
+    </pbx-table>
+</div>

@@ -211,6 +211,8 @@
 
 profile-component
     flex-direction: row !important
+    pbx-input[name="Patronymic"]
+      display: none
     .form-body-content
       min-height: unset
     .profile_settings_photo
@@ -234,14 +236,14 @@ profile-component
               min-height: 179px
               border-radius: 100%
               overflow: hidden
-              border: 1px solid $dark_sidebar_pic_border
+              // border: 1px solid $dark_sidebar_pic_border
               margin: auto
               position: relative
               img
                 position: absolute
                 top: 50%
                 left: 50%
-                transform: translate(-50%, -50%)
+                transform: translate(-50%, -50%) scale(.6)
           .grey
             height: 34px
             background: $dark_sidebar_lines

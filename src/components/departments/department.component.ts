@@ -77,12 +77,13 @@ export class DepartmentsComponent implements OnInit {
     }
 
     create(): void {
-        this.resetForEdit();
-        this.reset();
-        const sips = this.departmentForm.get('sipInner') as FormArray;
-        sips.push(this.createPhoneField());
-        this.sidebar.mode = 'edit';
-        this.sidebar.visible = true;
+        console.log('create');
+        // this.resetForEdit();
+        // this.reset();
+        // const sips = this.departmentForm.get('sipInner') as FormArray;
+        // sips.push(this.createPhoneField());
+        // this.sidebar.mode = 'edit';
+        // this.sidebar.visible = true;
     }
 
     close(): void {
@@ -91,28 +92,29 @@ export class DepartmentsComponent implements OnInit {
     }
 
     edit(item: DepartmentItem): void {
-        this.sidebar.mode = 'edit';
-        this.selected = item;
-        this.departmentForm.get('name').setValue(item.name);
-        this.departmentForm.get('comment').setValue(item.comment);
-        this.resetForEdit();
-        const sipsForm = this.departmentForm.get('sipInner') as FormArray;
+        console.log('edit', item);
+        // this.sidebar.mode = 'edit';
+        // this.selected = item;
+        // this.departmentForm.get('name').setValue(item.name);
+        // this.departmentForm.get('comment').setValue(item.comment);
+        // this.resetForEdit();
+        // const sipsForm = this.departmentForm.get('sipInner') as FormArray;
 
-        if (item.sipInnerIds.length === 0) {
-            sipsForm.push(this.createPhoneField());
-        }
+        // if (item.sipInnerIds.length === 0) {
+        //     sipsForm.push(this.createPhoneField());
+        // }
 
-        for (let i = 0; i < item.sipInnerIds.length; i++) {
-            for (let x = 0; x < this.sips.length; x++) {
-                if (item.sipInnerIds[i] === this.sips[x].id) {
-                    this.sips[x].blocked = true;
-                    this.selectedSips.push(this.sips[x]);
-                    sipsForm.push(this.createPhoneField());
-                    sipsForm.get(`${i}`).setValue(this.sips[x].id);
-                }
-            }
-        }
-        this.sidebar.visible = true;
+        // for (let i = 0; i < item.sipInnerIds.length; i++) {
+        //     for (let x = 0; x < this.sips.length; x++) {
+        //         if (item.sipInnerIds[i] === this.sips[x].id) {
+        //             this.sips[x].blocked = true;
+        //             this.selectedSips.push(this.sips[x]);
+        //             sipsForm.push(this.createPhoneField());
+        //             sipsForm.get(`${i}`).setValue(this.sips[x].id);
+        //         }
+        //     }
+        // }
+        // this.sidebar.visible = true;
     }
 
     getSelectNumbers(): Sip[] {

@@ -1,4 +1,5 @@
 import {Subscription} from "../../node_modules/rxjs/Subscription";
+import {Lockable, Locker} from "./locker.model";
 
 export class PageInfoModel {
     public itemsCount: number;
@@ -290,36 +291,4 @@ export class RecordModel {
     public mediaPlayTime: number = 0;
     public onTimeChange: Subscription = null;
     public onPlayEnd: Subscription = null;
-}
-
-/**
- * interface Lockable
- * declares ability of the object to count locks
- */
-export interface Lockable {
-    locker: Locker;
-}
-
-/**
- * class Locker
- * Implements interface to count locks for on the object
- */
-export class Locker {
-    private _lockCount: number;
-    
-    get free(): boolean {
-        return this._lockCount == 0;
-    }
-
-    constructor() {
-        this._lockCount = 0;
-    }
-
-    public lock(): void {
-        this._lockCount ++;
-    }
-
-    public unlock(): void {
-        this._lockCount --;
-    }
 }

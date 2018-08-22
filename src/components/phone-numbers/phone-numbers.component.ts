@@ -1,11 +1,12 @@
-///<reference path="../../shared/swipe-animation.ts"/>
+///<reference path='../../shared/swipe-animation.ts'/>
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PhoneNumberService} from '../../services/phone-number.service';
 import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel} from '../../models/base.model';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {Router} from '@angular/router';
-import {PhoneNumberItem, PhoneNumberModel} from "../../models/phone-number.model";
-import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
+import {PhoneNumberItem, PhoneNumberModel} from '../../models/phone-number.model';
+import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
+import {MessageServices} from '../../services/message.services';
 
 @Component({
     selector: 'phone-numbers-component',
@@ -34,7 +35,8 @@ export class PhoneNumbersComponent implements OnInit {
     @ViewChild(ListComponent) list: ListComponent;
 
     constructor(public service: PhoneNumberService,
-                public router: Router) {
+                public router: Router,
+                private message: MessageServices) {
         this.sidebar.title = '';
     }
 
@@ -63,6 +65,14 @@ export class PhoneNumbersComponent implements OnInit {
         this.selected.loading++;
         this.service.toggleNumber(this.selected.id, !this.selected.status).then(() => {
             this.list.getItems(this.selected);
+            let status: string;
+            if (this.selected.status === 0) {
+                status = 'enabled';
+            }
+            if (this.selected.status === 1) {
+                status = 'disabled';
+            }
+            this.message.writeSuccess('The phone number has been ' + status);
             this.selected.loading--;
         }).catch(() => {
             this.selected.loading--;
