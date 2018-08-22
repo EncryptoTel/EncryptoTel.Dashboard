@@ -22,11 +22,6 @@
                 background: $white_grey_dark !important
             .select_item
                 color: $white_black !important
-        pbx-editable-select
-            .select_wrap.active
-                input,
-                .select_item.selected
-                    // border: none !important
         pbx-select
             .select_wrap
                 &.active
@@ -62,7 +57,8 @@
             .form-body-content,
             .form-ballast
                 background: $white_grey_dark !important
-        pbx-call-rules-create
+        pbx-call-rules-create,
+        pbx-call-queues-create
             pbx-button
                 button
                     span
@@ -80,5 +76,8 @@
                 .pbx_input_item_label
                     span
                         color: $white_black_70
+        .pbx_list_empty
+            .pbx_list_empty_text
+                color: $white_black
 
 
