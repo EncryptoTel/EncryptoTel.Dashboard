@@ -1,13 +1,18 @@
 .light_theme
     pbx-call-queues-create,
-    ring-groups-create-component
+    ring-groups-create-component,
+    pbx-department-create
         .form-header
             .form-tab
                 background: $white_queue_tab_grey_light
+                span
+                    color: $white_black_70
                 &:hover
                     // background: $white_grey_hover
                 &.selected
                     background: $white_grey_dark
+                    span
+                        color: $dark_accent
         pbx-queue-members
             .call_queues_members_header
                 background: $white_grey_dark
