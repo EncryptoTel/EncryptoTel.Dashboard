@@ -6,30 +6,31 @@
             <pbx-loader *ngIf="!locker.free"></pbx-loader>
             <div class="call_queues_general_body" *ngIf="locker.free">
                 <div class="queue-group-create">
-                    <h3 class="queue-group-create_h3">Create Department</h3>
+                    <h3 class="queue-group-create_h3">Information</h3>
                 </div>
                 <form class="sidebar_form" [formGroup]="departmentForm" *ngIf="!saving">
 
-                        <pbx-input name="Department"
+                        <pbx-input name="Name"
                                    key="name"
                                    labelPosition="top"
                                    [form]="true"
                                    [singleBorder]="false"
                                    [floatError]="true"
-                                   [required]="true"
+                                   [required]="false"
                                    [object]="departmentForm"
                                    [errors]="service.errors"
+                                   placeholder="Accounts department"
                                    >
                         </pbx-input>
-                        <pbx-input name="Comment"
+                        <pbx-input name="Description"
                                    key="comment"
                                    labelPosition="top"
-                                   type="textarea"
                                    [form]="true"
                                    [singleBorder]="false"
                                    [floatError]="true"
                                    [object]="departmentForm"
                                    [errors]="service.errors"
+                                   placeholder="Accounts Payable (money out), Accounts Receivable and Revenue Tracking (money in), Payroll, Reporting and Financial Statements, Financial Controls."
                                    >
                         </pbx-input>
             
@@ -64,16 +65,15 @@
         </div>
     </pbx-tab>
     <!-- Members tab content -->
-    <pbx-tab tabTitle='Sip Inners'>
+    <pbx-tab tabTitle='Members'>
         <pbx-view-edit-control #sipInnersControl
-                               buttonText="Add SipInner"
-                               headerText="Sip Inners"
+                               buttonText="Add Member"
+                               headerText="Department Members"
                                [tableInfo]="sipTable"
                                [items]="sips"
                                [(selectedItems)]="selectedSips"
                                (onEditModeChanged)="sipInnersEditModeChanged($event)"
                                >
-            &lt; form elements here ... &gt;
         </pbx-view-edit-control>
     </pbx-tab>
 </pbx-tabs>
