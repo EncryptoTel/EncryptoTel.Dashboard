@@ -60,4 +60,9 @@ export class ViewEditControlComponent implements OnInit, OnChanges {
         this.selectedItems.push(item);
         this.intersectItems();
     }
+
+    deleteItem(item: any): void {
+        this.selectedItems = this.selectedItems.filter(i => i.id !== item.id);
+        this.intersectItems();
+    }
 }
