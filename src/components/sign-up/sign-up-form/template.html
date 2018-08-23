@@ -7,30 +7,30 @@
     <div class="input_wrap">
       <input #nameInput name="Name" placeholder="Name" formControlName="firstname" (focus)="setFocus(nameInput)" (blur)="removeFocus(nameInput)" (mouseenter)="mouseEnter(nameInput)" (mouseleave)="mouseLeave(nameInput)">
       <div class="input_error" *ngIf="inputValidation('firstname') && errorName" [@Fade]>
-        <span class="input_error_item" *ngIf="inputValidation('firstname', 'required')">Please enter your name</span>
-        <span class="input_error_item" *ngIf="inputValidation('firstname', 'pattern')">Name should contain only letters and "-", "'" or "."</span>
+        <span class="input_error_item qwe" *ngIf="inputValidation('firstname', 'required')">Please enter your name</span>
+        <span class="input_error_item qwe" *ngIf="inputValidation('firstname', 'pattern')">Name should contain only letters and "-", "'" or "."</span>
       </div>
     </div>
     <div class="input_wrap">
       <input #emailInput name="E-mail" placeholder="E-mail" formControlName="email" (focus)="setFocus(emailInput)" (blur)="removeFocus(emailInput)" (mouseenter)="mouseEnter(emailInput)" (mouseleave)="mouseLeave(emailInput)">
       <div class="input_error" *ngIf="inputValidation('email') && errorEmail" [@Fade]>
-        <span class="input_error_item" *ngIf="inputValidation('email', 'required')">Please enter your e-mail</span>
-        <span class="input_error_item" *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>
+        <span class="input_error_item qwe" *ngIf="inputValidation('email', 'required')">Please enter your e-mail</span>
+        <span class="input_error_item qwe" *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>
       </div>
     </div>
     <div class="input_wrap">
       <input #passwordInput type="password" name="Password" placeholder="Password" formControlName="password" (focus)="setFocus(passwordInput)" (blur)="removeFocus(passwordInput)" (mouseenter)="mouseEnter(passwordInput)" (mouseleave)="mouseLeave(passwordInput)">
       <div class="input_error" *ngIf="inputValidation('password') && errorPassword" [@Fade]>
-        <span class="input_error_item" *ngIf="inputValidation('password', 'required')">Please enter password</span>
-        <span class="input_error_item" *ngIf="inputValidation('password', 'minlength')">Password is too short</span>
+        <span class="input_error_item qwe" *ngIf="inputValidation('password', 'required')">Please enter password</span>
+        <span class="input_error_item qwe" *ngIf="inputValidation('password', 'minlength')">Password is too short</span>
       </div>
     </div>
     <div class="input_wrap">
       <input #passwordConfirmInput type="password" name="Confirm password" placeholder="Confirm password" [ngClass]="{'ng-invalid ng-touched': signUpForm.errors || inputValidation('password_confirmation')}" formControlName="password_confirmation" (focus)="setFocus(passwordConfirmInput)" (blur)="removeFocus(passwordConfirmInput)" (mouseenter)="mouseEnter(passwordConfirmInput)" (mouseleave)="mouseLeave(passwordConfirmInput)">
       <div class="input_error" *ngIf="(inputValidation('password_confirmation') || signUpForm.errors) && errorConfirmPassword" [@Fade]>
-        <span class="input_error_item" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'required')">Please confirm your password</span>
-        <span class="input_error_item" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'minlength')">Password is too short</span>
-        <div class="input_error_item" *ngIf="signUpForm.errors && passwordsMismatch()">Passwords don't match</div>
+        <span class="input_error_item qwe" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'required')">Please confirm your password</span>
+        <span class="input_error_item qwe" *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'minlength')">Password is too short</span>
+        <div class="input_error_item qwe" *ngIf="signUpForm.errors && passwordsMismatch()">Passwords don't match</div>
       </div>
     </div>
 

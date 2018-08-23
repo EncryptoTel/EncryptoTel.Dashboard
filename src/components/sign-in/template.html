@@ -5,16 +5,16 @@
     <div class="input_wrap">
       <input #nameInput name="Username" id="username" placeholder="Email or internal number" formControlName="login" (focus)="setFocus(nameInput)" (blur)="removeFocus(nameInput)" (mouseenter)="mouseEnter(nameInput)" (mouseleave)="mouseLeave(nameInput)">
       <div class="input_error" *ngIf="inputValidation('login') && errorName" [@Fade]>
-        <span class="input_error_item" *ngIf="inputValidation('login', 'required')">Please enter your e-mail address or internal number</span>
-        <span class="input_error_item" *ngIf="inputValidation('login', 'pattern')">Please enter correct e-mail address or internal number</span>
+        <span class="input_error_item qwe" *ngIf="inputValidation('login', 'required')">Please enter your e-mail address or internal number</span>
+        <span class="input_error_item qwe" *ngIf="inputValidation('login', 'pattern')">Please enter correct e-mail address or internal number</span>
       </div>
     </div>
     <div class="input_wrap">
       <input #passwordInput type="password" name="Password" placeholder="Password" formControlName="password" (focus)="setFocus(passwordInput)" (blur)="removeFocus(passwordInput)" (mouseenter)="mouseEnter(passwordInput)" (mouseleave)="mouseLeave(passwordInput)">
       <div class="input_error" *ngIf="(inputValidation('password') && errorPassword) || passwordFormError" [@Fade]>
-        <span class="input_error_item" *ngIf="!passwordFormError && inputValidation('password', 'required')">Please enter password</span>
-        <span class="input_error_item" *ngIf="!passwordFormError && inputValidation('password', 'minlength')">Password is too short</span>
-        <span class="input_error_item" *ngIf="passwordFormError">{{passwordFormErrorMessage}}</span>
+        <span class="input_error_item qwe" *ngIf="!passwordFormError && inputValidation('password', 'required')">Please enter password</span>
+        <span class="input_error_item qwe" *ngIf="!passwordFormError && inputValidation('password', 'minlength')">Password is too short</span>
+        <span class="input_error_item qwe" *ngIf="passwordFormError">{{passwordFormErrorMessage}}</span>
       </div>
     </div>
     <pbx-button [buttonType]="'accent'" [loading]="loading" [value]="'Sign In'" (onClick)="signIn()"></pbx-button>
