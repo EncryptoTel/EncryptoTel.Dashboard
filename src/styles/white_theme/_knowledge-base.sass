@@ -11,11 +11,16 @@
                 .item
                     .title
                         color: $white_black !important
+                        &.title-open
+                            color: $dark_accent !important
                     .desc
                         color: $white_black_50 !important
                     svg-icon
                         polygon
                             fill: $white_black !important
+                        &.rotate
+                            polygon
+                                fill: $dark_accent !important
                     &:hover
                         .title
                             color: $dark_accent !important
