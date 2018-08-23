@@ -51,13 +51,13 @@ export class Waiter {
             let timer = TimerObservable.create(period, period).subscribe(() => {
                 if (observable.free) {
                     if (showLog) console.log('[waiter] success, execution time', attemptCount * period);
-                    resolve();
                     timer.unsubscribe();
+                    resolve();
                 }
                 else if (++ attemptCount > maxAttemptCount) {
                     if (showLog) console.log('[waiter] timeout, execution time', attemptCount * period);
-                    reject();
                     timer.unsubscribe();
+                    reject();
                 }
                 else {
                     if (showLog) console.log('[waiter] tick, execution time', attemptCount * period);

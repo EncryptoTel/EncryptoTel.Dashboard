@@ -4,8 +4,9 @@
         <pbx-button (onClick)="toggleEditMode()" value="{{ buttonText }}"></pbx-button>
     </div>
     <pbx-table [tableInfo]="tableInfo"
-               [tableItems]="selectedItems" 
-               (onDelete)="deleteItem($event)">
+               [tableItems]="selectedItems"
+               [multiple]="false"
+               (onDelete)="deleteSelectedItem($event)">
     </pbx-table>
 </div>
 <div class="view-edit-control-wrapper" *ngIf="editMode">
@@ -13,7 +14,9 @@
         <ng-content></ng-content>
     </div>
     <pbx-table [tableInfo]="tableInfo" 
-               [tableItems]="remainingItems" 
+               [tableItems]="items"
+               [selected]="selectedItems"
+               [multiple]="true"
                (onSelect)="selectItem($event)"
                (onDelete)="selectItem($event)">
     </pbx-table>

@@ -1,5 +1,8 @@
-<pbx-tabs [buttons]="tabsButtons()"
-          (onClick)="buttonClick($event)">
+<pbx-tabs #departmentFormTabs
+          [buttons]="tabsButtons()"
+          (onClick)="buttonClick($event)"
+          (onTabChange)="tabChanged($event)"
+          >
     <!-- General tab content -->
     <pbx-tab tabTitle='General'>
         <div class="department_form_wrapper">
@@ -9,55 +12,28 @@
                     <h3 class="queue-group-create_h3">Information</h3>
                 </div>
                 <form class="sidebar_form" [formGroup]="departmentForm" *ngIf="!saving">
-
                         <pbx-input name="Name"
                                    key="name"
-                                   labelPosition="top"
+                                   [object]="departmentForm.get('generalForm')"
                                    [form]="true"
-                                   [singleBorder]="false"
-                                   [floatError]="true"
+                                   errorShow="true"
+                                   validatorRequiredMsg="Please enter name"
+                                   validatorMaxLengthMsg="Please enter no more than 190 characters"
+                                   labelPosition="top"
+                                   [singleBorder]="true"
                                    [required]="true"
-                                   [object]="departmentForm"
-                                   [errors]="service.errors"
                                    >
                         </pbx-input>
                         <pbx-input name="Description"
                                    key="comment"
-                                   labelPosition="top"
+                                   [object]="departmentForm.get('generalForm')"
                                    [form]="true"
+                                   errorShow="true"
+                                   validatorMaxLengthMsg="Please enter no more than 255 characters"
+                                   labelPosition="top"
                                    [singleBorder]="false"
-                                   [floatError]="true"
-                                   [object]="departmentForm"
-                                   [errors]="service.errors"
                                    >
                         </pbx-input>
-            
-                        <!-- <div class="sidebar_row select_row">
-                            <div formArrayName="sipInner" class="sidebar_row unmargin">
-                                <div class="sidebar_row_select"
-                                        *ngFor="let sip of sipInners.controls; let i = index;"
-                                        [formGroupName]="i">
-                                    <pbx-input name="Department Phone"
-                                                displayKey="phoneNumber"
-                                                formKey="sipInner"
-                                                errorKey="sipInner"
-                                                labelPosition="top"
-                                                [options]="getSelectNumbers()"
-                                                [singleBorder]="false"
-                                                [index2]="i"
-                                                [form]="true"
-                                                [floatError]="true"
-                                                [object]="departmentForm"
-                                                [objectView]="selectedSips[i]"
-                                                [errors]="service.errors"
-                                                [actions]="phoneActions"
-                                                [formBuilder]="_fb"
-                                                [placeholder]="'[choose one]'"
-                                                (onSelect)="selectPhone($event, i)">
-                                    </pbx-input>
-                                </div>
-                            </div>
-                        </div> -->
                 </form>
             </div>
         </div>
@@ -67,11 +43,11 @@
         <pbx-view-edit-control #sipInnersControl
                                buttonText="Add Member"
                                headerText="Department Members"
-                               [tableInfo]="sipTable"
+                               [tableInfo]="sipTableContext"
                                [items]="sips"
                                [(selectedItems)]="selectedSips"
-                               (onEditModeChanged)="sipInnersEditModeChanged($event)"
                                >
+            &nbsp;
         </pbx-view-edit-control>
     </pbx-tab>
 </pbx-tabs>

@@ -168,15 +168,15 @@ export class InputComponent implements OnInit {
     getValidatorMessage(errorKey: string): string {
         switch (errorKey) {
             case 'required':
-                return this.validatorRequiredMsg ? this.validatorRequiredMsg : 'This value is required';
+                return this.validatorRequiredMsg || 'This value is required';
             case 'minlength':
-                return this.validatorMinLengthMsg ? this.validatorMinLengthMsg : 'This value is too short';
+                return this.validatorMinLengthMsg || 'This value is too short';
             case 'maxlength':
-                return this.validatorMaxLengthMsg ? this.validatorMaxLengthMsg : 'This value is too long';
+                return this.validatorMaxLengthMsg || 'This value is too long';
             case 'pattern':
-                return this.validatorPatternMsg ? this.validatorPatternMsg : 'This value is invalid';
+                return this.validatorPatternMsg || 'This value is invalid';
             case 'duplicated':
-                return this.validatorPatternMsg ? this.validatorPatternMsg : 'Extension number cannot be the same as previous';
+                return this.validatorPatternMsg || 'Extension number cannot be the same as previous';
             default:
                 return 'This value is invalid';
         }

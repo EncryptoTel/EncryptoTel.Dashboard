@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { FadeAnimation } from "../../shared/fade-animation";
+
 
 @Component({
     selector: 'pbx-view-edit-control',
@@ -7,7 +8,7 @@ import { FadeAnimation } from "../../shared/fade-animation";
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
-export class ViewEditControlComponent implements OnInit, OnChanges {
+export class ViewEditControlComponent implements OnInit {
     editMode: boolean;
 
     @Input() headerText: string;
@@ -16,7 +17,6 @@ export class ViewEditControlComponent implements OnInit, OnChanges {
     @Input() tableInfo: {};
     @Input() items: any[];
     @Input() selectedItems: any[];
-    remainingItems: any[];
 
     @Output() onEditModeChanged: EventEmitter<boolean>;
 
@@ -27,42 +27,26 @@ export class ViewEditControlComponent implements OnInit, OnChanges {
 
     ngOnInit(): void {}
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.items && changes.items.currentValue || changes.selectedItems && changes.selectedItems.currentValue) {
-            this.intersectItems();
-        }
-    }
-
     toggleEditMode(): void {
         this.editMode = !this.editMode;
         this.onEditModeChanged.emit(this.editMode);
     }
 
-    intersectItems(): void {
-        if (this.items) {
-            if (this.selectedItems) {
-                const selectedIds = this.selectedItems.map(item => item.id);
-                this.remainingItems = this.items.filter(item => selectedIds.indexOf(item.id) < 0);
-            }
-            else {
-                this.remainingItems = this.items;
-            }
-        }
-
-        if (this.remainingItems.length == 0 && this.editMode) {
-            this.toggleEditMode();
-        }
-    }
-
     selectItem(item: any): void {
-        // console.log('selected', item);
         if (!this.selectedItems) this.selectedItems = [];
-        this.selectedItems.push(item);
-        this.intersectItems();
+        if (this.isSelected(item)) {
+            this.deleteSelectedItem(item);
+        }
+        else {
+            this.selectedItems.push(item);
+        }
     }
 
-    deleteItem(item: any): void {
+    isSelected(item: any): boolean {
+        return this.selectedItems.find(i => i.id === item.id) ? true : false;
+    }
+
+    deleteSelectedItem(item: any): void {
         this.selectedItems = this.selectedItems.filter(i => i.id !== item.id);
-        this.intersectItems();
     }
 }
