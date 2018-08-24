@@ -11,8 +11,8 @@
             <div class="dashboard_balance_value">{{dashboard.balance.ett}}</div>
         </div>
         <div class="dashboard_item_link_row">
-            <a class="dashboard_item_link_item" [routerLink]="'../invoices'" routerLinkActive="active">
-                Transaction history
+            <a class="dashboard_item_link_item" [routerLink]="'../settings/billing'" routerLinkActive="active">
+                Billing
                 <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
             <a class="dashboard_item_link_item dashboard_center" [routerLink]="'../invoices'"
@@ -35,12 +35,12 @@
         <div class="dashboard_item_content_row">
             <div class="dashboard_item_content_key">Next monthly payment</div>
             <div class="dashboard_item_content_value">
-                {{dashboard.balance.currency.shortName}}{{dashboard.tariffPlan.sum}}
+                {{dashboard.tariffPlan.displayExpired}}
             </div>
         </div>
         <div class="dashboard_item_content_row">
-            <div class="dashboard_item_content_key">Payment date</div>
-            <div class="dashboard_item_content_value">{{dashboard.tariffPlan.displayExpired}}</div>
+            <div class="dashboard_item_content_key">Estimated Payment</div>
+            <div class="dashboard_item_content_value">{{dashboard.balance.currency.shortName}}{{dashboard.tariffPlan.sum}}</div>
         </div>
         <div class="dashboard_item_link_row">
             <a [routerLink]="'../tariff'" routerLinkActive="active" class="dashboard_item_link_item">
@@ -57,7 +57,7 @@
         <div class="dashboard_numbers_body">
             <div class="dashboard_item_content_row" *ngFor="let number of dashboard.numbers">
                 <div class="dashboard_item_content_key">{{number.phoneNumber}}</div>
-                <div class="dashboard_item_content_value">{{number.innerOnlineCount}} of {{number.innerCount}} online
+                <div class="dashboard_item_content_value">{{number.innerOnlineCount}} of {{number.innerCount}} ext.<span>online</span>
                 </div>
             </div>
         </div>

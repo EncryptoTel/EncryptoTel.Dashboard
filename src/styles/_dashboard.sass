@@ -9,10 +9,30 @@ pbx-dashboard
         background: $dark_dashboard_drive !important
     .dashboard_history
         background: $dark_dashboard_history !important
+    
+    .dashboard_balance
+        .dashboard_center
+            margin-left: 44px
+    .dashboard_numbers
+        .dashboard_item_content_value
+            span
+                margin-left: 24px
+    .dashboard_history
+        position: relative
+        padding-bottom: 64px !important
+        .dashboard_item_link_row
+            position: absolute
+            margin-top: 0
+            bottom: 24px
+            right: 24px
+    .dashboard_drive_diagram
+            // margin-left: rem(50) !important
+
 
 @media screen and (max-width: 1279px)
     pbx-dashboard
         .dashboard_drive_diagram
+            // margin-left: rem(24) !important
             flex: 1
             .dashboard_drive_percentage
                 margin: auto
