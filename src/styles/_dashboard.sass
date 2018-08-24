@@ -20,15 +20,22 @@ pbx-dashboard
     .dashboard_history
         position: relative
         padding-bottom: 64px !important
-        margin-right: 48px
+        margin-right: 28px
         .dashboard_item_link_row
             position: absolute
             margin-top: 0
             bottom: 24px
             right: 24px
-    .dashboard_drive_diagram
-            // margin-left: rem(50) !important
-
+    .dashboard_drive
+        .dashboard_item_content_key
+            padding-right: 10px
+        .dashboard_item_content_value
+            white-space: nowrap
+            
+@media screen and (max-width: 1789px)
+    pbx-dashboard
+        .dashboard_drive_diagram
+            margin-left: rem(24) !important
 
 @media screen and (max-width: 1279px)
     pbx-dashboard
@@ -48,3 +55,6 @@ pbx-dashboard
         .dashboard_drive_row
             .dashboard_drive_content
                 flex: 2
+        .dashboard_balance
+            .dashboard_center
+                margin-left: 0
