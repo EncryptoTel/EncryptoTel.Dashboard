@@ -1,5 +1,5 @@
 <div class="tablet">
-    <div class="tablet_header">
+    <div class="tablet_header" *ngIf="item.length > 0">
         <div *ngFor="let item of tableInfoEx.items; let i = index"
              class="tablet_item {{item.width ? 'fix_' + item.width : ''}}"
              [ngClass]="{'sort': item.sort}">
