@@ -63,15 +63,28 @@ export class PhoneNumbersComponent implements OnInit {
 
     toggleNumber(): void {
         this.selected.loading++;
+        this.select(this.selected);
         this.service.toggleNumber(this.selected.id, !this.selected.status).then(() => {
             this.list.getItems(this.selected);
             let status: string;
             if (this.selected.status === 0) {
                 status = 'enabled';
+
+                this.sidebar.buttons[1].title = 'Disable';
+                this.sidebar.items[3].value = 'Enabled';
             }
             if (this.selected.status === 1) {
                 status = 'disabled';
+                this.sidebar.buttons[1].title = 'Enable';
+                this.sidebar.items[3].value = 'Disabled';
             }
+
+            if (this.selected.status === 1) {
+                this.selected.status = 0;
+            } else {
+                this.selected.status = 1;
+            }
+
             this.message.writeSuccess('The phone number has been ' + status);
             this.selected.loading--;
         }).catch(() => {
