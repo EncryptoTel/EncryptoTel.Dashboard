@@ -7,13 +7,13 @@ import {
     TypesModel
 } from '../../models/address-book.model';
 import {RefsServices} from '../../services/refs.services';
-import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
-import {CountryModel} from "../../models/country.model";
-import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
-import {MessageServices} from "../../services/message.services";
-import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
-import {AnimationComponent} from "../../shared/shared.functions";
-import {BaseComponent} from "../../elements/pbx-component/pbx-component.component";
+import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from '../../models/base.model';
+import {CountryModel} from '../../models/country.model';
+import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
+import {MessageServices} from '../../services/message.services';
+import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
+import {AnimationComponent} from '../../shared/shared.functions';
+import {BaseComponent} from '../../elements/pbx-component/pbx-component.component';
 
 @AnimationComponent({
     selector: 'pbx-address-book',
@@ -149,6 +149,7 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
     }
 
     load(pageInfo: AddressBookModel) {
+        this.loading++;
         this.pageInfo = pageInfo;
         const filterValue = [];
         this.pageInfo.contactFilter.forEach(item => {
@@ -186,6 +187,7 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
         } else {
             this.updateCountries();
         }
+        this.loading--;
     }
 
     close(reload: boolean = false) {
