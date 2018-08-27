@@ -33,14 +33,6 @@
                         { "key": "", "title": "All" },
                         { "key": "", "title": "Unsorted" }
                     ]
-                },
-                {
-                    "title": "IVR",
-                    "cssClass": "line",
-                    "items": [
-                        { "key": "", "title": "Unnamed" },
-                        { "key": "", "title": "Sales" }
-                    ]
                 }
             ]
         },
