@@ -16,11 +16,11 @@
             <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
         </div>
     </div>
-    <pbx-loader *ngIf="tableReload"></pbx-loader>
+    <!-- <pbx-loader *ngIf="tableReload"></pbx-loader> -->
     <div class="tablet_body" *ngIf="!tableReload">
         <div class="tablet_row" *ngFor="let item of tableItems"
              [ngClass]="{'pick': multiple ? isSelected(item.id) : selected?.id === item.id}">
-            <pbx-loader *ngIf="item.loading"></pbx-loader>
+            <!-- <pbx-loader *ngIf="item.loading"></pbx-loader> -->
             <div class="tablet_content" *ngIf="!item.loading">
                 <div *ngFor="let tableItem of tableInfoEx.items;let i=index"
                      class="tablet_item {{!!columnFormat?columnFormat[i]:''}} {{tableItem.dataWidth !== undefined ? ('fix_' + tableItem.dataWidth) : (tableItem.width ? 'fix_' + tableItem.width : '')}}"
