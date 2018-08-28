@@ -8,3 +8,22 @@
         .settings_form_title
         .pbx_input_item
             grid-template-columns: 250px 1fr
+
+user-notifications-component
+    pbx-form
+        .settings_form_section
+            pbx-input
+                .pbx_input_item
+                    display: grid
+                    grid-template-columns: 250px 1fr !important
+                    grid-template-rows: 1fr
+                    .pbx_input_item_label
+                        grid-column: 2 / 3
+                        grid-row: 1 / 2
+                        padding-left: 16px
+                        margin-top: 5px
+                        span
+                            white-space: nowrap
+                    .pbx_input_item_input_wrap
+                        grid-column: 1 / 2
+                        grid-row: 1 / 2
