@@ -84,5 +84,47 @@
         .media-table-message,
         .table-message span
             color: $white_empty_message !important
+        pbx-company,
+        pbx-call-rules-create,
+        pbx-call-queues-create,
+        ring-groups-create-component,
+        add-extension-component
+            pbx-editable-select,
+            pbx-select
+                .select_wrap
+                    input,
+                    .select_item.selected
+                        border-top: none !important
+                        border-left: none !important
+                        border-right: none !important
+                    &.active
+                        input,
+                        .select_item.selected
+                            border-top: none !important
+                            border-left: none !important
+                            border-right: none !important
+            pbx-input
+                input:not([type="submit"])
+                    border-top: none !important
+                    border-left: none !important
+                    border-right: none !important
+                    &:focus
+                        border-top: none !important
+                        border-left: none !important
+                        border-right: none !important
+        pbx-queue-members-add
+            pbx-select
+                .select_wrap
+                    input,
+                    .select_item.selected
+                        border-top: 1px solid $white_input_border !important
+                        border-left: 1px solid $white_input_border !important
+                        border-right: 1px solid $white_input_border !important
+                    &.active
+                        input,
+                        .select_item.selected
+                            border-top: 1px solid $white_input_border !important
+                            border-left: 1px solid $white_input_border !important
+                            border-right: 1px solid $white_input_border !important
 
 
