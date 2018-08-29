@@ -136,8 +136,10 @@
             </div> <!-- img_wr -->
     
             <div class="mini" *ngFor="let item of companyInfo.company">
-                <div class="title">{{ item.title }}</div>
-                <div class="info" [ngClass]="item.cssClass">{{ item.value }}</div>
+                <ng-template [ngIf]="item.value">
+                    <div class="title">{{ item.title }}</div>
+                    <div class="info" [ngClass]="item.cssClass">{{ item.value }}</div>
+                </ng-template>
             </div> <!-- mini -->
         </div> <!-- item -->
 
