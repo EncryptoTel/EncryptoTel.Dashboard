@@ -67,6 +67,19 @@ pbx-editable-select
         &.selected
             color: $dark_white !important
 
+pbx-company,
+pbx-call-rules-create,
+pbx-call-queues-create,
+ring-groups-create-component,
+add-extension-component
+    pbx-editable-select
+        .select_wrap.active
+            input,
+            .select_item.selected
+                border-top: none !important
+                border-left: none !important
+                border-right: none !important
+
 // Storage - раскомментировать когда аудио переместится в колонку Record
 // pbx-storage
 //     pbx-media-table
