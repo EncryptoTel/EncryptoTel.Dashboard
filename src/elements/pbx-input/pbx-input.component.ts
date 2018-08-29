@@ -22,6 +22,7 @@ export class InputComponent implements OnInit {
     @Input() object: any;
     @Input() errorKey: string;
     @Input() errors: any;
+    @Input() objectKey: any;
     @Input() objectView: any;
     @Input() options: any[];
     @Input() editable: boolean;
@@ -120,6 +121,22 @@ export class InputComponent implements OnInit {
                 this.errors[keys[0]][keys[1]][keys[2]] = value;
                 break;
         }
+    }
+
+    checkErrorEx(): string {
+        let form = this.getForm();
+        if (form && form.touched && form.invalid) {
+            let keys;
+            if (form.errors) keys = Object.keys(form.errors);
+            else {
+                let control = form.get(this.objectKey);
+                if (control && control.errors) 
+                    keys = Object.keys(control.errors);
+            }
+            // TODO: map validation result for multiple errors
+            return this.getValidatorMessage(keys[0]);
+        }
+        return null;
     }
 
     checkError(textOnly = null): string {
