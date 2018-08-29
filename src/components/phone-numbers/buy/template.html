@@ -24,7 +24,7 @@
             <pbx-select [options]="matches" [objectKey]="'title'" [selected]="matches[0]"></pbx-select>
         </div>
         <div class="buy_phone_header_options">
-            <div class="buy_phone_header_options_title">Number types</div>
+            <div class="buy_phone_header_options_title">Number types:</div>
             <pbx-checkbox [value]="requestDetails.local"
                           (onToggle)="requestDetails.local = $event; getList()"></pbx-checkbox>
             <div>Local</div>
