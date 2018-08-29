@@ -15,6 +15,7 @@ import {formatNumber} from 'libphonenumber-js';
 import {emailRegExp} from '../../shared/vars';
 import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 import {classToPlain} from '../../../node_modules/class-transformer';
+import {compareObjects} from '../../shared/shared.functions';
 
 
 @Component({
@@ -53,7 +54,7 @@ export class CompanyComponent implements OnInit {
         this.loading = 0;
         this.saving = 0;
 
-        this.modal = new ModalEx('Company has been changed. Your data will be lost. Dou you really want to continue?', 'cancelEdit');
+        this.modal = new ModalEx(`You've made changes. Do you really want to leave without saving?`, 'cancelEdit');
         
         this.sidebarInfo = new SidebarInfoModel();
         this.sidebarInfo.loading = 0;
@@ -92,21 +93,20 @@ export class CompanyComponent implements OnInit {
                     }),
                 })
             ]),
+            // companyDetailFieldValue: this._fb.array([]),
             id: [null]
         });
     }
 
     decline(): void {
-        const currentCompany = JSON.stringify(this.company);
-        const formCompany = JSON.stringify(this.companyForm.value);
-        if (currentCompany == formCompany || (!this.company.id && this.isFormEmpty(this.companyForm))) {
+        if (compareObjects(this.company, this.companyForm.value)) {
             this.cancel();
         }
         else {
             this.modal.visible = true;
         }
     }
-
+    
     isFormEmpty(formGroup: any): boolean {
         let count = this.countFormNonEmptyFields(formGroup);
         console.log('count', count);
@@ -169,7 +169,9 @@ export class CompanyComponent implements OnInit {
         if (this.company.name) {
             let company = classToPlain(this.company);
             this.companyForm.patchValue(company);
-            this.selectedCountry = this.company.companyAddress[0].country;
+            if (this.company.companyAddress && this.company.companyAddress.length) {
+                this.selectedCountry = this.company.companyAddress[0].country;
+            }
         }
     }
 
