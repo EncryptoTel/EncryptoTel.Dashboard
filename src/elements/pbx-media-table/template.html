@@ -45,35 +45,35 @@
                     <div
                             *ngIf="action.type === 'drop-down'"
                             class="tablet_item_cols">
-                        <div
-                                class="tablet_item_cols_dropdown"
-                                (click)="dropOpen(action, item)">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <ul
-                                    class="dd-menu"
-                                    *ngIf="item.ddShow"
-                                    [ngClass]="{'top' : dropDirection === 'top', 'bottom' : dropDirection === 'bottom'}">
-                                <li
-                                        *ngFor="let option of action.options"
-                                        class="dd-menu-button {{option.className}}"
-                                        (click)="dropClick(action, option, item)"
-                                >{{option.title}}
-                                </li>
-                            </ul>
-                        </div>
+                        <!--<div-->
+                                <!--class="tablet_item_cols_dropdown"-->
+                                <!--(click)="dropOpen(action, item)">-->
+                            <!--<span></span>-->
+                            <!--<span></span>-->
+                            <!--<span></span>-->
+                            <!--<ul-->
+                                    <!--class="dd-menu"-->
+                                    <!--*ngIf="item.ddShow"-->
+                                    <!--[ngClass]="{'top' : dropDirection === 'top', 'bottom' : dropDirection === 'bottom'}">-->
+                                <!--<li-->
+                                        <!--*ngFor="let option of action.options"-->
+                                        <!--class="dd-menu-button {{option.className}}"-->
+                                        <!--(click)="dropClick(action, option, item)"-->
+                                <!--&gt;{{option.title}}-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->123
                     </div>
-                    <div
-                            *ngIf="action.type === 'player'"
-                            class="tablet_item_cols player">
-                        <pbx-media-table-player
-                            style="position: relative; right: -144px;"
-                            #mediaPlayer
-                            [item]="item"
-                            (onTogglePlay)="togglePlay($event)">
-                        </pbx-media-table-player>
-                    </div>
+                    <!--<div-->
+                            <!--*ngIf="action.type === 'player'"-->
+                            <!--class="tablet_item_cols player">-->
+                        <!--<pbx-media-table-player-->
+                            <!--style="position: relative; right: -144px;"-->
+                            <!--#mediaPlayer-->
+                            <!--[item]="item"-->
+                            <!--(onTogglePlay)="togglePlay($event)">-->
+                        <!--</pbx-media-table-player>-->
+                    <!--</div>-->
                 </div>
             </div>
         </div>
