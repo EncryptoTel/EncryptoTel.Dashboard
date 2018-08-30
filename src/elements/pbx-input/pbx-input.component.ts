@@ -123,32 +123,14 @@ export class InputComponent implements OnInit {
         }
     }
 
-    checkErrorEx(): string {
-        let form = this.getForm();
-        if (form && form.touched && form.invalid) {
-            let keys;
-            if (form.errors) keys = Object.keys(form.errors);
-            else {
-                let control = form.get(this.objectKey);
-                if (control && control.errors) 
-                    keys = Object.keys(control.errors);
-            }
-            // TODO: map validation result for multiple errors
-            return this.getValidatorMessage(keys[0]);
-        }
-        return null;
-    }
-
     checkError(textOnly = null): string {
         if (!this.errors) {
-            if(this._errorShow) {
-                return this.checkForm(textOnly);
-            } else {
-                return '';
-            }
+            return this._errorShow ? this.checkForm(textOnly) : '';
         }
+
         let error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
         let result = (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm(textOnly));
+
         return result;
     }
 
@@ -171,8 +153,14 @@ export class InputComponent implements OnInit {
 
         let form = this.getForm();
         if (textOnly) {
-            if (form && form.touched && form.invalid && form.errors) {
-                let keys = Object.keys(form.errors);
+            if (form && form.touched && form.invalid) {
+                let keys;
+                if (form.errors) keys = Object.keys(form.errors);
+                else {
+                    let control = form.get(this.objectKey);
+                    if (control && control.errors) 
+                        keys = Object.keys(control.errors);
+                }
                 // TODO: map validation result for multiple errors
                 return this.getValidatorMessage(keys[0]);
             }

@@ -81,15 +81,16 @@ export class CompanyComponent implements OnInit {
                     id: [null],
                     type: [null],
                     postalCode: [null, [ Validators.minLength(6), Validators.maxLength(9), Validators.pattern(nameRegExp) ]],
-                    regionName: [null, [ Validators.required, Validators.minLength(4), Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-                    locationName: [null, [ Validators.required, Validators.minLength(4), Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+                    regionName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+                    locationName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
                     street: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
                     building: [null, [ Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp) ]],
-                    office: [null, [ Validators.minLength(1), Validators.maxLength(15), Validators.pattern(companyOfficeRegExp) ]],
-                    country: this._fb.group({ // Validators.required
+                    office: [null, [ Validators.maxLength(15), Validators.pattern(companyOfficeRegExp) ]],
+                    country: this._fb.group({
                         id: [null, [ Validators.required ]],
                         code: [null],
-                        title: [null]
+                        title: [null],
+                        phoneCode: [null]
                     }),
                 })
             ]),

@@ -49,7 +49,6 @@
                                [singleBorder]="true"
                                [required]="true"
                                validatorRequiredMsg="Please enter state/region"
-                               validatorMinLengthMsg="Please enter at least 4 characters"
                                validatorMaxLengthMsg="Please enter no more than 100 characters"
                                validatorPatternMsg="State or region may contain letters, digits and dashes only"
                                >
@@ -64,7 +63,6 @@
                                [singleBorder]="true"
                                [required]="true"
                                validatorRequiredMsg="Please enter city"
-                               validatorMinLengthMsg="Please enter at least 4 characters"
                                validatorMaxLengthMsg="Please enter no more than 100 characters"
                                validatorPatternMsg="City may contain letters, digits and dashes only"
                                >
@@ -83,7 +81,7 @@
                                validatorPatternMsg="Street may contain letters, digits and dashes only"
                                >
                     </pbx-input>
-                    <pbx-input name="House #"
+                    <pbx-input name="House"
                                key="building"
                                [form]="true"
                                [object]="address"
@@ -106,7 +104,6 @@
                                errorShow="true"
                                [singleBorder]="true"
                                [required]="false"
-                               validatorMinLengthMsg="Please enter at least 1 character"
                                validatorMaxLengthMsg="Please enter no more than 15 characters"
                                validatorPatternMsg="Office may contain digits only"
                                >
