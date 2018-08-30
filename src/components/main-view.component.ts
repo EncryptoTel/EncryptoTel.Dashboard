@@ -11,8 +11,8 @@ import {MessageServices} from '../services/message.services';
 import {FadeAnimation} from '../shared/fade-animation';
 
 // first and second
-import * as $ from 'jquery';
-declare var jquery:any;
+// import * as $ from 'jquery';
+// declare var jquery:any;
 // declare var $ :any;
 
 @Component({
@@ -65,9 +65,9 @@ export class MainViewComponent implements OnInit, OnDestroy {
                 this.title.setTitle(`Encrypto Telecom | ${event['title']}`);
             });
 
-            $(document).ready(function(){
-                // jquery code
-            });
+            // $(document).ready(function(){
+            //     // jquery code
+            // });
 
     }
 
