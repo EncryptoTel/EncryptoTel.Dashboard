@@ -215,6 +215,7 @@ export class SidebarButtonItem {
 export class TagModel {
     key: string;
     title: string;
+    selected?: boolean;
 }
 
 export class ButtonItem {
