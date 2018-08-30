@@ -71,7 +71,10 @@
                            [(objectView)]="selectedActions[0]"
                            [(object)]="callRulesForm"
                            [placeholder]="'[choose one]'"
-                           [editable]="true">
+                           [editable]="true"
+                           validatorRequiredMsg="Please choose an action"
+                           errorShow="true"
+                           >
                 </pbx-input>
 
 
