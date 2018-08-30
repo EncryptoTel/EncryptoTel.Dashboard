@@ -12,9 +12,10 @@ import {SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
 import {DashboardModel} from '../../models/dashboard.model';
 
 import {formatNumber} from 'libphonenumber-js';
-import {emailRegExp} from '../../shared/vars';
+import {emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp} from '../../shared/vars';
 import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 import {classToPlain} from '../../../node_modules/class-transformer';
+import {compareObjects} from '../../shared/shared.functions';
 
 
 @Component({
@@ -53,7 +54,7 @@ export class CompanyComponent implements OnInit {
         this.loading = 0;
         this.saving = 0;
 
-        this.modal = new ModalEx('Company has been changed. Your data will be lost. Dou you really want to continue?', 'cancelEdit');
+        this.modal = new ModalEx(`You've made changes. Do you really want to leave without saving?`, 'cancelEdit');
         
         this.sidebarInfo = new SidebarInfoModel();
         this.sidebarInfo.loading = 0;
@@ -71,42 +72,41 @@ export class CompanyComponent implements OnInit {
 
     initCompanyForm(): void {
         this.companyForm = this._fb.group({
-            name:  ['', [ Validators.required ]],
-            email: ['', [ Validators.pattern(emailRegExp) ]],
-            phone: [''],
-            vatId: [''],
+            name:  [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+            email: [null, [ Validators.pattern(emailRegExp) ]],
+            phone: [null, [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(companyPhoneRegExp) ]],
+            vatId: [null, [ Validators.maxLength(99), Validators.pattern(companyVatIDRegExp) ]],
             companyAddress: this._fb.array([
                 this._fb.group({
                     id: [null],
                     type: [null],
-                    postalCode: [null],
-                    regionName: [''],
-                    locationName: [''],
-                    street: [''],
-                    building: [''],
-                    office: [''],
-                    country: this._fb.group({
-                        id: [''],
-                        code: [''],
-                        title: ['']
+                    postalCode: [null, [ Validators.minLength(6), Validators.maxLength(9), Validators.pattern(nameRegExp) ]],
+                    regionName: [null, [ Validators.required, Validators.minLength(4), Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+                    locationName: [null, [ Validators.required, Validators.minLength(4), Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+                    street: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+                    building: [null, [ Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp) ]],
+                    office: [null, [ Validators.minLength(1), Validators.maxLength(15), Validators.pattern(companyOfficeRegExp) ]],
+                    country: this._fb.group({ // Validators.required
+                        id: [null, [ Validators.required ]],
+                        code: [null],
+                        title: [null]
                     }),
                 })
             ]),
+            // companyDetailFieldValue: this._fb.array([]),
             id: [null]
         });
     }
 
     decline(): void {
-        const currentCompany = JSON.stringify(this.company);
-        const formCompany = JSON.stringify(this.companyForm.value);
-        if (currentCompany == formCompany || (!this.company.id && this.isFormEmpty(this.companyForm))) {
+        if (compareObjects(this.company, this.companyForm.value)) {
             this.cancel();
         }
         else {
             this.modal.visible = true;
         }
     }
-
+    
     isFormEmpty(formGroup: any): boolean {
         let count = this.countFormNonEmptyFields(formGroup);
         console.log('count', count);
@@ -169,7 +169,9 @@ export class CompanyComponent implements OnInit {
         if (this.company.name) {
             let company = classToPlain(this.company);
             this.companyForm.patchValue(company);
-            this.selectedCountry = this.company.companyAddress[0].country;
+            if (this.company.companyAddress && this.company.companyAddress.length) {
+                this.selectedCountry = this.company.companyAddress[0].country;
+            }
         }
     }
 

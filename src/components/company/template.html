@@ -10,10 +10,15 @@
             <pbx-input name="Organization"
                        key="name"
                        [form]="true"
-                       [required]="true"
-                       [floatError]="true"
+                       [object]="companyForm"
                        [errors]="service.errors"
-                       [object]="companyForm">
+                       errorShow="true"
+                       [singleBorder]="true"
+                       [required]="true"
+                       validatorRequiredMsg="Please enter name"
+                       validatorMaxLengthMsg="Please enter no more than 100 characters"
+                       validatorPatternMsg="Company name may contain letters, digits and dashes only"
+                       >
             </pbx-input>
             <ng-container formArrayName="companyAddress">
                 <ng-container *ngFor="let address of addressControls.controls;let i = index" [formGroupName]="i">
@@ -22,95 +27,141 @@
                                displayKey="title"
                                (onSelect)="selectCountry($event)"
                                [form]="true"
-                               [required]="false"
-                               [floatError]="true"
+                               [required]="true"
+                               errorShow="true"
                                [options]="countries"
                                [editable]="true"
                                [object]="address"
                                [errors]="service.errors"
                                [objectView]="selectedCountry"
                                objectKey="id"
-                               [placeholder]="'[choose one]'">
+                               [placeholder]="'[choose one]'"
+                               validatorRequiredMsg="Please select a country"
+                               >
                     </pbx-input>
                     <pbx-input name="State/Region"
                                key="regionName"
                                [form]="true"
-                               [required]="false"
-                               [floatError]="true"
+                               [object]="address"
                                [errorKey]="'companyAddress.new_0.regionName'"
                                [errors]="service.errors"
-                               [object]="address">
+                               errorShow="true"
+                               [singleBorder]="true"
+                               [required]="true"
+                               validatorRequiredMsg="Please enter state/region"
+                               validatorMinLengthMsg="Please enter at least 4 characters"
+                               validatorMaxLengthMsg="Please enter no more than 100 characters"
+                               validatorPatternMsg="State or region may contain letters, digits and dashes only"
+                               >
                     </pbx-input>
                     <pbx-input name="City"
                                key="locationName"
                                [form]="true"
-                               [required]="false"
-                               [floatError]="true"
+                               [object]="address"
                                [errorKey]="'companyAddress.new_0.locationName'"
                                [errors]="service.errors"
-                               [object]="address">
+                               errorShow="true"
+                               [singleBorder]="true"
+                               [required]="true"
+                               validatorRequiredMsg="Please enter city"
+                               validatorMinLengthMsg="Please enter at least 4 characters"
+                               validatorMaxLengthMsg="Please enter no more than 100 characters"
+                               validatorPatternMsg="City may contain letters, digits and dashes only"
+                               >
                     </pbx-input>
                     <pbx-input name="Street"
                                key="street"
                                [form]="true"
-                               [required]="false"
-                               [floatError]="true"
+                               [object]="address"
                                [errorKey]="'companyAddress.new_0.street'"
                                [errors]="service.errors"
-                               [object]="address">
+                               errorShow="true"
+                               [singleBorder]="true"
+                               [required]="true"
+                               validatorRequiredMsg="Please enter street"
+                               validatorMaxLengthMsg="Please enter no more than 100 characters"
+                               validatorPatternMsg="Street may contain letters, digits and dashes only"
+                               >
                     </pbx-input>
                     <pbx-input name="House #"
                                key="building"
                                [form]="true"
-                               [required]="false"
-                               [floatError]="true"
+                               [object]="address"
                                [errorKey]="'companyAddress.new_0.building'"
                                [errors]="service.errors"
-                               [object]="address">
+                               errorShow="true"
+                               [singleBorder]="true"
+                               [required]="true"
+                               validatorRequiredMsg="Please enter house number"
+                               validatorMaxLengthMsg="Please enter no more than 10 characters"
+                               validatorPatternMsg="House number may contain letters, digits and slashes only"
+                               >
                     </pbx-input>
                     <pbx-input name="Office"
                                key="office"
                                [form]="true"
-                               [floatError]="true"
-                               [required]="false"
+                               [object]="address"
                                [errorKey]="'companyAddress.new_0.office'"
                                [errors]="service.errors"
-                               [object]="address">
+                               errorShow="true"
+                               [singleBorder]="true"
+                               [required]="false"
+                               validatorMinLengthMsg="Please enter at least 1 character"
+                               validatorMaxLengthMsg="Please enter no more than 15 characters"
+                               validatorPatternMsg="Office may contain digits only"
+                               >
                     </pbx-input>
                     <pbx-input name="Postal code"
                                key="postalCode"
                                [form]="true"
-                               [floatError]="true"
-                               [required]="false"
+                               [object]="address"
                                [errorKey]="'companyAddress.new_0.postalCode'"
                                [errors]="service.errors"
-                               [object]="address">
+                               errorShow="true"
+                               [singleBorder]="true"
+                               [required]="false"
+                               validatorMinLengthMsg="Please enter at least 6 characters"
+                               validatorMaxLengthMsg="Please enter no more than 9 characters"
+                               validatorPatternMsg="Office may contain letters and digits only"
+                               >
                     </pbx-input>
                 </ng-container>
             </ng-container>
             <pbx-input name="Email"
                        key="email"
                        [form]="true"
-                       [floatError]="true"
-                       [required]="false"
+                       [object]="companyForm"
                        [errors]="service.errors"
-                       [object]="companyForm">
+                       errorShow="true"
+                       [singleBorder]="true"
+                       [required]="false"
+                       validatorPatternMsg="Please enter a valid email address"
+                       >
             </pbx-input>
             <pbx-input name="Phone"
                        key="phone"
                        [form]="true"
-                       [required]="false"
-                       [floatError]="true"
+                       [object]="companyForm"
                        [errors]="service.errors"
-                       [object]="companyForm">
+                       errorShow="true"
+                       [singleBorder]="true"
+                       [required]="false"
+                       validatorMinLengthMsg="Please enter at least 6 characters"
+                       validatorMaxLengthMsg="Please enter no more than 16 characters"
+                       validatorPatternMsg="Phone number may contain digits only"
+               >
             </pbx-input>
             <pbx-input name="VAT ID"
                        key="vatId"
                        [form]="true"
-                       [floatError]="true"
-                       [required]="false"
+                       [object]="companyForm"
                        [errors]="service.errors"
-                       [object]="companyForm">
+                       errorShow="true"
+                       [singleBorder]="true"
+                       [required]="false"
+                       validatorMaxLengthMsg="Please enter no more than 99 characters"
+                       validatorPatternMsg="VAT ID may contain digits and letters only"
+                       >
             </pbx-input>
         </form>
     </pbx-form>
@@ -136,8 +187,10 @@
             </div> <!-- img_wr -->
     
             <div class="mini" *ngFor="let item of companyInfo.company">
-                <div class="title">{{ item.title }}</div>
-                <div class="info" [ngClass]="item.cssClass">{{ item.value }}</div>
+                <ng-template [ngIf]="item.value">
+                    <div class="title">{{ item.title }}</div>
+                    <div class="info" [ngClass]="item.cssClass">{{ item.value }}</div>
+                </ng-template>
             </div> <!-- mini -->
         </div> <!-- item -->
 

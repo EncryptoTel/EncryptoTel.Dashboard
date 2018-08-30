@@ -149,7 +149,7 @@ export class ModalEx {
                 if (!this.body) {
                     this.body = 'Stop editing?';
                 }
-                this.buttons.push(new ModalButton('cancel', 'Stay'));
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('success', 'Yes'));
                 break;
         }

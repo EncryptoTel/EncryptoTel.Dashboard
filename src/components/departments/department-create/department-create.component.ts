@@ -60,7 +60,6 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
         this.sips = [];
         this._id = this._activatedRoute.snapshot.params.id;
         this._department = new DepartmentItem();
-        console.log('id', this._id);
 
         this._tabsButtons = [];
         this._tabsButtons[0] = [
@@ -115,7 +114,6 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
     getCompany() {
         this.locker.lock();
         this._company.getCompany().then((response) => {
-            console.log('company', response);
             this.locker.unlock();
         }).catch(() => {
             this.locker.unlock();
@@ -125,7 +123,6 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
     getSipOuters(): void {
         this.locker.lock();
         this._refs.getSipOuters().then((response: any) => {
-            console.log('sipOuters', response);
             this.formatSipOuters(response);
             this.locker.unlock();
         }).catch(() => {
@@ -139,7 +136,6 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
             return;
         
         this.mapFormDataToModel();
-        console.log('model', this._department);
 
         this.locker.lock();
         this.service.save(this._id, this._department).then((response) => {
