@@ -15,6 +15,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     public inFocus: boolean;
 
     private _placeholder: string;
+    private _emptyOption: {} = { id: null };
 
     @Input() name: string;
     @Input() singleBorder: boolean;
@@ -47,6 +48,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
+        this._emptyOption[this.objectKey] = 'No results found.';
         this.resetFilter();
     }
 
@@ -84,10 +86,12 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         return item && this.filteredSelectedItem && item.id === this.filteredSelectedItem.id;
     }
 
-    selectItem(option: object, event?: Event): void {
+    selectItem(option: any, event?: Event): void {
         if (event) this.killEvent(event);
 
-        this.onSelect.emit(option);
+        if (option.id) {
+            this.onSelect.emit(option);
+        }
         this.hideOptions();
     }
 
@@ -237,7 +241,12 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     filterOptions(): void {
         this.filteredOptions = this.options
             .filter(opt => !this.filterValue || opt[this.objectKey].toLowerCase().search(this.filterValue.toLowerCase()) >= 0);
-        this.filteredSelectedItem = (this.filterValue) ? this.filteredOptions[0] : this.selected;
+        
+        if (this.filteredOptions.length == 0) this.filteredOptions.push(this._emptyOption);
+        this.filteredSelectedItem = (this.filterValue && this.filteredOptions[0].id) 
+            ? this.filteredOptions[0] 
+            : this.selected;
+        
         this.scrollToCurrent();
     }
 
