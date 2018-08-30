@@ -202,6 +202,7 @@ export class InputComponent implements OnInit {
             this.resetError();
         }
         // this.resetError();
+
         this.object[this.key] = $event.target.value;
         this.onKeyUp.emit($event);
     }

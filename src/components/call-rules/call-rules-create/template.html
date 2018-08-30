@@ -22,13 +22,21 @@
                        [form]="true"
                        [required]="true"
                        [(errors)]="service.errors"
-                       [object]="callRulesForm">
+                       [object]="callRulesForm"
+                       errorShow="true"
+                       validatorRequiredMsg="Please enter rule name"
+                       validatorMaxLengthMsg="Please enter no more than 150 characters"
+                       validatorPatternMsg="Rule Name may contain letters, digits, dashes and underscores only"
+                       >
             </pbx-input>
             <pbx-input name="Description"
                        key="description"
                        [form]="true"
                        [(errors)]="service.errors"
-                       [object]="callRulesForm">
+                       [object]="callRulesForm"
+                       errorShow="true"
+                       validatorMaxLengthMsg="Please enter no more than 255 characters"
+                       >
             </pbx-input>
             <pbx-input *ngIf="mode !== 'edit'"
                        name="Phone number"
