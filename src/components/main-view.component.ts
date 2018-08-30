@@ -10,6 +10,11 @@ import {MessageServices} from '../services/message.services';
 
 import {FadeAnimation} from '../shared/fade-animation';
 
+// first and second
+import * as $ from 'jquery';
+declare var jquery:any;
+// declare var $ :any;
+
 @Component({
     selector: 'main-view',
     template: `
@@ -59,6 +64,11 @@ export class MainViewComponent implements OnInit, OnDestroy {
                 this.pageTitle = event['title'];
                 this.title.setTitle(`Encrypto Telecom | ${event['title']}`);
             });
+
+            $(document).ready(function(){
+                // jquery code
+            });
+
     }
 
     ngOnDestroy(): void {
