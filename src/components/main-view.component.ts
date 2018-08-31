@@ -64,6 +64,14 @@ export class MainViewComponent implements OnInit, OnDestroy {
                 this.pageTitle = event['title'];
                 this.title.setTitle(`Encrypto Telecom | ${event['title']}`);
             });
+
+            // jQuery(document).ready(function(){
+            //     jQuery(window).on('click', function(){
+            //         console.log('jQuery is working');
+            //     });
+            //     jQuery('body').addClass('asd').css({'background': 'red'});
+            // });
+
     }
 
     ngOnDestroy(): void {
