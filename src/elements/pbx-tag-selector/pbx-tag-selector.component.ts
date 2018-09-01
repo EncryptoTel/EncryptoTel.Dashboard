@@ -38,7 +38,7 @@ export class TagSelectorComponent extends BaseComponent implements OnChanges {
     }
 
     setTags(tags: TagModel[]): void {
-        this.tags = tags.filter(t => !t.selected);
+        this.tags = tags;
         this._selectedTags = tags.filter(t => t.selected);
     }
 
