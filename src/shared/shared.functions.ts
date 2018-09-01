@@ -145,6 +145,14 @@ export function compareObjects(src: any, dst: any): boolean {
     return true;
 }
 
+export function str2regexp(pattern: string): RegExp {
+    let parts = pattern.split('/');
+    if (parts.length == 3) 
+        return new RegExp(parts[1], parts[2]);
+    
+    return new RegExp(pattern);
+}
+
 export function AnimationComponent(extendedConfig: Component = {}) {
     return function (target: Function) {
         const ANNOTATIONS = '__annotations__';

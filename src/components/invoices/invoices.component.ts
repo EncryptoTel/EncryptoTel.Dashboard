@@ -26,7 +26,12 @@ export class InvoicesComponent implements OnInit {
         this.table.items.push(new TableInfoItem('Invoice Number', 'number'));
         this.table.items.push(new TableInfoItem('Invoice Type', 'type'));
         this.table.items.push(new TableInfoItem('Transaction Date', 'displayDateTime', 'date'));
-        this.table.items.push(new TableInfoItem('Status', 'status'));
+        let statusColumn = new TableInfoItem('Status', 'status');
+        statusColumn.specialFormatting = [{
+            pattern: '/waiting for payment/i',
+            cssClass: 'waiting-status'
+        }];
+        this.table.items.push(statusColumn);
         this.table.items.push(new TableInfoItem('Amount (excl. VAT)', 'sumWithVat', 'amount'));
         this.table.items.push(new TableInfoItem('Amount', 'sum', 'amount_vat'));
         // this.table.items.push(new TableInfoItem('Transaction ID', 'transaction'));

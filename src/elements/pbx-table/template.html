@@ -23,7 +23,7 @@
             <pbx-loader *ngIf="item.loading"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">
                 <div *ngFor="let tableItem of tableInfoEx.items;let i=index"
-                     class="tablet_item {{!!columnFormat?columnFormat[i]:''}} {{tableItem.dataWidth !== undefined ? ('fix_' + tableItem.dataWidth) : (tableItem.width ? 'fix_' + tableItem.width : '')}}"
+                     class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
                      (click)="selectItem(item)"
                      (mouseenter)="mouseEnter($event, item)"
                      (mouseleave)="mouseLeave($event, item)">

@@ -73,6 +73,10 @@ export class TableInfoItem {
     width: number;
     dataWidth: number;
     sort: string;
+    // Var is used for special item markup based on value.
+    // Format:  [ { pattern: string, cssClass: string }, { ... } ]
+    // Example: [ { pattern: '/disable(d)?/i', cssClass: 'gray' }, { ... } ]
+    specialFormatting?: any[];
 
     constructor(title: string, key: string, sort?: string, width?: number, dataWidth?: number) {
         this.title = title;

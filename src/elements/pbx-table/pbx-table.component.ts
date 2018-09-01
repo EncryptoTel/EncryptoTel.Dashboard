@@ -9,6 +9,7 @@ import {TableInfoExModel, TableInfoItem, TableInfoModel} from '../../models/base
 import {ModalEx} from "../pbx-modal/pbx-modal.component";
 import {PlayerAnimation} from "../../shared/player-animation";
 import {FadeAnimation} from "../../shared/fade-animation";
+import {str2regexp} from '../../shared/shared.functions';
 
 @Component({
     selector: 'pbx-table',
@@ -88,6 +89,26 @@ export class TableComponent implements OnInit {
 
     deleteItem(): void {
         this.onDelete.emit(this.selectedDelete);
+    }
+
+    getItemFormatting(item: any, tableItem: TableInfoItem, itemIndex: number): string {
+        let css = '';
+        
+        if (!!this.columnFormat) css += ' ' + this.columnFormat[itemIndex];
+        
+        if (!!tableItem.dataWidth) css += ' fix_' + tableItem.dataWidth;
+        else if (!!tableItem.width) css += ' fix_' + tableItem.width;
+        
+        if (tableItem.specialFormatting) {
+            let value = this.getValueByKeyEx(item, tableItem.key);
+            tableItem.specialFormatting.forEach(rule => {
+                if (value.match(str2regexp(rule.pattern))) {
+                    css += ' ' + rule.cssClass;
+                }
+            });
+        }
+
+        return css;
     }
 
     getValueByKeyEx(item: any, key: string): string {
