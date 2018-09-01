@@ -11,15 +11,21 @@ import {FadeAnimation} from '../../../shared/fade-animation';
 
 export class QueueMembersComponent implements OnInit {
     @Input() service;
-    @Output() onClick: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Input() headerText = 'Call Queue Members';
+    @Input() noDataMessage = 'No data to display';
 
-    members;
+    @Output() onClick: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    members: any[];
 
     table = {
         titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
         keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'statusName']
     };
+
+    get hasData(): boolean {
+        return !!this.members && this.members.length > 0;
+    }
 
     onClickMembers(): void {
         this.onClick.emit(true);

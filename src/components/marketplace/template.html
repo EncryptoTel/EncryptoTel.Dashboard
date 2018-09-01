@@ -2,7 +2,8 @@
         [modalEx]="modal"
         (onConfirmEx)="modalConfirm()"
 ></pbx-modal>
-<div class="marketplace_wrap">
+<pbx-loader *ngIf="!locker.free"></pbx-loader>
+<div class="marketplace_wrap" *ngIf="locker.free">
     <div *ngFor="let item of modules" class="marketplace_item color_{{item.color}}">
         <div class="marketplace_column">
             <div class="marketplace_title">{{item.title}}</div>

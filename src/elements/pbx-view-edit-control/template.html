@@ -3,11 +3,13 @@
         {{ headerText }}
         <pbx-button (onClick)="toggleEditMode()" value="{{ buttonText }}"></pbx-button>
     </div>
-    <pbx-table [tableInfo]="tableInfo"
+    <pbx-table *ngIf="hasData"
+               [tableInfo]="tableInfo"
                [tableItems]="selectedItems"
                [multiple]="false"
                (onDelete)="deleteSelectedItem($event)">
     </pbx-table>
+    <span class="pbx_queue_empty_text" *ngIf="!hasData">{{ noDataMessage }}</span>
 </div>
 <div class="view-edit-control-wrapper" *ngIf="editMode">
     <div class="view-edit-control-header toHide">

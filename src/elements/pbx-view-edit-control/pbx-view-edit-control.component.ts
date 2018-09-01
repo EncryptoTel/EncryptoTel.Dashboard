@@ -13,12 +13,17 @@ export class ViewEditControlComponent implements OnInit {
 
     @Input() headerText: string;
     @Input() buttonText: string;
+    @Input() noDataMessage = 'No data to display';
 
     @Input() tableInfo: {};
     @Input() items: any[];
     @Input() selectedItems: any[];
 
     @Output() onEditModeChanged: EventEmitter<boolean>;
+
+    get hasData(): boolean {
+        return !!this.selectedItems && this.selectedItems.length > 0;
+    }
 
     constructor() {
         this.editMode = false;

@@ -3,5 +3,11 @@
     {{headerText}}
     <pbx-button (onClick)="onClickMembers()" value="Add Member"></pbx-button>
   </div>
-  <pbx-table [tableInfo]="table" [tableItems]="members" (onDelete)="deleteMember($event)"></pbx-table>
+    <pbx-table *ngIf="hasData"
+               [tableInfo]="table" 
+               [tableItems]="members" 
+               (onDelete)="deleteMember($event)"
+               >
+    </pbx-table>
+    <span class="pbx_queue_empty_text" *ngIf="!hasData">{{ noDataMessage }}</span>
 </div>

@@ -4,6 +4,7 @@ import { Module } from '../../models/module.model';
 import { ModuleServices } from '../../services/module.services';
 import { LocalStorageServices } from '../../services/local-storage.services';
 import { MessageServices } from '../../services/message.services';
+import { Lockable, Locker } from '../../models/locker.model';
 
 @Component({
     selector: 'pbx-marketplace',
@@ -12,16 +13,17 @@ import { MessageServices } from '../../services/message.services';
     providers: [ModuleServices]
 })
 
-export class MarketplaceComponent implements OnInit {
+export class MarketplaceComponent implements OnInit, Lockable {
+    locker: Locker;
     modules: Module[];
     selected: Module;
     modal = new ModalEx('', 'buyModule');
 
-    constructor(
-        private _services: ModuleServices,
-        private _message: MessageServices,
-        private _storage: LocalStorageServices) 
-        {}
+    constructor(private _services: ModuleServices,
+                private _message: MessageServices,
+                private _storage: LocalStorageServices) {
+            this.locker = new Locker();
+    }
 
     ngOnInit(): void {
         this.getModulesList();
@@ -29,11 +31,15 @@ export class MarketplaceComponent implements OnInit {
 
     modalConfirm = (): void => {
         this.selected.loading = true;
-        this._services.buyService(this.selected.id)
-            .then(res => {
+        this.locker.lock();
+        this._services.buyService(this.selected.id).then(() => {
                 this.selected.loading = false;
+                this.locker.unlock();
                 this.getModulesList();
-            });
+        }).catch(() => {
+            this.selected.loading = false;
+            this.locker.unlock();
+        });
     }
 
     buyService(module: Module): void {
@@ -49,8 +55,9 @@ export class MarketplaceComponent implements OnInit {
 
     getModulesList(): void {
         this.modules = [];
-        this._services.getModulesList().then(res => {
-            res.map(module => {
+        this.locker.lock();
+        this._services.getModulesList().then(result => {
+            result.map(module => {
                 if (module.service.marketPlace) {
                     this.modules.push({
                         id: module.service.id,
@@ -62,7 +69,10 @@ export class MarketplaceComponent implements OnInit {
                     });
                 }
             });
-        }).catch();
+            this.locker.unlock();
+        }).catch(() => {
+            this.locker.unlock();
+        });
     }
 
     getBalance() {
