@@ -38,6 +38,7 @@ export class ListComponent implements OnInit {
     @Input() multiple: boolean;
     @Input() selected: any[];
     @Input() showEmptyInfo: boolean = true;
+    @Input() hideHeader: boolean = false;
     @Input() EmptyInfo: string;
     @Input() hideArrow: boolean;
     @Input()

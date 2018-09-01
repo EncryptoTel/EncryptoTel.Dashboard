@@ -10,6 +10,7 @@
               itemName="Department"
               [EmptyInfo]="companyActive ? null : getEmptyInfo()"
               [hideArrow]="!companyActive"
+              [hideHeader]="!companyActive"
               (onSelect)="select($event)"
               [service]="service"
               >
