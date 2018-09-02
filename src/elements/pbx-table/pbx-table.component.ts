@@ -10,6 +10,7 @@ import {ModalEx} from "../pbx-modal/pbx-modal.component";
 import {PlayerAnimation} from "../../shared/player-animation";
 import {FadeAnimation} from "../../shared/fade-animation";
 import {str2regexp} from '../../shared/shared.functions';
+import {isObject, isArray} from 'util';
 
 @Component({
     selector: 'pbx-table',
@@ -94,9 +95,10 @@ export class TableComponent implements OnInit {
     getItemFormatting(item: any, tableItem: TableInfoItem, itemIndex: number): string {
         let css = '';
         
-        if (!!this.columnFormat) css += ' ' + this.columnFormat[itemIndex];
+        // console.log('cf', this.columnFormat);
+        if (!!this.columnFormat && !!this.columnFormat[itemIndex]) css += ' ' + this.columnFormat[itemIndex];
         
-        if (!!tableItem.dataWidth) css += ' fix_' + tableItem.dataWidth;
+        if (tableItem.dataWidth !== undefined) css += ' fix_' + tableItem.dataWidth;
         else if (!!tableItem.width) css += ' fix_' + tableItem.width;
         
         if (tableItem.specialFormatting) {
@@ -113,7 +115,7 @@ export class TableComponent implements OnInit {
 
     getValueByKeyEx(item: any, key: string): string {
         let result: any = this.getValueByKey(item, key);
-        return result === true || result === false ? '' : result;
+        return result === true || result === false || isObject(result) || isArray(result) ? '' : result;
     }
 
     getValueByKey(item: any, key: string): string {

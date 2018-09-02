@@ -10,6 +10,11 @@ import {
 } from "../models/address-book.model";
 
 export class AddressBookService extends BaseService {
+    items: AddressBookItem[] = [];
+
+    onInit() {
+        this.url = 'contact';
+    }
 
     blockByContact(id: number, blacklist = false): Promise<any> {
         if (blacklist) {
@@ -82,8 +87,15 @@ export class AddressBookService extends BaseService {
         });
     }
 
-    onInit() {
-        this.url = 'contact';
+    getAddressBookItem(id: number): Promise<AddressBookItem> {
+        let item = this.items.find(item => item.id == id);
+        if (item) {
+            return Promise.resolve(item);
+        }
+        return super.getById(id).then((response: AddressBookItem) => {
+            item = new AddressBookItem(response);
+            this.items.push(item);
+            return Promise.resolve(response); 
+        });
     }
-
 }

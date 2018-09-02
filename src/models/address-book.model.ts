@@ -25,6 +25,7 @@ export class AddressBookItem extends BaseItemModel {
 
     constructor(response?) {
         super();
+
         if (response) {
             this.id = response.id;
             this.firstname = response.firstname;

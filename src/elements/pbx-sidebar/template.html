@@ -1,5 +1,5 @@
 <div class="sidebar">
-    <pbx-loader *ngIf="sidebarInfo && sidebarInfo.loading"></pbx-loader>
+    <pbx-loader *ngIf="sidebarInfo && sidebarInfo.loading || sidebarInfo.saving"></pbx-loader>
     <div class="sidebar_info_wrap" *ngIf="sidebarInfo && !sidebarInfo.loading">
         <div
                 *ngIf="sidebarInfo.title"

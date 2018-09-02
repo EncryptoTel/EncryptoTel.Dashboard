@@ -19,7 +19,6 @@
 
     <pbx-sidebar *ngIf="sidebar.visible" [sidebarInfo]="sidebar" (onClick)="click($event)" [@Swipe] [@Fade]>
         <div class="side_wrap" *ngIf="!loading && !sidebar.loading && sidebar.mode === 'edit'">
-            <pbx-loader *ngIf="sidebar.saving"></pbx-loader>
             <div class="side_body" *ngIf="!sidebar.saving">
 
                 <pbx-input name="First Name"

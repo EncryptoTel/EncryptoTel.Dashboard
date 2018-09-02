@@ -22,7 +22,7 @@
              [ngClass]="{'pick': multiple ? isSelected(item.id) : selected?.id === item.id}">
             <pbx-loader *ngIf="item.loading"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">
-                <div *ngFor="let tableItem of tableInfoEx.items;let i=index"
+                <div *ngFor="let tableItem of tableInfoEx.items; let i = index"
                      class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
                      (click)="selectItem(item)"
                      (mouseenter)="mouseEnter($event, item)"
