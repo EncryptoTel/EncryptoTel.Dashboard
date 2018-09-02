@@ -29,6 +29,7 @@ export class TableComponent implements OnInit {
     @Input() tableInfoEx: TableInfoExModel;
     @Input() editable: boolean;
     @Input() deletable: boolean = true;
+    @Input() editMode: boolean = true;
     @Input() multiple: boolean;
     @Input() columnFormat: string[];
     @Input() name: string;
@@ -67,25 +68,31 @@ export class TableComponent implements OnInit {
         this.onEdit.emit(item);
     }
 
-    clickDeleteItem(item, ev: MouseEvent) {
-        if (ev) {
-            ev.stopPropagation();
-            ev.preventDefault();
+    clickDeleteItem(item: any, event: MouseEvent) {
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
         }
+
         this.selectedDelete = item;
-        if (this.name === 'Phone Number') {
-            this.modal.body = '';
-            let body: string;
-            body = '';
-            let innerCount;
-            innerCount = 0;
-            if (item.sipInners && item.sipInners.length > 0) {
-                innerCount = item.sipInners.length;
-            }
-            body = body.concat('Are you sure you want to delete ', item.phoneNumber, ' and ', innerCount, ' Ext(s)?');
-            this.modal.body = body;
+        if (!this.editMode) {
+            this.deleteItem();
         }
-        this.modal.visible = true;
+        else {
+            if (this.name === 'Phone Number') {
+                this.modal.body = '';
+                let body: string;
+                body = '';
+                let innerCount;
+                innerCount = 0;
+                if (item.sipInners && item.sipInners.length > 0) {
+                    innerCount = item.sipInners.length;
+                }
+                body = body.concat('Are you sure you want to delete ', item.phoneNumber, ' and ', innerCount, ' Ext(s)?');
+                this.modal.body = body;
+            }
+            this.modal.visible = true;
+        }
     }
 
     deleteItem(): void {

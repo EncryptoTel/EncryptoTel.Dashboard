@@ -5,7 +5,8 @@
   </div>
     <pbx-table *ngIf="hasData"
                [tableInfo]="table" 
-               [tableItems]="members" 
+               [tableItems]="members"
+               [editMode]="service.editMode"
                (onDelete)="deleteMember($event)"
                >
     </pbx-table>

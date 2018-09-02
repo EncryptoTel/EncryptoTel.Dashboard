@@ -7,6 +7,7 @@
                [tableInfo]="tableInfo"
                [tableItems]="selectedItems"
                [multiple]="false"
+               [editMode]="parentEditMode"
                (onDelete)="deleteSelectedItem($event)">
     </pbx-table>
     <span class="pbx_queue_empty_text" *ngIf="!hasData">{{ noDataMessage }}</span>
