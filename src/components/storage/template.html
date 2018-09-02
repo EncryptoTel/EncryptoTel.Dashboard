@@ -14,12 +14,14 @@
             [tableInfoEx]="table"
             [tableItems]="pageInfo.items"
             [editable]="false"
-            [deletable]="false"
+            [deletable]="true"
             [selectedItems]="service.select"
             (onGetMediaData)="getMediaData($event)"
             (onPageChangeEx)="getItems()"
             (onSort)="getItems()"
-            (onSelect)="selectItem($event)">
+            (onSelect)="selectItem($event)"
+            (onDelete)="deleteItem($event)"
+            >
         </pbx-media-table>
 
         <pbx-loader *ngIf="loading"></pbx-loader>
@@ -35,7 +37,8 @@
         </pbx-pagination>
     </div>
     <pbx-sidebar *ngIf="source.select.type != 'trash'">
-        <div class="store_sidebar_audio" 
+        <div class="store_sidebar_audio"
+             [ngClass]="{ 'sidebar_active': sidebarActive }"
              (drop)="dropHandler($event)"
              (dragover)="dragOverHandler($event)"
              (dragend)="dragEndHandler($event)"

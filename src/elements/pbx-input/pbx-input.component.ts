@@ -48,6 +48,7 @@ export class InputComponent implements OnInit {
     @Input() actions: InputAction[] = [];
     @Input() formBuilder: FormBuilder;
     @Input() animationMode: string; // Possible values: Fade, Swipe (default)
+    @Input() resetable: boolean = false;
 
     // -- errors redefinitions
     @Input() validatorRequiredMsg: string;
@@ -205,6 +206,11 @@ export class InputComponent implements OnInit {
 
         this.object[this.key] = $event.target.value;
         this.onKeyUp.emit($event);
+    }
+    
+    clearValue(): void {
+        this.value = this.object[this.key] = null;
+        this.onKeyUp.emit();
     }
 
     selectItem(event: any): void {

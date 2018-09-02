@@ -111,6 +111,14 @@ export class ModalEx {
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('error', 'Delete'));
                 break;
+            case 'replaceOnlyFiles':
+                this.title = 'Attention';
+                if (!this.body) {
+                    this.body = 'A file with the same name has already been created. Do you want to replace it?';
+                }
+                this.buttons.push(new ModalButton('cancel', 'Cancel', 0));
+                this.buttons.push(new ModalButton('success', 'Replace', 1));
+                break;
             case 'replaceFiles':
                 this.title = 'Confirm';
                 if (!this.body) {

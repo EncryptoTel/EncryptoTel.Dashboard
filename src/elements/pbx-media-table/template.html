@@ -30,51 +30,56 @@
                 >{{getValueByKeyEx(item, tableItem.key)}}
                     <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
                 </div>
-                <div class="tablet_icon edit"
-                     *ngIf="editable" (click)="editItem(item, $event)">
-                    <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
-                </div>
-                <div class="tablet_icon delete"
-                     *ngIf="deletable" (click)="clickDeleteItem(item, $event)">
-                    <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
-                </div>
 
-                <div
-                        *ngFor="let action of tableInfoEx.actions; let i = index;"
-                        [style.width]="action.width ? action.width + 'px' : '20px'">
-                    <div
-                            *ngIf="action.type === 'drop-down'"
-                            class="tablet_item_cols">
-                        <div
-                                class="tablet_item_cols_dropdown"
-                                (click)="dropOpen(action, item)">
+                <div *ngFor="let action of tableInfoEx.actions; let i = index;"
+                     [style.width]="action.width ? action.width + 'px' : '20px'"
+                     >
+                    <div *ngIf="action.type === 'drop-down'"
+                         class="tablet_item_cols"
+                         >
+                        <div class="tablet_item_cols_dropdown"
+                             (click)="dropOpen(action, item)"
+                             >
                             <span></span>
                             <span></span>
                             <span></span>
-                            <ul
-                                    class="dd-menu"
-                                    *ngIf="item.ddShow"
-                                    [ngClass]="{'top' : dropDirection === 'top', 'bottom' : dropDirection === 'bottom'}">
-                                <li
-                                        *ngFor="let option of action.options"
-                                        class="dd-menu-button {{option.className}}"
-                                        (click)="dropClick(action, option, item)"
-                                >{{option.title}}
+                            <ul *ngIf="item.ddShow"
+                                class="dd-menu"
+                                [ngClass]="{'top' : dropDirection === 'top', 'bottom' : dropDirection === 'bottom'}"
+                                >
+                                <li *ngFor="let option of action.options"
+                                    class="dd-menu-button {{option.className}}"
+                                    (click)="dropClick(action, option, item)"
+                                    >
+                                {{ option.title }}
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div
-                            *ngIf="action.type === 'player'"
-                            class="tablet_item_cols player">
-                        <pbx-media-table-player
-                            style="position: relative; right: -144px;"
-                            #mediaPlayer
-                            [item]="item"
-                            (onTogglePlay)="togglePlay($event)">
+                    <div *ngIf="action.type === 'player'"
+                         class="tablet_item_cols player"
+                         >
+                        <pbx-media-table-player style="position: relative; right: -144px;"
+                                                #mediaPlayer
+                                                [item]="item"
+                                                (onTogglePlay)="togglePlay($event)"
+                                                >
                         </pbx-media-table-player>
                     </div>
                 </div>
+
+                <div class="tablet_icon edit"
+                     *ngIf="editable" (click)="editItem(item, $event)"
+                     >
+                    <svg-icon src="../../assets/icons/edit_12px.svg"></svg-icon>
+                </div>
+
+                <div class="tablet_icon delete"
+                     *ngIf="deletable" (click)="clickDeleteItem(item, $event)"
+                     >
+                    <svg-icon src="../../assets/icons/cancel_delete_12px.svg"></svg-icon>
+                </div>
+
             </div>
         </div>
     </div>
