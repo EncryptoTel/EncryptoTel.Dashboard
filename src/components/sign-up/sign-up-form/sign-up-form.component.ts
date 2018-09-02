@@ -9,6 +9,7 @@ import {UserServices} from '../../../services/user.services';
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {validateForm} from '../../../shared/shared.functions';
 import {FormMessageModel} from '../../../models/form-message.model';
+import {TimerObservable} from '../../../../node_modules/rxjs/observable/TimerObservable';
 
 @Component({
     selector: 'sign-up-form',
@@ -27,6 +28,12 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     errorPassword: boolean = false;
     errorConfirmPassword: boolean = false;
     errorCheck: boolean = false;
+    signUpCompleted: boolean;
+
+    get email(): string {
+        let email = this.signUpForm.value.email;
+        return email || '';
+    }
 
     constructor(private _router: Router,
                 private _user: UserServices,
@@ -164,12 +171,14 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         if (this.signUpForm.valid) {
             this.loading = true;
             this.services.signUp(this.signUpForm.value).then(() => {
+                this.signUpCompleted = true; // resend confirmation is shown
                 this.loading = false;
             })
             .catch(() => {
                 this.loading = false;
             });
-        } else {
+        } 
+        else {
             if (this.inputValidation('firstname')) this.errorName = true;
             if ((this.inputValidation('email')) && (!this.errorName)) this.errorEmail = true;
             if ((this.inputValidation('password')) && (!this.errorEmail && !this.errorName)) this.errorPassword = true;
@@ -179,7 +188,20 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         }
     }
 
+    resendConfirmation(): void {
+        console.error('NotImplementedException() has been thrown');
+        this.loading = true;
+        let timer: Subscription = TimerObservable.create(1500, 0).subscribe(
+            () => {
+                timer.unsubscribe();
+                this.loading = false;
+            }
+        );
+    }
+
     ngOnInit(): void {
+        this.signUpCompleted = false;
+
         this.errorsSubscription = this.services.readMessage().subscribe(message => {
             this.message = message;
         });

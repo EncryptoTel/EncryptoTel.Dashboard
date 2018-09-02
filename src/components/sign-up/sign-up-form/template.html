@@ -2,7 +2,12 @@
   <a class="auth_form_icon_wrap auth_form_icon" [@Fade] routerLink="../sign-in">
     <svg-icon [src]="'/assets/icons/_logo/encryptotel_logo.svg'" class="auth_form_icon"></svg-icon>
   </a>
-  <form (submit)="signUp($event)" [formGroup]="signUpForm" [@Fade] (keyup)="services.clearMessage()">
+  <form *ngIf="!signUpCompleted"
+        [@Fade]
+        [formGroup]="signUpForm"
+        (submit)="signUp($event)"
+        (keyup)="services.clearMessage()"
+        >
     <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="services.clearMessage()">{{message.message}}</div>
     <div class="input_wrap">
       <input #nameInput name="Name" placeholder="Name" formControlName="firstname" (focus)="setFocus(nameInput)" (blur)="removeFocus(nameInput)" (mouseenter)="mouseEnter(nameInput)" (mouseleave)="mouseLeave(nameInput)">
@@ -53,4 +58,13 @@
     <div class="auth_form_text">Already have an EncryptoTel Account?</div>
     <a routerLink="../sign-in" class="auth_form_link">Sign in now</a>
   </form>
+
+  <div *ngIf="signUpCompleted" class="post-signup-wrap">
+    <div class="post-signup-h1">Account registration</div>
+    <div class="post-signup-text">
+        Confirmation link has been sent to <br/>
+        {{ email }}
+    </div>
+    <pbx-button [buttonType]="'accent'" value="Resend confirmation" [loading]="loading" (onClick)="resendConfirmation()"></pbx-button>
+  </div>
 </div>

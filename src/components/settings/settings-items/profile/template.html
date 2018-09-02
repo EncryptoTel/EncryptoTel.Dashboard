@@ -72,7 +72,9 @@
                             buttonType="accent"
                             [value]="messageSent ? 'Confirm': 'Change'"
                             *ngIf="(!inputValidation(emailChange, 'email') && initialEmail !== emailChange.controls.email.value) || messageSent"
-                            [@Fade] (onClick)="initEmailChange()"></pbx-button>
+                            [@Fade] (onClick)="initEmailChange()"
+                            >
+                </pbx-button>
             </div>
             <div class="settings_form_section" [formGroup]="passwordChange">
                 <div class="settings_form_title">Change Password</div>
@@ -102,10 +104,16 @@
                            [form]="true"
                            [errors]="getErrors(passwordChange, 'password_confirmation')"
                            [object]="passwordChange"
-                ></pbx-input>
+                           >
+                </pbx-input>
 
-                <pbx-button value="Change" [loading]="loading.password" buttonType="accent" *ngIf="passwordChange.valid"
-                            (onClick)="changePassword()"></pbx-button>
+                <pbx-button value="Change" 
+                            [loading]="loading.password" 
+                            buttonType="accent" 
+                            *ngIf="passwordChange.valid"
+                            (onClick)="changePassword()"
+                            >
+                </pbx-button>
             </div>
         </form>
     </div>
