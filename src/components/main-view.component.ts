@@ -9,6 +9,7 @@ import 'rxjs/add/operator/mergeMap';
 import {MessageServices} from '../services/message.services';
 
 import {FadeAnimation} from '../shared/fade-animation';
+import {LocalStorageServices} from '../services/local-storage.services';
 
 // first and second
 // import * as $ from 'jquery';
@@ -29,7 +30,8 @@ export class MainViewComponent implements OnInit, OnDestroy {
     constructor(public _services: MessageServices,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
-                private title: Title) {
+                private title: Title,
+                private storage: LocalStorageServices) {
     }
 
     // messagesList: MessageModel[];
@@ -42,13 +44,13 @@ export class MainViewComponent implements OnInit, OnDestroy {
 
     public setUserTheme(theme: string) {
         this.userTheme = theme;
+        this.storage.writeItem('pbx_theme', theme);
     }
 
     ngOnInit(): void {
-        this.setUserTheme('dark_theme');
-        // this._services.messagesList().subscribe(messages => {
-        //     this.messagesList = messages;
-        // });
+        let theme: string;
+        theme = this.storage.readItem('pbx_theme');
+        this.setUserTheme(theme);
         this.routerSubscription = this.router.events
             .filter((event) => event instanceof NavigationEnd)
             .map(() => this.activatedRoute)
