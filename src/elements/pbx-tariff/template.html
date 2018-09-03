@@ -1,19 +1,16 @@
-<div class="tariff_item" [ngClass]="{'current_tariff':isCurrentTariff()}">
-    <h3 class="tariff_item_title">{{value.title}}</h3>
+<div class="tariff_item" [ngClass]="{ 'current_tariff' : isCurrent }">
+    <h3 class="tariff_item_title">{{ value.title }}</h3>
     <div class="tariff_item_body">
         <ul class="tariff_item_ul">
             <li class="tariff_item_ul_li" *ngFor="let service of value.services">
-                {{service.title}}
+                {{ service.title }}
             </li>
         </ul>
-        <div class="tariff_item_price">
-            {{tariffCost()}}
-        </div>
-        <button
-                [ngClass]="isCurrentTariff() ? 'inactive' : ''"
+        <div class="tariff_item_price">{{ cost }}</div>
+        <button [ngClass]="{ 'inactive' : isCurrent }"
                 class="tariff_item_button"
                 (click)="clicked($event)">
-            <span *ngIf="!value.loading">{{tariffStatus()}}</span>
+            <span *ngIf="!value.loading" style="cursor: pointer">{{ status }}</span>
             <pbx-loader *ngIf="value.loading"></pbx-loader>
         </button>
     </div>
