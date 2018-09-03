@@ -134,7 +134,9 @@ export class BuyPhoneNumbersComponent implements OnInit {
             if (this.countries.length === 0) {
                 this.countries = res;
                 this.countries.forEach(country => {
-                    country.title = country.title + ' (+' + country.phoneCode + ')';
+                    if (country.phoneCode) {
+                        country.title = country.title + ' (+' + country.phoneCode + ')';
+                    }
                 });
             }
             this.selectedCountry = this.countries.find(country => country.code === 'US');
