@@ -50,6 +50,9 @@ export class MainViewComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         let theme: string;
         theme = this.storage.readItem('pbx_theme');
+        if (!theme) {
+            theme = 'dark_theme';
+        }
         this.setUserTheme(theme);
         this.routerSubscription = this.router.events
             .filter((event) => event instanceof NavigationEnd)
