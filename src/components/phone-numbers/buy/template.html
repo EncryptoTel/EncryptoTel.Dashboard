@@ -51,7 +51,7 @@
     <div class="buy_phone_table_contain scroll" *ngIf="!loading">
         <div class="buy_phone_table_body" *ngFor="let table of list">
             <div class="buy_phone_table_row" *ngFor="let item of table">
-                <div class="buy_phone_table_item">{{item.fullNumber}}</div>
+                <div class="buy_phone_table_item">+{{item.fullNumber}}</div>
                 <div class="buy_phone_table_item">{{item.areaName||'Unknown'}}</div>
                 <div class="buy_phone_table_item">{{item.sum?'$'+item.sum:'Free'}}</div>
                 <div class="buy_phone_table_item">
