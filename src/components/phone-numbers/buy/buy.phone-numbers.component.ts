@@ -44,7 +44,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
     matches = [{id: 0, title: 'Any part of number'}];
 
-    title = ['Number', 'Location', 'Monthly', 'Buy'];
+    title = ['Number', 'Location', 'Type', 'Monthly', 'Buy'];
 
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;

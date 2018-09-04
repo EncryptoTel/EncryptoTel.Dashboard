@@ -53,6 +53,7 @@
             <div class="buy_phone_table_row" *ngFor="let item of table">
                 <div class="buy_phone_table_item">+{{item.fullNumber}}</div>
                 <div class="buy_phone_table_item">{{item.areaName||'Unknown'}}</div>
+                <div class="buy_phone_table_item">{{item.params.tollFree ? 'Toll-Free':item.params.mobile ? 'Mobile':item.params.local ? 'Local':''}}</div>
                 <div class="buy_phone_table_item">{{item.sum?'$'+item.sum:'Free'}}</div>
                 <div class="buy_phone_table_item">
                     <pbx-button value="Buy" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)"
