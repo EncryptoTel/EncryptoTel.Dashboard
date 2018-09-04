@@ -63,7 +63,6 @@
         </div>
     </div>
     <div class="table-message" *ngIf="!loading && list[0].length === 0">
-        <span *ngIf="!requestDetails.areaCode">No data to display</span>
         <span *ngIf="!requestDetails.areaCode && !requestDetails.contains">No data to display</span>
         <span *ngIf="requestDetails.areaCode && !requestDetails.contains">Sorry, no matches were found for "{{requestDetails.areaCode}}"</span>
         <span *ngIf="requestDetails.contains && !requestDetails.areaCode">Sorry, no matches were found for "{{requestDetails.contains}}"</span>
