@@ -1,10 +1,11 @@
 <pbx-form [confirm]="saveButton"
-          [decline]="{buttonType:'cancel',value:'Cancel'}"
+          [decline]="{ buttonType: 'cancel', value: 'Cancel' }"
           [background]="true"
-          (onConfirm)="saveSettings()"
-          (onDecline)="goBack()">
-    <pbx-loader *ngIf="(loading.body||loading.buttons)"></pbx-loader>
-    <div class="overlay_content" *ngIf="!(loading.body||loading.buttons)" [@Fade]>
+          (onConfirm)="save()"
+          (onDecline)="back()"
+          >
+    <pbx-loader *ngIf="loading"></pbx-loader>
+    <div class="overlay_content" *ngIf="!loading" [@Fade]>
         <form class="settings_form" (submit)="saveSettings($event)">
             <div class="settings_form_section" [formGroup]="generalForm">
                 <div class="settings_form_title">General</div>
@@ -50,7 +51,8 @@
             <div class="settings_form_section" [formGroup]="emailChange">
                 <div class="settings_form_title">Change E-mail</div>
 
-                <pbx-input name="E-mail"
+                <pbx-input *ngIf="!messageSent"
+                           name="E-mail"
                            key="email"
                            [required]="true"
                            placeholder="Please enter your e-mail address"
@@ -68,13 +70,7 @@
                                [object]="emailChange"
                     ></pbx-input>
                 </div>
-                <pbx-button [loading]="loading.email"
-                            buttonType="accent"
-                            [value]="messageSent ? 'Confirm': 'Change'"
-                            *ngIf="(!inputValidation(emailChange, 'email') && initialEmail !== emailChange.controls.email.value) || messageSent"
-                            [@Fade] (onClick)="initEmailChange()"
-                            >
-                </pbx-button>
+
             </div>
             <div class="settings_form_section" [formGroup]="passwordChange">
                 <div class="settings_form_title">Change Password</div>
@@ -107,13 +103,6 @@
                            >
                 </pbx-input>
 
-                <pbx-button value="Change" 
-                            [loading]="loading.password" 
-                            buttonType="accent" 
-                            *ngIf="passwordChange.valid"
-                            (onClick)="changePassword()"
-                            >
-                </pbx-button>
             </div>
         </form>
     </div>

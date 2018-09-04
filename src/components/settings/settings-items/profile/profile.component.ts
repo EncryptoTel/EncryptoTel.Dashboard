@@ -1,13 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {SettingsService} from '../../../../services/settings.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {emailRegExp, nameRegExp, phoneRegExp} from '../../../../shared/vars';
-import {validateForm} from '../../../../shared/shared.functions';
+import {FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
+import {emailRegExp, nameRegExp, phoneRegExp, numberRegExp} from '../../../../shared/vars';
+import {validateForm, killEvent} from '../../../../shared/shared.functions';
 import {FadeAnimation} from '../../../../shared/fade-animation';
 import {passwordConfirmation} from '../../../../shared/password-confirmation';
 import {Router} from '@angular/router';
 import {MessageServices} from '../../../../services/message.services';
 import {UserServices} from '../../../../services/user.services';
+import {FormsSnapshots} from '../../../../models/forms-snapshots.model';
+
+
+export enum EmailChangeState {
+    NOT_STARTED,
+    CONFIRMATION_CODE_SENT,
+    COMPLETED
+}
 
 @Component({
     selector: 'profile-component',
@@ -15,44 +23,210 @@ import {UserServices} from '../../../../services/user.services';
     styleUrls: ['../local.sass'],
     animations: [FadeAnimation('300ms')]
 })
-
 export class ProfileComponent implements OnInit {
-
-    loading = {
-        buttons: false,
-        body: false,
-        email: false,
-        password: false
-    };
-
-    messageSent: boolean;
-
     generalForm: FormGroup;
-    oldForm: FormGroup;
     emailChange: FormGroup;
     passwordChange: FormGroup;
+    formSnapshots: FormsSnapshots;
 
-    initialEmail: string;
-
-    numberRegExp: RegExp = new RegExp(/^\d+$/);
-
-    saveButton = {buttonType: 'success', value: 'Save', inactive: false, loading: false};
-
-    constructor(private service: SettingsService,
-                private router: Router,
-                private message: MessageServices,
-                private user: UserServices) {
+    emailChangeState: EmailChangeState;
+    get messageSent(): boolean {
+        return this.emailChangeState == EmailChangeState.CONFIRMATION_CODE_SENT;
     }
 
-    inputValidation = (form: FormGroup, name: string, errorType?: string): boolean => {
-        if (errorType) {
-            const field = form.controls[name];
-            return field && field.errors[errorType] && (field.dirty || field.touched);
-        } else {
-            const field = form.controls[name];
-            return field && field.invalid && (field.dirty || field.touched);
+    loading: number;
+    saveButton: any;
+
+    // --- component lifecycle methods ----------------------------------------
+
+    constructor(private _service: SettingsService,
+                private _fb: FormBuilder,
+                private _router: Router,
+                private _message: MessageServices,
+                private _user: UserServices) {
+        this.loading = 0;
+        this.formSnapshots = new FormsSnapshots();
+        this.emailChangeState = EmailChangeState.NOT_STARTED;
+        this.saveButton = { buttonType: 'success', value: 'Save', inactive: false, loading: false };
+    }
+
+    ngOnInit() {
+        this.initForms();
+        this.getSettings();
+    }
+    
+    // --- initialization -----------------------------------------------------
+
+    initForms(): void {
+        this.generalForm = this._fb.group({
+            firstname:  [null, [ Validators.required, Validators.pattern(nameRegExp) ]],
+            lastname:   [null, [ Validators.pattern(nameRegExp) ]],
+            patronymic: [null, [ Validators.pattern(nameRegExp) ]],
+            phone:      [null, [ Validators.pattern(phoneRegExp), Validators.minLength(7), Validators.maxLength(16) ]]
+        });
+        this.formSnapshots.add('generalForm', this.generalForm);
+        
+        this.emailChange = this._fb.group({
+            email:  [null, [ Validators.required, Validators.pattern(emailRegExp) ]],
+            code:   [null, [ Validators.required, Validators.minLength(6), Validators.pattern(numberRegExp) ]],
+        });
+        this.formSnapshots.add('emailChange', this.emailChange);
+        
+        this.passwordChange = this._fb.group({
+            oldPassword:            [null, [ Validators.required, Validators.minLength(6) ]],
+            password:               [null, [ Validators.required, Validators.minLength(6) ]],
+            password_confirmation:  [null, [ Validators.required, Validators.minLength(6) ]],
+        }, { 
+                validator: (formGroup: FormGroup) => {
+                    return passwordConfirmation(formGroup);
+                }
+        });
+        this.formSnapshots.add('passwordChange', this.passwordChange);
+    }
+
+    // --- event handlers -----------------------------------------------------
+
+    back(): void {
+        this._router.navigateByUrl('/cabinet/settings');
+    }
+
+    change() {
+        validateForm(this.generalForm);
+        // this.saveButton.inactive = !this.generalForm.valid;
+    }
+
+    save(event?: Event): void {
+        killEvent(event);
+        let validationResult = true;
+
+        const profileFormChanged = this.formSnapshots.check('generalForm');
+        // console.log('generalForm', profileFormChanged);
+        if (profileFormChanged) {
+            validateForm(this.generalForm);
+            validationResult = validationResult && this.generalForm.valid;
+        }
+
+        const emailFormChanged = this.formSnapshots.check('emailChange');
+        // console.log('emailChanged', emailFormChanged);
+        if (emailFormChanged) {
+            validationResult = validationResult && this.validateEmailForm();
+        }
+
+        const passwordFormChanged = this.formSnapshots.check('passwordChange');
+        // console.log('passwordChanged', passwordFormChanged);
+        if (passwordFormChanged) {
+            validateForm(this.passwordChange);
+            validationResult = validationResult && this.passwordChange.valid;
+        }
+
+        if (validationResult) {
+            profileFormChanged && this.saveProfileSettings();
+            emailFormChanged && this.saveEmailSettings();
+            passwordFormChanged && this.savePasswordSettings();
         }
     }
+
+    // --- forms processing methods -------------------------------------------
+
+    inputValidation(form: FormGroup, name: string, errorType?: string): boolean {
+        const field = form.controls[name];
+        return errorType
+            ? field && field.errors[errorType] && (field.dirty || field.touched)
+            : field && field.invalid && (field.dirty || field.touched);
+    }
+
+    initFormData(formKey: string, form: FormGroup, data?: any): void {
+        if (data) {
+            Object.keys(form.controls).map(key => {
+                data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.user[key]);
+            });
+        }
+        this.formSnapshots.save(formKey);
+    }
+
+    // checkFormChanged(formKey: string, form: FormGroup): boolean {
+    //     if (!this.formSnapshots[formKey]) 
+    //         return true;
+    //     return JSON.stringify(form.value) != this.formSnapshots[formKey];
+    // }
+
+    validateEmailForm(): boolean {
+        if (this.emailChangeState == EmailChangeState.NOT_STARTED) {
+            return !this.inputValidation(this.emailChange, 'email');
+        }
+        else if (this.emailChangeState == EmailChangeState.CONFIRMATION_CODE_SENT) {
+            return !this.inputValidation(this.emailChange, 'code');
+        }
+        return false;
+    }
+
+    // --- data methods -------------------------------------------------------
+
+    getSettings(): void {
+        this.loading ++;
+
+        this._service.getProfileSettings().then(response => {
+            // console.log('profile', response);
+
+            this.initFormData('generalForm', this.generalForm, response);
+            this.initFormData('emailChange', this.emailChange, response);
+            this.initFormData('passwordChange', this.passwordChange);
+
+            this.loading --;
+        });
+    }
+
+    saveProfileSettings(): void {
+        this.loading ++;
+        this._service.saveProfileSettings(this.generalForm.value).then(() => {
+            this.getSettings();
+            this._user.fetchProfileParams().then();
+            this.loading --;
+        })
+        .catch(() => this.loading --);
+    }
+
+    saveEmailSettings(): void {
+        if (this.emailChangeState == EmailChangeState.NOT_STARTED) {
+            this.loading ++;
+            // this._service.resetErrors();
+            this._service.requestEmailChange(this.emailChange.get('email').value).then(response => {
+                this.emailChangeState = EmailChangeState.CONFIRMATION_CODE_SENT;
+                
+                this.loading --;
+                // this._message.writeSuccess(response.message);
+            }).catch(() => {
+                this.loading --;
+            });
+        }
+        else if (this.emailChangeState == EmailChangeState.CONFIRMATION_CODE_SENT) {
+            this.loading ++;
+            this._service.confirmEmailChange(this.emailChange.get('code').value).then(response => {
+                this.emailChange.get('code').setValue('');
+                this.formSnapshots.save('emailChange');
+                this.emailChangeState = EmailChangeState.NOT_STARTED;
+                
+                this.loading --;
+                // this._message.writeSuccess(response.message);
+            }).catch(() => {
+                this.loading --;
+            });
+        }
+    }
+
+    savePasswordSettings(): void {
+        this.loading ++;
+        this._service.changePassword(this.passwordChange.value).then(response => {
+            this.passwordChange.reset();
+            
+            this.loading --;
+            // this._message.writeSuccess(response.message);
+        }).catch(() => {
+            this.loading --;
+        });
+    }
+
+    // --- old implementation ---
 
     passwordsMismatch(): boolean {
         const confirm = this.passwordChange.controls['password_confirmation'];
@@ -61,159 +235,6 @@ export class ProfileComponent implements OnInit {
             return this.passwordChange.errors.mismatch;
         } else {
             return false;
-        }
-    }
-
-    initForms(): void {
-        this.generalForm = new FormGroup({
-            'firstname': new FormControl('', [
-                Validators.required,
-                Validators.pattern(nameRegExp)
-            ]),
-            'lastname': new FormControl('', [
-                Validators.pattern(nameRegExp)
-            ]),
-            'patronymic': new FormControl('', [
-                Validators.pattern(nameRegExp)
-            ]),
-            'phone': new FormControl('', [
-                Validators.pattern(phoneRegExp),
-                Validators.minLength(7),
-                Validators.maxLength(16),
-            ])
-        });
-        this.emailChange = new FormGroup({
-            'email': new FormControl('', [
-                Validators.required,
-                Validators.pattern(emailRegExp)
-            ]),
-            'code': new FormControl('', [
-                Validators.required,
-                Validators.minLength(6),
-                Validators.pattern(this.numberRegExp)
-            ])
-        });
-        this.passwordChange = new FormGroup({
-            'oldPassword': new FormControl('', [
-                Validators.required,
-                Validators.minLength(6)
-            ]),
-            'password': new FormControl('', [
-                Validators.required,
-                Validators.minLength(6)
-            ]),
-            'password_confirmation': new FormControl('', [
-                Validators.required,
-                Validators.minLength(6)
-            ]),
-        }, passwordConfirmation);
-
-        this.oldForm = new FormGroup({
-            'firstname': new FormControl('', [
-                Validators.required,
-                Validators.pattern(nameRegExp)
-            ]),
-            'lastname': new FormControl('', [
-                Validators.pattern(nameRegExp)
-            ]),
-            'patronymic': new FormControl('', [
-                Validators.pattern(nameRegExp)
-            ]),
-            'phone': new FormControl('', [
-                Validators.pattern(phoneRegExp),
-                Validators.minLength(7),
-                Validators.maxLength(16),
-            ])
-        });
-    }
-
-    goBack(): void {
-        this.router.navigateByUrl('/cabinet/settings');
-    }
-
-    getSettings(): void {
-        this.loading.body = true;
-        this.service.getProfileSettings()
-            .then(res => {
-                this.initialEmail = res.profile.user.email;
-                Object.keys(this.generalForm.controls).map(key => {
-                    if (res.profile.user.hasOwnProperty(key)) {
-                        this.generalForm.controls[key].setValue(res.profile.user[key] || null);
-                        this.oldForm.controls[key].setValue(res.profile.user[key] || null);
-                    }
-                });
-                this.emailChange.controls.email.setValue(res.profile.user.email);
-                this.loading.body = this.loading.buttons = false;
-                this.passwordChange.reset();
-            }).catch();
-    }
-
-    saveSettings(ev?: Event): void {
-        if ( JSON.stringify(this.generalForm.value) === JSON.stringify(this.oldForm.value) ) {
-            this.message.writeSuccess('The data have been saved');
-            return;
-        }
-        if (ev) {
-            ev.preventDefault();
-            ev.stopPropagation();
-        }
-        validateForm(this.generalForm);
-        if (this.generalForm.valid) {
-            this.loading.buttons = true;
-            validateForm(this.generalForm);
-            if (this.generalForm.valid) {
-                this.service.saveProfileSettings(this.generalForm.value)
-                    .then((res) => {
-                        this.getSettings();
-                        this.user.fetchProfileParams().then();
-                    })
-                    .catch(() => this.loading.buttons = false);
-            }
-        }
-    }
-
-    initEmailChange(): void {
-        // validateForm(this.emailChange);
-        if (!this.messageSent) {
-            if (!this.inputValidation(this.emailChange, 'email')) {
-                this.loading.email = true;
-                this.service.resetErrors();
-                this.service.requestEmailChange(this.emailChange.get('email').value)
-                    .then(res => {
-                        this.messageSent = true;
-                        this.loading.email = false;
-                        this.message.writeSuccess(res.message);
-                    }).catch(() => {
-                        this.loading.email = false;
-                });
-            }
-        } else {
-            if (!this.inputValidation(this.emailChange, 'code')) {
-                this.loading.email = true;
-                this.service.confirmEmailChange(this.emailChange.get('code').value).then(res => {
-                    this.initialEmail = this.emailChange.controls.email.value;
-                    this.messageSent = false;
-                    this.loading.email = false;
-                    this.emailChange.get('code').setValue('');
-                    this.message.writeSuccess(res.message);
-                }).catch(res => {
-                    this.loading.email = false;
-                });
-            }
-        }
-    }
-
-    changePassword(): void {
-        validateForm(this.passwordChange);
-        if (this.passwordChange.valid) {
-            this.loading.password = true;
-            this.service.changePassword(this.passwordChange.value).then((res) => {
-                this.passwordChange.reset();
-                this.loading.password = false;
-                this.message.writeSuccess(res.message);
-            }).catch(res => {
-                this.loading.password = false;
-            });
         }
     }
 
@@ -261,16 +282,6 @@ export class ProfileComponent implements OnInit {
             result[key] = errors;
             return result;
         }
-        return this.service.errors;
-    }
-
-    change() {
-        validateForm(this.generalForm);
-        // this.saveButton.inactive = !this.generalForm.valid;
-    }
-
-    ngOnInit() {
-        this.initForms();
-        this.getSettings();
+        return this._service.errors;
     }
 }

@@ -3,6 +3,7 @@ import {FadeAnimation} from '../../../shared/fade-animation';
 import {PartnerProgramService} from '../../../services/partner-program.service';
 import {PartnerProgramItem, PartnerProgramModel} from "../../../models/partner-program.model";
 import {TableInfoExModel, TableInfoItem} from '../../../models/base.model';
+import {killEvent} from '../../../shared/shared.functions';
 
 @Component({
     selector: 'links-partner-program-component',
@@ -104,12 +105,7 @@ export class LinksPartnerProgramComponent implements OnInit {
 
     copyToClipboard(item: PartnerProgramItem, event: MouseEvent): void {
         this.onCopyToClipboard.emit(item);
-        this.killEvent(event);
-    }
-
-    killEvent(event: Event): void {
-        event.preventDefault();
-        event.stopPropagation();
+        killEvent(event);
     }
 
     ngOnInit(): void {

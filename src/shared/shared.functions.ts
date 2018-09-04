@@ -182,3 +182,10 @@ export function AnimationComponent(extendedConfig: Component = {}) {
         return Component(extendedConfig)(target);
     };
 }
+
+export function killEvent(event?: Event): void {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+}
