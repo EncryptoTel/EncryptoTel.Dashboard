@@ -87,7 +87,7 @@ export class AuthorizationServices {
     }
 
     sendTemporaryPassword(data: object) {
-        return this._req.post('password/temporary', {...data}).then(result => {
+        return this._req.post('password/temporary', {...data}, false).then(result => {
             this.setMessage({
                 type: 'success',
                 message: result.message ? result.message : 'Temporary password sent to your e-mail'
