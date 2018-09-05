@@ -62,6 +62,7 @@ export class TemporaryCodeComponent implements OnInit, OnDestroy {
     clearMessage(ev?: KeyboardEvent): void {
         if (ev.key) {
             this._services.clearMessage();
+            this.errorForm = false;
         }
     }
 
