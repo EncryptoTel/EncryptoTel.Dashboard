@@ -26,6 +26,7 @@ export class TemporaryCodeComponent implements OnInit, OnDestroy {
     errorsSubscription: Subscription;
     message: FormMessageModel;
     temporaryCodeForm: FormGroup;
+    errorForm: boolean = false;
 
     inputValidation(name: string, errorType?: string): boolean {
         if (errorType) {
@@ -43,10 +44,18 @@ export class TemporaryCodeComponent implements OnInit, OnDestroy {
         }
         validateForm(this.temporaryCodeForm);
         if (this.temporaryCodeForm.valid) {
+            this.errorForm = false;
             this.loading = true;
-            this._services.sendTemporaryPassword(this.temporaryCodeForm.value).then(() => {
+            this._services.sendTemporaryPassword(this.temporaryCodeForm.value).then((data) => {
                 this.loading = false;
-            }).catch(() => this.loading = false);
+                if (this.message.type === 'error') {
+                    this.errorForm = true;
+                }
+            }).catch(() => {
+                this.loading = false;
+            });
+        } else {
+            this.errorForm = true;
         }
     }
 
