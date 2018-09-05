@@ -53,7 +53,7 @@ export class NotificatorComponent implements OnInit {
     close() {
         this.visible = false;
         this.queue.splice(0, 1);
-        this.setTimer();
+        this.setTimer(3000);
     }
 
     @HostListener('window:resize', [])
