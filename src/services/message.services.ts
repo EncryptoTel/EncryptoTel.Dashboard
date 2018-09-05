@@ -18,6 +18,9 @@ export class MessageServices {
     }
 
     private messageProcess(type, text: string, time = null): void {
+        if ( time === null) {
+            time = 3000;
+        }
         const message: MessageModel = new MessageModel(this.generateId(), type, text, time);
         // this.messages.push(message);
         this.messageSubscription.next(message);
