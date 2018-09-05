@@ -32,11 +32,11 @@ export class NotificatorComponent implements OnInit {
             const notification = new NotificationModel(true, message.type, message.text);
             // this.logger.log('subMessages', notification);
             this.queue.push(notification);
-            this.setTimer();
+            this.setTimer(message.time);
         });
     }
 
-    setTimer() {
+    setTimer(time) {
         clearTimeout(this.timeout1);
         clearTimeout(this.timeout2);
         if (this.queue.length === 0) {
@@ -46,7 +46,7 @@ export class NotificatorComponent implements OnInit {
             this.visible = true;
             this.timeout2 = setTimeout(() => {
                 this.close();
-            }, 3000);
+            }, time);
         }, 100);
     }
 
