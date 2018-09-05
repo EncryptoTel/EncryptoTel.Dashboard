@@ -3,6 +3,6 @@ export class MessageModel {
     public id: number,
     public type: string,
     public text: string,
-    public time: string = 3000
+    public time: number = 3000
   ) {}
 }
