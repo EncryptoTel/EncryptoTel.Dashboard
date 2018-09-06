@@ -18,12 +18,26 @@ import {classToPlain} from '../../../node_modules/class-transformer';
 import {compareObjects} from '../../shared/shared.functions';
 
 
+export interface IFormValidation {
+    controller: VisibilityItem[];
+}
+
+export class VisibilityItem {
+    key: string;
+    visible: boolean;
+
+    constructor(key: string, visible: boolean = false) {
+        this.key = key;
+        this.visible = visible;
+    }
+}
+
 @Component({
     selector: 'pbx-company',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
 })
-export class CompanyComponent implements OnInit {
+export class CompanyComponent implements OnInit, IFormValidation {
     company: CompanyModel;
     // uses to store database company data to track changes
     originalCompany: CompanyModel;
@@ -36,6 +50,8 @@ export class CompanyComponent implements OnInit {
     sidebarInfo: SidebarInfoModel;
     modal: ModalEx;
     editMode: boolean;
+
+    controller: VisibilityItem[];
 
     // TODO: временная переменная для отладки/дизайна
     templateView: boolean = false;
@@ -97,6 +113,20 @@ export class CompanyComponent implements OnInit {
             // companyDetailFieldValue: this._fb.array([]),
             id: [null]
         });
+
+        this.controller = [
+            new VisibilityItem('name'),
+            new VisibilityItem('email'),
+            new VisibilityItem('phone'),
+            new VisibilityItem('vatId'),
+            new VisibilityItem('postalCode'),
+            new VisibilityItem('regionName'),
+            new VisibilityItem('locationName'),
+            new VisibilityItem('street'),
+            new VisibilityItem('building'),
+            new VisibilityItem('office'),
+            new VisibilityItem('country'),
+        ];
     }
 
     decline(): void {
@@ -158,6 +188,7 @@ export class CompanyComponent implements OnInit {
             });
         } else {
             this.companyForm.markAsTouched();
+            this.controller[0].visible = true;
         }
     }
 

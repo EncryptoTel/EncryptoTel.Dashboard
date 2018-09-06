@@ -3,6 +3,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {SwipeAnimation} from "../../shared/swipe-animation";
 import {FilterItem, InputAction} from "../../models/base.model";
+import { VisibilityItem } from '../../components/company/company.component';
 
 @Component({
     selector: 'pbx-input',
@@ -70,6 +71,8 @@ export class InputComponent implements OnInit {
     // @ViewChild('errorSpan') errorSpan: ElementRef;
     @ViewChild('inputDiv') inputDiv: ElementRef;
 
+    @Input() controller: VisibilityItem[];
+
     value;
     checkboxValues;
     prevError;
@@ -93,7 +96,8 @@ export class InputComponent implements OnInit {
     }
 
     get isErrorMessageVisible(): boolean {
-        return this.inErrorState && this.observed;
+        let item = this.controller && this.controller.find(i => i.key == this.key);
+        return this.inErrorState && (this.observed || (item && item.visible));
     }
     
     // -- event handlers ------------------------------------------------------
