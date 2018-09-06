@@ -49,9 +49,6 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
 
     sidebar: SidebarInfoModel = new SidebarInfoModel();
 
-
-    @ViewChild('lettersNumbers') lettersNumbers: ElementRef;
-
     @HostListener('window:keydown', ['$event'])
     keyEvent(event: KeyboardEvent) {
         if (document.activeElement.getAttribute('id') === 'firstname' || document.activeElement.getAttribute('id') === 'lastname') {
@@ -90,7 +87,15 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
     }
 
     pasteMethod($event: any) {
-        document.activeElement.setAttribute('value', $event);
+        if (document.activeElement.getAttribute('id') === 'firstname') {
+            this.selected.firstname = $event.clipboardData.getData('Text');
+        }
+        if (document.activeElement.getAttribute('id') === 'lastname') {
+            this.selected.lastname = $event.clipboardData.getData('Text');
+        }
+        // document.activeElement.setAttribute('value', $event);
+        // document.activeElement.value = $event.clipboardData.getData('Text');
+        // let current: ElementRef;
     }
 
     sidebarInitialize(): void {

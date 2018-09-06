@@ -92,9 +92,7 @@ export class InputComponent implements OnInit {
     }
 
     pasteEvent($event: any): void {
-        let value: object;
-        value = $event.clipboardData.getData('Text');
-        this.onPaste.emit(value);
+        this.onPaste.emit($event);
     }
 
     getErrorKey() {
