@@ -65,6 +65,7 @@ export class InputComponent implements OnInit {
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
     @Output() onKeyUp: EventEmitter<object> = new EventEmitter();
+    @Output() onPaste: EventEmitter<object> = new EventEmitter();
 
     // @ViewChild('errorSpan') errorSpan: ElementRef;
     @ViewChild('inputDiv') inputDiv: ElementRef;
@@ -90,6 +91,11 @@ export class InputComponent implements OnInit {
         this.pbxInputFocus = false;
     }
 
+    pasteEvent($event: any): void {
+        let value: string;
+        value = $event.clipboardData.getData('Text');
+        this.onPaste.emit(value);
+    }
 
     getErrorKey() {
         return this.errorKey ? this.errorKey : this.key;
@@ -159,7 +165,7 @@ export class InputComponent implements OnInit {
                 if (form.errors) keys = Object.keys(form.errors);
                 else {
                     let control = form.get(this.objectKey);
-                    if (control && control.errors) 
+                    if (control && control.errors)
                         keys = Object.keys(control.errors);
                 }
                 // TODO: map validation result for multiple errors
@@ -207,7 +213,7 @@ export class InputComponent implements OnInit {
         this.object[this.key] = $event.target.value;
         this.onKeyUp.emit($event);
     }
-    
+
     clearValue(): void {
         this.value = this.object[this.key] = null;
         this.onKeyUp.emit();

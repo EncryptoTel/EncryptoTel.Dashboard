@@ -28,14 +28,14 @@
                        (mouseenter)="mouseEnter()"
                        (mouseleave)="mouseLeave()"
                        [disabled]="disabled"
-                       >
+                       (paste)="pasteEvent($event)">
 
                 <div *ngIf="!options && !checkbox && type !== 'textarea' && resetable && value">
                     <div class="clear_icon" (click)="clearValue()">
                         <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
                     </div>
                 </div>
-    
+
                 <pbx-select *ngIf="options && !editable"
                             [name]="key"
                             [singleBorder]="singleBorder"

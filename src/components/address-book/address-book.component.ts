@@ -89,6 +89,10 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
         }, 500);
     }
 
+    pasteMethod($event: any) {
+        document.activeElement.setAttribute('value', $event);
+    }
+
     sidebarInitialize(): void {
         this.sidebar.mode = 'view';
 
