@@ -7,6 +7,14 @@
 .tariff_container:after
     z-index: -1
 
+
+// for Safari and Chrome
+@media screen and (-webkit-min-device-pixel-ratio:0)   
+    pbx-call-rules-create
+        pbx-form
+            .form-body
+                background: $dark_overlay
+
 // if Edge
 @supports (-ms-ime-align:auto)
     #arrow_edge
