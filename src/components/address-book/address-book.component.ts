@@ -1,4 +1,4 @@
-import {OnInit, ViewChild} from '@angular/core';
+import {ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {AddressBookService} from '../../services/address-book.service';
 import {
     AddressBookItem,
@@ -49,6 +49,28 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
 
     sidebar: SidebarInfoModel = new SidebarInfoModel();
 
+
+    @ViewChild('lettersNumbers') lettersNumbers: ElementRef;
+
+    @HostListener('window:keydown', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        if (document.activeElement.getAttribute('id') === 'firstname' || document.activeElement.getAttribute('id') === 'lastname') {
+            let specialKeys: Array<string>;
+            specialKeys = ['Backspace', 'Tab', 'End', 'Home'];
+            if (specialKeys.indexOf(event.key) !== -1) {
+                return;
+            }
+            let current: any;
+            current = document.activeElement;
+            let next: string;
+            next = current.value;
+            next = next.concat(event.key);
+            if (next && !String(next).match(new RegExp(/^-?[0-9A-Za-z]+$/g))) {
+                event.preventDefault();
+            }
+        }
+    }
+
     constructor(public service: AddressBookService,
                 private refs: RefsServices,
                 private message: MessageServices) {
@@ -73,23 +95,23 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
         this.sidebar.buttons = [];
         this.sidebar.buttons.push(new SidebarButtonItem(1, 'Close', 'cancel'));
         this.sidebar.buttons.push(new SidebarButtonItem(2, 'Edit', 'success'));
-        
+
         this.sidebar.items = [];
         this.sidebar.items.push(new SidebarInfoItem(4, 'First Name', this.selected.firstname));
         this.sidebar.items.push(new SidebarInfoItem(5, 'Last Name', this.selected.lastname));
-        
+
         let phones = [];
         this.selected.contactPhone.forEach(item => {
             if (item.value) phones.push(item.value);
         });
         this.sidebar.items.push(new SidebarInfoItem(6, phones.length > 1 ? 'Phones' : 'Phone', phones));
-        
+
         let emails = [];
         this.selected.contactEmail.forEach(item => {
             if (item.value) emails.push(item.value);
         });
         this.sidebar.items.push(new SidebarInfoItem(7, emails.length > 1 ? 'Emails' : 'Email', emails));
-        
+
         this.sidebar.items.push(new SidebarInfoItem(8, 'Company Name', this.selected.company));
         this.sidebar.items.push(new SidebarInfoItem(9, 'Department', this.selected.department));
         this.sidebar.items.push(new SidebarInfoItem(9, 'Position', this.selected.position));
