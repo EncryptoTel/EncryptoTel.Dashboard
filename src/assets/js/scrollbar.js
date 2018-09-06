@@ -17,8 +17,13 @@ jQuery(document).ready(function(){
           jQuery('html').on('click', function(){
               var curr_url = document.location.href;
               if(start_url != curr_url){
-                  jQuery('.nicescroll-rails.remove').remove();
+                    jQuery('.nicescroll-rails.remove').remove();
+                    doScrollbars();
+              }else{
+                setTimeout(function(){
+                  // jQuery('.nicescroll-rails.remove').remove();
                   doScrollbars();
+                }, 500);
               }
               start_url = curr_url;
           });
