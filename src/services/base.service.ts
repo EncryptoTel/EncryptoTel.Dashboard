@@ -34,6 +34,9 @@ export class BaseService {
                 if (item.hasOwnProperty('created')) {
                     item.created = item.created.replace(/-/g, '/');
                 }
+                if (item.hasOwnProperty('expires')) {
+                    item.expires = item.expires.replace(/-/g, '/');
+                }
                 pageInfo.items.push(plainToClass<TPageItem, {}>(classItems, item));
             });
         }
