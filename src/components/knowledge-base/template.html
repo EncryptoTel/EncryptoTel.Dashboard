@@ -6,7 +6,7 @@
             (onClick)="back($event)">
     </pbx-header>
 
-    <div class="content">
+    <div class="content custom-scrollbar">
         <pbx-loader *ngIf="loading"></pbx-loader>
 
         <div class="blocks" *ngIf="!loading && !selectedGroup && helps.items.length === 0">
