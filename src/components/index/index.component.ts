@@ -13,7 +13,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
-import {RefsServices} from "../../services/refs.services";
+import {RefsServices} from '../../services/refs.services';
 
 @Component({
     selector: 'pbx-index',
@@ -42,7 +42,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     headerButtonsVisible: boolean = true;
     userNavigationVisible: boolean = false;
     mobileNavigationVisible: boolean = false;
-    
+
     get username(): string {
         if (this.user && this.user.profile) {
             let firstName = this.user.profile.firstname ? this.user.profile.firstname : '';

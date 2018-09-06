@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Socket} from 'ng-socket-io';
-import {Subject} from "rxjs/Subject";
-import {BalanceModel, CdrModel, ServiceModel} from "../models/ws.model";
-import {Observable} from "rxjs/Observable";
-import {LoggerServices} from "./logger.services";
-import {ChatModel, MessageModel} from "../models/chat.model";
-import {MessageServices} from "./message.services";
+import {Subject} from 'rxjs/Subject';
+import {BalanceModel, CdrModel, ServiceModel} from '../models/ws.model';
+import {Observable} from 'rxjs/Observable';
+import {LoggerServices} from './logger.services';
+import {ChatModel, MessageModel} from '../models/chat.model';
+import {MessageServices} from './message.services';
+import {RefsServices} from './refs.services';
 
 
 @Injectable()
@@ -30,7 +31,9 @@ export class WsServices {
 
     constructor(private socket: Socket,
                 private logger: LoggerServices,
-                private message: MessageServices) {
+                private message: MessageServices,
+                private _refs: RefsServices,
+                private _message: MessageServices) {
         this.balance = {balance: 0};
         this.service = {id: null};
 
@@ -56,7 +59,10 @@ export class WsServices {
             _this.onService(data);
         });
         socket.on('notification', function (data) {
+            console.log(data);
             _this.log('<<< notification', data);
+            _this._refs.request.logout();
+            _this._message.writeError('You already have an authorized session running', 10000);
             _this.onNotification(data);
         });
         socket.on('message', function (data) {
