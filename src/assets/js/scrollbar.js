@@ -33,7 +33,7 @@ jQuery(document).ready(function(){
         if(height > 0){
           jQuery('.custom-scrollbar').niceScroll({
             cursorcolor: "#57C6CB",
-            cursorwidth: "4px",
+            cursorwidth: "2px",
             autohidemode: false,
             cursorborder: "0px solid transparent"
           });
