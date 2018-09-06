@@ -78,22 +78,67 @@ export class InputComponent implements OnInit {
     loading = 0;
     pbxInputFocus = false;
 
-    constructor() {
+    observed: boolean = false;
+
+    constructor() {}
+
+    // -- properties ----------------------------------------------------------
+
+    get inErrorState(): boolean {
+        if (this.form) {
+            let control = this.getForm();
+            return control.touched && !control.valid;
+        }
+        return false;
     }
+
+    get isErrorMessageVisible(): boolean {
+        return this.inErrorState && this.observed;
+    }
+    
+    // -- event handlers ------------------------------------------------------
 
     setFocus(): void {
         this.errorVisible = true;
         this.pbxInputFocus = true;
+        // --
+        this.observed = true;
     }
 
     removeFocus(): void {
         this.errorVisible = false;
         this.pbxInputFocus = false;
+        // --
+        this.observed = false;
+    }
+
+    mouseEnter() {
+        this.hoverActive = this.floatError;
+        // --
+        this.observed = true;
+    }
+
+    mouseLeave() {
+        this.hoverActive = false;
+        // --
+        this.observed = false;
     }
 
     pasteEvent($event: any): void {
         this.onPaste.emit($event);
     }
+
+    inputKeyUp($event) {
+        if ($event && !['Tab', 'ArrowRight', 'ArrowLeft'].includes($event.key)) {
+            this.resetError();
+        }
+        // this.resetError();
+
+        this.object[this.key] = $event.target.value;
+        this.onKeyUp.emit($event);
+    }
+
+    // -- ... -----------------------------------------------------------------
 
     getErrorKey() {
         return this.errorKey ? this.errorKey : this.key;
@@ -202,16 +247,6 @@ export class InputComponent implements OnInit {
         }
     }
 
-    inputKeyUp($event) {
-        if ($event && !['Tab', 'ArrowRight', 'ArrowLeft'].includes($event.key)) {
-            this.resetError();
-        }
-        // this.resetError();
-
-        this.object[this.key] = $event.target.value;
-        this.onKeyUp.emit($event);
-    }
-
     clearValue(): void {
         this.value = this.object[this.key] = null;
         this.onKeyUp.emit();
@@ -309,14 +344,6 @@ export class InputComponent implements OnInit {
         return this.errorVisible;
     }
 
-    mouseEnter() {
-        this.hoverActive = this.floatError;
-    }
-
-    mouseLeave() {
-        this.hoverActive = false;
-    }
-
     actionAdd(action: InputAction) {
         if (this.formBuilder) {
             action.objects.push(this.formBuilder.control('', []));
@@ -358,6 +385,10 @@ export class InputComponent implements OnInit {
 
         this.loading --;
         // console.log(this.key, JSON.stringify(this.value));
+
+        if (this.key == 'regionName') {
+            console.log('address', this.object);
+        }
     }
 
 }

@@ -212,6 +212,8 @@ export class CompanyComponent implements OnInit {
             // console.log('companyInfo', this.companyInfo);
             this.originalCompany = company;
             this.setCompanyFormData();
+            console.log('form', this.companyForm);
+
             this.editMode = !company.isValid;
             this.loading --;
         }).catch(() => {

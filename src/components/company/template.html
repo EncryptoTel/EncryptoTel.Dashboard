@@ -21,7 +21,7 @@
                        >
             </pbx-input>
             <ng-container formArrayName="companyAddress">
-                <ng-container *ngFor="let address of addressControls.controls;let i = index" [formGroupName]="i">
+                <ng-container *ngFor="let address of addressControls.controls; let i = index;" [formGroupName]="i">
                     <pbx-input name="Country"
                                key="country"
                                displayKey="title"
