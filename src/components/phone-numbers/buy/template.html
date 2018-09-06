@@ -24,7 +24,7 @@
             <pbx-select [options]="matches" [objectKey]="'title'" [selected]="matches[0]"></pbx-select>
         </div>
         <div class="buy_phone_header_options">
-            <div class="buy_phone_header_options_title">Number types</div>
+            <div class="buy_phone_header_options_title">Number types:</div>
             <pbx-checkbox [value]="requestDetails.local"
                           (onToggle)="requestDetails.local = $event; getList()"></pbx-checkbox>
             <div>Local</div>
@@ -51,8 +51,9 @@
     <div class="buy_phone_table_contain scroll" *ngIf="!loading">
         <div class="buy_phone_table_body" *ngFor="let table of list">
             <div class="buy_phone_table_row" *ngFor="let item of table">
-                <div class="buy_phone_table_item">{{item.fullNumber}}</div>
+                <div class="buy_phone_table_item">+{{item.fullNumber}}</div>
                 <div class="buy_phone_table_item">{{item.areaName||'Unknown'}}</div>
+                <div class="buy_phone_table_item">{{item.params.tollFree ? 'Toll-Free':item.params.mobile ? 'Mobile':item.params.local ? 'Local':''}}</div>
                 <div class="buy_phone_table_item">{{item.sum?'$'+item.sum:'Free'}}</div>
                 <div class="buy_phone_table_item">
                     <pbx-button value="Buy" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)"
@@ -62,8 +63,10 @@
         </div>
     </div>
     <div class="table-message" *ngIf="!loading && list[0].length === 0">
-        <span *ngIf="!requestDetails.contains">No data to display</span>
-        <span *ngIf="requestDetails.contains">Sorry, no matches were found for "{{requestDetails.contains}}"</span>
+        <span *ngIf="!requestDetails.areaCode && !requestDetails.contains">No data to display</span>
+        <span *ngIf="requestDetails.areaCode && !requestDetails.contains">Sorry, no matches were found for "{{requestDetails.areaCode}}"</span>
+        <span *ngIf="requestDetails.contains && !requestDetails.areaCode">Sorry, no matches were found for "{{requestDetails.contains}}"</span>
+        <span *ngIf="requestDetails.contains && requestDetails.areaCode">Sorry, no matches were found for "{{requestDetails.areaCode}}" and "{{requestDetails.contains}}"</span>
     </div>
     <div class="buy_phone_pagination" *ngIf="pagination.total>1">
         <pbx-pagination [currentPage]="pagination.page"

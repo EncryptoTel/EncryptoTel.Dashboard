@@ -36,6 +36,7 @@ import {BillingComponent} from '../components/settings/settings-items/billing/bi
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 import {DepartmentsComponent} from '../components/departments/department.component';
+import {DepartmentCreateComponent} from '../components/departments/department-create/department-create.component';
 import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
 import {CallRulesComponent} from '../components/call-rules/call-rules.component';
 import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
@@ -69,6 +70,8 @@ import {VgStreamingModule} from 'videogular2/streaming';
 import {RefComponent} from "../components/confirmation/ref.component";
 import {BaseComponent} from "../elements/pbx-component/pbx-component.component";
 import {SessionsComponent} from "../components/settings/settings-items/sessions/sessions.component";
+import {TabsComponent} from '../elements/pbx-tabs/pbx-tabs.component';
+import {TabComponent} from '../elements/pbx-tabs/tab/pbx-tab.component';
 
 /*
   Components declarations and exports
@@ -121,6 +124,7 @@ import {SessionsComponent} from "../components/settings/settings-items/sessions/
         PhoneNumbersComponent,
         AddressBookComponent,
         DepartmentsComponent,
+        DepartmentCreateComponent,
         CallRulesComponent,
         CallRulesCreateComponent,
         PhoneNumbersComponent,
@@ -147,7 +151,9 @@ import {SessionsComponent} from "../components/settings/settings-items/sessions/
         IvrCreateComponent,
         BaseSettingsComponent,
         RefComponent,
-        SessionsComponent
+        SessionsComponent,
+        TabsComponent,
+        TabComponent,
     ],
     exports: [
         BaseComponent,
@@ -175,6 +181,7 @@ import {SessionsComponent} from "../components/settings/settings-items/sessions/
         UserNotificationsComponent,
         PhoneNumbersComponent,
         DepartmentsComponent,
+        DepartmentCreateComponent,
         CallRulesComponent,
         CallRulesCreateComponent,
         AddressBookComponent,
@@ -196,7 +203,9 @@ import {SessionsComponent} from "../components/settings/settings-items/sessions/
         IvrCreateComponent,
         BaseSettingsComponent,
         RefComponent,
-        SessionsComponent
+        SessionsComponent,
+        TabsComponent,
+        TabComponent,
     ]
 })
 export class ComponentsModule {

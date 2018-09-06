@@ -30,7 +30,7 @@
         >
         <div *ngFor="let option of filteredOptions"
                 class="select_item"
-                [ngClass]="{ 'current': isItemSelected(option) }"
+                [ngClass]="{ 'current': isItemSelected(option), 'pbx-select-empty': !option.id }"
                 (mousedown)="selectItem(option, $event)"
             >
             {{ option[objectKey] }}

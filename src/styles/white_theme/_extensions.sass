@@ -1,0 +1,43 @@
+.light_theme
+    extensions-component,
+    pbx-storage,
+    .knowledge-base
+        .pbx_header_wrap
+            pbx-input
+                .pbx_input_item_label
+                    span
+                        color: $white_black_70
+    add-extension-component
+        .add_ext_form_item_description
+            color: $white_black_80
+        .add_ext_form_title
+            color: $white_black_80
+            font-weight: 400
+            span
+                color: $white_black_80 !important
+                font-weight: 300
+        .pbx_input_item_label
+            span
+                color: $white_black_70
+        pbx-editable-select
+            .select_item.selected
+                border-top: none !important
+                border-left: none !important
+                border-right: none !important
+        pbx-input
+            input:not([type="submit"])
+                border-top: none !important
+                border-left: none !important
+                border-right: none !important
+                &:focus
+                    border-top: none !important
+                    border-left: none !important
+                    border-right: none !important
+    rights-add-extension-component,
+    options-add-extension-component
+        .add_ext_form_item
+            &:hover
+                label
+                    color: $white_black !important
+            label
+                font-weight: 300 !important

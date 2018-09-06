@@ -44,7 +44,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
     matches = [{id: 0, title: 'Any part of number'}];
 
-    title = ['Number', 'Location', 'Monthly', 'Buy'];
+    title = ['Number', 'Location', 'Type', 'Monthly', 'Buy'];
 
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
@@ -134,7 +134,9 @@ export class BuyPhoneNumbersComponent implements OnInit {
             if (this.countries.length === 0) {
                 this.countries = res;
                 this.countries.forEach(country => {
-                    country.title = country.title + ' (+' + country.phoneCode + ')';
+                    if (country.phoneCode) {
+                        country.title = country.title + ' (+' + country.phoneCode + ')';
+                    }
                 });
             }
             this.selectedCountry = this.countries.find(country => country.code === 'US');

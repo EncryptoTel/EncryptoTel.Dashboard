@@ -19,6 +19,7 @@
             *ngIf="currentTab===tabs[1]&&!addMembers"
             [service]="service"
             [headerText]="headerText"
+            noDataMessage="No data to display. Please add members"
             (onClick)="doAddMembers($event)"
     ></pbx-queue-members>
     <pbx-queue-members-add

@@ -84,7 +84,7 @@ export class ModalEx {
                 if (!this.body) {
                     this.body = 'Are you sure you want to change tariff plan?';
                 }
-                this.buttons.push(new ModalButton('cancel', 'No'));
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('success', 'Yes'));
                 break;
             case 'buyModule':
@@ -110,6 +110,14 @@ export class ModalEx {
                 }
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('error', 'Delete'));
+                break;
+            case 'replaceOnlyFiles':
+                this.title = 'Attention';
+                if (!this.body) {
+                    this.body = 'A file with the same name has already been created. Do you want to replace it?';
+                }
+                this.buttons.push(new ModalButton('cancel', 'Cancel', 0));
+                this.buttons.push(new ModalButton('success', 'Replace', 1));
                 break;
             case 'replaceFiles':
                 this.title = 'Confirm';
@@ -149,7 +157,7 @@ export class ModalEx {
                 if (!this.body) {
                     this.body = 'Stop editing?';
                 }
-                this.buttons.push(new ModalButton('cancel', 'Stay'));
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('success', 'Yes'));
                 break;
         }

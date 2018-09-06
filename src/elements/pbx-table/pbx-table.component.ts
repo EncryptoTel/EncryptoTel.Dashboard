@@ -9,6 +9,8 @@ import {TableInfoExModel, TableInfoItem, TableInfoModel} from '../../models/base
 import {ModalEx} from "../pbx-modal/pbx-modal.component";
 import {PlayerAnimation} from "../../shared/player-animation";
 import {FadeAnimation} from "../../shared/fade-animation";
+import {str2regexp} from '../../shared/shared.functions';
+import {isObject, isArray} from 'util';
 
 @Component({
     selector: 'pbx-table',
@@ -27,6 +29,7 @@ export class TableComponent implements OnInit {
     @Input() tableInfoEx: TableInfoExModel;
     @Input() editable: boolean;
     @Input() deletable: boolean = true;
+    @Input() editMode: boolean = true;
     @Input() multiple: boolean;
     @Input() columnFormat: string[];
     @Input() name: string;
@@ -65,34 +68,61 @@ export class TableComponent implements OnInit {
         this.onEdit.emit(item);
     }
 
-    clickDeleteItem(item, ev: MouseEvent) {
-        if (ev) {
-            ev.stopPropagation();
-            ev.preventDefault();
+    clickDeleteItem(item: any, event: MouseEvent) {
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
         }
+
         this.selectedDelete = item;
-        if (this.name === 'Phone Number') {
-            this.modal.body = '';
-            let body: string;
-            body = '';
-            let innerCount;
-            innerCount = 0;
-            if (item.sipInners && item.sipInners.length > 0) {
-                innerCount = item.sipInners.length;
-            }
-            body = body.concat('Are you sure you want to delete ', item.phoneNumber, ' and ', innerCount, ' Ext(s)?');
-            this.modal.body = body;
+        if (!this.editMode) {
+            this.deleteItem();
         }
-        this.modal.visible = true;
+        else {
+            if (this.name === 'Phone Number') {
+                this.modal.body = '';
+                let body: string;
+                body = '';
+                let innerCount;
+                innerCount = 0;
+                if (item.sipInners && item.sipInners.length > 0) {
+                    innerCount = item.sipInners.length;
+                }
+                body = body.concat('Are you sure you want to delete ', item.phoneNumber, ' and ', innerCount, ' Ext(s)?');
+                this.modal.body = body;
+            }
+            this.modal.visible = true;
+        }
     }
 
     deleteItem(): void {
         this.onDelete.emit(this.selectedDelete);
     }
 
+    getItemFormatting(item: any, tableItem: TableInfoItem, itemIndex: number): string {
+        let css = '';
+        
+        // console.log('cf', this.columnFormat);
+        if (!!this.columnFormat && !!this.columnFormat[itemIndex]) css += ' ' + this.columnFormat[itemIndex];
+        
+        if (tableItem.dataWidth !== undefined) css += ' fix_' + tableItem.dataWidth;
+        else if (!!tableItem.width) css += ' fix_' + tableItem.width;
+        
+        if (tableItem.specialFormatting) {
+            let value = this.getValueByKeyEx(item, tableItem.key);
+            tableItem.specialFormatting.forEach(rule => {
+                if (value.match(str2regexp(rule.pattern))) {
+                    css += ' ' + rule.cssClass;
+                }
+            });
+        }
+
+        return css;
+    }
+
     getValueByKeyEx(item: any, key: string): string {
         let result: any = this.getValueByKey(item, key);
-        return result === true || result === false ? '' : result;
+        return result === true || result === false || isObject(result) || isArray(result) ? '' : result;
     }
 
     getValueByKey(item: any, key: string): string {

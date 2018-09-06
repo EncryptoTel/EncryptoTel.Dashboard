@@ -22,13 +22,21 @@
                        [form]="true"
                        [required]="true"
                        [(errors)]="service.errors"
-                       [object]="callRulesForm">
+                       [object]="callRulesForm"
+                       errorShow="true"
+                       validatorRequiredMsg="Please enter rule name"
+                       validatorMaxLengthMsg="Please enter no more than 150 characters"
+                       validatorPatternMsg="Rule Name may contain letters, digits, dashes and underscores only"
+                       >
             </pbx-input>
             <pbx-input name="Description"
                        key="description"
                        [form]="true"
                        [(errors)]="service.errors"
-                       [object]="callRulesForm">
+                       [object]="callRulesForm"
+                       errorShow="true"
+                       validatorMaxLengthMsg="Please enter no more than 255 characters"
+                       >
             </pbx-input>
             <pbx-input *ngIf="mode !== 'edit'"
                        name="Phone number"
@@ -71,7 +79,10 @@
                            [(objectView)]="selectedActions[0]"
                            [(object)]="callRulesForm"
                            [placeholder]="'[choose one]'"
-                           [editable]="true">
+                           [editable]="true"
+                           validatorRequiredMsg="Please choose an action"
+                           errorShow="true"
+                           >
                 </pbx-input>
 
 
@@ -134,6 +145,7 @@
                                 <pbx-input name="Queue"
                                            displayKey="name"
                                            key="parameter"
+                                           placeholder="{{queues.length === 0 ? 'None' : '[choose one]'}}"
                                            [errorKey]="'ruleActions.new_' + i + '.parameter'"
                                            [form]="true"
                                            [required]="true"
@@ -162,7 +174,7 @@
                                 <div class="call-rules-create_row">
                                     <label></label>
                                     <div>
-                                        <p>Cancel call</p>
+                                        <p>Terminate call</p>
                                     </div>
                                 </div>
                                 <!--<call-rules-timeout [value]="getTimeout(i)" (onChange)="onTimeoutChange(i, $event)"></call-rules-timeout>-->

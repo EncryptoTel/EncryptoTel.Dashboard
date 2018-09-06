@@ -8,6 +8,11 @@ pbx-sidebar
                 opacity: unset !important
         .side_unit_icon *
             fill: $dark_success
+        .description_text
+            margin-bottom: 8px
+            font-size: 16px
+            line-height: 21px
+            color: $dark_white
     &.sidebar_partner_program
         .sidebar_description_wrap
             .sidebar_info_description:nth-child(2)
@@ -27,18 +32,10 @@ pbx-sidebar
                     bottom: 0
                     right: 0
                     left: 0
-        .select_wrap.active
-            border: 1px solid $dark_accent !important
 
 
 
 .sidebar
-    .sidebar_description_wrap
-        // overflow-y: unset !important
-
-    .error-text
-        span
-            // color: $dark_error !important
     svg-icon
         /deep/ *
             fill: $dark_green_dark
@@ -58,3 +55,59 @@ pbx-sidebar
                 display: block
             .pbx_input_error_float_focus
                 margin-top: 23px
+
+pbx-sidebar
+    .sidebar
+        .sidebar_info_wrap
+            .sidebar_description_wrap
+                .sidebar_info_description
+                    margin-top: 0!important
+                    .description_item_wrap
+                        margin-bottom: 20px !important
+                        .description_text
+                            margin-bottom: 0!important
+                            &.title
+                                margin-bottom: 4px !important
+                                color: $dark-white_70 !important
+
+pbx-company
+    pbx-sidebar
+        .sidebar
+            .sidebar_description_wrap
+                .sidebar_info_description
+                    min-height: unset !important
+                    .description_item_wrap
+                        min-height: unset !important
+                        margin-bottom: 0 !important
+                        .description_text
+                            width: unset !important
+                            &.title
+                                margin-bottom: 0 !important
+
+pbx-sidebar
+    .sidebar
+        .pbx_input_row
+            position: relative
+
+
+// partner-program-component
+    // .sidebar .sidebar_description_wrap .sidebar_info_description .description_item_wrap .description_text
+    //     width: 300px !important
+    // .sidebar .sidebar_description_wrap .sidebar_info_description .description_item_wrap .description_text.title
+    //     margin-bottom: 10px !important
+    // .sidebar .sidebar_description_wrap
+    //     overflow-y: unset !important
+
+// pbx-address-book
+    // pbx-sidebar
+    //     .sidebar .sidebar_description_wrap .sidebar_info_description .description_item_wrap
+    //         min-height: rem(32) !important
+    //     .sidebar
+    //         .sidebar_description_wrap
+    //             .sidebar_info_description
+    //                 .description_item_wrap
+    //                     .description_text
+    //                         margin-bottom: 24px !important
+    //                         &.title
+    //                             margin-bottom: 10px !important
+

@@ -1,3 +1,5 @@
+pbx-index
+    min-height: 100%
 .body_wrap
     min-height: 300px
     padding-top: 74px
@@ -17,45 +19,114 @@ input:not([type='submit'])
 .select_wrap:focus > .selected
     border-color: $dark_accent !important
 
-////////////////////////////////////////////
-// сделать надо как-то через компоненты а это удалить все
-////////////////////////////////////////////
+pbx-form
+    pbx-input[name="Action"],
+    pbx-input[name="Extension number"],
+    pbx-input[name="External number"],
+    pbx-input[name="Queue"],
+    pbx-input[name="Voice greeting"]
+        .pbx_input_item_label
+            span:nth-child(2)
+                display: none
 
-// form
-//     .input_wrap
-//         .input_error
-//             display: none
-//     .input_wrap:nth-child(1)
-//         .input_error
-//             display: flex
-//     .input_wrap input:focus
-//         + .input_error
-//             display: flex
+pbx-table
+    .tablet_row
+        &:hover
+            .tablet_icon
+                &.edit,
+                &.delete
+                    opacity: 1 !important
+pbx-header
+    pbx-input
+        pbx-select,
+        input
+            min-width: 224px !important
 
-// pbx-queue-create,
-// pbx-call-rules-create
-//     pbx-form
-//         .form
-//             .form-body
-//                 pbx-input
-//                     .pbx_input_item
-//                         .pbx_input_error
-//                             display: none
-//                 pbx-input
-//                     .pbx_input_item
-//                         .pbx_input_item_input_wrap:focus
-//                             + .pbx_input_error
-//                                 display: flex
-// pbx-queue-create
-//     pbx-input:nth-child(2)
-//         .pbx_input_item
-//             .pbx_input_error
-//                 display: flex !important
-// pbx-call-rules-create
-//     pbx-input:nth-child(3)
-//         .pbx_input_item
-//             .pbx_input_error
-//                 display: flex !important
+main-view
+    position: relative
+    pbx-loader
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
 
-////////////////////////////////////////////
-////////////////////////////////////////////
+phone-numbers-component
+    pbx-table
+        .tablet_body
+            .tablet_row
+                .tablet_content
+                    display: grid
+                    grid-template-columns: repeat(5, 1fr)
+                    .tablet_item
+                        white-space: nowrap
+
+pbx-select,
+pbx-editable-select
+    .select_options
+        border: 1px solid $white_input_border !important
+        border-top: none !important
+    .select_item
+        &.selected
+            color: $dark_white !important
+
+pbx-company,
+pbx-call-rules-create,
+pbx-call-queues-create,
+ring-groups-create-component,
+add-extension-component
+    pbx-editable-select
+        .select_wrap.active
+            input,
+            .select_item.selected
+                border-top: none !important
+                border-left: none !important
+                border-right: none !important
+
+pbx-table
+    .tablet_item
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+
+.auth_form:after
+    opacity: .45
+.pbx_input_error
+    z-index: 1
+
+.form-body
+    position: relative
+pbx-department-create
+    position: relative
+    .form-body
+        position: static !important
+.pbx_queue_empty_text
+    text-align: center
+    font-size: 2.28571429rem
+    white-space: nowrap
+    color: $dark-white_70
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+
+// Storage - раскомментировать когда аудио переместится в колонку Record
+// pbx-storage
+//     pbx-media-table
+//         .tablet_header
+//             display: grid !important
+//             grid-template-columns: repeat(4, 1fr) !important
+//             .tablet_item
+//                 // outline: 1px solid red
+//                 max-width: 100% !important
+//                 min-width: 204px !important
+//         .tablet_body
+//             .tablet_row
+//                 .tablet_content
+//                     display: grid !important
+//                     grid-template-columns: repeat(4, 1fr) !important
+//                     .tablet_item
+//                         // outline: 1px solid green
+//                         white-space: nowrap
+//                         max-width: unset !important
+//                         padding: 12px 16px !important
+//                         min-width: 204px !important

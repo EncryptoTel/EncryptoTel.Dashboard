@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from "@angular/core";
+import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges} from "@angular/core";
 import {TagModel} from "../../models/base.model";
 import {BaseComponent} from "../pbx-component/pbx-component.component";
 import {AnimationComponent} from "../../shared/shared.functions";
@@ -8,11 +8,11 @@ import {AnimationComponent} from "../../shared/shared.functions";
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
 })
-export class TagSelectorComponent extends BaseComponent {
+export class TagSelectorComponent extends BaseComponent implements OnChanges {
+    private _selectedTags: TagModel[];
+
     @Input() public tags: TagModel[];
     @Output() selectionChanged: EventEmitter<void>;
-
-    private _selectedTags: TagModel[];
 
     get selectedTags(): TagModel[] {
         return this._selectedTags;
@@ -24,16 +24,22 @@ export class TagSelectorComponent extends BaseComponent {
     }
 
     constructor() {
-        super();
+        super/*!*/();
 
         this.tags = [];
         this._selectedTags = [];
         this.selectionChanged = new EventEmitter();
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.tags && changes.tags.currentValue) {
+            this.setTags(changes.tags.currentValue);
+        }
+    }
+
     setTags(tags: TagModel[]): void {
         this.tags = tags;
-        this._selectedTags = [];
+        this._selectedTags = tags.filter(t => t.selected);
     }
 
     toggleTag(key: string): void {

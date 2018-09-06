@@ -26,15 +26,17 @@ export class BaseService {
         this.onInit();
     }
 
-    plainToClassEx(classModel, classItems, res: PageInfoModel) {
-        let pageInfo: PageInfoModel = plainToClass(classModel, res);
+    plainToClassEx<TPage extends PageInfoModel, TPageItem>(classModel: any, classItems: any, object: any): TPage {
+        let pageInfo: TPage = plainToClass<TPage, {}>(classModel, object);
         pageInfo.items = [];
-        res['items'].map(item => {
-            if(item.created) {
-                item.created = item.created.replace(/-/g, '/');
-            }
-            pageInfo.items.push(plainToClass(classItems, item));
-        });
+        if (object.hasOwnProperty('items')) {
+            object.items.map(item => {
+                if (item.hasOwnProperty('created')) {
+                    item.created = item.created.replace(/-/g, '/');
+                }
+                pageInfo.items.push(plainToClass<TPageItem, {}>(classItems, item));
+            });
+        }
         return pageInfo;
     }
 

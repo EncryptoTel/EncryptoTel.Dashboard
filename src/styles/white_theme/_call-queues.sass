@@ -1,0 +1,28 @@
+.light_theme
+    pbx-call-queues-create,
+    ring-groups-create-component,
+    pbx-department-create,
+    add-extension-component
+        .form-header
+            .form-tab
+                background: $white_queue_tab_grey_light
+                span
+                    color: $white_black_70
+                svg-icon
+                    path
+                        fill: $white_black_70
+                &:hover
+                    // background: $white_grey_hover
+                &.selected
+                    background: $white_grey_dark
+                    span
+                        color: $dark_accent
+        pbx-queue-members
+            .call_queues_members_header
+                background: $white_grey_dark
+        pbx-queue-members-add
+            .call_queues_members_add_header
+                background: $white_grey_dark
+            .call_queues_members_add_filter
+                input
+                    font-family: Roboto, sans-serif

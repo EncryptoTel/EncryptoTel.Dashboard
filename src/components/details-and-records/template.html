@@ -5,14 +5,14 @@
 
             <!-- filter tags -->
             <div class="details-header__wrap">
-                
+
                 <pbx-tag-selector #tagSelector
                     [tags]="tags"
                     (selectionChanged)="onTagSelection()">
                 </pbx-tag-selector>
-                
+
                 <div class="details-header__wrap-daterange-wrapper">
-                    <div class="details-header__daterange">{{this.getInterval()}}</div>
+                    <div class="details-header__daterange">{{ getInterval() }}</div>
                 </div>
             </div>
 

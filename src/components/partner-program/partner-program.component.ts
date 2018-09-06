@@ -117,11 +117,12 @@ export class PartnerProgramComponent implements OnInit {
     save(item: PartnerProgramItem) {
         if (!item.id) {
             // item = new PartnerProgramItem();
-            this.partners.items.push(item);
+            // this.partners.items.push(item);
         }
         this.partners.items.map(partner => {
             if (item.id === partner.id) partner.loading ++;
         });
+        console.log('partner-item', item);
         this.service.save(item.id, item.name, item.status).then(res => {
             this.getItems(item);
             this.selected = null;

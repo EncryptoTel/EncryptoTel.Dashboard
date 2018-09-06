@@ -1,5 +1,5 @@
 <div class="sidebar">
-    <pbx-loader *ngIf="sidebarInfo && sidebarInfo.loading"></pbx-loader>
+    <pbx-loader *ngIf="sidebarInfo && (sidebarInfo.loading || sidebarInfo.saving)"></pbx-loader>
     <div class="sidebar_info_wrap" *ngIf="sidebarInfo && !sidebarInfo.loading">
         <div
                 *ngIf="sidebarInfo.title"
@@ -38,6 +38,7 @@
                                style="width: 100%"
                                [singleBorder]="false"
                                [name]="item.title"
+                               [floatError]="true"
                                [key]="item.key"
                                [object]="item.object"
                                [checkbox]="item.checkbox"

@@ -17,10 +17,13 @@ export class PartnerProgramItem extends BaseItemModel {
     }
 
     get refLinkUrl(): string {
-        let location = window.location;
-        let linkUrl = `${location.protocol}//${location.host}/ref/${this.refLink}`;
-        // return `/ref/${this.refLink}`;
-        return linkUrl;
+        if (this.refLink) {
+            let location = window.location;
+            let linkUrl = `${location.protocol}//${location.host}/ref/${this.refLink}`;
+            // return `/ref/${this.refLink}`;
+            return linkUrl;
+        }
+        return '';
     }
 
     constructor(response?: any) {

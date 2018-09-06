@@ -1,4 +1,9 @@
-<button class="button" [ngClass]="[buttonType, inactive ? 'inactive' : '', name ? 'pbx_button_' + name : '']" (click)="clicked($event)" [disabled]="loading" #button>
+<button *ngIf="inactive" class="button" [ngClass]="[buttonType, inactive ? 'pbx-button-disabled' : '', name ? 'pbx_button_' + name : '']" [disabled]="loading" #button>
+    <span *ngIf="!loading">{{value}}</span>
+    <pbx-loader *ngIf="loading"></pbx-loader>
+</button>
+
+<button *ngIf="!inactive" class="button" [ngClass]="[buttonType, name ? 'pbx_button_' + name : '']" (click)="clicked($event)" [disabled]="loading" #button>
   <span *ngIf="!loading">{{value}}</span>
   <pbx-loader *ngIf="loading"></pbx-loader>
 </button>

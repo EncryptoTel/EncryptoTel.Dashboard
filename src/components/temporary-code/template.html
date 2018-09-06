@@ -3,10 +3,10 @@
   <form (submit)="sendTemporaryPassword($event)" [formGroup]="temporaryCodeForm" (keyup)="clearMessage($event)">
     <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="_services.clearMessage()">{{message.message}}</div>
     <div class="input_wrap">
-      <input name="Username" id="email" placeholder="E-mail" formControlName="email">
+      <input name="Username" id="email" placeholder="E-mail" formControlName="email" [ngClass]="!errorForm ? '': 'error'">
       <div class="input_error" *ngIf="inputValidation('email')" [@Fade]>
-        <span class="input_error_item" *ngIf="inputValidation('email', 'required')">Please enter your e-mail address</span>
-        <span class="input_error_item" *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>
+        <span id="temporary_code_err_no_email" class="input_error_item" *ngIf="inputValidation('email', 'required')">Please enter your e-mail address</span>
+        <span id="temporary_code_err_invalid_email" class="input_error_item" *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>
       </div>
     </div>
     <pbx-button [buttonType]="'accent'" [loading]="loading" [value]="'Sign In'" (onClick)="sendTemporaryPassword()"></pbx-button>

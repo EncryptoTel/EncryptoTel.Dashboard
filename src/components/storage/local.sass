@@ -372,7 +372,8 @@
       margin-top: rem(-16)
       flex: 1
       background: rgba($dark_background,.5)
-      border: rem(1) dashed $dark_accent
+      //   border: rem(1) dashed $dark_accent
+      border: rem(1) dashed $dark-white_25
       display: grid
       align-content: center
       justify-items: center
@@ -390,6 +391,9 @@
         &:hover
           cursor: pointer
           text-decoration: underline
+
+.sidebar_active
+    border: rem(1) dashed $dark_accent
 
 .media-table-wrapper
     display: flex

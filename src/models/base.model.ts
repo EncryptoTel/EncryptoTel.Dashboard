@@ -1,4 +1,5 @@
 import {Subscription} from "../../node_modules/rxjs/Subscription";
+import {Lockable, Locker} from "./locker.model";
 
 export class PageInfoModel {
     public itemsCount: number;
@@ -29,6 +30,24 @@ export class BaseItemModel {
 
 }
 
+export class BaseButton implements Lockable {
+    value: string;
+    action: string;     // used to fire button action
+    buttonType: string; // 'success|cancel'
+    inactive: boolean;
+
+    locker: Locker;
+
+    constructor(value: string, action: string, type: string = 'success', inactive: boolean = false) {
+        this.value = value;
+        this.action = action;
+        this.buttonType = type;
+        this.inactive = inactive;
+
+        this.locker = new Locker();
+    }
+}
+
 export class BaseParam {
     id: number;
     code: string;
@@ -54,6 +73,10 @@ export class TableInfoItem {
     width: number;
     dataWidth: number;
     sort: string;
+    // Var is used for special item markup based on value.
+    // Format:  [ { pattern: string, cssClass: string }, { ... } ]
+    // Example: [ { pattern: '/disable(d)?/i', cssClass: 'gray' }, { ... } ]
+    specialFormatting?: any[];
 
     constructor(title: string, key: string, sort?: string, width?: number, dataWidth?: number) {
         this.title = title;
@@ -196,6 +219,7 @@ export class SidebarButtonItem {
 export class TagModel {
     key: string;
     title: string;
+    selected?: boolean;
 }
 
 export class ButtonItem {

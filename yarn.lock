@@ -192,6 +192,10 @@
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@types/howler/-/howler-2.0.5.tgz#eb5eb99b943fe423abe3ca713163ed911e2a0d76"
 
+"@types/jquery@^3.3.6":
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.6.tgz#5932ead926307ca21e5b36808257f7c926b06565"
+
 "@types/node@^6.0.113":
   version "6.0.116"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.116.tgz#2f9cd62b4ecc4927e3942e2655c182eecf5b45f1"
@@ -581,6 +585,10 @@ balanced-match@^0.4.2:
 balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
+
+baron@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/baron/-/baron-3.0.3.tgz#0f0a08a567062882e130a0ecfd41a46d52103f4a"
 
 base64-arraybuffer@0.1.5:
   version "0.1.5"
@@ -3076,6 +3084,20 @@ istanbul-lib-instrument@^1.7.3:
     babylon "^6.18.0"
     istanbul-lib-coverage "^1.1.2"
     semver "^5.3.0"
+
+jquery.nicescroll@^3.7.6:
+  version "3.7.6"
+  resolved "https://registry.yarnpkg.com/jquery.nicescroll/-/jquery.nicescroll-3.7.6.tgz#afeff3e80658dabe4f78d2d2e84250060fea0852"
+  dependencies:
+    jquery ">=1.8.3"
+
+jquery.scrollbar@^0.2.11:
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/jquery.scrollbar/-/jquery.scrollbar-0.2.11.tgz#e91bd4a97d83859463024d26e730dc36676ab59d"
+
+jquery@>=1.8.3, jquery@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.3"

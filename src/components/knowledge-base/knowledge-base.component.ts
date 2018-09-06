@@ -45,7 +45,7 @@ export class KnowledgeBaseComponent implements OnInit {
         this.selectedHelp = null;
         this.buttons[0].visible = false;
         this.helps.items = [];
-        this.header.updateFilter(0, null);
+        this.header.updateFilter(0, this.filters);
     }
 
     showQuestions(item: HelpGroupItem){

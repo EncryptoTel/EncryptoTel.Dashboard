@@ -22,6 +22,7 @@ export class InputComponent implements OnInit {
     @Input() object: any;
     @Input() errorKey: string;
     @Input() errors: any;
+    @Input() objectKey: any;
     @Input() objectView: any;
     @Input() options: any[];
     @Input() editable: boolean;
@@ -47,6 +48,7 @@ export class InputComponent implements OnInit {
     @Input() actions: InputAction[] = [];
     @Input() formBuilder: FormBuilder;
     @Input() animationMode: string; // Possible values: Fade, Swipe (default)
+    @Input() resetable: boolean = false;
 
     // -- errors redefinitions
     @Input() validatorRequiredMsg: string;
@@ -124,14 +126,12 @@ export class InputComponent implements OnInit {
 
     checkError(textOnly = null): string {
         if (!this.errors) {
-            if(this._errorShow) {
-                return this.checkForm(textOnly);
-            } else {
-                return '';
-            }
+            return this._errorShow ? this.checkForm(textOnly) : '';
         }
+
         let error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
         let result = (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm(textOnly));
+
         return result;
     }
 
@@ -154,8 +154,14 @@ export class InputComponent implements OnInit {
 
         let form = this.getForm();
         if (textOnly) {
-            if (form && form.touched && form.invalid && form.errors) {
-                let keys = Object.keys(form.errors);
+            if (form && form.touched && form.invalid) {
+                let keys;
+                if (form.errors) keys = Object.keys(form.errors);
+                else {
+                    let control = form.get(this.objectKey);
+                    if (control && control.errors) 
+                        keys = Object.keys(control.errors);
+                }
                 // TODO: map validation result for multiple errors
                 return this.getValidatorMessage(keys[0]);
             }
@@ -168,15 +174,15 @@ export class InputComponent implements OnInit {
     getValidatorMessage(errorKey: string): string {
         switch (errorKey) {
             case 'required':
-                return this.validatorRequiredMsg ? this.validatorRequiredMsg : 'This value is required';
+                return this.validatorRequiredMsg || 'This value is required';
             case 'minlength':
-                return this.validatorMinLengthMsg ? this.validatorMinLengthMsg : 'This value is too short';
+                return this.validatorMinLengthMsg || 'This value is too short';
             case 'maxlength':
-                return this.validatorMaxLengthMsg ? this.validatorMaxLengthMsg : 'This value is too long';
+                return this.validatorMaxLengthMsg || 'This value is too long';
             case 'pattern':
-                return this.validatorPatternMsg ? this.validatorPatternMsg : 'This value is invalid';
+                return this.validatorPatternMsg || 'This value is invalid';
             case 'duplicated':
-                return this.validatorPatternMsg ? this.validatorPatternMsg : 'Extension number cannot be the same as previous';
+                return this.validatorPatternMsg || 'Extension number cannot be the same as previous';
             default:
                 return 'This value is invalid';
         }
@@ -197,8 +203,14 @@ export class InputComponent implements OnInit {
             this.resetError();
         }
         // this.resetError();
+
         this.object[this.key] = $event.target.value;
         this.onKeyUp.emit($event);
+    }
+    
+    clearValue(): void {
+        this.value = this.object[this.key] = null;
+        this.onKeyUp.emit();
     }
 
     selectItem(event: any): void {

@@ -113,7 +113,7 @@ export class RequestServices {
         return Promise.resolve(response.body); // Return response body to children method
     }
 
-    private catchError(method: string, url: string, response, ShowError = null): Promise<any> {
+    private catchError(method: string, url: string, response, ShowError = null, time): Promise<any> {
         this.endRequest();
         switch (response.status) { // Switch response error status
             case 401: {
@@ -130,11 +130,11 @@ export class RequestServices {
                 } else if (ShowError === false) {
                     break;
                 } else if (response.error && response.error.message) {
-                    this._messages.writeError(response.error.message); // Adding warning message
+                    this._messages.writeError(response.error.message, time); // Adding warning message
                 } else if (response.message) {
-                    this._messages.writeError(response.message); // Adding warning message
+                    this._messages.writeError(response.message, time); // Adding warning message
                 } else {
-                    this._messages.writeError('Internal server error');
+                    this._messages.writeError('Internal server error', time);
                 }
                 break;
             }
@@ -170,8 +170,8 @@ export class RequestServices {
       Default GET request. Accepted params:
       URI: string - request uri with stringified params
      */
-    get(url: string, ShowSuccess = true): Promise<any> {
-        return this.request('GET', url, null, ShowSuccess);
+    get(url: string, ShowSuccess = true, ShowError = null, time = 3000): Promise<any> {
+        return this.request('GET', url, null, ShowSuccess, ShowError, time);
     }
 
     /*
@@ -182,7 +182,7 @@ export class RequestServices {
         return this.request('DELETE', url, null);
     }
 
-    request(method: string, url: string, body: any, ShowSuccess = true, ShowError = null): Promise<any> {
+    request(method: string, url: string, body: any, ShowSuccess = true, ShowError = null, time = 3000): Promise<any> {
         this.beginRequest();
         return this.http.request(method, `${_env.back}/${url}`, {
             body: body,
@@ -190,7 +190,7 @@ export class RequestServices {
         }).toPromise().then(response => {
             return this.catchSuccess(response);
         }).catch(response => {
-            return this.catchError(method, url, response, ShowError);
+            return this.catchError(method, url, response, ShowError, time);
         });
     }
 

@@ -1,5 +1,5 @@
 <div *ngIf="!loading" class="pbx_input_wrap" [@Fade]>
-    <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item' : 'pbx_input_row']">
+    <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item' : 'pbx_input_row', options && !editable ? 'selectWrap' : '']">
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']">
             <span class="{{errorVisible ? 'label-focus' : ''}}">{{name}}</span>
@@ -30,6 +30,12 @@
                        [disabled]="disabled"
                        >
 
+                <div *ngIf="!options && !checkbox && type !== 'textarea' && resetable && value">
+                    <div class="clear_icon" (click)="clearValue()">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
+                    </div>
+                </div>
+    
                 <pbx-select *ngIf="options && !editable"
                             [name]="key"
                             [singleBorder]="singleBorder"

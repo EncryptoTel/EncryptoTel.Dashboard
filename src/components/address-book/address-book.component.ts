@@ -7,13 +7,13 @@ import {
     TypesModel
 } from '../../models/address-book.model';
 import {RefsServices} from '../../services/refs.services';
-import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
-import {CountryModel} from "../../models/country.model";
-import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
-import {MessageServices} from "../../services/message.services";
-import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
-import {AnimationComponent} from "../../shared/shared.functions";
-import {BaseComponent} from "../../elements/pbx-component/pbx-component.component";
+import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from '../../models/base.model';
+import {CountryModel} from '../../models/country.model';
+import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
+import {MessageServices} from '../../services/message.services';
+import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
+import {AnimationComponent} from '../../shared/shared.functions';
+import {BaseComponent} from '../../elements/pbx-component/pbx-component.component';
 
 @AnimationComponent({
     selector: 'pbx-address-book',
@@ -36,6 +36,7 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
     loading: number = 0;
 
     selected: AddressBookItem;
+    itemsCache: AddressBookItem[];
 
 
     modalBlock = new ModalEx('', 'block');
@@ -53,42 +54,47 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
                 private message: MessageServices) {
         super();
         this.sidebar.hideEmpty = true;
+        this.itemsCache = [];
     }
 
     create() {
-        this.sidebar.loading++;
+        this.sidebar.loading ++;
         this.selected = null;
         this.selected = new AddressBookItem();
         this.doEdit();
         setTimeout(() => {
-            this.sidebar.loading--;
+            this.sidebar.loading --;
         }, 500);
     }
 
-    select(item: AddressBookItem) {
-        this.selected = item;
-        this.prepareData();
+    sidebarInitialize(): void {
         this.sidebar.mode = 'view';
+
         this.sidebar.buttons = [];
         this.sidebar.buttons.push(new SidebarButtonItem(1, 'Close', 'cancel'));
         this.sidebar.buttons.push(new SidebarButtonItem(2, 'Edit', 'success'));
+        
         this.sidebar.items = [];
         this.sidebar.items.push(new SidebarInfoItem(4, 'First Name', this.selected.firstname));
         this.sidebar.items.push(new SidebarInfoItem(5, 'Last Name', this.selected.lastname));
+        
         let phones = [];
-        this.selected.contactPhone.map(item => {
+        this.selected.contactPhone.forEach(item => {
             if (item.value) phones.push(item.value);
         });
         this.sidebar.items.push(new SidebarInfoItem(6, phones.length > 1 ? 'Phones' : 'Phone', phones));
+        
         let emails = [];
-        this.selected.contactEmail.map(item => {
+        this.selected.contactEmail.forEach(item => {
             if (item.value) emails.push(item.value);
         });
         this.sidebar.items.push(new SidebarInfoItem(7, emails.length > 1 ? 'Emails' : 'Email', emails));
+        
         this.sidebar.items.push(new SidebarInfoItem(8, 'Company Name', this.selected.company));
-        // this.sidebar.items.push(new SidebarInfoItem(9, 'Department', this.selected.department));
+        this.sidebar.items.push(new SidebarInfoItem(9, 'Department', this.selected.department));
+        this.sidebar.items.push(new SidebarInfoItem(9, 'Position', this.selected.position));
         this.sidebar.items.push(new SidebarInfoItem(10, 'Country', this.selected.countryName));
-        // this.sidebar.items.push(new SidebarInfoItem(11, 'Address', this.selected.address));
+        this.sidebar.items.push(new SidebarInfoItem(11, 'Address', this.selected.address));
         this.sidebar.items.push(new SidebarInfoItem(12, this.selected.blacklist ? 'Unblock contact' : 'Block contact', null, true, false, true));
         this.sidebar.items.push(new SidebarInfoItem(13, 'Delete contact', null, true, false, true));
         this.sidebar.visible = true;
@@ -124,15 +130,28 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
         this.sidebar.visible = true;
     }
 
-    edit(item: AddressBookItem) {
-        this.sidebar.loading++;
+    select(item: AddressBookItem) {
+        this.sidebar.loading ++;
         this.sidebar.visible = true;
-        this.service.getById(item.id).then((res: AddressBookItem) => {
-            this.selected = new AddressBookItem(res);
+        this.service.getAddressBookItem(item.id).then((response: AddressBookItem) => {
+            this.selected = response;
+            this.prepareData();
+            this.sidebarInitialize();
+            this.sidebar.loading --;
+        }).catch(() => {
+            this.sidebar.loading --;
+        });
+    }
+
+    edit(item: AddressBookItem) {
+        this.sidebar.loading ++;
+        this.sidebar.visible = true;
+        this.service.getAddressBookItem(item.id).then((response: AddressBookItem) => {
+            this.selected = response;
             this.doEdit();
-            this.sidebar.loading--;
-        }).catch(res => {
-            this.sidebar.loading--;
+            this.sidebar.loading --;
+        }).catch(() => {
+            this.sidebar.loading --;
         });
     }
 
@@ -149,6 +168,7 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
     }
 
     load(pageInfo: AddressBookModel) {
+        this.loading++;
         this.pageInfo = pageInfo;
         const filterValue = [];
         this.pageInfo.contactFilter.forEach(item => {
@@ -186,6 +206,7 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
         } else {
             this.updateCountries();
         }
+        this.loading--;
     }
 
     close(reload: boolean = false) {
@@ -256,25 +277,25 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
     }
 
     save() {
-        this.sidebar.saving++;
+        this.sidebar.saving ++;
         this.checkEmpty(this.selected.contactPhone);
         this.checkEmpty(this.selected.contactEmail);
 
         if (this.selected.id) {
             this.service.putById(this.selected.id, this.selected).then(res => {
-                this.sidebar.saving--;
+                this.sidebar.saving --;
                 this.close(true);
             }).catch(res => {
                 this.prepareData();
-                this.sidebar.saving--;
+                this.sidebar.saving --;
             });
         } else {
             this.service.post('', this.selected).then(res => {
-                this.sidebar.saving--;
+                this.sidebar.saving --;
                 this.close(true);
             }).catch(res => {
                 this.prepareData();
-                this.sidebar.saving--;
+                this.sidebar.saving --;
             });
         }
     }

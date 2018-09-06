@@ -17,8 +17,11 @@ export class MessageServices {
         return this.id;
     }
 
-    private messageProcess(type, text: string): void {
-        const message: MessageModel = new MessageModel(this.generateId(), type, text);
+    private messageProcess(type, text: string, time = null): void {
+        if ( time === null) {
+            time = 3000;
+        }
+        const message: MessageModel = new MessageModel(this.generateId(), type, text, time);
         // this.messages.push(message);
         this.messageSubscription.next(message);
         // this.removeMessage(message.id);
@@ -45,8 +48,8 @@ export class MessageServices {
     //     this.messagesSubscription.next(this.messages);
     // }
 
-    writeError(text: string): void {
-        this.messageProcess('error', text);
+    writeError(text: string, time = null): void {
+        this.messageProcess('error', text, time);
     }
 
     // writeWarning(text: string): void {

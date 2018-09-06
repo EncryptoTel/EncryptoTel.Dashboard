@@ -1,11 +1,13 @@
 <div class="pbx_list">
 
-    <pbx-header [buttons]="buttons"
+    <pbx-header *ngIf="!hideHeader"
+                [buttons]="buttons"
                 [filters]="!loading && !loadingEx && (pageInfo.itemsCount > 0 || activeFilter()) ? filters : null"
+                [inactive]="loading || loadingEx"
                 (onClick)="create()"
                 (onUpdate)="updateFilter($event)"
                 (onReload)="reloadFilter($event)"
-                [inactive]="loading || loadingEx">
+                >
     </pbx-header>
 
     <pbx-loader *ngIf="loading || loadingEx || filter.loading"></pbx-loader>
@@ -41,7 +43,7 @@
         Nothing found
     </div>
 
-    <pbx-pagination
+    <pbx-pagination *ngIf="!loading && !loadingEx && !filter.loading && pageInfo.itemsCount > 0"
             [pageInfo]="pageInfo"
             (onLimitSelect)="this.pageInfo.page=1;getItems()"
             (onPageChange)="pageInfo.page=$event;getItems()">

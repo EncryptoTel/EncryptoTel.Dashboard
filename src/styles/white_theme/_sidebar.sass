@@ -1,0 +1,39 @@
+.light_theme
+    pbx-editable-select .select_item,
+    pbx-select .select_item,
+    pbx-input input
+        font-weight: 300 !important
+        font-family: Roboto, sans-serif !important
+    pbx-sidebar
+        &.sidebar_partner_program
+            .sidebar_description_wrap
+                .sidebar_info_description:nth-child(2)
+                    input
+                        background: $white_main_bg
+        .sidebar
+            background: $white_grey_dark
+            .store_sidebar_audio
+                background: transparent !important
+            .sidebar_info_wrap
+                .sidebar_description_wrap
+                    .sidebar_info_description
+                        .description_item_wrap
+                            .description_text
+                                color: $white_black
+                                &.title
+                                    color: $white_black !important
+            .pbx_input_row
+                .pbx_input_row_label
+                    span
+                        color: $white_black_70
+            .ext_sidebar_item_value
+                color: $white_black
+            .store_sidebar_audio
+                background: $white_grey_dark
+                .store_sidebar_audio_text
+                    color: $white_black
+                .store_sidebar_audio_icon
+                    path
+                        fill: $dark_accent
+        .pbx-select-placeholder
+            color: $white_black_70

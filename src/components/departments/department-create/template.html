@@ -1,0 +1,55 @@
+<pbx-tabs #departmentFormTabs
+          [buttons]="tabsButtons()"
+          (onClick)="buttonClick($event)"
+          (onTabChange)="tabChanged($event)"
+          >
+    <!-- General tab content -->
+    <pbx-tab tabTitle='General'>
+        <div class="department_form_wrapper">
+            <pbx-loader *ngIf="!locker.free"></pbx-loader>
+            <div class="call_queues_general_body" *ngIf="locker.free">
+                <div class="queue-group-create">
+                    <h3 class="queue-group-create_h3">Information</h3>
+                </div>
+                <form class="sidebar_form" [formGroup]="departmentForm" *ngIf="!saving">
+                        <pbx-input name="Name"
+                                   key="name"
+                                   [object]="departmentForm.get('generalForm')"
+                                   [form]="true"
+                                   errorShow="true"
+                                   validatorRequiredMsg="Please enter name"
+                                   validatorMaxLengthMsg="Please enter no more than 190 characters"
+                                   labelPosition="top"
+                                   [singleBorder]="true"
+                                   [required]="true"
+                                   >
+                        </pbx-input>
+                        <pbx-input name="Description"
+                                   key="comment"
+                                   [object]="departmentForm.get('generalForm')"
+                                   [form]="true"
+                                   errorShow="true"
+                                   validatorMaxLengthMsg="Please enter no more than 255 characters"
+                                   labelPosition="top"
+                                   [singleBorder]="false"
+                                   >
+                        </pbx-input>
+                </form>
+            </div>
+        </div>
+    </pbx-tab>
+    <!-- Members tab content -->
+    <pbx-tab tabTitle='Members'>
+        <pbx-view-edit-control #sipInnersControl
+                               buttonText="Add Member"
+                               headerText="Department Members"
+                               noDataMessage="No data to display. Please add members"
+                               [tableInfo]="sipTableContext"
+                               [items]="sips"
+                               [parentEditMode]="hasId"
+                               [(selectedItems)]="selectedSips"
+                               >
+            &nbsp;
+        </pbx-view-edit-control>
+    </pbx-tab>
+</pbx-tabs>

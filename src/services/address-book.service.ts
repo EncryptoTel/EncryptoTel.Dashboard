@@ -10,6 +10,11 @@ import {
 } from "../models/address-book.model";
 
 export class AddressBookService extends BaseService {
+    items: AddressBookItem[] = [];
+
+    onInit() {
+        this.url = 'contact';
+    }
 
     blockByContact(id: number, blacklist = false): Promise<any> {
         if (blacklist) {
@@ -71,19 +76,26 @@ export class AddressBookService extends BaseService {
         });
     }
 
-    getItems(pageInfo: PageInfoModel, filter = null): Promise<AddressBookModel> {
-        return super.getItems(pageInfo, filter).then((res: AddressBookModel) => {
-            let pageinfo: AddressBookModel = this.plainToClassEx(AddressBookModel, AddressBookItem, res) as AddressBookModel;
+    getItems(pageInfo: AddressBookModel, filter = null): Promise<AddressBookModel> {
+        return super.getItems(pageInfo, filter).then((response: any) => {
+            let pageinfo: AddressBookModel = this.plainToClassEx<AddressBookModel, AddressBookItem>(AddressBookModel, AddressBookItem, response);
             pageinfo.contactFilter = [];
-            res.contactFilter.map(filter => {
-                pageinfo.contactFilter.push(plainToClass(ContactFilterModel, filter));
+            response.contactFilter.map(filter => {
+                pageinfo.contactFilter.push(plainToClass<ContactFilterModel, {}>(ContactFilterModel, filter));
             });
             return Promise.resolve(pageinfo);
         });
     }
 
-    onInit() {
-        this.url = 'contact';
+    getAddressBookItem(id: number): Promise<AddressBookItem> {
+        let item = this.items.find(item => item.id == id);
+        if (item) {
+            return Promise.resolve(item);
+        }
+        return super.getById(id).then((response: AddressBookItem) => {
+            item = new AddressBookItem(response);
+            this.items.push(item);
+            return Promise.resolve(response); 
+        });
     }
-
 }

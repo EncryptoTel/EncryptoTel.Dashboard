@@ -27,6 +27,7 @@ export class StorageComponent implements OnInit {
     public mediaTable: MediaTableComponent;
 
     public modal: ModalEx;
+    public sidebarActive: boolean;
 
     // TODO: ???
     public source = {
@@ -42,6 +43,7 @@ export class StorageComponent implements OnInit {
     ) {
         this.loading = 0;
         this.modal = new ModalEx('', 'deleteFiles');
+        this.sidebarActive = false;
 
         this.table.sort.isDown = false;
         this.table.sort.column = 'date';
@@ -149,12 +151,13 @@ export class StorageComponent implements OnInit {
         this.loading = loading;
         if (!loading) {
             this.onMediaDataLoaded();
-            if(this.service.successCount) {
+            if (this.service.successCount) {
                 let messageText = this.service.successCount > 1
                     ? `${this.service.successCount} files have been successfully ${deleting ? 'deleted' : 'uploaded'}.`
                     : `${this.service.successCount} file has been successfully ${deleting ? 'deleted' : 'uploaded'}.`;
                 this._message.writeSuccess(messageText);
             }
+            this.sidebarActive = false;
         }
     }
 
@@ -170,6 +173,7 @@ export class StorageComponent implements OnInit {
             }
             else {
                 this._message.writeError('Accepted formats: mp3, ogg, wav');
+                this.sidebarActive = false;
             }
         }
         this.service.checkModal();
@@ -186,18 +190,18 @@ export class StorageComponent implements OnInit {
     }
 
     dragOverHandler(event): void {
+        this.sidebarActive = true;
         event.preventDefault();
     }
 
-    dragEndHandler(event): void {
-    }
+    dragEndHandler(event): void {}
 
     dragLeaveHandler(event): void {
+        this.sidebarActive = false;
         event.preventDefault();
     }
 
     sendFile(event) {
-        console.log('sendFile', event);
         event.preventDefault();
         const files = event.target.files;
         if (event.target.files[0]) {
@@ -216,17 +220,20 @@ export class StorageComponent implements OnInit {
         this.service.select.forEach(id => {
             const item = this.mediaTable.tableItems.find(item => item.id == id);
             item ? item.loading ++ : null;
-            this.service.deleteById(
-                id,
-                (loading) => {
-                    this.updateLoading(loading, true);
-                },
-                false)
-                    .then(() => {
-                        item ? item.loading -- : null;
-                    }).catch(() => {
-                        item ? item.loading -- : null;
-                    });
+            this.service.deleteById(id, (loading) => { this.updateLoading(loading, true); }, false).then(() => {
+                item ? item.loading -- : null;
+            }).catch(() => {
+                item ? item.loading -- : null;
+            });
+        });
+    }
+
+    deleteItem(item: StorageItem): void {
+        if (!item) return;
+        this.service.deleteById(item.id, (loading) => { this.updateLoading(loading, true); }, false).then(() => {
+            item.loading --;
+        }).catch(() => {
+            item.loading --;
         });
     }
 }

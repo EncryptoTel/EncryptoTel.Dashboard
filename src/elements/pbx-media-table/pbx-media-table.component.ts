@@ -32,6 +32,8 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
 
     @Output() onGetMediaData: EventEmitter<any> = new EventEmitter<any>();
     @Output() onSelect: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onEdit: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
     // - component level methdos --------------------------
 
@@ -42,8 +44,6 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
             this.subscribePlayerEvents();
         }
     }
-
-    // - selection methods --------------------------------
 
     selectItem(item: any): void {
         this.onSelect.emit(item);

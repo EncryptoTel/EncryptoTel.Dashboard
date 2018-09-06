@@ -62,11 +62,11 @@ export class DetailsAndRecordsComponent implements OnInit {
         });
 
         this.tags = [
-            {key: 'noAnswer', title: 'no-answer'},
-            {key: 'incoming', title: 'incoming'},
-            {key: 'outgoing', title: 'outgoing'},
-            {key: 'missed', title: 'missed'},
-            {key: 'record', title: 'record'},
+            { key: 'noAnswer', title: 'no-answer', selected: false },
+            { key: 'incoming', title: 'incoming', selected: true },
+            { key: 'outgoing', title: 'outgoing', selected: true },
+            { key: 'missed', title: 'missed', selected: false },
+            { key: 'record', title: 'record', selected: false },
         ];
     }
 

@@ -38,6 +38,7 @@ export class ListComponent implements OnInit {
     @Input() multiple: boolean;
     @Input() selected: any[];
     @Input() showEmptyInfo: boolean = true;
+    @Input() hideHeader: boolean = false;
     @Input() EmptyInfo: string;
     @Input() hideArrow: boolean;
     @Input()
@@ -55,9 +56,9 @@ export class ListComponent implements OnInit {
     currentFilter = [];
     loadingEx: number = 0;
     filter = {loading: 0};
-    
+
     _sidebar: any;
-    
+
     get sidebarVisible(): boolean {
         return this._sidebar ? this._sidebar.visible : false;
     }
@@ -104,7 +105,9 @@ export class ListComponent implements OnInit {
         this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null).then(res => {
             this.pageInfo = res;
             this.pageInfo.limit = limit;
-            this.onLoad.emit(this.pageInfo);
+            if (!item) {
+                this.onLoad.emit(this.pageInfo);
+            }
             this.header.load();
             item ? item.loading-- : this.loadingEx--;
         }).catch(() => {

@@ -19,3 +19,27 @@ pbx-department
 				overflow: hidden
 				text-overflow: ellipsis
 				white-space: nowrap
+
+pbx-department-create
+	pbx-tabs
+		height: 100%
+		.form
+			height: 100%
+			.form-body
+				background: $dark_overlay
+	.call_queues_general_body
+		form
+			pbx-input
+				.pbx_input_row
+					flex-direction: row
+					.pbx_input_row_label
+						width: 150px
+						margin-bottom: 0
+						height: 40px
+					input
+						border-top: none !important
+						border-left: none !important
+						border-right: none !important
+	.view-edit-control-header
+		&.toHide
+			padding: 0 !important

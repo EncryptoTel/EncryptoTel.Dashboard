@@ -38,6 +38,7 @@ import {MediaTableComponent, TimePipe} from '../elements/pbx-media-table/pbx-med
 import {MediaTablePlayerComponent} from '../elements/pbx-media-table-player/pbx-media-table-player.component';
 import {MediaPlayerComponent} from '../elements/pbx-media-player/pbx-media-player.component';
 import {TagSelectorComponent} from '../elements/pbx-tag-selector/pbx-tag-selector.component';
+import {ViewEditControlComponent} from '../elements/pbx-view-edit-control/pbx-view-edit-control.component';
 
 @NgModule({
     imports: [
@@ -80,6 +81,7 @@ import {TagSelectorComponent} from '../elements/pbx-tag-selector/pbx-tag-selecto
         QueueMembersComponent,
         QueueMembersAddComponent,
         TagSelectorComponent,
+        ViewEditControlComponent,
     ],
     exports: [
         ClickOutsideDirective,
@@ -113,6 +115,7 @@ import {TagSelectorComponent} from '../elements/pbx-tag-selector/pbx-tag-selecto
         QueueMembersComponent,
         QueueMembersAddComponent,
         TagSelectorComponent,
+        ViewEditControlComponent,
     ]
 })
 export class ElementsModule {

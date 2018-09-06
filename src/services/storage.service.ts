@@ -34,7 +34,7 @@ export class StorageService extends BaseService {
         super(request, message, http);
         
         this.pageInfo = new StorageModel();
-        this.modalUpload = new ModalEx('', 'replaceFiles');
+        this.modalUpload = new ModalEx('', 'replaceOnlyFiles');
         this.loading = 0;
         this.successCount = 0;
         this.errorCount = 0;
@@ -61,7 +61,7 @@ export class StorageService extends BaseService {
     checkModal(): void {
         if (this.files.length > 0 && !this.modalUpload.visible) {
             this.updateLoading(1);
-            this.modalUpload.title = this.files[0].name;
+            this.modalUpload.body = `A file ${this.files[0].name} has already been uploaded. Do you want to replace it?`;
             setTimeout(() => {
                 this.modalUpload.visible = true;
             }, 100);

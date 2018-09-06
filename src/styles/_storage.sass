@@ -1,4 +1,10 @@
 pbx-storage
+    .store_sidebar_audio_icon
+        position: relative
+        svg
+            position: absolute
+            top: 0
+            left: 0
     pbx-table
         .tablet_header
             .tablet_item:nth-child(3)
@@ -19,3 +25,46 @@ pbx-storage
             top: 50%
             left: 50%
             transform: translate(-50%, -50%)
+    pbx-select
+        .select_wrap
+            position: relative
+            .select_item
+                position: absolute
+                left: 0
+                right: 0
+                top: 0
+                bottom: 0
+
+    // pbx-media-table
+    //     .tablet_header
+            // display: grid
+            // grid-template-columns: repeat(6, 1fr)
+            // .tablet_item
+            //     white-space: nowrap
+            //     outline: 1px solid red
+            //     &:nth-child(1)
+                    // width: 50% !important
+        // .tablet_body
+        //     .tablet_row
+        //         .tablet_content
+                    // display: grid
+                    // grid-template-columns: repeat(6, 1fr)
+                    // .tablet_item
+                    //     white-space: nowrap
+                    //     outline: 1px solid red
+    // Пока что это все не нужно, но может пригодиться, смотря какое поведение будет у плеера (проигрывателя на странице Storage)
+    // pbx-media-table-player
+    //     .player-container
+    //         transition: all linear $playerTime
+    //         .player-arrow
+    //             transition: all linear $playerTime
+    //             background: $dark-white_15 !important
+    //         &.closedPlayer
+    //             background: $dark_player_bg_0 !important
+    //             .player-arrow
+    //                 width: 0 !important
+    //         &.openedPlayer
+    //             background: $dark_player_bg !important
+    //             .player-arrow
+    //                 display: flex !important
+

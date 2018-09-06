@@ -4,6 +4,8 @@ import {CountryModel} from '../models/country.model';
 import {CurrencyModel} from '../models/currency.model';
 import {ElementRef, Component} from '@angular/core';
 import {DatePipe} from "@angular/common";
+import {isArray} from 'core-js/fn/array';
+import {isObject} from 'core-js/fn/object';
 
 export function getCountryById(id: number): CountryModel {
     const list: CountryModel[] = plainToClass(CountryModel, JSON.parse(localStorage.getItem('pbx_countries')));
@@ -109,6 +111,48 @@ export function getInterval(items, dateAttr, displayAttr) {
     return max && min ? `${min[displayAttr]} - ${max[displayAttr]}` : '';
 }
 
+export function compareObjects(src: any, dst: any): boolean {
+    const srcKeys = src ? Object.keys(src) : null;
+    const dstKeys = dst ? Object.keys(dst) : null;
+
+    let keys = [];
+    if (srcKeys && srcKeys.length) keys.push(...srcKeys);
+    if (dstKeys && dstKeys.length) keys.push(...(dstKeys.filter(key => keys.indexOf(key) < 0)));
+    // console.log('keys', keys);
+
+    for(let key of keys) {
+        const srcVal = src ? src[key] : null;
+        const dstVal = dst ? dst[key] : null;
+
+        if (isArray(srcVal) || isArray(dstVal)) {
+            let result = this.compareObjects(srcVal, dstVal);
+            if (!result) console.log('[cmp-arr]', key, srcVal, dstVal);
+            if (!result) return false;
+        }
+        else if (isObject(srcVal) || isObject(dstVal)) {
+            let result = this.compareObjects(srcVal, dstVal);
+            if (!result) console.log('[cmp-obj]', key, srcVal, dstVal);
+            if (!result) return false;
+        }
+        else {
+            if ((srcVal || dstVal) && srcVal !== dstVal) {
+                console.log('[cmp-val]', key, srcVal, dstVal);
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+export function str2regexp(pattern: string): RegExp {
+    let parts = pattern.split('/');
+    if (parts.length == 3) 
+        return new RegExp(parts[1], parts[2]);
+    
+    return new RegExp(pattern);
+}
+
 export function AnimationComponent(extendedConfig: Component = {}) {
     return function (target: Function) {
         const ANNOTATIONS = '__annotations__';
@@ -137,4 +181,11 @@ export function AnimationComponent(extendedConfig: Component = {}) {
         }
         return Component(extendedConfig)(target);
     };
+}
+
+export function killEvent(event?: Event): void {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
 }

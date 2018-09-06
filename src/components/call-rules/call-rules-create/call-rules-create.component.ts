@@ -12,6 +12,7 @@ import {MessageServices} from "../../../services/message.services";
 import {MediaPlayerComponent} from '../../../elements/pbx-media-player/pbx-media-player.component';
 import {CdrMediaInfo, MediaState} from '../../../models/cdr.model';
 import {redirectToExtensionValidator} from '../../../shared/encry-form-validators';
+import {callRuleNameRegExp} from '../../../shared/vars';
 
 @Component({
     selector: 'pbx-call-rules-create',
@@ -146,9 +147,9 @@ export class CallRulesCreateComponent implements OnInit {
     private buildForm(): void {
         this.callRulesForm = this.fb.group({
             enabled: [null, []],
-            name: [null, [Validators.required, Validators.maxLength(150)]],
-            description: [null, [Validators.maxLength(255)]],
-            sipId: [null, [Validators.required]],
+            name: [null, [ Validators.required, Validators.maxLength(150), Validators.pattern(callRuleNameRegExp) ]],
+            description: [null, [ Validators.maxLength(255) ]],
+            sipId: [null, [ Validators.required ]],
             ruleActions: this.fb.array([], Validators.required)
         }, {
             validator: (formGroup: FormGroup) => {

@@ -18,8 +18,8 @@ import {ButtonItem, InputAction} from "../../models/base.model";
     providers: [CompanyService],
     animations: [FadeAnimation('300ms')]
 })
-
 export class DepartmentsComponent implements OnInit {
+    
     @ViewChild(ListComponent) list;
 
     sidebar = {
@@ -44,9 +44,9 @@ export class DepartmentsComponent implements OnInit {
     phoneActions: InputAction[] = [];
 
     constructor(public service: DepartmentService,
-                public fb: FormBuilder,
-                private refs: RefsServices,
-                private company: CompanyService) {
+                private _fb: FormBuilder,
+                private _refs: RefsServices,
+                private _company: CompanyService) {
 
         this.buttons.push({
             id: 0,
@@ -56,10 +56,10 @@ export class DepartmentsComponent implements OnInit {
             inactive: true,
         });
 
-        this.departmentForm = this.fb.group({
+        this.departmentForm = this._fb.group({
             name: [null, [Validators.required, Validators.maxLength(190)]],
             comment: [null, [Validators.maxLength(255)]],
-            sipInner: this.fb.array([])
+            sipInner: this._fb.array([])
         });
 
         this.phoneActions.push(new InputAction(1, 'add-delete', this.sipInners()));
@@ -77,12 +77,13 @@ export class DepartmentsComponent implements OnInit {
     }
 
     create(): void {
-        this.resetForEdit();
-        this.reset();
-        const sips = this.departmentForm.get('sipInner') as FormArray;
-        sips.push(this.createPhoneField());
-        this.sidebar.mode = 'edit';
-        this.sidebar.visible = true;
+        console.log('create');
+        // this.resetForEdit();
+        // this.reset();
+        // const sips = this.departmentForm.get('sipInner') as FormArray;
+        // sips.push(this.createPhoneField());
+        // this.sidebar.mode = 'edit';
+        // this.sidebar.visible = true;
     }
 
     close(): void {
@@ -91,28 +92,29 @@ export class DepartmentsComponent implements OnInit {
     }
 
     edit(item: DepartmentItem): void {
-        this.sidebar.mode = 'edit';
-        this.selected = item;
-        this.departmentForm.get('name').setValue(item.name);
-        this.departmentForm.get('comment').setValue(item.comment);
-        this.resetForEdit();
-        const sipsForm = this.departmentForm.get('sipInner') as FormArray;
+        console.log('edit', item);
+        // this.sidebar.mode = 'edit';
+        // this.selected = item;
+        // this.departmentForm.get('name').setValue(item.name);
+        // this.departmentForm.get('comment').setValue(item.comment);
+        // this.resetForEdit();
+        // const sipsForm = this.departmentForm.get('sipInner') as FormArray;
 
-        if (item.sipInnerIds.length === 0) {
-            sipsForm.push(this.createPhoneField());
-        }
+        // if (item.sipInnerIds.length === 0) {
+        //     sipsForm.push(this.createPhoneField());
+        // }
 
-        for (let i = 0; i < item.sipInnerIds.length; i++) {
-            for (let x = 0; x < this.sips.length; x++) {
-                if (item.sipInnerIds[i] === this.sips[x].id) {
-                    this.sips[x].blocked = true;
-                    this.selectedSips.push(this.sips[x]);
-                    sipsForm.push(this.createPhoneField());
-                    sipsForm.get(`${i}`).setValue(this.sips[x].id);
-                }
-            }
-        }
-        this.sidebar.visible = true;
+        // for (let i = 0; i < item.sipInnerIds.length; i++) {
+        //     for (let x = 0; x < this.sips.length; x++) {
+        //         if (item.sipInnerIds[i] === this.sips[x].id) {
+        //             this.sips[x].blocked = true;
+        //             this.selectedSips.push(this.sips[x]);
+        //             sipsForm.push(this.createPhoneField());
+        //             sipsForm.get(`${i}`).setValue(this.sips[x].id);
+        //         }
+        //     }
+        // }
+        // this.sidebar.visible = true;
     }
 
     getSelectNumbers(): Sip[] {
@@ -185,7 +187,7 @@ export class DepartmentsComponent implements OnInit {
     }
 
     private createPhoneField(): FormControl {
-        return this.fb.control('', []);
+        return this._fb.control('', []);
     }
 
     private formatSipOuters(items): void {
@@ -219,7 +221,7 @@ export class DepartmentsComponent implements OnInit {
 
     private getSipOuters(): void {
         this.sidebar.loading++;
-        this.refs.getSipOuters().then(res => {
+        this._refs.getSipOuters().then(res => {
             this.formatSipOuters(res);
             this.sidebar.loading--;
         }).catch(() => {
@@ -229,7 +231,7 @@ export class DepartmentsComponent implements OnInit {
 
     private getCompany() {
         this.loading++;
-        this.company.getCompany().then((res) => {
+        this._company.getCompany().then((res) => {
             this.companyActive = !!res.id;
             this.buttons[0].inactive = !this.companyActive;
             this.buttons[0].visible = this.companyActive;

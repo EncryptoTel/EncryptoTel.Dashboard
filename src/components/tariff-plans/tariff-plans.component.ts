@@ -14,53 +14,66 @@ import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
     animations: [SwipeAnimation('y', '300ms'), FadeAnimation('300ms')],
     providers: [TariffPlanServices]
 })
-
 export class TariffPlansComponent implements OnInit {
-    loading = true;
-
-    tariffs = [];
-    page = 1;
+    tariffs: any[];
+    current: any;
     selected: any;
+    page: number;
+    pageCount: number;
+    pageSize: number = 4; // supposed to be unchangeable
 
-    modal = new ModalEx('', 'changeTariff');
+    loading: boolean;
+    modal: ModalEx;
 
     constructor(private _service: TariffPlanServices,
                 private _storage: LocalStorageServices,
                 private _user: UserServices) {
-
+        this.tariffs = [];
+        this.page = 1;
+        this.modal = new ModalEx('', 'changeTariff');
     }
 
-    PageCount() {
-        return Math.round(this.tariffs.length / 4) + (this.tariffs.length % 4 === 1 ? 1 : 0);
+    ngOnInit(): void {
+        this.getTariffsData();
+        this.getCurrentTariff();
     }
 
-    getCurrentTariff(): any {
-        const user = this._storage.readItem('pbx_user');
-        return user['profile']['tariffPlan'];
+    get pageItems(): any[] {
+        let offset = (this.page - 1) * this.pageSize;
+        return this.tariffs.slice(offset, offset + this.pageSize);
     }
 
-    isCurrentTariff(tariff: any): boolean {
-        return this.getCurrentTariff().id === tariff.id;
+    goBack(): void {
+        if (this.page - 1 > 0) -- this.page;
+    }
+    
+    goNext(): void {
+        if (this.page + 1 <= this.pageCount) ++ this.page;
     }
 
-    chooseTariff(tariff: any): void {
+    // isCurrent(tariff: any): boolean {
+    //     return this.selected.id === tariff.id;
+    // }
+
+    choose(tariff: any): void {
         this.selected = tariff;
         this.modal.visible = true;
     }
 
-    tariffCost(tariff: any): string {
-        return tariff.price > 0 ? 'From $' + tariff.price + '/monthly' : 'FREE';
-    }
+    // tariffCost(tariff: any): string {
+    //     return tariff.price > 0 ? 'From $' + tariff.price + '/monthly' : 'FREE';
+    // }
 
-    tariffStatus(tariff: any): string {
-        return this.getCurrentTariff().id === tariff.id ? 'Subscribed' : (tariff.price > 0 ? 'Buy now' : 'Free');
-    }
+    // tariffStatus(tariff: any): string {
+    //     return this.current.id === tariff.id ? 'Subscribed' : (tariff.price > 0 ? 'Buy now' : 'Free');
+    // }
 
-    modalConfirm = (): void => {
+    modalConfirm(): void {
         this.selected.loading = true;
-        this._service.selectTariffPlan(this.selected.id).then(res => {
+        this._service.selectTariffPlan(this.selected.id).then(() => {
             this._user.fetchNavigationParams();
-            this._user.fetchProfileParams().then(res => {
+            this._user.fetchProfileParams().then(() => {
+                this.current = this.selected;
                 this.selected.loading = false;
             });
         }).catch(() => {
@@ -68,30 +81,42 @@ export class TariffPlansComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {
-        this._service.getTariffPlans().then(res => {
-            res.map(tariff => {
-                let price = 0;
-                tariff.offers.map(offer => {
-                    price += offer.service.sum;
-                });
-                price = Math.round(price * 100) / 100;
-                this.tariffs.push({
-                    id: tariff.id,
-                    title: tariff.title,
-                    price: price,
-                    services: []
-                });
-                tariff.offers.map(offer => {
-                    this.tariffs[this.tariffs.length - 1].services.push({
-                        title: offer.service.title
-                    });
-                });
-            });
+    getCurrentTariff(): void {
+        const user = this._storage.readItem('pbx_user');
+        this.current = user['profile']['tariffPlan'];
+    }
+
+    getTariffsData(): void {
+        this.loading = true;
+        this._service.getTariffPlans().then(response => {
+            this.fillTraiffsData(response);
+            this.initPageData();
             this.loading = false;
         }).catch(() => {
             this.loading = false;
         });
     }
 
+    fillTraiffsData(tariffs: any): void {
+        tariffs.map(tariff => {
+            let price = 0;
+            let services = [];
+            tariff.offers.map(offer => {
+                price += offer.service.sum;
+                services.push({ title: offer.service.title });
+            });
+            price = Math.round(price * 100) / 100;
+            this.tariffs.push({
+                id: tariff.id,
+                title: tariff.title,
+                price: price,
+                services: services
+            });
+        });
+    }
+
+    initPageData(): void {
+        this.page = 1;
+        this.pageCount = Math.ceil(this.tariffs.length / this.pageSize);
+    }
 }
