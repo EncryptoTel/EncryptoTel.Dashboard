@@ -1,14 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {CallRulesService} from '../../../services/call-rules.service';
 import {Action, SipInner, SipItem} from '../../../models/call-rules.model';
 import {ActivatedRoute, Router} from '@angular/router';
-import {RefsServices} from "../../../services/refs.services";
-import {StorageService} from "../../../services/storage.service";
-import {StorageModel} from "../../../models/storage.model";
-import {MessageServices} from "../../../services/message.services";
+import {RefsServices} from '../../../services/refs.services';
+import {StorageService} from '../../../services/storage.service';
+import {MessageServices} from '../../../services/message.services';
 import {MediaPlayerComponent} from '../../../elements/pbx-media-player/pbx-media-player.component';
 import {CdrMediaInfo, MediaState} from '../../../models/cdr.model';
 import {redirectToExtensionValidator} from '../../../shared/encry-form-validators';

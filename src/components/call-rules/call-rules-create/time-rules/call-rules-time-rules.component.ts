@@ -72,15 +72,22 @@ export class CallRulesTimeRulesComponent implements OnInit {
                 break;
             case 3:
                 this.days = [
-                    {type: 'cancel', day: 'Mon', code: 'mon'},
-                    {type: 'cancel', day: 'Tue', code: 'tue'},
-                    {type: 'cancel', day: 'Wed', code: 'wed'},
-                    {type: 'cancel', day: 'Thu', code: 'thu'},
-                    {type: 'cancel', day: 'Fri', code: 'fri'},
+                    {type: 'accent', day: 'Mon', code: 'mon'},
+                    {type: 'accent', day: 'Tue', code: 'tue'},
+                    {type: 'accent', day: 'Wed', code: 'wed'},
+                    {type: 'accent', day: 'Thu', code: 'thu'},
+                    {type: 'accent', day: 'Fri', code: 'fri'},
                     {type: 'cancel', day: 'Sat', code: 'sat'},
                     {type: 'cancel', day: 'Sun', code: 'sun'}
                 ];
                 this.ruleTimeAsterisk.initForWeekDaysRule();
+
+                this.ruleTimeAsterisk.days.push(this.days[0].code);
+                this.ruleTimeAsterisk.days.push(this.days[1].code);
+                this.ruleTimeAsterisk.days.push(this.days[2].code);
+                this.ruleTimeAsterisk.days.push(this.days[3].code);
+                this.ruleTimeAsterisk.days.push(this.days[4].code);
+                this.formatAsterRule();
                 break;
             default:
                 this.days = [];
@@ -110,7 +117,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
         // this.actionsControls.get([`${i}`, `parameter`]).setValue(duration.id);
         if (duration.id === 1) {
             this.ruleTimeAsterisk.time = '*';
-        } 
+        }
         else if (duration.id === 2) {
             this.selectedDuration = [[], []];
             if (this.ruleTimeAsterisk && this.ruleTimeAsterisk.time === '*') {
@@ -136,15 +143,15 @@ export class CallRulesTimeRulesComponent implements OnInit {
         }
         let rule = `${this.ruleTimeAsterisk.time}|${days}|${this.ruleTimeAsterisk.date}|${this.ruleTimeAsterisk.month}`;
         // this.logger.log('formatAsterRule', rule);
-        
+
         this.errors.ruleTime = days === '' ? 'Please select days' : '';
         this.errors.durationTime = (
                 (this.ruleTimeAsterisk.time === '')
                 || (this.selectedDuration && (this.selectedDuration[0].timeAster === undefined || this.selectedDuration[1].timeAster === undefined))
             )
-            ? 'Please select time' 
+            ? 'Please select time'
             : '';
-        
+
         this.onChange.emit(rule);
     }
 
