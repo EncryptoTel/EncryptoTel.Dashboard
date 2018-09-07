@@ -13,13 +13,28 @@
                                  [selected]="selectedCountry">
             </pbx-editable-select>
             <div class="buy_phone_header_block_key">Search:</div>
-            <input type="text" placeholder="Type city prefix" (keyup)="searchInit()"
-                   [(ngModel)]="requestDetails.areaCode">
+
+            <div class="input_wr">
+                <input type="text" placeholder="Type city prefix" (keyup)="searchInit()"
+                       [(ngModel)]="requestDetails.areaCode">
+                <div class="clear_icon clear_icon_search">
+                    <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
+                </div>
+            </div> <!-- input_wr -->
+
+
         </div>
         <div class="buy_phone_header_block">
             <div class="buy_phone_header_block_key">Number:</div>
-            <input #myNumberOnly type="text" name="search-by-digits" placeholder="Search by digits" (keyup)="searchInit()"
-                   [(ngModel)]="requestDetails.contains">
+
+            <div class="input_wr">
+                <input #myNumberOnly type="text" name="search-by-digits" placeholder="Search by digits" (keyup)="searchInit()"
+                       [(ngModel)]="requestDetails.contains">
+                <div class="clear_icon clear_icon_number">
+                    <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
+                </div>
+            </div> <!-- input_wr -->
+
             <div class="buy_phone_header_block_key">Match to:</div>
             <pbx-select [options]="matches" [objectKey]="'title'" [selected]="matches[0]"></pbx-select>
         </div>

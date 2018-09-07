@@ -3,6 +3,36 @@ pbx-sidebar
         margin-bottom: 24px
 
 buy-phone-numbers-component
+    .buy_phone_grid
+        position: relative
+        pbx-loader
+            position: absolute
+            top: 50%
+            left: 50%
+            transform: translate(-50%, -50%)
+    .buy_phone_header_block
+        .input_wr
+            position: relative
+            input
+                padding-right: 30px
+            .clear_icon
+                // position: absolute
+                top: 50%
+                // right: 30px
+                transform: translateY(-50%)
+                cursor: pointer
+                width: 1.14285714rem
+                height: 1.14285714rem
+                padding: 0.14285714rem
+                margin-left: 1.14285714rem
+                position: relative
+                left: -42px
+                svg-icon
+                    flex: 1
+                    /deep/ polygon
+                        fill: $dark_error
+                    /deep/ *
+                        cursor: pointer
     pbx-editable-select
         .select_wrap
             max-width: 240px
@@ -99,4 +129,3 @@ phone-numbers-component
                 .buy_phone_header_refresh_icon
                     display: none
 
-    
