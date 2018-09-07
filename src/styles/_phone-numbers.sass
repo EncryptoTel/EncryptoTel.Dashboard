@@ -25,22 +25,49 @@ buy-phone-numbers-component
 
 phone-numbers-component
     pbx-table
+        .tablet_header .tablet_item:nth-child(1),
+        .tablet_body .tablet_item:nth-child(1)
+            width: 125px
+        .tablet_header .tablet_item:nth-child(2),
+        .tablet_body .tablet_item:nth-child(2)
+            width: 170px
+        .tablet_header .tablet_item:nth-child(3),
+        .tablet_body .tablet_item:nth-child(3)
+            width: 110px
+        .tablet_header .tablet_item:nth-child(4),
+        .tablet_body .tablet_item:nth-child(4)
+            width: 90px
+        .tablet_header .tablet_item:nth-child(5),
+        .tablet_body .tablet_item:nth-child(5)
+            width: 120px
+            margin-right: 154px
         .tablet_header
+            display: flex
+            justify-content: space-between
+            .tablet_item
+                // outline: 1px solid red
+                flex: unset
+                // width: 200px
             .tablet_item:nth-child(2),
             .tablet_item:nth-child(3),
             .tablet_item:nth-child(5)
                 span
                     float: unset !important
-                    // justify-content: center
+                    justify-content: center
         .tablet_body
             .tablet_row
                 .tablet_content
+                    display: flex !important
+                    justify-content: space-between
+                    cursor: pointer
                     .tablet_item
-                        // outline: 1px solid red
+                        // outline: 1px solid green
+                        flex: unset
+                        // width: 200px
                     .tablet_item:nth-child(2),
                     .tablet_item:nth-child(3),
                     .tablet_item:nth-child(5)
-                        // text-align: center
+                        text-align: center
                     .tablet_item:nth-child(2)
                         // padding-left: 77px
                     .tablet_item:last-child
