@@ -166,6 +166,7 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
             this.prepareData();
             this.sidebarInitialize();
             this.sidebar.loading --;
+            console.log(this.selected);
         }).catch(() => {
             this.sidebar.loading --;
         });

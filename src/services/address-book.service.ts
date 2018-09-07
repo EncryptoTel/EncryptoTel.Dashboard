@@ -88,14 +88,11 @@ export class AddressBookService extends BaseService {
     }
 
     getAddressBookItem(id: number): Promise<AddressBookItem> {
-        let item = this.items.find(item => item.id == id);
-        if (item) {
-            return Promise.resolve(item);
-        }
+        let item = this.items.find(item => item.id == id;
         return super.getById(id).then((response: AddressBookItem) => {
             item = new AddressBookItem(response);
             this.items.push(item);
-            return Promise.resolve(response); 
+            return item;
         });
     }
 }
