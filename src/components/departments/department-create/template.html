@@ -2,6 +2,7 @@
           [buttons]="tabsButtons()"
           (onClick)="buttonClick($event)"
           (onTabChange)="tabChanged($event)"
+          [params] = "params"
           >
     <!-- General tab content -->
     <pbx-tab tabTitle='General'>

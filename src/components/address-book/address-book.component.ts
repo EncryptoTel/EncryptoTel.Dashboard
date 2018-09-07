@@ -93,9 +93,6 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
         if (document.activeElement.getAttribute('id') === 'lastname') {
             this.selected.lastname = $event.clipboardData.getData('Text');
         }
-        // document.activeElement.setAttribute('value', $event);
-        // document.activeElement.value = $event.clipboardData.getData('Text');
-        // let current: ElementRef;
     }
 
     sidebarInitialize(): void {
