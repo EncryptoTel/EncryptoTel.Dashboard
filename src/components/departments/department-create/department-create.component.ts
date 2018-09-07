@@ -25,24 +25,15 @@ import { validateForm } from '../../../shared/shared.functions';
 export class DepartmentCreateComponent implements OnInit, Lockable {
     public locker: Locker;
     public departmentForm: FormGroup;
-    public sips: any[]; //Sip[];
-    public selectedSips: any[] //Sip[] = [];
+    public sips: any[];
+    public selectedSips: any[];
     public sipTableContext: {};
 
     private _tabsButtons: BaseButton[][];
     private _id: number;
     private _department: DepartmentItem;
 
-    params: object = {
-        'class': {
-            'enable': false,
-            'object': 'formBody',
-            'classes': [
-                'class1',
-                'class2'
-            ]
-        }
-    };
+    params: object = {};
 
     @ViewChild('departmentFormTabs') formTabs: TabsComponent;
     @ViewChild('sipInnersControl') sipInnersControl: ViewEditControlComponent;
@@ -66,6 +57,17 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
                 private _router: Router,
                 private _fb: FormBuilder,
                 private _message: MessageServices) {
+        this.params = {
+            'class': {
+                'enable': false,
+                'object': 'formBody',
+                'classes': [
+                    'class1',
+                    'class2'
+                ]
+            }
+        };
+
         this.locker = new Locker();
         this.sips = [];
         this._id = this._activatedRoute.snapshot.params.id;
@@ -253,9 +255,9 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
         }
         this.formTabs.selectTab(tab);
         if (tab.id === 1) {
-            this.params.class.enable = true;
+            this.params['class']['enable'] = true;
         } else {
-            this.params.class.enable = false;
+            this.params['class']['enable'] = false;
         }
     }
 
