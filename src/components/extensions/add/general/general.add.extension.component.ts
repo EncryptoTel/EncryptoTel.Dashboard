@@ -2,9 +2,9 @@ import {Component, Input, OnInit, ViewChildren} from '@angular/core';
 import {FormArray, FormGroup} from '@angular/forms';
 import {ExtensionService} from '../../../../services/extension.service';
 import {PhoneNumberService} from '../../../../services/phone-number.service';
-import {MessageServices} from "../../../../services/message.services";
-import {RefsServices} from "../../../../services/refs.services";
-import {ModalEx} from "../../../../elements/pbx-modal/pbx-modal.component";
+import {MessageServices} from '../../../../services/message.services';
+import {RefsServices} from '../../../../services/refs.services';
+import {ModalEx} from '../../../../elements/pbx-modal/pbx-modal.component';
 
 @Component({
     selector: 'general-add-extension-component',

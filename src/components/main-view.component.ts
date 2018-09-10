@@ -12,8 +12,8 @@ import {FadeAnimation} from '../shared/fade-animation';
 import {LocalStorageServices} from '../services/local-storage.services';
 
 // first and second
-// import * as $ from 'jquery';
-// declare var jquery:any;
+import * as $ from 'jquery';
+declare var jquery:any;
 // declare var $ :any;
 
 @Component({

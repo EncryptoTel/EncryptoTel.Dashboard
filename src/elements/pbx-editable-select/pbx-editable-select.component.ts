@@ -23,7 +23,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     @Input() objectKey: string;
     @Input() selected: any; // read selectedItem
     @Input() errors: any[];
-    
+
     @Output() onSelect: EventEmitter<object>;
     @Output() onOpen: EventEmitter<object>;
     @Output() onClose: EventEmitter<object>;
@@ -64,7 +64,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     set placeholder(placeholder: string) {
         this._placeholder = placeholder;
     }
-    
+
     get placeholder(): string {
         return this._placeholder;
     }
@@ -154,8 +154,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     setSelectInputFocus(state: boolean): void {
         if (state) {
             setTimeout(() => this.selectInput.nativeElement.focus(), 0);
-        }
-        else {
+        } else {
             setTimeout(() => this.selectInput.nativeElement.blur(), 0);
         }
     }
@@ -241,12 +240,12 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     filterOptions(): void {
         this.filteredOptions = this.options
             .filter(opt => !this.filterValue || opt[this.objectKey].toLowerCase().search(this.filterValue.toLowerCase()) >= 0);
-        
+
         if (this.filteredOptions.length == 0) this.filteredOptions.push(this._emptyOption);
-        this.filteredSelectedItem = (this.filterValue && this.filteredOptions[0].id) 
-            ? this.filteredOptions[0] 
+        this.filteredSelectedItem = (this.filterValue && this.filteredOptions[0].id)
+            ? this.filteredOptions[0]
             : this.selected;
-        
+
         this.scrollToCurrent();
     }
 

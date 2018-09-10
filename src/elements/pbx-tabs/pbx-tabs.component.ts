@@ -9,6 +9,11 @@ import { BaseButton } from "../../models/base.model";
 })
 export class TabsComponent implements OnInit, AfterContentInit {
     @Input() buttons: BaseButton[];
+    @Input()
+    set params(dsfasdfa: any) {
+        this._params = dsfasdfa;
+    }
+    _params: any;
 
     @Output() onClick: EventEmitter<string>;
     @Output() onTabChange: EventEmitter<TabComponent>;
@@ -51,7 +56,7 @@ export class TabsComponent implements OnInit, AfterContentInit {
             this.selectTab(tab);
         }
     }
-    
+
     selectTabByIndex(index: number): void {
         if (index < this.tabs.length) {
             let tab = this.tabs.toArray().find(tab => tab.id == index);

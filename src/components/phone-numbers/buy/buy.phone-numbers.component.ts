@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild, DoCheck} from '@angular/core';
 import {PhoneNumberService} from '../../../services/phone-number.service';
 import {CountryModel} from '../../../models/country.model';
 import {RefsServices} from '../../../services/refs.services';
@@ -14,9 +14,7 @@ import {ModalEx} from '../../../elements/pbx-modal/pbx-modal.component';
 export class BuyPhoneNumbersComponent implements OnInit {
 
     loading: number;
-
     list: any[];
-
     requestDetails: {
         countryCode: string,
         areaCode: string,
@@ -27,24 +25,19 @@ export class BuyPhoneNumbersComponent implements OnInit {
         mobile: boolean,
         tollFree: boolean
     };
-
     pagination: {
         page: number;
         total: number;
     };
-
     modal = new ModalEx('', 'buyNumber');
-
     searchTimeout;
-
     selected;
-
     countries: CountryModel[] = [];
     selectedCountry: CountryModel;
-
     matches = [{id: 0, title: 'Any part of number'}];
-
     title = ['Number', 'Location', 'Type', 'Monthly', 'Buy'];
+    clearNumberVisible: boolean;
+    clearSearchVisible: boolean;
 
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
@@ -61,6 +54,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
         let current: string;
         current = this.numberInput.nativeElement.value;
+
         if (document.activeElement.getAttribute('name') === this.numberInput.nativeElement.name) {
             let next: string;
             next = current.concat(event.key);
@@ -73,6 +67,33 @@ export class BuyPhoneNumbersComponent implements OnInit {
     constructor(private _services: PhoneNumberService,
                 private refs: RefsServices) {
         this.pagination = {page: 1, total: 1};
+        this.clearNumberVisible = false;
+        this.clearSearchVisible = false;
+    }
+
+    ngDoCheck(): void {
+        if (this.requestDetails.contains === '') {
+            this.clearNumberVisible = false;
+        } else {
+            this.clearNumberVisible = true;
+        }
+
+        if (this.requestDetails.areaCode === '') {
+            this.clearSearchVisible = false;
+        } else {
+            this.clearSearchVisible = true;
+        }
+    }
+
+    clearInput() {
+        if (document.activeElement.getAttribute('name') === 'search-by-digits') {
+            this.requestDetails.contains = '';
+            this.clearNumberVisible = false;
+        }
+        if (document.activeElement.getAttribute('name') === 'search-by-city-prefix') {
+            this.requestDetails.areaCode = '';
+            this.clearSearchVisible = false;
+        }
     }
 
     selectCountry(country: CountryModel) {

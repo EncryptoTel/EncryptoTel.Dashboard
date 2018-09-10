@@ -109,6 +109,29 @@ pbx-department-create
     left: 50%
     transform: translate(-50%, -50%)
 
+pbx-header
+    pbx-input
+        input
+            text-overflow: ellipsis
+            padding-right: 30px
+
+.dark_theme
+    input
+        &::placeholder
+            color: $dark_white_60 !important
+
+pbx-table
+    .tablet_header
+        .tablet_item
+            color: $dark_white_60 !important
+    .tablet_body
+        .tablet_item
+            color: $dark_white !important
+            font-weight: 200 !important
+input.searching
+    &::placeholder
+        opacity: .35 !important
+
 // Storage - раскомментировать когда аудио переместится в колонку Record
 // pbx-storage
 //     pbx-media-table

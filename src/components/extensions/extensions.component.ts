@@ -1,12 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ExtensionService} from '../../services/extension.service';
 import {MainViewComponent} from '../main-view.component';
-import {ExtensionItem, ExtensionModel} from "../../models/extension.model";
-import {Router} from "@angular/router";
-import {MessageServices} from "../../services/message.services";
-import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
-import {FilterItem, TableInfoExModel, TableInfoItem} from "../../models/base.model";
-import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
+import {ExtensionItem, ExtensionModel} from '../../models/extension.model';
+import {Router} from '@angular/router';
+import {MessageServices} from '../../services/message.services';
+import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
+import {FilterItem, TableInfoExModel, TableInfoItem} from '../../models/base.model';
+import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 
 @Component({
     selector: 'extensions-component',

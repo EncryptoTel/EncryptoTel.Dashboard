@@ -74,7 +74,7 @@ export class PartnerProgramComponent implements OnInit {
 
         this.sidebar.items = [];
         // TODO: is value really used?
-        let editItem = new SidebarInfoItem(4, 'Name', this.selected.name);
+        let editItem = new SidebarInfoItem(4, 'Name *', this.selected.name);
         editItem.init({ key: 'name', object: this.selected, edit: true });
         this.sidebar.items.push(editItem);
         

@@ -55,9 +55,11 @@
             <div class="dashboard_item_title_name">Phone numbers</div>
         </div>
         <div class="dashboard_numbers_body">
-            <div class="dashboard_item_content_row" *ngFor="let number of dashboard.numbers">
-                <div class="dashboard_item_content_key">{{number.phoneNumber}}</div>
-                <div class="dashboard_item_content_value">{{number.innerOnlineCount}} of {{number.innerCount}} ext.<span>online</span>
+            <div class="dashboard_item_content_row" *ngFor="let number of dashboard.numbers; let i = index">
+                <div class="dashboard_item_line" *ngIf="i <= 5">
+                    <div class="dashboard_item_content_key">{{number.phoneNumber}}</div>
+                    <div class="dashboard_item_content_value">{{number.innerOnlineCount}} of {{number.innerCount}} ext.<span>online</span>
+                    </div>
                 </div>
             </div>
         </div>

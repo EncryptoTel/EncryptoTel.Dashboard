@@ -11,9 +11,15 @@ pbx-dashboard
         background: $dark_dashboard_history !important
 
     .dashboard_wrap
+        display: grid
+        grid-template-columns: 1fr 1fr
+        grid-template-rows: 1fr 1fr
         pbx-loader
             background: transparent !important
-    
+    .dashboard_item_line
+        display: grid
+        grid-template-columns: 1fr 1fr
+        width: 100%
     .dashboard_balance
         .dashboard_center
             margin-left: 44px
@@ -65,3 +71,9 @@ pbx-dashboard
         .dashboard_balance
             .dashboard_center
                 margin-left: 0
+
+@media screen and (max-height: 850px)
+    pbx-dashboard
+        .dashboard_wrap
+            .dashboard_item
+                min-height: 332px !important

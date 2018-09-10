@@ -34,6 +34,9 @@ export class BaseService {
                 if (item.hasOwnProperty('created')) {
                     item.created = item.created.replace(/-/g, '/');
                 }
+                if (item.hasOwnProperty('expires')) {
+                    item.expires = item.expires.replace(/-/g, '/');
+                }
                 pageInfo.items.push(plainToClass<TPageItem, {}>(classItems, item));
             });
         }
@@ -41,12 +44,27 @@ export class BaseService {
     }
 
     rawRequest(method: string, path: string, data: any, ShowSuccess = true, ShowError = null): Promise<any> {
+        let _method: string;
+        _method = method;
         this.resetErrors();
         return this.request.request(method, `${this.url}${path}`, data, ShowSuccess, ShowError).then(response => {
             return Promise.resolve(response);
         }).catch(res => {
             if (res.errors) {
                 this.errors = res.errors;
+                if (this.url === 'v1/sip/inners' && (_method === 'PUT' || _method === 'POST')) {
+                    if (this.errors.user['lastName'] || this.errors.user['firstName']) {
+                        let lastName = this.errors.user['lastName'];
+                        let firstName = this.errors.user['firstName'];
+                        delete this.errors.user;
+                        if (lastName) {
+                            this.errors['lastName'] = lastName;
+                        }
+                        if (firstName) {
+                            this.errors['firstName'] = firstName;
+                        }
+                    }
+                }
             }
             return Promise.reject(res);
         });

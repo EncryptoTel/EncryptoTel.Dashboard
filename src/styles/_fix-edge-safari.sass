@@ -7,6 +7,15 @@
 .tariff_container:after
     z-index: -1
 
+
+// for Safari
+pbx-call-rules-create
+    form.call-rules-create
+        padding-bottom: 10px
+    pbx-form
+        .form-body
+            background: $dark_overlay
+
 // if Edge
 @supports (-ms-ime-align:auto)
     #arrow_edge
@@ -44,6 +53,13 @@
                     height: 24px
                     svg path
                         fill: $dark-white-70 !important
+    pbx-input
+        .clear_icon
+            svg-icon
+                width: 12px !important
+                height: 12px !important
+    input::-ms-clear
+        display: none
 
 // scrollbar
 // ::-webkit-scrollbar-button

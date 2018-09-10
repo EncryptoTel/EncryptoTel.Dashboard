@@ -1,10 +1,10 @@
-import {Component, OnInit /*, ViewChildren*/} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {emailRegExp} from '../../../shared/vars';
 import {ExtensionService} from '../../../services/extension.service';
 import {PhoneNumberService} from '../../../services/phone-number.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ExtensionItem} from "../../../models/extension.model";
+import {ExtensionItem} from '../../../models/extension.model';
 
 @Component({
     selector: 'add-extension-component',
@@ -14,8 +14,8 @@ import {ExtensionItem} from "../../../models/extension.model";
 })
 
 export class AddExtensionsComponent implements OnInit {
-    loading: number = 0;
-    saving: number = 0;
+    loading: number;
+    saving: number;
     mode = 'create';
     id: number;
 
@@ -31,6 +31,8 @@ export class AddExtensionsComponent implements OnInit {
                 private _router: Router,
                 private _activatedRoute: ActivatedRoute,
                 private _extension: ExtensionService) {
+        this.loading = 0;
+        this.saving = 0;
         this.id = _activatedRoute.snapshot.params.id;
         this.id ? this.mode = 'edit' : this.mode = 'create';
 

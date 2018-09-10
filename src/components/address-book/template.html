@@ -28,7 +28,8 @@
                            [singleBorder]="false"
                            [floatError]="true"
                            [required]="true"
-                           [object]="selected">
+                           [object]="selected"
+                           (onPaste)="pasteMethod($event)">
                 </pbx-input>
 
                 <pbx-input name="Last Name"
@@ -37,7 +38,8 @@
                            [(errors)]="service.errors"
                            [singleBorder]="false"
                            [floatError]="true"
-                           [object]="selected">
+                           [object]="selected"
+                           (onPaste)="pasteMethod($event)">
                 </pbx-input>
 
                 <div class="phone-block" style="display: block;">

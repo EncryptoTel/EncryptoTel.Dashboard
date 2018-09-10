@@ -1,4 +1,3 @@
-///<reference path='../../shared/swipe-animation.ts'/>
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PhoneNumberService} from '../../services/phone-number.service';
 import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel} from '../../models/base.model';
@@ -18,11 +17,11 @@ import {MessageServices} from '../../services/message.services';
 
 export class PhoneNumbersComponent implements OnInit {
 
-    loading: number = 0;
+    loading: number;
 
     tableInfo: TableInfoModel = {
-        titles: ['Phone Number', 'Amount of phone Exts', 'Default Ext', 'Status', 'Number type'],
-        keys: ['phoneNumber', 'innersCount', 'defaultInner', 'statusName', 'typeName']
+        titles: ['Phone Number', 'Amount of Exts', 'Default Ext', 'Status', 'Number type'],
+        keys: ['phoneNumberWithType', 'innersCount', 'defaultInner', 'statusName', 'typeName']
     };
     selected: PhoneNumberItem;
 
@@ -38,6 +37,7 @@ export class PhoneNumbersComponent implements OnInit {
                 public router: Router,
                 private message: MessageServices) {
         this.sidebar.title = '';
+        this.loading = 0;
     }
 
     select(item: any): void {
@@ -47,7 +47,7 @@ export class PhoneNumbersComponent implements OnInit {
         this.sidebar.buttons.push(new SidebarButtonItem(2, this.selected.status ? 'Disable' : 'Enable', 'accent'));
         this.sidebar.items = [];
         this.sidebar.items.push(new SidebarInfoItem(3, 'Phone number', this.selected.phoneNumber));
-        this.sidebar.items.push(new SidebarInfoItem(4, 'Amount of phone Exts', this.selected.innersCount));
+        this.sidebar.items.push(new SidebarInfoItem(4, 'Amount of Exts', this.selected.innersCount));
         this.sidebar.items.push(new SidebarInfoItem(5, 'Default Ext', this.selected.defaultInner));
         this.sidebar.items.push(new SidebarInfoItem(6, 'Status', this.selected.statusName));
         this.sidebar.items.push(new SidebarInfoItem(7, 'Phone number type', this.selected.typeName));

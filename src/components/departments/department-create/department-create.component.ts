@@ -25,19 +25,21 @@ import { validateForm } from '../../../shared/shared.functions';
 export class DepartmentCreateComponent implements OnInit, Lockable {
     public locker: Locker;
     public departmentForm: FormGroup;
-    public sips: any[]; //Sip[];
-    public selectedSips: any[] //Sip[] = [];
+    public sips: any[];
+    public selectedSips: any[];
     public sipTableContext: {};
 
     private _tabsButtons: BaseButton[][];
     private _id: number;
     private _department: DepartmentItem;
 
+    params: object = {};
+
     @ViewChild('departmentFormTabs') formTabs: TabsComponent;
     @ViewChild('sipInnersControl') sipInnersControl: ViewEditControlComponent;
     errors;
-    
-    
+
+
     public get hasId(): boolean {
         return this._id && this._id > 0;
     }
@@ -55,6 +57,16 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
                 private _router: Router,
                 private _fb: FormBuilder,
                 private _message: MessageServices) {
+        this.params = {
+            'class': {
+                'enable': false,
+                'object': 'formBody',
+                'classes': [
+                    'class1',
+                    'class2'
+                ]
+            }
+        };
 
         this.locker = new Locker();
         this.sips = [];
@@ -69,7 +81,7 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
         this._tabsButtons[1] = [
             new BaseButton('Back', 'back', 'cancel'),
         ];
-        
+
         this.departmentForm = this._fb.group({
             generalForm: _fb.group({
                 name: [this._department.name, [ Validators.required, Validators.maxLength(190) ]],
@@ -110,7 +122,7 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
             this.locker.unlock();
         });
     }
-    
+
     getCompany() {
         this.locker.lock();
         this._company.getCompany().then((response) => {
@@ -134,7 +146,7 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
         this.fillSipInnersFormElements();
         if (!this.validateModel())
             return;
-        
+
         this.mapFormDataToModel();
 
         this.locker.lock();
@@ -186,7 +198,7 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
         let generalForm = this.departmentForm.get('generalForm');
         generalForm.get('name').setValue(this._department.name);
         generalForm.get('comment').setValue(this._department.comment);
-        
+
         this._department.sipInnerIds = [2];
         this._department.sipInnerIds.forEach(id => {
             let sip = this.sips.find(sip => sip.id === id);
@@ -201,7 +213,7 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
 
             let sipInnersForm = this.departmentForm.get('sipInnersForm');
             let sipInnerFormArray = <FormArray>sipInnersForm.get('sipInner');
-            this._department.sipInnerIds.forEach(sipId => { 
+            this._department.sipInnerIds.forEach(sipId => {
                 sipInnerFormArray.push(this._fb.control([ sipId, [] ]));
             });
         }
@@ -210,7 +222,7 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
     validateModel(): boolean {
         let generalFormValid = this.validateFormGroup('generalForm');
         let sipInnersFormValid = this.validateFormGroup('sipInnersForm', true, 'Please select at least one member');
-        
+
         if (!generalFormValid) {
             this.formTabs.selectTabByIndex(0);
             return false;
@@ -238,10 +250,15 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
 
     tabChanged(tab: TabComponent): void {
         if (this.formTabs.selectedTabIndex === 0 && tab.id !== 0) {
-            if (!this.validateFormGroup('generalForm')) 
+            if (!this.validateFormGroup('generalForm'))
                 return;
         }
         this.formTabs.selectTab(tab);
+        if (tab.id === 1) {
+            this.params['class']['enable'] = true;
+        } else {
+            this.params['class']['enable'] = false;
+        }
     }
 
     buttonClick(action: string): void {
