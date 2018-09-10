@@ -1,4 +1,3 @@
-///<reference path='../../shared/swipe-animation.ts'/>
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PhoneNumberService} from '../../services/phone-number.service';
 import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel} from '../../models/base.model';
@@ -18,7 +17,7 @@ import {MessageServices} from '../../services/message.services';
 
 export class PhoneNumbersComponent implements OnInit {
 
-    loading: number = 0;
+    loading: number;
 
     tableInfo: TableInfoModel = {
         titles: ['Phone Number', 'Amount of phone Exts', 'Default Ext', 'Status', 'Number type'],
@@ -38,6 +37,7 @@ export class PhoneNumbersComponent implements OnInit {
                 public router: Router,
                 private message: MessageServices) {
         this.sidebar.title = '';
+        this.loading = 0;
     }
 
     select(item: any): void {
