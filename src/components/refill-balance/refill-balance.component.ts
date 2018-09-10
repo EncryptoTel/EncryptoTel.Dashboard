@@ -9,7 +9,7 @@ import {CoursesModel} from '../../models/courses.model';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {MessageServices} from '../../services/message.services';
 import {ClipboardService} from 'ngx-clipboard';
-import {FilterItem} from "../../models/base.model";
+import {FilterItem} from '../../models/base.model';
 
 @Component({
     selector: 'refill-balance',
@@ -48,7 +48,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                 private _router: Router) {
         this.filters.push(new FilterItem(1, 'amount',
             `Payment amount`, null, null,
-            ``, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`));
+            ``, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`, true));
         this.filters.push(new FilterItem(2,  'returnAddress',
             'Return address:', null, null, '', 220, true));
 
@@ -58,7 +58,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
             }
         });
     }
-    
+
     selectRefillMethod(refillMethod: RefillModel) {
         if (this.validValue(this.currentFilter['amount'])) {
             refillMethod.loading = true;
@@ -152,7 +152,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
             this.navigationSubscription.unsubscribe();
         }
     }

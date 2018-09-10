@@ -30,15 +30,16 @@ import {HeaderComponent} from '../elements/pbx-header/pbx-header.component';
 import {ListComponent} from '../elements/pbx-list/pbx-list.component';
 import {DiskUsedComponent} from '../elements/pbx-drive-circle/pbx-drive-circle.component';
 import {CalendarComponent} from '../elements/pbx-calendar/pbx-calendar.component';
-import {QueueCreateComponent} from "../elements/pbx-queue-create/pbx-queue-create.component";
-import {QueueGeneralComponent} from "../elements/pbx-queue-create/general/pbx-queue-general.component";
-import {QueueMembersComponent} from "../elements/pbx-queue-create/members/pbx-queue-members.component";
-import {QueueMembersAddComponent} from "../elements/pbx-queue-create/members/add/pbx-queue-members-add.component";
+import {QueueCreateComponent} from '../elements/pbx-queue-create/pbx-queue-create.component';
+import {QueueGeneralComponent} from '../elements/pbx-queue-create/general/pbx-queue-general.component';
+import {QueueMembersComponent} from '../elements/pbx-queue-create/members/pbx-queue-members.component';
+import {QueueMembersAddComponent} from '../elements/pbx-queue-create/members/add/pbx-queue-members-add.component';
 import {MediaTableComponent, TimePipe} from '../elements/pbx-media-table/pbx-media-table.component';
 import {MediaTablePlayerComponent} from '../elements/pbx-media-table-player/pbx-media-table-player.component';
 import {MediaPlayerComponent} from '../elements/pbx-media-player/pbx-media-player.component';
 import {TagSelectorComponent} from '../elements/pbx-tag-selector/pbx-tag-selector.component';
 import {ViewEditControlComponent} from '../elements/pbx-view-edit-control/pbx-view-edit-control.component';
+import {AutofocusDirective} from '../elements/directives/autofocus.directive';
 
 @NgModule({
     imports: [
@@ -47,11 +48,11 @@ import {ViewEditControlComponent} from '../elements/pbx-view-edit-control/pbx-vi
         AngularSvgIconModule,
         FormsModule,
         ReactiveFormsModule,
-    	VgCoreModule,
-    	VgControlsModule,
-    	VgOverlayPlayModule,
-    	VgBufferingModule,
-    	VgStreamingModule,
+        VgControlsModule,
+        VgCoreModule,
+        VgOverlayPlayModule,
+        VgBufferingModule,
+        VgStreamingModule,
     ],
     declarations: [
         ClickOutsideDirective,
@@ -82,6 +83,7 @@ import {ViewEditControlComponent} from '../elements/pbx-view-edit-control/pbx-vi
         QueueMembersAddComponent,
         TagSelectorComponent,
         ViewEditControlComponent,
+        AutofocusDirective,
     ],
     exports: [
         ClickOutsideDirective,
@@ -96,10 +98,10 @@ import {ViewEditControlComponent} from '../elements/pbx-view-edit-control/pbx-vi
         MediaTablePlayerComponent,
         MediaPlayerComponent,
         VgCoreModule,
-    	VgControlsModule,
-    	VgOverlayPlayModule,
-    	VgBufferingModule,
-    	VgStreamingModule,
+        VgControlsModule,
+        VgOverlayPlayModule,
+        VgBufferingModule,
+        VgStreamingModule,
         SidebarComponent,
         ModalComponent,
         PaginationComponent,

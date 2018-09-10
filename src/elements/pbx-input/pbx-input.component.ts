@@ -49,6 +49,7 @@ export class InputComponent implements OnInit {
     @Input() formBuilder: FormBuilder;
     @Input() animationMode: string; // Possible values: Fade, Swipe (default)
     @Input() resetable: boolean = false;
+    @Input() inputFocus: boolean = false;
 
     // -- errors redefinitions
     @Input() validatorRequiredMsg: string;

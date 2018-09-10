@@ -28,7 +28,9 @@
                        (mouseenter)="mouseEnter()"
                        (mouseleave)="mouseLeave()"
                        [disabled]="disabled"
-                       (paste)="pasteEvent($event)">
+                       (paste)="pasteEvent($event)"
+                       [attr.data-focus]="inputFocus"
+                        appAutofocus>
 
                 <div *ngIf="!options && !checkbox && type !== 'textarea' && resetable && value">
                     <div class="clear_icon" (click)="clearValue()">

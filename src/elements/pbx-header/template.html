@@ -16,7 +16,8 @@
                     [errors]="errors"
                     [resetable]="true"
                     (onKeyUp)="reload()"
-                    (onSelect)="reload()">
+                    (onSelect)="reload()"
+                    [inputFocus]="filter.focus">
         </pbx-input>
     </div>
     <pbx-button *ngFor="let button of activeButtons()"
