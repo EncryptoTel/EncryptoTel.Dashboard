@@ -35,6 +35,7 @@ export class AddressBookItem extends BaseItemModel {
             this.department = response.department;
             this.position = response.position;
             this.address = response.address;
+            this.blacklist = response.blacklist;
             if (response.contactPhone) {
                 for (let i = 0; i < response.contactPhone.length; i++) {
                     let item: ContactValueModel = response.contactPhone[i];

@@ -63,7 +63,8 @@ export class AddressBookService extends BaseService {
     }
 
     getAddressBookItem(id: number): Promise<AddressBookItem> {
-        let item = this.items.find(item => item.id === id);
+        let item: AddressBookItem;
+        item = this.items.find(item => item.id === id);
         return super.getById(id).then((response: AddressBookItem) => {
             item = new AddressBookItem(response);
             this.items.push(item);
