@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild, DoCheck} from '@angular/core';
 import {PhoneNumberService} from '../../../services/phone-number.service';
 import {CountryModel} from '../../../models/country.model';
 import {RefsServices} from '../../../services/refs.services';
@@ -51,15 +51,10 @@ export class BuyPhoneNumbersComponent implements OnInit {
         if (specialKeys.indexOf(event.key) !== -1) {
             return;
         }
-        if (document.activeElement.getAttribute('name') === 'search-by-digits') {
-            this.clearNumberVisible = true;
-        }
-        if (document.activeElement.getAttribute('name') === 'search-by-city-prefix') {
-            this.clearSearchVisible = true;
-        }
 
         let current: string;
         current = this.numberInput.nativeElement.value;
+
         if (document.activeElement.getAttribute('name') === this.numberInput.nativeElement.name) {
             let next: string;
             next = current.concat(event.key);
@@ -74,6 +69,20 @@ export class BuyPhoneNumbersComponent implements OnInit {
         this.pagination = {page: 1, total: 1};
         this.clearNumberVisible = false;
         this.clearSearchVisible = false;
+    }
+
+    ngDoCheck(): void {
+        if (this.requestDetails.contains === '') {
+            this.clearNumberVisible = false;
+        } else {
+            this.clearNumberVisible = true;
+        }
+
+        if (this.requestDetails.areaCode === '') {
+            this.clearSearchVisible = false;
+        } else {
+            this.clearSearchVisible = true;
+        }
     }
 
     clearInput() {
