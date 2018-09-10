@@ -9,7 +9,7 @@
         </div>
         <div class="call_queues_members_add_filter">
             <span>Search:</span>
-            <input type="search" placeholder="Search by Name or Phone" (keyup)="search($event)">
+            <input class="searching" type="search" placeholder="Search by Name or Phone" (keyup)="search($event)">
         </div>
     </div>
     <pbx-loader *ngIf="loading"></pbx-loader>
