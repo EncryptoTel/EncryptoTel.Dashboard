@@ -14,9 +14,7 @@ import {ModalEx} from '../../../elements/pbx-modal/pbx-modal.component';
 export class BuyPhoneNumbersComponent implements OnInit {
 
     loading: number;
-
     list: any[];
-
     requestDetails: {
         countryCode: string,
         areaCode: string,
@@ -27,24 +25,19 @@ export class BuyPhoneNumbersComponent implements OnInit {
         mobile: boolean,
         tollFree: boolean
     };
-
     pagination: {
         page: number;
         total: number;
     };
-
     modal = new ModalEx('', 'buyNumber');
-
     searchTimeout;
-
     selected;
-
     countries: CountryModel[] = [];
     selectedCountry: CountryModel;
-
     matches = [{id: 0, title: 'Any part of number'}];
-
     title = ['Number', 'Location', 'Type', 'Monthly', 'Buy'];
+    clearNumberVisible: boolean;
+    clearSearchVisible: boolean;
 
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
@@ -57,6 +50,12 @@ export class BuyPhoneNumbersComponent implements OnInit {
         specialKeys = [ 'Backspace', 'Tab', 'End', 'Home'];
         if (specialKeys.indexOf(event.key) !== -1) {
             return;
+        }
+        if (document.activeElement.getAttribute('name') === 'search-by-digits') {
+            this.clearNumberVisible = true;
+        }
+        if (document.activeElement.getAttribute('name') === 'search-by-city-prefix') {
+            this.clearSearchVisible = true;
         }
 
         let current: string;
@@ -73,6 +72,19 @@ export class BuyPhoneNumbersComponent implements OnInit {
     constructor(private _services: PhoneNumberService,
                 private refs: RefsServices) {
         this.pagination = {page: 1, total: 1};
+        this.clearNumberVisible = false;
+        this.clearSearchVisible = false;
+    }
+
+    clearInput() {
+        if (document.activeElement.getAttribute('name') === 'search-by-digits') {
+            this.requestDetails.contains = '';
+            this.clearNumberVisible = false;
+        }
+        if (document.activeElement.getAttribute('name') === 'search-by-city-prefix') {
+            this.requestDetails.areaCode = '';
+            this.clearSearchVisible = false;
+        }
     }
 
     selectCountry(country: CountryModel) {
