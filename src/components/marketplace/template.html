@@ -4,7 +4,7 @@
 ></pbx-modal>
 <pbx-loader *ngIf="!locker.free"></pbx-loader>
 <div class="marketplace_wrap" *ngIf="locker.free">
-    <div *ngFor="let item of modules" class="marketplace_item color_{{item.color}}">
+    <div *ngFor="let item of modules" class="marketplace_item color_{{item.color}}" [ngClass]="[item.status ? 'bought' : '']">
         <div class="marketplace_column">
             <div class="marketplace_title">{{item.title}}</div>
             <div class="marketplace_info" *ngIf="item.content">{{item.content}}</div>
