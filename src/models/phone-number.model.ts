@@ -11,6 +11,14 @@ export class PhoneNumberItem extends BaseItemModel {
     sipInners: SipInnerModel[] = [];
     safe: boolean = false;
 
+    get phoneNumberWithType() {
+        if (this.providerId === 1) {
+           return this.phoneNumber;
+        } else {
+            return '+' + this.phoneNumber;
+        }
+    }
+
     get innersCount() {
         return this.sipInners.length;
     }

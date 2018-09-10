@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {BaseService} from "./base.service";
-import {PageInfoModel} from "../models/base.model";
-import {PhoneNumberItem, PhoneNumberModel} from "../models/phone-number.model";
+import {BaseService} from './base.service';
+import {PageInfoModel} from '../models/base.model';
+import {PhoneNumberItem, PhoneNumberModel} from '../models/phone-number.model';
 
 @Injectable()
 export class PhoneNumberService extends BaseService {

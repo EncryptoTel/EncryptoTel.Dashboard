@@ -22,7 +22,7 @@ export class PhoneNumbersComponent implements OnInit {
 
     tableInfo: TableInfoModel = {
         titles: ['Phone Number', 'Amount of phone Exts', 'Default Ext', 'Status', 'Number type'],
-        keys: ['phoneNumber', 'innersCount', 'defaultInner', 'statusName', 'typeName']
+        keys: ['phoneNumberWithType', 'innersCount', 'defaultInner', 'statusName', 'typeName']
     };
     selected: PhoneNumberItem;
 
