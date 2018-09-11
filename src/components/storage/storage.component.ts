@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MediaTableComponent } from '../../elements/pbx-media-table/pbx-media-table.component';
-import { ModalEx } from "../../elements/pbx-modal/pbx-modal.component";
+import { ModalEx } from '../../elements/pbx-modal/pbx-modal.component';
 import { SizePipe } from '../../services/size.pipe';
-import { StorageService } from "../../services/storage.service";
-import { MessageServices } from "../../services/message.services";
-import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from "../../models/base.model";
+import { StorageService } from '../../services/storage.service';
+import { MessageServices } from '../../services/message.services';
+import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from '../../models/base.model';
 import { StorageModel, StorageItem } from '../../models/storage.model';
 
 
@@ -63,6 +63,7 @@ export class StorageComponent implements OnInit {
                 { id: 'call_record', title: 'Call Records' },
                 { id: 'voice_mail', title: 'Voice Mail' },
                 { id: 'certificate', title: 'Certificate' },
+                { id: 'trash', title: 'Trash' },
             ], 'title', '[choose one]'),
             new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'),
         ];
@@ -218,9 +219,16 @@ export class StorageComponent implements OnInit {
     deleteConfirmed() {
         this.service.resetCount();
         this.service.select.forEach(id => {
+            let typeDelete: string;
+            typeDelete = 'trash';
+            if (this.currentFilter && this.currentFilter.type === 'trash') {
+                typeDelete = 'delete';
+            }
+
             const item = this.mediaTable.tableItems.find(item => item.id == id);
             item ? item.loading ++ : null;
-            this.service.deleteById(id, (loading) => { this.updateLoading(loading, true); }, false).then(() => {
+
+            this.service.deleteById(id, (loading) => { this.updateLoading(loading, true); }, typeDelete,false).then(() => {
                 item ? item.loading -- : null;
             }).catch(() => {
                 item ? item.loading -- : null;
@@ -229,8 +237,15 @@ export class StorageComponent implements OnInit {
     }
 
     deleteItem(item: StorageItem): void {
+        let _this = this;
         if (!item) return;
-        this.service.deleteById(item.id, (loading) => { this.updateLoading(loading, true); }, false).then(() => {
+
+        let typeDelete: string;
+        typeDelete = 'trash';
+        if (_this.currentFilter && _this.currentFilter.type === 'trash') {
+            typeDelete = 'delete';
+        }
+        this.service.deleteById(item.id, (loading) => { _this.updateLoading(loading, true); }, typeDelete,false).then(() => {
             item.loading --;
         }).catch(() => {
             item.loading --;

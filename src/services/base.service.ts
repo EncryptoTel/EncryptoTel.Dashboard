@@ -101,6 +101,15 @@ export class BaseService {
         });
     }
 
+    trash(path: string, ShowSucess = true): Promise<any> {
+        return this.rawRequest('DELETE', path, null).then((res) => {
+            if (ShowSucess) {
+                this.message.writeSuccess(res.message ? res.message : 'Successfully trashed.');
+            }
+            return Promise.resolve(res);
+        });
+    }
+
     getById(id: number): Promise<any> {
         return this.get(`/${id}`);
     }
@@ -109,8 +118,16 @@ export class BaseService {
         return this.put(`/${id}`, data, showSuccess, showError);
     }
 
-    deleteById(id: number, showSucess = true): Promise<any> {
-        return this.delete(`/${id}`, showSucess);
+    deleteById(id: number, showSucess = true, path? = null): Promise<any> {
+        if (path != null) {
+            return this.delete(`/${path}/${id}`, showSucess);
+        } else {
+            return this.delete(`/${id}`, showSucess);
+        }
+    }
+
+    trashById(id: number, showSucess = true): Promise<any> {
+        return this.trash(`/trash/${id}`, showSucess);
     }
 
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<PageInfoModel> {
