@@ -105,7 +105,7 @@ export class ValidationHost implements Lockable {
     }
 
     setErrorVisible(controlKey: string): void {
-        // if (controlKey != this.selectedControl) {
+        if (controlKey != this.selectedControl || !this.items.find(item => item.visible)) {
             this.selectedControl = controlKey;
 
             this.clearErrorsVisibility();
@@ -118,7 +118,7 @@ export class ValidationHost implements Lockable {
                     if (item) item.visible = true;
                 }
             }, 300);
-        // }
+        }
     }
 
     // -- common methods ------------------------------------------------------
