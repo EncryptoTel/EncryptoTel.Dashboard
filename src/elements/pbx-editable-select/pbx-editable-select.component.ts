@@ -95,6 +95,16 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         this.hideOptions();
     }
 
+    setControlFocus(): void {
+        this.inFocus = true;
+        this.onFocus.emit();
+    }
+    
+    clearControlFocus(): void {
+        this.inFocus = false;
+        this.onBlur.emit();
+    }
+
     // -- event handlers ----------------------------------
 
     @HostListener('window:keydown', ['$event'])
@@ -119,7 +129,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     ctrlFocus(event: Event): void {
-        this.inFocus = true;
+        this.setControlFocus();
     }
 
     inputMouseDown(event: MouseEvent): void {
@@ -129,7 +139,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
 
     ctrlMouseDown(event: MouseEvent): void {
         if (!this.inFocus) {
-            this.inFocus = true;
+            this.setControlFocus();
             this.setSelectCtrlFocus(true);
         }
         this.toggleOptions();
@@ -137,7 +147,8 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     clickOutside(): void {
-        this.inFocus = false;
+        if (this.inFocus) 
+            this.clearControlFocus();
         this.setSelectCtrlFocus(false);
         this.hideOptions();
     }
@@ -191,7 +202,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
             }
             case 'Tab': {
                 if (this.isVisible) this.hideOptions();
-                this.inFocus = false;
+                this.clearControlFocus();
                 break;
             }
         }
@@ -205,7 +216,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
             }
             case 'Tab': {
                 if (this.isVisible) this.hideOptions();
-                this.inFocus = false;
+                this.clearControlFocus();
                 break;
             }
         }
@@ -225,7 +236,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     showOptions(): void {
         this.isVisible = true;
         this.onOpen.emit();
-        this.onFocus.emit();
+        // this.onFocus.emit();
         this.setSelectInputFocus(true);
         this.scrollToCurrent(true);
     }
@@ -235,7 +246,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         this.isVisible = false;
         this.resetFilter();
         this.onClose.emit();
-        this.onBlur.emit();
+        // this.onBlur.emit();
     }
 
     filterOptions(): void {

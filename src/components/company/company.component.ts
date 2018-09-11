@@ -16,28 +16,15 @@ import {emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyP
 import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 import {classToPlain} from '../../../node_modules/class-transformer';
 import {compareObjects} from '../../shared/shared.functions';
+import {ValidationHost} from '../../models/validation-host.model';
 
-
-export interface IFormValidation {
-    controller: VisibilityItem[];
-}
-
-export class VisibilityItem {
-    key: string;
-    visible: boolean;
-
-    constructor(key: string, visible: boolean = false) {
-        this.key = key;
-        this.visible = visible;
-    }
-}
 
 @Component({
     selector: 'pbx-company',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
 })
-export class CompanyComponent implements OnInit, IFormValidation {
+export class CompanyComponent implements OnInit {
     company: CompanyModel;
     // uses to store database company data to track changes
     originalCompany: CompanyModel;
@@ -51,7 +38,7 @@ export class CompanyComponent implements OnInit, IFormValidation {
     modal: ModalEx;
     editMode: boolean;
 
-    controller: VisibilityItem[];
+    validationHost: ValidationHost;
 
     // TODO: временная переменная для отладки/дизайна
     templateView: boolean = false;
@@ -84,49 +71,49 @@ export class CompanyComponent implements OnInit, IFormValidation {
         this.companyInfo = this.service.companyInfo;
 
         this.initCompanyForm();
+        this.validationHost = new ValidationHost(this.companyForm);
+        this.validationHost.customMessages = [
+            { name: 'Organization', error: 'pattern', message: 'Company name may contain letters, digits and dashes only' },
+            { name: 'State/Region', error: 'pattern', message: 'State/region may contain letters, digits and dashes only' },
+            { name: 'City', error: 'pattern', message: 'City may contain letters, digits and dashes only' },
+            { name: 'Street', error: 'pattern', message: 'Street may contain letters, digits and dashes only' },
+            { name: 'House', error: 'pattern', message: 'House number may contain letters, digits and slashes only' },
+            { name: 'Office', error: 'pattern', message: 'Office may contain digits only' },
+            { name: 'Postal code', error: 'pattern', message: 'Postal code may contain letters and digits only' },
+            { name: 'Email', error: 'pattern', message: 'Please enter a valid email address' },
+            { name: 'Phone', error: 'pattern', message: 'Phone number may contain digits only' },
+            { name: 'VAT ID', error: 'pattern', message: 'VAT ID may contain digits and letters only' },
+        ];
+        this.validationHost.start();
     }
 
     initCompanyForm(): void {
         this.companyForm = this._fb.group({
             name:  [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-            email: [null, [ Validators.pattern(emailRegExp) ]],
-            phone: [null, [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(companyPhoneRegExp) ]],
-            vatId: [null, [ Validators.maxLength(99), Validators.pattern(companyVatIDRegExp) ]],
             companyAddress: this._fb.array([
                 this._fb.group({
                     id: [null],
-                    type: [null],
-                    postalCode: [null, [ Validators.minLength(6), Validators.maxLength(9), Validators.pattern(nameRegExp) ]],
-                    regionName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-                    locationName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-                    street: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-                    building: [null, [ Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp) ]],
-                    office: [null, [ Validators.maxLength(15), Validators.pattern(companyOfficeRegExp) ]],
                     country: this._fb.group({
                         id: [null, [ Validators.required ]],
                         code: [null],
                         title: [null],
                         phoneCode: [null]
                     }),
+                    regionName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+                    locationName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+                    street: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+                    building: [null, [ Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp) ]],
+                    office: [null, [ Validators.maxLength(15), Validators.pattern(companyOfficeRegExp) ]],
+                    postalCode: [null, [ Validators.minLength(6), Validators.maxLength(9), Validators.pattern(nameRegExp) ]],
+                    type: [null],
                 })
             ]),
+            email: [null, [ Validators.pattern(emailRegExp) ]],
+            phone: [null, [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(companyPhoneRegExp) ]],
+            vatId: [null, [ Validators.maxLength(99), Validators.pattern(companyVatIDRegExp) ]],
             // companyDetailFieldValue: this._fb.array([]),
             id: [null]
         });
-
-        this.controller = [
-            new VisibilityItem('name'),
-            new VisibilityItem('email'),
-            new VisibilityItem('phone'),
-            new VisibilityItem('vatId'),
-            new VisibilityItem('postalCode'),
-            new VisibilityItem('regionName'),
-            new VisibilityItem('locationName'),
-            new VisibilityItem('street'),
-            new VisibilityItem('building'),
-            new VisibilityItem('office'),
-            new VisibilityItem('country'),
-        ];
     }
 
     decline(): void {
@@ -188,7 +175,7 @@ export class CompanyComponent implements OnInit, IFormValidation {
             });
         } else {
             this.companyForm.markAsTouched();
-            this.controller[0].visible = true;
+            // this.controller[0].visible = true;
         }
     }
 
@@ -220,15 +207,19 @@ export class CompanyComponent implements OnInit, IFormValidation {
 
     private validate() {
         this.companyForm.updateValueAndValidity();
+        
         Object.keys(this.companyForm.controls).forEach(field => {
             const control = this.companyForm.get(field);
             control.markAsTouched();
         });
+        
         const address = this.companyForm.get(['companyAddress', '0']) as FormGroup;
         Object.keys(address.controls).forEach(field => {
             const control = address.get(field);
             control.markAsTouched();
         });
+        
+        this.validationHost.clearControlsFocusedState();
     }
 
     get addressControls(): FormArray {
@@ -243,7 +234,6 @@ export class CompanyComponent implements OnInit, IFormValidation {
             // console.log('companyInfo', this.companyInfo);
             this.originalCompany = company;
             this.setCompanyFormData();
-            console.log('form', this.companyForm);
 
             this.editMode = !company.isValid;
             this.loading --;

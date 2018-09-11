@@ -3,7 +3,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {SwipeAnimation} from "../../shared/swipe-animation";
 import {FilterItem, InputAction} from "../../models/base.model";
-import { VisibilityItem } from '../../components/company/company.component';
+import {ValidationHost} from '../../models/validation-host.model';
 
 @Component({
     selector: 'pbx-input',
@@ -71,7 +71,7 @@ export class InputComponent implements OnInit {
     // @ViewChild('errorSpan') errorSpan: ElementRef;
     @ViewChild('inputDiv') inputDiv: ElementRef;
 
-    @Input() controller: VisibilityItem[];
+    @Input() validationHost: ValidationHost;
 
     value;
     checkboxValues;
@@ -81,7 +81,8 @@ export class InputComponent implements OnInit {
     loading = 0;
     pbxInputFocus = false;
 
-    observed: boolean = false;
+    inFocus: boolean = false;
+    inMouseHover: boolean = false;
 
     constructor() {}
 
@@ -96,8 +97,19 @@ export class InputComponent implements OnInit {
     }
 
     get isErrorMessageVisible(): boolean {
-        let item = this.controller && this.controller.find(i => i.key == this.key);
-        return this.inErrorState && (this.observed || (item && item.visible));
+        if (this.validationHost) {
+            return this.validationHost.isErrorVisible(this);
+        }
+        // TODO: investigate alternative behavior
+        return false;
+    }
+
+    get errorMessage(): string {
+        if (this.validationHost) {
+            return this.validationHost.getErrorMessage(this);
+        }
+        // TODO: investigate alternative behavior
+        return this.checkError(true);
     }
     
     // -- event handlers ------------------------------------------------------
@@ -106,26 +118,43 @@ export class InputComponent implements OnInit {
         this.errorVisible = true;
         this.pbxInputFocus = true;
         // --
-        this.observed = true;
+        this.inFocus = true;
+        // if (this.key == 'postalCode') console.log('focus');
+        if (this.validationHost) 
+            this.validationHost.updateState();
     }
 
     removeFocus(): void {
         this.errorVisible = false;
         this.pbxInputFocus = false;
         // --
-        this.observed = false;
+        this.inFocus = false;
+        this.inMouseHover = false;
+        // if (this.key == 'postalCode') console.log('blur');
+        if (this.form) {
+            let control = this.getForm();
+            if (control) control.markAsTouched();
+        }
+        if (this.validationHost) 
+            this.validationHost.updateState();
     }
 
     mouseEnter() {
         this.hoverActive = this.floatError;
         // --
-        this.observed = true;
+        this.inMouseHover = true;
+        // if (this.key == 'postalCode') console.log('hover');
+        if (this.validationHost)
+            this.validationHost.updateState();
     }
 
     mouseLeave() {
         this.hoverActive = false;
         // --
-        this.observed = false;
+        this.inMouseHover = false;
+        // if (this.key == 'postalCode') console.log('out');
+        if (this.validationHost)
+            this.validationHost.updateState();
     }
 
     pasteEvent($event: any): void {
@@ -133,7 +162,7 @@ export class InputComponent implements OnInit {
     }
 
     inputKeyUp($event) {
-        if ($event && !['Tab', 'ArrowRight', 'ArrowLeft'].includes($event.key)) {
+        if ($event && ![ 'Tab', 'ArrowRight', 'ArrowLeft' ].includes($event.key)) {
             this.resetError();
         }
         // this.resetError();
@@ -390,9 +419,11 @@ export class InputComponent implements OnInit {
         this.loading --;
         // console.log(this.key, JSON.stringify(this.value));
 
-        if (this.key == 'regionName') {
-            console.log('address', this.object);
-        }
+        this.validationHost && this.validationHost.addControl(this);
+
+        // if (this.key == 'regionName') {
+        //     console.log('address', this.object);
+        // }
     }
 
 }

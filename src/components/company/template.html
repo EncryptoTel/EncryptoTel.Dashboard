@@ -18,7 +18,7 @@
                        validatorRequiredMsg="Please enter name"
                        validatorMaxLengthMsg="Please enter no more than 100 characters"
                        validatorPatternMsg="Company name may contain letters, digits and dashes only"
-                       [controller]="controller"
+                       [validationHost]="validationHost"
                        >
             </pbx-input>
             <ng-container formArrayName="companyAddress">
@@ -34,11 +34,12 @@
                                [editable]="true"
                                [object]="address"
                                [errors]="service.errors"
+                               [errorKey]="'companyAddress.new_0.country.id'"
                                [objectView]="selectedCountry"
                                objectKey="id"
                                [placeholder]="'[choose one]'"
                                validatorRequiredMsg="Please select a country"
-                               [controller]="controller"
+                               [validationHost]="validationHost"
                                >
                     </pbx-input>
                     <pbx-input name="State/Region"
@@ -53,7 +54,7 @@
                                validatorRequiredMsg="Please enter state/region"
                                validatorMaxLengthMsg="Please enter no more than 100 characters"
                                validatorPatternMsg="State or region may contain letters, digits and dashes only"
-                               [controller]="controller"
+                               [validationHost]="validationHost"
                                >
                     </pbx-input>
                     <pbx-input name="City"
@@ -68,7 +69,7 @@
                                validatorRequiredMsg="Please enter city"
                                validatorMaxLengthMsg="Please enter no more than 100 characters"
                                validatorPatternMsg="City may contain letters, digits and dashes only"
-                               [controller]="controller"
+                               [validationHost]="validationHost"
                                >
                     </pbx-input>
                     <pbx-input name="Street"
@@ -83,7 +84,7 @@
                                validatorRequiredMsg="Please enter street"
                                validatorMaxLengthMsg="Please enter no more than 100 characters"
                                validatorPatternMsg="Street may contain letters, digits and dashes only"
-                               [controller]="controller"
+                               [validationHost]="validationHost"
                                >
                     </pbx-input>
                     <pbx-input name="House"
@@ -98,7 +99,7 @@
                                validatorRequiredMsg="Please enter house number"
                                validatorMaxLengthMsg="Please enter no more than 10 characters"
                                validatorPatternMsg="House number may contain letters, digits and slashes only"
-                               [controller]="controller"
+                               [validationHost]="validationHost"
                                >
                     </pbx-input>
                     <pbx-input name="Office"
@@ -112,6 +113,7 @@
                                [required]="false"
                                validatorMaxLengthMsg="Please enter no more than 15 characters"
                                validatorPatternMsg="Office may contain digits only"
+                               [validationHost]="validationHost"
                                >
                     </pbx-input>
                     <pbx-input name="Postal code"
@@ -125,7 +127,8 @@
                                [required]="false"
                                validatorMinLengthMsg="Please enter at least 6 characters"
                                validatorMaxLengthMsg="Please enter no more than 9 characters"
-                               validatorPatternMsg="Office may contain letters and digits only"
+                               validatorPatternMsg="Postal code may contain letters and digits only"
+                               [validationHost]="validationHost"
                                >
                     </pbx-input>
                 </ng-container>
@@ -139,6 +142,7 @@
                        [singleBorder]="true"
                        [required]="false"
                        validatorPatternMsg="Please enter a valid email address"
+                       [validationHost]="validationHost"
                        >
             </pbx-input>
             <pbx-input name="Phone"
@@ -152,6 +156,7 @@
                        validatorMinLengthMsg="Please enter at least 6 characters"
                        validatorMaxLengthMsg="Please enter no more than 16 characters"
                        validatorPatternMsg="Phone number may contain digits only"
+                       [validationHost]="validationHost"
                >
             </pbx-input>
             <pbx-input name="VAT ID"
@@ -164,6 +169,7 @@
                        [required]="false"
                        validatorMaxLengthMsg="Please enter no more than 99 characters"
                        validatorPatternMsg="VAT ID may contain digits and letters only"
+                       [validationHost]="validationHost"
                        >
             </pbx-input>
         </form>
