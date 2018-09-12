@@ -19,7 +19,14 @@ export class EditableSelectComponent implements OnInit, OnChanges {
 
     @Input() name: string;
     @Input() singleBorder: boolean;
-    @Input() options: any[];
+    @Input()
+    set options(options: any[]) {
+        this._options = options;
+        this.filterOptions();
+    }
+
+    _options: any[];
+
     @Input() objectKey: string;
     @Input() selected: any; // read selectedItem
     @Input() errors: any[];
@@ -238,7 +245,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     filterOptions(): void {
-        this.filteredOptions = this.options
+        this.filteredOptions = this._options
             .filter(opt => !this.filterValue || opt[this.objectKey].toLowerCase().search(this.filterValue.toLowerCase()) >= 0);
 
         if (this.filteredOptions.length == 0) this.filteredOptions.push(this._emptyOption);
