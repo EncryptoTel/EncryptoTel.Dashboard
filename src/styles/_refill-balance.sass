@@ -59,6 +59,30 @@ refill-balance
 
 // ========================================
 
+@media screen and (max-width: 1749px)
+    refill-balance
+        .refill_header
+            pbx-header
+                #pbx_header
+                    pbx-input
+                        .labels-second-line
+                            display: none
+
+@media screen and (max-width: 1539px)
+    refill-balance
+        .refill_header
+            pbx-header
+                #pbx_header
+                    pbx-input
+                        &:nth-child(1)
+                            input
+                                min-width: 150px !important
+                        &:nth-child(2)
+                            input
+                                width: auto !important
+                                min-width: 224px !important
+
+
 @media screen and (max-width: 1431px)
     .pbx_header_wrap
         pbx-input
