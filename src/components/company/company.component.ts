@@ -16,6 +16,7 @@ import {emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyP
 import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 import {classToPlain} from '../../../node_modules/class-transformer';
 import {compareObjects} from '../../shared/shared.functions';
+import {ValidationHost} from '../../models/validation-host.model';
 
 
 @Component({
@@ -26,6 +27,7 @@ import {compareObjects} from '../../shared/shared.functions';
 export class CompanyComponent implements OnInit {
     company: CompanyModel;
     // uses to store database company data to track changes
+    // TODO: change to JSON form comparison
     originalCompany: CompanyModel;
     companyForm: FormGroup;
     companyInfo: CompanyInfoModel;
@@ -36,6 +38,8 @@ export class CompanyComponent implements OnInit {
     sidebarInfo: SidebarInfoModel;
     modal: ModalEx;
     editMode: boolean;
+
+    validationHost: ValidationHost;
 
     // TODO: временная переменная для отладки/дизайна
     templateView: boolean = false;
@@ -68,32 +72,46 @@ export class CompanyComponent implements OnInit {
         this.companyInfo = this.service.companyInfo;
 
         this.initCompanyForm();
+        this.validationHost = new ValidationHost(this.companyForm);
+        this.validationHost.customMessages = [
+            { name: 'Organization', error: 'pattern', message: 'Company name may contain letters, digits and dashes only' },
+            { name: 'State/Region', error: 'pattern', message: 'State/region may contain letters, digits and dashes only' },
+            { name: 'City', error: 'pattern', message: 'City may contain letters, digits and dashes only' },
+            { name: 'Street', error: 'pattern', message: 'Street may contain letters, digits and dashes only' },
+            { name: 'House', error: 'pattern', message: 'House number may contain letters, digits and slashes only' },
+            { name: 'Office', error: 'pattern', message: 'Office may contain digits only' },
+            { name: 'Postal code', error: 'pattern', message: 'Postal code may contain letters and digits only' },
+            { name: 'Email', error: 'pattern', message: 'Please enter a valid email address' },
+            { name: 'Phone', error: 'pattern', message: 'Phone number may contain digits only' },
+            { name: 'VAT ID', error: 'pattern', message: 'VAT ID may contain digits and letters only' },
+        ];
+        this.validationHost.start();
     }
 
     initCompanyForm(): void {
         this.companyForm = this._fb.group({
             name:  [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-            email: [null, [ Validators.pattern(emailRegExp) ]],
-            phone: [null, [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(companyPhoneRegExp) ]],
-            vatId: [null, [ Validators.maxLength(99), Validators.pattern(companyVatIDRegExp) ]],
             companyAddress: this._fb.array([
                 this._fb.group({
                     id: [null],
-                    type: [null],
-                    postalCode: [null, [ Validators.minLength(6), Validators.maxLength(9), Validators.pattern(nameRegExp) ]],
-                    regionName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-                    locationName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-                    street: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-                    building: [null, [ Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp) ]],
-                    office: [null, [ Validators.maxLength(15), Validators.pattern(companyOfficeRegExp) ]],
                     country: this._fb.group({
                         id: [null, [ Validators.required ]],
                         code: [null],
                         title: [null],
                         phoneCode: [null]
                     }),
+                    regionName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+                    locationName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+                    street: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
+                    building: [null, [ Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp) ]],
+                    office: [null, [ Validators.maxLength(15), Validators.pattern(companyOfficeRegExp) ]],
+                    postalCode: [null, [ Validators.minLength(6), Validators.maxLength(9), Validators.pattern(nameRegExp) ]],
+                    type: [null],
                 })
             ]),
+            email: [null, [ Validators.pattern(emailRegExp) ]],
+            phone: [null, [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(companyPhoneRegExp) ]],
+            vatId: [null, [ Validators.maxLength(99), Validators.pattern(companyVatIDRegExp) ]],
             // companyDetailFieldValue: this._fb.array([]),
             id: [null]
         });
@@ -177,7 +195,6 @@ export class CompanyComponent implements OnInit {
     }
 
     setCompanyInfo(dashboard: DashboardModel): void {
-        // console.log('dashboard', dashboard);
         this.service.companyInfo.setSectionData("Information", dashboard);
         this.service.companyInfo.setSectionData("Extensions", dashboard);
         this.service.companyInfo.setSectionData("IVR", dashboard);
@@ -189,15 +206,19 @@ export class CompanyComponent implements OnInit {
 
     private validate() {
         this.companyForm.updateValueAndValidity();
+        
         Object.keys(this.companyForm.controls).forEach(field => {
             const control = this.companyForm.get(field);
             control.markAsTouched();
         });
+        
         const address = this.companyForm.get(['companyAddress', '0']) as FormGroup;
         Object.keys(address.controls).forEach(field => {
             const control = address.get(field);
             control.markAsTouched();
         });
+        
+        this.validationHost.clearControlsFocusedState();
     }
 
     get addressControls(): FormArray {
@@ -208,10 +229,9 @@ export class CompanyComponent implements OnInit {
         this.loading ++;
         this.service.getCompany().then((company: CompanyModel) => {
             this.company = company;
-            // console.log('company', company);
-            // console.log('companyInfo', this.companyInfo);
             this.originalCompany = company;
             this.setCompanyFormData();
+
             this.editMode = !company.isValid;
             this.loading --;
         }).catch(() => {
