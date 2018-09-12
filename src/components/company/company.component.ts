@@ -15,7 +15,7 @@ import {formatNumber} from 'libphonenumber-js';
 import {emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp} from '../../shared/vars';
 import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 import {classToPlain} from '../../../node_modules/class-transformer';
-import {compareObjects} from '../../shared/shared.functions';
+import {compareObjects, validateFormControls} from '../../shared/shared.functions';
 import {ValidationHost} from '../../models/validation-host.model';
 
 
@@ -128,7 +128,6 @@ export class CompanyComponent implements OnInit {
     
     isFormEmpty(formGroup: any): boolean {
         let count = this.countFormNonEmptyFields(formGroup);
-        console.log('count', count);
         return count == 0;
     }
 
@@ -206,18 +205,7 @@ export class CompanyComponent implements OnInit {
 
     private validate() {
         this.companyForm.updateValueAndValidity();
-        
-        Object.keys(this.companyForm.controls).forEach(field => {
-            const control = this.companyForm.get(field);
-            control.markAsTouched();
-        });
-        
-        const address = this.companyForm.get(['companyAddress', '0']) as FormGroup;
-        Object.keys(address.controls).forEach(field => {
-            const control = address.get(field);
-            control.markAsTouched();
-        });
-        
+        validateFormControls(this.companyForm);
         this.validationHost.clearControlsFocusedState();
     }
 

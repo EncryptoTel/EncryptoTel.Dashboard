@@ -45,14 +45,14 @@ export function validateForm(form: FormGroup): void {
     });
 }
 
-export function validateFormControls(form: FormGroup): void {
+export function validateFormControls(form: FormGroup | FormArray): void {
     Object.keys(form.controls).forEach(field => {
         const control = form.get(field);
         if (control instanceof FormControl) {
             control.markAsTouched({ onlySelf: true });
         }
         else if (control instanceof FormGroup || control instanceof FormArray) {
-            this.validateFormControls(control);
+            validateFormControls(control);
         }
     });
 }

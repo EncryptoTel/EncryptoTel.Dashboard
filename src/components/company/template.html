@@ -25,6 +25,7 @@
                                displayKey="title"
                                (onSelect)="selectCountry($event)"
                                [form]="true"
+                               [formKey]="'country.id'"
                                [required]="true"
                                errorShow="true"
                                [options]="countries"
