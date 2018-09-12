@@ -169,7 +169,7 @@ export class CompanyComponent implements OnInit {
                 this.editMode = false;
                 this.saving --;
             }).catch(error => {
-                this._message.writeError('Company update error.');
+                // this._message.writeError('Company update error.');
                 console.log('Company update error', error);
                 this.saving --;
             });

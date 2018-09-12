@@ -90,31 +90,56 @@ export class InputComponent implements OnInit {
     // -- properties ----------------------------------------------------------
 
     get inErrorState(): boolean {
-        if (this.form) {
-            let control = this.getForm();
-            if (control && control.errors) {
-                if (control.errors['required'])
-                    return !control.valid && control.touched;
-                else
-                    return !control.valid && (control.touched || control.dirty);
-            }
-            return false;
+        if (this.errors) {
+            return this.checkServerSideError();
         }
+
+        if (this.form) {
+            return this.checkFormValidationError();
+        }
+        
         return <boolean>this.checkError();
     }
 
     get isErrorMessageVisible(): boolean {
+        if (this.errors) {
+            return this.checkServerSideError();
+        }
+
         if (this.validationHost) {
             return this.validationHost.isErrorVisible(this);
         }
+        
         return <boolean>this.checkError();;
     }
 
     get errorMessage(): string {
+        if (this.errors) {
+            let error = this.getValueByKey(this.errors, this.getErrorKey());
+            return error;
+        }
+
         if (this.validationHost) {
             return this.validationHost.getErrorMessage(this);
         }
+        
         return <string>this.checkError(true);
+    }
+
+    checkServerSideError(): boolean {
+        let error = this.getValueByKey(this.errors, this.getErrorKey());
+        return error != undefined;
+    }
+
+    checkFormValidationError(): boolean {
+        let control = this.getForm();
+        if (control && control.errors) {
+            if (control.errors['required'])
+                return !control.valid && control.touched;
+            else
+                return !control.valid && (control.touched || control.dirty);
+        }
+        return false;
     }
     
     // -- event handlers ------------------------------------------------------
