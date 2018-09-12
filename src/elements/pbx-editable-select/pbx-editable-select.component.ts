@@ -1,5 +1,7 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
+import {SelectService} from '../../services/select.service';
+import {map} from 'rxjs/operator/map';
 
 @Component({
     selector: 'pbx-editable-select',
@@ -43,7 +45,8 @@ export class EditableSelectComponent implements OnInit, OnChanges {
 
     // -- component lifecycle functions -------------------
 
-    constructor() {
+
+    constructor(private selectService: SelectService) {
         this.isVisible = false;
         this.inFocus = false;
 
@@ -57,6 +60,11 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     ngOnInit(): void {
         this._emptyOption[this.objectKey] = 'No results found.';
         this.resetFilter();
+        this.selectService.change.subscribe(isOpen => {
+            if (isOpen) {
+                this.isVisible = !isOpen;
+            }
+        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -229,6 +237,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     showOptions(): void {
+        this.selectService.open();
         this.isVisible = true;
         this.onOpen.emit();
         this.onFocus.emit();

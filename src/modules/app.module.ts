@@ -33,6 +33,7 @@ import {SizePipe} from '../services/size.pipe';
 import {ClipboardModule} from 'ngx-clipboard';
 import {DashboardServices} from '../services/dashboard.services';
 import {CompanyService} from '../services/company.service';
+import {SelectService} from '../services/select.service';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -71,7 +72,8 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         SizePipe,
         IvrService,
         DashboardServices,
-        CompanyService
+        CompanyService,
+        SelectService
     ],
     bootstrap: [MainViewComponent]
 })
