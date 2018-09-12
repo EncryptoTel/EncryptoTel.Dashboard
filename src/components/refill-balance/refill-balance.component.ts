@@ -50,7 +50,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
             `Payment amount`, null, null,
             ``, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`, true));
         this.filters.push(new FilterItem(2,  'returnAddress',
-            'Return address:', null, null, '', 220, true));
+            'Return address', null, null, '', 220, true));
 
         this.navigationSubscription = this._router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
