@@ -55,8 +55,7 @@
 
     <pbx-button [buttonType]="'accent'" [value]="signUpButtonText" [loading]="loading" (onClick)="signUp()"></pbx-button>
 
-    <div class="auth_form_text">Already have an EncryptoTel Account?</div>
-    <a routerLink="../sign-in" class="auth_form_link">Sign in now</a>
+    <div class="auth_form_text">Already have an EncryptoTel Account?&nbsp;<a routerLink="../sign-in" class="auth_form_link">Sign in now</a></div>
   </form>
 
   <div *ngIf="signUpCompleted" class="post-signup-wrap">
