@@ -58,8 +58,20 @@ refill-balance
                         margin-right: 0
                         pbx-input
                             margin-right: 32px !important
-                            .pbx_input_item_label
-                                margin-right: 16px
+                            .pbx_input_item_input_wrap
+                                position: relative
+                                .clear_icon_wrap
+                                    position: absolute
+                                    width: 16px
+                                    height: 16px
+                                    right: 10px
+                                    .clear_icon
+                                        position: absolute !important
+                                        top: 0 !important
+                                        left: 0 !important
+                                        margin-left: 0 !important
+                                .pbx_input_item_label
+                                    margin-right: 16px
 
 
 
@@ -110,6 +122,29 @@ refill-balance
                 .pbx_input_error
                     margin-left: 241px
                     margin-top: 91px
+
+@media screen and (max-width: 1299px)
+    refill-balance
+         .refill_header
+            pbx-input
+                display: block !important
+                width: 100% !important
+                &:nth-child(1)
+                    margin-bottom: 24px
+                .pbx_input_item_label
+                    width: 91px !important
+                .pbx_input_item_input_wrap
+                    width: 215px !important
+                    input
+                        width: 100% !important
+            pbx-header
+                #pbx_header
+                    pbx-input
+                        &:nth-child(2)
+                            input
+                                width: 215px !important
+                                min-width: 215px !important
+
 
 @media screen and (max-width: 1151px)
     .pbx_header_wrap
