@@ -91,9 +91,14 @@ export class InputComponent implements OnInit {
     get inErrorState(): boolean {
         if (this.form) {
             let control = this.getForm();
-            return control.touched && !control.valid;
+            if (control && control.errors) {
+                if (control.errors['required'])
+                    return !control.valid && control.touched;
+                else
+                    return !control.valid && (control.touched || control.dirty);
+            }
         }
-        return false;
+        return <boolean>this.checkError();
     }
 
     get isErrorMessageVisible(): boolean {
@@ -108,8 +113,7 @@ export class InputComponent implements OnInit {
         if (this.validationHost) {
             return this.validationHost.getErrorMessage(this);
         }
-        // TODO: investigate alternative behavior
-        return this.checkError(true);
+        return <string>this.checkError(true);
     }
     
     // -- event handlers ------------------------------------------------------
@@ -117,9 +121,10 @@ export class InputComponent implements OnInit {
     setFocus(): void {
         this.errorVisible = true;
         this.pbxInputFocus = true;
+        
         // --
         this.inFocus = true;
-        // if (this.key == 'postalCode') console.log('focus');
+
         if (this.validationHost) 
             this.validationHost.updateState();
     }
@@ -206,7 +211,7 @@ export class InputComponent implements OnInit {
         }
     }
 
-    checkError(textOnly = null): string {
+    checkError(textOnly = null): string | boolean {
         if (!this.errors) {
             return this._errorShow ? this.checkForm(textOnly) : '';
         }
