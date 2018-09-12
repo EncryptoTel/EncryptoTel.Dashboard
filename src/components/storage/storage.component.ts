@@ -60,7 +60,7 @@ export class StorageComponent implements OnInit {
         ];
 
         this.filters = [
-            new FilterItem(1, 'type', 'Select Source:', [
+            new FilterItem(1, 'type', 'Source:', [
                 { id: 'audio', title: 'Audio' },
                 { id: 'call_record', title: 'Call Records' },
                 { id: 'voice_mail', title: 'Voice Mail' },
@@ -73,14 +73,14 @@ export class StorageComponent implements OnInit {
         this.buttons = [
             {
                 id: 0,
-                title: 'Restore Selected',
+                title: 'Restore',
                 type: 'cancel',
                 visible: true,
                 inactive: true,
             },
             {
                 id: 1,
-                title: 'Delete Selected',
+                title: 'Delete',
                 type: 'error',
                 visible: true,
                 inactive: true,

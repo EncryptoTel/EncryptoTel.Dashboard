@@ -204,7 +204,7 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
             filterValue.push({id: item.value, title: item.displayTitle, count: item.count});
         });
         if (this.filters.length === 0) {
-            this.filters.push(new FilterItem(1, 'type', 'Select Source', filterValue, 'title'));
+            this.filters.push(new FilterItem(1, 'type', 'Source', filterValue, 'title'));
             this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
             this.list.header.selectedFilter[0] = filterValue[0];
         } else {

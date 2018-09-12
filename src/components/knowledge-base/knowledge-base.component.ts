@@ -110,7 +110,7 @@ export class KnowledgeBaseComponent implements OnInit {
                 options.push({id: item.id, title: item.title});
             });
             if (this.filters.length === 0) {
-                this.filters.push(new FilterItem(1, 'group', 'Select Source', options, 'title', '[choose one]'));
+                this.filters.push(new FilterItem(1, 'group', 'Source', options, 'title', '[choose one]'));
                 this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search Pbx support', 404));
             } else {
                 this.filters[0].options = options;
