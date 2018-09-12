@@ -97,6 +97,7 @@ export class InputComponent implements OnInit {
                 else
                     return !control.valid && (control.touched || control.dirty);
             }
+            return false;
         }
         return <boolean>this.checkError();
     }
@@ -105,8 +106,7 @@ export class InputComponent implements OnInit {
         if (this.validationHost) {
             return this.validationHost.isErrorVisible(this);
         }
-        // TODO: investigate alternative behavior
-        return false;
+        return <boolean>this.checkError();;
     }
 
     get errorMessage(): string {
