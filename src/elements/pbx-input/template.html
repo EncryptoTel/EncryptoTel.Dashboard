@@ -2,11 +2,13 @@
     <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item' : 'pbx_input_row', options && !editable ? 'selectWrap' : '']">
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']">
-            <span class="{{errorVisible ? 'label-focus' : ''}}">{{name}}</span>
-            <div class="labels-second-line {{errorVisible ? 'label-focus' : ''}}" *ngIf="filter && (filter.min || filter.max)">(<span class="{{errorVisible ? 'label-focus' : ''}}" *ngIf="filter.min">Min {{filter.minMaxText}} {{filter.min}}</span>,
-                <span class="{{errorVisible ? 'label-focus' : ''}}" *ngIf="filter.max">Max {{filter.minMaxText}} {{filter.max}}</span>)
+            <div class="colon">
+                <span class="{{errorVisible ? 'label-focus' : ''}}">{{name}}</span>
+                <div class="labels-second-line {{errorVisible ? 'label-focus' : ''}}" *ngIf="filter && (filter.min || filter.max)">(<span class="{{errorVisible ? 'label-focus' : ''}}" *ngIf="filter.min">Min {{filter.minMaxText}} {{filter.min}}</span>,
+                    <span class="{{errorVisible ? 'label-focus' : ''}}" *ngIf="filter.max">Max {{filter.minMaxText}} {{filter.max}}</span>)
+                </div>
+                <span class="{{errorVisible ? 'label-focus' : ''}} removemargin">:</span>
             </div>
-            <span class="required {{errorVisible ? 'label-focus' : ''}}">:</span>
             <span class="required {{errorVisible ? 'label-focus' : ''}}" *ngIf="required">*</span>
         </div>
 
