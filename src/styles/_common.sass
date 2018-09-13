@@ -118,27 +118,24 @@ pbx-header
 .dark_theme
     input
         color: $dark_white !important
-        &::placeholder
-            color: $dark_white_60 !important
-
-.dark_theme
-    input
         &.error-text
             color: $dark_white !important
         &.error-border
             color: $dark_white !important
+        &::placeholder
+            color: $dark_white_60 !important
 
 .dark_theme,
 .light_theme
     profile-component
         input
             &::placeholder
-                color: transparent !important
+                opacity: 0 !important
             &#oldPassword,
             &#password,
             &#password_confirmation
                 &::placeholder
-                    color: $dark_white_60 !important
+                    opacity: 1 !important
 
 pbx-table
     .tablet_header
