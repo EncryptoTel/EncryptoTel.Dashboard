@@ -24,7 +24,7 @@ export class FormComponent implements OnInit {
 
 
   selectingTab(text: string, index: number) {
-    if (!(!!this.inactiveTabs && this.inactiveTabs[index])) {
+    if (!!this.inactiveTabs && this.inactiveTabs[index]) {
       this.selected = text;
       this.onSelect.emit(text); }
   }

@@ -3,6 +3,7 @@
     <pbx-form *ngIf="!loading"
               [tabs]="tab.items"
               [icons]="tab.icons"
+              [inactiveTabs]="tab.active"
               [decline]="{value: 'Cancel', buttonType: 'cancel'}"
               [confirm]="{value: 'Save', buttonType: 'success'}"
               (onDecline)="doCancel()"
