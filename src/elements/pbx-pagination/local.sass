@@ -81,3 +81,27 @@
           background: rgba($dark_primary,0.05)
           &:hover
             background: rgba($dark_primary,0.15)
+
+\:host-context(.light_theme)
+  /deep/ .button.pagination
+    background: $dark_pagination
+  .pager
+    &_select
+      &_value
+        color: $dark_accent
+      &_wrap
+        background: $dark_background
+        &.show
+          border-color: $dark_accent
+        &.hide
+          border-color: rgba($dark_accent,0)
+      &_wrap
+        background: $white_main_bg
+      &_item
+        color: $white_black
+        &:hover
+          background-color: rgba($white_grey_hover_rgb,1)
+        &.current
+          background: rgba($white_grey_hover_rgb,0.5)
+          &:hover
+            background: rgba($white_grey_hover_rgb,0.7)

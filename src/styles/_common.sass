@@ -149,6 +149,25 @@ input.searching
     &::placeholder
         opacity: .35 !important
 
+.dark_theme
+    pbx-pagination
+        .pager_info
+            color: $dark_white
+        .pbx_button_pagination_next,
+        .pbx_button_pagination_prev,
+        .pbx_button_pagination_first,
+        .pbx_button_pagination_last
+            background: $dark_accent !important
+
+.dark_theme,
+.light_theme
+    pbx-index
+        pbx-pagination
+            button.pbx-button-disabled
+                background: $pagination_btn_disabled !important
+                color: $dark-white_55 !important
+
+
 // Storage - раскомментировать когда аудио переместится в колонку Record
 // pbx-storage
 //     pbx-media-table
