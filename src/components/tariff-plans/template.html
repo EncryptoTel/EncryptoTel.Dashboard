@@ -7,7 +7,7 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
 <div class="tariff_message" *ngIf="!loading && !tariffs.length">No available tariff</div>
 
-<div class="tariff_wrap tariff_high_resolution" 
+<div class="tariff_wrap tariff_high_resolution"
      [ngClass]="{ 'not_enough' : tariffs.length < 5 }"
      *ngIf="!loading && tariffs.length"
      [@Fade]
@@ -34,7 +34,7 @@
     </div>
 </div>
 
-<div class="tariff_wrap tariff_mid_resolution" 
+<div class="tariff_wrap tariff_mid_resolution"
      *ngIf="!loading && tariffs.length"
      [@Fade]
      >
@@ -44,33 +44,4 @@
                 (onBuy)="choose(item)"
                 >
     </pbx-tariff>
-
-    <!--<div class="tariff_item" *ngFor="let item of tariffs" [ngClass]="{'current_tariff':isCurrentTariff(item)}">-->
-    <!--<h3 class="tariff_item_title"-->
-    <!--(click)="currentPick=(item.id===currentPick?-1:item.id)">{{item.title}}</h3>-->
-    <!--<div class="tariff_item_body">-->
-    <!--<ul class="tariff_item_ul">-->
-    <!--<li class="tariff_item_ul_li" *ngFor="let service of item.services">-->
-    <!--{{service.title}}</li>-->
-    <!--</ul>-->
-    <!--<div class="tariff_item_price">-->
-    <!--{{tariffCost(item)}}-->
-    <!--</div>-->
-    <!--<button class="tariff_item_button" (click)="chooseTariff(item)">-->
-    <!--{{tariffStatus(item)}}-->
-    <!--</button>-->
-    <!--</div>-->
-    <!--<div class="tariff_item_body" *ngIf="item.id===currentPick" [@Swipe]>-->
-    <!--<ul class="tariff_item_ul">-->
-    <!--<li class="tariff_item_ul_li" *ngFor="let service of item.services">-->
-    <!--{{service.title}}</li>-->
-    <!--</ul>-->
-    <!--<div class="tariff_item_price">-->
-    <!--{{tariffCost(item)}}-->
-    <!--</div>-->
-    <!--<button class="tariff_item_button" (click)="chooseTariff(item)">-->
-    <!--{{tariffStatus(item)}}-->
-    <!--</button>-->
-    <!--</div>-->
-    <!--</div>-->
 </div>
