@@ -41,6 +41,7 @@
     <pbx-tariff *ngFor="let item of tariffs"
                 [value]="item"
                 [current]="current"
+                [loadTariff]="tariffChange"
                 (onBuy)="choose(item)"
                 >
     </pbx-tariff>

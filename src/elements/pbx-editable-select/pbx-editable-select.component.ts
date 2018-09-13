@@ -1,7 +1,6 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {SelectService} from '../../services/select.service';
-import {map} from 'rxjs/operator/map';
+import {SelectService} from '../../services/state/select.service';
 
 @Component({
     selector: 'pbx-editable-select',
@@ -114,7 +113,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         this.inFocus = true;
         this.onFocus.emit();
     }
-    
+
     clearControlFocus(): void {
         this.inFocus = false;
         this.onBlur.emit();
@@ -162,7 +161,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     clickOutside(): void {
-        if (this.inFocus) 
+        if (this.inFocus)
             this.clearControlFocus();
         this.setSelectCtrlFocus(false);
         this.hideOptions();
