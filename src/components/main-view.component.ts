@@ -10,6 +10,7 @@ import {MessageServices} from '../services/message.services';
 
 import {FadeAnimation} from '../shared/fade-animation';
 import {LocalStorageServices} from '../services/local-storage.services';
+import {CookieService} from 'ngx-cookie-service';
 
 // first and second
 // import * as $ from 'jquery';
@@ -31,7 +32,8 @@ export class MainViewComponent implements OnInit, OnDestroy {
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private title: Title,
-                private storage: LocalStorageServices) {
+                private storage: LocalStorageServices,
+                private cookieService: CookieService) {
     }
 
     // messagesList: MessageModel[];
@@ -44,6 +46,7 @@ export class MainViewComponent implements OnInit, OnDestroy {
 
     public setUserTheme(theme: string) {
         this.userTheme = theme;
+        this.cookieService.set( 'pbx_theme', theme );
         this.storage.writeItem('pbx_theme', theme);
     }
 

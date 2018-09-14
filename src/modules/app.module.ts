@@ -35,6 +35,7 @@ import {DashboardServices} from '../services/dashboard.services';
 import {CompanyService} from '../services/company.service';
 import {SelectService} from '../services/state/select.service';
 import {TariffStateService} from '../services/state/tariff.state.service';
+import {CookieService} from 'ngx-cookie-service';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -75,7 +76,8 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         DashboardServices,
         CompanyService,
         SelectService,
-        TariffStateService
+        TariffStateService,
+        CookieService
     ],
     bootstrap: [MainViewComponent]
 })

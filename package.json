@@ -32,6 +32,7 @@
     "libphonenumber-js": "^1.2.12",
     "ng-socket-io": "^0.2.4",
     "ngx-clipboard": "^11.1.1",
+    "ngx-cookie-service": "^1.0.10",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^5.5.2",
     "videogular2": "^5.6.2",
