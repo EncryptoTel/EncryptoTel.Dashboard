@@ -38,6 +38,10 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     filters: FilterItem[];
     sidebar: SidebarInfoModel;
 
+    modalBlock: ModalEx;
+
+    private _forceReload: boolean;
+
     // -- properties ----------------------------------------------------------
 
     get addressForm(): FormGroup {
@@ -58,7 +62,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             keys: ['firstname', 'lastname', 'phone', 'email', 'company', 'country.title'],
         };
     
-        this.modal = new ModalEx('', 'block');
+        this.modal = new ModalEx(`You've made changes. Do you really want to leave without saving?`, 'cancelEdit');
+        this.modalBlock = new ModalEx('', 'block');
 
         this.filters = [];
         this.sidebar = new SidebarInfoModel();
@@ -265,21 +270,32 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     close(reload: boolean = false) {
-        this.sidebar.visible = false;
-        this.sidebar.mode = null;
+        this._forceReload = reload;
 
-        this.selected = null;
-        if (reload) {
-            this.list.getItems();
+        if (this.formChanged) {
+            this.modal.show();
+        }
+        else {
+            this.confirmClose();
         }
     }
 
     block() {
-        this.modal = new ModalEx('', this.selected.blacklist ? 'unblock' : 'block');
-        this.modal.visible = true;
+        this.modalBlock = new ModalEx('', this.selected.blacklist ? 'unblock' : 'block');
+        this.modalBlock.show();
     }
 
     // -- component methods ---------------------------------------------------
+
+    confirmClose(): void {
+        this.sidebar.visible = false;
+        this.sidebar.mode = null;
+
+        this.selected = null;
+        if (this._forceReload) {
+            this.list.getItems();
+        }
+    }
 
     confirmBlock() {
         this.selected.loading ++;
@@ -451,6 +467,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         this.validationHost.initItems();
         this.validationHost.start();
+        this.saveFormState();
     }
 
     removeEmptyItems(items: ContactValueModel[]) {

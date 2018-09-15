@@ -206,7 +206,11 @@
     </pbx-sidebar>
 </div>
 
-<pbx-modal [modalEx]="modal"
+<pbx-modal [modalEx]="modalBlock"
            (onConfirmEx)="confirmBlock()"
+           >
+</pbx-modal>
+<pbx-modal [modalEx]="modal"
+           (onConfirmEx)="confirmClose()"
            >
 </pbx-modal>

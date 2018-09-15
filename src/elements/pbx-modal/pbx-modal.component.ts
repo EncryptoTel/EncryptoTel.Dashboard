@@ -57,6 +57,7 @@ export class ModalEx {
         this.title = '';
         this.body = body;
         this.buttons = [];
+
         switch (create) {
             case 'delete':
                 this.title = 'Confirm';
@@ -161,6 +162,14 @@ export class ModalEx {
                 this.buttons.push(new ModalButton('success', 'Yes'));
                 break;
         }
+    }
+
+    show(): void {
+        this.visible = true;
+    }
+
+    hide(): void {
+        this.visible = false;
     }
 }
 
