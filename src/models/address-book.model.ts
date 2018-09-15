@@ -21,6 +21,8 @@ export class AddressBookItem extends BaseItemModel {
     address: string;
     blacklist: boolean;
 
+    loading: number = 0;
+
     protected _country: CountryModel;
 
     constructor(response?) {
@@ -31,11 +33,12 @@ export class AddressBookItem extends BaseItemModel {
             this.firstname = response.firstname;
             this.lastname = response.lastname;
             this.countryId = response.countryId;
+            this.country = response.country;
             this.company = response.company;
             this.department = response.department;
             this.position = response.position;
             this.address = response.address;
-            this.blacklist = response.blacklist;
+            this.blacklist = response.blacklist || false;
             if (response.contactPhone) {
                 for (let i = 0; i < response.contactPhone.length; i++) {
                     let item: ContactValueModel = response.contactPhone[i];
@@ -48,6 +51,16 @@ export class AddressBookItem extends BaseItemModel {
                     this.addContactEmail(plainToClass(ContactValueModel, item));
                 }
             }
+        }
+        else {
+            this.firstname = null;
+            this.lastname = null;
+            this.company = null;
+            this.department = null;
+            this.position = null;
+            this.address = null;
+            this.blacklist = false;
+            this._country = new CountryModel(null, '', '', '');
         }
     }
 
@@ -89,6 +102,11 @@ export class ContactValueModel extends BaseItemModel {
     typeId: number;
     types: TypesModel;
     protected _type;
+
+    constructor() {
+        super();
+        this.value = '';
+    }
 
     get type() {
         return this._type;

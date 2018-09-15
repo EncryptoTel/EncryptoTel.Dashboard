@@ -136,6 +136,7 @@ export class SelectComponent implements OnInit {
      */
     keyboardNavigation(event: KeyboardEvent) {
         const currentIndex = this.options.findIndex(item => {
+            if (!this.selected) return null;
             return Number.isInteger(item) ? item === this.selected : item.id === this.selected.id;
         });
         switch (event.code) {

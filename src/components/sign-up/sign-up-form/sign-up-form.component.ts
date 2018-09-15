@@ -9,7 +9,7 @@ import {UserServices} from '../../../services/user.services';
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {validateForm} from '../../../shared/shared.functions';
 import {FormMessageModel} from '../../../models/form-message.model';
-import {TimerObservable} from '../../../../node_modules/rxjs/observable/TimerObservable';
+import {TimerObservable} from 'rxjs/observable/TimerObservable';
 
 @Component({
     selector: 'sign-up-form',

@@ -1,4 +1,4 @@
-import { TimerObservable } from "../../node_modules/rxjs/observable/TimerObservable";
+import { TimerObservable } from "rxjs/observable/TimerObservable";
 
 /**
  * interface Lockable

@@ -1,7 +1,7 @@
 import {BaseService} from "./base.service";
 import {PageInfoModel} from "../models/base.model";
 import {DepartmentItem, DepartmentModel} from "../models/department.model";
-import { plainToClass } from "../../node_modules/class-transformer";
+import { plainToClass } from "class-transformer";
 
 export class DepartmentService extends BaseService {
 

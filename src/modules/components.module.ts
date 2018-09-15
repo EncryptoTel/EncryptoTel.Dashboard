@@ -69,6 +69,7 @@ import {VgBufferingModule} from 'videogular2/buffering';
 import {VgStreamingModule} from 'videogular2/streaming';
 import {RefComponent} from "../components/confirmation/ref.component";
 import {BaseComponent} from "../elements/pbx-component/pbx-component.component";
+import {FormBaseComponent} from "../elements/pbx-form-base-component/pbx-form-base-component.component";
 import {SessionsComponent} from "../components/settings/settings-items/sessions/sessions.component";
 import {TabsComponent} from '../elements/pbx-tabs/pbx-tabs.component';
 import {TabComponent} from '../elements/pbx-tabs/tab/pbx-tab.component';
@@ -93,6 +94,7 @@ import {TabComponent} from '../elements/pbx-tabs/tab/pbx-tab.component';
     ],
     declarations: [
         BaseComponent,
+        FormBaseComponent,
         PageNotFoundComponent,
         IndexComponent,
         SignInComponent,
@@ -157,6 +159,7 @@ import {TabComponent} from '../elements/pbx-tabs/tab/pbx-tab.component';
     ],
     exports: [
         BaseComponent,
+        FormBaseComponent,
         ElementsModule,
         PageNotFoundComponent,
         IndexComponent,

@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, HostListener} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {SwipeAnimation} from "../../shared/swipe-animation";
@@ -144,6 +144,11 @@ export class InputComponent implements OnInit {
     
     // -- event handlers ------------------------------------------------------
 
+    @HostListener("window:scroll", ['$event'])
+    onWindowScroll(event) {
+        console.log('scroll', event, this.inputDiv.nativeElement);
+    }
+    
     setFocus(): void {
         this.errorVisible = true;
         this.pbxInputFocus = true;
@@ -153,6 +158,8 @@ export class InputComponent implements OnInit {
 
         if (this.validationHost) 
             this.validationHost.updateState();
+
+        // if (this.key == 'company') console.log('element', this.inputDiv);
     }
 
     removeFocus(): void {

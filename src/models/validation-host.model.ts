@@ -21,14 +21,9 @@ export class ValidationHost implements Lockable {
 
     constructor(form: FormGroup) {
         this.form = form;
-        this.items = [];
         this.controls = [];
 
-        this.scanForm(form, '', (control, name) => {
-            if (control.validator) {
-                this.items.push(new ValidationHostItem(name));
-            }
-        });
+        this.initItems();
 
         this.locker = new Locker();
         this.active = false;
@@ -37,6 +32,15 @@ export class ValidationHost implements Lockable {
 
     addControl(control: InputComponent): void {
         this.controls.push(control);
+    }
+
+    initItems(): void {
+        this.items = [];
+        this.scanForm(this.form, '', (control, name) => {
+            if (control.validator) {
+                this.items.push(new ValidationHostItem(name));
+            }
+        });
     }
 
     // -- public methods ------------------------------------------------------
@@ -145,7 +149,7 @@ export class ValidationHost implements Lockable {
             else if (control instanceof FormGroup || control instanceof FormArray) {
                 this.scanForm(control, name, action);
             }
-        });    
+        });
     }
 
     getErrorMessage(control: InputComponent): string {

@@ -14,7 +14,7 @@ import {DashboardModel} from '../../models/dashboard.model';
 import {formatNumber} from 'libphonenumber-js';
 import {emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp} from '../../shared/vars';
 import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
-import {classToPlain} from '../../../node_modules/class-transformer';
+import {classToPlain} from 'class-transformer';
 import {compareObjects, validateFormControls} from '../../shared/shared.functions';
 import {ValidationHost} from '../../models/validation-host.model';
 
@@ -81,7 +81,7 @@ export class CompanyComponent implements OnInit {
             { name: 'House', error: 'pattern', message: 'House number may contain letters, digits and slashes only' },
             { name: 'Office', error: 'pattern', message: 'Office may contain digits only' },
             { name: 'Postal code', error: 'pattern', message: 'Postal code may contain letters and digits only' },
-            { name: 'Email', error: 'pattern', message: 'Please enter a valid email address' },
+            { name: 'Email', error: 'pattern', message: 'Please enter valid email address' },
             { name: 'Phone', error: 'pattern', message: 'Phone number may contain digits only' },
             { name: 'VAT ID', error: 'pattern', message: 'VAT ID may contain digits and letters only' },
         ];

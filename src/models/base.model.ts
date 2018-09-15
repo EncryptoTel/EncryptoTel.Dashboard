@@ -1,4 +1,4 @@
-import {Subscription} from "../../node_modules/rxjs/Subscription";
+import {Subscription} from "rxjs/Subscription";
 import {Lockable, Locker} from "./locker.model";
 
 export class PageInfoModel {
