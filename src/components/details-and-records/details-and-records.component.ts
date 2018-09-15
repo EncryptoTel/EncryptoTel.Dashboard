@@ -1,18 +1,17 @@
 import {Component, OnInit, Pipe, PipeTransform, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
-import {TimerObservable} from 'rxjs/observable/TimerObservable';
-import {VgAPI} from 'videogular2/core';
-import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
+import {DatePipe} from '@angular/common';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {PlayerAnimation} from '../../shared/player-animation';
 import {CdrService} from '../../services/cdr.service';
 import {MediaGridFilter} from '../../models/media-grid.model';
 import {WsServices} from "../../services/ws.services";
 import {CdrItem, CdrModel} from "../../models/cdr.model";
-import {getInterval} from "../../shared/shared.functions";
+import {getInterval, getDateRange} from "../../shared/shared.functions";
 import {TableInfoAction, TableInfoActionOption, TableInfoExModel, TableInfoItem, TagModel} from "../../models/base.model";
 import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
 import {TagSelectorComponent} from '../../elements/pbx-tag-selector/pbx-tag-selector.component';
+
 
 @Component({
     selector: 'pbx-details-and-records',
@@ -24,9 +23,7 @@ import {TagSelectorComponent} from '../../elements/pbx-tag-selector/pbx-tag-sele
     ]
 })
 export class DetailsAndRecordsComponent implements OnInit {
-
     pageInfo: CdrModel = new CdrModel();
-    loading: number = 0;
     cdrSubscription: Subscription;
     table: TableInfoExModel = new TableInfoExModel();
 
@@ -35,10 +32,7 @@ export class DetailsAndRecordsComponent implements OnInit {
     @ViewChild('mediaTable') mediaTable: MediaTableComponent;
     @ViewChild('tagSelector') tagSelector: TagSelectorComponent;
 
-    /* ------------------------------------------------------
-     * Component initialization
-     * ------------------------------------------------------
-     */
+    // -- component lifecycle methods -----------------------------------------
 
     constructor(private service: CdrService,
                 private ws: WsServices) {
@@ -75,8 +69,33 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.getItems();
     }
 
-    getInterval() {
+    // -- event handlers ------------------------------------------------------
+
+    getInterval(): string {
         return getInterval(this.pageInfo.items, 'created', 'displayDate');
+    }
+
+    getDateRange(): string[] {
+        let range = getDateRange(this.pageInfo.items, 'created');
+        
+        if (!range[0] || !range[1]) {
+            const today = new Date();
+            if (!range[0]) range[0] = new Date(today.getFullYear(), 0, 1);
+            if (!range[1]) range[1] = today;
+        }
+        
+        return [ this.formatDate(range[0]), this.formatDate(range[1]) ];
+    }
+
+    formatDate(value: Date): string {
+        let formatPipe = new DatePipe('en-US');
+        return formatPipe.transform(value, 'dd/MM/yyyy');
+    }
+
+    dateChanged(range: string[]): void {
+        // TODO: get data by updated date range
+        // TODO: track date range in component
+        console.log('range', range);
     }
 
     dropDown(event) {
@@ -112,21 +131,18 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.getItems();
     }
 
-    /* ------------------------------------------------------
-     * Details & Records data retirieval
-     * ------------------------------------------------------
-     */
+    // -- data retrieval methods ----------------------------------------------
 
     private getItems(item = null): void {
-        (item ? item : this).loading++;
+        (item ? item : this).loading ++;
         let tags = this.tagSelector.selectedTags.map(t => {
             return t.key;
         });
         this.service.getItems(this.pageInfo, {status: tags.length > 0 ? tags : null}, this.table.sort).then(result => {
             this.pageInfo = result;
-            (item ? item : this).loading--;
+            (item ? item : this).loading --;
         }).catch(() => {
-            (item ? item : this).loading--;
+            (item ? item : this).loading --;
         });
     }
 
