@@ -59,7 +59,9 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         });
     }
 
-    selectRefillMethod(refillMethod: RefillModel) {
+    selectRefillMethod(refillMethod: RefillModel): void {
+        if (this.refillMethods.find(m => m.loading)) return;
+
         if (this.validValue(this.currentFilter['amount'])) {
             refillMethod.loading = true;
             this._refill.getRefillMethod(refillMethod.id, this.currentFilter['amount']).then(res => {
@@ -76,7 +78,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         }
     }
 
-    validValue(text) {
+    validValue(text: string): boolean {
         if (parseInt(text, 10)) {
             this.currentFilter['amount'] = parseInt(text, 10);
             return (this.validInput = this.amount.min <= this.currentFilter['amount'] && this.currentFilter['amount'] <= this.amount.max);
