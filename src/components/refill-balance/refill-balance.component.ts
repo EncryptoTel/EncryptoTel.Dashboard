@@ -99,15 +99,18 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     pay(): void {
-        this.payment.loading = true;
+        // this.payment.loading = true;
+        this.loading.body = true;
         this._refill.setRefillMethod(this.selected.id, this.currentFilter['amount'], this.currentFilter['returnAddress']).then(res => {
             this.payment = res;
             this.refill_status = 'processing';
-            this.payment.loading = false;
+            // this.payment.loading = false;
+            this.loading.body = false;
         }).catch(res => {
             console.log('errors', res);
             this.errors = res.errors;
-            this.payment.loading = false;
+            // this.payment.loading = false;
+            this.loading.body = false;
         });
     }
 
