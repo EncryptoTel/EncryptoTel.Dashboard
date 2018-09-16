@@ -84,6 +84,19 @@
                     line-height: 20px
                     color: $dark_white
 
+.empty-message-wrapper
+    display: grid
+    flex: 1
+    grid-template-columns: 1fr auto 1fr
+    align-items: center
+    grid-gap: 1.14285714rem
+    padding: 0 9.14285714rem
+
+.empty-message
+    grid-column: 2/3
+    text-align: center
+    font-size: 2.28571429rem
+
 @media screen and (max-width: 1800px)
 	.knowledge-base .content
         .blocks

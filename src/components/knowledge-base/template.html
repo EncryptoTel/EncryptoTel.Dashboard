@@ -9,7 +9,11 @@
     <div class="content custom-scrollbar">
         <pbx-loader *ngIf="loading"></pbx-loader>
 
-        <div class="blocks" *ngIf="!loading && !selectedGroup && helps.items.length === 0">
+        <div class="empty-message-wrapper" *ngIf="!loading && filterEmptyResult">
+            <div class="empty-message">Nothing found</div>
+        </div>
+
+        <div class="blocks" *ngIf="!loading && !filterEmptyResult && !selectedGroup && helps.items.length === 0">
             <div class="left">
 
                 <div class="inner" *ngFor="let item of leftGroups">
