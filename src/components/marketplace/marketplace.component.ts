@@ -19,6 +19,8 @@ export class MarketplaceComponent implements OnInit, Lockable {
     selected: Module;
     modal = new ModalEx('', 'buyModule');
 
+    // -- component lifecycle methods -----------------------------------------
+
     constructor(private _services: ModuleServices,
                 private _message: MessageServices,
                 private _storage: LocalStorageServices) {
@@ -28,6 +30,8 @@ export class MarketplaceComponent implements OnInit, Lockable {
     ngOnInit(): void {
         this.getModulesList();
     }
+
+    // -- event handlers ------------------------------------------------------
 
     modalConfirm = (): void => {
         this.selected.loading = true;
@@ -53,6 +57,8 @@ export class MarketplaceComponent implements OnInit, Lockable {
         }
     }
 
+    // -- data retrieval methods ----------------------------------------------
+
     getModulesList(): void {
         this.modules = [];
         this.locker.lock();
@@ -68,6 +74,11 @@ export class MarketplaceComponent implements OnInit, Lockable {
                         color: Math.round(Math.random() * 5 + 1) // TODO: required color in backend response
                     });
                 }
+            });
+            this.modules = this.modules.sort((a: any, b: any) => {
+                if (a.status && !b.status) return -1;
+                else if (!a.status && b.status) return 1;
+                else return 0;
             });
             this.locker.unlock();
         }).catch(() => {
