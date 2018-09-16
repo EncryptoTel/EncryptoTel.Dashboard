@@ -94,8 +94,7 @@ export class DetailsAndRecordsComponent implements OnInit {
 
     dateChanged(range: string[]): void {
         // TODO: get data by updated date range
-        // TODO: track date range in component
-        console.log('range', range);
+        console.log('new range', range);
     }
 
     dropDown(event) {
