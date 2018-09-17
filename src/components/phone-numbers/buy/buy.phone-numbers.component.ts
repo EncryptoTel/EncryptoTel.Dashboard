@@ -85,15 +85,14 @@ export class BuyPhoneNumbersComponent implements OnInit {
         }
     }
 
-    clearInput() {
-        if (document.activeElement.getAttribute('name') === 'search-by-digits') {
-            this.requestDetails.contains = '';
-            this.clearNumberVisible = false;
-        }
-        if (document.activeElement.getAttribute('name') === 'search-by-city-prefix') {
-            this.requestDetails.areaCode = '';
-            this.clearSearchVisible = false;
-        }
+    clearAreaCode() {
+        this.requestDetails.areaCode = '';
+        this.clearSearchVisible = false;
+    }
+
+    clearContains() {
+        this.requestDetails.contains = '';
+        this.clearNumberVisible = false;
     }
 
     selectCountry(country: CountryModel) {
