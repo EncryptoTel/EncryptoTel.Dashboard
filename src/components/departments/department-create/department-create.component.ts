@@ -99,7 +99,9 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
     }
 
     ngOnInit(): void {
-        if (this.hasId) this.getItem();
+        if (this.hasId) {
+            this.getItem();
+        }
 
         this.getCompany();
         this.getSipOuters();
@@ -189,19 +191,19 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
     // TODO: automate this...
     mapFormDataToModel(): void {
         // this.fillSipInnersFormElements();
-        let generalForm = this.departmentForm.get('generalForm');
+        const generalForm = this.departmentForm.get('generalForm');
         this._department.name = generalForm.get('name').value;
         this._department.comment = generalForm.get('comment').value;
     }
 
     mapModelToFormData(): void {
-        let generalForm = this.departmentForm.get('generalForm');
+        this.selectedSips = [];
+        const generalForm = this.departmentForm.get('generalForm');
         generalForm.get('name').setValue(this._department.name);
         generalForm.get('comment').setValue(this._department.comment);
 
-        this._department.sipInnerIds = [2];
         this._department.sipInnerIds.forEach(id => {
-            let sip = this.sips.find(sip => sip.id === id);
+            const sip = this.sips.find(sip => sip.id === id);
             this.selectedSips.push(sip);
         });
     }
@@ -211,8 +213,8 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
             this._department.sipInnerIds = [];
             this.sipInnersControl.selectedItems.forEach(sip => this._department.sipInnerIds.push(sip.id));
 
-            let sipInnersForm = this.departmentForm.get('sipInnersForm');
-            let sipInnerFormArray = <FormArray>sipInnersForm.get('sipInner');
+            const sipInnersForm = this.departmentForm.get('sipInnersForm');
+            const sipInnerFormArray = <FormArray>sipInnersForm.get('sipInner');
             this._department.sipInnerIds.forEach(sipId => {
                 sipInnerFormArray.push(this._fb.control([ sipId, [] ]));
             });
@@ -220,8 +222,8 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
     }
 
     validateModel(): boolean {
-        let generalFormValid = this.validateFormGroup('generalForm');
-        let sipInnersFormValid = this.validateFormGroup('sipInnersForm', true, 'Please select at least one member');
+        const generalFormValid = this.validateFormGroup('generalForm');
+        const sipInnersFormValid = this.validateFormGroup('sipInnersForm', true, 'Please select at least one member');
 
         if (!generalFormValid) {
             this.formTabs.selectTabByIndex(0);
@@ -237,7 +239,7 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
     }
 
     validateFormGroup(groupName: string, showMessage: boolean = false, message: string = ''): boolean {
-        let form: FormGroup = <FormGroup>this.departmentForm.get(groupName);
+        const form: FormGroup = <FormGroup>this.departmentForm.get(groupName);
         validateForm(form);
         console.log(groupName, form);
         if (!form.valid && showMessage) {

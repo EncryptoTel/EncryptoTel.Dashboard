@@ -17,7 +17,7 @@
             <div class="input_wr">
                 <input class="searching" type="text" placeholder="Type city prefix" name="search-by-city-prefix" (keyup)="searchInit()"
                        [(ngModel)]="requestDetails.areaCode">
-                <div class="clear_icon clear_icon_search" (click)="clearInput()" *ngIf="clearSearchVisible">
+                <div class="clear_icon clear_icon_search" (click)="clearAreaCode()" *ngIf="clearSearchVisible">
                     <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
                 </div>
             </div> <!-- input_wr -->
@@ -30,7 +30,7 @@
             <div class="input_wr">
                 <input class="searching" #myNumberOnly type="text" name="search-by-digits" placeholder="Search by digits" (keyup)="searchInit()"
                        [(ngModel)]="requestDetails.contains">
-                <div class="clear_icon clear_icon_number" (click)="clearInput()" *ngIf="clearNumberVisible">
+                <div class="clear_icon clear_icon_number" (click)="clearContains()" *ngIf="clearNumberVisible">
                     <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
                 </div>
             </div> <!-- input_wr -->
