@@ -1,4 +1,4 @@
-import {Subscription} from "../../node_modules/rxjs/Subscription";
+import {Subscription} from "rxjs/Subscription";
 import {Lockable, Locker} from "./locker.model";
 
 export class PageInfoModel {
@@ -153,7 +153,7 @@ export class SidebarInfoItem {
 
     private type: SidebarInfoItemType;  // type of item control: input, checkbox, dropdown
 
-    
+
     constructor(id: number, title: string, value: any, view: boolean = true, edit: boolean = false, link: boolean = false, className: string = '') {
         this.id = id;
         this.title = title;
@@ -162,7 +162,7 @@ export class SidebarInfoItem {
         this.edit = edit;
         this.link = link;
         this.className = className;
-        
+
         this.disabled = false;
 
         this.init({});
@@ -251,9 +251,10 @@ export class FilterItem {
     minMaxText: string;
     min: string;
     max: string;
+    focus: boolean;
 
     constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string,
-                width?: number, hidden?: boolean, inputCenter?: boolean, minMaxText?: string, min?: string, max?: string) {
+                width?: number, hidden?: boolean, inputCenter?: boolean, minMaxText?: string, min?: string, max?: string, focus?: boolean) {
         this.id = id;
         this.key = key;
         this.name = name;
@@ -266,6 +267,7 @@ export class FilterItem {
         this.minMaxText = minMaxText;
         this.min = min;
         this.max = max;
+        this.focus = focus;
     }
 }
 

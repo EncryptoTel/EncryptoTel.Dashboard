@@ -1,9 +1,10 @@
 <div class="form">
     <div class="form-header">
         <div class="form-tab-wrap" *ngIf="tabs">
-            <div class="form-tab {{selected===tab?'selected':''}}" *ngFor="let tab of tabs;let i=index"
-
-                 (click)="selectingTab(tab, i)">
+            <div class="form-tab {{selected===tab?'selected':''}}"
+                 *ngFor="let tab of tabs;let i=index"
+                 (click)="selectingTab(tab, i)" [ngClass]="inactiveTabs[i]?'':'inactive-tab'"
+                 >
                 <div class="form-tab-icon-wrap" *ngIf="icons && i<icons.length &&icons[i]">
                     <svg-icon src="../../assets/icons/_module_extensions/{{icons[i]}}.svg"></svg-icon>
                 </div>

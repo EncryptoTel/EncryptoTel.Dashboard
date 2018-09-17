@@ -7,9 +7,10 @@
             </li>
         </ul>
         <div class="tariff_item_price">{{ cost }}</div>
-        <button [ngClass]="{ 'inactive' : isCurrent }"
-                class="tariff_item_button"
-                (click)="clicked($event)">
+        <button [ngClass]="{ 'inactive' : isCurrent }" class="tariff_item_button" *ngIf="!value.loading" (click)="clicked($event)">
+            <span *ngIf="!value.loading" style="cursor: pointer">{{ status }}</span>
+        </button>
+        <button [ngClass]="{ 'inactive' : isCurrent }" class="tariff_item_button" *ngIf="value.loading">
             <span *ngIf="!value.loading" style="cursor: pointer">{{ status }}</span>
             <pbx-loader *ngIf="value.loading"></pbx-loader>
         </button>

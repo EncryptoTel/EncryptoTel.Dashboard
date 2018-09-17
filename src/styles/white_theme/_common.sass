@@ -47,12 +47,12 @@
                     color: $white_black
         pbx-pagination
             .pager_info
-                color: $white_black
+                color: $white_black !important
             .pbx_button_pagination_next,
             .pbx_button_pagination_prev,
             .pbx_button_pagination_first,
             .pbx_button_pagination_last
-                background: $white_salad
+                background: $white_salad !important
         pbx-form
             .form-body-content,
             .form-ballast
@@ -149,7 +149,39 @@
     .pbx_input_item_input_wrap
         color: $white_black !important
 
+    pbx-department-create pbx-tabs .form .form-body.class1
+        background: $white_grey_dark
+
+
 .light_theme[_nghost-c11] .button.success[_ngcontent-c11]:disabled,
 .light_theme [_nghost-c11] .button.success[_ngcontent-c11]:disabled
     background: transparent !important
+
+.light_theme
+    input
+        color: $white_black !important
+        &.error-text
+            color: $white_black !important
+        &.error-border
+            color: $white_black !important
+        &::placeholder
+            color: $white_black_60 !important
+    sign-in,
+    sign-up-form,
+    password-recovery,
+    temporary-code
+        input
+            color: $dark_white !important
+            &.error-text
+                color: $dark_white !important
+            &.error-border
+                color: $dark_white !important
+            &::placeholder
+                color: $dark_white_60 !important
+
+.light_theme
+    .pbx_queue_empty_text
+        color: $white_nothing_found !important
+    .pbx_input_row_input_wrap
+        color: $white_black !important
 

@@ -25,6 +25,7 @@ export class QueueCreateComponent implements OnInit {
     loading = 0;
     saving = 0;
     tabs = ['General', 'Members'];
+    activeTabs = [true, true];
     confirm = {value: 'Save', buttonType: 'success', inactive: this.saving !== 0};
     decline = {
         standard: {value: 'Cancel', buttonType: 'cancel'},

@@ -22,7 +22,8 @@ export class AddExtensionsComponent implements OnInit {
     tab = {
         items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
         icons: ['general_16px', 'voicemail_16px', 'forwarding_rules_16px_1', 'settings_16px', 'key_16px_3', 'security_16px'],
-        select: 'General'
+        select: 'General',
+        active: [true, false, false, true, false, false]
     };
     formExtension: FormGroup;
     accessList;
@@ -100,9 +101,16 @@ export class AddExtensionsComponent implements OnInit {
             this.formExtension.get('toUser').setValue(false);
             this.formExtension.get('callRecord').setValue(res.callRecord);
             this.formExtension.get('status').setValue(res.status);
+
             this.formExtension.get(['user', 'firstName']).setValue(res.user ? res.user.firstname : null);
             this.formExtension.get(['user', 'lastName']).setValue(res.user ? res.user.lastname : null);
             this.formExtension.get(['user', 'email']).setValue(res.user ? res.user.email : null);
+
+            if (!res.user.email) {
+                this.tab.active[4] = false;
+            } else {
+                this.tab.active[4] = true;
+            }
 
             this.loading -= 1;
             this.getAccessList(res.user);
@@ -135,12 +143,16 @@ export class AddExtensionsComponent implements OnInit {
                 this._extension.create({...this.formExtension.value}).then(extension => {
                     this.id = extension.id;
                     this.afterSaveExtension(extension);
+                    this._router.navigate(['cabinet', 'extensions', this.id]);
                 }).catch(res => {
                     this.errorSaveExtension(res);
                 });
             } else if (this.mode === 'edit') {
                 this._extension.edit(this.id, {...this.formExtension.value}).then(extension => {
                     this.afterSaveExtension(extension);
+                    if (extension.extension) {
+                        this.getAccessList(extension.user);
+                    }
                 }).catch(res => {
                     this.errorSaveExtension(res);
                 });
@@ -161,13 +173,19 @@ export class AddExtensionsComponent implements OnInit {
     }
 
     afterSaveExtension(extension: ExtensionItem) {
+        if (!extension.user) {
+            this.tab.active[4] = false;
+        } else {
+            this.tab.active[4] = true;
+        }
         this.saving -= 1;
         if (!extension.user) {
             this.doCancel();
             return;
         }
 
-        let rights = [];
+        let rights: any;
+        rights = [];
         for (let i = 0; i < this.accessList.length; i++) {
             if (this.accessList[i].userStatus) {
                 rights.push({id: this.accessList[i].id});

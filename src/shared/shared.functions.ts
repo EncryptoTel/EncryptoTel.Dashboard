@@ -45,14 +45,14 @@ export function validateForm(form: FormGroup): void {
     });
 }
 
-export function validateFormControls(form: FormGroup): void {
+export function validateFormControls(form: FormGroup | FormArray): void {
     Object.keys(form.controls).forEach(field => {
         const control = form.get(field);
         if (control instanceof FormControl) {
             control.markAsTouched({ onlySelf: true });
         }
         else if (control instanceof FormGroup || control instanceof FormArray) {
-            this.validateFormControls(control);
+            validateFormControls(control);
         }
     });
 }
@@ -100,7 +100,7 @@ export function formatDateTime(value: Date): string {
     return datePipe.transform(value, 'MMM d, yyyy HH:mm:ss');
 }
 
-export function getInterval(items, dateAttr, displayAttr) {
+export function getInterval(items, dateAttr, displayAttr): string {
     let max = null;
     let min = null;
     for (let i in items) {
@@ -109,6 +109,17 @@ export function getInterval(items, dateAttr, displayAttr) {
         max = !max || item[dateAttr] > max[dateAttr] ? item : max;
     }
     return max && min ? `${min[displayAttr]} - ${max[displayAttr]}` : '';
+}
+
+export function getDateRange(items, dateAttr): Date[] {
+    let max = null;
+    let min = null;
+    for (let i in items) {
+        let item = items[i];
+        min = !min || item[dateAttr] < min[dateAttr] ? item : min;
+        max = !max || item[dateAttr] > max[dateAttr] ? item : max;
+    }
+    return [ min, max ];
 }
 
 export function compareObjects(src: any, dst: any): boolean {

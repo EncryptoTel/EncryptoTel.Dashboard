@@ -1,5 +1,6 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
+import {SelectService} from '../../services/state/select.service';
 
 @Component({
     selector: 'pbx-editable-select',
@@ -19,7 +20,14 @@ export class EditableSelectComponent implements OnInit, OnChanges {
 
     @Input() name: string;
     @Input() singleBorder: boolean;
-    @Input() options: any[];
+    @Input()
+    set options(options: any[]) {
+        this._options = options;
+        this.filterOptions();
+    }
+
+    _options: any[];
+
     @Input() objectKey: string;
     @Input() selected: any; // read selectedItem
     @Input() errors: any[];
@@ -36,7 +44,8 @@ export class EditableSelectComponent implements OnInit, OnChanges {
 
     // -- component lifecycle functions -------------------
 
-    constructor() {
+
+    constructor(private selectService: SelectService) {
         this.isVisible = false;
         this.inFocus = false;
 
@@ -50,6 +59,11 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     ngOnInit(): void {
         this._emptyOption[this.objectKey] = 'No results found.';
         this.resetFilter();
+        this.selectService.change.subscribe(isOpen => {
+            if (isOpen) {
+                this.isVisible = !isOpen;
+            }
+        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -95,6 +109,16 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         this.hideOptions();
     }
 
+    setControlFocus(): void {
+        this.inFocus = true;
+        this.onFocus.emit();
+    }
+
+    clearControlFocus(): void {
+        this.inFocus = false;
+        this.onBlur.emit();
+    }
+
     // -- event handlers ----------------------------------
 
     @HostListener('window:keydown', ['$event'])
@@ -119,7 +143,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     ctrlFocus(event: Event): void {
-        this.inFocus = true;
+        this.setControlFocus();
     }
 
     inputMouseDown(event: MouseEvent): void {
@@ -129,7 +153,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
 
     ctrlMouseDown(event: MouseEvent): void {
         if (!this.inFocus) {
-            this.inFocus = true;
+            this.setControlFocus();
             this.setSelectCtrlFocus(true);
         }
         this.toggleOptions();
@@ -137,7 +161,8 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     clickOutside(): void {
-        this.inFocus = false;
+        if (this.inFocus)
+            this.clearControlFocus();
         this.setSelectCtrlFocus(false);
         this.hideOptions();
     }
@@ -190,7 +215,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
             }
             case 'Tab': {
                 if (this.isVisible) this.hideOptions();
-                this.inFocus = false;
+                this.clearControlFocus();
                 break;
             }
         }
@@ -204,7 +229,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
             }
             case 'Tab': {
                 if (this.isVisible) this.hideOptions();
-                this.inFocus = false;
+                this.clearControlFocus();
                 break;
             }
         }
@@ -222,9 +247,10 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     showOptions(): void {
+        this.selectService.open();
         this.isVisible = true;
         this.onOpen.emit();
-        this.onFocus.emit();
+        // this.onFocus.emit();
         this.setSelectInputFocus(true);
         this.scrollToCurrent(true);
     }
@@ -234,11 +260,11 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         this.isVisible = false;
         this.resetFilter();
         this.onClose.emit();
-        this.onBlur.emit();
+        // this.onBlur.emit();
     }
 
     filterOptions(): void {
-        this.filteredOptions = this.options
+        this.filteredOptions = this._options
             .filter(opt => !this.filterValue || opt[this.objectKey].toLowerCase().search(this.filterValue.toLowerCase()) >= 0);
 
         if (this.filteredOptions.length == 0) this.filteredOptions.push(this._emptyOption);

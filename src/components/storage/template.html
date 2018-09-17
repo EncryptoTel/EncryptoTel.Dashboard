@@ -2,7 +2,7 @@
     <div class="media-table-wrapper">
         <pbx-header [buttons]="buttons"
                     [filters]="filters"
-                    (onClick)="deleteSelected()"
+                    (onClick)="deleteSelected($event)"
                     (onUpdate)="updateFilter($event)"
                     (onReload)="reloadFilter($event)"
                     [inactive]="loading || loadingEx">
@@ -31,9 +31,9 @@
             Nothing found
         </div>
 
-        <pbx-pagination 
+        <pbx-pagination
             *ngIf="!loading"
-            [pageInfo]="pageInfo" 
+            [pageInfo]="pageInfo"
             (onPageChangeEx)="getItems()">
         </pbx-pagination>
     </div>
@@ -57,7 +57,7 @@
     </pbx-sidebar>
 </div>
 
-<pbx-modal 
+<pbx-modal
     [modalEx]="modal"
     (onConfirmEx)="deleteConfirmed()">
 </pbx-modal>

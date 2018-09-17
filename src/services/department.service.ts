@@ -1,7 +1,7 @@
 import {BaseService} from "./base.service";
 import {PageInfoModel} from "../models/base.model";
 import {DepartmentItem, DepartmentModel} from "../models/department.model";
-import { plainToClass } from "../../node_modules/class-transformer";
+import { plainToClass } from "class-transformer";
 
 export class DepartmentService extends BaseService {
 
@@ -26,7 +26,8 @@ export class DepartmentService extends BaseService {
 
     getItem(id: number): Promise<DepartmentItem> {
         return super.getItem(id).then((response: any) => {
-            let department = plainToClass<DepartmentItem, {}>(DepartmentItem, response);
+            let department: any;
+            department = plainToClass<DepartmentItem, {}>(DepartmentItem, response);
             return Promise.resolve(department);
         })
         .catch(error => {
@@ -38,7 +39,7 @@ export class DepartmentService extends BaseService {
     // --- ... ---
 
     public editMode: boolean = false;
-    
+
     reset(): void {
         this.resetErrors();
     }

@@ -1,8 +1,8 @@
 import {Component, ViewChild, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import {VgAPI} from 'videogular2/core';
 import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
-import {Subscription} from '../../../node_modules/rxjs/Subscription';
-import {TimerObservable} from '../../../node_modules/rxjs/observable/TimerObservable';
+import {Subscription} from 'rxjs/Subscription';
+import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import { MediaState } from '../../models/cdr.model';
 
 @Component({

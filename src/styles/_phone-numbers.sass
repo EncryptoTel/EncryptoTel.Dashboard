@@ -122,6 +122,40 @@ phone-numbers-component
                         &:after
                             opacity: 1
 
+buy-phone-numbers-component
+    .buy_phone_table_contain
+        .buy_phone_table_row
+            pbx-button
+                button.pbx-button-disabled
+                    background: transparent !important
+                    span
+                        color: transparent
+                        position: relative
+                        &:after
+                            content: url('data:image/svg+xml; utf8, <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><title>ok_32px</title><polygon fill="#fff" points="31.91 5.75 31.2 5.04 10.71 25.55 0.8 15.62 0.09 16.33 10.71 26.96 10.71 26.96 10.71 26.96 31.91 5.75"/></svg>')
+                            position: absolute
+                            width: 18px
+                            height: 18px
+                            left: 50%
+                            top: 50%
+                            transform: translate(-50%, -50%)
+    .buy_phone_grid
+        .table-message
+            .msg
+                display: block
+                text-align: center
+                line-height: 48px
+                .outerSpan
+                    white-space: nowrap
+                    display: inline-block
+                    margin: 0 4px
+                    .innerSpan
+                        display: inline-block
+                        max-width: 250px
+                        overflow: hidden
+                        text-overflow: ellipsis
+                        vertical-align: bottom
+
     
 @media screen and (max-width: 1389px)
     buy-phone-numbers-component

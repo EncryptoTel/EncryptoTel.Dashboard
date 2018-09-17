@@ -103,7 +103,7 @@ pbx-department-create
     text-align: center
     font-size: 2.28571429rem
     white-space: nowrap
-    color: $dark-white_70
+    // color: $dark-white_70
     position: absolute
     top: 50%
     left: 50%
@@ -117,8 +117,25 @@ pbx-header
 
 .dark_theme
     input
+        color: $dark_white !important
+        &.error-text
+            color: $dark_white !important
+        &.error-border
+            color: $dark_white !important
         &::placeholder
             color: $dark_white_60 !important
+
+.dark_theme,
+.light_theme
+    profile-component
+        input
+            &::placeholder
+                opacity: 0 !important
+            &#oldPassword,
+            &#password,
+            &#password_confirmation
+                &::placeholder
+                    opacity: 1 !important
 
 pbx-table
     .tablet_header
@@ -127,10 +144,36 @@ pbx-table
     .tablet_body
         .tablet_item
             color: $dark_white !important
-            font-weight: 200 !important
+            // font-weight: 200 !important
 input.searching
     &::placeholder
         opacity: .35 !important
+
+.dark_theme
+    pbx-pagination
+        .pager_info
+            color: $dark_white
+        .pbx_button_pagination_next,
+        .pbx_button_pagination_prev,
+        .pbx_button_pagination_first,
+        .pbx_button_pagination_last
+            background: $dark_accent !important
+
+.dark_theme,
+.light_theme
+    pbx-index
+        pbx-pagination
+            button.pbx-button-disabled
+                background: $white_pagination_btn_disabled !important
+                color: $dark-white_55 !important
+
+.dark_theme
+    pbx-index
+        pbx-pagination
+            button.pbx-button-disabled
+                background: $dark_pagination_btn_disabled !important
+                color: $dark-white_55 !important
+
 
 // Storage - раскомментировать когда аудио переместится в колонку Record
 // pbx-storage

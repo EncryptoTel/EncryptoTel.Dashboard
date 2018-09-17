@@ -63,6 +63,7 @@ export class CompanyInfoModel {
         this.sectionGroups.forEach(group => {
             let section = group.sections.find(s => s.title == title);
             if (section) {
+                section.items = [];
                 data.numbers.forEach(phone => {
                     let item = new CompanyInfoItem();
                     item.title = phone.phoneNumber;

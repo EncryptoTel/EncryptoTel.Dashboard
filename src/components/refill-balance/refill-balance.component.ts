@@ -9,7 +9,7 @@ import {CoursesModel} from '../../models/courses.model';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {MessageServices} from '../../services/message.services';
 import {ClipboardService} from 'ngx-clipboard';
-import {FilterItem} from "../../models/base.model";
+import {FilterItem} from '../../models/base.model';
 
 @Component({
     selector: 'refill-balance',
@@ -25,6 +25,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         min: 5,
         max: 10000
     };
+    amountValidationError: string;
     loading: {
         body: boolean,
         sidebar: boolean,
@@ -48,19 +49,23 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                 private _router: Router) {
         this.filters.push(new FilterItem(1, 'amount',
             `Payment amount`, null, null,
-            ``, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`));
+            ``, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`, true));
         this.filters.push(new FilterItem(2,  'returnAddress',
-            'Return address:', null, null, '', 220, true));
+            'Return address', null, null, '', 220, true));
 
         this.navigationSubscription = this._router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
                 this.ngOnInit();
             }
         });
+
+        this.amountValidationError = `Please enter value between ${this.amount.min} and ${this.amount.max}`;
     }
-    
-    selectRefillMethod(refillMethod: RefillModel) {
-        if (this.validValue(this.currentFilter['amount'])) {
+
+    selectRefillMethod(refillMethod: RefillModel): void {
+        if (this.refillMethods.find(m => m.loading)) return;
+
+        if (this.validateFilters()) {
             refillMethod.loading = true;
             this._refill.getRefillMethod(refillMethod.id, this.currentFilter['amount']).then(res => {
                 refillMethod.loading = false;
@@ -72,23 +77,20 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                 this.filters[1].hidden = !this.selected.needReturnAddress;
             });
         } else {
-            this.errors = {amount: 'Please input correct value'};
+            this.errors = { amount: this.amountValidationError };
         }
     }
 
-    validValue(text) {
+    validateFilters(): boolean {
+        return this.validateAmount(this.currentFilter['amount']);
+    }
+
+    validateAmount(text: string): boolean {
         if (parseInt(text, 10)) {
             this.currentFilter['amount'] = parseInt(text, 10);
             return (this.validInput = this.amount.min <= this.currentFilter['amount'] && this.currentFilter['amount'] <= this.amount.max);
         }
         return this.validInput = false;
-    }
-
-    // TODO: deprecated
-    keyup(text) {
-        if (!this.validInput) {
-            this.validValue(text);
-        }
     }
 
     cancelPay(): void {
@@ -99,22 +101,26 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     pay(): void {
-        this.payment.loading = true;
+        if (!this.validateFilters()) return;
+
+        // this.payment.loading = true;
+        this.loading.body = true;
         this._refill.setRefillMethod(this.selected.id, this.currentFilter['amount'], this.currentFilter['returnAddress']).then(res => {
             this.payment = res;
             this.refill_status = 'processing';
-            this.payment.loading = false;
+            // this.payment.loading = false;
+            this.loading.body = false;
         }).catch(res => {
             console.log('errors', res);
             this.errors = res.errors;
-            this.payment.loading = false;
+            // this.payment.loading = false;
+            this.loading.body = false;
         });
     }
 
     getRefillMethods() {
         this._refill.getRefillMethods()
             .then(res => {
-                console.log('methods', res);
                 this.refillMethods = res;
                 this.loading.body = false;
             });
@@ -139,6 +145,9 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
 
     reloadFilter(filter) {
         this.currentFilter = filter;
+        if (!this.validateFilters()) {
+            this.errors = { amount: this.amountValidationError };
+        }
     }
 
     ngOnInit(): void {
@@ -152,7 +161,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this.navigationSubscription) {  
+        if (this.navigationSubscription) {
             this.navigationSubscription.unsubscribe();
         }
     }

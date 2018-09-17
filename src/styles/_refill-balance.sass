@@ -18,10 +18,19 @@
                 height: 48px
 
 refill-balance
+    .colon
+        span.removemargin
+            display: inline-block
+            margin-left: 0 !important
     .refill_currency_wrap
         .refill_currency_item
+            grid-template-rows: 1fr 14px !important
             .refill_currency_item_title
                 font-weight: 400
+                position: absolute
+                bottom: 27px
+                left: 50%
+                transform: translateX(-50%)
             .refill_currency_item_label
                 display: none
         .refill_currency_item:nth-child(7)
@@ -36,12 +45,74 @@ refill-balance
             color: $dark-white_35 !important
             &.label-focus
                 color: $dark_accent !important
+        #returnAddress
+            width: 351px !important
+            color: $dark_white
+        .pbx_input_item
+            position: relative
+            .pbx_input_error
+                position: absolute
+        pbx-input:nth-child(2)
+            .pbx_input_error
+                margin-left: 140px !important
+    .refill_header
+            pbx-header
+                #pbx_header
+                    .pbx_header_wrap
+                        margin-right: 0
+                        pbx-input
+                            margin-right: 32px !important
+                            .pbx_input_item_input_wrap
+                                position: relative
+                                .clear_icon_wrap
+                                    position: absolute
+                                    width: 16px
+                                    height: 16px
+                                    right: 10px
+                                    .clear_icon
+                                        position: absolute !important
+                                        top: 0 !important
+                                        left: 0 !important
+                                        margin-left: 0 !important
+                                .pbx_input_item_label
+                                    margin-right: 16px
+
+.colon
+    span.removemargin
+        display: none
+        margin-left: 0 !important
 
 
 
 
 
 // ========================================
+
+@media screen and (max-width: 1749px)
+    refill-balance
+        .refill_header
+            pbx-header
+                #pbx_header
+                    pbx-input
+                        .pbx_input_item
+                            .pbx_input_item_label
+                        .labels-second-line
+                            display: none
+
+@media screen and (max-width: 1539px)
+    refill-balance
+        .refill_header
+            pbx-header
+                #pbx_header
+                    pbx-input
+                        &:nth-child(1)
+                            input
+                                min-width: 150px !important
+                        &:nth-child(2)
+                            input
+                                width: auto !important
+                                min-width: 224px !important
+
 
 @media screen and (max-width: 1431px)
     .pbx_header_wrap
@@ -59,8 +130,33 @@ refill-balance
         .refill_header
             .pbx_input_wrap
                 .pbx_input_error
-                    margin-left: 241px
-                    margin-top: 91px
+                    //margin-left: 241px
+                    //margin-top: 91px
+                    margin-left: 140px
+                    margin-top: 105px
+
+@media screen and (max-width: 1299px)
+    refill-balance
+         .refill_header
+            pbx-input
+                display: block !important
+                width: 100% !important
+                &:nth-child(1)
+                    margin-bottom: 24px
+                .pbx_input_item_label
+                    width: 91px !important
+                .pbx_input_item_input_wrap
+                    width: 215px !important
+                    input
+                        width: 100% !important
+            pbx-header
+                #pbx_header
+                    pbx-input
+                        &:nth-child(2)
+                            input
+                                width: 215px !important
+                                min-width: 215px !important
+
 
 @media screen and (max-width: 1151px)
     .pbx_header_wrap

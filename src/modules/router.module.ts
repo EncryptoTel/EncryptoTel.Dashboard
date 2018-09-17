@@ -44,7 +44,7 @@ import {RingGroupsComponent} from '../components/ring-groups/ring-groups.compone
 import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
 
 import {IvrComponent} from '../components/ivr/ivr.component';
-import {IvrCreateComponent} from "../components/ivr/ivr-create/ivr-create.component";
+import {IvrCreateComponent} from '../components/ivr/ivr-create/ivr-create.component';
 
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
@@ -71,8 +71,8 @@ import {AuthenticationComponent} from '../components/settings/settings-items/aut
 import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
 import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
-import {RefComponent} from "../components/confirmation/ref.component";
-import {SessionsComponent} from "../components/settings/settings-items/sessions/sessions.component";
+import {RefComponent} from '../components/confirmation/ref.component';
+import {SessionsComponent} from '../components/settings/settings-items/sessions/sessions.component';
 
 const Routes: Routes = [
     {path: '', redirectTo: 'cabinet', pathMatch: 'full'},

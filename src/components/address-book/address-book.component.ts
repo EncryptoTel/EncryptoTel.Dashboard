@@ -1,4 +1,5 @@
 import {ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {FormGroup, FormBuilder, Validators, FormArray, FormControl} from '@angular/forms';
 import {AddressBookService} from '../../services/address-book.service';
 import {
     AddressBookItem,
@@ -13,7 +14,9 @@ import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {MessageServices} from '../../services/message.services';
 import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {AnimationComponent} from '../../shared/shared.functions';
-import {BaseComponent} from '../../elements/pbx-component/pbx-component.component';
+import {nameRegExp, emailRegExp, phoneRegExp} from '../../shared/vars';
+import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
+
 
 @AnimationComponent({
     selector: 'pbx-address-book',
@@ -21,81 +24,63 @@ import {BaseComponent} from '../../elements/pbx-component/pbx-component.componen
     styleUrls: ['./local.sass'],
     providers: [PageInfoModel],
 })
-
-export class AddressBookComponent extends BaseComponent implements OnInit {
-
-    @ViewChild(ListComponent) list: ListComponent;
-
-    pageInfo: AddressBookModel = new AddressBookModel();
-
-    table = {
-        titles: ['First Name', 'Last Name', 'Phone Number', 'E-mail', 'Company Name', 'Country'],
-        keys: ['firstname', 'lastname', 'phone', 'email', 'company', 'country.title'],
-    };
-
-    loading: number = 0;
+export class AddressBookComponent extends FormBaseComponent implements OnInit {
+    addressBookModel: AddressBookModel;
+    types: TypesModel;
+    countries: CountryModel[];
 
     selected: AddressBookItem;
     itemsCache: AddressBookItem[];
 
+    addressListHeaders: any;
+    @ViewChild(ListComponent) list: ListComponent;
 
-    modalBlock = new ModalEx('', 'block');
+    filters: FilterItem[];
+    sidebar: SidebarInfoModel;
 
-    types: TypesModel;
+    modalBlock: ModalEx;
 
-    countries: CountryModel[];
+    private _forceReload: boolean;
 
-    filters: FilterItem[] = [];
+    // -- properties ----------------------------------------------------------
 
-    sidebar: SidebarInfoModel = new SidebarInfoModel();
-
-    @HostListener('window:keydown', ['$event'])
-    keyEvent(event: KeyboardEvent) {
-        if (document.activeElement.getAttribute('id') === 'firstname' || document.activeElement.getAttribute('id') === 'lastname') {
-            let specialKeys: Array<string>;
-            specialKeys = ['Backspace', 'Tab', 'End', 'Home'];
-            if (specialKeys.indexOf(event.key) !== -1) {
-                return;
-            }
-            let current: any;
-            current = document.activeElement;
-            let next: string;
-            next = current.value;
-            next = next.concat(event.key);
-            if (next && !String(next).match(new RegExp(/^-?[0-9A-Za-z]+$/g))) {
-                event.preventDefault();
-            }
-        }
+    get addressForm(): FormGroup {
+        return this.form;
     }
+
+    // -- component lifecycle methods -----------------------------------------
 
     constructor(public service: AddressBookService,
                 private refs: RefsServices,
-                private message: MessageServices) {
-        super();
+                private message: MessageServices,
+                protected _fb: FormBuilder) {
+        super(_fb);
+        
+        this.addressBookModel = new AddressBookModel();
+        this.addressListHeaders = {
+            titles: ['First Name', 'Last Name', 'Phone Number', 'E-mail', 'Company Name', 'Country'],
+            keys: ['firstname', 'lastname', 'phone', 'email', 'company', 'country.title'],
+        };
+    
+        this.modal = new ModalEx(`You've made changes. Do you really want to leave without saving?`, 'cancelEdit');
+        this.modalBlock = new ModalEx('', 'block');
+
+        this.filters = [];
+        this.sidebar = new SidebarInfoModel();
         this.sidebar.hideEmpty = true;
         this.itemsCache = [];
+
+        this.validationHost.customMessages = [
+            { name: 'Phone', error: 'pattern', message: 'Please enter valid phone number' },
+            { name: 'Email', error: 'pattern', message: 'Please enter valid email address' },
+        ];
     }
 
-    create() {
-        this.sidebar.loading ++;
-        this.selected = null;
-        this.selected = new AddressBookItem();
-        this.doEdit();
-        setTimeout(() => {
-            this.sidebar.loading --;
-        }, 500);
-    }
+    ngOnInit() {}
 
-    pasteMethod($event: any) {
-        if (document.activeElement.getAttribute('id') === 'firstname') {
-            this.selected.firstname = $event.clipboardData.getData('Text');
-        }
-        if (document.activeElement.getAttribute('id') === 'lastname') {
-            this.selected.lastname = $event.clipboardData.getData('Text');
-        }
-    }
+    // -- initialize section --------------------------------------------------
 
-    sidebarInitialize(): void {
+    initSidebar(): void {
         this.sidebar.mode = 'view';
 
         this.sidebar.buttons = [];
@@ -125,37 +110,120 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
         this.sidebar.items.push(new SidebarInfoItem(11, 'Address', this.selected.address));
         this.sidebar.items.push(new SidebarInfoItem(12, this.selected.blacklist ? 'Unblock contact' : 'Block contact', null, true, false, true));
         this.sidebar.items.push(new SidebarInfoItem(13, 'Delete contact', null, true, false, true));
+        
         this.sidebar.visible = true;
+    }
+
+    // -- form component methods ----------------------------------------------
+
+    get contactPhonesFormArray(): FormArray {
+        return this.form.get('contactPhone') as FormArray;
+    }
+
+    get contactEmailsFormArray(): FormArray {
+        return this.form.get('contactEmail') as FormArray;
+    }
+
+    get countryFormControl(): CountryModel {
+        return <CountryModel>this.form.get('country').value;
+    }
+
+    initForm(): void {
+        this.formKey = 'addressForm';
+
+        this.form = this._fb.group({
+            id:             [ null ],
+            firstname:      [ null, [ Validators.required, Validators.pattern(nameRegExp) ] ],
+            lastname:       [ null, [ Validators.pattern(nameRegExp) ] ],
+            contactPhone:   this._fb.array([], Validators.required),
+            contactEmail:   this._fb.array([], Validators.required),
+            company:        [ null, [ Validators.pattern(nameRegExp) ] ],
+            department:     [ null, [ Validators.pattern(nameRegExp) ] ],
+            position:       [ null ],
+            address:        [ null ],
+            country:        this._fb.group({
+                code:       [ null ],
+                id:         [ null ],
+                phoneCode:  [ null ],
+                title:      [ null ],
+            }),
+        });
+    }
+    createPhoneFormControl(model: ContactValueModel): FormGroup {
+        return this._fb.group({
+            value:  [ model ? model.value : null, [ Validators.required, Validators.pattern(phoneRegExp) ] ],
+            typeId: [ model ? model.typeId : null ],
+            type:   [ model ? model.type : null ],
+        });
+    }
+
+    createEmailFormControl(model: ContactValueModel): FormGroup {
+        return this._fb.group({
+            value:  [ model ? model.value : null, [ Validators.required, Validators.pattern(emailRegExp) ] ],
+            typeId: [ model ? model.typeId : null ],
+            type:   [ model ? model.type : null ],
+        });
+    }
+    
+    clearFormArray(formArray: FormArray): void {
+        while (formArray.length !== 0) {
+            formArray.removeAt(0);
+        }
+    }
+
+    // -- event handlers ------------------------------------------------------
+
+    @HostListener('window:keydown', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        if (document.activeElement.getAttribute('id') === 'firstname' || document.activeElement.getAttribute('id') === 'lastname') {
+            let specialKeys: Array<string>;
+            specialKeys = ['Backspace', 'Tab', 'End', 'Home'];
+            if (specialKeys.indexOf(event.key) !== -1) {
+                return;
+            }
+            let current: any;
+            current = document.activeElement;
+            let next: string;
+            next = current.value;
+            next = next.concat(event.key);
+            if (next && !String(next).match(new RegExp(/^-?[0-9A-Za-z]+$/g))) {
+                event.preventDefault();
+            }
+        }
+    }
+
+    pasteMethod($event: any) {
+        if (document.activeElement.getAttribute('id') === 'firstname') {
+            this.selected.firstname = $event.clipboardData.getData('Text');
+        }
+        if (document.activeElement.getAttribute('id') === 'lastname') {
+            this.selected.lastname = $event.clipboardData.getData('Text');
+        }
     }
 
     click(item) {
         switch (item.id) {
-            case 1:
-                this.close();
-                break;
-            case 2:
-                this.edit(this.selected);
-                break;
-            case 3:
-                this.save();
-                break;
-            case 12:
-                this.block();
-                break;
-            case 13:
-                this.list.items.clickDeleteItem(this.selected);
-                break;
+            case 1:  this.close(); break;
+            case 2:  this.edit(this.selected); break;
+            case 3:  this.save(); break;
+            case 12: this.block(); break;
+            case 13: this.list.items.clickDeleteItem(this.selected); break;
         }
     }
 
-    doEdit() {
-        this.sidebar.buttons = [];
-        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
-        this.sidebar.buttons.push(new SidebarButtonItem(3, this.selected.id ? 'Save' : 'Create', 'success'));
-        this.service.resetErrors();
-        this.prepareData();
-        this.sidebar.mode = 'edit';
-        this.sidebar.visible = true;
+    load(pageInfo: AddressBookModel) {
+        this.locker.lock();
+        
+        this.addressBookModel = pageInfo;
+        this.setFilters();
+
+        if (!this.types) this.getTypes();
+        else this.updateTypes();
+
+        if (!this.countries) this.getCountries();
+        else this.updateCountries();
+        
+        this.locker.unlock();
     }
 
     select(item: AddressBookItem) {
@@ -163,13 +231,24 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
         this.sidebar.visible = true;
         this.service.getAddressBookItem(item.id).then((response: AddressBookItem) => {
             this.selected = response;
-            this.prepareData();
-            this.sidebarInitialize();
+            this.setFormData();
+            this.initSidebar();
             this.sidebar.loading --;
-            console.log(this.selected);
         }).catch(() => {
             this.sidebar.loading --;
         });
+    }
+
+    create() {
+        this.sidebar.loading ++;
+
+        this.selected = null;
+        this.selected = new AddressBookItem();
+        this.editAddress();
+
+        setTimeout(() => {
+            this.sidebar.loading --;
+        }, 500);
     }
 
     edit(item: AddressBookItem) {
@@ -177,124 +256,221 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
         this.sidebar.visible = true;
         this.service.getAddressBookItem(item.id).then((response: AddressBookItem) => {
             this.selected = response;
-            this.doEdit();
+            this.editAddress();
             this.sidebar.loading --;
         }).catch(() => {
             this.sidebar.loading --;
         });
     }
 
-    updateTypes() {
-        this.pageInfo.types = this.types;
-    }
-
-    updateCountries() {
-        this.pageInfo.countries = this.countries;
-        for (let i = 0; i < this.pageInfo.items.length; i++) {
-            let contact = this.pageInfo.items[i];
-            contact.country = this.countries.find(item => item.id === contact.countryId);
+    save(): void {
+        if (this.validateForm()) {
+            this.saveAddress();
         }
-    }
-
-    load(pageInfo: AddressBookModel) {
-        this.loading++;
-        this.pageInfo = pageInfo;
-        const filterValue = [];
-        this.pageInfo.contactFilter.forEach(item => {
-            filterValue.push({id: item.value, title: item.displayTitle, count: item.count});
-        });
-        if (this.filters.length === 0) {
-            this.filters.push(new FilterItem(1, 'type', 'Select Source', filterValue, 'title'));
-            this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
-            this.list.header.selectedFilter[0] = filterValue[0];
-        } else {
-            this.filters[0].options = filterValue;
-        }
-
-        if (!this.types) {
-            this.loading++;
-            this.service.getTypes().then(res => {
-                this.types = res;
-                this.updateTypes();
-                this.loading--;
-            }).catch(err => {
-                this.loading--;
-            });
-        } else {
-            this.updateTypes();
-        }
-        if (!this.countries) {
-            this.loading++;
-            this.refs.getCountries().then(res => {
-                this.countries = res;
-                this.updateCountries();
-                this.loading--;
-            }).catch(err => {
-                this.loading--;
-            });
-        } else {
-            this.updateCountries();
-        }
-        this.loading--;
     }
 
     close(reload: boolean = false) {
-        this.sidebar.visible = false;
-        this.selected = null;
-        this.sidebar.mode = null;
-        if (reload) {
-            this.list.getItems();
+        this._forceReload = reload;
+
+        if (this.formChanged) {
+            this.modal.show();
+        }
+        else {
+            this.confirmClose();
         }
     }
 
     block() {
         this.modalBlock = new ModalEx('', this.selected.blacklist ? 'unblock' : 'block');
-        this.modalBlock.visible = true;
+        this.modalBlock.show();
+    }
+
+    // -- component methods ---------------------------------------------------
+
+    confirmClose(): void {
+        this.sidebar.visible = false;
+        this.sidebar.mode = null;
+
+        this.selected = null;
+        if (this._forceReload) {
+            this.list.getItems();
+        }
     }
 
     confirmBlock() {
-        this.selected.loading++;
+        this.selected.loading ++;
         this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
             this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
-            this.selected.loading--;
+            this.selected.loading --;
             this.close(true);
         }).catch(() => {
-            this.selected.loading--;
+            this.selected.loading --;
         });
     }
 
+    editAddress() {
+        this.clearFormArray(this.contactPhonesFormArray);
+        this.clearFormArray(this.contactEmailsFormArray);
+
+        this.service.resetErrors();
+        this.setFormData();
+        
+        this.sidebar.buttons = [];
+        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(3, this.selected.id ? 'Save' : 'Create', 'success'));
+        this.sidebar.mode = 'edit';
+        this.sidebar.visible = true;
+    }
+
+    saveAddress(): void {
+        this.sidebar.saving ++;
+        this.removeEmptyItems(this.selected.contactPhone);
+        this.removeEmptyItems(this.selected.contactEmail);
+
+        this.selected = new AddressBookItem(this.form.value);
+        if (this.selected.id) {
+            this.service.putById(this.selected.id, this.selected).then(() => {
+                this.sidebar.saving --;
+                this.close(true);
+            }).catch(() => {
+                this.setFormData();
+                this.sidebar.saving --;
+            });
+        } 
+        else {
+            this.service.post('', this.selected).then(() => {
+                this.sidebar.saving --;
+                this.close(true);
+            }).catch(() => {
+                this.setFormData();
+                this.sidebar.saving --;
+            });
+        }
+    }
+
     addPhone() {
-        this.selected.contactPhone.push(new ContactValueModel());
+        let phoneModel = new ContactValueModel();
+        this.selected.contactPhone.push(phoneModel);
+        
+        let phoneControl = this.createPhoneFormControl(phoneModel);
+        this.contactPhonesFormArray.push(phoneControl);
+
+        this.validationHost.initItems();
     }
 
     deletePhone(index: number) {
         this.selected.contactPhone.splice(index, 1);
+        this.contactPhonesFormArray.removeAt(index);
+
+        this.validationHost.initItems();
     }
 
     addEmail() {
-        this.selected.contactEmail.push(new ContactValueModel());
+        let emailModel = new ContactValueModel();
+        this.selected.contactEmail.push(emailModel);
+
+        let emailControl = this.createEmailFormControl(emailModel);
+        this.contactEmailsFormArray.push(emailControl);
+
+        this.validationHost.initItems();
     }
 
     deleteEmail(index: number) {
         this.selected.contactEmail.splice(index, 1);
+        this.contactEmailsFormArray.removeAt(index);
+
+        this.validationHost.initItems();
     }
 
-    prepareData() {
-        if (this.selected.contactPhone.length === 0) this.selected.addContactPhone(new ContactValueModel());
-        if (this.selected.contactEmail.length === 0) this.selected.addContactEmail(new ContactValueModel());
-        for (let i = 0; i < this.selected.contactPhone.length; i++) {
+    getTypes(): void {
+        this.locker.lock();
+
+        this.service.getTypes().then(response => {
+            this.types = response;
+            this.updateTypes();
+            
+            this.locker.unlock();
+        }).catch(() => 
+            this.locker.unlock());
+    }
+
+    updateTypes() {
+        this.addressBookModel.types = this.types;
+    }
+
+    getCountries(): void {
+        this.locker.lock();
+
+        this.refs.getCountries().then(response => {
+            this.countries = response;
+            this.updateCountries();
+
+            this.locker.unlock();
+        }).catch(() => 
+            this.locker.unlock());
+    }
+
+    updateCountries() {
+        this.addressBookModel.countries = this.countries;
+        this.addressBookModel.items.forEach(item => {
+            item.country = this.countries.find(country => country.id === item.countryId);
+        });
+    }
+
+    setFilters(): void {
+        const filterValue = [];
+        this.addressBookModel.contactFilter.forEach(item => {
+            filterValue.push({id: item.value, title: item.displayTitle, count: item.count});
+        });
+        if (this.filters.length === 0) {
+            this.filters.push(new FilterItem(1, 'type', 'Source', filterValue, 'title'));
+            this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
+            this.list.header.selectedFilter[0] = filterValue[0];
+        } else {
+            this.filters[0].options = filterValue;
+        }
+    }
+
+    setFormData() {
+        super.setFormData();
+
+        if (this.selected.contactPhone.length === 0) {
+            this.selected.addContactPhone(new ContactValueModel());
+        }
+        for (let i = 0; i < this.selected.contactPhone.length; i ++) {
             let phone = this.selected.contactPhone[i];
             phone.type = this.types.contactPhone.find(item => item.id === phone.typeId);
+
+            let phoneControl = this.createPhoneFormControl(this.selected.contactPhone[i]);
+            this.contactPhonesFormArray.setControl(i, phoneControl);
+        }
+
+        if (this.selected.contactEmail.length === 0) {
+            this.selected.addContactEmail(new ContactValueModel());
         }
         for (let i = 0; i < this.selected.contactEmail.length; i++) {
             let email = this.selected.contactEmail[i];
             email.type = this.types.contactEmail.find(item => item.id === email.typeId);
-        }
-        this.selected.country = this.countries.find(item => item.id === this.selected.countryId);
 
+            let emailControl = this.createEmailFormControl(this.selected.contactEmail[i]);
+            this.contactEmailsFormArray.setControl(i, emailControl);
+        }
+        
+        if (this.selected.countryId) {
+            this.selected.country = this.countries.find(item => item.id === this.selected.countryId);
+        }
+
+        this.form.patchValue(this.selected);
+        if (this.selected.country) {
+            this.form.get('country').patchValue(this.selected.country);
+        }
+
+        this.validationHost.initItems();
+        this.validationHost.start();
+        this.saveFormState();
     }
 
-    checkEmpty(items: ContactValueModel[]) {
+    removeEmptyItems(items: ContactValueModel[]) {
         if (items.length > 0) {
             for (let i = items.length - 1; i >= 0; i--) {
                 items[i].resetType();
@@ -304,33 +480,4 @@ export class AddressBookComponent extends BaseComponent implements OnInit {
             }
         }
     }
-
-    save() {
-        this.sidebar.saving ++;
-        this.checkEmpty(this.selected.contactPhone);
-        this.checkEmpty(this.selected.contactEmail);
-
-        if (this.selected.id) {
-            this.service.putById(this.selected.id, this.selected).then(res => {
-                this.sidebar.saving --;
-                this.close(true);
-            }).catch(res => {
-                this.prepareData();
-                this.sidebar.saving --;
-            });
-        } else {
-            this.service.post('', this.selected).then(res => {
-                this.sidebar.saving --;
-                this.close(true);
-            }).catch(res => {
-                this.prepareData();
-                this.sidebar.saving --;
-            });
-        }
-    }
-
-    ngOnInit() {
-
-    }
-
 }

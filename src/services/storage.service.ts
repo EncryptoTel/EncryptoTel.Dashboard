@@ -23,7 +23,7 @@ export class StorageService extends BaseService {
     public callback;
     public successCount: number;
     public errorCount: number;
-    
+
     private _compatibleMediaTypes: string[];
 
     constructor(
@@ -32,7 +32,7 @@ export class StorageService extends BaseService {
         public http: HttpClient
     ) {
         super(request, message, http);
-        
+
         this.pageInfo = new StorageModel();
         this.modalUpload = new ModalEx('', 'replaceOnlyFiles');
         this.loading = 0;
@@ -57,7 +57,7 @@ export class StorageService extends BaseService {
             this.callback = null;
         }
     }
-    
+
     checkModal(): void {
         if (this.files.length > 0 && !this.modalUpload.visible) {
             this.updateLoading(1);
@@ -161,24 +161,58 @@ export class StorageService extends BaseService {
         }
     }
 
-    deleteById(id: number, callback = null, showSuccess = true): Promise<any> {
+    deleteById(id: number, callback = null, type = null, showSuccess = true): Promise<any> {
         this.callback = callback;
         this.updateLoading(1);
 
-        return super.deleteById(id, showSuccess)
+        if (type === 'delete') {
+            return super.deleteById(id, showSuccess, 'delete')
+                .then(result => {
+                    if (this.loading === 1) {
+                        this.getItems(this.pageInfo, this.filter, this.sort);
+                    }
+                    this.successCount++;
+                    this.updateLoading(-1);
+                }).catch(() => {
+                    this.errorCount++;
+                    this.updateLoading(-1);
+                });
+        }
+
+        if (type === 'trash') {
+            return super.trashById(id, showSuccess)
+                .then(result => {
+                    if (this.loading === 1) {
+                        this.getItems(this.pageInfo, this.filter, this.sort);
+                    }
+                    this.successCount++;
+                    this.updateLoading(-1);
+                }).catch(() => {
+                    this.errorCount++;
+                    this.updateLoading(-1);
+                });
+        }
+    }
+
+    restoreById(id: number, callback = null, showSuccess = true): Promise<any> {
+        this.callback = callback;
+        this.updateLoading(1);
+        return super.restoreById(id, showSuccess, 'trash/restore')
             .then(result => {
-                if (this.loading == 1) this.getItems(this.pageInfo, this.filter, this.sort);
-                this.successCount ++;
+                if (this.loading === 1) {
+                    this.getItems(this.pageInfo, this.filter, this.sort);
+                }
+                this.successCount++;
                 this.updateLoading(-1);
             }).catch(() => {
-                this.errorCount ++;
+                this.errorCount++;
                 this.updateLoading(-1);
             });
     }
 
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<StorageModel> {
         this.updateLoading(1);
-        
+
         this.filter = filter;
         this.sort = sort;
         return super.getItems(pageInfo, filter, sort)

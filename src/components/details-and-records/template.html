@@ -13,6 +13,11 @@
 
                 <div class="details-header__wrap-daterange-wrapper">
                     <div class="details-header__daterange">{{ getInterval() }}</div>
+                    <pbx-calendar split="/"
+                                  style="position: absolute; right: 10px; font-size: 13px;"
+                                  (newDates)="dateChanged($event)"
+                                  >
+                    </pbx-calendar>
                 </div>
             </div>
 

@@ -4,6 +4,7 @@ import {HeaderComponent} from '../../elements/pbx-header/pbx-header.component';
 import {KnowledgeBaseService} from "../../services/knowledge-base.service";
 import {HelpGroupItem, HelpGroupModel, HelpItem, HelpModel} from "../../models/knowledge-base.model";
 import {ButtonItem, FilterItem} from "../../models/base.model";
+import { ThrowStmt } from '../../../node_modules/@angular/compiler';
 
 @Component({
     selector: 'partner-program-component',
@@ -24,7 +25,7 @@ export class KnowledgeBaseComponent implements OnInit {
     helps: HelpModel = new HelpModel();
     buttons: ButtonItem[] = [];
     filters: FilterItem[] = [];
-    currentFilter = [];
+    currentFilter: any;
     visible = [];
     selectedGroup: HelpGroupItem;
     selectedHelp: HelpItem;
@@ -40,9 +41,18 @@ export class KnowledgeBaseComponent implements OnInit {
         });
     }
 
+    get hasFilter(): boolean {
+        return !!this.currentFilter && (!!this.currentFilter['group'] || !!this.currentFilter['search']);
+    }
+
+    get filterEmptyResult(): boolean {
+        return this.helps.items.length == 0 && this.hasFilter;
+    }
+
     back() {
         this.selectedGroup = null;
         this.selectedHelp = null;
+        this.currentFilter = null;
         this.buttons[0].visible = false;
         this.helps.items = [];
         this.header.updateFilter(0, this.filters);
@@ -70,13 +80,20 @@ export class KnowledgeBaseComponent implements OnInit {
         this.lastIndex = index;
     }
 
+    noResult(): void {
+        this.selectedGroup = null;
+        this.selectedHelp = null;
+        this.helps.items = [];
+    }
+
     reloadFilter(filter) {
         this.currentFilter = filter;
         let item = this.helpGroups.items.find(item => item.id === filter['group']);
         if (item) {
             this.showQuestions(item);
         } else {
-            this.getHelps();
+            this.noResult();
+            // this.getHelps();
         }
     }
 
@@ -110,7 +127,7 @@ export class KnowledgeBaseComponent implements OnInit {
                 options.push({id: item.id, title: item.title});
             });
             if (this.filters.length === 0) {
-                this.filters.push(new FilterItem(1, 'group', 'Select Source', options, 'title', '[choose one]'));
+                this.filters.push(new FilterItem(1, 'group', 'Source', options, 'title', '[choose one]'));
                 this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search Pbx support', 404));
             } else {
                 this.filters[0].options = options;

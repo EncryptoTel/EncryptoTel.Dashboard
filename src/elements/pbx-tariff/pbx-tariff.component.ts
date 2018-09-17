@@ -11,6 +11,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 export class TariffComponent {
     @Input() value: any;
     @Input() current: any;
+    @Input() loadTariff: boolean;
     @Output() onBuy: EventEmitter<void> = new EventEmitter<void>();
 
     constructor() {}
@@ -20,14 +21,14 @@ export class TariffComponent {
     }
 
     get status(): string {
-        return this.current.id === this.value.id 
-            ? 'Subscribed' 
+        return this.current.id === this.value.id
+            ? 'Subscribed'
             : (this.value.price > 0 ? 'Buy now' : 'Free');
     }
 
     get cost(): string {
-        return this.value.price > 0 
-            ? 'From $' + this.value.price + '/monthly' 
+        return this.value.price > 0
+            ? 'From $' + this.value.price + '/monthly'
             : '';
     }
 

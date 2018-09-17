@@ -2,6 +2,7 @@
 <pbx-form
         *ngIf="!loading"
         [tabs]="tabs"
+        [inactiveTabs]="activeTabs"
         [background]="currentTab==='General'"
         [confirm]="addMembers?{}:confirm"
         [decline]="decline[addMembers?'member':'standard']"

@@ -1,8 +1,9 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, HostListener} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {SwipeAnimation} from "../../shared/swipe-animation";
 import {FilterItem, InputAction} from "../../models/base.model";
+import {ValidationHost} from '../../models/validation-host.model';
 
 @Component({
     selector: 'pbx-input',
@@ -49,6 +50,7 @@ export class InputComponent implements OnInit {
     @Input() formBuilder: FormBuilder;
     @Input() animationMode: string; // Possible values: Fade, Swipe (default)
     @Input() resetable: boolean = false;
+    @Input() inputFocus: boolean = false;
 
     // -- errors redefinitions
     @Input() validatorRequiredMsg: string;
@@ -70,6 +72,8 @@ export class InputComponent implements OnInit {
     // @ViewChild('errorSpan') errorSpan: ElementRef;
     @ViewChild('inputDiv') inputDiv: ElementRef;
 
+    @Input() validationHost: ValidationHost;
+
     value;
     checkboxValues;
     prevError;
@@ -78,22 +82,137 @@ export class InputComponent implements OnInit {
     loading = 0;
     pbxInputFocus = false;
 
-    constructor() {
+    inFocus: boolean = false;
+    inMouseHover: boolean = false;
+
+    constructor() {}
+
+    // -- properties ----------------------------------------------------------
+
+    get inErrorState(): boolean {
+        if (this.errors) {
+            return this.checkServerSideError();
+        }
+
+        if (this.form) {
+            return this.checkFormValidationError();
+        }
+        
+        return <boolean>this.checkError();
     }
 
+    get isErrorMessageVisible(): boolean {
+        if (this.errors) {
+            return this.checkServerSideError();
+        }
+
+        if (this.validationHost) {
+            return this.validationHost.isErrorVisible(this);
+        }
+        
+        return <boolean>this.checkError();;
+    }
+
+    get errorMessage(): string {
+        if (this.errors) {
+            let error = this.getValueByKey(this.errors, this.getErrorKey());
+            return error;
+        }
+
+        if (this.validationHost) {
+            return this.validationHost.getErrorMessage(this);
+        }
+        
+        return <string>this.checkError(true);
+    }
+
+    checkServerSideError(): boolean {
+        let error = this.getValueByKey(this.errors, this.getErrorKey());
+        return error != undefined;
+    }
+
+    checkFormValidationError(): boolean {
+        let control = this.getForm();
+        if (control && control.errors) {
+            if (control.errors['required'])
+                return !control.valid && control.touched;
+            else
+                return !control.valid && (control.touched || control.dirty);
+        }
+        return false;
+    }
+    
+    // -- event handlers ------------------------------------------------------
+
+    @HostListener("window:scroll", ['$event'])
+    onWindowScroll(event) {
+        console.log('scroll', event, this.inputDiv.nativeElement);
+    }
+    
     setFocus(): void {
         this.errorVisible = true;
         this.pbxInputFocus = true;
+        
+        // --
+        this.inFocus = true;
+
+        if (this.validationHost) 
+            this.validationHost.updateState();
+
+        // if (this.key == 'company') console.log('element', this.inputDiv);
     }
 
     removeFocus(): void {
         this.errorVisible = false;
         this.pbxInputFocus = false;
+
+        // --
+        this.inFocus = false;
+        this.inMouseHover = false;
+
+        if (this.form) {
+            let control = this.getForm();
+            if (control) control.markAsTouched();
+        }
+        if (this.validationHost) 
+            this.validationHost.updateState();
+    }
+
+    mouseEnter() {
+        this.hoverActive = this.floatError;
+
+        // --
+        this.inMouseHover = true;
+
+        if (this.validationHost)
+            this.validationHost.updateState();
+    }
+
+    mouseLeave() {
+        this.hoverActive = false;
+        
+        // --
+        this.inMouseHover = false;
+
+        if (this.validationHost)
+            this.validationHost.updateState();
     }
 
     pasteEvent($event: any): void {
         this.onPaste.emit($event);
     }
+
+    inputKeyUp($event) {
+        if ($event && ![ 'Tab', 'ArrowRight', 'ArrowLeft' ].includes($event.key)) {
+            this.resetError();
+        }
+        // this.resetError();
+
+        this.object[this.key] = $event.target.value;
+        this.onKeyUp.emit($event);
+    }
+
+    // -- ... -----------------------------------------------------------------
 
     getErrorKey() {
         return this.errorKey ? this.errorKey : this.key;
@@ -128,7 +247,7 @@ export class InputComponent implements OnInit {
         }
     }
 
-    checkError(textOnly = null): string {
+    checkError(textOnly = null): string | boolean {
         if (!this.errors) {
             return this._errorShow ? this.checkForm(textOnly) : '';
         }
@@ -200,16 +319,6 @@ export class InputComponent implements OnInit {
                 form.markAsUntouched();
             }
         }
-    }
-
-    inputKeyUp($event) {
-        if ($event && !['Tab', 'ArrowRight', 'ArrowLeft'].includes($event.key)) {
-            this.resetError();
-        }
-        // this.resetError();
-
-        this.object[this.key] = $event.target.value;
-        this.onKeyUp.emit($event);
     }
 
     clearValue(): void {
@@ -309,14 +418,6 @@ export class InputComponent implements OnInit {
         return this.errorVisible;
     }
 
-    mouseEnter() {
-        this.hoverActive = this.floatError;
-    }
-
-    mouseLeave() {
-        this.hoverActive = false;
-    }
-
     actionAdd(action: InputAction) {
         if (this.formBuilder) {
             action.objects.push(this.formBuilder.control('', []));
@@ -358,6 +459,8 @@ export class InputComponent implements OnInit {
 
         this.loading --;
         // console.log(this.key, JSON.stringify(this.value));
+
+        this.validationHost && this.validationHost.addControl(this);
     }
 
 }
