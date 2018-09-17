@@ -63,6 +63,7 @@ export class ValidationHost implements Lockable {
     isErrorVisible(control: InputComponent): boolean {
         let controlKey = this.getValidatorKey(control);
         let item = this.items.find(i => i.key == controlKey);
+        // if (item && item.key == 'phoneNumber') console.log('item', item, this.items);
         return control.inErrorState && item && item.visible;
     }
 

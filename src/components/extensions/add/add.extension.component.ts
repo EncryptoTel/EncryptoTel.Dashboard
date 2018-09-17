@@ -5,6 +5,7 @@ import {ExtensionService} from '../../../services/extension.service';
 import {PhoneNumberService} from '../../../services/phone-number.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ExtensionItem} from '../../../models/extension.model';
+import { FormBaseComponent } from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 
 @Component({
     selector: 'add-extension-component',
@@ -13,38 +14,47 @@ import {ExtensionItem} from '../../../models/extension.model';
     providers: [ExtensionService, PhoneNumberService]
 })
 
-export class AddExtensionsComponent implements OnInit {
-    loading: number;
-    saving: number;
+export class AddExtensionsComponent extends FormBaseComponent implements OnInit {
+    // loading: number;
     mode = 'create';
     id: number;
 
     tab = {
-        items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
-        icons: ['general_16px', 'voicemail_16px', 'forwarding_rules_16px_1', 'settings_16px', 'key_16px_3', 'security_16px'],
+        items: [ 'General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security' ],
+        icons: [ 'general_16px', 'voicemail_16px', 'forwarding_rules_16px_1', 'settings_16px', 'key_16px_3', 'security_16px' ],
         select: 'General',
-        active: [true, false, false, true, false, false]
+        active: [ true, false, false, true, false, false ]
     };
-    formExtension: FormGroup;
+    
+    get formExtension(): FormGroup {
+        return this.form;
+    }
+
+    set formExtension(form: FormGroup) {
+        this.form = form;
+    }
+
     accessList;
 
-    constructor(private _fb: FormBuilder,
+    constructor(protected _fb: FormBuilder,
                 private _router: Router,
                 private _activatedRoute: ActivatedRoute,
                 private _extension: ExtensionService) {
-        this.loading = 0;
-        this.saving = 0;
+        super(_fb);
+
         this.id = _activatedRoute.snapshot.params.id;
         this.id ? this.mode = 'edit' : this.mode = 'create';
+    }
 
+    initForm(): void {
         this.formExtension = this._fb.group({
-            outer: [null, [Validators.required]],
-            phoneNumber: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
+            outer: [ null, [ Validators.required ] ],
+            phoneNumber: [ null, [ Validators.required, Validators.minLength(3), Validators.maxLength(3) ] ],
             default: false,
             user: this._fb.group({
-                firstName: ['', []],
-                lastName: ['', []],
-                email: ['', [Validators.pattern(emailRegExp)]]
+                firstName: [ null, [] ],
+                lastName: [ null, [] ],
+                email: [ null, [ Validators.pattern(emailRegExp) ] ]
             }),
             mobileApp: false,
             encryption: false,
@@ -90,7 +100,8 @@ export class AddExtensionsComponent implements OnInit {
             this.getAccessList(null);
             return;
         }
-        this.loading += 1;
+        
+        this.locker.lock();
         this._extension.getExtension(this.id).then(res => {
             this.formExtension.get('outer').setValue(res.sipOuter.id);
             this.formExtension.get('phoneNumber').setValue(res.phoneNumber);
@@ -112,21 +123,17 @@ export class AddExtensionsComponent implements OnInit {
                 this.tab.active[4] = true;
             }
 
-            this.loading -= 1;
             this.getAccessList(res.user);
-        }).catch(res => {
-            this.loading -= 1;
-        });
+        }).catch(() => {})
+            .then(() => this.locker.unlock());
     }
 
     getAccessList(user) {
-        this.loading += 1;
+        this.locker.lock();
         this._extension.getAccessList(user ? user.id : null).then(res => {
             this.accessList = res;
-            this.loading -= 1;
-        }).catch(res => {
-            this.loading -= 1;
-        });
+        }).catch(() => {})
+            .then(() => this.locker.unlock());
     }
 
     doCancel() {
@@ -137,8 +144,8 @@ export class AddExtensionsComponent implements OnInit {
         this.formExtension.markAsTouched();
         this.validate(this.formExtension);
         if (this.formExtension.valid) {
-            this.saving += 1;
-
+            
+            this.locker.lock();
             if (this.mode === 'create') {
                 this._extension.create({...this.formExtension.value}).then(extension => {
                     this.id = extension.id;
@@ -147,7 +154,8 @@ export class AddExtensionsComponent implements OnInit {
                 }).catch(res => {
                     this.errorSaveExtension(res);
                 });
-            } else if (this.mode === 'edit') {
+            }
+            else if (this.mode === 'edit') {
                 this._extension.edit(this.id, {...this.formExtension.value}).then(extension => {
                     this.afterSaveExtension(extension);
                     if (extension.extension) {
@@ -169,7 +177,7 @@ export class AddExtensionsComponent implements OnInit {
                 if (obj) obj.setErrors(errors[key]);
             });
         }
-        this.saving -= 1;
+        this.locker.unlock();
     }
 
     afterSaveExtension(extension: ExtensionItem) {
@@ -178,31 +186,30 @@ export class AddExtensionsComponent implements OnInit {
         } else {
             this.tab.active[4] = true;
         }
-        this.saving -= 1;
+        
+        this.locker.unlock();
+
         if (!extension.user) {
             this.doCancel();
             return;
         }
 
-        let rights: any;
-        rights = [];
-        for (let i = 0; i < this.accessList.length; i++) {
+        let rights = [];
+        for (let i = 0; i < this.accessList.length; i ++) {
             if (this.accessList[i].userStatus) {
                 rights.push({id: this.accessList[i].id});
             }
         }
 
-        // this.loading += 1;
-        this._extension.saveAccessList(extension.user.id, rights).then(res => {
-            this.saving -= 1;
+        this.locker.lock();
+        this._extension.saveAccessList(extension.user.id, rights).then(() => {
             if (this.mode === 'create') this.doCancel();
-        }).catch(res => {
-            this.saving -= 1;
-        });
+        }).catch(() => {})
+          .then(() => this.locker.unlock());
     }
 
     ngOnInit(): void {
-        this.loading = 0;
+        super.ngOnInit();
         this.getExtension();
         // this.getSipOuters();
     }

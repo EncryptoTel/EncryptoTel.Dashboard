@@ -1,6 +1,6 @@
 <div class="add_ext">
-    <pbx-loader *ngIf="loading"></pbx-loader>
-    <pbx-form *ngIf="!loading"
+    <pbx-loader *ngIf="!locker.free"></pbx-loader>
+    <pbx-form *ngIf="locker.free"
               [tabs]="tab.items"
               [icons]="tab.icons"
               [inactiveTabs]="tab.active"
@@ -12,6 +12,7 @@
         <general-add-extension-component *ngIf="tab.select==='General'" class="add_ext_item"
                                          [service]="_extension"
                                          [(form)]="formExtension"
+                                         [validationHost]="validationHost"
                                          [id]="id">
         </general-add-extension-component>
         <options-add-extension-component *ngIf="tab.select==='Options'" class="add_ext_item"
