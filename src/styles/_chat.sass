@@ -13,31 +13,35 @@ pbx-chat
         .messages
             flex-direction: column
             overflow: auto
+            padding-right: 16px
             .message
-                margin: 16px 0
+                margin: 0 0 16px
                 display: grid
+                .avatar
+                    width: 40px
+                    height: 40px
+                    border-radius: 100%
+                    overflow: hidden
+                    position: relative
+                    img
+                        width: 50px
+                        height: auto
+                        position: absolute
+                        left: 50%
+                        top: 50%
+                        transform: translate(-50%, -50%)
+                .cnt
+                    margin-left: 16px
+                    padding: 8px
+                    .name
+                        display: none
+                    .msg
+                    .date
+                    .status
                 &.left
                     grid-template-columns: 40px 1fr
-                    .avatar
-                        width: 40px
-                        height: 40px
-                        border-radius: 100%
-                        overflow: hidden
-                        position: relative
-                        img
-                            width: 50px
-                            height: auto
-                            position: absolute
-                            left: 50%
-                            top: 50%
-                            transform: translate(-50%, -50%)
                     .cnt
-                        margin-left: 16px
-                        .name
-                            display: none
-                        .msg
-                        .date
-                        .status
+                        border-radius: 10px 10px 10px 0
                 &.right
                     grid-template-columns: 1fr 40px
         .input_wrap
