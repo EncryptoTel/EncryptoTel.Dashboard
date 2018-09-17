@@ -19,6 +19,10 @@ export class FormsSnapshots {
         let snapshot = JSON.stringify(this._map[key].value);
         this._snapshots[key] = snapshot;
     }
+
+    saveAll(): void {
+        Object.keys(this._map).forEach(key => this.save(key));
+    }
     
     clear(key: string): void {
         if (!this._map[key]) return;
@@ -30,5 +34,11 @@ export class FormsSnapshots {
         
         let snapshot = JSON.stringify(this._map[key].value);
         return snapshot != this._snapshots[key];
+    }
+
+    checkAll(): boolean {
+        let result = false;
+        Object.keys(this._map).forEach(key => result = result || this.check(key));
+        return result;
     }
 }

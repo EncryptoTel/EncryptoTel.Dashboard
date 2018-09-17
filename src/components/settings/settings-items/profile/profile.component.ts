@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {SettingsService} from '../../../../services/settings.service';
 import {FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
 import {emailRegExp, nameRegExp, phoneRegExp, numberRegExp} from '../../../../shared/vars';
 import {validateForm, killEvent} from '../../../../shared/shared.functions';
 import {FadeAnimation} from '../../../../shared/fade-animation';
 import {passwordConfirmation} from '../../../../shared/password-confirmation';
-import {Router} from '@angular/router';
 import {MessageServices} from '../../../../services/message.services';
 import {UserServices} from '../../../../services/user.services';
-import {FormsSnapshots} from '../../../../models/forms-snapshots.model';
+import {FormBaseComponent} from '../../../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import {ModalEx} from '../../../../elements/pbx-modal/pbx-modal.component';
 
 
 export enum EmailChangeState {
@@ -23,11 +24,10 @@ export enum EmailChangeState {
     styleUrls: ['../local.sass'],
     animations: [FadeAnimation('300ms')]
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent extends FormBaseComponent implements OnInit {
     generalForm: FormGroup;
     emailChange: FormGroup;
     passwordChange: FormGroup;
-    formSnapshots: FormsSnapshots;
 
     emailChangeState: EmailChangeState;
     get messageSent(): boolean {
@@ -40,37 +40,40 @@ export class ProfileComponent implements OnInit {
     // --- component lifecycle methods ----------------------------------------
 
     constructor(private _service: SettingsService,
-                private _fb: FormBuilder,
+                protected _fb: FormBuilder,
                 private _router: Router,
                 private _message: MessageServices,
                 private _user: UserServices) {
+        super(_fb);
+
         this.loading = 0;
-        this.formSnapshots = new FormsSnapshots();
         this.emailChangeState = EmailChangeState.NOT_STARTED;
         this.saveButton = { buttonType: 'success', value: 'Save', inactive: false, loading: false };
+
+        this.modal = new ModalEx(`You've made changes. Do you really want to leave without saving?`, 'cancelEdit');
     }
 
     ngOnInit() {
-        this.initForms();
+        super.ngOnInit();
         this.getSettings();
     }
     
     // --- initialization -----------------------------------------------------
 
-    initForms(): void {
+    initForm(): void {
         this.generalForm = this._fb.group({
             firstname:  [null, [ Validators.required, Validators.pattern(nameRegExp) ]],
             lastname:   [null, [ Validators.pattern(nameRegExp) ]],
             patronymic: [null, [ Validators.pattern(nameRegExp) ]],
             phone:      [null, [ Validators.pattern(phoneRegExp), Validators.minLength(7), Validators.maxLength(16) ]]
         });
-        this.formSnapshots.add('generalForm', this.generalForm);
+        this.addForm('generalForm', this.generalForm);
         
         this.emailChange = this._fb.group({
             email:  [null, [ Validators.required, Validators.pattern(emailRegExp) ]],
             code:   [null, [ Validators.required, Validators.minLength(6), Validators.pattern(numberRegExp) ]],
         });
-        this.formSnapshots.add('emailChange', this.emailChange);
+        this.addForm('emailChange', this.emailChange);
         
         this.passwordChange = this._fb.group({
             oldPassword:            [null, [ Validators.required, Validators.minLength(6) ]],
@@ -81,12 +84,19 @@ export class ProfileComponent implements OnInit {
                     return passwordConfirmation(formGroup);
                 }
         });
-        this.formSnapshots.add('passwordChange', this.passwordChange);
+        this.addForm('passwordChange', this.passwordChange);
     }
 
     // --- event handlers -----------------------------------------------------
 
     back(): void {
+        if (this.checkFormChanged()) {
+            this.modal.show();
+        }
+        else this.confirmClose();
+    }
+
+    confirmClose(): void {
         this._router.navigateByUrl('/cabinet/settings');
     }
 
@@ -99,20 +109,20 @@ export class ProfileComponent implements OnInit {
         killEvent(event);
         let validationResult = true;
 
-        const profileFormChanged = this.formSnapshots.check('generalForm');
+        const profileFormChanged = this.checkFormChanged('generalForm');
         // console.log('generalForm', profileFormChanged);
         if (profileFormChanged) {
             validateForm(this.generalForm);
             validationResult = validationResult && this.generalForm.valid;
         }
 
-        const emailFormChanged = this.formSnapshots.check('emailChange');
+        const emailFormChanged = this.checkFormChanged('emailChange');
         // console.log('emailChanged', emailFormChanged);
         if (emailFormChanged) {
             validationResult = validationResult && this.validateEmailForm();
         }
 
-        const passwordFormChanged = this.formSnapshots.check('passwordChange');
+        const passwordFormChanged = this.checkFormChanged('passwordChange');
         // console.log('passwordChanged', passwordFormChanged);
         if (passwordFormChanged) {
             validateForm(this.passwordChange);
@@ -141,14 +151,8 @@ export class ProfileComponent implements OnInit {
                 data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.user[key]);
             });
         }
-        this.formSnapshots.save(formKey);
+        this.saveFormState(formKey);
     }
-
-    // checkFormChanged(formKey: string, form: FormGroup): boolean {
-    //     if (!this.formSnapshots[formKey]) 
-    //         return true;
-    //     return JSON.stringify(form.value) != this.formSnapshots[formKey];
-    // }
 
     validateEmailForm(): boolean {
         if (this.emailChangeState == EmailChangeState.NOT_STARTED) {
@@ -203,7 +207,7 @@ export class ProfileComponent implements OnInit {
             this.loading ++;
             this._service.confirmEmailChange(this.emailChange.get('code').value).then(response => {
                 this.emailChange.get('code').setValue('');
-                this.formSnapshots.save('emailChange');
+                this.saveFormState('emailChange');
                 this.emailChangeState = EmailChangeState.NOT_STARTED;
                 
                 this.loading --;

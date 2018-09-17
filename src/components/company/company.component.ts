@@ -72,7 +72,8 @@ export class CompanyComponent implements OnInit {
         this.companyInfo = this.service.companyInfo;
 
         this.initCompanyForm();
-        this.validationHost = new ValidationHost(this.companyForm);
+        this.validationHost = new ValidationHost();
+        this.validationHost.addForm(this.companyForm);
         this.validationHost.customMessages = [
             { name: 'Organization', error: 'pattern', message: 'Company name may contain letters, digits and dashes only' },
             { name: 'State/Region', error: 'pattern', message: 'State/region may contain letters, digits and dashes only' },

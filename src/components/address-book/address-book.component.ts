@@ -264,7 +264,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     save(): void {
-        if (this.validateForm()) {
+        if (this.validateForms()) {
             this.saveAddress();
         }
     }
@@ -272,7 +272,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     close(reload: boolean = false) {
         this._forceReload = reload;
 
-        if (this.formChanged) {
+        if (this.checkFormChanged()) {
             this.modal.show();
         }
         else {
@@ -432,7 +432,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     setFormData() {
-        super.setFormData();
+        super.resetForms();
 
         if (this.selected.contactPhone.length === 0) {
             this.selected.addContactPhone(new ContactValueModel());

@@ -24,6 +24,8 @@ export class FormBaseComponent implements OnInit, Lockable {
     form: FormGroup;
     formKey: string;
 
+    forms: FormGroup[];
+
     validationHost: ValidationHost;
     snapshots: FormsSnapshots;
 
@@ -33,12 +35,15 @@ export class FormBaseComponent implements OnInit, Lockable {
     constructor(protected _fb: FormBuilder) {
         this.locker = new Locker();
         this.formKey = 'form';
+        this.forms = [];
+        
+        this.validationHost = new ValidationHost();
+        this.snapshots = new FormsSnapshots();
         
         this.initForm();
-        this.validationHost = new ValidationHost(this.form);
-        
-        this.snapshots = new FormsSnapshots();
-        this.snapshots.add(this.formKey, this.form);
+        if (this.form && this.forms.length == 0) {
+            this.addForm(this.formKey, this.form);
+        }
     }
 
     ngOnInit(): void {
@@ -50,20 +55,43 @@ export class FormBaseComponent implements OnInit, Lockable {
         throw new Error("Method not implemented.");
     }
 
-    setFormData() {
-        this.form.reset();
+    addForm(formKey: string, form: FormGroup): void {
+        this.forms.push(form);
+        this.validationHost.addForm(form);
+        this.snapshots.add(formKey, form);
     }
 
-    validateForm(): boolean {
-        validateForm(this.form);
-        return this.form.valid;
+    resetForms() {
+        // this.forms.forEach(form => form.reset());
+        this.forms.forEach(form => {
+            form.reset();
+        });
     }
 
-    saveFormState(): void {
-        this.snapshots.save(this.formKey);
+    validateForms(): boolean {
+        let result = true;
+        this.forms.forEach(form => { 
+            validateForm(form);
+            result = result && form.valid;
+        });
+        return result;
     }
 
-    get formChanged(): boolean {
-        return this.snapshots.check(this.formKey);
+    saveFormState(formKey?: string): void {
+        if (formKey) {
+            this.snapshots.save(formKey);
+        }
+        else {
+            this.snapshots.saveAll();
+        }
+    }
+
+    checkFormChanged(formKey?: string): boolean {
+        if (formKey) {
+            return this.snapshots.check(formKey);
+        }
+        else {
+            return this.snapshots.checkAll();
+        }
     }
 }
