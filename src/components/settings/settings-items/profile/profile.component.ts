@@ -49,8 +49,6 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         this.loading = 0;
         this.emailChangeState = EmailChangeState.NOT_STARTED;
         this.saveButton = { buttonType: 'success', value: 'Save', inactive: false, loading: false };
-
-        this.modal = new ModalEx(`You've made changes. Do you really want to leave without saving?`, 'cancelEdit');
     }
 
     ngOnInit() {
@@ -88,13 +86,6 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     // --- event handlers -----------------------------------------------------
-
-    back(): void {
-        if (this.checkFormChanged()) {
-            this.modal.show();
-        }
-        else this.confirmClose();
-    }
 
     confirmClose(): void {
         this._router.navigateByUrl('/cabinet/settings');

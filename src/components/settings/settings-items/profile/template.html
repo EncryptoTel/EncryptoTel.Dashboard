@@ -2,7 +2,7 @@
           [decline]="{ buttonType: 'cancel', value: 'Cancel' }"
           [background]="true"
           (onConfirm)="save()"
-          (onDecline)="back()"
+          (onDecline)="close()"
           >
     <pbx-loader *ngIf="loading"></pbx-loader>
     <div class="overlay_content" *ngIf="!loading" [@Fade]>
@@ -145,7 +145,7 @@
 
 </div> <!-- profile_settings -->
 
-<pbx-modal [modalEx]="modal"
+<pbx-modal [modalEx]="modalExit"
            (onConfirmEx)="confirmClose()"
            >
 </pbx-modal>

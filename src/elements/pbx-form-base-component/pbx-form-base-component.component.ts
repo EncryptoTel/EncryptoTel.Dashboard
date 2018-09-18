@@ -29,7 +29,7 @@ export class FormBaseComponent implements OnInit, Lockable {
     validationHost: ValidationHost;
     snapshots: FormsSnapshots;
 
-    modal: ModalEx;
+    modalExit: ModalEx;
 
 
     constructor(protected _fb: FormBuilder) {
@@ -44,6 +44,8 @@ export class FormBaseComponent implements OnInit, Lockable {
         if (this.form && this.forms.length == 0) {
             this.addForm(this.formKey, this.form);
         }
+
+        this.modalExit = new ModalEx(`You've made changes. Do you really want to leave without saving?`, 'cancelEdit');
     }
 
     ngOnInit(): void {
@@ -53,6 +55,17 @@ export class FormBaseComponent implements OnInit, Lockable {
     initForm(): void {
         // should be overriden in derived class
         throw new Error("Method not implemented.");
+    }
+
+    close(): void {
+        if (this.checkFormChanged()) {
+            this.modalExit.show();
+        }
+        else this.confirmClose();
+    }
+
+    confirmClose(): void {
+        // should be overriden in derived class
     }
 
     addForm(formKey: string, form: FormGroup): void {

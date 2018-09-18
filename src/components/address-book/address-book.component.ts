@@ -62,7 +62,6 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             keys: ['firstname', 'lastname', 'phone', 'email', 'company', 'country.title'],
         };
     
-        this.modal = new ModalEx(`You've made changes. Do you really want to leave without saving?`, 'cancelEdit');
         this.modalBlock = new ModalEx('', 'block');
 
         this.filters = [];
@@ -269,7 +268,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this._forceReload = reload;
 
         if (!reload && this.checkFormChanged()) {
-            this.modal.show();
+            this.modalExit.show();
         }
         else {
             this.confirmClose();

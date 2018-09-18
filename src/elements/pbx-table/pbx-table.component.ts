@@ -9,8 +9,9 @@ import {TableInfoExModel, TableInfoItem, TableInfoModel} from '../../models/base
 import {ModalEx} from "../pbx-modal/pbx-modal.component";
 import {PlayerAnimation} from "../../shared/player-animation";
 import {FadeAnimation} from "../../shared/fade-animation";
-import {str2regexp} from '../../shared/shared.functions';
+import {str2regexp, killEvent} from '../../shared/shared.functions';
 import {isObject, isArray} from 'util';
+
 
 @Component({
     selector: 'pbx-table',
@@ -21,7 +22,6 @@ import {isObject, isArray} from 'util';
         PlayerAnimation
     ]
 })
-
 export class TableComponent implements OnInit {
     @Input() tableItems: any[];
     @Input() selected: any;
@@ -60,19 +60,13 @@ export class TableComponent implements OnInit {
         this.onSelect.emit(item);
     }
 
-    editItem(item, ev: MouseEvent): void {
-        if (ev) {
-            ev.stopPropagation();
-            ev.preventDefault();
-        }
+    editItem(item, event: MouseEvent): void {
+        killEvent(event);
         this.onEdit.emit(item);
     }
 
     clickDeleteItem(item: any, event: MouseEvent) {
-        if (event) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
+        killEvent(event);
 
         this.selectedDelete = item;
         if (!this.editMode) {

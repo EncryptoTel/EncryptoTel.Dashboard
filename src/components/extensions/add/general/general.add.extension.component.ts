@@ -1,5 +1,4 @@
 import {Component, Input, OnInit, ViewChildren} from '@angular/core';
-import {FormArray, FormGroup} from '@angular/forms';
 import {ExtensionService} from '../../../../services/extension.service';
 import {PhoneNumberService} from '../../../../services/phone-number.service';
 import {MessageServices} from '../../../../services/message.services';
@@ -97,7 +96,7 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
             response.map(number => {
                 this.sipOuters.option.push({id: number.id, title: number.phoneNumber});
             });
-            this.sipOuters.selected = this.sipOuters.option.find(item => item.id === this.form.get('outer').value);
+            this.sipOuters.selected = this.sipOuters.option.find(item => item.id === this.form.get('outer').value.id);
         }).catch(() => {})
           .then(() => this.locker.unlock());
     }

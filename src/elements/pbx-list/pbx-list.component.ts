@@ -78,7 +78,9 @@ export class ListComponent implements OnInit {
     edit(item: BaseItemModel) {
         if (this.onEdit.observers.length > 0) {
             this.onEdit.emit(item);
-        } else {
+        }
+        else {
+            this.savePageInfoToSession();
             this.router.navigate(['cabinet', this.key, `${item.id}`]);
         }
     }
@@ -151,6 +153,13 @@ export class ListComponent implements OnInit {
         this.getItems();
     }
 
+    savePageInfoToSession(): void {
+        if (this.key) {
+            sessionStorage.setItem(`${this.key}_page`, this.pageInfo.page.toString());
+            sessionStorage.setItem(`${this.key}_size`, this.pageInfo.limit.toString());
+        }
+    }
+
     ngOnInit() {
         if (this.buttons.length === 0) {
             this.buttons.push({
@@ -163,8 +172,5 @@ export class ListComponent implements OnInit {
         }
 
         this.getItems();
-
-
     }
-
 }

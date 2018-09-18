@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {emailRegExp} from '../../../shared/vars';
+import {emailRegExp, nameRegExp} from '../../../shared/vars';
 import {ExtensionService} from '../../../services/extension.service';
 import {PhoneNumberService} from '../../../services/phone-number.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ExtensionItem} from '../../../models/extension.model';
 import { FormBaseComponent } from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import { validateForm } from '../../../shared/shared.functions';
 
 @Component({
     selector: 'add-extension-component',
@@ -44,6 +45,12 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
 
         this.id = _activatedRoute.snapshot.params.id;
         this.id ? this.mode = 'edit' : this.mode = 'create';
+
+        this.validationHost.customMessages = [
+            { name: 'First Name', error: 'pattern', message: 'Please enter valid first name' },
+            { name: 'Last Name', error: 'pattern', message: 'Please enter valid last name' },
+            { name: 'Email', error: 'pattern', message: 'Please enter valid email address' },
+        ];
     }
 
     initForm(): void {
@@ -52,8 +59,8 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             phoneNumber: [ null, [ Validators.required, Validators.minLength(3), Validators.maxLength(3) ] ],
             default: false,
             user: this._fb.group({
-                firstName: [ null, [] ],
-                lastName: [ null, [] ],
+                firstName: [ null, [ Validators.pattern(nameRegExp) ] ],
+                lastName: [ null, [ Validators.pattern(nameRegExp) ] ],
                 email: [ null, [ Validators.pattern(emailRegExp) ] ]
             }),
             mobileApp: false,
@@ -77,55 +84,46 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         }
     }
 
-    private validate(form: FormGroup): void {
-        Object.keys(form.controls).forEach(control => {
-            if (form.get(control) instanceof FormArray) {
-                const ctrl = form.get(control) as FormArray;
-                ctrl.controls.forEach(cont => {
-                    const ctr = cont as FormGroup;
-                    ctr.markAsTouched();
-                    Object.keys(ctr.controls).forEach(c => {
-                        ctr.get(c).markAsTouched();
-                    });
-                });
-            } else {
-                form.get(control).markAsTouched();
-            }
-        });
-    }
-
     getExtension() {
         if (this.mode === 'create') {
             this.formExtension.get('toAdmin').setValue(true);
             this.getAccessList(null);
+            this.saveFormState();
             return;
         }
         
         this.locker.lock();
-        this._extension.getExtension(this.id).then(res => {
-            this.formExtension.get('outer').setValue(res.sipOuter.id);
-            this.formExtension.get('phoneNumber').setValue(res.phoneNumber);
-            this.formExtension.get('default').setValue(res.default);
-            this.formExtension.get('mobileApp').setValue(res.mobileApp);
-            this.formExtension.get('encryption').setValue(res.encryption);
+        this._extension.getExtension(this.id).then(response => {
+            this.formExtension.get('outer').setValue({
+                id: response.sipOuter.id,
+                title: response.sipOuter.phoneNumber
+            });
+
+            this.formExtension.get('phoneNumber').setValue(response.phoneNumber);
+            this.formExtension.get('default').setValue(response.default);
+            this.formExtension.get('mobileApp').setValue(response.mobileApp);
+            this.formExtension.get('encryption').setValue(response.encryption);
             this.formExtension.get('toAdmin').setValue(false);
             this.formExtension.get('toUser').setValue(false);
-            this.formExtension.get('callRecord').setValue(res.callRecord);
-            this.formExtension.get('status').setValue(res.status);
+            this.formExtension.get('callRecord').setValue(response.callRecord);
+            this.formExtension.get('status').setValue(response.status);
 
-            this.formExtension.get(['user', 'firstName']).setValue(res.user ? res.user.firstname : null);
-            this.formExtension.get(['user', 'lastName']).setValue(res.user ? res.user.lastname : null);
-            this.formExtension.get(['user', 'email']).setValue(res.user ? res.user.email : null);
+            this.formExtension.get(['user', 'firstName']).setValue(response.user ? response.user.firstname : null);
+            this.formExtension.get(['user', 'lastName']).setValue(response.user ? response.user.lastname : null);
+            this.formExtension.get(['user', 'email']).setValue(response.user ? response.user.email : null);
 
-            if (!res.user.email) {
+            if (!response.user.email) {
                 this.tab.active[4] = false;
             } else {
                 this.tab.active[4] = true;
             }
 
-            this.getAccessList(res.user);
+            this.getAccessList(response.user);
         }).catch(() => {})
-            .then(() => this.locker.unlock());
+          .then(() => {
+                this.saveFormState();
+                this.locker.unlock();
+            });
     }
 
     getAccessList(user) {
@@ -136,23 +134,28 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             .then(() => this.locker.unlock());
     }
 
+    confirmClose(): void {
+        this.doCancel();
+    }
+
     doCancel() {
         this._router.navigate(['cabinet', 'extensions']);
     }
 
     doSave() {
-        this.formExtension.markAsTouched();
-        this.validate(this.formExtension);
+        // this.formExtension.markAsTouched();
+        validateForm(this.formExtension);
+
         if (this.formExtension.valid) {
-            
             this.locker.lock();
+
             if (this.mode === 'create') {
                 this._extension.create({...this.formExtension.value}).then(extension => {
                     this.id = extension.id;
                     this.afterSaveExtension(extension);
                     this._router.navigate(['cabinet', 'extensions', this.id]);
-                }).catch(res => {
-                    this.errorSaveExtension(res);
+                }).catch(response => {
+                    this.errorSaveExtension(response);
                 });
             }
             else if (this.mode === 'edit') {
@@ -161,16 +164,15 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
                     if (extension.extension) {
                         this.getAccessList(extension.user);
                     }
-                }).catch(res => {
-                    this.errorSaveExtension(res);
+                }).catch(response => {
+                    this.errorSaveExtension(response);
                 });
             }
         }
     }
 
-    errorSaveExtension(res) {
-        // console.log(res);
-        const errors = res ? res.errors : null;
+    errorSaveExtension(response) {
+        const errors = response ? response.errors : null;
         if (errors) {
             Object.keys(errors).forEach(key => {
                 let obj = this.formExtension.get(key);
