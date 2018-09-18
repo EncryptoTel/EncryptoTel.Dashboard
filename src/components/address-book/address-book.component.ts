@@ -233,10 +233,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.selected = response;
             this.setFormData();
             this.initSidebar();
-            this.sidebar.loading --;
-        }).catch(() => {
-            this.sidebar.loading --;
-        });
+        }).catch(() => {})
+            .then(() => this.sidebar.loading --);
     }
 
     create() {
@@ -257,10 +255,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.service.getAddressBookItem(item.id).then((response: AddressBookItem) => {
             this.selected = response;
             this.editAddress();
-            this.sidebar.loading --;
-        }).catch(() => {
-            this.sidebar.loading --;
-        });
+        }).catch(() => {})
+            .then(() => this.sidebar.loading --);
     }
 
     save(): void {
@@ -272,7 +268,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     close(reload: boolean = false) {
         this._forceReload = reload;
 
-        if (this.checkFormChanged()) {
+        if (!reload && this.checkFormChanged()) {
             this.modal.show();
         }
         else {
@@ -303,9 +299,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
             this.selected.loading --;
             this.close(true);
-        }).catch(() => {
-            this.selected.loading --;
-        });
+        }).catch(() => {})
+            .then(() => this.selected.loading --);
     }
 
     editAddress() {
@@ -330,21 +325,17 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.selected = new AddressBookItem(this.form.value);
         if (this.selected.id) {
             this.service.putById(this.selected.id, this.selected).then(() => {
-                this.sidebar.saving --;
                 this.close(true);
             }).catch(() => {
                 this.setFormData();
-                this.sidebar.saving --;
-            });
+            }).then(() => this.sidebar.saving --);
         } 
         else {
             this.service.post('', this.selected).then(() => {
-                this.sidebar.saving --;
                 this.close(true);
             }).catch(() => {
                 this.setFormData();
-                this.sidebar.saving --;
-            });
+            }).then(() => this.sidebar.saving --);
         }
     }
 
