@@ -32,6 +32,15 @@ export class FormBaseComponent implements OnInit, Lockable {
     modalExit: ModalEx;
 
 
+    get isNewFormModel(): boolean {
+        if (this.form) {
+            let id = this.form.get('id');
+            return !(id && id.value);
+        }
+        return false;
+    }
+
+
     constructor(protected _fb: FormBuilder) {
         this.locker = new Locker();
         this.formKey = 'form';

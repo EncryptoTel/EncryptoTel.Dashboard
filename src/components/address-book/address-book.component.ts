@@ -267,8 +267,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     close(reload: boolean = false) {
         this._forceReload = reload;
 
-        if (!reload && this.checkFormChanged()) {
-            this.modalExit.show();
+        if (!reload) {
+            super.close(!this.isNewFormModel, () => this.confirmClose());
         }
         else {
             this.confirmClose();

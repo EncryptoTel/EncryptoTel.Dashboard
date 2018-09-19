@@ -135,14 +135,10 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     }
 
     close(): void {
-        super.close(this.mode == 'edit');
+        super.close(this.mode == 'edit', () => this.doCancel());
     }
 
-    confirmClose(): void {
-        this.doCancel();
-    }
-
-    doCancel() {
+    doCancel(): void {
         this._router.navigate(['cabinet', 'extensions']);
     }
 
