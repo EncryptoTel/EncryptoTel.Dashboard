@@ -12,7 +12,7 @@
 
     <pbx-loader *ngIf="loading || loadingEx || filter.loading"></pbx-loader>
 
-    <div class="pbx_list_empty {{sidebarVisible?'notArrow':''}}" *ngIf="showEmptyInfo && !loading && !loadingEx && pageInfo.itemsCount === 0 && !activeFilter()">
+    <div class="pbx_list_empty {{sidebarVisible?'notArrow':''}}" *ngIf="showEmptyInfo && !loading && !loadingEx && listDataEmpty">
         <div class="pbx_list_empty_text" *ngIf="!EmptyInfo">
             You do not have any {{itemsName ? itemsName : name}}<br>Click on the button to create
         </div>

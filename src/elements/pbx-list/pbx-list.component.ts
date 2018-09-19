@@ -57,6 +57,7 @@ export class ListComponent implements OnInit {
     filter = {loading: 0};
 
     _sidebar: any;
+    private _totalItemsCount: number;
 
     get sidebarVisible(): boolean {
         return this._sidebar ? this._sidebar.visible : false;
@@ -90,29 +91,27 @@ export class ListComponent implements OnInit {
     }
 
     delete(item: BaseItemModel) {
-        item.loading++;
+        item.loading ++;
         this.service.deleteById(item.id).then(() => {
             this.getItems(item);
-            item.loading--;
-        }).catch(() => {
-            item.loading--;
-        });
+        }).catch(() => {})
+          .then(() => item.loading --);
     }
 
     getItems(item = null) {
-        item ? item.loading++ : this.loadingEx++;
+        item ? item.loading ++ : this.loadingEx ++;
         const limit = this.pageInfo.limit;
         this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null).then(res => {
             this.pageInfo = res;
             this.pageInfo.limit = limit;
+            
             if (!item) {
                 this.onLoad.emit(this.pageInfo);
             }
             this.header.load();
-            item ? item.loading-- : this.loadingEx--;
-        }).catch(() => {
-            item ? item.loading-- : this.loadingEx--;
-        });
+            this.updateTotalItems();
+        }).catch(() => {})
+          .then(() => item ? item.loading -- : this.loadingEx --);
     }
 
     reloadFilter(filter) {
@@ -126,23 +125,15 @@ export class ListComponent implements OnInit {
 
     activeFilter() {
         let result = 0;
-        let keys = Object.keys(this.currentFilter);
-        for (let i = 0; i < keys.length; i++) {
-            if (this.currentFilter[keys[i]] !== null) {
-                result++;
-            }
-        }
-        if (this.filters && this.filters.length > 0) {
-            for (let i = 0; i < this.filters.length; i++) {
-                let filter = this.filters[i];
-                if (filter && filter.options && filter.options.length > 0) {
-                    for (let j = 0; j < filter.options.length; j++) {
-                        if (filter.options[j] && filter.options[j].count && filter.options[j].count > 0) {
-                            result++;
-                        }
-                    }
+        Object.keys(this.currentFilter).forEach(key => {
+            this.currentFilter[key] && result ++;
+        });
+        if (this.filters) {
+            this.filters.forEach(filter => {
+                if (filter && filter.options) {
+                    filter.options.forEach(option => (option.count > 0) && result ++);
                 }
-            }
+            });
         }
         return result > 0;
     }
@@ -156,6 +147,16 @@ export class ListComponent implements OnInit {
             sessionStorage.setItem(`${this.key}_page`, this.pageInfo.page.toString());
             sessionStorage.setItem(`${this.key}_size`, this.pageInfo.limit.toString());
         }
+    }
+
+    updateTotalItems(): void {
+        if (Object.keys(this.currentFilter).length == 0) {
+            this._totalItemsCount = this.pageInfo.itemsCount;
+        }
+    }
+
+    get listDataEmpty(): boolean {
+        return this._totalItemsCount == 0;
     }
 
     ngOnInit() {
