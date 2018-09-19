@@ -6,7 +6,7 @@ import {Lockable, Locker} from '../../models/locker.model';
 import {ValidationHost} from '../../models/validation-host.model';
 import {ModalEx} from '../pbx-modal/pbx-modal.component';
 import {FormsSnapshots} from '../../models/forms-snapshots.model';
-import {validateForm, killEvent} from '../../shared/shared.functions';
+import {validateForm, killEvent, validateFormControls} from '../../shared/shared.functions';
 
 
 @Component({
@@ -57,7 +57,7 @@ export class FormBaseComponent implements OnInit, Lockable {
         throw new Error("Method not implemented.");
     }
 
-    close(editMode: boolean = true): void {
+    close(editMode: boolean = true, confirmCallback: () => void = null): void {
         if (this.checkFormChanged()) {
             let message = (editMode)
                 ? 'You have made changes. Do you really want to leave without saving?'
@@ -65,11 +65,9 @@ export class FormBaseComponent implements OnInit, Lockable {
             this.modalExit.setMessage(message);
             this.modalExit.show();
         }
-        else this.confirmClose();
-    }
-
-    confirmClose(): void {
-        // should be overriden in derived class
+        else {
+            if (confirmCallback) confirmCallback();
+        }
     }
 
     addForm(formKey: string, form: FormGroup): void {
@@ -87,10 +85,12 @@ export class FormBaseComponent implements OnInit, Lockable {
 
     validateForms(): boolean {
         let result = true;
-        this.forms.forEach(form => { 
-            validateForm(form);
+        this.forms.forEach(form => {
+            form.updateValueAndValidity();
+            validateFormControls(form);
             result = result && form.valid;
         });
+        this.validationHost.clearControlsFocusedState();
         return result;
     }
 
