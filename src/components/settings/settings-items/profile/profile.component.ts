@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {SettingsService} from '../../../../services/settings.service';
 import {FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
@@ -30,8 +30,10 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     passwordChange: FormGroup;
 
     emailChangeState: EmailChangeState;
+    @ViewChild('fileInput') fileInput: ElementRef;
+
     get messageSent(): boolean {
-        return this.emailChangeState == EmailChangeState.CONFIRMATION_CODE_SENT;
+        return this.emailChangeState === EmailChangeState.CONFIRMATION_CODE_SENT;
     }
 
     loading: number;
@@ -55,7 +57,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         super.ngOnInit();
         this.getSettings();
     }
-    
+
     // --- initialization -----------------------------------------------------
 
     initForm(): void {
@@ -66,18 +68,18 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             phone:      [null, [ Validators.pattern(phoneRegExp), Validators.minLength(7), Validators.maxLength(16) ]]
         });
         this.addForm('generalForm', this.generalForm);
-        
+
         this.emailChange = this._fb.group({
             email:  [null, [ Validators.required, Validators.pattern(emailRegExp) ]],
             code:   [null, [ Validators.required, Validators.minLength(6), Validators.pattern(numberRegExp) ]],
         });
         this.addForm('emailChange', this.emailChange);
-        
+
         this.passwordChange = this._fb.group({
             oldPassword:            [null, [ Validators.required, Validators.minLength(6) ]],
             password:               [null, [ Validators.required, Validators.minLength(6) ]],
             password_confirmation:  [null, [ Validators.required, Validators.minLength(6) ]],
-        }, { 
+        }, {
                 validator: (formGroup: FormGroup) => {
                     return passwordConfirmation(formGroup);
                 }
@@ -187,7 +189,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             // this._service.resetErrors();
             this._service.requestEmailChange(this.emailChange.get('email').value).then(response => {
                 this.emailChangeState = EmailChangeState.CONFIRMATION_CODE_SENT;
-                
+
                 this.loading --;
                 // this._message.writeSuccess(response.message);
             }).catch(() => {
@@ -200,7 +202,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 this.emailChange.get('code').setValue('');
                 this.saveFormState('emailChange');
                 this.emailChangeState = EmailChangeState.NOT_STARTED;
-                
+
                 this.loading --;
                 // this._message.writeSuccess(response.message);
             }).catch(() => {
@@ -213,7 +215,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         this.loading ++;
         this._service.changePassword(this.passwordChange.value).then(response => {
             this.passwordChange.reset();
-            
+
             this.loading --;
             // this._message.writeSuccess(response.message);
         }).catch(() => {
@@ -278,5 +280,39 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             return result;
         }
         return this._service.errors;
+    }
+
+
+    dropHandler(event) {
+        event.preventDefault();
+        const files = event.dataTransfer.files;
+        this.uploadFiles(files[0]);
+    }
+
+    dragOverHandler(event): void {
+        event.preventDefault();
+    }
+
+    dragEndHandler(event): void {}
+
+    dragLeaveHandler(event): void {
+        event.preventDefault();
+    }
+
+    private uploadFiles(file) {
+        console.log(file);
+        this._service.uploadFile(file, null, null);
+    }
+
+    sendFile(event) {
+        event.preventDefault();
+        const file = event.target.files[0];
+        if (file) {
+            this.uploadFiles(file);
+        }
+    }
+
+    selectFile() {
+        this.fileInput.nativeElement.click();
     }
 }
