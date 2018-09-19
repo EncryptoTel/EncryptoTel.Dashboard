@@ -71,13 +71,13 @@ export class SettingsService extends BaseService {
         data.append('profile_file', file);
         if (mode) data.append('mode', mode);
         this.callback ? this.callback(this.loading) : null;
-        return this.rawRequest('POST', '/user/profile/upload', data).then(() => {
+        return this.rawRequest('POST', '/user/profile/upload', data).then((user) => {
             if (this.loading === 1) {
-                // this.getItems(this.pageInfo, this.filter, this.sort);
             }
             this.successCount++;
             this.errorCount++;
             this.updateLoading(-1);
+            return user;
         }).catch(() => {
             this.errorCount++;
             this.updateLoading(-1);

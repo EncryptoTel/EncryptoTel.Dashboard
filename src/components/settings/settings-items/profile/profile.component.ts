@@ -29,6 +29,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     emailChange: FormGroup;
     passwordChange: FormGroup;
 
+    userDefaultPhoto: string;
+
     emailChangeState: EmailChangeState;
     @ViewChild('fileInput') fileInput: ElementRef;
 
@@ -47,7 +49,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 private _message: MessageServices,
                 private _user: UserServices) {
         super(_fb);
-
+        this.userDefaultPhoto = './assets/images/avatar/photo.jpg';
         this.loading = 0;
         this.emailChangeState = EmailChangeState.NOT_STARTED;
         this.saveButton = { buttonType: 'success', value: 'Save', inactive: false, loading: false };
@@ -301,7 +303,13 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     private uploadFiles(file) {
         console.log(file);
-        this._service.uploadFile(file, null, null);
+        this._service.uploadFile(file, null, null).then(response => {
+            if (response.avatar) {
+                this.userDefaultPhoto = response.avatar;
+            }
+        }).catch(() => {
+
+        });
     }
 
     sendFile(event) {
