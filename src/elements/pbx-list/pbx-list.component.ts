@@ -18,7 +18,6 @@ import {TableComponent} from '../pbx-table/pbx-table.component';
     styleUrls: ['./local.sass'],
     animations: [SwipeAnimation('y', '200ms')]
 })
-
 export class ListComponent implements OnInit {
     @Input() name: string;
     @Input() itemName: string;
@@ -64,7 +63,6 @@ export class ListComponent implements OnInit {
     }
 
     constructor(private router: Router) {
-
     }
 
     create() {

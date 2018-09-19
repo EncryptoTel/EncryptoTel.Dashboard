@@ -38,7 +38,6 @@ export class ExtensionsComponent implements OnInit {
     filters: FilterItem[] = [];
 
     constructor(public service: ExtensionService,
-                private _routerEx: RouterExtService,
                 private _messages: MessageServices) {
         this.table.items.push(new TableInfoItem('#Ext', 'extension', null, 80));
         this.table.items.push(new TableInfoItem('Phone Number', 'phone'));
@@ -47,23 +46,6 @@ export class ExtensionsComponent implements OnInit {
         this.table.items.push(new TableInfoItem('E-mail', 'userEmail'));
         this.table.items.push(new TableInfoItem('Status', 'statusName', null, 80));
         this.table.items.push(new TableInfoItem('Default', 'default', null, 80));
-        
-        setTimeout(() => {
-            this.restoreLastPageInfo();
-            console.log('router', _routerEx, this.pageInfo);
-        }, 300);
-    }
-
-    restoreLastPageInfo(): void {
-        if (this._routerEx.lastUrl && this.checkLastUrl()) {
-            this.pageInfo.page = +sessionStorage.getItem('extensions_page');
-            this.pageInfo.limit = +sessionStorage.getItem('extensions_size');
-        }
-    }
-
-    checkLastUrl(): boolean {
-        let reUrl = new RegExp(/extensions\/\d+/i);
-        return !!this._routerEx.lastUrl && reUrl.test(this._routerEx.lastUrl);
     }
 
     closeExt(): void {

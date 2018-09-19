@@ -134,6 +134,10 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             .then(() => this.locker.unlock());
     }
 
+    close(): void {
+        super.close(this.mode == 'edit');
+    }
+
     confirmClose(): void {
         this.doCancel();
     }

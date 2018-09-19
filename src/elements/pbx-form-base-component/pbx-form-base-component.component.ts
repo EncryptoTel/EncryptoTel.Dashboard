@@ -45,7 +45,7 @@ export class FormBaseComponent implements OnInit, Lockable {
             this.addForm(this.formKey, this.form);
         }
 
-        this.modalExit = new ModalEx(`You've made changes. Do you really want to leave without saving?`, 'cancelEdit');
+        this.modalExit = new ModalEx('', 'cancelEdit');
     }
 
     ngOnInit(): void {
@@ -57,8 +57,12 @@ export class FormBaseComponent implements OnInit, Lockable {
         throw new Error("Method not implemented.");
     }
 
-    close(): void {
+    close(editMode: boolean = true): void {
         if (this.checkFormChanged()) {
+            let message = (editMode)
+                ? 'You have made changes. Do you really want to leave without saving?'
+                : 'Do you really want to leave without saving?';
+            this.modalExit.setMessage(message);
             this.modalExit.show();
         }
         else this.confirmClose();
