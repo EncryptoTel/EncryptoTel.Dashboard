@@ -1,16 +1,16 @@
-<pbx-loader *ngIf="loading"></pbx-loader>
+<pbx-loader *ngIf="!locker.free"></pbx-loader>
 
-<div class="company" *ngIf="!loading && editMode">
+<div class="company" *ngIf="locker.free && editMode">
     <pbx-form [background]="false"
               [decline]="{value: 'Cancel', buttonType: 'cancel'}"
               [confirm]="{value: 'Save', buttonType: 'success'}"
               (onDecline)="decline()"
               (onConfirm)="save()">
-        <form [formGroup]="companyForm">
+        <form [formGroup]="form">
             <pbx-input name="Organization"
                        key="name"
                        [form]="true"
-                       [object]="companyForm"
+                       [object]="form"
                        [errors]="service.errors"
                        errorShow="true"
                        [singleBorder]="true"
@@ -32,7 +32,7 @@
                                [editable]="true"
                                [object]="address"
                                [errors]="service.errors"
-                               [errorKey]="'companyAddress.new_0.country'"
+                               [errorKey]="'companyAddress.new_0.country.id'"
                                [objectView]="selectedCountry"
                                objectKey="id"
                                [placeholder]="'[choose one]'"
@@ -116,7 +116,7 @@
             <pbx-input name="Email"
                        key="email"
                        [form]="true"
-                       [object]="companyForm"
+                       [object]="form"
                        [errors]="service.errors"
                        errorShow="true"
                        [singleBorder]="true"
@@ -127,7 +127,7 @@
             <pbx-input name="Phone"
                        key="phone"
                        [form]="true"
-                       [object]="companyForm"
+                       [object]="form"
                        [errors]="service.errors"
                        errorShow="true"
                        [singleBorder]="true"
@@ -138,7 +138,7 @@
             <pbx-input name="VAT ID"
                        key="vatId"
                        [form]="true"
-                       [object]="companyForm"
+                       [object]="form"
                        [errors]="service.errors"
                        errorShow="true"
                        [singleBorder]="true"
@@ -149,16 +149,52 @@
         </form>
     </pbx-form>
     <pbx-sidebar [sidebarInfo]="sidebarInfo"></pbx-sidebar>
+
+    <div class="upload_img profile_settings_photo">
+        <div class="inner">
+
+            <div class="grey grey_1"></div>
+    
+            <div class="wrapper">
+                <div class="img_wrap">
+                    <img src="./assets/images/avatar/photo.jpg" alt="" title="">
+                </div> <!-- img_wrap -->
+            </div> <!-- wrapper -->
+    
+            <div class="grey grey_2"></div>
+            
+            <div class="store">
+                <pbx-sidebar>
+                    <div class="store_sidebar_audio" (drop)="dropHandler($event)"
+                            (dragover)="dragOverHandler($event)"
+                            (dragend)="dragEndHandler($event)"
+                            (dragleave)="dragLeaveHandler($event)">
+                        <div class="store_sidebar_audio_icon">
+                            <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
+                        </div>
+                        <div class="store_sidebar_audio_text">Drop files here to upload</div>
+                        <div class="store_sidebar_audio_text">or</div>
+                        <div class="store_sidebar_audio_select hidden_button_wrapper">
+                            <p class="select_file">select files</p>
+                            <input type="file" class="hidden_input" #fileInput (change)="sendFile($event)">
+                        </div>
+                    </div>
+                </pbx-sidebar>
+            </div> <!-- store -->
+    
+        </div> <!-- inner -->
+    </div> <!-- upload_img -->
+
 </div>
 
 <!-- <div class="form_button_wrap" *ngIf="!loading && !editMode">
     <pbx-button [value]="'Edit'" [buttonType]="'success'" [loading]="loading" (onClick)="edit()"></pbx-button>
 </div> -->
 
-<div class="company_details" *ngIf="!loading && !editMode">
+<div class="company_details" *ngIf="locker.free && !editMode">
 
-    <div class="form_button_wrap" *ngIf="!loading && !editMode">
-        <pbx-button [value]="'Edit'" [buttonType]="'success'" [loading]="loading" (onClick)="edit()"></pbx-button>
+    <div class="form_button_wrap" *ngIf="locker.free && !editMode">
+        <pbx-button [value]="'Edit'" [buttonType]="'success'" [loading]="!locker.free" (onClick)="edit()"></pbx-button>
     </div>
 
     <div class="inner custom-scrollbar">
@@ -353,5 +389,5 @@
 </div> <!-- company_details -->
 
 <pbx-modal
-        [modalEx]="modal" (onConfirmEx)="cancel()"
+        [modalEx]="modalExit" (onConfirmEx)="cancel()"
 ></pbx-modal>

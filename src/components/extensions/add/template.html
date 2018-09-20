@@ -1,17 +1,18 @@
 <div class="add_ext">
-    <pbx-loader *ngIf="loading"></pbx-loader>
-    <pbx-form *ngIf="!loading"
+    <pbx-loader *ngIf="!locker.free"></pbx-loader>
+    <pbx-form *ngIf="locker.free"
               [tabs]="tab.items"
               [icons]="tab.icons"
               [inactiveTabs]="tab.active"
               [decline]="{value: 'Cancel', buttonType: 'cancel'}"
               [confirm]="{value: 'Save', buttonType: 'success'}"
-              (onDecline)="doCancel()"
+              (onDecline)="close()"
               (onConfirm)="doSave()"
               (onSelect)="selectTab($event)">
         <general-add-extension-component *ngIf="tab.select==='General'" class="add_ext_item"
                                          [service]="_extension"
                                          [(form)]="formExtension"
+                                         [validationHost]="validationHost"
                                          [id]="id">
         </general-add-extension-component>
         <options-add-extension-component *ngIf="tab.select==='Options'" class="add_ext_item"
@@ -22,3 +23,7 @@
         </rights-add-extension-component>
     </pbx-form>
 </div>
+<pbx-modal [modalEx]="modalExit"
+           (onConfirmEx)="doCancel()"
+           >
+</pbx-modal>

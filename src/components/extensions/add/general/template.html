@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="add_ext_form" *ngIf="loading===0">
+<form [formGroup]="form" class="add_ext_form" *ngIf="locker.free">
     <div class="add_ext_form_title">Extension Info</div>
 
     <pbx-input name="Phone"
@@ -12,6 +12,7 @@
                [object]="form"
                [editable]="true"
                [objectView]="sipOuters.selected"
+               [validationHost]="validationHost"
     ></pbx-input>
 
     <pbx-input name="Extension"
@@ -20,6 +21,7 @@
                [required]="true"
                [errors]="service.errors"
                [object]="form"
+               [validationHost]="validationHost"
     ></pbx-input>
 
     <pbx-input name="Set Ext Default"
@@ -34,18 +36,20 @@
 
     <pbx-input name="First Name"
                key="firstName"
-               errorKey="firstName"
+               errorKey="user.firstName"
                [form]="true"
                [errors]="service.errors"
                [object]="form.controls.user"
+               [validationHost]="validationHost"
     ></pbx-input>
 
     <pbx-input name="Last Name"
                key="lastName"
-               errorKey="lastName"
+               errorKey="user.lastName"
                [form]="true"
                [errors]="service.errors"
                [object]="form.controls.user"
+               [validationHost]="validationHost"
     ></pbx-input>
 
     <pbx-input name="Email"
@@ -55,6 +59,7 @@
                [required]="!!form.controls.user.get('firstName').value || !!form.controls.user.get('lastName').value"
                [errors]="service.errors"
                [object]="form.controls.user"
+               [validationHost]="validationHost"
     ></pbx-input>
 
     <div class="add_ext_form_title">Mobile APP</div>
@@ -102,11 +107,11 @@
 
     <div class="add_ext_form_item" *ngIf="id" style="width: 400px;">
         <label class="inactive"></label>
-        <pbx-button [value]="'Generate and Send Password'" (onClick)="sendPassword()" [loading]="passwordLoading" [inactive]="!getValue('toAdmin') && !getValue('toUser')"></pbx-button>
+        <pbx-button [value]="'Generate and Send Password'" (onClick)="sendPassword()" [loading]="passwordLoading" [inactive]="!getFormValue('toAdmin') && !getFormValue('toUser')"></pbx-button>
     </div>
 
 </form>
-<pbx-loader *ngIf="loading!==0"></pbx-loader>
+<pbx-loader *ngIf="!locker.free"></pbx-loader>
 <pbx-modal
         [modalEx]="modal"
         (onConfirmEx)="confirmModal()"

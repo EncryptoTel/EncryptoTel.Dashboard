@@ -6,7 +6,7 @@ import {Lockable, Locker} from '../../models/locker.model';
 import {ValidationHost} from '../../models/validation-host.model';
 import {ModalEx} from '../pbx-modal/pbx-modal.component';
 import {FormsSnapshots} from '../../models/forms-snapshots.model';
-import {validateForm, killEvent} from '../../shared/shared.functions';
+import {validateForm, killEvent, validateFormControls} from '../../shared/shared.functions';
 
 
 @Component({
@@ -24,21 +24,37 @@ export class FormBaseComponent implements OnInit, Lockable {
     form: FormGroup;
     formKey: string;
 
+    forms: FormGroup[];
+
     validationHost: ValidationHost;
     snapshots: FormsSnapshots;
 
-    modal: ModalEx;
+    modalExit: ModalEx;
+
+
+    get isNewFormModel(): boolean {
+        if (this.form) {
+            let id = this.form.get('id');
+            return !(id && id.value);
+        }
+        return false;
+    }
 
 
     constructor(protected _fb: FormBuilder) {
         this.locker = new Locker();
         this.formKey = 'form';
+        this.forms = [];
+        
+        this.validationHost = new ValidationHost();
+        this.snapshots = new FormsSnapshots();
         
         this.initForm();
-        this.validationHost = new ValidationHost(this.form);
-        
-        this.snapshots = new FormsSnapshots();
-        this.snapshots.add(this.formKey, this.form);
+        if (this.form && this.forms.length == 0) {
+            this.addForm(this.formKey, this.form);
+        }
+
+        this.modalExit = new ModalEx('', 'cancelEdit');
     }
 
     ngOnInit(): void {
@@ -50,20 +66,58 @@ export class FormBaseComponent implements OnInit, Lockable {
         throw new Error("Method not implemented.");
     }
 
-    setFormData() {
-        this.form.reset();
+    close(editMode: boolean = true, confirmCallback: () => void = null): void {
+        if (this.checkFormChanged()) {
+            let message = (editMode)
+                ? 'You have made changes. Do you really want to leave without saving?'
+                : 'Do you really want to leave without saving?';
+            this.modalExit.setMessage(message);
+            this.modalExit.show();
+        }
+        else {
+            if (confirmCallback) confirmCallback();
+        }
     }
 
-    validateForm(): boolean {
-        validateForm(this.form);
-        return this.form.valid;
+    addForm(formKey: string, form: FormGroup): void {
+        this.forms.push(form);
+        this.validationHost.addForm(form);
+        this.snapshots.add(formKey, form);
     }
 
-    saveFormState(): void {
-        this.snapshots.save(this.formKey);
+    resetForms() {
+        // this.forms.forEach(form => form.reset());
+        this.forms.forEach(form => {
+            form.reset();
+        });
     }
 
-    get formChanged(): boolean {
-        return this.snapshots.check(this.formKey);
+    validateForms(): boolean {
+        let result = true;
+        this.forms.forEach(form => {
+            form.updateValueAndValidity();
+            validateFormControls(form);
+            result = result && form.valid;
+        });
+        this.validationHost.clearControlsFocusedState();
+        return result;
+    }
+
+    saveFormState(formKey?: string): void {
+        if (formKey) {
+            this.snapshots.save(formKey);
+        }
+        else {
+            this.snapshots.saveAll();
+        }
+    }
+
+    checkFormChanged(formKey?: string): boolean {
+        if (formKey) {
+            return this.snapshots.check(formKey);
+        }
+        else {
+            return this.snapshots.checkAll();
+        }
     }
 }

@@ -1,16 +1,24 @@
 <pbx-loader *ngIf="chats.length === 0"></pbx-loader>
 <div class="messages_block" *ngIf="chats.length > 0">
 
-    
+
 
     <div class="messages">
-        <div class="message" *ngFor="let message of messages">
-            <span style="width: 30%">{{message.chatMember ? message.chatMember.name : ''}}&nbsp;</span>
-            <span style="width: 50%">{{message.text}}&nbsp;</span>
-            <span style="width: 15%">{{message.created | date: 'hh:mm'}}</span>
-            <div style="width: 5%" class="ext_table_item_circle2" *ngIf="getStatus(message) === 2 && message.my"></div>
-            <div style="width: 5%" class="ext_table_item_circle" *ngIf="getStatus(message) === 3 && message.my"></div>
-        </div>
+        <div class="message left" *ngFor="let message of messages">
+
+            <div class="avatar">
+                <img [src]="message.chatMember.avatar" alt="">
+            </div>
+
+            <div class="cnt">
+                <span class="name" style="width: 30%">{{message.chatMember ? message.chatMember.name : ''}}&nbsp;</span>
+                <span class="msg" style="width: 50%">{{message.text}}&nbsp;</span>
+                <span class="date" style="width: 15%">{{message.created | date: 'hh:mm'}}</span>
+                <div class="status" style="width: 5%" class="ext_table_item_circle2" *ngIf="getStatus(message) === 2 && message.my"></div>
+                <div class="status" style="width: 5%" class="ext_table_item_circle" *ngIf="getStatus(message) === 3 && message.my"></div>
+            </div> <!-- cnt -->
+
+        </div> <!-- message -->
     </div> <!-- messages -->
 
     <div class="input_wrap">

@@ -171,6 +171,10 @@ export class ModalEx {
     hide(): void {
         this.visible = false;
     }
+
+    setMessage(message: string): void {
+        this.body = message;
+    }
 }
 
 export class ModalButton {

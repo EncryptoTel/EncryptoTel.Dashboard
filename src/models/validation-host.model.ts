@@ -7,9 +7,9 @@ import { Lockable, Locker } from "./locker.model";
 export class ValidationHost implements Lockable {
     locker: Locker;
     active: boolean;
-    monitor: Subscription;
+    monitors: Subscription[];
 
-    form: FormGroup;
+    forms: FormGroup[];
     items: ValidationHostItem[];
 
     selectedControl: string;
@@ -19,15 +19,20 @@ export class ValidationHost implements Lockable {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(form: FormGroup) {
-        this.form = form;
+    constructor() {
+        this.forms = [];
         this.controls = [];
-
-        this.initItems();
 
         this.locker = new Locker();
         this.active = false;
-        this.monitor = form.statusChanges.subscribe(state => this.checkForm(state));
+        this.monitors = [];
+    }
+
+    addForm(form: FormGroup): void {
+        this.forms.push(form);
+        this.initItems();
+        let monitor = form.statusChanges.subscribe(state => this.checkForm(state));
+        this.monitors.push(monitor);
     }
 
     addControl(control: InputComponent): void {
@@ -36,10 +41,12 @@ export class ValidationHost implements Lockable {
 
     initItems(): void {
         this.items = [];
-        this.scanForm(this.form, '', (control, name) => {
-            if (control.validator) {
-                this.items.push(new ValidationHostItem(name));
-            }
+        this.forms.forEach(form => {
+            this.scanForm(form, '', (control, name) => {
+                if (control.validator) {
+                    this.items.push(new ValidationHostItem(name));
+                }
+            });
         });
     }
 
@@ -131,10 +138,12 @@ export class ValidationHost implements Lockable {
 
     takeFirstInvalidControl(): string {
         let firstInvalidControl = null;
-        this.scanForm(this.form, '', (control, name) => {
-            if (!control.valid && control.errors && !firstInvalidControl) {
-                firstInvalidControl = name;
-            }
+        this.forms.forEach(form => {
+            this.scanForm(form, '', (control, name) => {
+                if (!control.valid && control.errors && !firstInvalidControl) {
+                    firstInvalidControl = name;
+                }
+            });
         });
         return firstInvalidControl;
     }
@@ -155,11 +164,13 @@ export class ValidationHost implements Lockable {
     getErrorMessage(control: InputComponent): string {
         let controlKey = this.getValidatorKey(control);
         let errorMessage = null;
-        this.scanForm(this.form, '', (formControl, name) => {
-            if (name == controlKey) {
-                let errorKeys = Object.keys(formControl.errors);
-                errorMessage = this.getValidatorMessage(control, errorKeys[0], formControl.errors);
-            }
+        this.forms.forEach(form => {
+            this.scanForm(form, '', (formControl, name) => {
+                if (name == controlKey) {
+                    let errorKeys = Object.keys(formControl.errors);
+                    errorMessage = this.getValidatorMessage(control, errorKeys[0], formControl.errors);
+                }
+            });
         });
         return errorMessage;
     }

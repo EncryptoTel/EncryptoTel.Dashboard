@@ -145,8 +145,11 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
 
     reloadFilter(filter) {
         this.currentFilter = filter;
-        if (!this.validateFilters()) {
+        if (this.currentFilter['amount'] && !this.validateFilters()) {
             this.errors = { amount: this.amountValidationError };
+        }
+        else {
+            this.errors = {};
         }
     }
 

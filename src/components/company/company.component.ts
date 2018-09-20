@@ -17,6 +17,7 @@ import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
 import {classToPlain} from 'class-transformer';
 import {compareObjects, validateFormControls} from '../../shared/shared.functions';
 import {ValidationHost} from '../../models/validation-host.model';
+import { FormBaseComponent } from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
 
 
 @Component({
@@ -24,41 +25,32 @@ import {ValidationHost} from '../../models/validation-host.model';
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
 })
-export class CompanyComponent implements OnInit {
+export class CompanyComponent extends FormBaseComponent implements OnInit {
     company: CompanyModel;
-    // uses to store database company data to track changes
-    // TODO: change to JSON form comparison
-    originalCompany: CompanyModel;
-    companyForm: FormGroup;
     companyInfo: CompanyInfoModel;
-    countries: CountryModel[];
-    loading = 0;
-    saving = 0;
-    selectedCountry: CountryModel;
-    sidebarInfo: SidebarInfoModel;
-    modal: ModalEx;
-    editMode: boolean;
 
-    validationHost: ValidationHost;
+    countries: CountryModel[];
+    selectedCountry: CountryModel;
+
+    sidebarInfo: SidebarInfoModel;
+    editMode: boolean;
 
     // TODO: временная переменная для отладки/дизайна
     templateView: boolean = false;
 
     @ViewChildren('label') labelFields;
 
+    // -- component lifecycle methods -----------------------------------------
+
     constructor(public service: CompanyService,
-                private _fb: FormBuilder,
+                protected _fb: FormBuilder,
                 private _dashboard: DashboardServices,
                 private _refs: RefsServices,
                 private _message: MessageServices) {
+        super(_fb);
 
         this.editMode = false;
-
         this.countries = [];
-        this.loading = 0;
-        this.saving = 0;
-
-        this.modal = new ModalEx(`You've made changes. Do you really want to leave without saving?`, 'cancelEdit');
         
         this.sidebarInfo = new SidebarInfoModel();
         this.sidebarInfo.loading = 0;
@@ -71,8 +63,6 @@ export class CompanyComponent implements OnInit {
 
         this.companyInfo = this.service.companyInfo;
 
-        this.initCompanyForm();
-        this.validationHost = new ValidationHost(this.companyForm);
         this.validationHost.customMessages = [
             { name: 'Organization', error: 'pattern', message: 'Company name may contain letters, digits and dashes only' },
             { name: 'State/Region', error: 'pattern', message: 'State/region may contain letters, digits and dashes only' },
@@ -85,11 +75,20 @@ export class CompanyComponent implements OnInit {
             { name: 'Phone', error: 'pattern', message: 'Phone number may contain digits only' },
             { name: 'VAT ID', error: 'pattern', message: 'VAT ID may contain digits and letters only' },
         ];
-        this.validationHost.start();
     }
 
-    initCompanyForm(): void {
-        this.companyForm = this._fb.group({
+    ngOnInit(): void {
+        super.ngOnInit();
+
+        this.getCompany();
+        this.getCountries();
+        this.getSidebar();
+    }
+
+    // -- form processing methods ---------------------------------------------
+
+    initForm(): void {
+        this.form = this._fb.group({
             name:  [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
             companyAddress: this._fb.array([
                 this._fb.group({
@@ -117,15 +116,10 @@ export class CompanyComponent implements OnInit {
         });
     }
 
-    decline(): void {
-        if (compareObjects(this.company, this.companyForm.value)) {
-            this.cancel();
-        }
-        else {
-            this.modal.visible = true;
-        }
+    get addressControls(): FormArray {
+        return this.form.get('companyAddress') as FormArray;
     }
-    
+
     isFormEmpty(formGroup: any): boolean {
         let count = this.countFormNonEmptyFields(formGroup);
         return count == 0;
@@ -145,52 +139,63 @@ export class CompanyComponent implements OnInit {
         return count;
     }
 
+    setCompanyFormData() {
+        if (this.company.name) {
+            let company = classToPlain(this.company);
+            this.form.patchValue(company);
+            if (this.company.companyAddress && this.company.companyAddress.length) {
+                this.selectedCountry = this.company.companyAddress[0].country;
+            }
+            this.saveFormState();
+        }
+    }
+
+    // -- event handlers ------------------------------------------------------
+
+    edit(): void {
+        this.editMode = true;
+    }
+
+    decline(): void {
+        super.close(this.company.isValid, () => this.cancel());
+    }
+
     cancel(): void {
         this.service.resetErrors();
-        this.companyForm.reset();
+        this.form.reset();
         this.selectedCountry = null;
         this.setCompanyFormData();
-        this.validate();
+        this.validateForms();
         if (this.company.id) {
             this.editMode = false;
         }
     }
 
-    formatPhone(event): void {
-        event.target.value = formatNumber(event.target.value, 'International');
-    }
-
     save(): void {
-        this.validate();
-        if (this.companyForm.valid) {
-            this.saving ++;
-            this.service.save({...this.companyForm.value}, false).then(() => {
+        let formValid = this.validateForms();
+        if (formValid) {
+            this.locker.lock();
+            this.service.save({...this.form.value}, false).then(() => {
                 this._message.writeSuccess('Company successfully updated.');
                 this.editMode = false;
-                this.saving --;
             }).catch(error => {
                 // this._message.writeError('Company update error.');
                 console.log('Company update error', error);
-                this.saving --;
-            });
+            }).then(() => this.locker.unlock());
         } else {
-            this.companyForm.markAsTouched();
+            this.form.markAsTouched();
         }
     }
 
     selectCountry(country: CountryModel): void {
         this.selectedCountry = country;
-        this.companyForm.get(['companyAddress']).get('0').get('country').setValue(country);
+        this.form.get(['companyAddress']).get('0').get('country').setValue(country);
     }
 
-    setCompanyFormData() {
-        if (this.company.name) {
-            let company = classToPlain(this.company);
-            this.companyForm.patchValue(company);
-            if (this.company.companyAddress && this.company.companyAddress.length) {
-                this.selectedCountry = this.company.companyAddress[0].country;
-            }
-        }
+    // -- helpers methods -----------------------------------------------------
+
+    formatPhone(event): void {
+        event.target.value = formatNumber(event.target.value, 'International');
     }
 
     setCompanyInfo(dashboard: DashboardModel): void {
@@ -203,38 +208,25 @@ export class CompanyComponent implements OnInit {
         this.service.companyInfo.setPhoneNumbersData("Phone numbers", dashboard);
     }
 
-    private validate() {
-        this.companyForm.updateValueAndValidity();
-        validateFormControls(this.companyForm);
-        this.validationHost.clearControlsFocusedState();
-    }
-
-    get addressControls(): FormArray {
-        return this.companyForm.get('companyAddress') as FormArray;
-    }
+    // -- data retrieval methods ----------------------------------------------
 
     private getCompany(): void {
-        this.loading ++;
+        this.locker.lock();
         this.service.getCompany().then((company: CompanyModel) => {
             this.company = company;
-            this.originalCompany = company;
             this.setCompanyFormData();
 
             this.editMode = !company.isValid;
-            this.loading --;
-        }).catch(() => {
-            this.loading --;
-        });
+        }).catch(() => {})
+          .then(() => this.locker.unlock());
     }
 
     private getCountries() {
-        this.loading ++;
+        this.locker.lock();
         this._refs.getCountries().then(res => {
             this.countries = res;
-            this.loading --;
-        }).catch(() => {
-            this.loading --;
-        });
+        }).catch(() => {})
+          .then(() => this.locker.unlock());
     }
 
     private getSidebar() {
@@ -262,19 +254,7 @@ export class CompanyComponent implements OnInit {
                         break;
                 }
             }
-            this.sidebarInfo.loading --;
-        }).catch(() => {
-            this.sidebarInfo.loading --;
-        });
-    }
-
-    edit(): void {
-        this.editMode = true;
-    }
-
-    ngOnInit() {
-        this.getCompany();
-        this.getCountries();
-        this.getSidebar();
+        }).catch(() => {})
+          .then(() => this.sidebarInfo.loading --);
     }
 }

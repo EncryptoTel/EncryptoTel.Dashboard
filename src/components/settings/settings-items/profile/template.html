@@ -2,7 +2,7 @@
           [decline]="{ buttonType: 'cancel', value: 'Cancel' }"
           [background]="true"
           (onConfirm)="save()"
-          (onDecline)="back()"
+          (onDecline)="close()"
           >
     <pbx-loader *ngIf="loading"></pbx-loader>
     <div class="overlay_content" *ngIf="!loading" [@Fade]>
@@ -15,8 +15,8 @@
                            placeholder="First Name"
                            [form]="true"
                            [required]="true"
-                           [errors]="getErrors(generalForm, 'firstname')"
                            [object]="generalForm"
+                           [validationHost]="validationHost"
                            (onKeyUp)="change()"
                 ></pbx-input>
 
@@ -24,8 +24,8 @@
                            key="lastname"
                            placeholder="Last Name"
                            [form]="true"
-                           [errors]="getErrors(generalForm, 'lastname')"
                            [object]="generalForm"
+                           [validationHost]="validationHost"
                            (onKeyUp)="change()"
                 ></pbx-input>
 
@@ -33,8 +33,8 @@
                            key="patronymic"
                            placeholder="Patronymic"
                            [form]="true"
-                           [errors]="getErrors(generalForm, 'patronymic')"
                            [object]="generalForm"
+                           [validationHost]="validationHost"
                            (onKeyUp)="change()"
                 ></pbx-input>
 
@@ -42,8 +42,8 @@
                            key="phone"
                            placeholder="Phone"
                            [form]="true"
-                           [errors]="getErrors(generalForm, 'phone')"
                            [object]="generalForm"
+                           [validationHost]="validationHost"
                            (onKeyUp)="change()"
                 ></pbx-input>
 
@@ -57,8 +57,8 @@
                            [required]="true"
                            placeholder="Please enter your e-mail address"
                            [form]="true"
-                           [errors]="getErrors(emailChange, 'email')"
                            [object]="emailChange"
+                           [validationHost]="validationHost"
                 ></pbx-input>
 
                 <div class="settings_input_item string" *ngIf="messageSent">
@@ -66,8 +66,8 @@
                                key="code"
                                placeholder="Confirmation code"
                                [form]="true"
-                               [errors]="getErrors(emailChange, 'code')"
                                [object]="emailChange"
+                               [validationHost]="validationHost"
                     ></pbx-input>
                 </div>
 
@@ -80,8 +80,8 @@
                            placeholder="Current password"
                            type="password"
                            [form]="true"
-                           [errors]="getErrors(passwordChange, 'oldPassword')"
                            [object]="passwordChange"
+                           [validationHost]="validationHost"
                 ></pbx-input>
 
                 <pbx-input name="New password"
@@ -89,8 +89,8 @@
                            placeholder="New password"
                            type="password"
                            [form]="true"
-                           [errors]="getErrors(passwordChange, 'password')"
                            [object]="passwordChange"
+                           [validationHost]="validationHost"
                 ></pbx-input>
 
                 <pbx-input name="Password confirmation"
@@ -98,8 +98,8 @@
                            placeholder="Confirm Password"
                            type="password"
                            [form]="true"
-                           [errors]="getErrors(passwordChange, 'password_confirmation')"
                            [object]="passwordChange"
+                           [validationHost]="validationHost"
                            >
                 </pbx-input>
 
@@ -116,12 +116,13 @@
 
         <div class="wrapper">
             <div class="img_wrap">
-                <img src="./assets/images/avatar/photo.jpg" alt="" title="">
+                <pbx-loader *ngIf="loading"></pbx-loader>
+                <img height="200px" [src]="userDefaultPhoto" alt="" title="" *ngIf="!loading" [@Fade]>
             </div> <!-- img_wrap -->
         </div> <!-- wrapper -->
 
         <div class="grey grey_2"></div>
-        
+
         <div class="store">
             <pbx-sidebar>
                 <div class="store_sidebar_audio" (drop)="dropHandler($event)"
@@ -134,7 +135,7 @@
                     <div class="store_sidebar_audio_text">Drop files here to upload</div>
                     <div class="store_sidebar_audio_text">or</div>
                     <div class="store_sidebar_audio_select hidden_button_wrapper">
-                        <p class="select_file">select files</p>
+                        <p class="select_file" #fileSelect (click)="selectFile()">select files</p>
                         <input type="file" class="hidden_input" #fileInput (change)="sendFile($event)">
                     </div>
                 </div>
@@ -144,3 +145,8 @@
     </div> <!-- inner -->
 
 </div> <!-- profile_settings -->
+
+<pbx-modal [modalEx]="modalExit"
+           (onConfirmEx)="confirmClose()"
+           >
+</pbx-modal>

@@ -1,7 +1,7 @@
 pbx-chat
     position: absolute
     top: 0
-    left: 99px
+    left: 100px
     right: 0
     bottom: 0
     background: $dark_overlay
@@ -12,7 +12,38 @@ pbx-chat
         padding-bottom: 56px
         .messages
             flex-direction: column
+            overflow: auto
+            padding-right: 16px
             .message
+                margin: 0 0 16px
+                display: grid
+                .avatar
+                    width: 40px
+                    height: 40px
+                    border-radius: 100%
+                    overflow: hidden
+                    position: relative
+                    img
+                        width: 50px
+                        height: auto
+                        position: absolute
+                        left: 50%
+                        top: 50%
+                        transform: translate(-50%, -50%)
+                .cnt
+                    margin-left: 16px
+                    padding: 8px
+                    .name
+                        display: none
+                    .msg
+                    .date
+                    .status
+                &.left
+                    grid-template-columns: 40px 1fr
+                    .cnt
+                        border-radius: 10px 10px 10px 0
+                &.right
+                    grid-template-columns: 1fr 40px
         .input_wrap
             position: absolute
             left: 16px
