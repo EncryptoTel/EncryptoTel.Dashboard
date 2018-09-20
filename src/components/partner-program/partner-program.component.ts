@@ -5,6 +5,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
 import {ClipboardService} from "ngx-clipboard";
 import {MessageServices} from "../../services/message.services";
+import { FormGroup } from '../../../node_modules/@angular/forms';
 
 @Component({
     selector: 'partner-program-component',
@@ -15,39 +16,46 @@ import {MessageServices} from "../../services/message.services";
 })
 
 export class PartnerProgramComponent implements OnInit {
-
-    loading = 0;
-    tab = {
-        items: [
-            'Overview',
-            'Links',
-            'Reports',
-            'Terms and Conditions'
-        ],
-        select: 'Overview'
-    };
-    form;
-    partners: PartnerProgramModel = new PartnerProgramModel();
-    sidebar = new SidebarInfoModel();
+    partners: PartnerProgramModel;
     selected: PartnerProgramItem;
+    form: FormGroup;
+
+    tab: any;
+    sidebar = new SidebarInfoModel();
+
+    loading: number;
+
+    // -- component lifecycle methods -----------------------------------------
 
     constructor(public service: PartnerProgramService,
                 private _clipboard: ClipboardService,
                 private _message: MessageServices) {
-
+        this.partners = new PartnerProgramModel();
+        this.tab = {
+            items: [
+                'Overview',
+                'Links',
+                'Reports',
+                'Terms and Conditions'
+            ],
+            select: 'Overview'
+        };
+        this.loading = 0;
     }
+
+    ngOnInit(): void {
+        this.getItems();
+    }
+
+    // -- event handlers ------------------------------------------------------
 
     selectTab(text: string): void {
         this.tab.select = text;
     }
 
-    clickWithdrawFunds() {
+    clickWithdrawFunds() {}
 
-    }
-
-    clickTransferToAccount() {
-
-    }
+    clickTransferToAccount() {}
 
     select(item: PartnerProgramItem) {
         this.selected = item;
@@ -65,6 +73,7 @@ export class PartnerProgramComponent implements OnInit {
     }
 
     edit(item: PartnerProgramItem) {
+        console.log('edit', item);
         this.selected = item.id ? new PartnerProgramItem(item) : item;
         this.sidebar.mode = 'edit';
 
@@ -94,56 +103,15 @@ export class PartnerProgramComponent implements OnInit {
 
     click(item) {
         switch (item.id) {
-            case 1:
-                this.selected = null;
-                break;
-            case 2:
-                this.edit(this.selected);
-                break;
-            case 3:
-                // console.log(this.selected);
-                this.save(this.selected);
-                break;
-            case 7:
-                this.copyToClipboard(this.selected);
-                break;
+            case 1: this.selected = null; break;
+            case 2: this.edit(this.selected); break;
+            case 3: this.save(this.selected); break;
+            case 7: this.copyToClipboard(this.selected); break;
         }
     }
 
     selectItemStatus(item: any): void {
         this.selected.status = item.value;
-    }
-
-    save(item: PartnerProgramItem) {
-        if (!item.id) {
-            // item = new PartnerProgramItem();
-            // this.partners.items.push(item);
-        }
-        this.partners.items.map(partner => {
-            if (item.id === partner.id) partner.loading ++;
-        });
-        console.log('partner-item', item);
-        this.service.save(item.id, item.name, item.status).then(res => {
-            this.getItems(item);
-            this.selected = null;
-            this.partners.items.map(partner => {
-                if (item.id === partner.id) partner.loading --;
-            });
-        }).catch(() => {
-            this.partners.items.map(partner => {
-                if (item.id === partner.id) partner.loading --;
-            });
-        });
-    }
-
-    getItems(event = null) {
-        (event ? event : this).loading++;
-        this.service.getItems(this.partners).then(res => {
-            this.partners = res;
-            (event ? event : this).loading--;
-        }).catch(() => {
-            (event ? event : this).loading--;
-        });
     }
 
     copyToClipboard(item: PartnerProgramItem): void {
@@ -152,8 +120,32 @@ export class PartnerProgramComponent implements OnInit {
         }
     }
 
-    ngOnInit(): void {
-        this.getItems();
+    // -- data processing methods ---------------------------------------------
+
+    save(item: PartnerProgramItem): void {
+        if (!item.id) {
+            // item = new PartnerProgramItem();
+            // this.partners.items.push(item);
+        }
+        
+        let partner = this.partners.items.find(p => p.id === item.id);
+        if (partner) partner.loading --;
+        
+        this.service.save(item.id, item.name, item.status).then(() => {
+            this.getItems(item);
+            this.selected = null;
+        }).catch(() => {})
+          .then(() => {
+              let partner = this.partners.items.find(p => p.id === item.id);
+              if (partner) partner.loading --;
+          });
     }
 
+    getItems(item: PartnerProgramItem = null): void {
+        (item ? item : this).loading ++;
+        this.service.getItems(this.partners).then(response => {
+            this.partners = response;
+        }).catch(() => {})
+          .then(() => (item ? item : this).loading --);
+    }
 }
