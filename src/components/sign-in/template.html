@@ -1,4 +1,5 @@
-<div class="auth_form">
+<div [ngClass]="!imageLoad?'auth_form':'auth_form_loaded'">
+    <img src="./assets/images/auth_bg.jpg" loaded="imageLoaded()" (load)="imageLoaded()" style="display: none;">
   <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg" class="auth_form_icon"></svg-icon>
   <form (submit)="signIn($event)" [formGroup]="signInForm" (keyup)="clearMessage($event)">
     <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="_services.clearMessage()">{{message.message}}</div>
