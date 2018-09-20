@@ -35,6 +35,10 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
         return this.table ? this.table.sort : null;
     }
 
+    get tableHasData(): boolean {
+        return this.partners ? this.partners.items.length > 0 : false;
+    }
+
     // -- component lifecycle methods -----------------------------------------
     
     constructor(private _service: PartnerProgramService) {
@@ -82,7 +86,6 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
     }
 
     delete(item: PartnerProgramItem) {
-        console.log('delete');
         this.selected = item;
         this.modalDelete.title = item.name;
         this.modalDelete.show();

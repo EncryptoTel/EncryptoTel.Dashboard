@@ -142,6 +142,7 @@ export class PartnerProgramComponent implements OnInit {
     }
 
     getItems(item: PartnerProgramItem = null): void {
+        this.selected = null;
         (item ? item : this).loading ++;
         this.service.getItems(this.partners).then(response => {
             this.partners = response;
