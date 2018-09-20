@@ -129,7 +129,7 @@
                         (dragover)="dragOverHandler($event)"
                         (dragend)="dragEndHandler($event)"
                         (dragleave)="dragLeaveHandler($event)">
-                    <a href="" class="a_download">
+                    <a [href]="userDefaultPhoto" target="_blank" class="a_download">
                         <div class="store_sidebar_audio_icon">
                             <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
                         </div>
