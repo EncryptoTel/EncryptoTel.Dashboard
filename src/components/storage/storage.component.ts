@@ -80,7 +80,7 @@ export class StorageComponent implements OnInit {
             },
             {
                 id: 1,
-                title: 'Delete',
+                title: 'Delete Selected',
                 type: 'error',
                 visible: true,
                 inactive: true,
