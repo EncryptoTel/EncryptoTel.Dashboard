@@ -49,7 +49,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 private _message: MessageServices,
                 private _user: UserServices) {
         super(_fb);
-        this.userDefaultPhoto = './assets/images/avatar/photo.jpg';
+        this.userDefaultPhoto = './assets/images/avatar/no_avatar.jpg';
         this.loading = 0;
         this.emailChangeState = EmailChangeState.NOT_STARTED;
         this.saveButton = { buttonType: 'success', value: 'Save', inactive: false, loading: false };
@@ -166,7 +166,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
         this._service.getProfileSettings().then(response => {
             // console.log('profile', response);
-
+            this.userDefaultPhoto = response.profile.user.avatar;
             this.initFormData('generalForm', this.generalForm, response);
             this.initFormData('emailChange', this.emailChange, response);
             this.initFormData('passwordChange', this.passwordChange);

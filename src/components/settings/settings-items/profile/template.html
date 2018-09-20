@@ -116,7 +116,8 @@
 
         <div class="wrapper">
             <div class="img_wrap">
-                <img [src]="userDefaultPhoto" alt="" title="">
+                <pbx-loader *ngIf="loading"></pbx-loader>
+                <img height="200px" [src]="userDefaultPhoto" alt="" title="" *ngIf="!loading" [@Fade]>
             </div> <!-- img_wrap -->
         </div> <!-- wrapper -->
 
