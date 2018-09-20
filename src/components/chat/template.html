@@ -1,13 +1,13 @@
 <pbx-loader *ngIf="chats.length === 0"></pbx-loader>
 <div class="messages_block" *ngIf="chats.length > 0">
 
-    
+
 
     <div class="messages">
         <div class="message left" *ngFor="let message of messages">
 
             <div class="avatar">
-                <img src="./assets/images/avatar/photo.jpg" alt="">
+                <img [src]="message.chatMember.avatar" alt="">
             </div>
 
             <div class="cnt">
