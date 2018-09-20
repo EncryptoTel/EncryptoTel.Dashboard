@@ -153,73 +153,7 @@ pbx-table
             margin-top: 8px
 
 .auth_form_loaded
-    flex-direction: column
-    height: 100vh
-    width: 100vw
-    background: url('./assets/images/auth_bg.jpg') center no-repeat
-    background-size: cover
-    overflow-y: scroll
-    position: relative
-    z-index: 1
-    overflow-x: hidden
-    &::-webkit-scrollbar
-        width: 0
-        background-color: transparent
-    &::-webkit-scrollbar-thumb
-        background-color: transparent
-    &:after
-        content: ''
-        position: absolute
-        left: 0
-        top: 0
-        height: 100vh
-        width: 100vw
-        background: $dark_background
-        filter: blur(8px) brightness(-50)
-        opacity: .6
-    &:before
-        content: ''
-        position: absolute
-        left: calc(50% - 196px)
-        top: 0
-        width: 392px
-        height: 100vh
-        background: rgba(#000, .8)
-    pbx-button /deep/ .button
-        flex: 1 0 auto
-    form
-        position: relative
-        flex: 0 0 auto
-        flex-direction: column
-        width: 328px
-        max-width: calc(100% - 32px)
-        margin: 88px auto auto
-        z-index: 1
-    &_icon
-        flex: 0 0 auto
-        margin: auto auto 0
-        width: 90px
-        z-index: 1
-    &_text
-        margin: 16px 0 8px
-        font-size: rem(14)
-        justify-content: center
-    &_link
-        justify-content: center
-    &_message
-        position: absolute
-        bottom: 100%
-        left: 0
-        flex-direction: column
-        width: 100%
-        margin-bottom: 8px
-        padding: 16px
-        text-align: center
-        cursor: pointer
-        line-height: 20px
-    .button
-        margin: 16px 0 24px
-
+    background: url('./assets/images/auth_bg.jpg') center no-repeat !important
 
 .auth_form
     flex-direction: column
