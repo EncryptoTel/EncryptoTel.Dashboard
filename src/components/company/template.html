@@ -154,34 +154,36 @@
         <div class="inner">
 
             <div class="grey grey_1"></div>
-    
+
             <div class="wrapper">
                 <div class="img_wrap">
-                    <img src="./assets/images/avatar/photo.jpg" alt="" title="">
+                    <img height="200px" [src]="logo" alt="" title="">
                 </div> <!-- img_wrap -->
             </div> <!-- wrapper -->
-    
+
             <div class="grey grey_2"></div>
-            
+
             <div class="store">
                 <pbx-sidebar>
                     <div class="store_sidebar_audio" (drop)="dropHandler($event)"
                             (dragover)="dragOverHandler($event)"
                             (dragend)="dragEndHandler($event)"
                             (dragleave)="dragLeaveHandler($event)">
-                        <div class="store_sidebar_audio_icon">
-                            <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
-                        </div>
+                        <a [href]="logo" target="_blank" class="a_download">
+                            <div class="store_sidebar_audio_icon">
+                                <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
+                            </div>
+                        </a>
                         <div class="store_sidebar_audio_text">Drop files here to upload</div>
                         <div class="store_sidebar_audio_text">or</div>
                         <div class="store_sidebar_audio_select hidden_button_wrapper">
-                            <p class="select_file">select files</p>
+                            <p class="select_file" #fileSelect (click)="selectFile()">select files</p>
                             <input type="file" class="hidden_input" #fileInput (change)="sendFile($event)">
                         </div>
                     </div>
                 </pbx-sidebar>
             </div> <!-- store -->
-    
+
         </div> <!-- inner -->
     </div> <!-- upload_img -->
 
@@ -201,10 +203,10 @@
         <div class="item left_part">
             <div class="img_wr">
                 <div class="inner">
-                    <img src="{{ companyInfo.logotype }}" />
+                    <img [src]="companyInfo.logo" />
                 </div> <!-- inner -->
             </div> <!-- img_wr -->
-    
+
             <div class="mini" *ngFor="let item of companyInfo.company">
                 <ng-template [ngIf]="item.value">
                     <div class="title">{{ item.title }}</div>
@@ -227,7 +229,7 @@
                     </div>
                 </div>
             </ng-template>
-        
+
             <div class="item" *ngIf="templateView">
 
                 <div class="big">
@@ -242,7 +244,7 @@
                         <div class="key">Internal numbers</div>
                         <div class="val">3</div>
                     </div> <!-- line -->
-                    
+
                     <div class="line">
                         <div class="key">Unassigned Ext</div>
                         <div class="val">45</div>

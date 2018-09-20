@@ -1,23 +1,21 @@
-import {Component, OnInit, ViewChildren} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import { formatNumber } from 'libphonenumber-js';
+import { classToPlain } from 'class-transformer';
+import { CountryModel } from '../../models/country.model';
+import { RefsServices } from '../../services/refs.services';
+import { DashboardModel } from '../../models/dashboard.model';
+import { CompanyService } from '../../services/company.service';
+import {Component, ElementRef, OnInit, ViewChild, ViewChildren} from '@angular/core';
+import { MessageServices } from '../../services/message.services';
+import { DashboardServices } from '../../services/dashboard.services';
+import { CompanyModel, CompanyInfoModel } from '../../models/company.model';
+import { SidebarInfoItem, SidebarInfoModel } from '../../models/base.model';
+import { FormArray, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBaseComponent } from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import { emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp } from '../../shared/vars';
 
-import {CompanyService} from '../../services/company.service';
-import {DashboardServices} from '../../services/dashboard.services';
-import {RefsServices} from '../../services/refs.services';
-import {MessageServices} from "../../services/message.services";
-
-import {CompanyModel, CompanyInfoModel} from '../../models/company.model';
-import {CountryModel} from '../../models/country.model';
-import {SidebarInfoItem, SidebarInfoModel} from "../../models/base.model";
-import {DashboardModel} from '../../models/dashboard.model';
-
-import {formatNumber} from 'libphonenumber-js';
-import {emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp} from '../../shared/vars';
-import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
-import {classToPlain} from 'class-transformer';
+import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {compareObjects, validateFormControls} from '../../shared/shared.functions';
 import {ValidationHost} from '../../models/validation-host.model';
-import { FormBaseComponent } from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
 
 
 @Component({
@@ -34,11 +32,13 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     sidebarInfo: SidebarInfoModel;
     editMode: boolean;
+    logo: string;
 
     // TODO: временная переменная для отладки/дизайна
     templateView: boolean = false;
 
     @ViewChildren('label') labelFields;
+    @ViewChild('fileInput') fileInput: ElementRef;
 
     // -- component lifecycle methods -----------------------------------------
 
@@ -51,7 +51,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
         this.editMode = false;
         this.countries = [];
-        
+        this.logo = './assets/images/avatar/company_details.png';
         this.sidebarInfo = new SidebarInfoModel();
         this.sidebarInfo.loading = 0;
         this.sidebarInfo.title = 'Information';
@@ -79,7 +79,6 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
-
         this.getCompany();
         this.getCountries();
         this.getSidebar();
@@ -89,6 +88,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     initForm(): void {
         this.form = this._fb.group({
+            logo: [this.logo],
             name:  [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
             companyAddress: this._fb.array([
                 this._fb.group({
@@ -121,14 +121,15 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     isFormEmpty(formGroup: any): boolean {
-        let count = this.countFormNonEmptyFields(formGroup);
-        return count == 0;
+        let count: number;
+        count = this.countFormNonEmptyFields(formGroup);
+        return count === 0;
     }
 
     countFormNonEmptyFields(formGroup: any, count: number = 0): number {
         Object.keys(formGroup.controls).forEach(field => {
             const control = formGroup.get(field);
-    
+
             if (control instanceof FormControl) {
                 if (control.value) count ++;
             }
@@ -141,7 +142,8 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     setCompanyFormData() {
         if (this.company.name) {
-            let company = classToPlain(this.company);
+            let company: object;
+            company = classToPlain(this.company);
             this.form.patchValue(company);
             if (this.company.companyAddress && this.company.companyAddress.length) {
                 this.selectedCountry = this.company.companyAddress[0].country;
@@ -172,12 +174,14 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     save(): void {
-        let formValid = this.validateForms();
+        let formValid: boolean;
+        formValid = this.validateForms();
         if (formValid) {
             this.locker.lock();
-            this.service.save({...this.form.value}, false).then(() => {
+            this.service.save({...this.form.value}, false).then((company) => {
                 this._message.writeSuccess('Company successfully updated.');
                 this.editMode = false;
+                this.companyInfo.logo = company.logo;
             }).catch(error => {
                 // this._message.writeError('Company update error.');
                 console.log('Company update error', error);
@@ -199,13 +203,13 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     setCompanyInfo(dashboard: DashboardModel): void {
-        this.service.companyInfo.setSectionData("Information", dashboard);
-        this.service.companyInfo.setSectionData("Extensions", dashboard);
-        this.service.companyInfo.setSectionData("IVR", dashboard);
-        this.service.companyInfo.setSectionData("CDR", dashboard);
-        this.service.companyInfo.setSectionData("Tariff Plan", dashboard);
-        this.service.companyInfo.setSectionData("Invoices", dashboard);
-        this.service.companyInfo.setPhoneNumbersData("Phone numbers", dashboard);
+        this.service.companyInfo.setSectionData('Information', dashboard);
+        this.service.companyInfo.setSectionData('Extensions', dashboard);
+        this.service.companyInfo.setSectionData('IVR', dashboard);
+        this.service.companyInfo.setSectionData('CDR', dashboard);
+        this.service.companyInfo.setSectionData('Tariff Plan', dashboard);
+        this.service.companyInfo.setSectionData('Invoices', dashboard);
+        this.service.companyInfo.setPhoneNumbersData('Phone numbers', dashboard);
     }
 
     // -- data retrieval methods ----------------------------------------------
@@ -214,6 +218,8 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         this.locker.lock();
         this.service.getCompany().then((company: CompanyModel) => {
             this.company = company;
+            this.companyInfo.logo = company.logo;
+            this.logo = company.logo;
             this.setCompanyFormData();
 
             this.editMode = !company.isValid;
@@ -256,5 +262,46 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             }
         }).catch(() => {})
           .then(() => this.sidebarInfo.loading --);
+    }
+
+
+    dropHandler(event) {
+        event.preventDefault();
+        const files = event.dataTransfer.files;
+        this.uploadFiles(files[0]);
+    }
+
+    dragOverHandler(event): void {
+        event.preventDefault();
+    }
+
+    dragEndHandler(event): void {}
+
+    dragLeaveHandler(event): void {
+        event.preventDefault();
+    }
+
+    private uploadFiles(file) {
+        console.log(file);
+        this.service.uploadFile(file, null, null).then(response => {
+            if (response.logo) {
+                this.logo = response.url;
+                this.company.logo = response.logo;
+                this.form.patchValue(this.company);
+            }
+        }).catch(() => {
+        });
+    }
+
+    sendFile(event) {
+        event.preventDefault();
+        const file = event.target.files[0];
+        if (file) {
+            this.uploadFiles(file);
+        }
+    }
+
+    selectFile() {
+        this.fileInput.nativeElement.click();
     }
 }

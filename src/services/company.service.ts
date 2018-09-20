@@ -23,4 +23,19 @@ export class CompanyService extends BaseService {
             return Promise.resolve(company);
         });
     }
+
+    uploadFile(file, mode, type = null): Promise<any> {
+
+        const data = new FormData();
+        data.append('type', type ? type : 'image');
+        data.append('file', file);
+        if (mode) {
+            data.append('mode', mode);
+        }
+        return this.rawRequest('POST', '/upload', data).then((company) => {
+            return company;
+        }).catch(() => {
+
+        });
+    }
 }

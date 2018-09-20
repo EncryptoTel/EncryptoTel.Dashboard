@@ -45,10 +45,10 @@ export class FormBaseComponent implements OnInit, Lockable {
         this.locker = new Locker();
         this.formKey = 'form';
         this.forms = [];
-        
+
         this.validationHost = new ValidationHost();
         this.snapshots = new FormsSnapshots();
-        
+
         this.initForm();
         if (this.form && this.forms.length == 0) {
             this.addForm(this.formKey, this.form);
@@ -63,7 +63,7 @@ export class FormBaseComponent implements OnInit, Lockable {
 
     initForm(): void {
         // should be overriden in derived class
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
 
     close(editMode: boolean = true, confirmCallback: () => void = null): void {

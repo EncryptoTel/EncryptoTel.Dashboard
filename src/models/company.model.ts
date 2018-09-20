@@ -1,9 +1,10 @@
-import {CountryModel} from "./country.model";
+import {CountryModel} from './country.model';
 import {DatePipe, DecimalPipe} from '@angular/common';
-import { format } from "util";
+import { format } from 'util';
 
 export class CompanyModel {
     constructor(public name: string,
+                public logo: string,
                 public email: string,
                 public phone: string,
                 public vatId: number,
@@ -31,7 +32,7 @@ export class CompanyAddress {
 }
 
 export class CompanyInfoModel {
-    public logotype: string;
+    public logo: string;
     public company: CompanyInfoItem[];
     public sectionGroups: CompanyInfoSectionGroup[];
 
@@ -112,7 +113,7 @@ export class CompanyInfoEvaluator {
 
         this._value = this.eval(this._item.key, this._baseData);
     }
-    
+
     private eval(property: string, data: any, applyFormatting: boolean = true): any {
         if (!data) return null;
 
@@ -141,7 +142,7 @@ export class CompanyInfoEvaluator {
             return value;
         }
     }
-    
+
     private evalFormat(value: any, type: string, format: string): any {
         let formatPipe;
         let args;
