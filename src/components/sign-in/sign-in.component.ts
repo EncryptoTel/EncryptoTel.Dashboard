@@ -25,7 +25,7 @@ export class SignInComponent implements OnInit, OnDestroy {
                 public _services: AuthorizationServices,
                 private _message: MessageServices) {
     }
-
+    imageLoad: boolean = false;
     loading = false;
     errorsSubscription: Subscription;
     message: FormMessageModel;
@@ -165,5 +165,10 @@ export class SignInComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.errorsSubscription.unsubscribe();
+    }
+
+    imageLoaded() {
+        this.imageLoad = true;
+        console.log('loaded');
     }
 }
