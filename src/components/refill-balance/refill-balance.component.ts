@@ -164,6 +164,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         this.getRefillMethods();
         this.getCourses();
         this.balance = this.getBalance();
+        this.errors = {};
     }
 
     ngOnDestroy(): void {
