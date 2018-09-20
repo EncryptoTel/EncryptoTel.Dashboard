@@ -10,6 +10,7 @@ import {MessageServices} from '../../../../services/message.services';
 import {UserServices} from '../../../../services/user.services';
 import {FormBaseComponent} from '../../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {ModalEx} from '../../../../elements/pbx-modal/pbx-modal.component';
+import {Subscription} from 'rxjs/Subscription';
 
 
 export enum EmailChangeState {
@@ -306,6 +307,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         this._service.uploadFile(file, null, null).then(response => {
             if (response.avatar) {
                 this.userDefaultPhoto = response.avatar;
+                this._user.fetchProfileParams().then();
             }
         }).catch(() => {
 

@@ -2,7 +2,8 @@
 <div class="main_grid" *ngIf="completedRequests > 1">
   <div class="user_wrap" [ngClass]="{'active': userNavigationVisible}"
        (click)="userNavigationVisible = !userNavigationVisible" (clickOutside)="hideUserNavigation()" #userWrap>
-    <div class="user_profile_image" [ngStyle]="{'background-image': user.image ? 'url(' + (user.image) + ')' : ''}"></div>
+    <div class="user_profile_image" [ngStyle]="{'background-image': user.profile.avatar ? 'url(' + ( user.profile.avatar) + ')' : ''}">
+    </div>
     <div class="user_details_wrap">
       <div class="user_details_name">{{username}}</div>
       <div class="user_details_balance" *ngIf="completedRequests > 1">{{user.balance.symbol}}{{user.balance.balance}}

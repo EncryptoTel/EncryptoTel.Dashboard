@@ -30,10 +30,11 @@ export class IndexComponent implements OnInit, OnDestroy {
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
                 private _refs: RefsServices) {
+        this.user = this._user.fetchUser();
     }
 
     navigationList: NavigationItemModel[][];
-    user: UserModel = this._user.fetchUser();
+    user: UserModel;
     userSubscription: Subscription;
     balanceSubscription: Subscription;
     serviceSubscription: Subscription;
@@ -77,28 +78,8 @@ export class IndexComponent implements OnInit, OnDestroy {
         this._user.fetchProfileParams().then(() => this.completedRequests++);
     }
 
-    // balanceInit(): void {
-    //   this.balanceSubscription = this._balance.balanceSubscription().subscribe(balance => {
-    //     this.balance = balance;
-    //   });
-    //   this._balance.fetchBalanceParams().then(() => this.completedRequests++);
-    // }
-
     navigationInit(): void {
         this._user.fetchNavigationParams().then(result => {
-            // this.navigationList = result;
-
-            // result.map(resultItem => {
-            //   const navigationItem = this.navigationList.find(block => {
-            //     return !!block.find(item => {
-            //       return item.id === resultItem.id;
-            //     });
-            //   }).find(item => {
-            //     return item.id === resultItem.id;
-            //   });
-            //   navigationItem['status'] = resultItem.status;
-            //   navigationItem['visible'] = resultItem.visible;
-            // });
         }).then(() => this.completedRequests++).catch();
     }
 

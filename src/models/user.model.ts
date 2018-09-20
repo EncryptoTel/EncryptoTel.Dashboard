@@ -1,10 +1,10 @@
 import {SecretsModel} from './secrets.model';
-import {BalanceModel} from "./balance.model";
+import {BalanceModel} from './balance.model';
 
 export class UserModel {
   constructor(
     public secrets: SecretsModel,
-    public image?: string,
+    public avatar?: string,
     public profile?: ProfileModel,
     public balance?: BalanceModel
   ) {}
