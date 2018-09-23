@@ -147,7 +147,14 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 title:      [ null ],
             }),
         });
+
+        // let phoneControl = this.createPhoneFormControl(null);
+        // this.contactPhonesFormArray.push(phoneControl);
+
+        // let emailControl = this.createEmailFormControl(null);
+        // this.contactEmailsFormArray.push(emailControl);
     }
+    
     createPhoneFormControl(model: ContactValueModel): FormGroup {
         return this._fb.group({
             value:  [ model ? model.value : null, [ Validators.required, Validators.pattern(phoneRegExp) ] ],
@@ -322,6 +329,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.removeEmptyItems(this.selected.contactEmail);
 
         this.selected = new AddressBookItem(this.form.value);
+
         if (this.selected.id) {
             this.service.putById(this.selected.id, this.selected).then(() => {
                 this.close(true);
@@ -339,12 +347,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     addPhone() {
-        let phoneModel = new ContactValueModel();
-        this.selected.contactPhone.push(phoneModel);
-        
-        let phoneControl = this.createPhoneFormControl(phoneModel);
-        this.contactPhonesFormArray.push(phoneControl);
+        this.selected = new AddressBookItem(this.form.value);
 
+        let phoneModel = new ContactValueModel();
+        this.selected.addContactPhone(phoneModel);
+        
+        this.setFormData();
+        
         this.validationHost.initItems();
     }
 
@@ -356,11 +365,12 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     addEmail() {
-        let emailModel = new ContactValueModel();
-        this.selected.contactEmail.push(emailModel);
+        this.selected = new AddressBookItem(this.form.value);
 
-        let emailControl = this.createEmailFormControl(emailModel);
-        this.contactEmailsFormArray.push(emailControl);
+        let emailModel = new ContactValueModel();
+        this.selected.addContactEmail(emailModel);
+
+        this.setFormData();
 
         this.validationHost.initItems();
     }
