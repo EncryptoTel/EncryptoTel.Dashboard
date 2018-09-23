@@ -51,7 +51,7 @@
             <div class="store_sidebar_audio_text">or</div>
             <div class="store_sidebar_audio_select hidden_button_wrapper">
                 <p class="select_file">select files</p>
-                <input type="file" class="hidden_input" #fileInput (change)="sendFile($event)">
+                <input type="file" class="hidden_input" #fileInput (change)="sendFile($event)" onclick="value = null">
             </div>
         </div>
     </pbx-sidebar>
