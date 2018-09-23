@@ -126,12 +126,12 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
     }
 
     get sipInners(): FormArray {
-        return this.form.get('sipInner') as FormArray;
+        const sipInnersForm = this.departmentForm.get('sipInnersForm');
+        return sipInnersForm.get('sipInner') as FormArray;
     }
 
     // TODO: automate this...
     mapFormDataToModel(): void {
-        // this.fillSipInnersFormElements();
         this._department.name = this.generalForm.get('name').value;
         this._department.comment = this.generalForm.get('comment').value;
     }
@@ -185,6 +185,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         this.service.save(this._id, this._department).then((response) => {
             this._id = response.id;
             this.getItem();
+            this.saveFormState();
         })
         .catch(() => {})
           .then(() => this.locker.unlock());
@@ -221,27 +222,25 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
             this._department.sipInnerIds = [];
             this.sipInnersControl.selectedItems.forEach(sip => this._department.sipInnerIds.push(sip.id));
 
-            const sipInnersForm = this.departmentForm.get('sipInnersForm');
-            const sipInnerFormArray = <FormArray>sipInnersForm.get('sipInner');
             this._department.sipInnerIds.forEach(sipId => {
-                sipInnerFormArray.push(this._fb.control([ sipId, [] ]));
+                this.sipInners.push(this._fb.control([ sipId, [] ]));
             });
         }
     }
 
     validateModel(): boolean {
         const generalFormValid = this.validateFormGroup('generalForm');
-        const sipInnersFormValid = this.validateFormGroup('sipInnersForm', true, 'Please select at least one member');
+        // const sipInnersFormValid = this.validateFormGroup('sipInnersForm', true, 'Please select at least one member');
 
         if (!generalFormValid) {
             this.formTabs.selectTabByIndex(0);
             return false;
         }
 
-        if (!sipInnersFormValid) {
-            this.formTabs.selectTabByIndex(1);
-            return false;
-        }
+        // if (!sipInnersFormValid) {
+        //     this.formTabs.selectTabByIndex(1);
+        //     return false;
+        // }
 
         return true;
     }
@@ -266,6 +265,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
             this.save();
         }
         else if (action == 'cancel') {
+            this.fillSipInnersFormElements();
             this.close(this.hasId, () => this.confirmClose());
         }
         else if (action == 'back') {
