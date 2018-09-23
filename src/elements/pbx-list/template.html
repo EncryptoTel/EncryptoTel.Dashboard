@@ -16,7 +16,7 @@
         <div class="pbx_list_empty_text" *ngIf="!EmptyInfo">
             You do not have any {{itemsName ? itemsName : name}}<br>Click on the button to create
         </div>
-        <div class="pbx_list_empty_text" *ngIf="EmptyInfo" [innerHTML]="EmptyInfo">
+        <div class="pbx_list_empty_text" *ngIf="EmptyInfo" [innerHtml]="EmptyInfo">
 
         </div>
         <div class="pbx_list_empty_icon" *ngIf="!sidebarVisible && !EmptyInfo">
