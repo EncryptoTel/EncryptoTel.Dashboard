@@ -147,12 +147,6 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 title:      [ null ],
             }),
         });
-
-        // let phoneControl = this.createPhoneFormControl(null);
-        // this.contactPhonesFormArray.push(phoneControl);
-
-        // let emailControl = this.createEmailFormControl(null);
-        // this.contactEmailsFormArray.push(emailControl);
     }
     
     createPhoneFormControl(model: ContactValueModel): FormGroup {

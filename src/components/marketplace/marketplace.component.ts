@@ -71,19 +71,32 @@ export class MarketplaceComponent implements OnInit, Lockable {
                         content: module.service.description,
                         price: Math.round(module.currentPrice.sum * 100) / 100,
                         status: module.service.isUserBuy,
-                        color: Math.round(Math.random() * 5 + 1) // TODO: required color in backend response
+                        color: this.getModuleColor(module.service.title)
                     });
                 }
             });
             this.modules = this.modules.sort((a: any, b: any) => {
                 if (a.status && !b.status) return -1;
                 else if (!a.status && b.status) return 1;
-                else return 0;
+                else return a.title > b.title ? 1 : -1;
             });
-            this.locker.unlock();
-        }).catch(() => {
-            this.locker.unlock();
-        });
+        }).catch(() => {})
+          .then(() => this.locker.unlock());
+    }
+
+    getModuleColor(moduleTitle: string): number {
+        let title = moduleTitle.toLowerCase();
+        if (title == 'call queues') return 2; // pink
+        else if (title == 'call record') return 5; // cyan
+        else if (title == 'call rules') return 2; // pink
+        else if (title == 'company') return 2; // pink
+        else if (title == 'ivr') return 2; // pink
+        else if (title == 'ring groups') return 2; // pink
+        else if (title == 'storage') return 6; // green
+        else if (title == 'schedule') return 2; // pink
+        else if (title == 'send sms messages') return 2; // pink
+        // 4 - blue, 3 - violet
+        return 4;
     }
 
     getBalance() {
