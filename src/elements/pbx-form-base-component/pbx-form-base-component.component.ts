@@ -7,6 +7,7 @@ import {ValidationHost} from '../../models/validation-host.model';
 import {ModalEx} from '../pbx-modal/pbx-modal.component';
 import {FormsSnapshots} from '../../models/forms-snapshots.model';
 import {validateForm, killEvent, validateFormControls} from '../../shared/shared.functions';
+import { MessageServices } from '../../services/message.services';
 
 
 @Component({
@@ -41,7 +42,8 @@ export class FormBaseComponent implements OnInit, Lockable {
     }
 
 
-    constructor(protected _fb: FormBuilder) {
+    constructor(protected _fb: FormBuilder,
+                protected _message: MessageServices) {
         this.locker = new Locker();
         this.formKey = 'form';
         this.forms = [];
@@ -64,19 +66,6 @@ export class FormBaseComponent implements OnInit, Lockable {
     initForm(): void {
         // should be overriden in derived class
         throw new Error('Method not implemented.');
-    }
-
-    close(editMode: boolean = true, confirmCallback: () => void = null): void {
-        if (this.checkFormChanged()) {
-            let message = (editMode)
-                ? 'You have made changes. Do you really want to leave without saving?'
-                : 'Do you really want to leave without saving?';
-            this.modalExit.setMessage(message);
-            this.modalExit.show();
-        }
-        else {
-            if (confirmCallback) confirmCallback();
-        }
     }
 
     addForm(formKey: string, form: FormGroup): void {
@@ -102,6 +91,21 @@ export class FormBaseComponent implements OnInit, Lockable {
         this.validationHost.clearControlsFocusedState();
         return result;
     }
+    
+    validateFormGroup(groupName: string, showMessage: boolean = false, message: string = ''): boolean {
+        let formGroup: FormGroup;
+        for (let form of this.forms) {
+            formGroup = <FormGroup> form.get(groupName);
+            if (formGroup) break;
+        }
+        if (!formGroup) return false;
+
+        validateForm(formGroup);
+        if (!formGroup.valid && showMessage) {
+            this._message.writeError(message);
+        }
+        return formGroup.valid;
+    }
 
     saveFormState(formKey?: string): void {
         if (formKey) {
@@ -118,6 +122,19 @@ export class FormBaseComponent implements OnInit, Lockable {
         }
         else {
             return this.snapshots.checkAll();
+        }
+    }
+
+    close(editMode: boolean = true, confirmCallback: () => void = null): void {
+        if (this.checkFormChanged()) {
+            let message = (editMode)
+                ? 'You have made changes. Do you really want to leave without saving?'
+                : 'Do you really want to leave without saving?';
+            this.modalExit.setMessage(message);
+            this.modalExit.show();
+        }
+        else {
+            if (confirmCallback) confirmCallback();
         }
     }
 }

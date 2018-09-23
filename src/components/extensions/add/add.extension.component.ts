@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ExtensionItem} from '../../../models/extension.model';
 import { FormBaseComponent } from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import { validateForm } from '../../../shared/shared.functions';
+import { MessageServices } from '../../../services/message.services';
 
 @Component({
     selector: 'add-extension-component',
@@ -38,10 +39,11 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     accessList;
 
     constructor(protected _fb: FormBuilder,
+                protected _message: MessageServices,
                 private _router: Router,
                 private _activatedRoute: ActivatedRoute,
                 private _extension: ExtensionService) {
-        super(_fb);
+        super(_fb, _message);
 
         this.id = _activatedRoute.snapshot.params.id;
         this.id ? this.mode = 'edit' : this.mode = 'create';

@@ -51,10 +51,10 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public service: AddressBookService,
-                private refs: RefsServices,
-                private message: MessageServices,
+                public refs: RefsServices,
+                protected _message: MessageServices,
                 protected _fb: FormBuilder) {
-        super(_fb);
+        super(_fb, _message);
         
         this.addressBookModel = new AddressBookModel();
         this.addressListHeaders = {
@@ -296,7 +296,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     confirmBlock() {
         this.selected.loading ++;
         this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
-            this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
+            this._message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
             this.selected.loading --;
             this.close(true);
         }).catch(() => {})

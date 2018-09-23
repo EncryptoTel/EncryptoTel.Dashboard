@@ -15,24 +15,25 @@
                 <form class="sidebar_form" [formGroup]="departmentForm" *ngIf="!saving">
                         <pbx-input name="Name"
                                    key="name"
-                                   [object]="departmentForm.get('generalForm')"
+                                   [object]="generalForm"
+                                   errorKey="generalForm.name"
                                    [form]="true"
                                    errorShow="true"
-                                   validatorRequiredMsg="Please enter name"
-                                   validatorMaxLengthMsg="Please enter no more than 190 characters"
                                    labelPosition="top"
                                    [singleBorder]="true"
                                    [required]="true"
+                                   [validationHost]="validationHost"
                                    >
                         </pbx-input>
                         <pbx-input name="Description"
                                    key="comment"
-                                   [object]="departmentForm.get('generalForm')"
+                                   [object]="generalForm"
+                                   errorKey="generalForm.comment"
                                    [form]="true"
                                    errorShow="true"
-                                   validatorMaxLengthMsg="Please enter no more than 255 characters"
                                    labelPosition="top"
                                    [singleBorder]="false"
+                                   [validationHost]="validationHost"
                                    >
                         </pbx-input>
                 </form>
@@ -54,3 +55,7 @@
         </pbx-view-edit-control>
     </pbx-tab>
 </pbx-tabs>
+<pbx-modal [modalEx]="modalExit"
+           (onConfirmEx)="confirmClose()"
+           >
+</pbx-modal>
