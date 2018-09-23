@@ -14,7 +14,7 @@ import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {MessageServices} from '../../services/message.services';
 import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {AnimationComponent} from '../../shared/shared.functions';
-import {nameRegExp, emailRegExp, phoneRegExp} from '../../shared/vars';
+import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp} from '../../shared/vars';
 import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
 
 
@@ -151,7 +151,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     
     createPhoneFormControl(model: ContactValueModel): FormGroup {
         return this._fb.group({
-            value:  [ model ? model.value : null, [ Validators.required, Validators.pattern(phoneRegExp) ] ],
+            value:  [ model ? model.value : null, [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(addressPhoneRegExp) ] ],
             typeId: [ model ? model.typeId : null ],
             type:   [ model ? model.type : null ],
         });
@@ -159,7 +159,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     createEmailFormControl(model: ContactValueModel): FormGroup {
         return this._fb.group({
-            value:  [ model ? model.value : null, [ Validators.required, Validators.pattern(emailRegExp) ] ],
+            value:  [ model ? model.value : null, [ Validators.pattern(emailRegExp) ] ],
             typeId: [ model ? model.typeId : null ],
             type:   [ model ? model.type : null ],
         });
