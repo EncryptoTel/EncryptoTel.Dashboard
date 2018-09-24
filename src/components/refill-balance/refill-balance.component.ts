@@ -42,12 +42,16 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     currentFilter = [];
 
     navigationSubscription: Subscription;
+    WAValidator: any;
 
     constructor(private _refill: RefillServices,
                 private _storage: LocalStorageServices,
                 private _message: MessageServices,
                 private clipboard: ClipboardService,
                 private _router: Router) {
+
+        this.WAValidator = require('wallet-address-validator');
+
         this.filters.push(new FilterItem(1, 'amount',
             `Payment amount`, null, null,
             ``, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`, true));
@@ -104,6 +108,10 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     pay(): void {
+
+        // let valid: any;
+        // valid = this.WAValidator .validate('3PAUeFvWq7WbGqV4VaZ1DH4FQJgbLoz7z2i', 'bitcoin');
+
         if (!this.validateFilters()) return;
 
         // this.payment.loading = true;

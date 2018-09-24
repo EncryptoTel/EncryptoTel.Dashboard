@@ -54,7 +54,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                 protected _fb: FormBuilder,
                 protected _message: MessageServices) {
         super(_fb, _message);
-        
+
         this.params = {
             'class': {
                 'enable': false,
@@ -80,8 +80,8 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         ];
 
         this.sipTableContext = {
-            titles: ['#Ext', 'Phone number', 'Created', 'Status'],
-            keys: ['phoneNumber', 'sipOuterPhoneNumber', 'created', 'statusName']
+            titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Created', 'Status'],
+            keys: ['phoneNumber', 'sipOuterPhoneNumber', 'firstName', 'lastName', 'created', 'statusName']
         };
     }
 
@@ -100,7 +100,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
         super.ngOnInit();
     }
-    
+
     // -- form component methods ----------------------------------------------
 
     initForm(): void {
@@ -210,6 +210,8 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
             this.sips.push({
                 id: sipInner.id,
                 phoneNumber: sipInner.phoneNumber,
+                firstName: sipInner.firstName,
+                lastName: sipInner.lastName,
                 sipOuterPhoneNumber: item.phoneNumber,
                 created: sipInner.created,
                 statusName: sipInner.statusName
