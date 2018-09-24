@@ -20,7 +20,8 @@
                [tableItems]="items"
                [selected]="selectedItems"
                [multiple]="true"
+               [deletable]="false"
                (onSelect)="selectItem($event)"
-               (onDelete)="selectItem($event)">
+               >
     </pbx-table>
 </div>

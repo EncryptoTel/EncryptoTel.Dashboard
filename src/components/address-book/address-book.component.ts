@@ -14,7 +14,7 @@ import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {MessageServices} from '../../services/message.services';
 import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {AnimationComponent} from '../../shared/shared.functions';
-import {nameRegExp, emailRegExp, phoneRegExp} from '../../shared/vars';
+import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp} from '../../shared/vars';
 import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
 
 
@@ -51,10 +51,10 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public service: AddressBookService,
-                private refs: RefsServices,
-                private message: MessageServices,
+                public refs: RefsServices,
+                protected _message: MessageServices,
                 protected _fb: FormBuilder) {
-        super(_fb);
+        super(_fb, _message);
         
         this.addressBookModel = new AddressBookModel();
         this.addressListHeaders = {
@@ -148,9 +148,10 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             }),
         });
     }
+    
     createPhoneFormControl(model: ContactValueModel): FormGroup {
         return this._fb.group({
-            value:  [ model ? model.value : null, [ Validators.required, Validators.pattern(phoneRegExp) ] ],
+            value:  [ model ? model.value : null, [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(addressPhoneRegExp) ] ],
             typeId: [ model ? model.typeId : null ],
             type:   [ model ? model.type : null ],
         });
@@ -158,7 +159,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     createEmailFormControl(model: ContactValueModel): FormGroup {
         return this._fb.group({
-            value:  [ model ? model.value : null, [ Validators.required, Validators.pattern(emailRegExp) ] ],
+            value:  [ model ? model.value : null, [ Validators.pattern(emailRegExp) ] ],
             typeId: [ model ? model.typeId : null ],
             type:   [ model ? model.type : null ],
         });
@@ -295,7 +296,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     confirmBlock() {
         this.selected.loading ++;
         this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
-            this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
+            this._message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
             this.selected.loading --;
             this.close(true);
         }).catch(() => {})
@@ -322,6 +323,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.removeEmptyItems(this.selected.contactEmail);
 
         this.selected = new AddressBookItem(this.form.value);
+
         if (this.selected.id) {
             this.service.putById(this.selected.id, this.selected).then(() => {
                 this.close(true);
@@ -339,12 +341,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     addPhone() {
-        let phoneModel = new ContactValueModel();
-        this.selected.contactPhone.push(phoneModel);
-        
-        let phoneControl = this.createPhoneFormControl(phoneModel);
-        this.contactPhonesFormArray.push(phoneControl);
+        this.selected = new AddressBookItem(this.form.value);
 
+        let phoneModel = new ContactValueModel();
+        this.selected.addContactPhone(phoneModel);
+        
+        this.setFormData();
+        
         this.validationHost.initItems();
     }
 
@@ -356,11 +359,12 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     addEmail() {
-        let emailModel = new ContactValueModel();
-        this.selected.contactEmail.push(emailModel);
+        this.selected = new AddressBookItem(this.form.value);
 
-        let emailControl = this.createEmailFormControl(emailModel);
-        this.contactEmailsFormArray.push(emailControl);
+        let emailModel = new ContactValueModel();
+        this.selected.addContactEmail(emailModel);
+
+        this.setFormData();
 
         this.validationHost.initItems();
     }

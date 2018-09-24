@@ -46,8 +46,8 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 protected _fb: FormBuilder,
                 private _dashboard: DashboardServices,
                 private _refs: RefsServices,
-                private _message: MessageServices) {
-        super(_fb);
+                protected _message: MessageServices) {
+        super(_fb, _message);
 
         this.editMode = false;
         this.countries = [];

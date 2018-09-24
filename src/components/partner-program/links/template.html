@@ -3,18 +3,24 @@
         <span>Generate Link</span>
         <pbx-button buttonType="accent" value="Create Link" (onClick)="clickCreateLink()"></pbx-button>
     </div>
-    <pbx-table [tableInfoEx]="table"
+    <pbx-table *ngIf="tableHasData"
+               [tableInfoEx]="table"
                [tableItems]="partners.items"
                [editable]="true"
                [deletable]="true"
                [multiple]="false"
-               [tableReload]="tableReload"
+               [tableReload]="!locker.free"
+               [editMode]="false"
                (onSelect)="select($event)"
                (onEdit)="edit($event)"
                (onDelete)="delete($event)"
                (onSort)="sort($event)"
                [@Fade]>
     </pbx-table>
+
+    <div class="table-empty-message" *ngIf="locker.free && !tableHasData">
+        <span>No data to display</span>
+    </div>
 
     <!--<div class="tablet">-->
         <!--<div class="tablet_header">-->

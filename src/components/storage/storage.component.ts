@@ -6,6 +6,7 @@ import { StorageService } from '../../services/storage.service';
 import { MessageServices } from '../../services/message.services';
 import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from '../../models/base.model';
 import { StorageModel, StorageItem } from '../../models/storage.model';
+import { killEvent } from '../../shared/shared.functions';
 
 
 @Component({
@@ -80,7 +81,7 @@ export class StorageComponent implements OnInit {
             },
             {
                 id: 1,
-                title: 'Delete',
+                title: 'Delete Selected',
                 type: 'error',
                 visible: true,
                 inactive: true,
@@ -217,7 +218,7 @@ export class StorageComponent implements OnInit {
     }
 
     sendFile(event) {
-        event.preventDefault();
+        killEvent(event);
         const files = event.target.files;
         if (event.target.files[0]) {
             this.uploadFiles(files);

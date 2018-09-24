@@ -46,10 +46,11 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     constructor(private _service: SettingsService,
                 protected _fb: FormBuilder,
+                protected _message: MessageServices,
                 private _router: Router,
-                private _message: MessageServices,
                 private _user: UserServices) {
-        super(_fb);
+        super(_fb, _message);
+        
         this.userDefaultPhoto = './assets/images/avatar/no_avatar.jpg';
         this.loading = 0;
         this.emailChangeState = EmailChangeState.NOT_STARTED;

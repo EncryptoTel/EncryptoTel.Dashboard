@@ -242,7 +242,7 @@ export class DepartmentsComponent implements OnInit {
     }
 
     getEmptyInfo() {
-        return "<span class=\"empty_company\">To get started with the module Departments<br/>fill in the data in the <a class=\"link_empty_company\" href=\"/cabinet/company\">module Company</a></span";
+        return `<span class="empty_company">To get started with the module Departments<br/>fill in the data in the <a class="link_empty_company" href="/cabinet/company">module Company</a></span>`;
     }
 
     ngOnInit(): void {

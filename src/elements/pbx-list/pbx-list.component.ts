@@ -156,7 +156,7 @@ export class ListComponent implements OnInit {
     }
 
     get listDataEmpty(): boolean {
-        return this._totalItemsCount == 0;
+        return !this._totalItemsCount || this._totalItemsCount == 0;
     }
 
     ngOnInit() {

@@ -14,6 +14,7 @@ import { ViewEditControlComponent } from '../../../elements/pbx-view-edit-contro
 import { TabComponent } from '../../../elements/pbx-tabs/tab/pbx-tab.component';
 import { TabsComponent } from '../../../elements/pbx-tabs/pbx-tabs.component';
 import { validateForm } from '../../../shared/shared.functions';
+import { FormBaseComponent } from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 
 
 @Component({
@@ -22,9 +23,8 @@ import { validateForm } from '../../../shared/shared.functions';
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
-export class DepartmentCreateComponent implements OnInit, Lockable {
+export class DepartmentCreateComponent extends FormBaseComponent implements OnInit {
     public locker: Locker;
-    public departmentForm: FormGroup;
     public sips: any[];
     public selectedSips: any[];
     public sipTableContext: {};
@@ -37,26 +37,24 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
 
     @ViewChild('departmentFormTabs') formTabs: TabsComponent;
     @ViewChild('sipInnersControl') sipInnersControl: ViewEditControlComponent;
-    errors;
 
+    // -- properties ----------------------------------------------------------
 
     public get hasId(): boolean {
-        return this._id && this._id > 0;
+        return !!this._id && this._id > 0;
     }
 
-    get sipInners(): FormArray {
-        return this.departmentForm.get('sipInner') as FormArray;
-    }
-
-    // -- component methods ---------------------------------------------------
+    // -- component lifecycle methods -----------------------------------------
 
     constructor(public service: DepartmentService,
                 private _refs: RefsServices,
                 private _company: CompanyService,
                 private _activatedRoute: ActivatedRoute,
                 private _router: Router,
-                private _fb: FormBuilder,
-                private _message: MessageServices) {
+                protected _fb: FormBuilder,
+                protected _message: MessageServices) {
+        super(_fb, _message);
+        
         this.params = {
             'class': {
                 'enable': false,
@@ -71,7 +69,6 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
         this.locker = new Locker();
         this.sips = [];
         this._id = this._activatedRoute.snapshot.params.id;
-        this._department = new DepartmentItem();
 
         this._tabsButtons = [];
         this._tabsButtons[0] = [
@@ -81,16 +78,6 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
         this._tabsButtons[1] = [
             new BaseButton('Back', 'back', 'cancel'),
         ];
-
-        this.departmentForm = this._fb.group({
-            generalForm: _fb.group({
-                name: [this._department.name, [ Validators.required, Validators.maxLength(190) ]],
-                comment: [this._department.comment, [ Validators.maxLength(255) ]],
-            }),
-            sipInnersForm: _fb.group({
-                sipInner: this._fb.array([], Validators.required)
-            })
-        });
 
         this.sipTableContext = {
             titles: ['#Ext', 'Phone number', 'Created', 'Status'],
@@ -109,39 +96,82 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
         Waiter.await(this.locker).then(() => {
             this.mapModelToFormData();
         })
-        .catch(() => console.log('[department-create] Data retrieval error'));
+        .catch(() => {});
+
+        super.ngOnInit();
+    }
+    
+    // -- form component methods ----------------------------------------------
+
+    initForm(): void {
+        this._department = new DepartmentItem();
+
+        this.form = this._fb.group({
+            generalForm: this._fb.group({
+                name: [this._department.name, [ Validators.required, Validators.maxLength(190) ]],
+                comment: [this._department.comment, [ Validators.maxLength(255) ]],
+            }),
+            sipInnersForm: this._fb.group({
+                sipInner: this._fb.array([], Validators.required)
+            })
+        });
     }
 
-    // -- Data retrieval methods ----------------------------------------------
+    get departmentForm(): FormGroup {
+        return this.form;
+    }
+
+    get generalForm(): FormGroup {
+        return this.form.get('generalForm') as FormGroup;
+    }
+
+    get sipInners(): FormArray {
+        const sipInnersForm = this.departmentForm.get('sipInnersForm');
+        return sipInnersForm.get('sipInner') as FormArray;
+    }
+
+    // TODO: automate this...
+    mapFormDataToModel(): void {
+        this._department.name = this.generalForm.get('name').value;
+        this._department.comment = this.generalForm.get('comment').value;
+    }
+
+    mapModelToFormData(): void {
+        this.selectedSips = [];
+        this.generalForm.get('name').setValue(this._department.name);
+        this.generalForm.get('comment').setValue(this._department.comment);
+        this.saveFormState();
+
+        this._department.sipInnerIds.forEach(id => {
+            const sip = this.sips.find(sip => sip.id === id);
+            this.selectedSips.push(sip);
+        });
+    }
+
+    // -- data retrieval methods ----------------------------------------------
 
     getItem(): void {
         this.locker.lock();
         this.service.getItem(this._id).then((response) => {
-            this.locker.unlock();
             this._department = response;
         })
-        .catch(() => {
-            this.locker.unlock();
-        });
+        .catch(() => {})
+          .then(() => this.locker.unlock());
     }
 
     getCompany() {
         this.locker.lock();
-        this._company.getCompany().then((response) => {
-            this.locker.unlock();
-        }).catch(() => {
-            this.locker.unlock();
-        });
+        this._company.getCompany().then(() => {})
+          .catch(() => {})
+          .then(() => this.locker.unlock());
     }
 
     getSipOuters(): void {
         this.locker.lock();
         this._refs.getSipOuters().then((response: any) => {
             this.formatSipOuters(response);
-            this.locker.unlock();
-        }).catch(() => {
-            this.locker.unlock();
-        });
+        }).catch(() => {})
+          .then(() => this.locker.unlock());
     }
 
     save(): void {
@@ -154,15 +184,14 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
         this.locker.lock();
         this.service.save(this._id, this._department).then((response) => {
             this._id = response.id;
-            this.locker.unlock();
             this.getItem();
+            this.saveFormState();
         })
-        .catch(() => {
-            this.locker.unlock();
-        });
+        .catch(() => {})
+          .then(() => this.locker.unlock());
     }
 
-    // -- Model data methdos --------------------------------------------------
+    // -- model data methdos --------------------------------------------------
 
     tabsButtons(): BaseButton[] {
         let index: number;
@@ -188,67 +217,35 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
         }));
     }
 
-    // TODO: automate this...
-    mapFormDataToModel(): void {
-        // this.fillSipInnersFormElements();
-        const generalForm = this.departmentForm.get('generalForm');
-        this._department.name = generalForm.get('name').value;
-        this._department.comment = generalForm.get('comment').value;
-    }
-
-    mapModelToFormData(): void {
-        this.selectedSips = [];
-        const generalForm = this.departmentForm.get('generalForm');
-        generalForm.get('name').setValue(this._department.name);
-        generalForm.get('comment').setValue(this._department.comment);
-
-        this._department.sipInnerIds.forEach(id => {
-            const sip = this.sips.find(sip => sip.id === id);
-            this.selectedSips.push(sip);
-        });
-    }
-
     fillSipInnersFormElements(): void {
         if (this.sipInnersControl.selectedItems) {
             this._department.sipInnerIds = [];
             this.sipInnersControl.selectedItems.forEach(sip => this._department.sipInnerIds.push(sip.id));
 
-            const sipInnersForm = this.departmentForm.get('sipInnersForm');
-            const sipInnerFormArray = <FormArray>sipInnersForm.get('sipInner');
             this._department.sipInnerIds.forEach(sipId => {
-                sipInnerFormArray.push(this._fb.control([ sipId, [] ]));
+                this.sipInners.push(this._fb.control([ sipId, [] ]));
             });
         }
     }
 
     validateModel(): boolean {
         const generalFormValid = this.validateFormGroup('generalForm');
-        const sipInnersFormValid = this.validateFormGroup('sipInnersForm', true, 'Please select at least one member');
+        // const sipInnersFormValid = this.validateFormGroup('sipInnersForm', true, 'Please select at least one member');
 
         if (!generalFormValid) {
             this.formTabs.selectTabByIndex(0);
             return false;
         }
 
-        if (!sipInnersFormValid) {
-            this.formTabs.selectTabByIndex(1);
-            return false;
-        }
+        // if (!sipInnersFormValid) {
+        //     this.formTabs.selectTabByIndex(1);
+        //     return false;
+        // }
 
         return true;
     }
 
-    validateFormGroup(groupName: string, showMessage: boolean = false, message: string = ''): boolean {
-        const form: FormGroup = <FormGroup>this.departmentForm.get(groupName);
-        validateForm(form);
-        console.log(groupName, form);
-        if (!form.valid && showMessage) {
-            this._message.writeError(message);
-        }
-        return form.valid;
-    }
-
-    // -- Model event handlers ------------------------------------------------
+    // -- event handlers ------------------------------------------------------
 
     tabChanged(tab: TabComponent): void {
         if (this.formTabs.selectedTabIndex === 0 && tab.id !== 0) {
@@ -268,10 +265,15 @@ export class DepartmentCreateComponent implements OnInit, Lockable {
             this.save();
         }
         else if (action == 'cancel') {
-            this._router.navigate([ 'cabinet', 'departments' ]);
+            this.fillSipInnersFormElements();
+            this.close(this.hasId, () => this.confirmClose());
         }
         else if (action == 'back') {
             this.sipInnersControl.editMode = false;
         }
+    }
+
+    confirmClose(): void {
+        this._router.navigate([ 'cabinet', 'departments' ]);
     }
 }

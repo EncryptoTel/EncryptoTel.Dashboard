@@ -10,6 +10,7 @@ import {LocalStorageServices} from '../../services/local-storage.services';
 import {MessageServices} from '../../services/message.services';
 import {ClipboardService} from 'ngx-clipboard';
 import {FilterItem} from '../../models/base.model';
+import { numberRegExp } from '../../shared/vars';
 
 @Component({
     selector: 'refill-balance',
@@ -86,9 +87,11 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     validateAmount(text: string): boolean {
-        if (parseInt(text, 10)) {
-            this.currentFilter['amount'] = parseInt(text, 10);
-            return (this.validInput = this.amount.min <= this.currentFilter['amount'] && this.currentFilter['amount'] <= this.amount.max);
+        if (numberRegExp.test(text)) {
+            if (parseInt(text, 10)) {
+                this.currentFilter['amount'] = parseInt(text, 10);
+                return (this.validInput = this.amount.min <= this.currentFilter['amount'] && this.currentFilter['amount'] <= this.amount.max);
+            }
         }
         return this.validInput = false;
     }
@@ -161,6 +164,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         this.getRefillMethods();
         this.getCourses();
         this.balance = this.getBalance();
+        this.errors = {};
     }
 
     ngOnDestroy(): void {

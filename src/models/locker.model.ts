@@ -45,7 +45,7 @@ export class Waiter {
      * @param showLog flag to turn on and off log messages
      */
     public static await(observable: Locker, period: number = 100, maxAttemptCount: number = 50, showLog: boolean = false): Promise<void> {
-        return new Promise((resolve, reject) => {
+        let promise = new Promise<void>((resolve, reject) => {
             if (showLog) console.log('[waiter] started');
             let attemptCount = 0;
             let timer = TimerObservable.create(period, period).subscribe(() => {
@@ -64,5 +64,6 @@ export class Waiter {
                 }
             });        
         });
+        return promise;
     }
 }
