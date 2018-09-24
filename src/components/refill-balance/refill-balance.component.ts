@@ -12,6 +12,8 @@ import {ClipboardService} from 'ngx-clipboard';
 import {FilterItem} from '../../models/base.model';
 import { numberRegExp } from '../../shared/vars';
 
+declare var require: any;
+
 @Component({
     selector: 'refill-balance',
     templateUrl: './template.html',
