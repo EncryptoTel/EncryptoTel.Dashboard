@@ -263,7 +263,7 @@ export class FilterItem {
         this.placeHolder = placeHolder;
         this.width = width;
         this.hidden = hidden;
-        this.inputCenter = inputCenter;
+        this.inputCenter = inputCenter || false;
         this.minMaxText = minMaxText;
         this.min = min;
         this.max = max;
