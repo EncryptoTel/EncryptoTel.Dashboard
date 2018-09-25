@@ -207,11 +207,11 @@
                 </div> <!-- inner -->
             </div> <!-- img_wr -->
 
-            <div class="mini" *ngFor="let item of companyInfo.company">
-                <ng-template [ngIf]="item.value">
+            <div *ngFor="let item of companyInfo.company">
+                <div class="mini" *ngIf="item.value">
                     <div class="title">{{ item.title }}</div>
                     <div class="info" [ngClass]="item.cssClass">{{ item.value }}</div>
-                </ng-template>
+                </div>
             </div> <!-- mini -->
         </div> <!-- item -->
 
@@ -222,9 +222,11 @@
                     <div class="big" *ngFor="let section of group.sections">
                         <div class="title">{{ section.title }}</div>
                         <div [ngClass]="section.cssClass" *ngFor="let item of section.items">
-                            <div class="key">{{ item.title }}</div>
-                            <div class="val">{{ item.value }}</div>
-                            <div class="status" *ngIf="section.cssClass == 'number'">{{ item.value2 }}</div>
+                            <ng-container *ngIf="item.value">
+                                <div class="key">{{ item.title }}</div>
+                                <div class="val">{{ item.value }}</div>
+                                <div class="status" *ngIf="section.cssClass == 'number'">{{ item.value2 }}</div>
+                            </ng-container>
                         </div> <!-- line -->
                     </div>
                 </div>
