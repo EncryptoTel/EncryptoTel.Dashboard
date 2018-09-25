@@ -3,6 +3,7 @@ import {WsServices} from '../../services/ws.services';
 import {LoggerServices} from "../../services/logger.services";
 import {ChatModel, MessageModel} from "../../models/chat.model";
 import {Subscription} from "rxjs/Subscription";
+import {UserServices} from '../../services/user.services';
 
 @Component({
     selector: 'pbx-chat',
@@ -18,9 +19,14 @@ export class ChatComponent implements OnInit, OnDestroy {
     messagesSubscription: Subscription;
     chatsSubscription: Subscription;
     selected: number = 0;
+    currentUserId: number;
 
     constructor (private socket: WsServices,
-                 private logger: LoggerServices) {
+                 private logger: LoggerServices,
+                 private _user: UserServices) {
+        let tmpUser: any;
+        tmpUser = this._user.fetchUser();
+        this.currentUserId = tmpUser.profile.id;
         // this.logger.log('chat create', null);
         this.messagesSubscription = this.socket.subMessages().subscribe(messages => {
             // this.logger.log('subMessages', messages)

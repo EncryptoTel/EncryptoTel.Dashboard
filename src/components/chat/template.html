@@ -23,7 +23,7 @@
     </div> <!-- calling -->
 
     <div class="messages scrollToDown">
-        <div class="message left" *ngFor="let message of messages">
+        <div class="message" *ngFor="let message of messages" [ngClass]="message.chatMember.userId == currentUserId?'right':'left'">
 
             <div class="avatar">
                 <img [src]="message.chatMember.avatar" alt="">
