@@ -202,9 +202,9 @@
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@types/howler/-/howler-2.0.5.tgz#eb5eb99b943fe423abe3ca713163ed911e2a0d76"
 
-"@types/jquery@^3.3.6":
-  version "3.3.9"
-  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.9.tgz#91f2aaf5c1e91fd79598fc00ecb4504d78b51fd7"
+"@types/jquery@^3.3.9":
+  version "3.3.10"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.10.tgz#d0afaec7ee55f591992e74c607df5dc7cd9c76ab"
 
 "@types/node@*":
   version "10.10.1"
@@ -2507,7 +2507,7 @@ hosted-git-info@^2.1.4:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.7.1.tgz#97f236977bd6e125408930ff6de3eec6281ec047"
 
-howler@^2.0.14:
+howler@^2.0.15:
   version "2.0.15"
   resolved "https://registry.yarnpkg.com/howler/-/howler-2.0.15.tgz#8f26d6548d29b257441fc190644b4392ce99ad32"
 
@@ -3188,9 +3188,9 @@ less@^2.7.2:
     request "2.81.0"
     source-map "^0.5.3"
 
-libphonenumber-js@^1.2.12:
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.4.6.tgz#eb16a2b5c30ecb234e930d481355f52abee72f4c"
+libphonenumber-js@^1.4.7:
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.4.7.tgz#45c6ab77046d851ef4b7ab6dd30810d7db8e6f40"
   dependencies:
     minimist "^1.2.0"
     semver-compare "^1.0.0"
@@ -3619,7 +3619,7 @@ ng-socket-io@^0.2.4:
     "@types/socket.io-client" "^1.4.29"
     socket.io-client "^2.0.2"
 
-ngx-clipboard@^11.1.1:
+ngx-clipboard@^11.1.7:
   version "11.1.7"
   resolved "https://registry.yarnpkg.com/ngx-clipboard/-/ngx-clipboard-11.1.7.tgz#a880f82ab2dd17476d8fa9a48f7f524f37fdbef8"
   dependencies:
@@ -4678,7 +4678,7 @@ rxjs@5.1.0:
   dependencies:
     symbol-observable "^1.0.1"
 
-rxjs@^5.5.2, rxjs@^5.5.6:
+rxjs@^5.5.12, rxjs@^5.5.6:
   version "5.5.12"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.12.tgz#6fa61b8a77c3d793dbaf270bee2f43f652d741cc"
   dependencies:

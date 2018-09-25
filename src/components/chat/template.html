@@ -1,9 +1,28 @@
 <pbx-loader *ngIf="chats.length === 0"></pbx-loader>
-<div class="messages_block" *ngIf="chats.length > 0">
 
+<div class="talking" *ngIf="chats.length > 0">
 
+    <div class="top">
+        <div class="back">
+            <svg-icon src="../../assets/images/chat/return_24px.svg"></svg-icon>
+        </div> <!-- back -->
+        <div class="data">
+            <div class="ava">
+                <img src="../../assets/images/avatar/no_avatar.jpg" alt="" title="">
+            </div> <!-- ava -->
+            <div class="name">Alex Freeman</div>
+        </div> <!-- data -->
+        <div class="settings">
+            <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
+        </div> <!-- settings -->
+    </div> <!-- top -->
 
-    <div class="messages">
+    <div class="calling">
+        <span>calling...</span>
+        <span>+43 02754 8457</span>
+    </div> <!-- calling -->
+
+    <div class="messages scrollToDown">
         <div class="message left" *ngFor="let message of messages">
 
             <div class="avatar">
@@ -11,17 +30,33 @@
             </div>
 
             <div class="cnt">
-                <span class="name" style="width: 30%">{{message.chatMember ? message.chatMember.name : ''}}&nbsp;</span>
-                <span class="msg" style="width: 50%">{{message.text}}&nbsp;</span>
-                <span class="date" style="width: 15%">{{message.created | date: 'hh:mm'}}</span>
-                <div class="status" style="width: 5%" class="ext_table_item_circle2" *ngIf="getStatus(message) === 2 && message.my"></div>
-                <div class="status" style="width: 5%" class="ext_table_item_circle" *ngIf="getStatus(message) === 3 && message.my"></div>
+                <span class="name">{{message.chatMember ? message.chatMember.name : ''}}&nbsp;</span>
+                <div class="msg">{{message.text}}&nbsp;</div>
+                <div class="info">
+                    <span class="date">{{message.created | date: 'hh:mm'}}</span>
+                    <span class="status ext_table_item_circle2" *ngIf="getStatus(message) === 2 && message.my">
+                     <svg-icon src="../../assets/images/chat/check_mark_14px.svg"></svg-icon>
+                    </span>
+                    <span class="status ext_table_item_circle" *ngIf="getStatus(message) === 3 && message.my">
+                        <svg-icon src="../../assets/images/chat/check_mark_double_16px.svg"></svg-icon>
+                    </span>
+                </div>
             </div> <!-- cnt -->
 
         </div> <!-- message -->
     </div> <!-- messages -->
 
     <div class="input_wrap">
+        <div class="smiles">
+            <svg-icon src="../../assets/images/chat/smiley_18px.svg"></svg-icon>
+        </div> <!-- smiles -->
         <input type="text" placeholder="Message" [(ngModel)]="message" (keyup)="onMessageKeyUp($event)">
+        <div class="files">
+            <svg-icon src="../../assets/images/chat/clip_18px.svg"></svg-icon>
+        </div> <!-- files -->
+        <div class="record">
+            <svg-icon src="../../assets/images/chat/microphone_18px.svg"></svg-icon>
+        </div> <!-- record -->
     </div> <!-- input_wrap -->
-</div>
+
+</div> <!-- talking -->
