@@ -80,8 +80,8 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         ];
 
         this.sipTableContext = {
-            titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Created', 'Status'],
-            keys: ['phoneNumber', 'sipOuterPhoneNumber', 'firstName', 'lastName', 'created', 'statusName']
+            titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
+            keys: ['phoneNumber', 'sipOuterPhoneNumber', 'firstName', 'lastName', 'statusName']
         };
     }
 
