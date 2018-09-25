@@ -19,6 +19,7 @@ import {TimerObservable} from 'rxjs/observable/TimerObservable';
 })
 export class SignUpFormComponent implements OnInit, OnDestroy {
     loading: boolean = false;
+    tariffsLoading: boolean = false;
     errorsSubscription: Subscription;
     message: FormMessageModel;
     success: string;
@@ -113,7 +114,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     }
 
     get signUpButtonText(): string {
-        if (!this.loading) {
+        if (!this.tariffsLoading) {
             const plan = this.services.getSelectedTarifPlan();
             const suffix = plan && plan.sum > 0 ? '' : ' FREE';
             return `Start now${suffix}`;
@@ -122,7 +123,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     }
 
     get tariffPlanTitleText(): string {
-        if (!this.loading) {
+        if (!this.tariffsLoading) {
             const plan = this.services.getSelectedTarifPlan();
             const suffix = plan && plan.title != 'Basic' ? " (7 days free)" : ' (Free)';
             return `${plan.title}${suffix}`;
@@ -172,11 +173,9 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
             this.loading = true;
             this.services.signUp(this.signUpForm.value).then(() => {
                 this.signUpCompleted = true; // resend confirmation is shown
-                this.loading = false;
             })
-            .catch(() => {
-                this.loading = false;
-            });
+            .catch(() => {})
+              .then(() => this.loading = false);
         } 
         else {
             if (this.inputValidation('firstname')) this.errorName = true;
@@ -212,10 +211,11 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
             this.signUpForm = this.services.signUpData;
         }
         if (!this.services.tariffPlans) {
-            this.loading = true;
+            this.tariffsLoading = true;
             this.services.getTariffPlans()
-                .then(() => { this.loading = false })
-                .catch(() => { this.loading = false; });
+                .then(() => {})
+                .catch(() => {})
+                .then(() => this.tariffsLoading = false);
         }
     }
 
