@@ -13,8 +13,12 @@ export class PartnerProgramService extends BaseService {
     }
 
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<PartnerProgramModel> {
-        return super.getItems(pageInfo, filter, sort).then((res: PartnerProgramModel) => {
-            let pageInfo = this.plainToClassEx(PartnerProgramModel, PartnerProgramItem, res);
+        return super.getItems(pageInfo, filter, sort).then((response: PartnerProgramModel) => {
+            let pageInfo = this.plainToClassEx(PartnerProgramModel, PartnerProgramItem, response);
+            pageInfo.items.forEach(item => {
+                // TODO: change status type returned from backend
+                // item.status = item.status === 'Enable';
+            });
             return Promise.resolve(pageInfo);
         });
     }

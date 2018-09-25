@@ -42,6 +42,8 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
     // -- component lifecycle methods -----------------------------------------
     
     constructor(private _service: PartnerProgramService) {
+        this.locker = new Locker();
+
         this.table = new TableInfoExModel();
         this.table.sort.isDown = false;
         this.table.sort.column = 'name';
@@ -55,7 +57,6 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
         ];
         
         this.modalDelete = new ModalEx('Are you sure?', 'delete');
-        this.locker = new Locker();
     }
 
     ngOnInit(): void {}

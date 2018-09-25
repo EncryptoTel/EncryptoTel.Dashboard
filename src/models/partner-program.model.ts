@@ -13,7 +13,7 @@ export class PartnerProgramItem extends BaseItemModel {
     public created: Date;
 
     get statusName(): string {
-        return this.status ? 'Active' : 'Disabled';
+        return this.status ? 'Enabled' : 'Disabled';
     }
 
     get refLinkUrl(): string {
@@ -29,7 +29,6 @@ export class PartnerProgramItem extends BaseItemModel {
     constructor(response?: any) {
         super();
         this.name = '';
-
         if (response) {
             this.id = response.id;
             this.name = response.name;

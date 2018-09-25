@@ -24,7 +24,6 @@ export class PaginationComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {
-        console.log('page-info', this.pageInfo);
         this.initLimitSelector();
     }
 
