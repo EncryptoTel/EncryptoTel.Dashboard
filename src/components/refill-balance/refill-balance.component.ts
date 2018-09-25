@@ -41,7 +41,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     errors;
 
     balance;
-    currentFilter = [];
+    currentFilter: any;
 
     navigationSubscription: Subscription;
     WAValidator: any;
@@ -67,6 +67,10 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         });
 
         this.amountValidationError = `Please enter value between ${this.amount.min} and ${this.amount.max}`;
+    }
+
+    resetFilters(): void {
+        this.currentFilter = { amount: null, returnAddress: null };
     }
 
     selectRefillMethod(refillMethod: RefillModel): void {
@@ -175,6 +179,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         this.getCourses();
         this.balance = this.getBalance();
         this.errors = {};
+        this.resetFilters();
     }
 
     ngOnDestroy(): void {
