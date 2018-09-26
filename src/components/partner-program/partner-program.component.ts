@@ -7,6 +7,7 @@ import {ClipboardService} from "ngx-clipboard";
 import {MessageServices} from "../../services/message.services";
 import { FormGroup } from '../../../node_modules/@angular/forms';
 
+
 @Component({
     selector: 'partner-program-component',
     templateUrl: './template.html',
@@ -14,7 +15,6 @@ import { FormGroup } from '../../../node_modules/@angular/forms';
     providers: [PartnerProgramService],
     animations: [SwipeAnimation('x', '300ms')]
 })
-
 export class PartnerProgramComponent implements OnInit {
     partners: PartnerProgramModel;
     selected: PartnerProgramItem;
@@ -87,9 +87,11 @@ export class PartnerProgramComponent implements OnInit {
         editItem.init({ key: 'name', object: this.selected, edit: true });
         this.sidebar.items.push(editItem);
         
-        editItem = new SidebarInfoItem(6, 'Link', this.selected.refLinkUrl);
-        editItem.init({ key: 'refLinkUrl', object: this.selected, edit: true, disabled: true });
-        this.sidebar.items.push(editItem);
+        if (this.selected.refLinkUrl) {
+            editItem = new SidebarInfoItem(6, 'Link', this.selected.refLinkUrl);
+            editItem.init({ key: 'refLinkUrl', object: this.selected, edit: true, disabled: true });
+            this.sidebar.items.push(editItem);
+        }
 
         let statusOptions = [
             { title: 'Active', value: true, id: 1 },
@@ -146,6 +148,7 @@ export class PartnerProgramComponent implements OnInit {
         (item ? item : this).loading ++;
         this.service.getItems(this.partners).then(response => {
             this.partners = response;
+            console.log('partners', this.partners);
         }).catch(() => {})
           .then(() => (item ? item : this).loading --);
     }

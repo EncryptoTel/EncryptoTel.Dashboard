@@ -10,7 +10,8 @@
         { "key": "companyAddress[0].office", "title": "Office" },
         { "key": "companyAddress[0].postalCode", "title": "Postal code" },
         { "key": "email", "title": "Email" },
-        { "key": "phone", "title": "Phone" }
+        { "key": "phone", "title": "Phone" },
+        { "key": "vatId", "title": "VAT ID" }
     ],
     "sectionGroups": [ 
         {
