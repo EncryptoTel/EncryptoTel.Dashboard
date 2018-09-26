@@ -43,10 +43,13 @@
                                [object]="item.object"
                                [checkbox]="item.checkbox"
                                [options]="item.options"
+                               [optionsSelectedKey]='item.optionsKey'
                                [editable]="false"
                                [displayKey]="'title'"
                                [errors]="errors"
                                [disabled]="item.disabled"
+                               [form]="useForm"
+                               [validationHost]="validationHost"
                                (onSelect)="selectItem($event)"
                         >
                     </pbx-input>

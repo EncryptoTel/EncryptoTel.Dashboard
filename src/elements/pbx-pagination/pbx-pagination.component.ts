@@ -29,7 +29,7 @@ export class PaginationComponent implements OnInit {
 
     initLimitSelector(): void {
         this.limitSelectorOptions = [ 10, 20, 30, 40, 50 ];
-        // Should limit selector to be used for quick nvigation through pages, 
+        // Should limit selector to be used for quick nvigation through pages,
         // the code below may be taken.
         // for (let number = 1; number <= this.pageInfo.pageCount; ++ number) {
         //     this.limitSelectorOptions.push(number * this.pageInfo.limit);
@@ -107,15 +107,17 @@ export class PaginationComponent implements OnInit {
     }
 
     moveToFirst(): void {
-        if (!this.canMoveToFirst) 
+        if (!this.canMoveToFirst)
             return;
         this.changePage(1);
     }
 
     moveBack(): void {
-        if (!this.canMoveBack)
+        if (this.canMoveBack) {
+            this.changePage(this.pageInfo.page - 1);
+        } else {
             return;
-        this.changePage(this.pageInfo.page - 1);
+        }
     }
 
     moveForward(): void {
@@ -130,7 +132,7 @@ export class PaginationComponent implements OnInit {
         this.changePage(this.pageInfo.pageCount);
     }
 
-    // Should limit selector to be used for quick nvigation through pages, 
+    // Should limit selector to be used for quick nvigation through pages,
     // the code below can be taken.
     isInCurrentPage(index: number): boolean {
         return index >= this.firstItemNumber && index <= this.pageInfo.page * this.pageInfo.limit;

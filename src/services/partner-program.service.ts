@@ -14,6 +14,7 @@ export class PartnerProgramService extends BaseService {
 
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<PartnerProgramModel> {
         return super.getItems(pageInfo, filter, sort).then((response: PartnerProgramModel) => {
+            console.log('response', response);
             let pageInfo = this.plainToClassEx(PartnerProgramModel, PartnerProgramItem, response);
             pageInfo.items.forEach(item => {
                 // TODO: change status type returned from backend

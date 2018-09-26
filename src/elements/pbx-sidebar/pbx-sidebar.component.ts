@@ -1,15 +1,19 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {SidebarInfoModel} from "../../models/base.model";
+import { ValidationHost } from '../../models/validation-host.model';
+
 
 @Component({
     selector: 'pbx-sidebar',
     templateUrl: './template.html',
     styleUrls: ['./local.sass']
 })
-
 export class SidebarComponent {
     @Input() sidebarInfo: SidebarInfoModel;
     @Input() errors: any;
+    
+    @Input() useForm: boolean = false;
+    @Input() validationHost: ValidationHost;
     
     @Output() onClick: EventEmitter<SidebarInfoModel> = new EventEmitter<SidebarInfoModel>();
     @Output() onSelect: EventEmitter<any> = new EventEmitter<any>();
