@@ -159,7 +159,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     decline(): void {
-        super.close(this.company.isValid, () => this.cancel());
+        super.close(this.company && this.company.isValid, () => this.cancel());
     }
 
     cancel(): void {

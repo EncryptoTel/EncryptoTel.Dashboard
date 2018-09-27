@@ -23,30 +23,30 @@ import {isObject, isArray} from 'util';
     ]
 })
 export class TableComponent implements OnInit {
-    @Input() tableItems: any[];
+    @Input() columnFormat: string[];
+    @Input() deletable: boolean = true;
+    @Input() editable: boolean;
+    @Input() editMode: boolean = true;
+    @Input() multiple: boolean;
+    @Input() name: string;
     @Input() selected: any;
     @Input() tableInfo: TableInfoModel;
     @Input() tableInfoEx: TableInfoExModel;
-    @Input() editable: boolean;
-    @Input() deletable: boolean = true;
-    @Input() editMode: boolean = true;
-    @Input() multiple: boolean;
-    @Input() columnFormat: string[];
-    @Input() name: string;
+    @Input() tableItems: any[];
     @Input() tableReload: number = 0;
 
-    @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
-    @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
     @Output() onDelete: EventEmitter<object> = new EventEmitter<object>();
-    @Output() onPageChangeEx: EventEmitter<number> = new EventEmitter<number>();
-    @Output() onSort: EventEmitter<object> = new EventEmitter<object>();
     @Output() onDropDown: EventEmitter<object> = new EventEmitter<object>();
     @Output() onDropDownClick: EventEmitter<object> = new EventEmitter<object>();
+    @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
+    @Output() onPageChangeEx: EventEmitter<number> = new EventEmitter<number>();
     @Output() onPlayerClick: EventEmitter<object> = new EventEmitter<object>();
+    @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
+    @Output() onSort: EventEmitter<object> = new EventEmitter<object>();
 
+    dropDirection = '';
     modal: ModalEx = new ModalEx('Are you sure?', 'delete');
     selectedDelete: any;
-    dropDirection = '';
 
     isSelected(id: number): boolean {
         if (this.selected) {
