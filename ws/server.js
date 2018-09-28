@@ -26,7 +26,7 @@ io.adapter(
 );
 
 try {
-    config = yaml.safeLoad(fs.readFileSync('app/config/parameters.yml', 'utf8'));
+    config = yaml.safeLoad(fs.readFileSync('config/parameters.yml', 'utf8'));
     console.log(config.parameters.front_url);
 } catch (e) {
     console.log(e);
