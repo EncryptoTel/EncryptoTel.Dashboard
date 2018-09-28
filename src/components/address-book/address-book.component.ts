@@ -426,7 +426,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     setFormData() {
-        super.resetForms();
+        this.resetForms();
 
         if (this.selected.contactPhone.length === 0) {
             this.selected.addContactPhone(new ContactValueModel());

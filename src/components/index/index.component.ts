@@ -79,8 +79,10 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     navigationInit(): void {
-        this._user.fetchNavigationParams().then(result => {
-        }).then(() => this.completedRequests++).catch();
+        this._user.fetchNavigationParams()
+            .then(() => {})
+            .then(() => this.completedRequests ++)
+            .catch();
     }
 
     toggleActiveButton(ix: number, ev: MouseEvent): void {

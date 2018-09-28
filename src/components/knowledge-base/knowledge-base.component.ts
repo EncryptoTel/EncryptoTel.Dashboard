@@ -15,23 +15,35 @@ import { ThrowStmt } from '../../../node_modules/@angular/compiler';
 })
 
 export class KnowledgeBaseComponent implements OnInit {
-
-    @ViewChild(HeaderComponent) header: HeaderComponent;
-
-    loading = 0;
-    helpGroups: HelpGroupModel = new HelpGroupModel();
-    leftGroups: HelpGroupItem[] = [];
-    rightGroups: HelpGroupItem[] = [];
-    helps: HelpModel = new HelpModel();
-    buttons: ButtonItem[] = [];
-    filters: FilterItem[] = [];
+    loading: number;
+    helpGroups: HelpGroupModel;
+    leftGroups: HelpGroupItem[];
+    rightGroups: HelpGroupItem[];
+    helps: HelpModel;
+    buttons: ButtonItem[];
+    filters: FilterItem[];
     currentFilter: any;
-    visible = [];
     selectedGroup: HelpGroupItem;
     selectedHelp: HelpItem;
     lastIndex: number;
 
+    @ViewChild(HeaderComponent) header: HeaderComponent;
+
+    // -- component lifecycle methods -----------------------------------------
+
     constructor(private service: KnowledgeBaseService) {
+        this.helpGroups = new HelpGroupModel();
+        this.leftGroups = [];
+        this.rightGroups = [];
+
+        this.helps = new HelpModel();
+
+        this.loading = 0;
+        
+        this.filters = [];
+        this.resetFilter();
+
+        this.buttons = [];
         this.buttons.push({
             id: 0,
             title: 'Back',
@@ -41,6 +53,12 @@ export class KnowledgeBaseComponent implements OnInit {
         });
     }
 
+    ngOnInit() {
+        this.getGroups();
+    }
+
+    // -- filter methods ------------------------------------------------------
+
     get hasFilter(): boolean {
         return !!this.currentFilter && (!!this.currentFilter['group'] || !!this.currentFilter['search']);
     }
@@ -49,10 +67,16 @@ export class KnowledgeBaseComponent implements OnInit {
         return this.helps.items.length == 0 && this.hasFilter;
     }
 
+    resetFilter(): void {
+        this.currentFilter = { group: null, search: null };
+    }
+
+    // -- event handlers ------------------------------------------------------
+
     back() {
         this.selectedGroup = null;
         this.selectedHelp = null;
-        this.currentFilter = null;
+        this.resetFilter();
         this.buttons[0].visible = false;
         this.helps.items = [];
         this.header.updateFilter(0, this.filters);
@@ -80,12 +104,6 @@ export class KnowledgeBaseComponent implements OnInit {
         this.lastIndex = index;
     }
 
-    noResult(): void {
-        this.selectedGroup = null;
-        this.selectedHelp = null;
-        this.helps.items = [];
-    }
-
     reloadFilter(filter) {
         this.currentFilter = filter;
         let item = this.helpGroups.items.find(item => item.id === filter['group']);
@@ -97,50 +115,46 @@ export class KnowledgeBaseComponent implements OnInit {
         }
     }
 
-    getHelps() {
-        this.loading++;
-        this.service.getHelps(this.helps, this.currentFilter).then(res => {
-            this.helps = res;
-            this.loading--;
-        }).catch(() => {
-            this.loading--;
-        });
+    // -- common methods ------------------------------------------------------
+
+    noResult(): void {
+        this.selectedGroup = null;
+        this.selectedHelp = null;
+        this.helps.items = [];
     }
 
-    getGroups() {
-        this.loading++;
-        this.service.getGroups(this.helpGroups, '').then(res => {
-            this.helpGroups = res;
+    // -- data retrieval methods ----------------------------------------------
+
+    getHelps(): void {
+        this.loading ++;
+        this.service.getHelps(this.helps, this.currentFilter).then(response => {
+            this.helps = response;
+        }).catch(() => {})
+          .then(() => this.loading --);
+    }
+
+    getGroups(): void {
+        this.loading ++;
+        this.service.getGroups(this.helpGroups, '').then(response => {
+            this.helpGroups = response;
+            
             this.leftGroups = [];
             this.rightGroups = [];
-
-            for (let i = 0; i < res.items.length; i++) {
-                if (i % 2 === 0) {
-                    this.leftGroups.push(res.items[i]);
-                } else {
-                    this.rightGroups.push(res.items[i]);
-                }
-            }
-
             const options = [];
-            res.items.forEach(item => {
-                options.push({id: item.id, title: item.title});
+
+            response.items.forEach((item, index) => {
+                options.push({ id: item.id, title: item.title });
+                if (index % 2 === 0) this.leftGroups.push(item);
+                else this.rightGroups.push(item);
             });
+
             if (this.filters.length === 0) {
                 this.filters.push(new FilterItem(1, 'group', 'Source', options, 'title', '[choose one]'));
                 this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search Pbx support', 404));
             } else {
                 this.filters[0].options = options;
             }
-            this.loading--;
-        }).catch(() => {
-            this.loading--;
-        });
+        }).catch(() => {})
+          .then(() => this.loading --);
     }
-
-    ngOnInit() {
-        this.getGroups();
-
-    }
-
 }

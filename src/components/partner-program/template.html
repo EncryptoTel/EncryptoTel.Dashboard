@@ -48,10 +48,16 @@
     <pbx-sidebar class="sidebar_partner_program"
             *ngIf="tab.select==='Links' && this.selected"
             [sidebarInfo]="sidebar"
+            [useForm]="true"
+            [validationHost]="validationHost"
+            [errors]="service.errors"
             (onClick)="click($event)"
             (onSelect)="selectItemStatus($event)"
-            [errors]="service.errors"
             [@Swipe]
             >
     </pbx-sidebar>
 </div>
+<pbx-modal [modalEx]="modalExit"
+           (onConfirmEx)="confirmClose()"
+           >
+</pbx-modal>

@@ -47,11 +47,25 @@
                                headerText="Department Members"
                                noDataMessage="No data to display. Please add members"
                                [tableInfo]="sipTableContext"
-                               [items]="sips"
+                               [items]="filteredSips"
                                [parentEditMode]="hasId"
                                [(selectedItems)]="selectedSips"
                                >
-            &nbsp;
+            <div class="dep-create-wrapper" *ngIf="sips.length > 0">
+                <pbx-input  #filterControl
+                            name="Search:"
+                            key="value"
+                            [object]="currentFilter"
+                            [filter] = "filter"
+                            [placeholder]="filter.placeHolder"
+                            [inputWidth]="filter.width"
+                            [inputFocus]="filter.focus"
+                            [singleBorder]="false"
+                            [resetable]="true"
+                            (onKeyUp)="applySipFilter()"
+                            >
+                </pbx-input>
+            </div>
         </pbx-view-edit-control>
     </pbx-tab>
 </pbx-tabs>

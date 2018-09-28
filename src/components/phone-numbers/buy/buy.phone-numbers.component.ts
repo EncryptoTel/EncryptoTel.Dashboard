@@ -71,28 +71,16 @@ export class BuyPhoneNumbersComponent implements OnInit {
         this.clearSearchVisible = false;
     }
 
-    ngDoCheck(): void {
-        if (this.requestDetails.contains === '') {
-            this.clearNumberVisible = false;
-        } else {
-            this.clearNumberVisible = true;
-        }
-
-        if (this.requestDetails.areaCode === '') {
-            this.clearSearchVisible = false;
-        } else {
-            this.clearSearchVisible = true;
-        }
-    }
-
     clearAreaCode() {
         this.requestDetails.areaCode = '';
         this.clearSearchVisible = false;
+        this.getList();
     }
 
     clearContains() {
         this.requestDetails.contains = '';
         this.clearNumberVisible = false;
+        this.getList();
     }
 
     selectCountry(country: CountryModel) {

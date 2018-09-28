@@ -64,6 +64,8 @@ export class InputComponent implements OnInit {
     }
     _errorShow: boolean = false;
 
+    @Input() optionsSelectedKey: string;
+
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
     @Output() onKeyUp: EventEmitter<object> = new EventEmitter();
@@ -437,7 +439,7 @@ export class InputComponent implements OnInit {
     ngOnInit() {
         this.loading ++;
 
-        if (this.form && this.checkbox) {
+        if (this.form && (this.checkbox || this.options)) {
             this.value = this.getForm() ? this.getForm().value : false;
         }
         else if (this.options) {
@@ -450,6 +452,13 @@ export class InputComponent implements OnInit {
         }
         else {
             this.value = this.object[this.key];
+        }
+
+        // when selected option is taken from form it may not be an object but value
+        // then the selected value should be matched from options by 'optionsSelectedKey'
+        if (this.form && this.options && this.optionsSelectedKey) {
+            let selectedValue = this.getForm().value;
+            this.value = this.options.find(o => o[this.optionsSelectedKey] === selectedValue);
         }
 
         this.checkboxValues = [

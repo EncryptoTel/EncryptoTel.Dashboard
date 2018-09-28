@@ -12,6 +12,8 @@ import {ClipboardService} from 'ngx-clipboard';
 import {FilterItem} from '../../models/base.model';
 import { numberRegExp } from '../../shared/vars';
 
+declare var require: any;
+
 @Component({
     selector: 'refill-balance',
     templateUrl: './template.html',
@@ -39,15 +41,19 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     errors;
 
     balance;
-    currentFilter = [];
+    currentFilter: any;
 
     navigationSubscription: Subscription;
+    WAValidator: any;
 
     constructor(private _refill: RefillServices,
                 private _storage: LocalStorageServices,
                 private _message: MessageServices,
                 private clipboard: ClipboardService,
                 private _router: Router) {
+
+        this.WAValidator = require('wallet-address-validator');
+
         this.filters.push(new FilterItem(1, 'amount',
             `Payment amount`, null, null,
             ``, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`, true));
@@ -61,6 +67,10 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         });
 
         this.amountValidationError = `Please enter value between ${this.amount.min} and ${this.amount.max}`;
+    }
+
+    resetFilters(): void {
+        this.currentFilter = { amount: null, returnAddress: null };
     }
 
     selectRefillMethod(refillMethod: RefillModel): void {
@@ -104,6 +114,10 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     pay(): void {
+
+        // let valid: any;
+        // valid = this.WAValidator .validate('3PAUeFvWq7WbGqV4VaZ1DH4FQJgbLoz7z2i', 'bitcoin');
+
         if (!this.validateFilters()) return;
 
         // this.payment.loading = true;
@@ -165,6 +179,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         this.getCourses();
         this.balance = this.getBalance();
         this.errors = {};
+        this.resetFilters();
     }
 
     ngOnDestroy(): void {

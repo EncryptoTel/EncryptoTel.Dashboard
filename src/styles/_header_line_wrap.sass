@@ -1,0 +1,27 @@
+.header_line_wrap
+    .header_button_wrap
+        z-index: 10
+        .desc
+            &.hiding
+                opacity: 0
+    .header_button
+        &.chat
+            position: relative
+            .notification
+                position: absolute
+                top: 22px
+                right: 22px
+                color: $white_black
+                background: $dark_white
+                border-radius: 100%
+                width: 16px
+                height: 16px
+                z-index: 1
+                display: none
+                i
+                    font-style: normal
+                    position: absolute
+                    top: 50%
+                    left: 50%
+                    transform: translate(-50%, -50%)
+                    font-size: 11px

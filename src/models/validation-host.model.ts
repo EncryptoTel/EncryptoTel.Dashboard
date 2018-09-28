@@ -54,6 +54,9 @@ export class ValidationHost implements Lockable {
 
     start(): void {
         this.active = true;
+        if (!this.items && this.forms.length > 0) {
+            this.initItems();
+        }
     }
 
     stop(): void {
@@ -185,8 +188,8 @@ export class ValidationHost implements Lockable {
         if (customMessage) return customMessage;
 
         if (errorKey == 'required') {
-            let keyName = control.name.toLowerCase();
-            return `Please enter ${keyName}`;
+            let name = this.getControlName(control);
+            return `Please enter ${name}`;
         }
         else if (errorKey == 'minlength') {
             let pluralEnding = errors.minlength.requiredLength > 1 ? 's' : '';
@@ -197,9 +200,16 @@ export class ValidationHost implements Lockable {
             return `Please enter no more than ${errors.maxlength.requiredLength} character${pluralEnding}`;
         }
         else if (errorKey == 'pattern') {
-            // Nothing todo right now here
+            let name = this.getControlName(control);
+            return `Please enter valid ${name}`;
         }
         return 'The value is invalid';
+    }
+
+    getControlName(control: InputComponent): string {
+        let name = control.name.toLowerCase();
+        name = name.replace(/\s+\*\s*$/, '');
+        return name;
     }
     
     getCustomValidatorMessage(control: InputComponent, errorKey: string): string {

@@ -159,7 +159,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     decline(): void {
-        super.close(this.company.isValid, () => this.cancel());
+        super.close(this.company && this.company.isValid, () => this.cancel());
     }
 
     cancel(): void {
@@ -181,7 +181,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             this.service.save({...this.form.value}, false).then((company) => {
                 this._message.writeSuccess('Company successfully updated.');
                 this.editMode = false;
-                this.companyInfo.logo = company.logo;
+                this.getCompany();
             }).catch(error => {
                 // this._message.writeError('Company update error.');
                 console.log('Company update error', error);

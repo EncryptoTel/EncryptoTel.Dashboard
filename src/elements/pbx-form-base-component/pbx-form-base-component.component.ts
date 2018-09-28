@@ -6,8 +6,8 @@ import {Lockable, Locker} from '../../models/locker.model';
 import {ValidationHost} from '../../models/validation-host.model';
 import {ModalEx} from '../pbx-modal/pbx-modal.component';
 import {FormsSnapshots} from '../../models/forms-snapshots.model';
-import {validateForm, killEvent, validateFormControls} from '../../shared/shared.functions';
-import { MessageServices } from '../../services/message.services';
+import {validateForm, validateFormControls} from '../../shared/shared.functions';
+import {MessageServices} from '../../services/message.services';
 
 
 @Component({
@@ -65,8 +65,28 @@ export class FormBaseComponent implements OnInit, Lockable {
 
     initForm(): void {
         // should be overriden in derived class
-        throw new Error('Method not implemented.');
+        throw new Error('initForm() method not implemented.');
     }
+
+    setFormData<T>(model: T, customInitCallback?: () => void): void {
+        // TODO: modify to update specific form
+        this.form.patchValue(model);
+        if (customInitCallback) customInitCallback();
+
+        this.saveFormState();
+    }
+
+    setModelData<T>(model: T, customInitCallback?: () => void): T {
+        // TODO: modify to take from specific form
+        // let creator: { new (): T; };
+        // let object = new creator;
+        // return object;
+        model = <T>this.form.value;
+        if (customInitCallback) customInitCallback();
+
+        return model;
+    }
+
 
     addForm(formKey: string, form: FormGroup): void {
         this.forms.push(form);
@@ -88,6 +108,7 @@ export class FormBaseComponent implements OnInit, Lockable {
             validateFormControls(form);
             result = result && form.valid;
         });
+        
         this.validationHost.clearControlsFocusedState();
         return result;
     }
@@ -125,7 +146,7 @@ export class FormBaseComponent implements OnInit, Lockable {
         }
     }
 
-    close(editMode: boolean = true, confirmCallback: () => void = null): void {
+    close(editMode: boolean = true, confirmCallback?: () => void): void {
         if (this.checkFormChanged()) {
             let message = (editMode)
                 ? 'You have made changes. Do you really want to leave without saving?'

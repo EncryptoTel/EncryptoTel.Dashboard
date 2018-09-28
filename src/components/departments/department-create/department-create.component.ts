@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { DepartmentService } from '../../../services/department.service';
-import { BaseButton, InputAction } from '../../../models/base.model';
+import { BaseButton, InputAction, FilterItem } from '../../../models/base.model';
 import { MessageServices } from '../../../services/message.services';
 import { RefsServices } from '../../../services/refs.services';
 import { CompanyService } from '../../../services/company.service';
@@ -15,6 +15,7 @@ import { TabComponent } from '../../../elements/pbx-tabs/tab/pbx-tab.component';
 import { TabsComponent } from '../../../elements/pbx-tabs/pbx-tabs.component';
 import { validateForm } from '../../../shared/shared.functions';
 import { FormBaseComponent } from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import { InputComponent } from '../../../elements/pbx-input/pbx-input.component';
 
 
 @Component({
@@ -26,6 +27,7 @@ import { FormBaseComponent } from '../../../elements/pbx-form-base-component/pbx
 export class DepartmentCreateComponent extends FormBaseComponent implements OnInit {
     public locker: Locker;
     public sips: any[];
+    public filteredSips: any[];
     public selectedSips: any[];
     public sipTableContext: {};
 
@@ -34,9 +36,12 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
     private _department: DepartmentItem;
 
     params: object = {};
+    filter: FilterItem;
+    currentFilter: any;
 
     @ViewChild('departmentFormTabs') formTabs: TabsComponent;
     @ViewChild('sipInnersControl') sipInnersControl: ViewEditControlComponent;
+    @ViewChild('filterControl') filterControl: InputComponent;
 
     // -- properties ----------------------------------------------------------
 
@@ -54,7 +59,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                 protected _fb: FormBuilder,
                 protected _message: MessageServices) {
         super(_fb, _message);
-        
+
         this.params = {
             'class': {
                 'enable': false,
@@ -68,6 +73,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
         this.locker = new Locker();
         this.sips = [];
+        this.filteredSips = [];
         this._id = this._activatedRoute.snapshot.params.id;
 
         this._tabsButtons = [];
@@ -80,9 +86,12 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         ];
 
         this.sipTableContext = {
-            titles: ['#Ext', 'Phone number', 'Created', 'Status'],
-            keys: ['phoneNumber', 'sipOuterPhoneNumber', 'created', 'statusName']
+            titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
+            keys: ['phoneNumber', 'sipOuterPhoneNumber', 'firstName', 'lastName', 'statusName']
         };
+
+        this.filter = new FilterItem(1, 'search', 'Search', null, null, 'Search by Name or Phone');
+        this.currentFilter = { value: null };
     }
 
     ngOnInit(): void {
@@ -100,7 +109,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
         super.ngOnInit();
     }
-    
+
     // -- form component methods ----------------------------------------------
 
     initForm(): void {
@@ -210,11 +219,14 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
             this.sips.push({
                 id: sipInner.id,
                 phoneNumber: sipInner.phoneNumber,
+                firstName: sipInner.firstName,
+                lastName: sipInner.lastName,
                 sipOuterPhoneNumber: item.phoneNumber,
                 created: sipInner.created,
                 statusName: sipInner.statusName
             });
         }));
+        this.applySipFilter();
     }
 
     fillSipInnersFormElements(): void {
@@ -245,6 +257,29 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         return true;
     }
 
+    // -- filtering -----------------------------------------------------------
+
+    applySipFilter(): void {
+        if (this.currentFilter.value) {
+            this.filteredSips = this.sips.filter(s => {
+                return this.matchFilter(s.phoneNumber) || this.matchFilter(s.sipOuterPhoneNumber);
+            });
+        }
+        else {
+            this.filteredSips = this.sips;
+        }
+    }
+
+    resetFilter(): void {
+        this.filterControl.clearValue();
+        this.currentFilter.value = null;
+        this.applySipFilter();
+    }
+
+    matchFilter(checkValue: string): boolean {
+        return checkValue.indexOf(this.currentFilter.value) >= 0;
+    }
+
     // -- event handlers ------------------------------------------------------
 
     tabChanged(tab: TabComponent): void {
@@ -270,6 +305,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         }
         else if (action == 'back') {
             this.sipInnersControl.editMode = false;
+            this.resetFilter();
         }
     }
 
