@@ -1,0 +1,147 @@
+.ivr_create_wrap
+    .ivr_create_header
+        display: grid
+        grid-template-columns: 1fr 1fr
+        margin-bottom: 16px
+        .ivr_create_tab_wrap
+            pbx-button
+                margin-left: 0 !important
+        .ivr_create_buttons
+            justify-content: flex-end
+
+    .ivr_create_body
+        display: flex
+        height: 100%
+        .left,
+        .right
+            height: 100%
+            width: 50%
+            overflow: auto
+        .left
+            padding-bottom: 0
+            &.h_scroll
+                padding-bottom: 16px
+            .item
+                width: 192px
+                min-width: 192px
+                flex-direction: column
+                background: $dark_overlay
+                padding-bottom: 56px
+                position: relative
+                margin-right: 16px
+                &.two,
+                &.one_up
+                    padding-bottom: 112px
+                    .buttons
+                        height: 112px
+                &.two
+                    .buttons
+                        pbx-button
+                            &:nth-child(2)
+                                display: block
+                &.one_up
+                    .buttons
+                        pbx-button
+                            &:nth-child(2)
+                                display: none
+                &.selected
+                    background: $ivr_dark_selected
+                    .buttons
+                        background: $ivr_dark_selected
+                .top
+                    padding: 8px 12px 10px
+                    display: block
+                    width: 100%
+                    border-bottom: 1px solid $dark-white_20
+                    &.active
+                        background: $dark-white_10
+                    .desc
+                        font-family: Roboto, sans-serif
+                        font-size: 10px
+                        color: $dark_white_60
+                        margin-bottom: 6px
+                        display: block
+                    .title
+                        font-family: Roboto, sans-serif
+                        font-size: 14px
+                        color: $dark_white
+                        display: block
+                        white-space: nowrap
+                        overflow: hidden
+                        text-overflow: ellipsis
+                .numbers
+                    flex-direction: column
+                    display: block
+                    overflow: auto
+                    .number
+                        display: grid
+                        grid-template-columns: 48px 1fr
+                        grid-template-rows: 1fr 1fr 1fr
+                        //margin: 16px 0
+                        overflow: hidden
+                        padding: 16px 12px
+                        cursor: pointer
+                        *
+                            cursor: pointer
+                        &.selected
+                            background: $ivr_dark_selected
+                        .digit
+                            grid-column: 1/2
+                            grid-row: 1/4
+                            .inner
+                                width: 48px
+                                height: 48px
+                                border: 1px solid $dark_white
+                                border-radius: 100%
+                                margin: auto
+                                span
+                                    margin: auto
+                                    font-family: Roboto, sans-serif
+                                    font-size: 24px
+                                    font-weight: 300
+                                    color: $dark_white
+                    .line
+                        padding: 0 0 0 16px
+                        align-items: center
+                        font-family: Roboto, sans-serif
+                        font-size: 12px
+                        font-weight: 300
+                        color: $dark_white_80
+                        overflow: hidden
+                        span
+                            display: block
+                            overflow: hidden
+                            white-space: nowrap
+                            text-overflow: ellipsis
+                        &.line1
+                            grid-column: 2/3
+                            grid-row: 1/2
+                        &.line2
+                            grid-column: 2/3
+                            grid-row: 2/3
+                        &.line3
+                            grid-column: 2/3
+                            grid-row: 3/4
+                .buttons
+                    background: $dark_overlay
+                    padding: 8px
+                    height: 56px
+                    flex-direction: column
+                    position: absolute
+                    left: 0
+                    right: 0
+                    bottom: 0
+                    justyfy-content: flex-start
+                    pbx-button
+                        width: 100%
+                        margin-left: 0
+                        &:nth-child(2)
+                            margin-top: 16px
+                            display: none
+        .right
+            flex: 1
+            flex-direction: column
+            margin-left: 24px
+
+::-webkit-scrollbar:horizontal
+    height: 3px
