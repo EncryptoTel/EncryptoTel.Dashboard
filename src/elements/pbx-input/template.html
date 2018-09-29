@@ -21,6 +21,7 @@
                        class="{{singleBorder ? '' : 'show-border'}} {{inErrorState ? 'error-border' : ''}} searching"
 					   [ngClass]="[ inErrorState ? 'input-invalid' : 'input-valid' ]"
                        [style.width]="inputWidth ? inputWidth + 'px' : '100%'"
+                       [ngStyle]="inputCenter && {'text-align': 'center'}"
                        [type]="type"
                        [id]="key"
                        placeholder="{{ placeholder.length > 0 ? placeholder : '' }}"
@@ -33,7 +34,8 @@
                        [disabled]="disabled"
                        (paste)="pasteEvent($event)"
                        [attr.data-focus]="inputFocus"
-                        appAutofocus>
+                       appAutofocus
+                       >
 
                 <div *ngIf="!options && !checkbox && type !== 'textarea' && resetable && value" class="clear_icon_wrap">
                     <div class="clear_icon" (click)="clearValue()">
@@ -85,19 +87,21 @@
                  [formGroup]="object"
                  [ngClass]="['pbx_input_item_input_wrap', inputClass]">
 
-                <input *ngIf="!options && !checkbox && type !== 'textarea'"
-                       class="{{ singleBorder ? '' : 'show-border' }} {{ inErrorState ? 'error-border error-text' : '' }}"
-                       [type]="type"
-                       [id]="key"
-                       [placeholder]="placeholder"
-                       [title]="name"
-                       [formControlName]="[key]"
-                       (keyup)="inputKeyUp($event)"
-                       (focus)="setFocus()"
-                       (blur)="removeFocus()"
-                       (mouseenter)="mouseEnter()"
-                       (mouseleave)="mouseLeave()"
-                >
+                <input 
+                    *ngIf="!options && !checkbox && type !== 'textarea'"
+                    class="{{ singleBorder ? '' : 'show-border' }} {{ inErrorState ? 'error-border error-text' : '' }}"
+                    [type]="type"
+                    [id]="key"
+                    [placeholder]="placeholder"
+                    [title]="name"
+                    [formControlName]="[key]"
+                    [ngStyle]="inputCenter && {'text-align': 'center'}"
+                    (keyup)="inputKeyUp($event)"
+                    (focus)="setFocus()"
+                    (blur)="removeFocus()"
+                    (mouseenter)="mouseEnter()"
+                    (mouseleave)="mouseLeave()"
+                    >
 
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
@@ -176,9 +180,10 @@
         </div>
 
         <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
-             [@Swipe]
-             #errorSpan
-             [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+            [@Swipe]
+            #errorSpan
+            [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+            [ngStyle]="{ 'left.px': hVMessageOffset, 'top.px': vVMessageOffset }"
             >
             {{ errorMessage }}
         </div>
@@ -186,6 +191,7 @@
             [@Fade]
             #errorSpan
             [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+            [ngStyle]="{ 'left.px': hVMessageOffset, 'top.px': vVMessageOffset }"
             >
             {{ errorMessage }}
         </div>

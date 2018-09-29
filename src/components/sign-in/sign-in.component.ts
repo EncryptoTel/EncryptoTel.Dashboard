@@ -169,6 +169,5 @@ export class SignInComponent implements OnInit, OnDestroy {
 
     imageLoaded() {
         this.imageLoad = true;
-        console.log('loaded');
     }
 }

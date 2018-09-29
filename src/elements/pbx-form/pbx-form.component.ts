@@ -8,14 +8,17 @@ import {OnInit} from '@angular/core';
 })
 
 export class FormComponent implements OnInit {
-    selected: string;
+    
     @Input() tabs: string[];
     @Input() icons: string[];
     @Input() inactiveTabs: boolean[];
+    @Input() selected: string;
     @Input() startTab: string;
-    @Input() background: boolean;
+
     @Input() confirm: { value: string, buttonType: string, inactive: boolean, loading: boolean };
     @Input() decline: { value: string, buttonType: string, inactive: boolean, loading: boolean };
+
+    @Input() background: boolean;
     @Input() fillBackground: boolean;
 
     @Output() onConfirm: EventEmitter<void> = new EventEmitter<void>();
@@ -23,10 +26,28 @@ export class FormComponent implements OnInit {
     @Output() onSelect: EventEmitter<string> = new EventEmitter<string>();
 
 
-    selectingTab(text: string, index: number) {
+    // -- event handlers ------------------------------------------------------
+
+    showIcon(index: number): boolean {
+        return !!this.icons && index < this.icons.length && !!this.icons[index];
+    }
+
+    // -- component lifecycle methods -----------------------------------------
+
+    constructor() {}
+
+    ngOnInit(): void {
+        if (this.tabs) {
+            !!this.startTab ? this.selected = this.startTab : this.selected = this.tabs[0];
+        }
+    }
+
+    // -- event handlers ------------------------------------------------------
+
+    selectTab(text: string, index: number) {
         if (!!this.inactiveTabs && this.inactiveTabs[index]) {
             // if (!!this.inactiveTabs && this.inactiveTabs[index]) {
-            this.selected = text;
+            // this.selected = text;
             this.onSelect.emit(text);
         }
     }
@@ -37,11 +58,5 @@ export class FormComponent implements OnInit {
 
     clickDecline(): void {
         this.onDecline.emit();
-    }
-
-    ngOnInit(): void {
-        if (this.tabs) {
-            !!this.startTab ? this.selected = this.startTab : this.selected = this.tabs[0];
-        }
     }
 }

@@ -31,9 +31,11 @@ jQuery(document).ready(function(){
     // IVR - horizontal scrollbar
     setInterval(function() {
         var el = document.querySelector('.ivr_create_body .left');
-        var w1 = el.clientWidth;
-        var w2 = el.scrollWidth;
-        w2 > w1 ? $(el).addClass('h_scroll') : $(el).removeClass('h_scroll');
+        if (el != undefined) {
+            var w1 = el.clientWidth;
+            var w2 = el.scrollWidth;
+            w2 > w1 ? $(el).addClass('h_scroll') : $(el).removeClass('h_scroll');
+        }
     }, 500);
 
 });

@@ -1,21 +1,17 @@
-import { formatNumber } from 'libphonenumber-js';
-import { classToPlain } from 'class-transformer';
-import { CountryModel } from '../../models/country.model';
-import { RefsServices } from '../../services/refs.services';
-import { DashboardModel } from '../../models/dashboard.model';
-import { CompanyService } from '../../services/company.service';
 import {Component, ElementRef, OnInit, ViewChild, ViewChildren} from '@angular/core';
-import { MessageServices } from '../../services/message.services';
-import { DashboardServices } from '../../services/dashboard.services';
-import { CompanyModel, CompanyInfoModel } from '../../models/company.model';
-import { SidebarInfoItem, SidebarInfoModel } from '../../models/base.model';
-import { FormArray, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { FormBaseComponent } from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import { emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp } from '../../shared/vars';
-
-import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
-import {compareObjects, validateFormControls} from '../../shared/shared.functions';
-import {ValidationHost} from '../../models/validation-host.model';
+import {FormArray, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import {formatNumber} from 'libphonenumber-js';
+import {classToPlain} from 'class-transformer';
+import {CountryModel} from '../../models/country.model';
+import {DashboardModel} from '../../models/dashboard.model';
+import {CompanyModel, CompanyInfoModel} from '../../models/company.model';
+import {SidebarInfoItem, SidebarInfoModel} from '../../models/base.model';
+import {RefsServices} from '../../services/refs.services';
+import {CompanyService} from '../../services/company.service';
+import {MessageServices} from '../../services/message.services';
+import {DashboardServices} from '../../services/dashboard.services';
+import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import {emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp} from '../../shared/vars';
 
 
 @Component({

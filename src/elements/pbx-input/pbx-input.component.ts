@@ -48,7 +48,7 @@ export class InputComponent implements OnInit {
     @Input() filter: FilterItem;
     @Input() actions: InputAction[] = [];
     @Input() formBuilder: FormBuilder;
-    @Input() animationMode: string; // Possible values: Fade, Swipe (default)
+    @Input() animationMode: 'Fade' | 'Swipe';
     @Input() resetable: boolean = false;
     @Input() inputFocus: boolean = false;
 
@@ -84,6 +84,11 @@ export class InputComponent implements OnInit {
     loading = 0;
     pbxInputFocus = false;
 
+    // Properties to customise validation error message appearing place
+    @Input() hVMessageOffset: number;
+    @Input() vVMessageOffset: number;
+
+    // Flags shows component's in focus or mouse over states
     inFocus: boolean = false;
     inMouseHover: boolean = false;
 

@@ -48,6 +48,7 @@ export class ValidationHost implements Lockable {
                 }
             });
         });
+        // console.log('vhost-items', this.items);
     }
 
     // -- public methods ------------------------------------------------------
@@ -66,6 +67,7 @@ export class ValidationHost implements Lockable {
     isErrorVisible(control: InputComponent): boolean {
         let controlKey = this.getValidatorKey(control);
         let item = this.items.find(i => i.key == controlKey);
+        // console.log('err-visible', controlKey, control.inErrorState, item);
         return control.inErrorState && item && item.visible;
     }
 
@@ -203,6 +205,7 @@ export class ValidationHost implements Lockable {
             let name = this.getControlName(control);
             return `Please enter valid ${name}`;
         }
+        // console.log('vh-message', control, errorKey, errors);
         return 'The value is invalid';
     }
 

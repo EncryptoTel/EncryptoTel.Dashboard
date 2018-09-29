@@ -3,6 +3,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {MessageServices} from '../../services/message.services';
 import {FormComponent} from '../pbx-form/pbx-form.component';
+import {isValidId} from '../../shared/shared.functions';
+import {FormBuilder, Validators} from '@angular/forms';
+import {FormBaseComponent} from '../pbx-form-base-component/pbx-form-base-component.component';
+import {numberRegExp} from '../../shared/vars';
+import {ringTimeValidator} from '../../shared/encry-form-validators';
 
 @Component({
     selector: 'pbx-queue-create',
@@ -11,116 +16,187 @@ import {FormComponent} from '../pbx-form/pbx-form.component';
     animations: [FadeAnimation('300ms')]
 })
 
-export class QueueCreateComponent implements OnInit {
+export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
-    @Input() service;
     @Input() name: string;
+    @Input() service: any;
+
     @Input() headerText: string;
     @Input() generalHeaderText: string;
     @Input() cmpType;
 
-    @ViewChild(FormComponent) form: FormComponent;
+    @ViewChild(FormComponent) formComponent: FormComponent;
 
-    id = 0;
-    loading = 0;
-    saving = 0;
-    tabs = ['General', 'Members'];
-    activeTabs = [true, true];
-    confirm = {value: 'Save', buttonType: 'success', inactive: this.saving !== 0};
-    decline = {
+    id: number = 0;
+
+    loading: number = 0;
+    saving: number = 0;
+    
+    tabs: string[] = [ 'General', 'Members' ];
+    activeTabs: boolean[] = [ true, true ];
+    currentTab: string = 'General';
+    
+    confirm: {} = { value: 'Save', buttonType: 'success', inactive: this.saving !== 0 };
+    decline: {} = {
         standard: {value: 'Cancel', buttonType: 'cancel'},
         member: {value: 'Back', buttonType: 'cancel'},
     };
-    currentTab = 'General';
-    addMembers = false;
 
-    constructor(private activatedRoute: ActivatedRoute,
-                public router: Router,
-                private message: MessageServices) {
-        this.id = this.activatedRoute.snapshot.params.id;
+    addMembersMode: boolean = false;
+
+    // -- properties ----------------------------------------------------------
+
+    get model(): any {
+        return this.service.item;
+    }
+    set model(value: any) {
+        this.service.item = value;
     }
 
-    selectTab(tab: string): void {
-        this.addMembers = false;
-        if (tab === 'Members' && (!this.service.item.sipId || !this.service.item.name || !this.service.item.strategy)) {
-            this.form.selected = 'General';
-            let errors = [];
-            if (!this.service.item.sipId) {
-                errors['sip'] = 'Please select phone number';
-            }
-            if (!this.service.item.name) {
-                errors['name'] = 'Please enter name';
-            }
-            if (!this.service.item.strategy) {
-                errors['strategy'] = 'Please select ring strategy';
-            }
-            this.service.errors = errors;
-            return;
+    get hasId(): boolean {
+        return isValidId(this.id);
+    }
+
+    get tabGeneralActive(): boolean {
+        return this.currentTab === this.tabs[0];
+    }
+
+    get tabMembersInViewModeActive(): boolean {
+        return this.currentTab === this.tabs[1] && !this.addMembersMode;
+    }
+
+    get tabMembersInEditModeActive(): boolean {
+        return this.currentTab === this.tabs[1] && this.addMembersMode;
+    }
+
+    // -- component lifecycle methods -----------------------------------------
+
+    constructor(public router: Router,
+                private _activatedRoute: ActivatedRoute,
+                protected _fb: FormBuilder,
+                protected _message: MessageServices) {
+        super(_fb, _message);
+
+        this.id = this._activatedRoute.snapshot.params.id;
+        this.currentTab = this.tabs[0];
+
+        this.validationHost.customMessages = [
+            { name: 'Ring Time', error: 'range', message: 'Please enter value between 15 and 600' },
+            { name: 'Ring Time', error: 'pattern', message: 'Please enter valid number' },
+        ];
+    }
+
+    ngOnInit(): void {
+        this.service.reset();
+        this.service.editMode = this.hasId;
+
+        if (this.hasId) {
+            this.getModel(this.id);
         }
-        this.currentTab = tab;
+        else {
+            this.saveFormState();
+            this.getParams();
+        }
+
+        super.ngOnInit();
     }
 
-    save(): void {
-        this.saving++;
-        this.service.save(this.id, true, (res) => {
-            if (res && res.errors) {
-                if (res.errors.queueMembers) {
-                    this.message.writeError(this.form.selected === 'Members' ? 'You have not selected members' : 'You must select members');
-                }
-                return true;
-            }
-        }).then(() => {
-            this.saving--;
-            if (!this.id) {
-                this.cancel();
-            }
-        }).catch(() => {
-            this.saving--;
+    initForm(): void {
+        // Called from parent class constructor
+        this.form = this._fb.group({
+            id: [ '' ],
+            name: [ '', [ Validators.required ] ],
+            description: [ '' ],
+            sip: [ null, [ Validators.required ] ],         // Phone number
+            strategy: [ null, [ Validators.required ] ],    // Ring strategy
+            timeout: [ '', [ Validators.required, Validators.pattern(numberRegExp), ringTimeValidator(15, 600) ] ],     // Ring time
+            // members: [ null, [ Validators.required ] ],  // Members
         });
     }
 
+    // -- event handlers ------------------------------------------------------
+
+    selectTab(tab: string): void {
+        if (!this.validateForms()) return;
+
+        this.addMembersMode = false;
+        this.currentTab = tab;
+
+        this.setModelData();
+    }
+
+    addMembers(mode: boolean) {
+        this.addMembersMode = mode;
+        this.service.saveMembersBefore();
+    }
+
+    save(): void {
+        if (!this.validateForms()) return;
+
+        this.setModelData();
+        // this.saveModel();
+        
+        console.log('form', this.form.value);
+        console.log('model', this.model);
+    }
+
     cancel(): void {
+        this.close(this.service.editMode, () => this.cancelConfirm());
+    }
+
+    cancelConfirm(): void {
         this.router.navigate(['cabinet', this.name]);
     }
 
     back(): void {
-        this.addMembers = false;
+        this.addMembersMode = false;
         let message = this.service.getMembersMessage();
-        message ? this.message.writeSuccess(message) : null;
+        message && this._message.writeSuccess(message);
     }
 
-    getItem(id: number) {
-        this.loading++;
+    // -- component model methods ---------------------------------------------
+
+    setModelData(): void {
+        super.setModelData(this.model, () => {
+            this.model.sipId = this.form.get('sip').value.id;
+            delete this.model.sip;
+            this.model.strategy = this.model.strategy.id;
+        });
+    }
+
+    // -- data processing methods ---------------------------------------------
+
+    getModel(id: number) {
+        this.loading ++;
         this.service.getItem(id).then(() => {
             this.getParams();
-            this.loading--;
-        }).catch(() => {
-            this.loading--;
-        });
+            this.setFormData(this.model);
+            console.log('on-get', this.model, this.form.value);
+        }).catch(() => {})
+          .then(() => this.loading --);
     }
 
     getParams() {
-        this.loading++;
-        this.service.getParams().then(() => {
-            this.loading--;
-        }).catch(() => {
-            this.loading--;
-        });
+        this.loading ++;
+        this.service.getParams().then(() => {})
+          .catch(() => {})
+          .then(() => this.loading --);
     }
 
-    doAddMembers($event) {
-        this.addMembers = $event;
-        this.service.saveMembersBefore();
+    saveModel(): void {
+        this.saving ++;
+        this.service.save(this.id, true, (response) => {
+            this.saveFormState();
+            if (response && response.errors) {
+                if (response.errors.queueMembers) {
+                    this._message.writeError(this.formComponent.selected === 'Members' 
+                        ? 'You have not selected members' 
+                        : 'You must select members');
+                }
+                return true;
+            }
+        }).then(() => { if (!this.id) this.cancel(); })
+          .catch(() => {})
+          .then(() => this.saving --);
     }
-
-    ngOnInit() {
-        this.service.reset();
-        this.service.editMode = this.id && this.id > 0;
-        if (this.id) {
-            this.getItem(this.id);
-        } else {
-            this.getParams();
-        }
-    }
-
 }

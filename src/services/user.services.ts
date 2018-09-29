@@ -61,8 +61,22 @@ export class UserServices {
         return this._request.get('v1/nav')
             .then(result => {
                 this.navigation = result['items'];
+                this._cheatNavigationItems();
                 return Promise.resolve(result['items']);
             });
+    }
+
+    /**
+     * Adds missing menu items to current user navigation.
+     * Development purposes only
+     */
+    private _cheatNavigationItems(): void {
+        this.navigation[1].push({
+            name: 'Ring Groups',
+            url: 'ring-groups',
+            icon: 'ring_groups',
+            sort: 20
+        });
     }
 
     /*

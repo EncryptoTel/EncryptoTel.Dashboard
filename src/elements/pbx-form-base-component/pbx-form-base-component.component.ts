@@ -76,15 +76,13 @@ export class FormBaseComponent implements OnInit, Lockable {
         this.saveFormState();
     }
 
-    setModelData<T>(model: T, customInitCallback?: () => void): T {
-        // TODO: modify to take from specific form
-        // let creator: { new (): T; };
-        // let object = new creator;
-        // return object;
-        model = <T>this.form.value;
+    setModelData(model: any, customInitCallback?: () => void): void {
+        Object.keys(this.form.value).forEach(key => {
+            if (model.hasOwnProperty(key)) {
+                model[key] = this.form.value[key];
+            }
+        });
         if (customInitCallback) customInitCallback();
-
-        return model;
     }
 
 
@@ -95,7 +93,6 @@ export class FormBaseComponent implements OnInit, Lockable {
     }
 
     resetForms() {
-        // this.forms.forEach(form => form.reset());
         this.forms.forEach(form => {
             form.reset();
         });

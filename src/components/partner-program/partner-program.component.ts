@@ -156,7 +156,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
 
     save(item: PartnerProgramItem): void {
         if (!this.validateForms()) return;
-        item = this.setModelData(item);
+        this.setModelData(item);
         item.status = (<any>item.status).value;
         console.log('save', item);
 
