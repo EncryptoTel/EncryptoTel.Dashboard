@@ -7,7 +7,7 @@ import {isValidId} from '../../shared/shared.functions';
 import {FormBuilder, Validators} from '@angular/forms';
 import {FormBaseComponent} from '../pbx-form-base-component/pbx-form-base-component.component';
 import {numberRegExp} from '../../shared/vars';
-import {ringTimeValidator} from '../../shared/encry-form-validators';
+import {numberRangeValidator} from '../../shared/encry-form-validators';
 
 @Component({
     selector: 'pbx-queue-create',
@@ -56,6 +56,10 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     get hasId(): boolean {
         return isValidId(this.id);
     }
+    
+    get isCallQueue(): boolean {
+        return this.name === 'call-queues';
+    }
 
     get tabGeneralActive(): boolean {
         return this.currentTab === this.tabs[0];
@@ -81,8 +85,10 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.currentTab = this.tabs[0];
 
         this.validationHost.customMessages = [
-            { name: 'Ring Time', error: 'range', message: 'Please enter value between 15 and 600' },
             { name: 'Ring Time', error: 'pattern', message: 'Please enter valid number' },
+            { name: 'Ring Time', error: 'range', message: 'Please enter value between 15 and 600' },
+            { name: 'Maximum Callers in Queue', error: 'pattern', message: 'Please enter valid number' },
+            { name: 'Maximum Callers in Queue', error: 'range', message: 'Please enter value between 1 and 100' },
         ];
     }
 
@@ -90,13 +96,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.service.reset();
         this.service.editMode = this.hasId;
 
-        if (this.hasId) {
-            this.getModel(this.id);
-        }
-        else {
-            this.saveFormState();
-            this.getParams();
-        }
+        this.getModel(this.id);
 
         super.ngOnInit();
     }
@@ -104,14 +104,24 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     initForm(): void {
         // Called from parent class constructor
         this.form = this.fb.group({
-            id: [ '' ],
-            name: [ '', [ Validators.required ] ],
+            id:         [ '' ],
+            name:       [ '', [ Validators.required ] ],
             description: [ '' ],
-            sip: [ null, [ Validators.required ] ],         // Phone number
-            strategy: [ null, [ Validators.required ] ],    // Ring strategy
-            timeout: [ '', [ Validators.required, Validators.pattern(numberRegExp), ringTimeValidator(15, 600) ] ],     // Ring time
-            // members: [ null, [ Validators.required ] ],  // Members
+            sip:        [ null, [ Validators.required ] ],          // Phone number
+            strategy:   [ null, [ Validators.required ] ],          // Ring strategy
+            timeout:    [ '', [ Validators.required, Validators.pattern(numberRegExp), numberRangeValidator(15, 600) ] ],     // Ring time
+            // queueMembers: [ null, [ Validators.required ] ],     // Members
         });
+        if (this.isCallQueue) {
+            // Add Call-Queues specific controls
+            this.form.addControl('maxlen', this.fb.control(null, [ Validators.required, Validators.pattern(numberRegExp), numberRangeValidator(1, 100) ]));
+            this.form.addControl('announceHoldtime', this.fb.control(null));
+            this.form.addControl('announcePosition', this.fb.control(null));
+        }
+        else {
+            // Add Ring-Groups specific controls
+            // this.form.addControl('action', this.fb.control(null));
+        }
     }
 
     // -- event handlers ------------------------------------------------------
@@ -131,13 +141,12 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     save(): void {
+        console.log('form', this.form.value);
+        console.log('model', this.model);
         if (!this.validateForms()) return;
 
         this.setModelData();
-        // this.saveModel();
-        
-        console.log('form', this.form.value);
-        console.log('model', this.model);
+        this.saveModel();
     }
 
     cancel(): void {
@@ -171,7 +180,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.service.getItem(id).then(() => {
             this.getParams();
             this.setFormData(this.model);
-            console.log('on-get', this.model, this.form.value);
+            // console.log('on-get', this.model, this.form.value);
         }).catch(() => {})
           .then(() => this.loading --);
     }

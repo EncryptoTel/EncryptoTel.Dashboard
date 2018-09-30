@@ -67,7 +67,7 @@ export class InputComponent implements OnInit {
     @Input() validationHost: ValidationHost;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
-    @Output() onToggle: EventEmitter<object> = new EventEmitter();
+    @Output() onToggle: EventEmitter<boolean> = new EventEmitter();
     @Output() onKeyUp: EventEmitter<object> = new EventEmitter();
     @Output() onPaste: EventEmitter<object> = new EventEmitter();
 
@@ -354,13 +354,14 @@ export class InputComponent implements OnInit {
         this.onSelect.emit(event);
     }
 
-    toggleCheckbox($event) {
+    toggleCheckbox(value: boolean): void {
+        let checkValue = this.checkboxValues[value ? 1 : 0];
         if (this.form) {
-            this.getForm() ? this.getForm().setValue($event) : null;
+            this.getForm() ? this.getForm().setValue(checkValue) : null;
         } else {
-            this.object[this.key] = this.checkboxValues[$event ? 1 : 0];
+            this.object[this.key] = checkValue;
         }
-        this.onToggle.emit($event);
+        this.onToggle.emit(value);
     }
 
     findInput(element) {
@@ -468,11 +469,11 @@ export class InputComponent implements OnInit {
             this.falseValue ? this.falseValue : false,
             this.trueValue ? this.trueValue : true
         ];
-
-        this.loading --;
-        // if (this.key == 'email') console.log('disabled', this.disabled);
+        // if (this.key == 'announceHoldtime') console.log('check', this.checkboxValues);
 
         this.validationHost && this.validationHost.addControl(this);
+
+        this.loading --;
     }
 
 }

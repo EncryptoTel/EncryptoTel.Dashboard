@@ -46,7 +46,8 @@ export class FormsSnapshots {
 
     takeSnapshot(key: string): string {
         let snapshot = JSON.stringify(this._map[key].value);
-        snapshot = snapshot.split('null').join('""');
+        snapshot = snapshot.split('null').join('');
+        snapshot = snapshot.split('"').join('');
         return snapshot;
     }
 }

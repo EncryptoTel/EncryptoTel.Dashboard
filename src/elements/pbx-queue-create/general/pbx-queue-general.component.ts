@@ -22,14 +22,17 @@ export class QueueGeneralComponent implements OnInit {
     @Input() generalHeaderText: string;
 
     private _cmpType: string;
-    @Input()
-    set cmpType(cmpType: string) {
+    @Input() set cmpType(cmpType: string) {
         this._cmpType = cmpType;
         this.getNumbers();
     }
 
     loading: number = 0;
-    numbers = [];
+    numbers: any[] = [];
+
+    get isCallQueue(): boolean {
+        return this.name === 'call-queues';
+    }
 
     constructor() {}
 

@@ -26,7 +26,7 @@ export function redirectToExtensionValidator(control: FormGroup): { [key: string
     return null;
 }
 
-export function ringTimeValidator(minVal: number, maxVal: number): ValidatorFn {
+export function numberRangeValidator(minVal: number, maxVal: number): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
         const forbidden = (control.value < minVal || control.value > maxVal);
         return forbidden 
