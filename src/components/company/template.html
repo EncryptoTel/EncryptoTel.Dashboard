@@ -5,110 +5,100 @@
               [decline]="{value: 'Cancel', buttonType: 'cancel'}"
               [confirm]="{value: 'Save', buttonType: 'success'}"
               (onDecline)="decline()"
-              (onConfirm)="save()">
+              (onConfirm)="save()"
+        >
         <form [formGroup]="form">
             <pbx-input name="Organization"
                        key="name"
+                       [required]="true"
                        [form]="true"
                        [object]="form"
                        [errors]="service.errors"
-                       errorShow="true"
-                       [singleBorder]="true"
-                       [required]="true"
                        [validationHost]="validationHost"
+                       [singleBorder]="true"
                        >
             </pbx-input>
             <ng-container formArrayName="companyAddress">
                 <ng-container *ngFor="let address of addressControls.controls; let i = index;" [formGroupName]="i">
                     <pbx-input name="Country"
                                key="country"
-                               displayKey="title"
-                               (onSelect)="selectCountry($event)"
-                               [form]="true"
-                               [formKey]="'country.id'"
                                [required]="true"
-                               errorShow="true"
-                               [options]="countries"
-                               [editable]="true"
+                               [placeholder]="'[choose one]'"
+                               [form]="true"
                                [object]="address"
+                               [options]="countries"
+                               displayKey="title"
+                               [editable]="true"
                                [errors]="service.errors"
                                [errorKey]="'companyAddress.new_0.country.id'"
-                               [objectView]="selectedCountry"
-                               objectKey="id"
-                               [placeholder]="'[choose one]'"
                                [validationHost]="validationHost"
+                               (onSelect)="selectCountry($event)"
                                >
                     </pbx-input>
                     <pbx-input name="State/Region"
                                key="regionName"
+                               [required]="true"
                                [form]="true"
                                [object]="address"
-                               [errorKey]="'companyAddress.new_0.regionName'"
                                [errors]="service.errors"
-                               errorShow="true"
-                               [singleBorder]="true"
-                               [required]="true"
+                               [errorKey]="'companyAddress.new_0.regionName'"
                                [validationHost]="validationHost"
+                               [singleBorder]="true"
                                >
                     </pbx-input>
                     <pbx-input name="City"
                                key="locationName"
+                               [required]="true"
                                [form]="true"
                                [object]="address"
-                               [errorKey]="'companyAddress.new_0.locationName'"
                                [errors]="service.errors"
-                               errorShow="true"
-                               [singleBorder]="true"
-                               [required]="true"
+                               [errorKey]="'companyAddress.new_0.locationName'"
                                [validationHost]="validationHost"
+                               [singleBorder]="true"
                                >
                     </pbx-input>
                     <pbx-input name="Street"
                                key="street"
+                               [required]="true"
                                [form]="true"
                                [object]="address"
-                               [errorKey]="'companyAddress.new_0.street'"
                                [errors]="service.errors"
-                               errorShow="true"
-                               [singleBorder]="true"
-                               [required]="true"
+                               [errorKey]="'companyAddress.new_0.street'"
                                [validationHost]="validationHost"
+                               [singleBorder]="true"
                                >
                     </pbx-input>
                     <pbx-input name="House"
                                key="building"
+                               [required]="true"
                                [form]="true"
                                [object]="address"
-                               [errorKey]="'companyAddress.new_0.building'"
                                [errors]="service.errors"
-                               errorShow="true"
-                               [singleBorder]="true"
-                               [required]="true"
+                               [errorKey]="'companyAddress.new_0.building'"
                                [validationHost]="validationHost"
+                               [singleBorder]="true"
                                >
                     </pbx-input>
                     <pbx-input name="Office"
                                key="office"
+                               [required]="false"
                                [form]="true"
                                [object]="address"
-                               [errorKey]="'companyAddress.new_0.office'"
                                [errors]="service.errors"
-                               errorShow="true"
-                               [singleBorder]="true"
-                               [required]="false"
+                               [errorKey]="'companyAddress.new_0.office'"
                                [validationHost]="validationHost"
+                               [singleBorder]="true"
                                >
                     </pbx-input>
                     <pbx-input name="Postal code"
                                key="postalCode"
+                               [required]="false"
                                [form]="true"
                                [object]="address"
-                               [errorKey]="'companyAddress.new_0.postalCode'"
                                [errors]="service.errors"
-                               errorShow="true"
-                               [singleBorder]="true"
-                               [required]="false"
+                               [errorKey]="'companyAddress.new_0.postalCode'"
                                [validationHost]="validationHost"
+                               [singleBorder]="true"
                                >
                     </pbx-input>
                 </ng-container>
@@ -118,10 +108,8 @@
                        [form]="true"
                        [object]="form"
                        [errors]="service.errors"
-                       errorShow="true"
-                       [singleBorder]="true"
-                       [required]="false"
                        [validationHost]="validationHost"
+                       [singleBorder]="true"
                        >
             </pbx-input>
             <pbx-input name="Phone"
@@ -129,21 +117,17 @@
                        [form]="true"
                        [object]="form"
                        [errors]="service.errors"
-                       errorShow="true"
-                       [singleBorder]="true"
-                       [required]="false"
                        [validationHost]="validationHost"
-               >
+                       [singleBorder]="true"
+                       >
             </pbx-input>
             <pbx-input name="VAT ID"
                        key="vatId"
                        [form]="true"
                        [object]="form"
                        [errors]="service.errors"
-                       errorShow="true"
-                       [singleBorder]="true"
-                       [required]="false"
                        [validationHost]="validationHost"
+                       [singleBorder]="true"
                        >
             </pbx-input>
         </form>
@@ -157,7 +141,7 @@
 
             <div class="wrapper">
                 <div class="img_wrap">
-                    <img height="200px" [src]="logo" alt="" title="">
+                    <img height="200px" [src]="company.logo" alt="" title="">
                 </div> <!-- img_wrap -->
             </div> <!-- wrapper -->
 
@@ -392,6 +376,6 @@
 
 </div> <!-- company_details -->
 
-<pbx-modal
-        [modalEx]="modalExit" (onConfirmEx)="cancel()"
-></pbx-modal>
+<pbx-modal [modalEx]="modalExit"
+           (onConfirmEx)="cancel()">
+</pbx-modal>

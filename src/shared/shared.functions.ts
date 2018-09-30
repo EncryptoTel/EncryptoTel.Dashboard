@@ -2,7 +2,7 @@ import {FormArray, FormGroup, FormControl} from '@angular/forms';
 import {plainToClass} from 'class-transformer';
 import {CountryModel} from '../models/country.model';
 import {CurrencyModel} from '../models/currency.model';
-import {ElementRef, Component} from '@angular/core';
+import {ElementRef, Component, isDevMode} from '@angular/core';
 import {DatePipe} from "@angular/common";
 import {environment} from '../environments/environment';
 
@@ -171,5 +171,5 @@ export function isValidId(id: any): boolean {
 }
 
 export function isDevEnv(): boolean {
-    return environment.title === 'development';
+    return isDevMode() && environment.title === 'development';
 }

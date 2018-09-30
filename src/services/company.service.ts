@@ -1,10 +1,26 @@
+import {HttpClient} from "@angular/common/http";
 import {BaseService} from "./base.service";
-import {CompanyModel, CompanyInfoModel} from "../models/company.model";
+import {CompanyModel, CompanyInfoModel, CompanyAddress} from "../models/company.model";
 import {plainToClass} from "class-transformer";
+import {isDevEnv} from "../shared/shared.functions";
+import {CountryModel} from "../models/country.model";
+import {RequestServices} from "./request.services";
+import {MessageServices} from "./message.services";
 import * as companyInfoMap from '../shared/company-info-map.json';
+import {Injectable} from "@angular/core";
 
+
+@Injectable()
 export class CompanyService extends BaseService {
+    
+    public model: CompanyModel;
     public companyInfo: CompanyInfoModel;
+
+    constructor(public request: RequestServices,
+                public message: MessageServices,
+                public http: HttpClient) {
+        super(request, message, http);
+    }
 
     public onInit(): void {
         this.url = 'company';
@@ -18,9 +34,11 @@ export class CompanyService extends BaseService {
     public getCompany(): Promise<CompanyModel> {
         return this.get().then((response: CompanyModel) => {
             let company = plainToClass(CompanyModel, response);
-            // console.log('_company_', company, this.companyInfo);
             this.companyInfo.setCompanyData(company);
             return Promise.resolve(company);
+        }).catch((error) => {
+            // isDevEnv() && this.mockCompanyData();
+            return Promise.reject(error);
         });
     }
 
@@ -37,5 +55,12 @@ export class CompanyService extends BaseService {
         }).catch(() => {
 
         });
+    }
+
+    mockCompanyData(): void {
+        this.model = new CompanyModel("Organisation", null, "stas@co.il", "5553322", 75, []);
+        let country = new CountryModel(103, "AD", "Andorra", "376");
+        this.model.companyAddress.push(new CompanyAddress(country, "332332", "Regi", "Loki", "Ave", "221B", "89"));
+        console.log('model', this.model);
     }
 }

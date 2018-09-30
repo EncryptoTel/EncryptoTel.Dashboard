@@ -42,7 +42,7 @@ export class InputComponent implements OnInit {
     @Input() floatError: boolean = false;
     @Input() errorVisible: boolean = false;
     @Input() rows: number = 5;
-    @Input() required: boolean;
+    @Input() required: boolean = false;
     @Input() inputWidth: number;
     @Input() inputCenter: boolean;
     @Input() filter: FilterItem;

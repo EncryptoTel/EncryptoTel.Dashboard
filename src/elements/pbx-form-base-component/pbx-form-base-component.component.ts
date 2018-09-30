@@ -20,7 +20,6 @@ import {MessageServices} from '../../services/message.services';
     ]
 })
 export class FormBaseComponent implements OnInit, Lockable {
-    locker: Locker;
 
     form: FormGroup;
     formKey: string;
@@ -30,6 +29,7 @@ export class FormBaseComponent implements OnInit, Lockable {
     validationHost: ValidationHost;
     snapshots: FormsSnapshots;
 
+    locker: Locker;
     modalExit: ModalEx;
 
 
@@ -51,15 +51,16 @@ export class FormBaseComponent implements OnInit, Lockable {
         this.validationHost = new ValidationHost();
         this.snapshots = new FormsSnapshots();
 
-        this.initForm();
-        if (this.form && this.forms.length == 0) {
-            this.addForm(this.formKey, this.form);
-        }
-
         this.modalExit = new ModalEx('', 'cancelEdit');
     }
 
     ngOnInit(): void {
+        this.initForm();
+
+        if (this.form && this.forms.length === 0) {
+            this.addForm(this.formKey, this.form);
+        }
+
         this.validationHost.start();
     }
 
@@ -68,20 +69,23 @@ export class FormBaseComponent implements OnInit, Lockable {
         throw new Error('initForm() method not implemented.');
     }
 
-    setFormData<T>(model: T, customInitCallback?: () => void): void {
+    setFormData(model: any, customInitCallback?: () => void): void {
         // TODO: modify to update specific form
+        if (!model) return;
+
         this.form.patchValue(model);
         if (customInitCallback) customInitCallback();
-
         this.saveFormState();
     }
 
     setModelData(model: any, customInitCallback?: () => void): void {
+        // TODO: modify to update from specific form
         Object.keys(this.form.value).forEach(key => {
             if (model.hasOwnProperty(key)) {
                 model[key] = this.form.value[key];
             }
         });
+
         if (customInitCallback) customInitCallback();
     }
 

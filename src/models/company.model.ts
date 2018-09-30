@@ -3,14 +3,14 @@ import {DatePipe, DecimalPipe} from '@angular/common';
 import { format } from 'util';
 
 export class CompanyModel {
-    constructor(public name: string,
-                public logo: string,
-                public email: string,
-                public phone: string,
-                public vatId: number,
-                public companyAddress: CompanyAddress[],
-                public companyDetailFieldValue?: any[],
-                public id?: number) {
+    constructor(public name: string = '', 
+                public logo: string = '', 
+                public email: string = '', 
+                public phone: string = '', 
+                public vatId: number = null, 
+                public companyAddress: CompanyAddress[] = [], 
+                public companyDetailFieldValue: any[] = [], 
+                public id: number = null) {
     }
 
     get isValid(): boolean {
@@ -19,13 +19,13 @@ export class CompanyModel {
 }
 
 export class CompanyAddress {
-    constructor(public country: CountryModel,
-                public postalCode: string,
-                public regionName: string,
-                public locationName: string,
-                public street: string,
-                public building: string,
-                public office: string,
+    constructor(public country?: CountryModel,
+                public postalCode?: string,
+                public regionName?: string,
+                public locationName?: string,
+                public street?: string,
+                public building?: string,
+                public office?: string,
                 public type?: null,
                 public id?: number) {
     }
