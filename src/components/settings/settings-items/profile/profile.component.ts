@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
+
 import {SettingsService} from '../../../../services/settings.service';
-import {FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
 import {emailRegExp, nameRegExp, phoneRegExp, numberRegExp} from '../../../../shared/vars';
 import {validateForm, killEvent} from '../../../../shared/shared.functions';
 import {FadeAnimation} from '../../../../shared/fade-animation';
@@ -9,8 +10,6 @@ import {passwordConfirmation} from '../../../../shared/password-confirmation';
 import {MessageServices} from '../../../../services/message.services';
 import {UserServices} from '../../../../services/user.services';
 import {FormBaseComponent} from '../../../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import {ModalEx} from '../../../../elements/pbx-modal/pbx-modal.component';
-import {Subscription} from 'rxjs/Subscription';
 
 
 export enum EmailChangeState {
@@ -26,6 +25,7 @@ export enum EmailChangeState {
     animations: [FadeAnimation('300ms')]
 })
 export class ProfileComponent extends FormBaseComponent implements OnInit {
+    
     generalForm: FormGroup;
     emailChange: FormGroup;
     passwordChange: FormGroup;
@@ -44,17 +44,22 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     // --- component lifecycle methods ----------------------------------------
 
-    constructor(private _service: SettingsService,
-                protected _fb: FormBuilder,
-                protected _message: MessageServices,
-                private _router: Router,
-                private _user: UserServices) {
-        super(_fb, _message);
+    constructor(private service: SettingsService,
+                protected fb: FormBuilder,
+                protected message: MessageServices,
+                private router: Router,
+                private user: UserServices) {
+        super(fb, message);
         
         this.userDefaultPhoto = './assets/images/avatar/no_avatar.jpg';
         this.loading = 0;
         this.emailChangeState = EmailChangeState.NOT_STARTED;
         this.saveButton = { buttonType: 'success', value: 'Save', inactive: false, loading: false };
+
+        // Override default ValidationHost messages
+        this.validationHost.customMessages = [
+            { name: 'Password confirmation', error: 'required', message: 'Please confirm password' },
+        ];
     }
 
     ngOnInit() {
@@ -65,7 +70,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     // --- initialization -----------------------------------------------------
 
     initForm(): void {
-        this.generalForm = this._fb.group({
+        this.generalForm = this.fb.group({
             firstname:  [null, [ Validators.required, Validators.pattern(nameRegExp) ]],
             lastname:   [null, [ Validators.pattern(nameRegExp) ]],
             patronymic: [null, [ Validators.pattern(nameRegExp) ]],
@@ -73,13 +78,13 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         });
         this.addForm('generalForm', this.generalForm);
 
-        this.emailChange = this._fb.group({
+        this.emailChange = this.fb.group({
             email:  [null, [ Validators.required, Validators.pattern(emailRegExp) ]],
             code:   [null, [ Validators.required, Validators.minLength(6), Validators.pattern(numberRegExp) ]],
         });
         this.addForm('emailChange', this.emailChange);
 
-        this.passwordChange = this._fb.group({
+        this.passwordChange = this.fb.group({
             oldPassword:            [null, [ Validators.required, Validators.minLength(6) ]],
             password:               [null, [ Validators.required, Validators.minLength(6) ]],
             password_confirmation:  [null, [ Validators.required, Validators.minLength(6) ]],
@@ -94,7 +99,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     // --- event handlers -----------------------------------------------------
 
     confirmClose(): void {
-        this._router.navigateByUrl('/cabinet/settings');
+        this.router.navigateByUrl('/cabinet/settings');
     }
 
     change() {
@@ -166,65 +171,57 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     getSettings(): void {
         this.loading ++;
 
-        this._service.getProfileSettings().then(response => {
+        this.service.getProfileSettings().then(response => {
             // console.log('profile', response);
             this.userDefaultPhoto = response.profile.user.avatar;
             this.initFormData('generalForm', this.generalForm, response);
             this.initFormData('emailChange', this.emailChange, response);
             this.initFormData('passwordChange', this.passwordChange);
-
-            this.loading --;
-        });
+        }).catch(() => {})
+          .then(() => this.loading --);
     }
 
     saveProfileSettings(): void {
         this.loading ++;
-        this._service.saveProfileSettings(this.generalForm.value).then(() => {
+
+        this.service.saveProfileSettings(this.generalForm.value).then(() => {
             this.getSettings();
-            this._user.fetchProfileParams().then();
-            this.loading --;
-        })
-        .catch(() => this.loading --);
+            this.user.fetchProfileParams().then();
+        }).catch(() => {})
+          .then(() => this.loading --);
     }
 
     saveEmailSettings(): void {
         if (this.emailChangeState == EmailChangeState.NOT_STARTED) {
             this.loading ++;
-            // this._service.resetErrors();
-            this._service.requestEmailChange(this.emailChange.get('email').value).then(response => {
+            
+            this.service.requestEmailChange(this.emailChange.get('email').value).then(response => {
                 this.emailChangeState = EmailChangeState.CONFIRMATION_CODE_SENT;
-
-                this.loading --;
                 // this._message.writeSuccess(response.message);
-            }).catch(() => {
-                this.loading --;
-            });
+            }).catch(() => {})
+              .then(() => this.loading --);
         }
         else if (this.emailChangeState == EmailChangeState.CONFIRMATION_CODE_SENT) {
             this.loading ++;
-            this._service.confirmEmailChange(this.emailChange.get('code').value).then(response => {
+            
+            this.service.confirmEmailChange(this.emailChange.get('code').value).then(response => {
                 this.emailChange.get('code').setValue('');
                 this.saveFormState('emailChange');
                 this.emailChangeState = EmailChangeState.NOT_STARTED;
-
-                this.loading --;
                 // this._message.writeSuccess(response.message);
-            }).catch(() => {
-                this.loading --;
-            });
+            }).catch(() => {})
+              .then(() => this.loading --);
         }
     }
 
     savePasswordSettings(): void {
         this.loading ++;
-        this._service.changePassword(this.passwordChange.value).then(response => {
-            this.passwordChange.reset();
 
-            this.loading --;
+        this.service.changePassword(this.passwordChange.value).then(response => {
+            this.passwordChange.reset();
             // this._message.writeSuccess(response.message);
-        }).catch(() => {
-            this.loading --;
-        });
+        }).catch(() => {})
+          .then(() => this.loading --);
     }
 
     // --- old implementation ---
@@ -283,7 +280,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             result[key] = errors;
             return result;
         }
-        return this._service.errors;
+        return this.service.errors;
     }
 
 
@@ -305,10 +302,10 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     private uploadFiles(file) {
         console.log(file);
-        this._service.uploadFile(file, null, null).then(response => {
+        this.service.uploadFile(file, null, null).then(response => {
             if (response.avatar) {
                 this.userDefaultPhoto = response.avatar;
-                this._user.fetchProfileParams().then();
+                this.user.fetchProfileParams().then();
             }
         }).catch(() => {
 

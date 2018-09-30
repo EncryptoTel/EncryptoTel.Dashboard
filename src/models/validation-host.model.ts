@@ -188,6 +188,7 @@ export class ValidationHost implements Lockable {
     getValidatorMessage(control: InputComponent, errorKey: string, errors: any): string {
         let customMessage = this.getCustomValidatorMessage(control, errorKey);
         if (customMessage) return customMessage;
+        // console.log('vh-message', control, errorKey, errors);
 
         if (errorKey == 'required') {
             let name = this.getControlName(control);
@@ -205,7 +206,6 @@ export class ValidationHost implements Lockable {
             let name = this.getControlName(control);
             return `Please enter valid ${name}`;
         }
-        // console.log('vh-message', control, errorKey, errors);
         return 'The value is invalid';
     }
 

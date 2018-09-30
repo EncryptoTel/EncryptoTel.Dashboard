@@ -57,14 +57,14 @@ export class InputComponent implements OnInit {
     @Input() validatorMinLengthMsg: string;
     @Input() validatorMaxLengthMsg: string;
     @Input() validatorPatternMsg: string;
-    @Input()
-    set errorShow(errorShow:boolean) {
+    @Input() set errorShow(errorShow: boolean) {
         this._errorShow = errorShow;
         this.checkError();
     }
     _errorShow: boolean = false;
 
     @Input() optionsSelectedKey: string;
+    @Input() validationHost: ValidationHost;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<object> = new EventEmitter();
@@ -73,8 +73,6 @@ export class InputComponent implements OnInit {
 
     // @ViewChild('errorSpan') errorSpan: ElementRef;
     @ViewChild('inputDiv') inputDiv: ElementRef;
-
-    @Input() validationHost: ValidationHost;
 
     value;
     checkboxValues;
@@ -472,7 +470,7 @@ export class InputComponent implements OnInit {
         ];
 
         this.loading --;
-        // console.log(this.key, JSON.stringify(this.value));
+        // if (this.key == 'email') console.log('disabled', this.disabled);
 
         this.validationHost && this.validationHost.addControl(this);
     }

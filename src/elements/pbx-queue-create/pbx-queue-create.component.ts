@@ -72,12 +72,12 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public router: Router,
-                private _activatedRoute: ActivatedRoute,
-                protected _fb: FormBuilder,
-                protected _message: MessageServices) {
-        super(_fb, _message);
+                private activatedRoute: ActivatedRoute,
+                protected fb: FormBuilder,
+                protected message: MessageServices) {
+        super(fb, message);
 
-        this.id = this._activatedRoute.snapshot.params.id;
+        this.id = this.activatedRoute.snapshot.params.id;
         this.currentTab = this.tabs[0];
 
         this.validationHost.customMessages = [
@@ -103,7 +103,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
     initForm(): void {
         // Called from parent class constructor
-        this.form = this._fb.group({
+        this.form = this.fb.group({
             id: [ '' ],
             name: [ '', [ Validators.required ] ],
             description: [ '' ],
@@ -151,7 +151,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     back(): void {
         this.addMembersMode = false;
         let message = this.service.getMembersMessage();
-        message && this._message.writeSuccess(message);
+        message && this.message.writeSuccess(message);
     }
 
     // -- component model methods ---------------------------------------------
@@ -189,7 +189,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
             this.saveFormState();
             if (response && response.errors) {
                 if (response.errors.queueMembers) {
-                    this._message.writeError(this.formComponent.selected === 'Members' 
+                    this.message.writeError(this.formComponent.selected === 'Members' 
                         ? 'You have not selected members' 
                         : 'You must select members');
                 }

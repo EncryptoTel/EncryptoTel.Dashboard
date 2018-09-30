@@ -40,11 +40,11 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public service: CompanyService,
-                protected _fb: FormBuilder,
-                private _dashboard: DashboardServices,
-                private _refs: RefsServices,
-                protected _message: MessageServices) {
-        super(_fb, _message);
+                protected fb: FormBuilder,
+                private dashboard: DashboardServices,
+                private refs: RefsServices,
+                protected message: MessageServices) {
+        super(fb, message);
 
         this.company.logo = '../../assets/images/avatar/company_details.png';
         this.companyInfo = this.service.companyInfo;
@@ -84,14 +84,14 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     // -- form processing methods ---------------------------------------------
 
     initForm(): void {
-        this.form = this._fb.group({
+        this.form = this.fb.group({
             id: [ null ],
             logo:   [ '' ],
             name:   [ '', [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ] ],
-            companyAddress: this._fb.array([
-                this._fb.group({
+            companyAddress: this.fb.array([
+                this.fb.group({
                     id: [ null ],
-                    country: this._fb.group({
+                    country: this.fb.group({
                         id:         [ null, [ Validators.required ] ],
                         code:       [ '' ],
                         title:      [ '' ],
@@ -220,7 +220,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     private getCountries() {
         this.locker.lock();
 
-        this._refs.getCountries().then(res => {
+        this.refs.getCountries().then(res => {
             this.countries = res;
         }).catch(() => {})
           .then(() => this.locker.unlock());
@@ -229,7 +229,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     private getSidebar() {
         this.sidebarInfo.loading ++;
 
-        this._dashboard.getDashboard().then(response => {
+        this.dashboard.getDashboard().then(response => {
             this.setCompanyInfo(response);
 
             for (let i = 0; i < this.sidebarInfo.items.length; i++) {
@@ -260,7 +260,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         this.locker.lock();
 
         this.service.save({...this.form.value}, false).then(() => {
-            this._message.writeSuccess('Company has been successfully updated');
+            this.message.writeSuccess('Company has been successfully updated');
             this.editMode = false;
             this.getCompany();
         }).catch(error => {

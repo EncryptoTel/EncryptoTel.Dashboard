@@ -42,8 +42,8 @@ export class FormBaseComponent implements OnInit, Lockable {
     }
 
 
-    constructor(protected _fb: FormBuilder,
-                protected _message: MessageServices) {
+    constructor(protected fb: FormBuilder,
+                protected message: MessageServices) {
         this.locker = new Locker();
         this.formKey = 'form';
         this.forms = [];
@@ -124,7 +124,7 @@ export class FormBaseComponent implements OnInit, Lockable {
 
         validateForm(formGroup);
         if (!formGroup.valid && showMessage) {
-            this._message.writeError(message);
+            this.message.writeError(message);
         }
         return formGroup.valid;
     }

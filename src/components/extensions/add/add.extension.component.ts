@@ -38,14 +38,14 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
 
     accessList;
 
-    constructor(protected _fb: FormBuilder,
-                protected _message: MessageServices,
-                private _router: Router,
-                private _activatedRoute: ActivatedRoute,
-                private _extension: ExtensionService) {
-        super(_fb, _message);
+    constructor(protected fb: FormBuilder,
+                protected message: MessageServices,
+                private router: Router,
+                private activatedRoute: ActivatedRoute,
+                private extension: ExtensionService) {
+        super(fb, message);
 
-        this.id = _activatedRoute.snapshot.params.id;
+        this.id = activatedRoute.snapshot.params.id;
         this.id ? this.mode = 'edit' : this.mode = 'create';
 
         this.validationHost.customMessages = [
@@ -56,11 +56,11 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     }
 
     initForm(): void {
-        this.formExtension = this._fb.group({
+        this.formExtension = this.fb.group({
             outer: [ null, [ Validators.required ] ],
             phoneNumber: [ null, [ Validators.required, Validators.minLength(3), Validators.maxLength(3) ] ],
             default: false,
-            user: this._fb.group({
+            user: this.fb.group({
                 firstName: [ null, [ Validators.pattern(nameRegExp) ] ],
                 lastName: [ null, [ Validators.pattern(nameRegExp) ] ],
                 email: [ null, [ Validators.pattern(emailRegExp) ] ]
@@ -95,7 +95,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         }
         
         this.locker.lock();
-        this._extension.getExtension(this.id).then(response => {
+        this.extension.getExtension(this.id).then(response => {
             this.formExtension.get('outer').setValue({
                 id: response.sipOuter.id,
                 title: response.sipOuter.phoneNumber
@@ -130,7 +130,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
 
     getAccessList(user) {
         this.locker.lock();
-        this._extension.getAccessList(user ? user.id : null).then(res => {
+        this.extension.getAccessList(user ? user.id : null).then(res => {
             this.accessList = res;
         }).catch(() => {})
             .then(() => this.locker.unlock());
@@ -141,7 +141,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     }
 
     doCancel(): void {
-        this._router.navigate(['cabinet', 'extensions']);
+        this.router.navigate(['cabinet', 'extensions']);
     }
 
     doSave() {
@@ -152,16 +152,16 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             this.locker.lock();
 
             if (this.mode === 'create') {
-                this._extension.create({...this.formExtension.value}).then(extension => {
+                this.extension.create({...this.formExtension.value}).then(extension => {
                     this.id = extension.id;
                     this.afterSaveExtension(extension);
-                    this._router.navigate(['cabinet', 'extensions', this.id]);
+                    this.router.navigate(['cabinet', 'extensions', this.id]);
                 }).catch(response => {
                     this.errorSaveExtension(response);
                 });
             }
             else if (this.mode === 'edit') {
-                this._extension.edit(this.id, {...this.formExtension.value}).then(extension => {
+                this.extension.edit(this.id, {...this.formExtension.value}).then(extension => {
                     this.afterSaveExtension(extension);
                     if (extension.extension) {
                         this.getAccessList(extension.user);
@@ -206,7 +206,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         }
 
         this.locker.lock();
-        this._extension.saveAccessList(extension.user.id, rights).then(() => {
+        this.extension.saveAccessList(extension.user.id, rights).then(() => {
             if (this.mode === 'create') this.doCancel();
         }).catch(() => {})
           .then(() => this.locker.unlock());

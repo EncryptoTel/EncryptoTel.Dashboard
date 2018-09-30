@@ -31,7 +31,7 @@
                        (blur)="removeFocus()"
                        (mouseenter)="mouseEnter()"
                        (mouseleave)="mouseLeave()"
-                       [disabled]="disabled"
+                       [attr.disabled]="disabled ? '' : null"
                        (paste)="pasteEvent($event)"
                        [attr.data-focus]="inputFocus"
                        appAutofocus
@@ -59,19 +59,20 @@
                 ></pbx-select>
 
                 <pbx-editable-select *ngIf="options && editable"
-                            [name]="key"
-                            [singleBorder]="singleBorder"
-                            [options]="options"
-                            [objectKey]="displayKey"
-                            [selected]="value"
-                            (onSelect)="selectItem($event)"
-                            [errors]="inErrorState"
-                            [placeholder]="placeholder"
-                            (onFocus)="setFocus()"
-                            (onBlur)="removeFocus()"
-                            (mouseenter)="mouseEnter()"
-                            (mouseleave)="mouseLeave()"
-                ></pbx-editable-select>
+                                     [name]="key"
+                                     [singleBorder]="singleBorder"
+                                     [options]="options"
+                                     [objectKey]="displayKey"
+                                     [selected]="value"
+                                     (onSelect)="selectItem($event)"
+                                     [errors]="inErrorState"
+                                     [placeholder]="placeholder"
+                                     (onFocus)="setFocus()"
+                                     (onBlur)="removeFocus()"
+                                     (mouseenter)="mouseEnter()"
+                                     (mouseleave)="mouseLeave()"
+                                     >
+                         </pbx-editable-select>
 
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
@@ -87,22 +88,22 @@
                  [formGroup]="object"
                  [ngClass]="['pbx_input_item_input_wrap', inputClass]">
 
-                <input 
-                    *ngIf="!options && !checkbox && type !== 'textarea'"
-                    class="{{ singleBorder ? '' : 'show-border' }} {{ inErrorState ? 'error-border error-text' : '' }}"
-                    [type]="type"
-                    [id]="key"
-                    [placeholder]="placeholder"
-                    [title]="name"
-                    [formControlName]="[key]"
-                    [ngStyle]="inputCenter && {'text-align': 'center'}"
-                    (keyup)="inputKeyUp($event)"
-                    (focus)="setFocus()"
-                    (blur)="removeFocus()"
-                    (mouseenter)="mouseEnter()"
-                    (mouseleave)="mouseLeave()"
-                    >
-
+                <input *ngIf="!options && !checkbox && type !== 'textarea'"
+                       class="{{ singleBorder ? '' : 'show-border' }} {{ inErrorState ? 'error-border error-text' : '' }}"
+                       [type]="type"
+                       [id]="key"
+                       [placeholder]="placeholder"
+                       [title]="name"
+                       [formControlName]="[key]"
+                       [ngStyle]="inputCenter && {'text-align': 'center'}"
+                       [attr.disabled]="disabled ? '' : null"
+                       (keyup)="inputKeyUp($event)"
+                       (focus)="setFocus()"
+                       (blur)="removeFocus()"
+                       (mouseenter)="mouseEnter()"
+                       (mouseleave)="mouseLeave()"
+                       >
+   
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
                               (onToggle)="toggleCheckbox($event)"
