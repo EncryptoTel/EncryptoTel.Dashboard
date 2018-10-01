@@ -102,15 +102,14 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     initForm(): void {
-        // Called from parent class constructor
         this.form = this.fb.group({
             id:         [ '' ],
             name:       [ '', [ Validators.required ] ],
             description: [ '' ],
-            sip:        [ null, [ Validators.required ] ],          // Phone number
-            strategy:   [ null, [ Validators.required ] ],          // Ring strategy
-            timeout:    [ '', [ Validators.required, Validators.pattern(numberRegExp), numberRangeValidator(15, 600) ] ],     // Ring time
-            // queueMembers: [ null, [ Validators.required ] ],     // Members
+            sip:        [ null, [ Validators.required ] ],
+            strategy:   [ null, [ Validators.required ] ],
+            timeout:    [ '', [ Validators.required, Validators.pattern(numberRegExp), numberRangeValidator(15, 600) ] ],
+            // queueMembers: [ null, [ Validators.required ] ],
         });
         if (this.isCallQueue) {
             // Add Call-Queues specific controls

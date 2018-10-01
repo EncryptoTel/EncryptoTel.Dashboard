@@ -75,7 +75,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         ];
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        super.ngOnInit();
+    }
 
     // -- initialize section --------------------------------------------------
 
@@ -309,6 +311,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         this.service.resetErrors();
         this.setFormData();
+        console.log('form', this.form.value);
         
         this.sidebar.buttons = [];
         this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
