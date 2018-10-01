@@ -12,29 +12,24 @@ export class RingGroupService extends BaseQueueService {
     params: RingGroupParams;
 
     getItem(id: number): Promise<any> {
-        return this.getById(id).then(res => {
-            this.item.id = res.id;
-            this.item.sipId = res.sip.id;
-            this.item.name = res.name;
-            this.item.strategy = res.strategy;
-            this.item.timeout = res.timeout;
-            this.item.description = res.description;
-            this.item.action = res.action;
-            this.userView.phoneNumber = res.sip.phoneNumber;
-            this.setMembers(res.queueMembers);
-            return Promise.resolve(res);
-        });
-    }
+        if (!id) {
+            this.item = new RingGroupItem();
+            return Promise.resolve(this.item);
+        }
+        return this.getById(id).then(response => {
+            this.item.id = response.id;
+            this.item.sipId = response.sip.id;
+            this.item.name = response.name;
+            this.item.strategy = response.strategy;
+            this.item.timeout = response.timeout;
+            this.item.description = response.description;
+            this.item.action = response.action;
 
-    validation(): boolean {
-        return !(
-            this.item.sipId &&
-            this.item.name &&
-            (this.item.name.length < 255) &&
-            this.item.strategy &&
-            this.item.timeout &&
-            this.item.queueMembers.length > 0
-        );
+            this.userView.phoneNumber = response.sip.phoneNumber;
+            this.setMembers(response.queueMembers);
+
+            return Promise.resolve(response);
+        });
     }
 
     reset() {

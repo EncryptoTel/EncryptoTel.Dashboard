@@ -21,7 +21,6 @@ export class CallQueueItem extends BaseItemModel {
         this.sipId = 0;
         this.name = '';
         this.description = '';
-        this.strategy = 0;
         this.timeout = 60;
         this.maxlen = 60;
         this.announcePosition = false;

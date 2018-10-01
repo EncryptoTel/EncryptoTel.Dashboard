@@ -9,23 +9,22 @@ import {MessageServices} from './message.services';
 @Injectable()
 export class SettingsService extends BaseService {
 
-    public callback;
-    public loading: number;
-    public successCount: number;
-    public errorCount: number;
+    callback;
+    loading: number;
+    successCount: number;
+    errorCount: number;
 
-    private _compatibleMediaTypes: string[];
+    private compatibleMediaTypes: string[];
 
-    constructor(
-        public request: RequestServices,
-        public message: MessageServices,
-        public http: HttpClient
-    ) {
+    constructor(public request: RequestServices,
+                public message: MessageServices,
+                public http: HttpClient) {
         super(request, message, http);
+        
         this.loading = 0;
         this.successCount = 0;
         this.errorCount = 0;
-        this._compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/gif', 'image/jpg' ];
+        this.compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/gif', 'image/jpg' ];
     }
 
     getProfileSettings(): Promise<any> {

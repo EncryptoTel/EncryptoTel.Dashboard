@@ -1,4 +1,5 @@
 import {BaseService} from "./base.service";
+import {isDevEnv} from "../shared/shared.functions";
 
 export class BaseQueueService extends BaseService {
 
@@ -129,7 +130,21 @@ export class BaseQueueService extends BaseService {
                 this.setParams();
             }
             return res;
+        }).catch(() => {
+            isDevEnv() && this.mockParams();
+            if (this.editMode) {
+                this.setParams();
+            }
         });
     }
 
+    mockParams(): void {
+        this.params = {
+            strategies: [ 
+                { id: 1, code: 'Ring strategy 1' }, 
+                { id: 2, code: 'Ring strategy 2' }, 
+                { id: 3, code: 'Ring strategy 3' } 
+            ]
+        };
+    }
 }

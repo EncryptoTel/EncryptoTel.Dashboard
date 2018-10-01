@@ -51,15 +51,16 @@
             <div class="settings_form_section" [formGroup]="emailChange">
                 <div class="settings_form_title">Change E-mail</div>
 
-                <pbx-input *ngIf="!messageSent"
-                           name="E-mail"
+                <pbx-input name="E-mail"
                            key="email"
-                           [required]="true"
                            placeholder="Please enter your e-mail address"
+                           [disabled]="messageSent"
+                           [required]="true"
                            [form]="true"
                            [object]="emailChange"
                            [validationHost]="validationHost"
-                ></pbx-input>
+                           >
+                </pbx-input>
 
                 <div class="settings_input_item string" *ngIf="messageSent">
                     <pbx-input name="Confirmation code"

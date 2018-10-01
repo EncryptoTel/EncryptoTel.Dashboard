@@ -52,13 +52,13 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public service: DepartmentService,
-                private _refs: RefsServices,
-                private _company: CompanyService,
-                private _activatedRoute: ActivatedRoute,
-                private _router: Router,
-                protected _fb: FormBuilder,
-                protected _message: MessageServices) {
-        super(_fb, _message);
+                private refs: RefsServices,
+                private company: CompanyService,
+                private activatedRoute: ActivatedRoute,
+                private router: Router,
+                protected fb: FormBuilder,
+                protected message: MessageServices) {
+        super(fb, message);
 
         this.params = {
             'class': {
@@ -74,7 +74,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         this.locker = new Locker();
         this.sips = [];
         this.filteredSips = [];
-        this._id = this._activatedRoute.snapshot.params.id;
+        this._id = this.activatedRoute.snapshot.params.id;
 
         this._tabsButtons = [];
         this._tabsButtons[0] = [
@@ -115,13 +115,13 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
     initForm(): void {
         this._department = new DepartmentItem();
 
-        this.form = this._fb.group({
-            generalForm: this._fb.group({
+        this.form = this.fb.group({
+            generalForm: this.fb.group({
                 name: [this._department.name, [ Validators.required, Validators.maxLength(190) ]],
                 comment: [this._department.comment, [ Validators.maxLength(255) ]],
             }),
-            sipInnersForm: this._fb.group({
-                sipInner: this._fb.array([], Validators.required)
+            sipInnersForm: this.fb.group({
+                sipInner: this.fb.array([], Validators.required)
             })
         });
     }
@@ -170,14 +170,14 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
     getCompany() {
         this.locker.lock();
-        this._company.getCompany().then(() => {})
+        this.company.getCompany().then(() => {})
           .catch(() => {})
           .then(() => this.locker.unlock());
     }
 
     getSipOuters(): void {
         this.locker.lock();
-        this._refs.getSipOuters().then((response: any) => {
+        this.refs.getSipOuters().then((response: any) => {
             this.formatSipOuters(response);
         }).catch(() => {})
           .then(() => this.locker.unlock());
@@ -235,7 +235,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
             this.sipInnersControl.selectedItems.forEach(sip => this._department.sipInnerIds.push(sip.id));
 
             this._department.sipInnerIds.forEach(sipId => {
-                this.sipInners.push(this._fb.control([ sipId, [] ]));
+                this.sipInners.push(this.fb.control([ sipId, [] ]));
             });
         }
     }
@@ -310,6 +310,6 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
     }
 
     confirmClose(): void {
-        this._router.navigate([ 'cabinet', 'departments' ]);
+        this.router.navigate([ 'cabinet', 'departments' ]);
     }
 }

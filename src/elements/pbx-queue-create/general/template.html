@@ -1,95 +1,110 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
 <div class="call_queues_general_body" *ngIf="!loading">
     <div class="queue-group-create">
-        <h3 class="queue-group-create_h3">{{generalHeaderText}}</h3>
+        <h3 class="queue-group-create_h3">{{ generalHeaderText }}</h3>
     </div>
     <!--<h3 class="call_queues_general_title">Create New Queue</h3>-->
-    <pbx-input
-            name="Name"
-            key="name"
-            [required]="true"
-            [(errors)]="service.errors"
-            [(object)]="service.item">
+    <pbx-input name="Name"
+               key="name"
+               [required]="true"
+               [form]="true"
+               [object]="object"
+               [(errors)]="service.errors"
+               [validationHost]="validationHost"
+               >
     </pbx-input>
-    <pbx-input
-            name="Description"
-            key="description"
-            [(errors)]="service.errors"
-            [(object)]="service.item">
+    <pbx-input name="Description"
+               key="description"
+               [form]="true"
+               [object]="object"
+               [(errors)]="service.errors"
+               [validationHost]="validationHost"
+               >
     </pbx-input>
-    <pbx-input
-            *ngIf="service.item.id === 0"
-            name="Phone number"
-            key="sipId"
-            displayKey="phoneNumber"
-            errorKey="sip"
-            [required]="true"
-            [updateValueByKey]="true"
-            [editable]="true"
-            [options]="numbers"
-            [(errors)]="service.errors"
-            [(objectView)]="service.userView"
-            [(object)]="service.item"
-            [placeholder]="'[choose one]'">
+    <pbx-input *ngIf="service.item.id === 0"
+               name="Phone number"
+               key="sip"
+               [required]="true"
+               [placeholder]="'[choose one]'"
+               [form]="true"
+               [object]="object"
+               [options]="numbers"
+               displayKey="phoneNumber"
+               [editable]="true"
+               [(errors)]="service.errors"
+               [validationHost]="validationHost"
+               >
     </pbx-input>
-    <pbx-input
-            name="Ring Strategy"
-            key="strategy"
-            displayKey="code"
-            errorKey="strategy"
-            [required]="true"
-            [editable]="true"
-            [updateValueByKey]="true"
-            [options]="service.params.strategies"
-            [(errors)]="service.errors"
-            [(objectView)]="service.userView.strategy"
-            [(object)]="service.item"
-            [placeholder]="'[choose one]'">
+    <pbx-input name="Ring Strategy"
+               key="strategy"
+               [required]="true"
+               [placeholder]="'[choose one]'"
+               [form]="true"
+               [object]="object"
+               [options]="service.params.strategies"
+               displayKey="code"
+               [editable]="true"
+               [(errors)]="service.errors"
+               [validationHost]="validationHost"
+               >
+           </pbx-input>
+    <pbx-input name="Ring Time"
+               description="seconds (min 15 seconds, max 600 seconds)"
+               key="timeout"
+               [required]="true"
+               [form]="true"
+               [object]="object"
+               [(errors)]="service.errors"
+               [validationHost]="validationHost"
+               inputClass="time"
+               [inputWidth]="40"
+               [inputCenter]="true"
+               [hVMessageOffset]="-100"
+               >
     </pbx-input>
-    <pbx-input
-            name="Ring Time"
-            key="timeout"
-            description="seconds (min 15 seconds, max 600 seconds)"
-            inputClass="time"
-            [required]="true"
-            [inputWidth]="40"
-            [(errors)]="service.errors"
-            [(object)]="service.item">
+    <!-- call-queues -->
+    <pbx-input *ngIf="isCallQueue"
+               name="Maximum Callers in Queue"
+               description="(min 1, max 100)"
+               key="maxlen"
+               [required]="true"
+               [form]="true"
+               [object]="object"
+               [(errors)]="service.errors"
+               [validationHost]="validationHost"
+               [inputWidth]="40"
+               inputClass="time"
+               [inputCenter]="true"
+               [hVMessageOffset]="-100"
+               >
     </pbx-input>
-    <pbx-input
-            *ngIf="name === 'call-queues'"
-            name="Maximum Callers in Queue"
-            key="maxlen"
-            description=""
-            inputClass="time"
-            [required]="true"
-            [inputWidth]="40"
-            [(errors)]="service.errors"
-            [(object)]="service.item">
-    </pbx-input>
-    <div class="queue-group" *ngIf="name === 'call-queues'">
+    <div class="queue-group" *ngIf="isCallQueue">
         <h3 class="queue-group_h3">Queue options</h3>
     </div>
-    <pbx-input
-            *ngIf="name === 'call-queues'"
-            name=""
-            key="announcePosition"
-            description="Announce Queue position to caller"
-            [checkbox]="true"
-            inputClass="checkbox"
-            [(errors)]="service.errors"
-            [(object)]="service.item">
+    <pbx-input *ngIf="isCallQueue"
+               name=""
+               description="Announce Queue position to caller"
+               key="announcePosition"
+               [checkbox]="true"
+               [form]="true"
+               [object]="object"
+               [(errors)]="service.errors"
+               [validationHost]="validationHost"
+               inputClass="checkbox"
+               >
     </pbx-input>
-    <pbx-input
-            *ngIf="name === 'call-queues'"
-            name=""
-            key="announceHoldtime"
-            description="Announce Holdtime"
-            [checkbox]="true"
-            inputClass="checkbox"
-            trueValue="1"
-            falseValue="0"
-            [(errors)]="service.errors"
-            [(object)]="service.item">
+    <pbx-input *ngIf="isCallQueue"
+               name=""
+               description="Announce Holdtime"
+               key="announceHoldtime"
+               [checkbox]="true"
+               [form]="true"
+               [object]="object"
+               [(errors)]="service.errors"
+               [validationHost]="validationHost"
+               inputClass="checkbox"
+               trueValue="1"
+               falseValue="0"
+               >
     </pbx-input>
 </div>

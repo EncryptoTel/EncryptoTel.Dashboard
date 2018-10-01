@@ -16,7 +16,7 @@ export class FormsSnapshots {
     save(key: string): void {
         if (!this._map[key]) return;
 
-        let snapshot = JSON.stringify(this._map[key].value);
+        let snapshot = this.takeSnapshot(key);
         this._snapshots[key] = snapshot;
     }
 
@@ -32,8 +32,9 @@ export class FormsSnapshots {
     check(key: string): boolean {
         if (!this._map[key]) return false;
         
-        let snapshot = JSON.stringify(this._map[key].value);
-        // console.log('check', key, this._snapshots[key], snapshot);
+        let snapshot = this.takeSnapshot(key);
+        // console.log('check:1', key, this._snapshots[key]);
+        // console.log('check:2', snapshot);
         return snapshot != this._snapshots[key];
     }
 
@@ -41,5 +42,12 @@ export class FormsSnapshots {
         let result = false;
         Object.keys(this._map).forEach(key => result = result || this.check(key));
         return result;
+    }
+
+    takeSnapshot(key: string): string {
+        let snapshot = JSON.stringify(this._map[key].value);
+        snapshot = snapshot.split('null').join('');
+        snapshot = snapshot.split('"').join('');
+        return snapshot;
     }
 }

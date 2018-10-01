@@ -19,7 +19,6 @@ export class RingGroupItem extends BaseItemModel {
         this.sipId = 0;
         this.name = '';
         this.description = '';
-        this.strategy = 0;
         this.timeout = 60;
         this.action = 5;
         this.queueMembers = [];

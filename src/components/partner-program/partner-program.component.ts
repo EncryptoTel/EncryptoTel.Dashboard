@@ -30,10 +30,10 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public service: PartnerProgramService,
-                protected _message: MessageServices,
-                protected _fb: FormBuilder,
-                private _clipboard: ClipboardService) {
-        super(_fb, _message);
+                protected message: MessageServices,
+                protected fb: FormBuilder,
+                private clipboard: ClipboardService) {
+        super(fb, message);
         
         this.partners = new PartnerProgramModel();
         this.tab = {
@@ -56,7 +56,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
     // -- form methods --------------------------------------------------------
 
     initForm(): void {
-        this.form = this._fb.group({
+        this.form = this.fb.group({
             id:         [ null ],
             name:       [ null, [ Validators.required, Validators.minLength(3), Validators.pattern(simpleNameRegExp) ] ],
             refLink:    [ null ],
@@ -147,8 +147,8 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
     }
 
     copyToClipboard(item: PartnerProgramItem): void {
-        if (this._clipboard.copyFromContent(item.refLinkUrl)) {
-            this._message.writeSuccess('Link has been copied to clipboard');
+        if (this.clipboard.copyFromContent(item.refLinkUrl)) {
+            this.message.writeSuccess('Link has been copied to clipboard');
         }
     }
 
@@ -156,7 +156,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
 
     save(item: PartnerProgramItem): void {
         if (!this.validateForms()) return;
-        item = this.setModelData(item);
+        this.setModelData(item);
         item.status = (<any>item.status).value;
         console.log('save', item);
 

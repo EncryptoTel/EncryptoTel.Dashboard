@@ -20,25 +20,281 @@
         </div>
     </div>
     <div class="ivr_create_body">
-        <pbx-input name="Name"
-                   key="name"
-                   [(errors)]="service.errors"
-                   [(object)]="service.item">
-        </pbx-input>
-        <pbx-input name="Description"
-                   key="description"
-                   [(errors)]="service.errors"
-                   [(object)]="service.item">
-        </pbx-input>
-        <pbx-input name="Phone number"
-                   key="sipId"
-                   displayKey="phoneNumber"
-                   errorKey="sip"
-                   [options]="numbers"
-                   [(errors)]="service.errors"
-                   [(object)]="service.item"
-                   [(objectView)]="selectedNumber">
-        </pbx-input>
 
-    </div>
+        <div class="left">
+
+            <div class="item one_up"> <!-- class two and one_up-->
+
+                <div class="top">
+                    <div class="desc">Menu IVR</div>
+                    <div class="title">Horns & Co</div>
+                </div> <!-- top -->
+
+                <div class="numbers">
+
+                    <div class="number selected">
+                        <div class="digit">
+                            <div class="inner"><span>1</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>Sale</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>2</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>Balance</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>3</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>IT Department</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>4</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>forward</span></div>
+                        <div class="line line2"><span>+1 (800) 800 55 55</span></div>
+                        <div class="line line3"><span>#100 John Watson</span></div>
+                    </div> <!-- number -->
+
+                </div> <!-- numbers -->
+
+                <div class="buttons">
+                    <pbx-button value="Add Digit" buttonType="accent"></pbx-button>
+                    <pbx-button value="Delete Level IVR" buttonType="error"></pbx-button>
+                </div> <!-- buttons -->
+
+            </div> <!-- item -->
+
+            <div class="item two"> <!-- class two and one_up-->
+
+                <div class="top">
+                    <div class="desc">Level 1</div>
+                    <div class="title">Sale</div>
+                </div> <!-- top -->
+
+                <div class="numbers">
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>1</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>Sale</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>2</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>Balance</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>3</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>IT Department</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>4</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>forward</span></div>
+                        <div class="line line2"><span>+1 (800) 800 55 55</span></div>
+                        <div class="line line3"><span>#100 John Watson</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number selected">
+                        <div class="digit">
+                            <div class="inner"><span>5</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>forward</span></div>
+                        <div class="line line2"><span>+1 (800) 800 55 55</span></div>
+                        <div class="line line3"><span>#100 John Watson</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>6</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>forward</span></div>
+                        <div class="line line2"><span>+1 (800) 800 55 55</span></div>
+                        <div class="line line3"><span>#100 John Watson</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>7</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>forward</span></div>
+                        <div class="line line2"><span>+1 (800) 800 55 55</span></div>
+                        <div class="line line3"><span>#100 John Watson</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>8</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>forward</span></div>
+                        <div class="line line2"><span>+1 (800) 800 55 55</span></div>
+                        <div class="line line3"><span>#100 John Watson</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>9</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>forward</span></div>
+                        <div class="line line2"><span>+1 (800) 800 55 55</span></div>
+                        <div class="line line3"><span>#100 John Watson</span></div>
+                    </div> <!-- number -->
+
+                </div> <!-- numbers -->
+
+                <div class="buttons">
+                    <pbx-button value="Add Digit" buttonType="accent"></pbx-button>
+                    <pbx-button value="Delete Level IVR" buttonType="error"></pbx-button>
+                </div> <!-- buttons -->
+
+            </div> <!-- item -->
+
+            <div class="item two"> <!-- class two and one_up-->
+
+                <div class="top active">
+                    <div class="desc">Level 2</div>
+                    <div class="title">Balance</div>
+                </div> <!-- top -->
+
+                <div class="numbers">
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>1</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>Sale</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number selected">
+                        <div class="digit">
+                            <div class="inner"><span>2</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>Balance</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>3</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>IT Department</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>4</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>forward</span></div>
+                        <div class="line line2"><span>+1 (800) 800 55 55</span></div>
+                        <div class="line line3"><span>#100 John Watson</span></div>
+                    </div> <!-- number -->
+
+                </div> <!-- numbers -->
+
+                <div class="buttons">
+                    <pbx-button value="Add Digit" buttonType="accent"></pbx-button>
+                    <pbx-button value="Delete Level IVR" buttonType="error"></pbx-button>
+                </div> <!-- buttons -->
+
+            </div> <!-- item -->
+
+            <div class="item two selected"> <!-- class two and one_up-->
+
+                <div class="top">
+                    <div class="desc">Level 3</div>
+                    <div class="title">IT Department</div>
+                </div> <!-- top -->
+
+                <div class="numbers">
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>1</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>Sale</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>2</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>Balance</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>3</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>send to IVR</span></div>
+                        <div class="line line2"><span>IT Department</span></div>
+                    </div> <!-- number -->
+
+                    <div class="number">
+                        <div class="digit">
+                            <div class="inner"><span>4</span></div>
+                        </div> <!-- digit -->
+                        <div class="line line1"><span>forward</span></div>
+                        <div class="line line2"><span>+1 (800) 800 55 55</span></div>
+                        <div class="line line3"><span>#100 John Watson</span></div>
+                    </div> <!-- number -->
+
+                </div> <!-- numbers -->
+
+                <div class="buttons">
+                    <pbx-button value="Add Digit" buttonType="accent"></pbx-button>
+                    <pbx-button value="Delete Level IVR" buttonType="error"></pbx-button>
+                </div> <!-- buttons -->
+
+            </div> <!-- item -->
+
+        </div> <!-- left -->
+
+        <div class="right">
+            <pbx-input name="IVR Name"
+                       key="name"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="IVR Description"
+                       key="description"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item">
+            </pbx-input>
+            <pbx-input name="Phone number"
+                       key="sipId"
+                       displayKey="phoneNumber"
+                       errorKey="sip"
+                       [options]="numbers"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item"
+                       [(objectView)]="selectedNumber">
+            </pbx-input>
+        </div> <!-- right -->
+
+    </div> <!-- ivr_create_body -->
 </div>

@@ -1,21 +1,18 @@
-import { formatNumber } from 'libphonenumber-js';
-import { classToPlain } from 'class-transformer';
-import { CountryModel } from '../../models/country.model';
-import { RefsServices } from '../../services/refs.services';
-import { DashboardModel } from '../../models/dashboard.model';
-import { CompanyService } from '../../services/company.service';
 import {Component, ElementRef, OnInit, ViewChild, ViewChildren} from '@angular/core';
-import { MessageServices } from '../../services/message.services';
-import { DashboardServices } from '../../services/dashboard.services';
-import { CompanyModel, CompanyInfoModel } from '../../models/company.model';
-import { SidebarInfoItem, SidebarInfoModel } from '../../models/base.model';
-import { FormArray, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { FormBaseComponent } from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import { emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp } from '../../shared/vars';
+import {FormArray, FormBuilder, Validators} from '@angular/forms';
+import {formatNumber} from 'libphonenumber-js';
 
-import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
-import {compareObjects, validateFormControls} from '../../shared/shared.functions';
-import {ValidationHost} from '../../models/validation-host.model';
+import {CountryModel} from '../../models/country.model';
+import {DashboardModel} from '../../models/dashboard.model';
+import {CompanyModel, CompanyInfoModel, CompanyAddress} from '../../models/company.model';
+import {SidebarInfoItem, SidebarInfoModel} from '../../models/base.model';
+import {RefsServices} from '../../services/refs.services';
+import {CompanyService} from '../../services/company.service';
+import {MessageServices} from '../../services/message.services';
+import {DashboardServices} from '../../services/dashboard.services';
+import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import {emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp} from '../../shared/vars';
+import {isDevEnv} from '../../shared/shared.functions';
 
 
 @Component({
@@ -24,15 +21,15 @@ import {ValidationHost} from '../../models/validation-host.model';
     styleUrls: ['./local.sass'],
 })
 export class CompanyComponent extends FormBaseComponent implements OnInit {
-    company: CompanyModel;
+    
+    company: CompanyModel = new CompanyModel();
     companyInfo: CompanyInfoModel;
 
-    countries: CountryModel[];
+    countries: CountryModel[] = [];
     selectedCountry: CountryModel;
 
     sidebarInfo: SidebarInfoModel;
-    editMode: boolean;
-    logo: string;
+    editMode: boolean = false;
 
     // TODO: временная переменная для отладки/дизайна
     templateView: boolean = false;
@@ -43,15 +40,16 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public service: CompanyService,
-                protected _fb: FormBuilder,
-                private _dashboard: DashboardServices,
-                private _refs: RefsServices,
-                protected _message: MessageServices) {
-        super(_fb, _message);
+                protected fb: FormBuilder,
+                private dashboard: DashboardServices,
+                private refs: RefsServices,
+                protected message: MessageServices) {
+        super(fb, message);
 
-        this.editMode = false;
-        this.countries = [];
-        this.logo = './assets/images/avatar/company_details.png';
+        this.company.logo = '../../assets/images/avatar/company_details.png';
+        this.companyInfo = this.service.companyInfo;
+        this.companyInfo.logo = this.company.logo;
+
         this.sidebarInfo = new SidebarInfoModel();
         this.sidebarInfo.loading = 0;
         this.sidebarInfo.title = 'Information';
@@ -60,8 +58,6 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         this.sidebarInfo.items.push(new SidebarInfoItem(1, 'Internal numbers', null));
         this.sidebarInfo.items.push(new SidebarInfoItem(2, 'Storage space', null));
         this.sidebarInfo.items.push(new SidebarInfoItem(3, 'Available space', null));
-
-        this.companyInfo = this.service.companyInfo;
 
         this.validationHost.customMessages = [
             { name: 'Organization', error: 'pattern', message: 'Company name may contain letters, digits and dashes only' },
@@ -79,6 +75,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
+
         this.getCompany();
         this.getCountries();
         this.getSidebar();
@@ -87,69 +84,37 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     // -- form processing methods ---------------------------------------------
 
     initForm(): void {
-        this.form = this._fb.group({
-            logo: [this.logo],
-            name:  [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-            companyAddress: this._fb.array([
-                this._fb.group({
-                    id: [null],
-                    country: this._fb.group({
-                        id: [null, [ Validators.required ]],
-                        code: [null],
-                        title: [null],
-                        phoneCode: [null]
+        this.form = this.fb.group({
+            id: [ null ],
+            logo:   [ '' ],
+            name:   [ '', [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ] ],
+            companyAddress: this.fb.array([
+                this.fb.group({
+                    id: [ null ],
+                    country: this.fb.group({
+                        id:         [ null, [ Validators.required ] ],
+                        code:       [ '' ],
+                        title:      [ '' ],
+                        phoneCode:  [ '' ]
                     }),
-                    regionName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-                    locationName: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-                    street: [null, [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ]],
-                    building: [null, [ Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp) ]],
-                    office: [null, [ Validators.maxLength(15), Validators.pattern(companyOfficeRegExp) ]],
-                    postalCode: [null, [ Validators.minLength(6), Validators.maxLength(9), Validators.pattern(nameRegExp) ]],
-                    type: [null],
+                    regionName:     [ '', [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ] ],
+                    locationName:   [ '', [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ] ],
+                    street:         [ '', [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ] ],
+                    building:       [ '', [ Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp) ] ],
+                    office:         [ '', [ Validators.maxLength(15), Validators.pattern(companyOfficeRegExp) ] ],
+                    postalCode:     [ '', [ Validators.minLength(6), Validators.maxLength(9), Validators.pattern(nameRegExp) ] ],
+                    type:           [ '' ],
                 })
             ]),
-            email: [null, [ Validators.pattern(emailRegExp) ]],
-            phone: [null, [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(companyPhoneRegExp) ]],
-            vatId: [null, [ Validators.maxLength(99), Validators.pattern(companyVatIDRegExp) ]],
+            email: [ '', [ Validators.pattern(emailRegExp) ] ],
+            phone: [ '', [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(companyPhoneRegExp) ] ],
+            vatId: [ null, [ Validators.maxLength(99), Validators.pattern(companyVatIDRegExp) ] ],
             // companyDetailFieldValue: this._fb.array([]),
-            id: [null]
         });
     }
 
     get addressControls(): FormArray {
         return this.form.get('companyAddress') as FormArray;
-    }
-
-    isFormEmpty(formGroup: any): boolean {
-        let count: number;
-        count = this.countFormNonEmptyFields(formGroup);
-        return count === 0;
-    }
-
-    countFormNonEmptyFields(formGroup: any, count: number = 0): number {
-        Object.keys(formGroup.controls).forEach(field => {
-            const control = formGroup.get(field);
-
-            if (control instanceof FormControl) {
-                if (control.value) count ++;
-            }
-            else if (control instanceof FormGroup || control instanceof FormArray) {
-                count += this.countFormNonEmptyFields(control, count);
-            }
-        });
-        return count;
-    }
-
-    setCompanyFormData() {
-        if (this.company.name) {
-            let company: object;
-            company = classToPlain(this.company);
-            this.form.patchValue(company);
-            if (this.company.companyAddress && this.company.companyAddress.length) {
-                this.selectedCountry = this.company.companyAddress[0].country;
-            }
-            this.saveFormState();
-        }
     }
 
     // -- event handlers ------------------------------------------------------
@@ -159,36 +124,28 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     decline(): void {
-        super.close(this.company && this.company.isValid, () => this.cancel());
+        this.close(this.company && this.company.isValid, () => this.cancel());
     }
 
     cancel(): void {
         this.service.resetErrors();
-        this.form.reset();
+        this.resetForms();
         this.selectedCountry = null;
-        this.setCompanyFormData();
-        this.validateForms();
+
+        // TODO: check how companyId is obtanied for create
         if (this.company.id) {
             this.editMode = false;
+        }
+        else {
+            this.getCompany();
         }
     }
 
     save(): void {
-        let formValid: boolean;
-        formValid = this.validateForms();
-        if (formValid) {
-            this.locker.lock();
-            this.service.save({...this.form.value}, false).then((company) => {
-                this._message.writeSuccess('Company successfully updated.');
-                this.editMode = false;
-                this.getCompany();
-            }).catch(error => {
-                // this._message.writeError('Company update error.');
-                console.log('Company update error', error);
-            }).then(() => this.locker.unlock());
-        } else {
-            this.form.markAsTouched();
-        }
+        if (!this.validateForms()) return;
+
+        this.setModelData(this.company);
+        this.saveCompany();
     }
 
     selectCountry(country: CountryModel): void {
@@ -196,7 +153,35 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         this.form.get(['companyAddress']).get('0').get('country').setValue(country);
     }
 
-    // -- helpers methods -----------------------------------------------------
+    dropHandler(event) {
+        event.preventDefault();
+        const files = event.dataTransfer.files;
+        this.uploadFiles(files[0]);
+    }
+
+    dragOverHandler(event): void {
+        event.preventDefault();
+    }
+
+    dragEndHandler(event): void {}
+
+    dragLeaveHandler(event): void {
+        event.preventDefault();
+    }
+
+    sendFile(event: Event): void {
+        event.preventDefault();
+        const file = (<HTMLInputElement>event.target).files[0];
+        if (file) {
+            this.uploadFiles(file);
+        }
+    }
+
+    selectFile(): void {
+        this.fileInput.nativeElement.click();
+    }
+
+    // -- common methods -----------------------------------------------------
 
     formatPhone(event): void {
         event.target.value = formatNumber(event.target.value, 'International');
@@ -216,20 +201,26 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     private getCompany(): void {
         this.locker.lock();
+
         this.service.getCompany().then((company: CompanyModel) => {
             this.company = company;
             this.companyInfo.logo = company.logo;
-            this.logo = company.logo;
-            this.setCompanyFormData();
-
-            this.editMode = !company.isValid;
-        }).catch(() => {})
-          .then(() => this.locker.unlock());
+        }).catch(() => {
+            if (isDevEnv() && this.service.model) {
+                this.company = this.service.model;
+            }
+        }).then(() => {
+            this.setFormData(this.company);
+            this.editMode = !this.company.isValid;
+            
+            this.locker.unlock();
+        });
     }
 
     private getCountries() {
         this.locker.lock();
-        this._refs.getCountries().then(res => {
+
+        this.refs.getCountries().then(res => {
             this.countries = res;
         }).catch(() => {})
           .then(() => this.locker.unlock());
@@ -237,7 +228,8 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     private getSidebar() {
         this.sidebarInfo.loading ++;
-        this._dashboard.getDashboard().then(response => {
+
+        this.dashboard.getDashboard().then(response => {
             this.setCompanyInfo(response);
 
             for (let i = 0; i < this.sidebarInfo.items.length; i++) {
@@ -264,44 +256,26 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
           .then(() => this.sidebarInfo.loading --);
     }
 
+    saveCompany(): void {
+        this.locker.lock();
 
-    dropHandler(event) {
-        event.preventDefault();
-        const files = event.dataTransfer.files;
-        this.uploadFiles(files[0]);
+        this.service.save({...this.form.value}, false).then(() => {
+            this.message.writeSuccess('Company has been successfully updated');
+            this.editMode = false;
+            this.getCompany();
+        }).catch(error => {
+            console.error('Company update error', error);
+            isDevEnv() && this.getCompany();
+        }).then(() => this.locker.unlock());
     }
 
-    dragOverHandler(event): void {
-        event.preventDefault();
-    }
-
-    dragEndHandler(event): void {}
-
-    dragLeaveHandler(event): void {
-        event.preventDefault();
-    }
-
-    private uploadFiles(file) {
-        console.log(file);
+    private uploadFiles(file: File): void {
+        // console.log(file);
         this.service.uploadFile(file, null, null).then(response => {
             if (response.logo) {
-                this.logo = response.url;
                 this.company.logo = response.logo;
-                this.form.patchValue(this.company);
+                this.setFormData(this.company);
             }
-        }).catch(() => {
-        });
-    }
-
-    sendFile(event) {
-        event.preventDefault();
-        const file = event.target.files[0];
-        if (file) {
-            this.uploadFiles(file);
-        }
-    }
-
-    selectFile() {
-        this.fileInput.nativeElement.click();
+        }).catch(() => {});
     }
 }
