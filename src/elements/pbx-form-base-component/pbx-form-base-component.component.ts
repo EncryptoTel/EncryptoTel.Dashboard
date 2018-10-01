@@ -20,7 +20,6 @@ import {MessageServices} from '../../services/message.services';
     ]
 })
 export class FormBaseComponent implements OnInit, Lockable {
-    locker: Locker;
 
     form: FormGroup;
     formKey: string;
@@ -30,6 +29,7 @@ export class FormBaseComponent implements OnInit, Lockable {
     validationHost: ValidationHost;
     snapshots: FormsSnapshots;
 
+    locker: Locker;
     modalExit: ModalEx;
 
 
@@ -42,8 +42,8 @@ export class FormBaseComponent implements OnInit, Lockable {
     }
 
 
-    constructor(protected _fb: FormBuilder,
-                protected _message: MessageServices) {
+    constructor(protected fb: FormBuilder,
+                protected message: MessageServices) {
         this.locker = new Locker();
         this.formKey = 'form';
         this.forms = [];
@@ -51,15 +51,16 @@ export class FormBaseComponent implements OnInit, Lockable {
         this.validationHost = new ValidationHost();
         this.snapshots = new FormsSnapshots();
 
-        this.initForm();
-        if (this.form && this.forms.length == 0) {
-            this.addForm(this.formKey, this.form);
-        }
-
         this.modalExit = new ModalEx('', 'cancelEdit');
     }
 
     ngOnInit(): void {
+        this.initForm();
+
+        if (this.form && this.forms.length === 0) {
+            this.addForm(this.formKey, this.form);
+        }
+
         this.validationHost.start();
     }
 
@@ -68,23 +69,24 @@ export class FormBaseComponent implements OnInit, Lockable {
         throw new Error('initForm() method not implemented.');
     }
 
-    setFormData<T>(model: T, customInitCallback?: () => void): void {
+    setFormData(model: any, customInitCallback?: () => void): void {
         // TODO: modify to update specific form
+        if (!model) return;
+
         this.form.patchValue(model);
         if (customInitCallback) customInitCallback();
-
         this.saveFormState();
     }
 
-    setModelData<T>(model: T, customInitCallback?: () => void): T {
-        // TODO: modify to take from specific form
-        // let creator: { new (): T; };
-        // let object = new creator;
-        // return object;
-        model = <T>this.form.value;
-        if (customInitCallback) customInitCallback();
+    setModelData(model: any, customInitCallback?: () => void): void {
+        // TODO: modify to update from specific form
+        Object.keys(this.form.value).forEach(key => {
+            if (model.hasOwnProperty(key)) {
+                model[key] = this.form.value[key];
+            }
+        });
 
-        return model;
+        if (customInitCallback) customInitCallback();
     }
 
 
@@ -95,7 +97,6 @@ export class FormBaseComponent implements OnInit, Lockable {
     }
 
     resetForms() {
-        // this.forms.forEach(form => form.reset());
         this.forms.forEach(form => {
             form.reset();
         });
@@ -123,7 +124,7 @@ export class FormBaseComponent implements OnInit, Lockable {
 
         validateForm(formGroup);
         if (!formGroup.valid && showMessage) {
-            this._message.writeError(message);
+            this.message.writeError(message);
         }
         return formGroup.valid;
     }

@@ -42,13 +42,13 @@ export class InputComponent implements OnInit {
     @Input() floatError: boolean = false;
     @Input() errorVisible: boolean = false;
     @Input() rows: number = 5;
-    @Input() required: boolean;
+    @Input() required: boolean = false;
     @Input() inputWidth: number;
     @Input() inputCenter: boolean;
     @Input() filter: FilterItem;
     @Input() actions: InputAction[] = [];
     @Input() formBuilder: FormBuilder;
-    @Input() animationMode: string; // Possible values: Fade, Swipe (default)
+    @Input() animationMode: 'Fade' | 'Swipe';
     @Input() resetable: boolean = false;
     @Input() inputFocus: boolean = false;
 
@@ -57,24 +57,22 @@ export class InputComponent implements OnInit {
     @Input() validatorMinLengthMsg: string;
     @Input() validatorMaxLengthMsg: string;
     @Input() validatorPatternMsg: string;
-    @Input()
-    set errorShow(errorShow:boolean) {
+    @Input() set errorShow(errorShow: boolean) {
         this._errorShow = errorShow;
         this.checkError();
     }
     _errorShow: boolean = false;
 
     @Input() optionsSelectedKey: string;
+    @Input() validationHost: ValidationHost;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
-    @Output() onToggle: EventEmitter<object> = new EventEmitter();
+    @Output() onToggle: EventEmitter<boolean> = new EventEmitter();
     @Output() onKeyUp: EventEmitter<object> = new EventEmitter();
     @Output() onPaste: EventEmitter<object> = new EventEmitter();
 
     // @ViewChild('errorSpan') errorSpan: ElementRef;
     @ViewChild('inputDiv') inputDiv: ElementRef;
-
-    @Input() validationHost: ValidationHost;
 
     value;
     checkboxValues;
@@ -84,6 +82,11 @@ export class InputComponent implements OnInit {
     loading = 0;
     pbxInputFocus = false;
 
+    // Properties to customise validation error message appearing place
+    @Input() hVMessageOffset: number;
+    @Input() vVMessageOffset: number;
+
+    // Flags shows component's in focus or mouse over states
     inFocus: boolean = false;
     inMouseHover: boolean = false;
 
@@ -351,13 +354,14 @@ export class InputComponent implements OnInit {
         this.onSelect.emit(event);
     }
 
-    toggleCheckbox($event) {
+    toggleCheckbox(value: boolean): void {
+        let checkValue = this.checkboxValues[value ? 1 : 0];
         if (this.form) {
-            this.getForm() ? this.getForm().setValue($event) : null;
+            this.getForm() ? this.getForm().setValue(checkValue) : null;
         } else {
-            this.object[this.key] = this.checkboxValues[$event ? 1 : 0];
+            this.object[this.key] = checkValue;
         }
-        this.onToggle.emit($event);
+        this.onToggle.emit(value);
     }
 
     findInput(element) {
@@ -465,11 +469,11 @@ export class InputComponent implements OnInit {
             this.falseValue ? this.falseValue : false,
             this.trueValue ? this.trueValue : true
         ];
-
-        this.loading --;
-        // console.log(this.key, JSON.stringify(this.value));
+        // if (this.key == 'announceHoldtime') console.log('check', this.checkboxValues);
 
         this.validationHost && this.validationHost.addControl(this);
+
+        this.loading --;
     }
 
 }

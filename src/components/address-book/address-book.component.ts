@@ -52,9 +52,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     constructor(public service: AddressBookService,
                 public refs: RefsServices,
-                protected _message: MessageServices,
-                protected _fb: FormBuilder) {
-        super(_fb, _message);
+                protected message: MessageServices,
+                protected fb: FormBuilder) {
+        super(fb, message);
         
         this.addressBookModel = new AddressBookModel();
         this.addressListHeaders = {
@@ -130,17 +130,17 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     initForm(): void {
         this.formKey = 'addressForm';
 
-        this.form = this._fb.group({
+        this.form = this.fb.group({
             id:             [ null ],
             firstname:      [ null, [ Validators.required, Validators.pattern(nameRegExp) ] ],
             lastname:       [ null, [ Validators.pattern(nameRegExp) ] ],
-            contactPhone:   this._fb.array([], Validators.required),
-            contactEmail:   this._fb.array([], Validators.required),
+            contactPhone:   this.fb.array([], Validators.required),
+            contactEmail:   this.fb.array([], Validators.required),
             company:        [ null, [ Validators.pattern(nameRegExp) ] ],
             department:     [ null, [ Validators.pattern(nameRegExp) ] ],
             position:       [ null ],
             address:        [ null ],
-            country:        this._fb.group({
+            country:        this.fb.group({
                 code:       [ null ],
                 id:         [ null ],
                 phoneCode:  [ null ],
@@ -150,7 +150,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
     
     createPhoneFormControl(model: ContactValueModel): FormGroup {
-        return this._fb.group({
+        return this.fb.group({
             value:  [ model ? model.value : null, [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(addressPhoneRegExp) ] ],
             typeId: [ model ? model.typeId : null ],
             type:   [ model ? model.type : null ],
@@ -158,7 +158,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     createEmailFormControl(model: ContactValueModel): FormGroup {
-        return this._fb.group({
+        return this.fb.group({
             value:  [ model ? model.value : null, [ Validators.pattern(emailRegExp) ] ],
             typeId: [ model ? model.typeId : null ],
             type:   [ model ? model.type : null ],
@@ -296,7 +296,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     confirmBlock() {
         this.selected.loading ++;
         this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
-            this._message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
+            this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
             this.selected.loading --;
             this.close(true);
         }).catch(() => {})

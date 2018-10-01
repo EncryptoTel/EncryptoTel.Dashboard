@@ -1,14 +1,15 @@
 <div class="call_queues_members">
   <div class="call_queues_members_header">
-    {{headerText}}
-    <pbx-button (onClick)="onClickMembers()" value="Add Member"></pbx-button>
+    {{ headerText }}
+    <pbx-button (onClick)="addMember()" value="Add Member"></pbx-button>
   </div>
-    <pbx-table *ngIf="hasData"
-               [tableInfo]="table" 
-               [tableItems]="members"
-               [editMode]="service.editMode"
-               (onDelete)="deleteMember($event)"
-               >
+    <pbx-table 
+        *ngIf="hasData"
+        [tableInfo]="table" 
+        [tableItems]="members"
+        [editMode]="service.editMode"
+        (onDelete)="deleteMember($event)"
+        >
     </pbx-table>
     <span class="pbx_queue_empty_text" *ngIf="!hasData">{{ noDataMessage }}</span>
 </div>

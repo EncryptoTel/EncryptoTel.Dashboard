@@ -10,6 +10,10 @@ export class CallQueueService extends BaseQueueService {
     params: CallQueueParams;
 
     getItem(id: number): Promise<any> {
+        if (!id) {
+            this.item = new CallQueueItem();
+            return Promise.resolve(this.item);
+        }
         return this.getById(id).then(res => {
             this.item.id = res.id;
             this.item.sipId = res.sip.id;

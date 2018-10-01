@@ -6,15 +6,10 @@ import {RingGroupService} from '../../../services/ring-group.service';
     selector: 'ring-groups-create-component',
     templateUrl: './template.html',
 })
-
 export class RingGroupsCreateComponent {
+    headerText: string = 'Ring Group Members';
+    generalHeaderText: string = 'Create Ring Group';
+    cmpType: string = 'ringGroup';
 
-    headerText = 'Ring Group Members';
-    generalHeaderText = 'Create Ring Group';
-    cmpType = 'ringGroup';
-
-    constructor(public service: RingGroupService) {
-
-    }
-
+    constructor(public service: RingGroupService) {}
 }
