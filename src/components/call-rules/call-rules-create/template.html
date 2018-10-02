@@ -14,44 +14,43 @@
                        key="enabled"
                        [checkbox]="true"
                        [form]="true"
+                       [object]="callRulesForm"
                        [(errors)]="service.errors"
-                       [object]="callRulesForm">
+                       [validationHost]="validationHost"
+                       >
             </pbx-input>
             <pbx-input name="Rule Name"
                        key="name"
-                       [form]="true"
                        [required]="true"
-                       [(errors)]="service.errors"
+                       [form]="true"
                        [object]="callRulesForm"
-                       errorShow="true"
-                       validatorRequiredMsg="Please enter rule name"
-                       validatorMaxLengthMsg="Please enter no more than 150 characters"
-                       validatorPatternMsg="Rule Name may contain letters, digits, dashes and underscores only"
+                       [(errors)]="service.errors"
+                       [validationHost]="validationHost"
                        >
             </pbx-input>
             <pbx-input name="Description"
                        key="description"
                        [form]="true"
-                       [(errors)]="service.errors"
                        [object]="callRulesForm"
-                       errorShow="true"
-                       validatorMaxLengthMsg="Please enter no more than 255 characters"
+                       [(errors)]="service.errors"
+                       [validationHost]="validationHost"
                        >
             </pbx-input>
-            <pbx-input *ngIf="mode !== 'edit'"
+            <pbx-input *ngIf="!editMode"
                        name="Phone number"
                        key="sipId"
-                       displayKey="phoneNumber"
-                       errorKey="sip"
-                       [form]="true"
-                       [required]="true"
-                       (onSelect)="selectNumber($event)"
-                       [options]="numbers"
-                       [(errors)]="service.errors"
-                       [(objectView)]="selectedNumber"
-                       [(object)]="callRulesForm"
                        [placeholder]="'[choose one]'"
-                       [editable]="true">
+                       [required]="true"
+                       [form]="true"
+                       [(object)]="callRulesForm"
+                       [options]="numbers"
+                       displayKey="phoneNumber"
+                       [editable]="true"
+                       [(errors)]="service.errors"
+                       [validationHost]="validationHost"
+                       [(objectView)]="selectedNumber"
+                       (onSelect)="selectNumber($event)"
+                       >
             </pbx-input>
 
             <ng-container *ngIf="!callRulesForm.get('sipId').value">
@@ -69,54 +68,64 @@
                 </div>
 
                 <pbx-input name="Action"
-                           displayKey="code"
-                           [form]="true"
                            [required]="true"
-                           [formKey]="getActionFormKey(0)"
-                           (onSelect)="selectAction($event)"
-                           [options]="actionsList"
-                           [(errors)]="service.errors"
-                           [(objectView)]="selectedActions[0]"
-                           [(object)]="callRulesForm"
                            [placeholder]="'[choose one]'"
+                           [form]="true"
+                           [formKey]="getActionFormKey(0)"
+                           [(object)]="callRulesForm"
+                           [options]="actionsList"
+                           displayKey="code"
                            [editable]="true"
+                           [(errors)]="service.errors"
+                           validationKey="ruleActions"
+                           [validationHost]="validationHost"
+                           [(objectView)]="selectedActions[0]"
                            validatorRequiredMsg="Please choose an action"
-                           errorShow="true"
+                           (onSelect)="selectAction($event)"
                            >
                 </pbx-input>
 
-
                 <ng-container formArrayName="ruleActions">
-                    <ng-container *ngFor="let action of actionsControls.controls;let i = index" [formGroupName]="i">
+                    <ng-container *ngFor="let action of actionsControls.controls; let i = index;" [formGroupName]="i">
                         <ng-container [ngSwitch]="selectedActions[i].id">
+                            <!-- Redirect to extension number -->
                             <ng-template [ngSwitchCase]="1" let>
                                 <pbx-input name="Extension number"
-                                           displayKey="phoneNumber"
                                            key="parameter"
-                                           [errorKey]="'ruleActions.new_' + i + '.parameter'"
-                                           [form]="true"
                                            [required]="true"
-                                           (onSelect)="selectSipInner(i, $event)"
-                                           [options]="sipInners"
-                                           [(errors)]="service.errors"
-                                           [(objectView)]="selectedSipInners[i]"
-                                           [object]="action"
                                            [placeholder]="'[choose one]'"
-                                           [editable]="true">
+                                           [form]="true"
+                                           [object]="action"
+                                           [options]="sipInners"
+                                           displayKey="phoneNumber"
+                                           [editable]="true"
+                                           [(errors)]="service.errors"
+                                           [errorKey]="'ruleActions.new_' + i + '.parameter'"
+                                           [validationHost]="validationHost"
+                                           [(objectView)]="selectedSipInners[i]"
+                                           (onSelect)="selectSipInner(i, $event)"
+                                           >
                                 </pbx-input>
 
                                 <pbx-input name="If I do not answer call within"
                                            description="seconds"
-                                           inputClass="time"
                                            key="timeout"
-                                           [errorKey]="'ruleActions.new_' + i + '.timeout'"
                                            [form]="true"
+                                           [object]="action"
                                            [(errors)]="service.errors"
-                                           [object]="action">
+                                           [errorKey]="'ruleActions.new_' + i + '.timeout'"
+                                           [validationHost]="validationHost"
+                                           inputClass="time"
+                                           inputCenter="true"
+                                           [hVMessageOffset]="-94"
+                                           >
                                 </pbx-input>
 
                                 <call-rules-time-rules [action]="action"
-                                                       (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
+                                                       [form]="timeRulesControl"
+                                                       [validationHost]="validationHost"
+                                                       (onChange)="onTimeRuleChange(i, $event)">
+                                </call-rules-time-rules>
                             </ng-template>
                             <ng-template [ngSwitchCase]="2">
                                 <pbx-input name="External number"
@@ -137,7 +146,8 @@
                                 </pbx-input>
 
                                 <call-rules-time-rules [action]="action"
-                                                       (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
+                                                       (onChange)="onTimeRuleChange(i, $event)">
+                                </call-rules-time-rules>
 
                             </ng-template>
                             <ng-template [ngSwitchCase]="3">
@@ -167,7 +177,8 @@
                                 </pbx-input>
 
                                 <call-rules-time-rules [action]="action"
-                                                       (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
+                                                       (onChange)="onTimeRuleChange(i, $event)">
+                                </call-rules-time-rules>
 
                             </ng-template>
                             <ng-template [ngSwitchCase]="4">
@@ -191,7 +202,8 @@
                                            [options]="files"
                                            [(errors)]="service.errors"
                                            [(objectView)]="selectedFiles[i]"
-                                           [object]="action">
+                                           [object]="action"
+                                           >
                                     <div class="greeting">
                                         <pbx-button [value]="playButtonText" buttonType="accent" (onClick)="togglePlay(i)"></pbx-button>
                                         <div class="hidden_button_wrapper">
@@ -220,7 +232,8 @@
                                 </pbx-input>
 
                                 <call-rules-time-rules [action]="action"
-                                                       (onChange)="onTimeRuleChange(i, $event)"></call-rules-time-rules>
+                                                       (onChange)="onTimeRuleChange(i, $event)">
+                                </call-rules-time-rules>
 
                             </ng-template>
 
@@ -248,4 +261,12 @@
             </ng-container>
         </form>
 </pbx-form>
-<pbx-modal [modalEx]="storage.modalUpload" (onConfirmEx)="storage.doUploadAction($event)" (onDecline)="storage.cancelUploadAction()"></pbx-modal>
+<pbx-modal [modalEx]="storage.modalUpload" 
+           (onConfirmEx)="storage.doUploadAction($event)"
+           (onDecline)="storage.cancelUploadAction()"
+           >
+</pbx-modal>
+<pbx-modal [modalEx]="modalExit" 
+           (onConfirmEx)="cancelConfirm()"
+           >
+</pbx-modal>

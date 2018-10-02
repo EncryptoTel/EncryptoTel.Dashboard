@@ -33,8 +33,8 @@ export class FormsSnapshots {
         if (!this._map[key]) return false;
         
         let snapshot = this.takeSnapshot(key);
-        // console.log('check:1', key, this._snapshots[key]);
-        // console.log('check:2', snapshot);
+        console.log('check:1', key, this._snapshots[key]);
+        console.log('check:2', snapshot);
         return snapshot != this._snapshots[key];
     }
 

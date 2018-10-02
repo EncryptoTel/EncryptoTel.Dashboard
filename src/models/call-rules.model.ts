@@ -5,11 +5,13 @@ export class CallRulesModel extends PageInfoModel{
 }
 
 export class CallRulesItem extends BaseItemModel {
-    name: string;
-    description: string;
-    enabled: boolean;
+    id: number;
+    name: string = '';
+    description: string = '';
+    enabled: boolean = false;
+    sipId: number;
     sip: SipItem;
-    ruleActions: RuleActionItem[];
+    ruleActions: RuleActionItem[] = [];
 
     get phoneNumber() {
         return this.sip ? this.sip.phoneNumber : null;
@@ -19,6 +21,8 @@ export class CallRulesItem extends BaseItemModel {
         return this.enabled ? 'enabled' : 'disabled';
     }
 
+    setBase(name, description, enabled, sip): void {
+    }
 }
 
 export class SipItem extends BaseItemModel {
@@ -92,5 +96,42 @@ export class AsteriskTimeRule {
         this.days = ['*'];
         this.date = '';
         this.month = '';
+    }
+}
+
+export class CallRuleTimeType {
+    constructor(public id: number,
+                public code: string) 
+    {}
+
+    static fromPlain(values: any[]): CallRuleTimeType[] {
+        const items: CallRuleTimeType[] = [];
+        values.forEach(value => items.push(new CallRuleTimeType(value.id, value.code)));
+        return items;
+    }
+}
+
+export class CallRuleTime {
+    constructor(public time: string,
+                public asteriskTime: string)
+    {}
+
+    static fromPlain(values: any[]): CallRuleTime[] {
+        const items: CallRuleTime[] = [];
+        values.forEach(value => items.push(new CallRuleTime(value.time, value.asteriskTime)));
+        return items;
+    }
+}
+
+export class CallRuleDay {
+    constructor(public type: string,
+                public day: string,
+                public code: string)
+    {}
+
+    static fromPlain(values: any[]): CallRuleDay[] {
+        const items: CallRuleDay[] = [];
+        values.forEach(value => items.push(new CallRuleDay(value.type, value.day, value.code)));
+        return items;
     }
 }

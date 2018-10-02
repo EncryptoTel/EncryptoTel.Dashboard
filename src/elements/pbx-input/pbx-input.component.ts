@@ -64,6 +64,7 @@ export class InputComponent implements OnInit {
     _errorShow: boolean = false;
 
     @Input() optionsSelectedKey: string;
+    @Input() validationKey: string;
     @Input() validationHost: ValidationHost;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
@@ -115,7 +116,7 @@ export class InputComponent implements OnInit {
             return this.validationHost.isErrorVisible(this);
         }
         
-        return <boolean>this.checkError();;
+        return <boolean>this.checkError();
     }
 
     get errorMessage(): string {
@@ -469,7 +470,7 @@ export class InputComponent implements OnInit {
             this.falseValue ? this.falseValue : false,
             this.trueValue ? this.trueValue : true
         ];
-        // if (this.key == 'announceHoldtime') console.log('check', this.checkboxValues);
+        // if (this.validationKey) console.log('v-key', this.validationKey);
 
         this.validationHost && this.validationHost.addControl(this);
 
