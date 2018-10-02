@@ -24,6 +24,7 @@ import {DepartmentService} from '../services/department.service';
 import {CallRulesService} from '../services/call-rules.service';
 import {RingGroupService} from '../services/ring-group.service';
 import {IvrService} from '../services/ivr.service';
+import {AudioConferenceService} from '../services/audio-conference.service';
 
 import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import {WsServices} from '../services/ws.services';

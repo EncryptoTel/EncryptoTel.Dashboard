@@ -1,0 +1,78 @@
+pbx-audio-conference-create
+    flex-direction: row !important
+    .general_audio_conference_component,
+    .members_audio_conference_component,
+    .statistic_audio_conference_component
+        width: 100%
+        flex-direction: column
+        background: $dark_overlay
+        padding: 24px
+    .audio_conference_info
+        width: 352px
+        min-width: 352px
+        background: $dark_overlay
+        color: $dark_white
+        margin-left: 24px
+        margin-right: -32px
+        padding: 40px 32px
+        flex-direction: column
+        .title
+            font-family: Roboto, sans-serif
+            font-size: 40px
+            font-weight: 300
+            color: $dark_white
+            margin-bottom: 24px
+            line-height: 53px
+        .cnt
+            display: grid
+            overflow: auto
+            p
+                font-family: Roboto, sans-serif
+                font-size: 16px
+                font-weight: 300
+                color: $dark_white
+                line-height: 21px
+                margin: 0 0 16px
+    .general_audio_conference_component
+        .cnt_block
+            display: grid
+            overflow: auto
+            pbx-input
+                input
+                    font-family: Roboto, sans-serif !important
+                    font-weight: 300 !important
+                    opacity: 1 !important
+                    &::placeholder
+                        font-family: Roboto, sans-serif !important
+                        font-weight: 200 !important
+                        opacity: 1 !important
+                &.start_time,
+                &.pin_code
+                    .pbx_input_item_input_wrap
+                        width: 100px
+                &.record,
+                &.email,
+                &.pbx_and_sip
+                    height: 45px
+                    align-items: center
+                    .pbx_input_item
+                        margin-bottom: 0
+            .voice_wrap,
+            .music_on_hold
+                position: relative
+                z-index: 11
+                pbx-input
+                    flex: 1
+                .buttons_block
+                    margin-left: 40px
+                    width: 200px
+                    min-width: 200px
+                    align-items: center
+                    pbx-button
+                        button
+                            width: auto !important
+                        &:nth-child(2)
+                            margin-left: 8px
+                &.disabled
+                    opacity: .13
+                    cursor: default

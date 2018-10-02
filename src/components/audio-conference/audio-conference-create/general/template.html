@@ -1,0 +1,115 @@
+<div class="general_audio_conference_component">
+
+    <div class="cnt_block">
+
+        <div class="title qwe">Create Audio Conference</div>
+
+        <pbx-input name="Name"
+                   key="name"
+                   placeholder="Name"
+                   [(object)]="service.item">
+        </pbx-input>
+
+        <pbx-input name="Language"
+                   key="language"
+                   placeholder="Language"
+                   [(object)]="service.item">
+        </pbx-input>
+
+        <pbx-input name="Start Time"
+                   key="start_time"
+                   class="start_time"
+                   [(object)]="service.item">
+        </pbx-input>
+
+        <pbx-input name="PIN-code"
+                   key="pin_code"
+                   class="pin_code"
+                   [(object)]="service.item">
+        </pbx-input>
+
+        <pbx-input name="Record"
+                   key="enabled"
+                   class="record"
+                   [checkbox]="true"
+                   [(errors)]="service.errors"
+                   [(object)]="service.item">
+        </pbx-input>
+
+        <div class="title">Параметры сбора участников</div>
+
+        <pbx-input name="Сommunication"
+                   key="communication"
+                   [(object)]="service.item">
+        </pbx-input>
+
+        <pbx-input name="SIP outer"
+                   key="sip_outer"
+                   [(object)]="service.item">
+        </pbx-input>
+
+        <div class="title">Music</div>
+
+        <div class="voice_wrap"> <!-- class disabled -->
+            <pbx-input name="Voice greeting"
+                       key="voice_greeting"
+                       displayKey="phoneNumber"
+                       errorKey="sip"
+                       [options]="numbers"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item"
+                       [(objectView)]="selectedNumber">
+            </pbx-input>
+            <div class="buttons_block">
+                <pbx-button buttonType="accent"
+                            value="Play">
+                </pbx-button>
+                <pbx-button buttonType="accent"
+                            value="Upload">
+                </pbx-button>
+            </div> <!-- buttons_block -->
+        </div> <!-- voice_wrap -->
+
+        <div class="music_on_hold">
+            <pbx-input name="Music on Hold"
+                       key="music_on_hold"
+                       displayKey="phoneNumber"
+                       errorKey="sip"
+                       [options]="numbers"
+                       [(errors)]="service.errors"
+                       [(object)]="service.item"
+                       [(objectView)]="selectedNumber">
+            </pbx-input>
+            <div class="buttons_block">
+                <pbx-button buttonType="accent"
+                            value="Play">
+                </pbx-button>
+            </div> <!-- buttons_block -->
+        </div> <!-- music_on_hold -->
+
+        <div class="title">Notice to members</div>
+
+        <pbx-input name="Email"
+                   key="enabled"
+                   class="email"
+                   [checkbox]="true"
+                   [(errors)]="service.errors"
+                   [(object)]="service.item">
+        </pbx-input>
+
+        <pbx-input name="PBX + SIP"
+                   key="pbx_and_sip"
+                   class="pbx_and_sip"
+                   [checkbox]="true"
+                   [(errors)]="service.errors"
+                   [(object)]="service.item">
+        </pbx-input>
+
+        <pbx-input name="Description"
+                   key="description"
+                   [(object)]="service.item">
+        </pbx-input>
+
+    </div> <!-- cnt_block -->
+
+</div>  <!-- general_audio_conference_component -->

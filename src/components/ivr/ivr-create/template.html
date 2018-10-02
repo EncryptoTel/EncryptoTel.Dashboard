@@ -19,7 +19,7 @@
             </pbx-button>
         </div>
     </div>
-    <div class="ivr_create_body">
+    <div class="ivr_create_body"> <!-- class one_block -->
 
         <div class="left">
 
@@ -275,25 +275,222 @@
         </div> <!-- left -->
 
         <div class="right">
-            <pbx-input name="IVR Name"
-                       key="name"
-                       [(errors)]="service.errors"
-                       [(object)]="service.item">
-            </pbx-input>
-            <pbx-input name="IVR Description"
-                       key="description"
-                       [(errors)]="service.errors"
-                       [(object)]="service.item">
-            </pbx-input>
-            <pbx-input name="Phone number"
-                       key="sipId"
-                       displayKey="phoneNumber"
-                       errorKey="sip"
-                       [options]="numbers"
-                       [(errors)]="service.errors"
-                       [(object)]="service.item"
-                       [(objectView)]="selectedNumber">
-            </pbx-input>
+
+            <div class="one">
+                <div class="title general">General</div>
+                <pbx-input name="IVR Name"
+                           key="name"
+                           placeholder="Unnamed"
+                           [(errors)]="service.errors"
+                           [(object)]="service.item">
+                </pbx-input>
+                <pbx-input name="IVR Description"
+                           key="description"
+                           placeholder="IVR from 8 a.m. to 6 p.m."
+                           [(errors)]="service.errors"
+                           [(object)]="service.item">
+                </pbx-input>
+                <pbx-input name="Phone number"
+                           key="sipId"
+                           placeholder="[choose one]"
+                           displayKey="phoneNumber"
+                           class="phone_number"
+                           errorKey="sip"
+                           [options]="numbers"
+                           [(errors)]="service.errors"
+                           [(object)]="service.item"
+                           [(objectView)]="selectedNumber">
+                </pbx-input>
+
+                <div class="title">IVR Options</div>
+                <pbx-input name="Enable IVR"
+                           key="enabled"
+                           [checkbox]="true"
+                           [(errors)]="service.errors"
+                           [(object)]="service.item">
+                </pbx-input>
+                <div class="voice_wrap">
+                    <pbx-input name="Voice greeting"
+                               key="voice_greeting"
+                               displayKey="phoneNumber"
+                               errorKey="sip"
+                               [options]="numbers"
+                               [(errors)]="service.errors"
+                               [(object)]="service.item"
+                               [(objectView)]="selectedNumber">
+                    </pbx-input>
+                    <div class="buttons_block">
+                        <pbx-button buttonType="accent"
+                                    value="Play">
+                        </pbx-button>
+                        <pbx-button buttonType="accent"
+                                    value="Upload">
+                        </pbx-button>
+                    </div> <!-- buttons_block -->
+                </div> <!-- voice_wrap -->
+                <pbx-input name="Loop message"
+                           key="loop_message"
+                           [(errors)]="service.errors"
+                           [(object)]="service.item">
+                </pbx-input>
+                <pbx-input name="Rule applies for"
+                           key="rule_applies_for"
+                           placeholder="Date (period)"
+                           displayKey="phoneNumber"
+                           class="rule_applies_for"
+                           errorKey="sip"
+                           [options]="numbers"
+                           [(errors)]="service.errors"
+                           [(object)]="service.item"
+                           [(objectView)]="selectedNumber">
+                </pbx-input>
+                <div class="duration_period_wrap">
+                    <div class="label">Time</div>
+                    <pbx-calendar></pbx-calendar>
+                </div> <!-- duration_period_wrap -->
+                <pbx-input name="Duration time"
+                           key="duration_time"
+                           displayKey="phoneNumber"
+                           errorKey="sip"
+                           placeholder="Set the time"
+                           [options]="numbers"
+                           [(errors)]="service.errors"
+                           [(object)]="service.item">
+                </pbx-input>
+                <div class="time_wrap">
+                    <call-rules-time-rules></call-rules-time-rules>
+                </div>
+
+                <div class="title">If user nothing is chosen</div>
+                <pbx-input name="then"
+                           key="then"
+                           placeholder="Terminate Call"
+                           displayKey="phoneNumber"
+                           errorKey="sip"
+                           [options]="numbers"
+                           [(errors)]="service.errors"
+                           [(object)]="service.item"
+                           [(objectView)]="selectedNumber">
+                </pbx-input>
+            </div> <!-- one -->
+            <div class="two">
+
+                <div class="select_digit">
+                    <pbx-input name="Select Digit"
+                               key="select_digit"
+                               displayKey="phoneNumber"
+                               errorKey="sip"
+                               [options]="numbers"
+                               [(errors)]="service.errors"
+                               [(object)]="service.item"
+                               [(objectView)]="selectedNumber">
+                    </pbx-input>
+                    <pbx-button value="Delete" buttonType="error"></pbx-button>
+                </div> <!-- select_digit -->
+
+                <div class="title accent">When the caller Press 1</div>
+                <pbx-input name="then"
+                           key="select_digit_then"
+                           displayKey="phoneNumber"
+                           errorKey="sip"
+                           placeholder="forward to Ext phone number"
+                           [options]="numbers"
+                           [(errors)]="service.errors"
+                           [(object)]="service.item"
+                           [(objectView)]="selectedNumber">
+                </pbx-input>
+                <pbx-input name="Phone"
+                           key="select_digit_phone"
+                           displayKey="phoneNumber"
+                           errorKey="sip"
+                           placeholder="+1 (800) 800 55 55"
+                           [options]="numbers"
+                           [(errors)]="service.errors"
+                           [(object)]="service.item"
+                           [(objectView)]="selectedNumber">
+                </pbx-input>
+                <pbx-input name="Ext"
+                           key="select_digit_ext"
+                           displayKey="phoneNumber"
+                           errorKey="sip"
+                           placeholder="100 John Watson"
+                           [options]="numbers"
+                           [(errors)]="service.errors"
+                           [(object)]="service.item"
+                           [(objectView)]="selectedNumber">
+                </pbx-input>
+
+                <div class="table_block">
+                    <div class="label">Ext Forwarding Rules</div>
+                    <div class="table">
+                        <div class="header">
+                            <div class="item">Priority</div>
+                            <div class="item">Rule Name</div>
+                            <div class="item">Duration period</div>
+                            <div class="item">Duration time</div>
+                            <div class="item">Status</div>
+                        </div> <!-- header -->
+                        <div class="body">
+                            <div class="line">
+                                <div class="item">1</div>
+                                <div class="item">Business Trip</div>
+                                <div class="item">25.07.2017-25.07.2017</div>
+                                <div class="item">Всегда (24 часа)</div>
+                                <div class="item">Enabled</div>
+                            </div> <!-- line -->
+                            <div class="line">
+                                <div class="item">2</div>
+                                <div class="item">Lunch</div>
+                                <div class="item">Всегда</div>
+                                <div class="item">с 13:00 до 14:00</div>
+                                <div class="item">Enabled</div>
+                            </div> <!-- line -->
+                            <div class="line">
+                                <div class="item">3</div>
+                                <div class="item">Work 365</div>
+                                <div class="item">Всегда</div>
+                                <div class="item">с 10:00 до 19:00</div>
+                                <div class="item">Enabled</div>
+                            </div> <!-- line -->
+                        </div> <!-- body -->
+                    </div> <!-- table -->
+                </div> <!-- table_block -->
+
+            </div> <!-- two -->
+
+            <div class="three">
+
+                <div class="table_block">
+                    <div class="table">
+                        <div class="header">
+                            <div class="item">IVR Name</div>
+                            <div class="item">Duration period</div>
+                            <div class="item">Duration time</div>
+                            <div class="item">Status</div>
+                            <div class="item">IVR Description</div>
+                        </div> <!-- header -->
+                        <div class="body">
+                            <div class="line">
+                                <div class="item">Unnamed</div>
+                                <div class="item">25.07.2017-25.07.2017</div>
+                                <div class="item">8 a.m. - 6 p.m.</div>
+                                <div class="item">Enabled</div>
+                                <div class="item">IVR from 8 a.m. to 6 p.m.</div>
+                                <div class="item icons">
+                                    <div class="tablet_icon edit">
+                                        <svg-icon src="../../assets/icons/_middle/edit_12px.svg"></svg-icon>
+                                    </div>
+                                    <div class="tablet_icon delete">
+                                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
+                                    </div>
+                                </div> <!-- item -->
+                            </div> <!-- line -->
+                        </div> <!-- body -->
+                    </div> <!-- table -->
+                </div> <!-- table_block -->
+
+            </div> <!-- three -->
+
         </div> <!-- right -->
 
     </div> <!-- ivr_create_body -->

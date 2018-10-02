@@ -60,19 +60,24 @@ import {LinksPartnerProgramComponent} from '../components/partner-program/links/
 import {ReportsPartnerProgramComponent} from '../components/partner-program/reports/reports.partner-program.component';
 import {TermsPartnerProgramComponent} from '../components/partner-program/terms/terms.partner-program.component';
 import {IvrComponent} from '../components/ivr/ivr.component';
-import {IvrCreateComponent} from "../components/ivr/ivr-create/ivr-create.component";
-import {BaseSettingsComponent} from "../components/settings/settings-items/base-settings/base-settings.component";
+import {AudioConferenceComponent} from '../components/audio-conference/audio-conference.component';
+import {IvrCreateComponent} from '../components/ivr/ivr-create/ivr-create.component';
+import {AudioConferenceCreateComponent} from '../components/audio-conference/audio-conference-create/audio-conference-create.component';
+import {BaseSettingsComponent} from '../components/settings/settings-items/base-settings/base-settings.component';
 import {VgCoreModule} from 'videogular2/core';
 import {VgControlsModule} from 'videogular2/controls';
 import {VgOverlayPlayModule} from 'videogular2/overlay-play';
 import {VgBufferingModule} from 'videogular2/buffering';
 import {VgStreamingModule} from 'videogular2/streaming';
-import {RefComponent} from "../components/confirmation/ref.component";
-import {BaseComponent} from "../elements/pbx-component/pbx-component.component";
-import {FormBaseComponent} from "../elements/pbx-form-base-component/pbx-form-base-component.component";
-import {SessionsComponent} from "../components/settings/settings-items/sessions/sessions.component";
+import {RefComponent} from '../components/confirmation/ref.component';
+import {BaseComponent} from '../elements/pbx-component/pbx-component.component';
+import {FormBaseComponent} from '../elements/pbx-form-base-component/pbx-form-base-component.component';
+import {SessionsComponent} from '../components/settings/settings-items/sessions/sessions.component';
 import {TabsComponent} from '../elements/pbx-tabs/pbx-tabs.component';
 import {TabComponent} from '../elements/pbx-tabs/tab/pbx-tab.component';
+import {GeneralAudioConferenceComponent} from '../components/audio-conference/audio-conference-create/general/general.audio-conference.component';
+import {MembersAudioConferenceComponent} from '../components/audio-conference/audio-conference-create/members/members.audio-conference.component';
+import {StatisticAudioConferenceComponent} from '../components/audio-conference/audio-conference-create/statistic/statistic.audio-conference.component';
 
 /*
   Components declarations and exports
@@ -145,12 +150,17 @@ import {TabComponent} from '../elements/pbx-tabs/tab/pbx-tab.component';
         ChatComponent,
         PartnerProgramComponent,
         OverviewPartnerProgramComponent,
+        GeneralAudioConferenceComponent,
+        MembersAudioConferenceComponent,
+        StatisticAudioConferenceComponent,
         LinksPartnerProgramComponent,
         ReportsPartnerProgramComponent,
         TermsPartnerProgramComponent,
         KnowledgeBaseComponent,
         IvrComponent,
+        AudioConferenceComponent,
         IvrCreateComponent,
+        AudioConferenceCreateComponent,
         BaseSettingsComponent,
         RefComponent,
         SessionsComponent,
@@ -199,11 +209,16 @@ import {TabComponent} from '../elements/pbx-tabs/tab/pbx-tab.component';
         RingGroupsCreateComponent,
         PartnerProgramComponent,
         OverviewPartnerProgramComponent,
+        GeneralAudioConferenceComponent,
+        MembersAudioConferenceComponent,
+        StatisticAudioConferenceComponent,
         LinksPartnerProgramComponent,
         ReportsPartnerProgramComponent,
         TermsPartnerProgramComponent,
         IvrComponent,
+        AudioConferenceComponent,
         IvrCreateComponent,
+        AudioConferenceCreateComponent,
         BaseSettingsComponent,
         RefComponent,
         SessionsComponent,
