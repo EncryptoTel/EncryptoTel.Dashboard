@@ -32,7 +32,7 @@ export class SelectComponent implements OnInit {
     @Input()
     set placeholder(placeholder: string) {
         this._placeholder = placeholder;
-        if (this._selected === undefined) {
+        if (this._selected === undefined || this._selected === null) {
             this.selectedObject = false;
         } else {
             if (this._selected[this.objectKey] != '') {
