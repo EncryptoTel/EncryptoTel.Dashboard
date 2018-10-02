@@ -73,6 +73,8 @@ import {AccountNotificationsComponent} from '../components/settings/settings-ite
 import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
 import {RefComponent} from '../components/confirmation/ref.component';
 import {SessionsComponent} from '../components/settings/settings-items/sessions/sessions.component';
+import {AudioConferenceComponent} from '../components/audio-conference/audio-conference.component';
+import {AudioConferenceCreateComponent} from '../components/audio-conference/audio-conference-create/audio-conference-create.component';
 
 const Routes: Routes = [
     {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -191,6 +193,21 @@ const Routes: Routes = [
                         path: ':id',
                         component: IvrCreateComponent,
                         data: {title: 'Edit IVR', indexed: true},
+                    }
+                ]
+            },
+            {
+                path: 'audio-conference', children: [
+                    {path: '', component: AudioConferenceComponent, data: {title: 'Audio Conference', indexed: true}},
+                    {
+                        path: 'create',
+                        component: AudioConferenceCreateComponent,
+                        data: {title: 'Audio Conference', indexed: true},
+                    },
+                    {
+                        path: ':id',
+                        component: AudioConferenceCreateComponent,
+                        data: {title: 'Audio Conference Create', indexed: true},
                     }
                 ]
             },

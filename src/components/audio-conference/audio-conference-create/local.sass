@@ -1,0 +1,52 @@
+@import "../../../vars"
+// Global variables import
+
+.audio_conference_create
+    flex-direction: column
+    flex: 1
+    .audio_conference_body
+        flex: 1
+    .audio_conference_tabs
+        flex: 1
+        margin-right: rem(-32)
+        padding-right: rem(32)
+        flex-direction: row
+        overflow-x: hidden
+        color: $font-color
+        /deep/ pbx-button
+            color: $dark_primary
+        &_wrap
+            flex-direction: column
+            flex: 1
+        &_header
+            flex-direction: row
+        &_tab
+            padding: rem(16)
+            background: rgba($dark_overlay, .33)
+            cursor: pointer
+            &:hover
+                background: rgba($dark_overlay, .67)
+            &.active
+                cursor: default
+                color: $dark_accent
+                background: $dark_overlay
+                &:hover
+                    background: $dark_overlay
+            &_wrap
+                flex-direction: row
+        &_control
+            flex-direction: row
+            margin-left: auto
+            pbx-button
+                width: unset
+                margin-left: rem(8)
+        &_body
+            flex: 1
+    .audio_conference_buttons
+        pbx-button
+            &:last-child
+                margin-left: 8px
+
+.audio_conference_body_item
+    width: 100%
+    //flex-direction: column
