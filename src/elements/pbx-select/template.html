@@ -9,12 +9,10 @@
      (keydown)="keyboardNavigation($event)">
 
     <span *ngIf="!selectedObject || !_selected[objectKey]" class="pbx-select-placeholder">{{_placeholder}}</span>
-    <!--<div class="wrapper">-->
-        <div [ngClass]="['select_item', 'selected', !selected ? 'blank' : '', singleBorder ? 'no_border' : '', errors ? 'error' : '', name ? 'pbx_select_' + name : '']">
-            {{_selected ? _selected[objectKey] : ''}}
-            <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg" class="select_icon"></svg-icon>
-        </div>
-    <!--</div>-->
+    <div [ngClass]="['select_item', 'selected', !selected ? 'blank' : '', singleBorder ? 'no_border' : '', errors ? 'error' : '', name ? 'pbx_select_' + name : '']">
+        {{_selected ? _selected[objectKey] : ''}}
+        <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg" class="select_icon"></svg-icon>
+    </div>
 
     <div class="select_options" *ngIf="isVisible" [@Swipe] #optionsWrap>
         <div class="select_item" *ngFor="let option of options" [ngClass]="{'current': isCurrent(option)}"
