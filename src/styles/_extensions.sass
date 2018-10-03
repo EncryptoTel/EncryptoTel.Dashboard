@@ -9,3 +9,16 @@ extensions-component
     pbx-list
         .tablet_row
             height: $dark_list-items_height !important
+
+options-add-extension-component
+    .add_ext_form_item
+        display: grid
+        grid-template-columns: 40px 1fr
+        grid-template-rows: 1fr
+        align-items: center
+        label
+            grid-column: 2/3
+            grid-row: 1/2
+        pbx-checkbox
+            grid-column: 1/2
+            grid-row: 1/2
