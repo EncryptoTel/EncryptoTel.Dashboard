@@ -21,8 +21,8 @@ export class QueueMembersComponent implements OnInit {
     members: any[];
 
     table = {
-        titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
-        keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'statusName']
+        titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Email', 'Status'],
+        keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'email', 'statusName']
     };
 
     // -- properties ----------------------------------------------------------

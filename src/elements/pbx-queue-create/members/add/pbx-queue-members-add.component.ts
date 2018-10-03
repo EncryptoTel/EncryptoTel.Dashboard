@@ -11,7 +11,7 @@ import {isDevEnv} from '../../../../shared/shared.functions';
     animations: [FadeAnimation('300ms')]
 })
 export class QueueMembersAddComponent implements OnInit {
-    
+
     @Input() service;
 
     loading = 0;
@@ -19,8 +19,8 @@ export class QueueMembersAddComponent implements OnInit {
     departments: any[] = [];
     selectedDepartment;
     table = {
-        titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
-        keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'statusName']
+        titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Email', 'Status'],
+        keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'email', 'statusName']
     };
     searchTimeout;
     searchStr = '';
@@ -82,7 +82,7 @@ export class QueueMembersAddComponent implements OnInit {
         }).catch(() => {
             if (!this.members.length && isDevEnv()) {
                 this.mockMembersData();
-            }    
+            }
         }).then(() => this.loading --);
     }
 

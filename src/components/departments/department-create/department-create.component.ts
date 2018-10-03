@@ -86,8 +86,8 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         ];
 
         this.sipTableContext = {
-            titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Status'],
-            keys: ['phoneNumber', 'sipOuterPhoneNumber', 'firstName', 'lastName', 'statusName']
+            titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Email', 'Status'],
+            keys: ['phoneNumber', 'sipOuterPhoneNumber', 'firstName', 'lastName', 'email', 'statusName']
         };
 
         this.filter = new FilterItem(1, 'search', 'Search', null, null, 'Search by Name or Phone');
@@ -223,7 +223,8 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                 lastName: sipInner.lastName,
                 sipOuterPhoneNumber: item.phoneNumber,
                 created: sipInner.created,
-                statusName: sipInner.statusName
+                statusName: sipInner.statusName,
+                email: sipInner.email
             });
         }));
         this.applySipFilter();
