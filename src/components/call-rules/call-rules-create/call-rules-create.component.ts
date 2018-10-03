@@ -74,6 +74,9 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             { name: 'Rule Name', error: 'pattern', message: 'Rule Name may contain letters, digits, dashes and underscores only' },
             { name: 'Action', error: 'required', message: 'Please choose an action' },
             { name: 'If I do not answer call within', error: 'range', message: 'Please enter value between 5 and 300' },
+            { name: 'Action applies for', error: 'days', message: 'Please select at least one day' },
+            { name: 'Duration time', error: 'startTime', message: 'Start time cannot be greater than end time' },
+            { name: 'Duration time', error: 'equalTime', message: 'Start time and end time cannot be the same' },
         ];
     }
 
@@ -97,10 +100,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             description:    [null, [ Validators.maxLength(255) ]],
             sipId:          [null, [ Validators.required ]],
             ruleActions:    this.fb.array([], Validators.required),
-            timeRules:      this.fb.group({
-                appliesForTime: [null, [ Validators.required ]],
-                durationTime:   [null, [ Validators.required ]],
-            }),
         }, {
             validator: (formGroup: FormGroup) => {
                 return redirectToExtensionValidator(formGroup);
@@ -226,13 +225,13 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     onTimeRuleChange(index, event) {
         this.actionsControls.get([index, 'timeRules']).setValue(event);
-        console.log('form', this.form.value);
+        // console.log('form', this.form.value, this.form);
     }
 
     save(): void {
-        console.log('form', this.form/*.value*/);
+        console.log('form', this.form.value, this.form);
         if (!this.validateForms()) return;
-        // this.saveCallRule();
+        this.saveCallRule();
     }
 
     cancel(): void {

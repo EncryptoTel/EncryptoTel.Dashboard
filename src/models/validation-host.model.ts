@@ -48,7 +48,7 @@ export class ValidationHost implements Lockable {
                 }
             });
         });
-        console.log('vhost-items', this.items);
+        // console.log('vhost-items', this.items);
     }
 
     // -- public methods ------------------------------------------------------
@@ -67,8 +67,7 @@ export class ValidationHost implements Lockable {
     isErrorVisible(control: InputComponent): boolean {
         let controlKey = this.getValidatorKey(control);
         let item = this.items.find(i => i.key == controlKey);
-        // control.validationKey == 'ruleActions' && console.log('err-visible', controlKey, control.inErrorState, item);
-        // if (control.key == 'timeout' && control.inErrorState) return true;
+        // controlKey == 'timeRules.appliesForTime' && console.log('err-visible', controlKey, control.inErrorState, item);
         return control.inErrorState && item && item.visible;
     }
 
@@ -100,8 +99,6 @@ export class ValidationHost implements Lockable {
             }
         }
         
-        // console.log('descr', this.controls.find(c => c.key == 'description'));
-
         if (!mouseIsInForm && !inputIsInForm) {
             let controlKey = this.takeFirstInvalidControl();
             this.setErrorVisible(controlKey);
@@ -180,10 +177,7 @@ export class ValidationHost implements Lockable {
             let name = (parent) ? `${parent}.` + field : field;
             const control = form.get(field);
             action(control, name);
-            /*if (control instanceof FormControl) {
-                action(control, name);
-            }
-            else*/ if (control instanceof FormGroup || control instanceof FormArray) {
+            if (control instanceof FormGroup || control instanceof FormArray) {
                 this.scanForm(control, name, action);
             }
         });

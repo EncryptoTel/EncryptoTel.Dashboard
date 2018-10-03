@@ -64,6 +64,7 @@ export class InputComponent implements OnInit {
     _errorShow: boolean = false;
 
     @Input() optionsSelectedKey: string;
+    @Input() selectedItem: any;
     @Input() validationKey: string;
     @Input() validationHost: ValidationHost;
 
@@ -336,9 +337,11 @@ export class InputComponent implements OnInit {
         this.resetError();
         if (this.form) {
             this.value = event;
-            // this.objectView.id = $event.id;
-            // this.objectView[this.displayKey] = $event[this.displayKey];
-            this.key ? this.getForm().setValue(event) : null;
+            if (!this.options || !this.selectedItem) {
+                // this.objectView.id = $event.id;
+                // this.objectView[this.displayKey] = $event[this.displayKey];
+                this.key ? this.getForm().setValue(event) : null;
+            }
         } else {
             if (this.updateObjectByObject) {
                 this.object[this.key] = event;
@@ -464,6 +467,9 @@ export class InputComponent implements OnInit {
         if (this.form && this.options && this.optionsSelectedKey) {
             let selectedValue = this.getForm().value;
             this.value = this.options.find(o => o[this.optionsSelectedKey] === selectedValue);
+        }
+        else if (this.form && this.options && this.selectedItem) {
+            this.value = this.selectedItem;
         }
 
         this.checkboxValues = [

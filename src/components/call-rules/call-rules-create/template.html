@@ -80,7 +80,6 @@
                            validationKey="ruleActions"
                            [validationHost]="validationHost"
                            [(objectView)]="selectedActions[0]"
-                           validatorRequiredMsg="Please choose an action"
                            (onSelect)="selectAction($event)"
                            >
                 </pbx-input>
@@ -122,7 +121,7 @@
                                 </pbx-input>
 
                                 <call-rules-time-rules [action]="action"
-                                                       [form]="timeRulesControl"
+                                                       [form]="form"
                                                        [validationHost]="validationHost"
                                                        (onChange)="onTimeRuleChange(i, $event)">
                                 </call-rules-time-rules>
@@ -146,6 +145,8 @@
                                 </pbx-input>
 
                                 <call-rules-time-rules [action]="action"
+                                                       [form]="form"
+                                                       [validationHost]="validationHost"
                                                        (onChange)="onTimeRuleChange(i, $event)">
                                 </call-rules-time-rules>
 
@@ -177,6 +178,8 @@
                                 </pbx-input>
 
                                 <call-rules-time-rules [action]="action"
+                                                       [form]="form"
+                                                       [validationHost]="validationHost"
                                                        (onChange)="onTimeRuleChange(i, $event)">
                                 </call-rules-time-rules>
 
@@ -232,6 +235,8 @@
                                 </pbx-input>
 
                                 <call-rules-time-rules [action]="action"
+                                                       [form]="form"
+                                                       [validationHost]="validationHost"
                                                        (onChange)="onTimeRuleChange(i, $event)">
                                 </call-rules-time-rules>
 
