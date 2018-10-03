@@ -28,8 +28,8 @@ export class DetailsAndRecordsComponent implements OnInit {
 
     tags: TagModel[];
 
-    startDate: null;
-    endDate: null;
+    startDate: string;
+    endDate: string;
 
 
     @ViewChild('mediaTable') mediaTable: MediaTableComponent;
@@ -57,6 +57,9 @@ export class DetailsAndRecordsComponent implements OnInit {
             this.pageInfo.items.unshift(item);
             this.getItems(item);
         });
+
+        this.startDate = undefined;
+        this.endDate = undefined;
 
         this.tags = [
             { key: 'noAnswer', title: 'no-answer', selected: false },
