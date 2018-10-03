@@ -39,6 +39,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
     clearNumberVisible: boolean;
     clearSearchVisible: boolean;
 
+
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
 
@@ -51,7 +52,12 @@ export class BuyPhoneNumbersComponent implements OnInit {
         if (specialKeys.indexOf(event.key) !== -1) {
             return;
         }
-
+        if (document.activeElement.getAttribute('name') === 'search-by-digits') {
+            this.clearNumberVisible = true;
+        }
+        if (document.activeElement.getAttribute('name') === 'search-by-city-prefix') {
+            this.clearSearchVisible = true;
+        }
         let current: string;
         current = this.numberInput.nativeElement.value;
 
