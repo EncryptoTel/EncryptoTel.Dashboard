@@ -39,6 +39,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
     clearNumberVisible: boolean;
     clearSearchVisible: boolean;
 
+
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
 
