@@ -64,6 +64,8 @@ export class InputComponent implements OnInit {
     _errorShow: boolean = false;
 
     @Input() optionsSelectedKey: string;
+    @Input() selectedItem: any;
+    @Input() validationKey: string;
     @Input() validationHost: ValidationHost;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
@@ -115,7 +117,7 @@ export class InputComponent implements OnInit {
             return this.validationHost.isErrorVisible(this);
         }
         
-        return <boolean>this.checkError();;
+        return <boolean>this.checkError();
     }
 
     get errorMessage(): string {
@@ -335,9 +337,11 @@ export class InputComponent implements OnInit {
         this.resetError();
         if (this.form) {
             this.value = event;
-            // this.objectView.id = $event.id;
-            // this.objectView[this.displayKey] = $event[this.displayKey];
-            this.key ? this.getForm().setValue(event) : null;
+            if (!this.options || !this.selectedItem) {
+                // this.objectView.id = $event.id;
+                // this.objectView[this.displayKey] = $event[this.displayKey];
+                this.key ? this.getForm().setValue(event) : null;
+            }
         } else {
             if (this.updateObjectByObject) {
                 this.object[this.key] = event;
@@ -464,12 +468,15 @@ export class InputComponent implements OnInit {
             let selectedValue = this.getForm().value;
             this.value = this.options.find(o => o[this.optionsSelectedKey] === selectedValue);
         }
+        else if (this.form && this.options && this.selectedItem) {
+            this.value = this.selectedItem;
+        }
 
         this.checkboxValues = [
             this.falseValue ? this.falseValue : false,
             this.trueValue ? this.trueValue : true
         ];
-        // if (this.key == 'announceHoldtime') console.log('check', this.checkboxValues);
+        // if (this.validationKey) console.log('v-key', this.validationKey);
 
         this.validationHost && this.validationHost.addControl(this);
 

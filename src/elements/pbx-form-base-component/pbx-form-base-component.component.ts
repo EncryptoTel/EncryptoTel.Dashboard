@@ -56,6 +56,7 @@ export class FormBaseComponent implements OnInit, Lockable {
 
     ngOnInit(): void {
         this.initForm();
+        this.saveFormState();
 
         if (this.form && this.forms.length === 0) {
             this.addForm(this.formKey, this.form);

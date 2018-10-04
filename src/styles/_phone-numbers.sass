@@ -137,6 +137,41 @@ phone-numbers-component
                             opacity: 1
 
 buy-phone-numbers-component
+    .buy_phone_table_contain
+        .buy_phone_table_title,
+        .buy_phone_table_body
+            .buy_phone_table_item
+                overflow: hidden
+                text-overflow: ellipsis
+                display: block
+                white-space: nowrap
+                &:nth-child(1)
+                    width: 25%
+                    min-width: 135px
+                &:nth-child(2)
+                    width: 25%
+                    //min-width: 25%
+                &:nth-child(3)
+                    width: 16.66%
+                    //min-width: 16.66%
+                &:nth-child(4)
+                    width: 16.66%
+                    //min-width: 16.66%
+                &:nth-child(5)
+                    width: 16.66%
+                    //min-width: 16.66%
+        .buy_phone_table_title
+            .buy_phone_table_item
+                &:last-child
+                    text-align: center
+        .buy_phone_table_body
+            .buy_phone_table_row
+                .buy_phone_table_item
+                    &:last-child
+                        pbx-button
+                            width: fit-content
+                            margin: auto
+
     .buy_phone_header_refresh
         svg-icon
             svg
@@ -189,3 +224,12 @@ buy-phone-numbers-component
                 .buy_phone_header_refresh_icon
                     display: none
 
+@media screen and (max-width: 1319px)
+    buy-phone-numbers-component
+        .buy_phone_grid
+            overflow: hidden
+        .buy_phone_table_contain
+            grid-template-columns: 1fr !important
+            .buy_phone_table_title
+                &.second
+                    display: none
