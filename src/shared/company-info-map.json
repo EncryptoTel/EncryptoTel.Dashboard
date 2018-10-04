@@ -6,7 +6,7 @@
         { "key": "companyAddress[0].regionName", "title": "State/Region" },
         { "key": "companyAddress[0].locationName", "title": "City" },
         { "key": "companyAddress[0].street", "title": "Street" },
-        { "key": "companyAddress[0].building", "title": "House #" },
+        { "key": "companyAddress[0].building", "title": "House №" },
         { "key": "companyAddress[0].office", "title": "Office" },
         { "key": "companyAddress[0].postalCode", "title": "Postal code" },
         { "key": "email", "title": "Email" },

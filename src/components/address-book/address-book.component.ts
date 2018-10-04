@@ -96,13 +96,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.selected.contactPhone.forEach(item => {
             if (item.value) phones.push(item.value);
         });
-        this.sidebar.items.push(new SidebarInfoItem(6, phones.length > 1 ? 'Phones' : 'Phone', phones));
+        this.sidebar.items.push(new SidebarInfoItem(6, phones.length > 1 ? 'Phone' : 'Phone', phones));
 
         let emails = [];
         this.selected.contactEmail.forEach(item => {
             if (item.value) emails.push(item.value);
         });
-        this.sidebar.items.push(new SidebarInfoItem(7, emails.length > 1 ? 'Emails' : 'Email', emails));
+        this.sidebar.items.push(new SidebarInfoItem(7, emails.length > 1 ? 'Email' : 'Email', emails));
 
         this.sidebar.items.push(new SidebarInfoItem(8, 'Company Name', this.selected.company));
         this.sidebar.items.push(new SidebarInfoItem(9, 'Department', this.selected.department));
