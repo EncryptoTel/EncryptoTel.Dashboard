@@ -164,7 +164,8 @@
                                            [options]="queues"
                                            [(errors)]="service.errors"
                                            [(objectView)]="selectedQueues[i]"
-                                           [object]="action">
+                                           [object]="action"
+                                           [ngClass]="queues.length > 0 ? 'class1':'class2'">
                                 </pbx-input>
 
                                 <pbx-input name="If I do not answer call within"
