@@ -172,9 +172,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.loading ++;
         this.service.getItem(id).then(() => {
             this.getParams();
-            this.setFormData(this.model, () => {
-                this.form.get('sipId').setValue(this.model.sipId);
-            });
+            this.setFormData(this.model);
         }).catch(() => {})
           .then(() => this.loading --);
     }
