@@ -1,45 +1,65 @@
 <div class="call-rules-create">
     <pbx-input name="Action applies for"
+               key="appliesForTime"
+               [form]="true"
+               [(object)]="form"
+               formKey="timeRulesGroup.appliesForTime"
+               [options]="callRuleTimeTypes"
                displayKey="code"
-               key="timeRules"
-               errorKey="ruleTime"
-               (onSelect)="selectRuleTime($event)"
-               [options]="ruleTime"
-               [errors]="errors"
-               [(object)]="selectedRuleTime">
+               [selectedItem]="selectedCallRuleTimeType"
+               [validationHost]="validationHost"
+               validationKey="timeRulesGroup.appliesForTime"
+               (onSelect)="selectTimeRule($event)"
+               >
     </pbx-input>
 
     <div class="call-rules-create_row days"
-         *ngIf="selectedRuleTime && selectedRuleTime.id === 3">
+         *ngIf="isCallRuleDaysSelected">
         <label>Days</label>
         <div>
-            <pbx-button *ngFor="let day of days; let idx = index" class="eqwwqewrqwer"
+            <pbx-button *ngFor="let day of callRuleTimeDays; let idx = index" 
+                        class="eqwwqewrqwer"
                         [buttonType]="day.type"
-                        [value]="day.day" (onClick)="selectDay(idx)"></pbx-button>
+                        [value]="day.day" 
+                        (onClick)="selectDay(idx)"
+                        >
+            </pbx-button>
         </div>
     </div>
 
     <pbx-input name="Duration time"
+               key="durationTime"
+               [form]="true"
+               [(object)]="form"
+               formKey="timeRulesGroup.durationTime"
+               [options]="durationTimeTypes"
                displayKey="code"
-               key="timeRules"
-               errorKey="durationTime"
+               [selectedItem]="selectedDurationTimeType"
+               [validationHost]="validationHost"
+               validationKey="timeRulesGroup.durationTime"
                (onSelect)="selectDurationTime($event)"
-               [options]="duration"
-               [errors]="errors"
-               [(object)]="selectedDurationTime">
+               >
     </pbx-input>
 
     <div class="call-rules-create_row"
-         *ngIf="selectedDurationTime && selectedDurationTime.id === 2">
+         *ngIf="isDurationTimeRangeSelected">
         <label>Time</label>
         <div class="time_wrap">
-            <pbx-select [singleBorder]="true" [objectKey]="'time'" [options]="durationTime"
+            <pbx-select [singleBorder]="true" 
+                        [objectKey]="'time'" 
+                        [options]="callRuleTimes"
+                        [selected]="selectedDurationTimeRange[0]"
                         (onSelect)="selectTime($event, 0)"
-                        [selected]="selectedDuration[0]"></pbx-select>
+                        >
+            </pbx-select>
             <span>―</span>
-            <pbx-select [singleBorder]="true" [objectKey]="'time'" [options]="durationTime"
+            <pbx-select [singleBorder]="true" 
+                        [objectKey]="'time'" 
+                        [options]="callRuleTimes"
+                        [selected]="selectedDurationTimeRange[1]"
                         (onSelect)="selectTime($event, 1)"
-                        [selected]="selectedDuration[1]"></pbx-select>
+                        >
+            </pbx-select>
         </div>
     </div>
 </div>

@@ -10,7 +10,6 @@
 
 .pbx-select-empty
     color: rgba(255, 255, 255, 0.35)
-
 .select
     &_wrap
         position: relative
@@ -140,6 +139,8 @@
                 background: rgba($dark_background, .03)
             .select_item:hover
                 background: rgba($dark_background, .1)
+            .select_item.pbx-select-empty
+                color: rgba(0, 0, 0, .45) !important
         &_wrap
             &:focus > .selected
                 border-color: $dark_accent

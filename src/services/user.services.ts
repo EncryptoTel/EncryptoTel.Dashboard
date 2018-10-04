@@ -60,25 +60,8 @@ export class UserServices {
     fetchNavigationParams(): Promise<NavigationItemModel[][]> {
         return this._request.get('v1/nav').then(result => {
             this.navigation = result['items'];
-            // this._mockNavigationItems();
             return Promise.resolve(result['items']);
         });
-    }
-
-    /**
-     * Adds missing menu items to current user navigation.
-     * Development purposes only
-     */
-    private _mockNavigationItems(): void {
-        // this.navigation[1].push(
-        //     { name: 'Ring Group', url: 'ring-groups', icon: 'ring_groups', sort: 20 }
-        // );
-        // this.navigation[1].push(
-        //     { name: 'Company', url: 'company', icon: 'company', sort: 20 }
-        // );
-        // this.navigation[1].push(
-        //     { name: 'Call Queues', url: 'call-queues', icon: 'call_queues', sort: 20 }
-        // );
     }
 
     /*

@@ -92,7 +92,7 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
 
     getSipOuters() {
         this.locker.lock();
-        this.refs.getSipOuters().then(response => {
+        this.refs.getInnerSipOuters().then(response => {
             response.map(number => {
                 this.sipOuters.option.push({id: number.id, title: number.phoneNumber});
             });

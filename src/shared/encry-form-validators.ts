@@ -34,3 +34,24 @@ export function numberRangeValidator(minVal: number, maxVal: number): ValidatorF
             : null;
     };
 }
+
+export function callRuleTimeValidator(control: FormGroup): { [key: string]: any } | null {
+    if (control.value.timeType == 3) {
+        if (control.value.daysOfWeek.length == 0) {
+            return { 'days': { value: control.value } };
+        }
+    }
+    return null;
+}
+
+export function durationTimeValidator(control: FormGroup): { [key: string]: any } | null {
+    if (control.value.timeType == 2) {
+        if (control.value.timeStart > control.value.timeEnd) {
+            return { 'startTime': { value: control.value } };
+        }
+        if (control.value.timeStart == control.value.timeEnd) {
+            return { 'equalTime': { value: control.value } };
+        }
+    }
+    return null;
+}

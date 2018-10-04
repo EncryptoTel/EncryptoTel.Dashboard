@@ -66,3 +66,20 @@ pbx-call-rules-create
             opacity: .8
     .call-rules-create_row:nth-child(1)
         margin-top: 0 !important
+
+pbx-call-rules-create
+    .call-rules-create
+        pbx-input[name="Queue"]
+            &.class2
+                .select_item
+                    height: auto
+                    &.selected
+                        padding-top: 0
+                .select_options
+                    display: none
+    .call-rules-create_row
+        .time_wrap
+            pbx-select
+                .select_item
+                    svg-icon
+                        margin-left: 15px
