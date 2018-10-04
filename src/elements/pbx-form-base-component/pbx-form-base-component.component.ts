@@ -76,6 +76,7 @@ export class FormBaseComponent implements OnInit, Lockable {
 
         this.form.patchValue(model);
         if (customInitCallback) customInitCallback();
+
         this.saveFormState();
     }
 

@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
+import {plainToClass} from "class-transformer";
+
 import {RingGroupItem, RingGroupModel, RingGroupParams} from "../models/ring-group.model";
 import {BaseQueueService} from "./base-queue.service";
-import {plainToClass} from "class-transformer";
 import {PageInfoModel} from "../models/base.model";
+import {isValidId} from '../shared/shared.functions';
 
 @Injectable()
 export class RingGroupService extends BaseQueueService {
@@ -14,6 +16,8 @@ export class RingGroupService extends BaseQueueService {
     getItem(id: number): Promise<any> {
         if (!id) {
             this.item = new RingGroupItem();
+            this.editMode = false;
+            
             return Promise.resolve(this.item);
         }
         return this.getById(id).then(response => {
@@ -27,6 +31,8 @@ export class RingGroupService extends BaseQueueService {
 
             this.userView.phoneNumber = response.sip.phoneNumber;
             this.setMembers(response.queueMembers);
+
+            this.editMode = true;
 
             return Promise.resolve(response);
         });

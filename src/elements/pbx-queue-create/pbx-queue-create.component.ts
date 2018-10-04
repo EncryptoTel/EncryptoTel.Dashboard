@@ -103,12 +103,12 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
     initForm(): void {
         this.form = this.fb.group({
-            id:         [ '' ],
-            name:       [ '', [ Validators.required ] ],
+            id:          [ '' ],
+            name:        [ '', [ Validators.required ] ],
             description: [ '' ],
-            sip:        [ null, [ Validators.required ] ],
-            strategy:   [ null, [ Validators.required ] ],
-            timeout:    [ '', [ Validators.required, Validators.pattern(numberRegExp), numberRangeValidator(15, 600) ] ],
+            sipId:       [ null, [ Validators.required ] ],
+            strategy:    [ null, [ Validators.required ] ],
+            timeout:     [ '', [ Validators.required, Validators.pattern(numberRegExp), numberRangeValidator(15, 600) ] ],
             // queueMembers: [ null, [ Validators.required ] ],
         });
         if (this.isCallQueue) {
@@ -140,8 +140,6 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     save(): void {
-        console.log('form', this.form.value);
-        console.log('model', this.model);
         if (!this.validateForms()) return;
 
         this.setModelData();
@@ -165,11 +163,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     // -- component model methods ---------------------------------------------
 
     setModelData(): void {
-        super.setModelData(this.model, () => {
-            this.model.sipId = this.form.get('sip').value.id;
-            delete this.model.sip;
-            this.model.strategy = this.model.strategy.id;
-        });
+        super.setModelData(this.model);
     }
 
     // -- data processing methods ---------------------------------------------
@@ -178,8 +172,9 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.loading ++;
         this.service.getItem(id).then(() => {
             this.getParams();
-            this.setFormData(this.model);
-            // console.log('on-get', this.model, this.form.value);
+            this.setFormData(this.model, () => {
+                this.form.get('sipId').setValue(this.model.sipId);
+            });
         }).catch(() => {})
           .then(() => this.loading --);
     }
@@ -194,7 +189,6 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     saveModel(): void {
         this.saving ++;
         this.service.save(this.id, true, (response) => {
-            this.saveFormState();
             if (response && response.errors) {
                 if (response.errors.queueMembers) {
                     this.message.writeError(this.formComponent.selected === 'Members' 
@@ -203,8 +197,10 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
                 }
                 return true;
             }
-        }).then(() => { if (!this.id) this.cancel(); })
-          .catch(() => {})
+        }).then(() => { 
+            this.saveFormState();
+            if (!this.id) this.cancel();
+        }).catch(() => {})
           .then(() => this.saving --);
     }
 }
