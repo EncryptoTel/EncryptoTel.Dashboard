@@ -210,9 +210,12 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 this.company = this.service.model;
             }
         }).then(() => {
+            // TODO: Temporary solution for company-logo, remove it.
+            this.company.logo = 'company_details.png';
+
             this.setFormData(this.company);
+
             this.editMode = !this.company.isValid;
-            
             this.locker.unlock();
         });
     }
@@ -270,7 +273,6 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     private uploadFiles(file: File): void {
-        // console.log(file);
         this.service.uploadFile(file, null, null).then(response => {
             if (response.logo) {
                 this.company.logo = response.logo;
