@@ -23,6 +23,13 @@ export class RefsServices extends BaseService {
         });
     }
 
+    getInnerSipOuters(): Promise<any> {
+        return this.request.get(`v1/sip/inner/outers-list?limit=1000`).then(outers => {
+            this.sipOuters = outers['items'];
+            return Promise.resolve(this.sipOuters);
+        });
+    }
+
     getDepartments(): Promise<any> {
         if (this.departments.itemsCount === 0) {
             return this.request.get(`v1/department`).then((res: DepartmentModel) => {
