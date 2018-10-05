@@ -3,9 +3,11 @@
 #arrow_edge
     display: none
 
-// Safari - Tariff plans - remove black cover
+// Safari - Tariff plans
 .tariff_container:after
-    z-index: -1
+    //z-index: -1
+    opacity: unset !important
+    background: rgba(0, 0, 0, .45) !important
 
 // for Safari
 pbx-call-rules-create
@@ -40,6 +42,10 @@ pbx-call-rules-create
         height: 16px !important
     .side_unit_icon.plus svg-icon,
     .side_unit_icon.delete svg-icon
+        width: 12px !important
+        height: 12px !important
+    .tablet_icon.delete svg-icon,
+    .tablet_icon.edit svg-icon
         width: 12px !important
         height: 12px !important
     pbx-sidebar .sidebar .side_wrap
