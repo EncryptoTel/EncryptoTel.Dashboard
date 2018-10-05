@@ -18,7 +18,8 @@ export class CallQueueItem extends BaseItemModel {
     constructor() {
         super();
         this.id = 0;
-        this.sipId = 0;
+        this.sipId = null;
+        this.strategy = null;
         this.name = '';
         this.description = '';
         this.timeout = 60;

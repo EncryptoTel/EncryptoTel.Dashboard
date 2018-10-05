@@ -12,6 +12,8 @@ export class CallQueueService extends BaseQueueService {
     getItem(id: number): Promise<any> {
         if (!id) {
             this.item = new CallQueueItem();
+            this.editMode = false;
+
             return Promise.resolve(this.item);
         }
         return this.getById(id).then(res => {
@@ -24,8 +26,12 @@ export class CallQueueService extends BaseQueueService {
             this.item.announceHoldtime = res.announceHoldtime;
             this.item.announcePosition = res.announcePosition;
             this.item.description = res.description;
+
             this.userView.phoneNumber = res.sip.phoneNumber;
             this.setMembers(res.queueMembers);
+
+            this.editMode = true;
+
             return Promise.resolve(res);
         });
     }

@@ -101,7 +101,7 @@ export class ModalEx {
                 if (!this.body) {
                     this.body = 'Are you sure you want to buy this number?';
                 }
-                this.buttons.push(new ModalButton('cancel', 'No'));
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('success', 'Yes'));
                 break;
             case 'deleteFiles':

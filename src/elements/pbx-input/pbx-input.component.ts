@@ -338,20 +338,24 @@ export class InputComponent implements OnInit {
         if (this.form) {
             this.value = event;
             if (!this.options || !this.selectedItem) {
-                // this.objectView.id = $event.id;
-                // this.objectView[this.displayKey] = $event[this.displayKey];
                 this.key ? this.getForm().setValue(event) : null;
             }
-        } else {
+            if (this.options && this.key) {
+                this.getForm().setValue(event.id);
+            }
+        }
+        else {
             if (this.updateObjectByObject) {
                 this.object[this.key] = event;
-            } else {
+            }
+            else {
                 this.object[this.key] = event.id;
             }
             if (this.updateValueByKey) {
                 this.value.id = event.id;
                 this.value[this.displayKey] = event[this.displayKey];
-            } else {
+            }
+            else {
                 this.value = event;
             }
         }

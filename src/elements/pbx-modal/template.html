@@ -9,8 +9,8 @@
     <div *ngIf="!modalEx || !modalEx.body" class="modal_body">
       <ng-content></ng-content>
     </div>
-    <div *ngIf="modalEx && modalEx.body" class="modal_body">
-      {{modalEx.body}}
+    <div *ngIf="modalEx && modalEx.body" class="modal_body" [innerHTML]="modalEx.body">
+
     </div>
     <div *ngIf="!modalEx" class="modal_buttons">
       <pbx-button [value]="modal.decline.value" [buttonType]="modal.decline.type" [loading]="false"

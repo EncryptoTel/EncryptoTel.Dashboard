@@ -129,7 +129,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
     buyItem(number): void {
         this.selected = number;
-        this.modal.body = `Are you sure you want to buy ${number.fullNumber} number?`;
+        this.modal.body = 'Are you sure you want to buy <br>' + number.fullNumber + '?';
         this.modal.visible = true;
     }
 
