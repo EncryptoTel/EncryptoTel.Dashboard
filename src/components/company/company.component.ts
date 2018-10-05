@@ -211,7 +211,6 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             }
         }).then(() => {
             // TODO: Temporary solution for company-logo, remove it.
-            this.company.logo = 'company_details.png';
 
             this.setFormData(this.company);
 
