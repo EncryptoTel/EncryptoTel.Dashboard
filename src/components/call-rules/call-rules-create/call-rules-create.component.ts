@@ -66,7 +66,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
         this.callRule = new CallRulesItem();
         this.callRule.id = activatedRoute.snapshot.params.id;
-        
+
         this.mode = this.callRule.id ? 'edit' : 'create';
         this.playButtonText = 'Play';
 
@@ -86,7 +86,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         super.ngOnInit();
         this.setFormData(this.callRule);
         this.getParams();
-        
+
         this.loading --;
     }
 
@@ -378,6 +378,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             this.callRulesForm.get('sipId').setValue(sip.id);
             this.callRulesForm.get('enabled').setValue(enabled);
             this.saveFormState();
+            this.selectedNumber = sip;
 
             this.ruleActions = ruleActions;
             this.getExtensions(sip.id);
@@ -395,7 +396,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 this.cancel();
             }).catch(() => {})
               .then(() => this.saving --);
-        } 
+        }
         else if (this.mode === 'edit') {
             this.service.edit(this.activatedRoute.snapshot.params.id, {...this.callRulesForm.value}).then(() => {})
               .catch(() => {})
@@ -463,7 +464,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     refreshFiles(loading: number): void {
         if (loading) return;
-            
+
         this.storage.loading ++;
         this.service.getFiles().then((response) => {
                 this.files = response.items;

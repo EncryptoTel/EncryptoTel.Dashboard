@@ -104,7 +104,7 @@ export class InputComponent implements OnInit {
         if (this.form) {
             return this.checkFormValidationError();
         }
-        
+
         return <boolean>this.checkError();
     }
 
@@ -116,7 +116,7 @@ export class InputComponent implements OnInit {
         if (this.validationHost) {
             return this.validationHost.isErrorVisible(this);
         }
-        
+
         return <boolean>this.checkError();
     }
 
@@ -129,7 +129,7 @@ export class InputComponent implements OnInit {
         if (this.validationHost) {
             return this.validationHost.getErrorMessage(this);
         }
-        
+
         return <string>this.checkError(true);
     }
 
@@ -148,22 +148,22 @@ export class InputComponent implements OnInit {
         }
         return false;
     }
-    
+
     // -- event handlers ------------------------------------------------------
 
     @HostListener("window:scroll", ['$event'])
     onWindowScroll(event) {
         console.log('scroll', event, this.inputDiv.nativeElement);
     }
-    
+
     setFocus(): void {
         this.errorVisible = true;
         this.pbxInputFocus = true;
-        
+
         // --
         this.inFocus = true;
 
-        if (this.validationHost) 
+        if (this.validationHost)
             this.validationHost.updateState();
 
         // if (this.key == 'company') console.log('element', this.inputDiv);
@@ -181,7 +181,7 @@ export class InputComponent implements OnInit {
             let control = this.getForm();
             if (control) control.markAsTouched();
         }
-        if (this.validationHost) 
+        if (this.validationHost)
             this.validationHost.updateState();
     }
 
@@ -197,7 +197,7 @@ export class InputComponent implements OnInit {
 
     mouseLeave() {
         this.hoverActive = false;
-        
+
         // --
         this.inMouseHover = false;
 
@@ -453,26 +453,26 @@ export class InputComponent implements OnInit {
 
         if (this.form && (this.checkbox || this.options)) {
             this.value = this.getForm() ? this.getForm().value : false;
-        }
-        else if (this.options) {
+            if (this.objectView) {
+                this.value = this.objectView;
+            }
+        } else if (this.options) {
             if (this.updateObjectByObject) {
                 this.value = this.object[this.key];
-            }
-            else {
+            } else {
                 this.value = this.objectView ? this.objectView : this.object;
             }
-        }
-        else {
+        } else {
             this.value = this.object[this.key];
         }
 
         // when selected option is taken from form it may not be an object but value
         // then the selected value should be matched from options by 'optionsSelectedKey'
         if (this.form && this.options && this.optionsSelectedKey) {
-            let selectedValue = this.getForm().value;
+            let selectedValue: any;
+            selectedValue = this.getForm().value;
             this.value = this.options.find(o => o[this.optionsSelectedKey] === selectedValue);
-        }
-        else if (this.form && this.options && this.selectedItem) {
+        } else if (this.form && this.options && this.selectedItem) {
             this.value = this.selectedItem;
         }
 
