@@ -33,7 +33,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     numbers: SipItem[];
     queues = [];
     playButtonText: string;
-    ruleActions;
+    ruleActions = [];
     selectedActions: Action[] = [];
     selectedFiles = [];
     selectedNumber: SipItem;
@@ -66,7 +66,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
         this.callRule = new CallRulesItem();
         this.callRule.id = activatedRoute.snapshot.params.id;
-
+        
         this.mode = this.callRule.id ? 'edit' : 'create';
         this.playButtonText = 'Play';
 
@@ -84,9 +84,9 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.loading ++;
 
         super.ngOnInit();
-        this.setFormData(this.callRule);
+        super.setFormData(this.callRule);
         this.getParams();
-
+        
         this.loading --;
     }
 
@@ -172,15 +172,18 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     selectAction(action: Action, index: number = 0): void {
         this.selectedActions[index] = action;
-        switch (action.id) {
-            case 1: this.addAction(this.createRedirectToExtensionNumber(), index); break;
-            case 2: this.addAction(this.createRedirectToExternalNumber(), index); break;
-            case 3: this.addAction(this.createRedirectToQueue(), index); break;
-            case 4: this.addAction(this.createCancelCall(), index); break;
-            case 5: this.addAction(this.createPlayVoiceFile(), index); break;
-            default:
-                break;
+        this.addAction(this.actionFactory(action.id), index);
+    }
+
+    actionFactory(actionId: number): FormGroup {
+        switch (actionId) {
+            case 1: return this.createRedirectToExtensionNumber();
+            case 2: return this.createRedirectToExternalNumber();
+            case 3: return this.createRedirectToQueue();
+            case 4: return this.createCancelCall();
+            case 5: return this.createPlayVoiceFile();
         }
+        return null;
     }
 
     checkNextAction(index: number) {
@@ -231,7 +234,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     save(): void {
         console.log('form', this.form.value, this.form);
         if (!this.validateForms()) return;
-        this.saveCallRule();
+        // this.saveCallRule();
     }
 
     cancel(): void {
@@ -371,19 +374,37 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.loading ++;
 
         this.service.getById(this.activatedRoute.snapshot.params.id).then(response => {
-            const { enabled, description, name, sip, ruleActions } = response;
-
-            this.callRulesForm.get('description').setValue(description);
-            this.callRulesForm.get('name').setValue(name);
-            this.callRulesForm.get('sipId').setValue(sip.id);
-            this.callRulesForm.get('enabled').setValue(enabled);
-            this.saveFormState();
-            this.selectedNumber = sip;
-
-            this.ruleActions = ruleActions;
-            this.getExtensions(sip.id);
+            console.log('rule', response);
+            this.setFormData(response);
         }).catch(() => {})
           .then(() => this.loading --);
+    }
+
+    setFormData(data: any): void {
+        const { id, enabled, description, name, sip, ruleActions } = data;
+
+        this.callRulesForm.get('id').setValue(id);
+        this.callRulesForm.get('description').setValue(description);
+        this.callRulesForm.get('name').setValue(name);
+        this.callRulesForm.get('enabled').setValue(enabled);
+
+        let currentNumber = this.numbers.find(n => n.id == sip.id);
+        this.selectNumber(currentNumber);
+
+        this.ruleActions = ruleActions;
+        console.log(':action', this.ruleActions);
+        this.ruleActions.forEach((action, index) => {
+            console.log(':action', action);
+            // const actionControl = this.actionFactory(action.id);
+            // console.log(':actionControl', actionControl);
+            // actionControl.patchValue(action);
+            // console.log(':actionControl', actionControl);
+            // this.addAction(actionControl, index);
+        });
+
+        console.log('form', this.form.value);
+
+        this.saveFormState();
     }
 
     saveCallRule(): void {
@@ -396,7 +417,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 this.cancel();
             }).catch(() => {})
               .then(() => this.saving --);
-        }
+        } 
         else if (this.mode === 'edit') {
             this.service.edit(this.activatedRoute.snapshot.params.id, {...this.callRulesForm.value}).then(() => {})
               .catch(() => {})
@@ -414,26 +435,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
           .then(() => this.loadingStuff --);
     }
 
-    private getFiles(): void {
-        this.loading ++;
-        this.service.getFiles().then((response) => {
-            this.files = response.items;
-            if (this.mode === 'edit') {
-                this.getCallRule();
-            }
-        }).catch(() => {})
-          .then(() => this.loading --);
-    }
-
-    private getNumbers(): void {
-        this.loading ++;
-        this.service.getOuters().then(response => {
-            this.numbers = response;
-        }).catch(() => {})
-          .then(() => this.loading --);
-    }
-
     private getParams(): void {
+        // TODO: use Promise.all here
         this.loading ++;
         this.service.getParams().then(response => {
             this.actionsList = response.actions;
@@ -454,9 +457,31 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
           .then(() => this.loading --);
     }
 
+    private getFiles(): void {
+        this.loading ++;
+        this.service.getFiles().then((response) => {
+            // console.log('files', response);
+            this.files = response.items;
+            if (this.mode === 'edit') {
+                this.getCallRule();
+            }
+        }).catch(() => {})
+          .then(() => this.loading --);
+    }
+
+    private getNumbers(): void {
+        this.loading ++;
+        this.service.getOuters().then(response => {
+            // console.log('numbers', response);
+            this.numbers = response;
+        }).catch(() => {})
+          .then(() => this.loading --);
+    }
+
     private getQueue(): void {
         this.loading ++;
         this.service.getQueue().then(response => {
+            // console.log('queue', response);
             this.queues = response.items;
         }).catch(() => {})
           .then(() => this.loading --);
@@ -464,7 +489,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     refreshFiles(loading: number): void {
         if (loading) return;
-
+            
         this.storage.loading ++;
         this.service.getFiles().then((response) => {
                 this.files = response.items;

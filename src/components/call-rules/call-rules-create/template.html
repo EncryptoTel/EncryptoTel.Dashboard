@@ -36,14 +36,14 @@
                        [validationHost]="validationHost"
                        >
             </pbx-input>
-            <pbx-input *ngIf="!editMode"
-                       name="Phone number"
+            <pbx-input name="Phone number"
                        key="sipId"
                        [placeholder]="'[choose one]'"
                        [required]="true"
                        [form]="true"
                        [(object)]="callRulesForm"
                        [options]="numbers"
+                       [selectedItem]="selectedNumber"
                        displayKey="phoneNumber"
                        [editable]="true"
                        [(errors)]="service.errors"
