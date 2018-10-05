@@ -21,7 +21,7 @@ import {isDevEnv} from '../../shared/shared.functions';
     styleUrls: ['./local.sass'],
 })
 export class CompanyComponent extends FormBaseComponent implements OnInit {
-    
+
     company: CompanyModel = new CompanyModel();
     companyInfo: CompanyInfoModel;
 
@@ -277,6 +277,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             if (response.logo) {
                 this.company.logo = response.logo;
                 this.setFormData(this.company);
+                this.company.logo = response.url;
             }
         }).catch(() => {});
     }
