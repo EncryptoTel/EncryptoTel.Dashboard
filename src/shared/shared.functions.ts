@@ -5,6 +5,7 @@ import {CurrencyModel} from '../models/currency.model';
 import {ElementRef, Component, isDevMode} from '@angular/core';
 import {DatePipe} from "@angular/common";
 import {environment} from '../environments/environment';
+import {numberRegExp} from './vars';
 
 export function getCountryById(id: number): CountryModel {
     const list: CountryModel[] = plainToClass(CountryModel, JSON.parse(localStorage.getItem('pbx_countries')));
@@ -165,7 +166,7 @@ export function killEvent(event?: Event): void {
 }
 
 export function isValidId(id: any): boolean {
-    return !!id && Number.isInteger(id) && id > 0;
+    return !!id != undefined && numberRegExp.test(id) && <number>id > 0;
 }
 
 export function isDevEnv(): boolean {

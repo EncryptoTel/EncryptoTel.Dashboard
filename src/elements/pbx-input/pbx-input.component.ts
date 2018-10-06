@@ -140,11 +140,13 @@ export class InputComponent implements OnInit {
 
     checkFormValidationError(): boolean {
         let control = this.getForm();
+        
         if (control && control.errors) {
-            if (control.errors['required'])
-                return !control.valid && control.touched;
-            else
-                return !control.valid && (control.touched || control.dirty);
+            const validationResult = (control.errors['required'])
+                ? !control.valid && control.touched
+                : !control.valid && (control.touched || control.dirty);
+
+            return validationResult;
         }
         return false;
     }
@@ -266,7 +268,7 @@ export class InputComponent implements OnInit {
     }
 
     getFormKey() {
-        return this.formKey ? this.formKey : this.key;
+        return this.formKey || this.key;
     }
 
     getForm() {

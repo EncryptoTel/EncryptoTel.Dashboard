@@ -48,7 +48,7 @@ export class ValidationHost implements Lockable {
                 }
             });
         });
-        // console.log('vh-items', this.items);
+        console.log('vh-items', this.items);
     }
 
     // -- public methods ------------------------------------------------------
@@ -68,6 +68,7 @@ export class ValidationHost implements Lockable {
         let controlKey = this.getValidatorKey(control);
         let item = this.items.find(i => i.key == controlKey);
         // controlKey == 'timeRules.appliesForTime' && console.log('err-visible', controlKey, control.inErrorState, item);
+        // console.log('err-visible', controlKey, control.inErrorState, item);
         return control.inErrorState && item && item.visible;
     }
 
@@ -108,8 +109,18 @@ export class ValidationHost implements Lockable {
         }
     }
 
-    clearErrorsVisibility(): void {
-        this.items.forEach(item => item.visible = false);
+    findByValidationKey(validationKey: string): InputComponent {
+        let control = this.controls.find(c => this.getValidatorKey(c) === validationKey);
+        return control;
+    }
+
+    forceFocused(validationKey: string): void {
+        const control = this.findByValidationKey(validationKey);
+        if (control) {
+            this.controls.forEach(c => c.inFocus = false);
+            control.inFocus = true;
+            this.updateState();
+        }
     }
 
     clearControlsFocusedState(): void {
@@ -118,8 +129,12 @@ export class ValidationHost implements Lockable {
     }
 
     setControlError(control: InputComponent): void {
-        let controlKey = this.getValidatorKey(control);
+        const controlKey = this.getValidatorKey(control);
         this.setErrorVisible(controlKey);
+    }
+
+    clearErrorsVisibility(): void {
+        this.items.forEach(item => item.visible = false);
     }
 
     setErrorVisible(controlKey: string): void {
@@ -164,11 +179,12 @@ export class ValidationHost implements Lockable {
         let firstInvalidControl = null;
         this.forms.forEach(form => {
             this.scanForm(form, '', (control, name) => {
-                if (!control.valid && control.errors && !firstInvalidControl) {
+                if (!control.valid && control.errors && control.touched && !firstInvalidControl) {
                     firstInvalidControl = name;
                 }
             });
         });
+        // console.log('first-invalid-control', firstInvalidControl);
         return firstInvalidControl;
     }
 

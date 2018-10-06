@@ -14,8 +14,8 @@ import {callRuleTimeValidator, durationTimeValidator} from '../../../../shared/e
 })
 export class CallRulesTimeRulesComponent implements OnInit {
     
-    @Input() action: any;
-    @Input() form: FormGroup;
+    @Input() action: FormGroup;
+    @Input() actionIndex: number;
     @Input() validationHost: ValidationHost;
     
     @Output() onChange: EventEmitter<string> = new EventEmitter<string>();
@@ -25,8 +25,6 @@ export class CallRulesTimeRulesComponent implements OnInit {
     selectedCallRuleTimeType: CallRuleTimeType;
     selectedDurationTimeType: CallRuleTimeType;
     selectedDurationTimeRange: CallRuleTime[];
-
-    errors/* = { ruleTime: '', durationTime: '' }*/;
 
     // -- properties ----------------------------------------------------------
 
@@ -42,10 +40,6 @@ export class CallRulesTimeRulesComponent implements OnInit {
         return this.service.callRuleTimes;
     }
 
-    get callRuleDays(): CallRuleDay[] {
-        return this.service.callRuleDays;
-    }
-
     get isCallRuleDaysSelected(): boolean {
         return this.selectedCallRuleTimeType && this.selectedCallRuleTimeType.id === 3;
     }
@@ -59,162 +53,122 @@ export class CallRulesTimeRulesComponent implements OnInit {
     constructor(private service: CallRulesService,
                 private fb: FormBuilder) {
         this.asteriskTimeRule = new AsteriskTimeRule();
+        this.callRuleTimeDays = [];
     }
     
     ngOnInit() {
-        this.initFormControl();
+        this.callRuleTimeDays = this.service.callRuleDays.map<CallRuleDay>(day => Object.assign({}, day));
 
         const timeRules = this.action.get('timeRules') ? this.action.get('timeRules').value : null;
         const rules = timeRules ? timeRules.split('|') : null;
 
         if (!rules || rules[0] === '*') {
-            this.selectDurationTime(this.durationTimeTypes[0]);
+            this.selectedDurationTimeType = this.durationTimeTypes[0];
+            this.asteriskTimeRule.time = '*';
         } else {
-            this.selectDurationTime(this.durationTimeTypes[1]);
+            this.selectedDurationTimeType = this.durationTimeTypes[1];
+            this.asteriskTimeRule.time = rules[0];
+
             const times = rules[0].split('-');
-            this.selectTime(this.callRuleTimes.find(item => item.asteriskTime === times[0]), 0);
-            this.selectTime(this.callRuleTimes.find(item => item.asteriskTime === times[1]), 1);
+            this.selectedDurationTimeRange = [
+                this.callRuleTimes.find(t => t.asteriskTime === times[0]),
+                this.callRuleTimes.find(t => t.asteriskTime === times[1])
+            ];
         }
+        
         if (!rules || rules[1] === '*') {
-            this.selectTimeRule(this.callRuleTimeTypes[0]);
+            this.selectTimeRule(this.callRuleTimeTypes[0], true);
         } else {
-            this.selectTimeRule(this.callRuleTimeTypes[1]);
+            this.selectTimeRule(this.callRuleTimeTypes[1], true);
+            
+            this.callRuleTimeDays.forEach(d => d.type = 'cancel');
             const weekDays = rules[1].split('&');
             weekDays.forEach(day => {
-                this.selectDay(this.callRuleTimeDays.indexOf(this.callRuleTimeDays.find(item => item.code === day)));
+                this.callRuleTimeDays.map(d => { if (d.code == day) d.type = 'accent'; });
             });
+            this.initAsteriskRuleDays();
         }
-
-    }
-
-    initFormControl(): void {
-        this.form.setControl(
-            'timeRulesGroup', 
-            this.fb.group({
-                appliesForTime: this.fb.group({
-                    timeType:   [null],
-                    daysOfWeek: [[]],
-                }, { validator: callRuleTimeValidator }),
-                durationTime:   this.fb.group({
-                    timeType:   [null],
-                    timeStart:  [null],
-                    timeEnd:    [null],
-                }, { validator: durationTimeValidator }),
-            }));
-        this.validationHost.initItems();
-    }
-
-    get appliesForTimeCtrl(): FormGroup {
-        return <FormGroup>this.form.get('timeRulesGroup.appliesForTime');
-    }
-
-    get durationTimeCtrl(): FormGroup {
-        return <FormGroup>this.form.get('timeRulesGroup.durationTime');
-    }
-
-    setTimeTypeFormValue(groupCtrl: FormGroup, value: any): void {
-        groupCtrl.get('timeType').setValue(value);
-    }
-
-    setCallRuleTimeDaysFormValue(): void {
-        this.appliesForTimeCtrl.get('daysOfWeek').setValue(this.callRuleTimeDays.filter(d => d.type === 'accent'));
-    }
-
-    setDurationTimeFormValue(formKey: string, value: string): void {
-        this.durationTimeCtrl.get(formKey).setValue(value);
-    }
-
-    setDurationTimeRangeFormValue(idx: number, time: CallRuleTime): void {
-        const formKey = idx ? 'timeEnd' : 'timeStart';
-        const value = time ? time.asteriskTime : null;
-
-        this.durationTimeCtrl.get(formKey).setValue(value);
+        
+        this.formatAsteriskRule();
     }
 
     // -- event handlers ------------------------------------------------------
 
-    selectTimeRule(rule): void {
+    selectTimeRule(rule: CallRuleTimeType, silentMode: boolean = false): void {
         this.selectedCallRuleTimeType = rule;
-        this.setTimeTypeFormValue(this.appliesForTimeCtrl, rule.id);
 
         switch (rule.id) {
             case 1:
-                this.callRuleTimeDays = [];
                 this.asteriskTimeRule.initForAlwaysRule();
                 break;
             case 2:
-                this.callRuleTimeDays = [];
                 this.asteriskTimeRule.initForDatePeriodRule();
                 break;
             case 3:
-                this.callRuleTimeDays = this.callRuleDays;
-                this.asteriskTimeRule.initForWeekDaysRule();
-
-                this.asteriskTimeRule.days.push(this.callRuleTimeDays[0].code);
-                this.asteriskTimeRule.days.push(this.callRuleTimeDays[1].code);
-                this.asteriskTimeRule.days.push(this.callRuleTimeDays[2].code);
-                this.asteriskTimeRule.days.push(this.callRuleTimeDays[3].code);
-                this.asteriskTimeRule.days.push(this.callRuleTimeDays[4].code);
-                this.formatAsteriskRule();
+                this.initAsteriskRuleDays();
                 break;
             default:
-                this.callRuleTimeDays = [];
                 this.asteriskTimeRule.empty();
                 break;
         }
         
-        this.setCallRuleTimeDaysFormValue();
-        this.formatAsteriskRule();
+        if (!silentMode) this.formatAsteriskRule();
+    }
+
+    initAsteriskRuleDays(): void {
+        this.asteriskTimeRule.initForWeekDaysRule();
+
+        this.callRuleTimeDays
+            .filter(d => d.type === 'accent')
+            .forEach(d => this.asteriskTimeRule.days.push(d.code));
     }
 
     selectDay(idx: number): void {
-        if (this.callRuleTimeDays[idx].type === 'accent') {
-            const index = this.asteriskTimeRule.days.findIndex(day => {
-                if (day.code === this.callRuleTimeDays[idx].code) {
-                    return true;
-                }
-            });
-            this.asteriskTimeRule.days.splice(index, 1);
-        } else {
-            this.asteriskTimeRule.days.push(this.callRuleTimeDays[idx].code);
-        }      
-        this.callRuleTimeDays[idx].type === 'accent' ? this.callRuleTimeDays[idx].type = 'cancel' : this.callRuleTimeDays[idx].type = 'accent';
+        this.callRuleTimeDays[idx].type = (this.callRuleTimeDays[idx].type === 'accent') ? 'cancel' : 'accent';
+        this.initAsteriskRuleDays();
 
-        this.setCallRuleTimeDaysFormValue();
+        this.action.get('callRuleTime').markAsTouched();
+
         this.formatAsteriskRule();
     }
 
     selectDurationTime(duration: any): void {
-        this.selectedDurationTimeType = duration;
-        this.setTimeTypeFormValue(this.durationTimeCtrl, duration.id);
+        if (!this.selectedDurationTimeType || this.selectedDurationTimeType.id !== duration.id) {
+            this.selectedDurationTimeType = duration;
 
-        if (duration.id === 1) {
-            this.asteriskTimeRule.time = '*';
-        }
-        else if (duration.id === 2) {
-            this.selectedDurationTimeRange = [null, null];
-            if (this.asteriskTimeRule && this.asteriskTimeRule.time === '*') {
-                this.selectTime(this.callRuleTimes[0], 0);
-                this.selectTime(this.callRuleTimes[0], 1);
+            if (duration.id === 1) {
+                this.asteriskTimeRule.time = '*';
             }
+            else if (duration.id === 2) {
+                this.selectedDurationTimeRange = [null, null];
+                if (this.asteriskTimeRule && this.asteriskTimeRule.time === '*') {
+                    this.selectTime(this.callRuleTimes[0], 0);
+                    this.selectTime(this.callRuleTimes[1], 1);
+                }
+            }
+            
+            this.formatAsteriskRule();
         }
-        
-        this.formatAsteriskRule();
     }
 
     selectTime(time: CallRuleTime, idx: number): void {
         if (!time) return;
 
         this.selectedDurationTimeRange[idx] = time;
-        if (this.selectedDurationTimeRange[0] && this.selectedDurationTimeRange[1]) {
-            this.asteriskTimeRule.time = `${this.selectedDurationTimeRange[0].asteriskTime}-${this.selectedDurationTimeRange[1].asteriskTime}`;
-        }
+        this.setAsteriskTime();
         
-        this.setDurationTimeRangeFormValue(idx, this.selectedDurationTimeRange[idx]);
         this.formatAsteriskRule();
+
+        this.validationHost.forceFocused(`ruleActions.${this.actionIndex}.durationTime`);
     }
 
     // -- component methods ---------------------------------------------------
+
+    private setAsteriskTime(): void {
+        if (this.selectedDurationTimeRange[0] && this.selectedDurationTimeRange[1]) {
+            this.asteriskTimeRule.time = `${this.selectedDurationTimeRange[0].asteriskTime}-${this.selectedDurationTimeRange[1].asteriskTime}`;
+        }
+    }
 
     private formatAsteriskRule(): void {
         let days = this.selectedCallRuleTimeType && this.selectedCallRuleTimeType.id === 3 ? '' : '*';
@@ -223,6 +177,9 @@ export class CallRulesTimeRulesComponent implements OnInit {
             days = this.asteriskTimeRule.days.join('&');
         }
         let rule = `${this.asteriskTimeRule.time}|${days}|${this.asteriskTimeRule.date}|${this.asteriskTimeRule.month}`;
+
+        this.action.get('callRuleTime').setValue(days);
+        this.action.get('durationTime').setValue(this.asteriskTimeRule.time);
 
         this.onChange.emit(rule);
     }

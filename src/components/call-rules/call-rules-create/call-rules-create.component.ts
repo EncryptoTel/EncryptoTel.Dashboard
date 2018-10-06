@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {FadeAnimation} from '../../../shared/fade-animation';
@@ -9,7 +9,7 @@ import {StorageService} from '../../../services/storage.service';
 import {MessageServices} from '../../../services/message.services';
 import {MediaPlayerComponent} from '../../../elements/pbx-media-player/pbx-media-player.component';
 import {CdrMediaInfo, MediaState} from '../../../models/cdr.model';
-import {redirectToExtensionValidator, numberRangeValidator} from '../../../shared/encry-form-validators';
+import {redirectToExtensionValidator, numberRangeValidator, callRuleTimeValidator, durationTimeValidator} from '../../../shared/encry-form-validators';
 import {callRuleNameRegExp} from '../../../shared/vars';
 import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {isValidId} from '../../../shared/shared.functions';
@@ -61,7 +61,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private storage: StorageService,
-                protected message: MessageServices) {
+                protected message: MessageServices
+    ) {
         super(fb, message);
 
         this.callRule = new CallRulesItem();
@@ -76,7 +77,9 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             { name: 'If I do not answer call within', error: 'range', message: 'Please enter value between 5 and 300' },
             { name: 'Action applies for', error: 'days', message: 'Please select at least one day' },
             { name: 'Duration time', error: 'startTime', message: 'Start time cannot be greater than end time' },
-            { name: 'Duration time', error: 'equalTime', message: 'Start time and end time cannot be the same' },
+            { name: 'Duration time', error: 'equalTime', message: 'Start time cannot be the same as end time' },
+            { name: 'Duration time', error: 'invalidRange', message: 'Invalid time range format' },
+            { name: 'Extension number', error: 'duplicated', message: 'You cannot use two identical extensions followed one by one' },
         ];
     }
 
@@ -119,9 +122,50 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         return <FormGroup>this.callRulesForm.get('timeRules');
     }
 
-    private addAction(actionGroup: FormGroup, i: number): void {
-        this.actionsControls.setControl(i, actionGroup);
+    getActionFormKey(index: number, last: boolean = false): string {
+        let control = this.actionsControls.get([index, 'parameter']);
+        let key = !control && !last ? 'ruleActions' : '';
+        return key;
+    }
+
+    private addAction(actionGroup: FormGroup, index: number): void {
+        this.actionsControls.setControl(index, actionGroup);
+        this.fillActionFormData(actionGroup.get('action').value, index);
+
         this.validationHost.initItems();
+    }
+
+    private createRedirectToExternalNumber(): FormGroup {
+        return this.fb.group({
+            action:          2,
+            parameter:      [null, [Validators.minLength(6), Validators.maxLength(16), Validators.pattern('[0-9]*'), Validators.required]],
+            timeout:        [30,   [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
+            timeRules:      ['',   []],
+            callRuleTime:   ['',   [callRuleTimeValidator]],
+            durationTime:   ['',   [durationTimeValidator]],
+        });
+    }
+
+    private createRedirectToExtensionNumber(): FormGroup {
+        return this.fb.group({
+            action:          1,
+            parameter:      [null, [Validators.required]],
+            timeout:        [30, [Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
+            timeRules:      ['',   []],
+            callRuleTime:   ['',   [callRuleTimeValidator]],
+            durationTime:   ['',   [durationTimeValidator]],
+        });
+    }
+
+    private createRedirectToQueue(): FormGroup {
+        return this.fb.group({
+            action:          3,
+            parameter:      [null, [Validators.required]],
+            timeout:        [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
+            timeRules:      ['',   []],
+            callRuleTime:   ['',   [callRuleTimeValidator]],
+            durationTime:   ['',   [durationTimeValidator]],
+        });
     }
 
     private createCancelCall(): FormGroup {
@@ -132,49 +176,67 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         });
     }
 
-    private createRedirectToExternalNumber(): FormGroup {
-        return this.fb.group({
-            action:      2,
-            parameter:  [null, [Validators.minLength(6), Validators.maxLength(16), Validators.pattern('[0-9]*'), Validators.required]],
-            timeout:    [30,   [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
-            timeRules:  ['',   [Validators.required, Validators.pattern(this.timeRulePattern)]]
-        });
-    }
-
-    /* ~ */ private createRedirectToExtensionNumber(): FormGroup {
-        return this.fb.group({
-            action:      1,
-            parameter:  [null, [Validators.required]],
-            timeout:    [30, [Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
-            timeRules:  ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
-        });
-    }
-
-    private createRedirectToQueue(): FormGroup {
-        return this.fb.group({
-            action:      3,
-            parameter:  [null, [Validators.required]],
-            timeout:    [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
-            timeRules:  ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
-        });
-    }
-
     private createPlayVoiceFile(): FormGroup {
         return this.fb.group({
-            action:      5,
-            parameter:  [null, [Validators.required]],
-            timeout:    [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
-            timeRules:  ['', [Validators.required, Validators.pattern(this.timeRulePattern)]]
+            action:          5,
+            parameter:      [null, [Validators.required]],
+            timeout:        [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
+            timeRules:      ['',   []],
+            callRuleTime:   ['',   [callRuleTimeValidator]],
+            durationTime:   ['',   [durationTimeValidator]],
         });
     }
 
-    // -- event handlers ------------------------------------------------------
+    private formatForEdit(ruleActions): void {
+        if (!ruleActions) {
+            return;
+        }
+        Object.keys(ruleActions).forEach((actionIdx, index) => {
+            this.actionsList.forEach(act => {
+                if (act.id === ruleActions[actionIdx].action) {
+                    this.selectedActions.push(act);
+                }
+            });
+            switch (ruleActions[actionIdx].action) {
+                case 1: // Redirect to extension number
+                    this.addAction(this.actionFactory(1), index);
 
-    selectAction(action: Action, index: number = 0): void {
-        this.selectedActions[index] = action;
-        this.addAction(this.actionFactory(action.id), index);
+                    this.sipInners.forEach((sipInner: SipInner) => {
+                        if (sipInner.id.toString() === ruleActions[actionIdx].parameter) {
+                            this.selectedSipInners[index] = sipInner;
+                        }
+                    });
+                    break;
+                case 2: // Redirect to external number
+                    this.addAction(this.actionFactory(2), index);
+                    break;
+                case 3: // Redirect to call queue
+                    this.addAction(this.actionFactory(3), index);
+
+                    this.queues.forEach(queue => {
+                        if (queue.id.toString() === ruleActions[actionIdx].parameter) {
+                            this.selectedQueues[index] = queue;
+                        }
+                    });
+                    break;
+                case 4: // Terminate call
+                    this.addAction(this.actionFactory(4), index);
+                    break;
+                case 5: // Play voice file
+                    this.addAction(this.actionFactory(5), index);
+
+                    this.files.forEach(file => {
+                        if (file.id.toString() === ruleActions[actionIdx].parameter) {
+                            this.selectedFiles[index] = file;
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
+        });
     }
-
+    
     actionFactory(actionId: number): FormGroup {
         switch (actionId) {
             case 1: return this.createRedirectToExtensionNumber();
@@ -184,6 +246,31 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             case 5: return this.createPlayVoiceFile();
         }
         return null;
+    }
+
+    fillActionFormData(actionId: number, index: number): void {
+        if (this.ruleActions && this.ruleActions.length > 0) {
+            const key = Object.keys(this.ruleActions)[index];
+            if (this.ruleActions[key].action === actionId) {
+                this.actionsControls.at(index).patchValue(this.ruleActions[key]);
+                this.updateTimeRulesFormData(this.ruleActions[key], index);
+            }
+        }
+    }
+
+    updateTimeRulesFormData(action: any, index: number): void {
+        const timeRules = action.timeRules.split('|');
+        this.actionsControls.get([index, 'callRuleTime']).setValue(timeRules[1]);
+        this.actionsControls.get([index, 'durationTime']).setValue(timeRules[0]);
+    }
+
+    // -- event handlers ------------------------------------------------------
+
+    selectAction(action: Action, index: number = 0): void {
+        this.selectedActions[index] = action;
+        this.addAction(this.actionFactory(action.id), index);
+        this.resetParameterControlState(index);
+        console.log('[form]', this.form);
     }
 
     checkNextAction(index: number) {
@@ -199,23 +286,23 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     deleteAction(index: number): void {
         this.selectedActions.splice(index + 1, 1);
         this.actionsControls.removeAt(index + 1);
-        // this.ruleTimeAsterisk.splice(index + 1, 1);
     }
 
     selectNumber(number: SipItem): void {
         this.selectedNumber = number;
         this.form.get('sipId').setValue(number.id);
+
         this.getExtensions(number.id);
     }
 
-    selectSipInner(i: number, sipInner: SipInner): void {
-        this.selectedSipInners[i] = sipInner;
-        this.actionsControls.get([`${i}`, `parameter`]).setValue(sipInner.id);
+    selectSipInner(index: number, sipInner: SipInner): void {
+        this.selectedSipInners[index] = sipInner;
+        this.setParameterControlValue(index, sipInner.id);
     }
 
-    selectQueue(i: number, queue): void {
-        this.selectedQueues[i] = queue;
-        this.actionsControls.get([`${i}`, `parameter`]).setValue(queue.id);
+    selectQueue(index: number, queue): void {
+        this.selectedQueues[index] = queue;
+        this.setParameterControlValue(index, queue.id);
     }
 
     selectFile(index: number, file: any): void {
@@ -223,18 +310,31 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             this.stopPlayerPlay();
         }
         this.selectedFiles[index] = file;
-        this.actionsControls.get([`${index}`, `parameter`]).setValue(file.id);
+        this.setParameterControlValue(index, file.id);
+    }
+
+    setParameterControlValue(index: number, value: any): void {
+        this.actionsControls.get([index, 'parameter']).setValue(value);
+        let control = <FormControl>this.actionsControls.get([index, `parameter`]);
+        if (!control.valid) {
+            control.markAsTouched();
+        }
+    }
+
+    resetParameterControlState(index: number): void {
+        let control = <FormControl>this.actionsControls.get([index, `parameter`]);
+        control.markAsUntouched();
     }
 
     onTimeRuleChange(index, event) {
         this.actionsControls.get([index, 'timeRules']).setValue(event);
-        // console.log('form', this.form.value, this.form);
+        console.log('form', this.form.value);
     }
 
     save(): void {
-        console.log('form', this.form.value, this.form);
+        console.log('save-form', this.form.value);
         if (!this.validateForms()) return;
-        // this.saveCallRule();
+        this.saveCallRule();
     }
 
     cancel(): void {
@@ -247,13 +347,16 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     uploadFile(event: any): void {
         event.preventDefault();
+        
         const file = event.target.files[0];
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
                 this.storage.checkFileExists(
                     file,
                     (loading) => {
-                        if (!this.storage.loading) this.refreshFiles(loading);
+                        if (!this.storage.loading) {
+                            this.refreshFiles(loading);
+                        }
                     });
             }
             else {
@@ -300,80 +403,12 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         }
     }
 
-    // -- component methods ---------------------------------------------------
-
-    getActionFormKey(index: number, last: boolean = false): string {
-        let control = this.actionsControls.get([index, 'parameter']);
-        let key = !control && !last ? 'ruleActions' : '';
-        return key;
-    }
-
-    private formatForEdit(ruleActions): void {
-        if (!ruleActions) {
-            return;
-        }
-        Object.keys(ruleActions).forEach((action, i) => {
-            this.actionsList.forEach(act => {
-                if (act.id === ruleActions[action].action) {
-                    this.selectedActions.push(act);
-                }
-            });
-            switch (ruleActions[action].action) {
-                case 1:
-                    this.addAction(this.createRedirectToExtensionNumber(), i);
-                    this.sipInners.forEach((sipInner: SipInner) => {
-                        if (sipInner.id.toString() === ruleActions[action].parameter) {
-                            this.selectedSipInners[i] = sipInner;
-                        }
-                    });
-                    this.actionsControls.get([`${i}`, 'parameter']).setValue(ruleActions[action].parameter);
-                    this.actionsControls.get([`${i}`, 'timeout']).setValue(ruleActions[action].timeout);
-                    this.actionsControls.get([`${i}`, 'timeRules']).setValue(ruleActions[action].timeRules);
-                    break;
-                case 2:
-                    this.addAction(this.createRedirectToExternalNumber(), i);
-                    this.actionsControls.get([`${i}`, 'parameter']).setValue(ruleActions[action].parameter);
-                    this.actionsControls.get([`${i}`, 'timeout']).setValue(ruleActions[action].timeout);
-                    this.actionsControls.get([`${i}`, 'timeRules']).setValue(ruleActions[action].timeRules);
-                    break;
-                case 3:
-                    this.addAction(this.createRedirectToQueue(), i);
-                    this.queues.forEach(queue => {
-                        if (queue.id.toString() === ruleActions[action].parameter) {
-                            this.selectedQueues[i] = queue;
-                        }
-                    });
-                    this.actionsControls.get([`${i}`, 'parameter']).setValue(ruleActions[action].parameter);
-                    this.actionsControls.get([`${i}`, 'timeout']).setValue(ruleActions[action].timeout);
-                    this.actionsControls.get([`${i}`, 'timeRules']).setValue(ruleActions[action].timeRules);
-                    break;
-                case 4:
-                    this.addAction(this.createCancelCall(), i);
-                    break;
-                case 5:
-                    this.addAction(this.createPlayVoiceFile(), i);
-                    this.files.forEach(file => {
-                        if (file.id.toString() === ruleActions[action].parameter) {
-                            this.selectedFiles[i] = file;
-                        }
-                    });
-                    this.actionsControls.get([`${i}`, 'parameter']).setValue(ruleActions[action].parameter);
-                    this.actionsControls.get([`${i}`, 'timeout']).setValue(ruleActions[action].timeout);
-                    this.actionsControls.get([`${i}`, 'timeRules']).setValue(ruleActions[action].timeRules);
-                    break;
-                default:
-                    break;
-            }
-        });
-        this.saveFormState();
-    }
-
     // -- data processing methods ---------------------------------------------
 
     private getCallRule(): void {
         this.loading ++;
 
-        this.service.getById(this.activatedRoute.snapshot.params.id).then(response => {
+        this.service.getById(this.callRule.id).then(response => {
             console.log('rule', response);
             this.setFormData(response);
         }).catch(() => {})
@@ -388,27 +423,12 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.callRulesForm.get('name').setValue(name);
         this.callRulesForm.get('enabled').setValue(enabled);
 
+        this.ruleActions = ruleActions;
         let currentNumber = this.numbers.find(n => n.id == sip.id);
         this.selectNumber(currentNumber);
-
-        this.ruleActions = ruleActions;
-        console.log(':action', this.ruleActions);
-        this.ruleActions.forEach((action, index) => {
-            console.log(':action', action);
-            // const actionControl = this.actionFactory(action.id);
-            // console.log(':actionControl', actionControl);
-            // actionControl.patchValue(action);
-            // console.log(':actionControl', actionControl);
-            // this.addAction(actionControl, index);
-        });
-
-        console.log('form', this.form.value);
-
-        this.saveFormState();
     }
 
     saveCallRule(): void {
-        // this.validate();
         this.saving ++;
 
         if (this.mode === 'create') {
@@ -430,8 +450,11 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
         this.service.getExtensions(id).then(response => {
             this.sipInners = response.items;
+
             this.formatForEdit(this.ruleActions);
-        }).catch(() => {})
+            console.log('set-form', this.form.value);
+            this.saveFormState();
+            }).catch(() => {})
           .then(() => this.loadingStuff --);
     }
 
@@ -493,7 +516,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.storage.loading ++;
         this.service.getFiles().then((response) => {
                 this.files = response.items;
-                this.storage.loading --;
             }).catch(() => {})
               .then(() => this.storage.loading --);
     }
