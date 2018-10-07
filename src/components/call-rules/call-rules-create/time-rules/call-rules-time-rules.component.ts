@@ -14,17 +14,17 @@ import {callRuleTimeValidator, durationTimeValidator} from '../../../../shared/e
 })
 export class CallRulesTimeRulesComponent implements OnInit {
     
-    @Input() action: FormGroup;
-    @Input() actionIndex: number;
-    @Input() validationHost: ValidationHost;
-    
-    @Output() onChange: EventEmitter<string> = new EventEmitter<string>();
-
     asteriskTimeRule: AsteriskTimeRule;
     callRuleTimeDays: CallRuleDay[];
     selectedCallRuleTimeType: CallRuleTimeType;
     selectedDurationTimeType: CallRuleTimeType;
     selectedDurationTimeRange: CallRuleTime[];
+
+    @Input() action: FormGroup;
+    @Input() actionIndex: number;
+    @Input() validationHost: ValidationHost;
+    
+    @Output() onChange: EventEmitter<string> = new EventEmitter<string>();
 
     // -- properties ----------------------------------------------------------
 
@@ -75,7 +75,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
                 this.callRuleTimes.find(t => t.asteriskTime === times[1])
             ];
         }
-        
+
         if (!rules || rules[1] === '*') {
             this.selectTimeRule(this.callRuleTimeTypes[0], true);
         } else {
@@ -143,7 +143,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
                 this.selectedDurationTimeRange = [null, null];
                 if (this.asteriskTimeRule && this.asteriskTimeRule.time === '*') {
                     this.selectTime(this.callRuleTimes[0], 0);
-                    this.selectTime(this.callRuleTimes[1], 1);
+                    this.selectTime(this.callRuleTimes[0], 1);
                 }
             }
             
@@ -158,8 +158,6 @@ export class CallRulesTimeRulesComponent implements OnInit {
         this.setAsteriskTime();
         
         this.formatAsteriskRule();
-
-        this.validationHost.forceFocused(`ruleActions.${this.actionIndex}.durationTime`);
     }
 
     // -- component methods ---------------------------------------------------

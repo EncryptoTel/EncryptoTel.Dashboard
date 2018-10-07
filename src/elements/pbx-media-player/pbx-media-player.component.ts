@@ -3,7 +3,10 @@ import {VgAPI} from 'videogular2/core';
 import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
 import {Subscription} from 'rxjs/Subscription';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
+
 import { MediaState } from '../../models/cdr.model';
+import {Locker} from '../../models/locker.model';
+
 
 @Component({
     selector: 'pbx-media-player',
@@ -11,43 +14,37 @@ import { MediaState } from '../../models/cdr.model';
     styleUrls: ['./local.sass'],
 })
 export class MediaPlayerComponent implements OnChanges {
+    
     api: VgAPI;
 
-    mediaStreams: {};
-    selectedMediaId: number;
-    loading: number;
+    mediaStreams: {} = {};
+    selectedMediaId: number = 0;
+    locker: Locker = new Locker();
 
-    @Input() mediaStream: string = '/assets/mp3/rington.mp3';
+    @Input() mediaStream: string;
 
-    @Output() onPlayerReady: EventEmitter<VgAPI>;
-    @Output() onTimeUpdate: EventEmitter<object>;
-    @Output() onPlayEnd: EventEmitter<number>;
-    @Output() onGetMediaData: EventEmitter<number>;
-    @Output() onMediaStateChanged: EventEmitter<MediaState>;
+    @Output() onPlayerReady: EventEmitter<VgAPI> = new EventEmitter<VgAPI>();
+    @Output() onTimeUpdate: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onPlayEnd: EventEmitter<number> = new EventEmitter<number>();
+    @Output() onGetMediaData: EventEmitter<number> = new EventEmitter<number>();
+    @Output() onMediaStateChanged: EventEmitter<MediaState> = new EventEmitter<MediaState>();
 
     @ViewChild(VgHLS) vgHls: VgHLS;
 
+
     get state(): MediaState {
-        if (this.loading) return MediaState.Loading;
+        if (!this.locker.free) return MediaState.LOADING;
+
         return (this.api && this.api.state == 'playing')
-            ? MediaState.Playing
-            : MediaState.Paused;
+            ? MediaState.PLAYING
+            : MediaState.PAUSED;
     }
 
-    constructor() {
-        this.selectedMediaId = 0;
-        this.onPlayerReady = new EventEmitter();
-        this.onTimeUpdate = new EventEmitter();
-        this.onPlayEnd = new EventEmitter();
-        this.onGetMediaData = new EventEmitter();
-        this.onMediaStateChanged = new EventEmitter();
-        this.mediaStreams = {};
-        this.loading = 0;
-    }
+    constructor() {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.mediaStream && changes.mediaStream.currentValue) {
-            this.loading --;
+            this.locker.unlock();
             this.mediaStreams[this.selectedMediaId] = changes.mediaStream.currentValue;
             this.startPlayRecord();
         }
@@ -75,7 +72,7 @@ export class MediaPlayerComponent implements OnChanges {
     }
 
     stopPlay(): void {
-        if (this.api && this.api.state == <string>MediaState.Playing) {
+        if (this.api && this.api.state == <string>MediaState.PLAYING) {
             this.api.pause();
             this.fireOnMediaStateChanged();
         }
@@ -89,7 +86,7 @@ export class MediaPlayerComponent implements OnChanges {
             }
             else {
                 // states are: playing, pause, ended
-                if (this.api.state == <string>MediaState.Playing) {
+                if (this.api.state == <string>MediaState.PLAYING) {
                     this.api.pause();
                 }
                 else {
@@ -102,7 +99,7 @@ export class MediaPlayerComponent implements OnChanges {
             if (mediaId != this.selectedMediaId) {
                 this.selectedMediaId = mediaId;
                 this.onGetMediaData.emit(mediaId);
-                this.loading ++;
+                this.locker.lock();
                 this.fireOnMediaStateChanged();
             }
         }
@@ -117,6 +114,7 @@ export class MediaPlayerComponent implements OnChanges {
                 let onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(
                     () => {
                         onCanPlay.unsubscribe();
+                        this.togglePlay(this.selectedMediaId);
                         this.fireOnMediaStateChanged();
                     });
             });

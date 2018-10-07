@@ -29,6 +29,7 @@ export class Locker {
 
     public unlock(): void {
         this._lockCount --;
+        if (this._lockCount < 0) this._lockCount = 0;
     }
 }
 

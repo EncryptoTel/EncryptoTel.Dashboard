@@ -18,7 +18,7 @@ export class FormsSnapshots {
 
         let snapshot = this.takeSnapshot(key);
         this._snapshots[key] = snapshot;
-        console.log('snapshot', snapshot);
+        // console.log('snapshot', snapshot);
     }
 
     saveAll(): void {

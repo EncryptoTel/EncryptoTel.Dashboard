@@ -167,8 +167,6 @@ export class InputComponent implements OnInit {
 
         if (this.validationHost)
             this.validationHost.updateState();
-
-        // if (this.key == 'company') console.log('element', this.inputDiv);
     }
 
     removeFocus(): void {
@@ -176,15 +174,17 @@ export class InputComponent implements OnInit {
         this.pbxInputFocus = false;
 
         // --
-        this.inFocus = false;
-        this.inMouseHover = false;
+        if (this.inFocus) {
+            this.inFocus = false;
+            this.inMouseHover = false;
 
-        if (this.form) {
-            let control = this.getForm();
-            if (control) control.markAsTouched();
+            if (this.form) {
+                let control = this.getForm();
+                if (control) control.markAsTouched();
+            }
+            if (this.validationHost)
+                this.validationHost.updateState();
         }
-        if (this.validationHost)
-            this.validationHost.updateState();
     }
 
     mouseEnter() {
@@ -215,7 +215,6 @@ export class InputComponent implements OnInit {
         if ($event && ![ 'Tab', 'ArrowRight', 'ArrowLeft' ].includes($event.key)) {
             this.resetError();
         }
-        // this.resetError();
 
         this.object[this.key] = $event.target.value;
         this.onKeyUp.emit($event);
@@ -241,7 +240,7 @@ export class InputComponent implements OnInit {
         if (!key) {
             return null;
         }
-//        this.errors[key] = value;
+
         const keys = key.split('.');
         switch (keys.length) {
             case 1:
@@ -294,7 +293,6 @@ export class InputComponent implements OnInit {
                     if (control && control.errors)
                         keys = Object.keys(control.errors);
                 }
-                // TODO: map validation result for multiple errors
                 return this.getValidatorMessage(keys[0]);
             }
             return null;
@@ -421,7 +419,6 @@ export class InputComponent implements OnInit {
                     });
                 } else if (control.errors) {
                     errors[field] = control.errors;
-                    // return this.checkControlError(field, control);
                 }
 
             });
@@ -486,7 +483,6 @@ export class InputComponent implements OnInit {
             this.falseValue ? this.falseValue : false,
             this.trueValue ? this.trueValue : true
         ];
-        // if (this.validationKey) console.log('v-key', this.validationKey);
 
         this.validationHost && this.validationHost.addControl(this);
 

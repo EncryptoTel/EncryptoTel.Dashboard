@@ -48,7 +48,7 @@ export class ValidationHost implements Lockable {
                 }
             });
         });
-        console.log('vh-items', this.items);
+        // console.log('vh-items', this.items);
     }
 
     // -- public methods ------------------------------------------------------
@@ -68,22 +68,18 @@ export class ValidationHost implements Lockable {
         let controlKey = this.getValidatorKey(control);
         let item = this.items.find(i => i.key == controlKey);
         // controlKey == 'timeRules.appliesForTime' && console.log('err-visible', controlKey, control.inErrorState, item);
-        // console.log('err-visible', controlKey, control.inErrorState, item);
         return control.inErrorState && item && item.visible;
     }
 
     updateState(): void {
-        // console.log('update-state', this.controls);
         if (!this.active) return;
 
         let mouseIsInForm = false;
         let control = this.controls.find(c => c.inMouseHover);
         if (control) {
-            // console.log('hover', control.name);
             mouseIsInForm = true;
             if (control.inErrorState) {
                 this.setControlError(control);
-                // console.log('hover-error', this.items);
                 return;
             }
         }
@@ -91,11 +87,9 @@ export class ValidationHost implements Lockable {
         let inputIsInForm = false;
         control = this.controls.find(c => c.inFocus);
         if (control) {
-            // console.log('focus', control.name);
             inputIsInForm = true;
             if (control.inErrorState) {
                 this.setControlError(control);
-                // console.log('focus-error', this.items);
                 return;
             }
         }
@@ -112,15 +106,6 @@ export class ValidationHost implements Lockable {
     findByValidationKey(validationKey: string): InputComponent {
         let control = this.controls.find(c => this.getValidatorKey(c) === validationKey);
         return control;
-    }
-
-    forceFocused(validationKey: string): void {
-        const control = this.findByValidationKey(validationKey);
-        if (control) {
-            this.controls.forEach(c => c.inFocus = false);
-            control.inFocus = true;
-            this.updateState();
-        }
     }
 
     clearControlsFocusedState(): void {
@@ -184,7 +169,6 @@ export class ValidationHost implements Lockable {
                 }
             });
         });
-        // console.log('first-invalid-control', firstInvalidControl);
         return firstInvalidControl;
     }
 
@@ -235,7 +219,6 @@ export class ValidationHost implements Lockable {
             const name = this.getControlName(control);
             return `Please enter valid ${name}`;
         }
-        console.log('vh-unspec-message', control.name, errorKey);
         return 'The value is invalid';
     }
 

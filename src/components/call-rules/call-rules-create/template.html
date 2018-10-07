@@ -117,6 +117,7 @@
                                            [validationHost]="validationHost"
                                            inputClass="time"
                                            inputCenter="true"
+                                           [vVMessageOffset]="100"
                                            >
                                 </pbx-input>
 
@@ -218,6 +219,7 @@
                                 <pbx-input name="Voice greeting"
                                            key="parameter"
                                            [required]="true"
+                                           [placeholder]="'[choose file]'"
                                            [form]="true"
                                            [object]="action"
                                            [options]="files"
@@ -230,8 +232,8 @@
                                            >
                                     <div class="greeting">
                                         <pbx-button [value]="playButtonText"
-                                                    buttonType="{{ files.length > 0 ? 'accent' : 'cancel' }}"
-                                                    [attr.disabled]="files.length == 0 ? '' : null"
+                                                    [inactive]="!isFileSelected(i)"
+                                                    [loading]="!mediaPlayer.locker.free"
                                                     (onClick)="togglePlay(i)"
                                                     >
                                         </pbx-button>
@@ -241,14 +243,6 @@
                                         </div>
                                     </div>
                                 </pbx-input>
-
-                                <pbx-media-player
-                                    #mediaPlayer
-                                    [mediaStream]="currentMediaStream"
-                                    (onGetMediaData)="getMediaData($event)"
-                                    (onMediaStateChanged)="mediaStateChanged($event)"
-                                    >
-                                </pbx-media-player>
 
                                 <pbx-input name="If I do not answer call within"
                                            description="seconds"
@@ -295,6 +289,14 @@
             </ng-container>
         </form>
 </pbx-form>
+
+<pbx-media-player #mediaPlayer
+                  [mediaStream]="currentMediaStream"
+                  (onGetMediaData)="getMediaData($event)"
+                  (onMediaStateChanged)="mediaStateChanged($event)"
+                  >
+</pbx-media-player>
+
 <pbx-modal [modalEx]="storage.modalUpload" 
            (onConfirmEx)="storage.doUploadAction($event)"
            (onDecline)="storage.cancelUploadAction()"
