@@ -1,8 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+
 import {SettingsService} from '../../../../services/settings.service';
 import {FadeAnimation} from '../../../../shared/fade-animation';
 import {MessageServices} from '../../../../services/message.services';
+import {FormBaseComponent} from '../../../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import {FormBuilder} from '@angular/forms';
+import {SettingsModel, SettingsOptionItem, SettingsBaseItem} from '../../../../models/settings.models';
+
 
 @Component({
     selector: 'base-settings-component',
@@ -11,16 +16,10 @@ import {MessageServices} from '../../../../services/message.services';
     providers: [SettingsService],
     animations: [FadeAnimation('300ms')]
 })
-
-export class BaseSettingsComponent implements OnInit {
-
-    @Input() path: string;
-
-    loading = {
-        body: false
-    };
-
+export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
+    
     settings: any;
+    model: SettingsModel;
 
     selectedItems: any = {};
 
@@ -29,30 +28,50 @@ export class BaseSettingsComponent implements OnInit {
     options = [];
     inputOptions = [];
 
+    inputOptionsEx: SettingsOptionItem[] = [];
+
     saveButton = {buttonType: 'success', value: 'Save', inactive: false, loading: false};
 
-    constructor(private router: Router,
-                private service: SettingsService,
-                private message: MessageServices) {
+    modelTemplate: boolean = false;
 
+    @Input() path: string;
+
+    // -- component lifecycle methods -----------------------------------------
+
+    constructor(
+        protected router: Router,
+        protected service: SettingsService,
+        protected message: MessageServices,
+        protected fb: FormBuilder
+    ) {
+        super(fb, message);
     }
 
-    NormalizeTitle(text: string) {
+    ngOnInit() {
+        this.getInitialParams();
+    }
+
+    // -- form setup and helpers methods --------------------------------------
+    // -- event handlers ------------------------------------------------------
+
+    goBack(): void {
+        this.router.navigateByUrl('/cabinet/settings');
+    }
+
+    // -- component methods ---------------------------------------------------
+
+    normalizeTitle(text: string): string {
         text = text.replace(/\r?\n/g, '');
         text = text.replace(new RegExp('_', 'g'), ' ');
         text = text.charAt(0).toUpperCase() + text.substr(1);
         return text.trim();
     }
 
-    goBack(): void {
-        this.router.navigateByUrl('/cabinet/settings');
-    }
-
-    getKeys = (obj: any): string[] => {
+    getKeys(obj: any): string[] {
         return obj && Object.keys(obj);
     }
 
-    generateOptions = (obj: any): any[] => {
+    generateOptions(obj: any): any[] {
         if (obj.type !== 'list') {
             return null;
         }
@@ -60,18 +79,75 @@ export class BaseSettingsComponent implements OnInit {
         Object.keys(obj.list_value).forEach(key => {
             tmp.push({id: key, title: obj.list_value[key]});
         });
-        console.log(tmp);
+        // console.log(tmp);
         return tmp;
     }
 
-    getEventValue = (ev: any): any => {
-        if (typeof ev === 'boolean') {
-            return ev;
-        } else if (typeof ev === 'string') {
-            return ev;
-        } else {
-            return ev.id;
+    getEventValue(event: any): any {
+        if (typeof event === 'boolean' || typeof event === 'string') {
+            return event;
+        } 
+        else {
+            return event.id;
         }
+    }
+
+	// -- data processing methods ---------------------------------------------
+
+    getInitialParams(): void {
+        this.locker.lock();
+        
+        this.inputOptions = [];
+        this.service.getSettingsParams(this.path).then(response => {
+            Object.keys(response.settings).forEach(key => {
+                Object.keys(response.settings[key].children).map(inputKey => {
+                    if (response.settings[key].children[inputKey].type === 'list') {
+
+                        this.inputOptions[`${key}_${inputKey}`] = this.generateOptions(response.settings[key].children[inputKey]);
+
+                        const selectedId = response.settings[key].children[inputKey].value;
+                        this.selectedItems[inputKey] = {
+                            id: selectedId,
+                            title: response.settings[key].children[inputKey].list_value[selectedId]
+                        };
+                        if (response.settings[key].children[inputKey].list_value[selectedId] === 'google') {
+                            this.getQR();
+                        }
+                    }
+                    else if (response.settings[key].children[inputKey].type === 'group_field') {
+                        Object.keys(response.settings[key].children[inputKey].children).forEach(childrenKey => {
+                            if (response.settings[key].children[inputKey].children[childrenKey].type === 'list') {
+
+                                this.inputOptions[`${key}_${inputKey}_${childrenKey}`] = this.generateOptions(response.settings[key].children[inputKey].children[childrenKey]);
+
+                                const selectedId = response.settings[key].children[inputKey].children[childrenKey].value;
+                                this.selectedItems[childrenKey] = {
+                                    id: selectedId,
+                                    title: response.settings[key].children[inputKey].children[childrenKey].list_value[selectedId]
+                                };
+                            }
+                        });
+                    }
+                });
+            });
+            
+            this.settings = response.settings;
+            // console.log('settings', response.settings);
+            // console.log('input-options', this.inputOptions);
+            // console.log('selected-items', this.selectedItems);
+            
+            this.model = SettingsModel.create(response.settings);
+            // console.log('model', this.model);
+            // console.log('input-options-ex', this.inputOptionsEx);
+
+        }).catch(() => {})
+          .then(() => this.locker.unlock());
+    }
+
+    getQR(): void {
+        this.service.getQRCode().then(response => {
+            this.qrCode = response.qrImage;
+        }).catch(() => {});
     }
 
     saveOption(ev: any, key: string, inputKey: string, childrenKey?: string): void {
@@ -113,64 +189,15 @@ export class BaseSettingsComponent implements OnInit {
             this.message.writeSuccess('The data have been saved');
             return;
         }
+
         this.saveButton.loading = true;
-        this.service.saveSettings(this.options, this.path, false).then(res => {
-            this.message.writeSuccess(res.message);
+        
+        this.service.saveSettings(this.options, this.path, false).then(response => {
+            this.message.writeSuccess(response.message);
             this.options = [];
             // this.saveButton.inactive = true;
-            this.saveButton.loading = false;
             //this.goBack();
-        }).catch(() => {
-            this.saveButton.loading = false;
-        });
-    }
-
-    getInitialParams(): void {
-        this.loading.body = true;
-        this.inputOptions = [];
-        this.service.getSettingsParams(this.path).then(res => {
-            Object.keys(res.settings).forEach(key => {
-                Object.keys(res.settings[key].children).map(inputKey => {
-                    if (res.settings[key].children[inputKey].type === 'list') {
-
-                        this.inputOptions[`${key}_${inputKey}`] = this.generateOptions(res.settings[key].children[inputKey]);
-
-                        const selectedId = res.settings[key].children[inputKey].value;
-                        this.selectedItems[inputKey] = {
-                            id: selectedId,
-                            title: res.settings[key].children[inputKey].list_value[selectedId]
-                        };
-                        if (res.settings[key].children[inputKey].list_value[selectedId] === 'google') {
-                            this.getQR();
-                        }
-                    } else if (res.settings[key].children[inputKey].type === 'group_field') {
-                        Object.keys(res.settings[key].children[inputKey].children).forEach(childrenKey => {
-                            if (res.settings[key].children[inputKey].children[childrenKey].type === 'list') {
-
-                                this.inputOptions[`${key}_${inputKey}_${childrenKey}`] = this.generateOptions(res.settings[key].children[inputKey].children[childrenKey]);
-
-                                const selectedId = res.settings[key].children[inputKey].children[childrenKey].value;
-                                this.selectedItems[childrenKey] = {
-                                    id: selectedId,
-                                    title: res.settings[key].children[inputKey].children[childrenKey].list_value[selectedId]
-                                };
-                            }
-                        });
-                    }
-                });
-            });
-            this.settings = res.settings;
-            this.loading.body = false;
-        }).catch(() => this.loading.body = false);
-    }
-
-    getQR(): void {
-        this.service.getQRCode().then(res => {
-            this.qrCode = res.qrImage;
-        }).catch();
-    }
-
-    ngOnInit() {
-        this.getInitialParams();
+        }).catch(() => {})
+          .then(() => this.saveButton.loading = false);
     }
 }

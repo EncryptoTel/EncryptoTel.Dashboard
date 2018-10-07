@@ -2,20 +2,75 @@
           [decline]="{buttonType:'cancel',value:'Cancel'}"
           (onConfirm)="saveSettings()"
           (onDecline)="goBack()"
-          [background]="true">
+          [background]="true"
+          >
+    <pbx-loader *ngIf="!locker.free"></pbx-loader>
 
-    <pbx-loader *ngIf="loading.body"></pbx-loader>
+    <!-- model based template -->
+    <div class="overlay_content" *ngIf="locker.free && modelTemplate" [@Fade]>
 
-    <div class="overlay_content" *ngIf="!loading.body" [@Fade]>
+            <div class="settings_form_section" *ngFor="let item of model.items">
+
+                <ng-template [ngIf]="item.isGroup" [ngIfElse]="nonGroup">
+                    <div class="settings_form_title" style="font-size: 15px;">
+                        {{ item.itemTitle }}
+                    </div>
+    
+                    <div *ngFor="let child of item.children" style="flex-flow: column;">
+
+                        <ng-template [ngIf]="child.isGroup" [ngIfElse]="nonChildGroup">
+                            <div class="settings_form_title" style="font-style: italic; margin-top: 20px;">
+                                {{ child.itemTitle }}
+                            </div>
+
+                            <div style="flex-flow: row; margin-bottom: 20px;">
+                                <div *ngFor="let grandchild of child.children">
+                                    <div style="font-size: 13px; color: #888888; margin-bottom: 5px; margin-right: 20px;">
+                                        <pbx-settings-input [item]="grandchild"
+                                                            [fullWidth]="false"
+                                                            >
+                                        </pbx-settings-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                        <ng-template #nonChildGroup>
+                            <div style="font-size: 13px; color: #888888; margin-bottom: 5px;">
+                                <pbx-settings-input [item]="child"
+                                                    [fullWidth]="true"
+                                                    >
+                                </pbx-settings-input>
+                            </div>
+                        </ng-template>
+                    </div>
+                </ng-template>
+
+                <ng-template #nonGroup>
+                    <div style="font-size: 13px; color: #888888; margin-bottom: 5px;">
+                        <pbx-settings-input [item]="item"
+                                            [fullWidth]="true"
+                                            >
+                        </pbx-settings-input>
+                    </div>
+                </ng-template>
+                <!-- ... -->
+            </div>
+        <div class="settings_code" [@Fade] *ngIf="qrCode" [style.background-image]="'url(' + qrCode + ')'"></div>
+    </div>
+
+    <!-- original template -->
+    <div class="overlay_content" *ngIf="locker.free && !modelTemplate" [@Fade]>
+
         <div class="settings_form_section" *ngFor="let key of getKeys(settings)">
 
-            <div class="settings_form_title">{{NormalizeTitle(settings[key].title)}}</div>
+            <div class="settings_form_title">{{ normalizeTitle(settings[key].title) }}</div>
 
             <div *ngFor="let inputKey of getKeys(settings[key].children)">
 
                 <pbx-input *ngIf="settings[key].children[inputKey].type !== 'group_field'"
                            style="width: 100%"
-                           [name]="NormalizeTitle(settings[key].children[inputKey].title)"
+                           [name]="normalizeTitle(settings[key].children[inputKey].title)"
                            key="value"
                            displayKey="title"
                            [checkbox]="settings[key].children[inputKey].type === 'bool'"
@@ -25,18 +80,21 @@
                            (onToggle)="saveOption($event, key, inputKey)"
                            (onSelect)="saveOption($event, key, inputKey)"
                            (onKeyUp)="saveOption($event.target.value, key, inputKey)"
-                ></pbx-input>
+                           >
+                </pbx-input>
 
-                <div class="settings_form_section" style="width: 100%"
-                     *ngIf="settings[key].children[inputKey].type === 'group_field'">
+                <div *ngIf="settings[key].children[inputKey].type === 'group_field'"
+                     class="settings_form_section" 
+                     style="width: 100%"
+                     >
                     <div class="settings_form_title">
-                        {{NormalizeTitle(settings[key].children[inputKey].title)}}
+                        {{ normalizeTitle(settings[key].children[inputKey].title) }}
                     </div>
 
                     <div *ngFor="let childrenKey of getKeys(settings[key].children[inputKey].children)">
 
                         <pbx-input style="width: 100%"
-                                   [name]="NormalizeTitle(settings[key].children[inputKey].children[childrenKey].title)"
+                                   [name]="normalizeTitle(settings[key].children[inputKey].children[childrenKey].title)"
                                    key="value"
                                    displayKey="title"
                                    [checkbox]="settings[key].children[inputKey].children[childrenKey].type === 'bool'"

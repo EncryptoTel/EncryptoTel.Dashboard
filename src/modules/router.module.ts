@@ -253,7 +253,7 @@ const Routes: Routes = [
                     {
                         path: 'authentication',
                         component: AuthenticationComponent,
-                        data: {title: 'Authentication Settings', indexed: true}
+                        data: {title: 'Two-Factor Authentication', indexed: true}
                     },
                     {path: 'billing', component: BillingComponent, data: {title: 'Billing Settings', indexed: true}},
                     {
