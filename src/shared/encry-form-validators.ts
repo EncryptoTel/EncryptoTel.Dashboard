@@ -55,9 +55,9 @@ export function durationTimeValidator(control: FormGroup): { [key: string]: any 
     if (timeRange[0] > timeRange[1]) {
         return { 'startTime': { value: control.value } };
     }
-    if (timeRange[0] == timeRange[1]) {
-        return { 'equalTime': { value: control.value } };
-    }
+    // if (timeRange[0] == timeRange[1]) {
+    //     return { 'equalTime': { value: control.value } };
+    // }
 
     return null;
 }
