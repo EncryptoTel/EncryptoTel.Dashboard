@@ -10,6 +10,14 @@ extensions-component
         .tablet_row
             height: $dark_list-items_height !important
 
+// fix for Safari
+add-extension-component
+    pbx-form
+        .form-body-content.background
+            padding: 0 !important
+            general-add-extension-component
+                margin: 24px !important
+
 options-add-extension-component
     .add_ext_form_item
         display: grid
