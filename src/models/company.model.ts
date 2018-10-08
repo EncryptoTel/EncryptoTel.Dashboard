@@ -68,8 +68,9 @@ export class CompanyInfoModel {
                 data.numbers.forEach(phone => {
                     let item = new CompanyInfoItem();
                     item.title = phone.phoneNumber;
-                    item.value = `${phone.innerOnlineCount} of ${phone.innerCount}`;
-                    item.value2 = phone.innerOnlineCount > 0 ? 'online' : 'offline';
+                    item.value = `${phone.innerOnlineCount} of ${phone.innerCount} ext.`;
+                    // TODO получать с сервера количество телефонов онлайн/оффлайн
+                    item.value2 = phone.innerOnlineCount > 0 ? 'online' : 'online';
                     section.items.push(item);
                 });
             }
