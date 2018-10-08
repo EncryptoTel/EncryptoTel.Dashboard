@@ -19,18 +19,21 @@
     <div class="tablet_body">
         <div *ngFor="let item of tableItems"
              class="tablet_row"
-             [ngClass]="{ 'pick': isItemSelected(item) }">
+             [ngClass]="{ 'pick': isItemSelected(item) }"
+             >
             <pbx-loader *ngIf="item.loading"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">
-                <div *ngFor="let tableItem of tableInfoEx.items; let i = index;"
-                     class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
-                     (click)="selectItem(item)"
-                     (mouseenter)="mouseEnter($event, item)"
-                     (mouseleave)="mouseLeave($event, item)"
-                     >
-                    {{ getValueByKeyEx(item, tableItem.key) }}
-                    <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
-                </div>
+                <ng-template ngFor let-tableItem [ngForOf]="tableInfoEx.items" let-i="index">
+                    <div *ngIf="!tableItem.noDataColumn" 
+                         class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
+                         (click)="selectItem(item)"
+                         (mouseenter)="mouseEnter($event, item)"
+                         (mouseleave)="mouseLeave($event, item)"
+                         >
+                         {{ getValueByKeyEx(item, tableItem.key) }}
+                        <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
+                    </div>
+                </ng-template>
 
                 <div *ngFor="let action of tableInfoEx.actions; let i = index;"
                      [style.width]="action.width ? action.width + 'px' : '20px'"

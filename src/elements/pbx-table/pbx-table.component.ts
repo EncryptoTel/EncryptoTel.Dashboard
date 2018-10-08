@@ -212,6 +212,7 @@ export class TableComponent implements OnInit {
                     width: null,
                     dataWidth: undefined,
                     sort: null,
+                    noDataColumn: false,
                 };
                 this.tableInfoEx.items.push(item);
             }

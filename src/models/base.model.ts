@@ -77,13 +77,15 @@ export class TableInfoItem {
     // Format:  [ { pattern: string, cssClass: string }, { ... } ]
     // Example: [ { pattern: '/disable(d)?/i', cssClass: 'gray' }, { ... } ]
     specialFormatting?: any[];
+    noDataColumn: boolean;
 
-    constructor(title: string, key: string, sort?: string, width?: number, dataWidth?: number) {
+    constructor(title: string, key: string, sort?: string, width?: number, dataWidth?: number, noDataColumn?: boolean) {
         this.title = title;
         this.key = key;
         this.width = width;
         this.dataWidth = dataWidth;
         this.sort = sort;
+        this.noDataColumn = noDataColumn || false;
     }
 }
 
