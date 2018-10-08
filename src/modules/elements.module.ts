@@ -40,6 +40,7 @@ import {MediaPlayerComponent} from '../elements/pbx-media-player/pbx-media-playe
 import {TagSelectorComponent} from '../elements/pbx-tag-selector/pbx-tag-selector.component';
 import {ViewEditControlComponent} from '../elements/pbx-view-edit-control/pbx-view-edit-control.component';
 import {SettingsInputComponent} from '../elements/pbx-settings-input/pbx-settings-input.component';
+import {SettingsGroupComponent} from '../elements/pbx-settings-group/pbx-settings-group.component';
 import {AutofocusDirective} from '../elements/directives/autofocus.directive';
 
 @NgModule({
@@ -85,6 +86,7 @@ import {AutofocusDirective} from '../elements/directives/autofocus.directive';
         TagSelectorComponent,
         ViewEditControlComponent,
         SettingsInputComponent,
+        SettingsGroupComponent,
         AutofocusDirective,
     ],
     exports: [
@@ -120,6 +122,7 @@ import {AutofocusDirective} from '../elements/directives/autofocus.directive';
         QueueMembersAddComponent,
         TagSelectorComponent,
         SettingsInputComponent,
+        SettingsGroupComponent,
         ViewEditControlComponent,
     ]
 })

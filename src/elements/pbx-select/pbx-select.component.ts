@@ -75,7 +75,7 @@ export class SelectComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('select', this.options, this.objectKey, this.options[0][this.objectKey]);
+        // console.log('select', this.options, this.objectKey, this.options[0][this.objectKey]);
     }
 
     calcPosition(): string {

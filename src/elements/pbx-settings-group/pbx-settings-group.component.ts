@@ -6,21 +6,19 @@ import {SettingsItem} from "../../models/settings.models";
 
 
 @Component({
-    selector: 'pbx-settings-input',
+    selector: 'pbx-settings-group',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms'), SwipeAnimation('y', '200ms')]
 })
-export class SettingsInputComponent implements OnInit {
+export class SettingsGroupComponent implements OnInit {
 
-    @Input() item: SettingsItem;
-    @Input() fullWidth: boolean = true;
+    @Input() items: SettingsItem[];
+    @Input() level: number = 1;
 
     @Output() valueChange: EventEmitter<SettingsItem> = new EventEmitter<SettingsItem>();
 
-    ngOnInit(): void {
-        // console.log('options', this.item.options);
-    }
+    ngOnInit(): void {}
 
     onValueChange(item: SettingsItem): void {
         this.valueChange.emit(item);

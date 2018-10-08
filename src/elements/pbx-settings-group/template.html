@@ -1,0 +1,48 @@
+<div class="settings_form_section" *ngFor="let item of items">
+
+    <ng-container [ngSwitch]="item.type">
+        
+        <ng-template [ngSwitchCase]="'group'">
+            <div [class]="'settings_form_title_' + level">
+                {{ item.itemTitle }}
+            </div>
+
+            <!-- flex-flow: column -->
+            <pbx-settings-group
+                [items]="item.children"
+                [level]="level + 1"
+                (valueChange)="onValueChange($event)"
+                > 
+            </pbx-settings-group>
+        </ng-template>
+        
+        <ng-template [ngSwitchCase]="'group_field'">
+            <div [class]="'settings_form_title_' + level">
+                {{ item.itemTitle }}
+            </div>
+
+            <div class="settings_form_field_group">
+                <div *ngFor="let child of item.children">
+                    <!-- flex-flow: row -->
+                    <pbx-settings-input
+                        [item]="child"
+                        [fullWidth]="false"
+                        (valueChange)="onValueChange(child)"
+                        >
+                    </pbx-settings-input>
+                </div>
+            </div>
+        </ng-template>
+        
+        <ng-template ngSwitchDefault>
+            <!-- flex-flow: column -->
+            <pbx-settings-input
+                [item]="item"
+                [fullWidth]="true"
+                (valueChange)="onValueChange(item)"
+                >
+            </pbx-settings-input>
+        </ng-template>
+
+    </ng-container>
+</div>

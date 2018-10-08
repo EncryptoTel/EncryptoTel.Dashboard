@@ -9,53 +9,13 @@
     <!-- model based template -->
     <div class="overlay_content" *ngIf="locker.free && modelTemplate" [@Fade]>
 
-            <div class="settings_form_section" *ngFor="let item of model.items">
+            <pbx-settings-group
+                [items]="model.items"
+                [level]="1"
+                (valueChange)="onValueChange($event)"
+                >
+            </pbx-settings-group>
 
-                <ng-template [ngIf]="item.isGroup" [ngIfElse]="nonGroup">
-                    <div class="settings_form_title" style="font-size: 15px;">
-                        {{ item.itemTitle }}
-                    </div>
-    
-                    <div *ngFor="let child of item.children" style="flex-flow: column;">
-
-                        <ng-template [ngIf]="child.isGroup" [ngIfElse]="nonChildGroup">
-                            <div class="settings_form_title" style="font-style: italic; margin-top: 20px;">
-                                {{ child.itemTitle }}
-                            </div>
-
-                            <div style="flex-flow: row; margin-bottom: 20px;">
-                                <div *ngFor="let grandchild of child.children">
-                                    <div style="font-size: 13px; color: #888888; margin-bottom: 5px; margin-right: 20px;">
-                                        <pbx-settings-input [item]="grandchild"
-                                                            [fullWidth]="false"
-                                                            >
-                                        </pbx-settings-input>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-template>
-
-                        <ng-template #nonChildGroup>
-                            <div style="font-size: 13px; color: #888888; margin-bottom: 5px;">
-                                <pbx-settings-input [item]="child"
-                                                    [fullWidth]="true"
-                                                    >
-                                </pbx-settings-input>
-                            </div>
-                        </ng-template>
-                    </div>
-                </ng-template>
-
-                <ng-template #nonGroup>
-                    <div style="font-size: 13px; color: #888888; margin-bottom: 5px;">
-                        <pbx-settings-input [item]="item"
-                                            [fullWidth]="true"
-                                            >
-                        </pbx-settings-input>
-                    </div>
-                </ng-template>
-                <!-- ... -->
-            </div>
         <div class="settings_code" [@Fade] *ngIf="qrCode" [style.background-image]="'url(' + qrCode + ')'"></div>
     </div>
 
