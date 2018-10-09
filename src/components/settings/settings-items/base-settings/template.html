@@ -1,13 +1,12 @@
 <pbx-form [confirm]="saveButton"
-          [decline]="{buttonType:'cancel',value:'Cancel'}"
+          [decline]="cancelButton"
           (onConfirm)="saveSettings()"
-          (onDecline)="goBack()"
+          (onDecline)="cancel()"
           [background]="true"
           >
     <pbx-loader *ngIf="!locker.free"></pbx-loader>
 
-    <!-- model based template -->
-    <div class="overlay_content" *ngIf="locker.free && modelTemplate" [@Fade]>
+    <div class="overlay_content" *ngIf="locker.free" [@Fade]>
 
             <pbx-settings-group
                 [items]="model.items"
@@ -18,67 +17,8 @@
 
         <div class="settings_code" [@Fade] *ngIf="qrCode" [style.background-image]="'url(' + qrCode + ')'"></div>
     </div>
-
-    <!-- original template -->
-    <div class="overlay_content" *ngIf="locker.free && !modelTemplate" [@Fade]>
-
-        <div class="settings_form_section" *ngFor="let key of getKeys(settings)">
-
-            <div class="settings_form_title">{{ normalizeTitle(settings[key].title) }}</div>
-
-            <div *ngFor="let inputKey of getKeys(settings[key].children)">
-
-                <pbx-input *ngIf="settings[key].children[inputKey].type !== 'group_field'"
-                           style="width: 100%"
-                           [name]="normalizeTitle(settings[key].children[inputKey].title)"
-                           key="value"
-                           displayKey="title"
-                           [checkbox]="settings[key].children[inputKey].type === 'bool'"
-                           [object]="settings[key].children[inputKey]"
-                           [objectView]="selectedItems[inputKey]"
-                           [options]="inputOptions[key + '_' + inputKey]"
-                           (onToggle)="saveOption($event, key, inputKey)"
-                           (onSelect)="saveOption($event, key, inputKey)"
-                           (onKeyUp)="saveOption($event.target.value, key, inputKey)"
-                           >
-                </pbx-input>
-
-                <div *ngIf="settings[key].children[inputKey].type === 'group_field'"
-                     class="settings_form_section" 
-                     style="width: 100%"
-                     >
-                    <div class="settings_form_title">
-                        {{ normalizeTitle(settings[key].children[inputKey].title) }}
-                    </div>
-
-                    <div *ngFor="let childrenKey of getKeys(settings[key].children[inputKey].children)">
-
-                        <pbx-input style="width: 100%"
-                                   [name]="normalizeTitle(settings[key].children[inputKey].children[childrenKey].title)"
-                                   key="value"
-                                   displayKey="title"
-                                   [checkbox]="settings[key].children[inputKey].children[childrenKey].type === 'bool'"
-                                   [object]="settings[key].children[inputKey].children[childrenKey]"
-                                   [objectView]="selectedItems[childrenKey]"
-                                   [options]="inputOptions[key + '_' + inputKey + '_' + childrenKey]"
-                                   (onToggle)="saveOption($event, key, inputKey, childrenKey)"
-                                   (onSelect)="saveOption($event, key, inputKey, childrenKey)"
-                                   (onKeyUp)="saveOption($event.target.value, key, inputKey, childrenKey)"
-                        ></pbx-input>
-
-                        <!--<pbx-select style="width: 500px;"-->
-                                <!--*ngIf="settings[key].children[inputKey].children[childrenKey].type === 'list'"-->
-                                <!--placeholder="[choose one]"-->
-                                <!--[options]="generateOptions(settings[key].children[inputKey].children[childrenKey])"-->
-                                <!--(onSelect)="saveOption($event, key, inputKey, childrenKey)"-->
-                                <!--[selected]="selectedItems[childrenKey]"-->
-                                <!--objectKey="title"></pbx-select>-->
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="settings_code" [@Fade] *ngIf="qrCode" [style.background-image]="'url(' + qrCode + ')'"></div>
-    </div>
 </pbx-form>
+
+<pbx-modal [modalEx]="modalExit"
+           (onConfirmEx)="goBack()">
+</pbx-modal>
