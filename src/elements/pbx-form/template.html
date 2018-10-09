@@ -12,7 +12,7 @@
                 <span>{{ tab }}</span></div>
         </div>
         <div class="form-button-wrap">
-            <pbx-button 
+            <pbx-button
                 *ngIf="decline && decline !== {}"
                 [buttonType]="decline.buttonType"
                 [value]="decline.value"
@@ -21,7 +21,7 @@
                 [inactive]="decline.inactive"
                 >
             </pbx-button>
-            <pbx-button 
+            <pbx-button
                 *ngIf="confirm && confirm !== {}"
                 [buttonType]="confirm.buttonType"
                 [value]="confirm.value"
@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="form-body">
-        <div class="form-body-content" [ngClass]="{ 'background' : (background === undefined && !!tabs) || background}">
+        <div class="form-body-content {{background}}">
             <ng-content></ng-content>
         </div>
         <div class="form-ballast" *ngIf="fillBackground !== false && ((background === undefined && !!tabs) || background)"></div>

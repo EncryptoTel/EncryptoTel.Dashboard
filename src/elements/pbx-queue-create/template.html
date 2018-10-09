@@ -3,7 +3,7 @@
           [tabs]="tabs"
           [inactiveTabs]="activeTabs"
           [selected]="currentTab"
-          [background]="tabGeneralActive"
+          [background]="background"
           [confirm]="addMembersMode ? {} : confirm"
           [decline]="decline[ addMembersMode ? 'member' : 'standard' ]"
           (onConfirm)="save()"
