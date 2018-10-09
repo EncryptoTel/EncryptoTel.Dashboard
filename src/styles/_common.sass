@@ -206,6 +206,9 @@ pbx-input
 pbx-list
     //min-height: 342px
 .pbx_list_empty
+    grid-template-columns: 1fr 490px 1fr !important
+    position: relative
+    overflow: hidden
     //overflow: hidden
     //height: 230px
     //min-height: 230px
@@ -213,8 +216,20 @@ pbx-list
     //margin-top: -40px
     .pbx_list_empty_text
         line-height: 35px
+        position: absolute
+        left: 50%
+        bottom: 0
+        transform: translate(-50%, 0)
+        display: block
+        width: 100%
     .pbx_list_empty_icon
+        grid-column: 3/4
         //overflow: hidden
+        #arrow_safari,
+        #arrow_edge
+            max-height: 220px !important
+            width: min-content
+            margin: 0 0 0 auto
 
 // ошибка снизу
 .pbx_input_error
