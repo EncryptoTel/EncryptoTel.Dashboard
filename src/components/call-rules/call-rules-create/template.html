@@ -1,6 +1,6 @@
 <pbx-form [background]="true"
-          [confirm]="{value: 'Save', buttonType: 'success', inactive: saving}"
-          [decline]="{value: 'Cancel', buttonType: 'cancel'}"
+          [confirm]="{ value: 'Save', buttonType: 'success', inactive: saving, loading: saving }"
+          [decline]="{ value: 'Cancel', buttonType: 'cancel' }"
           (onConfirm)="save()"
           (onDecline)="cancel()"
 >

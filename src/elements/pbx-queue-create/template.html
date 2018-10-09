@@ -4,7 +4,7 @@
           [inactiveTabs]="activeTabs"
           [selected]="currentTab"
           [background]="background"
-          [confirm]="addMembersMode ? {} : confirm"
+          [confirm]="addMembersMode ? {} : { value: 'Save', buttonType: 'success', inactive: saving, loading: saving }"
           [decline]="decline[ addMembersMode ? 'member' : 'standard' ]"
           (onConfirm)="save()"
           (onDecline)="addMembersMode ? back() : cancel()"
