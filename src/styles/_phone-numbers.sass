@@ -206,14 +206,17 @@ buy-phone-numbers-component
                 line-height: 48px
                 .outerSpan
                     white-space: nowrap
-                    display: inline-block
+                    //display: inline-block
                     margin: 0 4px
+
+                    display: inline-block
+                    max-width: 250px
+                    overflow: hidden
+                    text-overflow: ellipsis
+                    vertical-align: bottom
                     .innerSpan
+                        max-width: 232px
                         display: inline-block
-                        max-width: 250px
-                        overflow: hidden
-                        text-overflow: ellipsis
-                        vertical-align: bottom
 
     
 @media screen and (max-width: 1389px)
