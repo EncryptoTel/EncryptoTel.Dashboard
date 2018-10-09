@@ -40,7 +40,8 @@ pbx-storage
                 .tablet_item
                     &:nth-child(4)
                         text-align: right !important
-                        padding-right: 30px
+                        //padding-right: 30px
+                        padding-right: 24px
             .tablet_header,
             .tablet_body
                 .tablet_item
@@ -70,6 +71,12 @@ pbx-storage
                             max-width: 15% !important
                         &:nth-child(5)
                             max-width: 5%
+
+// меняем дизайн плеера
+pbx-storage
+    pbx-media-table-player
+        .player-wrap
+            display: none
 
 // может и пригодится
 //pbx-media-table
