@@ -1,6 +1,6 @@
 <pbx-modal
         [modalEx]="modal"
-        (onConfirmEx)="modalConfirm()"
+        (onConfirmEx)="purchaseService()"
 ></pbx-modal>
 <pbx-loader *ngIf="!locker.free"></pbx-loader>
 <div class="marketplace_wrap" *ngIf="locker.free">
@@ -13,7 +13,7 @@
             <div *ngIf="item.price" class="marketplace_cost">${{item.price}} monthly</div>
             <div *ngIf="!item.price" class="marketplace_cost">free</div>
             <div *ngIf="item.status" class="marketplace_button bought">bought</div>
-            <div *ngIf="!item.status" class="marketplace_button" (click)="buyService(item)">
+            <div *ngIf="!item.status" class="marketplace_button" (click)="onServiceClick(item)">
                 <span *ngIf="!item.loading">buy now</span>
                 <pbx-loader *ngIf="item.loading"></pbx-loader>
             </div>

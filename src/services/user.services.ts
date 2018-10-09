@@ -1,27 +1,27 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import {Injectable, EventEmitter} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
 
-import { RequestServices } from './request.services';
-import { LocalStorageServices } from './local-storage.services';
+import {RequestServices} from './request.services';
+import {LocalStorageServices} from './local-storage.services';
 
-import { UserModel } from '../models/user.model';
-import { NavigationItemModel } from '../models/navigation-item.model';
+import {UserModel} from '../models/user.model';
+import {NavigationItemModel} from '../models/navigation-item.model';
 
 /*
   User services. Authentication, user params changing etc.
 */
 @Injectable()
 export class UserServices {
-    public navigation: any[];
-    public user: UserModel;
-    public subscription: Subject<UserModel>;
+    
+    navigation: any[];
+    user: UserModel;
+    
+    subscription: Subject<UserModel> = new Subject<UserModel>();
+    modulesChanged: EventEmitter<void> = new EventEmitter();
 
-    constructor(
-        private _request: RequestServices,
-        private _storage: LocalStorageServices) {
-
-        this.subscription = new Subject<UserModel>();
+    constructor(private _request: RequestServices,
+                private _storage: LocalStorageServices) {
     }
 
     /*

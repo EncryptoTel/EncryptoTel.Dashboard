@@ -1,19 +1,16 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
 import {MessageServices} from '../../services/message.services';
 import {UserServices} from '../../services/user.services';
-
-import {NavigationItemModel} from '../../models/navigation-item.model';
-import {UserModel} from '../../models/user.model';
-import {MainViewComponent} from '../main-view.component';
-
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {FadeAnimation} from '../../shared/fade-animation';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {RefsServices} from '../../services/refs.services';
+import {NavigationItemModel} from '../../models/navigation-item.model';
+import {UserModel} from '../../models/user.model';
+import {MainViewComponent} from '../main-view.component';
+import {SwipeAnimation} from '../../shared/swipe-animation';
+import {FadeAnimation} from '../../shared/fade-animation';
 
 @Component({
     selector: 'pbx-index',
@@ -23,14 +20,13 @@ import {RefsServices} from '../../services/refs.services';
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
-    constructor(public _user: UserServices,
-                private _message: MessageServices,
-                private _router: Router,
+    constructor(public userService: UserServices,
                 public _main: MainViewComponent,
+                private message: MessageServices,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
                 private _refs: RefsServices) {
-        this.user = this._user.fetchUser();
+        this.user = this.userService.fetchUser();
     }
 
     navigationList: NavigationItemModel[][];
@@ -38,6 +34,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     userSubscription: Subscription;
     balanceSubscription: Subscription;
     serviceSubscription: Subscription;
+    modulesChangedSubscription: Subscription;
     completedRequests: number = 0;
     activeButtonIndex: number;
     headerButtonsVisible: boolean = true;
@@ -68,18 +65,18 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     logout(): void {
         this._refs.request.logout();
-        this._message.writeSuccess('Logout successful');
+        this.message.writeSuccess('Logout successful');
     }
 
     userInit(): void {
-        this.userSubscription = this._user.userSubscription().subscribe(user => {
+        this.userSubscription = this.userService.userSubscription().subscribe(user => {
             this.user = user;
         });
-        this._user.fetchProfileParams().then(() => this.completedRequests++);
+        this.userService.fetchProfileParams().then(() => this.completedRequests ++);
     }
 
     navigationInit(): void {
-        this._user.fetchNavigationParams()
+        this.userService.fetchNavigationParams()
             .then(() => {})
             .then(() => this.completedRequests ++)
             .catch();
@@ -120,10 +117,15 @@ export class IndexComponent implements OnInit, OnDestroy {
         // this.balanceInit();
         this.navigationInit();
         this.WebSocket();
+
+        this.modulesChangedSubscription = this.userService.modulesChanged.subscribe(() => {
+            this.navigationInit();
+        });
     }
 
     ngOnDestroy(): void {
         this.userSubscription.unsubscribe();
         this.balanceSubscription.unsubscribe();
+        this.modulesChangedSubscription.unsubscribe();
     }
 }
