@@ -210,8 +210,6 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 this.company = this.service.model;
             }
         }).then(() => {
-            // TODO: Temporary solution for company-logo, remove it.
-
             this.setFormData(this.company);
 
             this.editMode = !this.company.isValid;
