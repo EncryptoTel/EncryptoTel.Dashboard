@@ -12,6 +12,7 @@ import {UserModel} from '../../models/user.model';
 import {MainViewComponent} from '../main-view.component';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
+import {LangStateService} from '../../services/state/lang.state.service';
 
 @Component({
     selector: 'pbx-index',
@@ -21,17 +22,22 @@ import {FadeAnimation} from '../../shared/fade-animation';
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
+
     userLang: string;
+    text: any;
+
     constructor(public userService: UserServices,
                 public _main: MainViewComponent,
                 private message: MessageServices,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
                 private _translate: TranslateServices,
-                private _refs: RefsServices) {
+                private _refs: RefsServices,
+                private langState: LangStateService) {
         this.user = this.userService.fetchUser();
         this.userLang = 'en';
         this._storage.writeItem('user_lang', this.userLang);
+        this.text = langState.get();
     }
 
     navigationList: NavigationItemModel[][];
@@ -86,8 +92,8 @@ export class IndexComponent implements OnInit, OnDestroy {
                 let tmp: any;
                 tmp = res;
                 // this._translate.getByKey(key, this.userLang);
-                for(let i = 0; i < tmp.length; i++) {
-                    for(let j = 0; j < tmp[i].length; j++) {
+                for (let i = 0; i < tmp.length; i++) {
+                    for (let j = 0; j < tmp[i].length; j++) {
                         tmp[i][j]['name'] = this._translate.getByKey(tmp[i][j]['name'], this.userLang);
                     }
                 }
@@ -131,6 +137,9 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.langState.change.subscribe(textLang => {
+            this.text = textLang;
+        });
         this.completedRequests = 0;
         this.translateInit();
         this.userInit();

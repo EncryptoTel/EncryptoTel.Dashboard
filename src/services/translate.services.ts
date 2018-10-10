@@ -96,9 +96,38 @@ export class TranslateServices {
                'settings': {
                    'en': 'Settings',
                    'ru': 'Настройки'
-               }
+               },
+               'Profile Settings': {
+                   'en': 'Profile Settings',
+                   'ru': 'Настройки Профиля'
+               },
+               'save': {
+                   'en': 'Save',
+                   'ru': 'Сохранить'
+               },
+               'cancel': {
+                   'en': 'Cancel',
+                   'ru': 'Отменить'
+               },
+               'Drop files here to upload': {
+                   'en': 'Drop files here to upload',
+                   'ru': 'Переместите файл(ы) для загрузки'
+               },
+               'select files': {
+                   'en': 'select file',
+                   'ru': 'Выберите файл'
+               },
+               'or': {
+                   'en': 'or',
+                   'ru': 'или'
+               },
+               // '': {
+               //     'en': '',
+               //     'ru': ''
+               // },
            };
        this._storage.writeItem('translate', array);
+       return array;
    }
 
    getByKey (key: string, lang: string = 'en') {

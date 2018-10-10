@@ -13,6 +13,8 @@ import {FormBaseComponent} from '../../../../elements/pbx-form-base-component/pb
 import {SettingsModel} from '../../../../models/settings.models';
 import {LocalStorageServices} from '../../../../services/local-storage.services';
 import {TranslateServices} from '../../../../services/translate.services';
+import {LangStateService} from '../../../../services/state/lang.state.service';
+import {text} from '@angular/core/src/render3/instructions';
 
 
 export enum EmailChangeState {
@@ -46,6 +48,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     loading: number;
     saveButton: any;
+    cancelButton: any;
+    text: any;
 
     // --- component lifecycle methods ----------------------------------------
 
@@ -55,13 +59,16 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 private router: Router,
                 private _storage: LocalStorageServices,
                 private translate: TranslateServices,
+                private langState: LangStateService,
                 private user: UserServices) {
         super(fb, message);
-        
+        this.text = langState.get();
+
         this.userDefaultPhoto = './assets/images/avatar/no_avatar.jpg';
         this.loading = 0;
         this.emailChangeState = EmailChangeState.NOT_STARTED;
-        this.saveButton = { buttonType: 'success', value: 'Save', inactive: false, loading: false };
+        this.saveButton = { buttonType: 'success', value: this.text['save'], inactive: false, loading: false };
+        this.cancelButton = { buttonType: 'cancel', value: this.text['cancel']};
 
         // Override default ValidationHost messages
         this.validationHost.customMessages = [
@@ -70,6 +77,9 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.langState.change.subscribe(textLang => {
+            this.text = textLang;
+        });
         super.ngOnInit();
         this.getSettings();
     }
@@ -185,7 +195,9 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             console.log('en');
             this._storage.writeItem('user_lang', 'en');
         }
-       this.translate.translate();
+
+        this.translate.translate();
+       this.langState.set(this.translate.getTranslate());
     }
 
     getSettings(): void {
