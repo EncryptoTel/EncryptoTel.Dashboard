@@ -13,7 +13,7 @@ import {UserServices} from './user.services';
   User services. Authentication, user params changing etc.
 */
 @Injectable()
-export class TranslateServices {
+export class TranslateService {
     userLang: string;
 
     constructor(private _request: RequestServices,
@@ -130,21 +130,21 @@ export class TranslateServices {
        return array;
    }
 
-   getByKey (key: string, lang: string = 'en') {
+   getByKey(key: string, lang: string = 'en') {
         let translate: any;
         translate = this._storage.readItem('translate');
         return translate[key][lang];
    }
 
-   getUserLang () {
+   getUserLang() {
         return this._storage.readItem('user_lang');
    }
 
-   translate () {
+   translate() {
        this._userService.fetchNavigationParams()
-           .then((res) => {
+           .then((response) => {
                let tmp: any;
-               tmp = res;
+               tmp = response;
                // this._translate.getByKey(key, this.userLang);
                for (let i = 0; i < tmp.length; i++) {
                    for (let j = 0; j < tmp[i].length; j++) {

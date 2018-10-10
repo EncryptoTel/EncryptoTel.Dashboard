@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs/Subscription';
 
 import {MessageServices} from '../../services/message.services';
 import {UserServices} from '../../services/user.services';
-import {TranslateServices} from '../../services/translate.services';
+import {TranslateService} from '../../services/translate.service';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {RefsServices} from '../../services/refs.services';
@@ -31,7 +31,7 @@ export class IndexComponent implements OnInit, OnDestroy {
                 private message: MessageServices,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
-                private _translate: TranslateServices,
+                private _translate: TranslateService,
                 private _refs: RefsServices,
                 private langState: LangStateService) {
         this.user = this.userService.fetchUser();
@@ -88,9 +88,9 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     navigationInit(): void {
         this.userService.fetchNavigationParams()
-            .then((res) => {
+            .then((response) => {
                 let tmp: any;
-                tmp = res;
+                tmp = response;
                 // this._translate.getByKey(key, this.userLang);
                 for (let i = 0; i < tmp.length; i++) {
                     for (let j = 0; j < tmp[i].length; j++) {
@@ -99,8 +99,8 @@ export class IndexComponent implements OnInit, OnDestroy {
                 }
                 return tmp;
             })
-            .then(() => this.completedRequests ++)
-            .catch();
+            .catch(() => {})
+            .then(() => this.completedRequests ++);
     }
 
     toggleActiveButton(ix: number, ev: MouseEvent): void {

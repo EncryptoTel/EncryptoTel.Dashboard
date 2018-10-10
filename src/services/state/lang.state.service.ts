@@ -1,6 +1,6 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import {UserServices} from '../user.services';
-import {TranslateServices} from '../translate.services';
+import {TranslateService} from '../translate.service';
 import {EmailChangeState} from '../../components/settings/settings-items/profile/profile.component';
 import {Router} from '@angular/router';
 import {LocalStorageServices} from '../local-storage.services';
@@ -13,9 +13,9 @@ export class LangStateService {
 
     textLang: any;
 
-    @Output() change: EventEmitter<boolean> = new EventEmitter();
+    change: EventEmitter<boolean> = new EventEmitter();
 
-    constructor(private _storage: LocalStorageServices, private _translate: TranslateServices) {
+    constructor(private _storage: LocalStorageServices, private _translate: TranslateService) {
         let key: any;
         let array: any;
         let translate: any;

@@ -24,6 +24,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     company: CompanyModel = new CompanyModel();
     companyInfo: CompanyInfoModel;
+    isNewCompany: boolean = false;
 
     countries: CountryModel[] = [];
     selectedCountry: CountryModel;
@@ -210,9 +211,16 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 this.company = this.service.model;
             }
         }).then(() => {
+            // TODO: Temporary solution for company-logo. There is a backend issue that causes company data stops saving.
+            // See: https://jira.encry.ru/browse/ET-1599
+            this.company.logo = 'company_details.png';
             this.setFormData(this.company);
 
-            this.editMode = !this.company.isValid;
+            // this.editMode = !this.company.isValid;
+            if (!this.company.isValid) {
+                this.isNewCompany = true;
+                this.editMode = true;
+            }
             this.locker.unlock();
         });
     }
@@ -261,7 +269,10 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
         this.service.save({...this.form.value}, false).then(() => {
             this.message.writeSuccess('Company has been successfully updated');
-            this.editMode = false;
+            if (this.isNewCompany) {
+                this.editMode = false;
+                this.isNewCompany = false;
+            }
             this.getCompany();
         }).catch(error => {
             console.error('Company update error', error);

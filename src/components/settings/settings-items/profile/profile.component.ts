@@ -12,7 +12,7 @@ import {UserServices} from '../../../../services/user.services';
 import {FormBaseComponent} from '../../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {SettingsModel} from '../../../../models/settings.models';
 import {LocalStorageServices} from '../../../../services/local-storage.services';
-import {TranslateServices} from '../../../../services/translate.services';
+import {TranslateService} from '../../../../services/translate.service';
 import {LangStateService} from '../../../../services/state/lang.state.service';
 import {text} from '@angular/core/src/render3/instructions';
 
@@ -58,7 +58,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 protected message: MessageServices,
                 private router: Router,
                 private _storage: LocalStorageServices,
-                private translate: TranslateServices,
+                private translate: TranslateService,
                 private langState: LangStateService,
                 private user: UserServices) {
         super(fb, message);
@@ -197,7 +197,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         }
 
         this.translate.translate();
-       this.langState.set(this.translate.getTranslate());
+        this.langState.set(this.translate.getTranslate());
     }
 
     getSettings(): void {
