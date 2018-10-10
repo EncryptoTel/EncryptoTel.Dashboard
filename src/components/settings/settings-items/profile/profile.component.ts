@@ -10,6 +10,9 @@ import {passwordConfirmation} from '../../../../shared/password-confirmation';
 import {MessageServices} from '../../../../services/message.services';
 import {UserServices} from '../../../../services/user.services';
 import {FormBaseComponent} from '../../../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import {SettingsModel} from '../../../../models/settings.models';
+import {LocalStorageServices} from '../../../../services/local-storage.services';
+import {TranslateServices} from '../../../../services/translate.services';
 
 
 export enum EmailChangeState {
@@ -25,6 +28,8 @@ export enum EmailChangeState {
     animations: [FadeAnimation('300ms')]
 })
 export class ProfileComponent extends FormBaseComponent implements OnInit {
+
+    model: SettingsModel;
     
     generalForm: FormGroup;
     emailChange: FormGroup;
@@ -48,6 +53,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 protected fb: FormBuilder,
                 protected message: MessageServices,
                 private router: Router,
+                private _storage: LocalStorageServices,
+                private translate: TranslateServices,
                 private user: UserServices) {
         super(fb, message);
         
@@ -168,11 +175,25 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     // --- data methods -------------------------------------------------------
 
+    onValueChange($event) {
+        let tmp: any;
+        tmp = $event;
+        if (tmp.value === 19) {
+            console.log('ru');
+            this._storage.writeItem('user_lang', 'ru');
+        } else if (tmp.value === 18) {
+            console.log('en');
+            this._storage.writeItem('user_lang', 'en');
+        }
+       this.translate.translate();
+    }
+
     getSettings(): void {
         this.loading ++;
 
         this.service.getProfileSettings().then(response => {
             // console.log('profile', response);
+            this.model = SettingsModel.create(response.profile.settings);
             this.userDefaultPhoto = response.profile.user.avatar;
             this.initFormData('generalForm', this.generalForm, response);
             this.initFormData('emailChange', this.emailChange, response);

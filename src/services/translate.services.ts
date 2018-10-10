@@ -7,15 +7,18 @@ import {LocalStorageServices} from './local-storage.services';
 
 import {UserModel} from '../models/user.model';
 import {NavigationItemModel} from '../models/navigation-item.model';
+import {UserServices} from './user.services';
 
 /*
   User services. Authentication, user params changing etc.
 */
 @Injectable()
 export class TranslateServices {
+    userLang: string;
 
     constructor(private _request: RequestServices,
-                private _storage: LocalStorageServices) {
+                private _storage: LocalStorageServices,
+                private _userService: UserServices) {
     }
 
    getTranslate () {
@@ -103,4 +106,26 @@ export class TranslateServices {
         translate = this._storage.readItem('translate');
         return translate[key][lang];
    }
+
+   getUserLang () {
+        return this._storage.readItem('user_lang');
+   }
+
+   translate () {
+       this._userService.fetchNavigationParams()
+           .then((res) => {
+               let tmp: any;
+               tmp = res;
+               // this._translate.getByKey(key, this.userLang);
+               for (let i = 0; i < tmp.length; i++) {
+                   for (let j = 0; j < tmp[i].length; j++) {
+                       tmp[i][j]['name'] = this.getByKey(tmp[i][j]['name'], this.getUserLang());
+                   }
+               }
+               return tmp;
+           })
+           .then(() => {})
+           .catch();
+   }
+
 }
