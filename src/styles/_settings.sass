@@ -37,3 +37,34 @@ pbx-settings
             &.unselected
                 color: $dark_white_80
                 opacity: 1
+base-settings-component
+    pbx-form
+        pbx-settings-group
+            pbx-settings-group
+                .settings_form_section
+                    .settings_form_title_2
+                        display: inline-block
+                        text-transform: lowercase
+                        &:first-letter
+                            text-transform: uppercase
+                    .settings_form_field_group
+                        div:nth-child(1)
+                            .pbx_input_item_label
+                               .colon
+                                   span
+                                       display: inline-block
+                                       text-transform: lowercase
+                                       &:first-letter
+                                           text-transform: uppercase
+                                   span:nth-child(2)
+                                       display: none
+                        div:nth-child(2)
+                            .pbx_input_item_label
+                                .colon
+                                    span
+                                        display: inline-block
+                                        text-transform: lowercase
+                                        &:first-letter
+                                            text-transform: lowercase
+                                    span:nth-child(2)
+                                        display: none
