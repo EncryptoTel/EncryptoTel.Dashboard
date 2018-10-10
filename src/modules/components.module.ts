@@ -78,6 +78,7 @@ import {TabComponent} from '../elements/pbx-tabs/tab/pbx-tab.component';
 import {GeneralAudioConferenceComponent} from '../components/audio-conference/audio-conference-create/general/general.audio-conference.component';
 import {MembersAudioConferenceComponent} from '../components/audio-conference/audio-conference-create/members/members.audio-conference.component';
 import {StatisticAudioConferenceComponent} from '../components/audio-conference/audio-conference-create/statistic/statistic.audio-conference.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 /*
   Components declarations and exports
@@ -91,6 +92,7 @@ import {StatisticAudioConferenceComponent} from '../components/audio-conference/
         ElementsModule,
         MainRouterModule,
         FormsModule,
+        TranslateModule,
     	VgCoreModule,
     	VgControlsModule,
     	VgOverlayPlayModule,
@@ -224,6 +226,7 @@ import {StatisticAudioConferenceComponent} from '../components/audio-conference/
         SessionsComponent,
         TabsComponent,
         TabComponent,
+        TranslateModule,
     ]
 })
 export class ComponentsModule {

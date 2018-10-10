@@ -26,7 +26,7 @@
     </div>
           
     <div class="header_line_wrap">
-        <div class="header_title">{{text[_main.pageTitle]}}</div>
+        <div class="header_title">{{_main.pageTitle}}</div>
         <div class="header_button_row">
             <div class="header_button_wrap" [ngClass]="{'visible': headerButtonsVisible}">
                 <div class="header_button phone" [ngClass]="{'active': activeButtonIndex === 0}"
@@ -82,7 +82,7 @@
                [ngClass]="['navigation_item', 'navigation-item-' + navigationItem.url]"
                >
                 <svg-icon class="navigation_item_icon" [src]="'../../assets/icons/_menu/' + navigationItem.icon + '.svg'"></svg-icon>
-                <div class="navigation_item_title">{{navigationItem.name}}</div>
+                <div class="navigation_item_title">{{navigationItem.name | translate}}</div>
             </a>
         </div>
         </div>
@@ -127,7 +127,7 @@
                             [ngClass]="{'inactive': !navigationItem.status}"
                             *ngIf="navigationItem.visible"
                             (click)="mobileNavigationVisible=false">
-                            {{navigationItem.title}}
+                            {{navigationItem.title | translate}}
                         </a>
                     </div>
                 </div>
@@ -136,6 +136,9 @@
         </div>
         <div class="mobile_header_title">{{_main.pageTitle}}</div>
     </div>
+    
+    <button (click)="useLanguage('en')" style="position: absolute; top: 75px;">en</button>
+    <button (click)="useLanguage('ru')" style="position: absolute; top: 75px; left: 25px">ru</button>
 
     <div class="body_wrap">
         <router-outlet></router-outlet>

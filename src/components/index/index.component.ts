@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
+import {TranslateService} from '@ngx-translate/core';
 
 import {MessageServices} from '../../services/message.services';
 import {UserServices} from '../../services/user.services';
-import {TranslateService} from '../../services/translate.service';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {RefsServices} from '../../services/refs.services';
@@ -12,7 +12,6 @@ import {UserModel} from '../../models/user.model';
 import {MainViewComponent} from '../main-view.component';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {LangStateService} from '../../services/state/lang.state.service';
 
 @Component({
     selector: 'pbx-index',
@@ -22,24 +21,15 @@ import {LangStateService} from '../../services/state/lang.state.service';
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
-
-    userLang: string;
-    text: any;
-
     constructor(public userService: UserServices,
                 public _main: MainViewComponent,
                 private message: MessageServices,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
-                private _translate: TranslateService,
                 private _refs: RefsServices,
-                private langState: LangStateService) {
+                private translate: TranslateService) {
         this.user = this.userService.fetchUser();
-        this.userLang = 'en';
-        this._storage.writeItem('user_lang', this.userLang);
-        this.text = langState.get();
     }
-
     navigationList: NavigationItemModel[][];
     user: UserModel;
     userSubscription: Subscription;
@@ -88,19 +78,11 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     navigationInit(): void {
         this.userService.fetchNavigationParams()
-            .then((response) => {
-                let tmp: any;
-                tmp = response;
-                // this._translate.getByKey(key, this.userLang);
-                for (let i = 0; i < tmp.length; i++) {
-                    for (let j = 0; j < tmp[i].length; j++) {
-                        tmp[i][j]['name'] = this._translate.getByKey(tmp[i][j]['name'], this.userLang);
-                    }
-                }
-                return tmp;
+            .then(() => {
+                console.log('navigation', this.userService.navigation);
             })
-            .catch(() => {})
-            .then(() => this.completedRequests ++);
+            .then(() => this.completedRequests ++)
+            .catch();
     }
 
     toggleActiveButton(ix: number, ev: MouseEvent): void {
@@ -132,16 +114,8 @@ export class IndexComponent implements OnInit, OnDestroy {
         });
     }
 
-    translateInit () {
-        this._translate.getTranslate();
-    }
-
     ngOnInit(): void {
-        this.langState.change.subscribe(textLang => {
-            this.text = textLang;
-        });
         this.completedRequests = 0;
-        this.translateInit();
         this.userInit();
         // this.balanceInit();
         this.navigationInit();
@@ -156,5 +130,9 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.userSubscription.unsubscribe();
         this.balanceSubscription.unsubscribe();
         this.modulesChangedSubscription.unsubscribe();
+    }
+
+    useLanguage(language: string) {
+        this.translate.use(language);
     }
 }
