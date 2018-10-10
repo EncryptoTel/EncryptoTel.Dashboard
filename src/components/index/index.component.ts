@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs/Subscription';
 
 import {MessageServices} from '../../services/message.services';
 import {UserServices} from '../../services/user.services';
+import {TranslateServices} from '../../services/translate.services';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {RefsServices} from '../../services/refs.services';
@@ -20,13 +21,17 @@ import {FadeAnimation} from '../../shared/fade-animation';
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
+    userLang: string;
     constructor(public userService: UserServices,
                 public _main: MainViewComponent,
                 private message: MessageServices,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
+                private _translate: TranslateServices,
                 private _refs: RefsServices) {
         this.user = this.userService.fetchUser();
+        this.userLang = 'en';
+        this._storage.writeItem('user_lang', this.userLang);
     }
 
     navigationList: NavigationItemModel[][];
@@ -77,7 +82,17 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     navigationInit(): void {
         this.userService.fetchNavigationParams()
-            .then(() => {})
+            .then((res) => {
+                let tmp: any;
+                tmp = res;
+                // this._translate.getByKey(key, this.userLang);
+                for(let i = 0; i < tmp.length; i++) {
+                    for(let j = 0; j < tmp[i].length; j++) {
+                        tmp[i][j]['name'] = this._translate.getByKey(tmp[i][j]['name'], this.userLang);
+                    }
+                }
+                return tmp;
+            })
             .then(() => this.completedRequests ++)
             .catch();
     }
@@ -111,8 +126,13 @@ export class IndexComponent implements OnInit, OnDestroy {
         });
     }
 
+    translateInit () {
+        this._translate.getTranslate();
+    }
+
     ngOnInit(): void {
         this.completedRequests = 0;
+        this.translateInit();
         this.userInit();
         // this.balanceInit();
         this.navigationInit();

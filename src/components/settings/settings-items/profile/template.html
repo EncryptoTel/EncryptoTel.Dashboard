@@ -105,6 +105,28 @@
                 </pbx-input>
 
             </div>
+
+            <div class="settings_form_section" [formGroup]="passwordChange">
+                <div class="settings_form_title">Language & Region</div>
+
+                <pbx-input name="Language"
+                           key="language"
+                           [form]="true"
+                           [object]="generalForm"
+                           [validationHost]="validationHost"
+                           (onKeyUp)="change()"
+                ></pbx-input>
+
+                <pbx-input name="Region"
+                           key="region"
+                           [form]="true"
+                           [object]="generalForm"
+                           [validationHost]="validationHost"
+                           (onKeyUp)="change()"
+                ></pbx-input>
+            </div>
+
+
         </form>
     </div>
 </pbx-form>
