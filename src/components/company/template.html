@@ -1,5 +1,5 @@
 <pbx-loader *ngIf="!locker.free"></pbx-loader>
-
+<div>{{ 'company' | translate }}</div>
 <div class="company" *ngIf="locker.free && editMode">
     <pbx-form [background]="false"
               [decline]="{value: 'Cancel', buttonType: 'cancel'}"
