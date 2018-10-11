@@ -42,6 +42,7 @@ import {TariffStateService} from '../services/state/tariff.state.service';
 import {LangStateService} from '../services/state/lang.state.service';
 import {CookieService} from 'ngx-cookie-service';
 import {RouterExtService} from '../services/router-ext.service';
+import {PbxTranslateLoader} from '../shared/pbx-translate-loader';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -60,7 +61,7 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
-                useFactory: (createTranslateLoader),
+                useClass: PbxTranslateLoader,
                 deps: [HttpClient]
             }
         }),

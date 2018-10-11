@@ -1,0 +1,122 @@
+{
+    "dashboard": {
+        "en": "Dashboard",
+        "ru": "Панель Управления"
+    },
+    "phone_numbers": {
+        "en": "Phone Numbers",
+        "ru": "Номера Телефонов"
+    },
+    "address_book": {
+        "en": "Address Book",
+        "ru": "Телефонная Книга"
+    },
+    "call_rules": {
+        "en": "Call Rules",
+        "ru": "Правила Звонков"
+    },
+    "call_queues": {
+        "en": "Call Queues",
+        "ru": "Очередь Звонков"
+    },
+    "ring_groups": {
+        "en": "Ring Group",
+        "ru": "Группа Звонков"
+    },
+    "company": {
+        "en": "Company",
+        "ru": "Компания"
+    },
+    "departments": {
+        "en": "Departments",
+        "ru": "Департаменты"
+    },
+
+    "extensions": {
+        "en": "Extensions",
+        "ru": "Добавочные Номера"
+    },
+
+    "details_and_records": {
+        "en": "Details and Records",
+        "ru": "Детали и Записи"
+    },
+
+    "invoices": {
+        "en": "Invoices",
+        "ru": "Квитанции"
+    },
+
+    "marketplace": {
+        "en": "Marketplace",
+        "ru": "Магазин"
+    },
+
+    "storage": {
+        "en": "Storage",
+        "ru": "Хранилище"
+    },
+
+    "knowledge_base": {
+        "en": "Knowledge Base",
+        "ru": "База Знаний"
+    },
+
+    "partner_program": {
+        "en": "Partner Program",
+        "ru": "Партнерская Программа"
+    },
+
+    "settings": {
+        "en": "Settings",
+        "ru": "Настройки"
+    },
+    "Profile Settings": {
+        "en": "Profile Settings",
+        "ru": "Настройки Профиля"
+    },
+    "save": {
+        "en": "Save",
+        "ru": "Сохранить"
+    },
+    "cancel": {
+        "en": "Cancel",
+        "ru": "Отменить"
+    },
+    "Drop files here to upload": {
+        "en": "Drop files here to upload",
+        "ru": "Переместите файл(ы) для загрузки"
+    },
+    "select files": {
+        "en": "select file",
+        "ru": "Выберите файл"
+    },
+    "or": {
+        "en": "or",
+        "ru": "или"
+    },
+    "first_name": {
+        "en": "First name",
+        "ru": "Имя"
+    },
+    "last_name": {
+        "en": "Last name",
+        "ru": "Фамилия"
+    },
+    "change_password_group": {
+        "en": "Change Password",
+        "ru": "Изменение пароля"
+    },
+    "current_password": {
+        "en": "Current password",
+        "ru": "Текущий пароль"
+    },
+    "new_password": {
+        "en": "New password",
+        "ru": "Новый пароль"
+    },
+    "password_confirmation": {
+        "en": "Password confirmation",
+        "ru": "Подтверждение пароля"
+    }
+}

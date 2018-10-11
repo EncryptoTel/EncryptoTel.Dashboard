@@ -89,8 +89,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     navigationInit(): void {
         this.userService.fetchNavigationParams()
             .then((response) => {
-                console.log('nav', this.userService.navigation);
-
                 // let tmp: any;
                 // tmp = response;
                 // // this._translate.getByKey(key, this.userLang);

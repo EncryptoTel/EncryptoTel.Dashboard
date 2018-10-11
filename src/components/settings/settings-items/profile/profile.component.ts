@@ -58,7 +58,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 protected fb: FormBuilder,
                 protected message: MessageServices,
                 private router: Router,
-                private _storage: LocalStorageServices,
+                private storage: LocalStorageServices,
                 private translate: TranslateService,
                 // private langState: LangStateService,
                 private user: UserServices) {
@@ -200,7 +200,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
         const language = (item.value == 19) ? 'ru' : 'en';
         this.translate.use(language);
-        this._storage.writeItem('user_lang', language);
+        this.storage.writeItem('user_lang', language);
 
         // this.translate.translate();
         // this.langState.set(this.translate.getTranslate());
