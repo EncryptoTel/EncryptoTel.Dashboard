@@ -1,0 +1,14 @@
+{
+    "company": "Company",
+    "departments": "Departments",
+    "extensions": "Extensions",
+    
+    "first_name": "First name",
+    "last_name": "Last name",
+    
+    "current_password": "Current password",
+    "new_password": "New password",
+    "password_confirmation": "Password confirmation",
+
+    "Profile Settings": "Profile Settings"
+}

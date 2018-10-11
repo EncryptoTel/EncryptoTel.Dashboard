@@ -1,7 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import {UserTokenInterceptor} from '../shared/request.interceptors';
 
@@ -55,6 +57,13 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         ComponentsModule,
         MainRouterModule,
         SocketIoModule.forRoot(config),
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        }),
         ClipboardModule
     ],
     providers: [
@@ -89,4 +98,8 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
     bootstrap: [MainViewComponent]
 })
 export class AppModule {
+}
+
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
 }

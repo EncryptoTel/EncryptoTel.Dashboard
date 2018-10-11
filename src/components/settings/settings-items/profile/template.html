@@ -1,5 +1,5 @@
-<pbx-form [confirm]="{ buttonType: 'success', value: text['save'], inactive: false, loading: false }"
-          [decline]="{ buttonType: 'cancel', value: this.text['cancel']}"
+<pbx-form [confirm]="{ buttonType: 'success', value: 'Save', inactive: false, loading: false }"
+          [decline]="{ buttonType: 'cancel', value: 'Cancel' }"
           [background]="true"
           (onConfirm)="save()"
           (onDecline)="close()"
@@ -10,7 +10,7 @@
             <div class="settings_form_section" [formGroup]="generalForm">
                 <div class="settings_form_title">General</div>
 
-                <pbx-input name="First Name"
+                <pbx-input name="{{'first_name' | translate }}"
                            key="firstname"
                            placeholder="First Name"
                            [form]="true"
@@ -20,7 +20,7 @@
                            (onKeyUp)="change()"
                 ></pbx-input>
 
-                <pbx-input name="Last Name"
+                <pbx-input name="{{'last_name' | translate }}"
                            key="lastname"
                            placeholder="Last Name"
                            [form]="true"
@@ -76,7 +76,7 @@
             <div class="settings_form_section" [formGroup]="passwordChange">
                 <div class="settings_form_title">Change Password</div>
 
-                <pbx-input name="Current password"
+                <pbx-input name="{{ 'current_password' | translate }}"
                            key="oldPassword"
                            placeholder="Current password"
                            type="password"
@@ -85,7 +85,7 @@
                            [validationHost]="validationHost"
                 ></pbx-input>
 
-                <pbx-input name="New password"
+                <pbx-input name="{{ 'new_password' | translate }}"
                            key="password"
                            placeholder="New password"
                            type="password"
@@ -94,7 +94,7 @@
                            [validationHost]="validationHost"
                 ></pbx-input>
 
-                <pbx-input name="Password confirmation"
+                <pbx-input name="{{ 'password_confirmation' | translate }}"
                            key="password_confirmation"
                            placeholder="Confirm Password"
                            type="password"
@@ -164,10 +164,10 @@
                             <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
                         </div>
                     </a>
-                    <div class="store_sidebar_audio_text">{{text['Drop files here to upload']}}</div>
-                    <div class="store_sidebar_audio_text">{{text['or']}}</div>
+                    <div class="store_sidebar_audio_text">{{'Drop files here to upload'}}</div>
+                    <div class="store_sidebar_audio_text">{{'or'}}</div>
                     <div class="store_sidebar_audio_select hidden_button_wrapper">
-                        <p class="select_file" #fileSelect (click)="selectFile()">{{text['select files']}}</p>
+                        <p class="select_file" #fileSelect (click)="selectFile()">{{'select files'}}</p>
                         <input type="file" class="hidden_input" #fileInput (change)="sendFile($event)">
                     </div>
                 </div>

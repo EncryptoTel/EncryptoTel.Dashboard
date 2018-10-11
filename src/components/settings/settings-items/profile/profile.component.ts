@@ -10,11 +10,12 @@ import {passwordConfirmation} from '../../../../shared/password-confirmation';
 import {MessageServices} from '../../../../services/message.services';
 import {UserServices} from '../../../../services/user.services';
 import {FormBaseComponent} from '../../../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import {SettingsModel} from '../../../../models/settings.models';
+import {SettingsModel, SettingsItem} from '../../../../models/settings.models';
 import {LocalStorageServices} from '../../../../services/local-storage.services';
-import {TranslateService} from '../../../../services/translate.service';
-import {LangStateService} from '../../../../services/state/lang.state.service';
-import {text} from '@angular/core/src/render3/instructions';
+import {TranslateService} from '@ngx-translate/core';
+// import {TranslateService} from '../../../../services/translate.service';
+// import {LangStateService} from '../../../../services/state/lang.state.service';
+// import {text} from '@angular/core/src/render3/instructions';
 
 
 export enum EmailChangeState {
@@ -59,16 +60,16 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 private router: Router,
                 private _storage: LocalStorageServices,
                 private translate: TranslateService,
-                private langState: LangStateService,
+                // private langState: LangStateService,
                 private user: UserServices) {
         super(fb, message);
-        this.text = langState.get();
+        // this.text = langState.get();
 
         this.userDefaultPhoto = './assets/images/avatar/no_avatar.jpg';
         this.loading = 0;
         this.emailChangeState = EmailChangeState.NOT_STARTED;
-        this.saveButton = { buttonType: 'success', value: this.text['save'], inactive: false, loading: false };
-        this.cancelButton = { buttonType: 'cancel', value: this.text['cancel']};
+        this.saveButton = { buttonType: 'success', value: /*this.text['save']*/'Save', inactive: false, loading: false };
+        this.cancelButton = { buttonType: 'cancel', value: /*this.text['cancel']*/'Cancel'};
 
         // Override default ValidationHost messages
         this.validationHost.customMessages = [
@@ -77,9 +78,9 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.langState.change.subscribe(textLang => {
-            this.text = textLang;
-        });
+        // this.langState.change.subscribe(textLang => {
+        //     this.text = textLang;
+        // });
         super.ngOnInit();
         this.getSettings();
     }
@@ -185,19 +186,24 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     // --- data methods -------------------------------------------------------
 
-    onValueChange($event) {
-        let tmp: any;
-        tmp = $event;
-        if (tmp.value === 19) {
-            console.log('ru');
-            this._storage.writeItem('user_lang', 'ru');
-        } else if (tmp.value === 18) {
-            console.log('en');
-            this._storage.writeItem('user_lang', 'en');
-        }
+    onValueChange(item: SettingsItem) {
+        // console.log('onValueChange', this.model, $event);
+        // let tmp: any;
+        // tmp = $event;
+        // if (tmp.value === 19) {
+        //     console.log('ru');
+        //     this._storage.writeItem('user_lang', 'ru');
+        // } else if (tmp.value === 18) {
+        //     console.log('en');
+        //     this._storage.writeItem('user_lang', 'en');
+        // }
 
-        this.translate.translate();
-        this.langState.set(this.translate.getTranslate());
+        const language = (item.value == 19) ? 'ru' : 'en';
+        this.translate.use(language);
+        this._storage.writeItem('user_lang', language);
+
+        // this.translate.translate();
+        // this.langState.set(this.translate.getTranslate());
     }
 
     getSettings(): void {

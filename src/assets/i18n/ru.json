@@ -1,0 +1,14 @@
+{
+    "company": "Компания",
+    "departments": "Отделы",
+    "extensions": "Дополнительные номера",
+
+    "first_name": "Имя",
+    "last_name": "Фамилия",
+
+    "current_password": "Текущий пароль",
+    "new_password": "Новый пароль",
+    "password_confirmation": "Подтверждение пароля",
+
+    "Profile Settings": "Настройки профиля"
+}

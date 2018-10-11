@@ -89,15 +89,17 @@ export class IndexComponent implements OnInit, OnDestroy {
     navigationInit(): void {
         this.userService.fetchNavigationParams()
             .then((response) => {
-                let tmp: any;
-                tmp = response;
-                // this._translate.getByKey(key, this.userLang);
-                for (let i = 0; i < tmp.length; i++) {
-                    for (let j = 0; j < tmp[i].length; j++) {
-                        tmp[i][j]['name'] = this._translate.getByKey(tmp[i][j]['name'], this.userLang);
-                    }
-                }
-                return tmp;
+                console.log('nav', this.userService.navigation);
+
+                // let tmp: any;
+                // tmp = response;
+                // // this._translate.getByKey(key, this.userLang);
+                // for (let i = 0; i < tmp.length; i++) {
+                //     for (let j = 0; j < tmp[i].length; j++) {
+                //         tmp[i][j]['name'] = this._translate.getByKey(tmp[i][j]['name'], this.userLang);
+                //     }
+                // }
+                // return tmp;
             })
             .catch(() => {})
             .then(() => this.completedRequests ++);

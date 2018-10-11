@@ -5,12 +5,13 @@ import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
+import {CookieService} from 'ngx-cookie-service';
+import {TranslateService} from '@ngx-translate/core';
 
 import {MessageServices} from '../services/message.services';
-
 import {FadeAnimation} from '../shared/fade-animation';
 import {LocalStorageServices} from '../services/local-storage.services';
-import {CookieService} from 'ngx-cookie-service';
+
 
 // first and second
 // import * as $ from 'jquery';
@@ -26,14 +27,16 @@ import {CookieService} from 'ngx-cookie-service';
     `,
     animations: [FadeAnimation('300ms')]
 })
-
 export class MainViewComponent implements OnInit, OnDestroy {
     constructor(public _services: MessageServices,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private title: Title,
                 private storage: LocalStorageServices,
-                private cookieService: CookieService) {
+                private cookieService: CookieService,
+                private translate: TranslateService) {
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
     // messagesList: MessageModel[];
