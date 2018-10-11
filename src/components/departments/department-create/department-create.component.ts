@@ -1,21 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { TimerObservable } from 'rxjs/observable/TimerObservable';
-import { DepartmentService } from '../../../services/department.service';
-import { BaseButton, InputAction, FilterItem } from '../../../models/base.model';
-import { MessageServices } from '../../../services/message.services';
-import { RefsServices } from '../../../services/refs.services';
-import { CompanyService } from '../../../services/company.service';
-import { Sip, DepartmentItem } from '../../../models/department.model';
-import { Lockable, Locker, Waiter } from '../../../models/locker.model';
-import { FadeAnimation } from '../../../shared/fade-animation';
-import { ViewEditControlComponent } from '../../../elements/pbx-view-edit-control/pbx-view-edit-control.component';
-import { TabComponent } from '../../../elements/pbx-tabs/tab/pbx-tab.component';
-import { TabsComponent } from '../../../elements/pbx-tabs/pbx-tabs.component';
-import { validateForm } from '../../../shared/shared.functions';
-import { FormBaseComponent } from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import { InputComponent } from '../../../elements/pbx-input/pbx-input.component';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
+import {FormGroup, FormBuilder, Validators, FormArray} from '@angular/forms';
+import {DepartmentService} from '../../../services/department.service';
+import {BaseButton, FilterItem} from '../../../models/base.model';
+import {MessageServices} from '../../../services/message.services';
+import {RefsServices} from '../../../services/refs.services';
+import {CompanyService} from '../../../services/company.service';
+import {DepartmentItem} from '../../../models/department.model';
+import {Locker, Waiter} from '../../../models/locker.model';
+import {FadeAnimation} from '../../../shared/fade-animation';
+import {ViewEditControlComponent} from '../../../elements/pbx-view-edit-control/pbx-view-edit-control.component';
+import {TabComponent} from '../../../elements/pbx-tabs/tab/pbx-tab.component';
+import {TabsComponent} from '../../../elements/pbx-tabs/pbx-tabs.component';
+import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import {InputComponent} from '../../../elements/pbx-input/pbx-input.component';
 
 
 @Component({
@@ -25,7 +23,7 @@ import { InputComponent } from '../../../elements/pbx-input/pbx-input.component'
     animations: [FadeAnimation('300ms')]
 })
 export class DepartmentCreateComponent extends FormBaseComponent implements OnInit {
-    public locker: Locker;
+    
     public sips: any[];
     public filteredSips: any[];
     public selectedSips: any[];
@@ -192,9 +190,14 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
         this.locker.lock();
         this.service.save(this._id, this._department).then((response) => {
-            this._id = response.id;
-            this.getItem();
-            this.saveFormState();
+            if (!this.hasId) {
+                this.confirmClose();
+            }
+            else {
+                this._id = response.id;
+                this.getItem();
+                this.saveFormState();
+            }
         })
         .catch(() => {})
           .then(() => this.locker.unlock());

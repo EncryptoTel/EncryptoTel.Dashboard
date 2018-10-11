@@ -21,7 +21,7 @@ export class CallRulesItem extends BaseItemModel {
         return this.enabled ? 'enabled' : 'disabled';
     }
 
-    setBase(name, description, enabled, sip): void {
+    setFromPlain(data: any): void {
     }
 }
 

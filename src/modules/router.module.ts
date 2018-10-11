@@ -157,7 +157,7 @@ const Routes: Routes = [
                     {
                         path: 'create',
                         component: CallQueuesCreateComponent,
-                        data: {title: 'Create Call Queues', indexed: true},
+                        data: {title: 'Create Call Queue', indexed: true},
                     },
                     {
                         path: ':id',
@@ -253,7 +253,7 @@ const Routes: Routes = [
                     {
                         path: 'authentication',
                         component: AuthenticationComponent,
-                        data: {title: 'Authentication Settings', indexed: true}
+                        data: {title: 'Two-Factor Authentication', indexed: true}
                     },
                     {path: 'billing', component: BillingComponent, data: {title: 'Billing Settings', indexed: true}},
                     {

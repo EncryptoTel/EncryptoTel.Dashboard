@@ -27,15 +27,17 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
     @ViewChild(FormComponent) formComponent: FormComponent;
 
+    background:string;
+
     id: number = 0;
 
     loading: number = 0;
     saving: number = 0;
-    
+
     tabs: string[] = [ 'General', 'Members' ];
     activeTabs: boolean[] = [ true, true ];
     currentTab: string = 'General';
-    
+
     confirm: {} = { value: 'Save', buttonType: 'success', inactive: this.saving !== 0 };
     decline: {} = {
         standard: {value: 'Cancel', buttonType: 'cancel'},
@@ -56,7 +58,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     get hasId(): boolean {
         return isValidId(this.id);
     }
-    
+
     get isCallQueue(): boolean {
         return this.name === 'call-queues';
     }
@@ -83,6 +85,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
         this.id = this.activatedRoute.snapshot.params.id;
         this.currentTab = this.tabs[0];
+        this.background = 'background';
 
         this.validationHost.customMessages = [
             { name: 'Ring Time', error: 'pattern', message: 'Please enter valid number' },
@@ -126,8 +129,12 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     // -- event handlers ------------------------------------------------------
 
     selectTab(tab: string): void {
-        if (!this.validateForms()) return;
-
+        if (!this.validateForms()) {
+            return;
+        }
+        if (tab === 'Members') {
+            this.background = '';
+        }
         this.addMembersMode = false;
         this.currentTab = tab;
 
@@ -135,6 +142,9 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     addMembers(mode: boolean) {
+        if (mode) {
+            this.background = 'background';
+        }
         this.addMembersMode = mode;
         this.service.saveMembersBefore();
     }
@@ -155,6 +165,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     back(): void {
+        this.background = '';
         this.addMembersMode = false;
         let message = this.service.getMembersMessage();
         message && this.message.writeSuccess(message);
@@ -189,13 +200,13 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.service.save(this.id, true, (response) => {
             if (response && response.errors) {
                 if (response.errors.queueMembers) {
-                    this.message.writeError(this.formComponent.selected === 'Members' 
-                        ? 'You have not selected members' 
+                    this.message.writeError(this.formComponent.selected === 'Members'
+                        ? 'You have not selected members'
                         : 'You must select members');
                 }
                 return true;
             }
-        }).then(() => { 
+        }).then(() => {
             this.saveFormState();
             if (!this.id) this.cancel();
         }).catch(() => {})

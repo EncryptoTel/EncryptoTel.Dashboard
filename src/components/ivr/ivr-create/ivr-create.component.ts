@@ -1,8 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+
 import {IvrService} from "../../../services/ivr.service";
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {RefsServices} from "../../../services/refs.services";
+
 
 @Component({
     selector: 'pbx-ivr-create',
@@ -10,7 +12,6 @@ import {RefsServices} from "../../../services/refs.services";
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
-
 export class IvrCreateComponent implements OnInit {
 
     id: number = 0;
@@ -26,44 +27,10 @@ export class IvrCreateComponent implements OnInit {
         this.id = this.activatedRoute.snapshot.params.id;
     }
 
-    save() {
-        this.saving++;
-        this.service.save(this.id).then(() => {
-            this.saving--;
-            this.cancel();
-        }).catch(() => {
-            this.saving--;
-        });
-    }
+    // -- properties ----------------------------------------------------------
 
-    cancel() {
-        this.router.navigate(['cabinet', 'ivr']);
-    }
-
-    addLevel() {
-
-    }
-
-    getItem() {
-        this.loading++;
-        this.service.getById(this.id).then(() => {
-            this.selectedNumber = this.service.item.sip;
-            this.loading--;
-        }).catch(() => {
-            this.loading--;
-        });
-    }
-
-    getSipOuters() {
-        this.loading++;
-        this.refs.getSipOuters().then(res => {
-            this.numbers = res;
-            this.loading--;
-        }).catch(err => {
-            this.loading--;
-        });
-    }
-
+    // -- component lifecycle methods -----------------------------------------
+    
     ngOnInit() {
         this.service.reset();
         if (this.id) {
@@ -74,5 +41,48 @@ export class IvrCreateComponent implements OnInit {
         this.getSipOuters();
     }
 
+    // -- form setup and helpers methods --------------------------------------
 
+    initForm(): void {
+        // ...
+    }
+
+    // -- event handlers ------------------------------------------------------
+
+    addLevel() {}
+
+    cancel() {
+        this.router.navigate(['cabinet', 'ivr']);
+    }
+
+    // -- component methods ---------------------------------------------------
+
+    // -- data processing methods ---------------------------------------------
+
+    getItem() {
+        this.loading ++;
+        this.service.getById(this.id).then(() => {
+            this.selectedNumber = this.service.item.sip;
+        }).catch(() => {})
+          .then(() => this.loading --);
+    }
+
+    getSipOuters() {
+        this.loading ++;
+        this.refs.getSipOuters().then(response => {
+            this.numbers = response;
+        }).catch(() => {
+        })
+          .then(() => this.loading --);
+    }
+
+    save() {
+        this.saving++;
+        this.service.save(this.id).then(() => {
+            this.saving--;
+            this.cancel();
+        }).catch(() => {
+            this.saving--;
+        });
+    }
 }

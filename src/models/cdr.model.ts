@@ -97,8 +97,8 @@ export class CdrMediaInfo {
 }
 
 export enum MediaState {
-    Loading = 'loading',
-    Playing = 'playing',
-    Paused = 'paused',
-    Ended = 'ended'
+    LOADING = 'loading',
+    PLAYING = 'playing',
+    PAUSED = 'paused',
+    ENDED = 'ended'
 }

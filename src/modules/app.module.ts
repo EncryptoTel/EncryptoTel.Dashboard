@@ -16,6 +16,7 @@ import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
 import {AuthorizationServices} from '../services/authorization.services';
 import {UserServices} from '../services/user.services';
+import {TranslateService} from '../services/translate.service';
 import {CallQueueService} from '../services/call-queue.service';
 import {SettingsService} from '../services/settings.service';
 import {CdrService} from '../services/cdr.service';
@@ -36,6 +37,7 @@ import {DashboardServices} from '../services/dashboard.services';
 import {CompanyService} from '../services/company.service';
 import {SelectService} from '../services/state/select.service';
 import {TariffStateService} from '../services/state/tariff.state.service';
+import {LangStateService} from '../services/state/lang.state.service';
 import {CookieService} from 'ngx-cookie-service';
 import {RouterExtService} from '../services/router-ext.service';
 
@@ -63,6 +65,7 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         MessageServices,
         AuthorizationServices,
         UserServices,
+        TranslateService,
         CallQueueService,
         SettingsService,
         CdrService,
@@ -79,6 +82,7 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         CompanyService,
         SelectService,
         TariffStateService,
+        LangStateService,
         CookieService,
         RouterExtService
     ],

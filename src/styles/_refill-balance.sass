@@ -39,6 +39,7 @@ refill-balance
                 bottom: 27px
                 left: 50%
                 transform: translateX(-50%)
+                white-space: nowrap
             .refill_currency_item_label
                 display: none
         .refill_currency_item:nth-child(7)
@@ -62,7 +63,7 @@ refill-balance
                 position: absolute
         pbx-input:nth-child(2)
             .pbx_input_error
-                margin-left: 140px !important
+                //margin-left: 140px !important
     .refill_header
             pbx-header
                 #pbx_header
@@ -92,11 +93,20 @@ refill-balance
 
 refill-balance
     pbx-header
+        .pbx_header
+            .pbx_header_wrap
+                pbx-input
+                    &:nth-child(1)
+                        input
+                            width: 271px !important
+                        .pbx_input_error
+                            //margin-left: 140px !important
+                    &:nth-child(2)
+                        .pbx_input_error
+                            //margin-left: 101px !important
         pbx-input
             .pbx_input_error
-                margin-left: 101px !important
-
-
+                //margin-left: 310px !important
 
 // ========================================
 
@@ -138,14 +148,17 @@ refill-balance
                         margin-top: 5px
                         color: inherit
                         margin-left: 0
+        &:nth-child(2)
+            .pbx_input_error
+                margin-top: 91px !important
     refill-balance
         .refill_header
             .pbx_input_wrap
                 .pbx_input_error
                     //margin-left: 241px
                     //margin-top: 91px
-                    margin-left: 140px
-                    margin-top: 105px
+                    //margin-left: 140px
+                    //margin-top: 105px
 
 @media screen and (max-width: 1299px)
     refill-balance
@@ -180,6 +193,9 @@ refill-balance
     refill-balance
         .refill_header
             .pbx_input_wrap
+                &:nth-child(1)
+                    .pbx_input_error
+                        //margin-top: 103px !important
                 .pbx_input_error
-                    margin-left: 120px
-                    margin-top: 91px
+                    //margin-left: 120px
+                    //margin-top: 91px

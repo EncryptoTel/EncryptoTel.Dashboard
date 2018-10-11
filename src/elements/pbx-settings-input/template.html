@@ -1,0 +1,12 @@
+<pbx-input [name]="item.itemTitle"
+           key="value"
+           [object]="item"
+           [checkbox]="item.type === 'bool'"
+           [options]="item.options"
+           displayKey="value"
+           [objectView]="item.value"
+           (onToggle)="onValueChange(item)"
+           (onSelect)="onValueChange(item)"
+           (onKeyUp)="onValueChange(item)"
+           >
+</pbx-input>

@@ -18,11 +18,13 @@
         <vg-volume></vg-volume>
     </vg-controls>
 
-    <audio #media muted
-        [vgMedia]="media"
-        [vgHls]="mediaStream"
-        (onGetBitrates)="hlsBitrates = $event"
-        id="recordAudio"
-        type="audio/mp3">
-    </audio>
+    <audio #media 
+           id="recordAudio"
+           muted
+           type="audio/mp3"
+           [vgMedia]="media"
+           [vgHls]="mediaStream"
+           (onGetBitrates)="hlsBitrates = $event"
+           >
+       </audio>
 </vg-player>

@@ -82,6 +82,23 @@
 
                 <span class="pbx-input-description {{pbxInputFocus ? 'label-focus' : ''}}" *ngIf="description">{{description}}</span>
 
+                <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
+                     [@Swipe]
+                     #errorSpan
+                     [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+                     [ngStyle]="{ 'left.px': hVMessageOffset, 'top.px': vVMessageOffset }"
+                >
+                    {{ errorMessage }}
+                </div>
+                <div *ngIf="isErrorMessageVisible && !isSwipeAnimation()"
+                     [@Fade]
+                     #errorSpan
+                     [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+                     [ngStyle]="{ 'left.px': hVMessageOffset, 'top.px': vVMessageOffset }"
+                >
+                    {{ errorMessage }}
+                </div>
+
             </div>
 
             <div *ngIf="form"
@@ -155,6 +172,23 @@
                 ></textarea>
 
                 <span class="{{ pbxInputFocus ? 'label-focus' : '' }}" *ngIf="description" [ngClass]="[ descriptionClass ? descriptionClass : '' ]">{{ description }}</span>
+
+                <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
+                     [@Swipe]
+                     #errorSpan
+                     [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+                     [ngStyle]="{ 'left.px': hVMessageOffset, 'top.px': vVMessageOffset }"
+                >
+                    {{ errorMessage }}
+                </div>
+                <div *ngIf="isErrorMessageVisible && !isSwipeAnimation()"
+                     [@Fade]
+                     #errorSpan
+                     [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
+                     [ngStyle]="{ 'left.px': hVMessageOffset, 'top.px': vVMessageOffset }"
+                >
+                    {{ errorMessage }}
+                </div>
             </div>
 
             <div *ngFor="let action of actions; let i = index">
@@ -180,22 +214,7 @@
 
         </div>
 
-        <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
-            [@Swipe]
-            #errorSpan
-            [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
-            [ngStyle]="{ 'left.px': hVMessageOffset, 'top.px': vVMessageOffset }"
-            >
-            {{ errorMessage }}
-        </div>
-        <div *ngIf="isErrorMessageVisible && !isSwipeAnimation()"
-            [@Fade]
-            #errorSpan
-            [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
-            [ngStyle]="{ 'left.px': hVMessageOffset, 'top.px': vVMessageOffset }"
-            >
-            {{ errorMessage }}
-        </div>
+
 
     </div>
 </div>

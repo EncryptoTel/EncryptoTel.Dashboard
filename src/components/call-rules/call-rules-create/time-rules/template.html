@@ -1,14 +1,16 @@
-<div class="call-rules-create">
+<div class="call-rules-create days">
     <pbx-input name="Action applies for"
-               key="appliesForTime"
+               key="callRuleTime"
+               [required]="true"
                [form]="true"
-               [(object)]="form"
-               formKey="timeRulesGroup.appliesForTime"
+               [object]="action"
                [options]="callRuleTimeTypes"
                displayKey="code"
                [selectedItem]="selectedCallRuleTimeType"
+               [errors]="errors"
+               errorKey="ruleTime"
                [validationHost]="validationHost"
-               validationKey="timeRulesGroup.appliesForTime"
+               [validationKey]="'ruleActions.' + actionIndex + '.callRuleTime'"
                (onSelect)="selectTimeRule($event)"
                >
     </pbx-input>
@@ -29,14 +31,16 @@
 
     <pbx-input name="Duration time"
                key="durationTime"
+               [required]="true"
                [form]="true"
-               [(object)]="form"
-               formKey="timeRulesGroup.durationTime"
+               [object]="action"
                [options]="durationTimeTypes"
                displayKey="code"
                [selectedItem]="selectedDurationTimeType"
+               [errors]="errors"
+               errorKey="durationTime"
                [validationHost]="validationHost"
-               validationKey="timeRulesGroup.durationTime"
+               [validationKey]="'ruleActions.' + actionIndex + '.durationTime'"
                (onSelect)="selectDurationTime($event)"
                >
     </pbx-input>

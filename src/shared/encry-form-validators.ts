@@ -36,22 +36,28 @@ export function numberRangeValidator(minVal: number, maxVal: number): ValidatorF
 }
 
 export function callRuleTimeValidator(control: FormGroup): { [key: string]: any } | null {
-    if (control.value.timeType == 3) {
-        if (control.value.daysOfWeek.length == 0) {
-            return { 'days': { value: control.value } };
-        }
+    if (typeof control.value !== 'string' || control.value === '*') return null;
+
+    if (control.value.length === 0) {
+        return { 'days': { value: control.value } };
     }
     return null;
 }
 
 export function durationTimeValidator(control: FormGroup): { [key: string]: any } | null {
-    if (control.value.timeType == 2) {
-        if (control.value.timeStart > control.value.timeEnd) {
-            return { 'startTime': { value: control.value } };
-        }
-        if (control.value.timeStart == control.value.timeEnd) {
-            return { 'equalTime': { value: control.value } };
-        }
+    if (typeof control.value !== 'string' || control.value === '*') return null;
+
+    const timeRange = control.value.split('-');
+    
+    if (timeRange.length !== 2) {
+        return { 'invalidRange': { value: control.value } };
     }
+    if (timeRange[0] > timeRange[1]) {
+        return { 'startTime': { value: control.value } };
+    }
+    // if (timeRange[0] == timeRange[1]) {
+    //     return { 'equalTime': { value: control.value } };
+    // }
+
     return null;
 }

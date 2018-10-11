@@ -3,9 +3,9 @@ import {TariffPlanServices} from '../../services/tariff-plan.services';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {LocalStorageServices} from "../../services/local-storage.services";
-import {UserServices} from "../../services/user.services";
-import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
+import {LocalStorageServices} from '../../services/local-storage.services';
+import {UserServices} from '../../services/user.services';
+import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {TariffStateService} from '../../services/state/tariff.state.service';
 
 @Component({

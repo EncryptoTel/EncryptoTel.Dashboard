@@ -72,17 +72,14 @@ export class ValidationHost implements Lockable {
     }
 
     updateState(): void {
-        // console.log('update-state', this.controls);
         if (!this.active) return;
 
         let mouseIsInForm = false;
         let control = this.controls.find(c => c.inMouseHover);
         if (control) {
-            // console.log('hover', control.name);
             mouseIsInForm = true;
             if (control.inErrorState) {
                 this.setControlError(control);
-                // console.log('hover-error', this.items);
                 return;
             }
         }
@@ -90,11 +87,9 @@ export class ValidationHost implements Lockable {
         let inputIsInForm = false;
         control = this.controls.find(c => c.inFocus);
         if (control) {
-            // console.log('focus', control.name);
             inputIsInForm = true;
             if (control.inErrorState) {
                 this.setControlError(control);
-                // console.log('focus-error', this.items);
                 return;
             }
         }
@@ -108,8 +103,9 @@ export class ValidationHost implements Lockable {
         }
     }
 
-    clearErrorsVisibility(): void {
-        this.items.forEach(item => item.visible = false);
+    findByValidationKey(validationKey: string): InputComponent {
+        let control = this.controls.find(c => this.getValidatorKey(c) === validationKey);
+        return control;
     }
 
     clearControlsFocusedState(): void {
@@ -118,8 +114,12 @@ export class ValidationHost implements Lockable {
     }
 
     setControlError(control: InputComponent): void {
-        let controlKey = this.getValidatorKey(control);
+        const controlKey = this.getValidatorKey(control);
         this.setErrorVisible(controlKey);
+    }
+
+    clearErrorsVisibility(): void {
+        this.items.forEach(item => item.visible = false);
     }
 
     setErrorVisible(controlKey: string): void {
@@ -164,7 +164,7 @@ export class ValidationHost implements Lockable {
         let firstInvalidControl = null;
         this.forms.forEach(form => {
             this.scanForm(form, '', (control, name) => {
-                if (!control.valid && control.errors && !firstInvalidControl) {
+                if (!control.valid && control.errors && control.touched && !firstInvalidControl) {
                     firstInvalidControl = name;
                 }
             });
@@ -219,7 +219,6 @@ export class ValidationHost implements Lockable {
             const name = this.getControlName(control);
             return `Please enter valid ${name}`;
         }
-        console.log('vh-unspec-message', control.name, errorKey);
         return 'The value is invalid';
     }
 

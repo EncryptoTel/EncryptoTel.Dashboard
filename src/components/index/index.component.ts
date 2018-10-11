@@ -1,19 +1,18 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
 import {MessageServices} from '../../services/message.services';
 import {UserServices} from '../../services/user.services';
-
-import {NavigationItemModel} from '../../models/navigation-item.model';
-import {UserModel} from '../../models/user.model';
-import {MainViewComponent} from '../main-view.component';
-
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {FadeAnimation} from '../../shared/fade-animation';
+import {TranslateService} from '../../services/translate.service';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {RefsServices} from '../../services/refs.services';
+import {NavigationItemModel} from '../../models/navigation-item.model';
+import {UserModel} from '../../models/user.model';
+import {MainViewComponent} from '../main-view.component';
+import {SwipeAnimation} from '../../shared/swipe-animation';
+import {FadeAnimation} from '../../shared/fade-animation';
+import {LangStateService} from '../../services/state/lang.state.service';
 
 @Component({
     selector: 'pbx-index',
@@ -23,14 +22,22 @@ import {RefsServices} from '../../services/refs.services';
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
-    constructor(public _user: UserServices,
-                private _message: MessageServices,
-                private _router: Router,
+
+    userLang: string;
+    text: any;
+
+    constructor(public userService: UserServices,
                 public _main: MainViewComponent,
+                private message: MessageServices,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
-                private _refs: RefsServices) {
-        this.user = this._user.fetchUser();
+                private _translate: TranslateService,
+                private _refs: RefsServices,
+                private langState: LangStateService) {
+        this.user = this.userService.fetchUser();
+        this.userLang = 'en';
+        this._storage.writeItem('user_lang', this.userLang);
+        this.text = langState.get();
     }
 
     navigationList: NavigationItemModel[][];
@@ -38,6 +45,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     userSubscription: Subscription;
     balanceSubscription: Subscription;
     serviceSubscription: Subscription;
+    modulesChangedSubscription: Subscription;
     completedRequests: number = 0;
     activeButtonIndex: number;
     headerButtonsVisible: boolean = true;
@@ -68,21 +76,31 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     logout(): void {
         this._refs.request.logout();
-        this._message.writeSuccess('Logout successful');
+        this.message.writeSuccess('Logout successful');
     }
 
     userInit(): void {
-        this.userSubscription = this._user.userSubscription().subscribe(user => {
+        this.userSubscription = this.userService.userSubscription().subscribe(user => {
             this.user = user;
         });
-        this._user.fetchProfileParams().then(() => this.completedRequests++);
+        this.userService.fetchProfileParams().then(() => this.completedRequests ++);
     }
 
     navigationInit(): void {
-        this._user.fetchNavigationParams()
-            .then(() => {})
-            .then(() => this.completedRequests ++)
-            .catch();
+        this.userService.fetchNavigationParams()
+            .then((response) => {
+                let tmp: any;
+                tmp = response;
+                // this._translate.getByKey(key, this.userLang);
+                for (let i = 0; i < tmp.length; i++) {
+                    for (let j = 0; j < tmp[i].length; j++) {
+                        tmp[i][j]['name'] = this._translate.getByKey(tmp[i][j]['name'], this.userLang);
+                    }
+                }
+                return tmp;
+            })
+            .catch(() => {})
+            .then(() => this.completedRequests ++);
     }
 
     toggleActiveButton(ix: number, ev: MouseEvent): void {
@@ -114,16 +132,29 @@ export class IndexComponent implements OnInit, OnDestroy {
         });
     }
 
+    translateInit () {
+        this._translate.getTranslate();
+    }
+
     ngOnInit(): void {
+        this.langState.change.subscribe(textLang => {
+            this.text = textLang;
+        });
         this.completedRequests = 0;
+        this.translateInit();
         this.userInit();
         // this.balanceInit();
         this.navigationInit();
         this.WebSocket();
+
+        this.modulesChangedSubscription = this.userService.modulesChanged.subscribe(() => {
+            this.navigationInit();
+        });
     }
 
     ngOnDestroy(): void {
         this.userSubscription.unsubscribe();
         this.balanceSubscription.unsubscribe();
+        this.modulesChangedSubscription.unsubscribe();
     }
 }

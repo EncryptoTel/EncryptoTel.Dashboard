@@ -6,6 +6,19 @@
                 .tablet_item
                     &.waiting-status
                         color: $dark_waiting_status !important
+                .tablet_header,
+                .tablet_body
+                    .tablet_item:nth-child(5)
+                        .qwerty
+                            width: 120px
+                            max-width: 120px
+                            justify-content: flex-end
+                    .tablet_item:nth-child(6)
+                        .qwerty
+                            width: 55px
+                            max-width: 55px
+                            justify-content: flex-end
+
 
 @media screen and (max-width: 1280px)
     pbx-invoices

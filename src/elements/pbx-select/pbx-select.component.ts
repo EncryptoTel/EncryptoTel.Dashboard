@@ -23,8 +23,15 @@ export class SelectComponent implements OnInit {
     @Input() objectKey: string;
     @Input()
     set selected(selected: any) {
-        this._selected = selected;
-        if (this._selected && this._selected.title)
+        if (typeof selected == 'number' || typeof selected == 'string') {
+            let option = this.options.find(o => +o.id === +selected);
+            if (option) this._selected = option;
+        }
+        else {
+            this._selected = selected;
+        }
+
+        if (this._selected && (this._selected.title || this._selected.value))
             this.selectedObject = true;
     }
     _selected: any;
@@ -65,7 +72,10 @@ export class SelectComponent implements OnInit {
     }
 
     constructor() {
+    }
 
+    ngOnInit() {
+        // console.log('select', this.options, this.objectKey, this.options[0][this.objectKey]);
     }
 
     calcPosition(): string {
@@ -186,8 +196,4 @@ export class SelectComponent implements OnInit {
     closed() {
         this.onClose.emit();
     }
-
-    ngOnInit() {
-    }
-
 }

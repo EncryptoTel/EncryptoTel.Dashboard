@@ -3,11 +3,13 @@
         <div *ngFor="let item of tableInfoEx.items; let i = index"
              class="tablet_item {{item.width ? 'fix_' + item.width : ''}}"
              [ngClass]="{'sort': item.sort}">
-            <span [ngClass]="{'sort':item.sort}" (click)="sort(item)">{{item.title}}</span>
-            <div *ngIf="item.sort && tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
-                <svg-icon [src]="'../../assets/icons/sorting_'+(tableInfoEx.sort.isDown ? 'down' : 'up') + '_16px.svg'"
+            <div class="qwerty">
+                <span [ngClass]="{'sort':item.sort}" (click)="sort(item)">{{item.title}}</span>
+                <div *ngIf="item.sort && tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
+                    <svg-icon [src]="'../../assets/icons/sorting_'+(tableInfoEx.sort.isDown ? 'down' : 'up') + '_16px.svg'"
                           class="tablet_item_icon sort"></svg-icon>
-            </div>
+                </div>
+            </div> <!-- qwerty -->
         </div>
         <div class="tablet_icon edit" *ngIf="editable">
             <svg-icon src="../../assets/icons/_middle/edit_12px.svg"></svg-icon>
@@ -28,7 +30,7 @@
                      class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
                      (mouseenter)="mouseEnter($event, item)"
                      (mouseleave)="mouseLeave($event, item)">
-                     {{ getValueByKeyEx(item, tableItem.key) }}
+                    <div class="qwerty">{{ getValueByKeyEx(item, tableItem.key) }}</div>
                     <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
                 </div>
                 <div class="tablet_icon edit"

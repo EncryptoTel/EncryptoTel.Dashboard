@@ -1,5 +1,5 @@
-<pbx-form [confirm]="saveButton"
-          [decline]="{ buttonType: 'cancel', value: 'Cancel' }"
+<pbx-form [confirm]="{ buttonType: 'success', value: text['save'], inactive: false, loading: false }"
+          [decline]="{ buttonType: 'cancel', value: this.text['cancel']}"
           [background]="true"
           (onConfirm)="save()"
           (onDecline)="close()"
@@ -105,6 +105,35 @@
                 </pbx-input>
 
             </div>
+
+            <pbx-settings-group
+                    [items]="model.items"
+                    [level]="1"
+                    (valueChange)="onValueChange($event)"
+                    >
+            </pbx-settings-group>
+
+            <!--<div class="settings_form_section" [formGroup]="passwordChange">-->
+                <!--<div class="settings_form_title">Language & Region</div>-->
+
+                <!--<pbx-input name="Language"-->
+                           <!--key="language"-->
+                           <!--[form]="true"-->
+                           <!--[object]="generalForm"-->
+                           <!--[validationHost]="validationHost"-->
+                           <!--(onKeyUp)="change()"-->
+                <!--&gt;</pbx-input>-->
+
+                <!--<pbx-input name="Region"-->
+                           <!--key="region"-->
+                           <!--[form]="true"-->
+                           <!--[object]="generalForm"-->
+                           <!--[validationHost]="validationHost"-->
+                           <!--(onKeyUp)="change()"-->
+                <!--&gt;</pbx-input>-->
+            <!--</div>-->
+
+
         </form>
     </div>
 </pbx-form>
@@ -135,10 +164,10 @@
                             <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
                         </div>
                     </a>
-                    <div class="store_sidebar_audio_text">Drop files here to upload</div>
-                    <div class="store_sidebar_audio_text">or</div>
+                    <div class="store_sidebar_audio_text">{{text['Drop files here to upload']}}</div>
+                    <div class="store_sidebar_audio_text">{{text['or']}}</div>
                     <div class="store_sidebar_audio_select hidden_button_wrapper">
-                        <p class="select_file" #fileSelect (click)="selectFile()">select files</p>
+                        <p class="select_file" #fileSelect (click)="selectFile()">{{text['select files']}}</p>
                         <input type="file" class="hidden_input" #fileInput (change)="sendFile($event)">
                     </div>
                 </div>

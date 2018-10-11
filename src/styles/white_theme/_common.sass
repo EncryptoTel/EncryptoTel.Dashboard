@@ -192,3 +192,22 @@
             .select_item
                 &.pbx-select-empty
                     color: $white_black_45 !important
+
+main-view.light_theme
+    pbx-index
+        input:not([type='submit'])
+            &.error-border
+                border-color: $dark_error !important
+            &.ng-touched.ng-invalid
+                border-color: $dark_error !important
+main-view.light_theme
+    pbx-index
+        input:not([type='submit'])
+            &.error-border
+                border-color: $dark_error !important
+            &.ng-dirty.ng-invalid
+                border-color: $dark_error !important
+.light_theme
+    pbx-index
+        .error-border
+            border-color: $dark_error !important

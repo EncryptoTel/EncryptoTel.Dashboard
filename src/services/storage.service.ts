@@ -78,21 +78,19 @@ export class StorageService extends BaseService {
             let pageInfo: StorageModel = new StorageModel();
             pageInfo.limit = 1;
             pageInfo.page = 1;
+            
             this.updateLoading(1);
-            this.get(`?filter[search]=${file.name}`)
-                .then(result => {
-                    if (result.itemsCount > 0) {
-                        this.files.push(file);
-                        this.checkModal();
-                    }
-                    else {
-                        this.uploadFile(file, null, null);
-                    }
-                    this.updateLoading(-1);
-                }).catch(error => {
-                    console.log('checkFileExists', error);
-                    this.updateLoading(-1);
-                });
+            this.get(`?filter[search]=${file.name}`).then(response => {
+                if (response.itemsCount > 0) {
+                    this.files.push(file);
+                    this.checkModal();
+                }
+                else {
+                    this.uploadFile(file, null, null);
+                }
+            }).catch(error => {
+                console.log('checkFileExists', error);
+            }).then(() => this.updateLoading(-1));
         }
     }
 
@@ -109,20 +107,21 @@ export class StorageService extends BaseService {
 
     uploadFile(file, mode, type = null): Promise<any> {
         this.updateLoading(1);
+
         const data = new FormData();
         data.append('type', type ? type : 'audio');
         data.append('account_file', file);
         if (mode) data.append('mode', mode);
+
         this.callback ? this.callback(this.loading) : null;
+
         return this.rawRequest('POST', '', data).then(() => {
-            if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);
-            this.successCount++;
-            this.errorCount++;
-            this.updateLoading(-1);
-        }).catch(() => {
-            this.errorCount++;
-            this.updateLoading(-1);
-        });
+                if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);
+                this.successCount ++;
+                this.errorCount ++;
+            }).catch(() => {
+                this.errorCount ++;
+            }).then(() => this.updateLoading(-1));
     }
 
     doUploadAction(button) {

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalEx } from "../../elements/pbx-modal/pbx-modal.component";
-import { Module } from '../../models/module.model';
-import { ModuleServices } from '../../services/module.services';
-import { LocalStorageServices } from '../../services/local-storage.services';
-import { MessageServices } from '../../services/message.services';
-import { Lockable, Locker } from '../../models/locker.model';
+import {Component, OnInit} from '@angular/core';
+
+import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
+import {Module} from '../../models/module.model';
+import {ModuleServices} from '../../services/module.services';
+import {LocalStorageServices} from '../../services/local-storage.services';
+import {MessageServices} from '../../services/message.services';
+import {Lockable, Locker} from '../../models/locker.model';
+import {UserServices} from '../../services/user.services';
 
 @Component({
     selector: 'pbx-marketplace',
@@ -21,9 +23,10 @@ export class MarketplaceComponent implements OnInit, Lockable {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(private _services: ModuleServices,
-                private _message: MessageServices,
-                private _storage: LocalStorageServices) {
+    constructor(private services: ModuleServices,
+                private message: MessageServices,
+                private storage: LocalStorageServices,
+                private userService: UserServices) {
             this.locker = new Locker();
     }
 
@@ -33,27 +36,14 @@ export class MarketplaceComponent implements OnInit, Lockable {
 
     // -- event handlers ------------------------------------------------------
 
-    modalConfirm = (): void => {
-        this.selected.loading = true;
-        this.locker.lock();
-        this._services.buyService(this.selected.id).then(() => {
-                this.selected.loading = false;
-                this.locker.unlock();
-                this.getModulesList();
-        }).catch(() => {
-            this.selected.loading = false;
-            this.locker.unlock();
-        });
-    }
-
-    buyService(module: Module): void {
+    onServiceClick(module: Module): void {
         const currrentBalance = this.getBalance();
         if (currrentBalance.balance >= module.price) {
             this.modal.visible = true;
             this.selected = module;
         }
         else {
-            this._message.writeError('Your account has insufficient funds to buy this service.');
+            this.message.writeError('Your account has insufficient funds to buy this service.');
         }
     }
 
@@ -62,8 +52,8 @@ export class MarketplaceComponent implements OnInit, Lockable {
     getModulesList(): void {
         this.modules = [];
         this.locker.lock();
-        this._services.getModulesList().then(result => {
-            result.map(module => {
+        this.services.getModulesList().then(response => {
+            response.map(module => {
                 if (module.service.marketPlace) {
                     this.modules.push({
                         id: module.service.id,
@@ -84,6 +74,20 @@ export class MarketplaceComponent implements OnInit, Lockable {
           .then(() => this.locker.unlock());
     }
 
+    purchaseService = (): void => {
+        this.selected.loading = true;
+        this.locker.lock();
+        this.services.buyService(this.selected.id).then(() => {
+                this.getModulesList();
+
+                this.userService.modulesChanged.emit();
+        }).catch(() => {})
+          .then(() => {
+                this.selected.loading = false;
+                this.locker.unlock(); 
+          });
+    }
+
     getModuleColor(moduleTitle: string): number {
         let title = moduleTitle.toLowerCase();
         if (title == 'call queues') return 2; // pink
@@ -100,8 +104,7 @@ export class MarketplaceComponent implements OnInit, Lockable {
     }
 
     getBalance() {
-        const user = this._storage.readItem('pbx_user');
-        console.log('balance', user);
+        const user = this.storage.readItem('pbx_user');
         return user['balance'];
     }
 }

@@ -73,7 +73,7 @@ phone-numbers-component
     pbx-table
         .tablet_header .tablet_item:nth-child(1),
         .tablet_body .tablet_item:nth-child(1)
-            width: 125px
+            width: 135px
         .tablet_header .tablet_item:nth-child(2),
         .tablet_body .tablet_item:nth-child(2)
             width: 170px
@@ -206,14 +206,17 @@ buy-phone-numbers-component
                 line-height: 48px
                 .outerSpan
                     white-space: nowrap
-                    display: inline-block
+                    //display: inline-block
                     margin: 0 4px
+
+                    display: inline-block
+                    max-width: 250px
+                    overflow: hidden
+                    text-overflow: ellipsis
+                    vertical-align: bottom
                     .innerSpan
+                        max-width: 232px
                         display: inline-block
-                        max-width: 250px
-                        overflow: hidden
-                        text-overflow: ellipsis
-                        vertical-align: bottom
 
     
 @media screen and (max-width: 1389px)

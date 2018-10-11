@@ -13,7 +13,7 @@ import {RingGroupModel} from "../../models/ring-group.model";
 export class RingGroupsComponent {
 
     table = {
-        titles: ['Queue Name', 'Phone Number', 'Ring Strategy', 'Ring Time', 'Description'],
+        titles: ['Ring Group Name', 'Phone Number', 'Ring Strategy', 'Ring Time', 'Description'],
         keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
     };
     pageInfo: RingGroupModel = new RingGroupModel();

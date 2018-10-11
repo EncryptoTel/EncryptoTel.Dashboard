@@ -54,7 +54,7 @@ export class StorageComponent implements OnInit {
             new TableInfoItem('Name', 'name', 'name'),
             new TableInfoItem('Date', 'displayDateTime', 'date', 168),
             new TableInfoItem('Size, MB', 'size', 'size', 104),
-            new TableInfoItem('Record', 'record', null, 200, 0),
+            new TableInfoItem('Record', 'record', null, 200, 0, true),
         ];
         this.table.actions = [
             new TableInfoAction(1, 'player', 175),

@@ -155,7 +155,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
                 this.extension.create({...this.formExtension.value}).then(extension => {
                     this.id = extension.id;
                     this.afterSaveExtension(extension);
-                    this.router.navigate(['cabinet', 'extensions', this.id]);
+                    this.router.navigate(['cabinet', 'extensions']);
                 }).catch(response => {
                     this.errorSaveExtension(response);
                 });
