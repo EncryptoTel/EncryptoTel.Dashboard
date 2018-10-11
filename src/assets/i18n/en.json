@@ -6,6 +6,7 @@
     "first_name": "First name",
     "last_name": "Last name",
     
+    "change_password_group": "Change Password",
     "current_password": "Current password",
     "new_password": "New password",
     "password_confirmation": "Password confirmation",

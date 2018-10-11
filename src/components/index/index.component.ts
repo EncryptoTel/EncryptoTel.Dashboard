@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs/Subscription';
 
 import {MessageServices} from '../../services/message.services';
 import {UserServices} from '../../services/user.services';
-import {TranslateService} from '../../services/translate.service';
+import {TranslateServices} from '../../services/translate.services';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {RefsServices} from '../../services/refs.services';
@@ -31,7 +31,7 @@ export class IndexComponent implements OnInit, OnDestroy {
                 private message: MessageServices,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
-                private _translate: TranslateService,
+                private _translate: TranslateServices,
                 private _refs: RefsServices,
                 private langState: LangStateService) {
         this.user = this.userService.fetchUser();

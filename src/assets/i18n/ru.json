@@ -6,6 +6,7 @@
     "first_name": "Имя",
     "last_name": "Фамилия",
 
+    "change_password_group": "Изменение пароля",
     "current_password": "Текущий пароль",
     "new_password": "Новый пароль",
     "password_confirmation": "Подтверждение пароля",
