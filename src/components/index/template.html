@@ -26,7 +26,7 @@
     </div>
           
     <div class="header_line_wrap">
-        <div class="header_title">{{text[_main.pageTitle]}}</div>
+        <div class="header_title" translate>{{_main.pageTitle}}</div>
         <div class="header_button_row">
             <div class="header_button_wrap" [ngClass]="{'visible': headerButtonsVisible}">
                 <div class="header_button phone" [ngClass]="{'active': activeButtonIndex === 0}"
@@ -82,7 +82,7 @@
                [ngClass]="['navigation_item', 'navigation-item-' + navigationItem.url]"
                >
                 <svg-icon class="navigation_item_icon" [src]="'../../assets/icons/_menu/' + navigationItem.icon + '.svg'"></svg-icon>
-                <div class="navigation_item_title">{{navigationItem.name}}</div>
+                <div class="navigation_item_title" translate>{{navigationItem.name}}</div>
             </a>
         </div>
         </div>

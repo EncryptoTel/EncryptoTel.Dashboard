@@ -13,7 +13,7 @@ import {UserServices} from './user.services';
   User services. Authentication, user params changing etc.
 */
 @Injectable()
-export class TranslateService {
+export class TranslateServices {
     userLang: string;
 
     constructor(private _request: RequestServices,

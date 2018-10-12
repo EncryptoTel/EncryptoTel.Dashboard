@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs/Subscription';
 
 import {MessageServices} from '../../services/message.services';
 import {UserServices} from '../../services/user.services';
-import {TranslateService} from '../../services/translate.service';
+import {TranslateServices} from '../../services/translate.services';
 import {WsServices} from '../../services/ws.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {RefsServices} from '../../services/refs.services';
@@ -31,7 +31,7 @@ export class IndexComponent implements OnInit, OnDestroy {
                 private message: MessageServices,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
-                private _translate: TranslateService,
+                private _translate: TranslateServices,
                 private _refs: RefsServices,
                 private langState: LangStateService) {
         this.user = this.userService.fetchUser();
@@ -89,15 +89,15 @@ export class IndexComponent implements OnInit, OnDestroy {
     navigationInit(): void {
         this.userService.fetchNavigationParams()
             .then((response) => {
-                let tmp: any;
-                tmp = response;
-                // this._translate.getByKey(key, this.userLang);
-                for (let i = 0; i < tmp.length; i++) {
-                    for (let j = 0; j < tmp[i].length; j++) {
-                        tmp[i][j]['name'] = this._translate.getByKey(tmp[i][j]['name'], this.userLang);
-                    }
-                }
-                return tmp;
+                // let tmp: any;
+                // tmp = response;
+                // // this._translate.getByKey(key, this.userLang);
+                // for (let i = 0; i < tmp.length; i++) {
+                //     for (let j = 0; j < tmp[i].length; j++) {
+                //         tmp[i][j]['name'] = this._translate.getByKey(tmp[i][j]['name'], this.userLang);
+                //     }
+                // }
+                // return tmp;
             })
             .catch(() => {})
             .then(() => this.completedRequests ++);

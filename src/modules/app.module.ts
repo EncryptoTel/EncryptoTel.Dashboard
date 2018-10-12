@@ -1,7 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import {UserTokenInterceptor} from '../shared/request.interceptors';
 
@@ -16,7 +18,7 @@ import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
 import {AuthorizationServices} from '../services/authorization.services';
 import {UserServices} from '../services/user.services';
-import {TranslateService} from '../services/translate.service';
+import {TranslateServices} from '../services/translate.services';
 import {CallQueueService} from '../services/call-queue.service';
 import {SettingsService} from '../services/settings.service';
 import {CdrService} from '../services/cdr.service';
@@ -40,6 +42,7 @@ import {TariffStateService} from '../services/state/tariff.state.service';
 import {LangStateService} from '../services/state/lang.state.service';
 import {CookieService} from 'ngx-cookie-service';
 import {RouterExtService} from '../services/router-ext.service';
+import {PbxTranslateLoader} from '../shared/pbx-translate-loader';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -55,6 +58,13 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         ComponentsModule,
         MainRouterModule,
         SocketIoModule.forRoot(config),
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useClass: PbxTranslateLoader,
+                deps: [HttpClient]
+            }
+        }),
         ClipboardModule
     ],
     providers: [
@@ -65,7 +75,7 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         MessageServices,
         AuthorizationServices,
         UserServices,
-        TranslateService,
+        TranslateServices,
         CallQueueService,
         SettingsService,
         CdrService,
@@ -89,4 +99,8 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
     bootstrap: [MainViewComponent]
 })
 export class AppModule {
+}
+
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
 }
