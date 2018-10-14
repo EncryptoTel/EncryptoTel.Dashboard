@@ -79,6 +79,7 @@ import {GeneralAudioConferenceComponent} from '../components/audio-conference/au
 import {MembersAudioConferenceComponent} from '../components/audio-conference/audio-conference-create/members/members.audio-conference.component';
 import {StatisticAudioConferenceComponent} from '../components/audio-conference/audio-conference-create/statistic/statistic.audio-conference.component';
 import {TranslateModule} from '@ngx-translate/core';
+import {IvrLevelComponent} from '../components/ivr/ivr-level/ivr-level.component';
 
 /*
   Components declarations and exports
@@ -162,6 +163,7 @@ import {TranslateModule} from '@ngx-translate/core';
         IvrComponent,
         AudioConferenceComponent,
         IvrCreateComponent,
+        IvrLevelComponent,
         AudioConferenceCreateComponent,
         BaseSettingsComponent,
         RefComponent,
@@ -218,6 +220,7 @@ import {TranslateModule} from '@ngx-translate/core';
         ReportsPartnerProgramComponent,
         TermsPartnerProgramComponent,
         IvrComponent,
+        IvrLevelComponent,
         AudioConferenceComponent,
         IvrCreateComponent,
         AudioConferenceCreateComponent,

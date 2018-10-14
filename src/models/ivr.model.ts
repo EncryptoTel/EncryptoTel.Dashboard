@@ -29,7 +29,19 @@ export class IvrItem extends BaseItemModel {
 }
 
 export class IvrTreeItem extends BaseItemModel {
+    level: number;
+    waitTime: number;
+    digit: string;
+    action: string;
+    parameter: string;
+    description: string;
+}
 
+export class IvrLevelItem extends BaseItemModel {
+    title: string;
+    description: string;
+    number: number;
+    items: IvrTreeItem[] = [];
 }
 
 export class SipItem extends BaseItemModel {
