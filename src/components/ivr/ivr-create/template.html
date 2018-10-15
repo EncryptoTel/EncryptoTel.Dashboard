@@ -29,7 +29,7 @@
                            [selectedIds]="selectedDigits"
                            [title]="getLevelTitle(i)"
                            [description]="getLevelDescription(i)"
-                           (digitSelected)="onDigitSelected($event)"
+                           (ivrDigitSelected)="onIvrDigitSelected($event)"
                            >
             </pbx-ivr-level>
         </div>
@@ -41,15 +41,35 @@
                 <pbx-input name="IVR Name"
                            key="name"
                            placeholder="Unnamed"
-                           [(errors)]="service.errors"
-                           [(object)]="service.item"
+                           [required]="true"
+                           [form]="true"
+                           [object]="form"
+                           [errors]="service.errors"
+                           [validationHost]="validationHost"
                            >
                 </pbx-input>
                 <pbx-input name="IVR Description"
                            key="description"
                            placeholder="IVR from 8 a.m. to 6 p.m."
-                           [(errors)]="service.errors"
-                           [(object)]="service.item"
+                           [form]="true"
+                           [object]="form"
+                           [errors]="service.errors"
+                           [validationHost]="validationHost"
+                           >
+                </pbx-input>
+                <pbx-input name="Phone number"
+                           key="sip"
+                           placeholder="[choose one]"
+                           [required]="true"
+                           [form]="true"
+                           [object]="form"
+                           [options]="sipOuters"
+                           displayKey="phoneNumber"
+                           [selectAsObject]="true"
+                           [errors]="service.errors"
+                           [validationHost]="validationHost"
+                           class="phone_number"
+                           (onSelect)="selectSipOuter($event)"
                            >
                 </pbx-input>
             </div>

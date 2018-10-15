@@ -50,7 +50,9 @@ export class MainViewComponent implements OnInit, OnDestroy {
         (<PbxTranslateLoader>this.translate.currentLoader).loadTranslations().then(() => {
             translate.setDefaultLang('en');
             let language: string = this.storage.readItem('user_lang');
-            if (!language) language = 'en';
+            if (!language) {
+                language = 'en';
+            }
             translate.use(language);
         });
     }

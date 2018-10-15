@@ -32,9 +32,10 @@ export class PbxTranslateLoader implements TranslateLoader {
     }
 
     setTranslation(item: any, localLang: string, externalLang: string): void {
-        if (!this.translations[localLang])
+        if (!this.translations[localLang]) {
             this.translations[localLang] = {};
+        }
         
-            this.translations[localLang][item['key']] = item[externalLang];
+        this.translations[localLang][item['key']] = item[externalLang];
     }
 }
