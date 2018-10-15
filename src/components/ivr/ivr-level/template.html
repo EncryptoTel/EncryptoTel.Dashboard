@@ -1,0 +1,29 @@
+<div class="item one_up" [ngClass]="{ 'one_up': isRoot, 'two': !isRoot }"> <!-- class two and one_up-->
+
+    <div class="top">
+        <div class="desc">{{ level.description }}</div>
+        <div class="title">{{ level.title }}</div>
+    </div> <!-- top -->
+
+    <div class="numbers">
+
+        <div *ngFor="let item of level.items"
+             class="number"
+             [ngClass]="{ 'selected': isDigitSelected(item.id) }"
+             (click)="selectDigit(item.id)"
+             >
+            <div class="digit">
+                <div class="inner"><span>{{ item.digit }}</span></div>
+            </div> <!-- digit -->
+            <div class="line line1"><span>{{ item.action }}</span></div>
+            <div class="line line2"><span>{{ item.description }}</span></div>
+        </div> <!-- number -->
+
+    </div> <!-- numbers -->
+
+    <div class="buttons">
+        <pbx-button value="Add Digit" buttonType="accent"></pbx-button>
+        <pbx-button value="Delete Level IVR" buttonType="error" *ngIf="!isRoot"></pbx-button>
+    </div> <!-- buttons -->
+
+</div> <!-- item -->
