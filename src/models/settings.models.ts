@@ -48,6 +48,10 @@ export class SettingsBaseItem {
         return text.trim();
     }
 
+    set itemTitle(value) {
+        this.title = value;
+    }
+
     get itemLabel(): string {
         let text = this.title;
 
@@ -73,7 +77,7 @@ export class SettingsItem extends SettingsBaseItem {
 }
 
 export class SettingsOptionItem {
-    constructor(public id: number, public value: string) 
+    constructor(public id: number, public value: string)
     {}
 }
 

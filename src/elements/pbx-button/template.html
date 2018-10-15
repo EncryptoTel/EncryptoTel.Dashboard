@@ -4,7 +4,7 @@
         [ngClass]="[buttonType, inactive ? 'pbx-button-disabled' : '', name ? 'pbx_button_' + name : '']"
         [disabled]="loading"
         >
-    <span *ngIf="!loading">{{value}}</span>
+    <span *ngIf="!loading">{{_value}}</span>
     <pbx-loader *ngIf="loading"></pbx-loader>
     <svg-icon class="bought" src="../../assets/icons/ok_32px.svg"></svg-icon>
 </button>
@@ -12,10 +12,10 @@
 <button *ngIf="!inactive"
         #button
         class="button"
-        [ngClass]="[buttonType, name ? 'pbx_button_' + name : '']" 
+        [ngClass]="[buttonType, name ? 'pbx_button_' + name : '']"
         [disabled]="loading"
         (click)="clicked($event)"
         >
-    <span *ngIf="!loading">{{value}}</span>
+    <span *ngIf="!loading" translate>{{ _value }}</span>
     <pbx-loader *ngIf="loading"></pbx-loader>
 </button>

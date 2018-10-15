@@ -1,7 +1,7 @@
 <pbx-loader *ngIf="completedRequests < 2"></pbx-loader>
 <div class="main_grid" *ngIf="completedRequests > 1">
 
-    <div class="user_wrap" 
+    <div class="user_wrap"
          [ngClass]="{'active': userNavigationVisible}"
          (click)="userNavigationVisible = !userNavigationVisible"
          (clickOutside)="hideUserNavigation()"
@@ -16,15 +16,15 @@
         </div>
         <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
         <div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">
-            <a routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item">Refill balance</a>
-            <a routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item">Tariff plan</a>
+            <a routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item" translate>Refill balance</a>
+            <a routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item" translate>Tariff plan</a>
             <div (click)="logout()" class="user_navigation_item">
-                <span>Exit</span>
+                <span translate>Exit</span>
                 <svg-icon src="../../assets/icons/exit.svg" class="user_navigation_logout"></svg-icon>
             </div>
         </div>
     </div>
-          
+
     <div class="header_line_wrap">
         <div class="header_title" translate>{{_main.pageTitle}}</div>
         <div class="header_button_row">
@@ -33,7 +33,7 @@
                     (click)="toggleActiveButton(0, $event)">
                     <svg-icon src="../../assets/icons/_call_panel/dialer_24px.svg"></svg-icon>
                     <div class="button_animation" *ngIf="activeButtonIndex === 0"></div>
-                </div>
+                </div>Active sessions
                 <div class="header_button contacts" [ngClass]="{'active': activeButtonIndex === 1}"
                     (click)="toggleActiveButton(1, $event)">
                     <svg-icon src="../../assets/icons/_call_panel/contacts_24px.svg"></svg-icon>
@@ -45,7 +45,7 @@
                     <div class="button_animation" *ngIf="activeButtonIndex === 2"></div>
                     <div class="notification"><i>9</i></div>
                 </div>
-                <div class="header_button notifications" 
+                <div class="header_button notifications"
                      [ngClass]="{'active': activeButtonIndex === 3}"
                      (click)="toggleActiveButton(3, $event)"
                      >
@@ -54,14 +54,14 @@
                 </div>
                 <div class="desc" [ngClass]="{'hiding': activeButtonIndex === 2}">© Encrypto Telecom, 2017-2018 v.0.1.0</div>
             </div> <!-- header_button_wrap -->
-        <div class="header_button_hide" 
+        <div class="header_button_hide"
              [ngClass]="{'initial': headerButtonsVisible}"
              (click)="toggleHeaderButtons($event)"
              >
             <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
         </div>
         <div *ngIf="activeButtonIndex !== (null || undefined)"
-             class="sidebar_wrap" 
+             class="sidebar_wrap"
              [ngClass]="{'visible': headerButtonsVisible}"
              [@Swipe]
              >
@@ -97,7 +97,7 @@
         </div>
         <div class="mobile_hover" *ngIf="mobileNavigationVisible" (click)="mobileNavigationVisible = false"></div>
         <div class="mobile_sidebar">
-            <div class="mobile_profile" 
+            <div class="mobile_profile"
                  (click)="mobileUserVisible=!mobileUserVisible"
                  (clickOutside)="mobileUserVisible=false"
                  >
@@ -107,7 +107,7 @@
                  >
                 {{user.balance.symbol}}{{user.balance.balance}}
             </div>
-            <div class="mobile_profile_button_wrap" 
+            <div class="mobile_profile_button_wrap"
                  [ngClass]="{'invisible':!mobileUserVisible}"
                  (click)="mobileNavigationVisible=false"
                  >

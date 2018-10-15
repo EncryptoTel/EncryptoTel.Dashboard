@@ -13,10 +13,6 @@ import {FormBaseComponent} from '../../../../elements/pbx-form-base-component/pb
 import {SettingsModel, SettingsItem} from '../../../../models/settings.models';
 import {LocalStorageServices} from '../../../../services/local-storage.services';
 import {TranslateService} from '@ngx-translate/core';
-// import {TranslateService} from '../../../../services/translate.service';
-// import {LangStateService} from '../../../../services/state/lang.state.service';
-// import {text} from '@angular/core/src/render3/instructions';
-
 
 export enum EmailChangeState {
     NOT_STARTED,
@@ -33,7 +29,7 @@ export enum EmailChangeState {
 export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     model: SettingsModel;
-    
+
     generalForm: FormGroup;
     emailChange: FormGroup;
     passwordChange: FormGroup;
@@ -60,16 +56,11 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 private router: Router,
                 private storage: LocalStorageServices,
                 private translate: TranslateService,
-                // private langState: LangStateService,
                 private user: UserServices) {
         super(fb, message);
-        // this.text = langState.get();
-
         this.userDefaultPhoto = './assets/images/avatar/no_avatar.jpg';
         this.loading = 0;
         this.emailChangeState = EmailChangeState.NOT_STARTED;
-        this.saveButton = { buttonType: 'success', value: /*this.text['save']*/'Save', inactive: false, loading: false };
-        this.cancelButton = { buttonType: 'cancel', value: /*this.text['cancel']*/'Cancel'};
 
         // Override default ValidationHost messages
         this.validationHost.customMessages = [
@@ -175,10 +166,10 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     validateEmailForm(): boolean {
-        if (this.emailChangeState == EmailChangeState.NOT_STARTED) {
+        if (this.emailChangeState === EmailChangeState.NOT_STARTED) {
             return !this.inputValidation(this.emailChange, 'email');
         }
-        else if (this.emailChangeState == EmailChangeState.CONFIRMATION_CODE_SENT) {
+        else if (this.emailChangeState === EmailChangeState.CONFIRMATION_CODE_SENT) {
             return !this.inputValidation(this.emailChange, 'code');
         }
         return false;
@@ -187,23 +178,9 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     // --- data methods -------------------------------------------------------
 
     onValueChange(item: SettingsItem) {
-        // console.log('onValueChange', this.model, $event);
-        // let tmp: any;
-        // tmp = $event;
-        // if (tmp.value === 19) {
-        //     console.log('ru');
-        //     this._storage.writeItem('user_lang', 'ru');
-        // } else if (tmp.value === 18) {
-        //     console.log('en');
-        //     this._storage.writeItem('user_lang', 'en');
-        // }
-
-        const language = (item.value == 19) ? 'ru' : 'en';
+        const language = (item.value === 19) ? 'ru' : 'en';
         this.translate.use(language);
         this.storage.writeItem('user_lang', language);
-
-        // this.translate.translate();
-        // this.langState.set(this.translate.getTranslate());
     }
 
     getSettings(): void {
@@ -233,7 +210,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     saveEmailSettings(): void {
         if (this.emailChangeState == EmailChangeState.NOT_STARTED) {
             this.loading ++;
-            
+
             this.service.requestEmailChange(this.emailChange.get('email').value).then(response => {
                 this.emailChangeState = EmailChangeState.CONFIRMATION_CODE_SENT;
                 // this._message.writeSuccess(response.message);
@@ -242,7 +219,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         }
         else if (this.emailChangeState == EmailChangeState.CONFIRMATION_CODE_SENT) {
             this.loading ++;
-            
+
             this.service.confirmEmailChange(this.emailChange.get('code').value).then(response => {
                 this.emailChange.get('code').setValue('');
                 this.saveFormState('emailChange');

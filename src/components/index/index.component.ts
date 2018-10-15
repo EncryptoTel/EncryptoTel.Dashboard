@@ -13,6 +13,7 @@ import {MainViewComponent} from '../main-view.component';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {LangStateService} from '../../services/state/lang.state.service';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'pbx-index',
@@ -23,7 +24,7 @@ import {LangStateService} from '../../services/state/lang.state.service';
 
 export class IndexComponent implements OnInit, OnDestroy {
 
-    userLang: string;
+    language: string;
     text: any;
 
     constructor(public userService: UserServices,
@@ -31,12 +32,11 @@ export class IndexComponent implements OnInit, OnDestroy {
                 private message: MessageServices,
                 private _ws: WsServices,
                 private _storage: LocalStorageServices,
-                private _translate: TranslateServices,
+                private _translate: TranslateService,
                 private _refs: RefsServices,
                 private langState: LangStateService) {
         this.user = this.userService.fetchUser();
-        this.userLang = 'en';
-        this._storage.writeItem('user_lang', this.userLang);
+
         this.text = langState.get();
     }
 
@@ -48,18 +48,20 @@ export class IndexComponent implements OnInit, OnDestroy {
     modulesChangedSubscription: Subscription;
     completedRequests: number = 0;
     activeButtonIndex: number;
-    headerButtonsVisible: boolean = true;
+    headerButtonsVisible: boolean = false;
     userNavigationVisible: boolean = false;
     mobileNavigationVisible: boolean = false;
 
     get username(): string {
         if (this.user && this.user.profile) {
-            let firstName = this.user.profile.firstname ? this.user.profile.firstname : '';
-            let lastName = this.user.profile.lastname ? this.user.profile.lastname : '';
+            let firstName: string;
+            firstName = this.user.profile.firstname ? this.user.profile.firstname : '';
+            let lastName: string;
+            lastName = this.user.profile.lastname ? this.user.profile.lastname : '';
 
             let username = `${firstName} ${lastName}`;
             if (username.length > 12) {
-                username =  (lastName != '') ? `${firstName} ${lastName[0]}.` : firstName;
+                username =  (lastName !== '') ? `${firstName} ${lastName[0]}.` : firstName;
             }
             return username;
         }
@@ -89,15 +91,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     navigationInit(): void {
         this.userService.fetchNavigationParams()
             .then((response) => {
-                // let tmp: any;
-                // tmp = response;
-                // // this._translate.getByKey(key, this.userLang);
-                // for (let i = 0; i < tmp.length; i++) {
-                //     for (let j = 0; j < tmp[i].length; j++) {
-                //         tmp[i][j]['name'] = this._translate.getByKey(tmp[i][j]['name'], this.userLang);
-                //     }
-                // }
-                // return tmp;
             })
             .catch(() => {})
             .then(() => this.completedRequests ++);
@@ -132,16 +125,8 @@ export class IndexComponent implements OnInit, OnDestroy {
         });
     }
 
-    translateInit () {
-        this._translate.getTranslate();
-    }
-
     ngOnInit(): void {
-        this.langState.change.subscribe(textLang => {
-            this.text = textLang;
-        });
         this.completedRequests = 0;
-        this.translateInit();
         this.userInit();
         // this.balanceInit();
         this.navigationInit();
@@ -150,6 +135,12 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.modulesChangedSubscription = this.userService.modulesChanged.subscribe(() => {
             this.navigationInit();
         });
+
+        // this._translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        //     Object.keys(this.userService.navigation).forEach(item => {
+        //         this.userService.navigation[item].itemTitle = this._translate.instant(this.userService.navigation[item].name);
+        //     });
+        // });
     }
 
     ngOnDestroy(): void {
