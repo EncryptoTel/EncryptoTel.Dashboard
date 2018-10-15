@@ -1,11 +1,11 @@
 <div class="settings_container" [@Fade]>
-  <div class="settings_title">Profile settings</div>
+  <div class="settings_title" translate>Profile Settings</div>
   <div class="settings_wrap">
     <div class="settings_item_wrap" [ngClass]="{'inactive':!item.available}"
          *ngFor="let item of settings.profile">
       <a class="settings_item" routerLink="{{item.routerLink}}" [ngClass]="{'empty':item.routerLink===''}">
         <svg-icon class="settings_item_icon" *ngIf="item.icon" src="{{item.src}}"></svg-icon>
-        <div class="settings_item_title">{{item.title}}</div>
+        <div class="settings_item_title" translate>{{item.title}}</div>
       </a>
     </div>
     <div class="settings_theme_item">
@@ -13,18 +13,18 @@
            [ngClass]="{'inactive':!item.available}" (click)="changeTheme(item.value)">
         <svg-icon class="settings_theme_icon" src="{{item.src}}" *ngIf="item.value===_main.userTheme" [@Fade]>
         </svg-icon>
-        <div class="settings_theme_text" [ngClass]="{'unselected':item.value!==_main.userTheme}">
-          <span>{{item.text}}</span>theme</div>
+        <div class="settings_theme_text" translate [ngClass]="{'unselected':item.value!==_main.userTheme}">
+          <span translate>{{item.text}}</span>theme</div>
       </div>
     </div>
   </div>
-  <div class="settings_title">System settings</div>
+  <div class="settings_title" translate>System settings</div>
   <div class="settings_wrap">
     <div class="settings_item_wrap" [ngClass]="{'inactive':!item.available}"
          *ngFor="let item of settings.system">
       <a class="settings_item" routerLink="{{item.routerLink}}" [ngClass]="{'empty':item.routerLink===''}">
         <svg-icon class="settings_item_icon" *ngIf="item.icon" src="{{item.src}}"></svg-icon>
-        <div class="settings_item_title">{{item.title}}</div>
+        <div class="settings_item_title" translate>{{item.title}}</div>
       </a>
     </div>
   </div>
@@ -35,7 +35,7 @@
     <a class="settings_item" routerLink="{{item.routerLink}}">
       <svg-icon class="settings_item_icon" src="{{item.src}}" *ngIf="item.icon"></svg-icon>
       <div class="settings_item_icon" *ngIf="!item.icon"></div>
-      <div class="settings_item_title">{{item.title}}</div>
+      <div class="settings_item_title" translate>{{item.title}}</div>
     </a>
   </div>
   <div class="settings_theme_item">
@@ -43,8 +43,8 @@
          [ngClass]="{'inactive':!item.available}" (click)="changeTheme(item.value)">
       <svg-icon class="settings_theme_icon" src="{{item.src}}" [ngClass]="{'unselected':item.value!==_main.userTheme}">
       </svg-icon>
-      <div class="settings_theme_text" [ngClass]="{'unselected':item.value!==_main.userTheme}">
-        <span>{{item.text}}</span>theme</div>
+      <div class="settings_theme_text" translate [ngClass]="{'unselected':item.value!==_main.userTheme}">
+        <span translate>{{item.text}}</span>theme</div>
     </div>
   </div>
 </div>

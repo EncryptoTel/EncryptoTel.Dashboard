@@ -57,7 +57,7 @@ export class SettingsComponent {
         available: true,
         icon: false,
         src: '',
-        title: 'Active sessions',
+        title: 'Active Sessions',
         routerLink: 'sessions'
       },
       {
@@ -65,7 +65,7 @@ export class SettingsComponent {
         available: true,
         icon: false,
         src: '',
-        title: 'Two-factor authentication',
+        title: 'Two-Factor Authentication',
         routerLink: 'authentication'
       },
       {

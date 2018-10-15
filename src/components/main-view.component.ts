@@ -36,9 +36,12 @@ export class MainViewComponent implements OnInit, OnDestroy {
                 private storage: LocalStorageServices,
                 private cookieService: CookieService,
                 private translate: TranslateService) {
-        (<PbxTranslateLoader>this.translate.currentLoader).loadTranslations().then(() => {
-            translate.setDefaultLang('en');
-            translate.use('en');
+
+        translate.setDefaultLang('en');
+        (<PbxTranslateLoader>this.translate.currentLoader).loadTranslations().then((res) => {
+            let lang: string;
+            lang = this.storage.readItem('user_lang');
+            translate.use(lang);
         });
     }
 

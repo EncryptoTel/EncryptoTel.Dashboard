@@ -8,11 +8,11 @@
     <div class="overlay_content" *ngIf="!loading" [@Fade]>
         <form class="settings_form" (submit)="saveSettings($event)">
             <div class="settings_form_section" [formGroup]="generalForm">
-                <div class="settings_form_title">General</div>
+                <div class="settings_form_title" translate="">General</div>
 
-                <pbx-input name="{{'first_name' | translate }}"
+                <pbx-input name="{{'First Name' | translate }}"
                            key="firstname"
-                           placeholder="First Name"
+                           placeholder="{{'First Name' | translate }}"
                            [form]="true"
                            [required]="true"
                            [object]="generalForm"
@@ -20,9 +20,9 @@
                            (onKeyUp)="change()"
                 ></pbx-input>
 
-                <pbx-input name="{{'last_name' | translate }}"
+                <pbx-input name="{{'Last Name' | translate }}"
                            key="lastname"
-                           placeholder="Last Name"
+                           placeholder="{{'Last Name' | translate}}"
                            [form]="true"
                            [object]="generalForm"
                            [validationHost]="validationHost"
@@ -38,9 +38,9 @@
                            (onKeyUp)="change()"
                 ></pbx-input>
 
-                <pbx-input name="Phone"
+                <pbx-input name="{{'Phone' | translate}}"
                            key="phone"
-                           placeholder="Phone"
+                           placeholder="{{'Phone' | translate}}"
                            [form]="true"
                            [object]="generalForm"
                            [validationHost]="validationHost"
@@ -49,7 +49,7 @@
 
             </div>
             <div class="settings_form_section" [formGroup]="emailChange">
-                <div class="settings_form_title">Change E-mail</div>
+                <div class="settings_form_title" translate>Change E-mail</div>
 
                 <pbx-input name="E-mail"
                            key="email"
@@ -63,9 +63,9 @@
                 </pbx-input>
 
                 <div class="settings_input_item string" *ngIf="messageSent">
-                    <pbx-input name="Confirmation code"
+                    <pbx-input name="{{ 'Confirmation code' | translate"
                                key="code"
-                               placeholder="Confirmation code"
+                               placeholder="{{'Confirmation code' | translate"
                                [form]="true"
                                [object]="emailChange"
                                [validationHost]="validationHost"
@@ -76,27 +76,27 @@
             <div class="settings_form_section" [formGroup]="passwordChange">
                 <div class="settings_form_title" translate>change_password_group</div>
 
-                <pbx-input name="{{ 'current_password' | translate }}"
+                <pbx-input translate name="{{'Current password' | translate }}"
                            key="oldPassword"
-                           placeholder="Current password"
+                           placeholder="{{'Current password' | translate}}"
                            type="password"
                            [form]="true"
                            [object]="passwordChange"
                            [validationHost]="validationHost"
                 ></pbx-input>
 
-                <pbx-input name="{{ 'new_password' | translate }}"
+                <pbx-input name="{{ 'New password' | translate }}"
                            key="password"
-                           placeholder="New password"
+                           placeholder="{{'New password' | translate}}"
                            type="password"
                            [form]="true"
                            [object]="passwordChange"
                            [validationHost]="validationHost"
                 ></pbx-input>
 
-                <pbx-input name="{{ 'password_confirmation' | translate }}"
+                <pbx-input name="{{'Confirm password' | translate }}"
                            key="password_confirmation"
-                           placeholder="Confirm Password"
+                           placeholder="{{'Confirm password' | translate }}"
                            type="password"
                            [form]="true"
                            [object]="passwordChange"
@@ -164,10 +164,10 @@
                             <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
                         </div>
                     </a>
-                    <div class="store_sidebar_audio_text">{{'Drop files here to upload'}}</div>
-                    <div class="store_sidebar_audio_text">{{'or'}}</div>
+                    <div class="store_sidebar_audio_text" translate>{{'Drop files here to upload'}}</div>
+                    <div class="store_sidebar_audio_text" translate>{{'or'}}</div>
                     <div class="store_sidebar_audio_select hidden_button_wrapper">
-                        <p class="select_file" #fileSelect (click)="selectFile()">{{'select files'}}</p>
+                        <p class="select_file" #fileSelect (click)="selectFile()" translate>{{'select files' }}</p>
                         <input type="file" class="hidden_input" #fileInput (change)="sendFile($event)">
                     </div>
                 </div>

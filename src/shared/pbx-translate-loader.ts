@@ -2,18 +2,17 @@ import { TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import {HttpClient} from '@angular/common/http';
-import {resolve} from 'core-js/fn/promise';
+import {environment as env} from '../environments/environment';
 
 import * as translationsData from '../assets/i18n/translations.json';
 
-
-export const TRANSLATIONS_ROOT = '/assets/i18n';
-
 export class PbxTranslateLoader implements TranslateLoader {
 
+    translationsRoot: string;
     translations: {} = {};
-    
+
     constructor(private http: HttpClient) {
+        this.translationsRoot = env.translation;
     }
 
     getTranslation(lang: string): Observable<any> {
@@ -21,14 +20,34 @@ export class PbxTranslateLoader implements TranslateLoader {
     }
 
     loadTranslations(): Promise<any> {
-        return this.http.get(`${TRANSLATIONS_ROOT}/translations.json`).toPromise().then(translations => {
-            Object.keys(translations).forEach(key => {
-                    Object.keys(translations[key]).forEach(lang => {
-                        if (!this.translations[lang]) this.translations[lang] = {};
-                        this.translations[lang][key] = translations[key][lang];
-                    });
+        return this.http.get(this.translationsRoot).toPromise().then(response => {
+            let tmp: any;
+            tmp = Object.keys(response).forEach(item => {
+                let lang: string;
+                lang = 'en';
+                if (!this.translations[lang]) {
+                    this.translations[lang] = {};
+                }
+                this.translations[lang][response[item]['key']] = response[item]['eng'];
+                lang = 'ru';
+                if (!this.translations[lang]) {
+                    this.translations[lang] = {};
+                }
+                this.translations[lang][response[item]['key']] = response[item]['ru'];
             });
-            resolve(translations);
-        });
+            return Promise.resolve(this.translations);
+        }).catch(response => {});
+
+        // return this.http.get(this.translationsRoot).toPromise().then(translations => {
+        //     Object.keys(translations).forEach(key => {
+        //             Object.keys(translations[key]).forEach(lang => {
+        //                 if (!this.translations[lang]) {
+        //                     this.translations[lang] = {};
+        //                 }
+        //                 this.translations[lang][key] = translations[key][lang];
+        //             });
+        //     });
+        //     resolve(translations);
+        // });
     }
 }
