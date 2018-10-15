@@ -34,6 +34,7 @@ pbx-dashboard
         position: relative
         padding-bottom: 64px !important
         margin-right: 28px
+        padding-top: 48px !important
         .dashboard_item_link_row
             position: absolute
             margin-top: 0
@@ -52,6 +53,16 @@ pbx-dashboard
         line-height: 24px
     .dashboard_item_title_value
         font-size: 16px !important
+    .dashboard_item_link_row
+        a
+            cursor: pointer
+            font-size: 14px
+            &:hover
+                text-decoration: underline
+    .dashboard_item_title_key i,
+    .dashboard_item_content_key i,
+    .dashboard_item_title_name i
+        font-style: normal
 @media screen and (max-width: 1789px)
     pbx-dashboard
         .dashboard_drive_diagram
@@ -59,6 +70,8 @@ pbx-dashboard
 
 @media screen and (max-width: 1279px)
     pbx-dashboard
+        .dashboard_history
+            padding-top: 24px !important
         .dashboard_drive_diagram
             // margin-left: rem(24) !important
             flex: 1
@@ -70,14 +83,15 @@ pbx-dashboard
                     left: 50%
                     transform: translate(-50%, -50%) rotate(-90deg)
 
-@media screen and (max-width: 1023px)
-    pbx-dashboard
-        .dashboard_drive_row
-            .dashboard_drive_content
-                flex: 2
-        .dashboard_balance
-            .dashboard_center
-                margin-left: 0
+// for mobile
+//@media screen and (max-width: 1023px)
+//    pbx-dashboard
+//        .dashboard_drive_row
+//            .dashboard_drive_content
+//                flex: 2
+//        .dashboard_balance
+//            .dashboard_center
+//                margin-left: 0
 
 @media screen and (max-height: 850px)
     pbx-dashboard
