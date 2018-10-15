@@ -17,7 +17,9 @@ export class ButtonComponent implements OnInit {
     @Input()
     set value(value) {
         this._valueCanonical = value;
-        this._value = this.translate.instant(value);
+        if (value) {
+            this._value = this.translate.instant(value);
+        }
     }
     _valueCanonical: string;
     _value: string;
@@ -40,7 +42,9 @@ export class ButtonComponent implements OnInit {
 
     ngOnInit(): void {
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            this._value = this.translate.instant(this._valueCanonical);
+            if (this._valueCanonical) {
+                this._value = this.translate.instant(this._valueCanonical);
+            }
         });
     }
 
