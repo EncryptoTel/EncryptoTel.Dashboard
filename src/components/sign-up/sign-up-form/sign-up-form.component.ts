@@ -10,6 +10,7 @@ import {FadeAnimation} from '../../../shared/fade-animation';
 import {validateForm} from '../../../shared/shared.functions';
 import {FormMessageModel} from '../../../models/form-message.model';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'sign-up-form',
@@ -38,7 +39,8 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
 
     constructor(private _router: Router,
                 private _user: UserServices,
-                public services: AuthorizationServices)
+                public services: AuthorizationServices,
+                public translate: TranslateService)
     {}
 
     setFocus(element): void {
@@ -117,7 +119,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         if (!this.tariffsLoading) {
             const plan = this.services.getSelectedTarifPlan();
             const suffix = plan && plan.sum > 0 ? '' : ' FREE';
-            return `Start now${suffix}`;
+            return this.translate.instant(`Start now${suffix}`);
         }
         return null;
     }
@@ -176,7 +178,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
             })
             .catch(() => {})
               .then(() => this.loading = false);
-        } 
+        }
         else {
             if (this.inputValidation('firstname')) this.errorName = true;
             if ((this.inputValidation('email')) && (!this.errorName)) this.errorEmail = true;
