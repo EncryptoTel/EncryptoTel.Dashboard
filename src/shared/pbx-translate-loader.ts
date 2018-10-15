@@ -37,17 +37,5 @@ export class PbxTranslateLoader implements TranslateLoader {
             });
             return Promise.resolve(this.translations);
         }).catch(response => {});
-
-        // return this.http.get(this.translationsRoot).toPromise().then(translations => {
-        //     Object.keys(translations).forEach(key => {
-        //             Object.keys(translations[key]).forEach(lang => {
-        //                 if (!this.translations[lang]) {
-        //                     this.translations[lang] = {};
-        //                 }
-        //                 this.translations[lang][key] = translations[key][lang];
-        //             });
-        //     });
-        //     resolve(translations);
-        // });
     }
 }
