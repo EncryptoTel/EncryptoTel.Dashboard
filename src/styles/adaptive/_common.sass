@@ -1,11 +1,23 @@
-body,
-.main_grid
-    width: 100%
+body
     min-width: 768px !important
     overflow: auto !important
 
-@media screen and (max-width: 767px)
+@media screen and (max-width: 929px)
     .header_line_wrap
-        display: flex !important
-    .mobile_header
-        display: none !important
+        .header_title
+            opacity: 0
+
+@media screen and (max-width: 899px)
+    .dashboard_item_title_name
+        font-size: 22px !important
+
+@media screen and (max-width: 767px)
+    .main_grid
+        overflow: visible !important
+    .body_wrap
+        min-width: calc(768px - 192px) !important
+.notificator-wrap
+    position: absolute
+    width: 50%
+    left: 236px
+    top: 0
