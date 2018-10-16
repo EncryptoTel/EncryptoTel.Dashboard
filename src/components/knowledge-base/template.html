@@ -10,7 +10,7 @@
         <pbx-loader *ngIf="loading"></pbx-loader>
 
         <div class="empty-message-wrapper" *ngIf="!loading && filterEmptyResult">
-            <div class="empty-message">Nothing found</div>
+            <div class="empty-message" translate>Nothing found</div>
         </div>
 
         <div class="blocks" *ngIf="!loading && !filterEmptyResult && !selectedGroup && helps.items.length === 0">

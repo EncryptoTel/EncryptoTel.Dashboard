@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder } from '@angular/forms';
 import {FadeAnimation} from '../../shared/fade-animation';
-import {SwipeAnimation} from "../../shared/swipe-animation";
+import {SwipeAnimation} from '../../shared/swipe-animation';
 import {Lockable, Locker} from '../../models/locker.model';
 import {ValidationHost} from '../../models/validation-host.model';
 import {ModalEx} from '../pbx-modal/pbx-modal.component';
@@ -35,7 +35,7 @@ export class FormBaseComponent implements OnInit, Lockable {
 
     get isNewFormModel(): boolean {
         if (this.form) {
-            let id = this.form.get('id');
+            const id = this.form.get('id');
             return !(id && id.value);
         }
         return false;
@@ -72,10 +72,10 @@ export class FormBaseComponent implements OnInit, Lockable {
 
     setFormData(model: any, customInitCallback?: () => void): void {
         // TODO: modify to update specific form
-        if (!model) return;
+        if (!model) { return; }
 
         this.form.patchValue(model);
-        if (customInitCallback) customInitCallback();
+        if (customInitCallback) { customInitCallback(); }
 
         this.saveFormState();
     }
@@ -88,7 +88,7 @@ export class FormBaseComponent implements OnInit, Lockable {
             }
         });
 
-        if (customInitCallback) customInitCallback();
+        if (customInitCallback) { customInitCallback(); }
     }
 
 
@@ -118,11 +118,13 @@ export class FormBaseComponent implements OnInit, Lockable {
     
     validateFormGroup(groupName: string, showMessage: boolean = false, message: string = ''): boolean {
         let formGroup: FormGroup;
-        for (let form of this.forms) {
+        for (const form of this.forms) {
             formGroup = <FormGroup> form.get(groupName);
-            if (formGroup) break;
+            if (formGroup) { break; }
         }
-        if (!formGroup) return false;
+        if (!formGroup) { 
+            return false; 
+        }
 
         validateForm(formGroup);
         if (!formGroup.valid && showMessage) {
@@ -151,14 +153,14 @@ export class FormBaseComponent implements OnInit, Lockable {
 
     close(editMode: boolean = true, confirmCallback?: () => void): void {
         if (this.checkFormChanged()) {
-            let message = (editMode)
+            const message = (editMode)
                 ? 'You have made changes. Do you really want to leave without saving?'
                 : 'Do you really want to leave without saving?';
             this.modalExit.setMessage(message);
             this.modalExit.show();
         }
         else {
-            if (confirmCallback) confirmCallback();
+            if (confirmCallback) { confirmCallback(); }
         }
     }
 }

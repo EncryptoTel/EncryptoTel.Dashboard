@@ -27,7 +27,7 @@
 
         <pbx-loader *ngIf="loading"></pbx-loader>
 
-        <div class="media-table-message" *ngIf="!loading && activeFilter && pageInfo.itemsCount === 0">
+        <div class="media-table-message" *ngIf="!loading && activeFilter && pageInfo.itemsCount === 0" translate>
             Nothing found
         </div>
 
@@ -47,10 +47,10 @@
             <div class="store_sidebar_audio_icon">
                 <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
             </div>
-            <div class="store_sidebar_audio_text">Drop files here to upload</div>
-            <div class="store_sidebar_audio_text">or</div>
+            <div class="store_sidebar_audio_text" translate>Drop files here to upload</div>
+            <div class="store_sidebar_audio_text" translate>or</div>
             <div class="store_sidebar_audio_select hidden_button_wrapper">
-                <p class="select_file">select files</p>
+                <p class="select_file" translate>select files</p>
                 <input type="file" class="hidden_input" #fileInput (change)="sendFile($event)" onclick="value = null">
             </div>
         </div>

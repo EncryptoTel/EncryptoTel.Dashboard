@@ -1,9 +1,11 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, HostListener} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+
 import {FadeAnimation} from '../../shared/fade-animation';
-import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
-import {SwipeAnimation} from "../../shared/swipe-animation";
-import {FilterItem, InputAction} from "../../models/base.model";
+import {SwipeAnimation} from '../../shared/swipe-animation';
+import {FilterItem, InputAction} from '../../models/base.model';
 import {ValidationHost} from '../../models/validation-host.model';
+
 
 @Component({
     selector: 'pbx-input',
@@ -12,6 +14,7 @@ import {ValidationHost} from '../../models/validation-host.model';
     animations: [FadeAnimation('300ms'), SwipeAnimation('y', '200ms')]
 })
 export class InputComponent implements OnInit {
+
     @Input() key: string;
     @Input() name: string;
     @Input() description: string;
@@ -65,6 +68,7 @@ export class InputComponent implements OnInit {
 
     @Input() optionsSelectedKey: string;
     @Input() selectedItem: any;
+    @Input() selectAsObject: boolean;
     @Input() validationKey: string;
     @Input() validationHost: ValidationHost;
 
@@ -122,7 +126,7 @@ export class InputComponent implements OnInit {
 
     get errorMessage(): string {
         if (this.errors) {
-            let error = this.getValueByKey(this.errors, this.getErrorKey());
+            const error = this.getValueByKey(this.errors, this.getErrorKey());
             return error;
         }
 
@@ -134,12 +138,12 @@ export class InputComponent implements OnInit {
     }
 
     checkServerSideError(): boolean {
-        let error = this.getValueByKey(this.errors, this.getErrorKey());
-        return error != undefined;
+        const error = this.getValueByKey(this.errors, this.getErrorKey());
+        return error !== undefined;
     }
 
     checkFormValidationError(): boolean {
-        let control = this.getForm();
+        const control = this.getForm();
         
         if (control && control.errors) {
             const validationResult = (control.errors['required'])
@@ -153,7 +157,7 @@ export class InputComponent implements OnInit {
 
     // -- event handlers ------------------------------------------------------
 
-    @HostListener("window:scroll", ['$event'])
+    @HostListener('window:scroll', ['$event'])
     onWindowScroll(event) {
         console.log('scroll', event, this.inputDiv.nativeElement);
     }
@@ -165,8 +169,9 @@ export class InputComponent implements OnInit {
         // --
         this.inFocus = true;
 
-        if (this.validationHost)
+        if (this.validationHost) {
             this.validationHost.updateState();
+        }
     }
 
     removeFocus(): void {
@@ -179,11 +184,14 @@ export class InputComponent implements OnInit {
             this.inMouseHover = false;
 
             if (this.form) {
-                let control = this.getForm();
-                if (control) control.markAsTouched();
+                const control = this.getForm();
+                if (control) {
+                    control.markAsTouched();
+                }
             }
-            if (this.validationHost)
+            if (this.validationHost) {
                 this.validationHost.updateState();
+            }
         }
     }
 
@@ -193,8 +201,9 @@ export class InputComponent implements OnInit {
         // --
         this.inMouseHover = true;
 
-        if (this.validationHost)
+        if (this.validationHost) {
             this.validationHost.updateState();
+        }
     }
 
     mouseLeave() {
@@ -203,8 +212,9 @@ export class InputComponent implements OnInit {
         // --
         this.inMouseHover = false;
 
-        if (this.validationHost)
+        if (this.validationHost) {
             this.validationHost.updateState();
+        }
     }
 
     pasteEvent($event: any): void {
@@ -236,7 +246,7 @@ export class InputComponent implements OnInit {
     }
 
     setError(value) {
-        let key = this.getErrorKey();
+        const key = this.getErrorKey();
         if (!key) {
             return null;
         }
@@ -260,8 +270,8 @@ export class InputComponent implements OnInit {
             return this._errorShow ? this.checkForm(textOnly) : '';
         }
 
-        let error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
-        let result = (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm(textOnly));
+        const error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
+        const result = (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm(textOnly));
 
         return result;
     }
@@ -281,17 +291,20 @@ export class InputComponent implements OnInit {
     }
 
     checkForm(textOnly = null) {
-        if (!this.form) return null;
+        if (!this.form) { return null; }
 
-        let form = this.getForm();
+        const form = this.getForm();
         if (textOnly) {
             if (form && form.touched && form.invalid) {
                 let keys;
-                if (form.errors) keys = Object.keys(form.errors);
+                if (form.errors) {
+                    keys = Object.keys(form.errors);
+                }
                 else {
-                    let control = form.get(this.objectKey);
-                    if (control && control.errors)
+                    const control = form.get(this.objectKey);
+                    if (control && control.errors) {
                         keys = Object.keys(control.errors);
+                    }
                 }
                 return this.getValidatorMessage(keys[0]);
             }
@@ -320,9 +333,11 @@ export class InputComponent implements OnInit {
 
     resetError() {
         if (this.checkError()) {
-            this.errors ? this.setError(null) : null;
+            if (this.errors) { 
+                this.setError(null); 
+            }
             if (this.form) {
-                let form = this.getForm();
+                const form = this.getForm();
                 form.markAsUntouched();
             }
         }
@@ -338,10 +353,13 @@ export class InputComponent implements OnInit {
         if (this.form) {
             this.value = event;
             if (!this.options || !this.selectedItem) {
-                this.key ? this.getForm().setValue(event) : null;
+                if (this.key) {
+                    this.getForm().setValue(event);
+                }
             }
             if (this.options && this.key) {
-                this.getForm().setValue(event.id);
+                const value = (this.selectAsObject) ? event : event.id;
+                this.getForm().setValue(value);
             }
         }
         else {
@@ -363,9 +381,11 @@ export class InputComponent implements OnInit {
     }
 
     toggleCheckbox(value: boolean): void {
-        let checkValue = this.checkboxValues[value ? 1 : 0];
+        const checkValue = this.checkboxValues[value ? 1 : 0];
         if (this.form) {
-            this.getForm() ? this.getForm().setValue(checkValue) : null;
+            if (this.getForm()) {
+                this.getForm().setValue(checkValue);
+            }
         } else {
             this.object[this.key] = checkValue;
         }
@@ -388,10 +408,12 @@ export class InputComponent implements OnInit {
     }
 
     checkControlError(errors, key) {
-        let keys = Object.keys(errors);
+        const keys = Object.keys(errors);
         if (keys.length > 0) {
             if (keys[0] === key) {
-                this.inputDiv ? this.findInput(this.inputDiv.nativeElement) : null;
+                if (this.inputDiv) {
+                    this.findInput(this.inputDiv.nativeElement);
+                }
                 this.errorVisible = true;
             }
         }
@@ -399,14 +421,14 @@ export class InputComponent implements OnInit {
 
     getErrorVisible() {
         if (this.errors) {
-            if (this.errors != this.prevError) {
+            if (this.errors !== this.prevError) {
                 this.prevError = this.errors;
                 this.checkControlError(this.errors, this.getErrorKey());
             }
         }
         if (this.form) {
-            let form = this.object;
-            let errors = {};
+            const form = this.object;
+            const errors = {};
             Object.keys(form.controls).forEach(field => {
                 const control = form.get(field);
                 if (control instanceof FormArray) {
@@ -422,9 +444,9 @@ export class InputComponent implements OnInit {
                 }
 
             });
-            if (JSON.stringify(errors) != this.prevFormError) {
+            if (JSON.stringify(errors) !== this.prevFormError) {
                 this.prevFormError = JSON.stringify(errors);
-                let key = this.index2 === undefined ? this.getFormKey() : `${this.getFormKey()}_${this.index2}`;
+                const key = this.index2 === undefined ? this.getFormKey() : `${this.getFormKey()}_${this.index2}`;
                 this.checkControlError(errors, key);
             }
         }
@@ -444,7 +466,7 @@ export class InputComponent implements OnInit {
     }
 
     isSwipeAnimation(): boolean {
-        return !this.animationMode || this.animationMode.toLowerCase() != 'fade';
+        return !this.animationMode || this.animationMode.toLowerCase() !== 'fade';
     }
 
     ngOnInit() {
@@ -484,7 +506,9 @@ export class InputComponent implements OnInit {
             this.trueValue ? this.trueValue : true
         ];
 
-        this.validationHost && this.validationHost.addControl(this);
+        if (this.validationHost) {
+            this.validationHost.addControl(this);
+        }
 
         this.loading --;
     }

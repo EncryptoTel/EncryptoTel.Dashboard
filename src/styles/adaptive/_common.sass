@@ -2,6 +2,12 @@ body
     min-width: 768px !important
     overflow: auto !important
 
+@media screen and (max-width: 1279px)
+    .main_grid
+        grid-template-columns: 80px 1fr !important
+        > .body_wrap
+            max-width: calc(100vw - 80px) !important
+
 @media screen and (max-width: 929px)
     .header_line_wrap
         .header_title
@@ -15,9 +21,11 @@ body
     .main_grid
         overflow: visible !important
     .body_wrap
-        min-width: calc(768px - 192px) !important
+        min-width: calc(768px - 80px) !important
 .notificator-wrap
     position: absolute
     width: 50%
     left: 236px
     top: 0
+.header_line_wrap
+    overflow: hidden

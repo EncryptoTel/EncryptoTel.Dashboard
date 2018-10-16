@@ -1,22 +1,19 @@
-import {BaseItemModel, PageInfoModel} from "./base.model";
+import {BaseItemModel, PageInfoModel} from './base.model';
 
 export class IvrModel extends PageInfoModel {
     items: IvrItem[];
 }
 
 export class IvrItem extends BaseItemModel {
-    sip: SipItem;
+    sip: SipItem = null;
     sipId: number;
     name: string;
     description: string;
-    status: number;
-    tree: IvrTreeItem[];
+    status: number = 0;
+    tree: IvrTreeItem[] = [];
 
     constructor() {
         super();
-        this.id = 0;
-        this.sipId = 0;
-        this.status = 0;
         this.name = '';
         this.description = '';
         this.tree = [];

@@ -1,7 +1,8 @@
-import {BaseService} from "./base.service";
-import {IvrItem, IvrModel, IvrTreeItem} from "../models/ivr.model";
-import {PageInfoModel} from "../models/base.model";
-import {plainToClass} from "class-transformer";
+import {BaseService} from './base.service';
+import {IvrItem, IvrModel, IvrTreeItem} from '../models/ivr.model';
+import {PageInfoModel} from '../models/base.model';
+import {plainToClass} from 'class-transformer';
+
 
 export class IvrService extends BaseService {
 
@@ -97,7 +98,7 @@ export class IvrService extends BaseService {
         node.level = 1;
         node.digit = '1';
         node.action = 'Send to IVR';
-        node.description = 'Accountant Department';
+        node.description = 'Accountants';
         
         this.item.tree.push(node);
 
@@ -112,7 +113,7 @@ export class IvrService extends BaseService {
         // -- digit --
         this.digits = [];
         for (let i = 1; i <= 10; i ++) {
-            let number = i % 10;
+            const number = i % 10;
             this.digits.push({ id: number, title: number.toString() });
         }
     }

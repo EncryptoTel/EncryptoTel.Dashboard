@@ -1,7 +1,8 @@
-import { FormGroup, FormArray, FormControl, FormControlName, AbstractControl } from "@angular/forms";
-import { Subscription } from "rxjs/Subscription";
-import { InputComponent } from "../elements/pbx-input/pbx-input.component";
-import { Lockable, Locker } from "./locker.model";
+import { FormGroup, FormArray, FormControl, FormControlName, AbstractControl } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
+
+import { InputComponent } from '../elements/pbx-input/pbx-input.component';
+import { Lockable, Locker } from './locker.model';
 
 
 export class ValidationHost implements Lockable {
@@ -31,7 +32,7 @@ export class ValidationHost implements Lockable {
     addForm(form: FormGroup): void {
         this.forms.push(form);
         this.initItems();
-        let monitor = form.statusChanges.subscribe(state => this.checkForm(state));
+        const monitor = form.statusChanges.subscribe(state => this.checkForm(state));
         this.monitors.push(monitor);
     }
 
@@ -65,14 +66,15 @@ export class ValidationHost implements Lockable {
     }
 
     isErrorVisible(control: InputComponent): boolean {
-        let controlKey = this.getValidatorKey(control);
-        let item = this.items.find(i => i.key == controlKey);
-        // controlKey == 'timeRules.appliesForTime' && console.log('err-visible', controlKey, control.inErrorState, item);
+        const controlKey = this.getValidatorKey(control);
+        let item;
+        if (this.items) item = this.items.find(i => i.key === controlKey);
+        // if (controlKey === 'sipId') console.log('err-visible', controlKey, control.inErrorState, item);
         return control.inErrorState && item && item.visible;
     }
 
     updateState(): void {
-        if (!this.active) return;
+        if (!this.active) { return; }
 
         let mouseIsInForm = false;
         let control = this.controls.find(c => c.inMouseHover);
@@ -95,7 +97,7 @@ export class ValidationHost implements Lockable {
         }
         
         if (!mouseIsInForm && !inputIsInForm) {
-            let controlKey = this.takeFirstInvalidControl();
+            const controlKey = this.takeFirstInvalidControl();
             this.setErrorVisible(controlKey);
         }
         else {
@@ -104,7 +106,7 @@ export class ValidationHost implements Lockable {
     }
 
     findByValidationKey(validationKey: string): InputComponent {
-        let control = this.controls.find(c => this.getValidatorKey(c) === validationKey);
+        const control = this.controls.find(c => this.getValidatorKey(c) === validationKey);
         return control;
     }
 
@@ -123,7 +125,7 @@ export class ValidationHost implements Lockable {
     }
 
     setErrorVisible(controlKey: string): void {
-        if (controlKey != this.selectedControl || !this.items.find(item => item.visible)) {
+        if (controlKey !== this.selectedControl || !this.items.find(item => item.visible)) {
             this.selectedControl = controlKey;
 
             this.clearErrorsVisibility();
@@ -132,7 +134,7 @@ export class ValidationHost implements Lockable {
             setTimeout(() => {
                 this.locker.unlock();
                 if (this.locker.free) {
-                    let item = this.items.find(i => i.key == controlKey);
+                    const item = this.items.find(i => i.key === controlKey);
                     if (item) item.visible = true;
                 }
             }, 300);
@@ -142,17 +144,16 @@ export class ValidationHost implements Lockable {
     // -- common methods ------------------------------------------------------
 
     checkForm(state: any): void {
-        if (state == 'INVALID') 
-            this.updateState();
+        if (state === 'INVALID') this.updateState();
     }
 
     getErrorMessage(control: InputComponent): string {
-        let controlKey = this.getValidatorKey(control);
+        const controlKey = this.getValidatorKey(control);
         let errorMessage = null;
         this.forms.forEach(form => {
             this.scanForm(form, '', (formControl, name) => {
-                if (name == controlKey) {
-                    let errorKeys = Object.keys(formControl.errors);
+                if (name === controlKey) {
+                    const errorKeys = Object.keys(formControl.errors);
                     errorMessage = this.getValidatorMessage(control, errorKeys[0], formControl.errors);
                 }
             });
@@ -174,7 +175,7 @@ export class ValidationHost implements Lockable {
 
     private scanForm(form: FormGroup | FormArray, parent: string = '', action: (control: AbstractControl, name: string) => void): void {
         Object.keys(form.controls).forEach(field => {
-            let name = (parent) ? `${parent}.` + field : field;
+            const name = (parent) ? `${parent}.` + field : field;
             const control = form.get(field);
             action(control, name);
             if (control instanceof FormGroup || control instanceof FormArray) {
@@ -194,28 +195,28 @@ export class ValidationHost implements Lockable {
         if (customMessage) return customMessage;
         // console.log('vh-message', control, errorKey, errors);
 
-        if (errorKey == 'required') {
+        if (errorKey === 'required') {
             const name = this.getControlName(control);
             return `Please enter ${name}`;
         }
-        else if (errorKey == 'minlength') {
+        else if (errorKey === 'minlength') {
             const pluralEnd = errors.minlength.requiredLength > 1 ? 's' : '';
             return `Please enter at least ${errors.minlength.requiredLength} character${pluralEnd}`;
         }
-        else if (errorKey == 'min') {
+        else if (errorKey === 'min') {
             console.log('error', errors);
             const pluralEnd = errors.min.min > 1 ? 's' : '';
             return `Please enter at least ${errors.min.min} character${pluralEnd}`;
         }
-        else if (errorKey == 'maxlength') {
+        else if (errorKey === 'maxlength') {
             const pluralEnd = errors.maxlength.requiredLength > 1 ? 's' : '';
             return `Please enter no more than ${errors.maxlength.requiredLength} character${pluralEnd}`;
         }
-        else if (errorKey == 'max') {
+        else if (errorKey === 'max') {
             const pluralEnd = errors.max.max > 1 ? 's' : '';
             return `Please enter no more than ${errors.max.max} character${pluralEnd}`;
         }
-        else if (errorKey == 'pattern') {
+        else if (errorKey === 'pattern') {
             const name = this.getControlName(control);
             return `Please enter valid ${name}`;
         }
@@ -230,7 +231,7 @@ export class ValidationHost implements Lockable {
     
     private getCustomValidatorMessage(control: InputComponent, errorKey: string): string {
         if (this.customMessages) {
-            let item = this.customMessages.find(m => m.name == control.name && m.error == errorKey);
+            const item = this.customMessages.find(m => m.name === control.name && m.error === errorKey);
             if (item) return item.message;
         }
         return null;

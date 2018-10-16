@@ -3,7 +3,7 @@
         <div *ngFor="let item of tableInfoEx.items; let i = index"
              class="tablet_item {{item.width ? 'fix_' + item.width : ''}}"
              [ngClass]="{'sort': item.sort}">
-            <span [ngClass]="{'sort':item.sort}" (click)="sort(item)">{{item.title}}</span>
+            <span [ngClass]="{'sort':item.sort}" (click)="sort(item)" translate>{{item.title}}</span>
             <div *ngIf="item.sort && tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
                 <svg-icon [src]="'../../assets/icons/sorting_'+(tableInfoEx.sort.isDown ? 'down' : 'up') + '_16px.svg'"
                           class="tablet_item_icon sort"></svg-icon>
@@ -24,7 +24,7 @@
             <pbx-loader *ngIf="item.loading"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">
                 <ng-template ngFor let-tableItem [ngForOf]="tableInfoEx.items" let-i="index">
-                    <div *ngIf="!tableItem.noDataColumn" 
+                    <div *ngIf="!tableItem.noDataColumn"
                          class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
                          (click)="selectItem(item)"
                          (mouseenter)="mouseEnter($event, item)"
