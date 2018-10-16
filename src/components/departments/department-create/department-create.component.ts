@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {FormGroup, FormBuilder, Validators, FormArray} from '@angular/forms';
 import {DepartmentService} from '../../../services/department.service';
@@ -106,6 +106,14 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         .catch(() => {});
 
         super.ngOnInit();
+
+        this.sipInnersControl.onEditModeChanged.subscribe(editMode => {
+            if (editMode) {
+                this.params.class.classes[1] = 'form-body-fill';
+            } else {
+                this.params.class.classes[1] = 'form-body-empty';
+            }
+        });
     }
 
     // -- form component methods ----------------------------------------------
@@ -297,18 +305,24 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         } else {
             this.params['class']['enable'] = false;
         }
+        if (this.sipInnersControl.editMode) {
+            this.params.class.classes[1] = 'form-body-fill';
+        } else {
+            this.params.class.classes[1] = 'form-body-empty';
+        }
     }
 
     buttonClick(action: string): void {
-        if (action == 'save') {
+        if (action === 'save') {
             this.save();
         }
-        else if (action == 'cancel') {
+        else if (action === 'cancel') {
             this.fillSipInnersFormElements();
             this.close(this.hasId, () => this.confirmClose());
         }
-        else if (action == 'back') {
+        else if (action === 'back') {
             this.sipInnersControl.editMode = false;
+            this.sipInnersControl.onEditModeChanged.emit(this.sipInnersControl.editMode);
             this.resetFilter();
         }
     }

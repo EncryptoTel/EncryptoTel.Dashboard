@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { FadeAnimation } from "../../shared/fade-animation";
+import {Component, Input, Output, EventEmitter, OnInit, ElementRef, ViewChild, Renderer2} from '@angular/core';
+import { FadeAnimation } from '../../shared/fade-animation';
 
 
 @Component({
@@ -26,7 +26,7 @@ export class ViewEditControlComponent implements OnInit {
         return !!this.selectedItems && this.selectedItems.length > 0;
     }
 
-    constructor() {
+    constructor(private renderer: Renderer2) {
         this.editMode = false;
         this.onEditModeChanged = new EventEmitter();
     }
