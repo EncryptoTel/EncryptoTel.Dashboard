@@ -32,8 +32,8 @@
             </pbx-button>
         </div>
     </div>
-    <div class="form-body form-body-fill">
-        <div class="form-body-content {{background}}">
+    <div class="form-body {{background}}">
+        <div class="form-body-content">
             <ng-content></ng-content>
         </div>
         <div class="form-ballast" *ngIf="fillBackground !== false && ((background === undefined && !!tabs) || background)"></div>

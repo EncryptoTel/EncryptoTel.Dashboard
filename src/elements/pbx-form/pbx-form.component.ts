@@ -18,7 +18,7 @@ export class FormComponent implements OnInit {
     @Input() confirm: { value: string, buttonType: string, inactive: boolean, loading: boolean };
     @Input() decline: { value: string, buttonType: string, inactive: boolean, loading: boolean };
 
-    @Input() background: boolean;
+    @Input() background: string;
     @Input() fillBackground: boolean;
 
     @Output() onConfirm: EventEmitter<void> = new EventEmitter<void>();
