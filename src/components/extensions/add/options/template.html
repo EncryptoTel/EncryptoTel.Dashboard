@@ -1,13 +1,13 @@
 <form [formGroup]="form" class="add_ext_form">
-  <div class="add_ext_form_item">
-    <label for="callRecord" (click)="changeCheckbox('callRecord')">Record all calls</label>
-    <pbx-checkbox id="callRecord" formGroupName="callRecord" (onToggle)="changeCheckbox('callRecord')"
-                  [value]="form.get('callRecord').value"></pbx-checkbox>
-  </div>
-  <div class="add_ext_form_item">
-    <label for="status" (click)="changeCheckbox('status')">Disable extension</label>
-    <pbx-checkbox id="status" formGroupName="status" (onToggle)="changeCheckbox('status')"
-                  [value]="!form.get('status').value"></pbx-checkbox>
-  </div>
+    <div class="add_ext_form_item">
+        <label for="callRecord" (click)="changeCheckbox('callRecord')">Record all calls</label>
+        <pbx-checkbox id="callRecord" formGroupName="callRecord" (onToggle)="changeCheckbox('callRecord')"
+                      [value]="form.get('callRecord').value"></pbx-checkbox>
+    </div>
+    <div class="add_ext_form_item">
+        <label for="status" (click)="changeCheckbox('status')">Disable extension</label>
+        <pbx-checkbox id="status" formGroupName="status" (onToggle)="changeCheckbox('status')"
+                      [value]="!form.get('status').value"></pbx-checkbox>
+    </div>
 
 </form>

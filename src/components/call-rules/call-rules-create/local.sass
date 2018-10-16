@@ -1,89 +1,94 @@
 @import "../../../vars"
 
 .call-rules-create
-  display: grid
-  grid-gap: rem(16)
-  &_row
-    display: flex
-    flex-flow: row
-    align-items: center
-    margin-bottom: rem(16)
-    & > div
-      pbx-button
-        margin-right: 10px
-        width: unset
-      div
-        pbx-button:first-child
-          margin: 0 10px
-    h3
-      font-weight: 500
-    label
-      width: 150px
-      color: $font-color
-      font-size: rem(13)
-    .action
-      font-weight: 500
-      color: unset
-    .error_select
-      /deep/
-      .select_item.selected.no_border
-        border-bottom: 1px solid $dark_error
-    .short_input
-      width: 65px
-    svg-icon
-      fill: $dark_error
-      width: 13px
-      height: 13px
-      margin: 5px
-    .time_wrap
-      display: flex
-      flex-flow: row
-      align-items: center
-      pbx-select
-        width: 100px
-        &:first-child
-          margin-right: 10px
-        &:last-child
-          margin-left: 10px
+    display: grid
+    grid-gap: rem(16)
+    &_row
+        display: flex
+        flex-flow: row
+        align-items: center
+        margin-bottom: rem(16)
+        & > div
+            pbx-button
+                margin-right: 10px
+                width: unset
+            div
+                pbx-button:first-child
+                    margin: 0 10px
+        h3
+            font-weight: 500
+        label
+            width: 150px
+            color: $font-color
+            font-size: rem(13)
+        .action
+            font-weight: 500
+            color: unset
+        .error_select
+            /deep/
+            .select_item.selected.no_border
+                border-bottom: 1px solid $dark_error
+        .short_input
+            width: 65px
+        svg-icon
+            fill: $dark_error
+            width: 13px
+            height: 13px
+            margin: 5px
+        .time_wrap
+            display: flex
+            flex-flow: row
+            align-items: center
+            pbx-select
+                width: 100px
+                &:first-child
+                    margin-right: 10px
+                &:last-child
+                    margin-left: 10px
+
 .error_select
-  /deep/
-  .select_item.selected.no_border
-    border: 1px solid green
+    /deep/
+    .select_item.selected.no_border
+        border: 1px solid green
+
 .wrap_buttons
-  flex-direction: row
-  margin-left: rem(16)
-  pbx-button:first-child
-    margin-right: rem(8)
+    flex-direction: row
+    margin-left: rem(16)
+    pbx-button:first-child
+        margin-right: rem(8)
+
 .icon_wrap
-  opacity: .5
-  width: rem(16)
-  height: rem(16)
-  padding: rem(2)
-  margin-left: rem(16)
-  cursor: pointer
-  /deep/ *
-    cursor: pointer
-  /deep/ polygon
-    fill: $dark_error
-  &:hover
-    opacity: 1
-  svg-icon
-    flex: 1
-.hidden
-  &_button_wrapper
-    position: relative
-    margin-left: rem(8)
-  &_input
-    padding: 0
-    font-size: 0
-    position: absolute
-    opacity: 0
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
+    opacity: .5
+    width: rem(16)
+    height: rem(16)
+    padding: rem(2)
+    margin-left: rem(16)
     cursor: pointer
     /deep/ *
-      cursor: pointer
+        cursor: pointer
+    /deep/ polygon
+        fill: $dark_error
+    &:hover
+        opacity: 1
+    svg-icon
+        flex: 1
+
+.hidden
+    &_button_wrapper
+        position: relative
+        margin-left: rem(8)
+    &_input
+        padding: 0
+        font-size: 0
+        position: absolute
+        opacity: 0
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        cursor: pointer
+        /deep/ *
+            cursor: pointer
+
 .greeting
-  margin-left: rem(16)
+    margin-left: rem(16)

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {RingGroupService} from '../../services/ring-group.service';
-import {RingGroupModel} from "../../models/ring-group.model";
+import {RingGroupModel} from '../../models/ring-group.model';
 
 @Component({
     selector: 'ring-groups-component',

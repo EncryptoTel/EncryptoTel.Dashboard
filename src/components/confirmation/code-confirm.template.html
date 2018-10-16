@@ -1,14 +1,18 @@
 <div class="auth_form">
-  <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg" class="auth_form_icon"></svg-icon>
-  <form (submit)="codeConfirm($event)" [formGroup]="confirmationCode" [@Fade] (keyup)="clearMessage($event)">
-    <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="_services.clearMessage()">{{message.message}}</div>
-    <div class="input_wrap">
-      <input name="Confirmation code" id="confirmation_code" placeholder="Confirmation code" formControlName="code">
-      <div class="input_error" *ngIf="inputValidation('code')" [@Fade]>
-        <span class="input_error_item" *ngIf="inputValidation('code')">Please enter confirmation code</span>
-      </div>
-    </div>
-    <pbx-button [buttonType]="'accent'" [value]="'Sign In'" [loading]="loading" (onClick)="codeConfirm()"></pbx-button>
-  </form>
+    <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg" class="auth_form_icon"></svg-icon>
+    <form (submit)="codeConfirm($event)" [formGroup]="confirmationCode" [@Fade] (keyup)="clearMessage($event)">
+        <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade]
+             (click)="_services.clearMessage()">{{message.message}}
+        </div>
+        <div class="input_wrap">
+            <input name="Confirmation code" id="confirmation_code" placeholder="Confirmation code"
+                   formControlName="code">
+            <div class="input_error" *ngIf="inputValidation('code')" [@Fade]>
+                <span class="input_error_item" *ngIf="inputValidation('code')">Please enter confirmation code</span>
+            </div>
+        </div>
+        <pbx-button [buttonType]="'accent'" [value]="'Sign In'" [loading]="loading"
+                    (onClick)="codeConfirm()"></pbx-button>
+    </form>
 </div>
 

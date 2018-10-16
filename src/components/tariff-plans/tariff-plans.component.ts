@@ -54,13 +54,13 @@ export class TariffPlansComponent implements OnInit {
 
     goBack(): void {
         if (this.page - 1 > 0) {
-            -- this.page;
+            --this.page;
         }
     }
 
     goNext(): void {
         if (this.page + 1 <= this.pageCount) {
-            ++ this.page;
+            ++this.page;
         }
     }
 
@@ -109,7 +109,7 @@ export class TariffPlansComponent implements OnInit {
             services = [];
             tariff.offers.map(offer => {
                 price += offer.service.sum;
-                services.push({ title: offer.service.title });
+                services.push({title: offer.service.title});
             });
             price = Math.round(price * 100) / 100;
             this.tariffs.push({

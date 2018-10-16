@@ -1,158 +1,158 @@
 // import global variables
 @import '../../_vars.sass'
 .ext
-  flex-direction: row
-  flex: 1
-  &_grid
-    display: grid
-    grid-template-rows: rem(40) 1fr rem(40)
-    grid-gap: rem(24)
-    flex: 1
-    color: $font-color
-    /deep/ input
-      border: rem(1) solid rgba($dark_primary,.1)
-      &:focus
-        border-color: $dark_accent
-        background-color: $dark_background
-    /deep/ pbx-button
-      color: $dark_primary
-  &_table
-    flex-direction: column
-    flex: 1
-    display: block
-    overflow-y: auto
-    &_row
-      flex-direction: row
-      height: rem(40)
-      border-bottom: rem(1) solid rgba($dark_primary,.1)
-      align-items: center
-      &:not(:first-child)
-        color: $dark_primary
-        cursor: pointer
-        /deep/ *
-          cursor: pointer
-        &.false:hover
-          background: rgba($dark_primary,.05)
-          .ext_table_item_icon_block
-            opacity: 1
-        &.true
-          background: rgba($dark_primary,.1)
-          .ext_table_item_icon_block
-            opacity: 1
-          &:hover
-            background: rgba($dark_primary,.15)
-    &_item
-      padding: 0 rem(16)
-      flex: 1
-      display: flow-root
-      overflow: hidden
-      text-overflow: ellipsis
-      white-space: nowrap
-      &.fixed
-        min-width: rem(80)
-        max-width: rem(80)
-        text-align: center
-        padding: 0
-      &_circle
-        width: rem(12)
-        height: rem(12)
-        border-radius: 50%
-        background: $dark_success
-        margin: auto
-      &_icon
-        flex: 1
-        &.edit
-          /deep/ rect, /deep/ path
-            fill: $dark_success
-        &.delete /deep/ polygon
-          fill: $dark_error
-        &_block
-          justify-content: space-evenly !important
-          opacity: 0
-          display: inline-flex
-        &_wrap
-          width: rem(16)
-          height: rem(16)
-          opacity: .33
-          &:hover
-            cursor: pointer
-            opacity: 1
-            /deep/ *
-              cursor: pointer
-    &_message
-      align-items: center
-      justify-content: center
-      font-size: rem(32)
-  &_header
     flex-direction: row
-    input, pbx-select
-      width: rem(240)
-      height: rem(40)
-    &_wrap
-      align-items: center
-      &:last-child
-        margin-left: auto
-      &:not(:last-child)
-        margin-right: rem(32)
-      pbx-button:not(:last-child)
-        margin-right: rem(8)
-      &_key
-        margin-right:  rem(16)
-  &_sidebar
-    background: $dark_overlay
-    display: grid
-    grid-gap: rem(32)
-    grid-template-rows: 1fr auto
-    &_contain
-      flex: 1
-      display: grid
-      grid-template-rows: auto 1fr
-      grid-gap: rem(32)
-      &_data
-        display: block
-        text-overflow: ellipsis
-        overflow-x: hidden
-    &_item
-      flex-direction: column
-      &:not(:last-child)
-        margin-bottom: rem(24)
-      &_key
-        margin-bottom: rem(8)
-        font-size: rem(12)
-      &_value
-        display: block
-        overflow-x: hidden
-        text-overflow: ellipsis
-        white-space: nowrap
-        color: $dark_primary
-        font-size: rem(16)
-        height: rem(18)
-      &_row
+    flex: 1
+    &_grid
         display: grid
-        grid-template-columns: auto 1fr
+        grid-template-rows: rem(40) 1fr rem(40)
         grid-gap: rem(24)
-    &_service
-      &_wrap
-        display: grid
-        grid-gap: rem(24)
-        margin-bottom: auto
-        font-size: rem(16)
-      &_button
-        color: $dark_error
-        margin-right: auto
-        &:hover
-          cursor: pointer
-          text-decoration: underline
-    &_button
-      &_wrap
-        padding-top: rem(24)
+        flex: 1
+        color: $font-color
+        /deep/ input
+            border: rem(1) solid rgba($dark_primary, .1)
+            &:focus
+                border-color: $dark_accent
+                background-color: $dark_background
+        /deep/ pbx-button
+            color: $dark_primary
+    &_table
         flex-direction: column
-      &_title
-        margin-bottom: rem(16)
-      &_grid
+        flex: 1
+        display: block
+        overflow-y: auto
+        &_row
+            flex-direction: row
+            height: rem(40)
+            border-bottom: rem(1) solid rgba($dark_primary, .1)
+            align-items: center
+            &:not(:first-child)
+                color: $dark_primary
+                cursor: pointer
+                /deep/ *
+                    cursor: pointer
+                &.false:hover
+                    background: rgba($dark_primary, .05)
+                    .ext_table_item_icon_block
+                        opacity: 1
+                &.true
+                    background: rgba($dark_primary, .1)
+                    .ext_table_item_icon_block
+                        opacity: 1
+                    &:hover
+                        background: rgba($dark_primary, .15)
+        &_item
+            padding: 0 rem(16)
+            flex: 1
+            display: flow-root
+            overflow: hidden
+            text-overflow: ellipsis
+            white-space: nowrap
+            &.fixed
+                min-width: rem(80)
+                max-width: rem(80)
+                text-align: center
+                padding: 0
+            &_circle
+                width: rem(12)
+                height: rem(12)
+                border-radius: 50%
+                background: $dark_success
+                margin: auto
+            &_icon
+                flex: 1
+                &.edit
+                    /deep/ rect, /deep/ path
+                        fill: $dark_success
+                &.delete /deep/ polygon
+                    fill: $dark_error
+                &_block
+                    justify-content: space-evenly !important
+                    opacity: 0
+                    display: inline-flex
+                &_wrap
+                    width: rem(16)
+                    height: rem(16)
+                    opacity: .33
+                    &:hover
+                        cursor: pointer
+                        opacity: 1
+                        /deep/ *
+                            cursor: pointer
+        &_message
+            align-items: center
+            justify-content: center
+            font-size: rem(32)
+    &_header
+        flex-direction: row
+        input, pbx-select
+            width: rem(240)
+            height: rem(40)
+        &_wrap
+            align-items: center
+            &:last-child
+                margin-left: auto
+            &:not(:last-child)
+                margin-right: rem(32)
+            pbx-button:not(:last-child)
+                margin-right: rem(8)
+            &_key
+                margin-right: rem(16)
+    &_sidebar
+        background: $dark_overlay
         display: grid
-        grid-gap: rem(24)
-        grid-template-columns: 1fr 1fr
-        grid-template-rows: 1fr 1fr
-        /deep/ button
-          flex: 1
+        grid-gap: rem(32)
+        grid-template-rows: 1fr auto
+        &_contain
+            flex: 1
+            display: grid
+            grid-template-rows: auto 1fr
+            grid-gap: rem(32)
+            &_data
+                display: block
+                text-overflow: ellipsis
+                overflow-x: hidden
+        &_item
+            flex-direction: column
+            &:not(:last-child)
+                margin-bottom: rem(24)
+            &_key
+                margin-bottom: rem(8)
+                font-size: rem(12)
+            &_value
+                display: block
+                overflow-x: hidden
+                text-overflow: ellipsis
+                white-space: nowrap
+                color: $dark_primary
+                font-size: rem(16)
+                height: rem(18)
+            &_row
+                display: grid
+                grid-template-columns: auto 1fr
+                grid-gap: rem(24)
+        &_service
+            &_wrap
+                display: grid
+                grid-gap: rem(24)
+                margin-bottom: auto
+                font-size: rem(16)
+            &_button
+                color: $dark_error
+                margin-right: auto
+                &:hover
+                    cursor: pointer
+                    text-decoration: underline
+        &_button
+            &_wrap
+                padding-top: rem(24)
+                flex-direction: column
+            &_title
+                margin-bottom: rem(16)
+            &_grid
+                display: grid
+                grid-gap: rem(24)
+                grid-template-columns: 1fr 1fr
+                grid-template-rows: 1fr 1fr
+                /deep/ button
+                    flex: 1

@@ -18,15 +18,15 @@ import {ModalEx} from '../../../../elements/pbx-modal/pbx-modal.component';
     animations: [FadeAnimation('300ms')]
 })
 export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
-    
+
     model: SettingsModel;
     modelValues: SettingsOptionItem[] = [];
     changes: SettingsOptionItem[] = [];
 
     qrCode: string;
 
-    saveButton: any = { buttonType: 'success', value: 'Save', inactive: false, loading: false };
-    cancelButton: any = { buttonType: 'cancel', value: 'Cancel', inactive: false, loading: false };
+    saveButton: any = {buttonType: 'success', value: 'Save', inactive: false, loading: false};
+    cancelButton: any = {buttonType: 'cancel', value: 'Cancel', inactive: false, loading: false};
     modalExit: ModalEx = new ModalEx('', 'cancelEdit');
 
     @Input() path: string;
@@ -126,18 +126,20 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
 
     getInitialParams(): void {
         this.locker.lock();
-        
+
         this.service.getSettingsParams(this.path).then(response => {
             this.model = SettingsModel.create(response.settings);
             this.saveModelState(this.model.items);
-        }).catch(() => {})
-          .then(() => this.locker.unlock());
+        }).catch(() => {
+        })
+            .then(() => this.locker.unlock());
     }
 
     getQR(): void {
         this.service.getQRCode().then(response => {
             this.qrCode = response.qrImage;
-        }).catch(() => {});
+        }).catch(() => {
+        });
     }
 
     saveSettings() {
@@ -147,12 +149,13 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
         }
 
         this.saveButton.loading = true;
-        
+
         this.service.saveSettings(this.changes, this.path, false).then(response => {
             this.message.writeSuccess(response.message);
             this.changes = [];
             this.saveModelState(this.model.items);
-        }).catch(() => {})
-          .then(() => this.saveButton.loading = false);
+        }).catch(() => {
+        })
+            .then(() => this.saveButton.loading = false);
     }
 }

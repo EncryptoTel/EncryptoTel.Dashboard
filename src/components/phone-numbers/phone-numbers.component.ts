@@ -62,7 +62,7 @@ export class PhoneNumbersComponent implements OnInit {
     }
 
     toggleNumber(): void {
-        this.selected.loading ++;
+        this.selected.loading++;
         this.select(this.selected);
         this.service.toggleNumber(this.selected.id, !this.selected.status).then(() => {
             this.list.getItems(this.selected);
@@ -86,8 +86,9 @@ export class PhoneNumbersComponent implements OnInit {
             }
 
             this.message.writeSuccess('The phone number has been ' + status);
-        }).catch(() => {})
-          .then(() => this.selected.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.selected.loading--);
     }
 
     click(item) {

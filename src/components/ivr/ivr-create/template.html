@@ -30,7 +30,7 @@
                            [title]="getLevelTitle(i)"
                            [description]="getLevelDescription(i)"
                            (ivrDigitSelected)="onIvrDigitSelected($event)"
-                           >
+            >
             </pbx-ivr-level>
         </div>
 
@@ -46,7 +46,7 @@
                            [object]="form"
                            [errors]="service.errors"
                            [validationHost]="validationHost"
-                           >
+                >
                 </pbx-input>
                 <pbx-input name="IVR Description"
                            key="description"
@@ -55,7 +55,7 @@
                            [object]="form"
                            [errors]="service.errors"
                            [validationHost]="validationHost"
-                           >
+                >
                 </pbx-input>
                 <pbx-input name="Phone number"
                            key="sip"
@@ -70,7 +70,7 @@
                            [validationHost]="validationHost"
                            class="phone_number"
                            (onSelect)="selectSipOuter($event)"
-                           >
+                >
                 </pbx-input>
             </div>
 
@@ -84,7 +84,7 @@
                                [(errors)]="service.errors"
                                [(object)]="service.digits"
                                [(objectView)]="selectedItem.digit"
-                               >
+                    >
                     </pbx-input>
                     <pbx-button value="Delete" buttonType="error"></pbx-button>
 
@@ -95,7 +95,7 @@
                            placeholder=""
                            [(errors)]="service.errors"
                            [(object)]="selectedItem"
-                           >
+                >
                 </pbx-input>
 
                 <div class="title accent">When the caller presses {{ selectedItem.digit }}</div>
@@ -109,9 +109,9 @@
                            errorKey="digitAction"
                            [(object)]="selectedDigitAction"
                            (onSelect)="selectDigitAction($event)"
-                           >
+                >
                 </pbx-input>
-                
+
                 <pbx-input *ngIf="sipOutersVisible"
                            name="Phone"
                            key="sipId"
@@ -121,11 +121,11 @@
                            [(errors)]="service.errors"
                            [(object)]="selectedSipOuter"
                            (onSelect)="selectSipOuter($event)"
-                           >
+                >
                 </pbx-input>
-                
+
                 <pbx-loader *ngIf="loadingExt"></pbx-loader>
-                
+
                 <pbx-input *ngIf="sipInnersVisible && !loadingExt"
                            name="Ext"
                            key="parameter"
@@ -134,12 +134,12 @@
                            [options]="sipInners"
                            [(errors)]="service.errors"
                            [(object)]="selectedSipInner"
-                           >
+                >
                 </pbx-input>
 
             </div> <!-- two -->
         </div>
-        
+
         <div class="left" *ngIf="modelTemplate">
 
             <div class="item one_up"> <!-- class two and one_up-->

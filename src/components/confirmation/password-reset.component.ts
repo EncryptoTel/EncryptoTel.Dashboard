@@ -12,78 +12,87 @@ import {validateForm} from '../../shared/shared.functions';
 import {FormMessageModel} from '../../models/form-message.model';
 
 @Component({
-  selector: 'password-reset',
-  templateUrl: './password-reset.template.html',
-  animations: [FadeAnimation('300ms')]
+    selector: 'password-reset',
+    templateUrl: './password-reset.template.html',
+    animations: [FadeAnimation('300ms')]
 })
 export class PasswordResetComponent implements OnInit, OnDestroy {
-  constructor(private _route: ActivatedRoute,
-              private _user: UserServices,
-              public _services: AuthorizationServices) {}
-  loading = false;
-  passwordChangingHash: string;
-  message: FormMessageModel;
-  passwordChangingForm: FormGroup;
-  paramsSubscription: Subscription;
-  errorsSubscription: Subscription;
-  /*
-    Form field validation. Accepted params:
-    Name: string - form field name,
-    Error Type: string - validation type (not necessary)
-   */
-  inputValidation(name: string, errorType?: string): boolean {
-    if (errorType) {
-      const field = this.passwordChangingForm.controls[name];
-      return field.errors[errorType] && (field.dirty || field.touched);
-    } else {
-      const field = this.passwordChangingForm.controls[name];
-      return field.invalid && (field.dirty || field.touched);
+    constructor(private _route: ActivatedRoute,
+                private _user: UserServices,
+                public _services: AuthorizationServices) {
     }
-  }
-  /*
-    Form passwords match validation.
-   */
-  passwordsMismatch(): boolean {
-    const confirm = this.passwordChangingForm.controls['password_confirmation'];
-    const password = this.passwordChangingForm.controls['password'];
-    if (this.passwordChangingForm.errors && ((confirm.touched || confirm.dirty) || (password.touched || password.dirty))) {
-      return this.passwordChangingForm.errors.mismatch;
-    } else {
-      return false;
+
+    loading = false;
+    passwordChangingHash: string;
+    message: FormMessageModel;
+    passwordChangingForm: FormGroup;
+    paramsSubscription: Subscription;
+    errorsSubscription: Subscription;
+
+    /*
+      Form field validation. Accepted params:
+      Name: string - form field name,
+      Error Type: string - validation type (not necessary)
+     */
+    inputValidation(name: string, errorType?: string): boolean {
+        if (errorType) {
+            const field = this.passwordChangingForm.controls[name];
+            return field.errors[errorType] && (field.dirty || field.touched);
+        } else {
+            const field = this.passwordChangingForm.controls[name];
+            return field.invalid && (field.dirty || field.touched);
+        }
     }
-  }
-  /*
-    Change password action
-   */
-  changePassword(ev?: Event): void {
-    if (ev) { ev.preventDefault(); }
-    validateForm(this.passwordChangingForm);
-    if (this.passwordChangingForm.valid) {
-      this.loading = true;
-      this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
-        this.loading = false;
-      }).catch(() => {
-        this.loading = false;
-      });
+
+    /*
+      Form passwords match validation.
+     */
+    passwordsMismatch(): boolean {
+        const confirm = this.passwordChangingForm.controls['password_confirmation'];
+        const password = this.passwordChangingForm.controls['password'];
+        if (this.passwordChangingForm.errors && ((confirm.touched || confirm.dirty) || (password.touched || password.dirty))) {
+            return this.passwordChangingForm.errors.mismatch;
+        } else {
+            return false;
+        }
     }
-  }
-  ngOnInit(): void {
-    this._services.clearMessage();
-    this._route.params.subscribe(params => {
-      this.passwordChangingHash = params['hash'];
-    });
-    this.errorsSubscription = this._services.readMessage().subscribe(message => {
-      this.message = message;
-    });
-    this.passwordChangingForm = new FormGroup({
-      'password': new FormControl(null, [
-        Validators.required,
-        Validators.minLength(6)
-      ]),
-      'password_confirmation': new FormControl(),
-    }, passwordConfirmation);
-  }
-  ngOnDestroy(): void {
-    this.errorsSubscription.unsubscribe();
-  }
+
+    /*
+      Change password action
+     */
+    changePassword(ev?: Event): void {
+        if (ev) {
+            ev.preventDefault();
+        }
+        validateForm(this.passwordChangingForm);
+        if (this.passwordChangingForm.valid) {
+            this.loading = true;
+            this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
+                this.loading = false;
+            }).catch(() => {
+                this.loading = false;
+            });
+        }
+    }
+
+    ngOnInit(): void {
+        this._services.clearMessage();
+        this._route.params.subscribe(params => {
+            this.passwordChangingHash = params['hash'];
+        });
+        this.errorsSubscription = this._services.readMessage().subscribe(message => {
+            this.message = message;
+        });
+        this.passwordChangingForm = new FormGroup({
+            'password': new FormControl(null, [
+                Validators.required,
+                Validators.minLength(6)
+            ]),
+            'password_confirmation': new FormControl(),
+        }, passwordConfirmation);
+    }
+
+    ngOnDestroy(): void {
+        this.errorsSubscription.unsubscribe();
+    }
 }

@@ -11,7 +11,7 @@ import {IvrTreeItem, IvrLevelItem} from '../../../models/ivr.model';
     animations: [FadeAnimation('300ms')]
 })
 export class IvrLevelComponent implements OnInit {
-    
+
     @Input() level: IvrLevelItem;
     @Input() selectedIds: number[];
     @Input() lastLevel: boolean = false;
@@ -29,7 +29,8 @@ export class IvrLevelComponent implements OnInit {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor() {}
+    constructor() {
+    }
 
     ngOnInit(): void {
         // console.log('level-node', this.items);

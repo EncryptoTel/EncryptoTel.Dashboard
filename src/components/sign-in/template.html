@@ -1,33 +1,48 @@
 <div class="auth_form" [ngClass]="!imageLoad?'':'auth_form_loaded'">
     <img src="./assets/images/auth_bg.jpg" loaded="imageLoaded()" (load)="imageLoaded()" style="display: none;">
-  <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg" class="auth_form_icon"></svg-icon>
-  <form (submit)="signIn($event)" [formGroup]="signInForm" (keyup)="clearMessage($event)">
-    <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade] (click)="_services.clearMessage()">{{message.message}}</div>
-    <div class="input_wrap">
-      <input #nameInput name="Username" id="username" placeholder="{{'Email or internal number' | translate }}" formControlName="login" (focus)="setFocus(nameInput)" (blur)="removeFocus(nameInput)" (mouseenter)="mouseEnter(nameInput)" (mouseleave)="mouseLeave(nameInput)">
-      <div class="input_error" *ngIf="inputValidation('login') && errorName" [@Fade]>
-        <span id="sign_in_err_no_email" class="input_error_item" *ngIf="inputValidation('login', 'required')" translate>Please enter your e-mail address or internal number</span>
-        <span id="sign_in_err_invalid_email" class="input_error_item" *ngIf="inputValidation('login', 'pattern')" translate>Please enter correct e-mail address or internal number</span>
-      </div>
-    </div>
-    <div class="input_wrap">
-      <input #passwordInput type="password" name="Password" placeholder="{{'Password' | translate}} " formControlName="password" (focus)="setFocus(passwordInput)" (blur)="removeFocus(passwordInput)" (mouseenter)="mouseEnter(passwordInput)" (mouseleave)="mouseLeave(passwordInput)">
-      <div class="input_error" *ngIf="(inputValidation('password') && errorPassword) || passwordFormError" [@Fade]>
-        <span id="sign_in_err_no_password" class="input_error_item" *ngIf="!passwordFormError && inputValidation('password', 'required')" translate>Please enter password</span>
-        <span id="sign_in_err_short_password" class="input_error_item" *ngIf="!passwordFormError && inputValidation('password', 'minlength')" translate>Password is too short</span>
-        <span id="sign_in_err_password_form_error" class="input_error_item" *ngIf="passwordFormError">{{passwordFormErrorMessage}}</span>
-      </div>
-    </div>
-    <pbx-button [buttonType]="'accent'" [loading]="loading" [value]="'Sign In'" (onClick)="signIn()"></pbx-button>
-    <div class="auth_form_text" translate><a routerLink="../password-recovery" class="auth_form_link" translate>Forgot your password?</a>&nbsp;
-      or use&nbsp;<a routerLink="../temporary-code" class="auth_form_link" translate>Temporary Code</a>
-    </div>
-    <div class="auth_form_text" translate>Don't have an EncryptoTel Account?&nbsp;<a routerLink="../sign-up" class="auth_form_link" translate>Create one now</a></div>
+    <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg" class="auth_form_icon"></svg-icon>
+    <form (submit)="signIn($event)" [formGroup]="signInForm" (keyup)="clearMessage($event)">
+        <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade]
+             (click)="_services.clearMessage()">{{message.message}}
+        </div>
+        <div class="input_wrap">
+            <input #nameInput name="Username" id="username" placeholder="{{'Email or internal number' | translate }}"
+                   formControlName="login" (focus)="setFocus(nameInput)" (blur)="removeFocus(nameInput)"
+                   (mouseenter)="mouseEnter(nameInput)" (mouseleave)="mouseLeave(nameInput)">
+            <div class="input_error" *ngIf="inputValidation('login') && errorName" [@Fade]>
+                <span id="sign_in_err_no_email" class="input_error_item" *ngIf="inputValidation('login', 'required')"
+                      translate>Please enter your e-mail address or internal number</span>
+                <span id="sign_in_err_invalid_email" class="input_error_item"
+                      *ngIf="inputValidation('login', 'pattern')" translate>Please enter correct e-mail address or internal number</span>
+            </div>
+        </div>
+        <div class="input_wrap">
+            <input #passwordInput type="password" name="Password" placeholder="{{'Password' | translate}} "
+                   formControlName="password" (focus)="setFocus(passwordInput)" (blur)="removeFocus(passwordInput)"
+                   (mouseenter)="mouseEnter(passwordInput)" (mouseleave)="mouseLeave(passwordInput)">
+            <div class="input_error" *ngIf="(inputValidation('password') && errorPassword) || passwordFormError"
+                 [@Fade]>
+                <span id="sign_in_err_no_password" class="input_error_item"
+                      *ngIf="!passwordFormError && inputValidation('password', 'required')" translate>Please enter password</span>
+                <span id="sign_in_err_short_password" class="input_error_item"
+                      *ngIf="!passwordFormError && inputValidation('password', 'minlength')" translate>Password is too short</span>
+                <span id="sign_in_err_password_form_error" class="input_error_item" *ngIf="passwordFormError">{{passwordFormErrorMessage}}</span>
+            </div>
+        </div>
+        <pbx-button [buttonType]="'accent'" [loading]="loading" [value]="'Sign In'" (onClick)="signIn()"></pbx-button>
+        <div class="auth_form_text" translate><a routerLink="../password-recovery" class="auth_form_link" translate>Forgot
+            your password?</a>&nbsp;
+            or use&nbsp;<a routerLink="../temporary-code" class="auth_form_link" translate>Temporary Code</a>
+        </div>
+        <div class="auth_form_text" translate>Don't have an EncryptoTel Account?&nbsp;<a routerLink="../sign-up"
+                                                                                         class="auth_form_link"
+                                                                                         translate>Create one now</a>
+        </div>
 
-    <select name="" id="lang_select">
-      <option value="en" selected>English</option>
-      <option value="ru">Russian</option>
-    </select>
+        <select name="" id="lang_select">
+            <option value="en" selected>English</option>
+            <option value="ru">Russian</option>
+        </select>
 
-  </form>
+    </form>
 </div>

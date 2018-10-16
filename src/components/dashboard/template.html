@@ -3,7 +3,8 @@
     <div class="dashboard_item dashboard_balance" *ngIf="!loading">
         <div class="dashboard_item_title_row">
             <div class="dashboard_item_title_key" translate>Balance</div>
-            <div class="dashboard_balance_value">{{dashboard.balance.currency.shortName}}{{dashboard.balance.value | currency:" ":2 }}
+            <div class="dashboard_balance_value">{{dashboard.balance.currency.shortName}}{{dashboard.balance.value |
+                currency:" ":2 }}
             </div>
         </div>
         <div class="dashboard_item_title_row">
@@ -13,16 +14,19 @@
         <div class="dashboard_item_link_row">
             <a class="dashboard_item_link_item" [routerLink]="'../settings/billing'" routerLinkActive="active">
                 Billing
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon"
+                          src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
             <a class="dashboard_item_link_item dashboard_center" [routerLink]="'../invoices'"
                routerLinkActive="active">
                 Invoices
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon"
+                          src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
             <a class="dashboard_item_link_item" routerLink="/cabinet/refill" routerLinkActive="active">
                 Refill
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon"
+                          src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
         </div>
     </div>
@@ -40,12 +44,15 @@
         </div>
         <div class="dashboard_item_content_row">
             <div class="dashboard_item_content_key" translate>Estimated Payment</div>
-            <div class="dashboard_item_content_value">{{dashboard.balance.currency.shortName}}{{dashboard.tariffPlan.sum}}</div>
+            <div class="dashboard_item_content_value">
+                {{dashboard.balance.currency.shortName}}{{dashboard.tariffPlan.sum}}
+            </div>
         </div>
         <div class="dashboard_item_link_row">
             <a [routerLink]="'../tariff'" routerLinkActive="active" class="dashboard_item_link_item" translate>
                 Change tariff plan
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon"
+                          src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
         </div>
     </div>
@@ -58,15 +65,18 @@
             <div class="dashboard_item_content_row" *ngFor="let number of dashboard.numbers; let i = index">
                 <div class="dashboard_item_line" *ngIf="i <= 5">
                     <div class="dashboard_item_content_key">{{number.phoneNumber}}</div>
-                    <div class="dashboard_item_content_value">{{number.innerOnlineCount}} of {{number.innerCount}} ext.<span>online</span>
+                    <div class="dashboard_item_content_value">{{number.innerOnlineCount}} of {{number.innerCount}}
+                        ext.<span>online</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="dashboard_item_link_row">
-            <a class="dashboard_item_link_item dashboard_right" [routerLink]="'../phone-numbers'" routerLinkActive="active" translate>
+            <a class="dashboard_item_link_item dashboard_right" [routerLink]="'../phone-numbers'"
+               routerLinkActive="active" translate>
                 Details
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon"
+                          src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
         </div>
     </div>
@@ -105,14 +115,15 @@
                 </style>
                 <!-- i try to create diagram -->
                 <pbx-circle-progress
-                        [value]="((dashboard.storage.usedSize)/(dashboard.storage.totalSize))*100 | number: '1.0-0'">
+                    [value]="((dashboard.storage.usedSize)/(dashboard.storage.totalSize))*100 | number: '1.0-0'">
                 </pbx-circle-progress>
             </div>
         </div>
         <div class="dashboard_item_link_row">
             <a [routerLink]="'../storage'" routerLinkActive="active" class="dashboard_item_link_item" translate>
                 Details
-                <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
+                <svg-icon class="dashboard_item_icon"
+                          src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
         </div>
     </div>
@@ -147,7 +158,8 @@
                 </div>
             </div>
         </div>
-        <a class="dashboard_item_link_row" [routerLink]="'/cabinet/details-and-records'" routerLinkActive="active" translate>Details</a>
+        <a class="dashboard_item_link_row" [routerLink]="'/cabinet/details-and-records'" routerLinkActive="active"
+           translate>Details</a>
     </div>
 </div>
 

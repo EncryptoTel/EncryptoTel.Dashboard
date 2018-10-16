@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {ModalEx} from "../../elements/pbx-modal/pbx-modal.component";
+import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {Module} from '../../models/module.model';
 import {ModuleServices} from '../../services/module.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
@@ -27,7 +27,7 @@ export class MarketplaceComponent implements OnInit, Lockable {
                 private message: MessageServices,
                 private storage: LocalStorageServices,
                 private userService: UserServices) {
-            this.locker = new Locker();
+        this.locker = new Locker();
     }
 
     ngOnInit(): void {
@@ -70,23 +70,25 @@ export class MarketplaceComponent implements OnInit, Lockable {
                 else if (!a.status && b.status) return 1;
                 else return a.title > b.title ? 1 : -1;
             });
-        }).catch(() => {})
-          .then(() => this.locker.unlock());
+        }).catch(() => {
+        })
+            .then(() => this.locker.unlock());
     }
 
     purchaseService = (): void => {
         this.selected.loading = true;
         this.locker.lock();
         this.services.buyService(this.selected.id).then(() => {
-                this.getModulesList();
+            this.getModulesList();
 
-                this.userService.modulesChanged.emit();
-        }).catch(() => {})
-          .then(() => {
+            this.userService.modulesChanged.emit();
+        }).catch(() => {
+        })
+            .then(() => {
                 this.selected.loading = false;
-                this.locker.unlock(); 
-          });
-    }
+                this.locker.unlock();
+            });
+    };
 
     getModuleColor(moduleTitle: string): number {
         let title = moduleTitle.toLowerCase();

@@ -13,7 +13,7 @@ import {callRuleTimeValidator, durationTimeValidator} from '../../../../shared/e
     styleUrls: ['./local.sass']
 })
 export class CallRulesTimeRulesComponent implements OnInit {
-    
+
     asteriskTimeRule: AsteriskTimeRule;
     callRuleTimeDays: CallRuleDay[];
     selectedCallRuleTimeType: CallRuleTimeType;
@@ -23,7 +23,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
     @Input() action: FormGroup;
     @Input() actionIndex: number;
     @Input() validationHost: ValidationHost;
-    
+
     @Output() onChange: EventEmitter<string> = new EventEmitter<string>();
 
     // -- properties ----------------------------------------------------------
@@ -55,7 +55,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
         this.asteriskTimeRule = new AsteriskTimeRule();
         this.callRuleTimeDays = [];
     }
-    
+
     ngOnInit() {
         this.callRuleTimeDays = this.service.callRuleDays.map<CallRuleDay>(day => Object.assign({}, day));
 
@@ -80,15 +80,17 @@ export class CallRulesTimeRulesComponent implements OnInit {
             this.selectTimeRule(this.callRuleTimeTypes[0], true);
         } else {
             this.selectTimeRule(this.callRuleTimeTypes[1], true);
-            
+
             this.callRuleTimeDays.forEach(d => d.type = 'cancel');
             const weekDays = rules[1].split('&');
             weekDays.forEach(day => {
-                this.callRuleTimeDays.map(d => { if (d.code == day) d.type = 'accent'; });
+                this.callRuleTimeDays.map(d => {
+                    if (d.code == day) d.type = 'accent';
+                });
             });
             this.initAsteriskRuleDays();
         }
-        
+
         this.formatAsteriskRule();
     }
 
@@ -111,7 +113,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
                 this.asteriskTimeRule.empty();
                 break;
         }
-        
+
         if (!silentMode) this.formatAsteriskRule();
     }
 
@@ -146,7 +148,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
                     this.selectTime(this.callRuleTimes[0], 1);
                 }
             }
-            
+
             this.formatAsteriskRule();
         }
     }
@@ -156,7 +158,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
 
         this.selectedDurationTimeRange[idx] = time;
         this.setAsteriskTime();
-        
+
         this.formatAsteriskRule();
     }
 

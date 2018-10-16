@@ -16,48 +16,48 @@
         </div>
         <pbx-loader *ngIf="loading"></pbx-loader>
         <overview-partner-program-component
-                *ngIf="!loading && tab.select==='Overview'"
-                class="partner_body"
-                [(partners)]="partners"
-                [(form)]="form"
-                >
+            *ngIf="!loading && tab.select==='Overview'"
+            class="partner_body"
+            [(partners)]="partners"
+            [(form)]="form"
+        >
         </overview-partner-program-component>
         <links-partner-program-component
-                *ngIf="!loading && tab.select==='Links'"
-                class="partner_body"
-                (onReload)="getItems($event)"
-                (onEdit)="edit($event)"
-                [(partners)]="partners"
-                (onSelect)="select($event)"
-                (onCopyToClipboard)="copyToClipboard($event)"
-                >
+            *ngIf="!loading && tab.select==='Links'"
+            class="partner_body"
+            (onReload)="getItems($event)"
+            (onEdit)="edit($event)"
+            [(partners)]="partners"
+            (onSelect)="select($event)"
+            (onCopyToClipboard)="copyToClipboard($event)"
+        >
         </links-partner-program-component>
         <reports-partner-program-component
-                *ngIf="tab.select==='Reports'"
-                class="partner_body"
-                [(form)]="form"
-                >
+            *ngIf="tab.select==='Reports'"
+            class="partner_body"
+            [(form)]="form"
+        >
         </reports-partner-program-component>
         <terms-partner-program-component
-                *ngIf="tab.select==='Terms and Conditions'"
-                class="partner_body"
-                [(form)]="form"
-                >
+            *ngIf="tab.select==='Terms and Conditions'"
+            class="partner_body"
+            [(form)]="form"
+        >
         </terms-partner-program-component>
     </div>
     <pbx-sidebar class="sidebar_partner_program"
-            *ngIf="tab.select==='Links' && this.selected"
-            [sidebarInfo]="sidebar"
-            [useForm]="true"
-            [validationHost]="validationHost"
-            [errors]="service.errors"
-            (onClick)="click($event)"
-            (onSelect)="selectItemStatus($event)"
-            [@Swipe]
-            >
+                 *ngIf="tab.select==='Links' && this.selected"
+                 [sidebarInfo]="sidebar"
+                 [useForm]="true"
+                 [validationHost]="validationHost"
+                 [errors]="service.errors"
+                 (onClick)="click($event)"
+                 (onSelect)="selectItemStatus($event)"
+                 [@Swipe]
+    >
     </pbx-sidebar>
 </div>
 <pbx-modal [modalEx]="modalExit"
            (onConfirmEx)="confirmClose()"
-           >
+>
 </pbx-modal>

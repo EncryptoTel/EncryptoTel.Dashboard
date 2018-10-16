@@ -48,7 +48,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
     @HostListener('window:keydown', ['$event'])
     keyEvent(event: KeyboardEvent) {
         let specialKeys: Array<string>;
-        specialKeys = [ 'Backspace', 'Tab', 'End', 'Home'];
+        specialKeys = ['Backspace', 'Tab', 'End', 'Home'];
         if (specialKeys.indexOf(event.key) !== -1) {
             return;
         }
@@ -141,7 +141,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
         }).catch(() => {
             this.selected.loading = false;
         });
-    }
+    };
 
     private getCountries(): void {
         this.refs.getCountries().then(res => {

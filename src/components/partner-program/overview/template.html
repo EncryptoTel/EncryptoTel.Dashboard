@@ -15,10 +15,12 @@
             <div class="overview_tag_wrap" *ngIf="!loading.tag" [@Fade]>
                 <div class="overview_tag active color_{{item.color}}"
                      *ngFor="let item of tag.active"
-                     (click)="clickActiveTag(item)">{{item.title}}</div>
+                     (click)="clickActiveTag(item)">{{item.title}}
+                </div>
                 <div class="overview_tag off"
                      *ngFor="let item of tag.inactive"
-                     (click)="clickInactiveTag(item)">{{item.title}}</div>
+                     (click)="clickInactiveTag(item)">{{item.title}}
+                </div>
             </div>
         </div>
     </div>

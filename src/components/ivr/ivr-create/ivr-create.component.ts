@@ -26,11 +26,11 @@ export enum DigitActions {
 export class IvrCreateComponent extends FormBaseComponent implements OnInit {
 
     model: IvrItem;
-    
+
     ivrLevels: IvrLevelItem[];
     sipInners: any[] = [];
     sipOuters: any[] = [];
-    
+
     selectedItem: IvrTreeItem;  // represents selected IVR digit in tree
     digitForm: FormGroup;
 
@@ -66,14 +66,14 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     get sipInnersVisible(): boolean {
-        return (this.selectedDigitAction 
+        return (this.selectedDigitAction
             && this.selectedDigitAction.id === <number>DigitActions.EXTENSION_NUMBER
             && this.selectedSipOuter && this.selectedSipOuter.sipId > 0);
     }
 
     get sipOutersVisible(): boolean {
-        return (this.selectedDigitAction 
-            && (this.selectedDigitAction.id === <number>DigitActions.EXTERNAL_NUMBER 
+        return (this.selectedDigitAction
+            && (this.selectedDigitAction.id === <number>DigitActions.EXTERNAL_NUMBER
                 || this.selectedDigitAction.id === <number>DigitActions.EXTENSION_NUMBER));
     }
 
@@ -82,7 +82,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     // -- component lifecycle methods -----------------------------------------
-    
+
     ngOnInit() {
         super.ngOnInit();
         this.service.reset();
@@ -90,7 +90,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         this.getSipOuters();
 
         // if (this.id) {
-            this.getItem();
+        this.getItem();
         // } 
     }
 
@@ -98,45 +98,50 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
 
     initForm(): void {
         this.form = this.fb.group({
-            id:             [ null ],
-            name:           [ '', [ Validators.required, Validators.pattern(nameRegExp) ] ],
-            description:    [ '', [ Validators.maxLength(255) ] ],
-            sip:            [ null, [ Validators.required ] ],
+            id: [null],
+            name: ['', [Validators.required, Validators.pattern(nameRegExp)]],
+            description: ['', [Validators.maxLength(255)]],
+            sip: [null, [Validators.required]],
             // ...
         });
 
         this.digitForm = this.fb.group({
-            id:             [ null ],
-            digit:          [ null, [ Validators.required ] ],
-            description:    [ '', [ Validators.maxLength(255) ] ],
-            action:         [ null, [ Validators.required ] ],
-            parameter:      [ null, c => this.actionParameterValidators() ],
+            id: [null],
+            digit: [null, [Validators.required]],
+            description: ['', [Validators.maxLength(255)]],
+            action: [null, [Validators.required]],
+            parameter: [null, c => this.actionParameterValidators()],
         });
     }
-    
+
     actionParameterValidators(): ((control: AbstractControl) => ValidationErrors)[] {
         if (this.digitForm) {
             const action = this.digitForm.get('action').value;
             switch (action) {
                 // Redirect to extension number
-                case 1: return [ Validators.required ];
+                case 1:
+                    return [Validators.required];
                 // Redirect to external number
-                case 2: return [ Validators.required, Validators.pattern(phoneRegExp) ];
+                case 2:
+                    return [Validators.required, Validators.pattern(phoneRegExp)];
                 // Send to IVR
-                case 3: return null;
+                case 3:
+                    return null;
             }
         }
         return null;
     }
 
     setFormData(): void {
-        super.setFormData(this.model, () => {});
+        super.setFormData(this.model, () => {
+        });
         console.log('form-value', this.form.value);
     }
 
     // -- event handlers ------------------------------------------------------
 
-    addLevel() {}
+    addLevel() {
+    }
 
     onIvrDigitSelected(itemId: number): void {
         const hideDigit = this.selectedItem && this.selectedItem.id === itemId;
@@ -147,7 +152,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
             if (!hideDigit) {
                 this.selectedItem = this.model.tree.find(node => node.id === itemId);
                 this.selectedDigits.push(itemId);
-    
+
                 const action = this.service.actions.find(a => a.title === this.selectedItem.action);
                 this.selectDigitAction(action);
                 // if (this.selectedItem.action == 'Send to IVR') {}
@@ -158,7 +163,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
                 this.selectedDigits.push(itemId);
             }
             this.initIvrTree();
-    
+
             // console.log('digit-selected', this.selectedItem);
         }, 0);
     }
@@ -177,7 +182,9 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     save(): void {
-        if (!this.validateForms()) { return; }
+        if (!this.validateForms()) {
+            return;
+        }
         console.log('form-value', this.form.value);
 
         this.setModelData(this.model, () => {
@@ -186,7 +193,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         console.log('model-value', this.model);
 
         // this.saveIvr();
-        
+
         // if (this.selectedItem) {
         //     // IVR Digit
         //     console.log('sel-item', this.selectedItem);
@@ -211,15 +218,15 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         const maxId = Math.max(...this.selectedDigits);
         const lastNode = this.model.tree.find(node => node.id === maxId);
         if (levelLimit === 0 || (lastNode && lastNode.action === 'Send to IVR')) {
-            levelLimit ++;
+            levelLimit++;
         }
 
-        for (let i = 0; i < levelLimit; i ++) {
+        for (let i = 0; i < levelLimit; i++) {
             this.ivrLevels[i] = new IvrLevelItem();
             this.ivrLevels[i].number = i;
             this.ivrLevels[i].title = this.getLevelTitle(i);
             this.ivrLevels[i].description = this.getLevelDescription(i);
-            this.ivrLevels[i].items = this.model.tree.filter(node => 
+            this.ivrLevels[i].items = this.model.tree.filter(node =>
                 node.level === i && (this.selectedDigits.indexOf(Math.floor(node.id / 100)) !== -1 || i === 0));
         }
 
@@ -239,7 +246,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
             const maxId = Math.max(...selectedIds);
             const item = this.model.tree.find(i => i.id === maxId);
             if (item) {
-                return item.description; 
+                return item.description;
             }
         }
         return '';
@@ -254,7 +261,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     // -- data processing methods ---------------------------------------------
 
     getItem() {
-        this.loading ++;
+        this.loading++;
         this.service.getById(this.id).then(() => {
             this.selectedNumber = this.service.item.sip;
             // TODO:
@@ -267,32 +274,34 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
             this.initIvrTree();
             this.setFormData();
         })
-          .then(() => this.loading --);
+            .then(() => this.loading--);
     }
 
     getSipOuters() {
-        this.loading ++;
+        this.loading++;
         this.refs.getSipOuters().then(response => {
             this.sipOuters = response;
         }).catch(() => {
         })
-          .then(() => this.loading --);
+            .then(() => this.loading--);
     }
-    
+
     getExtensions(id: number): void {
-        this.loadingExt ++;
+        this.loadingExt++;
 
         this.service.getExtensions(id).then(response => {
             this.sipInners = response.items;
-            }).catch(() => {})
-          .then(() => this.loadingExt --);
+        }).catch(() => {
+        })
+            .then(() => this.loadingExt--);
     }
 
     saveIvr() {
-        this.saving ++;
+        this.saving++;
         this.service.save(this.id).then(() => {
             this.cancel();
-        }).catch(() => {})
-          .then(() => this.saving --);
+        }).catch(() => {
+        })
+            .then(() => this.saving--);
     }
 }

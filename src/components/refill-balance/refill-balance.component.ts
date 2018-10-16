@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router, NavigationEnd} from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import {Subscription} from 'rxjs/Subscription';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {RefillServices} from '../../services/refill.services';
 import {RefillModel} from '../../models/refill.model';
@@ -10,7 +10,7 @@ import {LocalStorageServices} from '../../services/local-storage.services';
 import {MessageServices} from '../../services/message.services';
 import {ClipboardService} from 'ngx-clipboard';
 import {FilterItem} from '../../models/base.model';
-import { numberRegExp } from '../../shared/vars';
+import {numberRegExp} from '../../shared/vars';
 
 declare var require: any;
 
@@ -57,7 +57,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         this.filters.push(new FilterItem(1, 'amount',
             `Payment amount`, null, null,
             ``, 150, false, true, 'amount', `$${this.amount.min}`, `$${this.amount.max}`, true));
-        this.filters.push(new FilterItem(2,  'returnAddress',
+        this.filters.push(new FilterItem(2, 'returnAddress',
             'Return address', null, null, '', 220, true));
 
         this.navigationSubscription = this._router.events.subscribe((event) => {
@@ -70,7 +70,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     resetFilters(): void {
-        this.currentFilter = { amount: null, returnAddress: null };
+        this.currentFilter = {amount: null, returnAddress: null};
     }
 
     selectRefillMethod(refillMethod: RefillModel): void {
@@ -88,7 +88,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                 this.filters[1].hidden = !this.selected.needReturnAddress;
             });
         } else {
-            this.errors = { amount: this.amountValidationError };
+            this.errors = {amount: this.amountValidationError};
         }
     }
 
@@ -163,7 +163,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     reloadFilter(filter) {
         this.currentFilter = filter;
         if (this.currentFilter['amount'] && !this.validateFilters()) {
-            this.errors = { amount: this.amountValidationError };
+            this.errors = {amount: this.amountValidationError};
         }
         else {
             this.errors = {};

@@ -60,18 +60,20 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
     }
 
     confirmModal() {
-        this.passwordLoading ++;
+        this.passwordLoading++;
         this._extensions.changePassword(this.id, {
             mobileApp: this.getFormValue('mobileApp'),
             toAdmin: this.getFormValue('toAdmin'),
             toUser: this.getFormValue('toUser')
         }).then(response => {
             this._messages.writeSuccess(response.message);
-        }).catch(() => {})
-          .then(() => this.passwordLoading --);
+        }).catch(() => {
+        })
+            .then(() => this.passwordLoading--);
     }
 
-    cancelModal() {}
+    cancelModal() {
+    }
 
     // -- component methods ---------------------------------------------------
 
@@ -97,7 +99,8 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
                 this.sipOuters.option.push({id: number.id, title: number.phoneNumber});
             });
             this.sipOuters.selected = this.sipOuters.option.find(item => item.id === this.form.get('outer').value.id);
-        }).catch(() => {})
-          .then(() => this.locker.unlock());
+        }).catch(() => {
+        })
+            .then(() => this.locker.unlock());
     }
 }

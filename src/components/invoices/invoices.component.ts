@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {InvoiceService} from '../../services/invoice.service';
-import {InvoiceModel} from "../../models/invoice.model";
-import {ButtonItem, TableInfoExModel, TableInfoItem} from "../../models/base.model";
-import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
-import {getInterval} from "../../shared/shared.functions";
+import {InvoiceModel} from '../../models/invoice.model';
+import {ButtonItem, TableInfoExModel, TableInfoItem} from '../../models/base.model';
+import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
+import {getInterval} from '../../shared/shared.functions';
 
 @Component({
     selector: 'pbx-invoices',

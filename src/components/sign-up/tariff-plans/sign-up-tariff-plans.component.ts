@@ -18,8 +18,8 @@ export class SignUpTariffPlansComponent implements OnInit {
 
     constructor(
         public services: AuthorizationServices,
-        private _router: Router) 
-    {}
+        private _router: Router) {
+    }
 
     chooseTariff(id: number): void {
         this.services.signUpData.controls['tariffPlanId'].setValue(id);

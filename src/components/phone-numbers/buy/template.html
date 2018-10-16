@@ -1,6 +1,6 @@
 <pbx-modal
-        [modalEx]="modal"
-        (onConfirmEx)="modalConfirm()"
+    [modalEx]="modal"
+    (onConfirmEx)="modalConfirm()"
 ></pbx-modal>
 
 <div class="buy_phone_grid">
@@ -15,7 +15,8 @@
             <div class="buy_phone_header_block_key">Search:</div>
 
             <div class="input_wr">
-                <input class="searching" type="text" placeholder="Type city prefix" name="search-by-city-prefix" (keyup)="searchInit()"
+                <input class="searching" type="text" placeholder="Type city prefix" name="search-by-city-prefix"
+                       (keyup)="searchInit()"
                        [(ngModel)]="requestDetails.areaCode">
                 <div class="clear_icon clear_icon_search" (click)="clearAreaCode()" *ngIf="clearSearchVisible">
                     <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
@@ -28,7 +29,8 @@
             <div class="buy_phone_header_block_key">Number:</div>
 
             <div class="input_wr">
-                <input class="searching" #myNumberOnly type="text" name="search-by-digits" placeholder="Search by digits" (keyup)="searchInit()"
+                <input class="searching" #myNumberOnly type="text" name="search-by-digits"
+                       placeholder="Search by digits" (keyup)="searchInit()"
                        [(ngModel)]="requestDetails.contains">
                 <div class="clear_icon clear_icon_number" (click)="clearContains()" *ngIf="clearNumberVisible">
                     <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
@@ -68,7 +70,9 @@
             <div class="buy_phone_table_row" *ngFor="let item of table">
                 <div class="buy_phone_table_item">+{{item.fullNumber}}</div>
                 <div class="buy_phone_table_item">{{item.areaName||'Unknown'}}</div>
-                <div class="buy_phone_table_item">{{item.params.tollFree ? 'Toll-Free':item.params.mobile ? 'Mobile':item.params.local ? 'Local':''}}</div>
+                <div class="buy_phone_table_item">{{item.params.tollFree ? 'Toll-Free':item.params.mobile ?
+                    'Mobile':item.params.local ? 'Local':''}}
+                </div>
                 <div class="buy_phone_table_item">{{item.sum?'$'+item.sum:'Free'}}</div>
                 <div class="buy_phone_table_item">
                     <pbx-button value="Buy" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)"
@@ -79,9 +83,16 @@
     </div>
     <div class="table-message" *ngIf="!loading && list[0].length === 0">
         <span class="msg" *ngIf="!requestDetails.areaCode && !requestDetails.contains">No data to display</span>
-        <span class="msg" *ngIf="requestDetails.areaCode && !requestDetails.contains">Sorry, no matches were found for <span class="outerSpan">"<span class="innerSpan">{{requestDetails.areaCode}}</span>"</span></span>
-        <span class="msg" *ngIf="requestDetails.contains && !requestDetails.areaCode">Sorry, no matches were found for <span class="outerSpan">"<span class="innerSpan">{{requestDetails.contains}}</span>"</span></span>
-        <span class="msg" *ngIf="requestDetails.contains && requestDetails.areaCode">Sorry, no matches were found for <span class="outerSpan">"<span class="innerSpan">{{requestDetails.areaCode}}</span>"</span> and <span class="outerSpan">"<span class="innerSpan">{{requestDetails.contains}}</span>"</span></span>
+        <span class="msg"
+              *ngIf="requestDetails.areaCode && !requestDetails.contains">Sorry, no matches were found for <span
+            class="outerSpan">"<span class="innerSpan">{{requestDetails.areaCode}}</span>"</span></span>
+        <span class="msg"
+              *ngIf="requestDetails.contains && !requestDetails.areaCode">Sorry, no matches were found for <span
+            class="outerSpan">"<span class="innerSpan">{{requestDetails.contains}}</span>"</span></span>
+        <span class="msg"
+              *ngIf="requestDetails.contains && requestDetails.areaCode">Sorry, no matches were found for <span
+            class="outerSpan">"<span class="innerSpan">{{requestDetails.areaCode}}</span>"</span> and <span
+            class="outerSpan">"<span class="innerSpan">{{requestDetails.contains}}</span>"</span></span>
     </div>
     <div class="buy_phone_pagination" *ngIf="pagination.total>1">
         <pbx-pagination [currentPage]="pagination.page"

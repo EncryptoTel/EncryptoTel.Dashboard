@@ -1,10 +1,10 @@
-import {AnimationComponent} from "../../../../shared/shared.functions";
-import {BaseComponent} from "../../../../elements/pbx-component/pbx-component.component";
-import {OnInit} from "@angular/core";
-import {SessionsModel} from "../../../../models/settings.models";
-import {ButtonItem, TableInfoExModel, TableInfoItem} from "../../../../models/base.model";
-import {SessionsService} from "../../../../services/sessions.service";
-import {Router} from "@angular/router";
+import {AnimationComponent} from '../../../../shared/shared.functions';
+import {BaseComponent} from '../../../../elements/pbx-component/pbx-component.component';
+import {OnInit} from '@angular/core';
+import {SessionsModel} from '../../../../models/settings.models';
+import {ButtonItem, TableInfoExModel, TableInfoItem} from '../../../../models/base.model';
+import {SessionsService} from '../../../../services/sessions.service';
+import {Router} from '@angular/router';
 
 @AnimationComponent({
     selector: 'profile-component',

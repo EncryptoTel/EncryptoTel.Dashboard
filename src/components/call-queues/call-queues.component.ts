@@ -18,5 +18,6 @@ export class CallQueuesComponent {
     };
     pageInfo: CallQueueModel = new CallQueueModel();
 
-    constructor(private service: CallQueueService) {}
+    constructor(private service: CallQueueService) {
+    }
 }

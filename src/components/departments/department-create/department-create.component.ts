@@ -87,7 +87,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         };
 
         this.filter = new FilterItem(1, 'search', 'Search', null, null, 'Search by Name or Phone');
-        this.currentFilter = { value: null };
+        this.currentFilter = {value: null};
     }
 
     ngOnInit(): void {
@@ -101,7 +101,8 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         Waiter.await(this.locker).then(() => {
             this.mapModelToFormData();
         })
-        .catch(() => {});
+            .catch(() => {
+            });
 
         super.ngOnInit();
 
@@ -121,8 +122,8 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
         this.form = this.fb.group({
             generalForm: this.fb.group({
-                name: [this._department.name, [ Validators.required, Validators.maxLength(190) ]],
-                comment: [this._department.comment, [ Validators.maxLength(255) ]],
+                name: [this._department.name, [Validators.required, Validators.maxLength(190)]],
+                comment: [this._department.comment, [Validators.maxLength(255)]],
             }),
             sipInnersForm: this.fb.group({
                 sipInner: this.fb.array([], Validators.required)
@@ -168,23 +169,27 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         this.service.getItem(this._id).then((response) => {
             this._department = response;
         })
-        .catch(() => {})
-          .then(() => this.locker.unlock());
+            .catch(() => {
+            })
+            .then(() => this.locker.unlock());
     }
 
     getCompany() {
         this.locker.lock();
-        this.company.getCompany().then(() => {})
-          .catch(() => {})
-          .then(() => this.locker.unlock());
+        this.company.getCompany().then(() => {
+        })
+            .catch(() => {
+            })
+            .then(() => this.locker.unlock());
     }
 
     getSipOuters(): void {
         this.locker.lock();
         this.refs.getSipOuters().then((response: any) => {
             this.formatSipOuters(response);
-        }).catch(() => {})
-          .then(() => this.locker.unlock());
+        }).catch(() => {
+        })
+            .then(() => this.locker.unlock());
     }
 
     save(): void {
@@ -205,8 +210,9 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                 this.saveFormState();
             }
         })
-        .catch(() => {})
-          .then(() => this.locker.unlock());
+            .catch(() => {
+            })
+            .then(() => this.locker.unlock());
     }
 
     // -- model data methdos --------------------------------------------------
@@ -245,7 +251,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
             this.sipInnersControl.selectedItems.forEach(sip => this._department.sipInnerIds.push(sip.id));
 
             this._department.sipInnerIds.forEach(sipId => {
-                this.sipInners.push(this.fb.control([ sipId, [] ]));
+                this.sipInners.push(this.fb.control([sipId, []]));
             });
         }
     }
@@ -326,6 +332,6 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
     }
 
     confirmClose(): void {
-        this.router.navigate([ 'cabinet', 'departments' ]);
+        this.router.navigate(['cabinet', 'departments']);
     }
 }

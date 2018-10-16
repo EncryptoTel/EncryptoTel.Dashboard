@@ -64,7 +64,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
         // Override default ValidationHost messages
         this.validationHost.customMessages = [
-            { name: 'Password confirmation', error: 'required', message: 'Please confirm password' },
+            {name: 'Password confirmation', error: 'required', message: 'Please confirm password'},
         ];
     }
 
@@ -80,27 +80,27 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     initForm(): void {
         this.generalForm = this.fb.group({
-            firstname:  [null, [ Validators.required, Validators.pattern(nameRegExp) ]],
-            lastname:   [null, [ Validators.pattern(nameRegExp) ]],
-            patronymic: [null, [ Validators.pattern(nameRegExp) ]],
-            phone:      [null, [ Validators.pattern(phoneRegExp), Validators.minLength(7), Validators.maxLength(16) ]]
+            firstname: [null, [Validators.required, Validators.pattern(nameRegExp)]],
+            lastname: [null, [Validators.pattern(nameRegExp)]],
+            patronymic: [null, [Validators.pattern(nameRegExp)]],
+            phone: [null, [Validators.pattern(phoneRegExp), Validators.minLength(7), Validators.maxLength(16)]]
         });
         this.addForm('generalForm', this.generalForm);
 
         this.emailChange = this.fb.group({
-            email:  [null, [ Validators.required, Validators.pattern(emailRegExp) ]],
-            code:   [null, [ Validators.required, Validators.minLength(6), Validators.pattern(numberRegExp) ]],
+            email: [null, [Validators.required, Validators.pattern(emailRegExp)]],
+            code: [null, [Validators.required, Validators.minLength(6), Validators.pattern(numberRegExp)]],
         });
         this.addForm('emailChange', this.emailChange);
 
         this.passwordChange = this.fb.group({
-            oldPassword:            [null, [ Validators.required, Validators.minLength(6) ]],
-            password:               [null, [ Validators.required, Validators.minLength(6) ]],
-            password_confirmation:  [null, [ Validators.required, Validators.minLength(6) ]],
+            oldPassword: [null, [Validators.required, Validators.minLength(6)]],
+            password: [null, [Validators.required, Validators.minLength(6)]],
+            password_confirmation: [null, [Validators.required, Validators.minLength(6)]],
         }, {
-                validator: (formGroup: FormGroup) => {
-                    return passwordConfirmation(formGroup);
-                }
+            validator: (formGroup: FormGroup) => {
+                return passwordConfirmation(formGroup);
+            }
         });
         this.addForm('passwordChange', this.passwordChange);
     }
@@ -184,7 +184,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     getSettings(): void {
-        this.loading ++;
+        this.loading++;
 
         this.service.getProfileSettings().then(response => {
             // console.log('profile', response);
@@ -193,51 +193,56 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             this.initFormData('generalForm', this.generalForm, response);
             this.initFormData('emailChange', this.emailChange, response);
             this.initFormData('passwordChange', this.passwordChange);
-        }).catch(() => {})
-          .then(() => this.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.loading--);
     }
 
     saveProfileSettings(): void {
-        this.loading ++;
+        this.loading++;
 
         this.service.saveProfileSettings(this.generalForm.value).then(() => {
             this.getSettings();
             this.user.fetchProfileParams().then();
-        }).catch(() => {})
-          .then(() => this.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.loading--);
     }
 
     saveEmailSettings(): void {
         if (this.emailChangeState == EmailChangeState.NOT_STARTED) {
-            this.loading ++;
+            this.loading++;
 
             this.service.requestEmailChange(this.emailChange.get('email').value).then(response => {
                 this.emailChangeState = EmailChangeState.CONFIRMATION_CODE_SENT;
                 // this._message.writeSuccess(response.message);
-            }).catch(() => {})
-              .then(() => this.loading --);
+            }).catch(() => {
+            })
+                .then(() => this.loading--);
         }
         else if (this.emailChangeState == EmailChangeState.CONFIRMATION_CODE_SENT) {
-            this.loading ++;
+            this.loading++;
 
             this.service.confirmEmailChange(this.emailChange.get('code').value).then(response => {
                 this.emailChange.get('code').setValue('');
                 this.saveFormState('emailChange');
                 this.emailChangeState = EmailChangeState.NOT_STARTED;
                 // this._message.writeSuccess(response.message);
-            }).catch(() => {})
-              .then(() => this.loading --);
+            }).catch(() => {
+            })
+                .then(() => this.loading--);
         }
     }
 
     savePasswordSettings(): void {
-        this.loading ++;
+        this.loading++;
 
         this.service.changePassword(this.passwordChange.value).then(response => {
             this.passwordChange.reset();
             // this._message.writeSuccess(response.message);
-        }).catch(() => {})
-          .then(() => this.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.loading--);
     }
 
     // --- old implementation ---
@@ -310,7 +315,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         event.preventDefault();
     }
 
-    dragEndHandler(event): void {}
+    dragEndHandler(event): void {
+    }
 
     dragLeaveHandler(event): void {
         event.preventDefault();

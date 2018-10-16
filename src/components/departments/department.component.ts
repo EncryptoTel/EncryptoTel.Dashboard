@@ -6,9 +6,9 @@ import {FadeAnimation} from '../../shared/fade-animation';
 import {DepartmentItem, DepartmentModel, Sip} from '../../models/department.model';
 import {validateForm} from '../../shared/shared.functions';
 import {RefsServices} from '../../services/refs.services';
-import {ListComponent} from "../../elements/pbx-list/pbx-list.component";
-import {CompanyService} from "../../services/company.service";
-import {ButtonItem, InputAction} from "../../models/base.model";
+import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
+import {CompanyService} from '../../services/company.service';
+import {ButtonItem, InputAction} from '../../models/base.model';
 
 
 @Component({
@@ -19,7 +19,7 @@ import {ButtonItem, InputAction} from "../../models/base.model";
     animations: [FadeAnimation('300ms')]
 })
 export class DepartmentsComponent implements OnInit {
-    
+
     @ViewChild(ListComponent) list;
 
     sidebar = {

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FadeAnimation} from '../../../../shared/fade-animation';
+
 // import {PartnerProgramModel} from '../../../../models/partner-program.model';
 
 @Component({
