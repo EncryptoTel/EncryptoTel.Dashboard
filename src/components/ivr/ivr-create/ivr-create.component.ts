@@ -9,6 +9,7 @@ import {IvrItem, IvrTreeItem, IvrLevelItem} from '../../../models/ivr.model';
 import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {MessageServices} from '../../../services/message.services';
 import {nameRegExp, phoneRegExp} from '../../../shared/vars';
+import {SipItem} from '../../../models/call-rules.model';
 
 
 export enum DigitActions {
@@ -32,19 +33,16 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     sipOuters: any[] = [];
 
     selectedItem: IvrTreeItem;  // represents selected IVR digit in tree
-    digitForm: FormGroup;
-
-    selectedDigitAction: any = {};
     selectedDigits: number[] = [];
-    selectedSipOuter: any = {};
-    selectedSipInner: any = {};
+
+    digitForm: FormGroup;
+    digitFormKey: string = 'digitForm';
 
     id: number = 0;
     loading: number = 0;
     loadingExt: number = 0;
     saving: number = 0;
-    numbers = [];
-    selectedNumber;
+    selectedSipOuter: SipItem;
 
     // modelTemplate: boolean = true;
     modelTemplate: boolean = false;
@@ -65,20 +63,27 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         return !!this.selectedItem;
     }
 
+    get formSelectedDigit(): { id: number, title: string } {
+        return this.digitForm.get('digit').value;
+    }
+
+    get formSelectedAction(): { id: number, title: string } {
+        return this.digitForm.get('action').value;
+    }
+
     get sipInnersVisible(): boolean {
-        return (this.selectedDigitAction
-            && this.selectedDigitAction.id === <number>DigitActions.EXTENSION_NUMBER
-            && this.selectedSipOuter && this.selectedSipOuter.sipId > 0);
+        return (this.formSelectedAction
+                && this.formSelectedAction.id === <number>DigitActions.EXTENSION_NUMBER);
     }
 
     get sipOutersVisible(): boolean {
-        return (this.selectedDigitAction
-            && (this.selectedDigitAction.id === <number>DigitActions.EXTERNAL_NUMBER
-                || this.selectedDigitAction.id === <number>DigitActions.EXTENSION_NUMBER));
+        return (this.formSelectedAction
+                && (this.formSelectedAction.id === <number>DigitActions.EXTERNAL_NUMBER));
     }
 
     get ivrActionsVisible(): boolean {
-        return (this.selectedDigitAction && this.selectedDigitAction.id === <number>DigitActions.SEND_TO_IVR);
+        return (this.formSelectedAction
+                && this.formSelectedAction.id === <number>DigitActions.SEND_TO_IVR);
     }
 
     // -- component lifecycle methods -----------------------------------------
@@ -98,44 +103,60 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
 
     initForm(): void {
         this.form = this.fb.group({
-            id: [null],
-            name: ['', [Validators.required, Validators.pattern(nameRegExp)]],
-            description: ['', [Validators.maxLength(255)]],
-            sip: [null, [Validators.required]],
+            id:             [ null ],
+            name:           [ '', [ Validators.required, Validators.pattern(nameRegExp) ] ] ,
+            description:    [ '', [ Validators.maxLength(255) ] ],
+            sip:            [ null, [ Validators.required ] ],
             // ...
         });
 
+        this.addForm(this.formKey, this.form);
+
         this.digitForm = this.fb.group({
-            id: [null],
-            digit: [null, [Validators.required]],
-            description: ['', [Validators.maxLength(255)]],
-            action: [null, [Validators.required]],
-            parameter: [null, c => this.actionParameterValidators()],
+            id:             [ null ],
+            digit:          [ null, [ Validators.required ] ],
+            description:    [ '', [ Validators.maxLength(255) ] ],
+            action:         [ null, [ Validators.required ] ],
+            parameter:      [ null ],
         });
+
+        this.digitForm.get('action').valueChanges
+            .subscribe(value => this.onIvrActionChanged(value));
+
+        this.addForm(this.digitFormKey, this.digitForm);
     }
 
-    actionParameterValidators(): ((control: AbstractControl) => ValidationErrors)[] {
-        if (this.digitForm) {
-            const action = this.digitForm.get('action').value;
-            switch (action) {
-                // Redirect to extension number
-                case 1:
-                    return [Validators.required];
-                // Redirect to external number
-                case 2:
-                    return [Validators.required, Validators.pattern(phoneRegExp)];
-                // Send to IVR
-                case 3:
+    getActionParameterValidators(): ((control: AbstractControl) => ValidationErrors)[] {
+        if (this.digitForm && this.formSelectedAction) {
+            switch (this.formSelectedAction.id) {
+                case <number>DigitActions.EXTENSION_NUMBER:
+                    return [ Validators.required ];
+                case <number>DigitActions.EXTERNAL_NUMBER:
+                    return [ Validators.required, Validators.pattern(phoneRegExp) ];
+                case <number>DigitActions.SEND_TO_IVR:
                     return null;
             }
         }
         return null;
     }
 
-    setFormData(): void {
-        super.setFormData(this.model, () => {
+    setBaseFormData(): void {
+        super.setFormDataForForm(this.model, this.formKey, () => {
         });
-        console.log('form-value', this.form.value);
+        console.log('base-form', this.form.value);
+    }
+
+    setDigitFormData(): void {
+        super.setFormDataForForm(this.selectedItem, this.digitFormKey, () => {
+            const digit = this.service.digits
+                .find(d => d.title === this.selectedItem.digit);
+            this.digitForm.get('digit').setValue(digit);
+            
+            const action = this.service.actions
+                .find(a => a.title === this.selectedItem.action);
+            this.digitForm.get('action').setValue(action);
+        });
+        console.log('digit-form', this.digitForm.value/*, this.digitForm*/);
     }
 
     // -- event handlers ------------------------------------------------------
@@ -152,33 +173,39 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
             if (!hideDigit) {
                 this.selectedItem = this.model.tree.find(node => node.id === itemId);
                 this.selectedDigits.push(itemId);
-
-                const action = this.service.actions.find(a => a.title === this.selectedItem.action);
-                this.selectDigitAction(action);
+                this.setDigitFormData();
+                
+                // this.selectDigitAction(action);
                 // if (this.selectedItem.action == 'Send to IVR') {}
             }
+            
             // highlight parent digits
             while (itemId >= 100) {
                 itemId = Math.floor(itemId / 100);
                 this.selectedDigits.push(itemId);
             }
+            
             this.initIvrTree();
-
-            // console.log('digit-selected', this.selectedItem);
+            // console.log('ivr-digit-selected', this.selectedItem);
         }, 0);
     }
 
-    selectDigitAction(action: any): void {
-        this.selectedDigitAction = action;
-        // console.log('digit-action', this.selectedDigitAction);
+    onDigitSelected(digit: any): void {
+        // TODO: check event ...
+        // console.log('digit-changed', this.digitForm.value);
     }
 
-    selectSipOuter(item: any): void {
-        console.log('sip-outer-selected', item, this.selectedSipOuter, this.sipInnersVisible);
-        this.selectedSipOuter = item;
-        if (this.sipInnersVisible) {
-            this.getExtensions(item.sipId);
-        }
+    onIvrActionChanged(action: any): void {
+        // TODO: check event ...
+        // this.selectedDigitAction = action;
+        this.digitForm.get('parameter').setValue(null);
+        this.digitForm.get('parameter')
+            .setValidators(this.getActionParameterValidators());
+    }
+
+    onSipOuterSelected(item: SipItem): void {
+        console.log('on-sip-outer', item);
+        this.getExtensions(item.id);
     }
 
     save(): void {
@@ -263,16 +290,16 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     getItem() {
         this.loading++;
         this.service.getById(this.id).then(() => {
-            this.selectedNumber = this.service.item.sip;
+            this.selectedSipOuter = this.service.item.sip;
             // TODO:
             this.model = this.service.item;
             this.initIvrTree();
-            this.setFormData();
+            this.setBaseFormData();
         }).catch(() => {
             // TODO:
             this.model = this.service.item;
             this.initIvrTree();
-            this.setFormData();
+            this.setBaseFormData();
         })
             .then(() => this.loading--);
     }
@@ -281,9 +308,8 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         this.loading++;
         this.refs.getSipOuters().then(response => {
             this.sipOuters = response;
-        }).catch(() => {
-        })
-            .then(() => this.loading--);
+        }).catch(() => {})
+          .then(() => this.loading--);
     }
 
     getExtensions(id: number): void {
@@ -291,6 +317,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
 
         this.service.getExtensions(id).then(response => {
             this.sipInners = response.items;
+            console.log('extensions', id, response);
         }).catch(() => {
         })
             .then(() => this.loadingExt--);

@@ -24,7 +24,7 @@ export class FormBaseComponent implements OnInit, Lockable {
     form: FormGroup;
     formKey: string;
 
-    forms: FormGroup[];
+    forms: { key: string, form: FormGroup }[];
 
     validationHost: ValidationHost;
     snapshots: FormsSnapshots;
@@ -70,56 +70,88 @@ export class FormBaseComponent implements OnInit, Lockable {
         throw new Error('initForm() method not implemented.');
     }
 
+    getForm(formKey: string): FormGroup | null {
+        const item = this.forms.find(f => f.key === formKey);
+        return (item) ? item.form : null;
+    }
+
     setFormData(model: any, customInitCallback?: () => void): void {
-        // TODO: modify to update specific form
-        if (!model) { return; }
+        this.setFormDataForForm(model, this.formKey, customInitCallback);
+    }
 
-        this.form.patchValue(model);
-        if (customInitCallback) { customInitCallback(); }
+    setFormDataForForm(model: any, formKey: string, customInitCallback?: () => void): void {
+        if (!model) return;
 
-        this.saveFormState();
+        const form = this.getForm(formKey);
+
+        if (form) {
+            form.patchValue(model);
+            if (customInitCallback) { customInitCallback(); }
+
+            this.saveFormState();
+        }
     }
 
     setModelData(model: any, customInitCallback?: () => void): void {
-        // TODO: modify to update from specific form
-        Object.keys(this.form.value).forEach(key => {
-            if (model.hasOwnProperty(key)) {
-                model[key] = this.form.value[key];
-            }
-        });
-
-        if (customInitCallback) { customInitCallback(); }
+        this.setModelDataByForm(model, this.formKey, customInitCallback);
     }
 
+    setModelDataByForm(model: any, formKey: string, customInitCallback?: () => void): void {
+        const form = this.getForm(formKey);
+
+        if (form) {
+            Object.keys(this.form.value).forEach(key => {
+                if (model.hasOwnProperty(key)) {
+                    model[key] = this.form.value[key];
+                }
+            });
+
+            if (customInitCallback) customInitCallback();
+        }
+    }
 
     addForm(formKey: string, form: FormGroup): void {
-        this.forms.push(form);
-        this.validationHost.addForm(form);
-        this.snapshots.add(formKey, form);
+        if (!this.getForm(formKey)) {
+            this.forms.push({ key: formKey, form: form });
+            this.validationHost.addForm(form);
+            this.snapshots.add(formKey, form);
+        }
     }
 
     resetForms() {
-        this.forms.forEach(form => {
-            form.reset();
+        this.forms.forEach(item => {
+            item.form.reset();
         });
+    }
+
+    validateForm(formKey: string): boolean {
+        const item = this.forms.find(f => f.key === formKey);
+        if (item) {
+            item.form.updateValueAndValidity();
+            validateFormControls(item.form);
+            return item.form.valid;
+        }
+        return false;
     }
 
     validateForms(): boolean {
         let result = true;
-        this.forms.forEach(form => {
-            form.updateValueAndValidity();
-            validateFormControls(form);
-            result = result && form.valid;
+
+        this.forms.forEach(item => {
+            item.form.updateValueAndValidity();
+            validateFormControls(item.form);
+            result = result && item.form.valid;
         });
         
         this.validationHost.clearControlsFocusedState();
+        
         return result;
     }
     
     validateFormGroup(groupName: string, showMessage: boolean = false, message: string = ''): boolean {
         let formGroup: FormGroup;
-        for (const form of this.forms) {
-            formGroup = <FormGroup> form.get(groupName);
+        for (const item of this.forms) {
+            formGroup = <FormGroup>item.form.get(groupName);
             if (formGroup) { break; }
         }
         if (!formGroup) { 

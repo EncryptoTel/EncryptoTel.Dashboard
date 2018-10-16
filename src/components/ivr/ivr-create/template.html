@@ -69,7 +69,7 @@
                            [errors]="service.errors"
                            [validationHost]="validationHost"
                            class="phone_number"
-                           (onSelect)="selectSipOuter($event)"
+                           (onSelect)="onSipOuterSelected($event)"
                 >
                 </pbx-input>
             </div>
@@ -78,13 +78,18 @@
             <div class="one" *ngIf="ivrDigitSelected">
                 <div class="select_digit">
                     <pbx-input name="Select Digit"
-                               key="id"
-                               displayKey="title"
+                               key="digit"
+                               [form]="true"
+                               [object]="digitForm"
                                [options]="service.digits"
-                               [(errors)]="service.errors"
-                               [(object)]="service.digits"
-                               [(objectView)]="selectedItem.digit"
-                    >
+                               displayKey="title"
+                               [selectAsObject]="true"
+                               [errors]="service.errors"
+                               errorKey="digit"
+                               [validationHost]="validationHost"
+                               validationKey="digit"
+                               (onSelect)="onDigitSelected($event)"
+                               >
                     </pbx-input>
                     <pbx-button value="Delete" buttonType="error"></pbx-button>
 
@@ -93,35 +98,42 @@
                 <pbx-input name="Description"
                            key="description"
                            placeholder=""
-                           [(errors)]="service.errors"
-                           [(object)]="selectedItem"
-                >
+                           [form]="true"
+                           [object]="digitForm"
+                           [errors]="service.errors"
+                           errorKey="digitDescription"
+                           [validationHost]="validationHost"
+                           validationKey="digitDescription"
+                           >
                 </pbx-input>
 
-                <div class="title accent">When the caller presses {{ selectedItem.digit }}</div>
+                <div class="title accent">When the caller presses {{ formSelectedDigit.title }}</div>
                 <pbx-input name="then"
-                           key="id"
-                           displayKey="title"
+                           key="action"
                            [required]="true"
                            placeholder="[choose one]"
+                           [form]="true"
+                           [object]="digitForm"
                            [options]="service.actions"
-                           [(errors)]="service.errors"
-                           errorKey="digitAction"
-                           [(object)]="selectedDigitAction"
-                           (onSelect)="selectDigitAction($event)"
-                >
+                           displayKey="title"
+                           [selectAsObject]="true"
+                           [errors]="service.errors"
+                           errorKey="action"
+                           [validationHost]="validationHost"
+                           >
                 </pbx-input>
 
                 <pbx-input *ngIf="sipOutersVisible"
-                           name="Phone"
-                           key="sipId"
-                           displayKey="phoneNumber"
-                           placeholder="[choose one]"
-                           [options]="sipOuters"
-                           [(errors)]="service.errors"
-                           [(object)]="selectedSipOuter"
-                           (onSelect)="selectSipOuter($event)"
-                >
+                           name="External phone"
+                           key="parameter"
+                           [required]="true"
+                           placeholder="[ select an external number ]"
+                           [form]="true"
+                           [object]="digitForm"
+                           [errors]="service.errors"
+                           errorKey="actionParameter"
+                           [validationHost]="validationHost"
+                           >
                 </pbx-input>
 
                 <pbx-loader *ngIf="loadingExt"></pbx-loader>
@@ -129,12 +141,14 @@
                 <pbx-input *ngIf="sipInnersVisible && !loadingExt"
                            name="Ext"
                            key="parameter"
-                           displayKey="phoneNumber"
+                           [required]="true"
                            placeholder="[choose one]"
+                           [form]="true"
+                           [object]="digitForm"
                            [options]="sipInners"
-                           [(errors)]="service.errors"
-                           [(object)]="selectedSipInner"
-                >
+                           displayKey="phoneNumber"
+                           [errors]="service.errors"
+                           >
                 </pbx-input>
 
             </div> <!-- two -->
