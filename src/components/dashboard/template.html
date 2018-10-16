@@ -2,8 +2,8 @@
     <pbx-loader class="inactive dashboard_balance" *ngIf="loading"></pbx-loader>
     <div class="dashboard_item dashboard_balance" *ngIf="!loading">
         <div class="dashboard_item_title_row">
-            <div class="dashboard_item_title_key">Balance</div>
-            <div class="dashboard_balance_value">{{dashboard.balance.currency.shortName}}{{dashboard.balance.value}}
+            <div class="dashboard_item_title_key" translate>Balance</div>
+            <div class="dashboard_balance_value">{{dashboard.balance.currency.shortName}}{{dashboard.balance.value | currency:" ":2 }}
             </div>
         </div>
         <div class="dashboard_item_title_row">

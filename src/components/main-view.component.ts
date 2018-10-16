@@ -33,7 +33,7 @@ export class MainViewComponent implements OnInit, OnDestroy {
     // messagesList: MessageModel[];
     routerSubscription: Subscription;
     loading: boolean = false;
-    
+
     pageTitle: string = 'Encrypto Telecom';
     @HostBinding('class') public userTheme: string;
 

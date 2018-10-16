@@ -23,7 +23,7 @@
                        [style.width]="inputWidth ? inputWidth + 'px' : '100%'"
                        [ngStyle]="inputCenter && {'text-align': 'center'}"
                        [type]="type"
-                       [id]="key"
+                       [id]="key+'_'+name"
                        placeholder="{{ placeholder.length > 0 ? placeholder : '' }}"
                        [(ngModel)]="value"
                        (keyup)="inputKeyUp($event)"
@@ -108,7 +108,7 @@
                 <input *ngIf="!options && !checkbox && type !== 'textarea'"
                        class="{{ singleBorder ? '' : 'show-border' }} {{ inErrorState ? 'error-border error-text' : '' }}"
                        [type]="type"
-                       [id]="key"
+                       [id]="key+'_'+name"
                        [placeholder]="placeholder"
                        [title]="name"
                        [formControlName]="[key]"
@@ -120,7 +120,7 @@
                        (mouseenter)="mouseEnter()"
                        (mouseleave)="mouseLeave()"
                        >
-   
+
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
                               (onToggle)="toggleCheckbox($event)"
