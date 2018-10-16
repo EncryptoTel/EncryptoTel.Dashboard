@@ -1,3 +1,40 @@
+@media screen and (max-width: 1470px)
+    pbx-dashboard
+        .dashboard_item_title_name,
+        .dashboard_item_title_key
+            font-size: 28px !important
+        .dashboard_drive
+            .dashboard_drive_diagram
+                display: none
+
+@media screen and (max-width: 1440px)
+    pbx-dashboard
+        .dashboard_item_content_key,
+        .dashboard_item_content_value,
+        .dashboard_item a
+            font-size: 12px !important
+            line-height: 14px !important
+
+@media screen and (max-width: 1279px)
+    pbx-dashboard
+        .dashboard_wrap
+            grid-template-columns: 1fr 1fr !important
+            grid-template-rows: 1fr 1fr !important
+            margin-right: 0 !important
+        .dashboard_history
+            display: none
+            //padding-top: 24px !important
+        .dashboard_drive_diagram
+            margin-left: rem(24) !important
+            flex: 1
+            .dashboard_drive_percentage
+                margin: auto
+            pbx-circle-progress
+                .progress__svg
+                    top: 50%
+                    left: 50%
+                    transform: translate(-50%, -50%) rotate(-90deg)
+
 @media screen and (max-width: 1129px)
     .dashboard_drive
         .dashboard_drive_diagram
@@ -12,13 +49,18 @@
     pbx-dashboard
         .dashboard_wrap
             .dashboard_item
-                min-height: 232px !important
+                //min-height: 232px !important
 
 @media screen and (max-width: 929px)
     pbx-dashboard
+        .dashboard_wrap
+            grid-template-columns: 1fr !important
+            grid-template-rows: 1fr 1fr !important
         .dashboard_item_content_key,
         .dashboard_item_content_value
             font-size: 12px !important
+        .dashboard_item
+            min-height: 264px !important
 
 @media screen and (max-width: 919px)
     pbx-dashboard
@@ -30,7 +72,7 @@
 @media screen and (max-width: 909px)
     pbx-dashboard
         .dashboard_item
-            min-height: 232px !important
+            //min-height: 232px !important
 
 @media screen and (max-width: 799px)
     pbx-dashboard

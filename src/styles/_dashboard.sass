@@ -12,7 +12,7 @@ pbx-dashboard
 
     .dashboard_wrap
         display: grid
-        grid-template-columns: 1fr 1fr
+        grid-template-columns: 1fr 1fr 364px
         grid-template-rows: 1fr 1fr
         pbx-loader
             background: transparent !important
@@ -68,20 +68,6 @@ pbx-dashboard
         .dashboard_drive_diagram
             margin-left: rem(24) !important
 
-@media screen and (max-width: 1279px)
-    pbx-dashboard
-        .dashboard_history
-            padding-top: 24px !important
-        .dashboard_drive_diagram
-            // margin-left: rem(24) !important
-            flex: 1
-            .dashboard_drive_percentage
-                margin: auto
-            pbx-circle-progress
-                .progress__svg
-                    top: 50%
-                    left: 50%
-                    transform: translate(-50%, -50%) rotate(-90deg)
 
 // for mobile
 //@media screen and (max-width: 1023px)
@@ -97,4 +83,4 @@ pbx-dashboard
     pbx-dashboard
         .dashboard_wrap
             .dashboard_item
-                min-height: 332px !important
+                //min-height: 264px !important
