@@ -29,6 +29,16 @@ import {PbxTranslateLoader} from '../shared/pbx-translate-loader';
     animations: [FadeAnimation('300ms')]
 })
 export class MainViewComponent implements OnInit, OnDestroy {
+
+    // messagesList: MessageModel[];
+    routerSubscription: Subscription;
+    loading: boolean = false;
+    
+    pageTitle: string = 'Encrypto Telecom';
+    @HostBinding('class') public userTheme: string;
+
+    // -- component lifecycle methods -----------------------------------------
+
     constructor(public _services: MessageServices,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
@@ -37,28 +47,14 @@ export class MainViewComponent implements OnInit, OnDestroy {
                 private cookieService: CookieService,
                 private translate: TranslateService) {
 
-        translate.setDefaultLang('en');
-        (<PbxTranslateLoader>this.translate.currentLoader).loadTranslations().then((res) => {
-            let lang: string;
-            lang = this.storage.readItem('user_lang');
-            translate.use(lang);
+        (<PbxTranslateLoader>this.translate.currentLoader).loadTranslations().then(() => {
+            translate.setDefaultLang('en');
+            let language: string = this.storage.readItem('user_lang');
+            if (!language) {
+                language = 'en';
+            }
+            translate.use(language);
         });
-    }
-
-    // messagesList: MessageModel[];
-    routerSubscription: Subscription;
-    loading = false;
-
-
-    public pageTitle = 'Encrypto Telecom';
-    @HostBinding('class') public userTheme: string;
-
-    public setUserTheme(theme: string) {
-        this.userTheme = theme;
-        document.body.removeAttribute('class');
-        document.body.classList.add(theme);
-        this.cookieService.set( 'pbx_theme', theme );
-        this.storage.writeItem('pbx_theme', theme);
     }
 
     ngOnInit(): void {
@@ -88,6 +84,16 @@ export class MainViewComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.routerSubscription.unsubscribe();
+    }
+
+    // -- component methods ---------------------------------------------------
+
+    public setUserTheme(theme: string) {
+        this.userTheme = theme;
+        document.body.removeAttribute('class');
+        document.body.classList.add(theme);
+        this.cookieService.set( 'pbx_theme', theme );
+        this.storage.writeItem('pbx_theme', theme);
     }
 }
 

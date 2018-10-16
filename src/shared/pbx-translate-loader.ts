@@ -20,22 +20,22 @@ export class PbxTranslateLoader implements TranslateLoader {
     }
 
     loadTranslations(): Promise<any> {
+        this.translations = {};
+
         return this.http.get(this.translationsRoot).toPromise().then(response => {
-            let tmp: any;
-            tmp = Object.keys(response).forEach(item => {
-                let lang: string;
-                lang = 'en';
-                if (!this.translations[lang]) {
-                    this.translations[lang] = {};
-                }
-                this.translations[lang][response[item]['key']] = response[item]['eng'];
-                lang = 'ru';
-                if (!this.translations[lang]) {
-                    this.translations[lang] = {};
-                }
-                this.translations[lang][response[item]['key']] = response[item]['ru'];
+            Object.keys(response).forEach(key => {
+                this.setTranslation(response[key], 'en', 'eng');
+                this.setTranslation(response[key], 'ru', 'ru');
             });
             return Promise.resolve(this.translations);
-        }).catch(response => {});
+        }).catch(() => {});
+    }
+
+    setTranslation(item: any, localLang: string, externalLang: string): void {
+        if (!this.translations[localLang]) {
+            this.translations[localLang] = {};
+        }
+        
+        this.translations[localLang][item['key']] = item[externalLang];
     }
 }

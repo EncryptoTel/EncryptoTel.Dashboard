@@ -1,7 +1,7 @@
-import {Component, Input, OnInit, Output, EventEmitter} from "@angular/core";
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 
-import {FadeAnimation} from "../../../shared/fade-animation";
-import {IvrTreeItem, IvrLevelItem} from "../../../models/ivr.model";
+import {FadeAnimation} from '../../../shared/fade-animation';
+import {IvrTreeItem, IvrLevelItem} from '../../../models/ivr.model';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class IvrLevelComponent implements OnInit {
     @Input() title: string;
     @Input() description: string;
 
-    @Output() digitSelected: EventEmitter<number> = new EventEmitter<number>();
+    @Output() ivrDigitSelected: EventEmitter<number> = new EventEmitter<number>();
 
     // -- properties ----------------------------------------------------------
 
@@ -38,7 +38,7 @@ export class IvrLevelComponent implements OnInit {
     // -- event handlers ------------------------------------------------------
 
     selectDigit(itemId: number): void {
-        this.digitSelected.emit(itemId);
+        this.ivrDigitSelected.emit(itemId);
     }
 
     // -- component methods ---------------------------------------------------

@@ -39,11 +39,11 @@
             </div>
         </div>
         <div class="dashboard_item_content_row">
-            <div class="dashboard_item_content_key">Estimated Payment</div>
+            <div class="dashboard_item_content_key" translate>Estimated Payment</div>
             <div class="dashboard_item_content_value">{{dashboard.balance.currency.shortName}}{{dashboard.tariffPlan.sum}}</div>
         </div>
         <div class="dashboard_item_link_row">
-            <a [routerLink]="'../tariff'" routerLinkActive="active" class="dashboard_item_link_item">
+            <a [routerLink]="'../tariff'" routerLinkActive="active" class="dashboard_item_link_item" translate>
                 Change tariff plan
                 <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
@@ -52,7 +52,7 @@
     <pbx-loader class="inactive dashboard_numbers" *ngIf="loading"></pbx-loader>
     <div class="dashboard_item dashboard_numbers" *ngIf="!loading">
         <div class="dashboard_item_title_row">
-            <div class="dashboard_item_title_name">Phone<i>&nbsp;numbers</i></div>
+            <div class="dashboard_item_title_name" translate>Phone<i translate>&nbsp;numbers</i></div>
         </div>
         <div class="dashboard_numbers_body">
             <div class="dashboard_item_content_row" *ngFor="let number of dashboard.numbers; let i = index">
@@ -64,7 +64,7 @@
             </div>
         </div>
         <div class="dashboard_item_link_row">
-            <a class="dashboard_item_link_item dashboard_right" [routerLink]="'../phone-numbers'" routerLinkActive="active">
+            <a class="dashboard_item_link_item dashboard_right" [routerLink]="'../phone-numbers'" routerLinkActive="active" translate>
                 Details
                 <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
@@ -75,22 +75,22 @@
         <div class="dashboard_drive_row">
             <div class="dashboard_drive_content">
                 <div class="dashboard_item_title_row">
-                    <div class="dashboard_item_title_name">Drive</div>
+                    <div class="dashboard_item_title_name" translate>Drive</div>
                 </div>
                 <div class="dashboard_item_content_row">
-                    <div class="dashboard_item_content_key">Total size</div>
+                    <div class="dashboard_item_content_key" translate>Total size</div>
                     <div class="dashboard_item_content_value">{{dashboard.storage.totalSize}}
                         {{dashboard.storage.measure}}
                     </div>
                 </div>
                 <div class="dashboard_item_content_row">
-                    <div class="dashboard_item_content_key">Available space</div>
+                    <div class="dashboard_item_content_key" translate>Available space</div>
                     <div class="dashboard_item_content_value">{{dashboard.storage.availableSize}}
                         {{dashboard.storage.measure}}
                     </div>
                 </div>
                 <div class="dashboard_item_content_row">
-                    <div class="dashboard_item_content_key">Used space</div>
+                    <div class="dashboard_item_content_key" translate>Used space</div>
                     <div class="dashboard_item_content_value">{{dashboard.storage.usedSize}}
                         {{dashboard.storage.measure}}
                     </div>
@@ -110,7 +110,7 @@
             </div>
         </div>
         <div class="dashboard_item_link_row">
-            <a [routerLink]="'../storage'" routerLinkActive="active" class="dashboard_item_link_item">
+            <a [routerLink]="'../storage'" routerLinkActive="active" class="dashboard_item_link_item" translate>
                 Details
                 <svg-icon class="dashboard_item_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
@@ -119,7 +119,7 @@
     <pbx-loader class="inactive dashboard_history" *ngIf="loading"></pbx-loader>
     <div class="dashboard_history" *ngIf="!loading">
         <div class="dashboard_item_title_row">
-            <div class="dashboard_item_title_name">History</div>
+            <div class="dashboard_item_title_name" translate>History</div>
         </div>
         <div class="dashboard_history_body" *ngIf="dashboard.callDetail.length > 0">
             <div class="dashboard_history_wrap" *ngFor="let historyBlock of dashboard.callDetail">
@@ -147,7 +147,7 @@
                 </div>
             </div>
         </div>
-        <a class="dashboard_item_link_row" [routerLink]="'/cabinet/details-and-records'" routerLinkActive="active">Details</a>
+        <a class="dashboard_item_link_row" [routerLink]="'/cabinet/details-and-records'" routerLinkActive="active" translate>Details</a>
     </div>
 </div>
 
