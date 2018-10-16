@@ -54,12 +54,12 @@ export class CallRulesService extends BaseService {
         this.callRuleTimeTypes = CallRuleTimeType.fromPlain([
             { id: 1, code: 'Always (24 hours)' },
             // { id: 2, code: 'Date (period)' },
-            { id: 3, code: 'Days of the week' },    
+            { id: 3, code: 'Days of the week' },
         ]);
 
         this.durationTimeTypes = CallRuleTimeType.fromPlain([
             { id: 1, code: 'Always (24 hours)' },
-            { id: 2, code: 'Set the time' }    
+            { id: 2, code: 'Set the time' }
         ]);
 
         this.callRuleTimes = CallRuleTime.fromPlain([

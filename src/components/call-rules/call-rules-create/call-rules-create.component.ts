@@ -14,6 +14,7 @@ import {callRuleNameRegExp} from '../../../shared/vars';
 import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {isValidId} from '../../../shared/shared.functions';
 import {Locker} from '../../../models/locker.model';
+import {promises} from 'fs';
 
 
 @Component({
@@ -510,6 +511,12 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     private getNumbers(): void {
         this.loading++;
         this.service.getOuters().then(response => {
+            response.forEach(item => {
+               if (item.providerId !== 1) {
+                   item.phoneNumber = '+' + item.phoneNumber;
+               }
+            });
+            Promise.resolve(response);
             this.numbers = response;
         }).catch(() => {
         })

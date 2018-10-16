@@ -55,6 +55,12 @@ export class QueueGeneralComponent implements OnInit {
     private getNumbers(): void {
         this.loading ++;
         this.service.getOuters().then(response => {
+            response.forEach(item => {
+                if (item.providerId && item.providerId !== 1) {
+                    item.phoneNumber = '+' + item.phoneNumber;
+                }
+            });
+            Promise.resolve(response);
             this.numbers = response;
         }).catch(() => { isDevEnv() && this.mockPhoneNumbers(); })
           .then(() => this.loading --);

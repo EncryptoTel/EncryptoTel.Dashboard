@@ -155,6 +155,16 @@ export class BaseService {
             url = `${url}&sort[${sort.column}]=${sort.isDown ? 'desc' : 'asc'}`;
         }
         return this.get(`${url}`).then(res => {
+            res.items.forEach(item => {
+                if (item.sip && item.sip.providerId !== 1) {
+                    item.sip.phoneNumber = '+' + item.sip.phoneNumber;
+                }
+                if (item.sipOuter && item.sipOuter.providerId && item.sipOuter.providerId !== 1) {
+                    item.sipOuter.phoneNumber = '+' + item.sipOuter.phoneNumber;
+                }
+            });
+            Promise.resolve(res);
+
             let pageinfo = res;
             pageinfo.limit = pageInfo.limit;
             if (res.items.length === 0 && pageInfo.page > 1) {

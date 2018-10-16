@@ -204,7 +204,7 @@
             <ng-template [ngIf]="!templateView">
                 <div class="item" *ngFor="let group of companyInfo.sectionGroups">
                     <div class="big" *ngFor="let section of group.sections">
-                        <div class="title">{{ section.title }}</div>
+                        <div class="title" translate>{{ section.title }}</div>
                         <div [ngClass]="section.cssClass" *ngFor="let item of section.items">
                             <ng-container *ngIf="item.value">
                                 <div class="key">{{ item.title }}</div>
@@ -349,7 +349,7 @@
 
             <div class="item" *ngIf="templateView">
                 <div class="big">
-                    <div class="title">Phone numbers</div>
+                    <div class="title" translate>Phone numbers</div>
 
                     <div class="number">
                         <div class="key">1000001</div>

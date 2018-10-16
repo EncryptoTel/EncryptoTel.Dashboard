@@ -186,6 +186,12 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
     getSipOuters(): void {
         this.locker.lock();
         this.refs.getSipOuters().then((response: any) => {
+            response.forEach(item => {
+                if (item.providerId && item.providerId !== 1) {
+                    item.phoneNumber = '+' + item.phoneNumber;
+                }
+            });
+            Promise.resolve(response);
             this.formatSipOuters(response);
         }).catch(() => {
         })
