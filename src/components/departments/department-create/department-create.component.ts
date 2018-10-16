@@ -33,7 +33,16 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
     private _id: number;
     private _department: DepartmentItem;
 
-    params: object = {};
+    params: object = {
+        'class': {
+            'enable': false,
+            'object': 'formBody',
+            'classes': [
+                'form-body-fill',
+                'form-body-empty'
+            ]
+        }
+    };
     filter: FilterItem;
     currentFilter: any;
 
@@ -57,17 +66,6 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                 protected fb: FormBuilder,
                 protected message: MessageServices) {
         super(fb, message);
-
-        this.params = {
-            'class': {
-                'enable': false,
-                'object': 'formBody',
-                'classes': [
-                    'form-body-fill',
-                    'form-body-empty'
-                ]
-            }
-        };
 
         this.locker = new Locker();
         this.sips = [];
@@ -109,9 +107,9 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
         this.sipInnersControl.onEditModeChanged.subscribe(editMode => {
             if (editMode) {
-                this.params.class.classes[1] = 'form-body-fill';
+                this.params['class']['classes'][1] = 'form-body-fill';
             } else {
-                this.params.class.classes[1] = 'form-body-empty';
+                this.params['class']['classes'][1] = 'form-body-empty';
             }
         });
     }
@@ -306,9 +304,9 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
             this.params['class']['enable'] = false;
         }
         if (this.sipInnersControl.editMode) {
-            this.params.class.classes[1] = 'form-body-fill';
+            this.params['class']['classes'][1] = 'form-body-fill';
         } else {
-            this.params.class.classes[1] = 'form-body-empty';
+            this.params['class']['classes'][1] = 'form-body-empty';
         }
     }
 
