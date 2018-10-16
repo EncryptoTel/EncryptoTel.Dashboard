@@ -157,7 +157,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         this.saveFormState();
 
         this._department.sipInnerIds.forEach(id => {
-            const sip = this.sips.find(sip => sip.id === id);
+            const sip = this.sips.find(s => s.id === id);
             this.selectedSips.push(sip);
         });
     }
@@ -168,18 +168,15 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         this.locker.lock();
         this.service.getItem(this._id).then((response) => {
             this._department = response;
-        })
-            .catch(() => {
-            })
-            .then(() => this.locker.unlock());
+        }).catch(() => {})
+          .then(() => this.locker.unlock());
     }
 
     getCompany() {
         this.locker.lock();
-        this.company.getCompany().then(() => {
-        })
-            .catch(() => {
-            })
+        this.company.getCompany()
+            .then(() => {})
+            .catch(() => {})
             .then(() => this.locker.unlock());
     }
 
@@ -191,17 +188,14 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                     item.phoneNumber = '+' + item.phoneNumber;
                 }
             });
-            Promise.resolve(response);
             this.formatSipOuters(response);
-        }).catch(() => {
-        })
-            .then(() => this.locker.unlock());
+        }).catch(() => {})
+          .then(() => this.locker.unlock());
     }
 
     save(): void {
         this.fillSipInnersFormElements();
-        if (!this.validateModel())
-            return;
+        if (!this.validateModel()) return;
 
         this.mapFormDataToModel();
 
@@ -215,10 +209,8 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                 this.getItem();
                 this.saveFormState();
             }
-        })
-            .catch(() => {
-            })
-            .then(() => this.locker.unlock());
+        }).catch(() => {})
+          .then(() => this.locker.unlock());
     }
 
     // -- model data methdos --------------------------------------------------
@@ -306,8 +298,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
     tabChanged(tab: TabComponent): void {
         if (this.formTabs.selectedTabIndex === 0 && tab.id !== 0) {
-            if (!this.validateFormGroup('generalForm'))
-                return;
+            if (!this.validateFormGroup('generalForm')) return;
         }
         this.formTabs.selectTab(tab);
         if (tab.id === 1) {
