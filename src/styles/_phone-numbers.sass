@@ -8,6 +8,9 @@ button
 
 buy-phone-numbers-component
     .buy_phone_header_block
+        .buy_phone_header_block_key,
+        .buy_phone_header_options_title
+            white-space: nowrap
         .input_wr
             .clear_icon
                 svg
@@ -225,14 +228,4 @@ buy-phone-numbers-component
             .buy_phone_header_refresh
                 padding-left: 15px
                 .buy_phone_header_refresh_icon
-                    display: none
-
-@media screen and (max-width: 1319px)
-    buy-phone-numbers-component
-        .buy_phone_grid
-            overflow: hidden
-        .buy_phone_table_contain
-            grid-template-columns: 1fr !important
-            .buy_phone_table_title
-                &.second
                     display: none
