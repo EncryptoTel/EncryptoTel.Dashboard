@@ -23,7 +23,7 @@ import {InputComponent} from '../../../elements/pbx-input/pbx-input.component';
     animations: [FadeAnimation('300ms')]
 })
 export class DepartmentCreateComponent extends FormBaseComponent implements OnInit {
-    
+
     public sips: any[];
     public filteredSips: any[];
     public selectedSips: any[];
@@ -63,8 +63,8 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                 'enable': false,
                 'object': 'formBody',
                 'classes': [
-                    'class1',
-                    'class2'
+                    'form-body-fill',
+                    'form-body-empty'
                 ]
             }
         };
