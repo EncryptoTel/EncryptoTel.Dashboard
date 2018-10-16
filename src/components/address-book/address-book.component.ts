@@ -55,13 +55,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 protected message: MessageServices,
                 protected fb: FormBuilder) {
         super(fb, message);
-        
+
         this.addressBookModel = new AddressBookModel();
         this.addressListHeaders = {
             titles: ['First Name', 'Last Name', 'Phone Number', 'E-mail', 'Company Name', 'Country'],
             keys: ['firstname', 'lastname', 'phone', 'email', 'company', 'country.title'],
         };
-    
+
         this.modalBlock = new ModalEx('', 'block');
 
         this.filters = [];
@@ -111,7 +111,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.sidebar.items.push(new SidebarInfoItem(11, 'Address', this.selected.address));
         this.sidebar.items.push(new SidebarInfoItem(12, this.selected.blacklist ? 'Unblock contact' : 'Block contact', null, true, false, true));
         this.sidebar.items.push(new SidebarInfoItem(13, 'Delete contact', null, true, false, true));
-        
+
         this.sidebar.visible = true;
     }
 
@@ -150,7 +150,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             }),
         });
     }
-    
+
     createPhoneFormControl(model: ContactValueModel): FormGroup {
         return this.fb.group({
             value:  [ model ? model.value : null, [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(addressPhoneRegExp) ] ],
@@ -166,7 +166,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             type:   [ model ? model.type : null ],
         });
     }
-    
+
     clearFormArray(formArray: FormArray): void {
         while (formArray.length !== 0) {
             formArray.removeAt(0);
@@ -215,7 +215,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     load(pageInfo: AddressBookModel) {
         this.locker.lock();
-        
+
         this.addressBookModel = pageInfo;
         this.setFilters();
 
@@ -224,7 +224,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         if (!this.countries) this.getCountries();
         else this.updateCountries();
-        
+
         this.locker.unlock();
     }
 
@@ -263,6 +263,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     save(): void {
         if (this.validateForms()) {
+            this.setFilters();
             this.saveAddress();
         }
     }
@@ -312,7 +313,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.service.resetErrors();
         this.setFormData();
         console.log('form', this.form.value);
-        
+
         this.sidebar.buttons = [];
         this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
         this.sidebar.buttons.push(new SidebarButtonItem(3, this.selected.id ? 'Save' : 'Create', 'success'));
@@ -333,7 +334,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             }).catch(() => {
                 this.setFormData();
             }).then(() => this.sidebar.saving --);
-        } 
+        }
         else {
             this.service.post('', this.selected).then(() => {
                 this.close(true);
@@ -348,9 +349,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         let phoneModel = new ContactValueModel();
         this.selected.addContactPhone(phoneModel);
-        
+
         this.setFormData();
-        
+
         this.validationHost.initItems();
     }
 
@@ -385,9 +386,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.service.getTypes().then(response => {
             this.types = response;
             this.updateTypes();
-            
+
             this.locker.unlock();
-        }).catch(() => 
+        }).catch(() =>
             this.locker.unlock());
     }
 
@@ -403,7 +404,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.updateCountries();
 
             this.locker.unlock();
-        }).catch(() => 
+        }).catch(() =>
             this.locker.unlock());
     }
 
@@ -415,6 +416,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     setFilters(): void {
+        if (this.addressBookModel.items.length === 1) {
+            this.filters = [];
+        }
         const filterValue = [];
         this.addressBookModel.contactFilter.forEach(item => {
             filterValue.push({id: item.value, title: item.displayTitle, count: item.count});
@@ -452,7 +456,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             let emailControl = this.createEmailFormControl(this.selected.contactEmail[i]);
             this.contactEmailsFormArray.setControl(i, emailControl);
         }
-        
+
         if (this.selected.countryId) {
             this.selected.country = this.countries.find(item => item.id === this.selected.countryId);
         }

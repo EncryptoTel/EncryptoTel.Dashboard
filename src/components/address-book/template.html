@@ -8,7 +8,7 @@
               [(pageInfo)]="addressBookModel"
               [table]="addressListHeaders"
               [loading]="!locker.free"
-              [filters]="filters"
+              [(filters)]="filters"
               (onCreate)="create()"
               (onEdit)="edit($event)"
               (onSelect)="select($event)"
