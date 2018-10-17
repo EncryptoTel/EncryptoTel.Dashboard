@@ -10,7 +10,7 @@
         <div class="ivr_create_buttons">
             <pbx-button buttonType="cancel"
                         value="Cancel"
-                        (onClick)="cancel()">
+                        (onClick)="onCancel()">
             </pbx-button>
             <pbx-button buttonType="success"
                         value="Save"
@@ -96,14 +96,13 @@
                 </div> <!-- select_digit -->
 
                 <pbx-input name="Description"
-                           key="description"
+                           key="digitDescription"
                            placeholder=""
                            [form]="true"
                            [object]="digitForm"
                            [errors]="service.errors"
                            errorKey="digitDescription"
                            [validationHost]="validationHost"
-                           validationKey="digitDescription"
                            >
                 </pbx-input>
 
@@ -120,6 +119,7 @@
                            [errors]="service.errors"
                            errorKey="action"
                            [validationHost]="validationHost"
+                           validationKey="parameter"
                            >
                 </pbx-input>
 
@@ -133,6 +133,7 @@
                            [errors]="service.errors"
                            errorKey="actionParameter"
                            [validationHost]="validationHost"
+                           validationKey="parameter"
                            >
                 </pbx-input>
 
@@ -147,7 +148,11 @@
                            [object]="digitForm"
                            [options]="sipInners"
                            displayKey="phoneNumber"
+                           [selectAsObject]="true"
                            [errors]="service.errors"
+                           errorKey="sipInner"
+                           [validationHost]="validationHost"
+                           validationKey="parameter"
                            >
                 </pbx-input>
 
@@ -627,3 +632,7 @@
 
     </div> <!-- ivr_create_body -->
 </div>
+<pbx-modal [modalEx]="modalExit"
+           (onConfirmEx)="cancel()"
+           >
+</pbx-modal>

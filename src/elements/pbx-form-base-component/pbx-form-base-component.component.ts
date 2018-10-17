@@ -86,9 +86,9 @@ export class FormBaseComponent implements OnInit, Lockable {
 
         if (form) {
             form.patchValue(model);
-            if (customInitCallback) { customInitCallback(); }
+            if (customInitCallback) customInitCallback();
 
-            this.saveFormState();
+            this.saveFormState(formKey);
         }
     }
 
@@ -185,14 +185,28 @@ export class FormBaseComponent implements OnInit, Lockable {
 
     close(editMode: boolean = true, confirmCallback?: () => void): void {
         if (this.checkFormChanged()) {
-            const message = (editMode)
-                ? 'You have made changes. Do you really want to leave without saving?'
-                : 'Do you really want to leave without saving?';
-            this.modalExit.setMessage(message);
-            this.modalExit.show();
+            this.showExitModal(editMode, confirmCallback);
         }
         else {
-            if (confirmCallback) { confirmCallback(); }
+            if (confirmCallback) confirmCallback();
         }
+    }
+
+    closeForm(editMode: boolean = true, formKey: string, confirmCallback?: () => void): void {
+        if (this.checkFormChanged(formKey)) {
+            this.showExitModal(editMode, confirmCallback);
+        }
+        else {
+            if (confirmCallback) confirmCallback();
+        }
+    }
+
+    private showExitModal(editMode: boolean, confirmCallback?: () => void): void {
+        const message = (editMode)
+            ? 'You have made changes. Do you really want to leave without saving?'
+            : 'Do you really want to leave without saving?';
+        this.modalExit.setMessage(message);
+        this.modalExit.confirmCallback = confirmCallback;
+        this.modalExit.show();
     }
 }

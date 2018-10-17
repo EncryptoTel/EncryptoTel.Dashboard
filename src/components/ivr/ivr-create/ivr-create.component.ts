@@ -10,13 +10,14 @@ import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-f
 import {MessageServices} from '../../../services/message.services';
 import {nameRegExp, phoneRegExp} from '../../../shared/vars';
 import {SipItem} from '../../../models/call-rules.model';
-
+import {isValidId} from '../../../shared/shared.functions';
 
 export enum DigitActions {
     EXTENSION_NUMBER = 1,
     EXTERNAL_NUMBER = 2,
     SEND_TO_IVR = 3
 }
+
 
 @Component({
     selector: 'pbx-ivr-create',
@@ -47,17 +48,11 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     // modelTemplate: boolean = true;
     modelTemplate: boolean = false;
 
-    constructor(public service: IvrService,
-                protected fb: FormBuilder,
-                protected message: MessageServices,
-                private refs: RefsServices,
-                private activatedRoute: ActivatedRoute,
-                private router: Router) {
-        super(fb, message);
-        this.id = this.activatedRoute.snapshot.params.id;
-    }
-
     // -- properties ----------------------------------------------------------
+
+    get editMode(): boolean {
+        return isValidId(this.id);
+    }
 
     get ivrDigitSelected(): boolean {
         return !!this.selectedItem;
@@ -88,6 +83,21 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
 
     // -- component lifecycle methods -----------------------------------------
 
+    constructor(public service: IvrService,
+                protected fb: FormBuilder,
+                protected message: MessageServices,
+                private refs: RefsServices,
+                private activatedRoute: ActivatedRoute,
+                private router: Router) {
+        super(fb, message);
+        this.id = this.activatedRoute.snapshot.params.id;
+
+        // Default ValidationHost messages overrides
+        this.validationHost.customMessages = [
+            { name: 'Ext', error: 'required', message: 'Please choose an extension number' },
+        ];
+    }
+
     ngOnInit() {
         super.ngOnInit();
         this.service.reset();
@@ -113,15 +123,15 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         this.addForm(this.formKey, this.form);
 
         this.digitForm = this.fb.group({
-            id:             [ null ],
-            digit:          [ null, [ Validators.required ] ],
-            description:    [ '', [ Validators.maxLength(255) ] ],
-            action:         [ null, [ Validators.required ] ],
-            parameter:      [ null ],
+            id:                 [ null ],
+            digit:              [ null, [ Validators.required ] ],
+            digitDescription:   [ '', [ Validators.maxLength(255) ] ],
+            action:             [ null, [ Validators.required ] ],
+            parameter:          [ null, [ Validators.required ] ],
         });
 
         this.digitForm.get('action').valueChanges
-            .subscribe(value => this.onIvrActionChanged(value));
+            .subscribe(value => this.onActionChanged(value));
 
         this.addForm(this.digitFormKey, this.digitForm);
     }
@@ -143,11 +153,13 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     setBaseFormData(): void {
         super.setFormDataForForm(this.model, this.formKey, () => {
         });
-        console.log('base-form', this.form.value);
+        // console.log('base-form', this.form.value);
     }
 
     setDigitFormData(): void {
         super.setFormDataForForm(this.selectedItem, this.digitFormKey, () => {
+            this.digitForm.get('digitDescription').setValue(this.selectedItem.description);
+
             const digit = this.service.digits
                 .find(d => d.title === this.selectedItem.digit);
             this.digitForm.get('digit').setValue(digit);
@@ -156,7 +168,6 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
                 .find(a => a.title === this.selectedItem.action);
             this.digitForm.get('action').setValue(action);
         });
-        console.log('digit-form', this.digitForm.value/*, this.digitForm*/);
     }
 
     // -- event handlers ------------------------------------------------------
@@ -165,42 +176,28 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     onIvrDigitSelected(itemId: number): void {
-        const hideDigit = this.selectedItem && this.selectedItem.id === itemId;
-        this.selectedItem = null;
-
-        setTimeout(() => {
-            this.selectedDigits = [];
-            if (!hideDigit) {
-                this.selectedItem = this.model.tree.find(node => node.id === itemId);
-                this.selectedDigits.push(itemId);
-                this.setDigitFormData();
-                
-                // this.selectDigitAction(action);
-                // if (this.selectedItem.action == 'Send to IVR') {}
-            }
-            
-            // highlight parent digits
-            while (itemId >= 100) {
-                itemId = Math.floor(itemId / 100);
-                this.selectedDigits.push(itemId);
-            }
-            
-            this.initIvrTree();
-            // console.log('ivr-digit-selected', this.selectedItem);
-        }, 0);
+        if (this.selectedItem) {
+            this.closeForm(this.editMode, this.digitFormKey, () => {
+                this.selectIvrDigit(itemId);
+            });
+        }
+        else {
+            this.selectIvrDigit(itemId);
+        }
     }
-
+    
     onDigitSelected(digit: any): void {
         // TODO: check event ...
         // console.log('digit-changed', this.digitForm.value);
     }
 
-    onIvrActionChanged(action: any): void {
+    onActionChanged(action: any): void {
         // TODO: check event ...
         // this.selectedDigitAction = action;
         this.digitForm.get('parameter').setValue(null);
         this.digitForm.get('parameter')
             .setValidators(this.getActionParameterValidators());
+        this.digitForm.get('parameter').reset();
     }
 
     onSipOuterSelected(item: SipItem): void {
@@ -212,31 +209,89 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         if (!this.validateForms()) {
             return;
         }
-        console.log('form-value', this.form.value);
 
-        this.setModelData(this.model, () => {
-            this.model.sipId = this.model.sip.id;
-        });
-        console.log('model-value', this.model);
+        if (this.selectedItem) {
+            // Save selected digit form data
+            console.log('d-form-value', this.digitForm.value);
+
+            this.setModelData(this.selectedItem, () => {
+                const data = this.digitForm.value;
+                this.selectedItem.description = data.digitDescription;
+                
+                this.selectedItem.action = data.action.title;
+                if (data.action.id === <number>DigitActions.EXTENSION_NUMBER) {
+                    this.selectedItem.parameter = 
+                        `${data.parameter.sipOuter.phoneNumber}-${data.parameter.phoneNumber}`;
+                }
+                else if (data.action.id === <number>DigitActions.EXTERNAL_NUMBER) {
+                    this.selectedItem.parameter = data.parameter;
+                }
+                else {
+                    this.selectedItem.parameter = null;
+                }
+            });
+            this.saveFormState(this.digitFormKey);
+
+            console.log('d-model-value', this.selectedItem);
+        }
+        else {
+            // Save base form data
+            console.log('form-value', this.form.value);
+
+            this.setModelData(this.model, () => {
+                this.model.sipId = this.model.sip.id;
+            });
+            this.saveFormState(this.formKey);
+            
+            console.log('model-value', this.model);
+        }
 
         // this.saveIvr();
-
-        // if (this.selectedItem) {
-        //     // IVR Digit
-        //     console.log('sel-item', this.selectedItem);
-        //     console.log('sel-action', this.selectedDigitAction);
-        //     this.selectedItem.action = this.selectedDigitAction.title;
-        // }
-        // else {
-        //     // IVR General
-        // }
     }
 
-    cancel() {
-        this.router.navigate(['cabinet', 'ivr']);
+    onCancel() {
+        if (this.selectedItem) {
+            this.closeForm(this.editMode, this.digitFormKey, () => this.cancel());
+        }
+        else {
+            this.closeForm(this.editMode, this.formKey, () => this.cancel());
+        }
     }
 
     // -- component methods ---------------------------------------------------
+
+    selectIvrDigit(itemId: number): void {
+        const currentDigit = this.selectedItem && this.selectedItem.id === itemId;
+        this.selectedItem = null;
+
+        // [ 1, 102, 10201 ]
+        // [ 1, 103 ]
+        // [ 1 ]
+
+        setTimeout(() => {
+            if (currentDigit) {
+                this.selectedDigits = this.selectedDigits.filter(d => d < itemId);
+            }
+            else {
+                this.selectedDigits = [];
+                this.selectedDigits.push(itemId);
+
+                while (itemId >= 100) {
+                    itemId = Math.floor(itemId / 100);
+                    this.selectedDigits.push(itemId);
+                }
+            }
+
+            if (this.selectedDigits.length > 0) {
+                itemId = Math.max(...this.selectedDigits);
+                this.selectedItem = this.model.tree.find(node => node.id === itemId);
+                this.setDigitFormData();
+            }
+        
+            this.initIvrTree();
+            // console.log('ivr-digit-selected', this.selectedItem.id, this.selectedDigits);
+        }, 0);
+    }
 
     initIvrTree(): void {
         this.ivrLevels = [];
@@ -258,6 +313,15 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         }
 
         // console.log('ivr', this.ivrLevels);
+    }
+
+    cancel() {
+        if (this.selectedItem) {
+            this.selectIvrDigit(this.selectedItem.id);
+        }
+        else {
+            this.router.navigate(['cabinet', 'ivr']);
+        }
     }
 
     isLastLevel(index: number): boolean {
@@ -300,8 +364,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
             this.model = this.service.item;
             this.initIvrTree();
             this.setBaseFormData();
-        })
-            .then(() => this.loading--);
+        }).then(() => this.loading--);
     }
 
     getSipOuters() {
@@ -317,18 +380,15 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
 
         this.service.getExtensions(id).then(response => {
             this.sipInners = response.items;
-            console.log('extensions', id, response);
-        }).catch(() => {
-        })
-            .then(() => this.loadingExt--);
+        }).catch(() => {})
+          .then(() => this.loadingExt--);
     }
 
     saveIvr() {
         this.saving++;
         this.service.save(this.id).then(() => {
             this.cancel();
-        }).catch(() => {
-        })
-            .then(() => this.saving--);
+        }).catch(() => {})
+          .then(() => this.saving--);
     }
 }

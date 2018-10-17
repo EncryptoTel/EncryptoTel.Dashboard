@@ -63,9 +63,9 @@
                 </pbx-input>
 
                 <div class="settings_input_item string" *ngIf="messageSent">
-                    <pbx-input name="{{ 'Confirmation code' | translate"
+                    <pbx-input name="{{ 'Confirmation code' | translate }}"
                                key="code"
-                               placeholder="{{'Confirmation code' | translate"
+                               placeholder="{{ 'Confirmation code' | translate }}"
                                [form]="true"
                                [object]="emailChange"
                                [validationHost]="validationHost"
@@ -76,9 +76,9 @@
             <div class="settings_form_section" [formGroup]="passwordChange">
                 <div class="settings_form_title" translate>change_password_group</div>
 
-                <pbx-input translate name="{{'Current password' | translate }}"
+                <pbx-input translate name="{{ 'Current password' | translate }}"
                            key="oldPassword"
-                           placeholder="{{'Current password' | translate}}"
+                           placeholder="{{ 'Current password' | translate}}"
                            type="password"
                            [form]="true"
                            [object]="passwordChange"
@@ -87,16 +87,16 @@
 
                 <pbx-input name="{{ 'New password' | translate }}"
                            key="password"
-                           placeholder="{{'New password' | translate}}"
+                           placeholder="{{ 'New password' | translate }}"
                            type="password"
                            [form]="true"
                            [object]="passwordChange"
                            [validationHost]="validationHost"
                 ></pbx-input>
 
-                <pbx-input name="{{'Confirm password' | translate }}"
+                <pbx-input name="{{ 'Confirm password' | translate }}"
                            key="password_confirmation"
-                           placeholder="{{'Confirm password' | translate }}"
+                           placeholder="{{ 'Confirm password' | translate }}"
                            type="password"
                            [form]="true"
                            [object]="passwordChange"

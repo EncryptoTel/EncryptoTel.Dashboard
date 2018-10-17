@@ -9,6 +9,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 })
 
 export class ModalComponent {
+    
     @Input() modal: {
         visible: boolean,
         title: string,
@@ -16,6 +17,7 @@ export class ModalComponent {
         decline: { type: string, value: string }
     };
     @Input() modalEx: ModalEx;
+    
     @Output() onConfirm: EventEmitter<void> = new EventEmitter<void>();
     @Output() onConfirmEx: EventEmitter<any> = new EventEmitter<any>();
     @Output() onDecline: EventEmitter<void> = new EventEmitter<void>();
@@ -27,6 +29,7 @@ export class ModalComponent {
 
     hideModal(): void {
         this.onDecline.emit();
+
         if (this.modal) {
             this.modal.visible = false;
         }
@@ -38,8 +41,14 @@ export class ModalComponent {
     clickEx(button: ModalButton): void {
         if (button.type === 'cancel') {
             this.hideModal();
-        } else {
-            this.onConfirmEx.emit(button);
+        } 
+        else {
+            if (this.modalEx && this.modalEx.confirmCallback) {
+                this.modalEx.confirmCallback();
+            }
+            else {
+                this.onConfirmEx.emit(button);
+            }
             this.modalEx.visible = false;
         }
     }
@@ -47,10 +56,13 @@ export class ModalComponent {
 }
 
 export class ModalEx {
+
     visible: boolean;
     title: string;
     body: string;
     buttons: ModalButton[];
+
+    confirmCallback: () => void = null;
 
     constructor(body?: string, create?: string) {
         this.visible = false;
