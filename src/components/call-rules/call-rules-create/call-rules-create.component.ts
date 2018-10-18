@@ -41,9 +41,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     selectedSipInners: SipInner[] = [];
     sipInners: SipInner[] = [];
 
-    // deprecated
-    timeRulePattern = /(\*|[0-9]*:[0-9]*-[0-9]*:[0-9]*)\|(\*|(sun|mon|tue|wed|thu|fri|sat)(&(sun|mon|tue|wed|thu|fri|sat))*)\|(\*|[0-9]*)\|(\*|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)(&(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))*)/;
-
     loading: number = 0;
     loadingStuff: number = 0;
     saving: number = 0;
@@ -125,8 +122,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     getActionFormKey(index: number, last: boolean = false): string {
-        let control = this.actionsControls.get([index, 'parameter']);
-        let key = !control && !last ? 'ruleActions' : '';
+        const control = this.actionsControls.get([index, 'parameter']);
+        const key = !control && !last ? 'ruleActions' : '';
         return key;
     }
 
@@ -280,7 +277,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     checkNextAction(index: number) {
-        let valid = [1, 5].includes(this.selectedActions[index].id);
+        const valid = [1, 5].includes(this.selectedActions[index].id);
         if (!valid && this.actionsControls.length - 1 > index) {
             for (let i = this.actionsControls.length - 1; i >= index; i--) {
                 this.deleteAction(i);
@@ -312,7 +309,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     selectFile(index: number, file: any): void {
-        if (this.mediaPlayer.selectedMediaId != file.id && this.mediaPlayer.state == MediaState.PLAYING) {
+        if (this.mediaPlayer.selectedMediaId !== file.id && this.mediaPlayer.state === MediaState.PLAYING) {
             this.stopPlayerPlay();
         }
         this.selectedFiles[index] = file;
@@ -325,14 +322,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     setParameterControlValue(index: number, value: any): void {
         this.actionsControls.get([index, 'parameter']).setValue(value);
-        let control = <FormControl>this.actionsControls.get([index, `parameter`]);
+        const control = <FormControl>this.actionsControls.get([index, `parameter`]);
         if (!control.valid) {
             control.markAsTouched();
         }
     }
 
     resetParameterControlState(index: number): void {
-        let control = <FormControl>this.actionsControls.get([index, `parameter`]);
+        const control = <FormControl>this.actionsControls.get([index, `parameter`]);
         control.markAsUntouched();
     }
 
@@ -375,7 +372,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     togglePlay(i: number): void {
-        let fileId = this.actionsControls.get([`${i}`, `parameter`]).value;
+        const fileId = this.actionsControls.get([`${i}`, `parameter`]).value;
         if (fileId) {
             this.mediaPlayer.togglePlay(fileId);
         }
@@ -435,7 +432,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.callRulesForm.get('enabled').setValue(enabled);
 
         this.ruleActions = ruleActions;
-        let currentNumber = this.numbers.find(n => n.id == sip.id);
+        const currentNumber = this.numbers.find(n => n.id === sip.id);
         this.selectNumber(currentNumber);
     }
 
@@ -514,7 +511,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                    item.phoneNumber = '+' + item.phoneNumber;
                }
             });
-            Promise.resolve(response);
             this.numbers = response;
         }).catch(() => {
         })

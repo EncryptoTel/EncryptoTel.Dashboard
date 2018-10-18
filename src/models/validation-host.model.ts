@@ -69,25 +69,25 @@ export class ValidationHost implements Lockable {
         const controlKey = this.getValidatorKey(control);
         let item;
         if (this.items) item = this.items.find(i => i.key === controlKey);
-        // if (controlKey === 'sipId') console.log('err-visible', controlKey, control.inErrorState, item);
+        // if (controlKey === 'description') console.log('err-visible', controlKey, control.inErrorState, item);
         return control.inErrorState && item && item.visible;
     }
 
     updateState(): void {
         if (!this.active) { return; }
 
-        let mouseIsInForm = false;
-        let control = this.controls.find(c => c.inMouseHover);
-        if (control) {
-            mouseIsInForm = true;
-            if (control.inErrorState) {
-                this.setControlError(control);
-                return;
-            }
-        }
+        const mouseIsInForm = false;
+        // let control = this.controls.find(c => c.inMouseHover);
+        // if (control) {
+        //     mouseIsInForm = true;
+        //     if (control.inErrorState) {
+        //         this.setControlError(control);
+        //         return;
+        //     }
+        // }
 
         let inputIsInForm = false;
-        control = this.controls.find(c => c.inFocus);
+        const control = this.controls.find(c => c.inFocus);
         if (control) {
             inputIsInForm = true;
             if (control.inErrorState) {
@@ -150,9 +150,11 @@ export class ValidationHost implements Lockable {
     getErrorMessage(control: InputComponent): string {
         const controlKey = this.getValidatorKey(control);
         let errorMessage = null;
+        // console.log('get-error-msg', controlKey);
         this.forms.forEach(form => {
             this.scanForm(form, '', (formControl, name) => {
                 if (name === controlKey) {
+                    // console.log('scan-form', name, formControl);
                     const errorKeys = Object.keys(formControl.errors);
                     errorMessage = this.getValidatorMessage(control, errorKeys[0], formControl.errors);
                 }

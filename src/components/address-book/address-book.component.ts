@@ -1,4 +1,4 @@
-import {ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormArray, FormControl} from '@angular/forms';
 import {AddressBookService} from '../../services/address-book.service';
 import {
@@ -16,6 +16,7 @@ import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {AnimationComponent} from '../../shared/shared.functions';
 import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp} from '../../shared/vars';
 import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import {TariffStateService} from '../../services/state/tariff.state.service';
 
 
 @AnimationComponent({
@@ -50,16 +51,20 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     // -- component lifecycle methods -----------------------------------------
 
+    hideField: boolean = false;
+
     constructor(public service: AddressBookService,
                 public refs: RefsServices,
                 protected message: MessageServices,
-                protected fb: FormBuilder) {
+                protected fb: FormBuilder,
+                protected state: TariffStateService) {
         super(fb, message);
 
         this.addressBookModel = new AddressBookModel();
         this.addressListHeaders = {
             titles: ['First Name', 'Last Name', 'Phone Number', 'E-mail', 'Company Name', 'Country'],
             keys: ['firstname', 'lastname', 'phone', 'email', 'company', 'country.title'],
+            hide: [false, false, false, true, true, true]
         };
 
         this.modalBlock = new ModalEx('', 'block');
@@ -207,6 +212,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         switch (item.id) {
             case 1:
                 this.close();
+                this.hideField = false;
+                this.state.change.emit(this.hideField);
                 break;
             case 2:
                 this.edit(this.selected);
@@ -251,6 +258,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     create() {
+        let widthScreen: number;
+        widthScreen = window.innerWidth;
+        if (widthScreen < 1170) {
+            this.hideField = true;
+            this.state.change.emit(this.hideField);
+        }
+
         this.sidebar.loading++;
 
         this.selected = null;

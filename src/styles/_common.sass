@@ -2,7 +2,7 @@ pbx-index
     min-height: 100%
 .body_wrap
     min-height: 300px
-    padding-top: 74px
+    //padding-top: 74px
     overflow-x: hidden
 
 main-view.dark_theme /deep/ *::-webkit-scrollbar-thumb
@@ -283,6 +283,8 @@ pbx-table
 
 pbx-sidebar
     .sidebar
+        form
+            height: calc(100% - 40px)
         a.a_download
             svg-icon
                 svg
@@ -298,6 +300,19 @@ pbx-sidebar
 
 .form-body-fill
     background: $dark_overlay
+
+// safari
+pbx-settings
+    .settings_item_wrap *
+        cursor: pointer
+pbx-sign-up-tariff-plans
+  .tariff_wrap_items
+    grid-template-rows: min-content
+
+pbx-address-book
+    pbx-list
+        width: calc(100% - 344px) !important
+        flex: auto !important
 
 //pbx-address-book
 //    .pbx_list_empty
