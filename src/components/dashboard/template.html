@@ -3,8 +3,7 @@
     <div class="dashboard_item dashboard_balance" *ngIf="!loading">
         <div class="dashboard_item_title_row">
             <div class="dashboard_item_title_key" translate>Balance</div>
-            <div class="dashboard_balance_value">{{dashboard.balance.currency.shortName}}{{dashboard.balance.value |
-                currency:" ":2 }}
+            <div class="dashboard_balance_value">{{dashboard.balance.currency.shortName}}{{dashboard.balance.value}}
             </div>
         </div>
         <div class="dashboard_item_title_row">
@@ -34,17 +33,17 @@
     <div class="dashboard_item dashboard_tariff" *ngIf="!loading">
         <div class="dashboard_item_title_row">
             <div class="dashboard_item_title_key">Tariff<i>&nbsp;plan</i></div>
-            <div class="dashboard_item_title_value">{{dashboard.tariffPlan.title}}</div>
+            <div class="dashboard_item_title_value" *ngIf="dashboard.tariffPlan">{{dashboard.tariffPlan.title}}</div>
         </div>
         <div class="dashboard_item_content_row">
             <div class="dashboard_item_content_key">Next&nbsp;<i>monthly&nbsp;</i>payment</div>
-            <div class="dashboard_item_content_value">
+            <div class="dashboard_item_content_value" *ngIf="dashboard.tariffPlan">
                 {{dashboard.tariffPlan.displayExpired}}
             </div>
         </div>
         <div class="dashboard_item_content_row">
             <div class="dashboard_item_content_key" translate>Estimated Payment</div>
-            <div class="dashboard_item_content_value">
+            <div class="dashboard_item_content_value" *ngIf="dashboard.tariffPlan">
                 {{dashboard.balance.currency.shortName}}{{dashboard.tariffPlan.sum}}
             </div>
         </div>
@@ -89,24 +88,24 @@
                 </div>
                 <div class="dashboard_item_content_row">
                     <div class="dashboard_item_content_key" translate>Total size</div>
-                    <div class="dashboard_item_content_value">{{dashboard.storage.totalSize}}
+                    <div class="dashboard_item_content_value" *ngIf="dashboard.storage">{{dashboard.storage.totalSize}}
                         {{dashboard.storage.measure}}
                     </div>
                 </div>
                 <div class="dashboard_item_content_row">
                     <div class="dashboard_item_content_key" translate>Available space</div>
-                    <div class="dashboard_item_content_value">{{dashboard.storage.availableSize}}
+                    <div class="dashboard_item_content_value" *ngIf="dashboard.storage">{{dashboard.storage.availableSize}}
                         {{dashboard.storage.measure}}
                     </div>
                 </div>
                 <div class="dashboard_item_content_row">
                     <div class="dashboard_item_content_key" translate>Used space</div>
-                    <div class="dashboard_item_content_value">{{dashboard.storage.usedSize}}
+                    <div class="dashboard_item_content_value" *ngIf="dashboard.storage">{{dashboard.storage.usedSize}}
                         {{dashboard.storage.measure}}
                     </div>
                 </div>
             </div>
-            <div class="dashboard_drive_diagram">
+            <div class="dashboard_drive_diagram" *ngIf="dashboard.storage">
                 <div class="dashboard_drive_percentage">
                     {{((dashboard.storage.usedSize)/(dashboard.storage.totalSize))*100 | number: '1.0-0'}}%
                 </div>
@@ -132,7 +131,7 @@
         <div class="dashboard_item_title_row">
             <div class="dashboard_item_title_name" translate>History</div>
         </div>
-        <div class="dashboard_history_body" *ngIf="dashboard.callDetail.length > 0">
+        <div class="dashboard_history_body" *ngIf="dashboard.callDetail && dashboard.callDetail.length > 0">
             <div class="dashboard_history_wrap" *ngFor="let historyBlock of dashboard.callDetail">
                 <div class="dashboard_history_date">{{historyBlock.analyzeDate}}</div>
                 <div class="dashboard_history_item" *ngFor="let historyItem of historyBlock.list"

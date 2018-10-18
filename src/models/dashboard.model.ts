@@ -35,10 +35,10 @@ export class CurrencyModel {
 }
 
 export class TariffPlanModel {
-    title: string;
+    title: string = '';
     @Type(() => Date)
     expired: Date;
-    sum: number;
+    sum: number = 0;
 
     get displayExpired() {
         return formatDate(this.expired);
