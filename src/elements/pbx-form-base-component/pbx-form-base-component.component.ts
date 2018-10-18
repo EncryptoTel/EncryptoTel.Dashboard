@@ -201,10 +201,16 @@ export class FormBaseComponent implements OnInit, Lockable {
         }
     }
 
-    private showExitModal(editMode: boolean, confirmCallback?: () => void): void {
+    showExitModal(editMode: boolean, confirmCallback?: () => void): void {
         const message = (editMode)
             ? 'You have made changes. Do you really want to leave without saving?'
             : 'Do you really want to leave without saving?';
+        this.modalExit.setMessage(message);
+        this.modalExit.confirmCallback = confirmCallback;
+        this.modalExit.show();
+    }
+
+    showWarningModal(message: string, confirmCallback?: () => void): void {
         this.modalExit.setMessage(message);
         this.modalExit.confirmCallback = confirmCallback;
         this.modalExit.show();

@@ -1,10 +1,11 @@
-import {FormArray, FormGroup, FormControl} from '@angular/forms';
-import {plainToClass} from 'class-transformer';
-import {CountryModel} from '../models/country.model';
-import {CurrencyModel} from '../models/currency.model';
+import {FormArray, FormGroup} from '@angular/forms';
 import {ElementRef, Component, isDevMode} from '@angular/core';
-import {DatePipe} from "@angular/common";
-import {environment} from '../environments/environment';
+import {DatePipe} from '@angular/common';
+import {plainToClass} from 'class-transformer';
+
+import {CountryModel} from '@models/country.model';
+import {CurrencyModel} from '@models/currency.model';
+import {environment} from '@env/environment';
 import {numberRegExp} from './vars';
 
 export function getCountryById(id: number): CountryModel {

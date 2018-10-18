@@ -8,10 +8,10 @@ import 'rxjs/add/operator/mergeMap';
 import {CookieService} from 'ngx-cookie-service';
 import {TranslateService} from '@ngx-translate/core';
 
-import {MessageServices} from '../services/message.services';
-import {FadeAnimation} from '../shared/fade-animation';
-import {LocalStorageServices} from '../services/local-storage.services';
-import {PbxTranslateLoader} from '../shared/pbx-translate-loader';
+import {MessageServices} from '@services/message.services';
+import {LocalStorageServices} from '@services/local-storage.services';
+import {FadeAnimation} from '@shared/fade-animation';
+import {PbxTranslateLoader} from '@shared/pbx-translate-loader';
 
 
 // first and second

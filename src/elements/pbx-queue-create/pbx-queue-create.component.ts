@@ -173,8 +173,8 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
             this.background = 'form-body-fill';
         }
         this.addMembersMode = false;
-        let message = this.service.getMembersMessage();
-        message && this.message.writeSuccess(message);
+        const message = this.service.getMembersMessage();
+        if (message) this.message.writeSuccess(message);
     }
 
     // -- component model methods ---------------------------------------------

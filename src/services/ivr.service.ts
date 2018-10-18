@@ -1,6 +1,6 @@
-import {BaseService} from './base.service';
-import {IvrItem, IvrModel, IvrTreeItem} from '../models/ivr.model';
-import {PageInfoModel} from '../models/base.model';
+import {BaseService} from '@services/base.service';
+import {IvrItem, IvrModel, IvrTreeItem} from '@models/ivr.model';
+import {PageInfoModel} from '@models/base.model';
 import {plainToClass} from 'class-transformer';
 
 
@@ -58,6 +58,7 @@ export class IvrService extends BaseService {
         this.item.id = 1;
         this.item.name = 'IVR-1';
         this.item.description = 'IVR Description';
+        this.item.sipId = 1;
         this.item.status = 1;
 
         this.item.tree = [];
