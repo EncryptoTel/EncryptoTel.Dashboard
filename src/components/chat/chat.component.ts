@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {WsServices} from '../../services/ws.services';
-import {LoggerServices} from "../../services/logger.services";
-import {ChatModel, MessageModel} from "../../models/chat.model";
-import {Subscription} from "rxjs/Subscription";
+import {LoggerServices} from '../../services/logger.services';
+import {ChatModel, MessageModel} from '../../models/chat.model';
+import {Subscription} from 'rxjs/Subscription';
 import {UserServices} from '../../services/user.services';
 
 @Component({
@@ -21,9 +21,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     selected: number = 0;
     currentUserId: number;
 
-    constructor (private socket: WsServices,
-                 private logger: LoggerServices,
-                 private _user: UserServices) {
+    constructor(private socket: WsServices,
+                private logger: LoggerServices,
+                private _user: UserServices) {
         let tmpUser: any;
         tmpUser = this._user.fetchUser();
         this.currentUserId = tmpUser.profile.id;

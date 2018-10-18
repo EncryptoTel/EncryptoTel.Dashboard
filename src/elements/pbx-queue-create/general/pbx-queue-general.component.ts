@@ -37,11 +37,11 @@ export class QueueGeneralComponent implements OnInit {
     }
 
     get selectedNumber(): any {
-        return this.numbers.find(n => n.id == this.object.get('sipId').value);
+        return this.numbers.find(n => n.id === this.object.get('sipId').value);
     }
 
     get selectedStrategy(): any {
-        return this.service.params.strategies.find(s => s.id == this.object.value['strategy']);
+        return this.service.params.strategies.find(s => s.id === this.object.value['strategy']);
     }
 
     // -- component lifecycle methods -----------------------------------------
@@ -55,15 +55,13 @@ export class QueueGeneralComponent implements OnInit {
     private getNumbers(): void {
         this.loading ++;
         this.service.getOuters().then(response => {
+            response.forEach(item => {
+                if (item.providerId && item.providerId !== 1) {
+                    item.phoneNumber = '+' + item.phoneNumber;
+                }
+            });
             this.numbers = response;
-        }).catch(() => { isDevEnv() && this.mockPhoneNumbers(); })
+        }).catch(() => {})
           .then(() => this.loading --);
-    }
-
-    private mockPhoneNumbers(): void {
-        this.numbers = [
-            { id: 1, phoneNumber: '5553322' },
-            { id: 2, phoneNumber: '5553323' }
-        ];
     }
 }

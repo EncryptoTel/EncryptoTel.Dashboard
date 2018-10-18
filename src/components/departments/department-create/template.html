@@ -2,8 +2,8 @@
           [buttons]="tabsButtons()"
           (onClick)="buttonClick($event)"
           (onTabChange)="tabChanged($event)"
-          [params] = "params"
-          >
+          [(params)]="params"
+>
     <!-- General tab content -->
     <pbx-tab tabTitle='General'>
         <div class="department_form_wrapper">
@@ -13,29 +13,29 @@
                     <h3 class="queue-group-create_h3">Information</h3>
                 </div>
                 <form class="sidebar_form" [formGroup]="departmentForm" *ngIf="!saving">
-                        <pbx-input name="Name"
-                                   key="name"
-                                   [object]="generalForm"
-                                   errorKey="generalForm.name"
-                                   [form]="true"
-                                   errorShow="true"
-                                   labelPosition="top"
-                                   [singleBorder]="true"
-                                   [required]="true"
-                                   [validationHost]="validationHost"
-                                   >
-                        </pbx-input>
-                        <pbx-input name="Description"
-                                   key="comment"
-                                   [object]="generalForm"
-                                   errorKey="generalForm.comment"
-                                   [form]="true"
-                                   errorShow="true"
-                                   labelPosition="top"
-                                   [singleBorder]="false"
-                                   [validationHost]="validationHost"
-                                   >
-                        </pbx-input>
+                    <pbx-input name="Name"
+                               key="name"
+                               [object]="generalForm"
+                               errorKey="generalForm.name"
+                               [form]="true"
+                               errorShow="true"
+                               labelPosition="top"
+                               [singleBorder]="true"
+                               [required]="true"
+                               [validationHost]="validationHost"
+                    >
+                    </pbx-input>
+                    <pbx-input name="Description"
+                               key="comment"
+                               [object]="generalForm"
+                               errorKey="generalForm.comment"
+                               [form]="true"
+                               errorShow="true"
+                               labelPosition="top"
+                               [singleBorder]="false"
+                               [validationHost]="validationHost"
+                    >
+                    </pbx-input>
                 </form>
             </div>
         </div>
@@ -50,20 +50,20 @@
                                [items]="filteredSips"
                                [parentEditMode]="hasId"
                                [(selectedItems)]="selectedSips"
-                               >
+        >
             <div class="dep-create-wrapper" *ngIf="sips.length > 0">
-                <pbx-input  #filterControl
-                            name="Search:"
-                            key="value"
-                            [object]="currentFilter"
-                            [filter] = "filter"
-                            [placeholder]="filter.placeHolder"
-                            [inputWidth]="filter.width"
-                            [inputFocus]="filter.focus"
-                            [singleBorder]="false"
-                            [resetable]="true"
-                            (onKeyUp)="applySipFilter()"
-                            >
+                <pbx-input #filterControl
+                           name="Search:"
+                           key="value"
+                           [object]="currentFilter"
+                           [filter]="filter"
+                           [placeholder]="filter.placeHolder"
+                           [inputWidth]="filter.width"
+                           [inputFocus]="filter.focus"
+                           [singleBorder]="false"
+                           [resetable]="true"
+                           (onKeyUp)="applySipFilter()"
+                >
                 </pbx-input>
             </div>
         </pbx-view-edit-control>
@@ -71,5 +71,5 @@
 </pbx-tabs>
 <pbx-modal [modalEx]="modalExit"
            (onConfirmEx)="confirmClose()"
-           >
+>
 </pbx-modal>

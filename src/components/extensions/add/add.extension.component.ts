@@ -5,9 +5,9 @@ import {ExtensionService} from '../../../services/extension.service';
 import {PhoneNumberService} from '../../../services/phone-number.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ExtensionItem} from '../../../models/extension.model';
-import { FormBaseComponent } from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import { validateForm } from '../../../shared/shared.functions';
-import { MessageServices } from '../../../services/message.services';
+import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import {validateForm} from '../../../shared/shared.functions';
+import {MessageServices} from '../../../services/message.services';
 
 @Component({
     selector: 'add-extension-component',
@@ -20,14 +20,15 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     // loading: number;
     mode = 'create';
     id: number;
+    background: string;
 
     tab = {
-        items: [ 'General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security' ],
-        icons: [ 'general_16px', 'voicemail_16px', 'forwarding_rules_16px_1', 'settings_16px', 'key_16px_3', 'security_16px' ],
+        items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
+        icons: ['general_16px', 'voicemail_16px', 'forwarding_rules_16px_1', 'settings_16px', 'key_16px_3', 'security_16px'],
         select: 'General',
-        active: [ true, false, false, true, false, false ]
+        active: [true, false, false, true, false, false]
     };
-    
+
     get formExtension(): FormGroup {
         return this.form;
     }
@@ -45,25 +46,26 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
                 private extension: ExtensionService) {
         super(fb, message);
 
+        this.background = 'form-body-fill';
         this.id = activatedRoute.snapshot.params.id;
         this.id ? this.mode = 'edit' : this.mode = 'create';
 
         this.validationHost.customMessages = [
-            { name: 'First Name', error: 'pattern', message: 'Please enter valid first name' },
-            { name: 'Last Name', error: 'pattern', message: 'Please enter valid last name' },
-            { name: 'Email', error: 'pattern', message: 'Please enter valid email address' },
+            {name: 'First Name', error: 'pattern', message: 'Please enter valid first name'},
+            {name: 'Last Name', error: 'pattern', message: 'Please enter valid last name'},
+            {name: 'Email', error: 'pattern', message: 'Please enter valid email address'},
         ];
     }
 
     initForm(): void {
         this.formExtension = this.fb.group({
-            outer: [ null, [ Validators.required ] ],
-            phoneNumber: [ null, [ Validators.required, Validators.minLength(3), Validators.maxLength(3) ] ],
+            outer: [null, [Validators.required]],
+            phoneNumber: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
             default: false,
             user: this.fb.group({
-                firstName: [ null, [ Validators.pattern(nameRegExp) ] ],
-                lastName: [ null, [ Validators.pattern(nameRegExp) ] ],
-                email: [ null, [ Validators.pattern(emailRegExp) ] ]
+                firstName: [null, [Validators.pattern(nameRegExp)]],
+                lastName: [null, [Validators.pattern(nameRegExp)]],
+                email: [null, [Validators.pattern(emailRegExp)]]
             }),
             mobileApp: false,
             encryption: false,
@@ -93,7 +95,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             this.saveFormState();
             return;
         }
-        
+
         this.locker.lock();
         this.extension.getExtension(this.id).then(response => {
             this.formExtension.get('outer').setValue({
@@ -121,8 +123,9 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             }
 
             this.getAccessList(response.user);
-        }).catch(() => {})
-          .then(() => {
+        }).catch(() => {
+        })
+            .then(() => {
                 this.saveFormState();
                 this.locker.unlock();
             });
@@ -132,7 +135,8 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         this.locker.lock();
         this.extension.getAccessList(user ? user.id : null).then(res => {
             this.accessList = res;
-        }).catch(() => {})
+        }).catch(() => {
+        })
             .then(() => this.locker.unlock());
     }
 
@@ -190,7 +194,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         } else {
             this.tab.active[4] = true;
         }
-        
+
         this.locker.unlock();
 
         if (!extension.user) {
@@ -199,7 +203,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         }
 
         let rights = [];
-        for (let i = 0; i < this.accessList.length; i ++) {
+        for (let i = 0; i < this.accessList.length; i++) {
             if (this.accessList[i].userStatus) {
                 rights.push({id: this.accessList[i].id});
             }
@@ -208,8 +212,9 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         this.locker.lock();
         this.extension.saveAccessList(extension.user.id, rights).then(() => {
             if (this.mode === 'create') this.doCancel();
-        }).catch(() => {})
-          .then(() => this.locker.unlock());
+        }).catch(() => {
+        })
+            .then(() => this.locker.unlock());
     }
 
     ngOnInit(): void {

@@ -40,8 +40,8 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     constructor(private _router: Router,
                 private _user: UserServices,
                 public services: AuthorizationServices,
-                public translate: TranslateService)
-    {}
+                public translate: TranslateService) {
+    }
 
     setFocus(element): void {
         this.errorCheck = false;
@@ -127,7 +127,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     get tariffPlanTitleText(): string {
         if (!this.tariffsLoading) {
             const plan = this.services.getSelectedTarifPlan();
-            const suffix = plan && plan.title != 'Basic' ? " (7 days free)" : ' (Free)';
+            const suffix = plan && plan.title != 'Basic' ? ' (7 days free)' : ' (Free)';
             return `${plan.title}${suffix}`;
         }
         return null;
@@ -176,15 +176,16 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
             this.services.signUp(this.signUpForm.value).then(() => {
                 this.signUpCompleted = true; // resend confirmation is shown
             })
-            .catch(() => {})
-              .then(() => this.loading = false);
+                .catch(() => {
+                })
+                .then(() => this.loading = false);
         }
         else {
             if (this.inputValidation('firstname')) this.errorName = true;
             if ((this.inputValidation('email')) && (!this.errorName)) this.errorEmail = true;
             if ((this.inputValidation('password')) && (!this.errorEmail && !this.errorName)) this.errorPassword = true;
             if ((this.inputValidation('password_confirmation')) && (!this.errorPassword && !this.errorEmail && !this.errorName)) this.errorConfirmPassword = true;
-            if (!this.errorConfirmPassword &&!this.errorPassword && !this.errorEmail && !this.errorName)
+            if (!this.errorConfirmPassword && !this.errorPassword && !this.errorEmail && !this.errorName)
                 this.errorCheck = true;
         }
     }
@@ -215,8 +216,10 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         if (!this.services.tariffPlans) {
             this.tariffsLoading = true;
             this.services.getTariffPlans()
-                .then(() => {})
-                .catch(() => {})
+                .then(() => {
+                })
+                .catch(() => {
+                })
                 .then(() => this.tariffsLoading = false);
         }
     }

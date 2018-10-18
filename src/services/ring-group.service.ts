@@ -17,7 +17,7 @@ export class RingGroupService extends BaseQueueService {
         if (!id) {
             this.item = new RingGroupItem();
             this.editMode = false;
-            
+
             return Promise.resolve(this.item);
         }
         return this.getById(id).then(response => {
@@ -79,6 +79,19 @@ export class RingGroupService extends BaseQueueService {
 
     getOuters(): Promise<any> {
         return this.request.get(`v1/ring_group/outers?limit=1000`);
+    }
+
+    getMembers(sipId: number, search: string = null, departmentId: any = null) {
+        let url = `v1/ring_group/members?sipOuter=${sipId}`;
+        if (search) url = `${url}&filter[search]=${search}`;
+        if (departmentId && departmentId !== 'all') {
+            url = `${url}&filter[department]=${departmentId}`;
+        }
+        return this.request.get(url);
+    }
+
+    getDepartments() {
+        return this.request.get(`v1/ring_group/departments`);
     }
 
     onInit() {

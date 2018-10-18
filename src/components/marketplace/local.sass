@@ -1,72 +1,74 @@
-@import "../../vars" // Global variables import
-@import "vars"       // Local variables import
+@import "../../vars"
+// Global variables import
+@import "vars"
+// Local variables import
 
 .marketplace
-  &_wrap
-    display: grid
-    grid-template-columns: repeat(auto-fill,rem(352))
-    grid-gap: rem(24)
-    margin: rem(-24) rem(-32) rem(-24)
-    padding: rem(24) rem(32) rem(24)
-    overflow-y: auto
-  &_item
-    flex-direction: column
-    position: relative
-    height: rem(228)
-    border-radius: 2px
-    &.color_1
-      background: $theme_1
-    &.color_2
-      background: $theme_2
-    &.color_3
-      background: $theme_3
-    &.color_4
-      background: $theme_4
-    &.color_5
-      background: $theme_5
-    &.color_6
-      background: $theme_6
-  &_column
-    flex-direction: column
-    flex: 1
-    padding: rem(32) rem(32) 0
-    overflow: hidden
-  &_title
-    font-size: rem(24)
-    margin-bottom: rem(16)
-    line-height: rem(24)
-    padding-right: rem(32)
-  &_info
-    font-size: rem(16)
-    margin-bottom: rem(8)
-    line-height: rem(20)
-  &_row
-    flex-direction: row
-  &_cost
-    flex: 1
-    font-size: rem(16)
-    padding: rem(24) rem(32)
-  &_button
-    font-size: rem(16)
-    padding: rem(24) rem(32)
-    transition: 150ms
-    flex: 1
-    background: rgba($dark_primary, 0.25)
-    border-radius: 2px
-    text-transform: uppercase
-    &:hover
-      cursor: pointer
-      background: rgba($dark_primary, .4)
-    &:before, &:after
-      content: ''
-      margin: auto
-  &_icon
-    position: absolute
-    width: rem(32)
-    height: rem(32)
-    top: rem(16)
-    right: rem(24)
-    fill: $dark_success
+    &_wrap
+        display: grid
+        grid-template-columns: repeat(auto-fill, rem(352))
+        grid-gap: rem(24)
+        margin: rem(-24) rem(-32) rem(-24)
+        padding: rem(24) rem(32) rem(24)
+        overflow-y: auto
+    &_item
+        flex-direction: column
+        position: relative
+        height: rem(228)
+        border-radius: 2px
+        &.color_1
+            background: $theme_1
+        &.color_2
+            background: $theme_2
+        &.color_3
+            background: $theme_3
+        &.color_4
+            background: $theme_4
+        &.color_5
+            background: $theme_5
+        &.color_6
+            background: $theme_6
+    &_column
+        flex-direction: column
+        flex: 1
+        padding: rem(32) rem(32) 0
+        overflow: hidden
+    &_title
+        font-size: rem(24)
+        margin-bottom: rem(16)
+        line-height: rem(24)
+        padding-right: rem(32)
+    &_info
+        font-size: rem(16)
+        margin-bottom: rem(8)
+        line-height: rem(20)
+    &_row
+        flex-direction: row
+    &_cost
+        flex: 1
+        font-size: rem(16)
+        padding: rem(24) rem(32)
+    &_button
+        font-size: rem(16)
+        padding: rem(24) rem(32)
+        transition: 150ms
+        flex: 1
+        background: rgba($dark_primary, 0.25)
+        border-radius: 2px
+        text-transform: uppercase
+        &:hover
+            cursor: pointer
+            background: rgba($dark_primary, .4)
+        &:before, &:after
+            content: ''
+            margin: auto
+    &_icon
+        position: absolute
+        width: rem(32)
+        height: rem(32)
+        top: rem(16)
+        right: rem(24)
+        fill: $dark_success
 //@media (max-width: 767px)
 //  .marketplace
 //    &_wrap

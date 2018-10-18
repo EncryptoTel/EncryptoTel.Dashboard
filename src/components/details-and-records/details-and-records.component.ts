@@ -62,11 +62,11 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.endDate = undefined;
 
         this.tags = [
-            { key: 'noAnswer', title: 'no-answer', selected: false },
-            { key: 'incoming', title: 'incoming', selected: true },
-            { key: 'outgoing', title: 'outgoing', selected: true },
-            { key: 'missed', title: 'missed', selected: false },
-            { key: 'record', title: 'record', selected: false },
+            {key: 'noAnswer', title: 'no-answer', selected: false},
+            {key: 'incoming', title: 'incoming', selected: true},
+            {key: 'outgoing', title: 'outgoing', selected: true},
+            {key: 'missed', title: 'missed', selected: false},
+            {key: 'record', title: 'record', selected: false},
         ];
     }
 
@@ -90,7 +90,7 @@ export class DetailsAndRecordsComponent implements OnInit {
             if (!range[1]) range[1] = today;
         }
 
-        return [ this.formatDate(range[0]), this.formatDate(range[1]) ];
+        return [this.formatDate(range[0]), this.formatDate(range[1])];
     }
 
     formatDate(value: Date): string {
@@ -102,10 +102,10 @@ export class DetailsAndRecordsComponent implements OnInit {
 
         let dateArray: any;
         dateArray = range[0].split('/');
-        this.startDate = dateArray[2] + '-' + dateArray[1]+'-'+dateArray[0];
+        this.startDate = dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0];
 
         dateArray = range[1].split('/');
-        this.endDate = dateArray[2] + '-' + dateArray[1]+'-'+dateArray[0];
+        this.endDate = dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0];
 
         this.getItems();
     }
@@ -146,15 +146,15 @@ export class DetailsAndRecordsComponent implements OnInit {
     // -- data retrieval methods ----------------------------------------------
 
     private getItems(item = null): void {
-        (item ? item : this).loading ++;
+        (item ? item : this).loading++;
         let tags = this.tagSelector.selectedTags.map(t => {
             return t.key;
         });
         this.service.getItems(this.pageInfo, {status: tags.length > 0 ? tags : null, startDate: this.startDate, endDate: this.endDate}, this.table.sort).then(result => {
             this.pageInfo = result;
-            (item ? item : this).loading --;
+            (item ? item : this).loading--;
         }).catch(() => {
-            (item ? item : this).loading --;
+            (item ? item : this).loading--;
         });
     }
 

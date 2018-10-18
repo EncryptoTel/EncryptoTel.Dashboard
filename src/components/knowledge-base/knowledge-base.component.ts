@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {HeaderComponent} from '../../elements/pbx-header/pbx-header.component';
-import {KnowledgeBaseService} from "../../services/knowledge-base.service";
-import {HelpGroupItem, HelpGroupModel, HelpItem, HelpModel} from "../../models/knowledge-base.model";
-import {ButtonItem, FilterItem} from "../../models/base.model";
-import { ThrowStmt } from '../../../node_modules/@angular/compiler';
+import {KnowledgeBaseService} from '../../services/knowledge-base.service';
+import {HelpGroupItem, HelpGroupModel, HelpItem, HelpModel} from '../../models/knowledge-base.model';
+import {ButtonItem, FilterItem} from '../../models/base.model';
+import {ThrowStmt} from '../../../node_modules/@angular/compiler';
 
 @Component({
     selector: 'partner-program-component',
@@ -39,7 +39,7 @@ export class KnowledgeBaseComponent implements OnInit {
         this.helps = new HelpModel();
 
         this.loading = 0;
-        
+
         this.filters = [];
         this.resetFilter();
 
@@ -68,7 +68,7 @@ export class KnowledgeBaseComponent implements OnInit {
     }
 
     resetFilter(): void {
-        this.currentFilter = { group: null, search: null };
+        this.currentFilter = {group: null, search: null};
     }
 
     // -- event handlers ------------------------------------------------------
@@ -82,7 +82,7 @@ export class KnowledgeBaseComponent implements OnInit {
         this.header.updateFilter(0, this.filters);
     }
 
-    showQuestions(item: HelpGroupItem){
+    showQuestions(item: HelpGroupItem) {
         this.selectedGroup = item;
         this.currentFilter['group'] = item.id;
         this.header.updateFilter(0, {id: item.id, title: item.title});
@@ -126,24 +126,25 @@ export class KnowledgeBaseComponent implements OnInit {
     // -- data retrieval methods ----------------------------------------------
 
     getHelps(): void {
-        this.loading ++;
+        this.loading++;
         this.service.getHelps(this.helps, this.currentFilter).then(response => {
             this.helps = response;
-        }).catch(() => {})
-          .then(() => this.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.loading--);
     }
 
     getGroups(): void {
-        this.loading ++;
+        this.loading++;
         this.service.getGroups(this.helpGroups, '').then(response => {
             this.helpGroups = response;
-            
+
             this.leftGroups = [];
             this.rightGroups = [];
             const options = [];
 
             response.items.forEach((item, index) => {
-                options.push({ id: item.id, title: item.title });
+                options.push({id: item.id, title: item.title});
                 if (index % 2 === 0) this.leftGroups.push(item);
                 else this.rightGroups.push(item);
             });
@@ -154,7 +155,8 @@ export class KnowledgeBaseComponent implements OnInit {
             } else {
                 this.filters[0].options = options;
             }
-        }).catch(() => {})
-          .then(() => this.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.loading--);
     }
 }

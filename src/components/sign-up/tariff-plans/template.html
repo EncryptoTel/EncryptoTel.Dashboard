@@ -1,57 +1,61 @@
-
 <div class="tariff_container">
-  <div class="tariff_wrap">
-    <pbx-loader *ngIf="loading"></pbx-loader>
-    <h1 class="tariff_title" *ngIf="!loading" [@Fade]>Plans Available for Everyone</h1>
-    <div class="tariff_wrap_items" *ngIf="!loading" [@Fade]>
-      <div class="tariff_item" *ngFor="let tariff of tariffs"
-           [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}">
-        <div class="tariff_item__description">
-          <h3 class="tariff_item__description_title">{{tariff.title}}</h3>
-          <ul class="tariff_item__description_list">
-            <li class="tariff_item__description_list__item"
-                *ngFor="let service of tariff.services">{{service.title}}</li>
-          </ul>
-          <p class="tariff_item__description_price">
-            {{tariff.title === 'Basic' ? 'FREE' : 'From $' + tariff.price +'/monthly'}}
-          </p>
+    <div class="tariff_wrap">
+        <pbx-loader *ngIf="loading"></pbx-loader>
+        <h1 class="tariff_title" *ngIf="!loading" [@Fade]>Plans Available for Everyone</h1>
+        <div class="tariff_wrap_items" *ngIf="!loading" [@Fade]>
+            <div class="tariff_item" *ngFor="let tariff of tariffs"
+                 [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}">
+                <div class="tariff_item__description">
+                    <h3 class="tariff_item__description_title">{{tariff.title}}</h3>
+                    <ul class="tariff_item__description_list">
+                        <li class="tariff_item__description_list__item"
+                            *ngFor="let service of tariff.services">{{service.title}}
+                        </li>
+                    </ul>
+                    <p class="tariff_item__description_price">
+                        {{tariff.title === 'Basic' ? 'FREE' : 'From $' + tariff.price +'/monthly'}}
+                    </p>
+                </div>
+                <button class="tariff_item__button"
+                        [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}"
+                        (click)="chooseTariff(tariff.id)">
+                    {{tariff.title === 'Basic' ? 'SIGN UP NOW' : 'Try it free'}}
+                </button>
+                <div class="tariff_item__free">
+                    <p>{{tariff.title !== 'Basic'? 'Free for 7 days' : ''}}</p>
+                    <p>{{tariff.title !== 'Basic'? 'No credit card needed' : ''}}</p>
+                </div>
+            </div>
         </div>
-        <button class="tariff_item__button"
-                [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}"
-                (click)="chooseTariff(tariff.id)">
-          {{tariff.title === 'Basic' ? 'SIGN UP NOW' : 'Try it free'}}
-        </button>
-        <div class="tariff_item__free">
-          <p>{{tariff.title !== 'Basic'? 'Free for 7 days' : ''}}</p>
-          <p>{{tariff.title !== 'Basic'? 'No credit card needed' : ''}}</p>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 <div class="mobile_container">
-  <div class="mobile_title" [@Fade]>Plans Available for Everyone</div>
-  <pbx-loader *ngIf="loading"></pbx-loader>
-  <div class="mobile_body" *ngIf="!loading" [@Fade]>
-    <div class="mobile_item" *ngFor="let tariff of tariffs"
-         [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}">
-      <h3 class="mobile_item_title"
-          (click)="current_pick === tariff.id ? current_pick = -1 : current_pick = tariff.id">{{tariff.title}}</h3>
-      <div class="mobile_item_body" *ngIf="tariff.id === current_pick" [@Swipe]>
-        <ul class="mobile_item_list">
-          <li class="mobile_item_list_item" *ngFor="let service of tariff.services">
-            {{service.title}}</li>
-        </ul>
-        <div class="mobile_item_price">
-          {{tariff.title === 'Basic' ? 'FREE' : 'From $' + tariff.price +'/monthly'}}</div>
-        <div class="mobile_item_free" *ngIf="tariff.title !== 'Basic'">Free for 7 days<br>No credit card needed</div>
-        <button class="mobile_item_button"
-                [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}"
-                (click)="chooseTariff(tariff.id)">
-          {{tariff.title === 'Basic' ? 'SIGN UP NOW' : 'Buy Now'}}
-        </button>
-      </div>
+    <div class="mobile_title" [@Fade]>Plans Available for Everyone</div>
+    <pbx-loader *ngIf="loading"></pbx-loader>
+    <div class="mobile_body" *ngIf="!loading" [@Fade]>
+        <div class="mobile_item" *ngFor="let tariff of tariffs"
+             [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}">
+            <h3 class="mobile_item_title"
+                (click)="current_pick === tariff.id ? current_pick = -1 : current_pick = tariff.id">
+                {{tariff.title}}</h3>
+            <div class="mobile_item_body" *ngIf="tariff.id === current_pick" [@Swipe]>
+                <ul class="mobile_item_list">
+                    <li class="mobile_item_list_item" *ngFor="let service of tariff.services">
+                        {{service.title}}
+                    </li>
+                </ul>
+                <div class="mobile_item_price">
+                    {{tariff.title === 'Basic' ? 'FREE' : 'From $' + tariff.price +'/monthly'}}
+                </div>
+                <div class="mobile_item_free" *ngIf="tariff.title !== 'Basic'">Free for 7 days<br>No credit card needed
+                </div>
+                <button class="mobile_item_button"
+                        [ngClass]="{'current_tariff': tariff.id === services.signUpData.controls.tariffPlanId}"
+                        (click)="chooseTariff(tariff.id)">
+                    {{tariff.title === 'Basic' ? 'SIGN UP NOW' : 'Buy Now'}}
+                </button>
+            </div>
+        </div>
+        <div class="mobile_body_after" (click)="current_pick = 0"></div>
     </div>
-    <div class="mobile_body_after" (click)="current_pick = 0"></div>
-  </div>
 </div>

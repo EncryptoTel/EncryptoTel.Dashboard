@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {PartnerProgramService} from '../../../services/partner-program.service';
-import {PartnerProgramItem, PartnerProgramModel} from "../../../models/partner-program.model";
+import {PartnerProgramItem, PartnerProgramModel} from '../../../models/partner-program.model';
 import {TableInfoExModel, TableInfoItem} from '../../../models/base.model';
 import {killEvent} from '../../../shared/shared.functions';
 import {ModalEx} from '../../../elements/pbx-modal/pbx-modal.component';
@@ -40,7 +40,7 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
     }
 
     // -- component lifecycle methods -----------------------------------------
-    
+
     constructor(private _service: PartnerProgramService) {
         this.locker = new Locker();
 
@@ -55,11 +55,12 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
             new TableInfoItem('Registered', 'registered', 'registered'),
             new TableInfoItem('Rewards Summary', 'totalBonus', 'totalBonus'),
         ];
-        
+
         this.modalDelete = new ModalEx('Are you sure?', 'delete');
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+    }
 
     // -- event handlers ------------------------------------------------------
 
@@ -105,18 +106,20 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
     // -- data processing methods ---------------------------------------------
 
     doDeleteLink() {
-        this.selected.loading ++;
+        this.selected.loading++;
         this._service.deleteById(this.selected.id).then(() => {
             this.reload(this.selected);
-        }).catch(() => {})
-          .then(() => this.selected.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.selected.loading--);
     }
 
     sort() {
         this.locker.lock();
         this._service.getItems(this.partners, null, this.tableSortOrder).then(response => {
             this.partners = response;
-        }).catch(() => {})
-          .then(() => this.locker.unlock());
+        }).catch(() => {
+        })
+            .then(() => this.locker.unlock());
     }
 }

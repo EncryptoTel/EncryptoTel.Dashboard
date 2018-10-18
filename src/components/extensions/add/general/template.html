@@ -107,13 +107,14 @@
 
     <div class="add_ext_form_item" *ngIf="id" style="width: 400px;">
         <label class="inactive"></label>
-        <pbx-button [value]="'Generate and Send Password'" (onClick)="sendPassword()" [loading]="passwordLoading" [inactive]="!getFormValue('toAdmin') && !getFormValue('toUser')"></pbx-button>
+        <pbx-button [value]="'Generate and Send Password'" (onClick)="sendPassword()" [loading]="passwordLoading"
+                    [inactive]="!getFormValue('toAdmin') && !getFormValue('toUser')"></pbx-button>
     </div>
 
 </form>
 <pbx-loader *ngIf="!locker.free"></pbx-loader>
 <pbx-modal
-        [modalEx]="modal"
-        (onConfirmEx)="confirmModal()"
-        (onDecline)="cancelModal()"
+    [modalEx]="modal"
+    (onConfirmEx)="confirmModal()"
+    (onDecline)="cancelModal()"
 ></pbx-modal>

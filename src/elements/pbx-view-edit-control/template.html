@@ -1,4 +1,4 @@
-<div class="view-edit-control-wrapper" *ngIf="!editMode">
+<div class="view-edit-control-wrapper" *ngIf="!editMode" #myElement>
     <div class="view-edit-control-header">
         {{ headerText }}
         <pbx-button (onClick)="toggleEditMode()" value="{{ buttonText }}"></pbx-button>
@@ -12,11 +12,11 @@
     </pbx-table>
     <span class="pbx_queue_empty_text" *ngIf="!hasData">{{ noDataMessage }}</span>
 </div>
-<div class="view-edit-control-wrapper" *ngIf="editMode">
+<div class="view-edit-control-wrapper" *ngIf="editMode" #myElement>
     <div class="view-edit-control-header">
         <ng-content></ng-content>
     </div>
-    <pbx-table [tableInfo]="tableInfo" 
+    <pbx-table [tableInfo]="tableInfo"
                [tableItems]="items"
                [selected]="selectedItems"
                [multiple]="true"

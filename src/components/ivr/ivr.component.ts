@@ -31,10 +31,11 @@ export class IvrComponent implements OnInit {
     }
 
     getItems() {
-        this.loading ++;
+        this.loading++;
         this.service.getItems(this.model).then(response => {
             console.log('ivr', response);
-        }).catch(() => {})
-          .then(() => this.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.loading--);
     }
 }

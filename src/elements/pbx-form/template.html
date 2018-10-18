@@ -3,7 +3,7 @@
         <div class="form-tab-wrap" *ngIf="tabs">
             <div *ngFor="let tab of tabs; let i=index;"
                  class="form-tab"
-                 [ngClass]="{ 'selected' : selected === tab, 'inactive-tab' : !inactiveTabs[i] }"
+                 [ngClass]="{ 'selected' : selected === tabs[i], 'inactive-tab' : !inactiveTabs[i] }"
                  (click)="selectTab(tab, i)"
                  >
                 <div class="form-tab-icon-wrap" *ngIf="showIcon(i)">
@@ -32,8 +32,8 @@
             </pbx-button>
         </div>
     </div>
-    <div class="form-body">
-        <div class="form-body-content {{background}}">
+    <div class="form-body {{background}}">
+        <div class="form-body-content">
             <ng-content></ng-content>
         </div>
         <div class="form-ballast" *ngIf="fillBackground !== false && ((background === undefined && !!tabs) || background)"></div>

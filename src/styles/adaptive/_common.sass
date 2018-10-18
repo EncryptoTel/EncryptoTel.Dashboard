@@ -8,6 +8,19 @@ body
         > .body_wrap
             max-width: calc(100vw - 80px) !important
 
+@media screen and (max-width: 939px)
+    pbx-list
+        width: 100% !important
+    phone-numbers-component
+        pbx-list
+            pbx-table
+                .tablet_header,
+                .tablet_body
+                    .tablet_item
+                        .qwerty
+                            width: unset !important
+
+
 @media screen and (max-width: 929px)
     .header_line_wrap
         .header_title
@@ -23,9 +36,18 @@ body
     .body_wrap
         min-width: calc(768px - 80px) !important
 .notificator-wrap
-    position: absolute
-    width: 50%
-    left: 236px
+    position: fixed
+    //width: 50%
+    //left: 236px
+    left: 50% !important
+    transform: translateX(-50%) !important
     top: 0
+
+@media screen and (max-width: 1279px)
+    .notificator-wrap
+        width: 50% !important
+        //left: 50% !important
+        //transform: translateX(-50%) !important
+
 .header_line_wrap
     overflow: hidden

@@ -91,7 +91,7 @@ export class BaseQueueService extends BaseService {
     }
 
     getDepartments() {
-        return this.request.get(`v1/department`);
+        return this.request.get(`v1/call_queue/departments`);
     }
 
     setMembers(members) {
@@ -140,10 +140,10 @@ export class BaseQueueService extends BaseService {
 
     mockParams(): void {
         this.params = {
-            strategies: [ 
-                { id: 1, code: 'Ring strategy 1' }, 
-                { id: 2, code: 'Ring strategy 2' }, 
-                { id: 3, code: 'Ring strategy 3' } 
+            strategies: [
+                { id: 1, code: 'Ring strategy 1' },
+                { id: 2, code: 'Ring strategy 2' },
+                { id: 3, code: 'Ring strategy 3' }
             ]
         };
     }

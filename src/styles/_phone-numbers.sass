@@ -8,6 +8,9 @@ button
 
 buy-phone-numbers-component
     .buy_phone_header_block
+        .buy_phone_header_block_key,
+        .buy_phone_header_options_title
+            white-space: nowrap
         .input_wr
             .clear_icon
                 svg
@@ -137,6 +140,11 @@ phone-numbers-component
                             opacity: 1
 
 buy-phone-numbers-component
+    .buy_phone_header
+        pbx-checkbox + div,
+        .buy_phone_header_options_title,
+        .select_item.selected
+            white-space: nowrap
     .buy_phone_table_contain
         .buy_phone_table_title,
         .buy_phone_table_body
@@ -218,6 +226,26 @@ buy-phone-numbers-component
                         max-width: 232px
                         display: inline-block
 
+phone-numbers-component
+    pbx-list
+        pbx-table
+            .tablet_header,
+            .tablet_body
+                .tablet_item
+                    width: unset !important
+                    &:nth-child(1) .qwerty
+                        width: 80px !important
+                    &:nth-child(2) .qwerty
+                        width: 90px !important
+                    &:nth-child(3) .qwerty
+                        width: 70px !important
+                    &:nth-child(4) .qwerty
+                        width: 80px !important
+                    &:nth-child(5) .qwerty
+                        width: 84px !important
+                    &:nth-child(5)
+                        margin-right: 30px !important
+
     
 @media screen and (max-width: 1389px)
     buy-phone-numbers-component
@@ -225,14 +253,4 @@ buy-phone-numbers-component
             .buy_phone_header_refresh
                 padding-left: 15px
                 .buy_phone_header_refresh_icon
-                    display: none
-
-@media screen and (max-width: 1319px)
-    buy-phone-numbers-component
-        .buy_phone_grid
-            overflow: hidden
-        .buy_phone_table_contain
-            grid-template-columns: 1fr !important
-            .buy_phone_table_title
-                &.second
                     display: none

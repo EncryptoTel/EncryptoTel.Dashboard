@@ -3,13 +3,13 @@ import {DatePipe, DecimalPipe} from '@angular/common';
 import { format } from 'util';
 
 export class CompanyModel {
-    constructor(public name: string = '', 
-                public logo: string = '', 
-                public email: string = '', 
-                public phone: string = '', 
-                public vatId: number = null, 
-                public companyAddress: CompanyAddress[] = [], 
-                public companyDetailFieldValue: any[] = [], 
+    constructor(public name: string = '',
+                public logo: string = '',
+                public email: string = '',
+                public phone: string = '',
+                public vatId: number = null,
+                public companyAddress: CompanyAddress[] = [],
+                public companyDetailFieldValue: any[] = [],
                 public id: number = null) {
     }
 
@@ -67,9 +67,12 @@ export class CompanyInfoModel {
                 section.items = [];
                 data.numbers.forEach(phone => {
                     let item = new CompanyInfoItem();
-                    item.title = phone.phoneNumber;
+                    if (phone.phoneType === 'external') {
+                        item.title = '+' + phone.phoneNumber;
+                    } else {
+                        item.title = phone.phoneNumber;
+                    }
                     item.value = `${phone.innerOnlineCount} of ${phone.innerCount} ext.`;
-                    // TODO получать с сервера количество телефонов онлайн/оффлайн
                     item.value2 = phone.innerOnlineCount > 0 ? 'online' : 'online';
                     section.items.push(item);
                 });

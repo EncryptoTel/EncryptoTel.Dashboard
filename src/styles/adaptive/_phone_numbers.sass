@@ -1,0 +1,71 @@
+@media screen and (max-width: 1399px)
+    buy-phone-numbers-component
+        .buy_phone_header
+            display: grid
+            grid-template-columns: 1fr 1fr
+            grid-template-rows: 1fr auto !important
+            grid-gap: 16px
+            .input_wr
+                margin-right: auto !important
+            .buy_phone_header_block
+                grid-gap: 8px !important
+                &:nth-child(1)
+                    margin-right: 0
+                    grid-template-columns: min-content auto
+                &:nth-child(2)
+                    margin-right: 0
+                    grid-template-columns: auto min-content
+        .buy_phone_header_options
+            display: flex !important
+            grid-column: 1/4
+            grid-row: 2/3
+            padding-top: 8px
+            .buy_phone_header_options_title
+                //margin-right: 16px !important
+            pbx-checkbox
+                margin-left: 10px !important
+                margin-right: 10px !important
+                + div
+                    margin-right: 16px !important
+        .buy_phone_header_refresh
+            margin: 0 !important
+            padding: 8px 16px 0 0 !important
+            align-items: flex-start !important
+            justify-content: flex-end
+            grid-column: 1/4
+            grid-row: 2/3
+            svg-icon
+                display: flex !important
+
+@media screen and (max-width: 1319px)
+    buy-phone-numbers-component
+        .buy_phone_grid
+            overflow: hidden
+        .buy_phone_table_contain
+            grid-template-columns: 1fr !important
+            grid-gap: 0 !important
+            .buy_phone_table_title
+                &.second
+                    display: none
+
+@media screen and (max-width: 969px)
+    .buy_phone_header pbx-select,
+    .buy_phone_header input,
+    .buy_phone_header .select_item.selected
+        width: 190px !important
+
+@media screen and (max-width: 899px)
+    pbx-table
+        .tablet_header,
+        .tablet_body
+            .tablet_item
+                &:nth-child(5),
+                &:nth-child(6)
+                    display: none !important
+
+@media screen and (max-width: 849px)
+    buy-phone-numbers-component
+        .buy_phone_header_options
+            pbx-checkbox
+                + div
+                    margin-right: 0 !important

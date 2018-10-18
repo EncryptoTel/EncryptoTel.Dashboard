@@ -30,7 +30,11 @@ export class ListComponent implements OnInit {
     @Input() service: any;
     @Input() buttonTitle: string;
     @Input() loading: boolean;
-    @Input() filters: FilterItem[];
+    @Input()
+    set filters(value) {
+        this._filters = value;
+    }
+    _filters: FilterItem[];
     @Input() editable: boolean = true;
     @Input() deletable: boolean = true;
     @Input() buttons: ButtonItem[] = [];
@@ -104,7 +108,7 @@ export class ListComponent implements OnInit {
         this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null).then(res => {
             this.pageInfo = res;
             this.pageInfo.limit = limit;
-            
+
             if (!item) {
                 this.onLoad.emit(this.pageInfo);
             }
@@ -128,8 +132,8 @@ export class ListComponent implements OnInit {
         Object.keys(this.currentFilter).forEach(key => {
             this.currentFilter[key] && result ++;
         });
-        if (this.filters) {
-            this.filters.forEach(filter => {
+        if (this._filters) {
+            this._filters.forEach(filter => {
                 if (filter && filter.options) {
                     filter.options.forEach(option => (option.count > 0) && result ++);
                 }
@@ -150,13 +154,16 @@ export class ListComponent implements OnInit {
     }
 
     updateTotalItems(): void {
-        if (Object.keys(this.currentFilter).length == 0) {
+        if (this.pageInfo.itemsCount === 0) {
+            this._filters = [];
+        }
+        if (Object.keys(this.currentFilter).length === 0) {
             this._totalItemsCount = this.pageInfo.itemsCount;
         }
     }
 
     get listDataEmpty(): boolean {
-        return !this._totalItemsCount || this._totalItemsCount == 0;
+        return !this._totalItemsCount || this._totalItemsCount === 0;
     }
 
     ngOnInit() {

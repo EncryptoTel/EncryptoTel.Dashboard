@@ -61,16 +61,16 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         this.sidebarInfo.items.push(new SidebarInfoItem(3, 'Available space', null));
 
         this.validationHost.customMessages = [
-            { name: 'Organization', error: 'pattern', message: 'Company name may contain letters, digits and dashes only' },
-            { name: 'State/Region', error: 'pattern', message: 'State/region may contain letters, digits and dashes only' },
-            { name: 'City', error: 'pattern', message: 'City may contain letters, digits and dashes only' },
-            { name: 'Street', error: 'pattern', message: 'Street may contain letters, digits and dashes only' },
-            { name: 'House', error: 'pattern', message: 'House number may contain letters, digits and slashes only' },
-            { name: 'Office', error: 'pattern', message: 'Office may contain digits only' },
-            { name: 'Postal code', error: 'pattern', message: 'Postal code may contain letters and digits only' },
-            { name: 'Email', error: 'pattern', message: 'Please enter valid email address' },
-            { name: 'Phone', error: 'pattern', message: 'Phone number may contain digits only' },
-            { name: 'VAT ID', error: 'pattern', message: 'VAT ID may contain digits and letters only' },
+            {name: 'Organization', error: 'pattern', message: 'Company name may contain letters, digits and dashes only'},
+            {name: 'State/Region', error: 'pattern', message: 'State/region may contain letters, digits and dashes only'},
+            {name: 'City', error: 'pattern', message: 'City may contain letters, digits and dashes only'},
+            {name: 'Street', error: 'pattern', message: 'Street may contain letters, digits and dashes only'},
+            {name: 'House', error: 'pattern', message: 'House number may contain letters, digits and slashes only'},
+            {name: 'Office', error: 'pattern', message: 'Office may contain digits only'},
+            {name: 'Postal code', error: 'pattern', message: 'Postal code may contain letters and digits only'},
+            {name: 'Email', error: 'pattern', message: 'Please enter valid email address'},
+            {name: 'Phone', error: 'pattern', message: 'Phone number may contain digits only'},
+            {name: 'VAT ID', error: 'pattern', message: 'VAT ID may contain digits and letters only'},
         ];
     }
 
@@ -86,30 +86,30 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     initForm(): void {
         this.form = this.fb.group({
-            id: [ null ],
-            logo:   [ '' ],
-            name:   [ '', [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ] ],
+            id: [null],
+            logo: [''],
+            name: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
             companyAddress: this.fb.array([
                 this.fb.group({
-                    id: [ null ],
+                    id: [null],
                     country: this.fb.group({
-                        id:         [ null, [ Validators.required ] ],
-                        code:       [ '' ],
-                        title:      [ '' ],
-                        phoneCode:  [ '' ]
+                        id: [null, [Validators.required]],
+                        code: [''],
+                        title: [''],
+                        phoneCode: ['']
                     }),
-                    regionName:     [ '', [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ] ],
-                    locationName:   [ '', [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ] ],
-                    street:         [ '', [ Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp) ] ],
-                    building:       [ '', [ Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp) ] ],
-                    office:         [ '', [ Validators.maxLength(15), Validators.pattern(companyOfficeRegExp) ] ],
-                    postalCode:     [ '', [ Validators.minLength(6), Validators.maxLength(9), Validators.pattern(nameRegExp) ] ],
-                    type:           [ '' ],
+                    regionName: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
+                    locationName: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
+                    street: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
+                    building: ['', [Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp)]],
+                    office: ['', [Validators.maxLength(15), Validators.pattern(companyOfficeRegExp)]],
+                    postalCode: ['', [Validators.minLength(6), Validators.maxLength(9), Validators.pattern(nameRegExp)]],
+                    type: [''],
                 })
             ]),
-            email: [ '', [ Validators.pattern(emailRegExp) ] ],
-            phone: [ '', [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(companyPhoneRegExp) ] ],
-            vatId: [ null, [ Validators.maxLength(99), Validators.pattern(companyVatIDRegExp) ] ],
+            email: ['', [Validators.pattern(emailRegExp)]],
+            phone: ['', [Validators.minLength(6), Validators.maxLength(16), Validators.pattern(companyPhoneRegExp)]],
+            vatId: [null, [Validators.maxLength(99), Validators.pattern(companyVatIDRegExp)]],
             // companyDetailFieldValue: this._fb.array([]),
         });
     }
@@ -164,7 +164,8 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         event.preventDefault();
     }
 
-    dragEndHandler(event): void {}
+    dragEndHandler(event): void {
+    }
 
     dragLeaveHandler(event): void {
         event.preventDefault();
@@ -230,12 +231,13 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
         this.refs.getCountries().then(res => {
             this.countries = res;
-        }).catch(() => {})
-          .then(() => this.locker.unlock());
+        }).catch(() => {
+        })
+            .then(() => this.locker.unlock());
     }
 
     private getSidebar() {
-        this.sidebarInfo.loading ++;
+        this.sidebarInfo.loading++;
 
         this.dashboard.getDashboard().then(response => {
             this.setCompanyInfo(response);
@@ -260,8 +262,9 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                         break;
                 }
             }
-        }).catch(() => {})
-          .then(() => this.sidebarInfo.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.sidebarInfo.loading--);
     }
 
     saveCompany(): void {
@@ -286,6 +289,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 this.company.logo = response.logo;
                 this.setFormData(this.company);
             }
-        }).catch(() => {});
+        }).catch(() => {
+        });
     }
 }

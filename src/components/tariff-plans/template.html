@@ -1,7 +1,7 @@
 <pbx-modal
-        [modalEx]="modal"
-        (onConfirmEx)="modalConfirm()"
-        >
+    [modalEx]="modal"
+    (onConfirmEx)="modalConfirm()"
+>
 </pbx-modal>
 
 <pbx-loader *ngIf="loading"></pbx-loader>
@@ -11,11 +11,11 @@
      [ngClass]="{ 'not_enough' : tariffs.length < 5 }"
      *ngIf="!loading && tariffs.length"
      [@Fade]
-     >
+>
     <div class="tariff_wrap_button"
          [ngClass]="{ 'tariff_inactive' : page === 1 }"
          (click)="goBack()"
-         >
+    >
         <svg-icon class="tariff_wrap_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
     </div>
     <div class="tariff_list">
@@ -23,13 +23,13 @@
                     [value]="item"
                     [current]="current"
                     (onBuy)="choose(item)"
-                    >
+        >
         </pbx-tariff>
     </div>
     <div class="tariff_wrap_button"
          [ngClass]="{ 'tariff_inactive' : page === pageCount }"
          (click)="goNext()"
-         >
+    >
         <svg-icon class="tariff_wrap_icon" src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
     </div>
 </div>
@@ -37,12 +37,12 @@
 <div class="tariff_wrap tariff_mid_resolution"
      *ngIf="!loading && tariffs.length"
      [@Fade]
-     >
+>
     <pbx-tariff *ngFor="let item of tariffs"
                 [value]="item"
                 [current]="current"
                 [loadTariff]="tariffChange"
                 (onBuy)="choose(item)"
-                >
+    >
     </pbx-tariff>
 </div>

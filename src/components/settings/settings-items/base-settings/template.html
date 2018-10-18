@@ -3,17 +3,17 @@
           (onConfirm)="saveSettings()"
           (onDecline)="cancel()"
           [background]="true"
-          >
+>
     <pbx-loader *ngIf="!locker.free"></pbx-loader>
 
     <div class="overlay_content" *ngIf="locker.free" [@Fade]>
 
-            <pbx-settings-group
-                [items]="model.items"
-                [level]="1"
-                (valueChange)="onValueChange($event)"
-                >
-            </pbx-settings-group>
+        <pbx-settings-group
+            [items]="model.items"
+            [level]="1"
+            (valueChange)="onValueChange($event)"
+        >
+        </pbx-settings-group>
 
         <div class="settings_code" [@Fade] *ngIf="qrCode" [style.background-image]="'url(' + qrCode + ')'"></div>
     </div>

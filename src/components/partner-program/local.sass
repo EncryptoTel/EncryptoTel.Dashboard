@@ -1,49 +1,49 @@
 @import '../../_vars.sass'
 
 .partner_program
-  flex-direction: row
-  flex: 1
-  overflow-x: hidden
-  margin-right: rem(-32)
-  padding-right: rem(32)
-  /deep/ pbx-button
-    width: unset
-  /deep/ .form-body
-    display: flex
+    flex-direction: row
+    flex: 1
+    overflow-x: hidden
+    margin-right: rem(-32)
+    padding-right: rem(32)
+    /deep/ pbx-button
+        width: unset
+    /deep/ .form-body
+        display: flex
 
 .partner
-  flex: 1
-  margin-right: rem(-32)
-  padding-right: rem(32)
-  flex-direction: row
-  overflow-x: hidden
-  color: $font-color
-  /deep/ pbx-button
-    color: $dark_primary
-  &_wrap
-    flex-direction: column
     flex: 1
-  &_header
+    margin-right: rem(-32)
+    padding-right: rem(32)
     flex-direction: row
-  &_tab
-    padding: rem(16)
-    background: rgba($dark_overlay, .33)
-    cursor: pointer
-    &:hover
-      background: rgba($dark_overlay, .67)
-    &.active
-      cursor: default
-      color: $dark_accent
-      background: $dark_overlay
-      &:hover
-        background: $dark_overlay
+    overflow-x: hidden
+    color: $font-color
+    /deep/ pbx-button
+        color: $dark_primary
     &_wrap
-      flex-direction: row
-  &_control
-    flex-direction: row
-    margin-left: auto
-    pbx-button
-      width: unset
-      margin-left: rem(8)
-  &_body
-    flex: 1
+        flex-direction: column
+        flex: 1
+    &_header
+        flex-direction: row
+    &_tab
+        padding: rem(16)
+        background: rgba($dark_overlay, .33)
+        cursor: pointer
+        &:hover
+            background: rgba($dark_overlay, .67)
+        &.active
+            cursor: default
+            color: $dark_accent
+            background: $dark_overlay
+            &:hover
+                background: $dark_overlay
+        &_wrap
+            flex-direction: row
+    &_control
+        flex-direction: row
+        margin-left: auto
+        pbx-button
+            width: unset
+            margin-left: rem(8)
+    &_body
+        flex: 1

@@ -27,7 +27,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
     @ViewChild(FormComponent) formComponent: FormComponent;
 
-    background:string;
+    background: string;
 
     id: number = 0;
 
@@ -85,7 +85,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
         this.id = this.activatedRoute.snapshot.params.id;
         this.currentTab = this.tabs[0];
-        this.background = 'background';
+        this.background = 'form-body-fill';
 
         this.validationHost.customMessages = [
             { name: 'Ring Time', error: 'pattern', message: 'Please enter valid number' },
@@ -133,7 +133,9 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
             return;
         }
         if (tab === 'Members') {
-            this.background = '';
+            this.background = 'form-body-empty';
+        } else {
+            this.background = 'form-body-fill';
         }
         this.addMembersMode = false;
         this.currentTab = tab;
@@ -143,7 +145,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
     addMembers(mode: boolean) {
         if (mode) {
-            this.background = 'background';
+            this.background = 'form-body-fill';
         }
         this.addMembersMode = mode;
         this.service.saveMembersBefore();
@@ -165,7 +167,11 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     back(): void {
-        this.background = '';
+        if (this.currentTab === 'Members') {
+            this.background = 'form-body-empty';
+        } else {
+            this.background = 'form-body-fill';
+        }
         this.addMembersMode = false;
         let message = this.service.getMembersMessage();
         message && this.message.writeSuccess(message);

@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 
 import {CallDetailItem, CallDetailModel, DashboardModel} from '../../models/dashboard.model';
-import {DashboardServices} from "../../services/dashboard.services";
+import {DashboardServices} from '../../services/dashboard.services';
 
-import {Subscription} from "rxjs/Subscription";
-import {WsServices} from "../../services/ws.services";
+import {Subscription} from 'rxjs/Subscription';
+import {WsServices} from '../../services/ws.services';
 
 @Component({
     selector: 'pbx-dashboard',

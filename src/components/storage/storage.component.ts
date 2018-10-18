@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MediaTableComponent } from '../../elements/pbx-media-table/pbx-media-table.component';
-import { ModalEx } from '../../elements/pbx-modal/pbx-modal.component';
-import { SizePipe } from '../../services/size.pipe';
-import { StorageService } from '../../services/storage.service';
-import { MessageServices } from '../../services/message.services';
-import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from '../../models/base.model';
-import { StorageModel, StorageItem } from '../../models/storage.model';
-import { killEvent } from '../../shared/shared.functions';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
+import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
+import {SizePipe} from '../../services/size.pipe';
+import {StorageService} from '../../services/storage.service';
+import {MessageServices} from '../../services/message.services';
+import {ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction} from '../../models/base.model';
+import {StorageModel, StorageItem} from '../../models/storage.model';
+import {killEvent} from '../../shared/shared.functions';
 
 
 @Component({
@@ -62,11 +62,11 @@ export class StorageComponent implements OnInit {
 
         this.filters = [
             new FilterItem(1, 'type', 'Source:', [
-                { id: 'audio', title: 'Audio' },
-                { id: 'call_record', title: 'Call Records' },
-                { id: 'voice_mail', title: 'Voice Mail' },
-                { id: 'certificate', title: 'Certificate' },
-                { id: 'trash', title: 'Trash' },
+                {id: 'audio', title: 'Audio'},
+                {id: 'call_record', title: 'Call Records'},
+                {id: 'voice_mail', title: 'Voice Mail'},
+                {id: 'certificate', title: 'Certificate'},
+                {id: 'trash', title: 'Trash'},
             ], 'title', '[choose one]'),
             new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'),
         ];
@@ -98,17 +98,17 @@ export class StorageComponent implements OnInit {
     // --- data methods -----------------------------------
 
     private getItems(): void {
-        this.loading ++;
+        this.loading++;
 
         this.service.getItems(this.pageInfo, this.currentFilter, this.table.sort)
             .then(result => {
                 this.pageInfo = result;
                 this.onMediaDataLoaded();
-                this.loading --;
+                this.loading--;
             }).catch((error) => {
-                console.log('get items failed', error);
-                this.loading --;
-            });
+            console.log('get items failed', error);
+            this.loading--;
+        });
     }
 
     getMediaData(item: StorageItem): void {
@@ -179,7 +179,7 @@ export class StorageComponent implements OnInit {
 
     private uploadFiles(files) {
         this.service.resetCount();
-        for (let i = 0; i < files.length; i ++) {
+        for (let i = 0; i < files.length; i++) {
             if (this.service.checkCompatibleType(files[i])) {
                 this.service.checkFileExists(
                     files[i],
@@ -210,7 +210,8 @@ export class StorageComponent implements OnInit {
         event.preventDefault();
     }
 
-    dragEndHandler(event): void {}
+    dragEndHandler(event): void {
+    }
 
     dragLeaveHandler(event): void {
         this.sidebarActive = false;
@@ -272,10 +273,12 @@ export class StorageComponent implements OnInit {
         if (_this.currentFilter && _this.currentFilter.type === 'trash') {
             typeDelete = 'delete';
         }
-        this.service.deleteById(item.id, (loading) => { _this.updateLoading(loading, true); }, typeDelete,false).then(() => {
-            item.loading --;
+        this.service.deleteById(item.id, (loading) => {
+            _this.updateLoading(loading, true);
+        }, typeDelete, false).then(() => {
+            item.loading--;
         }).catch(() => {
-            item.loading --;
+            item.loading--;
         });
     }
 }

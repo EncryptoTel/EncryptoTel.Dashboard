@@ -1,9 +1,9 @@
 <div class="knowledge-base">
     <pbx-header
-            [buttons]="buttons"
-            [filters]="filters"
-            (onReload)="reloadFilter($event)"
-            (onClick)="back($event)">
+        [buttons]="buttons"
+        [filters]="filters"
+        (onReload)="reloadFilter($event)"
+        (onClick)="back($event)">
     </pbx-header>
 
     <div class="content custom-scrollbar">
@@ -39,11 +39,12 @@
 
         <div class="questions" *ngIf="!loading && (selectedGroup || helps.items.length > 0)">
             <div class="item" *ngFor="let item of helps.items; let i = index">
-                <div class="title" [ngClass]="helps.items[i].open ? 'title-open': ''" (click)="showAnswer(i)">{{item.title}}
+                <div class="title" [ngClass]="helps.items[i].open ? 'title-open': ''" (click)="showAnswer(i)">
+                    {{item.title}}
                     <svg-icon
-                      class="arrow"
-                      [ngClass]="helps.items[i].open ? 'rotate': ''"
-                      src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
+                        class="arrow"
+                        [ngClass]="helps.items[i].open ? 'rotate': ''"
+                        src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
                 </div>
                 <div class="desc" *ngIf="helps.items[i].open">
                     {{item.text}}

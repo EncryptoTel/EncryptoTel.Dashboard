@@ -61,7 +61,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
             let username = `${firstName} ${lastName}`;
             if (username.length > 12) {
-                username =  (lastName !== '') ? `${firstName} ${lastName[0]}.` : firstName;
+                username = (lastName !== '') ? `${firstName} ${lastName[0]}.` : firstName;
             }
             return username;
         }
@@ -85,15 +85,16 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.userSubscription = this.userService.userSubscription().subscribe(user => {
             this.user = user;
         });
-        this.userService.fetchProfileParams().then(() => this.completedRequests ++);
+        this.userService.fetchProfileParams().then(() => this.completedRequests++);
     }
 
     navigationInit(): void {
         this.userService.fetchNavigationParams()
             .then((response) => {
             })
-            .catch(() => {})
-            .then(() => this.completedRequests ++);
+            .catch(() => {
+            })
+            .then(() => this.completedRequests++);
     }
 
     toggleActiveButton(ix: number, ev: MouseEvent): void {

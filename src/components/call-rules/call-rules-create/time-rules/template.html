@@ -12,19 +12,19 @@
                [validationHost]="validationHost"
                [validationKey]="'ruleActions.' + actionIndex + '.callRuleTime'"
                (onSelect)="selectTimeRule($event)"
-               >
+    >
     </pbx-input>
 
     <div class="call-rules-create_row days"
          *ngIf="isCallRuleDaysSelected">
         <label>Days</label>
         <div>
-            <pbx-button *ngFor="let day of callRuleTimeDays; let idx = index" 
+            <pbx-button *ngFor="let day of callRuleTimeDays; let idx = index"
                         class="eqwwqewrqwer"
                         [buttonType]="day.type"
-                        [value]="day.day" 
+                        [value]="day.day"
                         (onClick)="selectDay(idx)"
-                        >
+            >
             </pbx-button>
         </div>
     </div>
@@ -42,27 +42,27 @@
                [validationHost]="validationHost"
                [validationKey]="'ruleActions.' + actionIndex + '.durationTime'"
                (onSelect)="selectDurationTime($event)"
-               >
+    >
     </pbx-input>
 
     <div class="call-rules-create_row"
          *ngIf="isDurationTimeRangeSelected">
         <label>Time</label>
         <div class="time_wrap">
-            <pbx-select [singleBorder]="true" 
-                        [objectKey]="'time'" 
+            <pbx-select [singleBorder]="true"
+                        [objectKey]="'time'"
                         [options]="callRuleTimes"
                         [selected]="selectedDurationTimeRange[0]"
                         (onSelect)="selectTime($event, 0)"
-                        >
+            >
             </pbx-select>
             <span>―</span>
-            <pbx-select [singleBorder]="true" 
-                        [objectKey]="'time'" 
+            <pbx-select [singleBorder]="true"
+                        [objectKey]="'time'"
                         [options]="callRuleTimes"
                         [selected]="selectedDurationTimeRange[1]"
                         (onSelect)="selectTime($event, 1)"
-                        >
+            >
             </pbx-select>
         </div>
     </div>

@@ -25,6 +25,12 @@ export class RefsServices extends BaseService {
 
     getInnerSipOuters(): Promise<any> {
         return this.request.get(`v1/sip/inner/outers-list?limit=1000`).then(outers => {
+            outers.items.forEach(item => {
+                if (item.providerId && item.providerId !== 1) {
+                    item.phoneNumber = '+' + item.phoneNumber;
+                }
+            });
+            Promise.resolve(outers);
             this.sipOuters = outers['items'];
             return Promise.resolve(this.sipOuters);
         });

@@ -1,4 +1,4 @@
-import {ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormArray, FormControl} from '@angular/forms';
 import {AddressBookService} from '../../services/address-book.service';
 import {
@@ -16,6 +16,7 @@ import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {AnimationComponent} from '../../shared/shared.functions';
 import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp} from '../../shared/vars';
 import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import {TariffStateService} from '../../services/state/tariff.state.service';
 
 
 @AnimationComponent({
@@ -50,18 +51,22 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     // -- component lifecycle methods -----------------------------------------
 
+    hideField: boolean = false;
+
     constructor(public service: AddressBookService,
                 public refs: RefsServices,
                 protected message: MessageServices,
-                protected fb: FormBuilder) {
+                protected fb: FormBuilder,
+                protected state: TariffStateService) {
         super(fb, message);
-        
+
         this.addressBookModel = new AddressBookModel();
         this.addressListHeaders = {
             titles: ['First Name', 'Last Name', 'Phone Number', 'E-mail', 'Company Name', 'Country'],
             keys: ['firstname', 'lastname', 'phone', 'email', 'company', 'country.title'],
+            hide: [false, false, false, true, true, true]
         };
-    
+
         this.modalBlock = new ModalEx('', 'block');
 
         this.filters = [];
@@ -70,8 +75,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.itemsCache = [];
 
         this.validationHost.customMessages = [
-            { name: 'Phone', error: 'pattern', message: 'Please enter valid phone number' },
-            { name: 'Email', error: 'pattern', message: 'Please enter valid email address' },
+            {name: 'Phone', error: 'pattern', message: 'Please enter valid phone number'},
+            {name: 'Email', error: 'pattern', message: 'Please enter valid email address'},
         ];
     }
 
@@ -111,7 +116,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.sidebar.items.push(new SidebarInfoItem(11, 'Address', this.selected.address));
         this.sidebar.items.push(new SidebarInfoItem(12, this.selected.blacklist ? 'Unblock contact' : 'Block contact', null, true, false, true));
         this.sidebar.items.push(new SidebarInfoItem(13, 'Delete contact', null, true, false, true));
-        
+
         this.sidebar.visible = true;
     }
 
@@ -133,40 +138,40 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.formKey = 'addressForm';
 
         this.form = this.fb.group({
-            id:             [ null ],
-            firstname:      [ null, [ Validators.required, Validators.pattern(nameRegExp) ] ],
-            lastname:       [ null, [ Validators.pattern(nameRegExp) ] ],
-            contactPhone:   this.fb.array([], Validators.required),
-            contactEmail:   this.fb.array([], Validators.required),
-            company:        [ null, [ Validators.pattern(nameRegExp) ] ],
-            department:     [ null, [ Validators.pattern(nameRegExp) ] ],
-            position:       [ null ],
-            address:        [ null ],
-            country:        this.fb.group({
-                code:       [ null ],
-                id:         [ null ],
-                phoneCode:  [ null ],
-                title:      [ null ],
+            id: [null],
+            firstname: [null, [Validators.required, Validators.pattern(nameRegExp)]],
+            lastname: [null, [Validators.pattern(nameRegExp)]],
+            contactPhone: this.fb.array([], Validators.required),
+            contactEmail: this.fb.array([], Validators.required),
+            company: [null, [Validators.pattern(nameRegExp)]],
+            department: [null, [Validators.pattern(nameRegExp)]],
+            position: [null],
+            address: [null],
+            country: this.fb.group({
+                code: [null],
+                id: [null],
+                phoneCode: [null],
+                title: [null],
             }),
         });
     }
-    
+
     createPhoneFormControl(model: ContactValueModel): FormGroup {
         return this.fb.group({
-            value:  [ model ? model.value : null, [ Validators.minLength(6), Validators.maxLength(16), Validators.pattern(addressPhoneRegExp) ] ],
-            typeId: [ model ? model.typeId : null ],
-            type:   [ model ? model.type : null ],
+            value: [model ? model.value : null, [Validators.minLength(6), Validators.maxLength(16), Validators.pattern(addressPhoneRegExp)]],
+            typeId: [model ? model.typeId : null],
+            type: [model ? model.type : null],
         });
     }
 
     createEmailFormControl(model: ContactValueModel): FormGroup {
         return this.fb.group({
-            value:  [ model ? model.value : null, [ Validators.pattern(emailRegExp) ] ],
-            typeId: [ model ? model.typeId : null ],
-            type:   [ model ? model.type : null ],
+            value: [model ? model.value : null, [Validators.pattern(emailRegExp)]],
+            typeId: [model ? model.typeId : null],
+            type: [model ? model.type : null],
         });
     }
-    
+
     clearFormArray(formArray: FormArray): void {
         while (formArray.length !== 0) {
             formArray.removeAt(0);
@@ -205,17 +210,29 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     click(item) {
         switch (item.id) {
-            case 1:  this.close(); break;
-            case 2:  this.edit(this.selected); break;
-            case 3:  this.save(); break;
-            case 12: this.block(); break;
-            case 13: this.list.items.clickDeleteItem(this.selected); break;
+            case 1:
+                this.close();
+                this.hideField = false;
+                this.state.change.emit(this.hideField);
+                break;
+            case 2:
+                this.edit(this.selected);
+                break;
+            case 3:
+                this.save();
+                break;
+            case 12:
+                this.block();
+                break;
+            case 13:
+                this.list.items.clickDeleteItem(this.selected);
+                break;
         }
     }
 
     load(pageInfo: AddressBookModel) {
         this.locker.lock();
-        
+
         this.addressBookModel = pageInfo;
         this.setFilters();
 
@@ -224,45 +241,55 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         if (!this.countries) this.getCountries();
         else this.updateCountries();
-        
+
         this.locker.unlock();
     }
 
     select(item: AddressBookItem) {
-        this.sidebar.loading ++;
+        this.sidebar.loading++;
         this.sidebar.visible = true;
         this.service.getAddressBookItem(item.id).then((response: AddressBookItem) => {
             this.selected = response;
             this.setFormData();
             this.initSidebar();
-        }).catch(() => {})
-            .then(() => this.sidebar.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.sidebar.loading--);
     }
 
     create() {
-        this.sidebar.loading ++;
+        let widthScreen: number;
+        widthScreen = window.innerWidth;
+        if (widthScreen < 1170) {
+            this.hideField = true;
+            this.state.change.emit(this.hideField);
+        }
+
+        this.sidebar.loading++;
 
         this.selected = null;
         this.selected = new AddressBookItem();
         this.editAddress();
 
         setTimeout(() => {
-            this.sidebar.loading --;
+            this.sidebar.loading--;
         }, 500);
     }
 
     edit(item: AddressBookItem) {
-        this.sidebar.loading ++;
+        this.sidebar.loading++;
         this.sidebar.visible = true;
         this.service.getAddressBookItem(item.id).then((response: AddressBookItem) => {
             this.selected = response;
             this.editAddress();
-        }).catch(() => {})
-            .then(() => this.sidebar.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.sidebar.loading--);
     }
 
     save(): void {
         if (this.validateForms()) {
+            this.setFilters();
             this.saveAddress();
         }
     }
@@ -296,13 +323,14 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     confirmBlock() {
-        this.selected.loading ++;
+        this.selected.loading++;
         this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
             this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
-            this.selected.loading --;
+            this.selected.loading--;
             this.close(true);
-        }).catch(() => {})
-            .then(() => this.selected.loading --);
+        }).catch(() => {
+        })
+            .then(() => this.selected.loading--);
     }
 
     editAddress() {
@@ -312,7 +340,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.service.resetErrors();
         this.setFormData();
         console.log('form', this.form.value);
-        
+
         this.sidebar.buttons = [];
         this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
         this.sidebar.buttons.push(new SidebarButtonItem(3, this.selected.id ? 'Save' : 'Create', 'success'));
@@ -321,7 +349,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     saveAddress(): void {
-        this.sidebar.saving ++;
+        this.sidebar.saving++;
         this.removeEmptyItems(this.selected.contactPhone);
         this.removeEmptyItems(this.selected.contactEmail);
 
@@ -332,14 +360,14 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 this.close(true);
             }).catch(() => {
                 this.setFormData();
-            }).then(() => this.sidebar.saving --);
-        } 
+            }).then(() => this.sidebar.saving--);
+        }
         else {
             this.service.post('', this.selected).then(() => {
                 this.close(true);
             }).catch(() => {
                 this.setFormData();
-            }).then(() => this.sidebar.saving --);
+            }).then(() => this.sidebar.saving--);
         }
     }
 
@@ -348,9 +376,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         let phoneModel = new ContactValueModel();
         this.selected.addContactPhone(phoneModel);
-        
+
         this.setFormData();
-        
+
         this.validationHost.initItems();
     }
 
@@ -385,9 +413,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.service.getTypes().then(response => {
             this.types = response;
             this.updateTypes();
-            
+
             this.locker.unlock();
-        }).catch(() => 
+        }).catch(() =>
             this.locker.unlock());
     }
 
@@ -403,7 +431,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.updateCountries();
 
             this.locker.unlock();
-        }).catch(() => 
+        }).catch(() =>
             this.locker.unlock());
     }
 
@@ -415,6 +443,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     setFilters(): void {
+        if (this.addressBookModel.items.length === 1) {
+            this.filters = [];
+        }
         const filterValue = [];
         this.addressBookModel.contactFilter.forEach(item => {
             filterValue.push({id: item.value, title: item.displayTitle, count: item.count});
@@ -434,7 +465,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         if (this.selected.contactPhone.length === 0) {
             this.selected.addContactPhone(new ContactValueModel());
         }
-        for (let i = 0; i < this.selected.contactPhone.length; i ++) {
+        for (let i = 0; i < this.selected.contactPhone.length; i++) {
             let phone = this.selected.contactPhone[i];
             phone.type = this.types.contactPhone.find(item => item.id === phone.typeId);
 
@@ -452,7 +483,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             let emailControl = this.createEmailFormControl(this.selected.contactEmail[i]);
             this.contactEmailsFormArray.setControl(i, emailControl);
         }
-        
+
         if (this.selected.countryId) {
             this.selected.country = this.countries.find(item => item.id === this.selected.countryId);
         }

@@ -2,7 +2,7 @@
     <div class="call_queues_members_add_header">
         <div class="call_queues_members_add_filter">
             <span>Department:</span>
-            <pbx-select 
+            <pbx-select
                 [objectKey]="'name'"
                 [options]="departments"
                 [selected]="selectedDepartment"
@@ -12,7 +12,7 @@
         </div>
         <div class="call_queues_members_add_filter">
             <span>Search:</span>
-            <input class="searching" type="search" placeholder="Search by Name or Phone" (keyup)="search($event)">
+            <input class="searching" type="text" placeholder="Search by Name or Phone" (keyup)="search($event)">
         </div>
     </div>
     <pbx-loader *ngIf="loading"></pbx-loader>

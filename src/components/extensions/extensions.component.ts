@@ -7,7 +7,7 @@ import {MessageServices} from '../../services/message.services';
 import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {FilterItem, TableInfoExModel, TableInfoItem} from '../../models/base.model';
 import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
-import { RouterExtService } from '../../services/router-ext.service';
+import {RouterExtService} from '../../services/router-ext.service';
 
 @Component({
     selector: 'extensions-component',

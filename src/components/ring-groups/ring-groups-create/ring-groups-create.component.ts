@@ -11,5 +11,6 @@ export class RingGroupsCreateComponent {
     generalHeaderText: string = 'Create Ring Group';
     cmpType: string = 'ringGroup';
 
-    constructor(public service: RingGroupService) {}
+    constructor(public service: RingGroupService) {
+    }
 }

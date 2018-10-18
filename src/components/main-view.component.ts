@@ -92,7 +92,7 @@ export class MainViewComponent implements OnInit, OnDestroy {
         this.userTheme = theme;
         document.body.removeAttribute('class');
         document.body.classList.add(theme);
-        this.cookieService.set( 'pbx_theme', theme );
+        this.cookieService.set('pbx_theme', theme);
         this.storage.writeItem('pbx_theme', theme);
     }
 }

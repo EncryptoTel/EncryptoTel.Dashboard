@@ -7,8 +7,8 @@
             <div class="details-header__wrap">
 
                 <pbx-tag-selector #tagSelector
-                    [tags]="tags"
-                    (selectionChanged)="onTagSelection()">
+                                  [tags]="tags"
+                                  (selectionChanged)="onTagSelection()">
                 </pbx-tag-selector>
 
                 <div class="details-header__wrap-daterange-wrapper">
@@ -16,7 +16,7 @@
                     <pbx-calendar split="/"
                                   style="position: absolute; right: 10px; font-size: 13px;"
                                   (newDates)="dateChanged($event)"
-                                  >
+                    >
                     </pbx-calendar>
                 </div>
             </div>
@@ -24,17 +24,17 @@
         </div>
 
         <pbx-media-table
-                *ngIf="!loading"
-                #mediaTable
-                [tableInfoEx]="table"
-                [tableItems]="pageInfo.items"
-                [editable]="false"
-                [deletable]="false"
-                (onDropDown)="dropDown($event)"
-                (onDropDownClick)="dropDownClick($event)"
-                (onGetMediaData)="getMediaData($event)"
-                (onPageChangeEx)="getItems()"
-                (onSort)="getItems()">
+            *ngIf="!loading"
+            #mediaTable
+            [tableInfoEx]="table"
+            [tableItems]="pageInfo.items"
+            [editable]="false"
+            [deletable]="false"
+            (onDropDown)="dropDown($event)"
+            (onDropDownClick)="dropDownClick($event)"
+            (onGetMediaData)="getMediaData($event)"
+            (onPageChangeEx)="getItems()"
+            (onSort)="getItems()">
         </pbx-media-table>
 
         <pbx-loader *ngIf="loading"></pbx-loader>

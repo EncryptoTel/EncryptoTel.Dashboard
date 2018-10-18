@@ -11,6 +11,12 @@ import {PlayerAnimation} from "../../shared/player-animation";
 import {FadeAnimation} from "../../shared/fade-animation";
 import {str2regexp, killEvent} from '../../shared/shared.functions';
 import {isObject, isArray} from 'util';
+import {RefsServices} from '../../services/refs.services';
+import {FormBuilder} from '@angular/forms';
+import {MessageServices} from '../../services/message.services';
+import {AddressBookService} from '../../services/address-book.service';
+import {AddressBookComponent} from '../../components/address-book/address-book.component';
+import {TariffStateService} from '../../services/state/tariff.state.service';
 
 
 @Component({
@@ -47,6 +53,11 @@ export class TableComponent implements OnInit {
     dropDirection = '';
     modal: ModalEx = new ModalEx('Are you sure?', 'delete');
     selectedDelete: any;
+    hideField: boolean = false;
+
+    constructor(protected state: TariffStateService) {
+
+    }
 
     isSelected(id: number): boolean {
         if (this.selected) {
@@ -202,6 +213,10 @@ export class TableComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.state.change.subscribe(hideField => {
+            this.hideField = hideField;
+        });
+
         this.name ? this.modal.body = `Are you sure you want to delete this ${this.name}?` : null;
         if (!this.tableInfoEx) {
             this.tableInfoEx = new TableInfoExModel();

@@ -3,7 +3,7 @@
           [background]="true"
           (onConfirm)="save()"
           (onDecline)="close()"
-          >
+>
     <pbx-loader *ngIf="loading"></pbx-loader>
     <div class="overlay_content" *ngIf="!loading" [@Fade]>
         <form class="settings_form" (submit)="saveSettings($event)">
@@ -59,13 +59,13 @@
                            [form]="true"
                            [object]="emailChange"
                            [validationHost]="validationHost"
-                           >
+                >
                 </pbx-input>
 
                 <div class="settings_input_item string" *ngIf="messageSent">
-                    <pbx-input name="{{ 'Confirmation code' | translate"
+                    <pbx-input name="{{ 'Confirmation code' | translate }}"
                                key="code"
-                               placeholder="{{'Confirmation code' | translate"
+                               placeholder="{{ 'Confirmation code' | translate }}"
                                [form]="true"
                                [object]="emailChange"
                                [validationHost]="validationHost"
@@ -76,9 +76,9 @@
             <div class="settings_form_section" [formGroup]="passwordChange">
                 <div class="settings_form_title" translate>change_password_group</div>
 
-                <pbx-input translate name="{{'Current password' | translate }}"
+                <pbx-input translate name="{{ 'Current password' | translate }}"
                            key="oldPassword"
-                           placeholder="{{'Current password' | translate}}"
+                           placeholder="{{ 'Current password' | translate}}"
                            type="password"
                            [form]="true"
                            [object]="passwordChange"
@@ -87,50 +87,50 @@
 
                 <pbx-input name="{{ 'New password' | translate }}"
                            key="password"
-                           placeholder="{{'New password' | translate}}"
+                           placeholder="{{ 'New password' | translate }}"
                            type="password"
                            [form]="true"
                            [object]="passwordChange"
                            [validationHost]="validationHost"
                 ></pbx-input>
 
-                <pbx-input name="{{'Confirm password' | translate }}"
+                <pbx-input name="{{ 'Confirm password' | translate }}"
                            key="password_confirmation"
-                           placeholder="{{'Confirm password' | translate }}"
+                           placeholder="{{ 'Confirm password' | translate }}"
                            type="password"
                            [form]="true"
                            [object]="passwordChange"
                            [validationHost]="validationHost"
-                           >
+                >
                 </pbx-input>
 
             </div>
 
             <pbx-settings-group
-                    [items]="model.items"
-                    [level]="1"
-                    (valueChange)="onValueChange($event)"
-                    >
+                [items]="model.items"
+                [level]="1"
+                (valueChange)="onValueChange($event)"
+            >
             </pbx-settings-group>
 
             <!--<div class="settings_form_section" [formGroup]="passwordChange">-->
-                <!--<div class="settings_form_title">Language & Region</div>-->
+            <!--<div class="settings_form_title">Language & Region</div>-->
 
-                <!--<pbx-input name="Language"-->
-                           <!--key="language"-->
-                           <!--[form]="true"-->
-                           <!--[object]="generalForm"-->
-                           <!--[validationHost]="validationHost"-->
-                           <!--(onKeyUp)="change()"-->
-                <!--&gt;</pbx-input>-->
+            <!--<pbx-input name="Language"-->
+            <!--key="language"-->
+            <!--[form]="true"-->
+            <!--[object]="generalForm"-->
+            <!--[validationHost]="validationHost"-->
+            <!--(onKeyUp)="change()"-->
+            <!--&gt;</pbx-input>-->
 
-                <!--<pbx-input name="Region"-->
-                           <!--key="region"-->
-                           <!--[form]="true"-->
-                           <!--[object]="generalForm"-->
-                           <!--[validationHost]="validationHost"-->
-                           <!--(onKeyUp)="change()"-->
-                <!--&gt;</pbx-input>-->
+            <!--<pbx-input name="Region"-->
+            <!--key="region"-->
+            <!--[form]="true"-->
+            <!--[object]="generalForm"-->
+            <!--[validationHost]="validationHost"-->
+            <!--(onKeyUp)="change()"-->
+            <!--&gt;</pbx-input>-->
             <!--</div>-->
 
 
@@ -156,9 +156,9 @@
         <div class="store">
             <pbx-sidebar>
                 <div class="store_sidebar_audio" (drop)="dropHandler($event)"
-                        (dragover)="dragOverHandler($event)"
-                        (dragend)="dragEndHandler($event)"
-                        (dragleave)="dragLeaveHandler($event)">
+                     (dragover)="dragOverHandler($event)"
+                     (dragend)="dragEndHandler($event)"
+                     (dragleave)="dragLeaveHandler($event)">
                     <a [href]="userDefaultPhoto" target="_blank" class="a_download">
                         <div class="store_sidebar_audio_icon">
                             <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
@@ -180,5 +180,5 @@
 
 <pbx-modal [modalEx]="modalExit"
            (onConfirmEx)="confirmClose()"
-           >
+>
 </pbx-modal>
