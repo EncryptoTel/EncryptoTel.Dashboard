@@ -36,9 +36,18 @@ body
     .body_wrap
         min-width: calc(768px - 80px) !important
 .notificator-wrap
-    position: absolute
-    width: 50%
-    left: 236px
+    position: fixed
+    //width: 50%
+    //left: 236px
+    left: 50% !important
+    transform: translateX(-50%) !important
     top: 0
+
+@media screen and (max-width: 1279px)
+    .notificator-wrap
+        width: 50% !important
+        //left: 50% !important
+        //transform: translateX(-50%) !important
+
 .header_line_wrap
     overflow: hidden
