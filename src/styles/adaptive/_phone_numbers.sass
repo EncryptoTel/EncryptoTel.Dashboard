@@ -54,26 +54,14 @@
     .buy_phone_header .select_item.selected
         width: 190px !important
 
-@media screen and (max-width: 939px)
-    phone-numbers-component
-        pbx-list
-            pbx-table
-                .tablet_header,
-                .tablet_body
-                    .tablet_item
-                        width: unset !important
-                        &:nth-child(1) .qwerty
-                            width: 170px !important
-                        &:nth-child(2) .qwerty
-                            width: 135px !important
-                        &:nth-child(3) .qwerty
-                            width: 135px !important
-                        &:nth-child(4) .qwerty
-                            width: 130px !important
-                        &:nth-child(5) .qwerty
-                            width: 84px !important
-                        &:nth-child(5)
-                            margin-right: 30px !important
+@media screen and (max-width: 899px)
+    pbx-table
+        .tablet_header,
+        .tablet_body
+            .tablet_item
+                &:nth-child(5),
+                &:nth-child(6)
+                    display: none !important
 
 @media screen and (max-width: 849px)
     buy-phone-numbers-component

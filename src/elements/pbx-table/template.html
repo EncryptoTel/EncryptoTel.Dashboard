@@ -1,8 +1,8 @@
-<div class="tablet">
+<div class="tablet" [ngClass]="{'tableMin':tableInfo.hide && hideField} ">
     <div class="tablet_header">
         <div *ngFor="let item of tableInfoEx.items; let i = index"
              class="tablet_item {{item.width ? 'fix_' + item.width : ''}}"
-             [ngClass]="{'sort': item.sort}">
+             [ngClass]="{'sort': item.sort, 'hideField':tableInfo.hide && tableInfo.hide[i] && hideField} ">
             <div class="qwerty">
                 <span [ngClass]="{'sort':item.sort}" (click)="sort(item)">{{item.title}}</span>
                 <div *ngIf="item.sort && tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
@@ -27,7 +27,7 @@
             <pbx-loader *ngIf="item.loading" style="position: relative; background: rgb(53, 51, 51); width: 100%;"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">
                 <div *ngFor="let tableItem of tableInfoEx.items; let i = index"
-                     class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
+                     class="tablet_item {{ getItemFormatting(item, tableItem, i) }}" [ngClass]="{'hideField':tableInfo.hide && tableInfo.hide[i] && hideField}"
                      (mouseenter)="mouseEnter($event, item)"
                      (mouseleave)="mouseLeave($event, item)">
                     <div class="qwerty">{{ getValueByKeyEx(item, tableItem.key) }}</div>

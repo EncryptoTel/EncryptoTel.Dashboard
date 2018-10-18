@@ -283,6 +283,8 @@ pbx-table
 
 pbx-sidebar
     .sidebar
+        form
+            height: calc(100% - 40px)
         a.a_download
             svg-icon
                 svg
@@ -306,6 +308,11 @@ pbx-settings
 pbx-sign-up-tariff-plans
   .tariff_wrap_items
     grid-template-rows: min-content
+
+pbx-address-book
+    pbx-list
+        width: calc(100% - 344px) !important
+        flex: auto !important
 
 //pbx-address-book
 //    .pbx_list_empty
