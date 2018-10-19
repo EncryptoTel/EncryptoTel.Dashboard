@@ -39,6 +39,7 @@ import {DashboardServices} from '../services/dashboard.services';
 import {CompanyService} from '../services/company.service';
 import {SelectService} from '../services/state/select.service';
 import {TariffStateService} from '../services/state/tariff.state.service';
+import {StateService} from '../services/state/state.service';
 import {LangStateService} from '../services/state/lang.state.service';
 import {CookieService} from 'ngx-cookie-service';
 import {RouterExtService} from '../services/router-ext.service';
@@ -92,6 +93,7 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         CompanyService,
         SelectService,
         TariffStateService,
+        StateService,
         LangStateService,
         CookieService,
         RouterExtService

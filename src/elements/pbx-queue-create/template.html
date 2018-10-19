@@ -2,7 +2,7 @@
 <pbx-form *ngIf="!loading"
           [tabs]="tabs"
           [inactiveTabs]="activeTabs"
-          [selected]="currentTab"
+          [(selected)]="currentTab"
           [background]="background"
           [confirm]="addMembersMode ? {} : { value: 'Save', buttonType: 'success', inactive: saving, loading: saving }"
           [decline]="decline[ addMembersMode ? 'member' : 'standard' ]"

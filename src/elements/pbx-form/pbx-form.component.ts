@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {OnInit} from '@angular/core';
+import {StateService} from '@services/state/state.service';
 
 @Component({
     selector: 'pbx-form',
@@ -34,19 +35,24 @@ export class FormComponent implements OnInit {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor() {}
+    constructor(private tabChange: StateService) {}
 
     ngOnInit(): void {
         if (this.tabs) {
             !!this.startTab ? this.selected = this.startTab : this.selected = this.tabs[0];
         }
+        this.tabChange.change.subscribe(state => {
+            if (state) {
+                this.selected = this.tabChange.value;
+            }
+        });
     }
 
     // -- event handlers ------------------------------------------------------
 
     selectTab(text: string, index: number) {
         if (!!this.inactiveTabs && this.inactiveTabs[index]) {
-            this.selected = text;
+            // this.selected = text;
             this.onSelect.emit(text);
         }
     }
