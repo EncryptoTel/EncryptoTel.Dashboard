@@ -13,9 +13,9 @@
         <div class="call_queues_members_add_filter">
             <span>Search:</span>
             <div class="input_wrap">
-                <input class="searching" type="text" placeholder="Search by Name or Phone" (keyup)="search($event)">
-                <div class="clear_icon_wrap">
-                    <div class="clear_icon">
+                <input #searchString class="searching" type="text" placeholder="Search by Name or Phone" (keyup)="search($event)">
+                <div class="clear_icon_wrap" *ngIf="searchIcon">
+                    <div class="clear_icon" (click)="clearSearch()">
                         <svg-icon class="ng-tns-c13-36" src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
                     </div>
                 </div>
