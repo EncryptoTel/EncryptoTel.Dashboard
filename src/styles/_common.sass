@@ -314,6 +314,30 @@ pbx-address-book
         width: calc(100% - 344px) !important
         flex: auto !important
 
+pbx-queue-members-add
+    .call_queues_members_add_filter
+        .input_wrap
+            margin-bottom: 0
+            position: relative
+            input
+                padding-right: 32px
+            .clear_icon_wrap
+                position: absolute
+                top: 50%
+                transform: translateY(-50%)
+                right: 12px
+                display: none
+                .clear_icon
+                    svg-icon
+                        cursor: pointer
+                        *
+                            cursor: pointer
+                        svg
+                            width: 12px
+                            height: 12px
+                            polygon
+                                fill: $dark_error
+
 //pbx-address-book
 //    .pbx_list_empty
 //        padding-right: 112px !important
