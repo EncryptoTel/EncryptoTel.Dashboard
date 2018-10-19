@@ -1,20 +1,30 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    "noStrictGenericChecks": true
-  }
+    "compileOnSave": false,
+    "compilerOptions": {
+        "outDir": "./dist/out-tsc",
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "target": "es5",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es2017",
+            "dom"
+        ],
+        "noStrictGenericChecks": true,
+        "baseUrl": "src",
+        "paths": {
+            "@components/*": ["components/*"],
+            "@elements/*": ["elements/*"],
+            "@env/*": ["environments/*"],
+            "@models/*": ["models/*"],
+            "@modules/*": ["modules/*"],
+            "@services/*": ["services/*"],
+            "@shared/*": ["shared/*"]
+        }
+    }
 }

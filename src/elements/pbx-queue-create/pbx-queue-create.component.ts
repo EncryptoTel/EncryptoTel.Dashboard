@@ -8,6 +8,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {FormBaseComponent} from '../pbx-form-base-component/pbx-form-base-component.component';
 import {numberRegExp} from '../../shared/vars';
 import {numberRangeValidator} from '../../shared/encry-form-validators';
+import {StateService} from '@services/state/state.service';
 
 @Component({
     selector: 'pbx-queue-create',
@@ -80,7 +81,8 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     constructor(public router: Router,
                 private activatedRoute: ActivatedRoute,
                 protected fb: FormBuilder,
-                protected message: MessageServices) {
+                protected message: MessageServices,
+                protected tabChange: StateService) {
         super(fb, message);
 
         this.id = this.activatedRoute.snapshot.params.id;
@@ -130,17 +132,23 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
     selectTab(tab: string): void {
         if (!this.validateForms()) {
+            this.currentTab = 'General';
+            this.tabChange.value = this.currentTab;
+            this.tabChange.change.emit(false);
             return;
-        }
-        if (tab === 'Members') {
-            this.background = 'form-body-empty';
         } else {
-            this.background = 'form-body-fill';
-        }
-        this.addMembersMode = false;
-        this.currentTab = tab;
+            if (tab === 'Members') {
+                this.background = 'form-body-empty';
+            } else {
+                this.background = 'form-body-fill';
+            }
+            this.addMembersMode = false;
+            this.currentTab = tab;
+            this.tabChange.value = this.currentTab;
+            this.tabChange.change.emit(true);
 
-        this.setModelData();
+            this.setModelData();
+        }
     }
 
     addMembers(mode: boolean) {
@@ -173,8 +181,8 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
             this.background = 'form-body-fill';
         }
         this.addMembersMode = false;
-        let message = this.service.getMembersMessage();
-        message && this.message.writeSuccess(message);
+        const message = this.service.getMembersMessage();
+        if (message) this.message.writeSuccess(message);
     }
 
     // -- component model methods ---------------------------------------------

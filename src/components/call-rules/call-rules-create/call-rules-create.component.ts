@@ -27,7 +27,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     callRule: CallRulesItem;
 
     actionsList: Action[];
-    currentMediaStream: string = '/assets/mp3/rington.mp3';
+    currentMediaStream: string = '/assets/mp3/silence.mp3';
     files = [];
     mode = 'create';
     numbers: SipItem[];

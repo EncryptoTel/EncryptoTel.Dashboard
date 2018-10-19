@@ -50,6 +50,15 @@ export class CallQueueService extends BaseQueueService {
         };
     }
 
+    getMembers(sipId: number, search: string = null, departmentId: any = null) {
+        let url = `v1/call_queue/members?sipOuter=${sipId}`;
+        if (search) url = `${url}&filter[search]=${search}`;
+        if (departmentId && departmentId !== 'all') {
+            url = `${url}&filter[department]=${departmentId}`;
+        }
+        return this.request.get(url);
+    }
+
     getItems(pageInfo: PageInfoModel, filter = null): Promise<CallQueueModel> {
         return super.getItems(pageInfo, filter).then((res: CallQueueModel) => {
             let pageInfo = plainToClass(CallQueueModel, res);

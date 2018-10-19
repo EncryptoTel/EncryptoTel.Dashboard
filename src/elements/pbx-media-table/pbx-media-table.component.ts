@@ -19,7 +19,7 @@ import {MediaTablePlayerComponent} from '../pbx-media-table-player/pbx-media-tab
 })
 export class MediaTableComponent extends TableComponent implements OnChanges {
 
-    public currentMediaStream: string = '/assets/mp3/rington.mp3';
+    public currentMediaStream: string = '/assets/mp3/silence.mp3';
 
     private _selectedItem: any;
     private _itemsSubscribed = false;

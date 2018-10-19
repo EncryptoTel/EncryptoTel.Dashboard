@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 
-import {FadeAnimation} from '../../../shared/fade-animation';
-import {IvrTreeItem, IvrLevelItem} from '../../../models/ivr.model';
+import {FadeAnimation} from '@shared/fade-animation';
+import {IvrTreeItem, IvrLevelItem} from '@models/ivr.model';
 
 
 @Component({

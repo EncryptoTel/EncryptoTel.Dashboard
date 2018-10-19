@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FadeAnimation} from '../../../../shared/fade-animation';
 import {RefsServices} from '../../../../services/refs.services';
 import {isDevEnv} from '../../../../shared/shared.functions';
@@ -25,6 +25,9 @@ export class QueueMembersAddComponent implements OnInit {
     searchTimeout;
     searchStr = '';
     id = 0;
+    searchIcon: boolean = false;
+
+    @ViewChild('searchString') searchString: ElementRef;
 
     // -- component lifecycle methods -----------------------------------------
 
@@ -53,6 +56,11 @@ export class QueueMembersAddComponent implements OnInit {
     }
 
     search(event) {
+        if (event.target.value.length > 0) {
+            this.searchIcon = true;
+        } else {
+            this.searchIcon = false;
+        }
         if (this.searchTimeout) {
             clearTimeout(this.searchTimeout);
         }
@@ -61,6 +69,13 @@ export class QueueMembersAddComponent implements OnInit {
             this.getMembers(this.id);
         }, 500);
 
+    }
+
+    clearSearch() {
+        this.searchString.nativeElement.value = '';
+        this.searchIcon = false;
+        this.searchStr = '';
+        this.getMembers(this.id);
     }
 
     // -- component methods ---------------------------------------------------
@@ -89,8 +104,7 @@ export class QueueMembersAddComponent implements OnInit {
     private getDepartments() {
         this.loading ++;
         this.service.getDepartments().then((res) => {
-            let all: any;
-            all = {'name': 'All member', 'id': 'all'};
+            const all = {'name': 'All member', 'id': 'all'};
             this.departments = [ all, ...res.items];
             this.selectedDepartment = this.departments[0];
         }).catch(() => {})
