@@ -45,4 +45,33 @@
         </select>
 
     </form>
+    <div class="footer">
+        <a href="https://encryptotel.com" target="_blank">&copy; Encrypto Telecom</a>
+        <div class="center">
+            <a href="">Terms and Conditions</a>
+            <a href="">Privacy & cookies</a>
+            <a href="">Security Policy</a>
+            <a href="">Terms of use</a>
+        </div> <!-- center -->
+        <div class="lang_wrap">
+            <pbx-select *ngIf="options && !editable"
+                        [name]="key"
+                        [singleBorder]="singleBorder"
+                        [options]="options"
+                        [objectKey]="displayKey"
+                        [selected]="value"
+                        (onSelect)="selectItem($event)"
+                        [errors]="inErrorState"
+                        [placeholder]="placeholder"
+                        (onFocus)="setFocus()"
+                        (onBlur)="removeFocus()"
+                        (mouseenter)="mouseEnter()"
+                        (mouseleave)="mouseLeave()"
+            ></pbx-select>
+            <select name="" id="">
+                <option value="en">English (United States)</option>
+                <option value="ru">Russian</option>
+            </select>
+        </div> <!-- lang_wrap -->
+    </div> <!-- footer -->
 </div>
