@@ -1,0 +1,181 @@
+@media (max-width: 640px)
+   .main_mobile_wrap
+       display: flex
+       margin: 0 auto
+       flex-direction: column
+
+       flex-grow: 1
+
+   .user_mobile
+       display: flex
+       justify-content: flex-start
+       align-items: center
+       background: red
+
+       margin-top: 30px
+       margin-bottom: 20px
+       padding-left: 20px
+       padding-right: 20px
+
+       width: 100%
+       height: 120px
+
+       position: relative
+
+   .user_btn
+       display: flex
+       flex-direction: column
+       justify-content: space-between
+       width: 45px
+       height: 25px
+
+       margin-right: 20px
+
+       cursor: pointer
+
+       &__span
+           height: 2px
+           width: 100%
+           background: #ffffff
+
+
+   .user_mobile__title
+      font-size: 28px
+
+
+   .body_mobile
+       display: flex
+       flex-direction: column
+
+
+   .mobile_card
+       display: flex
+       flex-direction: column
+       justify-content: flex-end
+
+       margin-left: auto
+       margin-right: auto
+       margin-bottom: 20px
+
+       padding-top: 10px
+
+       max-width: 90%
+       min-width: 90%
+
+       min-height: 150px
+
+       background: #98B661
+
+       &:last-child
+           margin-bottom: 0
+       
+       &--tariffCol
+           background: #a52096
+
+       &--phoneCol
+           background: rgba(228, 54, 68, 0.76)
+
+
+   .mobile_card_title_row
+       display: flex
+       justify-content: space-between
+       margin-bottom: 10px
+       &:last-child
+           margin-bottom: 0
+
+   .mobile_card_title
+       text-transform: uppercase
+       color: #ffffff
+
+   .mobile_card_val
+
+   .mobile_card__link
+       display: flex
+       justify-content: space-between
+
+       border-top: 1px solid #ffffff
+       border-right: none
+       padding-top: 10px
+       padding-bottom: 10px
+
+       span
+           &:last-child
+               position: relative
+
+               &:before
+                   content: ''
+
+                   position: absolute
+                   top: 0
+                   right: 10px
+
+                   height: 1px
+                   width: 20px
+
+                   transform: rotate(30deg)
+
+                   background: #ffffff
+
+               &:after
+                   content: ''
+
+                   position: absolute
+                   top: 10px
+                   right: 10px
+
+                   height: 1px
+                   width: 20px
+
+                   transform: rotate(-30deg)
+
+                   background: #ffffff
+
+
+
+       &:last-child
+           border-bottom: transparent
+
+
+   .mobile_menu
+       position: absolute
+       top: 0
+       left: 0
+
+       z-index: -1
+       opacity: 0
+
+       transition: opacity 1s ease
+
+   .mobile_menu--active
+       opacity: 1
+       z-index: 100
+
+
+   .mobile_menu_up
+
+
+   .mobile_menu_up__name
+
+
+   .mobile_menu_up__balance
+
+
+   .mobile_menu_left
+
+
+   .mobile_menu_left__li
+
+
+   .mobile_menu_left__link
+
+
+   .mobile_menu__ul
+
+
+   .mobile_menu__li
+
+
+   .mobile_menu__link
+
+
+   .mobile_menu__link--active

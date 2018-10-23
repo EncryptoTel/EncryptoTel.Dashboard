@@ -18,7 +18,7 @@ import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 @Component({
     selector: 'pbx-index',
     templateUrl: './template.html',
-    styleUrls: ['./local.sass'],
+    styleUrls: ['./local.sass', './mobile.sass'],
     animations: [SwipeAnimation('y', '200ms'), FadeAnimation('100ms')]
 })
 
