@@ -353,3 +353,145 @@
 
    /*
         далее стили для DEPARTMENTS
+
+   .mobile_depart_card
+       display: flex
+       flex-direction: column
+
+       min-height: 100px
+       width: 92.5%
+
+       //border: 1px solid red
+       margin: 0 auto
+       padding-top: 24px
+       padding-bottom: 24px
+
+       border-bottom: 1px solid rgba(255, 255, 255, 1)
+
+       &:last-child
+           //margin-bottom: 168px
+
+
+   .mobile_depart_card__title
+       display: flex
+       justify-content: space-between
+       align-items: center
+
+       font-family: Roboto, sans-serif
+       font-weight: 400
+       font-size: 24px
+       color: #ffffff
+
+       height: 32px
+
+       span
+           width: 23.62px
+           height: 12.2px
+           position: relative
+           &:before
+               content: ''
+               position: absolute
+               bottom: 4px
+               left: -4px
+               height: 2px
+               width: 75%
+               background: #ffffff
+               transform: rotate(40deg)
+
+           &:after
+               content: ''
+               position: absolute
+               bottom: 4px
+               left: 10px
+               height: 2px
+               width: 75%
+               background: #ffffff
+               transform: rotate(-40deg)
+
+
+   .mobile_depart_card__items
+       display: flex
+       justify-content: space-between
+
+       font-family: Roboto, sans-serif
+       font-style: normal
+       font-weight: 300
+       font-size: 20px
+
+       color: rgba(255, 255, 255, .8)
+
+       padding-right: 48px
+
+       line-height: 1.32
+
+       margin-top: 8px
+       margin-bottom: 16px
+
+       span
+           font-weight: 400
+           color: #ffffff
+
+
+   .mobile_depart_card_comment
+       display: none
+       position: relative
+       line-height: 1.4
+
+       color: rgba(255, 255, 255, 1)
+
+       p
+          &:first-child
+             color: rgba(255, 255, 255, .8)
+             font-size: 20px
+             margin-bottom: 8px
+
+       &__text
+             font-weight: 300
+             font-size: 24px
+             margin-bottom: 20px
+
+
+   .mobile_depart_card_comment--active
+       display: block
+
+   .mobile_depart_card_comment__block
+       display: flex
+       justify-content: space-between
+
+   .mobile_depart_card_comment__btn
+       display: flex
+       justify-content: center
+       align-items: center
+       width: 284px
+       color: #ffffff
+       height: 64px
+       border-radius: 5px
+       font-size: 20px
+       font-weight: 400
+
+   .mobile_depart_card_comment__btn--red
+        background: rgba(216, 92, 92, 1)
+
+   .mobile_depart_card_comment__btn--green
+        background: rgba(139, 165, 90, 1)
+
+
+   .mobile_depart_btn
+       display: flex
+       align-items: center
+       justify-content: center
+       margin-left: auto
+       margin-right: auto
+       margin-bottom: 24px
+       height: 64px
+       width: 92.5%
+       border-radius: 5px
+       background: rgba(139, 165, 90, 1)
+
+       font-weight: 400
+       font-style: normal
+
+       font-size: 20px
+
+   .mobile_depart_btn--top
+       margin-top: 168px
