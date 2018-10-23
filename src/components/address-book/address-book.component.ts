@@ -193,7 +193,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             let next: string;
             next = current.value;
             next = next.concat(event.key);
-            if (next && !String(next).match(new RegExp(/^-?[0-9A-Za-z]+$/g))) {
+            if (next && !String(next).match(new RegExp(/^-?[0-9A-Za-zА-Яа-я]+$/g))) {
                 event.preventDefault();
             }
         }
