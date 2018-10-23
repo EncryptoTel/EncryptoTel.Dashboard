@@ -132,11 +132,11 @@ pbx-header
         input
             &::placeholder
                 opacity: 0 !important
-            &#oldPassword,
-            &#password,
-            &#password_confirmation
-                &::placeholder
-                    opacity: 1 !important
+        .pass_block
+            pbx-input
+                input
+                    &::placeholder
+                        opacity: 1 !important
 
 pbx-table
     .tablet_header
@@ -336,6 +336,12 @@ pbx-queue-members-add
                             height: 12px
                             polygon
                                 fill: $dark_error
+
+.tablet_body
+    .tablet_content
+        &:hover
+            .tablet_icon
+                opacity: 1 !important
 
 //pbx-address-book
 //    .pbx_list_empty
