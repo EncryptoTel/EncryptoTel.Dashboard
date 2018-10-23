@@ -8,7 +8,7 @@ import {WsServices} from '../../services/ws.services';
 
 @Component({
     selector: 'pbx-dashboard',
-    templateUrl: './template.html',
+    templateUrl: './template-.html',
     styleUrls: ['./local.sass'],
     providers: [
         DashboardServices,
