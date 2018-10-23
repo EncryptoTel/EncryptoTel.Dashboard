@@ -1,0 +1,17 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+  <title>player_loader</title>
+  <g>
+    <path d="M10.24375,0h1.375V6.875h-1.375Z" fill="#22b2b4"/>
+    <path d="M15.84507,1.09559l1.19078.6875L13.59835,7.737l-1.19078-.6875Z" fill="#d3f0f0" fill-opacity="0.2"/>
+    <path d="M20.14815,4.84507l.6875,1.19078-5.95392,3.4375-.6875-1.19078Z" fill="#d3f0f0" fill-opacity="0.2"/>
+    <path d="M22,10.24375v1.375H15.125v-1.375Z" fill="#d3f0f0" fill-opacity="0.2"/>
+    <path d="M20.90441,15.84507l-.6875,1.19078L14.263,13.59835l.6875-1.19078Z" fill="#d3f0f0" fill-opacity="0.2"/>
+    <path d="M17.15493,20.14815l-1.19078.6875-3.4375-5.95392,1.19078-.6875Z" fill="#bce8e8" fill-opacity="0.3"/>
+    <path d="M11.75625,22h-1.375V15.125h1.375Z" fill="#a7e0e1" fill-opacity="0.4"/>
+    <path d="M6.15493,20.90441l-1.19078-.6875L8.40165,14.263l1.19078.6875Z" fill="#90d8d9" fill-opacity="0.5"/>
+    <path d="M1.85185,17.15493l-.6875-1.19078,5.95392-3.4375.6875,1.19078Z" fill="#7ad1d2" fill-opacity="0.6"/>
+    <path d="M0,11.75625v-1.375H6.875v1.375Z" fill="#64c9ca" fill-opacity="0.7"/>
+    <path d="M1.09559,6.15493l.6875-1.19078L7.737,8.40165l-.6875,1.19078Z" fill="#4ec1c3" fill-opacity="0.8"/>
+    <path d="M4.84507,1.85185l1.19078-.6875,3.4375,5.95392-1.19078.6875Z" fill="#38babb" fill-opacity="0.9"/>
+  </g>
+</svg>

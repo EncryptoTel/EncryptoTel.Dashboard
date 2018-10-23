@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <style>.litecoin-1{fill:none;}.litecoin-2{fill:#bdbdbd;}</style>
+  </defs>
+  <title>Litecoin (LTC)</title>
+  <g id="Слой_2" data-name="Слой 2">
+    <g id="Ethereum_ETH_" data-name="Ethereum (ETH)">
+      <rect id="_bg_" data-name="&lt;bg&gt;" class="litecoin-1" width="100" height="100"/>
+      <path id="_Эллипс_" data-name="&lt;Эллипс&gt;" class="litecoin-2"
+            d="M50,0a50,50,0,1,0,50,50A50,50,0,0,0,50,0ZM42.28,23H57.75L52.29,43.72,60,41l-2,7.32-7.69,2.81L47.08,63H73L70,73H29l4.18-15.61-5.95,2.17,2-7.41,6-2.18Z"/>
+    </g>
+  </g>
+</svg>
