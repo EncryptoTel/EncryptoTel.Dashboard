@@ -154,7 +154,7 @@ export class ListComponent implements OnInit {
     }
 
     updateTotalItems(): void {
-        if (this.pageInfo.itemsCount === 0) {
+        if (this.pageInfo.itemsCount === 0 && Object.keys(this.currentFilter).length === 0) {
             this._filters = [];
         }
         if (Object.keys(this.currentFilter).length === 0) {

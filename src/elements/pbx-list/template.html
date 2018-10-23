@@ -2,7 +2,7 @@
 
     <pbx-header *ngIf="!hideHeader"
                 [buttons]="buttons"
-                [filters]="!loading && !loadingEx && (pageInfo.itemsCount > 0 || activeFilter()) ? _filters : null"
+                [filters]="_filters"
                 [inactive]="loading || loadingEx"
                 (onClick)="create()"
                 (onUpdate)="updateFilter($event)"
@@ -39,7 +39,7 @@
                (onEdit)="edit($event)"
                (onDelete)="delete($event)">
     </pbx-table>
-    <div class="pbx_list_message" *ngIf="!showEmptyInfo && !loading && !loadingEx && !filter.loading && activeFilter() && pageInfo.itemsCount === 0" translate>
+    <div class="pbx_list_message" *ngIf="!loading && !loadingEx && !filter.loading && activeFilter() && pageInfo.itemsCount === 0" translate>
         Nothing found
     </div>
 
