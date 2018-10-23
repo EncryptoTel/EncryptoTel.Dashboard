@@ -4,6 +4,10 @@
     "version": "1.0.0",
     "license": "MIT",
     "main": "main.js",
+    "author": {
+        "name": "encryptotel",
+        "url": "encryptotel.com"
+    },
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
@@ -11,10 +15,11 @@
         "lint": "ng lint",
         "electron": "ng build --base-href ./ && electron .",
         "electron-aot": "ng build --base-href ./ -prod --aot=false -e=prod && electron .",
-        "buildDeb": "electron-packager . app --platform linux --arch x64 --out ./build/ --overwrite",
+        "buildDeb": "electron-packager . app --platform linux --arch x64 --out ./build/ --overwrite --icon=assets/EncryptoTel.icns",
         "setupDeb": "electron-installer-debian --src build/app-linux-x64/ --dest build/installers/ --arch amd64",
         "buildMac": "electron-packager . encryPbx --platform darwin --out ./build/ --overwrite --icon=assets/EncryptoTel.icns",
-        "setupMac": "electron-installer-dmg ./build/encryPbx-darwin-x64/encryPbx.app ./build/installer/encryPbx"
+        "setupMac": "electron-installer-dmg ./build/encryPbx-darwin-x64/encryPbx.app ./build/installers/encryPbx",
+        "buildWindows": "electron-packager . encryPbx --platform=win32 --out ./build/ --arch=x64 --overwrite"
     },
     "private": true,
     "dependencies": {
@@ -36,6 +41,9 @@
         "class-transformer": "^0.1.9",
         "core-js": "^2.4.1",
         "cryptiles": "^4.1.2",
+        "electron-installer-windows": "^1.1.0",
+        "electron-winstaller": "^2.7.0",
+        "electron-wix-msi": "^2.1.1",
         "hls.js": "^0.10.1",
         "hoek": "^4.2.1",
         "howler": "^2.0.15",
