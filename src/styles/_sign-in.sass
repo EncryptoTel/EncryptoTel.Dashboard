@@ -40,6 +40,50 @@ main-view.dark_theme
                     border-right: 8px solid $dark_error_message
                     border-bottom: 8px solid transparent
 
+.auth_form
+    position: relative
+    .footer
+        height: 60px
+        position: relative
+        z-index: 1
+        background: rgba(0, 0, 0, .6)
+        line-height: 19px
+        font-size: 14px
+        align-items: center
+        justify-content: center
+        position: absolute
+        bottom: 0
+        left: 0
+        right: 0
+        a
+            color: $dark_white
+            font-size: 14px
+            cursor: pointer
+            &:hover
+                color: $dark_accent
+        .center
+            margin: 0 40px
+            a
+                padding-right: 12px
+                padding-left: 12px
+                border-right: 1px solid $dark_white
+                &:hover
+                    text-decoration: underline
+                    color: $dark_accent
+                &:last-child
+                    padding-right: 0
+                    border-right: none
+                &:first-child
+                    padding-left: 0
+        select
+            appearance: none
+            height: 20px
+            cursor: pointer
+            background: none
+            border: none
+            color: $dark_white
+            font-size: 14px
+
 main-view.dark_theme
     sign-up-form
         form

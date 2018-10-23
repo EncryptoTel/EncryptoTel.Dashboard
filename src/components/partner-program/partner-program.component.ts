@@ -91,7 +91,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
 
         this.sidebar.items = [];
         this.sidebar.items.push(new SidebarInfoItem(4, 'Name', this.selected.name));
-        this.sidebar.items.push(new SidebarInfoItem(5, 'Status', this.selected.statusName));
+        this.sidebar.items.push(new SidebarInfoItem(5, 'Status', this.selected.status));
         this.sidebar.items.push(new SidebarInfoItem(6, 'Link', this.selected.refLinkUrl));
         this.sidebar.items.push(new SidebarInfoItem(7, 'Copy Link to Clipboard', this.selected, true, false, true, 'accent'));
     }
@@ -167,8 +167,6 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
     save(item: PartnerProgramItem): void {
         if (!this.validateForms()) return;
         this.setModelData(item);
-        item.status = (<any>item.status).value;
-        console.log('save', item);
 
         let partner = this.partners.items.find(p => p.id === item.id);
         if (partner) partner.loading--;
