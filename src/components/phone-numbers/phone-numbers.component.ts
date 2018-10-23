@@ -46,7 +46,7 @@ export class PhoneNumbersComponent implements OnInit {
         this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
         this.sidebar.buttons.push(new SidebarButtonItem(2, this.selected.status ? 'Disable' : 'Enable', 'accent'));
         this.sidebar.items = [];
-        this.sidebar.items.push(new SidebarInfoItem(3, 'Phone number', this.selected.phoneNumber));
+        this.sidebar.items.push(new SidebarInfoItem(3, 'Phone number', this.selected.providerId !== 1 ? '+' + this.selected.phoneNumber : this.selected.phoneNumber));
         this.sidebar.items.push(new SidebarInfoItem(4, 'Amount of Exts', this.selected.innersCount));
         this.sidebar.items.push(new SidebarInfoItem(5, 'Default Ext', this.selected.defaultInner));
         this.sidebar.items.push(new SidebarInfoItem(6, 'Status', this.selected.statusName));
