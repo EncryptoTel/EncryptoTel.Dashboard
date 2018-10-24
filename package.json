@@ -15,11 +15,11 @@
         "lint": "ng lint",
         "electron": "ng build --base-href ./ && electron .",
         "electron-aot": "ng build --base-href ./ -prod --aot=false -e=prod && electron .",
-        "buildDeb": "electron-packager . app --platform linux --arch x64 --out ./build/ --overwrite --icon=resources/assets/logoEncryptoTel.png --extra-resource=resources/assets",
+        "buildDeb": "electron-packager . app --platform linux --arch x64 --out ./build/ --overwrite --icon=src/assets/logoEncryptoTel.png --extra-resource=src/assets",
         "setupDeb": "electron-installer-debian --src build/app-linux-x64/ --dest build/installers/ --arch amd64 --config build/configs/debConfig.json",
-        "buildMac": "electron-packager . encryPbx --platform darwin --out ./build/ --overwrite --icon=resources/assets/EncryptoTel.icns --extra-resource=resources/assets",
+        "buildMac": "electron-packager . encryPbx --platform darwin --out ./build/ --overwrite --icon=src/assets/EncryptoTel.icns --extra-resource=src/assets",
         "setupMac": "electron-installer-dmg ./build/encryPbx-darwin-x64/encryPbx.app ./build/installers/encryPbx",
-        "buildWindows": "electron-packager . encryPbx --platform=win32 --out ./build/ --arch=x64 --overwrite --icon=resources/assets/logoEncryptoTel.ico --extra-resource=resources/assets"
+        "buildWindows": "electron-packager . encryPbx --platform=win32 --out ./build/ --arch=x64 --overwrite --icon=src/assets/logoEncryptoTel.ico --extra-resource=src/assets"
     },
     "private": true,
     "build": {
