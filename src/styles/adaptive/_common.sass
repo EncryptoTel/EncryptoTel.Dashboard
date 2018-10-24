@@ -8,6 +8,37 @@ body
         > .body_wrap
             max-width: calc(100vw - 80px) !important
 
+pbx-list
+    flex: auto !important
+
+@media screen and (max-width: 1023px)
+    pbx-sidebar
+        width: 230px !important
+        .sidebar
+            flex: 1 !important
+            width: 100% !important
+            &_buttons
+                grid-template-columns: 1fr !important
+            .sidebar_description_wrap
+                .description_text
+                    font-size: 14px !important
+                    width: 100% !important
+    phone-numbers-component
+        pbx-list
+            width: calc(100% - 230px) !important
+            pbx-table
+                .tablet_header,
+                .tablet_body
+                    .tablet_item
+                        &:nth-child(1) .qwerty
+                            width: 100px !important
+                        &:nth-child(2) .qwerty
+                            width: 82px !important
+                        &:nth-child(3) .qwerty
+                            width: 59px !important
+                        &:nth-child(4) .qwerty
+                            width: 76px !important
+
 @media screen and (max-width: 939px)
     pbx-list
         //width: 100% !important
