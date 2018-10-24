@@ -15,13 +15,29 @@
         "lint": "ng lint",
         "electron": "ng build --base-href ./ && electron .",
         "electron-aot": "ng build --base-href ./ -prod --aot=false -e=prod && electron .",
-        "buildDeb": "electron-packager . app --platform linux --arch x64 --out ./build/ --overwrite --icon=assets/EncryptoTel.icns",
-        "setupDeb": "electron-installer-debian --src build/app-linux-x64/ --dest build/installers/ --arch amd64",
-        "buildMac": "electron-packager . encryPbx --platform darwin --out ./build/ --overwrite --icon=assets/EncryptoTel.icns",
+        "buildDeb": "electron-packager . app --platform linux --arch x64 --out ./build/ --overwrite --icon=src/assets/logoEncryptoTel.png --extra-resource=src/assets",
+        "setupDeb": "electron-installer-debian --src build/app-linux-x64/ --dest build/installers/ --arch amd64 --config build/configs/debConfig.json",
+        "buildMac": "electron-packager . encryPbx --platform darwin --out ./build/ --overwrite --icon=src/assets/EncryptoTel.icns --extra-resource=src/assets",
         "setupMac": "electron-installer-dmg ./build/encryPbx-darwin-x64/encryPbx.app ./build/installers/encryPbx",
-        "buildWindows": "electron-packager . encryPbx --platform=win32 --out ./build/ --arch=x64 --overwrite"
+        "buildWindows": "electron-packager . encryPbx --platform=win32 --out ./build/ --arch=x64 --overwrite --icon=src/assets/logoEncryptoTel.ico --extra-resource=src/assets"
     },
     "private": true,
+    "build": {
+        "appId":"com.encry.pbx",
+        "productName": "EncryPbx",
+        "linux": {
+            "category": "Utils",
+            "icon": "resources/assets/logoEncryptoTel.png",
+            "packageCategory": "Utils",
+            "maintainer": "EncryPbx <info@encryptotel.com>",
+            "target": ["deb"]
+        },
+        "deb": {
+            "depends": [
+                "libgconf2-4"
+            ]
+        }
+    },
     "dependencies": {
         "@angular/animations": "^5.0.0",
         "@angular/common": "^5.0.0",

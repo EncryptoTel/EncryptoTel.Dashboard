@@ -12,7 +12,7 @@
         <div class="user_details_wrap">
             <div class="user_details_name">{{username}}</div>
             <div class="user_details_balance" *ngIf="completedRequests > 1">
-                <span translate>balance</span>&nbsp; {{user.balance.symbol}}{{user.balance.balance | currency:" ":2 }}
+                {{user.balance.symbol}}{{user.balance.balance | currency:" ":2 }}
             </div>
         </div>
         <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>

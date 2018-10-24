@@ -40,6 +40,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     sidebar: SidebarInfoModel;
 
     modalBlock: ModalEx;
+    editMode: boolean = false;
 
     private _forceReload: boolean;
 
@@ -246,6 +247,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     select(item: AddressBookItem) {
+        this.editMode = false;
         this.sidebar.loading++;
         this.sidebar.visible = true;
         this.service.getAddressBookItem(item.id).then((response: AddressBookItem) => {
@@ -258,6 +260,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     create() {
+        this.editMode = true;
         let widthScreen: number;
         widthScreen = window.innerWidth;
         if (widthScreen < 1170) {
@@ -277,6 +280,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     edit(item: AddressBookItem) {
+        this.editMode = true;
         this.sidebar.loading++;
         this.sidebar.visible = true;
         this.service.getAddressBookItem(item.id).then((response: AddressBookItem) => {

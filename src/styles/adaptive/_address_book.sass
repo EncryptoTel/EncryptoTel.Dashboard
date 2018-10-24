@@ -1,0 +1,26 @@
+@media screen and (max-width: 1023px)
+    pbx-address-book
+        .address
+            pbx-sidebar
+                .sidebar
+                    .description_item_wrap
+                        flex: auto !important
+                    form
+                        .phone-block
+                            pbx-input
+                                .pbx_input_row_input_wrap
+                                    display: grid !important
+                                    grid-template-columns: 1fr 1fr !important
+                                    grid-template-rows: 1fr auto !important
+                                    .pbx_input_item_input_wrap
+                                        grid-column: 1/3 !important
+                                        grid-row: 1/2 !important
+                                        margin-bottom: 8px !important
+                                    pbx-select
+                                        margin-left: 0 !important
+                                        grid-row: 2/3 !important
+                                        grid-column: 1/2 !important
+                                    .side_unit_icon_wrap
+                                        grid-row: 2/3 !important
+                                        grid-column: 2/3 !important
+                                        align-items: flex-start !important
