@@ -1,0 +1,13 @@
+{
+    "dest": "build/installers/",
+    "icon": "resources/assets/logoEncryptoTel.png",
+    "categories": [
+        "Utility"
+    ],
+    "depends": [
+        "libgconf2-4"
+    ],
+    "lintianOverrides": [
+        "changelog-file-missing-in-native-package"
+    ]
+}
