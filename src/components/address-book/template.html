@@ -20,7 +20,7 @@
     </pbx-list>
 
     <pbx-sidebar *ngIf="sidebar.visible" [sidebarInfo]="sidebar" (onClick)="click($event)" [@Swipe] [@Fade]>
-        <form [formGroup]="form">
+        <form *ngIf="editMode" [formGroup]="form">
             <div class="side_wrap" *ngIf="locker.free && !sidebar.loading && sidebar.mode === 'edit'">
                 <div class="side_body" *ngIf="!sidebar.saving">
 
