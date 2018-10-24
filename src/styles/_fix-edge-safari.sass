@@ -22,15 +22,20 @@ pbx-call-rules-create
 
 // if Edge
 @supports (-ms-ime-align:auto)
+    @media screen and (max-width: 1319px)
+        buy-phone-numbers-component
+            .buy_phone_table_title
+                margin-right: 16px
     buy-phone-numbers-component
         .buy_phone_table_body
             .buy_phone_table_item
-                display: flex !important
-                justify-content: center !important
-                pbx-button
-                    display: inline-flex !important
-                pbx-loader
-                    display: inline-flex !important
+                &:nth-child(5)
+                    display: flex !important
+                    justify-content: center !important
+                    pbx-button
+                        display: inline-flex !important
+                    pbx-loader
+                        display: inline-flex !important
 
     #arrow_edge
         display: block
