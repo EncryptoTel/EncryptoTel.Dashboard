@@ -36,7 +36,8 @@
        width: 29px
        height: 19px
 
-       margin-right: 29px
+       //margin-right: 29px
+       margin-right: 42px
 
        cursor: pointer
 
@@ -49,7 +50,7 @@
    .user_mobile__title
        font-family: Roboto, sans-serif
        font-weight: 300
-       font-size: 28px
+       font-size: 24px
        color: #ffffff
        text-transform: uppercase
 
@@ -571,5 +572,87 @@
 
 
    /*
+        ADDRESS BOOK
+
+   .addr_book
+       display: flex
+       flex-direction: column
+       max-width: 592px
+       margin-left: auto
+       margin-right: auto
+       margin-bottom: 16px
+       padding-top: 12px
 
 
+   .addr_book_search
+       font-weight: 300
+       font-style: normal
+       font-size: 24px
+       color: #ffffff
+       max-width: 592px
+       min-width: 592px
+       margin-bottom: 16px
+
+       input
+           height: 52px
+           padding-left: 0
+           padding-bottom: 12px !important
+
+
+   .addr_book_contacts
+       display: flex
+       flex-direction: column
+
+
+   .addr_book_contacts__link
+       display: flex
+       flex-direction: column
+       font-weight: 400
+       font-style: normal
+       font-size: 24px
+       color: #ffffff
+
+       height: 114px
+
+       padding-top: 25px
+       padding-bottom: 24px
+       border-bottom: 1px solid rgba(255, 255, 255, .1)
+
+       position: relative
+
+       
+       span
+           line-height: 1.35
+           margin-bottom: 8px
+           &:nth-child(2)
+               font-weight: 300
+               font-size: 20px
+               margin-bottom: 0
+
+       .addr_book_contacts__img
+           position: absolute
+           top: 45px
+           right: 4px
+
+           width: 13.2px
+           height: 23.62px
+
+           &:before
+               content: ''
+               position: absolute
+               top: 6px
+               right: -3px
+               width: 15px
+               height: 2px
+               transform: rotate(46deg)
+               background: #ffffff
+
+           &:after
+               content: ''
+               position: absolute
+               top: 16px
+               right: -3px
+               width: 15px
+               height: 2px
+               transform: rotate(-46deg)
+               background: #ffffff
