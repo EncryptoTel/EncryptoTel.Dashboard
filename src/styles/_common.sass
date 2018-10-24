@@ -132,11 +132,11 @@ pbx-header
         input
             &::placeholder
                 opacity: 0 !important
-            &#oldPassword,
-            &#password,
-            &#password_confirmation
-                &::placeholder
-                    opacity: 1 !important
+        .pass_block
+            pbx-input
+                input
+                    &::placeholder
+                        opacity: 1 !important
 
 pbx-table
     .tablet_header
@@ -311,7 +311,7 @@ pbx-sign-up-tariff-plans
 
 pbx-address-book
     pbx-list
-        width: calc(100% - 344px) !important
+        //width: calc(100% - 344px) !important
         flex: auto !important
 
 pbx-queue-members-add
@@ -337,38 +337,13 @@ pbx-queue-members-add
                             polygon
                                 fill: $dark_error
 
-//pbx-address-book
-//    .pbx_list_empty
-//        padding-right: 112px !important
-//pbx-call-rules
-//    .pbx_list_empty
-//        padding-right: 134px !important
-//pbx-call-queues
-//    .pbx_list_empty
-//        padding-right: 147px !important
-//ring-groups-component
-//    .pbx_list_empty
-//        padding-right: 150px !important
+.tablet_body
+    .tablet_content
+        &:hover
+            .tablet_icon
+                opacity: 1 !important
 
-
-// Storage - раскомментировать когда аудио переместится в колонку Record
-// pbx-storage
-//     pbx-media-table
-//         .tablet_header
-//             display: grid !important
-//             grid-template-columns: repeat(4, 1fr) !important
-//             .tablet_item
-//                 // outline: 1px solid red
-//                 max-width: 100% !important
-//                 min-width: 204px !important
-//         .tablet_body
-//             .tablet_row
-//                 .tablet_content
-//                     display: grid !important
-//                     grid-template-columns: repeat(4, 1fr) !important
-//                     .tablet_item
-//                         // outline: 1px solid green
-//                         white-space: nowrap
-//                         max-width: unset !important
-//                         padding: 12px 16px !important
-//                         min-width: 204px !important
+partner-program-component
+    .sidebar
+        .sidebar_info_wrap
+            flex: 1

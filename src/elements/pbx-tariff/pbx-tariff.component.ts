@@ -29,7 +29,7 @@ export class TariffComponent {
     get cost(): string {
         return this.value.price > 0
             ? 'From $' + this.value.price + '/monthly'
-            : '';
+            : 'Free';
     }
 
     clicked(event?: MouseEvent): void {
