@@ -16,7 +16,11 @@ pbx-sidebar
         .sidebar_info_wrap
             overflow: auto
 
-@media screen and (max-width: 1023px)
+.sidebar
+    .description_item_wrap
+        width: 100% !important
+
+@media screen and (max-width: 1169px)
     pbx-sidebar
         width: 230px !important
         .sidebar
@@ -24,6 +28,8 @@ pbx-sidebar
             width: 100% !important
             &_buttons
                 grid-template-columns: 1fr !important
+            .description_item_wrap
+                width: 100% !important
             .sidebar_description_wrap
                 .description_text
                     font-size: 14px !important
