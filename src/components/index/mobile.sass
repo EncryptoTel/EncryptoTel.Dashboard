@@ -753,7 +753,6 @@
    .mobile_settings_min--active
        background: rgba(166, 198, 116, 1)
 
-
    .mobile_settings_min__item
        display: flex
        flex-direction: column
@@ -797,10 +796,130 @@
    .mobile_settings_min--active > .mobile_settings_min__img
        opacity: 1
 
-
    .mobile_settings_min__item
        p
            &:last-child
                font-weight: 400
                font-size: 24px
                text-transform: uppercase
+
+
+   /*------------------------------------------
+        REFILL BALANCE
+
+   .mobile_settings_amount
+       display: flex
+       flex-direction: row
+
+       width: 100%
+
+       margin-left: auto
+       margin-right: auto
+
+       margin-bottom: 16px
+
+       padding-top: 20px
+       padding-left: 12px
+
+       font-weight: 300
+       font-style: normal
+       font-size: 24px
+       color: rgba(255, 255, 255, .6)
+
+       p
+           width: 296px
+           margin-right: 16px
+
+
+   .mobile_settings_amount_form
+       width: 296px
+
+       input
+           height: 45px
+           padding-bottom: 19px
+           text-align: center
+
+           &::placeholder
+               text-align: center
+
+
+   .mobile_settings_amount_block
+       display: flex
+       flex-direction: row
+       flex-wrap: wrap
+
+       width: 100%
+
+
+   .mobile_settings_amount_card
+       display: flex
+       flex-direction: column
+       align-items: center
+
+       width: 296px
+       height: 200px
+
+       border: 2px solid transparent
+       border-radius: 2px
+       background: rgba(55, 54, 53, 1)
+
+       position: relative
+
+       line-height: 1.35
+
+       padding-top: 40px
+       padding-bottom: 9px
+
+       margin-bottom: 16px
+
+       font-weight: 300
+       font-style: normal
+
+       &:nth-child(odd)
+           margin-right: 16px
+
+       &:hover
+           border: 2px solid rgba(152, 182, 97, 1)
+           border-radius: 2px
+
+
+   .triangle
+       position: absolute
+       bottom: -2px
+       right: -2px
+
+       width: 0
+       height: 0
+
+       border-bottom: 24px solid rgba(152, 182, 97, 1)
+       border-left: 24px solid transparent
+
+   .mobile_settings_amount_card--active
+       border: 2px solid rgba(152, 182, 97, 1)
+       border-radius: 2px
+
+
+   .mobile_settings_amount__img
+       width: 64px
+       height: 64px
+       border: 1px solid white
+
+       margin-bottom: 27px
+
+
+   .mobile_settings_amount__info
+       font-size: 18px
+       color: rgba(247, 154, 40, 1)
+
+       height: 24px
+       margin-bottom: 8px
+
+
+   .mobile_settings_amount__name
+       display: inline-block
+       font-size: 20px
+       color: rgba(255, 255, 255, 1)
+
+       strong
+           display: inline-block
+           color: rgba(34, 178, 180, 1)
