@@ -168,7 +168,7 @@
             <p class="mobile_backup__text">
                 Select module to Backup
             </p>
-            <form class="mobile_backup_checkbox">
+            <form method="post" id="mobile_backup_checkbox" action="" class="mobile_backup_checkbox">
                 <label class="checkbox_wrap  checkbox_wrap--h64">
                     <input class="checkbox" type="checkbox" name="checkbox-test" checked>
                     <span class="checkbox_custom"></span>
@@ -235,10 +235,9 @@
             <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                 Cancel
             </a>
-            <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
+            <button type="submit" form="mobile_backup_checkbox" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
                 Backup
-            </a>
-
+            </button>
         </div>
     </div>
     <!-- mobile_menu--active -->
