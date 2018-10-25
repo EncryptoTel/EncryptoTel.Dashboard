@@ -1,7 +1,18 @@
 @media screen and (max-width: 1279px)
     .navigation_block_wrap
-        .navigation_item
-            .navigation_item_title
-                display: none !important
-            .navigation_item_icon
-                margin: auto !important
+        .navigation_block
+            .navigation_item
+                flex-direction: column !important
+                height: auto !important
+                width: 100% !important
+                padding: 0 8px !important
+                margin-bottom: 8px
+                .navigation_item_title
+                    font-size: 12px
+                    line-height: 16px
+                    margin: 8px 0
+                    text-align: center
+            &:not(:nth-child(1))
+                .navigation_item
+                    &:nth-child(1)
+                        margin-top: 8px
