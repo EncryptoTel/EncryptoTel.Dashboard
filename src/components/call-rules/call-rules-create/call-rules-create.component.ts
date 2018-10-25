@@ -334,6 +334,53 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     onTimeRuleChange(index, event) {
+        // let _time: any;
+        // let _days: any;
+        // let days: any;
+        // days = {};
+        // let startTime: any;
+        // let endTime: any;
+        //
+        // _time = event.split('|');
+        // if (_time[0] !== '*') {
+        //     _days = _time[1];
+        //     _time = _time[0].split('-');
+        //
+        //     startTime = _time[0];
+        //     startTime = startTime.split(':');
+        //     startTime = startTime[0];
+        //
+        //     endTime = _time[1];
+        //     endTime = endTime.split(':');
+        //     endTime = endTime[0];
+        //
+        //     console.log('time ', parseInt(startTime), parseInt(endTime));
+        //     if (parseInt(startTime) >= 12 && (parseInt(endTime) >= 0 && parseInt(endTime) <= 12)) {
+        //         if (_days !== '*') {
+        //             let daysArrayMap: any;
+        //             daysArrayMap = {};
+        //             daysArrayMap['mon'] = 'tue';
+        //             daysArrayMap['tue'] = 'wed';
+        //             daysArrayMap['wed'] = 'thu';
+        //             daysArrayMap['thu'] = 'fri';
+        //             daysArrayMap['fri'] = 'sat';
+        //             daysArrayMap['sat'] = 'san';
+        //             daysArrayMap['san'] = 'mon';
+        //             _days = _days.split('&');
+        //             let idx: number;
+        //             for (idx in _days) {
+        //                 days[_days[idx]] = _days[idx];
+        //             }
+        //
+        //             for (idx in days) {
+        //                 days[daysArrayMap[idx]] = daysArrayMap[idx];
+        //             }
+        //             days = Object.keys(days).map(function (key) { return days[key]; });
+        //             console.log(days.join('&'));
+        //         }
+        //     }
+        // }
+
         this.actionsControls.get([index, 'timeRules']).setValue(event);
     }
 
