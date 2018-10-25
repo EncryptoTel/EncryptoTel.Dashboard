@@ -498,6 +498,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             this.service.edit(this.activatedRoute.snapshot.params.id, {...this.callRulesForm.value}).then(() => {
                 this.saveFormState();
             }).catch(() => {
+                let tmp: any;
+                tmp = '';
             })
                 .then(() => this.saving--);
         }

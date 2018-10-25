@@ -9,9 +9,9 @@ export function redirectToExtensionValidator(control: FormGroup): { [key: string
         for (let i = 0; i < actions.length; i ++) {
             const actionId = actions.get([i, 'action']).value;
             const parameter = actions.get([i, 'parameter']).value;
-            context.push({ 
-                action: actionId, 
-                parameter: parameter 
+            context.push({
+                action: actionId,
+                parameter: parameter
             });
         }
 
@@ -30,8 +30,8 @@ export function redirectToExtensionValidator(control: FormGroup): { [key: string
 export function numberRangeValidator(minVal: number, maxVal: number): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
         const forbidden = (control.value < minVal || control.value > maxVal);
-        return forbidden 
-            ? { 'range': { value: control.value } } 
+        return forbidden
+            ? { 'range': { value: control.value } }
             : null;
     };
 }
@@ -53,16 +53,16 @@ export function durationTimeValidator(control: FormGroup): { [key: string]: any 
     }
 
     const timeRange = control.value.split('-');
-    
+
     if (timeRange.length !== 2) {
         return { 'invalidRange': { value: control.value } };
     }
     if (timeRange[0] > timeRange[1]) {
         return { 'startTime': { value: control.value } };
     }
-    // if (timeRange[0] == timeRange[1]) {
-    //     return { 'equalTime': { value: control.value } };
-    // }
+    if (timeRange[0] === timeRange[1]) {
+        return { 'equalTime': { value: control.value } };
+    }
 
     return null;
 }
