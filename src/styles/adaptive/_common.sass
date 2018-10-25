@@ -2,12 +2,6 @@ body
     min-width: 768px !important
     overflow: auto !important
 
-@media screen and (max-width: 1279px)
-    .main_grid
-        grid-template-columns: 80px 1fr !important
-        > .body_wrap
-            max-width: calc(100vw - 80px) !important
-
 pbx-list
     flex: auto !important
 
@@ -19,6 +13,33 @@ pbx-sidebar
 .sidebar
     .description_item_wrap
         width: 100% !important
+
+.notificator-wrap
+    position: fixed
+    //width: 50%
+    //left: 236px
+    left: 50% !important
+    transform: translateX(-50%) !important
+    top: 0
+
+@media screen and (max-width: 1379px)
+    .pbx_list_empty
+        height: 220px !important
+        grid-template-columns: 1fr !important
+        padding: 0 !important
+        .pbx_list_empty_text
+            grid-column: 1/4 !important
+        #arrow_edge,
+        #arrow_safari
+            display: none !important
+
+@media screen and (max-width: 1279px)
+    .main_grid
+        grid-template-columns: 80px 1fr !important
+        > .body_wrap
+            max-width: calc(100vw - 80px) !important
+    .notificator-wrap
+        width: 50% !important
 
 @media screen and (max-width: 1169px)
     pbx-sidebar
@@ -77,27 +98,3 @@ pbx-sidebar
         overflow: visible !important
     .body_wrap
         min-width: calc(768px - 80px) !important
-.notificator-wrap
-    position: fixed
-    //width: 50%
-    //left: 236px
-    left: 50% !important
-    transform: translateX(-50%) !important
-    top: 0
-
-@media screen and (max-width: 1279px)
-    .notificator-wrap
-        width: 50% !important
-    phone-numbers-component
-        pbx-list
-            pbx-table
-                .tablet_header,
-                .tablet_body
-                    .tablet_item
-                        //&:nth-child(1),
-                        //&:nth-child(2),
-                        //&:nth-child(3),
-                        //&:nth-child(4),
-                        //&:nth-child(5)
-                        //    .qwerty
-                        //        width: 100% !important
