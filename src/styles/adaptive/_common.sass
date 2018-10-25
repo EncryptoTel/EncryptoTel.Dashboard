@@ -1,5 +1,5 @@
 body
-    min-width: 768px !important
+    min-width: 1024px !important
     overflow: auto !important
 
 pbx-list
@@ -37,7 +37,8 @@ pbx-sidebar
     .main_grid
         grid-template-columns: 80px 1fr !important
         > .body_wrap
-            max-width: calc(100vw - 80px) !important
+            //max-width: calc(100vw - 80px) !important
+            max-width: 100%
     .notificator-wrap
         width: 50% !important
 
@@ -71,30 +72,30 @@ pbx-sidebar
                         &:nth-child(4) .qwerty
                             width: 76px !important
 
-@media screen and (max-width: 939px)
-    pbx-list
-        //width: 100% !important
-    phone-numbers-component
-        pbx-list
-            pbx-table
-                .tablet_header,
-                .tablet_body
-                    .tablet_item
-                        .qwerty
-                            width: unset !important
+//@media screen and (max-width: 939px)
+//    pbx-list
+//        //width: 100% !important
+//    phone-numbers-component
+//        pbx-list
+//            pbx-table
+//                .tablet_header,
+//                .tablet_body
+//                    .tablet_item
+//                        .qwerty
+//                            width: unset !important
 
 
-@media screen and (max-width: 929px)
-    .header_line_wrap
-        .header_title
-            opacity: 0
-
-@media screen and (max-width: 899px)
-    .dashboard_item_title_name
-        font-size: 22px !important
-
-@media screen and (max-width: 767px)
-    .main_grid
-        overflow: visible !important
-    .body_wrap
-        min-width: calc(768px - 80px) !important
+//@media screen and (max-width: 929px)
+//    .header_line_wrap
+//        .header_title
+//            opacity: 0
+//
+//@media screen and (max-width: 899px)
+//    .dashboard_item_title_name
+//        font-size: 22px !important
+//
+//@media screen and (max-width: 767px)
+//    .main_grid
+//        overflow: visible !important
+//    .body_wrap
+//        min-width: calc(768px - 80px) !important
