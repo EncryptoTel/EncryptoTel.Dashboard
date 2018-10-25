@@ -356,7 +356,7 @@
        color: rgba(34, 178, 180, 1)
 
    /*------------------------------------------
-         далее стили для DEPARTMENTS
+         далее стили для DEPARTMENTS (6-7)
 
    .mobile_depart_block
        display: flex
@@ -380,7 +380,8 @@
 
        line-height: 1.3
 
-       border-bottom: 1px solid rgba(255, 255, 255, 1)
+       border-bottom: 1px solid rgba(255, 255, 255, .7)
+
 
 
    .mobile_depart_card__title
@@ -395,6 +396,15 @@
 
        height: 32px
 
+       p
+           display: inline-block
+
+           strong
+               display: inline-block
+               font-weight: 300
+               font-style: normal
+               font-size: 20px
+
        span
            width: 23.62px
            height: 12.2px
@@ -402,22 +412,26 @@
            &:before
                content: ''
                position: absolute
-               bottom: 4px
-               left: -4px
+               bottom: 2px
+               left: -1px
                height: 2px
-               width: 75%
+               width: 68%
                background: #ffffff
-               transform: rotate(40deg)
+               transform: rotate(49deg)
 
            &:after
                content: ''
                position: absolute
-               bottom: 4px
-               left: 10px
+               bottom: 3px
+               left: 9px
                height: 2px
-               width: 75%
+               width: 68%
                background: #ffffff
-               transform: rotate(-40deg)
+               transform: rotate(-49deg)
+
+   .mobile_depart_card__title--pink
+       color: rgba(255, 121, 142, 1)
+
 
 
    .mobile_depart_card__items
@@ -437,7 +451,7 @@
 
        margin-top: 8px
 
-       span
+       span, time
            font-weight: 400
            color: #ffffff
 
@@ -488,6 +502,9 @@
    .mobile_depart_card_comment__btn--green
         background: rgba(139, 165, 90, 1)
 
+   .mobile_depart_card_comment__btn--cyan
+       background: rgba(34, 178, 180, 1)
+
    .mobile_depart_btn
        display: flex
        align-items: center
@@ -507,7 +524,7 @@
 
 
    /*------------------------------------------
-        PHONE NUMBERS
+        PHONE NUMBERS (10-11)
 
    .mobile_depart_phone
        padding-top: 0
@@ -523,7 +540,7 @@
 
 
    /*------------------------------------------
-         phone numbers (BUY OR ADD PHONE)
+         phone numbers (BUY OR ADD PHONE) (13)
 
    .mobile_phone_buy
        display: flex
@@ -572,7 +589,7 @@
 
 
    /*------------------------------------------
-         ADDRESS BOOK
+         ADDRESS BOOK (16)
 
    .addr_book
        display: flex
@@ -658,7 +675,7 @@
                background: #ffffff
 
    /*------------------------------------------
-        SETTINGS
+        SETTINGS (30)
 
    .mobile_settings
        display: flex
@@ -805,7 +822,7 @@
 
 
    /*------------------------------------------
-        REFILL BALANCE
+        REFILL BALANCE (40-41)
 
    .mobile_tariff
        padding-bottom: 66px
@@ -928,9 +945,18 @@
            display: inline-block
            color: rgba(34, 178, 180, 1)
 
+   /*------------------------------------------
+        INVOICES (44) см
+
+   .mobile_invoices_card
+
+
+
+
+
 
    /*------------------------------------------
-        MARKETPLACE / TARIFF PLAN
+        MARKETPLACE / TARIFF PLAN (52 / 57)
 
    .mobile_marketplace
        display: flex
@@ -961,6 +987,7 @@
        &:last-child
            margin-bottom: 0
 
+
    .mobile_marketplace_item--right
        padding-right: 270px
 
@@ -975,7 +1002,6 @@
 
    .mobile_marketplace_item--cyan
        background: rgba(34, 178, 180, 1)
-
 
    .mobile_marketplace_item__block
        display: flex
@@ -1052,6 +1078,7 @@
        bottom: 0
        right: -58px
 
+
    .mobile_marketplace_item__btn--right
        right: -270px
 
@@ -1070,7 +1097,7 @@
 
 
    /*------------------------------------------
-         WITHDRAW FUNDS
+         WITHDRAW FUNDS (82)
 
    .mobile_settings_withdraw
        padding-left: 8px
@@ -1080,3 +1107,8 @@
            margin-right: 0
 
 
+   /*------------------------------------------
+        rotate
+
+   .rotate
+       transform: rotate(180deg)
