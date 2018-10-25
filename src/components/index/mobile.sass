@@ -946,12 +946,87 @@
            color: rgba(34, 178, 180, 1)
 
    /*------------------------------------------
-        INVOICES (44) см
+        INVOICES (44-45) + см. DEPARTMENTS
 
    .mobile_invoices_card
 
 
+   /*------------------------------------------
+      STORAGE (46-47-48) + см. DEPARTMENTS
 
+   .mobile_block
+       display: flex
+       flex-direction: column
+
+   .mobile_storage_card
+       position: relative
+       padding-bottom: 16px
+
+       .dropdown_arrow
+           position: absolute
+           top: 30px
+           right: 0
+           fill: rgba(255, 255, 255, .6)
+           cursor: pointer !important
+
+       time, p
+           font-weight: 300
+           font-size: 18px
+           font-style: normal
+           color: rgba(255, 255, 255, 1)
+
+
+   .mobile_storage_card__items
+       padding-right: 36px
+       p
+           span
+               font-weight: 300
+               font-size: 18px
+               color: rgba(255, 255, 255, .6)
+       b
+           font-size: 20px !important
+           font-weight: 400
+           font-style: normal
+           color: rgba(255, 255, 255, 1)
+
+
+   .mobile_storage_btn
+       display: flex
+       justify-content: center
+       align-items: center
+
+       font-weight: 400
+       font-style: normal
+       font-size: 20px
+       color: rgba(255, 255, 255, 1)
+
+       width: 160px
+       height: 64px
+       border-radius: 5px
+       margin-right: 16px
+
+       &:first-child
+           width: 168px
+           margin-right: 106px
+
+       &:last-child
+           width: 142px
+           margin-right: 0
+
+       .play_24px
+           width: 40px
+           height: 40px
+           fill: #ffffff
+
+
+
+
+   .mobile_storage_btn--pink
+       background: rgba(216, 92, 92, 1)
+       
+
+   .mobile_storage_btn--cyan
+       background: rgba(34, 178, 180, 1)
 
 
 
@@ -1109,6 +1184,16 @@
 
    /*------------------------------------------
         rotate
-
-   .rotate
+   .rotate180
        transform: rotate(180deg)
+
+   /*------------------------------------------
+        svg
+   .dropdown_arrow
+       fill: rgba(255, 255, 255, 1)
+       width: 23.62px
+       height: 23.62px
+       cursor: pointer
+
+
+
