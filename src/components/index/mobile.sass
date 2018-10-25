@@ -822,6 +822,109 @@
 
 
    /*------------------------------------------
+        BACKUP (34)
+
+   .mobile_backup_block
+       width: 92.5%
+       margin-left: auto
+       margin-right: auto
+       padding-top: 20px
+       margin-bottom: 80px
+
+   .mobile_backup__text
+       font-weight: 400
+       font-size: 18px
+       color: rgba(255, 255, 255, .8)
+       margin-bottom: 18px
+
+   .mobile_backup_checkbox
+       display: flex
+       flex-direction: column
+
+
+   .checkbox_wrap
+       display: flex
+       align-items: center
+
+   .checkbox_wrap--h64
+       height: 64px
+
+
+   .label
+       font-weight: 300
+       font-size: 20px
+       color: rgba(255, 255, 255, .3)
+
+
+   .checkbox
+       display: none
+
+
+   .checkbox_custom
+       position: relative
+       width: 32px
+       height: 32px
+       border: 1px solid rgba(255, 255, 255, .3)
+       cursor: pointer
+       margin-right: 26px
+
+   .checkbox + .checkbox_custom::before
+        content: ""
+        display: block
+        position: absolute
+        top: 7px
+        right: 7px
+        bottom: 7px
+        left: 7px
+        background: rgba(255, 255, 255, .3)
+        transition: all ease .5s
+
+   .checkbox:checked + .checkbox_custom::before
+        content: ""
+        display: block
+        position: absolute
+        top: 7px
+        right: 7px
+        bottom: 7px
+        left: 7px
+        background: rgba(34, 178, 180, 1)
+
+
+   .mobile_down_btn_block
+       display: flex
+       justify-content: space-between
+       width: 92.5%
+       margin-left: auto
+       margin-right: auto
+       margin-bottom: 24px
+
+   .mobile_down_btn_block__btn
+       display: flex
+       justify-content: center
+       align-items: center
+
+       width: 284px
+       height: 64px
+
+       color: rgba(255, 255, 255, 1)
+       font-weight: 400
+       font-style: normal
+       font-size: 20px
+
+       border-radius: 5px
+
+   .mobile_down_btn_block__btn--green
+       background: rgba(139, 165, 90, 1)
+       
+   .mobile_down_btn_block__btn--grey
+       background: rgba(63, 63, 62, 1)
+
+
+
+
+
+
+   /*------------------------------------------
         REFILL BALANCE (40-41)
 
    .mobile_tariff
