@@ -48,24 +48,35 @@
                 &.second
                     display: none
 
-@media screen and (max-width: 969px)
-    .buy_phone_header pbx-select,
-    .buy_phone_header input,
-    .buy_phone_header .select_item.selected
-        width: 190px !important
+@media screen and (max-width: 1279px)
+    phone-numbers-component
+        pbx-list
+            pbx-table
+                .tablet
+                    .tablet_header,
+                    .tablet_body
+                        .tablet_item
+                            &:nth-child(5)
+                                display: none
 
-@media screen and (max-width: 899px)
-    pbx-table
-        .tablet_header,
-        .tablet_body
-            .tablet_item
-                &:nth-child(5),
-                &:nth-child(6)
-                    display: none !important
-
-@media screen and (max-width: 849px)
-    buy-phone-numbers-component
-        .buy_phone_header_options
-            pbx-checkbox
-                + div
-                    margin-right: 0 !important
+//@media screen and (max-width: 969px)
+//    .buy_phone_header pbx-select,
+//    .buy_phone_header input,
+//    .buy_phone_header .select_item.selected
+//        width: 190px !important
+//
+//@media screen and (max-width: 899px)
+//    pbx-table
+//        .tablet_header,
+//        .tablet_body
+//            .tablet_item
+//                &:nth-child(5),
+//                &:nth-child(6)
+//                    display: none !important
+//
+//@media screen and (max-width: 849px)
+//    buy-phone-numbers-component
+//        .buy_phone_header_options
+//            pbx-checkbox
+//                + div
+//                    margin-right: 0 !important
