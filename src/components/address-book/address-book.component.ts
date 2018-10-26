@@ -456,7 +456,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         });
         if (this.filters.length === 0) {
             this.filters.push(new FilterItem(1, 'type', 'Source', filterValue, 'title'));
-            this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
+            this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Name, Phone or Email'));
             this.list.header.selectedFilter[0] = filterValue[0];
         } else {
             this.filters[0].options = filterValue;
