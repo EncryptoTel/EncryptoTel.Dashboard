@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {MainViewComponent} from '../main-view.component';
 import {FadeAnimation} from '../../shared/fade-animation';
+import {LocalStorageServices} from '@services/local-storage.services';
 
 
 @Component({
@@ -12,9 +13,15 @@ import {FadeAnimation} from '../../shared/fade-animation';
 
 export class SettingsComponent {
     currentTheme: string;
+    showSystemSettings: boolean = true;
 
-    constructor(private _main: MainViewComponent) {
+    constructor(private _main: MainViewComponent, private storage: LocalStorageServices) {
         this.currentTheme = this._main.userTheme;
+        let user: any;
+        user = this.storage.readItem('pbx_user');
+        if (!user.profile.tariffPlan) {
+            this.showSystemSettings = false;
+        }
     }
 
     settings = {
