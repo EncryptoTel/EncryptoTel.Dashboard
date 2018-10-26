@@ -73,6 +73,13 @@ export class StorageComponent implements OnInit {
 
         this.buttons = [
             {
+                id: 2,
+                title: 'Upload',
+                type: 'accent',
+                visible: true,
+                inactive: true,
+            },
+            {
                 id: 0,
                 title: 'Restore',
                 type: 'cancel',
