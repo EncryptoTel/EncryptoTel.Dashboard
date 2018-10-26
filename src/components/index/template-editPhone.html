@@ -149,8 +149,7 @@
 <!--<router-outlet></router-outlet>-->
 <!--</div>-->
 <!--</div>-->
-
-
+<!-- todo поправить кнопку очистки input -->
 <div class="main_mobile_wrap">
     <div class="user_mobile">
         <a class="user_btn">
@@ -160,89 +159,83 @@
         </a>
         <div class="user_mobile__title">
             <p>
-                ADDRESS BOOK
+                EDIT PHONE NUMBERS
             </p>
         </div>
     </div>
     <div class="body_mobile">
-        <div class="addr_book">
-            <form action="" method="get" class="addr_book_search">
-                <input name="s" placeholder="Search by Name or Phone" type="search">
+        <div class="mobile_block  edit_department_block">
+            <form method="post" action="" id="edit_phone" class="edit_department_form">
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="" value="">
+                    <label class="mobile_input_item__label">
+                        Phone Number
+                    </label>
+                    <button type="reset" class="mobile_input_item__close">
+                        <svg-icon src="../../assets/icons/_middle/plus.svg"
+                                  class="cancel_delete"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="" value="porta-sip.runexis.ru">
+                    <label class="mobile_input_item__label">
+                        Host
+                    </label>
+                    <button type="reset" class="mobile_input_item__close">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"
+                                  class="cancel_delete"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="" value="8080">
+                    <label class="mobile_input_item__label">
+                        Port
+                    </label>
+                    <button type="reset" class="mobile_input_item__close">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"
+                                  class="cancel_delete"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" id="" class="mobile_input_item__select">
+                        <option selected value="Enabled" class="mobile_input_item__option">Enabled</option>
+                        <option value="Enabled">Enabled</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Status
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="" value="4">
+                    <label class="mobile_input_item__label">
+                        Amount of phone Exts
+                    </label>
+                    <button type="reset" class="mobile_input_item__close">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"
+                                  class="cancel_delete"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="" value="External">
+                    <label class="mobile_input_item__label">
+                        Type Number
+                    </label>
+                    <button type="reset" class="mobile_input_item__close">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"
+                                  class="cancel_delete"></svg-icon>
+                    </button>
+                </div>
             </form>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Markus Moser</span>
-                    <span>+43 02754 8457</span>
-                    <span class="addr_book_contacts__img">
-                          <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                    class="dropdown_arrow_rotate"></svg-icon>
-                    </span>
-                </a>
-            </div>
-            <div class="addr_book_contacts">
-            <a href="#" class="addr_book_contacts__link">
-                <span>Tyler Morgan</span>
-                <span>+43 02754 8457</span>
-                <span class="addr_book_contacts__img">
-                      <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                class="dropdown_arrow_rotate"></svg-icon>
-                </span>
+        </div><!--mobile_block-->
+        <div class="mobile_down_btn_block">
+            <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
+                Cancel
             </a>
+            <button type="submit" form="edit_phone"
+                    class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
+                Save
+            </button>
         </div>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Bradley Ryan</span>
-                    <span>+43 25547 6574</span>
-                    <span class="addr_book_contacts__img">
-                        <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                  class="dropdown_arrow_rotate"></svg-icon>
-                    </span>
-                </a>
-            </div>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Riley Butler</span>
-                    <span>+43 02754 7845</span>
-                    <span class="addr_book_contacts__img">
-                       <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                 class="dropdown_arrow_rotate"></svg-icon>
-                    </span>
-                </a>
-            </div>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Anna Perkins</span>
-                    <span>+43 02754 7845</span>
-                    <span class="addr_book_contacts__img">
-                          <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                    class="dropdown_arrow_rotate"></svg-icon>
-                    </span>
-                </a>
-            </div>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Melissa Smith</span>
-                    <span>+43 45454 8745</span>
-                    <span class="addr_book_contacts__img">
-                        <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                  class="dropdown_arrow_rotate"></svg-icon>
-                    </span>
-                </a>
-            </div>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Edward Phillips</span>
-                    <span>+43 65354 3463</span>
-                    <span class="addr_book_contacts__img">
-                         <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                   class="dropdown_arrow_rotate"></svg-icon>
-                    </span>
-                </a>
-            </div>
-        </div><!--addr_book-->
-        <a href="#" class="mobile_depart_btn" >
-            Add New Contact
-        </a>
     </div>
     <!-- mobile_menu--active -->
     <div class="mobile_menu  ">
@@ -343,5 +336,6 @@
     <!-- mobile_overlay--active -->
     <div class="mobile_overlay  "></div>
 </div>
+
 
 

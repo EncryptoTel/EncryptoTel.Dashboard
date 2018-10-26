@@ -28,6 +28,12 @@
        position: relative
        z-index: 50
 
+   .user_mobile--mb0
+       margin-bottom: 0
+
+   .user_mobile--noSh
+       box-shadow: none
+
 
    .user_btn
        display: flex
@@ -145,34 +151,40 @@
        font-size: 24px
 
        span
+
            &:last-child
-               position: relative
+               width: 23.62px
+               height: 23.62px
 
-               &:before
-                   content: ''
 
-                   position: absolute
-                   top: -10px
-                   right: 0
-                   height: 2px
-                   width: 16px
-
-                   transform: rotate(50deg)
-
-                   background: rgba(255, 255, 255, 1)
-
-               &:after
-                   content: ''
-
-                   position: absolute
-                   top: 2px
-                   right: 1px
-                   height: 2px
-                   width: 15px
-
-                   transform: rotate(-50deg)
-
-                   background: #ffffff
+           //&:last-child
+           //    position: relative
+           //
+           //    &:before
+           //        content: ''
+           //
+           //        position: absolute
+           //        top: -10px
+           //        right: 0
+           //        height: 2px
+           //        width: 16px
+           //
+           //        transform: rotate(50deg)
+           //
+           //        background: rgba(255, 255, 255, 1)
+           //
+           //    &:after
+           //        content: ''
+           //
+           //        position: absolute
+           //        top: 2px
+           //        right: 1px
+           //        height: 2px
+           //        width: 15px
+           //
+           //        transform: rotate(-50deg)
+           //
+           //        background: #ffffff
 
 
 
@@ -407,27 +419,27 @@
 
        span
            width: 23.62px
-           height: 12.2px
+           height: 23.62px
            position: relative
-           &:before
-               content: ''
-               position: absolute
-               bottom: 2px
-               left: -1px
-               height: 2px
-               width: 68%
-               background: #ffffff
-               transform: rotate(49deg)
-
-           &:after
-               content: ''
-               position: absolute
-               bottom: 3px
-               left: 9px
-               height: 2px
-               width: 68%
-               background: #ffffff
-               transform: rotate(-49deg)
+           //&:before
+           //    content: ''
+           //    position: absolute
+           //    bottom: 2px
+           //    left: -1px
+           //    height: 2px
+           //    width: 68%
+           //    background: #ffffff
+           //    transform: rotate(49deg)
+           //
+           //&:after
+           //    content: ''
+           //    position: absolute
+           //    bottom: 3px
+           //    left: 9px
+           //    height: 2px
+           //    width: 68%
+           //    background: #ffffff
+           //    transform: rotate(-49deg)
 
    .mobile_depart_card__title--pink
        color: rgba(255, 121, 142, 1)
@@ -522,6 +534,44 @@
 
        font-size: 20px
 
+
+   /*------------------------------------------
+        EDIT DEPARTMENT (8)
+
+   .edit_department_block
+       width: 92.5%
+       margin-left: auto
+       margin-right: auto
+       padding-top: 20px
+       margin-bottom: 68%
+
+
+
+   .edit_department_form
+       display: flex
+       flex-direction: column
+
+
+   //.edit_comment_block
+   //    display: flex
+   //    flex-direction: column
+   //    font-weight: 300
+   //    padding-bottom: 7px
+   //    border-bottom: 1px solid rgba(255, 255, 255, .3)
+   //
+   //    p:first-child
+   //        font-size: 20px
+   //        color: rgba(255, 255, 255, .8)
+   //        margin-bottom: 11px
+   //
+   //    p:last-child
+   //        max-width: 477px
+   //        font-size: 24px
+   //        color: rgba(255, 255, 255, 1)
+   //        line-height: 1.35
+
+
+
    /*------------------------------------------
        COMPANY DETAILS AND BILLING ADDRESS (9)
 
@@ -531,6 +581,8 @@
        margin-right: auto
 
        margin-bottom: 10px
+
+
 
    .mobile_company_detalis
        display: flex
@@ -554,10 +606,64 @@
        font-size: 24px
 
        color: rgba(255, 255, 255, 1)
+
        height: 51px
        padding-left: 0
 
        border-bottom: 1px solid rgba(255, 255, 255, .3)
+
+   .mobile_input_item__textarea
+       max-width: 477px
+       min-height: 128px
+
+       margin-top: 10px
+
+       resize: none
+
+       font-size: 24px
+       line-height: 1.35
+       color: rgba(255, 255, 255, 1)
+
+       background: transparent
+       border: none
+       outline: none
+
+
+   .mobile_input_item__select
+       height: 50px
+       // todo исправить шрифт в селекте
+       font-family: Roboto, sans-serif
+       font-weight: 300
+       font-style: normal
+       font-size: 23px
+       color: rgba(255, 255, 255, 1)
+
+       padding-left: 0
+
+       outline: none
+
+       //background-color: rgb(36, 36, 35)
+       background-color: transparent
+
+       border-top: none
+       border-left: none
+       border-right: none
+       border-bottom: 1px solid rgba(255, 255, 255, .3)
+
+       background-image: url(../../assets/icons/dropdown_arrow_23px.svg)
+       background-repeat: no-repeat
+       background-size: 17.62px 17.62px
+       background-position: 97.5% center
+
+       -webkit-appearance: none
+       -moz-appearance: none
+       appearance: none
+
+   .mobile_input_item__option
+       outline: none
+       border: none
+       border: transparent
+
 
    .mobile_input_item__input--transparent
        border-bottom: 1px solid transparent !important
@@ -567,6 +673,12 @@
 
    .mobile_input_item--mb20
        margin-bottom: 20px
+
+   .mobile_input_item--w100
+       width: 100%
+
+   .mobile_input_item--borderB
+       border-bottom: 1px solid rgba(255, 255, 255, .1)
 
 
    .mobile_input_item__label
@@ -578,10 +690,33 @@
        font-style: normal
        font-size: 20px
 
-       color: rgba(255, 255, 255, .6)
+       color: rgba(255, 255, 255, .8)
+
 
    .mobile_input_item__input:focus + .mobile_input_item__label, .mobile_input_item__label:active
         color: rgba(34, 178, 180, 1)
+
+
+   .mobile_input_item__close
+       //display: none
+       cursor: pointer !important
+
+       position: absolute
+       right: 0
+
+       border: 1px solid red
+
+       width: 48px
+       height: 48px
+
+       transition: opacity 200ms
+       outline: none
+
+   .mobile_input_item__input:valid ~ .mobile_input_item__close
+       display: block
+
+
+
 
 
 
@@ -649,9 +784,212 @@
        line-height: 1.45
        margin-bottom: 48px
 
+   /*------------------------------------------
+        ADD INTERNAL PHONE (15)
+
+   .add_internal_block
+
+
+
+   .add_internal_block__wrap
+       background: rgba(55, 54, 53, 1)
+       margin-bottom: 25px
+
+
+   .internal_form
+       flex-direction: column
+       width: 92.5%
+
+       font-weight: 300
+       font-size: 24px
+
+       margin-left: auto
+       margin-right: auto
+       padding-top: 18px
+
+
+   .internal_form_item
+       align-items: center
+       justify-content: flex-end
+
+       margin-bottom: 16px
+
+
+
+   .internal_form_item__name
+       margin-right: 19px
+
+   .internal_form_item__name--bottom
+       padding-top: 17px
+       //align-self: flex-end
+
+
+   .internal_form_item__select
+       width: 416px
+       height: 64px
+       outline: none
+
+       // todo поправить шрифт (не устанавливается 300)
+       font-family: Roboto, sans-serif
+       font-weight: 300
+       font-style: normal
+       font-size: 24px
+
+       padding-left: 24%
+
+       cursor: pointer
+       color: rgba(255, 255, 255, 1)
+
+       background-image: url(../../assets/icons/dropdown_arrow_23px.svg)
+       background-repeat: no-repeat
+
+       //background-color: rgba(55, 54, 53, .6)
+       background-color: transparent
+
+       background-size: 23.62px 23.62px
+       background-position: 97% center
+
+       border: 1px solid rgba(149, 152, 154, 1)
+
+       -webkit-appearance: none
+       -moz-appearance: none
+       appearance: none
+
+       option
+           font-weight: 300
+           font-size: 24px
+           height: 64px
+           background: rgba(55, 54, 53, 1)
+           outline: none
+
+
+   .internal_form_item__select--pal
+        padding-left: 28% !important
+
+
+   .internal_form_item__search
+       width: 416px
+       height: 64px
+       outline: none
+       // todo поправить шрифт (не устанавливается 300)
+       font-family: Roboto, sans-serif
+       font-weight: 300
+       font-style: normal
+       font-size: 24px
+
+       //padding-left: 27%
+       padding-right: 0
+
+       text-align: right
+
+       cursor: pointer
+       color: rgba(255, 255, 255, .35)
+
+       border: 1px solid rgba(149, 152, 154, 1) !important
+
+   .internal_form_box
+       display: flex
+       justify-content: space-between
+       width: 416px
+       padding-top: 6px
+
 
    /*------------------------------------------
-         ADDRESS BOOK (16)
+
+   .buy_block
+       flex-direction: column
+
+       width: 92.5%
+
+       margin-left: auto
+       margin-right: auto
+       margin-bottom: 8px
+
+
+   .buy_block_item
+       align-items: center
+       height: 80px
+       //border: 1px solid red
+
+       border-bottom: 1px solid rgba(255, 255, 255, .3)
+
+       color: rgba(255, 255, 255, 1)
+
+       font-family: Roboto, sans-serif
+       font-weight: 300
+       font-style: normal
+       font-size: 24px
+
+       padding-left: 16px
+       padding-right: 4px
+
+       //justify-content: space-between
+
+       &:first-child
+           color: rgba(255, 255, 255, .6)
+
+
+   .internal
+       width: 35%
+       justify-content: flex-start
+
+
+   .location
+       width: 35%
+       justify-content: center
+
+       //border: 1px solid green
+
+
+   .monthly
+       width: 18%
+       justify-content: flex-end
+       //border: 1px solid green
+
+
+   .buy
+       width: 12%
+       justify-content: flex-end
+       //border: 1px solid green
+
+   .buy__a
+       width: 40px
+       height: 40px
+       //background-image: url(../../assets/icons/basket.svg)
+       //background-repeat: no-repeat
+       fill: white
+       //background-size: 23.62px 23.62px
+       background-position: center center
+       //background-position: 97% center
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*------------------------------------------
+          ADDRESS BOOK (16)
 
    .addr_book
        display: flex
@@ -713,28 +1051,28 @@
            top: 45px
            right: 4px
 
-           width: 13.2px
+           width: 23.62px
            height: 23.62px
 
-           &:before
-               content: ''
-               position: absolute
-               top: 6px
-               right: -3px
-               width: 15px
-               height: 2px
-               transform: rotate(46deg)
-               background: #ffffff
-
-           &:after
-               content: ''
-               position: absolute
-               top: 16px
-               right: -3px
-               width: 15px
-               height: 2px
-               transform: rotate(-46deg)
-               background: #ffffff
+           //&:before
+           //    content: ''
+           //    position: absolute
+           //    top: 6px
+           //    right: -3px
+           //    width: 15px
+           //    height: 2px
+           //    transform: rotate(46deg)
+           //    background: #ffffff
+           //
+           //&:after
+           //    content: ''
+           //    position: absolute
+           //    top: 16px
+           //    right: -3px
+           //    width: 15px
+           //    height: 2px
+           //    transform: rotate(-46deg)
+           //    background: #ffffff
 
    /*------------------------------------------
         SETTINGS (30)
@@ -921,7 +1259,42 @@
    .checkbox
        display: none
 
+   //
+   .internal_form_item__wrap
+       display: flex
+       align-items: center
 
+
+   .internal_form_item__checkbox
+       display: none
+
+
+   .internal_form_item__checkbox_custom
+       position: relative
+       width: 40px
+       height: 40px
+       border: 1px solid rgba(255, 255, 255, 1)
+       cursor: pointer
+       margin-right: 10px
+
+
+   .internal_form_item__lab
+       font-weight: 300
+       font-size: 24px
+       color: rgba(255, 255, 255, 1)
+
+   .internal_form_item__checkbox:checked + .internal_form_item__checkbox_custom::before
+       content: ''
+       display: block
+       position: absolute
+       top: 7px
+       right: 7px
+       bottom: 7px
+       left: 7px
+       background: url(../../assets/icons/ok_32px.svg)
+       fill: #ffffff !important
+
+   //
    .checkbox_custom
        position: relative
        width: 32px
@@ -1026,10 +1399,6 @@
        font-weight: 300
        font-size: 14px
        color: rgba(255, 255, 255, 1)
-
-
-
-
 
 
    /*------------------------------------------
@@ -1185,18 +1554,21 @@
        margin-top: -16px
        margin-bottom: 16px
 
-       .dropdown_arrow
+   .mobile_storage_card_form__dropdown_arrow
            position: absolute
            z-index: -1
            top: 36px
            right: 40px
            fill: #ffffff
+           width: 23.62px
+           height: 23.62px
 
    .mobile_storage_card_select
            width: 92.5%
            height: 64px
            outline: none
            // todo поправить шрифт
+           font-family: Roboto, sans-serif
            font-weight: 300
            font-style: normal
            font-size: 24px
@@ -1204,9 +1576,13 @@
            padding-left: 15px
            cursor: pointer
            color: white
+
            background-image: url(../../assets/icons/dropdown_arrow_23px.svg)
            background-repeat: no-repeat
-           background-color: rgba(55, 54, 53, .6)
+
+           //background-color: rgba(55, 54, 53, .6)
+           background-color: transparent
+
            background-size: 23.62px 23.62px
            background-position: 97% center
 
@@ -1525,9 +1901,28 @@
         svg
    .dropdown_arrow
        fill: rgba(255, 255, 255, 1)
-       width: 23.62px
-       height: 23.62px
+       //width: 23.62px
+       //height: 23.62px
+       width: 100%
+       height: 100%
        cursor: pointer
+
+   .dropdown_arrow_rotate
+       fill: rgba(255, 255, 255, 1)
+       width: 100%
+       height: 100%
+       cursor: pointer
+       transform: rotate(-90deg)
+
+   .cancel_delete
+
+
+   .basket
+       fill: rgba(255, 255, 255, 1)
+       width: 100%
+       height: 100%
+
+
 
 
 

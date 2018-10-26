@@ -149,10 +149,9 @@
 <!--<router-outlet></router-outlet>-->
 <!--</div>-->
 <!--</div>-->
-
-
+<!-- todo поправить кнопку очистки input -->
 <div class="main_mobile_wrap">
-    <div class="user_mobile">
+    <div class="user_mobile  user_mobile--mb0">
         <a class="user_btn">
             <span class="user_btn__span"></span>
             <span class="user_btn__span"></span>
@@ -160,89 +159,255 @@
         </a>
         <div class="user_mobile__title">
             <p>
-                ADDRESS BOOK
+                ADD INTERNAL PHONE
             </p>
         </div>
     </div>
     <div class="body_mobile">
-        <div class="addr_book">
-            <form action="" method="get" class="addr_book_search">
-                <input name="s" placeholder="Search by Name or Phone" type="search">
-            </form>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Markus Moser</span>
-                    <span>+43 02754 8457</span>
-                    <span class="addr_book_contacts__img">
-                          <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                    class="dropdown_arrow_rotate"></svg-icon>
+        <div class="mobile_block  add_internal_block">
+            <div class="add_internal_block__wrap">
+                <form action="" id="internal_form" class="internal_form">
+                    <div class="internal_form_item">
+                    <span class="internal_form_item__name">
+                        Select country:
                     </span>
-                </a>
-            </div>
-            <div class="addr_book_contacts">
-            <a href="#" class="addr_book_contacts__link">
-                <span>Tyler Morgan</span>
-                <span>+43 02754 8457</span>
-                <span class="addr_book_contacts__img">
-                      <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                class="dropdown_arrow_rotate"></svg-icon>
-                </span>
-            </a>
-        </div>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Bradley Ryan</span>
-                    <span>+43 25547 6574</span>
-                    <span class="addr_book_contacts__img">
-                        <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                  class="dropdown_arrow_rotate"></svg-icon>
+                        <select name="" class="internal_form_item__select  internal_form_item__select--pal">
+                            <option selected value="">
+                                United States (+1)
+                            </option>
+                            <option value="">
+                                United States (+1)
+                            </option>
+                        </select>
+                    </div>
+                    <div class="internal_form_item">
+                    <span class="internal_form_item__name">
+                        Search:
                     </span>
-                </a>
-            </div>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Riley Butler</span>
-                    <span>+43 02754 7845</span>
-                    <span class="addr_book_contacts__img">
-                       <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                 class="dropdown_arrow_rotate"></svg-icon>
+                        <input type="search" placeholder="Type city name or prefix" class="internal_form_item__search">
+                    </div>
+                    <div class="internal_form_item">
+                    <span class="internal_form_item__name">
+                        Number:
                     </span>
-                </a>
-            </div>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Anna Perkins</span>
-                    <span>+43 02754 7845</span>
-                    <span class="addr_book_contacts__img">
-                          <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                    class="dropdown_arrow_rotate"></svg-icon>
+                        <input type="search" placeholder="Search by digits or phrases" class="internal_form_item__search">
+                    </div>
+                    <div class="internal_form_item">
+                    <span class="internal_form_item__name">
+                        Match to:
                     </span>
-                </a>
+                        <select name="" class="internal_form_item__select">
+                            <option selected value="">
+                                First part of number
+                            </option>
+                            <option value="">
+                                First part of number
+                            </option>
+                        </select>
+                    </div>
+                    <div class="internal_form_item">
+                        <span class="internal_form_item__name  internal_form_item__name--bottom">
+                            Number types:
+                        </span>
+                        <div class="internal_form_box">
+                            <label class="internal_form_item__wrap">
+                                <input class="internal_form_item__checkbox" type="checkbox" name="" checked>
+                                <span class="internal_form_item__checkbox_custom"></span>
+                                <span class="internal_form_item__lab">Local</span>
+                            </label>
+                            <label class="internal_form_item__wrap">
+                                <input class="internal_form_item__checkbox" type="checkbox" name="" checked>
+                                <span class="internal_form_item__checkbox_custom"></span>
+                                <span class="internal_form_item__lab">Mobile</span>
+                            </label>
+                            <label class="internal_form_item__wrap">
+                                <input class="internal_form_item__checkbox" type="checkbox" name="" checked>
+                                <span class="internal_form_item__checkbox_custom"></span>
+                                <span class="internal_form_item__lab">Toll-free</span>
+                            </label>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Melissa Smith</span>
-                    <span>+43 45454 8745</span>
-                    <span class="addr_book_contacts__img">
-                        <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                  class="dropdown_arrow_rotate"></svg-icon>
-                    </span>
-                </a>
+            <div class="buy_block">
+                <div class="buy_block_item">
+                    <div class="internal  internal">
+                        Internal Number
+                    </div>
+                    <div class="location">
+                        Location
+                    </div>
+                    <div class="monthly">
+                        Monthly
+                    </div>
+                    <div class="buy">
+                        Buy
+                    </div>
+                </div><!--buy_block_item-->
+                <div class="buy_block_item">
+                    <div class="internal  internal">
+                        100 000
+                    </div>
+                    <div class="location">
+                        San Francisco, CA
+                    </div>
+                    <div class="monthly">
+                        free
+                    </div>
+                    <div class="buy">
+                        <a href="#" class="buy__a">
+                            <svg-icon src="../../assets/icons/basket.svg" class="basket"></svg-icon>
+                        </a>
+                    </div>
+                </div><!--buy_block_item-->
+                <div class="buy_block_item">
+                    <div class="internal  internal">
+                        100 000
+                    </div>
+                    <div class="location">
+                        San Francisco, CA
+                    </div>
+                    <div class="monthly">
+                        free
+                    </div>
+                    <div class="buy">
+                        <a href="#" class="buy__a">
+                            <svg-icon src="../../assets/icons/basket.svg" class="basket"></svg-icon>
+                        </a>
+                    </div>
+                </div><!--buy_block_item-->
+                <div class="buy_block_item">
+                    <div class="internal  internal">
+                        100 000
+                    </div>
+                    <div class="location">
+                        San Francisco, CA
+                    </div>
+                    <div class="monthly">
+                        $1.50
+                    </div>
+                    <div class="buy">
+                        <a href="#" class="buy__a">
+                            <svg-icon src="../../assets/icons/basket.svg" class="basket"></svg-icon>
+                        </a>
+                    </div>
+                </div><!--buy_block_item-->
+                <div class="buy_block_item">
+                    <div class="internal  internal">
+                        100 000
+                    </div>
+                    <div class="location">
+                        San Francisco, CA
+                    </div>
+                    <div class="monthly">
+                        free
+                    </div>
+                    <div class="buy">
+                        <a href="#" class="buy__a">
+                            <svg-icon src="../../assets/icons/basket.svg" class="basket"></svg-icon>
+                        </a>
+                    </div>
+                </div><!--buy_block_item-->
+                <div class="buy_block_item">
+                    <div class="internal  internal">
+                        100 000
+                    </div>
+                    <div class="location">
+                        San Francisco, CA
+                    </div>
+                    <div class="monthly">
+                        free
+                    </div>
+                    <div class="buy">
+                        <a href="#" class="buy__a">
+                            <svg-icon src="../../assets/icons/basket.svg" class="basket"></svg-icon>
+                        </a>
+                    </div>
+                </div><!--buy_block_item-->
+                <div class="buy_block_item">
+                    <div class="internal  internal">
+                        100 000
+                    </div>
+                    <div class="location">
+                        San Francisco, CA
+                    </div>
+                    <div class="monthly">
+                        free
+                    </div>
+                    <div class="buy">
+                        <a href="#" class="buy__a">
+                            <svg-icon src="../../assets/icons/basket.svg" class="basket"></svg-icon>
+                        </a>
+                    </div>
+                </div><!--buy_block_item-->
+                <div class="buy_block_item">
+                    <div class="internal  internal">
+                        100 000
+                    </div>
+                    <div class="location">
+                        San Francisco, CA
+                    </div>
+                    <div class="monthly">
+                        free
+                    </div>
+                    <div class="buy">
+                        <a href="#" class="buy__a">
+                            <svg-icon src="../../assets/icons/basket.svg" class="basket"></svg-icon>
+                        </a>
+                    </div>
+                </div><!--buy_block_item-->
+                <div class="buy_block_item">
+                    <div class="internal  internal">
+                        100 000
+                    </div>
+                    <div class="location">
+                        San Francisco, CA
+                    </div>
+                    <div class="monthly">
+                        free
+                    </div>
+                    <div class="buy">
+                        <a href="#" class="buy__a">
+                            <svg-icon src="../../assets/icons/basket.svg" class="basket"></svg-icon>
+                        </a>
+                    </div>
+                </div><!--buy_block_item-->
+                <div class="buy_block_item">
+                    <div class="internal  internal">
+                        100 000
+                    </div>
+                    <div class="location">
+                        San Francisco, CA
+                    </div>
+                    <div class="monthly">
+                        free
+                    </div>
+                    <div class="buy">
+                        <a href="#" class="buy__a">
+                            <svg-icon src="../../assets/icons/basket.svg" class="basket"></svg-icon>
+                        </a>
+                    </div>
+                </div><!--buy_block_item-->
+                <div class="buy_block_item">
+                    <div class="internal  internal">
+                        100 000
+                    </div>
+                    <div class="location">
+                        San Francisco, CA
+                    </div>
+                    <div class="monthly">
+                        $1.50
+                    </div>
+                    <div class="buy">
+                        <a href="#" class="buy__a">
+                            <svg-icon src="../../assets/icons/basket.svg" class="basket"></svg-icon>
+                        </a>
+                    </div>
+                </div><!--buy_block_item-->
+
+
             </div>
-            <div class="addr_book_contacts">
-                <a href="#" class="addr_book_contacts__link">
-                    <span>Edward Phillips</span>
-                    <span>+43 65354 3463</span>
-                    <span class="addr_book_contacts__img">
-                         <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"
-                                   class="dropdown_arrow_rotate"></svg-icon>
-                    </span>
-                </a>
-            </div>
-        </div><!--addr_book-->
-        <a href="#" class="mobile_depart_btn" >
-            Add New Contact
-        </a>
+        </div><!--mobile_block-->
     </div>
     <!-- mobile_menu--active -->
     <div class="mobile_menu  ">
@@ -343,5 +508,6 @@
     <!-- mobile_overlay--active -->
     <div class="mobile_overlay  "></div>
 </div>
+
 
 
