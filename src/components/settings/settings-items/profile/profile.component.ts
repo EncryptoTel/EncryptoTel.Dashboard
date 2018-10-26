@@ -95,8 +95,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
         this.passwordChange = this.fb.group({
             oldPassword: [null, [Validators.required, Validators.minLength(6)]],
-            password: [null, [Validators.required, Validators.minLength(6)]],
-            password_confirmation: [null, [Validators.required, Validators.minLength(6)]],
+            password: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+            password_confirmation: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
         }, {
             validator: (formGroup: FormGroup) => {
                 return passwordConfirmation(formGroup);
