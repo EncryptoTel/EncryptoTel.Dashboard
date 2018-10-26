@@ -133,7 +133,7 @@ export class AuthorizationServices {
         }).catch(error => {
             this.setMessage({
                 type: 'error',
-                message: (error.errors && error.errors.email) ? 'User already exist' : 'Internal server error'
+                message: (error.errors && error.errors.email) ? 'This user already exist' : 'Internal server error'
             });
             return Promise.reject(error);
         });
