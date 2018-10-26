@@ -5,6 +5,19 @@ partner-program-component
         .sidebar_info_wrap
             .sidebar_description_wrap
                 overflow-y: unset
+    .partner_tab
+        .partner_tab_icon_wrap
+            margin-right: 12px
+            svg-icon
+                width: 16px
+                height: 16px
+                path
+                    fill: rgba(255, 255, 255, .7)
+        &.active
+            .partner_tab_icon_wrap
+                svg-icon
+                    path
+                        fill: $dark_accent
 
 partner-program-component
     pbx-sidebar
