@@ -1,4 +1,4 @@
-@media screen and (max-width: 1359px)
+@media screen and (max-width: 1199px)
     pbx-address-book
         pbx-list
             pbx-table
@@ -6,11 +6,14 @@
                     .tablet_header,
                     .tablet_body
                         .tablet_item
+                            max-width: 200px
                             .qwerty
-                                width: fit-content
+                                width: 100%
+                                text-overflow: ellipsis
+                                display: inline-block
                             &:nth-child(2),
-                            &:nth-child(4),
-                            &:nth-child(5)
+                            &:nth-child(5),
+                            &:nth-child(6)
                                 display: none
 
 //@media screen and (max-width: 1023px)
