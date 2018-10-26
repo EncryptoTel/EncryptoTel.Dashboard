@@ -131,10 +131,17 @@ export class AuthorizationServices {
         return this._req.post('registration', {
             ...data
         }).catch(error => {
-            this.setMessage({
-                type: 'error',
-                message: (error.errors && error.errors.email) ? 'This user already exist' : 'Internal server error'
-            });
+            if (error.errors.firstname) {
+                this.setMessage({
+                    type: 'error',
+                    message: error.errors.firstname[0]
+                });
+            } else {
+                this.setMessage({
+                    type: 'error',
+                    message: (error.errors && error.errors.email) ? 'This user already exist' : 'Internal server error'
+                });
+            }
             return Promise.reject(error);
         });
     }
