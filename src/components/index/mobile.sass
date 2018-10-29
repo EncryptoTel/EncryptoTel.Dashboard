@@ -12,8 +12,9 @@
 
    .user_mobile
        display: flex
-       justify-content: flex-start
-       align-items: center
+       justify-content: center
+       flex-direction: column
+       align-items: flex-start
        background: #272726
        box-shadow: 0 0 4px 0 rgba(0,0,0, .12)
 
@@ -28,11 +29,18 @@
        position: relative
        z-index: 50
 
+
    .user_mobile--mb0
        margin-bottom: 0
 
    .user_mobile--noSh
        box-shadow: none
+
+   .user_mobile_up
+       display: flex
+       justify-content: flex-start
+       align-items: center
+
 
 
    .user_btn
@@ -191,6 +199,8 @@
        &:last-child
            border-bottom: transparent
 
+   /*
+        мобильное меню
 
    .mobile_overlay
        position: absolute
@@ -205,7 +215,6 @@
    .mobile_overlay--active
        background: rgba(255, 255, 255, .3)
        z-index: 30
-
 
    .mobile_menu
        display: flex
@@ -225,12 +234,14 @@
 
        background: rgba(39, 39, 38, 1)
 
-       transition: opacity 1s ease
+       transition: .5s
+       transform: translateX(-100%)
 
 
    .mobile_menu--active
        opacity: 1
        z-index: 100
+       transform: translateX(0)
 
 
    .mobile_menu_up
@@ -314,12 +325,15 @@
        &:hover
            background: rgba(34, 32, 32, 0.79)
 
-       span
-           display: block
-           width: 16px
-           height: 17px
-           border: 1px solid white
+   .mobile_menu_exit
+       display: block
+       width: 16.3px
+       height: 17.17px
+       transform: rotate(90deg)
 
+       svg
+           width: 100%
+           height: 100%
 
    .mobile_menu__ul
        display: flex
@@ -328,8 +342,15 @@
        padding-left: 16px
        padding-right: 16px
 
+       font-size: 24px
+
+       &:nth-child(2)
+          font-size: 20px
+
        &:last-child
            padding-bottom: 24px
+           font-size: 20px
+
            .mobile_menu__li
                border-bottom: transparent
 
@@ -351,7 +372,6 @@
        font-family: Roboto, sans-serif
        font-weight: 300
        font-style:  normal
-       font-size: 20px
 
        padding-top: 11px
        padding-bottom: 11px
@@ -362,6 +382,7 @@
 
        &:hover
            color: rgba(34, 178, 180, 1)
+
 
 
    .mobile_menu__link--active
@@ -381,6 +402,8 @@
    .mobile_depart_card
        display: flex
        flex-direction: column
+
+       position: relative
 
        margin-left: auto
        margin-right: auto
@@ -533,6 +556,18 @@
        font-style: normal
 
        font-size: 20px
+
+   .dropdown_arrow_btn
+       position: absolute
+       top: 9px
+       right: -2px
+
+       width: 23.62px
+       height: 23.62px
+
+
+
+
 
 
    /*------------------------------------------
@@ -1607,18 +1642,15 @@
        position: relative
        padding-bottom: 16px
 
-       svg
-           cursor: pointer !important
 
        .dropdown_arrow
-           position: absolute
-           top: 30px
-           right: 0
+           //position: absolute
+           //top: 30px
+           //right: 0
            fill: rgba(255, 255, 255, .6)
-           cursor: pointer !important
-
-           svg
-               cursor: pointer
+           //cursor: pointer !important
+           //width: 30px
+           //height: 30px
 
        time, p
            font-weight: 300
