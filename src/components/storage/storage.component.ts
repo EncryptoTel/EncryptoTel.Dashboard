@@ -73,6 +73,13 @@ export class StorageComponent implements OnInit {
 
         this.buttons = [
             {
+                id: 2,
+                title: 'Upload',
+                type: 'accent',
+                visible: true,
+                inactive: true,
+            },
+            {
                 id: 0,
                 title: 'Restore',
                 type: 'cancel',
@@ -149,7 +156,7 @@ export class StorageComponent implements OnInit {
     get activeFilter(): boolean {
         if (this.currentFilter) {
             let keys = Object.keys(this.currentFilter);
-            return keys.some(key => this.currentFilter[key] != undefined && this.currentFilter[key]);
+            return keys.some(key => this.currentFilter[key] !== undefined && this.currentFilter[key]);
         }
     }
 

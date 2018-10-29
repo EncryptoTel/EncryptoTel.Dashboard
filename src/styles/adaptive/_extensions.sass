@@ -1,9 +1,40 @@
-@media screen and (max-width: 1023px)
+@media screen and (max-width: 1229px)
     extensions-component
-        pbx-header
-            .pbx_header_wrap
-                pbx-input
-                    &:nth-child(1)
-                        margin: 0 0 8px !important
-                    .pbx_input_item_label
-                        min-width: 80px
+        .ext
+            pbx-list
+                pbx-header
+                    .pbx_header_wrap
+                        margin-right: 0
+                &.someClass
+                    pbx-header
+                        .pbx_input_item
+                            grid-template-columns: 80px 1fr
+                pbx-table
+                    .tablet
+                        .tablet_header,
+                        .tablet_body
+                            .tablet_item
+
+                                &:nth-child(5),
+                                &:nth-child(6),
+                                &:nth-child(7)
+                                    //display: none
+
+@media screen and (max-width: 1499px)
+    add-extension-component
+        .form-header
+            .form-tab
+                .form-tab-icon-wrap
+                    margin-right: 0
+                span
+                    display: none
+
+//@media screen and (max-width: 1023px)
+//    extensions-component
+//        pbx-header
+//            .pbx_header_wrap
+//                pbx-input
+//                    &:nth-child(1)
+//                        margin: 0 0 8px !important
+//                    .pbx_input_item_label
+//                        min-width: 80px

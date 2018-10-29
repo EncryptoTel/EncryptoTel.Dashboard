@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 
-import { BaseService } from "./base.service";
-import { RequestServices } from "./request.services";
-import { MessageServices } from "./message.services";
+import { BaseService } from './base.service';
+import { RequestServices } from './request.services';
+import { MessageServices } from './message.services';
 
-import { PageInfoModel } from "../models/base.model";
-import { StorageItem, StorageModel } from "../models/storage.model";
+import { PageInfoModel } from '../models/base.model';
+import { StorageItem, StorageModel } from '../models/storage.model';
 
-import { ModalEx } from "../elements/pbx-modal/pbx-modal.component";
+import { ModalEx } from '../elements/pbx-modal/pbx-modal.component';
 
 
 @Injectable()
@@ -34,7 +34,7 @@ export class StorageService extends BaseService {
         super(request, message, http);
 
         this.pageInfo = new StorageModel();
-        this.modalUpload = new ModalEx('', 'replaceOnlyFiles');
+        this.modalUpload = new ModalEx('', 'replaceFiles');
         this.loading = 0;
         this.successCount = 0;
         this.errorCount = 0;
@@ -78,7 +78,7 @@ export class StorageService extends BaseService {
             let pageInfo: StorageModel = new StorageModel();
             pageInfo.limit = 1;
             pageInfo.page = 1;
-            
+
             this.updateLoading(1);
             this.get(`?filter[search]=${file.name}`).then(response => {
                 if (response.itemsCount > 0) {

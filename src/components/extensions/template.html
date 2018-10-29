@@ -11,7 +11,8 @@
               itemName="Extension"
               (onLoad)="load()"
               (onSelect)="select($event)"
-              [service]="service">
+              [service]="service"
+              [ngClass]="sidebar?'someClass':''">
     </pbx-list>
 
     <pbx-sidebar *ngIf="sidebar">
