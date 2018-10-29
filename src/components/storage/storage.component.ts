@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
 import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {SizePipe} from '../../services/size.pipe';
@@ -25,6 +25,7 @@ export class StorageComponent implements OnInit {
     public currentFilter: any;
 
     @ViewChild('mediaTable')
+    @ViewChild('fileInput') fileInput: ElementRef;
     public mediaTable: MediaTableComponent;
 
     public modal: ModalEx;
@@ -73,17 +74,10 @@ export class StorageComponent implements OnInit {
 
         this.buttons = [
             {
-                id: 2,
-                title: 'Upload',
-                type: 'accent',
-                visible: true,
-                inactive: true,
-            },
-            {
                 id: 0,
                 title: 'Restore',
                 type: 'cancel',
-                visible: true,
+                visible: false,
                 inactive: true,
             },
             {
@@ -92,7 +86,14 @@ export class StorageComponent implements OnInit {
                 type: 'error',
                 visible: true,
                 inactive: true,
-            }
+            },
+            {
+                id: 2,
+                title: 'Upload',
+                type: 'accent',
+                visible: true,
+                inactive: false,
+            },
         ];
         this.buttonType = 1;
     }
@@ -135,11 +136,24 @@ export class StorageComponent implements OnInit {
     onMediaDataLoaded(): void {
         this.service.select = [];
         this.pageInfo = this.service.pageInfo;
-        this.buttons[0].visible = this.pageInfo.itemsCount > 0;
-        this.buttons[0].inactive = this.service.select.length == 0;
+        if (this.currentFilter && this.currentFilter.type && this.currentFilter.type === 'trash') {
+            if (this.pageInfo.itemsCount > 0) {
+                this.buttons[0].visible = true;
+                this.buttons[0].inactive = false;
+            } else {
+                this.buttons[0].visible = false;
+                this.buttons[0].inactive = true;
+            }
+        } else {
+            this.buttons[0].visible = false;
+            this.buttons[0].inactive = false;
+        }
 
         this.buttons[1].visible = this.pageInfo.itemsCount > 0;
-        this.buttons[1].inactive = this.service.select.length == 0;
+        this.buttons[1].inactive = this.service.select.length === 0;
+
+        this.buttons[2].inactive = false;
+        this.buttons[2].visible = true;
     }
 
     // --- filter methods ---------------------------------
@@ -164,8 +178,9 @@ export class StorageComponent implements OnInit {
 
     selectItem(item: StorageItem): void {
         this.service.selectItem(item.id);
-        this.buttons[0].inactive = this.service.select.length == 0;
-        this.buttons[1].inactive = this.service.select.length == 0;
+        this.buttons[0].inactive = this.service.select.length === 0;
+        this.buttons[1].inactive = this.service.select.length === 0;
+        this.buttons[2].inactive = false;
     }
 
     // --- file uploading ---------------------------------
@@ -237,7 +252,14 @@ export class StorageComponent implements OnInit {
 
     deleteSelected($event: any) {
         this.buttonType = $event.id;
-        this.modal.visible = true;
+        if (this.buttonType !== 2) {
+            if (this.buttonType === 0) {
+                this.modal = new ModalEx('', 'restoreFiles');
+            }
+            this.modal.visible = true;
+        } else {
+            this.fileInput.nativeElement.click();
+        }
     }
 
     deleteConfirmed() {
