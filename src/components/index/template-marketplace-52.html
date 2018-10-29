@@ -153,23 +153,25 @@
 
 <div class="main_mobile_wrap">
     <div class="user_mobile">
-        <a class="user_btn">
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-        </a>
-        <div class="user_mobile__title">
-            <p>
-                MARKETPLACE
-            </p>
+        <div class="user_mobile_up">
+            <a class="user_btn">
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+            </a>
+            <div class="user_mobile__title">
+                <p>
+                    MARKETPLACE
+                </p>
+            </div>
         </div>
     </div>
     <div class="body_mobile">
         <div class="mobile_settings">
-            <div class="mobile_marketplace">
-                <div class="mobile_marketplace_item  mobile_marketplace_item--purple">
-                    <div class="mobile_marketplace_item__block">
-                        <div class="mobile_marketplace_item__title">
+            <div class="mobile_big_block">
+                <div class="mobile_big_block_item  mobile_big_block_item--purple">
+                    <div class="mobile_big_block_item__block">
+                        <div class="mobile_big_block_item__title">
                             <p>
                                 Module IVR
                             </p>
@@ -178,21 +180,23 @@
                             Interactive voice response (IVR) is a technology that allows a computer to interact with humans through the use of voice and DTMF tones input via keypad.
                         </p>
                     </div>
-
-                    <div class="mobile_marketplace_item__bottom">
+                    <div class="mobile_big_block_item__bottom">
                         <p>
                             Free for 7 days
                         </p>
-                        <a href="#" class="mobile_marketplace_item__btn  mobile_marketplace_item__purple">BUY NOW</a>
+                        <a href="#" class="mobile_big_block_item__btn  mobile_big_block_item__purple">BUY NOW</a>
                     </div>
                 </div>
-                <div class="mobile_marketplace_item  mobile_marketplace_item--grey">
-                    <div class="mobile_marketplace_item__block">
-                        <div class="mobile_marketplace_item__title">
+                <div class="mobile_big_block_item  mobile_big_block_item--grey">
+                    <div class="mobile_big_block_item__block">
+                        <div class="mobile_big_block_item__title">
                             <p>
                                 Module COMPANY
                             </p>
-                            <span></span>
+                            <span>
+                                <svg-icon src="../../assets/icons/ok_32px.svg" class="ok"
+                                          style="cursor: pointer"></svg-icon>
+                            </span>
                         </div>
                         <p>
                             Company information
@@ -204,18 +208,18 @@
                             Employees
                         </p>
                     </div>
-                    <div class="mobile_marketplace_item__bottom">
+                    <div class="mobile_big_block_item__bottom">
                         <p>
                             $10 monthly
                         </p>
-                        <a href="#" class="mobile_marketplace_item__btn  mobile_marketplace_item__btn--grey">BOUGHT</a>
+                        <a href="#" class="mobile_big_block_item__btn  mobile_big_block_item__btn--grey">BOUGHT</a>
                     </div>
                 </div>
             </div>
         </div><!--mobile_settings-->
     </div><!--body_mobile-->
     <!-- mobile_menu--active -->
-    <div class="mobile_menu  ">
+    <div class="mobile_menu ">
         <div class="mobile_menu_up">
             <div class="mobile_menu__block">
                 <div class="mobile_menu_up__name">
@@ -238,7 +242,10 @@
                     <a href="#" class="mobile_menu_left__link">Privacy policy</a>
                 </li>
                 <li class="mobile_menu_left__li">
-                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span></span></a>
+                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span class="mobile_menu_exit">
+                        <svg-icon src="../../assets/icons/exit.svg" class="dropdown_arrow_rotate"></svg-icon>
+                    </span>
+                    </a>
                 </li>
             </ul>
         </div>
