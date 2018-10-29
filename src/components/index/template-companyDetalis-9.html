@@ -152,77 +152,79 @@
 
 <div class="main_mobile_wrap">
     <div class="user_mobile">
-        <a class="user_btn">
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-        </a>
-        <div class="user_mobile__title">
-            <p>
-                COMPANY DETAILS AND BILLING ADDRESS
-            </p>
+        <div class="user_mobile_up">
+            <a class="user_btn">
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+            </a>
+            <div class="user_mobile__title">
+                <p>
+                    COMPANY DETAILS AND BILLING ADDRESS
+                </p>
+            </div>
         </div>
     </div>
     <div class="body_mobile">
         <div class="mobile_block  company_detalis_block">
             <form method="post" action="" id="company_detalis" class="mobile_company_detalis">
                 <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="">
+                    <input type="text" class="mobile_input_item__input" placeholder="Organization" value="">
                     <label class="mobile_input_item__label">
                         Organization
                     </label>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="">
+                    <input type="text" class="mobile_input_item__input" placeholder="Country" value="">
                     <label class="mobile_input_item__label">
                         Country
                     </label>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="">
+                    <input type="text" class="mobile_input_item__input" placeholder="City" value="">
                     <label class="mobile_input_item__label">
                         City
                     </label>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="">
+                    <input type="text" class="mobile_input_item__input" placeholder="Street" value="">
                     <label class="mobile_input_item__label">
                         Street
                     </label>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="">
+                    <input type="text" class="mobile_input_item__input" placeholder="Building" value="">
                     <label class="mobile_input_item__label">
                         Building
                     </label>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="">
+                    <input type="text" class="mobile_input_item__input" placeholder="Office" value="">
                     <label class="mobile_input_item__label">
                         Office
                     </label>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="">
+                    <input type="text" class="mobile_input_item__input" placeholder="Postal code" value="">
                     <label class="mobile_input_item__label">
                         Postal code
                     </label>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="">
+                    <input type="text" class="mobile_input_item__input" placeholder="Email" value="">
                     <label class="mobile_input_item__label">
                         Email
                     </label>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="">
+                    <input type="text" class="mobile_input_item__input" placeholder="Phone" value="">
                     <label class="mobile_input_item__label">
                         Phone
                     </label>
                 </div>
                 <div class="mobile_input_item">
                     <input type="text" class="mobile_input_item__input  mobile_input_item__input--transparent"
-                           placeholder="">
+                           placeholder="VAT ID" value="">
                     <label class="mobile_input_item__label">
                         VAT ID
                     </label>
@@ -233,14 +235,13 @@
             <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                 Cancel
             </a>
-            <button type="submit" form="company_detalis"
-                    class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
-                Backup
+            <button type="submit" form="company_detalis" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
+                Save
             </button>
         </div>
     </div>
     <!-- mobile_menu--active -->
-    <div class="mobile_menu  ">
+    <div class="mobile_menu ">
         <div class="mobile_menu_up">
             <div class="mobile_menu__block">
                 <div class="mobile_menu_up__name">
@@ -263,7 +264,10 @@
                     <a href="#" class="mobile_menu_left__link">Privacy policy</a>
                 </li>
                 <li class="mobile_menu_left__li">
-                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span></span></a>
+                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span class="mobile_menu_exit">
+                        <svg-icon src="../../assets/icons/exit.svg" class="dropdown_arrow_rotate"></svg-icon>
+                    </span>
+                    </a>
                 </li>
             </ul>
         </div>
