@@ -152,18 +152,20 @@
 <!-- todo поправить кнопку очистки input -->
 <div class="main_mobile_wrap">
     <div class="user_mobile  user_mobile--mb0">
-        <a class="user_btn">
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-        </a>
-        <div class="user_mobile__title">
-            <p>
-                ADD INTERNAL PHONE
-            </p>
+        <div class="user_mobile_up">
+            <a class="user_btn">
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+            </a>
+            <div class="user_mobile__title">
+                <p>
+                    ADD INTERNAL PHONE
+                </p>
+            </div>
         </div>
     </div>
-    <div class="body_mobile">
+    <div class="body_mobile  body_mobile--mt">
         <div class="mobile_block  add_internal_block">
             <div class="add_internal_block__wrap">
                 <form action="" id="internal_form" class="internal_form">
@@ -410,7 +412,7 @@
         </div><!--mobile_block-->
     </div>
     <!-- mobile_menu--active -->
-    <div class="mobile_menu  ">
+    <div class="mobile_menu ">
         <div class="mobile_menu_up">
             <div class="mobile_menu__block">
                 <div class="mobile_menu_up__name">
@@ -433,7 +435,10 @@
                     <a href="#" class="mobile_menu_left__link">Privacy policy</a>
                 </li>
                 <li class="mobile_menu_left__li">
-                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span></span></a>
+                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span class="mobile_menu_exit">
+                        <svg-icon src="../../assets/icons/exit.svg" class="dropdown_arrow_rotate"></svg-icon>
+                    </span>
+                    </a>
                 </li>
             </ul>
         </div>
