@@ -3,6 +3,22 @@ user-notifications-component,
 authorization-component,
 billing-component,
 base-settings-component
+    pbx-settings-group
+        .settings_form_field_group
+            display: grid
+            grid-template-columns: min-content min-content
+            div
+                align-self: center
+            pbx-settings-input
+                .pbx_input_wrap
+                    pbx-select
+                        min-width: unset !important
+pbx-index user-notifications-component
+    pbx-form
+        .settings_form_section
+            pbx-input
+                .pbx_input_item.selectWrap
+                    grid-template-columns: 75px 1fr !important
     .overlay_content
         margin: 24px
     .form-body
