@@ -419,6 +419,23 @@
        border-bottom: 1px solid rgba(255, 255, 255, .7)
 
 
+   .mobile_item_card--mod
+        position: relative
+        padding-top: 20px
+        padding-bottom: 21px
+
+
+        .dropdown_arrow
+            fill: rgba(255, 255, 255, .6)
+
+
+        time, p
+            font-weight: 300
+            font-size: 18px
+            font-style: normal
+            color: rgba(255, 255, 255, 1)
+
+
 
    .mobile_item_card__title
        display: flex
@@ -470,6 +487,19 @@
            font-weight: 400
            color: #ffffff
 
+   .mobile_item_card__items--mod
+       padding-right: 36px
+       p
+           span
+               font-weight: 300
+               font-size: 18px
+               color: rgba(255, 255, 255, .6)
+       b
+           font-size: 20px !important
+           font-weight: 400
+           font-style: normal
+           color: rgba(255, 255, 255, 1)
+
 
    .mobile_item_card_comment
        display: none
@@ -508,6 +538,8 @@
 
    .mobile_item_card_comment__block--top
        margin-top: 24px
+
+   .mobile_item_card_comment__block--top12
 
    .mobile_item_card_comment__btn
        display: flex
@@ -563,10 +595,8 @@
    .dropdown_arrow_btn--pos
        top: 30px
 
-
-
-
-
+   .dropdown_arrow_btn--pos24
+       top: 24px
 
 
    /*------------------------------------------
@@ -1039,26 +1069,6 @@
 
            width: 23.62px
            height: 23.62px
-
-           //&:before
-           //    content: ''
-           //    position: absolute
-           //    top: 6px
-           //    right: -3px
-           //    width: 15px
-           //    height: 2px
-           //    transform: rotate(46deg)
-           //    background: #ffffff
-           //
-           //&:after
-           //    content: ''
-           //    position: absolute
-           //    top: 16px
-           //    right: -3px
-           //    width: 15px
-           //    height: 2px
-           //    transform: rotate(-46deg)
-           //    background: #ffffff
 
    /*------------------------------------------
         SETTINGS (30)
@@ -1540,7 +1550,6 @@
        background: rgba(55, 54, 53, .6)
 
        margin-top: -16px
-       margin-bottom: 16px
 
    .mobile_storage_card_form__dropdown_arrow
            position: absolute
@@ -1551,11 +1560,12 @@
            width: 23.62px
            height: 23.62px
 
-   .mobile_storage_card_select
+   .mobile_item_card_select  // mobile_storage_card_select
            width: 92.5%
            height: 64px
+
            outline: none
-           // todo поправить шрифт
+
            font-family: Roboto, sans-serif
            font-weight: 300
            font-style: normal
@@ -1572,7 +1582,7 @@
            background-color: transparent
 
            background-size: 23.62px 23.62px
-           background-position: 97% center
+           background-position: 98% center
 
            border: 1px solid rgba(149, 152, 154, 1)
 
@@ -1587,43 +1597,7 @@
                background: rgba(55, 54, 53, 1)
                outline: none
 
-           span
-               color: rgba(255, 255, 255, .4)
 
-
-   .mobile_storage_card
-       position: relative
-       padding-bottom: 16px
-
-
-       .dropdown_arrow
-           //position: absolute
-           //top: 30px
-           //right: 0
-           fill: rgba(255, 255, 255, .6)
-           //cursor: pointer !important
-           //width: 30px
-           //height: 30px
-
-       time, p
-           font-weight: 300
-           font-size: 18px
-           font-style: normal
-           color: rgba(255, 255, 255, 1)
-
-
-   .mobile_storage_card__items
-       padding-right: 36px
-       p
-           span
-               font-weight: 300
-               font-size: 18px
-               color: rgba(255, 255, 255, .6)
-       b
-           font-size: 20px !important
-           font-weight: 400
-           font-style: normal
-           color: rgba(255, 255, 255, 1)
 
 
    .mobile_storage_btn
@@ -1860,11 +1834,6 @@
 
    .mobile_marketplace_item__btn--cyan
        background: rgba(90, 197, 199, 1)
-
-
-   /*------------------------------------------
-
-
 
    /*------------------------------------------
          WITHDRAW FUNDS (82)
