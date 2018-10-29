@@ -676,6 +676,12 @@
 
        border-bottom: 1px solid rgba(255, 255, 255, .3)
 
+       &::placeholder
+           font-size: 20px !important
+
+   .mobile_input_item__input--white08
+       color: rgba(255, 255, 255, .8) !important
+
    .mobile_input_item__textarea
        max-width: 477px
        min-height: 128px
@@ -725,8 +731,9 @@
 
    .mobile_input_item__option
        outline: none
-       border: none
+       background: rgba(39, 39, 38, 1)
        border: transparent
+
 
 
    .mobile_input_item__input--transparent
@@ -762,19 +769,23 @@
 
 
    .mobile_input_item__close
-       //display: none
+       display: none
        cursor: pointer !important
 
        position: absolute
        right: 0
 
-       border: 1px solid red
+       padding: 14px
 
        width: 48px
        height: 48px
 
        transition: opacity 200ms
        outline: none
+
+       .svg
+           fill: rgba(216, 92, 92, 1)
+
 
    .mobile_input_item__input:valid ~ .mobile_input_item__close
        display: block
