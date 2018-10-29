@@ -1250,8 +1250,14 @@
        display: flex
        align-items: center
 
+
    .checkbox_wrap--h64
        height: 64px
+
+   .checkbox_wrap--pos1
+       position: absolute
+       top: 23px
+       right: -8px
 
 
    .label
@@ -1263,7 +1269,29 @@
    .checkbox
        display: none
 
-   //
+   .internal_input_item__look
+       display: none
+
+   .internal_input_item__checkbox_custom
+       position: relative
+       width: 48px
+       height: 48px
+       border: 1px solid rgba(255, 255, 255, 1)
+       cursor: pointer
+       margin-right: 10px
+
+   .internal_input_item__look:checked + .internal_input_item__checkbox_custom::before
+        content: ''
+        display: block
+        position: absolute
+        top: 7px
+        right: 7px
+        bottom: 7px
+        left: 7px
+        background: url(../../assets/icons/ok_32wpx.svg)
+        fill: #ffffff
+
+   /*-----------
    .internal_form_item__wrap
        display: flex
        align-items: center
