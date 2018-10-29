@@ -1,3 +1,6 @@
+=bred
+    border: 1px dashed red
+
 @media (max-width: 640px)
    .main_mobile_wrap
        display: flex
@@ -392,14 +395,12 @@
          далее стили для DEPARTMENTS (6-7)
 
    .mobile_depart_block
-       display: flex
-       flex-direction: column
-
        min-height: 890px
-       margin-bottom: 18px
+       //margin-bottom: 18px
+       //+bred
 
 
-   .mobile_depart_card
+   .mobile_item_card /*mobile_depart_card*/
        display: flex
        flex-direction: column
 
@@ -419,7 +420,7 @@
 
 
 
-   .mobile_depart_card__title
+   .mobile_item_card__title
        display: flex
        justify-content: space-between
        align-items: center
@@ -444,32 +445,11 @@
            width: 23.62px
            height: 23.62px
            position: relative
-           //&:before
-           //    content: ''
-           //    position: absolute
-           //    bottom: 2px
-           //    left: -1px
-           //    height: 2px
-           //    width: 68%
-           //    background: #ffffff
-           //    transform: rotate(49deg)
-           //
-           //&:after
-           //    content: ''
-           //    position: absolute
-           //    bottom: 3px
-           //    left: 9px
-           //    height: 2px
-           //    width: 68%
-           //    background: #ffffff
-           //    transform: rotate(-49deg)
 
-   .mobile_depart_card__title--pink
+   .mobile_item_card__title--pink
        color: rgba(255, 121, 142, 1)
 
-
-
-   .mobile_depart_card__items
+   .mobile_item_card__items
        display: flex
        justify-content: space-between
 
@@ -491,7 +471,7 @@
            color: #ffffff
 
 
-   .mobile_depart_card_comment
+   .mobile_item_card_comment
        display: none
        position: relative
        line-height: 1.3
@@ -511,15 +491,15 @@
              margin-bottom: 20px
 
 
-   .mobile_depart_card_comment--active
+   .mobile_item_card_comment--active
        display: block
 
-   .mobile_depart_card_comment__block
+   .mobile_item_card_comment__block
        display: flex
        justify-content: space-between
 
 
-   .mobile_depart_card_comment__btn
+   .mobile_item_card_comment__btn
        display: flex
        justify-content: center
        align-items: center
@@ -531,22 +511,26 @@
        font-weight: 400
 
 
-   .mobile_depart_card_comment__btn--red
+   .mobile_item_card_comment__btn--red
         background: rgba(216, 92, 92, 1)
 
-   .mobile_depart_card_comment__btn--green
+   .mobile_item_card_comment__btn--green
         background: rgba(139, 165, 90, 1)
 
-   .mobile_depart_card_comment__btn--cyan
+   .mobile_item_card_comment__btn--cyan
        background: rgba(34, 178, 180, 1)
 
-   .mobile_depart_btn
+   .mobile_btn_down_block
+       margin-bottom: 8px
+       padding-top: 8px
+       padding-bottom: 24px
+
+   .mobile_wide_btn
        display: flex
        align-items: center
        justify-content: center
        margin-left: auto
        margin-right: auto
-       margin-bottom: 24px
        height: 64px
        width: 92.5%
        border-radius: 5px
@@ -559,11 +543,16 @@
 
    .dropdown_arrow_btn
        position: absolute
+
        top: 9px
        right: -2px
 
        width: 23.62px
        height: 23.62px
+
+   .dropdown_arrow_btn--pos
+       top: 30px
+
 
 
 
@@ -767,7 +756,7 @@
                margin-bottom: 0
 
 
-   .mobile_depart_card_comment__block--top
+   .mobile_item_card_comment__block--top
        margin-top: 24px
 
 
