@@ -153,19 +153,21 @@
 
 <div class="main_mobile_wrap">
     <div class="user_mobile">
-        <a class="user_btn">
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-        </a>
-        <div class="user_mobile__title">
-            <p>
-                ADDRESS BOOK
-            </p>
+        <div class="user_mobile_up">
+            <a class="user_btn">
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+            </a>
+            <div class="user_mobile__title">
+                <p>
+                    ADDRESS BOOK
+                </p>
+            </div>
         </div>
     </div>
     <div class="body_mobile">
-        <div class="addr_book">
+        <div class="mobile_block addr_book">
             <form action="" method="get" class="addr_book_search">
                 <input name="s" placeholder="Search by Name or Phone" type="search">
             </form>
@@ -239,13 +241,15 @@
                     </span>
                 </a>
             </div>
-        </div><!--addr_book-->
-        <a href="#" class="mobile_depart_btn" >
-            Add New Contact
-        </a>
+        </div><!--block-->
+        <div class="mobile_btn_down_block">
+            <a href="#" class="mobile_wide_btn" >
+                Add New Contact
+            </a>
+        </div><!--mobile_btn_down_block-->
     </div>
     <!-- mobile_menu--active -->
-    <div class="mobile_menu  ">
+    <div class="mobile_menu ">
         <div class="mobile_menu_up">
             <div class="mobile_menu__block">
                 <div class="mobile_menu_up__name">
@@ -268,7 +272,10 @@
                     <a href="#" class="mobile_menu_left__link">Privacy policy</a>
                 </li>
                 <li class="mobile_menu_left__li">
-                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span></span></a>
+                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span class="mobile_menu_exit">
+                        <svg-icon src="../../assets/icons/exit.svg" class="dropdown_arrow_rotate"></svg-icon>
+                    </span>
+                    </a>
                 </li>
             </ul>
         </div>
