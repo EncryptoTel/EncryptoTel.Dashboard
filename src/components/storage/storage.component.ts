@@ -156,7 +156,7 @@ export class StorageComponent implements OnInit {
     get activeFilter(): boolean {
         if (this.currentFilter) {
             let keys = Object.keys(this.currentFilter);
-            return keys.some(key => this.currentFilter[key] != undefined && this.currentFilter[key]);
+            return keys.some(key => this.currentFilter[key] !== undefined && this.currentFilter[key]);
         }
     }
 
