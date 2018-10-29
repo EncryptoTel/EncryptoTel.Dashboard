@@ -153,45 +153,57 @@
 
 <div class="main_mobile_wrap">
     <div class="user_mobile">
-        <a class="user_btn">
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-        </a>
-        <div class="user_mobile__title">
-            <p>
-                SETTINGS
-            </p>
+        <div class="user_mobile_up">
+            <a class="user_btn">
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+            </a>
+            <div class="user_mobile__title">
+                <p>
+                    SETTINGS
+                </p>
+            </div>
         </div>
     </div>
     <div class="body_mobile">
         <div class="mobile_settings">
             <a href="#" class="mobile_settings_card">
-                <span class="mobile_settings__img"></span>
+                <span class="mobile_settings__img">
+                      <svg-icon src="../../assets/icons/profile_48px.svg" class="svg"></svg-icon>
+                </span>
                 <span class="mobile_settings__name">
                     PROFILE
                 </span>
             </a>
             <a href="#" class="mobile_settings_card">
-                <span class="mobile_settings__img"></span>
+                <span class="mobile_settings__img">
+                    <svg-icon src="../../assets/icons/settings.svg" class="svg"></svg-icon>
+                </span>
                 <span class="mobile_settings__name">
                     SECURITY
                 </span>
             </a>
             <a href="#" class="mobile_settings_card">
-                <span class="mobile_settings__img"></span>
+                <span class="mobile_settings__img">
+                      <svg-icon src="../../assets/icons/billing_48px.svg" class="svg"></svg-icon>
+                </span>
                 <span class="mobile_settings__name">
                     BILLING
                 </span>
             </a>
             <a href="#" class="mobile_settings_card">
-                <span class="mobile_settings__img"></span>
+                <span class="mobile_settings__img">
+                      <svg-icon src="../../assets/icons/backup_48px.svg" class="svg"></svg-icon>
+                </span>
                 <span class="mobile_settings__name">
                     BACKUP
                 </span>
             </a>
             <a href="#" class="mobile_settings_card">
-                <span class="mobile_settings__img"></span>
+                <span class="mobile_settings__img">
+                     <svg-icon src="../../assets/icons/notification_48px.svg" class="svg"></svg-icon>
+                </span>
                 <span class="mobile_settings__name">
                     NOTIFICATIONS
                 </span>
@@ -229,7 +241,7 @@
         </div><!--mobile_settings-->
     </div><!--body_mobile-->
     <!-- mobile_menu--active -->
-    <div class="mobile_menu  ">
+    <div class="mobile_menu ">
         <div class="mobile_menu_up">
             <div class="mobile_menu__block">
                 <div class="mobile_menu_up__name">
@@ -252,7 +264,10 @@
                     <a href="#" class="mobile_menu_left__link">Privacy policy</a>
                 </li>
                 <li class="mobile_menu_left__li">
-                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span></span></a>
+                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span class="mobile_menu_exit">
+                        <svg-icon src="../../assets/icons/exit.svg" class="dropdown_arrow_rotate"></svg-icon>
+                    </span>
+                    </a>
                 </li>
             </ul>
         </div>

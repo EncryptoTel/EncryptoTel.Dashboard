@@ -153,19 +153,21 @@
 
 <div class="main_mobile_wrap">
     <div class="user_mobile">
-        <a class="user_btn">
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-            <span class="user_btn__span"></span>
-        </a>
-        <div class="user_mobile__title">
-            <p>
-                TARIFF PLAN
-            </p>
+        <div class="user_mobile_up">
+            <a class="user_btn">
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+            </a>
+            <div class="user_mobile__title">
+                <p>
+                    TARIFF PLAN
+                </p>
+            </div>
         </div>
-    </div>
+    </div><!--исправлен-->
     <div class="body_mobile">
-        <div class="mobile_settings">
+        <div class="mobile_block  mobile_settings">
             <div class="mobile_marketplace  mobile_tariff">
                 <div class="mobile_marketplace_item  mobile_marketplace_item--right  mobile_marketplace_item--cyan">
                     <div class="mobile_marketplace_item__block">
@@ -322,7 +324,7 @@
         </div><!--mobile_settings-->
     </div><!--body_mobile-->
     <!-- mobile_menu--active -->
-    <div class="mobile_menu  ">
+    <div class="mobile_menu ">
         <div class="mobile_menu_up">
             <div class="mobile_menu__block">
                 <div class="mobile_menu_up__name">
@@ -345,7 +347,10 @@
                     <a href="#" class="mobile_menu_left__link">Privacy policy</a>
                 </li>
                 <li class="mobile_menu_left__li">
-                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span></span></a>
+                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span class="mobile_menu_exit">
+                        <svg-icon src="../../assets/icons/exit.svg" class="dropdown_arrow_rotate"></svg-icon>
+                    </span>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -416,7 +421,7 @@
                 <a href="#" class="mobile_menu__link">Settings</a>
             </li>
         </ul>
-    </div>
+    </div><!--исправлен-->
     <!-- mobile_overlay--active -->
     <div class="mobile_overlay  "></div>
 </div>
