@@ -26,6 +26,7 @@ export class QueueMembersAddComponent implements OnInit {
     searchStr = '';
     id = 0;
     searchIcon: boolean = false;
+    nothingFound: boolean = false;
 
     @ViewChild('searchString') searchString: ElementRef;
 
