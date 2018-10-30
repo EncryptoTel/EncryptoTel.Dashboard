@@ -22,7 +22,7 @@
        box-shadow: 0 0 4px 0 rgba(0,0,0, .12)
 
        margin-top: 40px
-       margin-bottom: 16px
+       //margin-bottom: 16px
        padding-left: 29px
        padding-right: 29px
 
@@ -74,6 +74,11 @@
    .body_mobile
        display: flex
        flex-direction: column
+
+       padding-top: 16px
+
+   .body_mobile--pt0
+       padding-top: 0
 
 
    .mobile_card
@@ -732,21 +737,122 @@
        -moz-appearance: none
        appearance: none
 
+
+   .mobile_input_item__select--bgs
+       background-size: 23px 23px !important
+       background-position: 100% center !important
+
+
+   .mobile_input_item__select--mb
+       margin-bottom: 17px
+
    .mobile_input_item__option
        outline: none
        background: rgba(39, 39, 38, 1)
        border: transparent
 
+   .mobile_week
+       display: flex
 
+       font-family: Roboto, sans-serif
+       font-size: 20px
+
+
+   .mobile_week__li
+
+       height: 48px
+       width: 84px
+
+       border-right: 1px solid rgba(39, 39, 38, 1)
+
+       &:last-child
+           border-right: none
+
+   .mobile_week__day
+       display: block
+
+       font-size: 20px
+       color: rgba(255, 255, 255, 1)
+
+       width: 100%
+       height: 100%
+
+       padding-top: 11px
+
+       line-height: 1.3
+
+       cursor: pointer
+
+       text-align: center
+
+       background: rgba(70, 69, 68, 1)
+
+   .mobile_week__day--active
+       background: rgba(34, 178, 180, 1)
 
    .mobile_input_item__input--transparent
        border-bottom: 1px solid transparent !important
        &:focus
            border-bottom: 1px solid transparent !important
 
+   .mobile_select_block
+       display: flex
+       justify-content: space-between
+       align-items: center
+
+       width: 72%
+
+       padding-left: 13.5%
+
+   .mobile_select_block__select
+       height: 50px
+       width: 130px
+
+       font-family: Roboto, sans-serif
+       font-weight: 300
+       font-style: normal
+       font-size: 23px
+       color: rgba(255, 255, 255, 1)
+
+       padding-left: 0
+
+       outline: none
+
+       //background-color: rgb(36, 36, 35)
+       background-color: transparent
+
+       border-top: none
+       border-left: none
+       border-right: none
+       border-bottom: 1px solid rgba(255, 255, 255, .3)
+
+       background-image: url(../../assets/icons/dropdown_arrow_23px.svg)
+       background-repeat: no-repeat
+       background-size: 21px 23px
+       background-position: 75% center
+
+       -webkit-appearance: none
+       -moz-appearance: none
+       appearance: none
+
+   .mobile_select_block__option
+       outline: none
+       background: rgba(39, 39, 38, 1)
+       border: transparent
+
+
+   .mobile_select_block__mdash
+
 
    .mobile_input_item--mb20
        margin-bottom: 20px
+
+   .mobile_input_item--mb30
+       margin-bottom: 30px
+
+
+   .mobile_input_item--mb36
+       margin-bottom: 36px
 
    .mobile_input_item--w100
        width: 100%
@@ -765,6 +871,12 @@
        font-size: 20px
 
        color: rgba(255, 255, 255, .8)
+
+   .mobile_input_item__label--white06
+       color: rgba(255, 255, 255, .6)
+
+   .mobile_input_item__label--mb
+       margin-bottom: 10px
 
 
    .mobile_input_item__input:focus + .mobile_input_item__label, .mobile_input_item__label:active
@@ -1096,6 +1208,8 @@
 
        margin-left: auto
        margin-right: auto
+
+       //padding-top: 16px
 
 
    .mobile_settings_card
@@ -1726,7 +1840,6 @@
 
        position: relative
 
-
    .mobile_block--h890
        min-height: 890px
 
@@ -1745,8 +1858,6 @@
        min-height: 96px
 
        background: rgba(55, 54, 53, .6)
-
-       margin-top: -16px
 
    .mobile_storage_card_form__dropdown_arrow
            position: absolute
@@ -2008,6 +2119,32 @@
 
    .mobile_big_block_item__btn--cyan
        background: rgba(90, 197, 199, 1)
+
+   /*------------------------------------------
+         CREATE SCHEDULE (54)
+
+   .create_shedule
+       display: flex
+       flex-direction: column
+
+       margin-left: auto
+       margin-right: auto
+
+       width: 92.5%
+
+       padding-top: 40px
+       margin-bottom: 38%
+
+   .mobile_section_title
+       font-family: Roboto, sans-serif
+       font-weight: 400
+       font-style: normal
+       font-size: 18px
+
+       color: rgba(255, 255, 255, .8)
+
+       margin-bottom: 36px
+
 
    /*------------------------------------------
          WITHDRAW FUNDS (82)
