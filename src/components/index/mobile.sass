@@ -23,11 +23,8 @@
 
        margin-top: 40px
        //margin-bottom: 16px
-       padding-left: 29px
-       padding-right: 29px
 
        width: 100%
-       height: 88px
 
        position: relative
        z-index: 50
@@ -43,6 +40,12 @@
        display: flex
        justify-content: flex-start
        align-items: center
+
+       min-height: 88px
+       width: 100%
+
+       padding-left: 29px
+       padding-right: 29px
 
 
    .user_btn
@@ -71,6 +74,47 @@
        text-transform: uppercase
 
 
+   //--------------------------------
+
+   .user_mobile_down
+       display: flex
+
+       width: 100%
+
+   .user_mobile_tab
+       display: flex
+       justify-content: flex-start
+
+       height: 40px
+
+       font-family: Roboto, sans-serif
+       font-weight: 500
+
+       color: rgba(255, 255, 255, .8)
+
+
+   .user_mobile_tab__item
+       display: flex
+       justify-content: center
+
+       text-transform: uppercase
+       font-size: 18px
+
+       padding-top: 6px
+
+       height: 100%
+       width: 213px
+
+       &:hover
+           color: rgba(255, 255, 255, 1)
+
+
+   .user_mobile_tab__item--active
+       color: rgba(255, 255, 255, 1)
+       border-bottom: 2px solid rgba(34, 178, 180, 1)
+
+
+   //---------------------------------
    .body_mobile
        display: flex
        flex-direction: column
@@ -671,7 +715,6 @@
 
        padding-top: 20px
 
-
    .mobile_input_item__input
        font-weight: 300
        font-style: normal
@@ -686,6 +729,16 @@
 
        &::placeholder
            font-size: 20px !important
+
+   .mobile_input_item__input--right
+       width: 86%
+       height: 57px
+       align-self: flex-end
+
+
+
+
+
 
    .mobile_input_item__input--white08
        color: rgba(255, 255, 255, .8) !important
@@ -853,6 +906,9 @@
 
    .mobile_input_item--mb36
        margin-bottom: 36px
+
+   .mobile_input_item--mb124
+       margin-bottom: 124px
 
    .mobile_input_item--w100
        width: 100%
@@ -2123,7 +2179,7 @@
    /*------------------------------------------
          CREATE SCHEDULE (54)
 
-   .create_shedule
+   .form_item
        display: flex
        flex-direction: column
 
@@ -2134,6 +2190,9 @@
 
        padding-top: 40px
        margin-bottom: 38%
+
+   .form_item--mb11
+       margin-bottom: 11.5%
 
    .mobile_section_title
        font-family: Roboto, sans-serif
