@@ -25,11 +25,16 @@
     pbx-invoices
         pbx-list
             pbx-table
-                .tablet_item
-                    .tablet_item_icon_wrap
-                        display: none
+                .tablet
+                    .tablet_header
+                        .tablet_item
+                            &:nth-child(3)
+                                .qwerty
+                                    display: grid
+                                    grid-template-columns: min-content auto
+                                    align-items: center
 
-@media screen and (max-width: 1069px)
+@media screen and (max-width: 1099px)
     pbx-invoices
         pbx-list
             pbx-table
