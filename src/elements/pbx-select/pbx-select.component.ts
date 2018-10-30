@@ -110,7 +110,7 @@ export class SelectComponent implements OnInit {
     showOptions(): void {
         this.selectWrap.nativeElement.focus();
         this.isVisible = true;
-        const currentIndex = this.selected ? this.options.indexOf(this.selected) : 0; // Index of selected item
+        const currentIndex = this._selected ? this.options.indexOf(this._selected) : 0; // Index of selected item
         setTimeout(() => this.scrollToCurrent(currentIndex), 1);
         this.opened();
         this.onFocus.emit();
@@ -146,8 +146,8 @@ export class SelectComponent implements OnInit {
      */
     keyboardNavigation(event: KeyboardEvent) {
         const currentIndex = this.options.findIndex(item => {
-            if (!this.selected) return null;
-            return Number.isInteger(item) ? item === this.selected : item.id === this.selected.id;
+            if (!this._selected) return null;
+            return Number.isInteger(item) ? item === this._selected : item.id === this._selected.id;
         });
         switch (event.code) {
             case 'Space': {
@@ -186,7 +186,7 @@ export class SelectComponent implements OnInit {
     }
 
     isCurrent(item) {
-        return this.selected ? (Number.isInteger(item) ? item === this.selected : item.id === this.selected.id) : false;
+        return this._selected ? (Number.isInteger(item) ? item === this._selected : item.id === this._selected.id) : false;
     }
 
     opened() {
