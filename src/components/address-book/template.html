@@ -74,7 +74,7 @@
                                             [options]="types.contactPhone"
                                             objectKey="value"
                                             [selected]="phone.value.type"
-                                            (onSelect)="phone.value.type = $event"
+                                            (onSelect)="setPhoneType($event, i)"
                                 >
                                 </pbx-select>
                                 <div class="side_unit_icon_wrap">

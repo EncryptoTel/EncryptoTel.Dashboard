@@ -23,16 +23,15 @@ export class SelectComponent implements OnInit {
     @Input() objectKey: string;
     @Input()
     set selected(selected: any) {
-        if (typeof selected == 'number' || typeof selected == 'string') {
-            let option = this.options.find(o => +o.id === +selected);
+        if (typeof selected === 'number' || typeof selected === 'string') {
+            let option: any;
+            option = this.options.find(o => +o.id === +selected);
             if (option) this._selected = option;
-        }
-        else {
+        } else {
             this._selected = selected;
         }
 
-        if (this._selected && (this._selected.title || this._selected.value))
-            this.selectedObject = true;
+        if (this._selected && (this._selected.title || this._selected.value)) this.selectedObject = true;
     }
     _selected: any;
 
@@ -132,6 +131,7 @@ export class SelectComponent implements OnInit {
     selectItem(option: object, event?: Event): void {
         if (option) {
             this.selectedObject = true;
+            // this._selected = option;
         }
         if (event) {
             event.stopPropagation();
