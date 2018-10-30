@@ -3,6 +3,23 @@ user-notifications-component,
 authorization-component,
 billing-component,
 base-settings-component
+
+pbx-index user-notifications-component
+    pbx-settings-group
+        .settings_form_field_group
+            display: grid
+            grid-template-columns: min-content min-content
+            div
+                align-self: center
+            pbx-settings-input
+                .pbx_input_wrap
+                    pbx-select
+                        min-width: unset !important
+    pbx-form
+        .settings_form_section
+            pbx-input
+                .pbx_input_item.selectWrap
+                    grid-template-columns: 75px 1fr !important
     .overlay_content
         margin: 24px
     .form-body
@@ -81,3 +98,44 @@ base-settings-component
         .settings_form_field_group
             flex-direction: column !important
             align-items: flex-start !important
+
+account-notifications-component,
+user-notifications-component
+    base-settings-component
+        .form-body-content
+            pbx-settings-group
+                .settings_form_section
+                    .settings_form_title_1,
+                    .settings_form_title_2
+                        color: $dark_white_35
+
+account-notifications-component
+    .form-body
+        padding: 24px
+        background: $dark_overlay
+    .settings_form_section
+        .pbx_input_wrap
+            .pbx_input_item
+                grid-template-columns: auto 1fr
+                grid-template-rows: 1fr
+                .pbx_input_item_label
+                    grid-column: 2/3
+                    grid-row: 1/2
+                    align-self: center
+                    padding-left: 16px
+                .pbx_input_item_input_wrap
+                    grid-column: 1/2
+                    grid-row: 1/2
+                    margin-top: 0
+                    align-self: center
+        .settings_form_title_2
+            margin: 20px 0
+        pbx-input[ng-reflect-name="Balance Near Zero Value"],
+        pbx-input[ng-reflect-name="How Many Days"]
+            .pbx_input_item
+                .pbx_input_item_label
+                    grid-column: 1/2
+                    padding-left: 0
+                    padding-right: 16px
+                .pbx_input_item_input_wrap
+                    grid-column: 2/3

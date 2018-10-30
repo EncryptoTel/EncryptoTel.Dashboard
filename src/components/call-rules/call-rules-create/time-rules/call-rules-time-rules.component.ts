@@ -144,8 +144,8 @@ export class CallRulesTimeRulesComponent implements OnInit {
             else if (duration.id === 2) {
                 this.selectedDurationTimeRange = [null, null];
                 if (this.asteriskTimeRule && this.asteriskTimeRule.time === '*') {
-                    this.selectTime(this.callRuleTimes[0], 0);
-                    this.selectTime(this.callRuleTimes[0], 1);
+                    this.selectTime(this.callRuleTimes[9], 0);
+                    this.selectTime(this.callRuleTimes[18], 1);
                 }
             }
 

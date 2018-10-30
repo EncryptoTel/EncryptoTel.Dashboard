@@ -1,4 +1,11 @@
 pbx-details-and-records
+    .tablet_header
+        .tablet_item
+            &:nth-child(7)
+                padding-right: 28px
+                span
+                    float: right
+                    margin-right: 16px
     .details-wrapper
         .media-table-message
             position: absolute
@@ -21,6 +28,16 @@ pbx-details-and-records
                 &.noBorderRight
                     border-right: 1px solid transparent
                     border-right-color: transparent !important
+    pbx-media-table
+        margin-bottom: 16px
+        pbx-media-table-player
+            position: relative
+            right: -130px
+        .tablet
+            .tablet_body
+                .tablet_content
+                    .tablet_item
+                        white-space: nowrap
     .outgoing
         background: $dark_datails_outgoing !important
 

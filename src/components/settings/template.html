@@ -19,11 +19,15 @@
             </div>
         </div>
     </div>
-    <div class="settings_title" translate>System settings</div>
-    <div class="settings_wrap">
+    <div class="settings_title" *ngIf="showSystemSettings" translate>System settings</div>
+    <div class="settings_wrap" *ngIf="showSystemSettings">
         <div class="settings_item_wrap" [ngClass]="{'inactive':!item.available}"
              *ngFor="let item of settings.system">
-            <a class="settings_item" routerLink="{{item.routerLink}}" [ngClass]="{'empty':item.routerLink===''}">
+            <div *ngIf="item.routerLink === ''" class="settings_item" [ngClass]="{'empty':item.routerLink===''}">
+                <svg-icon class="settings_item_icon" *ngIf="item.icon" src="{{item.src}}"></svg-icon>
+                <div class="settings_item_title" translate>{{item.title}}</div>
+            </div>
+            <a *ngIf="item.routerLink !== ''" class="settings_item" routerLink="{{item.routerLink}}" [ngClass]="{'empty':item.routerLink===''}">
                 <svg-icon class="settings_item_icon" *ngIf="item.icon" src="{{item.src}}"></svg-icon>
                 <div class="settings_item_title" translate>{{item.title}}</div>
             </a>

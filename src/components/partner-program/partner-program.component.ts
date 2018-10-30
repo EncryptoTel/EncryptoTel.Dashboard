@@ -24,6 +24,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
 
     tab: any;
     sidebar = new SidebarInfoModel();
+    icons: any = ['overview', 'links', 'reports', 'terms'];
 
     loading: number;
 

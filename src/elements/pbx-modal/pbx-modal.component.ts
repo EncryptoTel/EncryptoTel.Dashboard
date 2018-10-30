@@ -9,7 +9,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 })
 
 export class ModalComponent {
-    
+
     @Input() modal: {
         visible: boolean,
         title: string,
@@ -17,7 +17,7 @@ export class ModalComponent {
         decline: { type: string, value: string }
     };
     @Input() modalEx: ModalEx;
-    
+
     @Output() onConfirm: EventEmitter<void> = new EventEmitter<void>();
     @Output() onConfirmEx: EventEmitter<any> = new EventEmitter<any>();
     @Output() onDecline: EventEmitter<void> = new EventEmitter<void>();
@@ -41,7 +41,7 @@ export class ModalComponent {
     clickEx(button: ModalButton): void {
         if (button.type === 'cancel') {
             this.hideModal();
-        } 
+        }
         else {
             if (this.modalEx && this.modalEx.confirmCallback) {
                 this.modalEx.confirmCallback();
@@ -123,6 +123,14 @@ export class ModalEx {
                 }
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('error', 'Delete'));
+                break;
+            case 'restoreFiles':
+                this.title = 'Confirm';
+                if (!this.body) {
+                    this.body = 'Are you sure you want to restore the file(s)?';
+                }
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
+                this.buttons.push(new ModalButton('error', 'Restore'));
                 break;
             case 'replaceOnlyFiles':
                 this.title = 'Attention';

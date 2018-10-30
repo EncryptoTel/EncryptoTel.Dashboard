@@ -4,9 +4,22 @@
             .partner_tab
                 background: $white_queue_tab_grey_light
                 color: $white_black_70
+                .partner_tab_icon_wrap
+                    margin-right: 12px
+                    svg-icon
+                        svg
+                            width: 16px
+                            height: 16px
+                            path,
+                            rect
+                                fill: rgba(0, 0, 0, .6)
                 &.active
                     background: $white_grey_dark
                     color: $dark_accent
+                    .partner_tab_icon_wrap
+                        svg-icon
+                            path
+                                fill: $dark_accent
         .overview_header,
         .link_header
             background: $white_grey_dark
