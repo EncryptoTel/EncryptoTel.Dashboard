@@ -179,8 +179,8 @@
         </div>
     </div>
     <div class="body_mobile  body_mobile--pt0">
-        <div class="mobile_block   mobile_block--dn">
-            <form id="create_general" class="form_item  "><!--form_item--mb11-->
+        <div class="mobile_block  ">
+            <form id="create_general" class="form_item">
                 <p class="mobile_section_title">
                     Create New Queue
                 </p>
@@ -305,7 +305,7 @@
                     </label>
                 </div>
             </form><!--create_shedule-->
-            <div class="mobile_down_btn_block  mobile_down_btn_block--pt93">
+            <div class="mobile_down_btn_block  mobile_down_btn_block--pos93">
                 <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                     Cancel
                 </a>
@@ -314,9 +314,9 @@
                     Save
                 </button>
             </div>
-        </div>
-        <div class="mobile_block">
-            <form id="create_members" class="form_item  form_item--mb28">
+        </div> <!--general-->
+        <div class="mobile_block  mobile_block--dn">
+            <form id="create_members" class="form_item">
                 <p class="mobile_section_title">
                     Select queue manager extension number
                 </p>
@@ -429,7 +429,7 @@
                         <span>Groot</span>
                     </div>
                     <!-- mobile_item_card_comment--active -->
-                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0  ">
                         <div class="mobile_item_card__items">
                             <p>
                                 Last Name
@@ -504,7 +504,7 @@
                     Add Members
                 </a>
             </form><!--create_shedule-->
-            <div class="mobile_down_btn_block  mobile_down_btn_block--pt93">
+            <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
                 <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                     Cancel
                 </a>
@@ -513,7 +513,105 @@
                     Save
                 </button>
             </div>
-        </div>
+        </div><!--members-->
+        <div class="mobile_block  mobile_block--dn">
+            <form id="create_notifications" class="form_item">
+                <p class="mobile_section_title">
+                    Select queue manager extension number
+                </p>
+                <div class="mobile_item_card  mobile_item_card--w100">
+                    <div class="mobile_item_card__title">
+                        <p>
+                            +1 (800) 555 12 12 <strong></strong>
+                        </p>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            #Ext
+                        </p>
+                        <span>101</span>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            First Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <!-- mobile_item_card_comment--active -->
+                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0  mobile_item_card_comment--active">
+                        <div class="mobile_item_card__items">
+                            <p>
+                                Last Name
+                            </p>
+                            <span>Groot</span>
+                        </div>
+                        <div class="mobile_item_card__items">
+                            <p>
+                                Status
+                            </p>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="mobile_item_card__items">
+                            <p>
+                                E-mail
+                            </p>
+                            <a href="mailto:g.groot@marvel.com" class="mobile_item_card__e-mail">g.groot@marvel.com</a>
+                        </div>
+                        <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--top">
+                            <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--red">
+                                Delete
+                            </a>
+                            <!--<a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn&#45;&#45;green">-->
+                            <!--Edit-->
+                            <!--</a>-->
+                        </div>
+                    </div>
+                    <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos">
+                        <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow" style="cursor: pointer"></svg-icon>
+                    </div>
+                </div><!--card-->
+                <p class="mobile_section_title  mobile_section_title--mt31">
+                    Queue Email Notifications
+                </p>
+                <div class="mobile_checkbox_item">
+                    <label class="checkbox_wrap  checkbox_wrap--h64">
+                        <input class="checkbox" type="checkbox" name="" checked>
+                        <span class="checkbox_custom"></span>
+                        <span class="label  label--lh  label--w456">Notify Queue manager via email when SLA time has
+                            been Breached</span>
+                    </label>
+                    <label class="checkbox_wrap  checkbox_wrap--h64">
+                        <input class="checkbox" type="checkbox" name="" checked>
+                        <span class="checkbox_custom"></span>
+                        <span class="label  label--lh  label--w456">Notify Queue Manager when a Callback is made</span>
+                    </label>
+                    <label class="checkbox_wrap  checkbox_wrap--h64">
+                        <input class="checkbox" type="checkbox" name="" checked>
+                        <span class="checkbox_custom"></span>
+                        <span class="label  label--lh  label--w456">Notify Queue manager when a Callback fails</span>
+                    </label>
+                    <label class="checkbox_wrap  checkbox_wrap--h64">
+                        <input class="checkbox" type="checkbox" name="" checked>
+                        <span class="checkbox_custom"></span>
+                        <span class="label  label--lh  label--w456">Notify Queue Manager when a Queue call is lost</span>
+                    </label>
+                </div>
+
+
+                <a href="#" class="mobile_top_pos_btn">
+                    Add Members
+                </a>
+            </form>
+            <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
+                <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
+                    Cancel
+                </a>
+                <button type="submit" form="create_notifications"
+                        class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
+                    Save
+                </button>
+            </div>
+        </div><!--notifications-->
     </div>
     <!-- mobile_menu--active -->
     <div class="mobile_menu ">
