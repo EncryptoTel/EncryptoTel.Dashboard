@@ -11,7 +11,7 @@ export const simpleNameRegExp = new RegExp(/^[a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]+
 export const nameRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\-\. ']+)?)+$/i);
 
 export const numberRegExp = new RegExp(/^\d+$/);
-export const phoneRegExp = new RegExp(/^\d{7,16}$/m);
+export const phoneRegExp = new RegExp(/^\d{6,16}$/m);
 
 export const week: string[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
