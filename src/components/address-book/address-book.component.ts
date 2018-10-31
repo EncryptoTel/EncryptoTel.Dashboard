@@ -463,6 +463,18 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         }
     }
 
+    setPhoneType($event, i) {
+        console.log($event, i);
+        let phone = this.selected.contactPhone[i];
+        phone.value = this.form.value.contactPhone[i].value;
+        console.log(phone);
+        phone.typeId = $event.id;
+        phone.type = this.types.contactPhone.find(item => item.id === phone.typeId);
+
+        let phoneControl = this.createPhoneFormControl(this.selected.contactPhone[i]);
+        this.contactPhonesFormArray.setControl(i, phoneControl);
+    }
+
     setFormData() {
         this.resetForms();
 

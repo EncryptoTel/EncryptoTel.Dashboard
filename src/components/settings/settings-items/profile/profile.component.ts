@@ -83,7 +83,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             firstname: [null, [Validators.required, Validators.pattern(nameRegExp)]],
             lastname: [null, [Validators.pattern(nameRegExp)]],
             patronymic: [null, [Validators.pattern(nameRegExp)]],
-            phone: [null, [Validators.pattern(phoneRegExp), Validators.minLength(7), Validators.maxLength(16)]]
+            phone: [null, [Validators.pattern(phoneRegExp), Validators.minLength(5), Validators.maxLength(16)]]
         });
         this.addForm('generalForm', this.generalForm);
 
