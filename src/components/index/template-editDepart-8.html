@@ -169,33 +169,34 @@
         <div class="mobile_block  edit_department_block">
             <form method="post" action="" id="edit_department" class="edit_department_form">
                 <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="Department" value="">
+                    <input type="text" class="mobile_input_item__input" placeholder="Department" value="" required="required">
                     <label class="mobile_input_item__label">
                         Department
                     </label>
-                    <button type="reset" class="mobile_input_item__close">
-                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"
-                                  class="svg"></svg-icon>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
                     </button>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input  mobile_input_item__input--white08" placeholder="Employees" value="10" >
+                    <input type="text" class="mobile_input_item__input  mobile_input_item__input--white08" placeholder="Employees" value="10" required="required">
                     <label class="mobile_input_item__label">
                         Employees
                     </label>
-                    <!--<button type="reset" class="mobile_input_item__close">-->
-                        <!---->
+                    <!--<button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">-->
+                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
                     <!--</button>-->
                 </div>
                 <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input  mobile_input_item__input--white08" placeholder="Employees with Ext numbers"
-                           value="8" >
+                    <input type="text"
+                           class="mobile_input_item__input  mobile_input_item__input--white08"
+                           placeholder="Employees with Ext numbers"
+                           value="8"
+                           required="required">
                     <label class="mobile_input_item__label">
                         Employees with Ext numbers
                     </label>
-                    <!--<button type="reset" class="mobile_input_item__close">-->
-                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"-->
-                                  <!--class="cancel_delete"></svg-icon>-->
+                    <!--<button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">-->
+                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
                     <!--</button>-->
                 </div>
                 <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20  mobile_input_item--borderB">
@@ -207,11 +208,12 @@
                 </div>
             </form>
         </div><!--mobile_block-->
-        <div class="mobile_down_btn_block">
+        <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
             <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                 Cancel
             </a>
-            <button type="submit" form="edit_department"
+            <button type="submit"
+                    form="edit_department"
                     class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
                 Save
             </button>

@@ -160,137 +160,88 @@
             </a>
             <div class="user_mobile__title">
                 <p>
-                    SCHEDULE
+                    BACKUP
                 </p>
             </div>
         </div>
     </div>
     <div class="body_mobile">
-        <div class="mobile_block  mobile_backup--mb57">
-            <div class="mobile_item_card">
-                <div class="mobile_item_card__title">
-                    <p>
-                        New Year’s holidays <strong></strong>
-                    </p>
-                </div>
-                <div class="mobile_item_card__items">
-                    <p>
-                        Rule time
-                    </p>
-                    <span>25.12.2017–10.01.2018</span>
-                </div>
-                <div class="mobile_item_card__items">
-                    <p>
-                        Duration time
-                    </p>
-                    <span>Always (24 hours)</span>
-                </div>
-                <!-- mobile_item_card_comment--active -->
-                <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
-                    <div class="mobile_item_card__items">
-                        <p>
-                            Description
-                        </p>
-                        <span>Monday through Friday</span>
-                    </div>
-                    <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--top">
-                        <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--red">
-                            Delete
-                        </a>
-                        <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--green">
-                            Edit
-                        </a>
-                    </div>
-                </div>
-                <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos">
-                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow" style="cursor: pointer"></svg-icon>
-                </div>
-            </div><!--card-->
-            <div class="mobile_item_card">
-            <div class="mobile_item_card__title">
-                <p>
-                    Weekend <strong></strong>
-                </p>
-            </div>
-            <div class="mobile_item_card__items">
-                <p>
-                    Rule time
-                </p>
-                <span>Always</span>
-            </div>
-            <div class="mobile_item_card__items">
-                <p>
-                    Duration time
-                </p>
-                <span>Sat - Sun</span>
-            </div>
-            <!-- mobile_item_card_comment--active -->
-            <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
-                    <div class="mobile_item_card__items">
-                        <p>
-                            Description
-                        </p>
-                        <span>Monday through Friday</span>
-                    </div>
-                    <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--top">
-                        <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--red">
-                            Delete
-                        </a>
-                        <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--green">
-                            Edit
-                        </a>
-                    </div>
-                </div>
-            <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos">
-                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow" style="cursor: pointer"></svg-icon>
-                </div>
-        </div><!--card-->
-            <div class="mobile_item_card">
-            <div class="mobile_item_card__title">
-                <p>
-                    Working days <strong></strong>
-                </p>
-            </div>
-            <div class="mobile_item_card__items">
-                <p>
-                    Ruil Time
-                </p>
-                <span>Days of the week</span>
-            </div>
-            <div class="mobile_item_card__items">
-                <p>
-                    Duration time
-                </p>
-                <span>Mon - Fri</span>
-            </div>
-            <!-- mobile_item_card_comment--active -->
-            <div class="mobile_item_card_comment  mobile_item_card_comment--pm0  mobile_item_card_comment--active">
-                <div class="mobile_item_card__items">
-                    <p>
-                        Description
-                    </p>
-                    <span>Monday through Friday</span>
-                </div>
-                <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--top">
-                    <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--red">
-                        Delete
-                    </a>
-                    <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--green">
-                        Edit
-                    </a>
-                </div>
-            </div>
-            <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos">
-                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow" style="cursor: pointer"></svg-icon>
-                </div>
-        </div><!--card-->
+        <div class="mobile_block  mobile_backup_block">
+            <p class="mobile_backup__text">
+                Select module to Backup
+            </p>
+            <form method="post" id="mobile_backup_checkbox" action="" class="mobile_backup_checkbox">
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Phone Numbers</span>
+                </label>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Address Book</span>
+                </label>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Call Rules</span>
+                </label>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Call Queues</span>
+                </label>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Ring Groups</span>
+                </label>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test">
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Schedule</span>
+                </label>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Company and Departments</span>
+                </label>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Extensions</span>
+                </label>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test">
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Invoices</span>
+                </label>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Storage: Call records</span>
+                </label>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Storage: Sound files</span>
+                </label>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label">Storage: Voicemail</span>
+                </label>
+            </form>
+        </div><!--mobile_block-->
+        <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
+            <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
+                Cancel
+            </a>
+            <button type="submit" form="mobile_backup_checkbox" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
+                Backup
+            </button>
         </div>
     </div>
-    <div class="mobile_btn_down_block">
-        <a href="#" class="mobile_wide_btn" >
-            Create New Schedule
-        </a>
-    </div><!--mobile_btn_down_block-->
     <!-- mobile_menu--active -->
     <div class="mobile_menu ">
         <div class="mobile_menu_up">

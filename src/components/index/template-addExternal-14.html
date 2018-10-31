@@ -166,18 +166,17 @@
         </div>
     </div>
     <div class="body_mobile">
-        <div class="mobile_block  edit_department_block">
-            <form method="post" action="" id="add_external_phone" class="edit_department_form">
+        <div class="mobile_block  edit_block">
+            <form method="post" action="" id="add_external_phone" class="edit_form">
                 <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="Phone Number" value="">
+                    <input type="text" class="mobile_input_item__input" placeholder="Phone Number" value=""  required="required">
                     <label class="mobile_input_item__label">
                         Phone Number
                     </label>
-                    <button type="reset" class="mobile_input_item__close">
-                        <svg-icon src="../../assets/icons/_middle/plus.svg" class="cancel_delete"></svg-icon>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
                     </button>
                 </div>
-
                 <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
                     <input type="password"
                            name="pass"
@@ -202,10 +201,9 @@
                     <label class="mobile_input_item__label">
                         Host
                     </label>
-                    <button type="reset" class="mobile_input_item__close">
-                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"
-                                  class="cancel_delete"></svg-icon>
-                    </button>
+                    <!--<button type="reset" class="mobile_input_item__close  mobile_input_item__close&#45;&#45;right0">-->
+                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
+                    <!--</button>-->
                 </div>
                 <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
                     <input type="text" class="mobile_input_item__input" placeholder="Port" value="porta-sip.runexis.ru">
@@ -215,7 +213,7 @@
                 </div>
             </form>
         </div><!--mobile_block-->
-        <div class="mobile_down_btn_block">
+        <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
             <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                 Cancel
             </a>

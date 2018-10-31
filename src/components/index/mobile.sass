@@ -105,7 +105,7 @@
        padding-top: 6px
 
        height: 100%
-       width: 213px
+       width: 210px
 
        &:hover
            color: rgba(255, 255, 255, 1)
@@ -447,9 +447,9 @@
          далее стили для DEPARTMENTS (6-7)
 
    .mobile_depart_block
-       min-height: 890px
-       //margin-bottom: 18px
-       //+bred
+       //min-height: 890px
+       ////margin-bottom: 18px
+       ////+bred
 
 
    .mobile_item_card /*mobile_depart_card*/
@@ -616,9 +616,15 @@
        background: rgba(34, 178, 180, 1)
 
    .mobile_btn_down_block
-       margin-bottom: 8px
        padding-top: 8px
        padding-bottom: 24px
+       background: rgba(39, 37, 37, 1)
+
+   .mobile_btn_down_block--pos
+       position: fixed
+       top: 89.5%
+       left: 0
+       right: 0
 
    .mobile_wide_btn
        display: flex
@@ -683,11 +689,6 @@
        margin-left: auto
        margin-right: auto
        padding-top: 20px
-       margin-bottom: 68%
-
-   .edit_block--mb52
-       margin-bottom: 52%
-
 
    .edit_department_form, .edit_form
        display: flex
@@ -725,13 +726,38 @@
        margin-bottom: 10px
 
 
-
    .mobile_company_detalis
        display: flex
        flex-direction: column
 
        padding-top: 20px
 
+   .mobile_input_item_line
+       display: flex
+       align-items: center
+
+       font-family: Roboto, sans-serif
+       font-style: normal
+       font-weight: 300
+       font-size: 20px
+
+       color: rgba(255, 255, 255, .6)
+
+       span
+           &:first-child
+               margin-right: 25px
+
+       input
+           font-size: 24px
+           width: 61px
+           text-align: center
+           color: rgba(255, 255, 255, 1)
+           border-bottom: 1px solid rgba(34, 178, 180, 1) !important
+
+           margin-right: 18px
+
+   .mobile_input_item_line--mb35
+       margin-bottom: 35px
 
    .mobile_input_item
        position: relative
@@ -812,6 +838,23 @@
        -moz-appearance: none
        appearance: none
 
+   .mobile_input_item__select--min
+       max-width: 430px
+       min-width: 430px
+       margin-right: 17px
+
+   .mobile_input_item__select--mt15
+       margin-top: 15px
+
+
+   .mobile_input_item__select--bgs95
+       background-size: 23px 23px !important
+       background-position: 100% 10px !important
+
+   .mobile_input_item__select--bgs100
+       background-size: 23px 23px !important
+       background-position: 100% 10px !important
+
 
    .mobile_input_item__select--bgs
        background-size: 23px 23px !important
@@ -846,6 +889,38 @@
        color: rgba(255, 255, 255, 1)
 
        border-bottom: 1px solid rgba(255, 255, 255, .3) !important
+
+   .mobile_input_item_button
+       display: flex
+       margin-top: -12px
+
+   .mobile_input_item_button__btn
+       display: flex
+       align-items: center
+       justify-content: center
+
+       text-align: center
+
+       width: 64px
+       height: 64px
+       background: #22B2B4
+       border-radius: 5px
+
+       color: rgba(255, 255, 255, 1)
+
+       margin-right: 16px
+
+       span
+           display: block
+           width: 32px
+           height: 32px
+
+
+       &:last-child
+           margin-right: 0
+
+
+
 
    .mobile_week
        display: flex
@@ -939,6 +1014,11 @@
 
    .mobile_select_block__mdash
 
+
+   .mobile_input_item--row
+       flex-direction: row
+
+
    .mobile_input_item--mb9
        margin-bottom: 9px
 
@@ -948,6 +1028,9 @@
 
    .mobile_input_item--mb30
        margin-bottom: 30px
+
+   .mobile_input_item--mb42
+       margin-bottom: 42px
 
 
    .mobile_input_item--mb36
@@ -989,9 +1072,6 @@
        display: none
        cursor: pointer !important
 
-       position: absolute
-       right: 0
-
        padding: 14px
 
        width: 48px
@@ -1003,21 +1083,27 @@
        .svg
            fill: rgba(216, 92, 92, 1)
 
+   .mobile_input_item__close--right0
+       position: absolute
+       right: 0
+
+
 
    .mobile_input_item__input:valid ~ .mobile_input_item__close
        display: block
-
 
 
    /*------------------------------------------
          phone numbers (BUY OR ADD PHONE) (13)
 
    .mobile_phone_buy
+       display: flex
+       flex-direction: column
+
        align-items: center
 
        max-width: 448px
 
-       padding-top: 136px
        margin-left: auto
        margin-right: auto
 
@@ -1025,6 +1111,14 @@
        font-size: 14px
        font-weight: 300
        font-style: normal
+
+
+   .mobile_phone_buy--pos
+       position: absolute
+       top: 138px
+       left: 0
+       right: 0
+
 
 
    .mobile_phone_buy__title
@@ -1268,6 +1362,8 @@
 
 
    .addr_book_search
+       position: relative
+       
        font-weight: 300
        font-style: normal
        font-size: 24px
@@ -1492,6 +1588,11 @@
        display: flex
        align-items: center
 
+   .checkbox_wrap--mb29
+       margin-bottom: 29px
+
+   .checkbox_wrap--h22
+       height: 22px
 
    .checkbox_wrap--h64
        height: 64px
@@ -1507,6 +1608,16 @@
        font-size: 20px
        color: rgba(255, 255, 255, .3)
 
+   .label--white06
+       color: rgba(255, 255, 255, .6)
+
+   .label--dib
+       display: inline-block
+       i
+           display: inline-block
+           margin-left: 20px
+
+           font-style: normal
 
    .checkbox
        display: none
@@ -1601,28 +1712,31 @@
 
    .mobile_down_btn_block
        display: flex
-       justify-content: space-between
-       width: 92.5%
+       //justify-content: space-between
+       justify-content: center
+       //width: 92.5%
+       width: 100%
        margin-left: auto
        margin-right: auto
-       margin-bottom: 24px
-
-       po
-
+       //margin-bottom: 24px
+       padding-bottom: 24px
        background: rgba(39, 37, 37, 1)
 
        padding-top: 8px
 
+   .mobile_down_btn_block--pos
+       position: fixed
+       top: 89.5%
+       left: 0
+       right: 0
+
+
+   .mobile_down_btn_block--mb35
+       margin-bottom: 35px
+
+
    .mobile_down_btn_block--end
        justify-content: flex-end
-
-
-   .mobile_down_btn_block--position
-       //position: absolute
-       //bottom: 0
-       //left: 0
-       //right: 0
-       //top: 10%
 
    .mobile_down_btn_block__btn
        display: flex
@@ -1640,6 +1754,9 @@
        font-size: 20px
 
        border-radius: 5px
+
+       &:first-child
+           margin-right: 24px
 
    .mobile_down_btn_block__btn--green
        background: rgba(139, 165, 90, 1)
@@ -1739,6 +1856,7 @@
        display: flex
        flex-direction: column
        align-items: center
+       justify-content: center
 
        width: 296px
        height: 200px
@@ -1785,10 +1903,18 @@
 
 
    .mobile_settings_amount__img
+       display: flex
+       align-items: center
+       justify-content: center
+
        width: 64px
        height: 64px
 
        margin-bottom: 27px
+
+   .mobile_settings_amount__img--waves
+       width: 135px
+       padding-top: 16px
 
 
    .mobile_settings_amount__info
@@ -1829,8 +1955,6 @@
        padding-top: 27px
        line-height: 1.35
 
-   .refill_invoices--mb
-       margin-bottom: 71%
 
    .refill_invoices__title
        font-size: 32px
@@ -1867,8 +1991,7 @@
 
        margin-bottom: 27px
 
-       // todo заменить background: url(../../assets/icons/_cryptocurrency/8.svg)
-       background: url(../../assets/icons/_cryptocurrency/8.svg) no-repeat 39.5% 6px
+       background: url(../../assets/icons/icon_dollar.svg) no-repeat 39.5% 6px
        background-size: 48px 48px
 
 
@@ -1982,9 +2105,6 @@
    .mobile_block--active
        display: flex
 
-
-   .mobile_block--h890
-       min-height: 890px
 
    .mobile_backup--mb57
        margin-bottom: 52.7%
@@ -2277,10 +2397,7 @@
        width: 92.5%
 
        padding-top: 40px
-       margin-bottom: 38%
 
-   .form_item--mb11
-       margin-bottom: 11.5%
 
    .form_item--mb28
         margin-bottom: 28.5%
@@ -2298,6 +2415,9 @@
        color: rgba(255, 255, 255, .8)
 
        margin-bottom: 36px
+
+   .mobile_section_title--mt31
+       margin-top: 31px
 
 
    /*------------------------------------------

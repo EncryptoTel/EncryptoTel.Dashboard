@@ -149,7 +149,7 @@
 <!--<router-outlet></router-outlet>-->
 <!--</div>-->
 <!--</div>-->
-<!-- todo поправить кнопку очистки input -->
+
 <div class="main_mobile_wrap">
     <div class="user_mobile">
         <div class="user_mobile_up">
@@ -160,78 +160,72 @@
             </a>
             <div class="user_mobile__title">
                 <p>
-                    EDIT PHONE NUMBERS
+                    CREATE RING GROUP
                 </p>
             </div>
         </div>
     </div>
     <div class="body_mobile">
-        <div class="mobile_block  edit_department_block">
-            <form method="post" action="" id="edit_phone" class="edit_department_form">
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="Phone Number" value="">
-                    <label class="mobile_input_item__label">
-                        Phone Number
-                    </label>
-                    <button type="reset" class="mobile_input_item__close">
-                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
-                    </button>
+        <div class="mobile_block">
+            <div class="mobile_item_card">
+                <div class="mobile_item_card__title">
+                    <p>
+                        +1 (800) 555 12 12 <strong></strong>
+                    </p>
                 </div>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="Host" value="porta-sip.runexis.ru">
-                    <label class="mobile_input_item__label">
-                        Host
-                    </label>
-                    <!--<button type="reset" class="mobile_input_item__close">-->
-                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
-                    <!--</button>-->
+                <div class="mobile_item_card__items">
+                    <p>
+                        Ring Groups Name
+                    </p>
+                    <span>Unnamed</span>
                 </div>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="Port" value="8080">
-                    <label class="mobile_input_item__label">
-                        Port
-                    </label>
-                    <!--<button type="reset" class="mobile_input_item__close">-->
-                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
-                    <!--</button>-->
+                <div class="mobile_item_card__items">
+                    <p>
+                        Ring Strategy
+                    </p>
+                    <span>ringall</span>
                 </div>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <select name="" id="" class="mobile_input_item__select">
-                        <option selected value="Enabled" class="mobile_input_item__option">Enabled</option>
-                        <option value="Enabled">Enabled</option>
-                    </select>
-                    <label class="mobile_input_item__label">
-                        Status
-                    </label>
+                <!-- mobile_item_card_comment--active -->
+                <div class="mobile_item_card_comment  mobile_item_card_comment--pm0  mobile_item_card_comment--active">
+                    <div class="mobile_item_card__items">
+                        <p>
+                            Ring Time
+                        </p>
+                        <span>30</span>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            Destination if no answer
+                        </p>
+                        <span>End Call</span>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            Description
+                        </p>
+                        <span>30 members</span>
+                    </div>
+                    <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--top">
+                        <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--red">
+                            Delete
+                        </a>
+                        <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--green">
+                            Edit
+                        </a>
+                    </div>
                 </div>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input  mobile_input_item__input--white08" placeholder="" value="4">
-                    <label class="mobile_input_item__label">
-                        Amount of phone Exts
-                    </label>
-                    <!--<button type="reset" class="mobile_input_item__close">-->
-                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
-                    <!--</button>-->
+                <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos">
+                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow" style="cursor: pointer"></svg-icon>
                 </div>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input  mobile_input_item__input--white08" placeholder="" value="External">
-                    <label class="mobile_input_item__label">
-                        Type Number
-                    </label>
-                    <!--<button type="reset" class="mobile_input_item__close">-->
-                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
-                    <!--</button>-->
-                </div>
-            </form>
-        </div><!--mobile_block-->
-        <div class="mobile_down_btn_block">
-            <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
-                Cancel
-            </a>
-            <button type="submit" form="edit_phone"
-                    class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
-                Save
-            </button>
+            </div><!--card-->
+            <div class="mobile_down_btn_block  mobile_down_btn_block--end  mobile_down_btn_block--pos">
+                <!--<a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn&#45;&#45;grey">-->
+                    <!--Cancel-->
+                <!--</a>-->
+                <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
+                    Create Ring Group
+                </a>
+            </div>
         </div>
     </div>
     <!-- mobile_menu--active -->
