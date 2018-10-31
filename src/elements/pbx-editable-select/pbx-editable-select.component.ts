@@ -101,7 +101,10 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     selectItem(option: any, event?: Event): void {
-        if (event) this.killEvent(event);
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
 
         if (option.id) {
             this.onSelect.emit(option);

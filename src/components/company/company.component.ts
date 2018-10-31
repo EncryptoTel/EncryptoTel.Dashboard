@@ -47,7 +47,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 protected message: MessageServices) {
         super(fb, message);
 
-        this.company.logo = '../../assets/images/avatar/company_details.png';
+        this.company.logo = '/assets/images/logo/company_details.png';
         this.companyInfo = this.service.companyInfo;
         this.companyInfo.logo = this.company.logo;
 
@@ -130,14 +130,13 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     cancel(): void {
         this.service.resetErrors();
-        this.resetForms();
+        // this.resetForms();
         this.selectedCountry = null;
 
         // TODO: check how companyId is obtanied for create
         if (this.company.id) {
             this.editMode = false;
-        }
-        else {
+        } else {
             this.getCompany();
         }
     }
@@ -207,17 +206,13 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         this.service.getCompany().then((company: CompanyModel) => {
             this.company = company;
             this.companyInfo.logo = company.logo;
+            this.company.logo = company.logo;
         }).catch(() => {
             if (isDevEnv() && this.service.model) {
                 this.company = this.service.model;
             }
         }).then(() => {
-            // TODO: Temporary solution for company-logo. There is a backend issue that causes company data stops saving.
-            // See: https://jira.encry.ru/browse/ET-1599
-            this.company.logo = 'company_details.png';
             this.setFormData(this.company);
-
-            // this.editMode = !this.company.isValid;
             if (!this.company.isValid) {
                 this.isNewCompany = true;
                 this.editMode = true;

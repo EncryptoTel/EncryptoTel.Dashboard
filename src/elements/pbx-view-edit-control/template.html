@@ -24,4 +24,7 @@
                (onSelect)="selectItem($event)"
                >
     </pbx-table>
+    <div class="nothing-found-class" *ngIf="items.length === 0 || nothingFound" translate>
+        Nothing found
+    </div>
 </div>

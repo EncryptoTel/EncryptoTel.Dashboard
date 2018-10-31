@@ -22,10 +22,12 @@ pbx-call-rules-create
 
 // if Edge
 @supports (-ms-ime-align:auto)
-    @media screen and (max-width: 1319px)
-        buy-phone-numbers-component
-            .buy_phone_table_title
-                margin-right: 16px
+    .pbx_list_empty_icon
+        #arrow_edge,
+        #arrow_safari
+            text-align: right
+            svg
+                max-height: 220px
     buy-phone-numbers-component
         .buy_phone_table_body
             .buy_phone_table_item
@@ -36,6 +38,16 @@ pbx-call-rules-create
                         display: inline-flex !important
                     pbx-loader
                         display: inline-flex !important
+    @media screen and (max-width: 1699px)
+        #arrow_edge,
+        #arrow_safari
+            display: none !important
+        .pbx_list_empty
+            min-height: 220px !important
+    @media screen and (max-width: 1319px)
+        buy-phone-numbers-component
+            .buy_phone_table_title
+                margin-right: 16px
 
     #arrow_edge
         display: block
@@ -84,8 +96,8 @@ pbx-call-rules-create
     input::-ms-clear
         display: none
 
-#arrow_safari,
-#arrow_edge
+//#arrow_safari,
+//#arrow_edge
     //max-height: 230px
 
 // scrollbar
@@ -127,3 +139,4 @@ pbx-call-rules-create
         display: none !important
     .pbx_list_empty
         min-height: 220px !important
+
