@@ -24,7 +24,7 @@
             <div class="side_wrap" *ngIf="locker.free && !sidebar.loading && sidebar.mode === 'edit'">
                 <div class="side_body" *ngIf="!sidebar.saving">
 
-                    <pbx-input name="First Name"
+                    <pbx-input name="{{'First Name' | translate }}"
                                key="firstname"
                                [form]="true"
                                [object]="form"
@@ -39,7 +39,7 @@
                     >
                     </pbx-input>
 
-                    <pbx-input name="Last Name"
+                    <pbx-input name="{{'Last Name' | translate }}"
                                key="lastname"
                                [form]="true"
                                [object]="form"
@@ -130,7 +130,7 @@
                         </ng-container>
                     </div>
 
-                    <pbx-input name="Company Name"
+                    <pbx-input name="{{'Company Name' | translate }}"
                                key="company"
                                [form]="true"
                                [object]="form"
@@ -143,7 +143,7 @@
                     >
                     </pbx-input>
 
-                    <pbx-input name="Department"
+                    <pbx-input name="{{'Department' | translate }}"
                                key="department"
                                [form]="true"
                                [object]="form"
@@ -156,7 +156,7 @@
                     >
                     </pbx-input>
 
-                    <pbx-input name="Position"
+                    <pbx-input name="{{'Position' | translate }}"
                                key="position"
                                [form]="true"
                                [object]="form"
@@ -169,7 +169,7 @@
                     >
                     </pbx-input>
 
-                    <pbx-input name="Country"
+                    <pbx-input name="{{'Country' | translate }}"
                                key="country"
                                [form]="true"
                                [objectKey]="'id'"
@@ -187,7 +187,7 @@
                     >
                     </pbx-input>
 
-                    <pbx-input name="Address"
+                    <pbx-input name="{{'Address' | translate }}"
                                key="address"
                                [form]="true"
                                [object]="form"

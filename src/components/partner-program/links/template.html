@@ -1,7 +1,7 @@
 <div class="link_wrap" [@Fade]>
     <div class="link_header">
         <span>Generate Link</span>
-        <pbx-button buttonType="accent" value="Create Link" (onClick)="clickCreateLink()"></pbx-button>
+        <pbx-button buttonType="accent" value="{{'Create Link' | translate }}" (onClick)="clickCreateLink()"></pbx-button>
     </div>
     <pbx-table *ngIf="tableHasData"
                [tableInfoEx]="table"

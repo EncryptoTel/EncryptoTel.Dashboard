@@ -10,7 +10,7 @@
             <h3>General</h3>
         </div>
 
-        <pbx-input name="Enable Rule"
+        <pbx-input name="{{'Enable Rule' | translate }}"
                    key="enabled"
                    [checkbox]="true"
                    [form]="true"
@@ -19,7 +19,7 @@
                    [validationHost]="validationHost"
         >
         </pbx-input>
-        <pbx-input name="Rule Name"
+        <pbx-input name="{{'Rule Name' | translate }}"
                    key="name"
                    [required]="true"
                    [form]="true"
@@ -28,7 +28,7 @@
                    [validationHost]="validationHost"
         >
         </pbx-input>
-        <pbx-input name="Description"
+        <pbx-input name="{{'Description' | translate }}"
                    key="description"
                    [form]="true"
                    [object]="callRulesForm"
@@ -36,7 +36,7 @@
                    [validationHost]="validationHost"
         >
         </pbx-input>
-        <pbx-input name="Phone number"
+        <pbx-input name="{{'Phone number' | translate }}"
                    key="sipId"
                    [placeholder]="'[choose one]'"
                    [required]="true"
@@ -67,7 +67,7 @@
                 <h3>Options</h3>
             </div>
 
-            <pbx-input name="Action"
+            <pbx-input name="{{'Action' | translate }}"
                        [required]="true"
                        [placeholder]="'[choose one]'"
                        [form]="true"
@@ -90,7 +90,7 @@
 
                         <!-- Redirect to extension number -->
                         <ng-template [ngSwitchCase]="1" let>
-                            <pbx-input name="Extension number"
+                            <pbx-input name="{{'Extension number' | translate }}"
                                        key="parameter"
                                        [required]="true"
                                        [placeholder]="'[choose one]'"
@@ -107,7 +107,7 @@
                             >
                             </pbx-input>
 
-                            <pbx-input name="If I do not answer call within"
+                            <pbx-input name="{{'If I do not answer call within' | translate }}"
                                        description="seconds"
                                        key="timeout"
                                        [form]="true"
@@ -131,7 +131,7 @@
 
                         <!-- Redirect to external number -->
                         <ng-template [ngSwitchCase]="2">
-                            <pbx-input name="External number"
+                            <pbx-input name="{{'External number' | translate }}"
                                        key="parameter"
                                        [required]="true"
                                        [form]="true"
@@ -142,7 +142,7 @@
                             >
                             </pbx-input>
 
-                            <pbx-input name="If I do not answer call within"
+                            <pbx-input name="{{'If I do not answer call within' | translate }}"
                                        description="seconds"
                                        key="timeout"
                                        [form]="true"
@@ -165,7 +165,7 @@
 
                         <!-- Redirect to call queue -->
                         <ng-template [ngSwitchCase]="3">
-                            <pbx-input name="Queue"
+                            <pbx-input name="{{'Queue' | translate }}"
                                        key="parameter"
                                        [required]="true"
                                        placeholder="{{queues.length === 0 ? 'None' : '[choose one]'}}"
@@ -182,7 +182,7 @@
                             >
                             </pbx-input>
 
-                            <pbx-input name="If I do not answer call within"
+                            <pbx-input name="{{'If I do not answer call within' | translate }}"
                                        description="seconds"
                                        key="timeout"
                                        [form]="true"
@@ -216,7 +216,7 @@
                         <!-- Play voice file -->
                         <ng-template [ngSwitchCase]="5">
 
-                            <pbx-input name="Voice greeting"
+                            <pbx-input name="{{'Voice greeting' | translate }}"
                                        key="parameter"
                                        [required]="true"
                                        [placeholder]="'[choose file]'"
@@ -246,7 +246,7 @@
                                 </div>
                             </pbx-input>
 
-                            <pbx-input name="If I do not answer call within"
+                            <pbx-input name="{{'If I do not answer call within' | translate }}"
                                        description="seconds"
                                        key="timeout"
                                        [form]="true"
