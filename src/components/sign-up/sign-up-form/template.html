@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="input_wrap">
-            <input #emailInput name="E-mail" placeholder="E-mail" formControlName="email" (focus)="setFocus(emailInput)"
+            <input #emailInput name="E-mail" placeholder="{{'E-mail' | translate}}" formControlName="email" (focus)="setFocus(emailInput)"
                    (blur)="removeFocus(emailInput)" (mouseenter)="mouseEnter(emailInput)"
                    (mouseleave)="mouseLeave(emailInput)">
             <div class="input_error" *ngIf="inputValidation('email') && errorEmail" [@Fade]>
@@ -101,7 +101,7 @@
             Confirmation link has been sent to <br/>
             {{ email }}
         </div>
-        <pbx-button [buttonType]="'accent'" value="Resend confirmation" [loading]="loading"
+        <pbx-button [buttonType]="'accent'" value="{{'Resend confirmation' | translate}}" [loading]="loading"
                     (onClick)="resendConfirmation()"></pbx-button>
     </div>
 </div>
