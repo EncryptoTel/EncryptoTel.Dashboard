@@ -51,8 +51,8 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         this.id ? this.mode = 'edit' : this.mode = 'create';
 
         this.validationHost.customMessages = [
-            {name: 'First Name', error: 'pattern', message: 'Please enter valid first name'},
-            {name: 'Last Name', error: 'pattern', message: 'Please enter valid last name'},
+            {name: 'First Name', error: 'pattern', message: 'Last Name contain only letters, \'-\', \'_\' and \'.\''},
+            {name: 'Last Name', error: 'pattern', message: 'Last Name contain only letters, \'-\', \'_\' and \'.\''},
             {name: 'Email', error: 'pattern', message: 'Please enter valid email address'},
         ];
     }
