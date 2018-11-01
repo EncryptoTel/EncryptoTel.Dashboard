@@ -270,7 +270,8 @@ export class StorageComponent implements OnInit {
             if (this.currentFilter && this.currentFilter.type === 'trash') {
                 typeDelete = 'delete';
             }
-            const item = this.service.select; //this.mediaTable.tableItems.find(item => item.id == id);
+            let item: any;
+            item = this.pageInfo.items.find(item => item.id === id);
             // item ? item.loading++ : null;
 
             if (this.buttonType === 0) {
