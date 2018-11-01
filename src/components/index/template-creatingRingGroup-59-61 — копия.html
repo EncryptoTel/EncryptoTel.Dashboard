@@ -160,123 +160,91 @@
             </a>
             <div class="user_mobile__title">
                 <p>
-                    SECURITY SETTINGS
+                    CREATE RING GROUP
                 </p>
             </div>
         </div>
         <div class="user_mobile_down">
-            <nav class="user_mobile_tab  user_mobile_tab--h51">
-                <a
-                        class="user_mobile_tab__item  user_mobile_tab__item--set  user_mobile_tab__item--w177  user_mobile_tab__item--active">
-                    Allowed Country<br>Codes
+            <nav class="user_mobile_tab">
+                <a class="user_mobile_tab__item  user_mobile_tab__item--active">
+                    GENERAL
                 </a>
-                <a class="user_mobile_tab__item  user_mobile_tab__item--set  user_mobile_tab__item--w184">
-                    TWO-FACTOR<br>AUTHENTICATION
-                </a>
-                <a class="user_mobile_tab__item  user_mobile_tab__item--set  user_mobile_tab__item--w156">
-                    ACCOUNT<br>CREDENTIALS
-                </a>
-                <a class="user_mobile_tab__item  user_mobile_tab__item--set  user_mobile_tab__item--w122">
-                    Active<br>Sessions
+                <a class="user_mobile_tab__item">
+                    Group Members
                 </a>
             </nav>
         </div>
     </div>
     <div class="body_mobile  body_mobile--pt0">
-        <div class="mobile_block  mobile_block--dn">
-            <form id="country_codes" class="form_item">
+        <div class="mobile_block  ">
+            <form id="general" class="form_item">
                 <p class="mobile_section_title">
-                    Select the region or country to which calls are allowed
+                    Create Ring Group
                 </p>
-                <div class="mobile_select_country">
-                    <div class="select_item_country">
-                        <a href="#" class="select_item_country__items">
-                           North America 
-                        </a>
-                    </div>
-                    <div class="select_item_country">
-                        <a href="#" class="select_item_country__items">
-                           South America 
-                        </a>
-                    </div>
-                    <div class="select_item_country">
-                        <a href="#" class="select_item_country__items">
-                            Europe
-                        </a>
-                    </div>
-                    <div class="select_item_country">
-                        <a href="#" class="select_item_country__items">
-                            Asia and the Middle East
-                        </a>
-                    </div>
-                    <div class="select_item_country">
-                        <a href="#" class="select_item_country__items">
-                            Africa
-                        </a>
-                    </div>
-                    <div class="select_item_country">
-                        <a href="#" class="select_item_country__items">
-                                Australia
-                        </a>
-                    </div>
-                    <div class="select_item_country">
-                        <a href="#" class="select_item_country__items">
-                           International Networks 
-                        </a>
-                    </div>
+                <div class="mobile_input_item  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="Name" value="Unnamed">
+                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                        Name
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="Description" value="30 members">
+                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                        Description
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs">
+                        <option selected value="choose one" class="mobile_input_item__option">[choose one]</option>
+                        <option value="choose one" class="mobile_input_item__option">[choose one]</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Phone number
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs">
+                        <option selected value="ringall" class="mobile_input_item__option">ringall</option>
+                        <option value="choose one" class="mobile_input_item__option">ringall</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Ring Strategy
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--mb124">
+                    <input type="text" class="mobile_input_item__input  mobile_input_item__input--right"
+                           placeholder="Ring Time" value="30 seconds">
+                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                        Ring Time
+                    </label>
+                </div>
+                <p class="mobile_section_title">
+                    Destination if no answer
+                </p>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs">
+                        <option selected value="Terminate Call" class="mobile_input_item__option">Terminate Call</option>
+                        <option value="Terminate Call" class="mobile_input_item__option">Terminate Call</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        then
+                    </label>
                 </div>
             </form><!--create_shedule-->
             <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
                 <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                     Cancel
                 </a>
-                <button type="submit" form="country_codes"
+                <button type="submit" form="general"
                         class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
                     Save
                 </button>
             </div>
-        </div> <!-- country_codes -->
-        <div class="mobile_block  ">
-            <form class="form_item">
-                <div class="authentication">
-                    <p class="mobile_section_title  mobile_section_title--mb18">
-                        Add an additional layer of security to your account to protect the data
-                    </p>
-                    <label class="checkbox_wrap  checkbox_wrap--h64">
-                        <input class="checkbox" type="checkbox" name="" checked>
-                        <span class="checkbox_custom"></span>
-                        <span class="label  label--fz24Wh">Enable</span>
-                    </label>
-                    <p class="mobile_section_title  mobile_section_title--mt21">
-                        Account currency
-                    </p>
-                    <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb30">
-                        <input type="text" class="mobile_input_item__input" placeholder="email" value="" required="required">
-                        <label class="mobile_input_item__label">
-                            Rescue Email Address
-                        </label>
-                        <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
-                            <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
-                        </button>
-                    </div>
-                    <a href="#" class="btn_items  btn_items__verify">
-                        Verify Email
-                    </a>
-                </div>
-            </form><!--create_shedule-->
-            <div class="mobile_down_btn_block  mobile_down_btn_block--pos  mobile_down_btn_block--end">
-                <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
-                    Cancel
-                </a>
-                <!--<button type="submit" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn&#45;&#45;green">-->
-                    <!--Save-->
-                <!--</button>-->
-            </div>
-        </div><!-- authentication block -->
+        </div>
         <div class="mobile_block  mobile_block--dn">
-            <form id="create_notifications" class="form_item">
+            <form id="group_members" class="form_item  form_item--mb28">
                 <p class="mobile_section_title">
-                    Select queue manager extension number
+                    Call Queue Agents
                 </p>
                 <div class="mobile_item_card  mobile_item_card--w100">
                     <div class="mobile_item_card__title">
@@ -297,7 +265,7 @@
                         <span>Groot</span>
                     </div>
                     <!-- mobile_item_card_comment--active -->
-                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0  mobile_item_card_comment--active">
+                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
                         <div class="mobile_item_card__items">
                             <p>
                                 Last Name
@@ -310,11 +278,50 @@
                             </p>
                             <span>Enabled</span>
                         </div>
+                        <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--top">
+                            <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--red">
+                                Delete
+                            </a>
+                            <!--<a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn&#45;&#45;green">-->
+                                <!--Edit-->
+                            <!--</a>-->
+                        </div>
+                    </div>
+                    <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos">
+                        <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow" style="cursor: pointer"></svg-icon>
+                    </div>
+                </div><!--card-->
+                <div class="mobile_item_card  mobile_item_card--w100">
+                    <div class="mobile_item_card__title">
+                        <p>
+                            +1 (800) 555 12 12 <strong></strong>
+                        </p>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            #Ext
+                        </p>
+                        <span>102</span>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            First Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <!-- mobile_item_card_comment--active -->
+                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
                         <div class="mobile_item_card__items">
                             <p>
-                                E-mail
+                                Last Name
                             </p>
-                            <a href="mailto:g.groot@marvel.com" class="mobile_item_card__e-mail">g.groot@marvel.com</a>
+                            <span>Groot</span>
+                        </div>
+                        <div class="mobile_item_card__items">
+                            <p>
+                                Status
+                            </p>
+                            <span>Enabled</span>
                         </div>
                         <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--top">
                             <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--red">
@@ -329,48 +336,110 @@
                         <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow" style="cursor: pointer"></svg-icon>
                     </div>
                 </div><!--card-->
-                <p class="mobile_section_title  mobile_section_title--mt31">
-                    Queue Email Notifications
-                </p>
-                <div class="mobile_checkbox_item">
-                    <label class="checkbox_wrap  checkbox_wrap--h64">
-                        <input class="checkbox" type="checkbox" name="" checked>
-                        <span class="checkbox_custom"></span>
-                        <span class="label  label--lh  label--w456">Notify Queue manager via email when SLA time has
-                            been Breached</span>
-                    </label>
-                    <label class="checkbox_wrap  checkbox_wrap--h64">
-                        <input class="checkbox" type="checkbox" name="" checked>
-                        <span class="checkbox_custom"></span>
-                        <span class="label  label--lh  label--w456">Notify Queue Manager when a Callback is made</span>
-                    </label>
-                    <label class="checkbox_wrap  checkbox_wrap--h64">
-                        <input class="checkbox" type="checkbox" name="" checked>
-                        <span class="checkbox_custom"></span>
-                        <span class="label  label--lh  label--w456">Notify Queue manager when a Callback fails</span>
-                    </label>
-                    <label class="checkbox_wrap  checkbox_wrap--h64">
-                        <input class="checkbox" type="checkbox" name="" checked>
-                        <span class="checkbox_custom"></span>
-                        <span class="label  label--lh  label--w456">Notify Queue Manager when a Queue call is lost</span>
-                    </label>
-                </div>
-
-
+                <div class="mobile_item_card  mobile_item_card--w100">
+                    <div class="mobile_item_card__title">
+                        <p>
+                            +1 (800) 555 12 12 <strong></strong>
+                        </p>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            #Ext
+                        </p>
+                        <span>103</span>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            First Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <!-- mobile_item_card_comment--active -->
+                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                        <div class="mobile_item_card__items">
+                            <p>
+                                Last Name
+                            </p>
+                            <span>Groot</span>
+                        </div>
+                        <div class="mobile_item_card__items">
+                            <p>
+                                Status
+                            </p>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--top">
+                            <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--red">
+                                Delete
+                            </a>
+                            <!--<a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn&#45;&#45;green">-->
+                            <!--Edit-->
+                            <!--</a>-->
+                        </div>
+                    </div>
+                    <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos">
+                        <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow" style="cursor: pointer"></svg-icon>
+                    </div>
+                </div><!--card-->
+                <div class="mobile_item_card  mobile_item_card--w100">
+                    <div class="mobile_item_card__title">
+                        <p>
+                            +1 (800) 555 12 12 <strong></strong>
+                        </p>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            #Ext
+                        </p>
+                        <span>104</span>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            First Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <!-- mobile_item_card_comment--active -->
+                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                        <div class="mobile_item_card__items">
+                            <p>
+                                Last Name
+                            </p>
+                            <span>Groot</span>
+                        </div>
+                        <div class="mobile_item_card__items">
+                            <p>
+                                Status
+                            </p>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--top">
+                            <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--red">
+                                Delete
+                            </a>
+                            <!--<a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn&#45;&#45;green">-->
+                            <!--Edit-->
+                            <!--</a>-->
+                        </div>
+                    </div>
+                    <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos">
+                        <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow" style="cursor: pointer"></svg-icon>
+                    </div>
+                </div><!--card-->
                 <a href="#" class="mobile_top_pos_btn">
                     Add Members
                 </a>
-            </form>
+            </form><!--create_shedule-->
             <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
                 <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                     Cancel
                 </a>
-                <button type="submit" form="create_notifications"
+                <button type="submit" form="group_members"
                         class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
                     Save
                 </button>
             </div>
-        </div><!-- -->
+        </div>
     </div>
     <!-- mobile_menu--active -->
     <div class="mobile_menu ">
