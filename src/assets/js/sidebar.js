@@ -62,5 +62,40 @@ jQuery(document).ready(function(){
         }
     }
 
+    //----------------------------------------
+    // меню
+
+    $('.user_btn').on('click', function () {
+       $('.mobile_menu').addClass('mobile_menu--active');
+       $('.mobile_overlay').addClass('mobile_overlay--active');
+    });
+    $('.mobile_overlay').on('click', function () {
+        $('.mobile_menu').removeClass('mobile_menu--active');
+        $(this).removeClass('mobile_overlay--active');
+    });
+
+    // ---------------------------------
+    // открытие карточки и поворот кнопки
+
+    $('.mobile_item_card').on('click', function () {
+        $(this).find('.dropdown_arrow_btn').toggleClass('rotate180');
+        $(this).find('.mobile_item_card_comment').toggleClass('mobile_item_card_comment--active');
+    });
+
+    // ---------------------------------
+    // transfer to acc
+
+
+    // ---------------------------------
+    // табы
+
+    $('.user_mobile_tab__item').on('click', function () {
+        $(this).addClass('user_mobile_tab__item--active').siblings().removeClass('user_mobile_tab__item--active');
+        $('.mobile_block').addClass('mobile_block--dn').eq($(this).index()).removeClass('mobile_block--dn');
+        return false;
+    });
+
+
+
 
   });
