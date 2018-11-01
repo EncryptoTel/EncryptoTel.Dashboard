@@ -5,6 +5,7 @@
    .main_mobile_wrap
        display: flex
        margin: 0 auto
+       padding: 0
        flex-direction: column
 
        max-width: 640px
@@ -20,8 +21,12 @@
        justify-content: center
        flex-direction: column
        align-items: flex-start
-       background: #272726
-       box-shadow: 0 0 4px 0 rgba(0,0,0, .12)
+       //background: #272726
+       background: #2E2E2C
+
+       -webkit-box-shadow: 0 4px 4px 0 rgba(0,0,0, .12)
+       -moz-box-shadow: 0 4px 4px 0 rgba(0,0,0, .12)
+       box-shadow: 0 4px 4px 0 rgba(0,0,0, .12)
 
        margin-top: 40px
        //margin-bottom: 16px
@@ -114,13 +119,13 @@
        &:hover
            color: rgba(255, 255, 255, 1)
 
-   .user_mobile_tab__item--w139
-       max-width: 232px
-       min-width: 139px
+   .user_mobile_tab__item--mw136
+       max-width: 136px
+       min-width: 136px
 
-   .user_mobile_tab__item--w219
-       max-width: 219px
-       min-width: 219px
+   .user_mobile_tab__item--mw230
+       max-width: 230px
+       min-width: 226px
 
 
 
@@ -132,18 +137,21 @@
 
        line-height: 1.35
 
-
    .user_mobile_tab__item--w177
-       width: 177px
+       min-width: 177px
+       max-width: 177px
 
    .user_mobile_tab__item--w184
-       width: 177px
+       min-width: 177px
+       max-width: 177px
 
    .user_mobile_tab__item--w156
-       width: 156px
+       min-width: 156px
+       max-width: 156px
 
    .user_mobile_tab__item--w122
-       width: 122px
+       min-width: 122px
+       max-width: 122px
 
    .user_mobile_tab__item--active
        color: rgba(255, 255, 255, 1)
@@ -631,6 +639,9 @@
        display: flex
        justify-content: space-between
 
+   .mobile_item_card_comment__block--end
+       justify-content: flex-end
+
    .mobile_item_card_comment__block--top
        margin-top: 24px
 
@@ -814,6 +825,8 @@
        font-style: normal
        font-size: 24px
 
+       //align-items: center
+
        color: rgba(255, 255, 255, 1)
 
        height: 51px
@@ -832,6 +845,10 @@
 
    .mobile_input_item__input--white08
        color: rgba(255, 255, 255, .8) !important
+
+   .mobile_input_item__input--transfer
+       color: rgba(0, 0, 0, 1) !important
+       border-bottom: rgba(34, 178, 180, 1) !important
 
    .mobile_input_item__textarea
        max-width: 477px
@@ -1237,7 +1254,6 @@
        height: 64px
        outline: none
 
-       // todo поправить шрифт (не устанавливается 300)
        font-family: Roboto, sans-serif
        font-weight: 300
        font-style: normal
@@ -1270,14 +1286,11 @@
            background: rgba(55, 54, 53, 1)
            outline: none
 
-
    .internal_form_item__select--pal
         padding-left: 28% !important
 
    .internal_form_item__select--pal21
        padding-left: 21% !important
-
-
 
    .internal_form_item__search
        width: 416px
@@ -1299,7 +1312,6 @@
 
        border: 1px solid rgba(149, 152, 154, 1) !important
 
-
    .internal_form_item__search--tac
        //text-align: center
        padding-right: 42px
@@ -1316,13 +1328,11 @@
        //&:-ms-input-placeholder
        //    padding-right: 42px
 
-
    .internal_form_box
        display: flex
        justify-content: space-between
        width: 416px
        padding-top: 6px
-
 
    /*------------------------------------------
 
@@ -1334,7 +1344,6 @@
        margin-left: auto
        margin-right: auto
        margin-bottom: 8px
-
 
    .buy_block_item
        align-items: center
@@ -1358,7 +1367,6 @@
        &:first-child
            color: rgba(255, 255, 255, .6)
 
-
    .internal
        width: 35%
        justify-content: flex-start
@@ -1370,12 +1378,10 @@
 
        //border: 1px solid green
 
-
    .monthly
        width: 18%
        justify-content: flex-end
        //border: 1px solid green
-
 
    .buy
        width: 12%
@@ -1391,7 +1397,6 @@
        //background-size: 23.62px 23.62px
        background-position: center center
        //background-position: 97% center
-
 
     /*------------------------------------------
           ADDRESS BOOK (16)
@@ -1925,14 +1930,6 @@
    .btn_items__verify
 
 
-
-
-
-
-
-
-
-
    /*------------------------------------------
          REFILL BALANCE (40-41)
 
@@ -2226,6 +2223,7 @@
        flex-direction: column
 
        position: relative
+
 
    .mobile_block--dn
        display: none
@@ -2529,6 +2527,9 @@
    .form_item--pt16
        padding-top: 16px !important
 
+   .form_item--pt36
+       padding-top: 36px
+
 
    .mobile_section_title
        font-family: Roboto, sans-serif
@@ -2550,6 +2551,125 @@
    .mobile_section_title--mb18
        margin-bottom: 18px
 
+   /*------------------------------------------
+        PARTNER PROGRAM (75 - 81)
+
+   .text_block
+       display: flex
+       flex-direction: column
+
+       margin-left: auto
+       margin-right: auto
+
+       font-family: Roboto, sans-serif
+       font-weight: 300
+       font-style: normal
+       font-size: 14px
+
+       padding-top: 24px
+
+       //line-height: 1.75
+
+   .text_item
+       font-family: Roboto, sans-serif
+       font-weight: 300
+       font-style: normal
+       font-size: 14px
+
+       line-height: 1.75
+
+       color: rgba(255, 255, 255, .8)
+
+       max-width: 592px
+
+       margin-bottom: 16px
+
+       margin-left: 0
+       margin-right: 0
+
+       padding: 0
+
+       b
+           font-family: Roboto, sans-serif
+           font-weight: 400
+           font-style: normal
+           color: rgba(255, 255, 255, 1)
+
+
+   .text_item--mb38
+       margin-bottom: 38px
+
+
+   .transfer_block
+       display: none
+
+       background: rgba(255, 255, 255, 1)
+
+       border-radius: 2px
+
+       width: 92.5%
+       height: 328px
+
+       padding-top: 35px
+       padding-left: 98px
+       padding-right: 94px
+       padding-bottom: 21px
+
+   .transfer_block--pos
+       position: absolute
+       top: 30%
+       left: 4%
+
+   .transfer_window
+       display: flex
+       flex-direction: column
+
+       position: relative
+
+       align-items: center
+
+   .transfer_window__title
+       font-family: Roboto, sans-serif
+       font-weight: 400
+       font-style: normal
+       font-size: 26px
+
+       color: rgba(0, 0, 0, 1)
+
+       margin-bottom: 43px
+
+   .transfer_window__title--cyen
+       color: rgba(34, 178, 180, 1)
+       margin-bottom: 0
+
+   .transfer_window__item
+       align-self: flex-start
+       font-size: 20px
+       color: rgba(0, 0, 0, 1)
+
+   .transfer_window_btn
+       position: absolute
+       bottom: 0
+       right: 0
+
+   .transfer_window_btn__item
+       display: flex
+       align-items: center
+       justify-content: center
+
+       height: 64px
+       width: 112px
+
+       font-size: 20px
+       font-family: Roboto, sans-serif
+       font-weight: 400
+       font-style: normal
+
+       color: rgba(34, 178, 180, 1)
+       cursor: pointer
+
+       &:last-child
+           width: 88px
 
    /*------------------------------------------
          WITHDRAW FUNDS (82)
