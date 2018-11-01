@@ -184,141 +184,58 @@
     </div>
     <div class="body_mobile  body_mobile--pt0">
         <div class="mobile_block  ">
-            <form id="create_general" class="form_item">
+            <form id="country_codes" class="form_item">
                 <p class="mobile_section_title">
-                    Create New Queue
+                    Select the region or country to which calls are allowed
                 </p>
-                <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="Name" value="Unnamed">
-                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
-                        Name
-                    </label>
-                </div>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs100">
-                        <option selected value="choose one" class="mobile_input_item__option">[choose one]</option>
-                        <option value="choose one" class="mobile_input_item__option">[choose one]</option>
-                    </select>
-                    <label class="mobile_input_item__label">
-                        Phone number
-                    </label>
-                </div>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs100">
-                        <option selected value="Prioritized Hunt" class="mobile_input_item__option">Prioritized Hunt</option>
-                        <option value="Prioritized Hunt" class="mobile_input_item__option">Prioritized Hunt</option>
-                    </select>
-                    <label class="mobile_input_item__label">
-                        Ring Strategy
-                    </label>
-                </div>
-                <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="Ring Time" value="30 seconds">
-                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
-                        Ring Time
-                    </label>
-                </div>
-                <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="Maximum Callers in Queue" value="60">
-                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
-                        Maximum Callers in Queue
-                    </label>
-                </div>
-                <div class="mobile_input_item  mobile_input_item--mb36">
-                    <input type="text" class="mobile_input_item__input" placeholder="Configure SLA Time" value="300 seconds">
-                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
-                        Configure SLA Time
-                    </label>
-                </div>
-                <p class="mobile_section_title">
-                    Music on Hold
-                </p>
-                <div class="mobile_input_item  mobile_input_item--row  mobile_input_item--w100  mobile_input_item--mb20">
-                    <select name="" class="mobile_input_item__select  mobile_input_item__select--min">
-                        <option selected value="" class="mobile_input_item__option"></option>
-                        <option value="" class="mobile_input_item__option"></option>
-                    </select>
-                    <label class="mobile_input_item__label">
-                        Music file
-                    </label>
-                    <div class="mobile_input_item_button">
-                        <a href="#" class="mobile_input_item_button__btn">
-                            icon Upload
-                        </a>
-                        <a href="#" class="mobile_input_item_button__btn">
-                            <span>
-                                <svg-icon src="../../assets/icons/play_24px.svg" class="svg"></svg-icon>
-                            </span>
+                <div class="mobile_select_country">
+                    <div class="select_item_country">
+                        <a href="#" class="select_item_country__items">
+                           North America 
                         </a>
                     </div>
-                </div>
-                <p class="mobile_section_title  mobile_section_title--mt31">
-                    Intro Prompt
-                </p>
-                <label class="checkbox_wrap  checkbox_wrap--mb29">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label label--white06">Play Intro Prompt</span>
-                </label>
-                <div class="mobile_input_item  mobile_input_item--row  mobile_input_item--w100  mobile_input_item--mb42">
-                    <select name="" class="mobile_input_item__select  mobile_input_item__select--min">
-                        <option selected value="english intro prompt" class="mobile_input_item__option">english intro prompt</option>
-                        <option value="english intro prompt" class="mobile_input_item__option">english intro prompt</option>
-                    </select>
-                    <label class="mobile_input_item__label">
-                        Intro Prompt File
-                    </label>
-                    <div class="mobile_input_item_button">
-                        <a href="#" class="mobile_input_item_button__btn">
-                            icon Upload
-                        </a>
-                        <a href="#" class="mobile_input_item_button__btn">
-                            <span>
-                                <svg-icon src="../../assets/icons/play_24px.svg" class="svg"></svg-icon>
-                            </span>
+                    <div class="select_item_country">
+                        <a href="#" class="select_item_country__items">
+                           South America 
                         </a>
                     </div>
-                </div>
-                <label class="checkbox_wrap  checkbox_wrap--mb29">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label  label--white06  label--dib">Play full intro  <i>Play full intro prompt before calling agents</i>
-                    </span>
-                </label>
-                <p class="mobile_section_title">
-                    Queue Options
-                </p>
-                <label class="checkbox_wrap  checkbox_wrap--mb29">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label label--white06">Announce Queue position to caller</span>
-                </label>
-                <div class="mobile_input_item_line  mobile_input_item_line--mb35">
-                    <span>Announcement Interval</span>
-                    <input type="text" value="30">
-                    <span>seconds</span>
-                </div>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <select name=""
-                            class="mobile_input_item__select   mobile_input_item__select--mt15   mobile_input_item__select--bgs95">
-                        <option selected value="Standard English Set" class="mobile_input_item__option">Standard English Set</option>
-                        <option value="Standard English Set" class="mobile_input_item__option">Standard English Set</option>
-                    </select>
-                    <label class="mobile_input_item__label">
-                        Queue Language
-                    </label>
+                    <div class="select_item_country">
+                        <a href="#" class="select_item_country__items">
+                            Europe
+                        </a>
+                    </div>
+                    <div class="select_item_country">
+                        <a href="#" class="select_item_country__items">
+                            Asia and the Middle East
+                        </a>
+                    </div>
+                    <div class="select_item_country">
+                        <a href="#" class="select_item_country__items">
+                            Africa
+                        </a>
+                    </div>
+                    <div class="select_item_country">
+                        <a href="#" class="select_item_country__items">
+                                Australia
+                        </a>
+                    </div>
+                    <div class="select_item_country">
+                        <a href="#" class="select_item_country__items">
+                           International Networks 
+                        </a>
+                    </div>
                 </div>
             </form><!--create_shedule-->
-            <div class="mobile_down_btn_block  mobile_down_btn_block--pos93">
+            <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
                 <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                     Cancel
                 </a>
-                <button type="submit" form="create_general"
+                <button type="submit" form="country_codes"
                         class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
                     Save
                 </button>
             </div>
-        </div> <!--general-->
+        </div> <!-- country_codes -->
         <div class="mobile_block  mobile_block--dn">
             <form id="create_members" class="form_item">
                 <p class="mobile_section_title">
@@ -517,7 +434,7 @@
                     Save
                 </button>
             </div>
-        </div><!--members-->
+        </div><!-- authentication -->
         <div class="mobile_block  mobile_block--dn">
             <form id="create_notifications" class="form_item">
                 <p class="mobile_section_title">
@@ -615,7 +532,7 @@
                     Save
                 </button>
             </div>
-        </div><!--notifications-->
+        </div><!-- -->
     </div>
     <!-- mobile_menu--active -->
     <div class="mobile_menu ">
