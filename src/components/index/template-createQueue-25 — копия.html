@@ -160,7 +160,7 @@
             </a>
             <div class="user_mobile__title">
                 <p>
-                    CREATE RING GROUP
+                    CREATE QUEUE
                 </p>
             </div>
         </div>
@@ -170,16 +170,19 @@
                     GENERAL
                 </a>
                 <a class="user_mobile_tab__item">
-                    Group Members
+                    Members
+                </a>
+                <a class="user_mobile_tab__item">
+                    Notifications
                 </a>
             </nav>
         </div>
     </div>
     <div class="body_mobile  body_mobile--pt0">
         <div class="mobile_block  ">
-            <form id="general" class="form_item">
+            <form id="create_general" class="form_item">
                 <p class="mobile_section_title">
-                    Create Ring Group
+                    Create New Queue
                 </p>
                 <div class="mobile_input_item  mobile_input_item--mb20">
                     <input type="text" class="mobile_input_item__input" placeholder="Name" value="Unnamed">
@@ -187,14 +190,8 @@
                         Name
                     </label>
                 </div>
-                <div class="mobile_input_item  mobile_input_item--mb20">
-                    <input type="text" class="mobile_input_item__input" placeholder="Description" value="30 members">
-                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
-                        Description
-                    </label>
-                </div>
                 <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs100">
                         <option selected value="choose one" class="mobile_input_item__option">[choose one]</option>
                         <option value="choose one" class="mobile_input_item__option">[choose one]</option>
                     </select>
@@ -203,48 +200,125 @@
                     </label>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs">
-                        <option selected value="ringall" class="mobile_input_item__option">ringall</option>
-                        <option value="choose one" class="mobile_input_item__option">ringall</option>
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs100">
+                        <option selected value="Prioritized Hunt" class="mobile_input_item__option">Prioritized Hunt</option>
+                        <option value="Prioritized Hunt" class="mobile_input_item__option">Prioritized Hunt</option>
                     </select>
                     <label class="mobile_input_item__label">
                         Ring Strategy
                     </label>
                 </div>
-                <div class="mobile_input_item  mobile_input_item--mb124">
-                    <input type="text" class="mobile_input_item__input  mobile_input_item__input--right"
-                           placeholder="Ring Time" value="30 seconds">
+                <div class="mobile_input_item  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="Ring Time" value="30 seconds">
                     <label class="mobile_input_item__label  mobile_input_item__label--white06">
                         Ring Time
                     </label>
                 </div>
+                <div class="mobile_input_item  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="Maximum Callers in Queue" value="60">
+                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                        Maximum Callers in Queue
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--mb36">
+                    <input type="text" class="mobile_input_item__input" placeholder="Configure SLA Time" value="300 seconds">
+                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                        Configure SLA Time
+                    </label>
+                </div>
                 <p class="mobile_section_title">
-                    Destination if no answer
+                    Music on Hold
                 </p>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs">
-                        <option selected value="Terminate Call" class="mobile_input_item__option">Terminate Call</option>
-                        <option value="Terminate Call" class="mobile_input_item__option">Terminate Call</option>
+                <div class="mobile_input_item  mobile_input_item--row  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--min">
+                        <option selected value="" class="mobile_input_item__option"></option>
+                        <option value="" class="mobile_input_item__option"></option>
                     </select>
                     <label class="mobile_input_item__label">
-                        then
+                        Music file
+                    </label>
+                    <div class="mobile_input_item_button">
+                        <a href="#" class="mobile_input_item_button__btn">
+                            icon Upload
+                        </a>
+                        <a href="#" class="mobile_input_item_button__btn">
+                            <span>
+                                <svg-icon src="../../assets/icons/play_24px.svg" class="svg"></svg-icon>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <p class="mobile_section_title  mobile_section_title--mt31">
+                    Intro Prompt
+                </p>
+                <label class="checkbox_wrap  checkbox_wrap--mb29">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label label--white06">Play Intro Prompt</span>
+                </label>
+                <div class="mobile_input_item  mobile_input_item--row  mobile_input_item--w100  mobile_input_item--mb42">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--min">
+                        <option selected value="english intro prompt" class="mobile_input_item__option">english intro prompt</option>
+                        <option value="english intro prompt" class="mobile_input_item__option">english intro prompt</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Intro Prompt File
+                    </label>
+                    <div class="mobile_input_item_button">
+                        <a href="#" class="mobile_input_item_button__btn">
+                            icon Upload
+                        </a>
+                        <a href="#" class="mobile_input_item_button__btn">
+                            <span>
+                                <svg-icon src="../../assets/icons/play_24px.svg" class="svg"></svg-icon>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <label class="checkbox_wrap  checkbox_wrap--mb29">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label  label--white06  label--dib">Play full intro  <i>Play full intro prompt before calling agents</i>
+                    </span>
+                </label>
+                <p class="mobile_section_title">
+                    Queue Options
+                </p>
+                <label class="checkbox_wrap  checkbox_wrap--mb29">
+                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label label--white06">Announce Queue position to caller</span>
+                </label>
+                <div class="mobile_input_item_line  mobile_input_item_line--mb35">
+                    <span>Announcement Interval</span>
+                    <input type="text" value="30">
+                    <span>seconds</span>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name=""
+                            class="mobile_input_item__select   mobile_input_item__select--mt15   mobile_input_item__select--bgs95">
+                        <option selected value="Standard English Set" class="mobile_input_item__option">Standard English Set</option>
+                        <option value="Standard English Set" class="mobile_input_item__option">Standard English Set</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Queue Language
                     </label>
                 </div>
             </form><!--create_shedule-->
-            <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
+            <div class="mobile_down_btn_block  mobile_down_btn_block--pos93">
                 <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                     Cancel
                 </a>
-                <button type="submit" form="general"
+                <button type="submit" form="create_general"
                         class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
                     Save
                 </button>
             </div>
-        </div>
+        </div> <!--general-->
         <div class="mobile_block  mobile_block--dn">
-            <form id="group_members" class="form_item  form_item--mb28">
+            <form id="create_members" class="form_item">
                 <p class="mobile_section_title">
-                    Call Queue Agents
+                    Select queue manager extension number
                 </p>
                 <div class="mobile_item_card  mobile_item_card--w100">
                     <div class="mobile_item_card__title">
@@ -265,7 +339,7 @@
                         <span>Groot</span>
                     </div>
                     <!-- mobile_item_card_comment--active -->
-                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0  mobile_item_card_comment--active">
                         <div class="mobile_item_card__items">
                             <p>
                                 Last Name
@@ -355,7 +429,7 @@
                         <span>Groot</span>
                     </div>
                     <!-- mobile_item_card_comment--active -->
-                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0  ">
                         <div class="mobile_item_card__items">
                             <p>
                                 Last Name
@@ -434,12 +508,110 @@
                 <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                     Cancel
                 </a>
-                <button type="submit" form="group_members"
+                <button type="submit" form="create_members"
                         class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
                     Save
                 </button>
             </div>
-        </div>
+        </div><!--members-->
+        <div class="mobile_block  mobile_block--dn">
+            <form id="create_notifications" class="form_item">
+                <p class="mobile_section_title">
+                    Select queue manager extension number
+                </p>
+                <div class="mobile_item_card  mobile_item_card--w100">
+                    <div class="mobile_item_card__title">
+                        <p>
+                            +1 (800) 555 12 12 <strong></strong>
+                        </p>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            #Ext
+                        </p>
+                        <span>101</span>
+                    </div>
+                    <div class="mobile_item_card__items">
+                        <p>
+                            First Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <!-- mobile_item_card_comment--active -->
+                    <div class="mobile_item_card_comment  mobile_item_card_comment--pm0  mobile_item_card_comment--active">
+                        <div class="mobile_item_card__items">
+                            <p>
+                                Last Name
+                            </p>
+                            <span>Groot</span>
+                        </div>
+                        <div class="mobile_item_card__items">
+                            <p>
+                                Status
+                            </p>
+                            <span>Enabled</span>
+                        </div>
+                        <div class="mobile_item_card__items">
+                            <p>
+                                E-mail
+                            </p>
+                            <a href="mailto:g.groot@marvel.com" class="mobile_item_card__e-mail">g.groot@marvel.com</a>
+                        </div>
+                        <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--top">
+                            <a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn--red">
+                                Delete
+                            </a>
+                            <!--<a href="#" class="mobile_item_card_comment__btn  mobile_item_card_comment__btn&#45;&#45;green">-->
+                            <!--Edit-->
+                            <!--</a>-->
+                        </div>
+                    </div>
+                    <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos">
+                        <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow" style="cursor: pointer"></svg-icon>
+                    </div>
+                </div><!--card-->
+                <p class="mobile_section_title  mobile_section_title--mt31">
+                    Queue Email Notifications
+                </p>
+                <div class="mobile_checkbox_item">
+                    <label class="checkbox_wrap  checkbox_wrap--h64">
+                        <input class="checkbox" type="checkbox" name="" checked>
+                        <span class="checkbox_custom"></span>
+                        <span class="label  label--lh  label--w456">Notify Queue manager via email when SLA time has
+                            been Breached</span>
+                    </label>
+                    <label class="checkbox_wrap  checkbox_wrap--h64">
+                        <input class="checkbox" type="checkbox" name="" checked>
+                        <span class="checkbox_custom"></span>
+                        <span class="label  label--lh  label--w456">Notify Queue Manager when a Callback is made</span>
+                    </label>
+                    <label class="checkbox_wrap  checkbox_wrap--h64">
+                        <input class="checkbox" type="checkbox" name="" checked>
+                        <span class="checkbox_custom"></span>
+                        <span class="label  label--lh  label--w456">Notify Queue manager when a Callback fails</span>
+                    </label>
+                    <label class="checkbox_wrap  checkbox_wrap--h64">
+                        <input class="checkbox" type="checkbox" name="" checked>
+                        <span class="checkbox_custom"></span>
+                        <span class="label  label--lh  label--w456">Notify Queue Manager when a Queue call is lost</span>
+                    </label>
+                </div>
+
+
+                <a href="#" class="mobile_top_pos_btn">
+                    Add Members
+                </a>
+            </form>
+            <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
+                <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
+                    Cancel
+                </a>
+                <button type="submit" form="create_notifications"
+                        class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
+                    Save
+                </button>
+            </div>
+        </div><!--notifications-->
     </div>
     <!-- mobile_menu--active -->
     <div class="mobile_menu ">
