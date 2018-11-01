@@ -1,19 +1,29 @@
-@media screen and (max-width: 1099px)
+@media screen and (max-width: 1280px)
+    pbx-invoices
+        pbx-list
+            pbx-table
+                .tablet
+                    .tablet_header
+                        .tablet_item
+                            &:nth-child(3)
+                                .qwerty
+                                    display: grid
+                                    grid-template-columns: min-content auto
+                                    align-items: center
+
+@media screen and (max-width: 1224px)
     pbx-invoices
         pbx-table
             .tablet
                 .tablet_header,
                 .tablet_body
                     .tablet_item
-                        &:nth-child(4),
-                        &:nth-child(6)
+                        &:nth-child(1),
+                        &:nth-child(2)
+                            max-width: 120px
+                            .qwerty
+                                max-width: 120px
+                        &:nth-child(4)
                             max-width: 80px
                             .qwerty
                                 max-width: 80px
-                        &:nth-child(5)
-                            max-width: 120px
-                        &:nth-child(1),
-                        &:nth-child(2)
-                            max-width: 150px
-                            .qwerty
-                                max-width: 150px

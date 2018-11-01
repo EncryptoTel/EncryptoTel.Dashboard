@@ -9,38 +9,16 @@
                 .tablet_header,
                 .tablet_body
                     .tablet_item
+                        height: 38px
+                        .qwerty
+                            align-items: center
                     .tablet_item:nth-child(5)
                         .qwerty
-                            width: 120px
-                            max-width: 120px
+                            width: 140px
+                            max-width: 140px
                             justify-content: flex-end
                     .tablet_item:nth-child(6)
                         .qwerty
-                            width: 55px
-                            max-width: 55px
+                            width: 75px
+                            max-width: 75px
                             justify-content: flex-end
-
-
-@media screen and (max-width: 1280px)
-    pbx-invoices
-        pbx-list
-            pbx-table
-                .tablet
-                    .tablet_header
-                        .tablet_item
-                            &:nth-child(3)
-                                .qwerty
-                                    display: grid
-                                    grid-template-columns: min-content auto
-                                    align-items: center
-
-@media screen and (max-width: 1099px)
-    pbx-invoices
-        pbx-list
-            pbx-table
-                .tablet_header,
-                .tablet_body
-                    .tablet_item
-                        .qwerty
-                            text-overflow: ellipsis
-                            display: inline-block
