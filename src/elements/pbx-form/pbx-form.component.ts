@@ -51,8 +51,8 @@ export class FormComponent implements OnInit {
     // -- event handlers ------------------------------------------------------
 
     selectTab(text: string, index: number) {
+        this.selected = text;
         if (!!this.inactiveTabs && this.inactiveTabs[index]) {
-            this.selected = text;
             this.onSelect.emit(text);
         }
     }

@@ -98,8 +98,8 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                         title: [''],
                         phoneCode: ['']
                     }),
-                    regionName: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
-                    locationName: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
+                    regionName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
+                    locationName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
                     street: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
                     building: ['', [Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp)]],
                     office: ['', [Validators.maxLength(15), Validators.pattern(companyOfficeRegExp)]],
@@ -109,7 +109,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             ]),
             email: ['', [Validators.pattern(emailRegExp)]],
             phone: ['', [Validators.minLength(6), Validators.maxLength(16), Validators.pattern(companyPhoneRegExp)]],
-            vatId: [null, [Validators.maxLength(99), Validators.pattern(companyVatIDRegExp)]],
+            vatId: [null, [Validators.minLength(6), Validators.maxLength(99), Validators.pattern(companyVatIDRegExp)]],
             // companyDetailFieldValue: this._fb.array([]),
         });
     }

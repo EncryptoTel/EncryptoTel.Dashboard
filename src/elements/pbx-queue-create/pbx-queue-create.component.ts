@@ -134,7 +134,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         if (!this.validateForms()) {
             this.currentTab = 'General';
             this.tabChange.value = this.currentTab;
-            this.tabChange.change.emit(false);
+            this.tabChange.change.emit(true);
             return;
         } else {
             if (tab === 'Members') {

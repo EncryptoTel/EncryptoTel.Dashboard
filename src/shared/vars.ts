@@ -20,7 +20,7 @@ export const companyNameRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9
 export const companyHouseRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\/ ]+)?)+$/i);
 export const companyOfficeRegExp = numberRegExp;
 export const companyPhoneRegExp = numberRegExp;
-export const companyVatIDRegExp = new RegExp(/^[\a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]+$/i);
+export const companyVatIDRegExp = new RegExp(/^[\A-Za-z\u00BF-\u1FFF\u2C00-\uD7FF0-9-_]+$/i);
 
 // Call Rules pattern RegExps
 export const callRuleNameRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\-_]+)?)+$/i);
