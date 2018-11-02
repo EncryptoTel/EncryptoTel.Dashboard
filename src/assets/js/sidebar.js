@@ -76,10 +76,9 @@ jQuery(document).ready(function(){
 
     // ---------------------------------
     // открытие карточки и поворот кнопки
-
-    $('.mobile_item_card').on('click', function () {
-        $(this).find('.dropdown_arrow_btn').toggleClass('rotate180');
-        $(this).find('.mobile_item_card_comment').toggleClass('mobile_item_card_comment--active');
+    $('.mobile_item_card').on('click', '.dropdown_arrow_btn', function () {
+        $(this).toggleClass('rotate180');
+        $(this).parent().find('.mobile_item_card_comment').toggleClass('mobile_item_card_comment--active');
     });
 
     // ---------------------------------
@@ -148,6 +147,7 @@ jQuery(document).ready(function(){
 
     // delete_window
     $('.btn_item_wide_block__btn.delete').on('click', openDeleteWindow);
+    $('.mobile_storage_btn_delete').on('click', openDeleteWindow);
 
     function openDeleteWindow(e) {
         e.preventDefault();

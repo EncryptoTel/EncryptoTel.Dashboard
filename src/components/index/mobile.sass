@@ -2470,7 +2470,19 @@
        background: rgba(87, 87, 87, 1)
 
        opacity: 0
-       transition: opacity ease .5s
+       z-index: -1
+
+       transition: all ease .5s
+
+       .close
+           position: absolute
+           top: 23px
+           right: 21px
+           width: 32px
+           height: 32px
+           cursor: pointer !important
+           z-index: 10000
+           fill: #ffffff
        
        p
            display: inline-block
@@ -2486,16 +2498,6 @@
    .delete_window__user_name
        display: inline-block
 
-
-       .close
-           position: absolute
-           top: 23px
-           right: 21px
-           width: 32px
-           height: 32px
-           cursor: pointer !important
-           z-index: 10000
-           fill: #ffffff
 
    .delete_window--pos
        position: absolute
