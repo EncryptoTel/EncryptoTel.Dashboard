@@ -1230,12 +1230,22 @@
    .mobile_select_block__mdash
 
 
+   //.mobile_input_item--pos
+   //    position: absolute
+   //    top: 38%
+   //    left: 13%
+
+
    .mobile_input_item--row
        flex-direction: row
 
+   .mobile_input_item--pos_check
+       padding-top: 0
+       margin-top: -21px
+       margin-left: 13%
 
    .mobile_input_item--mb9
-       margin-bottom: 9px
+      margin-bottom: 9px
 
 
    .mobile_input_item--mb20
@@ -1259,6 +1269,9 @@
    .mobile_input_item--w320
        width: 320px
 
+   .mobile_input_item--w512
+       width: 512px
+
    .mobile_input_item--w540
       width: 540px
 
@@ -1270,8 +1283,6 @@
 
    .mobile_input_item--borderB
        border-bottom: 1px solid rgba(255, 255, 255, .1)
-
-
 
    .mobile_input_item__label
        position: absolute
@@ -1826,7 +1837,6 @@
        font-size: 24px
        color: #ffffff
 
-
    .label--lh
        line-height: 1.3
 
@@ -1837,6 +1847,9 @@
    .label--white06
        color: rgba(255, 255, 255, .6)
 
+   .label--white08
+       color: rgba(255, 255, 255, .8)
+
    .label--dib
        display: inline-block
        i
@@ -1844,6 +1857,22 @@
            margin-left: 20px
 
            font-style: normal
+
+   .items_wrapper
+       display: -moz-flex
+       display: -ms-flexbox
+       display: -webkit-box
+
+       -webkit-box-orient: vertical
+       -webkit-box-direction: normal
+       -ms-flex-direction: column
+       flex-direction: column
+
+
+       position: relative
+
+       margin-bottom: 16px
+
 
    .checkbox
        display: none
@@ -1952,7 +1981,8 @@
 
    .mobile_down_btn_block--pos
        position: fixed
-       top: 89.5%
+       //top: 89.5%
+       bottom: 0
        left: 0
        right: 0
 
@@ -2397,6 +2427,9 @@
 
    .mobile_block--active
        display: flex
+
+   .mobile_block--mb
+       margin-bottom: 96px
 
 
    .mobile_backup--mb57

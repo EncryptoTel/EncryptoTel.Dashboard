@@ -162,9 +162,6 @@ jQuery(document).ready(function(){
         $('.delete_window').removeClass('delete_window--active');
     }
 
-    //
-
-
 
     // ---------------------------------
     // табы
