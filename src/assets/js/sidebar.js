@@ -79,11 +79,12 @@ jQuery(document).ready(function(){
     $('.mobile_item_card').on('click', '.dropdown_arrow_btn', function () {
         $(this).toggleClass('rotate180');
         $(this).parent().find('.mobile_item_card_comment').toggleClass('mobile_item_card_comment--active');
+        console.log(123);
     });
 
     // ---------------------------------
     // кнопка очистки поля
-    let
+    var
         $parentBlock = $('.mobile_block');
     // отоброжение и скрытие кнопки очистки поля ввода, очистка
     $parentBlock.on('focus', '.mobile_input_item__input', showBtnReset);
@@ -107,15 +108,15 @@ jQuery(document).ready(function(){
         $(this).siblings('.btn_remove').css('display', 'block');
         // // создаем блок элементов
         // // обертка
-        // let $newInputWrapper = $('<div>').addClass('mobile_input_wrapper');
+        // var $newInputWrapper = $('<div>').addClass('mobile_input_wrapper');
         // // блок с input'ом
-        // let $newInputItem = $('<div>').addClass('mobile_input_item')
+        // var $newInputItem = $('<div>').addClass('mobile_input_item')
         //                               .addClass('mobile_input_item--w540')
         //                               .addClass('mobile_input_item--r19')
         //                               .addClass('mobile_input_item--mb20');
         // // btnAdd и btnRemove
-        // let $newBtnAdd = $('<div>').addClass('btn_add');
-        // let $newBtnRemove = $('<div>').addClass('btn_remove');
+        // var $newBtnAdd = $('<div>').addClass('btn_add');
+        // var $newBtnRemove = $('<div>').addClass('btn_remove');
         // // input
         // $('<input>').addClass('mobile_input_item__input')
         //             .attr('type', 'text')
@@ -126,12 +127,12 @@ jQuery(document).ready(function(){
         //             .attr('value', 'Phone Number')
         //             .appendTo($newInputItem);
         // // btn_reset
-        // let $btnReset = $('<button>').addClass('mobile_input_item__close')
+        // var $btnReset = $('<button>').addClass('mobile_input_item__close')
         //                             .addClass('mobile_input_item__close--right0')
         //                             .appendTo($newInputItem);
         // // svg
         // $('<svg-icon>').addClass('svg')
-        //                .attr('src', '../../assets/icons/_middle/cancel_delete_12px.svg')
+        //                .attr('src', '../../assets/icons/_middle/cancel_devare_12px.svg')
         //                .appendTo($btnReset);
         //
         // $newInputWrapper.append($newInputItem);
@@ -141,25 +142,25 @@ jQuery(document).ready(function(){
     });
     // удаляем элемент
     $parentBlock.on('click', '.btn_remove', function() {
-        let deleteElem = $(this).parent('.mobile_input_wrapper');
-        deleteElem.remove();
+        var devareElem = $(this).parent('.mobile_input_wrapper');
+        devareElem.remove();
     });
 
-    // delete_window
-    $('.btn_item_wide_block__btn.delete').on('click', openDeleteWindow);
-    $('.mobile_storage_btn_delete').on('click', openDeleteWindow);
+    // devare_window
+    $('.btn_item_wide_block__btn.devare').on('click', openDevareWindow);
+    $('.mobile_storage_btn_devare').on('click', openDevareWindow);
 
-    function openDeleteWindow(e) {
+    function openDevareWindow(e) {
         e.preventDefault();
-        $('.delete_window').addClass('delete_window--active');
+        $('.devare_window').addClass('devare_window--active');
     }
 
-    $('.delete_window_block__cancel').on('click', closeDeleteWindow);
-    $('.delete_window .close').on('click', closeDeleteWindow);
+    $('.devare_window_block__cancel').on('click', closeDevareWindow);
+    $('.devare_window .close').on('click', closeDevareWindow);
 
-    function closeDeleteWindow(e){
+    function closeDevareWindow(e){
         e.preventDefault();
-        $('.delete_window').removeClass('delete_window--active');
+        $('.devare_window').removeClass('devare_window--active');
     }
 
 
@@ -170,6 +171,11 @@ jQuery(document).ready(function(){
         $(this).addClass('user_mobile_tab__item--active').siblings().removeClass('user_mobile_tab__item--active');
         $('.mobile_block').addClass('mobile_block--dn').eq($(this).index()).removeClass('mobile_block--dn');
         return false;
+    });
+
+    // карточка переключения темы
+    $('.mobile_settings_min').on('click', function () {
+        $(this).addClass('mobile_settings_min--active').siblings().removeClass('mobile_settings_min--active');
     });
 
 
