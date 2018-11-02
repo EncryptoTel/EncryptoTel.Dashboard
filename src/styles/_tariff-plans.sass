@@ -36,6 +36,100 @@ pbx-tariff-plans
             color: $dark_white
             line-height: 19px
 
+.tariff_plan_modal
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+    background: $white_black_60
+    z-index: 20
+    display: none
+    .cnt
+        margin: 185px auto 0
+        width: 440px
+        flex-direction: column
+        .header
+            flex-direction: column
+            background: $dark_tariff_plan_modal_header
+            position: relative
+            padding: 16px 80px 24px
+            .title
+                margin-bottom: 32px
+                display: block
+            .title, .desc
+                font-family: Roboto, sans-serif
+                font-weight: 300
+                font-size: 16px
+                line-height: 21px
+                color: $dark_white
+                text-align: center
+            svg-icon
+                position: absolute
+                top: 16px
+                right: 16px
+                /deep/ svg
+                    width: 16px
+                    height: 16px
+                    cursor: pointer
+                    polygon
+                        fill: $dark_white
+                        cursor: pointer
+        .body
+            background: $dark_tariff_plan_modal_body
+            padding: 24px 52px 32px
+            flex-direction: column
+            .items
+                width: 100%
+                flex-direction: column
+                .item
+                    width: 100%
+                    display: grid
+                    grid-template-columns: auto 1fr 1fr
+                    align-items: center
+                    margin-bottom: 4px
+                    .title
+                        padding-left: 16px
+                    .price
+                        justify-content: flex-end
+                    .title, .price
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 14px
+                        line-height: 30px
+                        color: $dark_white
+            .down
+                flex-direction: column
+                margin-top: 18px
+                .item
+                    display: grid
+                    grid-template-columns: auto 1fr 1fr
+                    svg-icon
+                        width: 16px
+                        height: 16px
+                        svg
+                            width: 14px
+                            height: 14px
+                            margin: auto
+                            path, circle
+                                fill: $dark_tariff_plan_modal_icon_info
+                    .title
+                        padding-left: 16px
+                    .price
+                        justify-content: flex-end
+                    .title, .price
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 16px
+                        line-height: 21px
+                        color: $dark_white
+        .footer
+            display: grid
+            grid-template-columns: 1fr 1fr
+            pbx-button
+                .button
+                    height: 56px !important
+
 @media screen and (max-width: 1159px)
     .tariff_wrap
         grid-template-columns: 1fr 1fr !important
