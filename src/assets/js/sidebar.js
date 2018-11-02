@@ -87,16 +87,21 @@ jQuery(document).ready(function(){
     let
         $parentBlock = $('.mobile_block');
     // отоброжение и скрытие кнопки очистки поля ввода, очистка
-        $parentBlock.on('focus', '.mobile_input_item__input', function(){
+    $parentBlock.on('focus', '.mobile_input_item__input', showBtnReset);
+    function showBtnReset () {
             $(this).siblings('.mobile_input_item__close').fadeIn(100);
-        });
-        $parentBlock.on('blur', '.mobile_input_item__input', function(){
+        }
+
+    $parentBlock.on('blur', '.mobile_input_item__input', hideBtnReset);
+    function hideBtnReset() {
             $('.mobile_input_item__close').fadeOut(100);
-        });
-        $parentBlock.on('click', '.mobile_input_item__close', function(e){
+        };
+
+    $parentBlock.on('click', '.mobile_input_item__close', function(e){
             e.preventDefault();
             $(this).siblings(('.mobile_input_item__input')).val('');
         });
+
     // создание нового блока
     $parentBlock.on('click', '.btn_add', function(){
         $(this).css('display', 'none');
@@ -140,6 +145,25 @@ jQuery(document).ready(function(){
         let deleteElem = $(this).parent('.mobile_input_wrapper');
         deleteElem.remove();
     });
+
+    // delete_window
+    $('.btn_item_wide_block__btn.delete').on('click', openDeleteWindow);
+
+    function openDeleteWindow(e) {
+        e.preventDefault();
+        $('.delete_window').addClass('delete_window--active');
+    }
+
+    $('.delete_window_block__cancel').on('click', closeDeleteWindow);
+    $('.delete_window .close').on('click', closeDeleteWindow);
+
+    function closeDeleteWindow(e){
+        e.preventDefault();
+        $('.delete_window').removeClass('delete_window--active');
+    }
+
+    //
+
 
 
     // ---------------------------------
