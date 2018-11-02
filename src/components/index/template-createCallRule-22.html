@@ -1,0 +1,495 @@
+<!--<pbx-loader *ngIf="completedRequests < 2"></pbx-loader>-->
+<!--<div class="main_grid" *ngIf="completedRequests > 1">-->
+
+<!--<div class="user_wrap"-->
+<!--[ngClass]="{'active': userNavigationVisible}"-->
+<!--(click)="userNavigationVisible = !userNavigationVisible"-->
+<!--(clickOutside)="hideUserNavigation()"-->
+<!--#userWrap-->
+<!--&gt;-->
+<!--<div class="user_profile_image"-->
+<!--[ngStyle]="{'background-image': user.profile.avatar ? 'url(' + ( user.profile.avatar) + ')' : ''}"></div>-->
+<!--<div class="user_details_wrap">-->
+<!--<div class="user_details_name">{{username}}</div>-->
+<!--<div class="user_details_balance" *ngIf="completedRequests > 1">-->
+<!--<span translate>balance</span>&nbsp; {{user.balance.symbol}}{{user.balance.balance | currency:" ":2 }}-->
+<!--</div>-->
+<!--</div>-->
+<!--<svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>-->
+<!--<div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">-->
+<!--<a routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item" translate>Refill-->
+<!--balance</a>-->
+<!--<a routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item" translate>Tariff-->
+<!--plan</a>-->
+<!--<div (click)="logout()" class="user_navigation_item">-->
+<!--<span translate>Exit</span>-->
+<!--<svg-icon src="../../assets/icons/exit.svg" class="user_navigation_logout"></svg-icon>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="header_line_wrap">-->
+<!--<div class="header_title" translate>{{_main.pageTitle}}</div>-->
+<!--<div class="header_button_row">-->
+<!--<div class="header_button_wrap" [ngClass]="{'visible': headerButtonsVisible}">-->
+<!--<div class="header_button phone" [ngClass]="{'active': activeButtonIndex === 0}"-->
+<!--(click)="toggleActiveButton(0, $event)">-->
+<!--<svg-icon src="../../assets/icons/_call_panel/dialer_24px.svg"></svg-icon>-->
+<!--<div class="button_animation" *ngIf="activeButtonIndex === 0"></div>-->
+<!--</div>-->
+<!--<div class="header_button contacts" [ngClass]="{'active': activeButtonIndex === 1}"-->
+<!--(click)="toggleActiveButton(1, $event)">-->
+<!--<svg-icon src="../../assets/icons/_call_panel/contacts_24px.svg"></svg-icon>-->
+<!--<div class="button_animation" *ngIf="activeButtonIndex === 1"></div>-->
+<!--</div>-->
+<!--<div class="header_button chat" [ngClass]="{'active': activeButtonIndex === 2}"-->
+<!--(click)="toggleActiveButton(2, $event)">-->
+<!--<svg-icon src="../../assets/icons/_call_panel/chat_24px.svg"></svg-icon>-->
+<!--<div class="button_animation" *ngIf="activeButtonIndex === 2"></div>-->
+<!--<div class="notification"><i>9</i></div>-->
+<!--</div>-->
+<!--<div class="header_button notifications"-->
+<!--[ngClass]="{'active': activeButtonIndex === 3}"-->
+<!--(click)="toggleActiveButton(3, $event)"-->
+<!--&gt;-->
+<!--<svg-icon src="../../assets/icons/_call_panel/notification_24px.svg"></svg-icon>-->
+<!--<div class="button_animation" *ngIf="activeButtonIndex === 3"></div>-->
+<!--</div>-->
+<!--<div class="desc" [ngClass]="{'hiding': activeButtonIndex === 2}">© Encrypto Telecom, 2017-2018-->
+<!--v.0.1.0-->
+<!--</div>-->
+<!--</div> &lt;!&ndash; header_button_wrap &ndash;&gt;-->
+<!--<div class="header_button_hide"-->
+<!--[ngClass]="{'initial': headerButtonsVisible}"-->
+<!--(click)="toggleHeaderButtons($event)"-->
+<!--&gt;-->
+<!--<svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>-->
+<!--</div>-->
+<!--<div *ngIf="activeButtonIndex !== (null || undefined)"-->
+<!--class="sidebar_wrap"-->
+<!--[ngClass]="{'visible': headerButtonsVisible}"-->
+<!--[@Swipe]-->
+<!--&gt;-->
+<!--<span *ngIf="activeButtonIndex === 0">call</span>-->
+<!--<span *ngIf="activeButtonIndex === 1">contacts</span>-->
+<!--<pbx-chat *ngIf="activeButtonIndex === 2"></pbx-chat>-->
+<!--<span *ngIf="activeButtonIndex === 3">notification</span>-->
+<!--</div>-->
+<!--&lt;!&ndash; <div class="desc">© Encrypto Telecom, 2017-2018 v.0.1.0</div> &ndash;&gt;-->
+<!--</div> &lt;!&ndash; header_button_row &ndash;&gt;-->
+<!--</div>-->
+
+<!--<div class="navigation_block_wrap custom-scrollbar-const">-->
+<!--<div class="navigation_block" *ngFor="let block of userService.navigation">-->
+<!--<div *ngFor="let navigationItem of block">-->
+<!--<a [routerLink]="navigationItem.url"-->
+<!--routerLinkActive="active"-->
+<!--[ngClass]="['navigation_item', 'navigation-item-' + navigationItem.url]"-->
+<!--&gt;-->
+<!--<svg-icon class="navigation_item_icon"-->
+<!--[src]="'../../assets/icons/_menu/' + navigationItem.icon + '.svg'"></svg-icon>-->
+<!--<div class="navigation_item_title" translate>{{navigationItem.name}}</div>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="mobile_header" [ngClass]="{'active': mobileNavigationVisible}">-->
+<!--<div class="mobile_header_button" [ngClass]="{'active': mobileNavigationVisible}">-->
+<!--<div class="mobile_header_button_fill" (click)="mobileNavigationVisible = true">-->
+<!--<span></span>-->
+<!--<span></span>-->
+<!--<span></span>-->
+<!--</div>-->
+<!--<div class="mobile_hover" *ngIf="mobileNavigationVisible" (click)="mobileNavigationVisible = false"></div>-->
+<!--<div class="mobile_sidebar">-->
+<!--<div class="mobile_profile"-->
+<!--(click)="mobileUserVisible=!mobileUserVisible"-->
+<!--(clickOutside)="mobileUserVisible=false"-->
+<!--&gt;-->
+<!--<div class="mobile_profile_name">{{user.profile.firstname}}</div>-->
+<!--<div *ngIf="completedRequests > 1"-->
+<!--class="mobile_profile_balance"-->
+<!--&gt;-->
+<!--{{user.balance.symbol}}{{user.balance.balance}}-->
+<!--</div>-->
+<!--<div class="mobile_profile_button_wrap"-->
+<!--[ngClass]="{'invisible':!mobileUserVisible}"-->
+<!--(click)="mobileNavigationVisible=false"-->
+<!--&gt;-->
+<!--<a routerLink="/cabinet/refill" routerLinkActive="active" class="mobile_profile_button">Refill-->
+<!--balance</a>-->
+<!--<a routerLink="/cabinet/tariff" routerLinkActive="active" class="mobile_profile_button">Tariff-->
+<!--plan</a>-->
+<!--<div (click)="logout()" class="mobile_profile_button">-->
+<!--<span>Exit</span>-->
+<!--<svg-icon src="../../assets/icons/exit.svg" class="mobile_profile_icon"></svg-icon>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="mobile_navigation">-->
+<!--<div class="mobile_navigation_block" *ngFor="let block of navigationList">-->
+<!--<div *ngFor="let navigationItem of block" class="mobile_navigation_item">-->
+<!--<a [routerLink]="navigationItem.link"-->
+<!--routerLinkActive="active"-->
+<!--[ngClass]="{'inactive': !navigationItem.status}"-->
+<!--*ngIf="navigationItem.visible"-->
+<!--(click)="mobileNavigationVisible=false">-->
+<!--{{navigationItem.title}}-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="mobile_header_title">{{_main.pageTitle}}</div>-->
+<!--</div>-->
+
+<!--<div class="body_wrap">-->
+<!--<router-outlet></router-outlet>-->
+<!--</div>-->
+<!--</div>-->
+
+<div class="main_mobile_wrap">
+    <div class="user_mobile">
+        <div class="user_mobile_up">
+            <a class="user_btn">
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+            </a>
+            <div class="user_mobile__title">
+                <p>
+                    CREATE CALL RULE
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="body_mobile  body_mobile--pt0">
+        <div class="mobile_block  " style="margin-bottom: 300px;">
+            <form id="create_call" class="form_item">
+                <p class="mobile_section_title">
+                    General
+                </p>
+                <label class="checkbox_wrap  checkbox_wrap--mb29">
+                    <input class="checkbox" type="checkbox" name="" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label label--white06">Enable Rule</span>
+                </label>
+                <div class="mobile_input_wrapper">
+                    <div class="mobile_input_item  mobile_input_item--w556">
+                        <input type="text" class="mobile_input_item__input" placeholder="Rule Name" value="Sales">
+                        <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                            Rule Name
+                        </label>
+                        <button class="mobile_input_item__close  mobile_input_item__close--right0">
+                            <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                        </button>
+                    </div>
+                    <!--<a href="#" class="btn_delete_item">-->
+                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
+                    <!--</a>-->
+                </div><!--wrap-->
+                <div class="mobile_input_wrapper">
+                    <div class="mobile_input_item  mobile_input_item--w556">
+                        <input type="text" class="mobile_input_item__input" placeholder="" value="">
+                        <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                            Description
+                        </label>
+                        <button class="mobile_input_item__close  mobile_input_item__close--right0">
+                            <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                        </button>
+                    </div>
+                    <!--<a href="#" class="btn_delete_item">-->
+                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
+                    <!--</a>-->
+                </div><!--wrap-->
+                <div class="mobile_input_wrapper">
+                    <div class="mobile_input_item  mobile_input_item--w556">
+                        <select name="" class="mobile_input_item__select  ">
+                            <option selected value="+1 (945) 343 33 45 (Sales department)" class="mobile_input_item__option">+1 (945) 343 33 45 (Sales department)</option>
+                            <option value="+1 (945) 343 33 45 (Sales department)" class="mobile_input_item__option">+1 (945) 343 33 45 (Sales department)</option>
+                        </select>
+                        <label class="mobile_input_item__label">
+                            Phone number
+                        </label>
+                    </div>
+                    <!--<a href="#" class="btn_delete_item">-->
+                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
+                    <!--</a>-->
+                </div><!--wrap-->
+                <p class="mobile_section_title  mobile_section_title--mt36">
+                    Options
+                </p>
+                <div class="mobile_input_wrapper">
+                    <div class="mobile_input_item  mobile_input_item--w556">
+                        <select name="" class="mobile_input_item__select  ">
+                            <option selected value="Play voice file" class="mobile_input_item__option">Play voice file</option>
+                            <option value="Play voice file" class="mobile_input_item__option">Play voice file</option>
+                        </select>
+                        <label class="mobile_input_item__label">
+                            Action
+                        </label>
+                    </div>
+                    <!--<a href="#" class="btn_delete_item">-->
+                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
+                    <!--</a>-->
+                </div><!--wrap-->
+                <div class="mobile_input_item  mobile_input_item--row  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--min2">
+                        <option selected value="welcome_female.mp3" class="mobile_input_item__option">welcome_female.mp3</option>
+                        <option value="welcome_female.mp3" class="mobile_input_item__option">welcome_female.mp3</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Voice greeting
+                    </label>
+                    <div class="mobile_input_item_button">
+                        <a href="#" class="mobile_input_item_button__btn  mobile_input_item_button__btn--wide">
+                            Upload
+                        </a>
+                        <a href="#" class="mobile_input_item_button__btn  mobile_input_item_button__btn--mid">
+                            <span>
+                                <svg-icon src="../../assets/icons/play_24px.svg" class="svg"></svg-icon>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="mobile_input_wrapper">
+                    <div class="mobile_input_item  mobile_input_item--w556">
+                        <select name="" class="mobile_input_item__select  mobile_input_item__select--mb  ">
+                            <option selected class="mobile_input_item__option">Days of the week</option>
+                            <option value="Mon" class="mobile_input_item__option">Mon</option>
+                            <option value="Tue" class="mobile_input_item__option">Tue</option>
+                            <option value="Wed" class="mobile_input_item__option">Wed</option>
+                            <option value="Thu" class="mobile_input_item__option">Thu</option>
+                            <option value="Fri" class="mobile_input_item__option">Fri</option>
+                            <option value="Sat" class="mobile_input_item__option">Sat</option>
+                            <option value="Sun" class="mobile_input_item__option">Sun</option>
+                        </select>
+                        <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                            Rule applies for
+                        </label>
+                        <ul class="mobile_week">
+                            <li class="mobile_week__li">
+                            <span class="mobile_week__day  mobile_week__day--active">
+                                Mon
+                            </span>
+                            </li>
+                            <li class="mobile_week__li">
+                            <span class="mobile_week__day  mobile_week__day--active">
+                                Tue
+                            </span>
+                            </li>
+                            <li class="mobile_week__li">
+                            <span class="mobile_week__day  mobile_week__day--active">
+                                Wed
+                            </span>
+                            </li>
+                            <li class="mobile_week__li">
+                            <span class="mobile_week__day  mobile_week__day--active">
+                                Thu
+                            </span>
+                            </li>
+                            <li class="mobile_week__li">
+                            <span class="mobile_week__day  mobile_week__day--active">
+                                Fri
+                            </span>
+                            </li>
+                            <li class="mobile_week__li">
+                            <span class="mobile_week__day">
+                                Sat
+                            </span>
+                            </li>
+                            <li class="mobile_week__li">
+                            <span class="mobile_week__day">
+                                Sun
+                            </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--<a href="#" class="btn_delete_item">-->
+                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
+                    <!--</a>-->
+                </div><!--wrap-->
+                <div class="mobile_input_wrapper">
+                    <div class="mobile_input_item  mobile_input_item--w556">
+                        <select name="" class="mobile_input_item__select  ">
+                            <option selected value="Always (24 hours)" class="mobile_input_item__option">Always (24 hours)</option>
+                            <option value="Always (24 hours)" class="mobile_input_item__option">Always (24 hours)</option>
+                        </select>
+                        <label class="mobile_input_item__label">
+                            Duration time
+                        </label>
+                    </div>
+                    <!--<a href="#" class="btn_delete_item">-->
+                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
+                    <!--</a>-->
+                </div><!--wrap-->
+                <div class="mobile_input_wrapper">
+                    <div class="mobile_input_item  mobile_input_item--w556">
+                        <select name="" class="mobile_input_item__select  ">
+                            <option selected value="Redirect to external number" class="mobile_input_item__option">Redirect to external number</option>
+                            <option value="Redirect to external number" class="mobile_input_item__option">Redirect to external number</option>
+                        </select>
+                        <label class="mobile_input_item__label">
+                            Action
+                        </label>
+                    </div>
+                    <a href="#" class="btn_delete_item">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </a>
+                </div><!--wrap-->
+                <div class="mobile_input_wrapper">
+                    <div class="mobile_input_item  mobile_input_item--w556">
+                        <input type="text" class="mobile_input_item__input" placeholder="Phone number" value="+1 (987) 789 65 54">
+                        <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                            Phone number
+                        </label>
+                        <button class="mobile_input_item__close  mobile_input_item__close--right0">
+                            <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                        </button>
+                    </div>
+                    <!--<a href="#" class="btn_delete_item">-->
+                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
+                    <!--</a>-->
+                </div><!--wrap-->
+                <div class="mobile_input_wrapper">
+                    <div class="mobile_input_item_line">
+                        <span>If I do not answer calls within</span>
+                        <input type="text" value="30">
+                        <span>seconds</span>
+                    </div>
+                    <!--<a href="#" class="btn_delete_item">-->
+                    <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
+                    <!--</a>-->
+                </div><!--wrap-->
+                <div class="mobile_input_wrapper">
+                    <div class="mobile_input_item  mobile_input_item--w556">
+                        <select name="" class="mobile_input_item__select  ">
+                            <option selected value="[choose one]" class="mobile_input_item__option">[choose one]</option>
+                            <option value="[choose one]" class="mobile_input_item__option">[choose one]</option>
+                        </select>
+                        <label class="mobile_input_item__label">
+                            Action
+                        </label>
+                    </div>
+                    <!--<a href="#" class="btn_delete_item">-->
+                        <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
+                    <!--</a>-->
+                </div><!--wrap-->
+            </form><!--create_shedule-->
+            <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
+                <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
+                    Cancel
+                </a>
+                <button type="submit" form="create_call" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- mobile_menu--active -->
+    <div class="mobile_menu ">
+        <div class="mobile_menu_up">
+            <div class="mobile_menu__block">
+                <div class="mobile_menu_up__name">
+                    <p>
+                        Alex Freeman
+                    </p>
+                </div>
+                <div class="mobile_menu_up__balance">
+                    <p>balance</p>
+                    <p>$58</p>
+                </div>
+            </div>
+            <ul class="mobile_menu_left">
+                <li class="mobile_menu_left__li">
+                    <a href="#" class="mobile_menu_left__link">Refill balance</a>
+                </li>
+                <li class="mobile_menu_left__li">
+                    <a href="#" class="mobile_menu_left__link">Tariff plan</a></li>
+                <li class="mobile_menu_left__li">
+                    <a href="#" class="mobile_menu_left__link">Privacy policy</a>
+                </li>
+                <li class="mobile_menu_left__li">
+                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span class="mobile_menu_exit">
+                        <svg-icon src="../../assets/icons/exit.svg" class="dropdown_arrow_rotate"></svg-icon>
+                    </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <ul class="mobile_menu__ul">
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link  mobile_menu__link--active">Dashboard</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Phone Numbers</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Address Book</a>
+            </li>
+        </ul>
+        <ul class="mobile_menu__ul">
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Call Rules</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Call Queues</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Ring Groups</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">IVR</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Schedule</a>
+            </li>
+        </ul>
+        <ul class="mobile_menu__ul">
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Company</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Departments</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Extensions</a>
+            </li>
+        </ul>
+        <ul class="mobile_menu__ul">
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Details and Records</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Invoices</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Marketplace</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Call Mining</a>
+            </li>
+        </ul>
+        <ul class="mobile_menu__ul">
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Storage</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Knowledge Base</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Partner program</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Settings</a>
+            </li>
+        </ul>
+    </div>
+    <!-- mobile_overlay--active -->
+    <div class="mobile_overlay  "></div>
+</div>
+
+
+

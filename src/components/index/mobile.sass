@@ -841,7 +841,11 @@
        align-items: center
        justify-content: flex-start
 
+       position: relative
+
        width: 100%
+
+       margin-bottom: 32px
 
    .btn_add
        width: 18px
@@ -899,6 +903,18 @@
            height: 2px
            width: 18px
            background: rgba(255, 121, 142, 1)
+
+   .btn_delete_item
+       width: 18px
+       height: 18px
+
+       position: absolute
+       top: 39px
+       right: -7px
+
+       .svg
+           fill: rgba(255, 121, 142, 1)
+
 
    .btn_item_wide_block
        display: flex
@@ -1021,6 +1037,11 @@
        min-width: 430px
        margin-right: 17px
 
+   .mobile_input_item__select--min2
+       max-width: 320px
+       min-width: 320px
+       margin-right: 26px
+
    .mobile_input_item__select--mt15
        margin-top: 15px
 
@@ -1097,6 +1118,19 @@
        &:last-child
            margin-right: 0
 
+   .mobile_input_item_button__btn--mid
+       width: 78px
+       span
+           display: block
+           width: 40px
+           height: 40px
+
+
+   .mobile_input_item_button__btn--wide
+       width: 116px
+       font-size: 20px
+       font-weight: 400
+       font-family: Roboto, sans-serif
 
    .mobile_week
        display: flex
@@ -1222,6 +1256,9 @@
 
    .mobile_input_item--w540
       width: 540px
+
+   .mobile_input_item--w556
+    width: 556px
 
    .mobile_input_item--r19
        margin-right: 19px
@@ -2676,9 +2713,11 @@
    .mobile_section_title--mt31
        margin-top: 31px
 
+   .mobile_section_title--mt36
+        margin-top: 36px
+
    .mobile_section_title--mt21
        margin-top: 21px
-
 
    .mobile_section_title--mb18
        margin-bottom: 18px
