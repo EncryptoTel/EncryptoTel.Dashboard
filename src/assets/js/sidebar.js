@@ -83,7 +83,63 @@ jQuery(document).ready(function(){
     });
 
     // ---------------------------------
-    // transfer to acc
+    // кнопка очистки поля
+    let
+        $parentBlock = $('.mobile_block');
+    // отоброжение и скрытие кнопки очистки поля ввода, очистка
+        $parentBlock.on('focus', '.mobile_input_item__input', function(){
+            $(this).siblings('.mobile_input_item__close').fadeIn(100);
+        });
+        $parentBlock.on('blur', '.mobile_input_item__input', function(){
+            $('.mobile_input_item__close').fadeOut(100);
+        });
+        $parentBlock.on('click', '.mobile_input_item__close', function(e){
+            e.preventDefault();
+            $(this).siblings(('.mobile_input_item__input')).val('');
+        });
+    // создание нового блока
+    $parentBlock.on('click', '.btn_add', function(){
+        $(this).css('display', 'none');
+        $(this).siblings('.btn_remove').css('display', 'block');
+        // // создаем блок элементов
+        // // обертка
+        // let $newInputWrapper = $('<div>').addClass('mobile_input_wrapper');
+        // // блок с input'ом
+        // let $newInputItem = $('<div>').addClass('mobile_input_item')
+        //                               .addClass('mobile_input_item--w540')
+        //                               .addClass('mobile_input_item--r19')
+        //                               .addClass('mobile_input_item--mb20');
+        // // btnAdd и btnRemove
+        // let $newBtnAdd = $('<div>').addClass('btn_add');
+        // let $newBtnRemove = $('<div>').addClass('btn_remove');
+        // // input
+        // $('<input>').addClass('mobile_input_item__input')
+        //             .attr('type', 'text')
+        //             .attr('placeholder', 'Phone Number')
+        //             .attr('value', '')
+        //             .appendTo($newInputItem);
+        // $('<label>').addClass('mobile_input_item__label')
+        //             .attr('value', 'Phone Number')
+        //             .appendTo($newInputItem);
+        // // btn_reset
+        // let $btnReset = $('<button>').addClass('mobile_input_item__close')
+        //                             .addClass('mobile_input_item__close--right0')
+        //                             .appendTo($newInputItem);
+        // // svg
+        // $('<svg-icon>').addClass('svg')
+        //                .attr('src', '../../assets/icons/_middle/cancel_delete_12px.svg')
+        //                .appendTo($btnReset);
+        //
+        // $newInputWrapper.append($newInputItem);
+        // $newInputWrapper.append($newBtnAdd);
+        // $newInputWrapper.append($newBtnRemove);
+        // $('.phone_wrapper').append($newInputWrapper);
+    });
+    // удаляем элемент
+    $parentBlock.on('click', '.btn_remove', function() {
+        let deleteElem = $(this).parent('.mobile_input_wrapper');
+        deleteElem.remove();
+    });
 
 
     // ---------------------------------

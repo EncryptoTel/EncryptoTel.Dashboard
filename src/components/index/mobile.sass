@@ -828,6 +828,11 @@
    .mobile_input_item_line--mb35
        margin-bottom: 35px
 
+
+   .phone_wrapper
+       display: flex
+       flex-direction: column
+
    .mobile_input_wrapper
        display: flex
        flex-direction: row
@@ -836,16 +841,62 @@
 
        width: 100%
 
-
    .btn_add
+       width: 18px
+       height: 18px
+
+       position: relative
+
+       &:before
+           content: ''
+
+           position: absolute
+           top: 0
+           left: 0
+           bottom: 0
+           right: 0
+           margin: 0 auto
+
+           height: 18px
+           width: 2px
+           background: rgba(165, 198, 104, 1)
+
+       &:after
+           content: ''
+
+           position: absolute
+           top: 0
+           left: 0
+           bottom: 0
+           right: 0
+           margin: 50% auto
+
+           height: 2px
+           width: 18px
+           background: rgba(165, 198, 104, 1)
+
+   .btn_remove
+       display: none
+
        width: 18px
        height: 18px
        cursor: pointer
 
-       .svg
-          fill: rgba(165, 198, 104, 1)
+       position: relative
 
+       &:after
+           content: ''
 
+           position: absolute
+           top: 0
+           left: 0
+           bottom: 0
+           right: 0
+           margin: 50% auto
+
+           height: 2px
+           width: 18px
+           background: rgba(255, 121, 142, 1)
 
    .mobile_input_item
        position: relative
@@ -1189,8 +1240,8 @@
 
 
 
-   .mobile_input_item__input:valid ~ .mobile_input_item__close
-       display: block
+   //.mobile_input_item__input:valid ~ .mobile_input_item__close
+   //    display: block
 
 
    /*------------------------------------------
