@@ -217,3 +217,15 @@ main-view.light_theme
         .tablet_row
             pbx-loader
                 background: transparent !important
+
+.light_theme
+    pbx-table
+        .tablet
+            .tablet_body
+                .tablet_row
+                    &.pick
+                        background: $white_grey_hover_rgb
+                        &:hover
+                            background: rgba($white_grey_hover_rgb, .6) !important
+                    &:hover
+                        background: rgba($white_grey_hover_rgb, .6) !important
