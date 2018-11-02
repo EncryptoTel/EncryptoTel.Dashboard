@@ -11,3 +11,37 @@
             background: $white_grey_dark !important
             .title, p
                 color: $white_black !important
+    .tariff_plan_modal
+        .cnt
+            .header
+                background: $dark_white
+                .title, .desc
+                    color: $white_black
+                svg-icon
+                    /deep/ svg
+                        polygon
+                            fill: $white_black
+            .body
+                background: $white_theme_tariff_plan_modal_body
+                .items
+                    .item
+                        .title, .price
+                            color: $white_black
+                        pbx-checkbox
+                            .checkbox
+                                border: 1px solid $white_theme_tariff_plan_modal_checkbox
+                .down
+                    .item
+                        .title, .price
+                            color: $white_black
+                        svg-icon
+                            svg
+                                path, circle
+                                    fill: $white_theme_tariff_plan_modal_info
+            .footer
+                pbx-button
+                    button
+                        width: 100%
+                        &.cancel
+                            background: $dark_white
+                            color: $white_black
