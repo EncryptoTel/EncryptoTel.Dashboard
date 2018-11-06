@@ -3,7 +3,7 @@ import { Component, Input } from "@angular/core";
 @Component({
     selector: 'pbx-tab',
     template: `
-    <div [hidden]="!active">
+    <div class='tab-content' [hidden]="!active">
         <ng-content></ng-content>
     </div>
     `,

@@ -3,6 +3,9 @@
 #arrow_edge
     display: none
 
+main-view
+    overflow: hidden
+
 // Safari - Tariff plans
 .tariff_container:after
     //z-index: -1
@@ -49,10 +52,13 @@ pbx-call-rules-create
             .buy_phone_table_title
                 margin-right: 16px
 
-    #arrow_edge
-        display: block
-    #arrow_safari
-        display: none
+    .pbx_list_empty_icon
+        text-align: right
+        #arrow_edge
+            display: ruby
+        #arrow_safari
+            display: none
+
     main-view.dark_theme /deep/ *::-webkit-scrollbar-thumb
         background-color: transparent
     .tablet_header
@@ -132,6 +138,17 @@ pbx-call-rules-create
     width: 2px
 ::-webkit-scrollbar-thumb
     background: $dark_accent
+
+// if Mozilla
+@-moz-document url-prefix()
+    .pbx_list_empty_icon
+        text-align: right
+        #arrow_edge
+            display: ruby
+            svg
+                max-height: 220px
+        #arrow_safari
+            display: none
 
 @media screen and (max-width: 1699px)
     #arrow_edge,

@@ -49,18 +49,25 @@ pbx-storage
                         padding-right: 24px
             .tablet_header,
             .tablet_body
+                //border: 1px solid green
                 .tablet_item
-                    //outline: 1px solid red
+                    //border: 1px solid red
+                    white-space: nowrap
+                    flex: 1 0 auto
                     &.fix_104
-                        width: 120px
-                        min-width: 120px
+                        min-width: unset
+                        max-width: unset
                     &:nth-child(1)
+                        min-width: 50%
                         max-width: 50%
                     &:nth-child(2)
+                        min-width: 15%
                         max-width: 15%
                     &:nth-child(3)
+                        min-width: 15%
                         max-width: 15%
                     &:nth-child(4)
+                        min-width: 15%
                         max-width: 15%
                         text-align: center
                         > span
@@ -68,12 +75,24 @@ pbx-storage
                             float: none
                     &:nth-child(5)
                         max-width: 5%
+                .asd
+                    min-width: 15%
+                    max-width: 15%
+                    //border: 1px solid yellow
+                .tablet_icon
+                    margin: 0 auto
             .tablet_body
                 .tablet_row
                     .tablet_content
                         .asd
-                            width: 15% !important
-                            max-width: 15% !important
+                            //width: 15% !important
+                            //max-width: 15% !important
+                            .tablet_item_cols.player
+                                width: 100%
+                                position: relative
+                                pbx-media-table-player
+                                    position: absolute
+                                    right: 30px
                         &:nth-child(5)
                             max-width: 5%
 

@@ -75,14 +75,14 @@ export class StorageComponent implements OnInit {
         this.buttons = [
             {
                 id: 0,
-                title: 'Restore',
+                title: 'Restore Selected',
                 type: 'cancel',
                 visible: false,
                 inactive: true,
             },
             {
                 id: 1,
-                title: 'Delete Selected',
+                title: 'Empty trash',
                 type: 'error',
                 visible: true,
                 inactive: true,
@@ -270,8 +270,9 @@ export class StorageComponent implements OnInit {
             if (this.currentFilter && this.currentFilter.type === 'trash') {
                 typeDelete = 'delete';
             }
-            const item = this.mediaTable.tableItems.find(item => item.id == id);
-            item ? item.loading++ : null;
+            let item: any;
+            item = this.pageInfo.items.find(item => item.id === id);
+            // item ? item.loading++ : null;
 
             if (this.buttonType === 0) {
                 this.service.restoreById(id, (loading) => {

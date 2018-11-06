@@ -60,9 +60,11 @@ pbx-settings
             .settings_item
                 .settings_item_title
                     font-size: 16px !important
+                    line-height: 24px !important
         .settings_theme_item
             .settings_theme_text
                 font-size: 16px !important
+                line-height: 24px !important
     pbx-form
         pbx-settings-group
             pbx-settings-group
@@ -146,3 +148,31 @@ profile-component
             .overlay_content
                 padding: 24px
                 background: $dark_overlay
+
+billing-component,
+authorization-component
+    base-settings-component
+        .form
+            .form-body
+                padding: 24px
+                background: $dark_overlay
+
+billing-component
+    base-settings-component
+        pbx-settings-group
+            pbx-settings-input
+                pbx-input
+                    width: 100% !important
+                    .pbx_input_item_input_wrap
+                        margin-top: 0 !important
+                    .pbx_input_item
+                        grid-template-columns: 128px 1fr !important
+
+user-notifications-component,
+account-notifications-component
+    .settings_form_title_1,
+    .settings_form_title_2
+        font-weight: 400 !important
+    pbx-settings-group
+        span
+            font-size: 14px !important

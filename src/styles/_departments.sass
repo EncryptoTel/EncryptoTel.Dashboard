@@ -43,17 +43,20 @@ pbx-department-create
 	.view-edit-control-header
 		&.toHide
 			padding: 0 !important
-	pbx-view-edit-control
-		pbx-table
-			.tablet
-				.tablet_body
-					.tablet_row
-						&:nth-child(even)
-							background: $ivr_dark_table_bg_2
-							&:hover
-								background: rgba($dark_primary, .05)
+
 
 pbx-department-create
 	pbx-view-edit-control
 		pbx-table
 			padding: 0 24px 24px
+
+pbx-department-create
+	.form-body
+		pbx-tab
+			&:nth-child(2)
+				flex: 1
+				.tab-content
+					flex: 1
+					.view-edit-control-wrapper
+						flex: 1
+						position: relative

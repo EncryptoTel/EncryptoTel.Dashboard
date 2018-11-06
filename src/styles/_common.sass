@@ -171,6 +171,8 @@ input.searching
 .dark_theme
     pbx-index
         pbx-pagination
+            button
+                color: $dark_white
             button.pbx-button-disabled
                 background: $white_pagination_btn_disabled_55 !important
                 color: $dark-white_55 !important
@@ -355,3 +357,33 @@ partner-program-component
     .tablet_row
         pbx-loader
             background: transparent !important
+
+.nothing-found-class
+    width: 100%
+    justify-content: center
+    position: absolute
+    top: 50%
+    transform: translateY(-50%)
+    font-family: Roboto, sans-serif
+    font-size: 32px
+    line-height: 48px
+    font-weight: 300
+    color: $dark_white_70
+
+pbx-table
+    .tablet
+        .tablet_body
+            .tablet_row
+                .pick
+                    background: rgba($dark_primary, .01)
+                    &:hover
+                        background: rgba($dark_primary, .05)
+                &:hover
+                    background: rgba($dark_primary, .05)
+
+.tablet_item_icon.sort
+    svg
+        width: 16px
+        height: 16px
+        rect, polygon
+            fill: $dark_accent

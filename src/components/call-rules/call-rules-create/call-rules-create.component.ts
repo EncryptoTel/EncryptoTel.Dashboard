@@ -32,12 +32,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     mode = 'create';
     numbers: SipItem[];
     queues = [];
+    groups = [];
     playButtonText: string;
     ruleActions = [];
     selectedActions: Action[] = [];
     selectedFiles = [];
     selectedNumber: SipItem;
     selectedQueues = [];
+    selectedGroups = [];
     selectedSipInners: SipInner[] = [];
     sipInners: SipInner[] = [];
 
@@ -160,6 +162,17 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         });
     }
 
+    private createRedirectToGroup(): FormGroup {
+        return this.fb.group({
+            action: 3,
+            parameter: [null, [Validators.required]],
+            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
+            timeRules: ['', []],
+            callRuleTime: ['', [callRuleTimeValidator]],
+            durationTime: ['', [durationTimeValidator]],
+        });
+    }
+
     private createCancelCall(): FormGroup {
         return this.fb.group({
             action: 4,
@@ -211,6 +224,15 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                         }
                     });
                     break;
+                case 6: // Redirect to call queue
+                    this.addAction(this.actionFactory(6), index);
+
+                    this.groups.forEach(group => {
+                        if (group.id.toString() === ruleActions[actionIdx].parameter) {
+                            this.selectedGroups[index] = group;
+                        }
+                    });
+                    break;
                 case 4: // Terminate call
                     this.addAction(this.actionFactory(4), index);
                     break;
@@ -241,6 +263,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 return this.createCancelCall();
             case 5:
                 return this.createPlayVoiceFile();
+            case 6:
+                return this.createRedirectToGroup();
         }
         return null;
     }
@@ -306,6 +330,11 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     selectQueue(index: number, queue): void {
         this.selectedQueues[index] = queue;
         this.setParameterControlValue(index, queue.id);
+    }
+
+    selectGroup(index: number, group): void {
+        this.selectedGroups[index] = group;
+        this.setParameterControlValue(index, group.id);
     }
 
     selectFile(index: number, file: any): void {
@@ -530,6 +559,9 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                     case 3:
                         this.getQueue();
                         break;
+                    case 6:
+                        this.getGroup();
+                        break;
                     case 5:
                         this.getFiles();
                         break;
@@ -570,6 +602,15 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.loading++;
         this.service.getQueue().then(response => {
             this.queues = response.items;
+        }).catch(() => {
+        })
+            .then(() => this.loading--);
+    }
+
+    private getGroup(): void {
+        this.loading++;
+        this.service.getGroup().then(response => {
+            this.groups = response.items;
         }).catch(() => {
         })
             .then(() => this.loading--);

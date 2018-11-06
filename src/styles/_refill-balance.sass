@@ -104,6 +104,8 @@ refill-balance
                         .pbx_input_error
                             //margin-left: 140px !important
                     &:nth-child(2)
+                        input
+                            width: 317px !important
                         .pbx_input_error
                             //margin-left: 101px !important
         pbx-input
@@ -112,6 +114,11 @@ refill-balance
 
 .refill_sidebar_block
     padding-bottom: 24px !important
+
+refill-balance
+    pbx-header
+        .pbx_input_item_label
+            margin-right: 16px !important
 
 // ========================================
 
@@ -141,38 +148,42 @@ refill-balance
                                 min-width: 224px !important
 
 
-@media screen and (max-width: 1431px)
-    .pbx_header_wrap
-        pbx-input
-            .pbx_input_item
-                align-items: center
-                .pbx_input_item_label
-                    flex-direction: column
-                    align-items: flex-start
-                    .labels-second-line
-                        margin-top: 5px
-                        color: inherit
-                        margin-left: 0
-        &:nth-child(2)
-            .pbx_input_error
-                margin-top: 91px !important
-    refill-balance
-        .refill_header
-            .pbx_input_wrap
-                .pbx_input_error
+//@media screen and (max-width: 1431px)
+    //.pbx_header_wrap
+    //    pbx-input
+    //        .pbx_input_item
+    //            align-items: center
+    //            grid-template-columns: 100px 1fr
+    //            .pbx_input_item_label
+    //                flex-direction: column
+    //                align-items: flex-start
+    //                .labels-second-line
+    //                    margin-top: 5px
+    //                    color: inherit
+    //                    margin-left: 0
+    //        &:nth-child(2)
+    //            input
+    //                width: 271px
+    //    &:nth-child(2)
+    //        .pbx_input_error
+    //            margin-top: 91px !important
+    //refill-balance
+    //    .refill_header
+    //        .pbx_input_wrap
+    //            .pbx_input_error
                     //margin-left: 241px
                     //margin-top: 91px
                     //margin-left: 140px
                     //margin-top: 105px
 
-@media screen and (max-width: 1299px)
+@media screen and (max-width: 1431px)
     refill-balance
          .refill_header
             pbx-input
                 display: block !important
                 width: 100% !important
                 &:nth-child(1)
-                    margin-bottom: 24px
+                    margin-bottom: 8px
                 .pbx_input_item_label
                     width: 91px !important
                 .pbx_input_item_input_wrap
@@ -186,21 +197,3 @@ refill-balance
                             input
                                 width: 215px !important
                                 min-width: 215px !important
-
-
-@media screen and (max-width: 1151px)
-    .pbx_header_wrap
-        pbx-input
-            .pbx_input_item
-                .pbx_input_item_label
-                    .labels-second-line
-                        display: none
-    refill-balance
-        .refill_header
-            .pbx_input_wrap
-                &:nth-child(1)
-                    .pbx_input_error
-                        //margin-top: 103px !important
-                .pbx_input_error
-                    //margin-left: 120px
-                    //margin-top: 91px

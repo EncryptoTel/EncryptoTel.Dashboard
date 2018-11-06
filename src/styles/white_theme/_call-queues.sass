@@ -26,3 +26,13 @@
             .call_queues_members_add_filter
                 input
                     font-family: Roboto, sans-serif
+
+    ring-groups-create-component,
+    pbx-call-queues-create
+        pbx-queue-create
+            .form-body
+                .form-body-content
+                    pbx-queue-members-add
+                        .call_queues_members_add
+                            .nothing-found-class
+                                color: $white_empty_message !important
