@@ -123,9 +123,13 @@
        max-width: 136px
        min-width: 136px
 
+   .user_mobile_tab__item--mw134
+       max-width: 134px
+       min-width: 134px
+
    .user_mobile_tab__item--mw230
        max-width: 230px
-       min-width: 226px
+       min-width: 220px
 
 
    .user_mobile_tab__item--set
@@ -139,6 +143,10 @@
    .user_mobile_tab__item--w177
        min-width: 177px
        max-width: 177px
+
+   .user_mobile_tab__item--w169
+       min-width: 169px
+       max-width: 169px
 
    .user_mobile_tab__item--w184
        min-width: 177px
@@ -688,7 +696,8 @@
 
    .mobile_btn_down_block--pos
        position: fixed
-       top: 89.5%
+       //top: 89.5%
+       bottom: 0
        left: 0
        right: 0
 
@@ -975,6 +984,10 @@
        .svg
            fill: rgba(255, 121, 142, 1)
 
+   .btn_delete_item--pos
+       right: -2px
+       top: 35px
+
 
    .btn_item_wide_block
        display: flex
@@ -1011,6 +1024,14 @@
        flex-direction: column
 
        padding-top: 20px
+
+   .mobile_input_item__calendar
+       position: absolute
+       width: 24px
+       height: 21px
+       right: 40px
+       top: 33px
+
 
    .mobile_input_item__input
        font-weight: 300
@@ -1091,6 +1112,9 @@
        -moz-appearance: none
        appearance: none
 
+   .mobile_input_item__select--bg_size
+       background-size: 23px 23px !important
+
    .mobile_input_item__select--min
        max-width: 430px
        min-width: 430px
@@ -1101,8 +1125,18 @@
        min-width: 320px
        margin-right: 26px
 
+   .mobile_input_item__select--min272
+       max-width: 272px
+       min-width: 272px
+       margin-right: 20px
+
    .mobile_input_item__select--mt15
        margin-top: 15px
+
+
+   .mobile_input_item__select--bgs93
+       background-size: 23px 23px !important
+       background-position: 93% 10px !important
 
 
    .mobile_input_item__select--bgs95
@@ -1154,6 +1188,20 @@
 
        border-bottom: 1px solid rgba(255, 255, 255, .3) !important
 
+   input[type=text]::-ms-clear
+        display: none
+        width: 0
+        height: 0
+   input[type=text]::-ms-reveal
+        display: none
+        width: 0
+        height: 0
+   input[type="search"]::-webkit-search-decoration,
+   input[type="search"]::-webkit-search-cancel-button,
+   input[type="search"]::-webkit-search-results-button,
+   input[type="search"]::-webkit-search-results-decoration
+        display: none
+
    .mobile_input_item_button
        display: flex
        margin-top: -12px
@@ -1196,6 +1244,16 @@
        font-size: 20px
        font-weight: 400
        font-family: Roboto, sans-serif
+
+   .mobile_input_item_button__btn--big
+       width: 142px
+       font-size: 20px
+       font-weight: 400
+       font-family: Roboto, sans-serif
+       span
+           width: 40px !important
+           height: 40px !important
+
 
    .mobile_week
        display: flex
@@ -1540,7 +1598,7 @@
        font-size: 24px
 
        //padding-left: 27%
-       padding-right: 0
+       //padding-right: 0
 
        text-align: right
 
@@ -1876,6 +1934,9 @@
    .checkbox_wrap--mb29
        margin-bottom: 29px
 
+   .checkbox_wrap--mb21
+       margin-bottom: 21px
+
    .checkbox_wrap--h22
        height: 22px
 
@@ -1886,7 +1947,6 @@
        position: absolute
        top: 23px
        right: -8px
-
 
    .label
        font-weight: 300
@@ -1902,6 +1962,9 @@
 
    .label--w456
        width: 456px
+
+   .label--w475
+       max-width: 475px
 
 
    .label--white06
@@ -2508,7 +2571,7 @@
        position: relative
 
 
-   .mobile_block--dn, tab
+   .mobile_block--dn, .tab
        display: none
 
    .mobile_block--active
@@ -2938,6 +3001,9 @@
         margin-bottom: 20px
 
    .mobile_section_title--mb67
+        margin-bottom: 39px
+
+   .mobile_section_title--mb67
         margin-bottom: 67px
 
    .mobile_section_title--mb70
@@ -3002,7 +3068,7 @@
 
 
    .transfer_block
-       display: none
+       display: block
 
        background: rgba(255, 255, 255, 1)
 
@@ -3015,6 +3081,9 @@
        padding-left: 98px
        padding-right: 94px
        padding-bottom: 21px
+
+   .transfer_block--active
+       display: block
 
    .transfer_block--pos
        position: absolute
@@ -3117,4 +3186,17 @@
        fill: rgba(152, 182, 97, 1)
        width: 100%
        height: 100%
+
+// todo поправиь стили для ie
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active)
+   .user_mobile_tab__item
+       max-width: 208px !important
+       min-width: 208px !important
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+   .user_mobile_tab__item--mw136
+       width: 134px !important
+       color: red
+
+
 

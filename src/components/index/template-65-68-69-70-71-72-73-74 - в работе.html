@@ -348,7 +348,7 @@
                 </button>
             </div>
         </div> <!--EXTENSIONS VOICEMAIL-->
-        <div class="mobile_block  ">
+        <div class="mobile_block  mobile_block--dn">
             <form id="group_members" class="form_item  form_item--mb28">
                 <p class="mobile_section_title">
                     Rule
@@ -547,6 +547,160 @@
                 <!--</button>-->
             </div>
         </div> <!--forwarding rules-->
+        <div class="mobile_block">
+            <form id='forwarding' class="form_item  form_item--mb28">
+                <p class="mobile_section_title  mobile_section_title--mb70">
+                    Rule
+                </p>
+                <p class="mobile_section_title  mobile_section_title--mb18">
+                    Restrictions
+                </p>
+                <label class="checkbox_wrap  checkbox_wrap--mb21  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label  label--white08">Enable Rule</span>
+                </label>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="Rule Name" value="Business Trip" >
+                    <label class="mobile_input_item__label">
+                        Rule Name
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb30">
+                    <input type="text" class="mobile_input_item__input" placeholder="" value="" >
+                    <label class="mobile_input_item__label">
+                        Description
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <p class="mobile_section_title  mobile_section_title--mb39">
+                    Options
+                </p>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs93">
+                        <option selected value="Rule time" class="mobile_input_item__option">Rule time</option>
+                        <option value="Rule time">Rule time</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Action
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs93">
+                        <option selected value="Date (period)" class="mobile_input_item__option">Date (period)</option>
+                        <option value="Date (period)">Date (period)</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Rule applies for
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="" value="25.07.2017–25.07.2017" >
+                    <label class="mobile_input_item__label">
+                        Duration period
+                    </label>
+                    <a href="#" class="mobile_input_item__calendar">
+                        <svg-icon src="../../assets/icons/schedule.svg" class="svg"></svg-icon>
+                    </a>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs93">
+                        <option selected value="Always (24 hours)" class="mobile_input_item__option">Always (24 hours)</option>
+                        <option value="Always (24 hours)">Always (24 hours)</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Duration time
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs93">
+                        <option selected value="Добавить голосовое приветствие" class="mobile_input_item__option">Добавить голосовое приветствие</option>
+                        <option value="Добавить голосовое приветствие">Добавить голосовое приветствие</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Action
+                    </label>
+                    <div class="btn_delete_item  btn_delete_item--pos">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </div>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--row  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--min272  mobile_input_item__select--bg_size">
+                        <option selected value="welcome_female.mp3" class="mobile_input_item__option">welcome_female.mp3</option>
+                        <option value="welcome_female.mp3" class="mobile_input_item__option">welcome_female.mp3</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Voice greeting
+                    </label>
+                    <div class="mobile_input_item_button">
+                        <a href="#" class="mobile_input_item_button__btn  mobile_input_item_button__btn--big">
+                            Upload
+                        </a>
+                        <a href="#" class="mobile_input_item_button__btn  mobile_input_item_button__btn--big">
+                            <span>
+                                <svg-icon src="../../assets/icons/play_24px.svg" class="svg"></svg-icon>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs93">
+                        <option selected value="Forward to number" class="mobile_input_item__option">Forward to number</option>
+                        <option value="Forward to number">Forward to number</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Action
+                    </label>
+                    <div class="btn_delete_item  btn_delete_item--pos">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </div>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="Phone number" value="+1 (987) 789 65 54" >
+                    <label class="mobile_input_item__label">
+                        Phone number
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input  mobile_input_item__input--right"
+                           placeholder="If I do not answer calls within" value="30 seconds">
+                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                        If I do not answer calls within
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs93">
+                        <option selected value="[choose one]" class="mobile_input_item__option">[choose one]</option>
+                        <option value="[choose one]">[choose one]</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Action
+                    </label>
+                </div>
+                <a href="#" class="mobile_top_pos_btn  mobile_top_pos_btn--bg_grey">
+                    Add New Rule
+                </a>
+            </form>
+            <div class="mobile_down_btn_block  mobile_down_btn_block--pos  mobile_down_btn_block--start">
+                <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
+                    Cancel
+                </a>
+                <button type="submit" form="forwarding" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
+                    Save
+                </button>
+            </div>
+        </div> <!--forwarding rules-65->
         <div class="mobile_block  mobile_block--dn">
             <form id="extensions_options" class="form_item  form_item--pt36">
                 <p class="mobile_section_title  mobile_section_title--mb18">
@@ -776,7 +930,6 @@
                 </button>
             </div>
         </div> <!--PRIVACY AND SECURITY-->
-
     </div>
     <!-- mobile_menu--active -->
     <div class="mobile_menu ">
