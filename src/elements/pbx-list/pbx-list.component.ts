@@ -174,7 +174,8 @@ export class ListComponent implements OnInit {
                 type: 'success',
                 visible: true,
                 inactive: false,
-                buttonClass: ''
+                buttonClass: '',
+                icon: ''
             });
         }
 

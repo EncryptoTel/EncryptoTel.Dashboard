@@ -42,7 +42,8 @@ export class InvoicesComponent implements OnInit {
             type: 'cancel',
             visible: false,
             inactive: false,
-            buttonClass: ''
+            buttonClass: '',
+            icon: ''
         });
     }
 

@@ -55,6 +55,7 @@ export class DepartmentsComponent implements OnInit {
             visible: true,
             inactive: true,
             buttonClass: '',
+            icon: ''
         });
 
         this.departmentForm = this._fb.group({
