@@ -44,6 +44,7 @@ import {LangStateService} from '../services/state/lang.state.service';
 import {CookieService} from 'ngx-cookie-service';
 import {RouterExtService} from '../services/router-ext.service';
 import {PbxTranslateLoader} from '../shared/pbx-translate-loader';
+import { TooltipGeneratorService } from '@services/validation.services/tooltip.generator.service';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -96,7 +97,8 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         StateService,
         LangStateService,
         CookieService,
-        RouterExtService
+        RouterExtService,
+        TooltipGeneratorService
     ],
     bootstrap: [MainViewComponent]
 })

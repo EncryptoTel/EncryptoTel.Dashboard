@@ -1,15 +1,19 @@
 import { FormGroup, FormArray, FormControl, FormControlName, AbstractControl } from '@angular/forms';
+
+import {ReflectiveInjector} from '@angular/core';
+
 import { Subscription } from 'rxjs/Subscription';
 
 import { InputComponent } from '../elements/pbx-input/pbx-input.component';
 import { Lockable, Locker } from './locker.model';
+import { TooltipGeneratorService } from '@services/validation.services/tooltip.generator.service';
 
 
 export class ValidationHost implements Lockable {
     locker: Locker;
     active: boolean;
     monitors: Subscription[];
-
+    tooltipService = ReflectiveInjector.resolveAndCreate([TooltipGeneratorService]);
     forms: FormGroup[];
     items: ValidationHostItem[];
 
@@ -67,8 +71,11 @@ export class ValidationHost implements Lockable {
 
     isErrorVisible(control: InputComponent): boolean {
         const controlKey = this.getValidatorKey(control);
+        console.log(control);
         let item;
-        if (this.items) item = this.items.find(i => i.key === controlKey);
+        if (this.items) {
+            item = this.items.find(i => i.key === controlKey);
+        }
         // if (controlKey === 'description') console.log('err-visible', controlKey, control.inErrorState, item);
         return control.inErrorState && item && item.visible;
     }
