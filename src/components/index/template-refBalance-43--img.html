@@ -149,6 +149,8 @@
 <!--<router-outlet></router-outlet>-->
 <!--</div>-->
 <!--</div>-->
+
+
 <div class="main_mobile_wrap">
     <div class="user_mobile">
         <div class="user_mobile_up">
@@ -159,73 +161,68 @@
             </a>
             <div class="user_mobile__title">
                 <p>
-                    MARKUS MOSER
+                    REFILL BALANCE
                 </p>
             </div>
         </div>
     </div>
     <div class="body_mobile">
         <div class="mobile_block">
-            <div class="edit_block  edit_form">
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <p class="mobile_input_item__input  mobile_input_item__input--bottom_transp">Markus</p>
-                    <span class="mobile_input_item__label">
-                        First Name
-                    </span>
-                </div>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <p class="mobile_input_item__input  mobile_input_item__input--bottom_transp">Moser</p>
-                    <span class="mobile_input_item__label">
-                        Last Name
-                    </span>
-                </div>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <p class="mobile_input_item__input  mobile_input_item__input--bottom_transp">+43 02754 8457</p>
-                    <span class="mobile_input_item__label">
-                        Phone number
-                    </span>
-                </div>
-                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
-                    <p class="mobile_input_item__input  mobile_input_item__input--bottom_transp">
-                        Austria
-                    </p>
-                    <span class="mobile_input_item__label">
-                        Country
-                    </span>
-                </div>
-            </div>
-            <div class="btn_item_wide_block">
-                <a href="#" class="btn_item_wide_block__btn">
-                    Block user
-                </a>
-                <a href="#" class="btn_item_wide_block__btn delete">
-                    Delete user
-                </a>
-            </div>
-            <div class="mobile_down_btn_block  mobile_down_btn_block--pos  ">
-                <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
-                    Back
-                </a>
-                <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
-                    Edit
-                </a>
-            </div>
-            <div class="delete_window  delete_window--pos">
-                <p>
-                    Permanently&nbsp;delete&nbsp;contact <span class="delete_window__user_name">Markus Moser</span>?
+            <div class="refill_invoices">
+                <p class="refill_invoices__title  refill_invoices__title--mb24">
+                    Invoice TC10002258
                 </p>
-                <div class="delete_window_block">
-                    <div class="delete_window_block__btn  delete_window_block__cancel  mobile_storage_btn--grey">
-                        Cancel
+                <input type="text"
+                       placeholder=""
+                       value="100 USD"
+                       class="refill_invoices__input">
+                <div class="refill_invoices_item  refill_invoices_item--mb">
+                    <div class="refill_invoices_item__img">
+                        <svg-icon src="../../assets/icons/_cryptocurrency/8.svg" class="svg"></svg-icon>
                     </div>
-                    <div class="delete_window_block__btn  delete_window_block__delete  mobile_storage_btn--pink">
-                        Delete
+                    <p>
+                        0.03707466 BTC
+                    </p>
+                </div>
+                <div class="refill_invoices_address  refill_invoices_address--mb">
+                    <p class="refill_invoices_address__title refill_invoices_address__title--green">
+                        Bitcoin payment address:
+                    </p>
+                    <input type="text"
+                           placeholder="Return address"
+                           value="1Xzt9kSu8CpJpjLcgz2dMqn29dwQh8yNN"
+                           class="refill_invoices_address__input  refill_invoices_address__input--bnone">
+                </div>
+                <div class="refill_invoices__qr  refill_invoices__qr--mb"></div>
+                <div class="three_btn_block">
+                    <div class="three_btn_block__item">
+                        <a href="#" class="three_btn_block__btn">
+                            <!--<svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>-->
+                        </a>
+                        <span class="three_btn_block__text">
+                            Copy
+                        </span>
+                    </div>
+                    <div class="three_btn_block__item">
+                        <a href="#" class="three_btn_block__btn">
+
+                        </a>
+                        <span class="three_btn_block__text">
+                            Email
+                        </span>
+                    </div>
+                    <div class="three_btn_block__item">
+                        <a href="#" class="three_btn_block__btn">
+
+                        </a>
+                        <span class="three_btn_block__text">
+                            More
+                        </span>
                     </div>
                 </div>
-                <svg-icon src="../../assets/icons/cancel_delete_12px.svg" class="close"></svg-icon>
             </div>
-        </div><!--mobile_block-->
-    </div>
+        </div><!--mobile_settings-->
+    </div><!--body_mobile-->
     <!-- mobile_menu--active -->
     <div class="mobile_menu ">
         <div class="mobile_menu_up">
@@ -328,6 +325,7 @@
     <!-- mobile_overlay--active -->
     <div class="mobile_overlay  "></div>
 </div>
+
 
 
 

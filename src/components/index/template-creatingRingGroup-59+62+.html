@@ -160,87 +160,240 @@
             </a>
             <div class="user_mobile__title">
                 <p>
-                    BACKUP
+                    CREATE RING GROUP
                 </p>
             </div>
         </div>
-    </div>
-    <div class="body_mobile">
-        <div class="mobile_block  mobile_backup_block">
-            <p class="mobile_backup__text">
-                Select module to Backup
-            </p>
-            <form method="post" id="mobile_backup_checkbox" action="" class="mobile_checkbox_item">
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Phone Numbers</span>
-                </label>
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Address Book</span>
-                </label>
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Call Rules</span>
-                </label>
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Call Queues</span>
-                </label>
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Ring Groups</span>
-                </label>
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test">
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Schedule</span>
-                </label>
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Company and Departments</span>
-                </label>
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Extensions</span>
-                </label>
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test">
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Invoices</span>
-                </label>
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Storage: Call records</span>
-                </label>
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Storage: Sound files</span>
-                </label>
-                <label class="checkbox_wrap  checkbox_wrap--h64">
-                    <input class="checkbox" type="checkbox" name="checkbox-test" checked>
-                    <span class="checkbox_custom"></span>
-                    <span class="label">Storage: Voicemail</span>
-                </label>
-            </form>
-        </div><!--mobile_block-->
-        <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
-            <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
-                Cancel
-            </a>
-            <button type="submit" form="mobile_backup_checkbox" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
-                Backup
-            </button>
+        <div class="user_mobile_down">
+            <nav class="user_mobile_tab">
+                <a class="user_mobile_tab__item  user_mobile_tab__item--active">
+                    GENERAL
+                </a>
+                <a class="user_mobile_tab__item">
+                    Group Members
+                </a>
+            </nav>
         </div>
+    </div>
+    <div class="body_mobile  body_mobile--pt0">
+        <div class="mobile_block  ">
+            <form id="general" class="form_item  form_item--mb11">
+                <p class="mobile_section_title">
+                    Create Ring Group
+                </p>
+                <div class="mobile_input_item  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="Name" value="Unnamed">
+                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                        Name
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--mb20">
+                    <input type="text" class="mobile_input_item__input" placeholder="Description" value="30 members">
+                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                        Description
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs">
+                        <option selected value="choose one" class="mobile_input_item__option">[choose one]</option>
+                        <option value="choose one" class="mobile_input_item__option">[choose one]</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Phone number
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs">
+                        <option selected value="ringall" class="mobile_input_item__option">ringall</option>
+                        <option value="choose one" class="mobile_input_item__option">ringall</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        Ring Strategy
+                    </label>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--mb124">
+                    <input type="text" class="mobile_input_item__input  mobile_input_item__input--right"
+                           placeholder="Ring Time" value="30 seconds">
+                    <label class="mobile_input_item__label  mobile_input_item__label--white06">
+                        Ring Time
+                    </label>
+                </div>
+                <p class="mobile_section_title">
+                    Destination if no answer
+                </p>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs">
+                        <option selected value="Terminate Call" class="mobile_input_item__option">Terminate Call</option>
+                        <option value="Terminate Call" class="mobile_input_item__option">Terminate Call</option>
+                    </select>
+                    <label class="mobile_input_item__label">
+                        then
+                    </label>
+                </div>
+            </form><!--create_shedule-->
+            <div class="mobile_down_btn_block">
+                <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
+                    Cancel
+                </a>
+                <button type="submit" form="general"
+                        class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
+                    Save
+                </button>
+            </div>
+        </div>
+        <div class="mobile_block  mobile_block--mb150  mobile_block--dn">
+            <form id="group_members" class="form_item  form_item--mb28  form_item--pt16">
+                <div class="internal_form_item">
+                    <span class="internal_form_item__name">
+                        Department:
+                    </span>
+                    <select name="" class="internal_form_item__select  internal_form_item__select--pal21">
+                        <option selected value="">
+                            Sales department (10)
+                        </option>
+                        <option value="">
+                            Sales department (10)
+                        </option>
+                    </select>
+                </div>
+                <div class="internal_form_item">
+                   <span class="internal_form_item__name">
+                         Search:
+                   </span>
+                    <input type="search" placeholder="Search by Name or Phone"
+                           class="internal_form_item__search  internal_form_item__search--tac">
+                </div>
+                <div class="mobile_item_card  mobile_item_card--w100">
+                    <div class="mobile_item_card__title">
+                        <p>
+                            +1 (800) 555 12 12 <strong></strong>
+                        </p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            #Ext
+                        </p>
+                        <span>101</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            First Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Last Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Status
+                        </p>
+                        <span>Enabled</span>
+                    </div>
+                </div><!--card-->
+                <div class="mobile_item_card  mobile_item_card--w100">
+                    <div class="mobile_item_card__title">
+                        <p>
+                            +1 (800) 555 12 12 <strong></strong>
+                        </p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            #Ext
+                        </p>
+                        <span>102</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            First Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Last Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Status
+                        </p>
+                        <span>Enabled</span>
+                    </div>
+                </div><!--card-->
+                <div class="mobile_item_card  mobile_item_card--w100">
+                    <div class="mobile_item_card__title">
+                        <p>
+                            +1 (800) 555 12 12 <strong></strong>
+                        </p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            #Ext
+                        </p>
+                        <span>103</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            First Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Last Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Status
+                        </p>
+                        <span>Enabled</span>
+                    </div>
+                </div><!--card-->
+                <div class="mobile_item_card  mobile_item_card--w100">
+                    <div class="mobile_item_card__title">
+                        <p>
+                            +1 (800) 555 12 12 <strong></strong>
+                        </p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            #Ext
+                        </p>
+                        <span>104</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            First Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Last Name
+                        </p>
+                        <span>Groot</span>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Status
+                        </p>
+                        <span>Enabled</span>
+                    </div>
+                </div><!--card-->
+            </form><!--create_shedule-->
+            <div class="mobile_down_btn_block  mobile_down_btn_block--pos  mobile_down_btn_block--start">
+                <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
+                    Back
+                </a>
+            </div>
+        </div> <!--№62-->
     </div>
     <!-- mobile_menu--active -->
     <div class="mobile_menu ">

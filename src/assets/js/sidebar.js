@@ -78,8 +78,8 @@ jQuery(document).ready(function(){
     // открытие карточки и поворот кнопки
     $('.mobile_item_card').on('click', '.dropdown_arrow_btn', function () {
         $(this).toggleClass('rotate180');
+        // $(this).parent().find('.mobile_item_card_comment').toggleClass('mobile_item_card_comment--active');
         $(this).parent().find('.mobile_item_card_comment').toggleClass('mobile_item_card_comment--active');
-        console.log(123);
     });
 
     // ---------------------------------
@@ -132,7 +132,7 @@ jQuery(document).ready(function(){
         //                             .appendTo($newInputItem);
         // // svg
         // $('<svg-icon>').addClass('svg')
-        //                .attr('src', '../../assets/icons/_middle/cancel_devare_12px.svg')
+        //                .attr('src', '../../assets/icons/_middle/cancel_delete_12px.svg')
         //                .appendTo($btnReset);
         //
         // $newInputWrapper.append($newInputItem);
@@ -142,25 +142,25 @@ jQuery(document).ready(function(){
     });
     // удаляем элемент
     $parentBlock.on('click', '.btn_remove', function() {
-        var devareElem = $(this).parent('.mobile_input_wrapper');
-        devareElem.remove();
+        var deleteElem = $(this).parent('.mobile_input_wrapper');
+        deleteElem.remove();
     });
 
-    // devare_window
-    $('.btn_item_wide_block__btn.devare').on('click', openDevareWindow);
-    $('.mobile_storage_btn_devare').on('click', openDevareWindow);
+    // delete_window
+    $('.btn_item_wide_block__btn.delete').on('click', openDeleteWindow);
+    $('.mobile_storage_btn_delete').on('click', openDeleteWindow);
 
-    function openDevareWindow(e) {
+    function openDeleteWindow(e) {
         e.preventDefault();
-        $('.devare_window').addClass('devare_window--active');
+        $('.delete_window').addClass('delete_window--active');
     }
 
-    $('.devare_window_block__cancel').on('click', closeDevareWindow);
-    $('.devare_window .close').on('click', closeDevareWindow);
+    $('.delete_window_block__cancel').on('click', closeDeleteWindow);
+    $('.delete_window .close').on('click', closeDeleteWindow);
 
-    function closeDevareWindow(e){
+    function closeDeleteWindow(e){
         e.preventDefault();
-        $('.devare_window').removeClass('devare_window--active');
+        $('.delete_window').removeClass('delete_window--active');
     }
 
 
@@ -180,5 +180,54 @@ jQuery(document).ready(function(){
 
 
 
+    // $(".mobile_photo_file_upload__file").on('change', function(){
+    //      var filename = $(this).val().replace(/.*\\/, "");
+    //      $("#filename").val(filename);
+    // });
+
+
+
+
 
   });
+
+jQuery(document).ready(function () {
+    // ---------------------------------
+    //DETAILS AND RECORDS
+    $('.mobile_status_inform__btn').on('click', function (e) {
+        e.preventDefault();
+
+        var
+            activeColor = $(this).attr('data-color'),
+            status = $('.mobile_item_card__status'),
+            elemName  = $(this).text().toLowerCase();
+
+        $(this).toggleClass('mobile_status_inform__btn--active');
+
+        if($(this).hasClass('mobile_status_inform__btn--active')){
+            $(this).css('background', activeColor);
+            setColorStatus();
+        } else {
+            $(this).css('background', 'transparent');
+            resetColorStatus();
+        }
+
+        function setColorStatus() {
+            status.each(function () {
+                if($(this).text().toLowerCase() == elemName){
+                    $(this).css('color', activeColor);
+                }
+            });
+        }
+
+        function resetColorStatus() {
+            status.each(function () {
+                if($(this).text().toLowerCase() == elemName){
+                    $(this).css('color', 'inherit');
+                }
+            });
+        }
+
+    });
+
+});

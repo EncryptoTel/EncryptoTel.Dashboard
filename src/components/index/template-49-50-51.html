@@ -1,0 +1,680 @@
+<!--<pbx-loader *ngIf="completedRequests < 2"></pbx-loader>-->
+<!--<div class="main_grid" *ngIf="completedRequests > 1">-->
+
+<!--<div class="user_wrap"-->
+<!--[ngClass]="{'active': userNavigationVisible}"-->
+<!--(click)="userNavigationVisible = !userNavigationVisible"-->
+<!--(clickOutside)="hideUserNavigation()"-->
+<!--#userWrap-->
+<!--&gt;-->
+<!--<div class="user_profile_image"-->
+<!--[ngStyle]="{'background-image': user.profile.avatar ? 'url(' + ( user.profile.avatar) + ')' : ''}"></div>-->
+<!--<div class="user_details_wrap">-->
+<!--<div class="user_details_name">{{username}}</div>-->
+<!--<div class="user_details_balance" *ngIf="completedRequests > 1">-->
+<!--<span translate>balance</span>&nbsp; {{user.balance.symbol}}{{user.balance.balance | currency:" ":2 }}-->
+<!--</div>-->
+<!--</div>-->
+<!--<svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>-->
+<!--<div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">-->
+<!--<a routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item" translate>Refill-->
+<!--balance</a>-->
+<!--<a routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item" translate>Tariff-->
+<!--plan</a>-->
+<!--<div (click)="logout()" class="user_navigation_item">-->
+<!--<span translate>Exit</span>-->
+<!--<svg-icon src="../../assets/icons/exit.svg" class="user_navigation_logout"></svg-icon>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="header_line_wrap">-->
+<!--<div class="header_title" translate>{{_main.pageTitle}}</div>-->
+<!--<div class="header_button_row">-->
+<!--<div class="header_button_wrap" [ngClass]="{'visible': headerButtonsVisible}">-->
+<!--<div class="header_button phone" [ngClass]="{'active': activeButtonIndex === 0}"-->
+<!--(click)="toggleActiveButton(0, $event)">-->
+<!--<svg-icon src="../../assets/icons/_call_panel/dialer_24px.svg"></svg-icon>-->
+<!--<div class="button_animation" *ngIf="activeButtonIndex === 0"></div>-->
+<!--</div>-->
+<!--<div class="header_button contacts" [ngClass]="{'active': activeButtonIndex === 1}"-->
+<!--(click)="toggleActiveButton(1, $event)">-->
+<!--<svg-icon src="../../assets/icons/_call_panel/contacts_24px.svg"></svg-icon>-->
+<!--<div class="button_animation" *ngIf="activeButtonIndex === 1"></div>-->
+<!--</div>-->
+<!--<div class="header_button chat" [ngClass]="{'active': activeButtonIndex === 2}"-->
+<!--(click)="toggleActiveButton(2, $event)">-->
+<!--<svg-icon src="../../assets/icons/_call_panel/chat_24px.svg"></svg-icon>-->
+<!--<div class="button_animation" *ngIf="activeButtonIndex === 2"></div>-->
+<!--<div class="notification"><i>9</i></div>-->
+<!--</div>-->
+<!--<div class="header_button notifications"-->
+<!--[ngClass]="{'active': activeButtonIndex === 3}"-->
+<!--(click)="toggleActiveButton(3, $event)"-->
+<!--&gt;-->
+<!--<svg-icon src="../../assets/icons/_call_panel/notification_24px.svg"></svg-icon>-->
+<!--<div class="button_animation" *ngIf="activeButtonIndex === 3"></div>-->
+<!--</div>-->
+<!--<div class="desc" [ngClass]="{'hiding': activeButtonIndex === 2}">© Encrypto Telecom, 2017-2018-->
+<!--v.0.1.0-->
+<!--</div>-->
+<!--</div> &lt;!&ndash; header_button_wrap &ndash;&gt;-->
+<!--<div class="header_button_hide"-->
+<!--[ngClass]="{'initial': headerButtonsVisible}"-->
+<!--(click)="toggleHeaderButtons($event)"-->
+<!--&gt;-->
+<!--<svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>-->
+<!--</div>-->
+<!--<div *ngIf="activeButtonIndex !== (null || undefined)"-->
+<!--class="sidebar_wrap"-->
+<!--[ngClass]="{'visible': headerButtonsVisible}"-->
+<!--[@Swipe]-->
+<!--&gt;-->
+<!--<span *ngIf="activeButtonIndex === 0">call</span>-->
+<!--<span *ngIf="activeButtonIndex === 1">contacts</span>-->
+<!--<pbx-chat *ngIf="activeButtonIndex === 2"></pbx-chat>-->
+<!--<span *ngIf="activeButtonIndex === 3">notification</span>-->
+<!--</div>-->
+<!--&lt;!&ndash; <div class="desc">© Encrypto Telecom, 2017-2018 v.0.1.0</div> &ndash;&gt;-->
+<!--</div> &lt;!&ndash; header_button_row &ndash;&gt;-->
+<!--</div>-->
+
+<!--<div class="navigation_block_wrap custom-scrollbar-const">-->
+<!--<div class="navigation_block" *ngFor="let block of userService.navigation">-->
+<!--<div *ngFor="let navigationItem of block">-->
+<!--<a [routerLink]="navigationItem.url"-->
+<!--routerLinkActive="active"-->
+<!--[ngClass]="['navigation_item', 'navigation-item-' + navigationItem.url]"-->
+<!--&gt;-->
+<!--<svg-icon class="navigation_item_icon"-->
+<!--[src]="'../../assets/icons/_menu/' + navigationItem.icon + '.svg'"></svg-icon>-->
+<!--<div class="navigation_item_title" translate>{{navigationItem.name}}</div>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="mobile_header" [ngClass]="{'active': mobileNavigationVisible}">-->
+<!--<div class="mobile_header_button" [ngClass]="{'active': mobileNavigationVisible}">-->
+<!--<div class="mobile_header_button_fill" (click)="mobileNavigationVisible = true">-->
+<!--<span></span>-->
+<!--<span></span>-->
+<!--<span></span>-->
+<!--</div>-->
+<!--<div class="mobile_hover" *ngIf="mobileNavigationVisible" (click)="mobileNavigationVisible = false"></div>-->
+<!--<div class="mobile_sidebar">-->
+<!--<div class="mobile_profile"-->
+<!--(click)="mobileUserVisible=!mobileUserVisible"-->
+<!--(clickOutside)="mobileUserVisible=false"-->
+<!--&gt;-->
+<!--<div class="mobile_profile_name">{{user.profile.firstname}}</div>-->
+<!--<div *ngIf="completedRequests > 1"-->
+<!--class="mobile_profile_balance"-->
+<!--&gt;-->
+<!--{{user.balance.symbol}}{{user.balance.balance}}-->
+<!--</div>-->
+<!--<div class="mobile_profile_button_wrap"-->
+<!--[ngClass]="{'invisible':!mobileUserVisible}"-->
+<!--(click)="mobileNavigationVisible=false"-->
+<!--&gt;-->
+<!--<a routerLink="/cabinet/refill" routerLinkActive="active" class="mobile_profile_button">Refill-->
+<!--balance</a>-->
+<!--<a routerLink="/cabinet/tariff" routerLinkActive="active" class="mobile_profile_button">Tariff-->
+<!--plan</a>-->
+<!--<div (click)="logout()" class="mobile_profile_button">-->
+<!--<span>Exit</span>-->
+<!--<svg-icon src="../../assets/icons/exit.svg" class="mobile_profile_icon"></svg-icon>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="mobile_navigation">-->
+<!--<div class="mobile_navigation_block" *ngFor="let block of navigationList">-->
+<!--<div *ngFor="let navigationItem of block" class="mobile_navigation_item">-->
+<!--<a [routerLink]="navigationItem.link"-->
+<!--routerLinkActive="active"-->
+<!--[ngClass]="{'inactive': !navigationItem.status}"-->
+<!--*ngIf="navigationItem.visible"-->
+<!--(click)="mobileNavigationVisible=false">-->
+<!--{{navigationItem.title}}-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="mobile_header_title">{{_main.pageTitle}}</div>-->
+<!--</div>-->
+
+<!--<div class="body_wrap">-->
+<!--<router-outlet></router-outlet>-->
+<!--</div>-->
+<!--</div>-->
+
+<div class="main_mobile_wrap">
+    <div class="user_mobile">
+        <div class="user_mobile_up">
+            <a class="user_btn">
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+                <span class="user_btn__span"></span>
+            </a>
+            <div class="user_mobile__title">
+                <p>
+                    DETAILS AND RECORDS
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="body_mobile">
+        <div class="mobile_block">
+            <div class="mobile_status_inform_block">
+                <!-- todo кодировки цветов в data-color на верные -->
+                <ul class="mobile_status_inform  mobile_status_inform--after_border">
+                    <li class="mobile_status_inform__wrap">
+                        <a href="#" class="mobile_status_inform__btn" data-color="#C882DD">
+                            Incoming
+                        </a>
+                    </li>
+                    <li class="mobile_status_inform__wrap">
+                        <a href="#" class="mobile_status_inform__btn"  data-color="#EF77B2">
+                            Outgoing
+                        </a>
+                    </li>
+                    <li class="mobile_status_inform__wrap">
+                        <a href="#" class="mobile_status_inform__btn" data-color="pink">
+                            Missed
+                        </a>
+                    </li>
+                    <li class="mobile_status_inform__wrap">
+                        <a href="#" class="mobile_status_inform__btn" data-color="blue">
+                            Payment
+                        </a>
+                    </li>
+                    <li class="mobile_status_inform__wrap">
+                        <a href="#" class="mobile_status_inform__btn" data-color="red">
+                            Record
+                        </a>
+                    </li>
+                    <li class="mobile_status_inform__wrap">
+                        <a href="#" class="mobile_status_inform__btn" data-color="green">
+                            Voicemail
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mobile_item_card  mobile_item_card--mod">
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <p>
+                        <b>Markus Moser</b>
+                    </p>
+                    <!--<span class="mobile_item_card__inner_tel  mobile_item_card__inner_tel&#45;&#45;flex_grow">+1 (800) 200 01 10 #108</span>-->
+                    <span class="mobile_item_card__status">incoming</span>
+                </div>
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <time datetime="2017-06-26T14:47:25+03:00">26/06/2017 14:47:25</time>
+                    <p>
+                        0m 06s
+                    </p>
+                </div>
+                <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            File
+                        </p>
+                        <p><span>1.5 Mb</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Account number
+                        </p>
+                        <p><span>+43 02754 8457</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Price
+                        </p>
+                        <p><span>$0</span></p>
+                    </div>
+                    <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--end  mobile_item_card_comment__block--top">
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn--mr16  mobile_storage_btn_download  mobile_storage_btn--cyan">
+                            Download
+                        </a>
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn_play  mobile_storage_btn--cyan">
+                            <svg-icon src="../../assets/icons/play_24px.svg" class="play_24px"></svg-icon>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos24">
+                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
+                </div>
+            </div><!--card-->
+            <div class="mobile_item_card  mobile_item_card--mod">
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <p>
+                        <b>Bradley Ryan</b>
+                    </p>
+                    <!--<span class="mobile_item_card__inner_tel  mobile_item_card__inner_tel&#45;&#45;flex_grow">+1 (800) 200 01 10 #108</span>-->
+                    <span class="mobile_item_card__status">outgoing</span>
+                </div>
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <time datetime="2017-06-26T14:47:25+03:00">26/06/2017 14:47:25</time>
+                    <p>
+                        0m 06s
+                    </p>
+                </div>
+                <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            File
+                        </p>
+                        <p><span>1.5 Mb</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Account number
+                        </p>
+                        <p><span>+43 02754 8457</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Price
+                        </p>
+                        <p><span>$0</span></p>
+                    </div>
+                    <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--end  mobile_item_card_comment__block--top">
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn--mr16  mobile_storage_btn_download  mobile_storage_btn--cyan">
+                            Download
+                        </a>
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn_play  mobile_storage_btn--cyan">
+                            <svg-icon src="../../assets/icons/play_24px.svg" class="play_24px"></svg-icon>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos24">
+                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
+                </div>
+            </div><!--card-->
+            <div class="mobile_item_card  mobile_item_card--mod">
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <p>
+                        <b>Anna Perkins</b>
+                    </p>
+                    <!--<span class="mobile_item_card__inner_tel  mobile_item_card__inner_tel&#45;&#45;flex_grow">+1 (800) 200 01 10 #108</span>-->
+                    <span class="mobile_item_card__status">outgoing</span>
+                </div>
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <time datetime="2017-06-26T14:47:25+03:00">26/06/2017 14:47:25</time>
+                    <p>
+                        0m 06s
+                    </p>
+                </div>
+                <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            File
+                        </p>
+                        <p><span>1.5 Mb</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Account number
+                        </p>
+                        <p><span>+43 02754 8457</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Price
+                        </p>
+                        <p><span>$0</span></p>
+                    </div>
+                    <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--end  mobile_item_card_comment__block--top">
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn--mr16  mobile_storage_btn_download  mobile_storage_btn--cyan">
+                            Download
+                        </a>
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn_play  mobile_storage_btn--cyan">
+                            <svg-icon src="../../assets/icons/play_24px.svg" class="play_24px"></svg-icon>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos24">
+                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
+                </div>
+            </div><!--card-->
+            <div class="mobile_item_card  mobile_item_card--mod">
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <p>
+                        <b>Riley Butler</b>
+                    </p>
+                    <!--<span class="mobile_item_card__inner_tel  mobile_item_card__inner_tel&#45;&#45;flex_grow">+1 (800) 200 01 10 #108</span>-->
+                    <span class="mobile_item_card__status">outgoing</span>
+                </div>
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <time datetime="2017-06-26T14:47:25+03:00">26/06/2017 14:47:25</time>
+                    <p>
+                        0m 06s
+                    </p>
+                </div>
+                <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            File
+                        </p>
+                        <p><span>1.5 Mb</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Account number
+                        </p>
+                        <p><span>+43 02754 8457</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Price
+                        </p>
+                        <p><span>$0</span></p>
+                    </div>
+                    <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--end  mobile_item_card_comment__block--top">
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn--mr16  mobile_storage_btn_download  mobile_storage_btn--cyan">
+                            Download
+                        </a>
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn_play  mobile_storage_btn--cyan">
+                            <svg-icon src="../../assets/icons/play_24px.svg" class="play_24px"></svg-icon>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos24">
+                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
+                </div>
+            </div><!--card-->
+            <div class="mobile_item_card  mobile_item_card--mod">
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <p>
+                        <b>Melissa Smith</b>
+                    </p>
+                    <!--<span class="mobile_item_card__inner_tel  mobile_item_card__inner_tel&#45;&#45;flex_grow">+1 (800) 200 01 10 #108</span>-->
+                    <span class="mobile_item_card__status">outgoing</span>
+                </div>
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <time datetime="2017-06-26T14:47:25+03:00">26/06/2017 14:47:25</time>
+                    <p>
+                        0m 06s
+                    </p>
+                </div>
+                <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            File
+                        </p>
+                        <p><span>1.5 Mb</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Account number
+                        </p>
+                        <p><span>+43 02754 8457</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Price
+                        </p>
+                        <p><span>$0</span></p>
+                    </div>
+                    <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--end  mobile_item_card_comment__block--top">
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn--mr16  mobile_storage_btn_download  mobile_storage_btn--cyan">
+                            Download
+                        </a>
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn_play  mobile_storage_btn--cyan">
+                            <svg-icon src="../../assets/icons/play_24px.svg" class="play_24px"></svg-icon>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos24">
+                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
+                </div>
+            </div><!--card-->
+            <div class="mobile_item_card  mobile_item_card--mod">
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <p>
+                        <b>Melissa Smith</b>
+                    </p>
+                    <!--<span class="mobile_item_card__inner_tel  mobile_item_card__inner_tel&#45;&#45;flex_grow">+1 (800) 200 01 10 #108</span>-->
+                    <span class="mobile_item_card__status">incoming</span>
+                </div>
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <time datetime="2017-06-26T14:47:25+03:00">26/06/2017 14:47:25</time>
+                    <p>
+                        0m 06s
+                    </p>
+                </div>
+                <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            File
+                        </p>
+                        <p><span>1.5 Mb</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Account number
+                        </p>
+                        <p><span>+43 02754 8457</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Price
+                        </p>
+                        <p><span>$0</span></p>
+                    </div>
+                    <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--end  mobile_item_card_comment__block--top">
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn--mr16  mobile_storage_btn_download  mobile_storage_btn--cyan">
+                            Download
+                        </a>
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn_play  mobile_storage_btn--cyan">
+                            <svg-icon src="../../assets/icons/play_24px.svg" class="play_24px"></svg-icon>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos24">
+                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
+                </div>
+            </div><!--card-->
+            <div class="mobile_item_card  mobile_item_card--mod">
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <p>
+                        <b>Edward Phillips</b>
+                    </p>
+                    <!--<span class="mobile_item_card__inner_tel  mobile_item_card__inner_tel&#45;&#45;flex_grow">+1 (800) 200 01 10 #108</span>-->
+                    <span class="mobile_item_card__status">outgoing</span>
+                </div>
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <time datetime="2017-06-26T14:47:25+03:00">26/06/2017 14:47:25</time>
+                    <p>
+                        0m 06s
+                    </p>
+                </div>
+                <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            File
+                        </p>
+                        <p><span>1.5 Mb</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Account number
+                        </p>
+                        <p><span>+43 02754 8457</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Price
+                        </p>
+                        <p><span>$0</span></p>
+                    </div>
+                    <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--end  mobile_item_card_comment__block--top">
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn--mr16  mobile_storage_btn_download  mobile_storage_btn--cyan">
+                            Download
+                        </a>
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn_play  mobile_storage_btn--cyan">
+                            <svg-icon src="../../assets/icons/play_24px.svg" class="play_24px"></svg-icon>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos24">
+                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
+                </div>
+            </div><!--card-->
+            <div class="mobile_item_card  mobile_item_card--mod">
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <p>
+                        <b>Alexander Morgan</b>
+                    </p>
+                    <!--<span class="mobile_item_card__inner_tel  mobile_item_card__inner_tel&#45;&#45;flex_grow">+1 (800) 200 01 10 #108</span>-->
+                    <span class="mobile_item_card__status">missed</span>
+                </div>
+                <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                    <time datetime="2017-06-26T14:47:25+03:00">26/06/2017 14:47:25</time>
+                    <p>
+                        0m 06s
+                    </p>
+                </div>
+                <div class="mobile_item_card_comment  mobile_item_card_comment--pm0">
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            File
+                        </p>
+                        <p><span>1.5 Mb</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Account number
+                        </p>
+                        <p><span>+43 02754 8457</span></p>
+                    </div>
+                    <div class="mobile_item_card__items  mobile_item_card__items--mod">
+                        <p>
+                            Price
+                        </p>
+                        <p><span>$0</span></p>
+                    </div>
+                    <div class="mobile_item_card_comment__block  mobile_item_card_comment__block--end  mobile_item_card_comment__block--top">
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn--mr16  mobile_storage_btn_download  mobile_storage_btn--cyan">
+                            Download
+                        </a>
+                        <a href="#" class="mobile_storage_btn  mobile_storage_btn_play  mobile_storage_btn--cyan">
+                            <svg-icon src="../../assets/icons/play_24px.svg" class="play_24px"></svg-icon>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown_arrow_btn  dropdown_arrow_btn--pos24">
+                    <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
+                </div>
+            </div><!--card-->
+        </div><!--block-->
+    </div>
+    <!-- mobile_menu--active -->
+    <div class="mobile_menu ">
+        <div class="mobile_menu_up">
+            <div class="mobile_menu__block">
+                <div class="mobile_menu_up__name">
+                    <p>
+                        Alex Freeman
+                    </p>
+                </div>
+                <div class="mobile_menu_up__balance">
+                    <p>balance</p>
+                    <p>$58</p>
+                </div>
+            </div>
+            <ul class="mobile_menu_left">
+                <li class="mobile_menu_left__li">
+                    <a href="#" class="mobile_menu_left__link">Refill balance</a>
+                </li>
+                <li class="mobile_menu_left__li">
+                    <a href="#" class="mobile_menu_left__link">Tariff plan</a></li>
+                <li class="mobile_menu_left__li">
+                    <a href="#" class="mobile_menu_left__link">Privacy policy</a>
+                </li>
+                <li class="mobile_menu_left__li">
+                    <a href="#" class="mobile_menu_left__link  mobile_menu_left__link--active">Exit <span
+                            class="mobile_menu_exit">
+                        <svg-icon src="../../assets/icons/exit.svg" class="dropdown_arrow_rotate"></svg-icon>
+                    </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <ul class="mobile_menu__ul">
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link  mobile_menu__link--active">Dashboard</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Phone Numbers</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Address Book</a>
+            </li>
+        </ul>
+        <ul class="mobile_menu__ul">
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Call Rules</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Call Queues</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Ring Groups</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">IVR</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Schedule</a>
+            </li>
+        </ul>
+        <ul class="mobile_menu__ul">
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Company</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Departments</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Extensions</a>
+            </li>
+        </ul>
+        <ul class="mobile_menu__ul">
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Details and Records</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Invoices</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Marketplace</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Call Mining</a>
+            </li>
+        </ul>
+        <ul class="mobile_menu__ul">
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Storage</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Knowledge Base</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Partner program</a>
+            </li>
+            <li class="mobile_menu__li">
+                <a href="#" class="mobile_menu__link">Settings</a>
+            </li>
+        </ul>
+    </div>
+    <!-- mobile_overlay--active -->
+    <div class="mobile_overlay  "></div>
+</div>
+
+
+

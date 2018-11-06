@@ -176,8 +176,8 @@
         </div>
     </div>
     <div class="body_mobile  body_mobile--pt0">
-        <div class="mobile_block  ">
-            <form id="general" class="form_item">
+        <div class="mobile_block  mobile_block--dn">
+            <form id="general" class="form_item  form_item--mb11">
                 <p class="mobile_section_title">
                     Create Ring Group
                 </p>
@@ -186,18 +186,12 @@
                     <label class="mobile_input_item__label  mobile_input_item__label--white06">
                         Name
                     </label>
-                    <button class="mobile_input_item__close  mobile_input_item__close--right0">
-                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
-                    </button>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--mb20">
                     <input type="text" class="mobile_input_item__input" placeholder="Description" value="30 members">
                     <label class="mobile_input_item__label  mobile_input_item__label--white06">
                         Description
                     </label>
-                    <button class="mobile_input_item__close  mobile_input_item__close--right0">
-                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
-                    </button>
                 </div>
                 <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
                     <select name="" class="mobile_input_item__select  mobile_input_item__select--bgs">
@@ -223,9 +217,6 @@
                     <label class="mobile_input_item__label  mobile_input_item__label--white06">
                         Ring Time
                     </label>
-                    <button class="mobile_input_item__close  mobile_input_item__close--right0">
-                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
-                    </button>
                 </div>
                 <p class="mobile_section_title">
                     Destination if no answer
@@ -240,7 +231,7 @@
                     </label>
                 </div>
             </form><!--create_shedule-->
-            <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
+            <div class="mobile_down_btn_block">
                 <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
                     Cancel
                 </a>
@@ -250,11 +241,22 @@
                 </button>
             </div>
         </div>
-        <div class="mobile_block  mobile_block--dn">
-            <form id="group_members" class="form_item  form_item--mb28">
-                <p class="mobile_section_title">
-                    Call Queue Agents
-                </p>
+        <div class="mobile_block  ">
+            <form id="group_members" class="form_item  form_item--mb28  form_item--pt16">
+                <!--<p class="mobile_section_title">-->
+                    <!--Call Queue Agents-->
+                <!--</p>-->
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <select name=""
+                            class="mobile_input_item__select  mobile_input_item__select--group">
+                        <option selected value="Sales department (10)" class="mobile_input_item__option">Sales department (10)</option>
+                        <option value="Sales department (10)" class="mobile_input_item__option">Sales department (10)</option>
+                    </select>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb9">
+                    <input type="search" placeholder="Search by Name or Phone" class="mobile_input_item__search">
+                </div>
+
                 <div class="mobile_item_card  mobile_item_card--w100">
                     <div class="mobile_item_card__title">
                         <p>
@@ -435,19 +437,19 @@
                         <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow" style="cursor: pointer"></svg-icon>
                     </div>
                 </div><!--card-->
-                <a href="#" class="mobile_top_pos_btn">
-                    Add Members
-                </a>
+                <!--<a href="#" class="mobile_top_pos_btn">-->
+                    <!--Add Members-->
+                <!--</a>-->
             </form><!--create_shedule-->
-            <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
-                <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
-                    Cancel
-                </a>
-                <button type="submit" form="group_members"
-                        class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
-                    Save
-                </button>
-            </div>
+            <!--<div class="mobile_down_btn_block">-->
+                <!--<a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn&#45;&#45;grey">-->
+                    <!--Cancel-->
+                <!--</a>-->
+                <!--<button type="submit" form="group_members"-->
+                        <!--class="mobile_down_btn_block__btn  mobile_down_btn_block__btn&#45;&#45;green">-->
+                    <!--Save-->
+                <!--</button>-->
+            <!--</div>-->
         </div>
     </div>
     <!-- mobile_menu--active -->

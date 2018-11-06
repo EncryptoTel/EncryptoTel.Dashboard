@@ -28,7 +28,7 @@
        -moz-box-shadow: 0 4px 4px 0 rgba(0,0,0, .12)
        box-shadow: 0 4px 4px 0 rgba(0,0,0, .12)
 
-       margin-top: 40px
+       //margin-top: 40px
        //margin-bottom: 16px
 
        width: 100%
@@ -126,7 +126,6 @@
    .user_mobile_tab__item--mw230
        max-width: 230px
        min-width: 226px
-
 
 
    .user_mobile_tab__item--set
@@ -525,9 +524,6 @@
        width: 100% !important
 
 
-
-
-
    .mobile_item_card--mod
         position: relative
         padding-top: 20px
@@ -596,6 +592,10 @@
    .mobile_item_card__e-mail
        font-weight: 400
        color: #ffffff
+
+   .mobile_item_card__inner_tel
+     flex-grow: .5
+
 
 
    .mobile_item_card__items--mod
@@ -728,6 +728,66 @@
        right: 21px
 
        background: rgba(34, 178, 180, 1)
+
+
+   .mobile_top_pos_btn--big
+       width: 224px
+
+   .mobile_top_pos_btn--bg_grey
+       background: rgba(63, 63, 62, 1)
+
+
+
+   .mobile_status_inform_block
+       display: flex
+       flex-direction: column
+       max-width: 592px
+       margin: 0 auto
+
+   .mobile_status_inform
+       display: flex
+       flex-wrap: wrap
+
+
+   .mobile_status_inform__wrap
+       margin-right: 16px
+       margin-bottom: 16px
+
+       &:nth-child(n+5)
+           margin-bottom: 0
+
+   .mobile_status_inform--after_border
+       position: relative
+       &:after
+           content: ''
+           position: absolute
+           top: 5px
+           right: 11px
+           height: 40px
+           width: 1px
+           background: rgba(255, 255, 255, .3)
+           border-radius: 2px
+
+   .mobile_status_inform__btn
+       display: flex
+       justify-content: center
+       align-items: center
+
+       box-sizing: border-box
+
+       width: 128px
+       height: 48px
+
+       font-weight: 400
+       font-size: 18px
+
+       color: rgba(121, 121, 121, 1)
+       border-radius: 24px
+       border: 1px solid rgba(121, 121, 121, 1)
+
+   .mobile_status_inform__btn--active
+       border: 1px solid transparent
+       color: rgba(255, 255, 255, 1)
 
 
    .dropdown_arrow_btn
@@ -2000,6 +2060,16 @@
    .mobile_down_btn_block--end
        justify-content: flex-end
 
+   .mobile_down_btn_block--start
+       padding-left: 26px
+       justify-content: flex-start
+
+   .mobile_down_btn_block--jcsb
+       justify-content: space-between
+       padding-left: 24px
+       padding-right: 24px
+
+
    .mobile_down_btn_block__btn
        display: flex
        justify-content: center
@@ -2019,6 +2089,25 @@
 
        &:first-child
            margin-right: 24px
+
+   .mobile_down_btn_block__btn--pl
+       padding-left: 6%
+
+   .mobile_down_btn_block__btn--img
+       background-image:  url(../../assets/icons/_middle/plus-w.svg) !important
+       background-repeat: no-repeat !important
+       background-position: 36% center !important
+       background-size: 25.5px 25.5px !important
+       background-color: rgba(139, 165, 90, 1) !important
+
+   .mobile_down_btn_block__btn--w180
+       width: 180px
+
+   .mobile_down_btn_block__btn--margin0
+       margin: 0
+       &:first-child
+           margin: 0
+
 
    .mobile_down_btn_block__btn--green
        background: rgba(139, 165, 90, 1)
@@ -2403,9 +2492,6 @@
        font-size: 24px
        color: rgba(255, 255, 255, 1)
 
-
-
-
    /*------------------------------------------
          INVOICES (44-45) + см. DEPARTMENTS
 
@@ -2431,9 +2517,83 @@
    .mobile_block--mb
        margin-bottom: 96px
 
+   .mobile_block--mb150
+    margin-bottom: 150px
+
+
+   .mobile_block--mb250
+       margin-bottom: 250px
+
 
    .mobile_backup--mb57
        margin-bottom: 52.7%
+
+   .mobile_block__vicemail
+       display: flex
+       flex-direction: column
+       margin-bottom: 21px
+
+   .mobile_photo_block
+       display: flex
+       align-items: center
+       justify-content: center
+
+       min-height: 256px
+
+       background: rgba(46, 46, 45, 1)
+
+   .mobile_photo
+        position: relative
+
+   .mobile_photo__img
+       width: 184px
+       height: 184px
+       border: 2px solid rgba(232, 232, 232, 1)
+       border-radius: 50%
+
+   .mobile_photo_file_upload
+       position: absolute
+       bottom: 0
+       right: -16px
+       overflow: hidden
+       width: 64px
+       height: 64px
+       border-radius: 50%
+       background: rgba(34, 178, 180, 1)
+
+   .mobile_photo_file_upload__inp
+       display: none
+
+   .mobile_photo_file_upload__label
+       display: flex
+       align-items: center
+       justify-content: center
+       position: absolute
+       top: 0
+       right: 0
+       height: 100%
+       width: 100%
+       cursor: pointer
+
+   .mobile_photo_file_upload__img
+       display: flex
+       align-items: center
+       justify-content: center
+       width: 24px
+       height: 24px
+
+   .mobile_profile_block
+       display: flex
+       justify-content: space-between
+       font-weight: 300
+       font-style: normal
+       font-size: 20px
+       color: rgba(255, 255, 255, .7)
+
+   .mobile_profile_block--mb
+       margin-bottom: 32px
+
+
 
 
    .mobile_storage_card_form
@@ -2522,6 +2682,10 @@
            width: 40px
            height: 40px
            fill: #ffffff
+
+
+   .mobile_storage_btn--mr16
+     margin-right: 16px !important
 
 
    .mobile_storage_btn--pink
@@ -2735,6 +2899,9 @@
    .form_item--pt16
        padding-top: 16px !important
 
+   .form_item--pt24
+       padding-top: 24px
+
    .form_item--pt36
        padding-top: 36px
 
@@ -2749,17 +2916,33 @@
 
        margin-bottom: 36px
 
-   .mobile_section_title--mt31
-       margin-top: 31px
-
-   .mobile_section_title--mt36
-        margin-top: 36px
+   .mobile_section_title--mt16
+       margin-top: 16px
 
    .mobile_section_title--mt21
        margin-top: 21px
 
+   .mobile_section_title--mt31
+       margin-top: 31px
+
+   .mobile_section_title--mt36
+       margin-top: 36px
+
+   .mobile_section_title--mb7
+       margin-bottom: 7px
+
    .mobile_section_title--mb18
-       margin-bottom: 18px
+        margin-bottom: 18px
+
+   .mobile_section_title--mb20
+        margin-bottom: 20px
+
+   .mobile_section_title--mb67
+        margin-bottom: 67px
+
+   .mobile_section_title--mb70
+        margin-bottom: 70px
+
 
    /*------------------------------------------
         PARTNER PROGRAM (75 - 81)
@@ -2777,6 +2960,8 @@
        font-size: 14px
 
        padding-top: 24px
+
+       max-width: 592px
 
        //line-height: 1.75
 
@@ -2805,6 +2990,12 @@
            font-style: normal
            color: rgba(255, 255, 255, 1)
 
+   .text_item--fz20
+       font-size: 20px
+
+   .text_item--fz18
+       font-size: 18px
+       line-height: 1.65
 
    .text_item--mb38
        margin-bottom: 38px
