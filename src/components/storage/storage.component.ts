@@ -89,7 +89,7 @@ export class StorageComponent implements OnInit {
                 visible: true,
                 inactive: true,
                 buttonClass: 'trash',
-                icon: 'trash'
+                icon: ''
             },
             {
                 id: 2,
@@ -167,9 +167,11 @@ export class StorageComponent implements OnInit {
     reloadFilter(filter: any): void {
         if (filter.type === 'trash') {
             this.buttons[1].title = 'Empty trash';
+            this.buttons[1].icon = 'trash';
             this.buttons[0].inactive = true;
         } else {
             this.buttons[1].title = 'Delete Selected';
+            this.buttons[1].icon = '';
             this.buttons[0].inactive = true;
         }
         this.currentFilter = filter;
@@ -206,13 +208,19 @@ export class StorageComponent implements OnInit {
             if (this.service.successCount) {
                 let messageText: string;
                 if (this.currentFilter !== undefined && this.currentFilter.type === 'trash') {
-                    messageText = this.service.successCount > 1
-                        ? `${this.service.successCount} files have been successfully ${deleting ? 'deleted' : 'uploaded'}.`
-                        : `${this.service.successCount} file has been successfully ${deleting ? 'deleted' : 'uploaded'}.`;
+                    if (this.buttonType === 0) {
+                        messageText = this.service.successCount > 1
+                            ? `${this.service.successCount} files have been successfully ${deleting ? 'restored' : 'uploaded'}.`
+                            : `${this.service.successCount} file has been successfully ${deleting ? 'restored' : 'uploaded'}.`;
+                    } else {
+                        messageText = this.service.successCount > 1
+                            ? `${this.service.successCount} files have been successfully ${deleting ? 'deleted' : 'uploaded'}.`
+                            : `${this.service.successCount} file has been successfully ${deleting ? 'deleted' : 'uploaded'}.`;
+                    }
                 } else {
                     messageText = this.service.successCount > 1
-                        ? `${this.service.successCount} files have been successfully ${deleting ? 'deleted' : 'uploaded'}.`
-                        : `${this.service.successCount} file has been successfully ${deleting ? 'deleted' : 'uploaded'}.`;
+                        ? `${this.service.successCount} files have been successfully ${deleting ? 'trashed' : 'uploaded'}.`
+                        : `${this.service.successCount} file has been successfully ${deleting ? 'trashed' : 'uploaded'}.`;
                 }
                 this._message.writeSuccess(messageText);
             }
@@ -276,6 +284,8 @@ export class StorageComponent implements OnInit {
         if (this.buttonType !== 2) {
             if (this.buttonType === 0) {
                 this.modal = new ModalEx('', 'restoreFiles');
+            } else {
+                this.modal = new ModalEx('', 'deleteFiles');
             }
             this.modal.visible = true;
         } else {
@@ -316,6 +326,7 @@ export class StorageComponent implements OnInit {
     }
 
     deleteItem(item: StorageItem): void {
+        this.buttonType = 4;
         let _this = this;
         if (!item) return;
 
