@@ -201,9 +201,16 @@ export class StorageComponent implements OnInit {
         if (!loading) {
             this.onMediaDataLoaded();
             if (this.service.successCount) {
-                let messageText = this.service.successCount > 1
-                    ? `${this.service.successCount} files have been successfully ${deleting ? 'deleted' : 'uploaded'}.`
-                    : `${this.service.successCount} file has been successfully ${deleting ? 'deleted' : 'uploaded'}.`;
+                let messageText: string;
+                if (this.currentFilter !== undefined && this.currentFilter.type === 'trash') {
+                    messageText = this.service.successCount > 1
+                        ? `${this.service.successCount} files have been successfully ${deleting ? 'deleted' : 'uploaded'}.`
+                        : `${this.service.successCount} file has been successfully ${deleting ? 'deleted' : 'uploaded'}.`;
+                } else {
+                    messageText = this.service.successCount > 1
+                        ? `${this.service.successCount} files have been successfully ${deleting ? 'deleted' : 'uploaded'}.`
+                        : `${this.service.successCount} file has been successfully ${deleting ? 'deleted' : 'uploaded'}.`;
+                }
                 this._message.writeSuccess(messageText);
             }
             this.sidebarActive = false;

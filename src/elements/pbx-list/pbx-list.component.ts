@@ -173,7 +173,8 @@ export class ListComponent implements OnInit {
                 title: this.buttonTitle ? this.buttonTitle : 'Create ' + (this.itemName ? this.itemName : this.name),
                 type: 'success',
                 visible: true,
-                inactive: false
+                inactive: false,
+                buttonClass: ''
             });
         }
 
