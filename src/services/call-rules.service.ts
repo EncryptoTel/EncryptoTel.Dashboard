@@ -29,6 +29,10 @@ export class CallRulesService extends BaseService {
         return this.request.get(`v1/outer_rule/call-queue`);
     }
 
+    getGroup(): Promise<any> {
+        return this.request.get(`v1/outer_rule/ring-group`);
+    }
+
     edit(id: number, data): Promise<any> {
         return this.put(`/${id}`, data);
     }

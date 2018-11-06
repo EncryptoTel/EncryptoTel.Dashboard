@@ -267,6 +267,45 @@
 
                         </ng-template>
 
+                        <!-- Redirect to call queue -->
+                        <ng-template [ngSwitchCase]="6">
+                            <pbx-input name="{{'Group' | translate }}"
+                                       key="parameter"
+                                       [required]="true"
+                                       placeholder="{{groups.length === 0 ? 'None' : '[choose one]'}}"
+                                       [form]="true"
+                                       [object]="action"
+                                       [options]="groups"
+                                       displayKey="name"
+                                       [(errors)]="service.errors"
+                                       [errorKey]="'ruleActions.new_' + i + '.parameter'"
+                                       [validationHost]="validationHost"
+                                       (onSelect)="selectGroup(i, $event)"
+                                       [(objectView)]="selectedGroups[i]"
+                                       [ngClass]="groups.length > 0 ? 'class1':'class2'"
+                            >
+                            </pbx-input>
+
+                            <pbx-input name="{{'If I do not answer call within' | translate }}"
+                                       description="seconds"
+                                       key="timeout"
+                                       [form]="true"
+                                       [object]="action"
+                                       [(errors)]="service.errors"
+                                       [errorKey]="'ruleActions.new_' + i + '.timeout'"
+                                       [validationHost]="validationHost"
+                                       inputClass="time"
+                                       inputCenter="true"
+                            >
+                            </pbx-input>
+
+                            <call-rules-time-rules [action]="action"
+                                                   [actionIndex]="i"
+                                                   [validationHost]="validationHost"
+                                                   (onChange)="onTimeRuleChange(i, $event)">
+                            </call-rules-time-rules>
+                        </ng-template>
+
                         <pbx-input *ngIf="checkNextAction(i)" name="Action"
                                    displayKey="code"
                                    [form]="true"
