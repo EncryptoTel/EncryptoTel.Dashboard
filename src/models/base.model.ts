@@ -230,13 +230,15 @@ export class ButtonItem {
     type: string;
     visible: boolean;
     inactive: boolean;
+    buttonClass: string;
 
-    constructor(id?: number, title?: string, type?: string, visible?: boolean, inactive?: boolean) {
+    constructor(id?: number, title?: string, type?: string, visible?: boolean, inactive?: boolean, buttonClass?: string) {
         this.id = id;
         this.title = title;
         this.type = type;
         this.visible = visible;
         this.inactive = inactive;
+        this.buttonClass = buttonClass;
     }
 }
 

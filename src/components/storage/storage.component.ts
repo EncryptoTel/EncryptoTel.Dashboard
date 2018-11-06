@@ -76,23 +76,26 @@ export class StorageComponent implements OnInit {
             {
                 id: 0,
                 title: 'Restore Selected',
-                type: 'cancel',
+                type: 'accent',
                 visible: false,
                 inactive: true,
+                buttonClass: ''
             },
             {
                 id: 1,
-                title: 'Empty trash',
+                title: 'Delete Selected',
                 type: 'error',
                 visible: true,
                 inactive: true,
+                buttonClass: ''
             },
             {
                 id: 2,
                 title: 'Upload',
-                type: 'accent',
+                type: 'success',
                 visible: true,
                 inactive: false,
+                buttonClass: 'button-upload'
             },
         ];
         this.buttonType = 1;
@@ -139,7 +142,7 @@ export class StorageComponent implements OnInit {
         if (this.currentFilter && this.currentFilter.type && this.currentFilter.type === 'trash') {
             if (this.pageInfo.itemsCount > 0) {
                 this.buttons[0].visible = true;
-                this.buttons[0].inactive = false;
+                this.buttons[0].inactive = true;
             } else {
                 this.buttons[0].visible = false;
                 this.buttons[0].inactive = true;
@@ -159,8 +162,16 @@ export class StorageComponent implements OnInit {
     // --- filter methods ---------------------------------
 
     reloadFilter(filter: any): void {
+        if (filter.type === 'trash') {
+            this.buttons[1].title = 'Empty trash';
+            this.buttons[0].inactive = true;
+        } else {
+            this.buttons[1].title = 'Delete Selected';
+            this.buttons[0].inactive = true;
+        }
         this.currentFilter = filter;
         this.getItems();
+
     }
 
     updateFilter(filter: any): void {
