@@ -5,6 +5,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FilterItem, InputAction} from '../../models/base.model';
 import {ValidationHost} from '../../models/validation-host.model';
+import { TooltipGeneratorService } from '@services/validation.services/tooltip.generator.service';
 
 
 @Component({
@@ -96,7 +97,7 @@ export class InputComponent implements OnInit {
     inFocus: boolean = false;
     inMouseHover: boolean = false;
 
-    constructor() {}
+    constructor(private toolTipService: TooltipGeneratorService) {}
 
     // -- properties ----------------------------------------------------------
 
@@ -159,13 +160,13 @@ export class InputComponent implements OnInit {
 
     @HostListener('window:scroll', ['$event'])
     onWindowScroll(event) {
-        console.log('scroll', event, this.inputDiv.nativeElement);
+        // console.log('scroll', event, this.inputDiv.nativeElement);
     }
 
-    setFocus(): void {
+    setFocus(e: Event): void {
         this.errorVisible = true;
         this.pbxInputFocus = true;
-
+        this.toolTipService.showTooltip(this.errorMessage, e, e);
         // --
         this.inFocus = true;
 
@@ -177,7 +178,7 @@ export class InputComponent implements OnInit {
     removeFocus(): void {
         this.errorVisible = false;
         this.pbxInputFocus = false;
-
+        // this.toolTipService.hideTooltip();
         // --
         if (this.inFocus) {
             this.inFocus = false;
@@ -195,9 +196,9 @@ export class InputComponent implements OnInit {
         }
     }
 
-    mouseEnter() {
+    mouseEnter(e: Event) {
         this.hoverActive = this.floatError;
-
+        this.toolTipService.showTooltip(this.errorMessage, e, e);
         // --
         this.inMouseHover = true;
 
@@ -208,7 +209,7 @@ export class InputComponent implements OnInit {
 
     mouseLeave() {
         this.hoverActive = false;
-
+        // this.toolTipService.hideTooltip();
         // --
         this.inMouseHover = false;
 

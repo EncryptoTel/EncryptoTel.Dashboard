@@ -16,8 +16,9 @@ export class TooltipGeneratorService {
     private injector: Injector
   ) { }
 
-  componentRef
-  showTooltip(message: string, position: any, element:any ) {
+  componentRef: any;
+
+  showTooltip(message: string, position: any, element: any ) {
     console.log(arguments);
     this.hideTooltip();
     this.componentRef = this.componentFactoryResolver

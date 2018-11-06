@@ -3,7 +3,7 @@
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']">
             <div class="colon">
-                <span class="{{errorVisible ? 'label-focus' : ''}}">{{name}}</span>
+                <span [ngClass]="{'error-text': inErrorState}" class="{{errorVisible ? 'label-focus' : ''}}">{{name}}</span>
                 <div class="labels-second-line {{errorVisible ? 'label-focus' : ''}}" *ngIf="filter && (filter.min || filter.max)">(<span class="{{errorVisible ? 'label-focus' : ''}}" *ngIf="filter.min">Min {{filter.minMaxText}} {{filter.min}}</span>,
                     <span class="{{errorVisible ? 'label-focus' : ''}}" *ngIf="filter.max">Max {{filter.minMaxText}} {{filter.max}}</span>)
                 </div>
@@ -27,10 +27,10 @@
                        placeholder="{{ placeholder.length > 0 ? placeholder : '' }}"
                        [(ngModel)]="value"
                        (keyup)="inputKeyUp($event)"
-                       (focus)="setFocus()"
-                       (blur)="removeFocus()"
-                       (mouseenter)="mouseEnter()"
-                       (mouseleave)="mouseLeave()"
+                       (focus)="setFocus($event)"
+                       (blur)="removeFocus($event)"
+                       (mouseenter)="mouseEnter($event)"
+                       (mouseleave)="mouseLeave($event)"
                        [attr.disabled]="disabled ? '' : null"
                        (paste)="pasteEvent($event)"
                        [attr.data-focus]="inputFocus"
@@ -52,9 +52,9 @@
                             (onSelect)="selectItem($event)"
                             [errors]="inErrorState"
                             [placeholder]="placeholder"
-                            (onFocus)="setFocus()"
+                            (onFocus)="setFocus($event)"
                             (onBlur)="removeFocus()"
-                            (mouseenter)="mouseEnter()"
+                            (mouseenter)="mouseEnter($event)"
                             (mouseleave)="mouseLeave()"
                 ></pbx-select>
 
@@ -67,9 +67,9 @@
                                      (onSelect)="selectItem($event)"
                                      [errors]="inErrorState"
                                      [placeholder]="placeholder"
-                                     (onFocus)="setFocus()"
+                                     (onFocus)="setFocus($event)"
                                      (onBlur)="removeFocus()"
-                                     (mouseenter)="mouseEnter()"
+                                     (mouseenter)="mouseEnter($event)"
                                      (mouseleave)="mouseLeave()"
                                      >
                          </pbx-editable-select>
@@ -82,7 +82,7 @@
 
                 <span class="pbx-input-description {{pbxInputFocus ? 'label-focus' : ''}}" *ngIf="description">{{description}}</span>
 
-                <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
+                <!-- <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
                      [@Swipe]
                      #errorSpan
                      [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
@@ -97,7 +97,7 @@
                      [ngStyle]="{ 'left.px': hVMessageOffset, 'top.px': vVMessageOffset }"
                 >
                     {{ errorMessage }}
-                </div>
+                </div> -->
 
             </div>
 
@@ -115,9 +115,9 @@
                        [ngStyle]="inputCenter && {'text-align': 'center'}"
                        [attr.disabled]="disabled ? '' : null"
                        (keyup)="inputKeyUp($event)"
-                       (focus)="setFocus()"
+                       (focus)="setFocus($event)"
                        (blur)="removeFocus()"
-                       (mouseenter)="mouseEnter()"
+                       (mouseenter)="mouseEnter($event)"
                        (mouseleave)="mouseLeave()"
                        >
 
@@ -136,9 +136,9 @@
                             (onSelect)="selectItem($event)"
                             [errors]="inErrorState"
                             [placeholder]="placeholder"
-                            (onFocus)="setFocus()"
+                            (onFocus)="setFocus($event)"
                             (onBlur)="removeFocus()"
-                            (mouseenter)="mouseEnter()"
+                            (mouseenter)="mouseEnter($event)"
                             (mouseleave)="mouseLeave()"
                 ></pbx-select>
 
@@ -151,9 +151,9 @@
                             (onSelect)="selectItem($event)"
                             [errors]="inErrorState"
                             [placeholder]="placeholder"
-                            (onFocus)="setFocus()"
+                            (onFocus)="setFocus($event)"
                             (onBlur)="removeFocus()"
-                            (mouseenter)="mouseEnter()"
+                            (mouseenter)="mouseEnter($event)"
                             (mouseleave)="mouseLeave()"
                 ></pbx-editable-select>
 
@@ -165,15 +165,15 @@
                           [formControlName]="[key]"
                           [rows]="rows"
                           (keyup)="inputKeyUp($event)"
-                          (focus)="setFocus()"
+                          (focus)="setFocus($event)"
                           (blur)="removeFocus()"
-                          (mouseenter)="mouseEnter()"
+                          (mouseenter)="mouseEnter($event)"
                           (mouseleave)="mouseLeave()"
                 ></textarea>
 
                 <span class="{{ pbxInputFocus ? 'label-focus' : '' }}" *ngIf="description" [ngClass]="[ descriptionClass ? descriptionClass : '' ]">{{ description }}</span>
 
-                <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
+                <!-- <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
                      [@Swipe]
                      #errorSpan
                      [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
@@ -188,7 +188,7 @@
                      [ngStyle]="{ 'left.px': hVMessageOffset, 'top.px': vVMessageOffset }"
                 >
                     {{ errorMessage }}
-                </div>
+                </div> -->
             </div>
 
             <div *ngFor="let action of actions; let i = index">
