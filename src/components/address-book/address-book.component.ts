@@ -18,7 +18,6 @@ import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp} from '../../sh
 import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {TariffStateService} from '../../services/state/tariff.state.service';
 
-
 @AnimationComponent({
     selector: 'pbx-address-book',
     templateUrl: './template.html',
@@ -226,7 +225,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 this.block();
                 break;
             case 13:
-                this.list.items.clickDeleteItem(this.selected);
+                item.loading ++;
+                this.service.deleteById(item.id).then(() => {
+                    this.list.getItems(item);
+                    this.setFilters();
+                }).catch(() => {})
+                    .then(() => item.loading --);
+                // this.list.items.clickDeleteItem(this.selected);
                 break;
         }
     }
@@ -303,8 +308,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         if (!reload) {
             super.close(!this.isNewFormModel, () => this.confirmClose());
-        }
-        else {
+        } else {
             this.confirmClose();
         }
     }
@@ -323,6 +327,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.selected = null;
         if (this._forceReload) {
             this.list.getItems();
+            this.setFilters();
         }
     }
 
@@ -333,8 +338,11 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.selected.loading--;
             this.close(true);
         }).catch(() => {
-        })
-            .then(() => this.selected.loading--);
+        }).then(() => {
+            if (this.selected !== null && this.selected.loading !== undefined) {
+                this.selected.loading--;
+            }
+        });
     }
 
     editAddress() {
@@ -447,6 +455,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     setFilters(): void {
+
+        let keys: any;
         if (this.addressBookModel.items.length === 1) {
             this.filters = [];
         }
@@ -457,9 +467,59 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         if (this.filters.length === 0) {
             this.filters.push(new FilterItem(1, 'type', 'Source', filterValue, 'title'));
             this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Name, Phone or Email'));
-            this.list.header.selectedFilter[0] = filterValue[0];
+
+            if (this.list.currentFilter) {
+                keys = Object.keys(this.list.currentFilter);
+                if (keys.length > 0 && this.list.currentFilter.type === 'blacklist') {
+                    this.list.header.selectedFilter[0] = filterValue[1];
+                    this.list.header.inputs.first.objectView = filterValue[1];
+                    this.list.header.inputs.first.value = filterValue[1];
+                } else {
+                    this.list.header.selectedFilter[0] = filterValue[0];
+                    this.list.header.inputs.first.objectView = filterValue[0];
+                    this.list.header.inputs.first.value = filterValue[0];
+                }
+            } else {
+                this.list.header.selectedFilter[0] = filterValue[0];
+                if (this.list.header.inputs.first !== undefined) {
+                    this.list.header.inputs.first.objectView = filterValue[0];
+                    this.list.header.inputs.first.value = filterValue[0];
+                }
+            }
         } else {
             this.filters[0].options = filterValue;
+            if (this.list.currentFilter) {
+                keys = Object.keys(this.list.currentFilter);
+                if (keys.length > 0 && this.list.currentFilter.type === 'blacklist') {
+                    this.list.header.selectedFilter[0] = filterValue[1];
+                    this.list.header.inputs.first.objectView = filterValue[1];
+                    this.list.header.inputs.first.value = filterValue[1];
+                } else {
+                    if (this.list.currentFilter.type === 1) {
+                        if (this.list.header.inputs.first.value.id === 'blacklist') {
+                            this.list.header.selectedFilter[0] = filterValue[1];
+                            this.list.header.inputs.first.objectView = filterValue[1];
+                            this.list.header.inputs.first.value = filterValue[1];
+                        } else {
+                            this.list.header.selectedFilter[0] = filterValue[0];
+                            this.list.header.inputs.first.objectView = filterValue[0];
+                            this.list.header.inputs.first.value = filterValue[0];
+                        }
+                    } else {
+                        this.list.header.selectedFilter[0] = filterValue[0];
+                        this.list.header.inputs.first.objectView = filterValue[0];
+                        this.list.header.inputs.first.value = filterValue[0];
+                    }
+                }
+            } else {
+                this.list.header.selectedFilter[0] = filterValue[0];
+                this.list.header.inputs.first.objectView = filterValue[0];
+                this.list.header.inputs.first.value = filterValue[0];
+            }
+        }
+
+        if ((this.filters[0].options[0].count + this.filters[0].options[1].count) > 0) {
+            this.list.hideHeader = false;
         }
     }
 
