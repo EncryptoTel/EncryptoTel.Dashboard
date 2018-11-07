@@ -149,8 +149,7 @@
 <!--<router-outlet></router-outlet>-->
 <!--</div>-->
 <!--</div>-->
-
-
+<!-- todo поправить кнопку очистки input -->
 <div class="main_mobile_wrap">
     <div class="user_mobile">
         <div class="user_mobile_up">
@@ -161,85 +160,168 @@
             </a>
             <div class="user_mobile__title">
                 <p>
-                    SETTINGS
+                    PROFILE
                 </p>
             </div>
         </div>
     </div>
-    <div class="body_mobile">
-        <div class="mobile_settings">
-            <a href="#" class="mobile_settings_card">
-                <span class="mobile_settings__img">
-                      <svg-icon src="../../assets/icons/_settings/profile_48px.svg" class="svg"></svg-icon>
-                </span>
-                <span class="mobile_settings__name">
-                    PROFILE
-                </span>
-            </a>
-            <a href="#" class="mobile_settings_card">
-                <span class="mobile_settings__img">
-                    <svg-icon src="../../assets/icons/_module_extensions/settings_16px.svg" class="svg"></svg-icon>
-                </span>
-                <span class="mobile_settings__name">
-                    SECURITY
-                </span>
-            </a>
-            <a href="#" class="mobile_settings_card">
-                <span class="mobile_settings__img">
-                      <svg-icon src="../../assets/icons/billing_48px.svg" class="svg"></svg-icon>
-                </span>
-                <span class="mobile_settings__name">
-                    BILLING
-                </span>
-            </a>
-            <a href="#" class="mobile_settings_card">
-                <span class="mobile_settings__img">
-                      <svg-icon src="../../assets/icons/backup_48px.svg" class="svg"></svg-icon>
-                </span>
-                <span class="mobile_settings__name">
-                    BACKUP
-                </span>
-            </a>
-            <a href="#" class="mobile_settings_card">
-                <span class="mobile_settings__img">
-                     <svg-icon src="../../assets/icons/notification_48px.svg" class="svg"></svg-icon>
-                </span>
-                <span class="mobile_settings__name">
-                    NOTIFICATIONS
-                </span>
-            </a>
-            <a href="#" class="mobile_settings_card">
-                <span class="mobile_settings__img"></span>
-                <span class="mobile_settings__name">
-                    CRM INTEGRATION
-                </span>
-            </a>
-            <div class="mobile_settings_toggle">
-                <div class="mobile_settings_min  mobile_settings_min--left">
-                    <span class="mobile_settings_min__img"></span>
-                    <div class="mobile_settings_min__item">
-                        <p>
-                            white
-                        </p>
-                        <p>
-                            theme
-                        </p>
+    <div class="body_mobile  body_mobile--pt0">
+        <div class="mobile_block  mobile_block--mb">
+            <div class="mobile_photo_block">
+                <div class="mobile_photo">
+                    <div class="mobile_photo__img">
+                        <img src="" alt="">
                     </div>
-                </div>
-                <div class="mobile_settings_min  mobile_settings_min--right  mobile_settings_min--active">
-                    <span class="mobile_settings_min__img"></span>
-                    <div class="mobile_settings_min__item">
-                        <p>
-                            black
-                        </p>
-                        <p>
-                            theme
-                        </p>
+                    <div class="mobile_photo_file_upload">
+                        <label class="mobile_photo_file_upload__label">
+                            <input type="file" class="mobile_photo_file_upload__inp">
+                            <span class="mobile_photo_file_upload__img">
+                                <svg-icon src="../../assets/icons/_middle/edit_12px.svg" class="svg"></svg-icon>
+                            </span>
+                        </label>
                     </div>
                 </div>
             </div>
-        </div><!--mobile_settings-->
-    </div><!--body_mobile-->
+            <form method="post" action="" id="profile" class="form_item small  form_item--pt24">
+                <div class="mobile_profile_block  mobile_profile_block--mb">
+                    <p>
+                        Account type
+                    </p>
+                    <p>
+                        Legal entity
+                    </p>
+                </div>
+                <p class="mobile_section_title">
+                    General
+                </p>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text"
+                           class="mobile_input_item__input"
+                           placeholder="First Name" value="">
+                    <label class="mobile_input_item__label">
+                        First Name
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text"
+                           class="mobile_input_item__input"
+                           placeholder="Last Name" value="Freeman">
+                    <label class="mobile_input_item__label">
+                        Last Name
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text"
+                           class="mobile_input_item__input"
+                           placeholder="(optional)" value="">
+                    <label class="mobile_input_item__label">
+                        Middle Name
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text"
+                           class="mobile_input_item__input"
+                           placeholder="Phone Number" value="+1 (987) 789 65 54">
+                    <label class="mobile_input_item__label">
+                        Phone Number
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <p class="mobile_section_title  mobile_section_title--mt16">
+                    Language & Region
+                </p>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text"
+                           class="mobile_input_item__input"
+                           placeholder="Language" value="English">
+                    <label class="mobile_input_item__label">
+                        Language
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text"
+                           class="mobile_input_item__input"
+                           placeholder="Region" value="South Korea">
+                    <label class="mobile_input_item__label">
+                        Region
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <p class="mobile_section_title  mobile_section_title--mt16">
+                    Time Zone, Clock & Date format
+                </p>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text"
+                           class="mobile_input_item__input"
+                           placeholder="Clock" value="24 hour">
+                    <label class="mobile_input_item__label">
+                        Clock
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text"
+                           class="mobile_input_item__input"
+                           placeholder="Time Zone" value="(UTC +09:00) Seoul">
+                    <label class="mobile_input_item__label">
+                        Time Zone
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <div class="mobile_input_item  mobile_input_item--w100  mobile_input_item--mb20">
+                    <input type="text"
+                           class="mobile_input_item__input"
+                           placeholder="DD-MM-YYYY" value="DD-MM-YYYY">
+                    <label class="mobile_input_item__label">
+                        Date Format
+                    </label>
+                    <button type="reset" class="mobile_input_item__close  mobile_input_item__close--right0">
+                        <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg" class="svg"></svg-icon>
+                    </button>
+                </div>
+                <p class="mobile_section_title  mobile_section_title--mt16  mobile_section_title--mb20">
+                    Newsletters
+                </p>
+                <label class="checkbox_wrap  checkbox_wrap--h64">
+                    <input class="checkbox" type="checkbox" name="" checked>
+                    <span class="checkbox_custom"></span>
+                    <span class="label  label--fz24Wh">Enable Newsletters</span>
+                </label>
+                <p class="text_item  text_item--fz18">
+                    Get announcements, recommendations, and updates about EncryptoTel product, services, software updates, and more. Get recommendations, the latest releases, special offers. (no more than once a week)
+                </p>
+            </form>
+        </div><!--mobile_block-->
+        <div class="mobile_down_btn_block  mobile_down_btn_block--pos">
+            <a href="#" class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--grey">
+                Cancel
+            </a>
+            <button type="submit" form="profile"
+                    class="mobile_down_btn_block__btn  mobile_down_btn_block__btn--green">
+                Save
+            </button>
+        </div>
+    </div>
     <!-- mobile_menu--active -->
     <div class="mobile_menu ">
         <div class="mobile_menu_up">
@@ -342,5 +424,6 @@
     <!-- mobile_overlay--active -->
     <div class="mobile_overlay  "></div>
 </div>
+
 
 
