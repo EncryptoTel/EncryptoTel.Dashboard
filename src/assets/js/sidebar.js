@@ -162,6 +162,16 @@ jQuery(document).ready(function(){
         e.preventDefault();
         $('.delete_window').removeClass('delete_window--active');
     }
+    //---------------------------------
+    $('.mobile_down_btn_block__btn--transfer_click').on('click', function (e) {
+        e.preventDefault();
+        $('.transfer_block').addClass('transfer_block--active');
+    });
+
+    $('.transfer_window_btn__item--cancel').on('click', function (e) {
+        e.preventDefault();
+        $('.transfer_block').removeClass('transfer_block--active');
+    });
 
 
     // ---------------------------------
