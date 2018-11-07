@@ -74,6 +74,11 @@ jQuery(document).ready(function(){
         $(this).removeClass('mobile_overlay--active');
     });
 
+    $('.sub_menu').on('click', function (e) {
+        e.preventDefault();
+        $('.mobile_menu_left').slideToggle();
+    });
+
     // ---------------------------------
     // открытие карточки и поворот кнопки
     $('.mobile_item_card').on('click', '.dropdown_arrow_btn', function () {

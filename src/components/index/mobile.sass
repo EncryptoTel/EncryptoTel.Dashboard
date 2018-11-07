@@ -94,6 +94,8 @@
 
        height: 40px
 
+       overflow: hidden
+
        font-family: Roboto, sans-serif
        font-weight: 500
 
@@ -374,12 +376,12 @@
        font-style: normal
        font-size: 20px
 
-       padding-top: 10px
-       padding-left: 24px
+       padding-top: 22px
+       padding-left: 19px
 
 
    .mobile_menu_up__name
-        margin-bottom: 20px
+        margin-bottom: 13px
 
    .mobile_menu_up__balance
        display: flex
@@ -389,17 +391,17 @@
 
        p:first-child
            margin-right: 10px
-
-
+           
    .mobile_menu_left
-       display: flex
+       display: none
        flex-direction: column
 
        position: absolute
-       top: 0
-       left: 164px
+       top: 47%
+       right: -104%
+       //left: 164px
 
-       width: 232.2px
+       width: 233px
 
        font-size: 18px
        font-family: Roboto, sans-serif
@@ -407,6 +409,28 @@
        font-weight: 300
 
        background: rgb(46, 44, 44)
+
+   .mobile_menu_left--active
+       display: flex
+
+   .sub_menu
+       display: flex
+       flex-direction: column
+       justify-content: space-between
+       align-items: center
+       width: 4px
+       height: 16px
+
+       position: absolute
+       top: 20%
+       right: -98%
+
+
+   .sub_menu__point
+       width: 4px
+       height: 4px
+       background: #fff
+       border-radius: 50%
 
 
    .mobile_menu_left__li
@@ -428,7 +452,7 @@
 
        padding-top: 10px
        padding-bottom: 9px
-       padding-left: 32px
+       padding-left: 24px
        padding-right: 18.36px
 
        line-height: 1.35
