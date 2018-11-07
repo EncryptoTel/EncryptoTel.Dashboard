@@ -81,4 +81,40 @@
        </div> <!-- feedback_btn -->
    </div> <!-- feedback_btn_wrap -->
 
+    <div class="feedback_form">
+
+        <div class="header">
+            <div class="title">Заполните форму</div>
+            <svg-icon src="./assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
+        </div> <!-- header -->
+
+        <div class="body">
+            <div class="title">Задайте нам интересующий Вас вопрос и мы ответим в течении 24 часов.</div>
+
+            <form action="" method="">
+
+                <div class="temp">Name</div>
+                <div class="temp">Email</div>
+                <div class="temp">Country</div>
+                <div class="temp">Department</div>
+                <div class="temp msg">Request</div>
+
+                <div class="privacy">
+                    <pbx-checkbox></pbx-checkbox>
+                    <div class="text">
+                        Нажимая на кнопку «Отправить», я принимаю условия пользовательского соглашения и даю согласие на обработку моих персональных данных.
+                    </div>
+                </div> <!-- privacy -->
+
+                <pbx-button [buttonType]="'success'" value="{{'Отправить' | translate}}"></pbx-button>
+
+
+            </form>
+
+        </div> <!-- body -->
+
+        <div class="footer">+1 (844) 267-05-73</div>
+
+    </div> <!-- feedback_form -->
+
 </div>
