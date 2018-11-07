@@ -1188,17 +1188,26 @@
 
    .select_arr
        position: absolute
+       width: 17.62px
+       height: 17.62px
        top: 50%
+       right: 2%
 
        &--min
-           width: 17.62px
-           height: 17.62px
-           right: 29%
+           right: 29% !important
 
        &--bgs
            width: 23px !important
            height: 23px !important
            right: 0
+
+   .select_arr__internal_form_item
+       width: 23px !important
+       height: 23px !important
+       right: 2% !important
+       top: 32% !important
+
+
 
 
    .mobile_input_item__select--mb
@@ -1575,6 +1584,7 @@
        justify-content: flex-end
 
        margin-bottom: 16px
+       position: relative
 
 
    .internal_form_item__name
@@ -1600,16 +1610,14 @@
 
        cursor: pointer
        color: rgba(255, 255, 255, 1)
+        // todo удалить старые стили отвечающие за позиционирование
+       //background-image: url(../../assets/icons/dropdown_arrow_23px.svg)
+       //background-repeat: no-repeat
 
-       background-image: url(../../assets/icons/dropdown_arrow_23px.svg)
-       background-repeat: no-repeat
+       //background-size: 23.62px 23.62px
+       //background-position: 97% center
 
-       //background-color: rgba(55, 54, 53, .6)
        background-color: transparent
-
-       background-size: 23.62px 23.62px
-       background-position: 97% center
-
        border: 1px solid rgba(149, 152, 154, 1)
 
        -webkit-appearance: none
@@ -2096,7 +2104,7 @@
        bottom: 7px
        left: 7px
        background: url(../../assets/icons/ok_32wpx.svg)
-       fill: #ffffff
+       fill: red
 
 
    //
