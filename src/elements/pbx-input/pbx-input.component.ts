@@ -1,10 +1,10 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, HostListener} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, HostListener } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
-import {FadeAnimation} from '../../shared/fade-animation';
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {FilterItem, InputAction} from '../../models/base.model';
-import {ValidationHost} from '../../models/validation-host.model';
+import { FadeAnimation } from '../../shared/fade-animation';
+import { SwipeAnimation } from '../../shared/swipe-animation';
+import { FilterItem, InputAction } from '../../models/base.model';
+import { ValidationHost } from '../../models/validation-host.model';
 import { TooltipGeneratorService } from '@services/validation.services/tooltip.generator.service';
 
 
@@ -145,7 +145,7 @@ export class InputComponent implements OnInit {
 
     checkFormValidationError(): boolean {
         const control = this.getForm();
-        
+
         if (control && control.errors) {
             const validationResult = (control.errors['required'])
                 ? !control.valid && control.touched
@@ -164,9 +164,13 @@ export class InputComponent implements OnInit {
     }
 
     setFocus(e: Event): void {
+        console.log('setFocus');
         this.errorVisible = true;
         this.pbxInputFocus = true;
-        this.toolTipService.showTooltip(this.errorMessage, e, e);
+        if (this.inErrorState) {
+            this.toolTipService.showTooltip(this.errorMessage, this.floatError, e);
+        }
+
         // --
         this.inFocus = true;
 
@@ -176,6 +180,7 @@ export class InputComponent implements OnInit {
     }
 
     removeFocus(): void {
+        console.log('removeFocus');
         this.errorVisible = false;
         this.pbxInputFocus = false;
         // this.toolTipService.hideTooltip();
@@ -198,7 +203,9 @@ export class InputComponent implements OnInit {
 
     mouseEnter(e: Event) {
         this.hoverActive = this.floatError;
-        this.toolTipService.showTooltip(this.errorMessage, e, e);
+        if (this.inErrorState) {
+            this.toolTipService.showTooltip(this.errorMessage, this.floatError, e);
+        }
         // --
         this.inMouseHover = true;
 
@@ -223,7 +230,7 @@ export class InputComponent implements OnInit {
     }
 
     inputKeyUp($event) {
-        if ($event && ![ 'Tab', 'ArrowRight', 'ArrowLeft' ].includes($event.key)) {
+        if ($event && !['Tab', 'ArrowRight', 'ArrowLeft'].includes($event.key)) {
             this.resetError();
         }
 
@@ -334,8 +341,8 @@ export class InputComponent implements OnInit {
 
     resetError() {
         if (this.checkError()) {
-            if (this.errors) { 
-                this.setError(null); 
+            if (this.errors) {
+                this.setError(null);
             }
             if (this.form) {
                 const form = this.getForm();
@@ -471,14 +478,14 @@ export class InputComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loading ++;
+        this.loading++;
 
         if (this.form && (this.checkbox || this.options)) {
             this.value = this.getForm() ? this.getForm().value : false;
             if (this.objectView) {
                 this.value = this.objectView;
             }
-        } 
+        }
         else if (this.options) {
             if (this.updateObjectByObject) {
                 this.value = this.object[this.key];
@@ -486,7 +493,7 @@ export class InputComponent implements OnInit {
             else {
                 this.value = this.objectView ? this.objectView : this.object;
             }
-        } 
+        }
         else {
             this.value = this.object[this.key];
         }
@@ -497,7 +504,7 @@ export class InputComponent implements OnInit {
             let selectedValue: any;
             selectedValue = this.getForm().value;
             this.value = this.options.find(o => o[this.optionsSelectedKey] === selectedValue);
-        } 
+        }
         else if (this.form && this.options && this.selectedItem) {
             this.value = this.selectedItem;
         }
@@ -511,7 +518,7 @@ export class InputComponent implements OnInit {
             this.validationHost.addControl(this);
         }
 
-        this.loading --;
+        this.loading--;
     }
 
 }

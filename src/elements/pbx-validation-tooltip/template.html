@@ -1,3 +1,6 @@
-<div class="pbx_input_error left-position ng-star-inserted">
+<div class="pbx_input_error_tooltip  ng-star-inserted" 
+    [ngClass]="{'left-position': isLeft, 'down-position':!isLeft}"
+    [ngStyle]="{ 'left.px': left, 'top.px': top, 'display': visible}"
+    #tooltipElement>
     {{errorMessage}}
 </div>

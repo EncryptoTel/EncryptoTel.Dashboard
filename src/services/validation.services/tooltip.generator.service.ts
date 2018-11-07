@@ -18,18 +18,21 @@ export class TooltipGeneratorService {
 
   componentRef: any;
 
-  showTooltip(message: string, position: any, element: any ) {
-    console.log(arguments);
+  showTooltip(message: string, isLeft: boolean, element: any) {
     this.hideTooltip();
-    this.componentRef = this.componentFactoryResolver
-      .resolveComponentFactory(ValidationTooltipComponent)
-      .create(this.injector);
-    this.componentRef.instance.errorMessage = message;
-    this.appRef.attachView(this.componentRef.hostView);
-    const domElem = (this.componentRef.hostView as EmbeddedViewRef<any>)
-      .rootNodes[0] as HTMLElement;
+    if (message && true) {
 
-    document.body.appendChild(domElem);
+      this.componentRef = this.componentFactoryResolver
+        .resolveComponentFactory(ValidationTooltipComponent)
+        .create(this.injector);
+      this.componentRef.instance.errorMessage = message;
+      this.componentRef.instance.parentElem = element.target;
+      this.appRef.attachView(this.componentRef.hostView);
+      const domElem = (this.componentRef.hostView as EmbeddedViewRef<any>)
+        .rootNodes[0] as HTMLElement;
+      document.body.appendChild(domElem);
+      this.componentRef.instance.isLeft = isLeft;
+    }
   }
 
   hideTooltip() {
