@@ -109,3 +109,83 @@ temporary-code
         .pbx_input_error
             left: 340px !important
             top: 0 !important
+
+sign-in,
+sign-up,
+password-recovery,
+temporary-code
+    .auth_form
+        position: relative
+        .feedback_btn_wrap
+            position: absolute
+            width: 58px
+            height: 58px
+            z-index: 10
+            bottom: 72px
+            right: 72px
+            &:after
+                content: ''
+                width: 58px
+                height: 58px
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+                border-radius: 100%
+                z-index: 15
+                background: $dark_accent
+                animation: pulse_after 1.5s linear infinite
+            &:before
+                content: ''
+                width: 58px
+                height: 58px
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+                border-radius: 100%
+                z-index: 12
+                background: transparent
+                border: 2px solid $dark_accent
+                animation: pulse_before 2s linear infinite
+            .feedback_btn
+                position: relative
+                width: 58px
+                height: 58px
+                background: $dark_accent
+                border-radius: 100%
+                cursor: pointer
+                z-index: 20
+                /deep/ *
+                    cursor: pointer
+                svg-icon
+                    margin: auto
+                    svg
+                        width: 24px
+                        height: 24px
+                        path
+                            fill: $dark_white
+
+@keyframes pulse_after
+    0%
+        width: 58px
+        height: 58px
+        opacity: .7
+    100%
+        width: 100px
+        height: 100px
+        opacity: 0
+
+@keyframes pulse_before
+    0%
+        width: 58px
+        height: 58px
+        opacity: 0
+    15%
+        width: 58px
+        height: 58px
+        opacity: .7
+    100%
+        width: 100px
+        height: 100px
+        opacity: 0
