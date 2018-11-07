@@ -1115,6 +1115,8 @@
        font-size: 23px
        color: rgba(255, 255, 255, 1)
 
+       position: relative
+
        padding-left: 0
 
        outline: none
@@ -1137,8 +1139,6 @@
        -moz-appearance: none
        appearance: none
 
-   .mobile_input_item__select--bg_size
-       background-size: 23px 23px !important
 
    .mobile_input_item__select--min
        max-width: 430px
@@ -1158,6 +1158,8 @@
    .mobile_input_item__select--mt15
        margin-top: 15px
 
+   .mobile_input_item__select--bg_size
+       background-size: 23px 23px !important
 
    .mobile_input_item__select--bgs93
        background-size: 23px 23px !important
@@ -1183,6 +1185,21 @@
        height: 56px
        background-size: 23px 23px !important
        background-position: 100% center !important
+
+   .select_arr
+       position: absolute
+       top: 50%
+
+       &--min
+           width: 17.62px
+           height: 17.62px
+           right: 29%
+
+       &--bgs
+           width: 23px !important
+           height: 23px !important
+           right: 0
+
 
    .mobile_input_item__select--mb
        margin-bottom: 17px
