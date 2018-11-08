@@ -1692,7 +1692,7 @@
 
    .internal_form
        flex-direction: column
-       width: 92.5%
+       max-width: 592px
 
        font-weight: 300
        font-size: 24px
@@ -1717,6 +1717,11 @@
    .internal_form_item__name--bottom
        padding-top: 17px
        //align-self: flex-end
+
+   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+        .internal_form_item__name
+            font-size: 23px
+            margin-right: 15px
 
 
    .internal_form_item__select
