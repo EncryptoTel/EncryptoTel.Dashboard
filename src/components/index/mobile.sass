@@ -1124,7 +1124,16 @@
        border-bottom: 1px solid rgba(255, 255, 255, .3)
 
        &::placeholder
-           font-size: 20px !important
+           //font-size: 20px !important
+       &::-webkit-input-placeholder
+           //font-size: 20px !important
+       &::-moz-placeholder
+           //font-size: 20px !important
+       &:-moz-placeholder
+           //font-size: 20px !important
+       &:-ms-input-placeholder
+           //font-size: 20px !important
+
 
    .mobile_input_item__input--right
        width: 86%
@@ -2660,7 +2669,7 @@
        height: 264px
 
        // todo удалить border
-       border: 1px solid #ffffff
+       //border: 1px solid #ffffff
 
    .refill_invoices__qr--mb
        margin-bottom: 59px
@@ -2682,11 +2691,29 @@
            margin-bottom: 0
 
    .three_btn_block__btn
-       display: block
+       display: flex
+       justify-content: center
+       align-items: center
+
+
        width: 120px
        height: 120px
        border-radius: 50%
        background: rgba(152, 182, 97, 1)
+
+   .svg__three_btn_block
+       width: 48px !important
+       height: 32px !important
+
+   .svg__three_btn_block--copy
+       width: 40px !important
+       height: 48px !important
+
+   .svg__three_btn_block--more
+       width: 44px !important
+       height: 8px !important
+
+
 
 
    .three_btn_block__text
@@ -2757,6 +2784,11 @@
        height: 184px
        border: 2px solid rgba(232, 232, 232, 1)
        border-radius: 50%
+       overflow: hidden
+
+       img
+           width: 100%
+           height: auto
 
    .mobile_photo_file_upload
        position: absolute
