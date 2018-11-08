@@ -154,17 +154,37 @@
 <div class="main_mobile_wrap">
      <div class="body_mobile body_mobile--pt0 body_mobile--bgi">
         <div class="mobile_block">
-            <div class="mobile_sign_in">
-                <div class="mobile_sign_in__logo">
-                    <div class="mobile_sign_in__img">
-                        <img src="../../assets/logoEncryptoTel.png" alt="">
+            <div class="mobile_sign_in_block">
+                <div class="mobile_sign_in_block__logo">
+                    <div class="mobile_sign_in_block__img_block">
+                        <img src="../../assets/logoEncryptoTel.png" alt="logo" class="mobile_sign_in_block__img">
                     </div>
-                    <div class="mobile_sign_in__name">
+                    <div class="mobile_sign_in_block__name">
                         <p>
                             EncryptoTel
                         </p>
                     </div>
                 </div>
+                <form id="mobile_sign_in_form" class="mobile_sign_in_form">
+                    <div class="mobile_input_item  mobile_input_item__mobile_sign_in_form  mobile_input_item--w100">
+                        <input type="text" class="mobile_input_item__input  mobile_input_item__input--sign_in" placeholder="Email or Inner Number" value="" >
+                    </div>
+                    <div class="mobile_input_item  mobile_input_item__mobile_sign_in_form  mobile_input_item--w100">
+                        <input type="text" class="mobile_input_item__input  mobile_input_item__input--sign_in" placeholder="Password" value="" >
+                    </div>
+                    <button type="submit" class="mobile_sign_in_form__btn">
+                        Sign In
+                    </button>
+                    <div class="mobile_sign_in_forgot">
+                        <a href="#" class="mobile_sign_in_forgot__pas">
+                            Forgot password?
+                        </a>
+                        <span>or use</span>
+                        <a href="#" class="mobile_sign_in_forgot__code">
+                            Temporary Code
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

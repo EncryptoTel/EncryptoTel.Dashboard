@@ -1,6 +1,8 @@
 =bred
     border: 1px dashed red
-// todo
+
+// todo файлы стили body и main-view.dark_theme в _common.sass
+
 @media (max-width: 640px)
 
    .main_mobile_wrap
@@ -3290,20 +3292,123 @@
            margin-right: 0
 
    /*------------------------------------------
-   .mobile_sign_in
+   .mobile_sign_in_block
        display: flex
        flex-direction: column
+       padding-top: 19%
 
-   .mobile_sign_in__logo
+   .mobile_sign_in_block__logo
+       display: flex
+       flex-direction: column
+       align-items: center
+
+       margin-left: auto
+       margin-right: auto
+
+       margin-bottom: 17.5%
 
 
-   .mobile_sign_in__img
-       height: 131px
-       width: 140px
+   .mobile_sign_in_block__img_block
+       width: 131px
+       height: 140px
+       margin-bottom: 21px
+
+   .mobile_sign_in_block__img
+       width: 100%
+       height: 100%
 
 
-   .mobile_sign_in__name
+   .mobile_sign_in_block__name
+       font-family: Roboto, sans-serif
+       font-weight: 400
+       font-style: normal
+       font-size: 32px
+       color: rgba(34, 178, 180, 1)
 
+
+   .mobile_sign_in_form
+       display: flex
+       flex-direction: column
+       align-items: center
+
+       margin-left: auto
+       margin-right: auto
+
+       max-width: 448px
+       min-width: 448px
+       
+   .mobile_input_item__mobile_sign_in_form
+       padding-top: 0 !important
+
+   .mobile_sign_in_form .mobile_input_item__input--sign_in
+       font-size: 24px !important
+       margin-bottom: 9% !important
+       color: rgba(255, 255, 255, 1)
+
+       border-bottom: 1px solid rgba(255, 255, 255, 1) !important
+
+       &:focus
+           border-bottom: 1px solid rgba(234, 57, 57, 1) !important
+
+       &::placeholder
+           font-size: 24px !important
+           color: #ffffff !important
+           opacity: 1
+       &::-webkit-input-placeholder
+           font-size: 24px !important
+           color: #ffffff !important
+           opacity: 1
+       &::-moz-placeholder
+           font-size: 24px !important
+           color: #ffffff !important
+           opacity: 1
+       &:-moz-placeholder
+           font-size: 24px !important
+           color: #ffffff !important
+           opacity: 1
+       &:-ms-input-placeholder
+           font-size: 24px !important
+           color: #ffffff !important
+           opacity: 1
+
+   .mobile_sign_in_form__btn
+       display: flex
+       flex-direction: column
+       align-items: center
+       justify-content: center
+
+       font-family: Roboto, sans-serif
+       font-style: normal
+       font-size: 20px
+       color: rgba(255, 255, 255, 1)
+
+       width: 448px
+       height: 64px
+
+       margin-bottom: 6.5%
+
+       border-radius: 3px
+       background: rgba(34, 178, 180, 1)
+
+   .mobile_sign_in_forgot
+       display: flex
+       justify-content: space-between
+
+       max-width: 330px
+       min-width: 330px
+
+       font-size: 18px
+       color: rgba(255, 255, 255, .5)
+
+   .mobile_sign_in_forgot__pas
+       color: rgba(255, 255, 255, 1)
+
+   .mobile_sign_in_forgot__code
+       color: rgba(255, 255, 255, 1)
+
+
+
+       
 
    /*------------------------------------------
         rotate
