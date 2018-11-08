@@ -114,7 +114,7 @@ export class SettingsComponent {
                 icon: false,
                 src: '',
                 title: 'CRM integration',
-                routerLink: ''
+                routerLink: 'crm-integration'
             },
             {
                 id: 8,
