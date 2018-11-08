@@ -33,7 +33,7 @@ export class ListComponent implements OnInit {
     @Input()
     set filters(value) {
         this._filters = value;
-        if (this._filters.length > 0) {
+        if (this._filters && this._filters.length > 0) {
             this.currentFilter = {
                 type: this._filters[0].id
             };
@@ -140,9 +140,11 @@ export class ListComponent implements OnInit {
 
     activeFilter() {
         let result = 0;
-        Object.keys(this.currentFilter).forEach(key => {
-            this.currentFilter[key] && result ++;
-        });
+        if (this.currentFilter) {
+            Object.keys(this.currentFilter).forEach(key => {
+                this.currentFilter[key] && result++;
+            });
+        }
         if (this._filters) {
             this._filters.forEach(filter => {
                 if (filter && filter.options) {

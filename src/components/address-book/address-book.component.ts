@@ -476,8 +476,10 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                     this.list.header.inputs.first.value = filterValue[1];
                 } else {
                     this.list.header.selectedFilter[0] = filterValue[0];
-                    this.list.header.inputs.first.objectView = filterValue[0];
-                    this.list.header.inputs.first.value = filterValue[0];
+                    if (this.list.header.inputs.first) {
+                        this.list.header.inputs.first.objectView = filterValue[0];
+                        this.list.header.inputs.first.value = filterValue[0];
+                    }
                 }
             } else {
                 this.list.header.selectedFilter[0] = filterValue[0];
@@ -507,8 +509,10 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                         }
                     } else {
                         this.list.header.selectedFilter[0] = filterValue[0];
-                        this.list.header.inputs.first.objectView = filterValue[0];
-                        this.list.header.inputs.first.value = filterValue[0];
+                        if (this.list.header.inputs.first) {
+                            this.list.header.inputs.first.objectView = filterValue[0];
+                            this.list.header.inputs.first.value = filterValue[0];
+                        }
                     }
                 }
             } else {
