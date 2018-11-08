@@ -63,7 +63,4 @@ jQuery(document).ready(function(){
     if (navigator.userAgent.search(/Firefox/) > 0){
         initScrollbar();
     }
-
-
-
 });
