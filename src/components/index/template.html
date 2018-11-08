@@ -1,0 +1,172 @@
+<!--<pbx-loader *ngIf="completedRequests < 2"></pbx-loader>-->
+<!--<div class="main_grid" *ngIf="completedRequests > 1">-->
+
+    <!--<div class="user_wrap"-->
+         <!--[ngClass]="{'active': userNavigationVisible}"-->
+         <!--(click)="userNavigationVisible = !userNavigationVisible"-->
+         <!--(clickOutside)="hideUserNavigation()"-->
+         <!--#userWrap-->
+    <!--&gt;-->
+        <!--<div class="user_profile_image"-->
+             <!--[ngStyle]="{'background-image': user.profile.avatar ? 'url(' + ( user.profile.avatar) + ')' : ''}"></div>-->
+        <!--<div class="user_details_wrap">-->
+            <!--<div class="user_details_name">{{username}}</div>-->
+            <!--<div class="user_details_balance" *ngIf="completedRequests > 1">-->
+                <!--<span translate>balance</span>&nbsp; {{user.balance.symbol}}{{user.balance.balance | currency:" ":2 }}-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>-->
+        <!--<div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">-->
+            <!--<a routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item" translate>Refill-->
+                <!--balance</a>-->
+            <!--<a routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item" translate>Tariff-->
+                <!--plan</a>-->
+            <!--<div (click)="logout()" class="user_navigation_item">-->
+                <!--<span translate>Exit</span>-->
+                <!--<svg-icon src="../../assets/icons/exit.svg" class="user_navigation_logout"></svg-icon>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="header_line_wrap">-->
+        <!--<div class="header_title" translate>{{_main.pageTitle}}</div>-->
+        <!--<div class="header_button_row">-->
+            <!--<div class="header_button_wrap" [ngClass]="{'visible': headerButtonsVisible}">-->
+                <!--<div class="header_button phone" [ngClass]="{'active': activeButtonIndex === 0}"-->
+                     <!--(click)="toggleActiveButton(0, $event)">-->
+                    <!--<svg-icon src="../../assets/icons/_call_panel/dialer_24px.svg"></svg-icon>-->
+                    <!--<div class="button_animation" *ngIf="activeButtonIndex === 0"></div>-->
+                <!--</div>-->
+                <!--<div class="header_button contacts" [ngClass]="{'active': activeButtonIndex === 1}"-->
+                     <!--(click)="toggleActiveButton(1, $event)">-->
+                    <!--<svg-icon src="../../assets/icons/_call_panel/contacts_24px.svg"></svg-icon>-->
+                    <!--<div class="button_animation" *ngIf="activeButtonIndex === 1"></div>-->
+                <!--</div>-->
+                <!--<div class="header_button chat" [ngClass]="{'active': activeButtonIndex === 2}"-->
+                     <!--(click)="toggleActiveButton(2, $event)">-->
+                    <!--<svg-icon src="../../assets/icons/_call_panel/chat_24px.svg"></svg-icon>-->
+                    <!--<div class="button_animation" *ngIf="activeButtonIndex === 2"></div>-->
+                    <!--<div class="notification"><i>9</i></div>-->
+                <!--</div>-->
+                <!--<div class="header_button notifications"-->
+                     <!--[ngClass]="{'active': activeButtonIndex === 3}"-->
+                     <!--(click)="toggleActiveButton(3, $event)"-->
+                <!--&gt;-->
+                    <!--<svg-icon src="../../assets/icons/_call_panel/notification_24px.svg"></svg-icon>-->
+                    <!--<div class="button_animation" *ngIf="activeButtonIndex === 3"></div>-->
+                <!--</div>-->
+                <!--<div class="desc" [ngClass]="{'hiding': activeButtonIndex === 2}">© Encrypto Telecom, 2017-2018-->
+                    <!--v.0.1.0-->
+                <!--</div>-->
+            <!--</div> &lt;!&ndash; header_button_wrap &ndash;&gt;-->
+            <!--<div class="header_button_hide"-->
+                 <!--[ngClass]="{'initial': headerButtonsVisible}"-->
+                 <!--(click)="toggleHeaderButtons($event)"-->
+            <!--&gt;-->
+                <!--<svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>-->
+            <!--</div>-->
+            <!--<div *ngIf="activeButtonIndex !== (null || undefined)"-->
+                 <!--class="sidebar_wrap"-->
+                 <!--[ngClass]="{'visible': headerButtonsVisible}"-->
+                 <!--[@Swipe]-->
+            <!--&gt;-->
+                <!--<span *ngIf="activeButtonIndex === 0">call</span>-->
+                <!--<span *ngIf="activeButtonIndex === 1">contacts</span>-->
+                <!--<pbx-chat *ngIf="activeButtonIndex === 2"></pbx-chat>-->
+                <!--<span *ngIf="activeButtonIndex === 3">notification</span>-->
+            <!--</div>-->
+            <!--&lt;!&ndash; <div class="desc">© Encrypto Telecom, 2017-2018 v.0.1.0</div> &ndash;&gt;-->
+        <!--</div> &lt;!&ndash; header_button_row &ndash;&gt;-->
+    <!--</div>-->
+
+    <!--<div class="navigation_block_wrap custom-scrollbar-const">-->
+        <!--<div class="navigation_block" *ngFor="let block of userService.navigation">-->
+            <!--<div *ngFor="let navigationItem of block">-->
+                <!--<a [routerLink]="navigationItem.url"-->
+                   <!--routerLinkActive="active"-->
+                   <!--[ngClass]="['navigation_item', 'navigation-item-' + navigationItem.url]"-->
+                <!--&gt;-->
+                    <!--<svg-icon class="navigation_item_icon"-->
+                              <!--[src]="'../../assets/icons/_menu/' + navigationItem.icon + '.svg'"></svg-icon>-->
+                    <!--<div class="navigation_item_title" translate>{{navigationItem.name}}</div>-->
+                <!--</a>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="mobile_header" [ngClass]="{'active': mobileNavigationVisible}">-->
+        <!--<div class="mobile_header_button" [ngClass]="{'active': mobileNavigationVisible}">-->
+            <!--<div class="mobile_header_button_fill" (click)="mobileNavigationVisible = true">-->
+                <!--<span></span>-->
+                <!--<span></span>-->
+                <!--<span></span>-->
+            <!--</div>-->
+            <!--<div class="mobile_hover" *ngIf="mobileNavigationVisible" (click)="mobileNavigationVisible = false"></div>-->
+            <!--<div class="mobile_sidebar">-->
+                <!--<div class="mobile_profile"-->
+                     <!--(click)="mobileUserVisible=!mobileUserVisible"-->
+                     <!--(clickOutside)="mobileUserVisible=false"-->
+                <!--&gt;-->
+                    <!--<div class="mobile_profile_name">{{user.profile.firstname}}</div>-->
+                    <!--<div *ngIf="completedRequests > 1"-->
+                         <!--class="mobile_profile_balance"-->
+                    <!--&gt;-->
+                        <!--{{user.balance.symbol}}{{user.balance.balance}}-->
+                    <!--</div>-->
+                    <!--<div class="mobile_profile_button_wrap"-->
+                         <!--[ngClass]="{'invisible':!mobileUserVisible}"-->
+                         <!--(click)="mobileNavigationVisible=false"-->
+                    <!--&gt;-->
+                        <!--<a routerLink="/cabinet/refill" routerLinkActive="active" class="mobile_profile_button">Refill-->
+                            <!--balance</a>-->
+                        <!--<a routerLink="/cabinet/tariff" routerLinkActive="active" class="mobile_profile_button">Tariff-->
+                            <!--plan</a>-->
+                        <!--<div (click)="logout()" class="mobile_profile_button">-->
+                            <!--<span>Exit</span>-->
+                            <!--<svg-icon src="../../assets/icons/exit.svg" class="mobile_profile_icon"></svg-icon>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="mobile_navigation">-->
+                    <!--<div class="mobile_navigation_block" *ngFor="let block of navigationList">-->
+                        <!--<div *ngFor="let navigationItem of block" class="mobile_navigation_item">-->
+                            <!--<a [routerLink]="navigationItem.link"-->
+                               <!--routerLinkActive="active"-->
+                               <!--[ngClass]="{'inactive': !navigationItem.status}"-->
+                               <!--*ngIf="navigationItem.visible"-->
+                               <!--(click)="mobileNavigationVisible=false">-->
+                                <!--{{navigationItem.title}}-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="mobile_header_title">{{_main.pageTitle}}</div>-->
+    <!--</div>-->
+
+    <!--<div class="body_wrap">-->
+        <!--<router-outlet></router-outlet>-->
+    <!--</div>-->
+<!--</div>-->
+
+
+<div class="main_mobile_wrap">
+     <div class="body_mobile body_mobile--pt0 body_mobile--bgi">
+        <div class="mobile_block">
+            <div class="mobile_sign_in">
+                <div class="mobile_sign_in__logo">
+                    <div class="mobile_sign_in__img">
+                        <img src="../../assets/logoEncryptoTel.png" alt="">
+                    </div>
+                    <div class="mobile_sign_in__name">
+                        <p>
+                            EncryptoTel
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
