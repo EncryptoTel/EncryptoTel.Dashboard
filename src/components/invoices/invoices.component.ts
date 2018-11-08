@@ -43,7 +43,7 @@ export class InvoicesComponent implements OnInit {
             visible: false,
             inactive: false,
             buttonClass: '',
-            icon: ''
+            icon: false
         });
     }
 

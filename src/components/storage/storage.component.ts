@@ -80,7 +80,7 @@ export class StorageComponent implements OnInit {
                 visible: false,
                 inactive: true,
                 buttonClass: '',
-                icon: ''
+                icon: false
             },
             {
                 id: 1,
@@ -89,7 +89,7 @@ export class StorageComponent implements OnInit {
                 visible: true,
                 inactive: true,
                 buttonClass: 'trash',
-                icon: ''
+                icon: false
             },
             {
                 id: 2,
@@ -98,7 +98,7 @@ export class StorageComponent implements OnInit {
                 visible: true,
                 inactive: false,
                 buttonClass: 'button-upload',
-                icon: ''
+                icon: false
             },
         ];
         this.buttonType = 1;
@@ -171,7 +171,7 @@ export class StorageComponent implements OnInit {
             this.buttons[0].inactive = true;
         } else {
             this.buttons[1].title = 'Delete Selected';
-            this.buttons[1].icon = '';
+            this.buttons[1].icon = false;
             this.buttons[0].inactive = true;
         }
         this.currentFilter = filter;
