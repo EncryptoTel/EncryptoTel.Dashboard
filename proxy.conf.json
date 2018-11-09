@@ -1,0 +1,12 @@
+{
+    "/translation/translations": {
+      "target": "http://pbx-front-dev.encry.ru/translation/translations",
+      "secure": false,
+      "changeOrigin": true
+    },
+    "/front-api": {
+        "target": "http://pbx-front-dev.encry.ru",
+        "secure": false,
+        "changeOrigin": true
+    }
+  }
