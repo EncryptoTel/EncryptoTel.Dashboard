@@ -1,0 +1,20 @@
+<div class="amo_crm_integration">
+
+    <pbx-header [buttons]="buttons"
+                [filters]="filters"
+                (onClick)="deleteSelected($event)"
+                (onUpdate)="updateFilter($event)"
+                (onReload)="reloadFilter($event)"
+                [inactive]="loading">
+    </pbx-header>
+
+    <div class="integration_cnt">
+
+    </div> <!-- integration_cnt -->
+
+    <div class="info">
+        <div class="title">Information</div>
+        <div class="desc">Общее описание интеграционных возможностей</div>
+    </div> <!-- info -->
+
+</div> <!-- amo-crm-integration -->
