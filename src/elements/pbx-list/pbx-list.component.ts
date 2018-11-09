@@ -190,10 +190,10 @@ export class ListComponent implements OnInit {
         let totalItemsCount: number;
         totalItemsCount = 0;
         if (this._filters !== undefined && this._filters.length > 0 && this._filters[0].options.length > 0) {
-            if (this._filters[0].options[0].count != undefined) {
+            if (this._filters[0].options[0].count !== undefined) {
                 totalItemsCount = totalItemsCount + this._filters[0].options[0].count;
             }
-            if (this._filters[0].options[1].count != undefined) {
+            if (this._filters[0].options[1].count !== undefined) {
                 totalItemsCount = totalItemsCount + this._filters[0].options[1].count;
             }
         }
