@@ -81,6 +81,7 @@ import {StatisticAudioConferenceComponent} from '../components/audio-conference/
 import {TranslateModule} from '@ngx-translate/core';
 import {IvrLevelComponent} from '../components/ivr/ivr-level/ivr-level.component';
 import {CRMIntegrationComponent} from '../components/settings/settings-items/crm-integration/crm-integration.component';
+import {AmoCrmIntegrationComponent} from '../components/settings/settings-items/crm-integration/amo-crm-integration/amo-crm-integration.component';
 
 /*
   Components declarations and exports
@@ -171,7 +172,8 @@ import {CRMIntegrationComponent} from '../components/settings/settings-items/crm
         SessionsComponent,
         TabsComponent,
         TabComponent,
-        CRMIntegrationComponent
+        CRMIntegrationComponent,
+        AmoCrmIntegrationComponent
     ],
     exports: [
         BaseComponent,
@@ -232,7 +234,8 @@ import {CRMIntegrationComponent} from '../components/settings/settings-items/crm
         TabsComponent,
         TabComponent,
         TranslateModule,
-        CRMIntegrationComponent
+        CRMIntegrationComponent,
+        AmoCrmIntegrationComponent
     ]
 })
 export class ComponentsModule {

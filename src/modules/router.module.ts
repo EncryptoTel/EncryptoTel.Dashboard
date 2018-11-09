@@ -76,6 +76,7 @@ import {SessionsComponent} from '../components/settings/settings-items/sessions/
 import {AudioConferenceComponent} from '../components/audio-conference/audio-conference.component';
 import {AudioConferenceCreateComponent} from '../components/audio-conference/audio-conference-create/audio-conference-create.component';
 import {CRMIntegrationComponent} from '../components/settings/settings-items/crm-integration/crm-integration.component';
+import {AmoCrmIntegrationComponent} from '../components/settings/settings-items/crm-integration/amo-crm-integration/amo-crm-integration.component';
 
 const Routes: Routes = [
     {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -273,9 +274,18 @@ const Routes: Routes = [
                         data: {title: 'Active Sessions', indexed: true}
                     },
                     {
-                        path: 'crm-integration',
-                        component: CRMIntegrationComponent,
-                        data: {title: 'CRM Integration', indexed: true}
+                        path: 'crm-integration', children: [
+                            {
+                                path: '',
+                                component: CRMIntegrationComponent,
+                                data: {title: 'CRM Integration', indexed: true}
+                            },
+                            {
+                                path: 'amo-crm-integration',
+                                component: AmoCrmIntegrationComponent,
+                                data: {title: 'AMO CRM Integration', indexed: true}
+                            }
+                        ]
                     }
                 ]
             },
