@@ -105,7 +105,7 @@ export class QueueMembersAddComponent implements OnInit {
     private getDepartments() {
         this.loading ++;
         this.service.getDepartments().then((res) => {
-            const all = {'name': 'All member', 'id': 'all'};
+            const all = {'name': 'All members', 'id': 'all'};
             this.departments = [ all, ...res.items];
             this.selectedDepartment = this.departments[0];
         }).catch(() => {})
