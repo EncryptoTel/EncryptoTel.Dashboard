@@ -12,7 +12,8 @@
               (onLoad)="load()"
               (onSelect)="select($event)"
               [service]="service"
-              [ngClass]="sidebar?'someClass':''">
+              [ngClass]="sidebar?'someClass':''"
+    >
     </pbx-list>
 
     <pbx-sidebar *ngIf="sidebar">
