@@ -19,6 +19,8 @@
        position: relative
 
 
+
+
    .user_mobile
        display: flex
        justify-content: center
@@ -1189,6 +1191,7 @@
        border-left: none
        border-right: none
        border-bottom: 1px solid rgba(255, 255, 255, .3)
+       -webkit-border-radius: 0
 
        // todo закомментировать все связанное с background-image
 
@@ -1752,6 +1755,8 @@
        -moz-appearance: none
        appearance: none
 
+       -webkit-border-radius: 0
+
        option
            font-weight: 300
            font-size: 24px
@@ -1760,7 +1765,7 @@
            outline: none
 
    .internal_form_item__select--pal
-        padding-left: 28% !important
+       padding-left: 28% !important
 
    .internal_form_item__select--pal21
        padding-left: 21% !important
@@ -1784,6 +1789,9 @@
        color: rgba(255, 255, 255, .35)
 
        border: 1px solid rgba(149, 152, 154, 1) !important
+
+       -webkit-appearance: none
+
 
    .internal_form_item__search--tac
        //text-align: center
@@ -1897,6 +1905,7 @@
            height: 52px
            padding-left: 0
            padding-bottom: 12px !important
+           -webkit-appearance: none
 
 
    .addr_book_contacts
@@ -2172,17 +2181,17 @@
        cursor: pointer
        margin-right: 10px
 
-   .internal_input_item__look:checked + .internal_input_item__checkbox_custom::before
-        content: ''
-        display: block
-        position: absolute
-        top: 7px
-        right: 7px
-        bottom: 7px
-        left: 7px
-        // todo при возникновении необходимости заменить на подходящую картинку
-        background: url(../../assets/icons/ok_32wpx.svg)
-        fill: #ffffff
+   //.internal_input_item__look:checked + .internal_input_item__checkbox_custom::before
+        //content: ''
+        //display: block
+        //position: absolute
+        //top: 7px
+        //right: 7px
+        //bottom: 7px
+        //left: 7px
+        //// todo при возникновении необходимости заменить на подходящую картинку
+        //background: url(../../assets/icons/ok_32wpx.svg)
+        //fill: #ffffff
 
    /*-----------
    .internal_form_item__wrap
@@ -2890,6 +2899,8 @@
            -webkit-appearance: none
            -moz-appearance: none
            appearance: none
+
+           -webkit-border-radius: 0
 
            option
                font-weight: 300
