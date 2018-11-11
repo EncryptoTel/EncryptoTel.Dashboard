@@ -188,10 +188,16 @@ export class ListComponent implements OnInit {
 
     get listDataEmpty(): boolean {
         let totalItemsCount: number;
-        totalItemsCount = this._totalItemsCount;
+        totalItemsCount = 0;
         if (this._filters !== undefined && this._filters.length > 0 && this._filters[0].options.length > 0) {
-            totalItemsCount = totalItemsCount + this._filters[0].options[0].count + this._filters[0].options[1].count;
+            if (this._filters[0].options[0].count !== undefined) {
+                totalItemsCount = totalItemsCount + this._filters[0].options[0].count;
+            }
+            if (this._filters[0].options[1].count !== undefined) {
+                totalItemsCount = totalItemsCount + this._filters[0].options[1].count;
+            }
         }
+        totalItemsCount = totalItemsCount + this._totalItemsCount;
         return !totalItemsCount || totalItemsCount === 0;
     }
 

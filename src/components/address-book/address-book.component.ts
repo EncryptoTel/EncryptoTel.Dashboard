@@ -97,13 +97,15 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.sidebar.items.push(new SidebarInfoItem(4, 'First Name', this.selected.firstname));
         this.sidebar.items.push(new SidebarInfoItem(5, 'Last Name', this.selected.lastname));
 
-        let phones = [];
+        let phones: any;
+        phones = [];
         this.selected.contactPhone.forEach(item => {
             if (item.value) phones.push(item.value);
         });
         this.sidebar.items.push(new SidebarInfoItem(6, phones.length > 1 ? 'Phone' : 'Phone', phones));
 
-        let emails = [];
+        let emails: any;
+        emails = [];
         this.selected.contactEmail.forEach(item => {
             if (item.value) emails.push(item.value);
         });
@@ -546,10 +548,21 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.selected.addContactPhone(new ContactValueModel());
         }
         for (let i = 0; i < this.selected.contactPhone.length; i++) {
-            let phone = this.selected.contactPhone[i];
-            phone.type = this.types.contactPhone.find(item => item.id === phone.typeId);
+            let phone: any;
+            if (!(this.selected.contactPhone[i] instanceof ContactValueModel)) {
+                phone = this.selected.contactPhone[i];
+                if (phone !== '') {
+                    this.selected.contactPhone[i] = new ContactValueModel();
+                    this.selected.contactPhone[i].value = phone;
+                }
+            }
+            phone = this.selected.contactPhone[i];
+            if (phone.type !== undefined) {
+                phone.type = this.types.contactPhone.find(item => item.id === phone.typeId);
+            }
 
-            let phoneControl = this.createPhoneFormControl(this.selected.contactPhone[i]);
+            let phoneControl: any;
+            phoneControl = this.createPhoneFormControl(this.selected.contactPhone[i]);
             this.contactPhonesFormArray.setControl(i, phoneControl);
         }
 
@@ -557,10 +570,20 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.selected.addContactEmail(new ContactValueModel());
         }
         for (let i = 0; i < this.selected.contactEmail.length; i++) {
-            let email = this.selected.contactEmail[i];
+            let email: any;
+            if (!(this.selected.contactEmail[i] instanceof ContactValueModel)) {
+                email = this.selected.contactEmail[i];
+                if (email !== '') {
+                    this.selected.contactEmail[i] = new ContactValueModel();
+                    this.selected.contactEmail[i].value = email;
+                }
+            }
+
+            email = this.selected.contactEmail[i];
             email.type = this.types.contactEmail.find(item => item.id === email.typeId);
 
-            let emailControl = this.createEmailFormControl(this.selected.contactEmail[i]);
+            let emailControl: any;
+            emailControl = this.createEmailFormControl(this.selected.contactEmail[i]);
             this.contactEmailsFormArray.setControl(i, emailControl);
         }
 

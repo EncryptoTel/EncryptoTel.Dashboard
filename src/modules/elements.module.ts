@@ -124,6 +124,9 @@ import {AutofocusDirective} from '../elements/directives/autofocus.directive';
         SettingsInputComponent,
         SettingsGroupComponent,
         ViewEditControlComponent,
+    ],
+    entryComponents: [
+        ModalComponent
     ]
 })
 export class ElementsModule {

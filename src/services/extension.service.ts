@@ -43,11 +43,15 @@ export class ExtensionService extends BaseService {
 
     getItems(pageInfo: PageInfoModel, filter): Promise<ExtensionModel> {
         //filter['departmentFilter'] = true; // добавляется в исходный, а нам это не нужно
-        let newFilter = [];
-        let keys = Object.keys(filter);
-        for (let i = 0; i < keys.length; i++) {
-            if (filter[keys[i]]) {
-                newFilter[keys[i]] = filter[keys[i]];
+        let newFilter: any;
+        newFilter = [];
+        if (filter) {
+            let keys: any;
+            keys = Object.keys(filter);
+            for (let i = 0; i < keys.length; i++) {
+                if (filter[keys[i]]) {
+                    newFilter[keys[i]] = filter[keys[i]];
+                }
             }
         }
         newFilter['departmentFilter'] = true;
