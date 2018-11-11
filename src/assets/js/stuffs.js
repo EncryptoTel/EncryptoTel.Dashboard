@@ -38,4 +38,10 @@ jQuery(document).ready(function(){
         }
     }, 500);
 
+    // onboarding - fixing for padding
+    setInterval(function(){
+        var btnWidth = $('pbx-list .pbx_list_empty').siblings('pbx-header').find('pbx-button').width();
+        $('pbx-list .pbx_list_empty').css({'padding': '0 ' + (btnWidth - 20) + 'px'});
+    }, 500);
+
 });

@@ -13,7 +13,7 @@
                     <h3 class="queue-group-create_h3">Information</h3>
                 </div>
                 <form class="sidebar_form" [formGroup]="departmentForm" *ngIf="!saving">
-                    <pbx-input name="Name"
+                    <pbx-input name="{{'Name' | translate }}"
                                key="name"
                                [object]="generalForm"
                                errorKey="generalForm.name"
@@ -25,7 +25,7 @@
                                [validationHost]="validationHost"
                     >
                     </pbx-input>
-                    <pbx-input name="Description"
+                    <pbx-input name="{{'Description' | translate }}"
                                key="comment"
                                [object]="generalForm"
                                errorKey="generalForm.comment"
@@ -43,9 +43,9 @@
     <!-- Members tab content -->
     <pbx-tab tabTitle='Members'>
         <pbx-view-edit-control #sipInnersControl
-                               buttonText="Add Member"
-                               headerText="Department Members"
-                               noDataMessage="No data to display. Please add members"
+                               buttonText="{{'Add Member' | translate }}"
+                               headerText="{{'Department Members' | translate }}"
+                               noDataMessage="{{'No data to display. Please add members' | translate }}"
                                [tableInfo]="sipTableContext"
                                [items]="filteredSips"
                                [parentEditMode]="hasId"
@@ -53,7 +53,7 @@
         >
             <div class="dep-create-wrapper" *ngIf="sips.length > 0">
                 <pbx-input #filterControl
-                           name="Search:"
+                           name="{{'Search:' | translate }}"
                            key="value"
                            [object]="currentFilter"
                            [filter]="filter"

@@ -109,3 +109,183 @@ temporary-code
         .pbx_input_error
             left: 340px !important
             top: 0 !important
+
+sign-in,
+sign-up,
+password-recovery,
+temporary-code
+    .auth_form
+        position: relative
+        .feedback_btn_wrap
+            position: absolute
+            width: 58px
+            height: 58px
+            z-index: 10
+            bottom: 72px
+            right: 72px
+            &:after
+                content: ''
+                width: 58px
+                height: 58px
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+                border-radius: 100%
+                z-index: 15
+                background: $dark_accent
+                animation: pulse_after 1.5s linear infinite
+            &:before
+                content: ''
+                width: 58px
+                height: 58px
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+                border-radius: 100%
+                z-index: 12
+                background: transparent
+                border: 2px solid $dark_accent
+                animation: pulse_before 2s linear infinite
+            .feedback_btn
+                position: relative
+                width: 58px
+                height: 58px
+                background: $dark_accent
+                border-radius: 100%
+                cursor: pointer
+                z-index: 20
+                /deep/ *
+                    cursor: pointer
+                svg-icon
+                    margin: auto
+                    svg
+                        width: 24px
+                        height: 24px
+                        path
+                            fill: $dark_white
+        .feedback_form
+            position: absolute
+            z-index: 25
+            top: 0
+            right: 0
+            bottom: 0
+            width: 360px
+            background: $dark_grey_1
+            display: grid
+            grid-template-columns: 1fr
+            grid-template-rows: min-content 1fr min-content
+            display: none
+            .header
+                position: relative
+                border-bottom: 1px solid $white_black_30
+                padding: 32px 48px
+                grid-row: 1/2
+                .title
+                    font-family: Roboto, sans-serif
+                    font-size: 14px
+                    text-transform: uppercase
+                    color: $white_black
+                    font-weight: 400
+                    text-align: center
+                    display: block
+                    width: 100%
+                svg-icon
+                    position: absolute
+                    width: 24px
+                    height: 24px
+                    top: 27px
+                    right: 28px
+                    cursor: pointer
+                    /deep/ *
+                        cursor: pointer
+                    svg
+                        width: 16px
+                        height: 16px
+                        margin: 4px
+                        polygon
+                            fill: $white_black
+            .body
+                grid-row: 2/3
+                padding: 0 28px
+                flex-direction: column
+                .title
+                    font-family: Roboto, sans-serif
+                    font-size: 14px
+                    color: $white_black
+                    font-weight: 300
+                    text-align: left
+                    line-height: 19px
+                    margin: 64px 0 88px
+                form
+                    width: 100%
+                    max-width: unset
+                    margin: 0
+                    .temp
+                        height: 56px
+                        margin-bottom: 16px
+                        border: 1px solid grey
+                        color: black
+                        justify-content: center
+                        align-items: center
+                        &.msg
+                            height: 92px
+                    .privacy
+                        display: grid
+                        grid-template-columns: min-content 1fr
+                        grid-template-rows: min-content
+                        margin-bottom: 26px
+                        pbx-checkbox
+                            grid-column: 1/2
+                        .text
+                            grid-column: 2/3
+                            font-family: Roboto, sans-serif
+                            font-size: 11px
+                            color: $white_black
+                            font-weight: 300
+                            text-align: left
+                            line-height: 15px
+                            padding-left: 12px
+                    pbx-button
+                        justify-content: center !important
+                        button
+                            margin: 0
+                            &.success
+                                width: 140px !important
+                                flex: unset !important
+            .footer
+                font-family: Roboto, sans-serif
+                font-size: 24px
+                color: $white_black
+                font-weight: 300
+                text-align: left
+                line-height: 32px
+                border-top: 1px solid $dark_accent
+                padding: 12px 0
+                justify-content: center
+                background: transparent !important
+
+@keyframes pulse_after
+    0%
+        width: 58px
+        height: 58px
+        opacity: .7
+    100%
+        width: 100px
+        height: 100px
+        opacity: 0
+
+@keyframes pulse_before
+    0%
+        width: 58px
+        height: 58px
+        opacity: 0
+    15%
+        width: 58px
+        height: 58px
+        opacity: .7
+    100%
+        width: 100px
+        height: 100px
+        opacity: 0

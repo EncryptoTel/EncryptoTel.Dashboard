@@ -33,6 +33,11 @@ export class ListComponent implements OnInit {
     @Input()
     set filters(value) {
         this._filters = value;
+        if (this._filters && this._filters.length > 0) {
+            this.currentFilter = {
+                type: this._filters[0].id
+            };
+        }
     }
     _filters: FilterItem[];
     @Input() editable: boolean = true;
@@ -56,12 +61,12 @@ export class ListComponent implements OnInit {
     @ViewChild(TableComponent) items;
     @ViewChild(HeaderComponent) header: HeaderComponent;
 
-    currentFilter = [];
+    currentFilter: any;
     loadingEx: number = 0;
     filter = {loading: 0};
 
     _sidebar: any;
-    private _totalItemsCount: number;
+    _totalItemsCount: number;
 
     get sidebarVisible(): boolean {
         return this._sidebar ? this._sidebar.visible : false;
@@ -105,13 +110,19 @@ export class ListComponent implements OnInit {
     getItems(item = null) {
         item ? item.loading ++ : this.loadingEx ++;
         const limit = this.pageInfo.limit;
+        if (this.currentFilter && this.currentFilter.type === 1) {
+            if (this.header.inputs.first.value.id === 'company') {
+                this.currentFilter.type = 'company';
+            } else {
+                this.currentFilter.type = 'blacklist';
+            }
+        }
         this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null).then(res => {
             this.pageInfo = res;
             this.pageInfo.limit = limit;
 
-            if (!item) {
-                this.onLoad.emit(this.pageInfo);
-            }
+            this.onLoad.emit(this.pageInfo);
+
             this.header.load();
             this.updateTotalItems();
         }).catch(() => {})
@@ -129,9 +140,11 @@ export class ListComponent implements OnInit {
 
     activeFilter() {
         let result = 0;
-        Object.keys(this.currentFilter).forEach(key => {
-            this.currentFilter[key] && result ++;
-        });
+        if (this.currentFilter) {
+            Object.keys(this.currentFilter).forEach(key => {
+                this.currentFilter[key] && result++;
+            });
+        }
         if (this._filters) {
             this._filters.forEach(filter => {
                 if (filter && filter.options) {
@@ -154,8 +167,19 @@ export class ListComponent implements OnInit {
     }
 
     updateTotalItems(): void {
+        let totalItemsCount: number;
         if (this.pageInfo.itemsCount === 0 && Object.keys(this.currentFilter).length === 0) {
-            this._filters = [];
+            if (this._filters !== undefined && this._filters.length > 0 && this._filters[0].options.length > 0) {
+                if (this._totalItemsCount === undefined) {
+                    this._totalItemsCount = 0;
+                }
+                totalItemsCount = Math.abs(this._totalItemsCount) + Math.abs(this._filters[0].options[0].count) + Math.abs(this._filters[0].options[1].count);
+            }
+            if (totalItemsCount === 0) {
+                this._filters = [];
+            } else {
+                this.pageInfo.itemsCount = totalItemsCount;
+            }
         }
         if (Object.keys(this.currentFilter).length === 0) {
             this._totalItemsCount = this.pageInfo.itemsCount;
@@ -163,7 +187,18 @@ export class ListComponent implements OnInit {
     }
 
     get listDataEmpty(): boolean {
-        return !this._totalItemsCount || this._totalItemsCount === 0;
+        let totalItemsCount: number;
+        totalItemsCount = 0;
+        if (this._filters !== undefined && this._filters.length > 0 && this._filters[0].options.length > 0) {
+            if (this._filters[0].options[0].count !== undefined) {
+                totalItemsCount = totalItemsCount + this._filters[0].options[0].count;
+            }
+            if (this._filters[0].options[1].count !== undefined) {
+                totalItemsCount = totalItemsCount + this._filters[0].options[1].count;
+            }
+        }
+        totalItemsCount = totalItemsCount + this._totalItemsCount;
+        return !totalItemsCount || totalItemsCount === 0;
     }
 
     ngOnInit() {
@@ -173,7 +208,9 @@ export class ListComponent implements OnInit {
                 title: this.buttonTitle ? this.buttonTitle : 'Create ' + (this.itemName ? this.itemName : this.name),
                 type: 'success',
                 visible: true,
-                inactive: false
+                inactive: false,
+                buttonClass: '',
+                icon: false
             });
         }
 

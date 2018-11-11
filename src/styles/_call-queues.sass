@@ -12,3 +12,17 @@ pbx-queue-create
                     .pbx_input_error
                         margin-top: 51px
                         margin-left: 260px
+
+ring-groups-create-component,
+pbx-call-queues-create
+    pbx-queue-create
+        .form-body
+            .form-body-content
+                flex: 1
+                pbx-queue-general
+                    display: block
+                pbx-queue-members-add
+                    .call_queues_members_add
+                        position: relative
+            .form-ballast
+                display: none

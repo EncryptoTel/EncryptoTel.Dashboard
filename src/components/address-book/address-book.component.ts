@@ -18,7 +18,6 @@ import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp} from '../../sh
 import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {TariffStateService} from '../../services/state/tariff.state.service';
 
-
 @AnimationComponent({
     selector: 'pbx-address-book',
     templateUrl: './template.html',
@@ -98,13 +97,15 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.sidebar.items.push(new SidebarInfoItem(4, 'First Name', this.selected.firstname));
         this.sidebar.items.push(new SidebarInfoItem(5, 'Last Name', this.selected.lastname));
 
-        let phones = [];
+        let phones: any;
+        phones = [];
         this.selected.contactPhone.forEach(item => {
             if (item.value) phones.push(item.value);
         });
         this.sidebar.items.push(new SidebarInfoItem(6, phones.length > 1 ? 'Phone' : 'Phone', phones));
 
-        let emails = [];
+        let emails: any;
+        emails = [];
         this.selected.contactEmail.forEach(item => {
             if (item.value) emails.push(item.value);
         });
@@ -226,7 +227,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 this.block();
                 break;
             case 13:
-                this.list.items.clickDeleteItem(this.selected);
+                item.loading ++;
+                this.service.deleteById(item.id).then(() => {
+                    this.list.getItems(item);
+                    this.setFilters();
+                }).catch(() => {})
+                    .then(() => item.loading --);
+                // this.list.items.clickDeleteItem(this.selected);
                 break;
         }
     }
@@ -303,8 +310,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         if (!reload) {
             super.close(!this.isNewFormModel, () => this.confirmClose());
-        }
-        else {
+        } else {
             this.confirmClose();
         }
     }
@@ -323,6 +329,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.selected = null;
         if (this._forceReload) {
             this.list.getItems();
+            this.setFilters();
         }
     }
 
@@ -333,8 +340,11 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.selected.loading--;
             this.close(true);
         }).catch(() => {
-        })
-            .then(() => this.selected.loading--);
+        }).then(() => {
+            if (this.selected !== null && this.selected.loading !== undefined) {
+                this.selected.loading--;
+            }
+        });
     }
 
     editAddress() {
@@ -447,6 +457,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     setFilters(): void {
+
+        let keys: any;
         if (this.addressBookModel.items.length === 1) {
             this.filters = [];
         }
@@ -457,9 +469,63 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         if (this.filters.length === 0) {
             this.filters.push(new FilterItem(1, 'type', 'Source', filterValue, 'title'));
             this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Name, Phone or Email'));
-            this.list.header.selectedFilter[0] = filterValue[0];
+
+            if (this.list.currentFilter) {
+                keys = Object.keys(this.list.currentFilter);
+                if (keys.length > 0 && this.list.currentFilter.type === 'blacklist') {
+                    this.list.header.selectedFilter[0] = filterValue[1];
+                    this.list.header.inputs.first.objectView = filterValue[1];
+                    this.list.header.inputs.first.value = filterValue[1];
+                } else {
+                    this.list.header.selectedFilter[0] = filterValue[0];
+                    if (this.list.header.inputs.first) {
+                        this.list.header.inputs.first.objectView = filterValue[0];
+                        this.list.header.inputs.first.value = filterValue[0];
+                    }
+                }
+            } else {
+                this.list.header.selectedFilter[0] = filterValue[0];
+                if (this.list.header.inputs.first !== undefined) {
+                    this.list.header.inputs.first.objectView = filterValue[0];
+                    this.list.header.inputs.first.value = filterValue[0];
+                }
+            }
         } else {
             this.filters[0].options = filterValue;
+            if (this.list.currentFilter) {
+                keys = Object.keys(this.list.currentFilter);
+                if (keys.length > 0 && this.list.currentFilter.type === 'blacklist') {
+                    this.list.header.selectedFilter[0] = filterValue[1];
+                    this.list.header.inputs.first.objectView = filterValue[1];
+                    this.list.header.inputs.first.value = filterValue[1];
+                } else {
+                    if (this.list.currentFilter.type === 1) {
+                        if (this.list.header.inputs.first.value.id === 'blacklist') {
+                            this.list.header.selectedFilter[0] = filterValue[1];
+                            this.list.header.inputs.first.objectView = filterValue[1];
+                            this.list.header.inputs.first.value = filterValue[1];
+                        } else {
+                            this.list.header.selectedFilter[0] = filterValue[0];
+                            this.list.header.inputs.first.objectView = filterValue[0];
+                            this.list.header.inputs.first.value = filterValue[0];
+                        }
+                    } else {
+                        this.list.header.selectedFilter[0] = filterValue[0];
+                        if (this.list.header.inputs.first) {
+                            this.list.header.inputs.first.objectView = filterValue[0];
+                            this.list.header.inputs.first.value = filterValue[0];
+                        }
+                    }
+                }
+            } else {
+                this.list.header.selectedFilter[0] = filterValue[0];
+                this.list.header.inputs.first.objectView = filterValue[0];
+                this.list.header.inputs.first.value = filterValue[0];
+            }
+        }
+
+        if ((this.filters[0].options[0].count + this.filters[0].options[1].count) > 0) {
+            this.list.hideHeader = false;
         }
     }
 
@@ -482,10 +548,21 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.selected.addContactPhone(new ContactValueModel());
         }
         for (let i = 0; i < this.selected.contactPhone.length; i++) {
-            let phone = this.selected.contactPhone[i];
-            phone.type = this.types.contactPhone.find(item => item.id === phone.typeId);
+            let phone: any;
+            if (!(this.selected.contactPhone[i] instanceof ContactValueModel)) {
+                phone = this.selected.contactPhone[i];
+                if (phone !== '') {
+                    this.selected.contactPhone[i] = new ContactValueModel();
+                    this.selected.contactPhone[i].value = phone;
+                }
+            }
+            phone = this.selected.contactPhone[i];
+            if (phone.type !== undefined) {
+                phone.type = this.types.contactPhone.find(item => item.id === phone.typeId);
+            }
 
-            let phoneControl = this.createPhoneFormControl(this.selected.contactPhone[i]);
+            let phoneControl: any;
+            phoneControl = this.createPhoneFormControl(this.selected.contactPhone[i]);
             this.contactPhonesFormArray.setControl(i, phoneControl);
         }
 
@@ -493,10 +570,20 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.selected.addContactEmail(new ContactValueModel());
         }
         for (let i = 0; i < this.selected.contactEmail.length; i++) {
-            let email = this.selected.contactEmail[i];
+            let email: any;
+            if (!(this.selected.contactEmail[i] instanceof ContactValueModel)) {
+                email = this.selected.contactEmail[i];
+                if (email !== '') {
+                    this.selected.contactEmail[i] = new ContactValueModel();
+                    this.selected.contactEmail[i].value = email;
+                }
+            }
+
+            email = this.selected.contactEmail[i];
             email.type = this.types.contactEmail.find(item => item.id === email.typeId);
 
-            let emailControl = this.createEmailFormControl(this.selected.contactEmail[i]);
+            let emailControl: any;
+            emailControl = this.createEmailFormControl(this.selected.contactEmail[i]);
             this.contactEmailsFormArray.setControl(i, emailControl);
         }
 

@@ -24,184 +24,184 @@
         <form *ngIf="editMode" [formGroup]="form">
             <div class="side_wrap" *ngIf="locker.free && !sidebar.loading && sidebar.mode === 'edit'">
                 <div class="side_body" *ngIf="!sidebar.saving">
+                    <div class="inner">
+                        <pbx-input name="{{'First Name' | translate }}"
+                                   key="firstname"
+                                   [form]="true"
+                                   [object]="form"
+                                   labelPosition="top"
+                                   [(errors)]="service.errors"
+                                   [singleBorder]="false"
+                                   [floatError]="true"
+                                   [required]="true"
+                                   [object]="selected"
+                                   (onPaste)="pasteMethod($event)"
+                                   [validationHost]="validationHost"
+                        >
+                        </pbx-input>
 
-                    <pbx-input name="First Name"
-                               key="firstname"
-                               [form]="true"
-                               [object]="form"
-                               labelPosition="top"
-                               [(errors)]="service.errors"
-                               [singleBorder]="false"
-                               [floatError]="false"
-                               [required]="true"
-                               [object]="selected"
-                               (onPaste)="pasteMethod($event)"
-                               [validationHost]="validationHost"
-                    >
-                    </pbx-input>
+                        <pbx-input name="{{'Last Name' | translate }}"
+                                   key="lastname"
+                                   [form]="true"
+                                   [object]="form"
+                                   labelPosition="top"
+                                   [(errors)]="service.errors"
+                                   [singleBorder]="false"
+                                   [floatError]="true"
+                                   [object]="selected"
+                                   (onPaste)="pasteMethod($event)"
+                                   [validationHost]="validationHost"
+                        >
+                        </pbx-input>
 
-                    <pbx-input name="Last Name"
-                               key="lastname"
-                               [form]="true"
-                               [object]="form"
-                               labelPosition="top"
-                               [(errors)]="service.errors"
-                               [singleBorder]="false"
-                               [floatError]="false"
-                               [object]="selected"
-                               (onPaste)="pasteMethod($event)"
-                               [validationHost]="validationHost"
-                    >
-                    </pbx-input>
-
-                    <div class="phone-block" style="display: block;">
-                        <ng-container formArrayName="contactPhone">
-                            <pbx-input *ngFor="let phone of contactPhonesFormArray.controls; let i = index"
-                                       [formGroupName]="i"
-                                       name="Phone"
-                                       key="value"
-                                       [form]="true"
-                                       [object]="phone"
-                                       labelPosition="top"
-                                       [errorKey]="phone.id ? 'contactPhone.' + phone.id + '.value' : 'contactPhone.new_' + i + '.value'"
-                                       [(errors)]="service.errors"
-                                       [singleBorder]="false"
-                                       [floatError]="false"
-                                       [object]="phone"
-                                       [validationHost]="validationHost"
-                            >
-                                <pbx-select class="value-type"
-                                            [options]="types.contactPhone"
-                                            objectKey="value"
-                                            [selected]="phone.value.type"
-                                            (onSelect)="setPhoneType($event, i)"
+                        <div class="phone-block" style="display: block;">
+                            <ng-container formArrayName="contactPhone">
+                                <pbx-input *ngFor="let phone of contactPhonesFormArray.controls; let i = index"
+                                           [formGroupName]="i"
+                                           name="Phone"
+                                           key="value"
+                                           [form]="true"
+                                           [object]="phone"
+                                           labelPosition="top"
+                                           [errorKey]="phone.id ? 'contactPhone.' + phone.id + '.value' : 'contactPhone.new_' + i + '.value'"
+                                           [(errors)]="service.errors"
+                                           [singleBorder]="false"
+                                           [floatError]="true"
+                                           [object]="phone"
+                                           [validationHost]="validationHost"
                                 >
-                                </pbx-select>
-                                <div class="side_unit_icon_wrap">
-                                    <div *ngIf="selected.contactPhone.length > 1"
-                                         class="side_unit_icon delete"
-                                         (click)="deletePhone(i)">
-                                        <div class="side_unit_icon_minus"></div>
+                                    <pbx-select class="value-type"
+                                                [options]="types.contactPhone"
+                                                objectKey="value"
+                                                [selected]="phone.value.type"
+                                                (onSelect)="setPhoneType($event, i)"
+                                    >
+                                    </pbx-select>
+                                    <div class="side_unit_icon_wrap">
+                                        <div *ngIf="selected.contactPhone.length > 1"
+                                             class="side_unit_icon delete"
+                                             (click)="deletePhone(i)">
+                                            <div class="side_unit_icon_minus"></div>
+                                        </div>
+                                        <div *ngIf="i === selected.contactPhone.length - 1"
+                                             class="side_unit_icon plus"
+                                             (click)="addPhone()">
+                                            <svg-icon src="../../assets/icons/_middle/plus.svg"></svg-icon>
+                                        </div>
                                     </div>
-                                    <div *ngIf="i === selected.contactPhone.length - 1"
-                                         class="side_unit_icon plus"
-                                         (click)="addPhone()">
-                                        <svg-icon src="../../assets/icons/_middle/plus.svg"></svg-icon>
+                                </pbx-input>
+                            </ng-container>
+                        </div>
+
+                        <div class="email-block" style="display: block;">
+                            <ng-container formArrayName="contactEmail">
+                                <pbx-input *ngFor="let email of contactEmailsFormArray.controls; let i = index"
+                                           [formGroupName]="i"
+                                           name="Email"
+                                           key="value"
+                                           [form]="true"
+                                           [object]="email"
+                                           labelPosition="top"
+                                           [errorKey]="email.id ? 'contactEmail.' + email.id + '.value' : 'contactEmail.new_' + i + '.value'"
+                                           [(errors)]="service.errors"
+                                           [singleBorder]="false"
+                                           [floatError]="true"
+                                           [object]="email"
+                                           [validationHost]="validationHost"
+                                >
+                                    <!--<pbx-select class="value-type"-->
+                                    <!--[options]="types.contactEmail"-->
+                                    <!--objectKey="value"-->
+                                    <!--[selected]="email.type"-->
+                                    <!--(onSelect)="email.type = $event">-->
+                                    <!--</pbx-select>-->
+                                    <div class="side_unit_icon_wrap">
+                                        <div *ngIf="selected.contactEmail.length > 1"
+                                             class="side_unit_icon delete"
+                                             (click)="deleteEmail(i)">
+                                            <div class="side_unit_icon_minus"></div>
+                                        </div>
+                                        <div *ngIf="i === selected.contactEmail.length - 1"
+                                             class="side_unit_icon plus"
+                                             (click)="addEmail()">
+                                            <svg-icon src="../../assets/icons/_middle/plus.svg"></svg-icon>
+                                        </div>
                                     </div>
-                                </div>
-                            </pbx-input>
-                        </ng-container>
-                    </div>
+                                </pbx-input>
+                            </ng-container>
+                        </div>
 
-                    <div class="email-block" style="display: block;">
-                        <ng-container formArrayName="contactEmail">
-                            <pbx-input *ngFor="let email of contactEmailsFormArray.controls; let i = index"
-                                       [formGroupName]="i"
-                                       name="Email"
-                                       key="value"
-                                       [form]="true"
-                                       [object]="email"
-                                       labelPosition="top"
-                                       [errorKey]="email.id ? 'contactEmail.' + email.id + '.value' : 'contactEmail.new_' + i + '.value'"
-                                       [(errors)]="service.errors"
-                                       [singleBorder]="false"
-                                       [floatError]="false"
-                                       [object]="email"
-                                       [validationHost]="validationHost"
-                            >
-                                <!--<pbx-select class="value-type"-->
-                                <!--[options]="types.contactEmail"-->
-                                <!--objectKey="value"-->
-                                <!--[selected]="email.type"-->
-                                <!--(onSelect)="email.type = $event">-->
-                                <!--</pbx-select>-->
-                                <div class="side_unit_icon_wrap">
-                                    <div *ngIf="selected.contactEmail.length > 1"
-                                         class="side_unit_icon delete"
-                                         (click)="deleteEmail(i)">
-                                        <div class="side_unit_icon_minus"></div>
-                                    </div>
-                                    <div *ngIf="i === selected.contactEmail.length - 1"
-                                         class="side_unit_icon plus"
-                                         (click)="addEmail()">
-                                        <svg-icon src="../../assets/icons/_middle/plus.svg"></svg-icon>
-                                    </div>
-                                </div>
-                            </pbx-input>
-                        </ng-container>
-                    </div>
+                        <pbx-input name="{{'Company Name' | translate }}"
+                                   key="company"
+                                   [form]="true"
+                                   [object]="form"
+                                   labelPosition="top"
+                                   [(errors)]="service.errors"
+                                   [singleBorder]="false"
+                                   [floatError]="true"
+                                   [object]="selected"
+                                   [validationHost]="validationHost"
+                        >
+                        </pbx-input>
 
-                    <pbx-input name="Company Name"
-                               key="company"
-                               [form]="true"
-                               [object]="form"
-                               labelPosition="top"
-                               [(errors)]="service.errors"
-                               [singleBorder]="false"
-                               [floatError]="false"
-                               [object]="selected"
-                               [validationHost]="validationHost"
-                    >
-                    </pbx-input>
+                        <pbx-input name="{{'Department' | translate }}"
+                                   key="department"
+                                   [form]="true"
+                                   [object]="form"
+                                   labelPosition="top"
+                                   [(errors)]="service.errors"
+                                   [singleBorder]="false"
+                                   [floatError]="true"
+                                   [object]="selected"
+                                   [validationHost]="validationHost"
+                        >
+                        </pbx-input>
 
-                    <pbx-input name="Department"
-                               key="department"
-                               [form]="true"
-                               [object]="form"
-                               labelPosition="top"
-                               [(errors)]="service.errors"
-                               [singleBorder]="false"
-                               [floatError]="false"
-                               [object]="selected"
-                               [validationHost]="validationHost"
-                    >
-                    </pbx-input>
+                        <pbx-input name="{{'Position' | translate }}"
+                                   key="position"
+                                   [form]="true"
+                                   [object]="form"
+                                   labelPosition="top"
+                                   [(errors)]="service.errors"
+                                   [singleBorder]="false"
+                                   [floatError]="true"
+                                   [object]="selected"
+                                   [validationHost]="validationHost"
+                        >
+                        </pbx-input>
 
-                    <pbx-input name="Position"
-                               key="position"
-                               [form]="true"
-                               [object]="form"
-                               labelPosition="top"
-                               [(errors)]="service.errors"
-                               [singleBorder]="false"
-                               [floatError]="false"
-                               [object]="selected"
-                               [validationHost]="validationHost"
-                    >
-                    </pbx-input>
+                        <pbx-input name="{{'Country' | translate }}"
+                                   key="country"
+                                   [form]="true"
+                                   [objectKey]="'id'"
+                                   [object]="form"
+                                   [objectView]="countryFormControl"
+                                   displayKey="title"
+                                   labelPosition="top"
+                                   [options]="countries"
+                                   [(errors)]="service.errors"
+                                   [singleBorder]="false"
+                                   [floatError]="true"
+                                   [placeholder]="'[choose one]'"
+                                   [editable]="true"
+                                   [validationHost]="validationHost"
+                        >
+                        </pbx-input>
 
-                    <pbx-input name="Country"
-                               key="country"
-                               [form]="true"
-                               [objectKey]="'id'"
-                               [object]="form"
-                               [objectView]="countryFormControl"
-                               displayKey="title"
-                               labelPosition="top"
-                               [options]="countries"
-                               [(errors)]="service.errors"
-                               [singleBorder]="false"
-                               [floatError]="false"
-                               [placeholder]="'[choose one]'"
-                               [editable]="true"
-                               [validationHost]="validationHost"
-                    >
-                    </pbx-input>
-
-                    <pbx-input name="Address"
-                               key="address"
-                               [form]="true"
-                               [object]="form"
-                               labelPosition="top"
-                               [(errors)]="service.errors"
-                               [singleBorder]="false"
-                               [floatError]="false"
-                               [object]="selected"
-                               [validationHost]="validationHost"
-                    >
-                    </pbx-input>
-
-                </div>
+                        <pbx-input name="{{'Address' | translate }}"
+                                   key="address"
+                                   [form]="true"
+                                   [object]="form"
+                                   labelPosition="top"
+                                   [(errors)]="service.errors"
+                                   [singleBorder]="false"
+                                   [floatError]="true"
+                                   [object]="selected"
+                                   [validationHost]="validationHost"
+                        >
+                        </pbx-input>
+                    </div> <!-- inner -->
+                </div> <!-- side_body -->
             </div>
         </form>
     </pbx-sidebar>

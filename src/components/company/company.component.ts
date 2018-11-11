@@ -38,6 +38,8 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     @ViewChildren('label') labelFields;
     @ViewChild('fileInput') fileInput: ElementRef;
 
+    private _compatibleMediaTypes: string[];
+
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public service: CompanyService,
@@ -72,6 +74,12 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             {name: 'Phone', error: 'pattern', message: 'Phone number may contain digits only'},
             {name: 'VAT ID', error: 'pattern', message: 'VAT ID may contain digits and letters only'},
         ];
+
+        this._compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+    }
+
+    checkCompatibleType(file: any): boolean {
+        return this._compatibleMediaTypes.includes(file.type);
     }
 
     ngOnInit(): void {
@@ -98,8 +106,8 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                         title: [''],
                         phoneCode: ['']
                     }),
-                    regionName: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
-                    locationName: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
+                    regionName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
+                    locationName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
                     street: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
                     building: ['', [Validators.required, Validators.maxLength(10), Validators.pattern(companyHouseRegExp)]],
                     office: ['', [Validators.maxLength(15), Validators.pattern(companyOfficeRegExp)]],
@@ -109,7 +117,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             ]),
             email: ['', [Validators.pattern(emailRegExp)]],
             phone: ['', [Validators.minLength(6), Validators.maxLength(16), Validators.pattern(companyPhoneRegExp)]],
-            vatId: [null, [Validators.maxLength(99), Validators.pattern(companyVatIDRegExp)]],
+            vatId: [null, [Validators.minLength(6), Validators.maxLength(99), Validators.pattern(companyVatIDRegExp)]],
             // companyDetailFieldValue: this._fb.array([]),
         });
     }
@@ -279,12 +287,18 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     private uploadFiles(file: File): void {
-        this.service.uploadFile(file, null, null).then(response => {
-            if (response.logo) {
-                this.company.logo = response.logo;
-                this.setFormData(this.company);
-            }
-        }).catch(() => {
-        });
+        if (this.checkCompatibleType(file)) {
+            this.service.uploadFile(file, null, null).then(response => {
+                if (response.logo) {
+                    this.company.logo = response.logo;
+                    this.setFormData(this.company);
+                    this.company.logo = response.url;
+                }
+            }).catch(() => {
+            });
+        } else {
+            this.message.writeError('Accepted formats: jpg, jpeg, png, gif');
+        }
+
     }
 }

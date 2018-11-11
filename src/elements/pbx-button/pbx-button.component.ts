@@ -24,8 +24,10 @@ export class ButtonComponent implements OnInit {
     _valueCanonical: string;
     _value: string;
     @Input() buttonType: string;
+    @Input() buttonClass: string;
     @Input() loading: boolean;
     @Input() inactive: boolean;
+    @Input() buttonIcon: string;
 
     @Output() onClick: EventEmitter<void> = new EventEmitter<void>();
 

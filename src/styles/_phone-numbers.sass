@@ -220,12 +220,15 @@ buy-phone-numbers-component
                     display: inline-block
                     max-width: 250px
                     overflow: hidden
-                    text-overflow: ellipsis
+                    //text-overflow: ellipsis
                     vertical-align: bottom
                     .innerSpan
                         max-width: 232px
                         display: inline-block
-
+                        // for Edge
+                        text-overflow: ellipsis
+                        overflow: hidden
+                        vertical-align: middle
 phone-numbers-component
     pbx-list
         pbx-table

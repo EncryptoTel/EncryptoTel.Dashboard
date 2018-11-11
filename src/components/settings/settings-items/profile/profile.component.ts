@@ -47,6 +47,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     saveButton: any;
     cancelButton: any;
     text: any;
+    private _compatibleMediaTypes: string[];
 
     // --- component lifecycle methods ----------------------------------------
 
@@ -66,6 +67,12 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         this.validationHost.customMessages = [
             {name: 'Password confirmation', error: 'required', message: 'Please confirm password'},
         ];
+
+        this._compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+    }
+
+    checkCompatibleType(file: any): boolean {
+        return this._compatibleMediaTypes.includes(file.type);
     }
 
     ngOnInit() {
@@ -323,15 +330,19 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     private uploadFiles(file) {
-        console.log(file);
-        this.service.uploadFile(file, null, null).then(response => {
-            if (response.avatar) {
-                this.userDefaultPhoto = response.avatar;
-                this.user.fetchProfileParams().then();
-            }
-        }).catch(() => {
+        // console.log(file);
+        if (this.checkCompatibleType(file)) {
+            this.service.uploadFile(file, null, null).then(response => {
+                if (response.avatar) {
+                    this.userDefaultPhoto = response.avatar;
+                    this.user.fetchProfileParams().then();
+                }
+            }).catch(() => {
 
-        });
+            });
+        } else {
+            this.message.writeError('Accepted formats: jpg, jpeg, png, gif');
+        }
     }
 
     sendFile(event) {

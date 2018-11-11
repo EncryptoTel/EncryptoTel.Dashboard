@@ -13,6 +13,7 @@ partner-program-component
                 overflow-y: unset
     .partner_tab
         cursor: pointer
+        align-items: center
         *
             cursor: pointer
         .partner_tab_icon_wrap
@@ -27,7 +28,8 @@ partner-program-component
         &.active
             .partner_tab_icon_wrap
                 svg-icon
-                    path
+                    path,
+                    rect
                         fill: $dark_accent
 
 partner-program-component
@@ -58,3 +60,14 @@ links-partner-program-component
                             overflow: hidden
                             display: inline-block
                             text-overflow: ellipsis
+    .table-empty-message
+        span
+            white-space: nowrap
+
+partner-program-component
+    pbx-sidebar
+        .sidebar_description_wrap
+            .sidebar_info_description
+                pbx-input
+                    .pbx_input_row_label
+                        flex: 1
