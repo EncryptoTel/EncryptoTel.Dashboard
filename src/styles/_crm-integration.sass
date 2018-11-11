@@ -1,0 +1,127 @@
+.crm_integration
+    display: grid
+    grid-template-rows: min-content 1fr
+    grid-template-columns: 1fr
+    pbx-header
+        display: none
+    .items
+        display: grid
+        grid-template-columns: repeat(4, 384px)
+        grid-gap: 24px
+        .item
+            height: 256px
+            background: $dark_crm_color_1
+            position: relative
+            .logo
+                width: auto
+                height: 48px
+                margin: auto
+            .crm_ok
+                display: none
+            &.checked
+                background: $dark_crm_color_checked
+                svg-icon.crm_ok
+                    display: block
+                    position: absolute
+                    top: 24px
+                    right: 24px
+                    /deep/
+                    svg
+                        width: 32px
+                        height: 32px
+                        cursor: pointer
+                        *
+                            cursor: pointer
+                        path
+                            fill: $dark_white
+                            cursor: pointer
+
+amo-crm-integration
+    .amo_crm_integration
+        display: grid
+        grid-template-columns: 1fr 384px
+        grid-template-rows: min-content 1fr
+        height: 100%
+        pbx-header
+            grid-column: 1/2
+            grid-row: 1/2
+            .pbx_header
+                margin-bottom: 8px
+        .integration_cnt
+            grid-column: 1/2
+            grid-row: 2/3
+            background: $dark_overlay
+            padding: 32px 28px
+            flex-direction: column
+            .item
+                display: grid
+                grid-template-columns: 116px 1fr
+                height: 40px
+                align-items: center
+                margin-bottom: 16px
+                .label
+                    font-family: Roboto, sans-serif
+                    font-weight: 300
+                    font-size: 12px
+                    line-height: 16px
+                    color: $dark_white_70
+                pbx-button
+                    .button.accent
+                        width: auto !important
+            .sync
+                flex-direction: column
+                margin-top: 46px
+                .item
+                    height: 24px
+                    .date
+                        svg-icon.ok
+                            svg
+                                width: 13px
+                                width: 13px
+                                polygon
+                                    fill: $dark_white
+                        svg-icon.refresh
+                            svg
+                                width: 14px
+                                width: 14px
+                                cursor: pointer
+                                *
+                                    cursor: pointer
+                                path
+                                    fill: $dark_accent
+                        .text
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 10px
+                            line-height: 13px
+                            color: $dark_white
+                            margin: 0 12px 0 16px
+                            a
+                                color: $dark_yellow
+                                text-decoration: underline
+            .title
+                font-family: Roboto, sans-serif
+                font-weight: 400
+                font-size: 14px
+                line-height: 19px
+                color: $dark_white_80
+                margin-bottom: 16px
+        .info
+            grid-column: 2/3
+            grid-row: 1/3
+            padding: 40px 32px
+            background: $dark_overlay
+            margin-left: 24px
+            flex-direction: column
+            .title
+                font-family: Roboto, sans-serif
+                font-size: 40px
+                font-weight: 300
+                color: $dark_white
+                margin-bottom: 24px
+            .desc
+                font-family: Roboto, sans-serif
+                font-size: 16px
+                font-weight: 300
+                color: $dark_white
+                line-height: 21px

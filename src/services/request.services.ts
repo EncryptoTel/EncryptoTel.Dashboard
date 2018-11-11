@@ -77,11 +77,10 @@ export class RequestServices {
             const user = this.storage.readItem('pbx_user');
             if (user && user['secrets'] && user['secrets']['updated_at']) {
                 this.lastTick = new Date(user['secrets']['updated_at']);
-                this.expiresIn = user['secrets']['expires_in'];
-                // console.log('lastTick', this.lastTick);
+                this.expiresIn = user['secrets']['expires_in'] - 100;
             } else {
                 this.lastTick = new Date();
-                this.expiresIn = 3600;
+                this.expiresIn = 3500;
             }
         }
     }
@@ -90,13 +89,18 @@ export class RequestServices {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
             if (this.lastTick) {
-                let currentTick = new Date();
-                let ticksBetween = Math.round((currentTick.getTime() - this.lastTick.getTime()) / 1000);
-                if (this.lastCounter != this.counter && ticksBetween > 5 * this.expiresIn / 5) {
-                    let token = this.getRefreshToken();
+                let currentTick: any;
+                currentTick = new Date();
+                let ticksBetween: any;
+                ticksBetween = Math.round((currentTick.getTime() - this.lastTick.getTime()) / 1000);
+                if (this.lastCounter !== this.counter && ticksBetween > 5 * this.expiresIn / 5) {
+                    let token: any;
+                    token = this.getRefreshToken();
                     if (token) {
                         this.post(`refresh-token`, {refresh_token: token}).then(res => {
                             this.updateSecrets(res);
+                            this.updateTick();
+                            this.getRefreshToken();
                         });
                         this.lastCounter = this.counter;
                         this.lastTick = new Date();

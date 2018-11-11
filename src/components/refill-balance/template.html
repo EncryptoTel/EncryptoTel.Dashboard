@@ -85,6 +85,8 @@
         <div class="refill_processing" *ngIf="refill_status==='processing' && !loading.body">
             <div class="refill_processing_container">
                 <div class="refill_processing_title">Invoice pay processing</div>
+                <div class="refill_processing_amount">Invoice number
+                    <span>{{'     '+payment.paymentId}} ({{payment.paymentHash}})</span></div>
                 <div class="refill_processing_amount">Payment amount
                     {{selected.title}}:<span>{{'     '+payment.amount}}</span></div>
                 <div class="refill_processing_address">

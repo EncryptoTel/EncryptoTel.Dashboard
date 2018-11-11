@@ -49,7 +49,9 @@ export class KnowledgeBaseComponent implements OnInit {
             title: 'Back',
             type: 'cancel',
             visible: false,
-            inactive: false
+            inactive: false,
+            buttonClass: '',
+            icon: false
         });
     }
 

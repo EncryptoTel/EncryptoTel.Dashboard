@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
     @Input() filters: FilterItem[];
     @Input() inactive: boolean;
     @Input() errors: any;
-    
+
     @Output() onClick: EventEmitter<ButtonItem>;
     @Output() onReload: EventEmitter<any>;
     @Output() onUpdate: EventEmitter<any>;
@@ -61,12 +61,10 @@ export class HeaderComponent implements OnInit {
     }
 
     reload(): void {
-        // if (this.currentFilter['search'].length >= 3 || this.currentFilter['search'].length === 0) {
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
             this.onReload.emit(this.currentFilter);
         }, 500);
-        // }
     }
 
     updateFilter(index: number, filter): void {
