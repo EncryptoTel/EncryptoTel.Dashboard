@@ -69,14 +69,14 @@ jQuery(document).ready(function(){
        $('.mobile_menu').addClass('mobile_menu--active');
        $('.mobile_overlay').addClass('mobile_overlay--active');
     });
-    $('.mobile_overlay').on('click', function () {
-        $('.mobile_menu').removeClass('mobile_menu--active');
-        $(this).removeClass('mobile_overlay--active');
-    });
-
     $('.sub_menu').on('click', function (e) {
         e.preventDefault();
         $('.mobile_menu_left').slideToggle();
+    });
+    $('.mobile_overlay').on('click', function () {
+        $('.mobile_menu').removeClass('mobile_menu--active');
+        $(this).removeClass('mobile_overlay--active');
+        $('.mobile_menu_left').slideUp();
     });
 
     // ---------------------------------
