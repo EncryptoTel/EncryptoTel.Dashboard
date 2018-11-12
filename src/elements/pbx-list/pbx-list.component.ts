@@ -57,6 +57,7 @@ export class ListComponent implements OnInit {
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
     @Output() onLoad: EventEmitter<object> = new EventEmitter<object>();
+    @Output() onDelete: EventEmitter<object> = new EventEmitter<object>();
 
     @ViewChild(TableComponent) items;
     @ViewChild(HeaderComponent) header: HeaderComponent;
@@ -101,6 +102,7 @@ export class ListComponent implements OnInit {
 
     delete(item: BaseItemModel) {
         item.loading ++;
+        this.onDelete.emit(item);
         this.service.deleteById(item.id).then(() => {
             this.getItems(item);
         }).catch(() => {})
