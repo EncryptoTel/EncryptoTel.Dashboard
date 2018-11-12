@@ -3,20 +3,23 @@ import {
     EventEmitter,
     Input,
     OnInit,
-    Output
+    Output,
+    OnDestroy,
+    ChangeDetectorRef
 } from '@angular/core';
-import {TableInfoExModel, TableInfoItem, TableInfoModel} from '../../models/base.model';
-import {ModalEx} from "../pbx-modal/pbx-modal.component";
-import {PlayerAnimation} from "../../shared/player-animation";
-import {FadeAnimation} from "../../shared/fade-animation";
-import {str2regexp, killEvent} from '../../shared/shared.functions';
-import {isObject, isArray} from 'util';
-import {RefsServices} from '../../services/refs.services';
-import {FormBuilder} from '@angular/forms';
-import {MessageServices} from '../../services/message.services';
-import {AddressBookService} from '../../services/address-book.service';
-import {AddressBookComponent} from '../../components/address-book/address-book.component';
-import {TariffStateService} from '../../services/state/tariff.state.service';
+import { TableInfoExModel, TableInfoItem, TableInfoModel } from '../../models/base.model';
+import { ModalEx, ModalComponent } from "../pbx-modal/pbx-modal.component";
+import { PlayerAnimation } from "../../shared/player-animation";
+import { FadeAnimation } from "../../shared/fade-animation";
+import { str2regexp, killEvent } from '../../shared/shared.functions';
+import { isObject, isArray } from 'util';
+import { RefsServices } from '../../services/refs.services';
+import { FormBuilder } from '@angular/forms';
+import { MessageServices } from '../../services/message.services';
+import { AddressBookService } from '../../services/address-book.service';
+import { AddressBookComponent } from '../../components/address-book/address-book.component';
+import { TariffStateService } from '../../services/state/tariff.state.service';
+import { ModalServices } from '@services/modal.service';
 
 
 @Component({
@@ -28,7 +31,7 @@ import {TariffStateService} from '../../services/state/tariff.state.service';
         PlayerAnimation
     ]
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnDestroy {
     @Input() columnFormat: string[];
     @Input() deletable: boolean = true;
     @Input() editable: boolean;
@@ -51,12 +54,16 @@ export class TableComponent implements OnInit {
     @Output() onSort: EventEmitter<object> = new EventEmitter<object>();
 
     dropDirection = '';
-    modal: ModalEx = new ModalEx('Are you sure?', 'delete');
+    modal: ModalEx;
     selectedDelete: any;
     hideField: boolean = false;
+    modalWnd: ModalComponent;
 
-    constructor(protected state: TariffStateService) {
-
+    constructor(protected state: TariffStateService,
+        private modalService: ModalServices) {
+        this.modal = new ModalEx('Are you sure?', 'delete');
+        this.modalWnd = this.modalService.createModal(this.modal);
+        this.modalWnd.onConfirmEx.subscribe(() => this.deleteItem());
     }
 
     isSelected(id: number): boolean {
@@ -78,7 +85,6 @@ export class TableComponent implements OnInit {
 
     clickDeleteItem(item: any, event: MouseEvent) {
         killEvent(event);
-
         this.selectedDelete = item;
         if (!this.editMode) {
             this.deleteItem();
@@ -106,13 +112,13 @@ export class TableComponent implements OnInit {
 
     getItemFormatting(item: any, tableItem: TableInfoItem, itemIndex: number): string {
         let css = '';
-        
+
         // console.log('cf', this.columnFormat);
         if (!!this.columnFormat && !!this.columnFormat[itemIndex]) css += ' ' + this.columnFormat[itemIndex];
-        
+
         if (tableItem.dataWidth !== undefined) css += ' fix_' + tableItem.dataWidth;
         else if (!!tableItem.width) css += ' fix_' + tableItem.width;
-        
+
         if (tableItem.specialFormatting) {
             let value = this.getValueByKeyEx(item, tableItem.key);
             tableItem.specialFormatting.forEach(rule => {
@@ -157,7 +163,7 @@ export class TableComponent implements OnInit {
         this.tableItems.forEach((item) => {
             item.ddShow = false;
         });
-        this.onDropDown.emit({action: action, item: item});
+        this.onDropDown.emit({ action: action, item: item });
         item.ddShow = prev === false;
 
         if ((this.tableItems.length - 4) < this.tableItems.indexOf(item)) {
@@ -168,7 +174,7 @@ export class TableComponent implements OnInit {
     }
 
     dropClick(action, option, item) {
-        this.onDropDownClick.emit({action: action, option: option, item: item});
+        this.onDropDownClick.emit({ action: action, option: option, item: item });
     }
 
     mouseEnter(event, item) {
@@ -234,5 +240,8 @@ export class TableComponent implements OnInit {
         }
     }
 
+    ngOnDestroy(): void {
+        this.modalService.deleteModal();
+    }
 }
 
