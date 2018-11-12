@@ -406,3 +406,25 @@ pbx-table
             overflow: hidden !important
             text-overflow: ellipsis !important
             display: block !important
+
+pbx-select
+    .select_item.selected
+        position: relative
+        padding-right: 40px
+        overflow: hidden
+        text-overflow: ellipsis
+        display: inline-block
+        padding-top: 13px
+        svg-icon
+            position: absolute
+            top: 50%
+            right: 16px
+            transform: translateY(-50%)
+    .select_options
+        .select_item
+            max-width: 100%
+            overflow: hidden
+            display: inline-block
+            text-overflow: ellipsis
+            align-items: center
+            padding-top: 15px
