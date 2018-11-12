@@ -187,4 +187,16 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
             this.navigationSubscription.unsubscribe();
         }
     }
+
+    addLeadingZeros(payment) {
+        let sNum: string;
+        let len: number = 12;
+        len -= String(payment.paymentId).length;
+        sNum = payment.paymentId;
+        while (len--) {
+            sNum = '0' + sNum;
+        }
+        return payment.paymentPrefix + sNum;
+    }
+
 }
