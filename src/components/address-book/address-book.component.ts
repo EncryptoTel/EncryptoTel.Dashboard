@@ -227,15 +227,28 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 this.block();
                 break;
             case 13:
+                if (this.selected) {
+                    item = this.selected;
+                }
                 item.loading ++;
                 this.service.deleteById(item.id).then(() => {
                     this.list.getItems(item);
                     this.setFilters();
+
+                    this.close();
+                    this.hideField = false;
+                    this.state.change.emit(this.hideField);
+
                 }).catch(() => {})
                     .then(() => item.loading --);
-                // this.list.items.clickDeleteItem(this.selected);
                 break;
         }
+    }
+
+    delete($event) {
+        this.close();
+        this.hideField = false;
+        this.state.change.emit(this.hideField);
     }
 
     load(pageInfo: AddressBookModel) {

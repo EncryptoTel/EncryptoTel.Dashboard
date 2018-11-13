@@ -65,7 +65,7 @@ export class ButtonComponent implements OnInit {
         if (radius < 150) {
             div.classList.add('small');
             setTimeout(() => {
-                this.button.nativeElement.removeChild(div);
+                // this.button.nativeElement.removeChild(div);
             }, 300);
         }
         else if (radius >= 150 && radius < 300) {
