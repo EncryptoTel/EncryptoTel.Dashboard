@@ -112,6 +112,16 @@ export class BuyPhoneNumbersComponent implements OnInit {
     }
 
     searchInit() {
+        if (document.activeElement.getAttribute('name') === 'search-by-digits') {
+            if (this.requestDetails.contains === '') {
+                this.clearNumberVisible = false;
+            }
+        }
+        if (document.activeElement.getAttribute('name') === 'search-by-city-prefix') {
+            if (this.requestDetails.areaCode === '') {
+                this.clearSearchVisible = false;
+            }
+        }
         if (this.searchTimeout) {
             clearTimeout(this.searchTimeout);
         }
