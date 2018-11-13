@@ -193,6 +193,23 @@ export class StorageService extends BaseService {
         }
     }
 
+    deleteAll(callback = null, showSuccess = true): Promise<any> {
+        this.callback = callback;
+        this.updateLoading(1);
+
+        return super.deleteAll(showSuccess, 'delete')
+            .then(result => {
+                if (this.loading === 1) {
+                    this.getItems(this.pageInfo, this.filter, this.sort);
+                }
+                this.successCount++;
+                this.updateLoading(-1);
+            }).catch(() => {
+                this.errorCount++;
+                this.updateLoading(-1);
+            });
+    }
+
     restoreById(id: number, callback = null, showSuccess = true): Promise<any> {
         this.callback = callback;
         this.updateLoading(1);

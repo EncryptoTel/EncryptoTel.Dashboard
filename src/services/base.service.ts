@@ -135,6 +135,14 @@ export class BaseService {
         }
     }
 
+    deleteAll(showSucess = true, path = null): Promise<any> {
+        if (path != null) {
+            return this.delete(`/${path}/all`, showSucess);
+        } else {
+            return this.delete(`/all`, showSucess);
+        }
+    }
+
     restoreById(id: number, showSucess = true, path = null): Promise<any> {
         return this.restore(`/${path}/${id}`, showSucess);
     }

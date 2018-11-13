@@ -20,6 +20,7 @@ import { AddressBookService } from '../../services/address-book.service';
 import { AddressBookComponent } from '../../components/address-book/address-book.component';
 import { TariffStateService } from '../../services/state/tariff.state.service';
 import { ModalServices } from '@services/modal.service';
+import {StorageItem} from '@models/storage.model';
 
 
 @Component({
@@ -100,6 +101,14 @@ export class TableComponent implements OnInit, OnDestroy {
                     innerCount = item.sipInners.length;
                 }
                 body = body.concat('Are you sure you want to delete ', item.phoneNumber, ' and ', innerCount, ' Ext(s)?');
+                this.modal.body = body;
+            }
+            if (item instanceof StorageItem) {
+                this.modal.body = '';
+                let body: string;
+                body = '';
+                body = body.concat('Permanently delete&nbsp;<span>', item.fileName, '</span>&nbsp;file?');
+                this.modal.buttons[1].value = 'Permanently Delete';
                 this.modal.body = body;
             }
             this.modal.visible = true;
