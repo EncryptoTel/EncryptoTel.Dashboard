@@ -294,9 +294,9 @@ export class StorageComponent implements OnInit {
         if (this.buttonType === 1) {
             this.modal = new ModalEx('', 'deleteFiles');
             this.modal.visible = true;
-        } else if (this.buttonType === 3) {
-            this.fileInput.nativeElement.click();
         } else if (this.buttonType === 2) {
+            this.fileInput.nativeElement.click();
+        } else if (this.buttonType === 3) {
             this.modal = new ModalEx('', 'emptyTrash');
             if (this.service.select.length > 0) {
                 this.modal.body = 'Permanently delete ' + this.service.select.length + ' file(s)?';
