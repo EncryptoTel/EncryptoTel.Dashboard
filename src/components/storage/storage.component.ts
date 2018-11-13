@@ -167,20 +167,20 @@ export class StorageComponent implements OnInit {
         // this.buttons[3].visible = this.pageInfo.itemsCount > 0;
         // this.buttons[1].inactive = this.service.select.length === 0;
 
-        this.buttons[2].inactive = false;
-        this.buttons[2].visible = true;
+        this.buttons[3].inactive = false;
+        this.buttons[3].visible = true;
     }
 
     // --- filter methods ---------------------------------
 
     reloadFilter(filter: any): void {
         if (filter.type === 'trash') {
-            this.buttons[3].visible = true;
+            this.buttons[2].visible = true;
             this.buttons[1].visible = false;
             this.buttons[1].inactive = true;
             this.buttons[0].inactive = true;
         } else {
-            this.buttons[3].visible = false;
+            this.buttons[2].visible = false;
             this.buttons[1].visible = true;
             this.buttons[0].inactive = true;
         }
@@ -206,7 +206,7 @@ export class StorageComponent implements OnInit {
         this.service.selectItem(item.id);
         this.buttons[0].inactive = this.service.select.length === 0;
         this.buttons[1].inactive = this.service.select.length === 0;
-        this.buttons[2].inactive = false;
+        this.buttons[3].inactive = false;
     }
 
     // --- file uploading ---------------------------------
@@ -294,9 +294,9 @@ export class StorageComponent implements OnInit {
         if (this.buttonType === 1) {
             this.modal = new ModalEx('', 'deleteFiles');
             this.modal.visible = true;
-        } else if (this.buttonType === 2) {
-            this.fileInput.nativeElement.click();
         } else if (this.buttonType === 3) {
+            this.fileInput.nativeElement.click();
+        } else if (this.buttonType === 2) {
             this.modal = new ModalEx('', 'emptyTrash');
             if (this.service.select.length > 0) {
                 this.modal.body = 'Permanently delete ' + this.service.select.length + ' file(s)?';
@@ -352,7 +352,7 @@ export class StorageComponent implements OnInit {
                 }
             });
         } else {
-            if (this.buttonType === 3) {
+            if (this.buttonType === 2) {
                 this.service.deleteAll((loading) => {
                     this.updateLoading(loading, true);
                 }, false).then(
