@@ -92,15 +92,6 @@ export class StorageComponent implements OnInit {
                 icon: false
             },
             {
-                id: 2,
-                title: 'Upload',
-                type: 'success',
-                visible: true,
-                inactive: false,
-                buttonClass: 'button-upload',
-                icon: false
-            },
-            {
                 id: 3,
                 title: 'Empty trash',
                 type: 'error',
@@ -108,6 +99,15 @@ export class StorageComponent implements OnInit {
                 inactive: false,
                 buttonClass: 'trash',
                 icon: 'trash'
+            },
+            {
+                id: 2,
+                title: 'Upload',
+                type: 'success',
+                visible: true,
+                inactive: false,
+                buttonClass: 'button-upload',
+                icon: false
             }
         ];
         this.buttonType = 1;
