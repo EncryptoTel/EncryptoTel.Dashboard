@@ -236,7 +236,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     delete($event) {
-        this.close();
+        this.close(true);
         this.hideField = false;
         this.state.change.emit(this.hideField);
     }
@@ -251,7 +251,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.list.getItems(item);
             this.setFilters();
 
-            this.close();
+            this.close(true);
             this.hideField = false;
             this.state.change.emit(this.hideField);
 
