@@ -211,7 +211,6 @@ export class StorageService extends BaseService {
 
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<StorageModel> {
         this.updateLoading(1);
-
         this.filter = filter;
         this.sort = sort;
         return super.getItems(pageInfo, filter, sort)

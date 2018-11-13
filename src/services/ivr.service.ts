@@ -118,4 +118,8 @@ export class IvrService extends BaseService {
             this.digits.push({ id: number, title: number.toString() });
         }
     }
+
+    getFiles() {
+        return this.request.get('v1/account/file?type=audio')
+    }
 }

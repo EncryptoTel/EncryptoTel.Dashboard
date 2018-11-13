@@ -37,43 +37,8 @@
         <div class="right" *ngIf="!modelTemplate">
 
             <!-- IVR main form -->
-            <div class="one" *ngIf="!ivrDigitSelected">
-                <pbx-input name="IVR Name"
-                           key="name"
-                           placeholder="Unnamed"
-                           [required]="true"
-                           [form]="true"
-                           [object]="form"
-                           [errors]="service.errors"
-                           [validationHost]="validationHost"
-                >
-                </pbx-input>
-                <pbx-input name="IVR Description"
-                           key="description"
-                           placeholder="IVR from 8 a.m. to 6 p.m."
-                           [form]="true"
-                           [object]="form"
-                           [errors]="service.errors"
-                           [validationHost]="validationHost"
-                >
-                </pbx-input>
-                <pbx-input name="Phone number"
-                           key="sip"
-                           placeholder="[choose one]"
-                           [required]="true"
-                           [form]="true"
-                           [object]="form"
-                           [options]="sipOuters"
-                           displayKey="phoneNumber"
-                           [selectAsObject]="true"
-                           [errors]="service.errors"
-                           [validationHost]="validationHost"
-                           class="phone_number"
-                           (onSelect)="onSipOuterSelected($event)"
-                >
-                </pbx-input>
-            </div>
-
+            <pbx-ivr-main-form></pbx-ivr-main-form>
+            
             <!-- IVR digit form -->
             <div class="one" *ngIf="ivrDigitSelected">
                 <div class="select_digit">
@@ -636,3 +601,10 @@
            (onConfirmEx)="cancel()"
            >
 </pbx-modal>
+
+<pbx-media-player #mediaPlayer
+                  [mediaStream]="currentMediaStream"
+                  (onGetMediaData)="getMediaData($event)"
+                  (onMediaStateChanged)="mediaStateChanged($event)"
+>
+</pbx-media-player>

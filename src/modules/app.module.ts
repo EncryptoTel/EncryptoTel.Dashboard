@@ -26,7 +26,7 @@ import {AddressBookService} from '../services/address-book.service';
 import {DepartmentService} from '../services/department.service';
 import {CallRulesService} from '../services/call-rules.service';
 import {RingGroupService} from '../services/ring-group.service';
-import {IvrService} from '../services/ivr.service';
+
 import {AudioConferenceService} from '../services/audio-conference.service';
 
 import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
@@ -45,6 +45,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {RouterExtService} from '../services/router-ext.service';
 import {PbxTranslateLoader} from '../shared/pbx-translate-loader';
 import { ModalServices } from '@services/modal.service';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -60,6 +61,7 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         ComponentsModule,
         MainRouterModule,
         SocketIoModule.forRoot(config),
+        BsDatepickerModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -89,7 +91,6 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         RefsServices,
         RingGroupService,
         SizePipe,
-        IvrService,
         DashboardServices,
         CompanyService,
         SelectService,

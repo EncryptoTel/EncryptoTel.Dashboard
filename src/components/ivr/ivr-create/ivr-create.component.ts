@@ -1,16 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, Validators, FormGroup, ValidationErrors, AbstractControl, ValidatorFn} from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, Validators, FormGroup, ValidationErrors, AbstractControl, ValidatorFn } from '@angular/forms';
 
-import {IvrService} from '@services/ivr.service';
-import {RefsServices} from '@services/refs.services';
-import {MessageServices} from '@services/message.services';
-import {IvrItem, IvrTreeItem, IvrLevelItem} from '@models/ivr.model';
-import {SipItem} from '@models/call-rules.model';
-import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
-import {FadeAnimation} from '@shared/fade-animation';
-import {nameRegExp, phoneRegExp} from '@shared/vars';
-import {isValidId} from '@shared/shared.functions';
+import { IvrService } from '@services/ivr.service';
+import { RefsServices } from '@services/refs.services';
+import { MessageServices } from '@services/message.services';
+import { IvrItem, IvrTreeItem, IvrLevelItem } from '@models/ivr.model';
+import { SipItem, CallRuleDay, CallRuleTimeType, CallRuleTime } from '@models/call-rules.model';
+import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import { FadeAnimation } from '@shared/fade-animation';
+import { nameRegExp, phoneRegExp } from '@shared/vars';
+import { isValidId } from '@shared/shared.functions';
+import { MediaPlayerComponent } from '@elements/pbx-media-player/pbx-media-player.component';
+import { StorageService } from '@services/storage.service';
+import { callRuleTimeValidator, durationTimeValidator } from '@shared/encry-form-validators';
+import { MediaState } from '@models/cdr.model';
 
 
 export enum DigitActions {
@@ -29,11 +33,56 @@ export enum DigitActions {
     selector: 'pbx-ivr-create',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    animations: [FadeAnimation('300ms')]
+    animations: [FadeAnimation('300ms')],
+    providers: [StorageService]
 })
 export class IvrCreateComponent extends FormBaseComponent implements OnInit {
-
+    bsRangeValue = new Date();
     model: IvrItem;
+    callRuleTimeDays = CallRuleDay.fromPlain([
+        { type: 'accent', day: 'Mon', code: 'mon' },
+        { type: 'accent', day: 'Tue', code: 'tue' },
+        { type: 'accent', day: 'Wed', code: 'wed' },
+        { type: 'accent', day: 'Thu', code: 'thu' },
+        { type: 'accent', day: 'Fri', code: 'fri' },
+        { type: 'cancel', day: 'Sat', code: 'sat' },
+        { type: 'cancel', day: 'Sun', code: 'sun' }
+    ]);
+
+    durationTimes = CallRuleTimeType.fromPlain([
+        { id: 1, code: 'Always (24 hours)' },
+        { id: 2, code: 'Set the time' }
+    ]);
+
+    callRuleTimes = CallRuleTime.fromPlain([
+        { time: '12:00 a.m', asteriskTime: '00:00' },
+        { time: '1:00 a.m',  asteriskTime: '01:00' },
+        { time: '2:00 a.m',  asteriskTime: '02:00' },
+        { time: '3:00 a.m',  asteriskTime: '03:00' },
+        { time: '4:00 a.m',  asteriskTime: '04:00' },
+        { time: '5:00 a.m',  asteriskTime: '05:00' },
+        { time: '6:00 a.m',  asteriskTime: '06:00' },
+        { time: '7:00 a.m',  asteriskTime: '07:00' },
+        { time: '8:00 a.m',  asteriskTime: '08:00' },
+        { time: '9:00 a.m',  asteriskTime: '09:00' },
+        { time: '10:00 a.m', asteriskTime: '10:00' },
+        { time: '11:00 a.m', asteriskTime: '11:00' },
+        { time: '12:00 p.m', asteriskTime: '12:00' },
+        { time: '1:00 p.m',  asteriskTime: '13:00' },
+        { time: '2:00 p.m',  asteriskTime: '14:00' },
+        { time: '3:00 p.m',  asteriskTime: '15:00' },
+        { time: '4:00 p.m',  asteriskTime: '16:00' },
+        { time: '5:00 p.m',  asteriskTime: '17:00' },
+        { time: '6:00 p.m',  asteriskTime: '18:00' },
+        { time: '7:00 p.m',  asteriskTime: '19:00' },
+        { time: '8:00 p.m',  asteriskTime: '20:00' },
+        { time: '9:00 p.m',  asteriskTime: '21:00' },
+        { time: '10:00 p.m', asteriskTime: '22:00' },
+        { time: '11:00 p.m', asteriskTime: '23:00' },
+    ]);
+    then_data = [{id: 1, name: "TerminateCall"},
+                 {id: 2, name: "Redirect"}]
+    selectedDurationTimeRange = ["8:00", "20:00"]
 
     ivrLevels: IvrLevelItem[];
     sipInners: any[] = [];
@@ -50,10 +99,18 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     loadingExt: number = 0;
     saving: number = 0;
     selectedSipOuter: SipItem;
-
+    selectedFiles = [];
+    files = [];
+    ruleFor = [
+        {id:1, name: "Allways"},
+        {id:2, name: "Date (period)"},
+        {id:3, name: "Day of the week"}
+    ]
+    period: any;
+    @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
     // modelTemplate: boolean = true;
     modelTemplate: boolean = false;
-
+    rule_value_visible = 0;
     // -- properties ----------------------------------------------------------
 
     get editMode(): boolean {
@@ -74,22 +131,22 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
 
     get sipInnersVisible(): boolean {
         return (this.formSelectedAction
-                && this.formSelectedAction.id === <number>DigitActions.EXTENSION_NUMBER);
+            && this.formSelectedAction.id === <number>DigitActions.EXTENSION_NUMBER);
     }
 
     get sipOutersVisible(): boolean {
         return (this.formSelectedAction
-                && (this.formSelectedAction.id === <number>DigitActions.EXTERNAL_NUMBER));
+            && (this.formSelectedAction.id === <number>DigitActions.EXTERNAL_NUMBER));
     }
 
     get ivrActionsVisible(): boolean {
         return (this.formSelectedAction
-                && this.formSelectedAction.id === <number>DigitActions.SEND_TO_IVR);
+            && this.formSelectedAction.id === <number>DigitActions.SEND_TO_IVR);
     }
 
     get curentLevelDigits(): number[] {
         let digits: number[] = [];
-        
+
         if (this.selectedItem) {
             const level = this.selectedItem.level;
             const idWeight = Math.floor(this.selectedItem.id / 100);
@@ -104,11 +161,12 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public service: IvrService,
-                protected fb: FormBuilder,
-                protected message: MessageServices,
-                private refs: RefsServices,
-                private activatedRoute: ActivatedRoute,
-                private router: Router) {
+        protected fb: FormBuilder,
+        protected message: MessageServices,
+        private refs: RefsServices,
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
+        private storage: StorageService) {
         super(fb, message);
         this.id = this.activatedRoute.snapshot.params.id;
 
@@ -122,14 +180,17 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     ngOnInit() {
         super.ngOnInit();
         this.service.reset();
-
         this.getSipOuters();
-
-        // if (this.id) {
         this.getItem();
-        // } 
+        this.initFiles();
     }
 
+    initFiles() {
+        this.service.getFiles().then((res)=>{
+            this.files = res.items;
+            console.log(res.items);
+        });
+    }
     // -- form setup and helpers methods --------------------------------------
 
     /**
@@ -139,21 +200,31 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
      */
     initForm(): void {
         this.form = this.fb.group({
-            id:             [ null ],
-            name:           [ '', [ Validators.required, Validators.pattern(nameRegExp) ] ] ,
-            description:    [ '', [ Validators.maxLength(255) ] ],
-            sip:            [ null, [ Validators.required ] ],
-            // ...
+            id: [null],
+            name: ['', [Validators.required, Validators.pattern(nameRegExp)]],
+            description: ['', [Validators.maxLength(255)]],
+            sip: [null, [Validators.required]],
+            voice_greeting: [null, [Validators.required]],
+            loop_message: [2, [Validators.required, Validators.pattern('[0-9]*')]],
+            rule_for: [null],
+            rule_value: [null],
+            duration_time: [null],
+            duration: [null],
+            then: [null]
+        });
+
+        this.form.get("rule_for").valueChanges.subscribe(val => {
+            this.rule_value_visible = val;
         });
 
         this.addForm(this.formKey, this.form);
 
         this.digitForm = this.fb.group({
-            digitId:            [ null ],
-            digit:              [ null, [ Validators.required, this.ivrDigitNumberValidator ] ],
-            digitDescription:   [ '', [ Validators.maxLength(255) ] ],
-            action:             [ null, [ Validators.required ] ],
-            parameter:          [ null, [ Validators.required ] ],
+            digitId: [null],
+            digit: [null, [Validators.required, this.ivrDigitNumberValidator]],
+            digitDescription: ['', [Validators.maxLength(255)]],
+            action: [null, [Validators.required]],
+            parameter: [null, [Validators.required]],
         });
 
         this.digitForm.get('action').valueChanges
@@ -178,7 +249,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
             return null;
         };
     }
-    
+
     /**
      * Gets an array of Validators for digitForm.parameter control, depending on 
      * IVR menu item action selected
@@ -189,9 +260,9 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         if (this.digitForm && this.formSelectedAction) {
             switch (this.formSelectedAction.id) {
                 case <number>DigitActions.EXTENSION_NUMBER:
-                    return [ Validators.required ];
+                    return [Validators.required];
                 case <number>DigitActions.EXTERNAL_NUMBER:
-                    return [ Validators.required, Validators.pattern(phoneRegExp) ];
+                    return [Validators.required, Validators.pattern(phoneRegExp)];
                 case <number>DigitActions.SEND_TO_IVR:
                     return null;
             }
@@ -220,7 +291,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
             const digit = this.service.digits
                 .find(d => d.title === this.selectedItem.digit);
             this.digitForm.get('digit').setValue(digit);
-            
+
             const action = this.service.actions
                 .find(a => a.title === this.selectedItem.action);
             this.digitForm.get('action').setValue(action);
@@ -245,14 +316,14 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         this.saveFormState(this.digitFormKey);
         this.setModelData(this.selectedItem, () => {
             const data = this.digitForm.value;
-            
+
             this.selectedItem.id = data.digitId;
             this.selectedItem.digit = data.digit.id;
             this.selectedItem.description = data.digitDescription;
-            
+
             this.selectedItem.action = data.action.title;
             if (data.action.id === <number>DigitActions.EXTENSION_NUMBER) {
-                this.selectedItem.parameter = 
+                this.selectedItem.parameter =
                     `${data.parameter.sipOuter.phoneNumber}-${data.parameter.phoneNumber}`;
             }
             else if (data.action.id === <number>DigitActions.EXTERNAL_NUMBER) {
@@ -267,7 +338,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
 
         // console.log('d-model-value', this.selectedItem);
     }
-    
+
     // -- event handlers ------------------------------------------------------
 
     addLevel() {
@@ -283,7 +354,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
             this.selectIvrDigit(itemId);
         }
     }
-    
+
     onDigitSelected(digit: any): void {
         // TODO: check event ...
         // console.log('digit-changed', this.digitForm.value);
@@ -330,13 +401,13 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
                 this.model.sipId = this.model.sip.id;
             });
             this.saveFormState(this.formKey);
-            
+
             console.log('model-value', this.model);
         }
 
         // this.saveIvr();
     }
-    
+
     onCancel() {
         if (this.selectedItem) {
             this.closeForm(this.editMode, this.digitFormKey, () => this.cancel());
@@ -375,7 +446,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
                 this.selectedItem = this.model.tree.find(node => node.id === itemId);
                 this.setDigitFormData();
             }
-        
+
             this.initIvrTree();
             // console.log('ivr-digit-selected', this.selectedItem.id, this.selectedDigits);
         }, 0);
@@ -388,10 +459,10 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         const maxId = Math.max(...this.selectedDigits);
         const lastNode = this.model.tree.find(node => node.id === maxId);
         if (levelLimit === 0 || (lastNode && lastNode.action === 'Send to IVR')) {
-            levelLimit ++;
+            levelLimit++;
         }
 
-        for (let i = 0; i < levelLimit; i ++) {
+        for (let i = 0; i < levelLimit; i++) {
             this.ivrLevels[i] = new IvrLevelItem();
             this.ivrLevels[i].number = i;
             this.ivrLevels[i].title = this.getLevelTitle(i);
@@ -407,7 +478,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     sortDigitItems(a: IvrTreeItem, b: IvrTreeItem): number {
         const aValue = +a.digit === 0 ? 10 : +a.digit;
         const bValue = +b.digit === 0 ? 10 : +b.digit;
-        
+
         if (aValue < bValue) return -1;
         else if (aValue > bValue) return 1;
         return 0;
@@ -428,7 +499,7 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         const itemId = this.selectedItem.id;
         this.model.tree = this.model.tree.filter(node => Math.floor(node.id / 100) !== itemId);
         // console.log(':2', this.model.tree);
-        
+
         this.initIvrTree();
     }
 
@@ -492,28 +563,83 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         }).then(() => this.loading--);
     }
 
+    initCreate() {
+        this.model = new IvrItem();
+        this.initIvrTree();
+        this.setBaseFormData();
+    }
+
+
+
     getSipOuters() {
         this.loading++;
         this.refs.getSipOuters().then(response => {
             this.sipOuters = response;
-        }).catch(() => {})
-          .then(() => this.loading--);
+            console.log(response);
+        }).catch(() => { })
+            .then(() => this.loading--);
     }
 
     getExtensions(id: number): void {
         this.loadingExt++;
-
         this.service.getExtensions(id).then(response => {
             this.sipInners = response.items;
-        }).catch(() => {})
-          .then(() => this.loadingExt--);
+        }).catch(() => { })
+            .then(() => this.loadingExt--);
     }
 
     saveIvr() {
         this.saving++;
         this.service.save(this.id).then(() => {
             this.cancel();
-        }).catch(() => {})
-          .then(() => this.saving--);
+        }).catch(() => { })
+            .then(() => this.saving--);
+    }
+
+    onTimeRuleChange(i, e) {
+        console.log(i, e)
+    }
+
+    isFileSelected(index: number): boolean {
+        return !!this.selectedFiles[index];
+    }
+
+    uploadFile(event: any): void {
+        event.preventDefault();
+
+        const file = event.target.files[0];
+        if (file) {
+            if (this.storage.checkCompatibleType(file)) {
+                this.storage.checkFileExists(
+                    file,
+                    (loading) => {
+                        if (!this.storage.loading) {
+                            this.initFiles();
+                        }
+                    });
+            }
+            else {
+                this.message.writeError('Accepted formats: mp3, ogg, wav');
+            }
+            this.storage.checkModal();
+        }
+    }
+
+    selectFile(index: number, file: any): void {
+        if (this.mediaPlayer.selectedMediaId !== file.id && this.mediaPlayer.state === MediaState.PLAYING) {
+            this.mediaPlayer.stopPlay();
+        }
+        this.selectedFiles[index] = file;
+    }
+
+    selectDay(idx, day) {
+        day.type = (day.type === 'accent') ? 'cancel' : 'accent'
+        // this.callRuleTimeDays[idx].type = (this.callRuleTimeDays[idx].type === 'accent') ? 'cancel' : 'accent';
+        console.log(this.callRuleTimeDays);
+        console.log(idx, day);
+    }
+
+    visibleElementForRule(val) {
+        return this.rule_value_visible === val;
     }
 }
