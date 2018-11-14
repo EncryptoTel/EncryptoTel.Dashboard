@@ -13,6 +13,7 @@
               (onEdit)="edit($event)"
               (onSelect)="select($event)"
               (onLoad)="load($event)"
+              (onDelete)="delete($event)"
               [service]="service"
               [sidebar]="sidebar"
               [multiple]="true"
@@ -212,6 +213,10 @@
 >
 </pbx-modal>
 <pbx-modal [modalEx]="modalExit"
-           (onConfirmEx)="confirmClose()"
-           >
+                       (onConfirmEx)="confirmClose()"
+>
+</pbx-modal>
+<pbx-modal [modalEx]="modalDelete"
+           (onConfirmEx)="confirmDelete()"
+>
 </pbx-modal>

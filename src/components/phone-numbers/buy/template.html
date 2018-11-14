@@ -85,14 +85,14 @@
         <span class="msg" *ngIf="!requestDetails.areaCode && !requestDetails.contains">No data to display</span>
         <span class="msg"
               *ngIf="requestDetails.areaCode && !requestDetails.contains">Sorry, no matches were found for <span
-            class="outerSpan">"<span class="innerSpan">{{requestDetails.areaCode}}</span>"</span></span>
+            class="outerSpan"><span class="innerSpan">{{requestDetails.areaCode}}</span></span></span>
         <span class="msg"
               *ngIf="requestDetails.contains && !requestDetails.areaCode">Sorry, no matches were found for <span
-            class="outerSpan">"<span class="innerSpan">{{requestDetails.contains}}</span>"</span></span>
+            class="outerSpan"><span class="innerSpan">{{requestDetails.contains}}</span></span></span>
         <span class="msg"
               *ngIf="requestDetails.contains && requestDetails.areaCode">Sorry, no matches were found for <span
-            class="outerSpan">"<span class="innerSpan">{{requestDetails.areaCode}}</span>"</span> and <span
-            class="outerSpan">"<span class="innerSpan">{{requestDetails.contains}}</span>"</span></span>
+            class="outerSpan"><span class="innerSpan">{{requestDetails.areaCode}}</span></span> and <span
+            class="outerSpan"><span class="innerSpan">{{requestDetails.contains}}</span></span></span>
     </div>
     <div class="buy_phone_pagination" *ngIf="pagination.total>1">
         <pbx-pagination [currentPage]="pagination.page"

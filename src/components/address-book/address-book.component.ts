@@ -39,6 +39,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     sidebar: SidebarInfoModel;
 
     modalBlock: ModalEx;
+    modalDelete: ModalEx;
     editMode: boolean = false;
 
     private _forceReload: boolean;
@@ -68,6 +69,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         };
 
         this.modalBlock = new ModalEx('', 'block');
+        this.modalDelete = new ModalEx('', 'delete');
 
         this.filters = [];
         this.sidebar = new SidebarInfoModel();
@@ -143,8 +145,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             id: [null],
             firstname: [null, [Validators.required, Validators.pattern(nameRegExp)]],
             lastname: [null, [Validators.pattern(nameRegExp)]],
-            contactPhone: this.fb.array([], Validators.required),
-            contactEmail: this.fb.array([], Validators.required),
+            contactPhone: this.fb.array([]),
+            contactEmail: this.fb.array([]),
             company: [null, [Validators.pattern(nameRegExp)]],
             department: [null, [Validators.pattern(nameRegExp)]],
             position: [null],
@@ -227,15 +229,33 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 this.block();
                 break;
             case 13:
-                item.loading ++;
-                this.service.deleteById(item.id).then(() => {
-                    this.list.getItems(item);
-                    this.setFilters();
-                }).catch(() => {})
-                    .then(() => item.loading --);
-                // this.list.items.clickDeleteItem(this.selected);
+                this.modalDelete.body = 'Are you sure you want to delete this Contact?';
+                this.modalDelete.show();
                 break;
         }
+    }
+
+    delete($event) {
+        this.close(true);
+        this.hideField = false;
+        this.state.change.emit(this.hideField);
+    }
+
+    confirmDelete() {
+        let item: any;
+        if (this.selected) {
+            item = this.selected;
+        }
+        item.loading ++;
+        this.service.deleteById(item.id).then(() => {
+            this.list.getItems(item);
+            this.setFilters();
+
+            this.close(true);
+            this.hideField = false;
+            this.state.change.emit(this.hideField);
+
+        }).catch(() => {}).then(() => item.loading --);
     }
 
     load(pageInfo: AddressBookModel) {
