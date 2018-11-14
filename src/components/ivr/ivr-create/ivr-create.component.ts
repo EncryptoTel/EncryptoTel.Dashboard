@@ -180,7 +180,6 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     ngOnInit() {
         super.ngOnInit();
         this.service.reset();
-        this.getSipOuters();
         this.getItem();
         this.initFiles();
     }
@@ -188,7 +187,6 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
     initFiles() {
         this.service.getFiles().then((res)=>{
             this.files = res.items;
-            console.log(res.items);
         });
     }
     // -- form setup and helpers methods --------------------------------------
@@ -567,17 +565,6 @@ export class IvrCreateComponent extends FormBaseComponent implements OnInit {
         this.model = new IvrItem();
         this.initIvrTree();
         this.setBaseFormData();
-    }
-
-
-
-    getSipOuters() {
-        this.loading++;
-        this.refs.getSipOuters().then(response => {
-            this.sipOuters = response;
-            console.log(response);
-        }).catch(() => { })
-            .then(() => this.loading--);
     }
 
     getExtensions(id: number): void {

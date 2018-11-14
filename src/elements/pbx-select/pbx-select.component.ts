@@ -129,7 +129,6 @@ export class SelectComponent implements OnInit {
       Select option
      */
     selectItem(option: object, event?: Event): void {
-        console.log('====================================');
         if (option) {
             this.selectedObject = true;
             // this._selected = option;

@@ -30,6 +30,9 @@ import { MediaState } from '@models/cdr.model';
     providers: [StorageService]
 })
 export class IvrMainFormComponent extends FormBaseComponent implements OnInit {
+
+    loading: number = 0;
+    sipOuters: any;
     bsRangeValue = new Date();
     model: IvrItem;
     callRuleTimeDays = CallRuleDay.fromPlain([
@@ -80,15 +83,6 @@ export class IvrMainFormComponent extends FormBaseComponent implements OnInit {
         this.callRuleTimes[18]
     ];
 
-    ivrLevels: IvrLevelItem[];
-    sipInners: any[] = [];
-    sipOuters: any[] = [];
-
-    selectedItem: IvrTreeItem;  // represents selected IVR digit in tree
-    selectedDigits: number[] = [];
-
-    
-    selectedSipOuter: SipItem;
     selectedFiles = [];
     files = [];
     ruleFor = [
@@ -101,6 +95,7 @@ export class IvrMainFormComponent extends FormBaseComponent implements OnInit {
     
     modelTemplate: boolean = false;
     rule_value_visible = 0;
+    timeVisible = false;
     // -- properties ----------------------------------------------------------
 
 
@@ -110,28 +105,20 @@ export class IvrMainFormComponent extends FormBaseComponent implements OnInit {
         protected fb: FormBuilder,
         protected message: MessageServices,
         private refs: RefsServices,
-        private router: Router,
         private storage: StorageService) {
         super(fb, message);
-        
-
-        // Default ValidationHost messages overrides
-        this.validationHost.customMessages = [
-            { name: 'Ext', error: 'required', message: 'Please choose an extension number' },
-            { name: 'Select Digit', error: 'invalid-digit', message: 'Digit is already used. Please choose another one.' },
-        ];
     }
 
     ngOnInit() {
         super.ngOnInit();
         this.service.reset();
         this.initFiles();
+        this.getSipOuters();
     }
 
     initFiles() {
         this.service.getFiles().then((res)=>{
             this.files = res.items;
-            console.log(res.items);
         });
     }
    
@@ -152,6 +139,10 @@ export class IvrMainFormComponent extends FormBaseComponent implements OnInit {
 
         this.form.get("rule_for").valueChanges.subscribe(val => {
             this.rule_value_visible = val;
+        });
+
+        this.form.get("duration_time").valueChanges.subscribe(val => {
+            this.timeVisible = (val === 2);
         });
 
         this.addForm(this.formKey, this.form);      
@@ -197,11 +188,16 @@ export class IvrMainFormComponent extends FormBaseComponent implements OnInit {
         return this.rule_value_visible === val;
     }
 
-    test() {
-        console.log(this);
+    selectTime(val, idx) {
+        this.selectedDurationTimeRange[idx] = val;
     }
 
-    selectTime() {
-        console.log(arguments);
+    getSipOuters() {
+        this.loading++;
+        this.refs.getSipOuters().then(response => {
+            this.sipOuters = response;
+            console.log(response);
+        }).catch(() => { })
+            .then(() => this.loading--);
     }
 }

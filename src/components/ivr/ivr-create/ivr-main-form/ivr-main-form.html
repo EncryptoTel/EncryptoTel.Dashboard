@@ -30,9 +30,7 @@
                            [selectAsObject]="true"
                            [errors]="service.errors"
                            [validationHost]="validationHost"
-                           class="phone_number"
-                           (onSelect)="onSipOuterSelected($event)"
-                >
+                           class="phone_number">
                 </pbx-input>
 
                 <div class="call-rules-create_row">
@@ -129,7 +127,7 @@
                                        [validationHost]="validationHost">
                 </pbx-input>
 
-                <div class="call-rules-create_row">
+                <div class="call-rules-create_row" *ngIf="timeVisible">
                         <label>Time</label>
                                     <div class="time_wrap">
                                         <pbx-select [singleBorder]="true"
@@ -167,5 +165,3 @@
                   (onMediaStateChanged)="mediaStateChanged($event)"
 >
 </pbx-media-player>
-
-<button (click)="test()">43234234234234</button>
