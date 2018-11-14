@@ -10,5 +10,11 @@
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"
+    },
+    "/files": {
+        "target": "http://pbx-front-dev.encry.ru",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug"
     }
   }
