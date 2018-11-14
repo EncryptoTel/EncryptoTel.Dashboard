@@ -106,13 +106,9 @@
                             </pbx-button>
                         </div>
                     </div>
-                    <div *ngIf="visibleElementForRule(2)">
-                        <label>Period</label>
-                        <div class="row">
-                            <div class="form-group">
-                              <input class="form-control" bsDaterangepicker [(ngModel)]="bsRangeValue" readonly>
-                            </div>
-                          </div>
+                    <div class="cv" *ngIf="visibleElementForRule(2)">
+                        <label>Duration period</label>
+                        <pbx-calendar></pbx-calendar>
                     </div>
                 </div>
 
