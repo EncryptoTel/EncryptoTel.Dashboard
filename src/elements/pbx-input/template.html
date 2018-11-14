@@ -3,7 +3,8 @@
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']">
             <div class="colon">
-                <span class="{{errorVisible ? 'label-focus' : ''}}">{{name}}</span>
+                <span *ngIf="!checkbox" class="{{errorVisible ? 'label-focus' : ''}}">{{name}}</span>
+                <span *ngIf="checkbox" class="dfg {{errorVisible ? 'label-focus' : ''}}" (click)="checkBoxClick($event)">{{name}}</span>
                 <div class="labels-second-line {{errorVisible ? 'label-focus' : ''}}" *ngIf="filter && (filter.min || filter.max)">(<span class="{{errorVisible ? 'label-focus' : ''}}" *ngIf="filter.min">Min {{filter.minMaxText}} {{filter.min}}</span>,
                     <span class="{{errorVisible ? 'label-focus' : ''}}" *ngIf="filter.max">Max {{filter.minMaxText}} {{filter.max}}</span>)
                 </div>

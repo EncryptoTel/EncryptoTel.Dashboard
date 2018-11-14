@@ -5,6 +5,7 @@ import {FadeAnimation} from '../../shared/fade-animation';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FilterItem, InputAction} from '../../models/base.model';
 import {ValidationHost} from '../../models/validation-host.model';
+import {CheckboxComponent} from '@elements/pbx-checkbox/pbx-checkbox.component';
 
 
 @Component({
@@ -79,6 +80,7 @@ export class InputComponent implements OnInit {
 
     // @ViewChild('errorSpan') errorSpan: ElementRef;
     @ViewChild('inputDiv') inputDiv: ElementRef;
+    @ViewChild(CheckboxComponent) checkBox: CheckboxComponent;
 
     value;
     checkboxValues;
@@ -390,6 +392,9 @@ export class InputComponent implements OnInit {
             this.object[this.key] = checkValue;
         }
         this.onToggle.emit(value);
+    }
+    checkBoxClick($event) {
+        this.checkBox.toggleCheckbox($event);
     }
 
     findInput(element) {
