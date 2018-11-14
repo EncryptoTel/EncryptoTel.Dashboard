@@ -131,21 +131,22 @@
 
                 <div class="call-rules-create_row">
                         <label>Time</label>
-                        <div class="time_wrap">
-                            <pbx-select [singleBorder]="true"
-                                        [objectKey]="'time'"
-                                        [options]="callRuleTimes"
-                                        
-                            >
-                            </pbx-select>
-                            <span>―</span>
-                            <pbx-select [singleBorder]="true"
-                                        [objectKey]="'time'"
-                                        [options]="callRuleTimes"
-                                        [selected]="selectedDurationTimeRange[1]"
-                                        (onSelect)="selectTime($event, 1)"
-                            >
-                            </pbx-select>
+                                    <div class="time_wrap">
+                                        <pbx-select [singleBorder]="true"
+                                    [objectKey]="'time'"
+                                    [options]="callRuleTimes"
+                                    [selected]="selectedDurationTimeRange[0]"
+                                    (onSelect)="selectTime($event, 0)"
+                        >
+                        </pbx-select>
+                        <span>―</span>
+                        <pbx-select [singleBorder]="true"
+                                    [objectKey]="'time'"
+                                    [options]="callRuleTimes"
+                                    [selected]="selectedDurationTimeRange[1]"
+                                    (onSelect)="selectTime($event, 1)"
+                        >
+                                        </pbx-select>
                         </div>
                 </div>
 

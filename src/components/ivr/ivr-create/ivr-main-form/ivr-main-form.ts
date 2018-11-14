@@ -75,7 +75,10 @@ export class IvrMainFormComponent extends FormBaseComponent implements OnInit {
     ]);
     then_data = [{id: 1, name: "TerminateCall"},
                  {id: 2, name: "Redirect"}]
-    selectedDurationTimeRange = ["8:00", "20:00"]
+    selectedDurationTimeRange =  [
+        this.callRuleTimes[9],
+        this.callRuleTimes[18]
+    ];
 
     ivrLevels: IvrLevelItem[];
     sipInners: any[] = [];
