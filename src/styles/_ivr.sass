@@ -343,3 +343,54 @@
 
 ::-webkit-scrollbar:horizontal
     height: 3px
+
+
+
+/////////////////////////////////
+/////////////////////////////////
+/////////////////////////////////
+
+pbx-ivr-create
+    pbx-ivr-main-form
+        .one
+            pbx-input[key="duration_time"]
+                + .call-rules-create_row
+                    label
+                        width: 150px
+                        font-size: 12px
+                        color: $dark_white_35
+                        display: flex
+                        align-items: center
+                    .time_wrap
+                        .select_icon
+                            margin-left: 16px
+                        > span
+                            display: flex
+                            align-items: center
+            pbx-input[key="rule_for"]
+                + .rule-applies-for
+                    .cv
+                        width: 100%
+                    label
+                        display: flex
+                        align-items: center
+                        width: 150px
+                        font-size: 12px
+                        color: $dark_white_35
+                    .days_wrap
+                        pbx-button
+                            margin: 0 8px 8px 0
+                    pbx-calendar
+                        width: 100%
+                        margin-left: 16px
+                        .calendar
+                            position: relative
+                            margin-left: 0
+                            &.fullBorder
+                                border: none
+                                width: 100%
+                                .calendar-head
+                                    padding-right: 10px
+                            .calendar-wrap
+                                right: unset
+                                left: 0
