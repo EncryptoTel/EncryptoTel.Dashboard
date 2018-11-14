@@ -445,4 +445,11 @@ pbx-modal
             max-width: 300px
             overflow: hidden
             text-overflow: ellipsis
-            display: inline-flex
+            display: inline-block
+            white-space: nowrap
+            &.all
+                display: inline-flex
+
+.main_grid
+    .body_wrap
+        max-width: calc(100vw - 192px) !important
