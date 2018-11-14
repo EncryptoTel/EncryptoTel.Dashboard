@@ -146,13 +146,13 @@ export class BuyPhoneNumbersComponent implements OnInit {
     }
 
     modalConfirm = (): void => {
-        let _this: any;
-        _this = this;
         this.selected.loading = true;
+        let phoneNumber: any;
+        phoneNumber = this.selected;
         this._services.buyNumber(this.selected.params).then(() => {
             this.selected.loading = false;
             this.selected.inactive = true;
-            this.message.writeSuccess('The number +' + _this.selected.phoneNumber + ' has been bought successfully');
+            this.message.writeSuccess('The number +' + phoneNumber.params.phoneNumber + ' has been bought successfully');
         }).catch(() => {
             this.selected.loading = false;
         });
