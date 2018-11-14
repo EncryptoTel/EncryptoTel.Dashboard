@@ -164,7 +164,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     private createRedirectToGroup(): FormGroup {
         return this.fb.group({
-            action: 3,
+            action: 6,
             parameter: [null, [Validators.required]],
             timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
             timeRules: ['', []],
@@ -527,10 +527,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             this.service.edit(this.activatedRoute.snapshot.params.id, {...this.callRulesForm.value}).then(() => {
                 this.saveFormState();
             }).catch(() => {
-                let tmp: any;
-                tmp = '';
-            })
-                .then(() => this.saving--);
+            }).then(() => this.saving--);
         }
     }
 
@@ -542,8 +539,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             this.formatForEdit(this.ruleActions);
             this.saveFormState();
         }).catch(() => {
-        })
-            .then(() => this.loadingStuff--);
+        }).then(() => this.loadingStuff--);
     }
 
     private getParams(): void {
@@ -568,8 +564,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 }
             });
         }).catch(() => {
-        })
-            .then(() => this.loading--);
+        }).then(() => this.loading--);
     }
 
     private getFiles(): void {
@@ -580,8 +575,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 this.getCallRule();
             }
         }).catch(() => {
-        })
-            .then(() => this.loading--);
+        }).then(() => this.loading--);
     }
 
     private getNumbers(): void {
@@ -594,8 +588,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             });
             this.numbers = response;
         }).catch(() => {
-        })
-            .then(() => this.loading--);
+        }).then(() => this.loading--);
     }
 
     private getQueue(): void {
@@ -603,8 +596,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.service.getQueue().then(response => {
             this.queues = response.items;
         }).catch(() => {
-        })
-            .then(() => this.loading--);
+        }).then(() => this.loading--);
     }
 
     private getGroup(): void {
@@ -612,8 +604,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.service.getGroup().then(response => {
             this.groups = response.items;
         }).catch(() => {
-        })
-            .then(() => this.loading--);
+        }).then(() => this.loading--);
     }
 
     refreshFiles(loading: number): void {
@@ -623,7 +614,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.service.getFiles().then((response) => {
             this.files = response.items;
         }).catch(() => {
-        })
-            .then(() => this.storage.loading--);
+        }).then(() => this.storage.loading--);
     }
 }

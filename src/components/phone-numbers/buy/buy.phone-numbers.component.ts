@@ -3,6 +3,7 @@ import {PhoneNumberService} from '../../../services/phone-number.service';
 import {CountryModel} from '../../../models/country.model';
 import {RefsServices} from '../../../services/refs.services';
 import {ModalEx} from '../../../elements/pbx-modal/pbx-modal.component';
+import {MessageServices} from '@services/message.services';
 
 @Component({
     selector: 'buy-phone-numbers-component',
@@ -71,7 +72,8 @@ export class BuyPhoneNumbersComponent implements OnInit {
     }
 
     constructor(private _services: PhoneNumberService,
-                private refs: RefsServices) {
+                private refs: RefsServices,
+                private message: MessageServices) {
         this.pagination = {page: 1, total: 1};
         this.clearNumberVisible = false;
         this.clearSearchVisible = false;
@@ -112,6 +114,16 @@ export class BuyPhoneNumbersComponent implements OnInit {
     }
 
     searchInit() {
+        if (document.activeElement.getAttribute('name') === 'search-by-digits') {
+            if (this.requestDetails.contains === '') {
+                this.clearNumberVisible = false;
+            }
+        }
+        if (document.activeElement.getAttribute('name') === 'search-by-city-prefix') {
+            if (this.requestDetails.areaCode === '') {
+                this.clearSearchVisible = false;
+            }
+        }
         if (this.searchTimeout) {
             clearTimeout(this.searchTimeout);
         }
@@ -129,15 +141,18 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
     buyItem(number): void {
         this.selected = number;
-        this.modal.body = 'Are you sure you want to buy <br>' + number.fullNumber + '?';
+        this.modal.body = 'Are you sure you want to buy <br>+' + number.fullNumber + '?';
         this.modal.visible = true;
     }
 
     modalConfirm = (): void => {
         this.selected.loading = true;
+        let phoneNumber: any;
+        phoneNumber = this.selected;
         this._services.buyNumber(this.selected.params).then(() => {
             this.selected.loading = false;
             this.selected.inactive = true;
+            this.message.writeSuccess('The number +' + phoneNumber.params.phoneNumber + ' has been bought successfully');
         }).catch(() => {
             this.selected.loading = false;
         });
