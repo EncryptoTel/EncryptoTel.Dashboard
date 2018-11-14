@@ -107,7 +107,7 @@ export class TableComponent implements OnInit, OnDestroy {
                 this.modal.body = '';
                 let body: string;
                 body = '';
-                body = body.concat('Permanently delete&nbsp;<span>', item.fileName, '</span>&nbsp;file?');
+                body = body.concat('Permanently delete<div><span>', item.fileName, '</span>&nbsp;file?</div>');
                 this.modal.buttons[1].value = 'Permanently Delete';
                 this.modal.body = body;
             }
