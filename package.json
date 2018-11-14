@@ -10,7 +10,8 @@
     },
     "scripts": {
         "ng": "ng",
-        "start": "ng serve --proxy-config proxy.conf.json",
+        "start": "ng serve",
+        "start-proxy": "ng serve --proxy-config proxy.conf.json",
         "build": "ng build",
         "lint": "ng lint",
         "electron": "ng build --base-href ./ && electron .",
