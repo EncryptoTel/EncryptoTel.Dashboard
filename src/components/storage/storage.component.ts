@@ -7,6 +7,7 @@ import {MessageServices} from '../../services/message.services';
 import {ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction} from '../../models/base.model';
 import {StorageModel, StorageItem} from '../../models/storage.model';
 import {killEvent} from '../../shared/shared.functions';
+import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class StorageComponent implements OnInit {
 
     @ViewChild('mediaTable')
     @ViewChild('fileInput') fileInput: ElementRef;
-    public mediaTable: MediaTableComponent;
+    @ViewChild(MediaTableComponent) mediaTable: MediaTableComponent;
+    // public mediaTable: MediaTableComponent;
 
     public modal: ModalEx;
     public sidebarActive: boolean;
