@@ -394,7 +394,7 @@ export class InputComponent implements OnInit {
         this.onToggle.emit(value);
     }
     checkBoxClick($event) {
-        this.checkBox.toggleCheckbox($event);
+        this.checkBox.toggleCheckbox();
     }
 
     findInput(element) {
