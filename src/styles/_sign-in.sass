@@ -337,6 +337,17 @@ pbx-input
             &:hover
                 color: $dark_accent
 
+main-view.light_theme
+    .auth_form
+        form
+            pbx-input[key="agreementConfirmation"]
+                .pbx_input_item_input_wrap
+                    color: $white_startpage_checkbox_border !important
+                    //border: 1px solid $white_startpage_checkbox_border !important
+                    &:hover
+                        color: $dark_accent !important
+                        //border: 1px solid $dark_accent !important
+
 @keyframes pulse_after
     0%
         -webkit-transform: translate(-50%, -50%) scale(1)
