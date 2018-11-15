@@ -81,7 +81,8 @@
                               [value]="value">
                 </pbx-checkbox>
 
-                <span class="pbx-input-description {{pbxInputFocus ? 'label-focus' : ''}}" *ngIf="description">{{description}}</span>
+                <span class="pbx-input-description {{pbxInputFocus ? 'label-focus' : ''}}" *ngIf="!checkbox && description">{{description}}</span>
+                <span *ngIf="checkbox && description" class="pbx-input-description {{pbxInputFocus ? 'label-focus' : ''}}" (click)="checkBoxClick($event)">{{description}}</span>
 
                 <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
                      [@Swipe]
@@ -172,7 +173,8 @@
                           (mouseleave)="mouseLeave()"
                 ></textarea>
 
-                <span class="{{ pbxInputFocus ? 'label-focus' : '' }}" *ngIf="description" [ngClass]="[ descriptionClass ? descriptionClass : '' ]">{{ description }}</span>
+                <span class="{{ pbxInputFocus ? 'label-focus' : '' }}" *ngIf="!checkbox && description" [ngClass]="[ descriptionClass ? descriptionClass : '' ]">{{ description }}</span>
+                <span class="label {{ pbxInputFocus ? 'label-focus' : '' }}" *ngIf="checkbox && description" [ngClass]="[ descriptionClass ? descriptionClass : '' ]" (click)="checkBoxClick($event)">{{ description }}</span>
 
                 <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
                      [@Swipe]
