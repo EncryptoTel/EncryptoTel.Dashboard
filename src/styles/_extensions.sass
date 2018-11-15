@@ -49,3 +49,28 @@ extensions-component
         bottom: 0
         pbx-list
             overflow: auto
+
+add-extension-component
+    pbx-input[name="Enable"]
+        .pbx_input_item_input_wrap
+            display: grid
+            grid-template-columns: min-content 1fr
+        .more
+            height: 36px
+            display: flex
+            align-items: center
+            background: $dark_ext_more
+            padding: 0 16px
+            width: 100%
+            margin-left: 16px
+            a
+                font-family: Roboto, sans-serif
+                font-size: 12px
+                font-weight: 300
+                color: $dark_accent
+                margin-right: 16px
+            .host_port
+                font-family: Roboto, sans-serif
+                font-size: 16px
+                font-weight: 300
+                color: $dark_white
