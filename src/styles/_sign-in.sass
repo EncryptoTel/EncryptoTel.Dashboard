@@ -93,6 +93,11 @@ main-view.dark_theme
                         top: 35% !important
                 .select_options
                     border-top: 1px solid $white_input_border !important
+                    border-bottom: none !important
+                    .select_item
+                        display: flex
+                        align-items: center
+                        padding-top: 0 !important
 
 
 main-view.dark_theme
@@ -331,6 +336,7 @@ pbx-input
             cursor: pointer
             &:hover
                 color: $dark_accent
+
 @keyframes pulse_after
     0%
         -webkit-transform: translate(-50%, -50%) scale(1)
