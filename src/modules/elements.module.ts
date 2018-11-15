@@ -42,6 +42,7 @@ import {ViewEditControlComponent} from '../elements/pbx-view-edit-control/pbx-vi
 import {SettingsInputComponent} from '../elements/pbx-settings-input/pbx-settings-input.component';
 import {SettingsGroupComponent} from '../elements/pbx-settings-group/pbx-settings-group.component';
 import {AutofocusDirective} from '../elements/directives/autofocus.directive';
+import {PbxFooterComponent} from '../elements/pbx-footer/pbx-footer.component';
 
 @NgModule({
     imports: [
@@ -88,6 +89,7 @@ import {AutofocusDirective} from '../elements/directives/autofocus.directive';
         SettingsInputComponent,
         SettingsGroupComponent,
         AutofocusDirective,
+        PbxFooterComponent
     ],
     exports: [
         ClickOutsideDirective,
@@ -124,6 +126,7 @@ import {AutofocusDirective} from '../elements/directives/autofocus.directive';
         SettingsInputComponent,
         SettingsGroupComponent,
         ViewEditControlComponent,
+        PbxFooterComponent
     ],
     entryComponents: [
         ModalComponent

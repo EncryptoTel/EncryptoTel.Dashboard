@@ -20,13 +20,13 @@ export class LocalStorageServices {
       Read item from storage and convert it to JSON.
       If item doesn't exist - throw message to console output
      */
-    readItem = (name: string) => {
+    readItem = (name: string, defaultValue?: any) => {
         const data = localStorage.getItem(name);
         if (data) {
             return JSON.parse(data);
         } else {
             // this.logger.log(`Reading storage item ${name}`, `Item with name '${name}' was not found at storage`);
-            return null;
+            return defaultValue;
         }
     }
 
