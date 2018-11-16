@@ -15,6 +15,7 @@ export class AmoCrmIntegrationComponent implements OnInit {
     public filters: FilterItem[];
     public buttons: ButtonItem[];
     public loading: number;
+    amoCrmEnable: boolean = false;
 
     constructor() {
         this.loading = 0;
@@ -46,6 +47,10 @@ export class AmoCrmIntegrationComponent implements OnInit {
 
     reloadFilter(filter: any): void {
 
+    }
+
+    checkboxClick() {
+     this.amoCrmEnable = !this.amoCrmEnable;
     }
 
 }
