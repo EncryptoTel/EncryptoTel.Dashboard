@@ -190,3 +190,66 @@ account-notifications-component
     pbx-settings-group
         span
             font-size: 14px !important
+
+account-notifications-component
+    .form-body
+        pbx-settings-group
+            .settings_form_section
+                .settings_form_title_1
+                    color: $dark_white_80 !important
+                pbx-input
+                    .pbx_input_item_label
+                        span
+                            color: $dark_white
+                            &:hover
+                                color: $dark_accent
+
+.dark_theme
+    pbx-settings
+        .settings_container
+            .settings_title
+                color: $dark_white_60
+
+authorization-component,
+    base-settings-component
+        .form-body
+            pbx-settings-group
+                .settings_form_section
+                    .settings_form_title_1
+                        font-weight: 400
+                        color: $dark_white_80
+                    .settings_form_field_group
+                        pbx-settings-input
+                            .pbx_input_item_label
+                                span
+                                    color: $dark_white_70
+                            .pbx_input_item_input_wrap
+                                pbx-select
+                                    .select_item
+                                        &.selected
+                                            color: $dark_white !important
+
+user-notifications-component
+    base-settings-component
+        pbx-settings-group
+            .settings_form_section
+                .settings_form_title_1
+                    font-weight: 400
+                    color: $dark_white_80
+                pbx-settings-input
+                    .pbx_input_item_label
+                        span
+                            font-weight: 300
+                            color: $dark_white
+
+billing-component
+    base-settings-component
+        pbx-settings-group
+            .settings_form_section
+                .settings_form_title_1
+                    font-weight: 400
+                    color: $dark_white_80
+                .pbx_input_item_label
+                    span
+                        font-weight: 300
+                        color: $dark_white_70
