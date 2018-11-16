@@ -63,7 +63,7 @@
                     <div *ngIf="action.type === 'player'"
                          class="tablet_item_cols player"
                          >
-                        <pbx-media-table-player *ngIf="item.type != 'certificate'"
+                        <pbx-media-table-player *ngIf="item.type != 'certificate' && item.converted > 0"
                                                 #mediaPlayer
                                                 [item]="item"
                                                 (onTogglePlay)="togglePlay($event)"
