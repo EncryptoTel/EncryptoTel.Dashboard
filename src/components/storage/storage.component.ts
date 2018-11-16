@@ -8,6 +8,8 @@ import {ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction
 import {StorageModel, StorageItem} from '../../models/storage.model';
 import {killEvent} from '../../shared/shared.functions';
 import {ListComponent} from '@elements/pbx-list/pbx-list.component';
+import {Subscription} from 'rxjs/Subscription';
+import {WsServices} from '@services/ws.services';
 
 
 @Component({
@@ -24,6 +26,8 @@ export class StorageComponent implements OnInit {
     public filters: FilterItem[];
     public buttons: ButtonItem[];
     public currentFilter: any;
+
+    storageItemSubscription: Subscription;
 
     @ViewChild('mediaTable')
     @ViewChild('fileInput') fileInput: ElementRef;
@@ -45,7 +49,8 @@ export class StorageComponent implements OnInit {
     constructor(
         public service: StorageService,
         private _message: MessageServices,
-        private _size: SizePipe
+        private _size: SizePipe,
+        private _ws: WsServices,
     ) {
         this.loading = 0;
         this.modal = new ModalEx('', 'deleteFiles');
@@ -116,8 +121,19 @@ export class StorageComponent implements OnInit {
     }
 
     ngOnInit() {
+        let $this: any;
+        $this = this;
         this.pageInfo.limit = Math.floor((window.innerHeight - 180) / 48);
         this.getItems();
+        this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
+            let storageItem: any;
+            storageItem = $this.pageInfo.items.find(item => item.id === result.id);
+            console.log('storageItem', storageItem);
+            console.log('result', result);
+            if (result.converted === 1) {
+                storageItem.converted = result.converted;
+            }
+        });
     }
 
     // --- data methods -----------------------------------

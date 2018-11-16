@@ -175,6 +175,17 @@ export class BuyPhoneNumbersComponent implements OnInit {
         });
     }
 
+    checkboxClick(type) {
+        if (type === 'local') {
+            this.requestDetails.local = !this.requestDetails.local;
+        } else if (type === 'mobile') {
+            this.requestDetails.mobile = !this.requestDetails.mobile;
+        } else if (type === 'tollFree') {
+            this.requestDetails.tollFree = !this.requestDetails.tollFree;
+        }
+
+    }
+
     ngOnInit() {
         this.loading = 0;
         this.requestDetails = {

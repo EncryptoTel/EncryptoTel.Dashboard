@@ -29,6 +29,16 @@
                         <div class="ext_sidebar_item_value">{{sidebar.phone}}</div>
                     </div>
                 </div>
+                <div class="ext_sidebar_item_row">
+                    <div class="ext_sidebar_item" *ngIf="sidebar.extension !==  ''">
+                        <div class="ext_sidebar_item_key">Host</div>
+                        <div class="ext_sidebar_item_value">4700</div>
+                    </div>
+                    <div class="ext_sidebar_item" *ngIf="sidebar.phone !==  null">
+                        <div class="ext_sidebar_item_key">Port</div>
+                        <div class="ext_sidebar_item_value">porta-sip.runexis.ru</div>
+                    </div>
+                </div>
                 <div class="ext_sidebar_item" *ngIf="sidebar.userFirstName !==  null">
                     <div class="ext_sidebar_item_key">First Name</div>
                     <div class="ext_sidebar_item_value">{{sidebar.userFirstName}}</div>

@@ -3,7 +3,8 @@
 
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']">
             <div class="colon">
-                <span class="{{errorVisible ? 'label-focus' : ''}}">{{name}}</span>
+                <span *ngIf="!checkbox" class="{{errorVisible ? 'label-focus' : ''}}">{{name}}</span>
+                <span *ngIf="checkbox" class="dfg {{errorVisible ? 'label-focus' : ''}}" (click)="checkBoxClick($event)">{{name}}</span>
                 <div class="labels-second-line {{errorVisible ? 'label-focus' : ''}}" *ngIf="filter && (filter.min || filter.max)">(<span class="{{errorVisible ? 'label-focus' : ''}}" *ngIf="filter.min">Min {{filter.minMaxText}} {{filter.min}}</span>,
                     <span class="{{errorVisible ? 'label-focus' : ''}}" *ngIf="filter.max">Max {{filter.minMaxText}} {{filter.max}}</span>)
                 </div>
@@ -80,7 +81,8 @@
                               [value]="value">
                 </pbx-checkbox>
 
-                <span class="pbx-input-description {{pbxInputFocus ? 'label-focus' : ''}}" *ngIf="description">{{description}}</span>
+                <span class="pbx-input-description {{pbxInputFocus ? 'label-focus' : ''}}" *ngIf="!checkbox && description">{{description}}</span>
+                <span *ngIf="checkbox && description" class="pbx-input-description {{pbxInputFocus ? 'label-focus' : ''}}" (click)="checkBoxClick($event)">{{description}}</span>
 
                 <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
                      [@Swipe]
@@ -171,7 +173,8 @@
                           (mouseleave)="mouseLeave()"
                 ></textarea>
 
-                <span class="{{ pbxInputFocus ? 'label-focus' : '' }}" *ngIf="description" [ngClass]="[ descriptionClass ? descriptionClass : '' ]">{{ description }}</span>
+                <span class="{{ pbxInputFocus ? 'label-focus' : '' }}" *ngIf="!checkbox && description" [ngClass]="[ descriptionClass ? descriptionClass : '' ]">{{ description }}</span>
+                <span class="label {{ pbxInputFocus ? 'label-focus' : '' }}" *ngIf="checkbox && description" [ngClass]="[ descriptionClass ? descriptionClass : '' ]" (click)="checkBoxClick($event)">{{ description }}</span>
 
                 <div *ngIf="isErrorMessageVisible && isSwipeAnimation()"
                      [@Swipe]
@@ -213,8 +216,6 @@
             <ng-content></ng-content>
 
         </div>
-
-
 
     </div>
 </div>
