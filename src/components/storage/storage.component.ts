@@ -128,6 +128,8 @@ export class StorageComponent implements OnInit {
         this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
             let storageItem: any;
             storageItem = $this.pageInfo.items.find(item => item.id === result.id);
+            console.log('storageItem', storageItem);
+            console.log('result', result);
             if (result.converted === 1) {
                 storageItem.converted = result.converted;
             }
