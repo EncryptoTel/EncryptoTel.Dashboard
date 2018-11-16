@@ -271,7 +271,7 @@ export class WsServices {
         return this.cdrSubscription.asObservable();
     }
 
-    updateStorageItem(): Observable<CdrModel[]> {
+    updateStorageItem(): Observable<StorageItem> {
         return this.storageItemUpdate.asObservable();
     }
 
