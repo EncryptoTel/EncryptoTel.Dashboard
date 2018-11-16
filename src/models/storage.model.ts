@@ -9,7 +9,6 @@ export class StorageModel extends PageInfoModel {
 export class StorageItem extends BaseItemModel {
     public accountId: number;
     @Type(() => Date)
-    public id: number;
     public created: Date;
     public description: string;
     public duration: number;
