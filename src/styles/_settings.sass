@@ -191,7 +191,7 @@ account-notifications-component
         span
             font-size: 14px !important
 
-account-notifications-component
+.dark_theme account-notifications-component
     .form-body
         pbx-settings-group
             .settings_form_section
@@ -210,7 +210,7 @@ account-notifications-component
             .settings_title
                 color: $dark_white_60
 
-authorization-component,
+.dark_theme authorization-component,
     base-settings-component
         .form-body
             pbx-settings-group
@@ -229,7 +229,7 @@ authorization-component,
                                         &.selected
                                             color: $dark_white !important
 
-user-notifications-component
+.dark_theme user-notifications-component
     base-settings-component
         pbx-settings-group
             .settings_form_section
@@ -242,7 +242,7 @@ user-notifications-component
                             font-weight: 300
                             color: $dark_white
 
-billing-component
+.dark_theme billing-component
     base-settings-component
         pbx-settings-group
             .settings_form_section
@@ -253,3 +253,25 @@ billing-component
                     span
                         font-weight: 300
                         color: $dark_white_70
+
+.dark_theme profile-component
+    .settings_form
+        .settings_form_section
+            .settings_form_title
+                font-weight: 400
+                color: $dark_white_80
+            .pbx_input_item_label
+                span
+                    font-weight: 300
+                    color: $dark_white_70
+        pbx-input
+            input
+                font-weight: 300
+                color: $dark_white
+        pbx-input[key="oldPassword"],
+        pbx-input[key="password"],
+        pbx-input[key="password_confirmation"]
+            input
+                &::placeholder
+                    font-weight: 300 !important
+                    color: $dark_white_30 !important
