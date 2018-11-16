@@ -13,6 +13,8 @@ import {redirectToExtensionValidator, numberRangeValidator, callRuleTimeValidato
 import {callRuleNameRegExp} from '../../../shared/vars';
 import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {isValidId} from '../../../shared/shared.functions';
+import {Subscription} from 'rxjs/Subscription';
+import {WsServices} from '@services/ws.services';
 
 
 @Component({
@@ -46,8 +48,11 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     loading: number = 0;
     loadingStuff: number = 0;
     saving: number = 0;
+    canPlay: boolean = true;
 
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
+
+    storageItemSubscription: Subscription;
 
     // -- properties ----------------------------------------------------------
 
@@ -62,7 +67,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private storage: StorageService,
-                protected message: MessageServices
+                protected message: MessageServices,
+                private _ws: WsServices,
     ) {
         super(fb, message);
 
@@ -90,6 +96,15 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         super.ngOnInit();
         super.setFormData(this.callRule);
         this.getParams();
+        let $this: any;
+        $this = this;
+        this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
+            let storageItem: any;
+            storageItem = $this.selectedFiles.find(item => item.id === result.id);
+            if (result.converted === 1) {
+                storageItem.converted = result.converted;
+            }
+        });
 
         this.loading--;
     }
@@ -338,6 +353,10 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     selectFile(index: number, file: any): void {
+        // console.log(!this.isFileSelected(index) && this.canPlay);
+        if (file.converted !== 1) {
+            this.canPlay = false;
+        }
         if (this.mediaPlayer.selectedMediaId !== file.id && this.mediaPlayer.state === MediaState.PLAYING) {
             this.stopPlayerPlay();
         }
@@ -346,7 +365,9 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     isFileSelected(index: number): boolean {
-        return !!this.selectedFiles[index];
+        return !!this.selectedFiles[index] &&
+        this.selectedFiles[index].converted !== undefined &&
+        this.selectedFiles[index].converted > 0 ? true : false;
     }
 
     setParameterControlValue(index: number, value: any): void {
