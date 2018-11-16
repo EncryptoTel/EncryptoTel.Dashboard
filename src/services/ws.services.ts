@@ -7,6 +7,7 @@ import {LoggerServices} from './logger.services';
 import {ChatModel, MessageModel} from '../models/chat.model';
 import {MessageServices} from './message.services';
 import {RefsServices} from './refs.services';
+import {StorageItem} from '@models/storage.model';
 
 
 @Injectable()
@@ -26,6 +27,9 @@ export class WsServices {
 
     chats: ChatModel[] = [];
     chatsSubscription: Subject<ChatModel[]> = new Subject<ChatModel[]>();
+
+    storageItem: StorageItem;
+    storageItemUpdate: Subject<StorageItem> = new Subject<StorageItem>();
 
     token: string = '';
 
@@ -85,6 +89,10 @@ export class WsServices {
             _this.log('<<< cdr', data);
             _this.onCdr(data);
         });
+        socket.on('systemInfo', function (data) {
+            _this.log('<<< systemInfo', data);
+            _this.onSystemInfo(data);
+        });
     }
 
     log(details: string, data: any) {
@@ -92,7 +100,7 @@ export class WsServices {
     }
 
     setToken(token: string) {
-        if (this.token != '') {
+        if (this.token !== '') {
             this.token = token;
             this.authenticate();
         } else {
@@ -141,13 +149,26 @@ export class WsServices {
         this.cdrSubscription.next(this.cdr);
     }
 
+    private onSystemInfo(data) {
+        if (typeof data === 'string') {
+            data = JSON.parse(data);
+        }
+        console.log(data);
+        if (data.message.object === 'accountFile') {
+            this.storageItem = data.message.objectData;
+            this.storageItemUpdate.next(this.storageItem);
+        }
+    }
+
     private onMessage(data) {
         if (typeof data === 'string') {
             data = JSON.parse(data);
         }
-        let messages: MessageModel[] = data.messages;
+        let messages: MessageModel[];
+        messages = data.messages;
         for (let i = 0; i < messages.length; i++) {
-            let message = messages[i];
+            let message: any;
+            message = messages[i];
 
             if (!message.my && !message.statusUpdated2 && message.status < 2) {
                 message.statusUpdated2 = true;
@@ -169,7 +190,8 @@ export class WsServices {
     }
 
     private onChat(data) {
-        let chats: ChatModel[] = data.chats;
+        let chats: ChatModel[];
+        chats = data.chats;
         for (let i = 0; i < chats.length; i++) {
             let b = true;
             for (let j = 0; j < this.chats.length; j++) {
@@ -247,6 +269,10 @@ export class WsServices {
 
     subCdr(): Observable<CdrModel[]> {
         return this.cdrSubscription.asObservable();
+    }
+
+    updateStorageItem(): Observable<CdrModel[]> {
+        return this.storageItemUpdate.asObservable();
     }
 
 }

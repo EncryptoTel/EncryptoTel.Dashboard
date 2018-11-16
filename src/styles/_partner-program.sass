@@ -71,3 +71,79 @@ partner-program-component
                 pbx-input
                     .pbx_input_row_label
                         flex: 1
+
+.transfer_modal
+    padding: 24px 32px
+    background: $dark_transfer_modal_bg
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    width: 358px
+    flex-direction: column
+    color: $white_black
+    display: none
+    .title
+        font-family: Roboto, sans-serif
+        font-weight: 300
+        font-size: 24px
+        line-height: 32px
+        color: $white_black
+        justify-content: center
+        margin-bottom: 24px
+    label
+        font-family: Roboto, sans-serif
+        font-weight: 400
+        font-size: 14px
+        line-height: 19px
+        color: $dark_accent
+        margin-bottom: 8px
+    input
+        border-bottom: 1px solid $white_input_border !important
+        font-family: Roboto, sans-serif !important
+        font-size: 16px !important
+        color: $white_black !important
+        font-weight: 400 !important
+        margin-bottom: 16px !important
+    .you_may
+        font-family: Roboto, sans-serif
+        font-size: 12px
+        color: $white_black
+        font-weight: 300
+        line-height: 16px
+        margin-bottom: 32px
+        span
+            color: $dark_accent
+            cursor: pointer
+    .buttons
+        justify-content: flex-end
+        .btn
+            height: 36px
+            text-transform: uppercase
+            color: $dark_accent
+            font-weight: 400
+            align-items: center
+            cursor: pointer
+            background: transparent
+            &.cancel
+                padding: 0 16px !important
+                margin-right: 8px
+            &.ok
+                padding: 0 24px !important
+        /*==============================*/
+        //pbx-button
+        //    width: auto !important
+        //    .button
+        //        height: 36px !important
+        //        width: auto !important
+        //        min-width: unset !important
+        //        background: none !important
+        //        span
+        //            text-transform: uppercase
+        //            color: $dark_accent
+        //        &.cancel
+        //            padding: 0 16px !important
+        //            margin-right: 8px
+        //        &.success
+        //            padding: 0 24px !important
+        /*==============================*/

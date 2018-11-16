@@ -48,14 +48,14 @@ export class SettingsComponent {
                 id: 1,
                 value: 'light_theme',
                 available: true,
-                src: '../../assets/icons/_middle/ok_32px.svg',
+                src: '../../assets/icons/_middle/crm_ok.svg',
                 text: 'white'
             },
             {
                 id: 2,
                 value: 'dark_theme',
                 available: true,
-                src: '../../assets/icons/_middle/ok_32px.svg',
+                src: '../../assets/icons/_middle/crm_ok.svg',
                 text: 'black'
             }
         ],

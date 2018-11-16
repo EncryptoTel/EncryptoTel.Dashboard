@@ -62,6 +62,20 @@ pbx-settings
                     font-size: 16px !important
                     line-height: 24px !important
         .settings_theme_item
+            .light_theme
+                background: $dark_white !important
+                &:hover
+                    background: $dark_white !important
+                    color: $white_black !important
+                .settings_theme_text
+                    color: $white_black !important
+            .dark_theme
+                background: $white_black !important
+                &:hover
+                    background: $white_black !important
+                    color: $dark_white !important
+                .settings_theme_text
+                    color: $dark_white !important
             .settings_theme_text
                 font-size: 16px !important
                 line-height: 24px !important
@@ -176,3 +190,96 @@ account-notifications-component
     pbx-settings-group
         span
             font-size: 14px !important
+
+.dark_theme account-notifications-component
+    .form-body
+        pbx-settings-group
+            .settings_form_section
+                .settings_form_title_1
+                    color: $dark_white_80 !important
+                pbx-input
+                    .pbx_input_item_label
+                        span
+                            color: $dark_white
+                            &:hover
+                                color: $dark_accent
+
+.dark_theme
+    pbx-settings
+        .settings_container
+            .settings_title
+                color: $dark_white_60
+
+.dark_theme authorization-component,
+    base-settings-component
+        .form-body
+            pbx-settings-group
+                .settings_form_section
+                    .settings_form_title_1
+                        font-weight: 400
+                        color: $dark_white_80
+                    .settings_form_field_group
+                        pbx-settings-input
+                            .pbx_input_item_label
+                                span
+                                    color: $dark_white_70
+                                    &:hover
+                                        color: $dark_accent
+                            .pbx_input_item_input_wrap
+                                pbx-select
+                                    .select_item
+                                        &.selected
+                                            color: $dark_white !important
+
+.dark_theme user-notifications-component
+    base-settings-component
+        pbx-settings-group
+            .settings_form_section
+                .settings_form_title_1
+                    font-weight: 400
+                    color: $dark_white_80
+                pbx-settings-input
+                    .pbx_input_item_label
+                        span
+                            font-weight: 300
+                            color: $dark_white
+                            &:hover
+                                color: $dark_accent
+
+.dark_theme billing-component
+    base-settings-component
+        pbx-settings-group
+            .settings_form_section
+                .settings_form_title_1
+                    font-weight: 400
+                    color: $dark_white_80
+                .pbx_input_item_label
+                    span
+                        font-weight: 300
+                        color: $dark_white_70
+                        &:hover
+                            color: $dark_accent
+
+.dark_theme profile-component
+    .settings_form
+        .settings_form_section
+            .settings_form_title
+                font-weight: 400
+                color: $dark_white_80
+            .pbx_input_item_label
+                span
+                    font-weight: 300
+                    color: $dark_white_70
+                    &:hover
+                        color: $dark_accent
+        pbx-input
+            input
+                font-weight: 300
+                color: $dark_white
+        pbx-input[key="oldPassword"],
+        pbx-input[key="password"],
+        pbx-input[key="password_confirmation"]
+            input
+                &::placeholder
+                    font-weight: 300 !important
+                    color: $dark_white_30 !important

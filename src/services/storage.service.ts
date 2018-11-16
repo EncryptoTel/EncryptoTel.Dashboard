@@ -61,7 +61,7 @@ export class StorageService extends BaseService {
     checkModal(): void {
         if (this.files.length > 0 && !this.modalUpload.visible) {
             this.updateLoading(1);
-            this.modalUpload.body = `A file ${this.files[0].name} has already been uploaded. Do you want to replace it?`;
+            this.modalUpload.body = `A file <div class="fileName">${this.files[0].name}</div> has already been uploaded. Do you want to replace it?`;
             setTimeout(() => {
                 this.modalUpload.visible = true;
             }, 100);

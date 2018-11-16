@@ -61,16 +61,19 @@
       align-items: center
       position: relative
       &:hover
-        opacity: .75
+        //opacity: .75
       &.light_theme
-        background: $dark_pagination_inactive
+        //background: $dark_pagination_inactive
       &.dark_theme
-        background: $dark_success
+        //background: $dark_success
     &_icon
-      height: rem(48)
-      width: rem(48)
-      /deep/ polygon
-        fill: $font-color
+      //height: rem(48)
+      //width: rem(48)
+      height: 34px
+      width: 34px
+      /deep/ path
+        //fill: $font-color
+        fill: $dark_settings_theme_ok !important
     &_text
       margin-top: auto
       text-transform: uppercase
@@ -80,7 +83,7 @@
       >span
         text-transform: lowercase
       &.unselected
-        opacity: .5
+        //opacity: .5
 @media (max-width: 767px)
   //.settings
   //  &_container

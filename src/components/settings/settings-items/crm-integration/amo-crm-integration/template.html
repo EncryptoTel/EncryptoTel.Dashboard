@@ -11,26 +11,34 @@
     <div class="integration_cnt">
 
         <div class="item">
-            <div class="label">Enable</div>
-            <pbx-checkbox></pbx-checkbox>
+            <div class="label" (click)="checkboxClick()">Enable</div>
+            <pbx-checkbox [value]="amoCrmEnable"
+                          (onToggle)="amoCrmEnable = $event;"></pbx-checkbox>
         </div>
 
-        <div class="title">Connection</div>
+        <div class="connection_block">
+            <div class="title">Connection</div>
 
-        <div class="item">
-            <div class="label">Login</div>
-            <input type="text">
-        </div>
+            <div class="item">
+                <div class="label">Login</div>
+                <input type="text">
+            </div>
 
-        <div class="item">
-            <div class="label">Auth Token</div>
-            <input type="text">
-        </div>
+            <div class="item">
+                <div class="label">Auth Token</div>
+                <input type="text">
+            </div>
 
-        <div class="item">
-            <div class="label"></div>
-            <pbx-button value="Verify" buttonType="accent"></pbx-button>
-        </div>
+            <div class="item">
+                <div class="label">Phone Number</div>
+                <input type="text">
+            </div>
+
+            <div class="item">
+                <div class="label"></div>
+                <pbx-button value="Verify" buttonType="accent"></pbx-button>
+            </div>
+        </div> <!-- connection_block -->
 
         <div class="sync">
 
