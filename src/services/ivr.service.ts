@@ -17,6 +17,7 @@ export class IvrService extends BaseService {
     }
 
     getById(id: number): Promise<IvrItem> {
+        console.log("getById");
         return super.getById(id).then((res: IvrItem) => {
             this.item = plainToClass(IvrItem, res);
             this.item.sipId = this.item.sip.id;
@@ -26,6 +27,7 @@ export class IvrService extends BaseService {
 
 
     edit(id: number, data): Promise<any> {
+        console.log("Edit");
         return this.put(`/${id}`, data);
     }
 
@@ -53,6 +55,6 @@ export class IvrService extends BaseService {
     }
 
     getParams(): Promise<any> {
-        return this.request.get(`v1/outer_rule/params`);
+        return this.request.get(`v1/ivr/params`);
     }
 }

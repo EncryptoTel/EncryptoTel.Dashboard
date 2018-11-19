@@ -6,14 +6,13 @@
                    [object]="digitForm"
                    [options]="digits"
                    displayKey="title"
-                   [selectAsObject]="true"
                    [errors]="service.errors"
                    errorKey="digit"
                    [validationHost]="validationHost"
                    validationKey="digit"
                    >
         </pbx-input>
-        <pbx-button value="Delete" buttonType="error"></pbx-button>
+        <pbx-button value="Delete" buttonType="error" (onClick)="deleteDigit()"></pbx-button>
 
     </div> <!-- select_digit -->
 
@@ -37,7 +36,6 @@
                [object]="digitForm"
                [options]="then_data"
                displayKey="code"
-               [selectAsObject]="true"
                [errors]="service.errors"
                errorKey="action"
                [validationHost]="validationHost"
@@ -51,8 +49,7 @@
 
     <pbx-input name="{{'Extension number' | translate }}" key="parameter" [required]="true" [placeholder]="'[choose one]'" *ngIf="actionVal===1"
         [form]="true" [object]="digitForm" [options]="sipInners" displayKey="phoneNumber" [editable]="true" [(errors)]="service.errors"
-        [validationHost]="validationHost"
-        (onSelect)="selectSipInner(i, $event)">
+        [validationHost]="validationHost">
     </pbx-input>
 
 </div>

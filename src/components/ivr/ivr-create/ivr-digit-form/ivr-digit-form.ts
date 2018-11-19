@@ -26,8 +26,9 @@ export enum DigitActions {
     providers: [StorageService]
 })
 export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, IvrFormInterface, OnDestroy {
+    onDelete: Function;
     ngOnDestroy(): void {
-        
+
     }
     references: any;
     data: any;
@@ -37,11 +38,11 @@ export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, 
     loading: number = 0;
     digitForm: FormGroup;
     digits: Array<any> = [];
-    sipInners:any;
+    sipInners: any;
     then_data = [
-        {id: 1, code: "Redirect to extension number"},
-        {id: 2, code: "Redirect to external number"},
-        {id: 3, code: "Create new level"}
+        { id: 1, code: "Redirect to extension number" },
+        { id: 2, code: "Redirect to external number" },
+        { id: 3, code: "Create new level" }
     ];
     // -- properties ----------------------------------------------------------
 
@@ -58,12 +59,15 @@ export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, 
         console.log(this.data);
         super.ngOnInit();
         this.service.reset();
-        for (let i = 1; i <= 10; i ++) {
+        for (let i = 1; i <= 10; i++) {
             const number = i % 10;
-            if(!this.references.usedDiget.includes(i) ||  i === this.data.digit) {
+            if (!this.references.usedDiget.includes(i) || i === this.data.digit) {
                 this.digits.push({ id: number, title: number.toString() });
-            }            
+            }
         }
+        this.digits.push({ id: 11, title: '*' });
+        this.digits.push({ id: 12, title: '#' });
+
     }
 
     initForm(): void {
@@ -80,6 +84,7 @@ export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, 
             this.showParameter(val);
         });
     }
+    
     getData() {
         console.log(this.digitForm.value);
         this.getFormValidationErrors();
@@ -100,10 +105,10 @@ export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, 
         })
             .then(() => this.loading--);
     }
-    
+
     showParameter(val) {
-        this.actionVal = val.id;
-        switch(val) {
+        this.actionVal = val;
+        switch (val) {
             case DigitActions.EXTENSION_NUMBER:
                 this.getExtensions(this.references.sipId);
                 break;
@@ -117,13 +122,19 @@ export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, 
 
     getFormValidationErrors() {
         Object.keys(this.digitForm.controls).forEach(key => {
-      
-        const controlErrors: ValidationErrors = this.digitForm.get(key).errors;
-        if (controlErrors != null) {
-              Object.keys(controlErrors).forEach(keyError => {
-                console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
-              });
+
+            const controlErrors: ValidationErrors = this.digitForm.get(key).errors;
+            if (controlErrors != null) {
+                Object.keys(controlErrors).forEach(keyError => {
+                    console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
+                });
             }
-          });
+        });
+    }
+
+    deleteDigit() {
+        if(this.onDelete) {
+            this.onDelete(this.data);
         }
+    }
 }

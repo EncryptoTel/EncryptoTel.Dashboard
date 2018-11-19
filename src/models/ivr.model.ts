@@ -41,6 +41,7 @@ export class IvrTreeItem extends BaseItemModel {
     action: string;
     parameter: string;
     description: string;
+    name: string;
 }
 
 export class IvrLevelItem extends BaseItemModel {
@@ -61,11 +62,11 @@ export class SipItem extends BaseItemModel {
 export class IvrLevelBase extends BaseItemModel {
     constructor(tree?) {
         super();
+        this.digits = [];
         if(tree) {
-            this.name = tree.name || '';
-            this.description = tree.description || "";
-            this.voiceGreeting = tree ? tree.parameter: '';
-            this.levelNum = tree.level;
+            this.name = tree[0].name || '';
+            this.description = tree[0].description || "";
+            this.levelNum = tree[0].level;
         }
     }
 
@@ -78,7 +79,7 @@ export class IvrLevelBase extends BaseItemModel {
 
 export class IvrLevel extends IvrLevelBase {
     
-    constructor(tree?, ivr?: IvrItem, phone?) {
+    constructor(tree?, ivr?: IvrItem) {
         super(tree);
         if(ivr) {
             this.id = ivr.id;
@@ -90,9 +91,22 @@ export class IvrLevel extends IvrLevelBase {
             this.dateValue = ivr.dateValue || "";
             this.timeType = ivr.timeType || "";
             this.timeValue = ivr.timeValue || ""
-            this.sip = phone;
-            this.voiceGreeting = tree ? tree.parameter: '';
-            this.action = null;
+            const intro = tree.find(x=>x.digit === 'intro');
+            if(intro) {
+                if(intro.action===5) {
+                    this.voiceGreeting = intro.parameter || '';
+                }
+            }
+            let timeout = tree.find(x=>x.digit === 'timeout');
+            if(timeout) {                
+                this.action = timeout.action;
+                this.parameter = timeout.parameter;
+            }
+            let data = tree.filter(x=>!(x.digit==='intro' || x.digit==='timeout'));
+            console.log(data);
+            this.digits = tree.filter(x=>!(x.digit==='intro' || x.digit==='timeout')).map(d=>{
+                return new Digit(d);
+            })
         } else {
             this.levelNum = 1;
         }
@@ -116,12 +130,15 @@ export class Digit {
             this.digit = tree.digit;
             this.description = tree.description;
             this.action = tree.action;
-            this.parametr = tree.parameter;
+            this.parameter = tree.parameter;
+            this.name = tree.name;
+
         }
     }
     id: number;
     digit: string;
     description: string;
     action: string;
-    parametr: string;
+    parameter: string;
+    name: string;
 }

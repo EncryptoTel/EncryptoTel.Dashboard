@@ -3,4 +3,5 @@ export interface IvrFormInterface {
     isValidForm: Function;
     data: any;
     references: any;
+    onDelete: Function;
 }

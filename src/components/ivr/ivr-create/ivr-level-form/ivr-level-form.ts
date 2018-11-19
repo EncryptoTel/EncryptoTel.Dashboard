@@ -11,7 +11,7 @@ import { FadeAnimation } from '@shared/fade-animation';
 import { nameRegExp, phoneRegExp } from '@shared/vars';
 import { MediaPlayerComponent } from '@elements/pbx-media-player/pbx-media-player.component';
 import { StorageService } from '@services/storage.service';
-import { MediaState } from '@models/cdr.model';
+import { MediaState, CdrMediaInfo } from '@models/cdr.model';
 import { IvrFormInterface } from '../form.interface';
 import { validateFormControls } from '@shared/shared.functions';
 import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
@@ -30,21 +30,11 @@ export enum DigitActions {
     providers: [StorageService]
 })
 export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, IvrFormInterface {
+    onDelete: Function;
     references: any;
     data: IvrLevel;
     isValidForm: Function;
     actionVal: 0;
-    getData() {
-        console.log(this.form.value)
-        if (this.form.valid) {
-            return this.form.value;
-        } else {
-            validateFormControls(this.form);
-        }
-        this.validationHost.clearControlsFocusedState();
-        return null;
-    }
-
     loading: number = 0;
     sipOuters: any;
     bsRangeValue = new Date();
@@ -98,7 +88,8 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
         this.callRuleTimes[9],
         this.callRuleTimes[18]
     ];
-
+    currentMediaStream: string;
+    playButtonText: string;
     selectedFiles = [];
     files = [];
     ruleFor = [
@@ -122,6 +113,16 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
         private refs: RefsServices,
         private storage: StorageService) {
         super(fb, message);
+    }
+
+    getData() {
+        if (this.form.valid) {
+            return this.form.value;
+        } else {
+            validateFormControls(this.form);
+        }
+        this.validationHost.clearControlsFocusedState();
+        return null;
     }
 
     ngOnInit() {
@@ -204,6 +205,46 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
             this.mediaPlayer.stopPlay();
         }
         this.selectedFiles[index] = file;
+    }
+
+    togglePlay(i: number): void {
+        const fileId = this.form.value.voiceGreeting;
+        if (fileId) {
+            this.mediaPlayer.togglePlay(fileId);
+        }
+    }
+
+    stopPlayerPlay(): void {
+        this.mediaPlayer.stopPlay();
+    }
+
+    getMediaData(fileId: number): void {
+        this.mediaPlayer.locker.lock();
+
+        this.storage.getMediaData(fileId)
+            .then((media: CdrMediaInfo) => {
+                this.currentMediaStream = media.fileLink;
+            })
+            .catch(error => {
+                console.log(error);
+                // Error handling here ...
+            })
+            .then(() => this.mediaPlayer.locker.unlock());
+    }
+
+    mediaStateChanged(state: MediaState): void {
+        switch (state) {
+            case MediaState.LOADING:
+                this.playButtonText = 'Loading';
+                break;
+            case MediaState.PLAYING:
+                this.playButtonText = 'Pause';
+                break;
+            case MediaState.PAUSED:
+            default:
+                this.playButtonText = 'Play';
+                break;
+        }
     }
 
     selectDay(idx, day) {
