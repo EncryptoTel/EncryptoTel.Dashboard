@@ -64,6 +64,7 @@ export class IvrCreateComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadRefs().then(() => {
+            console.log('loadRefs')
             if (this.id) {
                 this.getItem(this.id);
             } else {
@@ -79,7 +80,8 @@ export class IvrCreateComponent implements OnInit {
             this.refs.getSipOuters()
         ]).then(res => {
             // this.ref.params = res[0];
-            this.ref.sip = res[1];
+            this.ref.sip = res[0];
+            console.log(res)
         })
     }
 
@@ -87,6 +89,7 @@ export class IvrCreateComponent implements OnInit {
         this.modelFromServer = val;
         this.ivrLevels = this.convertIvrItems(this.modelFromServer);
         if (this.ivrLevels.length > 0) {
+            this.ivrViewLevels = [];
             this.isLevelVisible = true;
             this.ivrViewLevels.push(this.ivrLevels[0]);
             this.loadForm(this.forms.levelForm, this.ivrLevels[0]);
@@ -111,6 +114,9 @@ export class IvrCreateComponent implements OnInit {
 
     loadForm(form, data) {
         this.ref.sipId = this.modelFromServer.sipId;
+        console.group('Load form');
+        console.log(data);
+        console.groupEnd();
         if (data instanceof IvrLevel) {
             this.currentLevel = data;
             this.currentDigit = undefined;
@@ -126,9 +132,9 @@ export class IvrCreateComponent implements OnInit {
 
         let componentRef = viewContainerRef.createComponent(componentFactory);
         this.currentForm = (<IvrFormInterface>componentRef.instance);
+        this.currentForm.references = this.ref;
         this.currentForm.data = data;
         this.currentForm.isValidForm = (t) => { this.isValidForm = t };
-        this.currentForm.references = this.ref;
         this.currentForm.onDelete = (d) => { this.deleteDigit(d) };
         componentRef.changeDetectorRef.detectChanges();
     }
@@ -188,6 +194,7 @@ export class IvrCreateComponent implements OnInit {
     }
 
     save() {
+        console.log('asdasdasdasdasdasdasd');
         const formData = this.currentForm.getData();
         if (formData) {
             if (this.currentForm instanceof IvrDigitFormComponent) {
@@ -213,12 +220,9 @@ export class IvrCreateComponent implements OnInit {
     }
 
     saveDigit(d: Digit) {
-        let exist = this.currentLevel.digits.find(x => x.digit === d.digit);
-        if (exist) {
-            exist = d;
-        } else {
-            this.currentLevel.digits.push(d);
-        }
+        const idx = this.currentLevel.digits.findIndex(x=>x === this.currentDigit);
+        this.currentLevel.digits[idx] = d;
+        this.currentDigit = d;
     }
 
     saveLevel(level: IvrLevel) {

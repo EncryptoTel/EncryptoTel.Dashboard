@@ -126,17 +126,23 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
     }
 
     ngOnInit() {
-        // this.then_data = this.references.params.actions;
-        console.log(this.data);
+        this.loading++;
         super.ngOnInit();
         this.service.reset();
-        this.initFiles();
-        this.getSipOuters();
+        Promise.all([
+            this.initFiles(),
+            this.getSipOuters()
+        ]).then(()=>{
+            console.log('AllLoad')
+            this.loading--;
+            this.form.patchValue(this.data);
+        })        
     }
 
     initFiles() {
-        this.service.getFiles().then((res) => {
+        return this.service.getFiles().then((res) => {
             this.files = res.items;
+            console.log('fileLoaded')
         });
     }
 
@@ -171,7 +177,6 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
         // this.form.get("duration_time").valueChanges.subscribe(val => {
         //     this.timeVisible = (val === 2);
         // });
-        this.form.patchValue(this.data);
         this.addForm(this.formKey, this.form);
     }
 
@@ -261,11 +266,12 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
 
     getSipOuters() {
         this.loading++;
-        this.refs.getSipOuters().then(response => {
+        return this.refs.getSipOuters().then(response => {
             this.sipOuters = response;
+            console.log('SipOuters loaded');
         }).catch(() => { })
             .then(() => this.loading--);
-    }    
+    }
 
     getExtensions(id: number): void {
         this.loading++;

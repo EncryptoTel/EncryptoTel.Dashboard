@@ -1,4 +1,5 @@
-<div class="one">
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div class="one" *ngIf="!loading">
     <pbx-input name="IVR Name" key="name" placeholder="Unnamed" [required]="true" [form]="true" [object]="form"
         [errors]="service.errors" [validationHost]="validationHost">
     </pbx-input>

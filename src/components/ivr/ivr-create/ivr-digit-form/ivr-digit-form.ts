@@ -61,13 +61,17 @@ export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, 
         this.service.reset();
         for (let i = 1; i <= 10; i++) {
             const number = i % 10;
-            if (!this.references.usedDiget.includes(i) || i === this.data.digit) {
+            if (!this.references.usedDiget.includes(i.toString()) || i.toString() === this.data.digit) {
                 this.digits.push({ id: number, title: number.toString() });
             }
         }
-        this.digits.push({ id: 11, title: '*' });
-        this.digits.push({ id: 12, title: '#' });
-
+        if(!this.references.usedDiget.includes("*") || this.data.digit === "*") {
+            this.digits.push({ id: 11, title: '*' });
+        } 
+        if(!this.references.usedDiget.includes("#") || this.data.digit === "#") {
+            this.digits.push({ id: 12, title: '#' });
+        } 
+        
     }
 
     initForm(): void {
