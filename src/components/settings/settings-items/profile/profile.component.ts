@@ -30,6 +30,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     model: SettingsModel;
 
+    public sidebarActive: boolean;
+
     generalForm: FormGroup;
     emailChange: FormGroup;
     passwordChange: FormGroup;
@@ -319,6 +321,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     dragOverHandler(event): void {
+        this.sidebarActive = true;
         event.preventDefault();
     }
 
@@ -326,6 +329,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     dragLeaveHandler(event): void {
+        this.sidebarActive = false;
         event.preventDefault();
     }
 
