@@ -82,6 +82,9 @@ import {TranslateModule} from '@ngx-translate/core';
 import {IvrLevelComponent} from '../components/ivr/ivr-level/ivr-level.component';
 import {CRMIntegrationComponent} from '../components/settings/settings-items/crm-integration/crm-integration.component';
 import {AmoCrmIntegrationComponent} from '../components/settings/settings-items/crm-integration/amo-crm-integration/amo-crm-integration.component';
+import {AmoCrmIntegrationGeneralComponent} from '../components/settings/settings-items/crm-integration/amo-crm-integration/general/amo-crm-integration-general.component';
+import {AmoCrmIntegrationAddressBookComponent} from '../components/settings/settings-items/crm-integration/amo-crm-integration/address-book/amo-crm-integration-address-book.component';
+import {AmoCrmIntegrationManagersComponent} from '@components/settings/settings-items/crm-integration/amo-crm-integration/managers/amo-crm-integration-managers.component';
 
 /*
   Components declarations and exports
@@ -173,7 +176,10 @@ import {AmoCrmIntegrationComponent} from '../components/settings/settings-items/
         TabsComponent,
         TabComponent,
         CRMIntegrationComponent,
-        AmoCrmIntegrationComponent
+        AmoCrmIntegrationComponent,
+        AmoCrmIntegrationGeneralComponent,
+        AmoCrmIntegrationAddressBookComponent,
+        AmoCrmIntegrationManagersComponent
     ],
     exports: [
         BaseComponent,
@@ -235,7 +241,10 @@ import {AmoCrmIntegrationComponent} from '../components/settings/settings-items/
         TabComponent,
         TranslateModule,
         CRMIntegrationComponent,
-        AmoCrmIntegrationComponent
+        AmoCrmIntegrationComponent,
+        AmoCrmIntegrationGeneralComponent,
+        AmoCrmIntegrationAddressBookComponent,
+        AmoCrmIntegrationManagersComponent
     ]
 })
 export class ComponentsModule {

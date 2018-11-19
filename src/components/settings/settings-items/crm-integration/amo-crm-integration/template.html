@@ -107,3 +107,48 @@
     </div> <!-- info -->
 
 </div> <!-- amo-crm-integration -->
+
+<!-- ======================== -->
+<!-- ======================== -->
+<!-- ======================== -->
+
+<div class="amo_crm_integration_edit">
+
+    <div class="amo_crm_header">
+        <div class="amo_crm_tab_wrap">
+            <div class="amo_crm_tab"
+                 *ngFor="let item of tab.items; let i=index;"
+                 [ngClass]="{'active':item===tab.select}"
+                 (click)="selectTab(item)">
+                <span>{{i + 1}}. {{item}}</span>
+            </div> <!-- amo_crm_tab -->
+        </div> <!-- amo_crm_tab_wrap -->
+        <div class="amo_crm_control">
+            <pbx-button value="Cancel" buttonType="cancel"></pbx-button>
+            <pbx-button value="Save" buttonType="success"></pbx-button>
+        </div> <!-- amo_crm_control -->
+    </div>
+    <pbx-loader *ngIf="loading"></pbx-loader>
+
+    <div class="amo_crm_cnt">
+
+        <amo-crm-integration-general-component
+                *ngIf="!loading && tab.select==='General'"
+        ></amo-crm-integration-general-component>
+
+        <amo-crm-integration-address-book-component
+                *ngIf="!loading && tab.select==='Address Book'"
+        ></amo-crm-integration-address-book-component>
+
+        <amo-crm-integration-managers-component
+                *ngIf="!loading && tab.select==='Managers'"
+        ></amo-crm-integration-managers-component>
+
+    </div> <!-- amo_crm_cnt -->
+
+    <div class="amo_crm_info">
+        <div class="title">Information</div>
+        <div class="desc">Общее описание интеграционных возможностей</div>
+    </div> <!-- amo_crm_info -->
+
+</div> <!-- amo_crm_integration_edit -->
