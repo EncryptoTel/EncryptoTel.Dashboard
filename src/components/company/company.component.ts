@@ -300,9 +300,11 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                     this.sidebarActive = false;
                 }
             }).catch(() => {
+                this.sidebarActive = false;
             });
         } else {
             this.message.writeError('Accepted formats: jpg, jpeg, png, gif');
+            this.sidebarActive = false;
         }
 
     }
