@@ -297,6 +297,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                     this.company.logo = response.logo;
                     this.setFormData(this.company);
                     this.company.logo = response.url;
+                    this.sidebarActive = false;
                 }
             }).catch(() => {
             });

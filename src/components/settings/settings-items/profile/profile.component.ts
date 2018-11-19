@@ -340,6 +340,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 if (response.avatar) {
                     this.userDefaultPhoto = response.avatar;
                     this.user.fetchProfileParams().then();
+                    this.sidebarActive = false;
                 }
             }).catch(() => {
 
