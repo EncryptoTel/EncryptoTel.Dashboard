@@ -29,6 +29,15 @@ export class AmoCrmIntegrationComponent implements OnInit {
                 inactive: false,
                 buttonClass: '',
                 icon: false
+            },
+            {
+                id: 1,
+                title: 'Edit',
+                type: 'accent',
+                visible: true,
+                inactive: false,
+                buttonClass: '',
+                icon: false
             }
         ];
     }
