@@ -6,11 +6,13 @@ import { Routes, RouterModule } from "@angular/router";
 import { IvrService } from "@services/ivr.service";
 import { ElementsModule } from "@modules/elements.module";
 import { CommonModule } from "@angular/common";
-import { IvrLevelComponent } from "./ivr-level/ivr-level.component";
 import { TranslateModule } from "@ngx-translate/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AngularSvgIconModule } from "angular-svg-icon";
-import { IvrMainFormComponent } from "./ivr-create/ivr-main-form/ivr-main-form";
+import { IvrLevelFormComponent } from "./ivr-create/ivr-level-form/ivr-level-form";
+import { IvrDigitFormComponent } from "./ivr-create/ivr-digit-form/ivr-digit-form";
+import { IvrLevelComponent } from "./ivr-create/ivr-level/ivr-level.component";
+import { HostIvrFormDirective } from "./ivr-create/directive/host.directive";
 
 const routes: Routes = [
     {path: '', component: IvrComponent, data: {title: 'IVR', indexed: true}},
@@ -32,7 +34,9 @@ const routes: Routes = [
         IvrComponent,
         IvrCreateComponent,
         IvrLevelComponent,
-        IvrMainFormComponent
+        IvrLevelFormComponent,
+        IvrDigitFormComponent,
+        HostIvrFormDirective
     ],
     imports: [
         BsDatepickerModule,
@@ -41,6 +45,7 @@ const routes: Routes = [
         AngularSvgIconModule,
         FormsModule,
         CommonModule,
+        ReactiveFormsModule,
         RouterModule.forChild(routes)
     ],
     exports:[
@@ -49,6 +54,10 @@ const routes: Routes = [
     ],
     providers: [
         IvrService
+    ],
+    entryComponents:[
+        IvrDigitFormComponent,
+        IvrLevelFormComponent
     ]
 })
 export class IvrModule {

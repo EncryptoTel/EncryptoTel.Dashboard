@@ -17,7 +17,6 @@ export class IvrService extends BaseService {
     }
 
     getById(id: number): Promise<IvrItem> {
-        this.mockIVRData();
         return super.getById(id).then((res: IvrItem) => {
             this.item = plainToClass(IvrItem, res);
             this.item.sipId = this.item.sip.id;
@@ -49,77 +48,11 @@ export class IvrService extends BaseService {
         this.url = 'ivr';
     }
     
-    mockIVRData(): void {
-
-        // -- items --
-
-        this.item = new IvrItem();
-
-        this.item.id = 1;
-        this.item.name = 'IVR-1';
-        this.item.description = 'IVR Description';
-        this.item.sipId = 1;
-        this.item.status = 1;
-
-        this.item.tree = [];
-        
-        let node = new IvrTreeItem();
-        
-        node.id = 1;
-        node.level = 0;
-        node.digit = '1';
-        node.action = 'Send to IVR';
-        node.description = 'Sale';
-        
-        this.item.tree.push(node);
-
-        node = new IvrTreeItem();
-
-        node.id = 2;
-        node.level = 0;
-        node.digit = '2';
-        node.action = 'Send to IVR';
-        node.description = 'Balance';
-        
-        this.item.tree.push(node);
-
-        node = new IvrTreeItem();
-
-        node.id = 3;
-        node.level = 0;
-        node.digit = '3';
-        node.action = 'Send to IVR';
-        node.description = 'IT Department';
-        
-        this.item.tree.push(node);
-
-        node = new IvrTreeItem();
-
-        node.id = 101;
-        node.level = 1;
-        node.digit = '1';
-        node.action = 'Send to IVR';
-        node.description = 'Accountants';
-        
-        this.item.tree.push(node);
-
-        // -- actions --
-
-        this.actions = [
-            { id: 1, title: 'Redirect to extension number' },
-            { id: 2, title: 'Redirect to external number' },
-            { id: 3, title: 'Send to IVR' },
-        ];
-
-        // -- digit --
-        this.digits = [];
-        for (let i = 1; i <= 10; i ++) {
-            const number = i % 10;
-            this.digits.push({ id: number, title: number.toString() });
-        }
-    }
-
     getFiles() {
         return this.request.get('v1/account/file?type=audio')
+    }
+
+    getParams(): Promise<any> {
+        return this.request.get(`v1/outer_rule/params`);
     }
 }

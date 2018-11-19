@@ -1,0 +1,58 @@
+<div class="one">
+    <div class="select_digit">
+        <pbx-input name="Select Digit"
+                   key="digit"
+                   [form]="true"
+                   [object]="digitForm"
+                   [options]="digits"
+                   displayKey="title"
+                   [selectAsObject]="true"
+                   [errors]="service.errors"
+                   errorKey="digit"
+                   [validationHost]="validationHost"
+                   validationKey="digit"
+                   >
+        </pbx-input>
+        <pbx-button value="Delete" buttonType="error"></pbx-button>
+
+    </div> <!-- select_digit -->
+
+    <pbx-input name="Description"
+               key="description"
+               placeholder=""
+               [form]="true"
+               [object]="digitForm"
+               [errors]="service.errors"
+               errorKey="description"
+               [validationHost]="validationHost"
+               >
+    </pbx-input>
+
+    <div class="title accent">When the caller presses {{ formSelectedDigit?.title }}</div>
+    <pbx-input name="then"
+               key="action"
+               [required]="true"
+               placeholder="[choose one]"
+               [form]="true"
+               [object]="digitForm"
+               [options]="then_data"
+               displayKey="code"
+               [selectAsObject]="true"
+               [errors]="service.errors"
+               errorKey="action"
+               [validationHost]="validationHost"
+               validationKey="parameter"
+               >
+    </pbx-input>
+
+    <pbx-input name="{{'External number' | translate }}" key="parameter" [required]="true" [form]="true" [object]="digitForm"
+        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="actionVal===2">
+    </pbx-input>
+
+    <pbx-input name="{{'Extension number' | translate }}" key="parameter" [required]="true" [placeholder]="'[choose one]'" *ngIf="actionVal===1"
+        [form]="true" [object]="digitForm" [options]="sipInners" displayKey="phoneNumber" [editable]="true" [(errors)]="service.errors"
+        [validationHost]="validationHost"
+        (onSelect)="selectSipInner(i, $event)">
+    </pbx-input>
+
+</div>

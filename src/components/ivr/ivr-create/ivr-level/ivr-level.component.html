@@ -1,16 +1,16 @@
-<div class="item one_up" [ngClass]="{ 'one_up': isRoot, 'two': !isRoot }"> <!-- class two and one_up-->
+<div class="item one_up" [ngClass]="{ 'one_up': level.levelNum===1, 'two': level.levelNum!==1 }"> <!-- class two and one_up-->
 
-    <div class="top">
+    <div class="top" (click)="onSelectLevel()" [ngClass]="{ 'selected': selectedItem === level }">
         <div class="desc">{{ level.description }}</div>
-        <div class="title">{{ level.title }}</div>
+        <div class="title">{{ level.name }}</div>
     </div> <!-- top -->
 
     <div class="numbers">
 
-        <div *ngFor="let item of level.items"
+        <div *ngFor="let item of level.digits"
              class="number"
-             [ngClass]="{ 'selected': isDigitSelected(item.id) }"
-             (click)="selectDigit(item.id)"
+             [ngClass]="{ 'selected': selectedItem === item }"
+             (click)="onSelectDigit(item)"
         >
             <div class="digit">
                 <div class="inner"><span>{{ item.digit }}</span></div>
@@ -25,8 +25,8 @@
     </div> <!-- numbers -->
 
     <div class="buttons">
-        <pbx-button value="Add Digit" buttonType="accent"></pbx-button>
-        <pbx-button value="Delete Level IVR" buttonType="error" *ngIf="!isRoot"></pbx-button>
+        <pbx-button value="Add Digit" buttonType="accent" (onClick)="addDigit()"></pbx-button>
+        <pbx-button value="Delete Level IVR" buttonType="error"></pbx-button>
     </div> <!-- buttons -->
 
 </div> <!-- item -->
