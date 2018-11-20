@@ -55,7 +55,7 @@
                     <svg-icon src="../../assets/icons/_call_panel/notification_24px.svg"></svg-icon>
                     <div class="button_animation" *ngIf="activeButtonIndex === 3"></div>
                 </div>
-                <div class="desc" [ngClass]="{'hiding': activeButtonIndex === 2}">© Encrypto Telecom, 2017-2018
+                <div class="desc" [ngClass]="{'hiding': (activeButtonIndex === 0 || activeButtonIndex === 1 || activeButtonIndex === 2 || activeButtonIndex === 3)}">© Encrypto Telecom, 2017-2018
                     v.0.1.0
                 </div>
             </div> <!-- header_button_wrap -->
@@ -70,10 +70,10 @@
                  [ngClass]="{'visible': headerButtonsVisible}"
                  [@Swipe]
             >
-                <span *ngIf="activeButtonIndex === 0">call</span>
-                <span *ngIf="activeButtonIndex === 1">contacts</span>
+                <pbx-call *ngIf="activeButtonIndex === 0"></pbx-call>
+                <pbx-contacts *ngIf="activeButtonIndex === 1"></pbx-contacts>
                 <pbx-chat *ngIf="activeButtonIndex === 2"></pbx-chat>
-                <span *ngIf="activeButtonIndex === 3">notification</span>
+                <pbx-notification *ngIf="activeButtonIndex === 3"></pbx-notification>
             </div>
             <!-- <div class="desc">© Encrypto Telecom, 2017-2018 v.0.1.0</div> -->
         </div> <!-- header_button_row -->

@@ -85,6 +85,9 @@ import {AmoCrmIntegrationComponent} from '../components/settings/settings-items/
 import {AmoCrmIntegrationGeneralComponent} from '../components/settings/settings-items/crm-integration/amo-crm-integration/general/amo-crm-integration-general.component';
 import {AmoCrmIntegrationAddressBookComponent} from '../components/settings/settings-items/crm-integration/amo-crm-integration/address-book/amo-crm-integration-address-book.component';
 import {AmoCrmIntegrationManagersComponent} from '@components/settings/settings-items/crm-integration/amo-crm-integration/managers/amo-crm-integration-managers.component';
+import {ContactsComponent} from '@components/contacts/contacts.component';
+import {CallComponent} from '@components/call/call.component';
+import {NotificationComponent} from '@components/notification/notification.component';
 
 /*
   Components declarations and exports
@@ -179,7 +182,10 @@ import {AmoCrmIntegrationManagersComponent} from '@components/settings/settings-
         AmoCrmIntegrationComponent,
         AmoCrmIntegrationGeneralComponent,
         AmoCrmIntegrationAddressBookComponent,
-        AmoCrmIntegrationManagersComponent
+        AmoCrmIntegrationManagersComponent,
+        ContactsComponent,
+        CallComponent,
+        NotificationComponent
     ],
     exports: [
         BaseComponent,
@@ -244,7 +250,10 @@ import {AmoCrmIntegrationManagersComponent} from '@components/settings/settings-
         AmoCrmIntegrationComponent,
         AmoCrmIntegrationGeneralComponent,
         AmoCrmIntegrationAddressBookComponent,
-        AmoCrmIntegrationManagersComponent
+        AmoCrmIntegrationManagersComponent,
+        ContactsComponent,
+        CallComponent,
+        NotificationComponent
     ]
 })
 export class ComponentsModule {
