@@ -1,3 +1,4 @@
+<pbx-loader *ngIf="loading"></pbx-loader>
 <div class="one">
     <div class="select_digit">
         <pbx-input name="Select Digit"
@@ -6,6 +7,7 @@
                    [object]="digitForm"
                    [options]="digits"
                    displayKey="title"
+                   optionsSelectedKey="id"
                    [errors]="service.errors"
                    errorKey="digit"
                    [validationHost]="validationHost"
@@ -42,7 +44,7 @@
                validationKey="parameter"
                >
     </pbx-input>
-
+    {{actionVal | json}}
     <pbx-input name="{{'External number' | translate }}" key="parameter" [required]="true" [form]="true" [object]="digitForm"
         [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="actionVal===2">
     </pbx-input>

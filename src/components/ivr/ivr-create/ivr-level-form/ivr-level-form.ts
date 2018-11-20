@@ -1,11 +1,22 @@
+import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl, ValidationErrors } from '@angular/forms';
+import {
+    FormBuilder,
+    Validators,
+    FormGroup,
+    FormControl,
+    ValidationErrors
+} from '@angular/forms';
 
 import { IvrService } from '@services/ivr.service';
 import { RefsServices } from '@services/refs.services';
 import { MessageServices } from '@services/message.services';
 import { IvrLevel } from '@models/ivr.model';
-import { CallRuleDay, CallRuleTimeType, CallRuleTime } from '@models/call-rules.model';
+import {
+    CallRuleDay,
+    CallRuleTimeType,
+    CallRuleTime
+} from '@models/call-rules.model';
 import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import { FadeAnimation } from '@shared/fade-animation';
 import { nameRegExp, phoneRegExp } from '@shared/vars';
@@ -29,11 +40,12 @@ export enum DigitActions {
     animations: [FadeAnimation('300ms')],
     providers: [StorageService]
 })
-export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, IvrFormInterface {
+export class IvrLevelFormComponent extends FormBaseComponent
+    implements OnInit, IvrFormInterface {
+    onFormChange: Subject<any>;
     onDelete: Function;
     references: any;
     data: IvrLevel;
-    isValidForm: Function;
     actionVal: 0;
     loading: number = 0;
     sipOuters: any;
@@ -47,7 +59,7 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
         { type: 'cancel', day: 'Sat', code: 'sat' },
         { type: 'cancel', day: 'Sun', code: 'sun' }
     ]);
-    sipInners:any;
+    sipInners: any;
     durationTimes = CallRuleTimeType.fromPlain([
         { id: 1, code: 'Always (24 hours)' },
         { id: 2, code: 'Set the time' }
@@ -77,26 +89,23 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
         { time: '8:00 p.m', asteriskTime: '20:00' },
         { time: '9:00 p.m', asteriskTime: '21:00' },
         { time: '10:00 p.m', asteriskTime: '22:00' },
-        { time: '11:00 p.m', asteriskTime: '23:00' },
+        { time: '11:00 p.m', asteriskTime: '23:00' }
     ]);
     then_data = [
-        {id: 1, code: "Redirect to extension number"},
-        {id: 2, code: "Redirect to external number"},
-        {id: 3, code: "Create new level"}
+        { id: 1, code: 'Redirect to extension number' },
+        { id: 2, code: 'Redirect to external number' },
+        { id: 3, code: 'Create new level' }
     ];
-    selectedDurationTimeRange = [
-        this.callRuleTimes[9],
-        this.callRuleTimes[18]
-    ];
+    selectedDurationTimeRange = [this.callRuleTimes[9], this.callRuleTimes[18]];
     currentMediaStream: string;
     playButtonText: string;
     selectedFiles = [];
     files = [];
     ruleFor = [
-        { id: 1, name: "Allways" },
-        { id: 2, name: "Date (period)" },
-        { id: 3, name: "Day of the week" }
-    ]
+        { id: 1, name: 'Allways' },
+        { id: 2, name: 'Date (period)' },
+        { id: 3, name: 'Day of the week' }
+    ];
     period: any;
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
 
@@ -104,15 +113,17 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
     timeVisible = false;
     // -- properties ----------------------------------------------------------
 
-
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(public service: IvrService,
+    constructor(
+        public service: IvrService,
         protected fb: FormBuilder,
         protected message: MessageServices,
         private refs: RefsServices,
-        private storage: StorageService) {
+        private storage: StorageService
+    ) {
         super(fb, message);
+        this.onFormChange = new Subject();
     }
 
     getData() {
@@ -129,20 +140,17 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
         this.loading++;
         super.ngOnInit();
         this.service.reset();
-        Promise.all([
-            this.initFiles(),
-            this.getSipOuters()
-        ]).then(()=>{
-            console.log('AllLoad')
+        Promise.all([this.initFiles(), this.getSipOuters()]).then(() => {
+            this.then_data = this.references.params;
             this.loading--;
             this.form.patchValue(this.data);
-        })        
+        });
     }
 
     initFiles() {
-        return this.service.getFiles().then((res) => {
+        return this.service.getFiles().then(res => {
             this.files = res.items;
-            console.log('fileLoaded')
+            console.log('fileLoaded');
         });
     }
 
@@ -152,7 +160,10 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
             name: ['', [Validators.required, Validators.pattern(nameRegExp)]],
             description: ['', [Validators.maxLength(255)]],
             voiceGreeting: [null, [Validators.required]],
-            loopMessage: [2, [Validators.required, Validators.pattern('[0-9]*')]],
+            loopMessage: [
+                2,
+                [Validators.required, Validators.pattern('[0-9]*')]
+            ],
             // rule_for: [null],
             // rule_value: [null],
             // duration_time: [null],
@@ -162,15 +173,13 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
             parameter: [null],
             levelNum: [null]
         });
-        this.form.statusChanges.subscribe((res) => {
-            if (this.isValidForm) {
-                this.isValidForm('VALID' === res);
-            }
-        })
-        this.form.get("action").valueChanges.subscribe(val => {
+        this.form.statusChanges.subscribe(() => {
+            this.onFormChange.next(this.form);
+        });
+        this.form.get('action').valueChanges.subscribe(val => {
             this.showParameter(val);
         });
-        this.form.get("sipId").valueChanges.subscribe(val => {
+        this.form.get('sipId').valueChanges.subscribe(val => {
             this.references.sipId = val;
         });
 
@@ -190,15 +199,12 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
         const file = event.target.files[0];
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
-                this.storage.checkFileExists(
-                    file,
-                    (loading) => {
-                        if (!this.storage.loading) {
-                            this.initFiles();
-                        }
-                    });
-            }
-            else {
+                this.storage.checkFileExists(file, loading => {
+                    if (!this.storage.loading) {
+                        this.initFiles();
+                    }
+                });
+            } else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
             }
             this.storage.checkModal();
@@ -206,7 +212,10 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
     }
 
     selectFile(index: number, file: any): void {
-        if (this.mediaPlayer.selectedMediaId !== file.id && this.mediaPlayer.state === MediaState.PLAYING) {
+        if (
+            this.mediaPlayer.selectedMediaId !== file.id &&
+            this.mediaPlayer.state === MediaState.PLAYING
+        ) {
             this.mediaPlayer.stopPlay();
         }
         this.selectedFiles[index] = file;
@@ -226,7 +235,8 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
     getMediaData(fileId: number): void {
         this.mediaPlayer.locker.lock();
 
-        this.storage.getMediaData(fileId)
+        this.storage
+            .getMediaData(fileId)
             .then((media: CdrMediaInfo) => {
                 this.currentMediaStream = media.fileLink;
             })
@@ -253,7 +263,7 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
     }
 
     selectDay(idx, day) {
-        day.type = (day.type === 'accent') ? 'cancel' : 'accent'
+        day.type = day.type === 'accent' ? 'cancel' : 'accent';
     }
 
     visibleElementForRule(val) {
@@ -266,25 +276,29 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
 
     getSipOuters() {
         this.loading++;
-        return this.refs.getSipOuters().then(response => {
-            this.sipOuters = response;
-            console.log('SipOuters loaded');
-        }).catch(() => { })
+        return this.refs
+            .getSipOuters()
+            .then(response => {
+                this.sipOuters = response;
+                console.log('SipOuters loaded');
+            })
+            .catch(() => {})
             .then(() => this.loading--);
     }
 
     getExtensions(id: number): void {
         this.loading++;
-        this.service.getExtensions(id).then(response => {
-            this.sipInners = response.items;
-        }).catch(() => {
-        })
+        this.service
+            .getExtensions(id)
+            .then(response => {
+                this.sipInners = response.items;
+            })
+            .catch(() => {})
             .then(() => this.loading--);
     }
 
     showParameter(val) {
-        this.actionVal = val;
-        switch(val) {
+        switch (val) {
             case DigitActions.EXTENSION_NUMBER:
                 this.getExtensions(this.references.sipId);
                 break;
@@ -294,5 +308,6 @@ export class IvrLevelFormComponent extends FormBaseComponent implements OnInit, 
             case DigitActions.SEND_TO_IVR:
                 break;
         }
+        this.actionVal = val;
     }
 }

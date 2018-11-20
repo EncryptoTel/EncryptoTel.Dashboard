@@ -13,6 +13,7 @@ import {IvrTreeItem, IvrLevelItem, IvrLevel, Digit} from '@models/ivr.model';
 export class IvrLevelComponent implements OnInit {
 
     @Input() level: IvrLevel;
+    @Input() isValidForm: boolean;
     @Output() ivrDigitSelected: EventEmitter<Digit> = new EventEmitter<Digit>();
     @Output() ivrLevelSelected: EventEmitter<IvrLevel> = new EventEmitter<IvrLevel>();
     selectedItem: any;
@@ -35,10 +36,10 @@ export class IvrLevelComponent implements OnInit {
     }
 
     addDigit() {
-        let d = new Digit();
+        const d = new Digit();
         this.level.digits.push(d);
         this.onSelectDigit(d);
     }
 
-    
+
 }

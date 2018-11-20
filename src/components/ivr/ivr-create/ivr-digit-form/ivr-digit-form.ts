@@ -1,6 +1,12 @@
+import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { FormBuilder, Validators, FormGroup, ValidationErrors } from '@angular/forms';
+import {
+    FormBuilder,
+    Validators,
+    FormGroup,
+    ValidationErrors
+} from '@angular/forms';
 
 import { IvrService } from '@services/ivr.service';
 import { RefsServices } from '@services/refs.services';
@@ -25,14 +31,10 @@ export enum DigitActions {
     animations: [FadeAnimation('300ms')],
     providers: [StorageService]
 })
-export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, IvrFormInterface, OnDestroy {
-    onDelete: Function;
-    ngOnDestroy(): void {
-
-    }
+export class IvrDigitFormComponent extends FormBaseComponent
+    implements OnInit, IvrFormInterface, OnDestroy {
     references: any;
     data: any;
-    isValidForm: Function;
     actionVal = 0;
     digitFormKey: string = 'digitForm';
     loading: number = 0;
@@ -40,38 +42,54 @@ export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, 
     digits: Array<any> = [];
     sipInners: any;
     then_data = [
-        { id: 1, code: "Redirect to extension number" },
-        { id: 2, code: "Redirect to external number" },
-        { id: 3, code: "Create new level" }
+        { id: 1, code: 'Redirect to extension number' },
+        { id: 2, code: 'Redirect to external number' },
+        { id: 3, code: 'Create new level' }
     ];
-    // -- properties ----------------------------------------------------------
-
-
-    // -- component lifecycle methods -----------------------------------------
-
-    constructor(public service: IvrService,
+    onFormChange: Subject<any>;
+    constructor(
+        public service: IvrService,
         protected fb: FormBuilder,
-        protected message: MessageServices) {
+        protected message: MessageServices
+    ) {
         super(fb, message);
+        this.onFormChange = new Subject();
     }
 
+
+    onDelete: Function;
+    ngOnDestroy(): void {}
+
     ngOnInit() {
-        console.log(this.data);
-        super.ngOnInit();
-        this.service.reset();
         for (let i = 1; i <= 10; i++) {
             const number = i % 10;
-            if (!this.references.usedDiget.includes(i.toString()) || i.toString() === this.data.digit) {
-                this.digits.push({ id: number, title: number.toString() });
+            if (
+                !this.references.usedDiget.includes(i.toString()) ||
+                i.toString() === this.data.digit
+            ) {
+                this.digits.push({
+                    id: number.toString(),
+                    title: number.toString()
+                });
             }
         }
-        if(!this.references.usedDiget.includes("*") || this.data.digit === "*") {
-            this.digits.push({ id: 11, title: '*' });
-        } 
-        if(!this.references.usedDiget.includes("#") || this.data.digit === "#") {
-            this.digits.push({ id: 12, title: '#' });
-        } 
-        
+        if (
+            !this.references.usedDiget.includes('*') ||
+            this.data.digit === '*'
+        ) {
+            this.digits.push({ id: '*', title: '*' });
+        }
+        if (
+            !this.references.usedDiget.includes('#') ||
+            this.data.digit === '#'
+        ) {
+            this.digits.push({ id: '#', title: '#' });
+        }
+
+        this.then_data = this.references.params;
+
+        super.ngOnInit();
+        this.service.reset();
     }
 
     initForm(): void {
@@ -79,19 +97,19 @@ export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, 
             digit: [null, [Validators.required]],
             description: ['', [Validators.maxLength(255)]],
             action: [null, [Validators.required]],
-            parameter: [null, [Validators.required]],
+            parameter: [null, [Validators.required]]
         });
         this.addForm(this.digitFormKey, this.digitForm);
         this.digitForm.patchValue(this.data);
-
-        this.digitForm.get("action").valueChanges.subscribe(val => {
+        this.digitForm.get('action').valueChanges.subscribe(val => {
             this.showParameter(val);
         });
+        this.digitForm.statusChanges.subscribe(() => {
+            this.onFormChange.next(this.digitForm);
+        });
     }
-    
+
     getData() {
-        console.log(this.digitForm.value);
-        this.getFormValidationErrors();
         if (this.digitForm.valid) {
             return this.digitForm.value;
         } else {
@@ -103,10 +121,12 @@ export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, 
 
     getExtensions(id: number): void {
         this.loading++;
-        this.service.getExtensions(id).then(response => {
-            this.sipInners = response.items;
-        }).catch(() => {
-        })
+        this.service
+            .getExtensions(id)
+            .then(response => {
+                this.sipInners = response.items;
+            })
+            .catch(() => {})
             .then(() => this.loading--);
     }
 
@@ -124,20 +144,8 @@ export class IvrDigitFormComponent extends FormBaseComponent implements OnInit, 
         }
     }
 
-    getFormValidationErrors() {
-        Object.keys(this.digitForm.controls).forEach(key => {
-
-            const controlErrors: ValidationErrors = this.digitForm.get(key).errors;
-            if (controlErrors != null) {
-                Object.keys(controlErrors).forEach(keyError => {
-                    console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
-                });
-            }
-        });
-    }
-
     deleteDigit() {
-        if(this.onDelete) {
+        if (this.onDelete) {
             this.onDelete(this.data);
         }
     }

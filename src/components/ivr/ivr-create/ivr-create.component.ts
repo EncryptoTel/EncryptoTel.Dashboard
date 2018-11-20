@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import {
+    Component,
+    OnInit,
+    ViewChild,
+    ComponentFactoryResolver
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { IvrService } from '@services/ivr.service';
@@ -12,6 +18,7 @@ import { IvrFormInterface } from './form.interface';
 import { IvrDigitFormComponent } from './ivr-digit-form/ivr-digit-form';
 import { IvrLevelFormComponent } from './ivr-level-form/ivr-level-form';
 import * as _ from 'lodash';
+import { Subscribable } from '../../../../build/encryPbx-win32-x64/resources/app/node_modules/rxjs/Observable';
 
 export enum DigitActions {
     EXTENSION_NUMBER = 1,
@@ -21,7 +28,7 @@ export enum DigitActions {
 
 @Component({
     selector: 'pbx-ivr-create',
-    templateUrl: './template.html',
+    templateUrl: './ivr-create.component.html',
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')],
     providers: [StorageService]
@@ -31,6 +38,7 @@ export class IvrCreateComponent implements OnInit {
     ivrViewLevels = []; // levels shows for user
     currentLevel: IvrLevel;
     currentDigit: Digit;
+    isValidForm = false;
     ref = {
         sip: [],
         params: [],
@@ -42,29 +50,27 @@ export class IvrCreateComponent implements OnInit {
     loading: number;
     sipOuters: any;
     modelFromServer: IvrItem;
+    formChangeSubscription: Subscription;
     forms = {
         levelForm: IvrLevelFormComponent,
         digits: IvrDigitFormComponent
     };
     @ViewChild(HostIvrFormDirective) hostIvr: HostIvrFormDirective;
     currentForm: IvrFormInterface;
-    isValidForm = false;
-    isLevelVisible = false;
-    constructor(public service: IvrService,
+    constructor(
+        public service: IvrService,
         protected message: MessageServices,
         private componentFactoryResolver: ComponentFactoryResolver,
         private refs: RefsServices,
         private activatedRoute: ActivatedRoute,
         private storage: StorageService,
-        private router: Router, ) {
-
+        private router: Router
+    ) {
         this.id = this.activatedRoute.snapshot.params.id;
-
     }
 
     ngOnInit(): void {
         this.loadRefs().then(() => {
-            console.log('loadRefs')
             if (this.id) {
                 this.getItem(this.id);
             } else {
@@ -76,13 +82,15 @@ export class IvrCreateComponent implements OnInit {
     loadRefs() {
         this.loading++;
         return Promise.all([
-            // this.service.getParams(),
-            this.refs.getSipOuters()
+            this.refs.getSipOuters(),
+            this.service.getParams()
         ]).then(res => {
-            // this.ref.params = res[0];
             this.ref.sip = res[0];
-            console.log(res)
-        })
+            const action = res[1].actions;
+            this.ref.params = Object.keys(action).map(val => {
+                return { id: val, code: action[val] };
+            });
+        });
     }
 
     initExistsIvr(val) {
@@ -90,7 +98,6 @@ export class IvrCreateComponent implements OnInit {
         this.ivrLevels = this.convertIvrItems(this.modelFromServer);
         if (this.ivrLevels.length > 0) {
             this.ivrViewLevels = [];
-            this.isLevelVisible = true;
             this.ivrViewLevels.push(this.ivrLevels[0]);
             this.loadForm(this.forms.levelForm, this.ivrLevels[0]);
         }
@@ -98,52 +105,75 @@ export class IvrCreateComponent implements OnInit {
 
     getItem(id) {
         this.loading++;
-        this.service.getById(id).then((val) => {
-            this.initExistsIvr(val);
-
-        }).catch(() => {
-        }).then(() => this.loading--);
+        this.service
+            .getById(id)
+            .then(val => {
+                this.initExistsIvr(val);
+            })
+            .catch(() => {})
+            .then(() => this.loading--);
     }
 
     initEmptyModel() {
         this.modelFromServer = new IvrItem();
         const newLevel = new IvrLevel();
         newLevel.levelNum = 1;
+        this.ivrViewLevels.push(newLevel);
         this.loadForm(this.forms.levelForm, newLevel);
     }
 
     loadForm(form, data) {
         this.ref.sipId = this.modelFromServer.sipId;
-        console.group('Load form');
-        console.log(data);
-        console.groupEnd();
+        if (this.formChangeSubscription) {
+            this.formChangeSubscription.unsubscribe();
+        }
         if (data instanceof IvrLevel) {
             this.currentLevel = data;
             this.currentDigit = undefined;
         } else {
             if (this.currentLevel) {
-                this.ref.usedDiget = this.currentLevel.digits.map((d) => d.digit);
+                this.ref.usedDiget = this.currentLevel.digits.map(d => d.digit);
             }
             this.currentDigit = data;
         }
-        let componentFactory = this.componentFactoryResolver.resolveComponentFactory(form);
-        let viewContainerRef = this.hostIvr.viewContainerRef;
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+            form
+        );
+        const viewContainerRef = this.hostIvr.viewContainerRef;
         viewContainerRef.clear();
-
-        let componentRef = viewContainerRef.createComponent(componentFactory);
-        this.currentForm = (<IvrFormInterface>componentRef.instance);
+        const componentRef = viewContainerRef.createComponent(componentFactory);
+        this.currentForm = <IvrFormInterface>componentRef.instance;
         this.currentForm.references = this.ref;
         this.currentForm.data = data;
-        this.currentForm.isValidForm = (t) => { this.isValidForm = t };
-        this.currentForm.onDelete = (d) => { this.deleteDigit(d) };
+        this.currentForm.onDelete = d => {
+            this.deleteDigit(d);
+        };
+        this.formChangeSubscription = this.currentForm.onFormChange.subscribe(
+            res => {
+                this.onChangeForm(res);
+            }
+        );
         componentRef.changeDetectorRef.detectChanges();
+    }
+
+    onChangeForm(form) {
+        this.isValidForm = form.valid;
+        if(this.currentForm instanceof IvrDigitFormComponent) {
+            // this.currentDigit.
+        }
+        console.log(form.value);
+        console.log(this.currentLevel);
+        console.log(this.currentDigit);
     }
 
     convertIvrItems(ivr: IvrItem) {
         try {
-            const result = _(ivr.tree).groupBy(x => x.level).map((val, key) => {
-                return new IvrLevel(val, ivr);
-            }).value();
+            const result = _(ivr.tree)
+                .groupBy(x => x.level)
+                .map((val, key) => {
+                    return new IvrLevel(val, ivr);
+                })
+                .value();
             return _.orderBy(result, ['levelNum']);
         } catch (error) {
             console.error(error);
@@ -159,24 +189,27 @@ export class IvrCreateComponent implements OnInit {
                 description: i.description,
                 status: 1,
                 enabled: i.enabled,
-                tree: [{
-                    level: i.levelNum,
-                    waitTime: 5,
-                    digit: "intro",
-                    action: 5,
-                    parameter: i.voiceGreeting,
-                    description: i.description,
-                    name: ''
-                }, {
-                    level: i.levelNum,
-                    waitTime: 5,
-                    digit: "timeout",
-                    action: i.action,
-                    parameter: i.parameter,
-                    description: i.description,
-                    name: ''
-                }]
-            }
+                tree: [
+                    {
+                        level: i.levelNum,
+                        waitTime: 5,
+                        digit: 'intro',
+                        action: 5,
+                        parameter: i.voiceGreeting,
+                        description: i.description,
+                        name: ''
+                    },
+                    {
+                        level: i.levelNum,
+                        waitTime: 5,
+                        digit: 'timeout',
+                        action: i.action,
+                        parameter: i.parameter,
+                        description: i.description,
+                        name: ''
+                    }
+                ]
+            };
             i.digits.forEach(d => {
                 result.tree.push({
                     level: i.levelNum,
@@ -186,15 +219,14 @@ export class IvrCreateComponent implements OnInit {
                     parameter: d.parameter,
                     description: d.description,
                     name: d.name
-                })
-            })
+                });
+            });
             return result;
         });
         return data[0];
     }
 
     save() {
-        console.log('asdasdasdasdasdasdasd');
         const formData = this.currentForm.getData();
         if (formData) {
             if (this.currentForm instanceof IvrDigitFormComponent) {
@@ -220,7 +252,9 @@ export class IvrCreateComponent implements OnInit {
     }
 
     saveDigit(d: Digit) {
-        const idx = this.currentLevel.digits.findIndex(x=>x === this.currentDigit);
+        const idx = this.currentLevel.digits.findIndex(
+            x => x === this.currentDigit
+        );
         this.currentLevel.digits[idx] = d;
         this.currentDigit = d;
     }
@@ -231,7 +265,9 @@ export class IvrCreateComponent implements OnInit {
             level.digits = [];
             this.ivrLevels.push(level);
         } else {
-            let exists = this.ivrLevels.findIndex(x => x.levelNum === level.levelNum);
+            const exists = this.ivrLevels.findIndex(
+                x => x.levelNum === level.levelNum
+            );
             if (exists !== -1) {
                 level.digits = this.ivrLevels[exists].digits;
                 this.ivrLevels[exists] = level;
@@ -240,25 +276,30 @@ export class IvrCreateComponent implements OnInit {
                 this.ivrLevels.push(level);
             }
         }
-
     }
 
     onIvrLevelSelected(e) {
         this.loadForm(this.forms.levelForm, e);
+        this.currentLevel = e;
     }
 
     onIvrDigitSelected(e) {
         this.loadForm(this.forms.digits, e);
+        this.currentDigit = e;
     }
 
     deleteDigit(d) {
         if (d.digit) {
-            this.currentLevel.digits = this.currentLevel.digits.filter(x => x.digit !== d.digit);
+            this.currentLevel.digits = this.currentLevel.digits.filter(
+                x => x.digit !== d.digit
+            );
         } else {
-            this.currentLevel.digits = this.currentLevel.digits.filter(x => !x.digit);
+            this.currentLevel.digits = this.currentLevel.digits.filter(
+                x => !x.digit
+            );
         }
         const data = this.convertIvrLevelsToIverItems(this.ivrLevels);
-        this.service.save(data).then(res => {
+        this.service.edit(this.id, data).then(res => {
             this.initExistsIvr(res);
             if (!this.id) {
                 this.id = res.id;
@@ -266,5 +307,4 @@ export class IvrCreateComponent implements OnInit {
             }
         });
     }
-
 }

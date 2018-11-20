@@ -1,7 +1,9 @@
+import { Subject } from 'rxjs/Subject';
 export interface IvrFormInterface {
-    getData();
-    isValidForm: Function;
     data: any;
     references: any;
     onDelete: Function;
+    onFormChange: Subject<any>;
+    getData();
+
 }
