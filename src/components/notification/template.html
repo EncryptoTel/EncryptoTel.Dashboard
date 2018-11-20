@@ -1,1 +1,22 @@
-notification
+<div class="notifications_block">
+
+    <div class="list">
+
+        <div class="group"  *ngFor="let notification of notificationObjects; let i = index">
+
+            <div class="date">{{notification.date}}</div>
+
+            <div *ngFor="let item of notification.items; let j = index" class="item" [ngClass]="item.status > 0 ? 'unread': 'read'" (click)="changeNotificationStatus(i,j)">
+                <div class="text" [innerHTML]="item.message">
+                </div> <!-- text -->
+                <div class="time">{{item.time}}</div>
+                <svg-icon src="/assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
+            </div> <!-- item -->
+
+        </div> <!-- group -->
+
+
+
+    </div> <!-- list -->
+
+</div> <!-- notifications_block -->

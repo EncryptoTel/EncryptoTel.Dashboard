@@ -54,6 +54,7 @@
                 >
                     <svg-icon src="../../assets/icons/_call_panel/notification_24px.svg"></svg-icon>
                     <div class="button_animation" *ngIf="activeButtonIndex === 3"></div>
+                    <div class="count"><i>{{countUnread}}</i></div>
                 </div>
                 <div class="desc" [ngClass]="{'hiding': (activeButtonIndex === 0 || activeButtonIndex === 1 || activeButtonIndex === 2 || activeButtonIndex === 3)}">© Encrypto Telecom, 2017-2018
                     v.0.1.0

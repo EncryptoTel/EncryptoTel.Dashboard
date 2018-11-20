@@ -1,9 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {WsServices} from '../../services/ws.services';
 import {LoggerServices} from '../../services/logger.services';
 import {ChatModel, MessageModel} from '../../models/chat.model';
 import {Subscription} from 'rxjs/Subscription';
 import {UserServices} from '../../services/user.services';
+import {StorageItem} from '@models/storage.model';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
     selector: 'pbx-notification',
@@ -20,6 +22,11 @@ export class NotificationComponent implements OnInit, OnDestroy {
     chatsSubscription: Subscription;
     selected: number = 0;
     currentUserId: number;
+    public countUnread: number = 0;
+    notificationObjects: any;
+
+    storageItem: StorageItem;
+    storageItemUpdate: Subject<StorageItem> = new Subject<StorageItem>();
 
     constructor(private socket: WsServices,
                 private logger: LoggerServices,
@@ -35,6 +42,71 @@ export class NotificationComponent implements OnInit, OnDestroy {
         this.chatsSubscription = this.socket.subChats().subscribe(chats => {
             this.updateChats(chats);
         });
+        this.notificationObjects = [
+            {
+                date: '20.01.2018',
+                items: [
+                    {
+                        message: 'Успешно куплен номер телефона <span>+7 (658) 874 68 98</span>',
+                        status: 0,
+                        time: ''
+                    },
+                    {
+                        message: 'Успешно куплен номер телефона <span>+7 (658) 874 68 98</span>',
+                        status: 0,
+                        time: ''
+                    }
+                ]
+            },
+            {
+                date: '19.01.2018',
+                items: [
+                    {
+                        message: 'Успешно куплен номер телефона <span>+7 (658) 874 68 98</span>',
+                        status: 0,
+                        time: ''
+                    },
+                    {
+                        message: 'Успешно куплен номер телефона <span>+7 (658) 874 68 98</span>',
+                        status: 0,
+                        time: ''
+                    }
+                ]
+            },
+            {
+                date: '18.01.2018',
+                items: [
+                    {
+                        message: 'Успешно куплен номер телефона <span>+7 (658) 874 68 98</span>',
+                        status: 0,
+                        time: ''
+                    },
+                    {
+                        message: 'Успешно куплен номер телефона <span>+7 (658) 874 68 98</span>',
+                        status: 0,
+                        time: ''
+                    }
+                ]
+            }
+        ];
+
+        this.notificationObjects.forEach(notification => {
+            notification.items.forEach(item => {
+                if (item.status === 0) {
+                    this.countUnread++;
+                }
+            });
+        });
+    }
+
+    changeNotificationStatus(i, j) {
+        this.notificationObjects[i].items[j].status = !this.notificationObjects[i].items[j].status;
+        if (this.notificationObjects[i].items[j].status === 1) {
+            this.countUnread--;
+        } else {
+            this.countUnread++;
+        }
+        // this.messageStatus = !this.messageStatus;
     }
 
     updateMessages(messages: MessageModel[]) {
@@ -76,6 +148,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
         // this.logger.log('chat init', null);
         this.updateMessages(this.socket.messages);
         this.updateChats(this.socket.chats);
+
     }
 
     ngOnDestroy() {

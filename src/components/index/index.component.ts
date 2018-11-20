@@ -14,6 +14,8 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {LangStateService} from '../../services/state/lang.state.service';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {ListComponent} from '@elements/pbx-list/pbx-list.component';
+import {NotificationComponent} from '@components/notification/notification.component';
 
 @Component({
     selector: 'pbx-index',
@@ -51,6 +53,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     headerButtonsVisible: boolean = false;
     userNavigationVisible: boolean = false;
     mobileNavigationVisible: boolean = false;
+    NotificationSubscription: Subscription;
 
     get username(): string {
         if (this.user && this.user.profile) {
@@ -67,6 +70,8 @@ export class IndexComponent implements OnInit, OnDestroy {
         }
         return '';
     }
+
+    countUnread: number = 0;
 
     @ViewChild('userWrap') userWrap: ElementRef;
 
