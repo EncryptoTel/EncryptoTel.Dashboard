@@ -42,6 +42,7 @@ export class IvrTreeItem extends BaseItemModel {
     parameter: string;
     description: string;
     name: string;
+    loop: number;
 }
 
 export class IvrLevelItem extends BaseItemModel {
@@ -132,7 +133,7 @@ export class Digit {
             this.action = tree.action;
             this.parameter = tree.parameter;
             this.name = tree.name;
-
+            this.loop = tree.loop;
         }
     }
     id: number;
@@ -141,4 +142,5 @@ export class Digit {
     action: string;
     parameter: string;
     name: string;
+    loop: number = 0;
 }

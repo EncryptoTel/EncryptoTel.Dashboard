@@ -31,6 +31,7 @@ export class IvrService extends BaseService {
         return this.put(`/${id}`, data);
     }
 
+    
     save(data): Promise<any> {
         return this.post('', data);
     }
@@ -43,7 +44,7 @@ export class IvrService extends BaseService {
     }
 
     getExtensions(id: number): Promise<any> {
-        return this.request.get(`v1/outer_rule/inners?sipOuter=${id}`);
+        return this.request.get(`v1/ivr/inners?sipOuter=${id}`);
     }
 
     onInit() {

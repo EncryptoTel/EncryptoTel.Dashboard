@@ -13,6 +13,7 @@ import { IvrLevelFormComponent } from "./ivr-create/ivr-level-form/ivr-level-for
 import { IvrDigitFormComponent } from "./ivr-create/ivr-digit-form/ivr-digit-form";
 import { IvrLevelComponent } from "./ivr-create/ivr-level/ivr-level.component";
 import { HostIvrFormDirective } from "./ivr-create/directive/host.directive";
+import { ModalComponent } from "@elements/pbx-modal/pbx-modal.component";
 
 const routes: Routes = [
     {path: '', component: IvrComponent, data: {title: 'IVR', indexed: true}},
@@ -57,7 +58,8 @@ const routes: Routes = [
     ],
     entryComponents:[
         IvrDigitFormComponent,
-        IvrLevelFormComponent
+        IvrLevelFormComponent,
+        ModalComponent
     ]
 })
 export class IvrModule {

@@ -17,6 +17,7 @@ import { StorageService } from '@services/storage.service';
 import { IvrFormInterface } from '../form.interface';
 import { validateFormControls } from '@shared/shared.functions';
 import { Subscription } from 'rxjs/Subscription';
+import { ModalEx } from '@elements/pbx-modal/pbx-modal.component';
 
 export enum DigitActions {
     EXTENSION_NUMBER = 1,
@@ -41,6 +42,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     digitForm: FormGroup;
     digits: Array<any> = [];
     sipInners: any;
+    
     then_data = [
         { id: 1, code: 'Redirect to extension number' },
         { id: 2, code: 'Redirect to external number' },
@@ -54,6 +56,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     ) {
         super(fb, message);
         this.onFormChange = new Subject();
+        
     }
 
 
@@ -61,33 +64,8 @@ export class IvrDigitFormComponent extends FormBaseComponent
     ngOnDestroy(): void {}
 
     ngOnInit() {
-        for (let i = 1; i <= 10; i++) {
-            const number = i % 10;
-            if (
-                !this.references.usedDiget.includes(i.toString()) ||
-                i.toString() === this.data.digit
-            ) {
-                this.digits.push({
-                    id: number.toString(),
-                    title: number.toString()
-                });
-            }
-        }
-        if (
-            !this.references.usedDiget.includes('*') ||
-            this.data.digit === '*'
-        ) {
-            this.digits.push({ id: '*', title: '*' });
-        }
-        if (
-            !this.references.usedDiget.includes('#') ||
-            this.data.digit === '#'
-        ) {
-            this.digits.push({ id: '#', title: '#' });
-        }
-
+        this.initAvaliableDigit();
         this.then_data = this.references.params;
-
         super.ngOnInit();
         this.service.reset();
     }
@@ -100,13 +78,13 @@ export class IvrDigitFormComponent extends FormBaseComponent
             parameter: [null, [Validators.required]]
         });
         this.addForm(this.digitFormKey, this.digitForm);
-        this.digitForm.patchValue(this.data);
         this.digitForm.get('action').valueChanges.subscribe(val => {
             this.showParameter(val);
         });
         this.digitForm.statusChanges.subscribe(() => {
             this.onFormChange.next(this.digitForm);
         });
+        this.digitForm.patchValue(this.data);
     }
 
     getData() {
@@ -149,4 +127,33 @@ export class IvrDigitFormComponent extends FormBaseComponent
             this.onDelete(this.data);
         }
     }
+
+    initAvaliableDigit() {
+        for (let i = 1; i <= 10; i++) {
+            const number = i % 10;
+            if (
+                !this.references.usedDiget.includes(i.toString()) ||
+                i.toString() === this.data.digit
+            ) {
+                this.digits.push({
+                    id: number.toString(),
+                    title: number.toString()
+                });
+            }
+        }
+        if (
+            !this.references.usedDiget.includes('*') ||
+            this.data.digit === '*'
+        ) {
+            this.digits.push({ id: '*', title: '*' });
+        }
+        if (
+            !this.references.usedDiget.includes('#') ||
+            this.data.digit === '#'
+        ) {
+            this.digits.push({ id: '#', title: '#' });
+        }
+    }
+
+    
 }

@@ -1,5 +1,5 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
-<div class="one">
+<div class="one" *ngIf="!loading">
     <div class="select_digit">
         <pbx-input name="Select Digit"
                    key="digit"
@@ -44,12 +44,11 @@
                validationKey="parameter"
                >
     </pbx-input>
-    {{actionVal | json}}
     <pbx-input name="{{'External number' | translate }}" key="parameter" [required]="true" [form]="true" [object]="digitForm"
-        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="actionVal===2">
+        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="actionVal==='2'">
     </pbx-input>
 
-    <pbx-input name="{{'Extension number' | translate }}" key="parameter" [required]="true" [placeholder]="'[choose one]'" *ngIf="actionVal===1"
+    <pbx-input name="{{'Extension number' | translate }}" key="parameter" [required]="true" [placeholder]="'[choose one]'" *ngIf="actionVal==='1'"
         [form]="true" [object]="digitForm" [options]="sipInners" displayKey="phoneNumber" [editable]="true" [(errors)]="service.errors"
         [validationHost]="validationHost">
     </pbx-input>
