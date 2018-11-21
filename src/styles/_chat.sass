@@ -6,10 +6,13 @@ pbx-chat
     bottom: 0
     background: $dark_overlay
     padding: 16px
+    pbx-loader
+        display: none
     .list
         flex-direction: column
         width: 100%
         position: relative
+        overflow: hidden
         //display: none
         .search_wrap
             display: grid
@@ -34,8 +37,9 @@ pbx-chat
                 &::placeholder
                     font-family: Roboto, sans-serif !important
                     font-weight: 100 !important
-            .mic
+            .create
                 grid-column: 5/6
+                position: relative
                 svg-icon
                     width: 15px
                     position: relative
@@ -50,8 +54,28 @@ pbx-chat
                             cursor: pointer
                         path
                             fill: $chat_icon_grey_color
+                .dropdown_block_create
+                    position: absolute
+                    bottom: -88px
+                    right: 0
+                    flex-direction: column
+                    z-index: 10
+                    .item
+                        font-family: Roboto, sans-serif
+                        font-size: 14px
+                        line-height: 19px
+                        color: $dark_white
+                        background: $dark_pagination_inactive
+                        padding: 0 16px
+                        height: 40px
+                        align-items: center
+                        cursor: pointer
+                        white-space: nowrap
+                        &:hover
+                            background: $dark_player_bg
         .items
-            display: grid
+            display: block
+            min-height: 100%
             overflow: auto
             .item
                 display: grid
@@ -108,7 +132,7 @@ pbx-chat
                         display: grid
                         align-items: end
                     .msg
-                        grid-column: 1/3
+                        grid-column: 1/2
                         grid-row: 2/3
                         font-family: Roboto, sans-serif
                         font-size: 14px
@@ -120,17 +144,67 @@ pbx-chat
                         text-overflow: ellipsis
                         display: block
                         padding-top: 3px
+                    .new_msgs
+                        grid-column: 2/3
+                        grid-row: 2/3
+                        align-items: center
+                        justify-content: flex-end
+                        span
+                            display: inline-flex
+                            height: 18px
+                            border-radius: 50%
+                            background: $dark_accent
+                            font-family: Roboto, sans-serif
+                            font-size: 12px
+                            color: $dark_white
+                            justify-content: center
+                            align-items: center
+                            padding: 0 7px
+                            &.long
+                                border-radius: 25%/50%
                 .settings
                     cursor: pointer
                     grid-row: 1/2
                     display: grid
                     align-items: end
+                    position: relative
                     svg-icon
                         svg
                             cursor: pointer
                             circle
                                 fill: $dark-white_80
                                 cursor: pointer
+                    .dropdown_block_settings
+                        position: absolute
+                        top: 24px
+                        right: 0px
+                        flex-direction: column
+                        z-index: 10
+                        .item
+                            font-family: Roboto, sans-serif
+                            font-size: 14px
+                            line-height: 19px
+                            color: $dark_white
+                            background: $dark_pagination_inactive
+                            padding: 0 16px
+                            height: 40px
+                            align-items: center
+                            cursor: pointer
+                            white-space: nowrap
+                            display: flex !important
+                            margin-bottom: 0 !important
+                            &:hover
+                                background: $dark_player_bg
+                &.user
+                    .dropdown_block_settings.user
+                        display: none
+                    .dropdown_block.group
+                        display: none
+                &.group
+                    .dropdown_block_settings.group
+                        display: none
+                    .dropdown_block.user
+                        display: none
         .add_people
             width: 56px
             height: 56px

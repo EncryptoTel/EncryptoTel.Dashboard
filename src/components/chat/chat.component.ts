@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     chatsSubscription: Subscription;
     selected: number = 0;
     currentUserId: number;
+    createStatus: boolean = false;
 
     constructor(private socket: WsServices,
                 private logger: LoggerServices,
@@ -35,6 +36,11 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.chatsSubscription = this.socket.subChats().subscribe(chats => {
             this.updateChats(chats);
         });
+
+    }
+
+    changeCreateStatus() {
+        this.createStatus = !this.createStatus;
     }
 
     updateMessages(messages: MessageModel[]) {
