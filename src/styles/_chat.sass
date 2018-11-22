@@ -75,13 +75,17 @@ pbx-chat
                             background: $dark_player_bg
         .items
             display: block
-            min-height: 100%
+            min-height: calc(100% - 80px)
             overflow: auto
             .item
                 display: grid
                 grid-template-columns: 40px 1fr 16px
                 grid-template-rows: 1fr 1fr
                 margin-bottom: 32px
+                &.dropdownTop
+                    .dropdown_block_settings
+                        top: unset !important
+                        bottom: 24px
                 .logo_wrap
                     grid-row: 1/3
                     display: grid
@@ -131,6 +135,7 @@ pbx-chat
                         color: $dark-white_75
                         display: grid
                         align-items: end
+                        justify-content: flex-end
                     .msg
                         grid-column: 1/2
                         grid-row: 2/3
@@ -195,16 +200,6 @@ pbx-chat
                             margin-bottom: 0 !important
                             &:hover
                                 background: $dark_player_bg
-                &.user
-                    .dropdown_block_settings.user
-                        display: none
-                    .dropdown_block.group
-                        display: none
-                &.group
-                    .dropdown_block_settings.group
-                        display: none
-                    .dropdown_block.user
-                        display: none
         .add_people
             width: 56px
             height: 56px

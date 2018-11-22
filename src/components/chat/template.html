@@ -22,21 +22,21 @@
 
     <div class="items">
 
-        <div class="item user">
+        <div class="item menu_block" *ngFor="let chat of chatObjects; let i = index">
             <div class="logo_wrap">
                 <div class="logo"><span>AS</span></div>
             </div> <!-- logo_wrap -->
             <div class="cnt">
                 <div class="name">
-                    <span>Adam Smit</span>
+                    <span>{{chat.isGroup ? chat.titleGroup : chat.userName}}</span>
                 </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-                <div class="new_msgs"><span>2</span></div>
+                <div class="date">{{chat.lastMessageTime}}</div>
+                <div class="msg">{{chat.lastMessage}}</div>
+                <div class="new_msgs"><span [ngClass]="chat.countUnread > 10 ? 'long' : ''">{{chat.countUnread > 999 ? '999+': chat.countUnread}}</span></div>
             </div> <!-- cnt -->
-            <div class="settings">
+            <div class="settings" (click)="dropdownSettings($event, i)" (clickOutside)="clickOutside(i)">
                 <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-                <div class="dropdown_block_settings user">
+                <div class="dropdown_block_settings user" *ngIf="!chat.isGroup && dropdownSettingsStatus[i]">
                     <div class="item">Pin</div>
                     <div class="item">Mute</div>
                     <div class="item">Call</div>
@@ -44,24 +44,7 @@
                     <div class="item">Delete Chat</div>
                     <div class="item">Mark As Reed</div>
                 </div> <!-- dropdown_block -->
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item group">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-                <div class="new_msgs"><span class="long">194</span></div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-                <div class="dropdown_block_settings group">
+                <div class="dropdown_block_settings group" *ngIf="chat.isGroup && dropdownSettingsStatus[i]">
                     <div class="item">Pin</div>
                     <div class="item">Mute</div>
                     <div class="item">Mark As Reed</div>
