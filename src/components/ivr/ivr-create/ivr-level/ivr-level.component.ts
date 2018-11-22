@@ -32,7 +32,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     selectedItem: any;
     constructor(private modalService: ModalServices) {
         this.modal = new ModalEx(
-            'Form not saved do you want to continue?',
+            'Form not saved. This element will be delete. Do you want to continue?',
             'changeTariff'
         );
         this.modalWnd = this.modalService.createModal(this.modal);
@@ -49,7 +49,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
         } else {
             this.modal.visible = true;
             this.modalWnd.onConfirmEx.subscribe(() => {
-                this.onCancelEdit.emit(this.selectedItem);
+                this.onCancelEdit.emit();
                 this.selectedItem = digit;
                 this.ivrDigitSelected.emit(digit);
             });
@@ -63,7 +63,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
         } else {
             this.modal.visible = true;
             this.modalWnd.onConfirmEx.subscribe(() => {
-                this.onCancelEdit.emit(this.selectedItem);
+                this.onCancelEdit.emit();
                 this.selectedItem = this.level;
                 this.ivrLevelSelected.emit(this.level);
             });

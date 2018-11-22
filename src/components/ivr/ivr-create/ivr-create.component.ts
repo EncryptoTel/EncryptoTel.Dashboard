@@ -19,6 +19,7 @@ import { IvrFormInterface } from './form.interface';
 import { IvrDigitFormComponent } from './ivr-digit-form/ivr-digit-form';
 import { IvrLevelFormComponent } from './ivr-level-form/ivr-level-form';
 import * as _ from 'lodash';
+import { numberRangeValidator } from '@shared/encry-form-validators';
 
 @Component({
     selector: 'pbx-ivr-create',
@@ -132,6 +133,9 @@ export class IvrCreateComponent implements OnInit {
         this.currentForm.onDelete = d => {
             this.deleteDigit();
         };
+        this.currentForm.onAddLevel = l => {
+            return this.addLevel(l);
+        }
         this.formChangeSubscription = this.currentForm.onFormChange.subscribe(
             res => {
                 this.onChangeForm(res);
@@ -227,7 +231,12 @@ export class IvrCreateComponent implements OnInit {
             });
             return result;
         });
-        return data[0];
+        const rootElem = data[0];
+        for (let i = 1; i < data.length; i++) {
+            const element = data[i];
+            rootElem.tree.push(...element.tree);
+        }
+        return rootElem;
     }
 
     save() {
@@ -281,31 +290,57 @@ export class IvrCreateComponent implements OnInit {
     onIvrDigitSelected(e) {
         this.loadForm(this.forms.digits, e);
         this.currentDigit = e;
+        if(e.action === '7') {
+            const nextIvr = this.ivrLevels.find(x=>x.levelNum.toString() ===e.parameter.toString());
+            if(nextIvr)
+                this.ivrViewLevels.push(nextIvr);
+        }
+    }
+
+    addLevel(l) {
+        l.levelNum = this.ivrViewLevels.length+1;
+        this.ivrViewLevels.push(l);
+        this.onIvrLevelSelected(l);
+        return l.levelNum;
     }
 
     deleteDigit() {
         this.currentLevel.digits = this.currentLevel.digits.filter(
             x => x !== this.currentDigit
         );
+        if(this.currentLevel.digits.length>0) {
+            const curDigit = this.currentLevel.digits[this.currentLevel.digits.length-1];
+            this.onIvrDigitSelected(curDigit);
+        } else {
+            this.onIvrLevelSelected(this.currentLevel);
+        }
+        
     }
 
     deleteLevel(e) {
         if (e.levelNum !== 1) {
-            const idx = this.ivrLevels.findIndex(
+            let idx = this.ivrLevels.findIndex(
                 x => x.levelNum === e.levelNum
             );
             if (idx !== -1) {
-                this.ivrLevels = this.ivrLevels.slice(idx, 1);
+                this.ivrLevels.splice(idx, 1);
+            }
+            idx = this.ivrViewLevels.findIndex(
+                x => x.levelNum === e.levelNum
+            );
+            if (idx !== -1) {
+                this.ivrViewLevels.splice(idx, 1);
             }
         }
         this.ref.levels = this.ivrLevels;
     }
 
     cancelEdit(e) {
-        if (e instanceof Digit) {
+        console.log(e);
+        if(this.currentDigit) {
             this.deleteDigit();
         } else {
-            this.deleteLevel(e);
+            this.deleteLevel(this.currentLevel);
         }
     }
 }

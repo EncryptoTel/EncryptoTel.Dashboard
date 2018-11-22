@@ -18,6 +18,7 @@ import { IvrFormInterface } from '../form.interface';
 import { validateFormControls } from '@shared/shared.functions';
 import { Subscription } from 'rxjs/Subscription';
 import { ModalEx } from '@elements/pbx-modal/pbx-modal.component';
+import { IvrLevel } from '@models/ivr.model';
 
 export enum DigitActions {
     EXTENSION_NUMBER = 1,
@@ -34,6 +35,7 @@ export enum DigitActions {
 })
 export class IvrDigitFormComponent extends FormBaseComponent
     implements OnInit, IvrFormInterface, OnDestroy {
+    onAddLevel: Function;
     references: any;
     data: any;
     actionVal = 0;
@@ -87,14 +89,20 @@ export class IvrDigitFormComponent extends FormBaseComponent
                 )
                 .then(res => {
                     this.paramsInfo = res;
-                    console.group('params');
-                    console.log(res);
-                    console.groupEnd();
                     this.loading--;
                 })
                 .catch(() => {
                     this.loading--;
                 });
+        });
+
+        this.digitForm.get('parameter').valueChanges.subscribe(val => {
+            if(this.digitForm.value.action === '7' && val === -1) {
+                console.log(val);
+                val = this.onAddLevel(new IvrLevel());
+                this.digitForm.get('parameter').setValue(val, {onlySelf: true})
+                console.log(val);
+            }
         });
         this.digitForm.statusChanges.subscribe(() => {
             this.onFormChange.next(this.digitForm);
@@ -154,6 +162,4 @@ export class IvrDigitFormComponent extends FormBaseComponent
             this.digits.push({ id: '#', title: '#' });
         }
     }
-
-
 }

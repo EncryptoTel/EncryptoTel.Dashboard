@@ -35,6 +35,7 @@ import { validateFormControls } from '@shared/shared.functions';
 })
 export class IvrLevelFormComponent extends FormBaseComponent
     implements OnInit, IvrFormInterface {
+    onAddLevel: Function;
     onFormChange: Subject<any>;
     onDelete: Function;
     references: any;
@@ -135,21 +136,24 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     ngOnInit() {
+        console.log('form init')
+        this.initFiles();
         super.ngOnInit();
         this.service.reset();
         this.form.patchValue(this.data);
     }
 
     initFiles() {
+        this.loading++;
         return this.service.getFiles().then(res => {
             this.files = res.items;
-            console.log('fileLoaded');
+            this.loading--;
         });
     }
 
     initForm(): void {
         this.form = this.fb.group({
-            sipId: [null, [Validators.required]],
+            sipId: [null, this.data.levelNum===1?[Validators.required]:[]],
             name: ['', [Validators.required, Validators.pattern(nameRegExp)]],
             description: ['', [Validators.maxLength(255)]],
             voiceGreeting: [null, [Validators.required]],

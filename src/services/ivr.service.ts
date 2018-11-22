@@ -8,25 +8,22 @@ export enum DigitActions {
     REDIRECT_TO_NUM = '2',
     REDIRECT_TO_QUEUE = '3',
     REDIRECT_TO_RING_GROUP = '4',
-    CANCEL_CALL = '5',
-    GO_TO_LEVEL = '6',
-    REPEAT_LEVEL = '7',
-    REDIRECT_TO_INTEGRATION = '8'
+    CANCEL_CALL = '6',
+    GO_TO_LEVEL = '7',
+    REPEAT_LEVEL = '8',
+    REDIRECT_TO_INTEGRATION = '9'
 }
 
 export class IvrService extends BaseService {
     pageInfo: IvrModel = new IvrModel();
     item: IvrItem;
     references: any = {};
-    actions: any[] = [];
-    digits: any[] = [];
 
     reset() {
         this.item = new IvrItem();
     }
 
     getById(id: number): Promise<IvrItem> {
-        console.log('getById');
         return super.getById(id).then((res: IvrItem) => {
             this.item = plainToClass(IvrItem, res);
             this.item.sipId = this.item.sip.id;
@@ -35,7 +32,6 @@ export class IvrService extends BaseService {
     }
 
     edit(id: number, data): Promise<any> {
-        console.log('Edit');
         return this.put(`/${id}`, data);
     }
 
@@ -101,7 +97,6 @@ export class IvrService extends BaseService {
             option: [],
             visible: true
         };
-        console.log(this.references.sip.find(x => x.id === sipId));
         return new Promise((resolve, reject) => {
             switch (val.toString()) {
                 case DigitActions.REDIRECT_TO_EXT:
@@ -147,10 +142,10 @@ export class IvrService extends BaseService {
                 case DigitActions.GO_TO_LEVEL:
                     paramsInfo.label = 'Ivr goto level';
                     paramsInfo.option = levels.map(l => {
-                        return { levelNum: l.levelNum, name: l.name };
+                        return { id: l.levelNum, name: l.name };
                     });
                     paramsInfo.option.push({
-                        levelNum: levels.size,
+                        id: -1,
                         name: 'new level'
                     });
                     paramsInfo.visible = true;
@@ -159,10 +154,10 @@ export class IvrService extends BaseService {
                 case DigitActions.REPEAT_LEVEL:
                     paramsInfo.label = 'Ivr repeat level';
                     paramsInfo.option = levels.map(l => {
-                        return { levelNum: l.levelNum, name: l.name };
+                        return { id: l.levelNum, name: l.name };
                     });
                     paramsInfo.option.push({
-                        levelNum: levels.size,
+                        id: -1,
                         name: 'new level'
                     });
                     paramsInfo.visible = true;
