@@ -7,8 +7,8 @@
         [errors]="service.errors" [validationHost]="validationHost">
     </pbx-input>
     <pbx-input name="Phone number" key="sipId" placeholder="[choose one]" [required]="true" [form]="true" [object]="form"
-        [options]="sipOuters" displayKey="phoneNumber" [errors]="service.errors"
-        [validationHost]="validationHost" class="phone_number" *ngIf="data.levelNum===1">
+        [options]="service.references.sip" displayKey="phoneNumber" [errors]="service.errors"
+        [validationHost]="validationHost" class="phone_number" *ngIf="form.value.levelNum===1">
     </pbx-input>
 
     <div class="call-rules-create_row">
@@ -99,21 +99,15 @@
     <div class="call-rules-create_row">
         <h3>{{ 'If user nothing is chosen' | translate }}</h3>
     </div>
-    <pbx-input name="{{'Then' | translate }}" key="action" [form]="true" [object]="form" [options]="then_data"
+    <pbx-input name="{{'Then' | translate }}" key="action" [form]="true" [object]="form" [options]="service.references.params"
         displayKey="code" [(errors)]="service.errors" [validationHost]="validationHost">
     </pbx-input>
 
-    <pbx-input name="{{'External number' | translate }}" key="parameter" [required]="true" [form]="true" [object]="form"
-        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="actionVal==2">
+    <pbx-input name="{{paramsInfo.label | translate }}" key="parameter" [required]="true" [form]="true" [object]="form" [options]="paramsInfo.option"
+        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible" displayKey="name">
     </pbx-input>
-
-    <pbx-input name="{{'Extension number' | translate }}" key="parameter" [required]="true" [placeholder]="'[choose one]'" *ngIf="actionVal==1"
-        [form]="true" [object]="form" [options]="sipInners" displayKey="phoneNumber" [editable]="true" [(errors)]="service.errors"
-        [validationHost]="validationHost">
-    </pbx-input>
-
 </div>
-
+{{actionVal|json}}
 <pbx-media-player #mediaPlayer [mediaStream]="currentMediaStream" (onGetMediaData)="getMediaData($event)"
     (onMediaStateChanged)="mediaStateChanged($event)">
 </pbx-media-player>

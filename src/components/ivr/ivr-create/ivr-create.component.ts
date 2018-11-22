@@ -19,14 +19,6 @@ import { IvrFormInterface } from './form.interface';
 import { IvrDigitFormComponent } from './ivr-digit-form/ivr-digit-form';
 import { IvrLevelFormComponent } from './ivr-level-form/ivr-level-form';
 import * as _ from 'lodash';
-import { ModalServices } from '@services/modal.service';
-import { ModalComponent, ModalEx } from '@elements/pbx-modal/pbx-modal.component';
-
-export enum DigitActions {
-    EXTENSION_NUMBER = 1,
-    EXTERNAL_NUMBER = 2,
-    SEND_TO_IVR = 3
-}
 
 @Component({
     selector: 'pbx-ivr-create',
@@ -45,7 +37,8 @@ export class IvrCreateComponent implements OnInit {
         sip: [],
         params: [],
         usedDiget: [],
-        sipId: 0
+        sipId: 0,
+        levels: []
     };
     ivrData: any;
     id: number;
@@ -64,35 +57,22 @@ export class IvrCreateComponent implements OnInit {
         public service: IvrService,
         protected message: MessageServices,
         private componentFactoryResolver: ComponentFactoryResolver,
-        private refs: RefsServices,
         private activatedRoute: ActivatedRoute,
         private storage: StorageService,
-        private router: Router,
+        private router: Router
     ) {
         this.id = this.activatedRoute.snapshot.params.id;
     }
 
     ngOnInit(): void {
-        this.loadRefs().then(() => {
+        this.loading++;
+        this.service.initReferences().then(() => {
             if (this.id) {
                 this.getItem(this.id);
             } else {
                 this.initEmptyModel();
             }
-        });
-    }
-
-    loadRefs() {
-        this.loading++;
-        return Promise.all([
-            this.refs.getSipOuters(),
-            this.service.getParams()
-        ]).then(res => {
-            this.ref.sip = res[0];
-            const action = res[1].actions;
-            this.ref.params = Object.keys(action).map(val => {
-                return { id: val, code: action[val] };
-            });
+            this.loading--;
         });
     }
 
@@ -104,6 +84,7 @@ export class IvrCreateComponent implements OnInit {
             this.ivrViewLevels.push(this.ivrLevels[0]);
             this.loadForm(this.forms.levelForm, this.ivrLevels[0]);
         }
+        this.ref.levels = this.ivrLevels;
     }
 
     getItem(id) {
@@ -113,7 +94,7 @@ export class IvrCreateComponent implements OnInit {
             .then(val => {
                 this.initExistsIvr(val);
             })
-            .catch(() => { })
+            .catch(() => {})
             .then(() => this.loading--);
     }
 
@@ -168,23 +149,22 @@ export class IvrCreateComponent implements OnInit {
             this.currentDigit.name = form.value.name;
             this.currentDigit.parameter = form.value.parameter;
         } else {
-            this.currentLevel.sipId = form.value.sipId
-            this.currentLevel.sip = form.value.sip
-            this.currentLevel.enabled = form.value.enabled
-            this.currentLevel.phone = form.value.phone
-            this.currentLevel.loopMessage = form.value.loopMessage
-            this.currentLevel.dateType = form.value.dateType
-            this.currentLevel.dateValue = form.value.dateValue
-            this.currentLevel.timeType = form.value.timeType
-            this.currentLevel.timeValue = form.value.timeValue
-            this.currentLevel.action = form.value.action
-            this.currentLevel.parameter = form.value.parameter
-            this.currentLevel.name = form.value.name
-            this.currentLevel.description = form.value.description
-            this.currentLevel.voiceGreeting = form.value.voiceGreeting
-            this.currentLevel.levelNum = form.value.levelNum
+            this.currentLevel.sipId = form.value.sipId;
+            this.currentLevel.sip = form.value.sip;
+            this.currentLevel.enabled = form.value.enabled;
+            this.currentLevel.phone = form.value.phone;
+            this.currentLevel.loopMessage = form.value.loopMessage;
+            this.currentLevel.dateType = form.value.dateType;
+            this.currentLevel.dateValue = form.value.dateValue;
+            this.currentLevel.timeType = form.value.timeType;
+            this.currentLevel.timeValue = form.value.timeValue;
+            this.currentLevel.action = form.value.action;
+            this.currentLevel.parameter = form.value.parameter;
+            this.currentLevel.name = form.value.name;
+            this.currentLevel.description = form.value.description;
+            this.currentLevel.voiceGreeting = form.value.voiceGreeting;
+            this.currentLevel.levelNum = form.value.levelNum;
         }
-
     }
 
     convertIvrItems(ivr: IvrItem) {
@@ -251,8 +231,10 @@ export class IvrCreateComponent implements OnInit {
     }
 
     save() {
-        const levelIndex = this.ivrLevels.findIndex(x=>x.levelNum==this.currentLevel.levelNum);
-        if(levelIndex!=-1) {
+        const levelIndex = this.ivrLevels.findIndex(
+            x => x.levelNum === this.currentLevel.levelNum
+        );
+        if (levelIndex !== -1) {
             this.ivrLevels[levelIndex] = this.currentLevel;
         } else {
             this.ivrLevels.push(this.currentLevel);
@@ -270,6 +252,8 @@ export class IvrCreateComponent implements OnInit {
                 }
             });
         }
+
+        this.ref.levels = this.ivrLevels;
     }
 
     saveDigit(d: Digit) {
@@ -282,13 +266,16 @@ export class IvrCreateComponent implements OnInit {
 
     onIvrLevelSelected(e) {
         this.loadForm(this.forms.levelForm, e);
-        const levelIndex = this.ivrLevels.findIndex(x=>x.levelNum==this.currentLevel.levelNum);
-        if(levelIndex!=-1) {
+        const levelIndex = this.ivrLevels.findIndex(
+            x => x.levelNum === this.currentLevel.levelNum
+        );
+        if (levelIndex !== -1) {
             this.ivrLevels[levelIndex] = this.currentLevel;
         } else {
             this.ivrLevels.push(this.currentLevel);
         }
         this.currentLevel = e;
+        this.ref.levels = this.ivrLevels;
     }
 
     onIvrDigitSelected(e) {
@@ -303,12 +290,15 @@ export class IvrCreateComponent implements OnInit {
     }
 
     deleteLevel(e) {
-        if (e.levelNum != 1) {
-            const idx = this.ivrLevels.findIndex(x => x.levelNum === e.levelNum);
-            if (idx != -1) {
+        if (e.levelNum !== 1) {
+            const idx = this.ivrLevels.findIndex(
+                x => x.levelNum === e.levelNum
+            );
+            if (idx !== -1) {
                 this.ivrLevels = this.ivrLevels.slice(idx, 1);
             }
         }
+        this.ref.levels = this.ivrLevels;
     }
 
     cancelEdit(e) {

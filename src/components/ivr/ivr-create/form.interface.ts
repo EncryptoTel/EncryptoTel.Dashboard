@@ -4,6 +4,4 @@ export interface IvrFormInterface {
     references: any;
     onDelete: Function;
     onFormChange: Subject<any>;
-    getData();
-
 }

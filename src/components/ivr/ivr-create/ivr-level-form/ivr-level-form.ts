@@ -25,13 +25,6 @@ import { StorageService } from '@services/storage.service';
 import { MediaState, CdrMediaInfo } from '@models/cdr.model';
 import { IvrFormInterface } from '../form.interface';
 import { validateFormControls } from '@shared/shared.functions';
-import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
-
-export enum DigitActions {
-    EXTENSION_NUMBER = 1,
-    EXTERNAL_NUMBER = 2,
-    SEND_TO_IVR = 3
-}
 
 @Component({
     selector: 'pbx-ivr-level-form',
@@ -111,6 +104,11 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
     rule_value_visible = 0;
     timeVisible = false;
+    paramsInfo = {
+        label: '',
+        option: [],
+        visible: true
+    };
     // -- properties ----------------------------------------------------------
 
     // -- component lifecycle methods -----------------------------------------
@@ -137,14 +135,9 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     ngOnInit() {
-        this.loading++;
         super.ngOnInit();
         this.service.reset();
-        Promise.all([this.initFiles(), this.getSipOuters()]).then(() => {
-            this.then_data = this.references.params;
-            this.loading--;
-            this.form.patchValue(this.data);
-        });
+        this.form.patchValue(this.data);
     }
 
     initFiles() {
@@ -177,7 +170,23 @@ export class IvrLevelFormComponent extends FormBaseComponent
             this.onFormChange.next(this.form);
         });
         this.form.get('action').valueChanges.subscribe(val => {
-            this.showParameter(val);
+            this.loading++;
+            this.service
+                .showParameter(
+                    val,
+                    this.form.value.sipId || this.data.sipId,
+                    this.references.levels
+                )
+                .then(res => {
+                    this.paramsInfo = res;
+                    console.group('params');
+                    console.log(res);
+                    console.groupEnd();
+                    this.loading--;
+                })
+                .catch(() => {
+                    this.loading--;
+                });
         });
         this.form.get('sipId').valueChanges.subscribe(val => {
             this.references.sipId = val;
@@ -272,42 +281,5 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
     selectTime(val, idx) {
         this.selectedDurationTimeRange[idx] = val;
-    }
-
-    getSipOuters() {
-        this.loading++;
-        return this.refs
-            .getSipOuters()
-            .then(response => {
-                this.sipOuters = response;
-                console.log('SipOuters loaded');
-            })
-            .catch(() => {})
-            .then(() => this.loading--);
-    }
-
-    getExtensions(id: number): void {
-        this.loading++;
-        this.service
-            .getExtensions(id)
-            .then(response => {
-                this.sipInners = response.items;
-            })
-            .catch(() => {})
-            .then(() => this.loading--);
-    }
-
-    showParameter(val) {
-        switch (val) {
-            case DigitActions.EXTENSION_NUMBER:
-                this.getExtensions(this.references.sipId);
-                break;
-            case DigitActions.EXTERNAL_NUMBER:
-                this.sipInners = [];
-                break;
-            case DigitActions.SEND_TO_IVR:
-                break;
-        }
-        this.actionVal = val;
     }
 }

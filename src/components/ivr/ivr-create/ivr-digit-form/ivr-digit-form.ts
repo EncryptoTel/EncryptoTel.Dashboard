@@ -42,12 +42,11 @@ export class IvrDigitFormComponent extends FormBaseComponent
     digitForm: FormGroup;
     digits: Array<any> = [];
     sipInners: any;
-    
-    then_data = [
-        { id: 1, code: 'Redirect to extension number' },
-        { id: 2, code: 'Redirect to external number' },
-        { id: 3, code: 'Create new level' }
-    ];
+    paramsInfo = {
+        label: '',
+        option: [],
+        visible: true
+    };
     onFormChange: Subject<any>;
     constructor(
         public service: IvrService,
@@ -56,7 +55,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     ) {
         super(fb, message);
         this.onFormChange = new Subject();
-        
+
     }
 
 
@@ -65,9 +64,9 @@ export class IvrDigitFormComponent extends FormBaseComponent
 
     ngOnInit() {
         this.initAvaliableDigit();
-        this.then_data = this.references.params;
         super.ngOnInit();
         this.service.reset();
+        this.digitForm.patchValue(this.data);
     }
 
     initForm(): void {
@@ -79,12 +78,27 @@ export class IvrDigitFormComponent extends FormBaseComponent
         });
         this.addForm(this.digitFormKey, this.digitForm);
         this.digitForm.get('action').valueChanges.subscribe(val => {
-            this.showParameter(val);
+            this.loading++;
+            this.service
+                .showParameter(
+                    val,
+                    this.references.sipId,
+                    this.references.levels
+                )
+                .then(res => {
+                    this.paramsInfo = res;
+                    console.group('params');
+                    console.log(res);
+                    console.groupEnd();
+                    this.loading--;
+                })
+                .catch(() => {
+                    this.loading--;
+                });
         });
         this.digitForm.statusChanges.subscribe(() => {
             this.onFormChange.next(this.digitForm);
         });
-        this.digitForm.patchValue(this.data);
     }
 
     getData() {
@@ -106,20 +120,6 @@ export class IvrDigitFormComponent extends FormBaseComponent
             })
             .catch(() => {})
             .then(() => this.loading--);
-    }
-
-    showParameter(val) {
-        this.actionVal = val;
-        switch (val) {
-            case DigitActions.EXTENSION_NUMBER:
-                this.getExtensions(this.references.sipId);
-                break;
-            case DigitActions.EXTERNAL_NUMBER:
-                this.sipInners = [];
-                break;
-            case DigitActions.SEND_TO_IVR:
-                break;
-        }
     }
 
     deleteDigit() {
@@ -155,5 +155,5 @@ export class IvrDigitFormComponent extends FormBaseComponent
         }
     }
 
-    
+
 }

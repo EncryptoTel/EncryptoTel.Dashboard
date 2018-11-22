@@ -36,7 +36,7 @@
                placeholder="[choose one]"
                [form]="true"
                [object]="digitForm"
-               [options]="then_data"
+               [options]="service.references.params"
                displayKey="code"
                [errors]="service.errors"
                errorKey="action"
@@ -44,13 +44,9 @@
                validationKey="parameter"
                >
     </pbx-input>
-    <pbx-input name="{{'External number' | translate }}" key="parameter" [required]="true" [form]="true" [object]="digitForm"
-        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="actionVal==='2'">
-    </pbx-input>
 
-    <pbx-input name="{{'Extension number' | translate }}" key="parameter" [required]="true" [placeholder]="'[choose one]'" *ngIf="actionVal==='1'"
-        [form]="true" [object]="digitForm" [options]="sipInners" displayKey="phoneNumber" [editable]="true" [(errors)]="service.errors"
-        [validationHost]="validationHost">
+    <pbx-input name="{{paramsInfo.label | translate }}" key="parameter" [required]="true" [form]="true" [object]="digitForm" [options]="paramsInfo.option"
+        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible" displayKey="name">
     </pbx-input>
 
 </div>

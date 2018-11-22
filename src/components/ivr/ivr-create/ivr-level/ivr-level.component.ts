@@ -1,10 +1,19 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    Output,
+    EventEmitter,
+    OnDestroy
+} from '@angular/core';
 
 import { FadeAnimation } from '@shared/fade-animation';
 import { IvrTreeItem, IvrLevelItem, IvrLevel, Digit } from '@models/ivr.model';
-import { ModalEx, ModalComponent } from '@elements/pbx-modal/pbx-modal.component';
+import {
+    ModalEx,
+    ModalComponent
+} from '@elements/pbx-modal/pbx-modal.component';
 import { ModalServices } from '@services/modal.service';
-
 
 @Component({
     selector: 'pbx-ivr-level',
@@ -12,8 +21,7 @@ import { ModalServices } from '@services/modal.service';
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
-export class IvrLevelComponent implements OnInit {
-
+export class IvrLevelComponent implements OnInit, OnDestroy {
     @Input() level: IvrLevel;
     @Input() isValidForm: boolean;
     @Output() ivrDigitSelected: EventEmitter<Digit> = new EventEmitter<Digit>();
@@ -23,7 +31,10 @@ export class IvrLevelComponent implements OnInit {
     modalWnd: ModalComponent;
     selectedItem: any;
     constructor(private modalService: ModalServices) {
-        this.modal = new ModalEx('Form not saved do you want to continue?', 'changeTariff');
+        this.modal = new ModalEx(
+            'Form not saved do you want to continue?',
+            'changeTariff'
+        );
         this.modalWnd = this.modalService.createModal(this.modal);
     }
 
@@ -36,13 +47,12 @@ export class IvrLevelComponent implements OnInit {
             this.selectedItem = digit;
             this.ivrDigitSelected.emit(digit);
         } else {
-            this.modal.visible=true;
+            this.modal.visible = true;
             this.modalWnd.onConfirmEx.subscribe(() => {
                 this.onCancelEdit.emit(this.selectedItem);
                 this.selectedItem = digit;
                 this.ivrDigitSelected.emit(digit);
             });
-            
         }
     }
 
@@ -51,12 +61,12 @@ export class IvrLevelComponent implements OnInit {
             this.selectedItem = this.level;
             this.ivrLevelSelected.emit(this.level);
         } else {
-            this.modal.visible=true;
+            this.modal.visible = true;
             this.modalWnd.onConfirmEx.subscribe(() => {
                 this.onCancelEdit.emit(this.selectedItem);
                 this.selectedItem = this.level;
                 this.ivrLevelSelected.emit(this.level);
-            });            
+            });
         }
     }
 
