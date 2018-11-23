@@ -13,7 +13,7 @@ pbx-chat
         width: 100%
         position: relative
         overflow: hidden
-        //display: none
+        display: none
         .search_wrap
             display: grid
             grid-template-columns: 18px 10px 1fr 10px 18px
@@ -236,14 +236,14 @@ pbx-chat
         flex-direction: column
         width: 100%
         padding-bottom: 56px
-        display: none
+        //display: none
         .top
             background: $dark_overlay
             padding: 8px 16px
             margin: -16px 0 0 -16px
             align-items: center
             display: grid
-            grid-template-columns: 24px 16px 1fr 16px 18px 16px 12px
+            grid-template-columns: 24px 16px 1fr 16px 18px 16px 18px
             .back
                 grid-column: 1/2
                 height: 100%
@@ -294,6 +294,7 @@ pbx-chat
                     height: 40px
                     position: relative
                     overflow: hidden
+                    display: none
                     svg
                         height: 18px
                         cursor: pointer
@@ -310,6 +311,10 @@ pbx-chat
                 height: 100%
                 display: grid
                 align-items: center
+                position: relative
+                cursor: pointer
+                *
+                    cursor: pointer
                 svg-icon
                     width: 100%
                     height: 30px
@@ -326,6 +331,25 @@ pbx-chat
                             cursor: pointer
                         circle
                             fill: $dark_white
+                .dropdown_block_settings.user_chat
+                    position: absolute
+                    top: 48px
+                    right: 0
+                    flex-direction: column
+                    z-index: 10
+                    .item
+                        font-family: Roboto, sans-serif
+                        font-size: 14px
+                        line-height: 19px
+                        color: $dark_white
+                        background: $dark_pagination_inactive
+                        padding: 0 16px
+                        height: 40px
+                        align-items: center
+                        cursor: pointer
+                        white-space: nowrap
+                        &:hover
+                            background: $dark_player_bg
         .calling
             background: $chat_calling_bg
             justify-content: center

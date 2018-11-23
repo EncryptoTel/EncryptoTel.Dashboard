@@ -78,8 +78,15 @@
         <div class="search">
             <svg-icon src="../../assets/images/chat/magnifier_18px.svg"></svg-icon>
         </div> <!-- search -->
-        <div class="settings">
+        <div class="settings" (click)="changeSettingsUserChat()">
             <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
+            <div class="dropdown_block_settings user_chat" *ngIf="dropdownSettingsUserChat">
+                <div class="item">Edit</div>
+                <div class="item">Shared Media</div>
+                <div class="item">Info</div>
+                <div class="item">Clear Chat History</div>
+                <div class="item">Delete Chat</div>
+            </div> <!-- dropdown_block -->
         </div> <!-- settings -->
     </div> <!-- top -->
 
@@ -117,7 +124,7 @@
         <div class="smiles">
             <svg-icon src="../../assets/images/chat/smiley_18px.svg"></svg-icon>
         </div> <!-- smiles -->
-        <input type="text" placeholder="Message" [(ngModel)]="message" (keyup)="onMessageKeyUp($event)">
+        <input type="text" placeholder="Write a message..." [(ngModel)]="message" (keyup)="onMessageKeyUp($event)">
         <div class="files">
             <svg-icon src="../../assets/images/chat/clip_18px.svg"></svg-icon>
         </div> <!-- files -->
