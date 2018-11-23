@@ -4,12 +4,12 @@ import {
     OnInit,
     ViewChild,
     ComponentFactoryResolver,
-    OnDestroy
+    OnDestroy,
+    ElementRef
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { IvrService } from '@services/ivr.service';
-import { RefsServices } from '@services/refs.services';
 import { MessageServices } from '@services/message.services';
 import { IvrItem, IvrLevel, IvrLevelBase, Digit } from '@models/ivr.model';
 import { FadeAnimation } from '@shared/fade-animation';
@@ -30,7 +30,6 @@ import { numberRangeValidator } from '@shared/encry-form-validators';
 })
 export class IvrCreateComponent implements OnInit {
     ivrLevels: Array<IvrLevel> = []; // all levels
-    ivrViewLevels = []; // levels shows for user
     currentLevel: IvrLevel;
     currentDigit: Digit;
     isValidForm = false;
@@ -52,6 +51,7 @@ export class IvrCreateComponent implements OnInit {
         digits: IvrDigitFormComponent
     };
     @ViewChild(HostIvrFormDirective) hostIvr: HostIvrFormDirective;
+    @ViewChild('levelPanel', { read: ElementRef }) panel: ElementRef;
     currentForm: IvrFormInterface;
 
     constructor(
@@ -81,8 +81,6 @@ export class IvrCreateComponent implements OnInit {
         this.modelFromServer = val;
         this.ivrLevels = this.convertIvrItems(this.modelFromServer);
         if (this.ivrLevels.length > 0) {
-            this.ivrViewLevels = [];
-            this.ivrViewLevels.push(this.ivrLevels[0]);
             this.loadForm(this.forms.levelForm, this.ivrLevels[0]);
         }
         this.ref.levels = this.ivrLevels;
@@ -103,12 +101,13 @@ export class IvrCreateComponent implements OnInit {
         this.modelFromServer = new IvrItem();
         const newLevel = new IvrLevel();
         newLevel.levelNum = 1;
-        this.ivrViewLevels.push(newLevel);
+        newLevel.isVisible = true;
         this.loadForm(this.forms.levelForm, newLevel);
     }
 
     loadForm(form, data) {
         this.ref.sipId = this.modelFromServer.sipId;
+        this.service.currentSip = this.modelFromServer.sipId;
         if (this.formChangeSubscription) {
             this.formChangeSubscription.unsubscribe();
         }
@@ -135,7 +134,7 @@ export class IvrCreateComponent implements OnInit {
         };
         this.currentForm.onAddLevel = l => {
             return this.addLevel(l);
-        }
+        };
         this.formChangeSubscription = this.currentForm.onFormChange.subscribe(
             res => {
                 this.onChangeForm(res);
@@ -285,21 +284,42 @@ export class IvrCreateComponent implements OnInit {
         }
         this.currentLevel = e;
         this.ref.levels = this.ivrLevels;
+        this.ivrLevels.forEach(l => {
+            if (l.levelNum > e.levelNum) {
+                l.isVisible = false;
+            }
+        });
     }
 
     onIvrDigitSelected(e) {
+        this.visibleOrHideDigit(e);
         this.loadForm(this.forms.digits, e);
         this.currentDigit = e;
-        if(e.action === '7') {
-            const nextIvr = this.ivrLevels.find(x=>x.levelNum.toString() ===e.parameter.toString());
-            if(nextIvr)
-                this.ivrViewLevels.push(nextIvr);
+    }
+
+    visibleOrHideDigit(digit) {
+        const curDigit = this.currentDigit;
+        if (curDigit && curDigit.action && curDigit.action.toString() === '7') {
+            const currVisibledLevel = this.ivrLevels.find(
+                x => x.levelNum.toString() === curDigit.parameter.toString()
+            );
+            if (currVisibledLevel) {
+                currVisibledLevel.isVisible = false;
+            }
+        }
+        if (digit.action && digit.action.toString() === '7') {
+            const nextIvr = this.ivrLevels.find(
+                x => x.levelNum.toString() === digit.parameter.toString()
+            );
+            nextIvr.isVisible = true;
         }
     }
 
     addLevel(l) {
-        l.levelNum = this.ivrViewLevels.length+1;
-        this.ivrViewLevels.push(l);
+        l.levelNum = this.ivrLevels.length + 1;
+        this.currentDigit.parameter = l.levelNum;
+        l.isVisible = true;
+        this.panel.nativeElement.scrollLeft += 500;
         this.onIvrLevelSelected(l);
         return l.levelNum;
     }
@@ -308,28 +328,23 @@ export class IvrCreateComponent implements OnInit {
         this.currentLevel.digits = this.currentLevel.digits.filter(
             x => x !== this.currentDigit
         );
-        if(this.currentLevel.digits.length>0) {
-            const curDigit = this.currentLevel.digits[this.currentLevel.digits.length-1];
+        if (this.currentLevel.digits.length > 0) {
+            const curDigit = this.currentLevel.digits[
+                this.currentLevel.digits.length - 1
+            ];
             this.onIvrDigitSelected(curDigit);
         } else {
             this.onIvrLevelSelected(this.currentLevel);
         }
-        
     }
 
     deleteLevel(e) {
         if (e.levelNum !== 1) {
-            let idx = this.ivrLevels.findIndex(
+            const idx = this.ivrLevels.findIndex(
                 x => x.levelNum === e.levelNum
             );
             if (idx !== -1) {
                 this.ivrLevels.splice(idx, 1);
-            }
-            idx = this.ivrViewLevels.findIndex(
-                x => x.levelNum === e.levelNum
-            );
-            if (idx !== -1) {
-                this.ivrViewLevels.splice(idx, 1);
             }
         }
         this.ref.levels = this.ivrLevels;
@@ -337,10 +352,14 @@ export class IvrCreateComponent implements OnInit {
 
     cancelEdit(e) {
         console.log(e);
-        if(this.currentDigit) {
+        if (this.currentDigit) {
             this.deleteDigit();
         } else {
             this.deleteLevel(this.currentLevel);
         }
+    }
+
+    getVisibleLevels() {
+        return this.ivrLevels.filter(x => x.isVisible || x.levelNum === 1);
     }
 }

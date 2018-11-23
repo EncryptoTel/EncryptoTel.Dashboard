@@ -18,7 +18,7 @@ export class IvrService extends BaseService {
     pageInfo: IvrModel = new IvrModel();
     item: IvrItem;
     references: any = {};
-
+    currentSip: any;
     reset() {
         this.item = new IvrItem();
     }
@@ -164,7 +164,7 @@ export class IvrService extends BaseService {
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_INTEGRATION:
-                    paramsInfo.label = 'Ivr repeat level';
+                    paramsInfo.label = 'Ivr integration';
                     paramsInfo.option = undefined;
                     paramsInfo.visible = false;
                     resolve(paramsInfo);

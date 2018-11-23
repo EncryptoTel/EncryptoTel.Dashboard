@@ -42,12 +42,11 @@
                errorKey="action"
                [validationHost]="validationHost"
                validationKey="parameter"
-               selectAsObject="true"
                >
     </pbx-input>
 
     <pbx-input name="{{paramsInfo.label | translate }}" key="parameter" [required]="true" [form]="true" [object]="digitForm" [options]="paramsInfo.option"
-        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible" displayKey="name" selectAsObject="true">
+        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible" displayKey="name">
     </pbx-input>
 
 </div>

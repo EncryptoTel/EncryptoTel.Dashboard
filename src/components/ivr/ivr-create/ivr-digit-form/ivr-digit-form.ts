@@ -57,9 +57,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     ) {
         super(fb, message);
         this.onFormChange = new Subject();
-
     }
-
 
     onDelete: Function;
     ngOnDestroy(): void {}
@@ -97,10 +95,12 @@ export class IvrDigitFormComponent extends FormBaseComponent
         });
 
         this.digitForm.get('parameter').valueChanges.subscribe(val => {
-            if(this.digitForm.value.action === '7' && val === -1) {
+            if (this.digitForm.value.action === '7' && val === -1) {
                 console.log(val);
                 val = this.onAddLevel(new IvrLevel());
-                this.digitForm.get('parameter').setValue(val, {onlySelf: true})
+                this.digitForm
+                    .get('parameter')
+                    .setValue(val, { onlySelf: true });
                 console.log(val);
             }
         });

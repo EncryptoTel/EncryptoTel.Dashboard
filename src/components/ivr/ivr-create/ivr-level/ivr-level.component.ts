@@ -14,6 +14,7 @@ import {
     ModalComponent
 } from '@elements/pbx-modal/pbx-modal.component';
 import { ModalServices } from '@services/modal.service';
+import { IvrService, DigitActions } from '@services/ivr.service';
 
 @Component({
     selector: 'pbx-ivr-level',
@@ -25,12 +26,17 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     @Input() level: IvrLevel;
     @Input() isValidForm: boolean;
     @Output() ivrDigitSelected: EventEmitter<Digit> = new EventEmitter<Digit>();
-    @Output() ivrLevelSelected: EventEmitter<IvrLevel> = new EventEmitter<IvrLevel>();
+    @Output() ivrLevelSelected: EventEmitter<IvrLevel> = new EventEmitter<
+        IvrLevel
+    >();
     @Output() onCancelEdit: EventEmitter<any> = new EventEmitter<any>();
     modal: ModalEx;
     modalWnd: ModalComponent;
     selectedItem: any;
-    constructor(private modalService: ModalServices) {
+    constructor(
+        private modalService: ModalServices,
+        private service: IvrService
+    ) {
         this.modal = new ModalEx(
             'Form not saved. This element will be delete. Do you want to continue?',
             'changeTariff'
@@ -75,6 +81,62 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
         this.level.digits.push(d);
         this.onSelectDigit(d);
         this.isValidForm = false;
+    }
+
+    getAction(val) {
+        if (val.action) {
+            const refVal = this.service.references.params.find(
+                x => x.id === val.action.toString()
+            );
+            return refVal ? refVal.code : '';
+        }
+        return '';
+    }
+
+    getParameter(val) {
+        switch (val.action.toString()) {
+            case DigitActions.REDIRECT_TO_EXT:
+                const sip = this.service.references.sip.find(
+                    x => x.id === this.service.currentSip
+                );
+                if (sip) {
+                    const inner = sip.sipInners.find(
+                        x => x.id === val.parameter
+                    );
+                    if (inner) {
+                        return inner.phoneNumber;
+                    }
+                }
+                return '';
+            case DigitActions.REDIRECT_TO_NUM:
+                return val.parameter;
+            case DigitActions.REDIRECT_TO_QUEUE:
+                const rtq = this.service.references.queue.find(
+                    x => x.id === val.parameter
+                );
+                if (rtq) {
+                    return rtq.name;
+                }
+                return '';
+            case DigitActions.REDIRECT_TO_RING_GROUP:
+                const rtr = this.service.references.queue.find(
+                    x => x.id === val.parameter
+                );
+                if (rtr) {
+                    return rtr.name;
+                }
+                return '';
+            case DigitActions.CANCEL_CALL:
+                return '';
+            case DigitActions.GO_TO_LEVEL:
+                return 'Go to ' + val.parameter;
+            case DigitActions.REPEAT_LEVEL:
+                return 'repeat ' + val.parameter;
+            case DigitActions.REDIRECT_TO_INTEGRATION:
+                return '';
+            default:
+                return '';
+        }
     }
 
     ngOnDestroy(): void {

@@ -1,7 +1,5 @@
 import { BaseItemModel, PageInfoModel } from './base.model';
 
-
-
 export class IvrModel extends PageInfoModel {
     items: IvrItem[];
 }
@@ -18,7 +16,7 @@ export class IvrItem extends BaseItemModel {
     dateValue: string;
     timeType: string;
     timeValue: string;
-    timeoutAction: string;    
+    timeoutAction: string;
     timeoutParams: string;
     loopMessage: number;
     constructor() {
@@ -31,7 +29,6 @@ export class IvrItem extends BaseItemModel {
     get statusName() {
         return this.status ? 'Enabled' : 'Disabled';
     }
-
 }
 
 export class IvrTreeItem extends BaseItemModel {
@@ -64,9 +61,9 @@ export class IvrLevelBase extends BaseItemModel {
     constructor(tree?) {
         super();
         this.digits = [];
-        if(tree) {
+        if (tree) {
             this.name = tree[0].name || '';
-            this.description = tree[0].description || "";
+            this.description = tree[0].description || '';
             this.levelNum = tree[0].level;
         }
     }
@@ -79,41 +76,44 @@ export class IvrLevelBase extends BaseItemModel {
 }
 
 export class IvrLevel extends IvrLevelBase {
-    
     constructor(tree?, ivr?: IvrItem) {
         super(tree);
-        if(ivr) {
+        if (ivr) {
             this.id = ivr.id;
             this.name = ivr.name || '';
             this.sipId = ivr.sipId || null;
             this.enabled = ivr.enabled || false;
             this.loopMessage = ivr.loopMessage || 2;
-            this.dateType = ivr.dateType || "";
-            this.dateValue = ivr.dateValue || "";
-            this.timeType = ivr.timeType || "";
-            this.timeValue = ivr.timeValue || ""
-            const intro = tree.find(x=>x.digit === 'intro');
-            if(intro) {
-                if(intro.action===5) {
+            this.dateType = ivr.dateType || '';
+            this.dateValue = ivr.dateValue || '';
+            this.timeType = ivr.timeType || '';
+            this.timeValue = ivr.timeValue || '';
+            const intro = tree.find(x => x.digit === 'intro');
+            if (intro) {
+                if (intro.action === 5) {
                     this.voiceGreeting = intro.parameter || '';
                 }
             }
-            let timeout = tree.find(x=>x.digit === 'timeout');
-            if(timeout) {                
+            const timeout = tree.find(x => x.digit === 'timeout');
+            if (timeout) {
                 this.action = timeout.action;
                 this.parameter = timeout.parameter;
             }
-            let data = tree.filter(x=>!(x.digit==='intro' || x.digit==='timeout'));
+            const data = tree.filter(
+                x => !(x.digit === 'intro' || x.digit === 'timeout')
+            );
             console.log(data);
-            this.digits = tree.filter(x=>!(x.digit==='intro' || x.digit==='timeout')).map(d=>{
-                return new Digit(d);
-            })
+            this.digits = tree
+                .filter(x => !(x.digit === 'intro' || x.digit === 'timeout'))
+                .map(d => {
+                    return new Digit(d);
+                });
         } else {
             this.levelNum = 1;
         }
     }
     sipId: number;
-    sip: string
+    sip: string;
     enabled: boolean;
     phone: any;
     loopMessage: number;
@@ -123,10 +123,11 @@ export class IvrLevel extends IvrLevelBase {
     timeValue: string;
     action: string;
     parameter: string;
+    isVisible: boolean;
 }
 export class Digit {
     constructor(tree?: IvrTreeItem) {
-        if(tree) {
+        if (tree) {
             this.id = tree.id;
             this.digit = tree.digit;
             this.description = tree.description;

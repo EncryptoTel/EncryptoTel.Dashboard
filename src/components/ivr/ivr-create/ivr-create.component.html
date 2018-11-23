@@ -23,8 +23,8 @@
     <div class="ivr_create_body"> <!-- class one_block -->
 
         <!-- IVR levels -->
-        <div class="left">
-            <pbx-ivr-level *ngFor="let level of ivrViewLevels"
+        <div class="left" #levelPanel>
+            <pbx-ivr-level *ngFor="let level of getVisibleLevels()"
                            [level]="level"
                            [isValidForm] = "isValidForm"
                            (ivrDigitSelected)="onIvrDigitSelected($event)"

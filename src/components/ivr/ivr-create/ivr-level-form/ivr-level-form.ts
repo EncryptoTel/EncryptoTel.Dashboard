@@ -136,7 +136,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     ngOnInit() {
-        console.log('form init')
+        console.log('form init');
         this.initFiles();
         super.ngOnInit();
         this.service.reset();
@@ -153,7 +153,10 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
     initForm(): void {
         this.form = this.fb.group({
-            sipId: [null, this.data.levelNum===1?[Validators.required]:[]],
+            sipId: [
+                null,
+                this.data.levelNum === 1 ? [Validators.required] : []
+            ],
             name: ['', [Validators.required, Validators.pattern(nameRegExp)]],
             description: ['', [Validators.maxLength(255)]],
             voiceGreeting: [null, [Validators.required]],
@@ -194,6 +197,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
         });
         this.form.get('sipId').valueChanges.subscribe(val => {
             this.references.sipId = val;
+            this.service.currentSip = val;
         });
 
         // this.form.get("duration_time").valueChanges.subscribe(val => {
