@@ -212,6 +212,8 @@ pbx-chat
             background: $dark_accent
             box-shadow: 4px 4px 10px rgba(0, 0, 0, .5)
             cursor: pointer
+            transition: all linear 1s
+            opacity: 0
             svg-icon
                 width: 38px
                 position: absolute
@@ -228,6 +230,8 @@ pbx-chat
                     circle
                         fill: $dark_white
                         cursor: pointer
+            &.opened
+                opacity: 1
     .talking
         flex-direction: column
         width: 100%
