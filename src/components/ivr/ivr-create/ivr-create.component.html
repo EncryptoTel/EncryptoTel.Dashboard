@@ -27,8 +27,7 @@
             <pbx-ivr-level *ngFor="let level of getVisibleLevels()"
                            [level]="level"
                            [isValidForm] = "isValidForm"
-                           (ivrDigitSelected)="onIvrDigitSelected($event)"
-                           (ivrLevelSelected)="onIvrLevelSelected($event)"
+                           (ivrSelected)="onIvrSelected($event)"
                            (onCancelEdit)="cancelEdit($event)"
             >
             </pbx-ivr-level>

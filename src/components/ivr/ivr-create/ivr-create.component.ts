@@ -93,7 +93,7 @@ export class IvrCreateComponent implements OnInit {
             .then(val => {
                 this.initExistsIvr(val);
             })
-            .catch(() => {})
+            .catch(() => { })
             .then(() => this.loading--);
     }
 
@@ -201,7 +201,7 @@ export class IvrCreateComponent implements OnInit {
                         action: 5,
                         parameter: i.voiceGreeting,
                         description: i.description,
-                        name: '',
+                        name: i.name,
                         loop: 1
                     },
                     {
@@ -211,7 +211,7 @@ export class IvrCreateComponent implements OnInit {
                         action: i.action,
                         parameter: i.parameter,
                         description: i.description,
-                        name: '',
+                        name: i.name,
                         loop: 1
                     }
                 ]
@@ -251,6 +251,7 @@ export class IvrCreateComponent implements OnInit {
         if (this.id) {
             this.service.edit(this.id, data).then(res => {
                 this.initExistsIvr(res);
+                this.isValidForm = true;
             });
         } else {
             this.service.save(data).then(res => {
@@ -272,46 +273,47 @@ export class IvrCreateComponent implements OnInit {
         this.currentDigit = d;
     }
 
-    onIvrLevelSelected(e) {
-        this.loadForm(this.forms.levelForm, e);
-        const levelIndex = this.ivrLevels.findIndex(
-            x => x.levelNum === this.currentLevel.levelNum
-        );
-        if (levelIndex !== -1) {
-            this.ivrLevels[levelIndex] = this.currentLevel;
+    onIvrSelected(e) {
+        if (e.digit) {
+            this.currentLevel = e.level;
+            this.visibleOrHideDigit(e.digit);
+            this.loadForm(this.forms.digits, e.digit);
+            this.currentDigit = e.digit;
         } else {
-            this.ivrLevels.push(this.currentLevel);
-        }
-        this.currentLevel = e;
-        this.ref.levels = this.ivrLevels;
-        this.ivrLevels.forEach(l => {
-            if (l.levelNum > e.levelNum) {
-                l.isVisible = false;
+            this.loadForm(this.forms.levelForm, e.level);
+            const levelIndex = this.ivrLevels.findIndex(
+                x => x.levelNum === this.currentLevel.levelNum
+            );
+            if (levelIndex !== -1) {
+                this.ivrLevels[levelIndex] = this.currentLevel;
+            } else {
+                this.ivrLevels.push(this.currentLevel);
             }
-        });
-    }
-
-    onIvrDigitSelected(e) {
-        this.visibleOrHideDigit(e);
-        this.loadForm(this.forms.digits, e);
-        this.currentDigit = e;
+            this.currentLevel = e.level;
+            this.ref.levels = this.ivrLevels;
+            this.ivrLevels.forEach(l => {
+                if (l.levelNum > e.level.levelNum) {
+                    l.isVisible = false;
+                }
+            });
+        }
     }
 
     visibleOrHideDigit(digit) {
-        const curDigit = this.currentDigit;
-        if (curDigit && curDigit.action && curDigit.action.toString() === '7') {
-            const currVisibledLevel = this.ivrLevels.find(
-                x => x.levelNum.toString() === curDigit.parameter.toString()
-            );
-            if (currVisibledLevel) {
-                currVisibledLevel.isVisible = false;
+        this.ivrLevels.forEach(x => {
+            if (x.levelNum > this.currentLevel.levelNum) {
+                x.isVisible = false;
             }
-        }
+        })
         if (digit.action && digit.action.toString() === '7') {
             const nextIvr = this.ivrLevels.find(
                 x => x.levelNum.toString() === digit.parameter.toString()
             );
             nextIvr.isVisible = true;
+            setTimeout(()=>{
+                this.panel.nativeElement.scrollLeft += 500;
+                console.log('scroll');
+            }, 100)
         }
     }
 
@@ -319,8 +321,7 @@ export class IvrCreateComponent implements OnInit {
         l.levelNum = this.ivrLevels.length + 1;
         this.currentDigit.parameter = l.levelNum;
         l.isVisible = true;
-        this.panel.nativeElement.scrollLeft += 500;
-        this.onIvrLevelSelected(l);
+        this.onIvrSelected({ level: l, digit: undefined });
         return l.levelNum;
     }
 
@@ -332,9 +333,9 @@ export class IvrCreateComponent implements OnInit {
             const curDigit = this.currentLevel.digits[
                 this.currentLevel.digits.length - 1
             ];
-            this.onIvrDigitSelected(curDigit);
+            this.onIvrSelected({ level: this.currentLevel, digit: curDigit });
         } else {
-            this.onIvrLevelSelected(this.currentLevel);
+            this.onIvrSelected({ level: this.currentLevel, digit: undefined });
         }
     }
 
