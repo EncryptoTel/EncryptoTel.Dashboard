@@ -26,7 +26,7 @@
 
     <div class="buttons">
         <pbx-button value="Add Digit" buttonType="accent" (onClick)="addDigit()" *ngIf="isValidForm"></pbx-button>
-        <pbx-button value="Delete Level IVR" buttonType="error" *ngIf="level.levelNum!==1"></pbx-button>
+        <pbx-button value="Delete Level IVR" buttonType="error" *ngIf="level.levelNum!==1" (onClick)="deleteLevel()"></pbx-button>
     </div> <!-- buttons -->
 
 </div> <!-- item -->

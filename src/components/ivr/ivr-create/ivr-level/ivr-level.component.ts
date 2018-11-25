@@ -27,6 +27,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     @Input() isValidForm: boolean;
     @Output() ivrSelected: EventEmitter<any> = new EventEmitter<any>();
     @Output() onCancelEdit: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onDeleteLevel: EventEmitter<IvrLevel> = new EventEmitter<IvrLevel>();
     modal: ModalEx;
     modalWnd: ModalComponent;
     selectedItem: any;
@@ -134,6 +135,10 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
             default:
                 return '';
         }
+    }
+
+    deleteLevel() {
+        this.onDeleteLevel.emit(this.level);
     }
 
     ngOnDestroy(): void {

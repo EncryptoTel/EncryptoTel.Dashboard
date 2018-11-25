@@ -79,35 +79,18 @@ export class IvrLevel extends IvrLevelBase {
     constructor(tree?, ivr?: IvrItem) {
         super(tree);
         if (ivr) {
-            this.id = ivr.id;
-            this.name = ivr.name || '';
-            this.sipId = ivr.sipId || null;
-            this.enabled = ivr.enabled || false;
-            this.loopMessage = ivr.loopMessage || 2;
-            this.dateType = ivr.dateType || '';
-            this.dateValue = ivr.dateValue || '';
-            this.timeType = ivr.timeType || '';
-            this.timeValue = ivr.timeValue || '';
-            const intro = tree.find(x => x.digit === 'intro');
-            if (intro) {
-                if (intro.action === 5) {
-                    this.voiceGreeting = intro.parameter || '';
-                }
+            this.fillLevel(tree);
+            if(tree[0].level===1) {
+                this.id = ivr.id;
+                this.name = ivr.name || '';
+                this.sipId = ivr.sipId || ivr.sip.id || null;
+                this.enabled = ivr.enabled || false;
+                this.loopMessage = ivr.loopMessage || 2;
+                this.dateType = ivr.dateType || '';
+                this.dateValue = ivr.dateValue || '';
+                this.timeType = ivr.timeType || '';
+                this.timeValue = ivr.timeValue || '';
             }
-            const timeout = tree.find(x => x.digit === 'timeout');
-            if (timeout) {
-                this.action = timeout.action;
-                this.parameter = timeout.parameter;
-            }
-            const data = tree.filter(
-                x => !(x.digit === 'intro' || x.digit === 'timeout')
-            );
-            console.log(data);
-            this.digits = tree
-                .filter(x => !(x.digit === 'intro' || x.digit === 'timeout'))
-                .map(d => {
-                    return new Digit(d);
-                });
         } else {
             this.levelNum = 1;
         }
@@ -124,6 +107,32 @@ export class IvrLevel extends IvrLevelBase {
     action: string;
     parameter: string;
     isVisible: boolean;
+
+    fillLevel(tree) {
+        const intro = tree.find(x => x.digit === 'intro');
+        if (intro) {
+            if (intro.action === 5) {
+                this.voiceGreeting = intro.parameter || '';
+                this.name = intro.name;
+                this.description = intro.description;
+                this.levelNum = intro.level;
+            }
+        }
+        const timeout = tree.find(x => x.digit === 'timeout');
+        if (timeout) {
+            this.action = timeout.action;
+            this.parameter = timeout.parameter;
+        }
+        this.fillTree(tree);
+    }
+
+    fillTree(tree) {
+        this.digits = tree
+        .filter(x => !(x.digit === 'intro' || x.digit === 'timeout'))
+        .map(d => {
+            return new Digit(d);
+        });
+    }
 }
 export class Digit {
     constructor(tree?: IvrTreeItem) {

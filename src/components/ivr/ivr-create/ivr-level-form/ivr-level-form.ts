@@ -289,5 +289,5 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
     selectTime(val, idx) {
         this.selectedDurationTimeRange[idx] = val;
-    }
+    }    
 }

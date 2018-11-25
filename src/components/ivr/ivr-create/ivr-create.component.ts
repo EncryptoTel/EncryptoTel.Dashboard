@@ -20,6 +20,7 @@ import { IvrDigitFormComponent } from './ivr-digit-form/ivr-digit-form';
 import { IvrLevelFormComponent } from './ivr-level-form/ivr-level-form';
 import * as _ from 'lodash';
 import { numberRangeValidator } from '@shared/encry-form-validators';
+import { ValidationErrors } from '@angular/forms';
 
 @Component({
     selector: 'pbx-ivr-create',
@@ -143,7 +144,20 @@ export class IvrCreateComponent implements OnInit {
         componentRef.changeDetectorRef.detectChanges();
     }
 
+    getFormValidationErrors(form) {
+        Object.keys(form.controls).forEach(key => {
+
+            const controlErrors: ValidationErrors = form.get(key).errors;
+            if (controlErrors != null) {
+                Object.keys(controlErrors).forEach(keyError => {
+                    console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
+                });
+            }
+        });
+    }
+
     onChangeForm(form) {
+        this.getFormValidationErrors(form);
         this.isValidForm = form.valid;
         if (this.currentForm instanceof IvrDigitFormComponent) {
             this.currentDigit.action = form.value.action;
@@ -258,6 +272,7 @@ export class IvrCreateComponent implements OnInit {
                 if (!this.id) {
                     this.id = res.id;
                     this.router.navigate([`cabinet/ivr/${res.id}`]);
+                    this.isValidForm = true;
                 }
             });
         }
@@ -310,7 +325,7 @@ export class IvrCreateComponent implements OnInit {
                 x => x.levelNum.toString() === digit.parameter.toString()
             );
             nextIvr.isVisible = true;
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.panel.nativeElement.scrollLeft += 500;
                 console.log('scroll');
             }, 100)
@@ -362,5 +377,34 @@ export class IvrCreateComponent implements OnInit {
 
     getVisibleLevels() {
         return this.ivrLevels.filter(x => x.isVisible || x.levelNum === 1);
+    }
+
+    onDeleteLevel(l: IvrLevel) {
+        // remove all digit linked to level
+        this.ivrLevels.forEach(x => {
+            x.digits = x.digits.filter(d => !(d.action.toString() === '7' && d.parameter === l.levelNum.toString()));
+        });
+        this.ivrLevels = this.ivrLevels.filter(x => x.levelNum !== l.levelNum);
+
+        l.digits.forEach(d => {
+            if (d.action.toString() === '7' && d.parameter === l.levelNum.toString()) {
+                const level = this.ivrLevels.find(x => x.levelNum.toString() === d.parameter);
+                if (level) {
+                    this.onDeleteLevel(level);
+                }
+            }
+        });
+        const lastLevel = this.ivrLevels.filter(x=>x.isVisible);
+        this.onIvrSelected({level: lastLevel[lastLevel.length-1], digit: undefined });
+    }
+
+    deleteLevelWithDependency() {
+
+    }
+
+    arraymove(arr, fromIndex, toIndex) {
+        var element = arr[fromIndex];
+        arr.splice(fromIndex, 1);
+        arr.splice(toIndex, 0, element);
     }
 }

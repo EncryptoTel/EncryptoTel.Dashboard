@@ -15,7 +15,7 @@
         <h3>{{'IVR Options' | translate }}</h3>
     </div>
 
-    <pbx-input name="{{'Enable IVR' | translate }}" key="enabled" [checkbox]="true" [form]="true" [object]="form"
+    <pbx-input name="{{'Enable IVR' | translate }}" key="enabled" [checkbox]="true" [form]="true" [object]="form" *ngIf="form.value.levelNum===1"
         [(errors)]="service.errors" [validationHost]="validationHost">
     </pbx-input>
 
@@ -96,15 +96,15 @@
                                         </pbx-select>
                         </div>
                 </div> -->
-    <div class="call-rules-create_row">
+    <div class="call-rules-create_row" *ngIf="form.value.levelNum===1">
         <h3>{{ 'If user nothing is chosen' | translate }}</h3>
     </div>
-    <pbx-input name="{{'Then' | translate }}" key="action" [form]="true" [object]="form" [options]="service.references.params"
+    <pbx-input name="{{'Then' | translate }}" key="action" [form]="true" [object]="form" [options]="service.references.params" *ngIf="form.value.levelNum===1"
         displayKey="code" [(errors)]="service.errors" [validationHost]="validationHost">
     </pbx-input>
 
     <pbx-input name="{{paramsInfo.label | translate }}" key="parameter" [required]="true" [form]="true" [object]="form" [options]="paramsInfo.option"
-        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible" displayKey="name">
+        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible && form.value.levelNum===1" displayKey="name">
     </pbx-input>
 </div>
 {{actionVal|json}}
