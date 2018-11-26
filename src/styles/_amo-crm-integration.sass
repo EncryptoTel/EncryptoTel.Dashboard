@@ -155,6 +155,19 @@ amo-crm-integration
         grid-template-columns: 1fr 384px
         grid-template-rows: min-content 1fr
         height: 100%
+        overflow: hidden
+        .amo_crm_control
+            pbx-button
+                margin-left: 8px
+        amo-crm-integration-general-component,
+        amo-crm-integration-address-book-component,
+        amo-crm-integration-managers-component
+            width: 100%
+            .main_inner
+                width: inherit
+                min-height: 100%
+                height: max-content
+                flex-direction: column
         .amo_crm_header
             grid-column: 1/2
             grid-row: 1/2
@@ -178,13 +191,16 @@ amo-crm-integration
         .amo_crm_cnt
             grid-column: 1/2
             grid-row: 2/3
+            //overflow: auto
+            overflow: hidden
         .amo_crm_info
             grid-column: 2/3
             grid-row: 1/3
             padding: 40px 32px
             background: $dark_overlay
             margin-left: 24px
-            flex-direction: column
+            display: block
+            overflow: auto
             .title
                 font-family: Roboto, sans-serif
                 font-size: 40px
@@ -198,3 +214,115 @@ amo-crm-integration
                 color: $dark_white
                 line-height: 21px
                 flex-direction: column
+        amo-crm-integration-general-component
+            .main_inner
+                background: $dark_overlay
+                padding: 32px 28px
+                .item
+                    display: grid
+                    grid-template-columns: 116px 1fr
+                    height: 40px
+                    align-items: center
+                    margin-bottom: 16px
+                    .label
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 12px
+                        line-height: 16px
+                        color: $dark_white_70
+                        cursor: pointer
+                        &:hover
+                            color: $dark_accent
+                .title
+                    font-family: Roboto, sans-serif
+                    font-weight: 400
+                    font-size: 14px
+                    line-height: 19px
+                    color: $dark_white_80
+                    margin-bottom: 16px
+                .connection_block
+                    flex-direction: column
+                    pbx-button
+                        width: min-content
+                .integration_block
+                    flex-direction: column
+                    margin-top: 48px
+                    pbx-select
+                        .select_wrap:focus > .selected
+                            border-top: 1px solid transparent !important
+                            border-left: 1px solid transparent !important
+                            border-right: 1px solid transparent !important
+                        .select_item.selected
+                            border-top: 1px solid transparent
+                            border-left: 1px solid transparent
+                            border-right: 1px solid transparent
+        amo-crm-integration-address-book-component
+            overflow: hidden
+            .main_inner
+                height: inherit
+                display: grid
+                grid-template-rows: min-content auto
+            .top
+                background: $dark_overlay
+                padding: 18px 0
+                .item
+                    display: grid
+                    grid-template-columns: 80px 1fr
+                    height: 40px
+                    align-items: center
+                    .label
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 12px
+                        line-height: 16px
+                        color: $dark_white_70
+                        cursor: pointer
+                        padding-left: 24px
+                        &:hover
+                            color: $dark_accent
+                    input
+                        border: 1px solid rgba($dark_white, .1)
+                        &:focus
+                            border: 1px solid $dark_accent
+                        &::placeholder
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 14px
+                            color: $dark_white_35
+            .table
+                display: grid
+                grid-template-columns: 1fr
+                grid-template-rows: min-content 1fr
+                margin-top: 16px
+                overflow: hidden
+                .header, .body .line
+                    display: grid
+                    width: 100%
+                    grid-template-columns: 80px repeat(4, 1fr)
+                    .item
+                        display: grid
+                        align-items: center
+                        height: 40px
+                        &:first-child
+                            padding-left: 24px
+                .header
+                    .item
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 12px
+                        color: $dark_white_60
+                .body
+                    display: grid
+                    grid-template-columns: 1fr
+                    overflow: auto
+                    .line
+                        cursor: pointer
+                        *
+                            cursor: pointer
+                        &.active
+                            background: $dark_overlay
+                        .item
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 14px
+                            color: $dark_white
