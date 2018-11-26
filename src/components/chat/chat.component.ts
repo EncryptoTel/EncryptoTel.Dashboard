@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     chatObjects: any;
     dropdownSettingsStatus: any;
     dropdownSettingsUserChat: boolean = false;
+    dropdownFilesStatus: boolean = false;
     @ViewChildren('menu_block') menu: ElementRef[];
 
     constructor(private socket: WsServices,
@@ -252,6 +253,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     changeSettingsUserChat() {
         this.dropdownSettingsUserChat = !this.dropdownSettingsUserChat;
+    }
+
+    dropdownFilesFunc() {
+        this.dropdownFilesStatus = !this.dropdownFilesStatus;
     }
 
     dropdownSettings($event, index) {

@@ -63,7 +63,7 @@
 
 </div> <!-- list -->
 
-<div class="talking" *ngIf="chats.length > 0">
+<div class="talking group" *ngIf="chats.length >= 0">
 
     <div class="top">
         <div class="back">
@@ -127,8 +127,14 @@
             <svg-icon src="../../assets/images/chat/smiley_18px.svg"></svg-icon>
         </div> <!-- smiles -->
         <input type="text" placeholder="Write a message..." [(ngModel)]="message" (keyup)="onMessageKeyUp($event)">
-        <div class="files">
+        <div class="files" (click)="dropdownFilesFunc()">
             <svg-icon src="../../assets/images/chat/clip_18px.svg"></svg-icon>
+            <div class="dropdown_block" *ngIf="dropdownFilesStatus">
+                <div class="item">Photo or Video</div>
+                <div class="item">Camera</div>
+                <div class="item">File</div>
+                <div class="item">Location</div>
+            </div> <!-- dropdown_block -->
         </div> <!-- files -->
         <div class="record">
             <svg-icon src="../../assets/images/chat/microphone_18px.svg"></svg-icon>
