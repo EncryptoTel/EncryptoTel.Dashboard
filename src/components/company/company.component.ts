@@ -26,6 +26,8 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     companyInfo: CompanyInfoModel;
     isNewCompany: boolean = false;
 
+    public sidebarActive: boolean;
+
     countries: CountryModel[] = [];
     selectedCountry: CountryModel;
 
@@ -168,6 +170,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     dragOverHandler(event): void {
+        this.sidebarActive = true;
         event.preventDefault();
     }
 
@@ -175,6 +178,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     dragLeaveHandler(event): void {
+        this.sidebarActive = false;
         event.preventDefault();
     }
 
@@ -293,12 +297,16 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                     this.company.logo = response.logo;
                     this.setFormData(this.company);
                     this.company.logo = response.url;
+                    this.sidebarActive = false;
                 }
             }).catch(() => {
+                this.sidebarActive = false;
             });
         } else {
             this.message.writeError('Accepted formats: jpg, jpeg, png, gif');
+            this.sidebarActive = false;
         }
 
     }
+
 }

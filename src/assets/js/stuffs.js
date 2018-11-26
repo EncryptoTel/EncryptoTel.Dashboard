@@ -44,4 +44,10 @@ jQuery(document).ready(function(){
         $('pbx-list .pbx_list_empty').css({'padding': '0 ' + (btnWidth - 20) + 'px'});
     }, 500);
 
+    // чат - плавное появление кнопки "add people" при открытии и резкое исчезновение при закрытии чата
+    setInterval(function(){
+        $('.header_line_wrap .header_button.chat').hasClass('active') ? $('pbx-chat .list .add_people').show().addClass('opened') : false;
+        $('.header_line_wrap .header_button.chat.active').on('click', function(){$('pbx-chat .list .add_people').hide();});
+    }, 500);
+
 });

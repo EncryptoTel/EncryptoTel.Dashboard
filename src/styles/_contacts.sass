@@ -1,0 +1,127 @@
+pbx-contacts
+    position: absolute
+    top: 0
+    left: 100px
+    right: 0
+    bottom: 0
+    background: #373635
+    padding: 16px
+    .contacts
+        width: 100%
+        flex-direction: column
+        .list
+            flex-direction: column
+            width: 100%
+            position: relative
+            //display: none
+            .search_wrap
+                display: grid
+                grid-template-columns: 18px 10px 1fr 10px 15px
+                margin-bottom: 16px
+                .search_icon
+                    grid-column: 1/2
+                    svg-icon
+                        width: 18px
+                        position: relative
+                        svg
+                            cursor: pointer
+                            position: absolute
+                            top: 50%
+                            transform: translateY(-50%)
+                            *
+                                cursor: pointer
+                            path
+                                fill: $chat_icon_grey_color
+                input
+                    grid-column: 3/4
+                    &::placeholder
+                        font-family: Roboto, sans-serif !important
+                        font-weight: 100 !important
+                .mic
+                    grid-column: 5/6
+                    svg-icon
+                        width: 15px
+                        position: relative
+                        svg
+                            cursor: pointer
+                            height: 24px
+                            position: absolute
+                            top: 50%
+                            left: 50%
+                            transform: translate(-50%, -50%)
+                            *
+                                cursor: pointer
+                            path
+                                fill: $chat_icon_grey_color
+
+            .items
+                display: block
+                overflow: auto
+                padding-right: 8px
+                .group
+                    flex-direction: column
+                    width: 100%
+                    margin-bottom: 24px
+                    .icon
+                        margin-bottom: 24px
+                        width: 40px
+                        font-size: 24px
+                        color: $dark_accent
+                        justify-content: center
+                        align-items: center
+                        svg-icon
+                            svg
+                                width: 20px
+                                height: 20px
+                    .inner
+                        flex-direction: column
+                        .item
+                            margin-bottom: 16px
+                            display: grid
+                            grid-template-columns: 40px 1fr 20px
+                            cursor: pointer
+                            &:last-child
+                                margin-bottom: 0
+                            *
+                                cursor: pointer
+                            .logo
+                                background: $dark_accent
+                                border-radius: 100%
+                                width: 40px
+                                height: 40px
+                                justify-content: center
+                                align-items: center
+                                font-family: Roboto, sans-serif
+                                font-size: 20px
+                                color: $dark_white
+                                text-transform: uppercase
+                            .name
+                                padding: 0 8px
+                                align-items: center
+                                span
+                                    max-width: 240px
+                                    overflow: hidden
+                                    white-space: nowrap
+                                    text-overflow: ellipsis
+                                    display: inline-block
+                            .member
+                                align-items: center
+                                svg-icon
+                                    svg
+                                        width: 20px
+                                        height: 20px
+            .add_contact
+                width: 56px
+                height: 56px
+                border-radius: 100%
+                overflow: hidden
+                position: absolute
+                right: 16px
+                bottom: 64px
+                background: #22b2b4
+                box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5)
+                cursor: pointer
+                justify-content: center
+                align-items: center
+                color: $dark_white
+                font-size: 28px
