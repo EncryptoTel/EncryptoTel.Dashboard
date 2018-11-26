@@ -730,11 +730,39 @@ pbx-chat
                             color: $dark_white_75
         .adding
             flex-direction: column
-            display: none
+            //display: none
+            .top
+                background: $dark_overlay
+                padding: 8px 16px
+                margin: -16px 0 0 -16px
+                align-items: center
+                display: grid
+                grid-template-columns: 24px 16px 1fr 16px 18px
+                .back
+                    grid-column: 1/2
+                    height: 100%
+                    svg-icon
+                        width: 100%
+                        position: relative
+                        svg
+                            cursor: pointer
+                            position: absolute
+                            top: 50%
+                            transform: translateY(-50%)
+                            *
+                                cursor: pointer
+                            polygon
+                                fill: $dark_white
+                input
+                    font-size: 20px
+                    grid-column: 3/4
+                .accept
+                    grid-column: 5/6
             .added
                 flex-flow: wrap
-                margin: 12px 0
+                margin: 12px 0 8px
                 display: block
+                border-bottom: 1px solid $white_button_cancel
                 .item
                     border-radius: 14px
                     display: inline-grid
@@ -787,11 +815,11 @@ pbx-chat
                         background: rgba($chat_color7, .8)
                         .letters
                             background: rgba($chat_color7, 1)
+            .count
             .choose_to_add
                 flex-direction: column
                 overflow: auto
-                border-top: 1px solid $white_button_cancel
-                padding-top: 16px
+                padding-top: 24px
                 display: grid
                 .item
                     display: grid

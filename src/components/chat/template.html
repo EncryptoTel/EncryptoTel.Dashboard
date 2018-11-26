@@ -63,7 +63,7 @@
 
 </div> <!-- list -->
 
-<div class="talking group" *ngIf="chats.length >= 0">
+<div class="talking group" *ngIf="chats.length > 0">
 
     <div class="top">
         <div class="back">
@@ -359,6 +359,16 @@
 
     <div class="adding">
 
+        <div class="top">
+            <div class="back">
+                <svg-icon src="../../assets/images/chat/return_24px.svg"></svg-icon>
+            </div> <!-- back -->
+            <input type="text">
+            <div class="accept">
+                <svg-icon src="../../assets/icons/_middle/ok_32px.svg"></svg-icon>
+            </div> <!-- accept -->
+        </div> <!-- top -->
+
         <div class="added">
 
             <div class="item">
@@ -397,6 +407,8 @@
             </div> <!-- item -->
 
         </div> <!-- added -->
+
+        <div class="count">6 members</div>
 
         <div class="choose_to_add">
 
