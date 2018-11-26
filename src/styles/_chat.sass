@@ -13,7 +13,7 @@ pbx-chat
         width: 100%
         position: relative
         overflow: hidden
-        display: none
+        //display: none
         .search_wrap
             display: grid
             grid-template-columns: 18px 10px 1fr 10px 18px
@@ -350,6 +350,37 @@ pbx-chat
                         white-space: nowrap
                         &:hover
                             background: $dark_player_bg
+        .input_wrap
+            .files
+                position: relative
+                .dropdown_block
+                    position: absolute
+                    bottom: 48px
+                    right: 0
+                    flex-direction: column
+                    z-index: 10
+                    box-shadow: 7px 7px 8px -7px rgba(0, 0, 0, 0.5), -7px -7px 8px -7px rgba(0, 0, 0, 0.5)
+                    .item
+                        font-family: Roboto, sans-serif
+                        font-size: 14px
+                        line-height: 19px
+                        color: $dark_white
+                        background: $dark_pagination_inactive
+                        padding: 0 16px
+                        height: 40px
+                        align-items: center
+                        cursor: pointer
+                        white-space: nowrap
+                        &:hover
+                            background: $dark_player_bg
+        &.group
+            .top
+                box-shadow: 0 7px 8px -7px rgba(0, 0, 0, 0.5)
+                .search
+                    svg-icon
+                        display: grid
+            .calling
+                display: none
         .calling
             background: $chat_calling_bg
             justify-content: center
@@ -536,7 +567,7 @@ pbx-chat
     .new_group
         flex-direction: column
         width: 100%
-        //display: none
+        display: none
         .top
             display: grid
             grid-template-columns: 56px 40px 1fr 56px
@@ -544,8 +575,8 @@ pbx-chat
             box-shadow: 0 7px 8px -7px rgba(0, 0, 0, 0.5)
             margin-left: -16px
             margin-right: -16px
-            //display: none
-            .enter_name
+            display: none
+            .input_enter_name
                 display: none
             .back
                 grid-column: 1/2
@@ -611,9 +642,10 @@ pbx-chat
                             cursor: pointer
                         polygon
                             fill: #fff
-            &.top2
+            &.input_enter_name
                 grid-template-columns: 56px 1fr 56px
-                box-shadow: none
+                padding-bottom: 8px
+                //box-shadow: none
                 .avatar, .accept
                     display: none
                 .cnt
@@ -627,13 +659,13 @@ pbx-chat
         .add_people
             margin: 16px 0
             display: block
-            //display: none
+            display: none
             input
                 height: 46px
                 &::placeholder
                     font-family: Roboto, sans-serif !important
                     font-weight: 100 !important
-            &.top2
+            &.enter_name
                 display: grid
                 grid-template-columns: 56px 1fr 56px
                 margin-left: -16px
@@ -643,7 +675,7 @@ pbx-chat
         .items
             display: grid
             overflow: auto
-            //display: none
+            display: none
             .item
                 display: grid
                 grid-template-columns: 40px 1fr
@@ -698,11 +730,39 @@ pbx-chat
                             color: $dark_white_75
         .adding
             flex-direction: column
-            display: none
+            //display: none
+            .top
+                background: $dark_overlay
+                padding: 8px 16px
+                margin: -16px 0 0 -16px
+                align-items: center
+                display: grid
+                grid-template-columns: 24px 16px 1fr 16px 18px
+                .back
+                    grid-column: 1/2
+                    height: 100%
+                    svg-icon
+                        width: 100%
+                        position: relative
+                        svg
+                            cursor: pointer
+                            position: absolute
+                            top: 50%
+                            transform: translateY(-50%)
+                            *
+                                cursor: pointer
+                            polygon
+                                fill: $dark_white
+                input
+                    font-size: 20px
+                    grid-column: 3/4
+                .accept
+                    grid-column: 5/6
             .added
                 flex-flow: wrap
-                margin: 12px 0
+                margin: 12px 0 8px
                 display: block
+                border-bottom: 1px solid $white_button_cancel
                 .item
                     border-radius: 14px
                     display: inline-grid
@@ -755,11 +815,11 @@ pbx-chat
                         background: rgba($chat_color7, .8)
                         .letters
                             background: rgba($chat_color7, 1)
+            .count
             .choose_to_add
                 flex-direction: column
                 overflow: auto
-                border-top: 1px solid $white_button_cancel
-                padding-top: 16px
+                padding-top: 24px
                 display: grid
                 .item
                     display: grid
@@ -831,6 +891,8 @@ pbx-chat
         .naming
             flex-direction: column
             display: none
+            .enter_name_2
+                display: none
             .enter_name
                 display: grid
                 grid-template-columns: 64px 24px 1fr
@@ -923,3 +985,45 @@ pbx-chat
                                     font-size: 14px
                                     font-weight: 200
                                     color: $dark_white_75
+            //////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////
+            &.naming_2
+                .enter_name
+                    display: none
+                .members
+                    .amount
+                        display: none
+                .enter_name_2
+                    display: grid
+                    grid-template-columns: 1fr
+                    grid-template-rows: 1fr 1fr
+                    margin-bottom: 32px
+                    .up
+                        display: grid
+                        grid-template-columns: 56px 1fr 56px
+                        box-shadow: 0 7px 8px -7px rgba(0, 0, 0, 0.5)
+                        padding-bottom: 8px
+                        margin-left: -16px
+                        margin-right: -16px
+                        .back
+                            grid-column: 1/2
+                            grid-row: 1/3
+                            svg-icon
+                                margin: auto
+                                svg
+                                    width: 16px
+                                    cursor: pointer
+                                    *
+                                        cursor: pointer
+                                    polygon
+                                        fill: #fff
+                        .input_enter_name
+                            font-size: 20px
+                    .add_people
+                        display: grid
+                        grid-template-columns: 56px 1fr 56px
+                        margin: 8px -16px 0 -16px
+                        input
+                            grid-column: 2/3

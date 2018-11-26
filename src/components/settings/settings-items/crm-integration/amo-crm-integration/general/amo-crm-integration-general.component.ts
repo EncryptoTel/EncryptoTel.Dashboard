@@ -17,6 +17,7 @@ export class AmoCrmIntegrationGeneralComponent implements OnInit {
         tag: true
     };
     tag;
+    amoCrmEnable: boolean = false;
 
     constructor() {
 
@@ -26,6 +27,10 @@ export class AmoCrmIntegrationGeneralComponent implements OnInit {
         this.tag = {active: [], inactive: []};
         this.loading.tag = false;
     }
+    checkboxClick() {
+        this.amoCrmEnable = !this.amoCrmEnable;
+    }
+
 
     clickActiveTag(item): void {
         this.tag.active.splice(this.tag.active.indexOf(item), 1);

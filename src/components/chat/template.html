@@ -63,7 +63,7 @@
 
 </div> <!-- list -->
 
-<div class="talking" *ngIf="chats.length > 0">
+<div class="talking" *ngIf="chats.length > 0"> <!-- can have the class 'group' - for group conversation -->
 
     <div class="top">
         <div class="back">
@@ -127,8 +127,14 @@
             <svg-icon src="../../assets/images/chat/smiley_18px.svg"></svg-icon>
         </div> <!-- smiles -->
         <input type="text" placeholder="Write a message..." [(ngModel)]="message" (keyup)="onMessageKeyUp($event)">
-        <div class="files">
+        <div class="files" (click)="dropdownFilesFunc()">
             <svg-icon src="../../assets/images/chat/clip_18px.svg"></svg-icon>
+            <div class="dropdown_block" *ngIf="dropdownFilesStatus">
+                <div class="item">Photo or Video</div>
+                <div class="item">Camera</div>
+                <div class="item">File</div>
+                <div class="item">Location</div>
+            </div> <!-- dropdown_block -->
         </div> <!-- files -->
         <div class="record">
             <svg-icon src="../../assets/images/chat/microphone_18px.svg"></svg-icon>
@@ -139,7 +145,7 @@
 
 <div class="new_group">
 
-    <div class="top top2">
+    <div class="top"> <!-- enter_name -->
 
         <div class="back">
             <svg-icon src="../../assets/images/chat/return_24px.svg"></svg-icon>
@@ -153,7 +159,7 @@
 
         <div class="cnt">
             <div class="title">New group</div> <!-- class naming -->
-            <input class="enter_name" type="text" placeholder="Enter Name">
+            <input class="input_enter_name" type="text" placeholder="Enter Name">
             <div class="desc">up to 20000 members</div> <!-- class remove -->
         </div> <!-- cnt -->
 
@@ -163,7 +169,7 @@
 
     </div> <!-- top -->
 
-    <div class="add_people top2">
+    <div class="add_people"> <!-- enter_name -->
         <input type="text" placeholder="Add people...">
     </div> <!-- add_people -->
 
@@ -353,6 +359,16 @@
 
     <div class="adding">
 
+        <div class="top">
+            <div class="back">
+                <svg-icon src="../../assets/images/chat/return_24px.svg"></svg-icon>
+            </div> <!-- back -->
+            <input type="text">
+            <div class="accept">
+                <svg-icon src="../../assets/icons/_middle/ok_32px.svg"></svg-icon>
+            </div> <!-- accept -->
+        </div> <!-- top -->
+
         <div class="added">
 
             <div class="item">
@@ -391,6 +407,8 @@
             </div> <!-- item -->
 
         </div> <!-- added -->
+
+        <div class="count">6 members</div>
 
         <div class="choose_to_add">
 
@@ -468,7 +486,7 @@
 
     </div> <!-- adding -->
 
-    <div class="naming">
+    <div class="naming naming_2">
 
         <div class="enter_name">
             <div class="ava">
@@ -478,6 +496,18 @@
                 <input type="text" placeholder="Enter group name">
             </div> <!-- input_wrap -->
         </div> <!-- enter_name -->
+
+        <div class="enter_name_2">
+            <div class="up">
+                <div class="back">
+                    <svg-icon src="../../assets/images/chat/return_24px.svg"></svg-icon>
+                </div> <!-- back -->
+                <input class="input_enter_name" type="text" placeholder="Enter Name">
+            </div> <!-- up -->
+            <div class="add_people"> <!-- enter_name -->
+                <input type="text" placeholder="Add people...">
+            </div> <!-- add_people -->
+        </div> <!-- enter_name_2 -->
 
         <div class="members">
 
