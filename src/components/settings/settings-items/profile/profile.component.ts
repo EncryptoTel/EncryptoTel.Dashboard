@@ -30,6 +30,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     model: SettingsModel;
 
+    public sidebarActive: boolean;
+
     generalForm: FormGroup;
     emailChange: FormGroup;
     passwordChange: FormGroup;
@@ -90,7 +92,10 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             firstname: [null, [Validators.required, Validators.pattern(nameRegExp)]],
             lastname: [null, [Validators.pattern(nameRegExp)]],
             patronymic: [null, [Validators.pattern(nameRegExp)]],
-            phone: [null, [Validators.pattern(phoneRegExp), Validators.minLength(5), Validators.maxLength(16)]]
+            phone: [null, [Validators.pattern(phoneRegExp), Validators.minLength(5), Validators.maxLength(16)]],
+            language: [null],
+            region: [null],
+            time_zone: [null]
         });
         this.addForm('generalForm', this.generalForm);
 
@@ -125,6 +130,10 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     save(event?: Event): void {
         killEvent(event);
+        this.generalForm.controls['language'].setValue(this.model.items[0]['children'][0].value);
+        this.generalForm.controls['region'].setValue(this.model.items[0]['children'][1].value);
+        this.generalForm.value.region = this.model.items[0]['children'][1].value;
+        this.generalForm.value.language = this.model.items[0]['children'][0].value;
         let validationResult = true;
 
         const profileFormChanged = this.checkFormChanged('generalForm');
@@ -166,7 +175,15 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     initFormData(formKey: string, form: FormGroup, data?: any): void {
         if (data) {
             Object.keys(form.controls).map(key => {
-                data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.user[key]);
+                if (key === 'language') {
+                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.language_and_region.children[key].value);
+                } else if (key === 'region') {
+                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.language_and_region.children[key].value);
+                } else if (key === 'time_zone') {
+                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.time_zone_clock_and_date_format.children[key].value);
+                } else {
+                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.user[key]);
+                }
             });
         }
         this.saveFormState(formKey);
@@ -185,9 +202,29 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     // --- data methods -------------------------------------------------------
 
     onValueChange(item: SettingsItem) {
-        const language = (item.value === 19) ? 'ru' : 'en';
-        this.translate.use(language);
-        this.storage.writeItem('user_lang', language);
+        this.generalForm.controls['language'].setValue(this.model.items[0]['children'][0].value);
+        this.generalForm.controls['region'].setValue(this.model.items[0]['children'][0].value);
+        this.generalForm.controls['time_zone'].setValue(this.model.items[1]['children'][1].value);
+        console.log(item);
+        if (item.key === 'language') {
+            const language = (item.value === 19) ? 'ru' : 'en';
+            this.generalForm.value.language = item.value;
+            this.model.items[0]['children'][0].value = item.value;
+            this.generalForm.controls['language'].setValue(this.model.items[0]['children'][0].value);
+            this.translate.use(language);
+            this.storage.writeItem('user_lang', language);
+        }
+        if (item.key === 'region') {
+            this.generalForm.value.region = item.value;
+            this.model.items[0]['children'][1].value = item.value;
+            this.generalForm.controls['region'].setValue(this.model.items[0]['children'][0].value);
+        }
+        if (item.key === 'time_zone') {
+            this.generalForm.value.region = item.value;
+            this.model.items[1]['children'][1].value = item.value;
+            this.generalForm.value.time_zone = this.model.items[1]['children'][1].value;
+
+        }
     }
 
     getSettings(): void {
@@ -319,6 +356,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     dragOverHandler(event): void {
+        this.sidebarActive = true;
         event.preventDefault();
     }
 
@@ -326,6 +364,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     dragLeaveHandler(event): void {
+        this.sidebarActive = false;
         event.preventDefault();
     }
 
@@ -336,12 +375,14 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 if (response.avatar) {
                     this.userDefaultPhoto = response.avatar;
                     this.user.fetchProfileParams().then();
+                    this.sidebarActive = false;
                 }
             }).catch(() => {
-
+                this.sidebarActive = false;
             });
         } else {
             this.message.writeError('Accepted formats: jpg, jpeg, png, gif');
+            this.sidebarActive = false;
         }
     }
 

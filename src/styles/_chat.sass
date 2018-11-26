@@ -6,14 +6,17 @@ pbx-chat
     bottom: 0
     background: $dark_overlay
     padding: 16px
+    pbx-loader
+        display: none
     .list
         flex-direction: column
         width: 100%
         position: relative
+        overflow: hidden
         //display: none
         .search_wrap
             display: grid
-            grid-template-columns: 18px 10px 1fr 10px 15px
+            grid-template-columns: 18px 10px 1fr 10px 18px
             margin-bottom: 40px
             .search_icon
                 grid-column: 1/2
@@ -21,6 +24,7 @@ pbx-chat
                     width: 18px
                     position: relative
                     svg
+                        width: 18px
                         cursor: pointer
                         position: absolute
                         top: 50%
@@ -34,14 +38,15 @@ pbx-chat
                 &::placeholder
                     font-family: Roboto, sans-serif !important
                     font-weight: 100 !important
-            .mic
+            .create
                 grid-column: 5/6
+                position: relative
                 svg-icon
-                    width: 15px
+                    width: 18px
                     position: relative
                     svg
                         cursor: pointer
-                        height: 24px
+                        height: 18px
                         position: absolute
                         top: 50%
                         left: 50%
@@ -50,14 +55,38 @@ pbx-chat
                             cursor: pointer
                         path
                             fill: $chat_icon_grey_color
+                .dropdown_block_create
+                    position: absolute
+                    bottom: -88px
+                    right: 0
+                    flex-direction: column
+                    z-index: 10
+                    .item
+                        font-family: Roboto, sans-serif
+                        font-size: 14px
+                        line-height: 19px
+                        color: $dark_white
+                        background: $dark_pagination_inactive
+                        padding: 0 16px
+                        height: 40px
+                        align-items: center
+                        cursor: pointer
+                        white-space: nowrap
+                        &:hover
+                            background: $dark_player_bg
         .items
-            display: grid
+            display: block
+            min-height: calc(100% - 80px)
             overflow: auto
             .item
                 display: grid
                 grid-template-columns: 40px 1fr 16px
                 grid-template-rows: 1fr 1fr
                 margin-bottom: 32px
+                &.dropdownTop
+                    .dropdown_block_settings
+                        top: unset !important
+                        bottom: 24px
                 .logo_wrap
                     grid-row: 1/3
                     display: grid
@@ -107,8 +136,9 @@ pbx-chat
                         color: $dark-white_75
                         display: grid
                         align-items: end
+                        justify-content: flex-end
                     .msg
-                        grid-column: 1/3
+                        grid-column: 1/2
                         grid-row: 2/3
                         font-family: Roboto, sans-serif
                         font-size: 14px
@@ -120,17 +150,57 @@ pbx-chat
                         text-overflow: ellipsis
                         display: block
                         padding-top: 3px
+                    .new_msgs
+                        grid-column: 2/3
+                        grid-row: 2/3
+                        align-items: center
+                        justify-content: flex-end
+                        span
+                            display: inline-flex
+                            height: 18px
+                            border-radius: 50%
+                            background: $dark_accent
+                            font-family: Roboto, sans-serif
+                            font-size: 12px
+                            color: $dark_white
+                            justify-content: center
+                            align-items: center
+                            padding: 0 7px
+                            &.long
+                                border-radius: 25%/50%
                 .settings
                     cursor: pointer
                     grid-row: 1/2
                     display: grid
                     align-items: end
+                    position: relative
                     svg-icon
                         svg
                             cursor: pointer
                             circle
                                 fill: $dark-white_80
                                 cursor: pointer
+                    .dropdown_block_settings
+                        position: absolute
+                        top: 24px
+                        right: 0px
+                        flex-direction: column
+                        z-index: 10
+                        .item
+                            font-family: Roboto, sans-serif
+                            font-size: 14px
+                            line-height: 19px
+                            color: $dark_white
+                            background: $dark_pagination_inactive
+                            padding: 0 16px
+                            height: 40px
+                            align-items: center
+                            cursor: pointer
+                            white-space: nowrap
+                            display: flex !important
+                            margin-bottom: 0 !important
+                            &:hover
+                                background: $dark_player_bg
         .add_people
             width: 56px
             height: 56px
@@ -142,6 +212,8 @@ pbx-chat
             background: $dark_accent
             box-shadow: 4px 4px 10px rgba(0, 0, 0, .5)
             cursor: pointer
+            transition: all linear 1s
+            opacity: 0
             svg-icon
                 width: 38px
                 position: absolute
@@ -158,6 +230,8 @@ pbx-chat
                     circle
                         fill: $dark_white
                         cursor: pointer
+            &.opened
+                opacity: 1
     .talking
         flex-direction: column
         width: 100%
@@ -169,7 +243,7 @@ pbx-chat
             margin: -16px 0 0 -16px
             align-items: center
             display: grid
-            grid-template-columns: 24px 16px 1fr 16px 18px 16px 12px
+            grid-template-columns: 24px 16px 1fr 16px 18px 16px 18px
             .back
                 grid-column: 1/2
                 height: 100%
@@ -220,6 +294,7 @@ pbx-chat
                     height: 40px
                     position: relative
                     overflow: hidden
+                    display: none
                     svg
                         height: 18px
                         cursor: pointer
@@ -236,6 +311,10 @@ pbx-chat
                 height: 100%
                 display: grid
                 align-items: center
+                position: relative
+                cursor: pointer
+                *
+                    cursor: pointer
                 svg-icon
                     width: 100%
                     height: 30px
@@ -252,6 +331,56 @@ pbx-chat
                             cursor: pointer
                         circle
                             fill: $dark_white
+                .dropdown_block_settings.user_chat
+                    position: absolute
+                    top: 48px
+                    right: 0
+                    flex-direction: column
+                    z-index: 10
+                    .item
+                        font-family: Roboto, sans-serif
+                        font-size: 14px
+                        line-height: 19px
+                        color: $dark_white
+                        background: $dark_pagination_inactive
+                        padding: 0 16px
+                        height: 40px
+                        align-items: center
+                        cursor: pointer
+                        white-space: nowrap
+                        &:hover
+                            background: $dark_player_bg
+        .input_wrap
+            .files
+                position: relative
+                .dropdown_block
+                    position: absolute
+                    bottom: 48px
+                    right: 0
+                    flex-direction: column
+                    z-index: 10
+                    box-shadow: 7px 7px 8px -7px rgba(0, 0, 0, 0.5), -7px -7px 8px -7px rgba(0, 0, 0, 0.5)
+                    .item
+                        font-family: Roboto, sans-serif
+                        font-size: 14px
+                        line-height: 19px
+                        color: $dark_white
+                        background: $dark_pagination_inactive
+                        padding: 0 16px
+                        height: 40px
+                        align-items: center
+                        cursor: pointer
+                        white-space: nowrap
+                        &:hover
+                            background: $dark_player_bg
+        &.group
+            .top
+                box-shadow: 0 7px 8px -7px rgba(0, 0, 0, 0.5)
+                .search
+                    svg-icon
+                        display: grid
+            .calling
+                display: none
         .calling
             background: $chat_calling_bg
             justify-content: center
@@ -270,6 +399,7 @@ pbx-chat
             flex-direction: column
             overflow: auto
             padding-right: 3px
+            //display: none
             .message
                 margin: 0 0 16px
                 display: grid
@@ -306,13 +436,13 @@ pbx-chat
                         .date
                             font-size: 13px
                             margin-right: 5px
-                            color: $dark_white_50
+                            color: $white_black_50
                             position: relative
                             &:before
                                 content: ''
                                 width: 2px
                                 height: 2px
-                                background: $dark_white_50
+                                background: $white_black_50
                                 position: absolute
                                 top: 50%
                                 transform: translateY(-50%)
@@ -333,7 +463,7 @@ pbx-chat
                                     left: 50%
                                     transform: translate(-50%, -50%)
                                     polygon
-                                        fill: $dark_white_50
+                                        fill: $white_black_50
                             &.ext_table_item_circle
                                 // прочитаны - двойная иконка
                             &.ext_table_item_circle2
@@ -342,13 +472,34 @@ pbx-chat
                     grid-template-columns: 1fr
                     .cnt
                         border-radius: 10px 10px 10px 0
-                        background: $chat_msg_left_bg
+                        background: $white_grey_hover
+                        color: $white_black
+                        font-weight: 400
                 &.right
                     grid-template-columns: 1fr
                     .cnt
                         border-radius: 10px 10px 0 10px
-                        background: $chat_msg_right_bg
+                        background: $white_salad
+                        color: $dark_white
                         margin-left: auto
+                        .info
+                            .date
+                                color: $dark_white
+                                &:before
+                                    background: $dark_white
+                        .status
+                            svg-icon
+                                svg
+                                    polygon
+                                        fill: $dark_white
+
+        .empty_text
+            font-family: Roboto, sans-serif
+            font-size: 18px
+            font-weight: 400
+            color: $chat_icon_grey_color
+            margin: auto
+            display: none
         .input_wrap
             position: absolute
             left: 16px
@@ -424,6 +575,9 @@ pbx-chat
             box-shadow: 0 7px 8px -7px rgba(0, 0, 0, 0.5)
             margin-left: -16px
             margin-right: -16px
+            display: none
+            .input_enter_name
+                display: none
             .back
                 grid-column: 1/2
                 grid-row: 1/3
@@ -488,19 +642,40 @@ pbx-chat
                             cursor: pointer
                         polygon
                             fill: #fff
+            &.input_enter_name
+                grid-template-columns: 56px 1fr 56px
+                padding-bottom: 8px
+                //box-shadow: none
+                .avatar, .accept
+                    display: none
+                .cnt
+                    grid-template-rows: 1fr
+                    padding-left: 0
+                    .title, .desc
+                        display: none
+                .enter_name
+                    display: grid
+                    font-size: 20px
         .add_people
             margin: 16px 0
             display: block
-            //display: none
+            display: none
             input
                 height: 46px
                 &::placeholder
                     font-family: Roboto, sans-serif !important
                     font-weight: 100 !important
+            &.enter_name
+                display: grid
+                grid-template-columns: 56px 1fr 56px
+                margin-left: -16px
+                margin-right: -16px
+                input
+                    grid-column: 2/3
         .items
             display: grid
             overflow: auto
-            //display: none
+            display: none
             .item
                 display: grid
                 grid-template-columns: 40px 1fr
@@ -555,11 +730,39 @@ pbx-chat
                             color: $dark_white_75
         .adding
             flex-direction: column
-            display: none
+            //display: none
+            .top
+                background: $dark_overlay
+                padding: 8px 16px
+                margin: -16px 0 0 -16px
+                align-items: center
+                display: grid
+                grid-template-columns: 24px 16px 1fr 16px 18px
+                .back
+                    grid-column: 1/2
+                    height: 100%
+                    svg-icon
+                        width: 100%
+                        position: relative
+                        svg
+                            cursor: pointer
+                            position: absolute
+                            top: 50%
+                            transform: translateY(-50%)
+                            *
+                                cursor: pointer
+                            polygon
+                                fill: $dark_white
+                input
+                    font-size: 20px
+                    grid-column: 3/4
+                .accept
+                    grid-column: 5/6
             .added
                 flex-flow: wrap
-                margin: 12px 0
+                margin: 12px 0 8px
                 display: block
+                border-bottom: 1px solid $white_button_cancel
                 .item
                     border-radius: 14px
                     display: inline-grid
@@ -612,11 +815,11 @@ pbx-chat
                         background: rgba($chat_color7, .8)
                         .letters
                             background: rgba($chat_color7, 1)
+            .count
             .choose_to_add
                 flex-direction: column
                 overflow: auto
-                border-top: 1px solid $white_button_cancel
-                padding-top: 16px
+                padding-top: 24px
                 display: grid
                 .item
                     display: grid
@@ -688,6 +891,8 @@ pbx-chat
         .naming
             flex-direction: column
             display: none
+            .enter_name_2
+                display: none
             .enter_name
                 display: grid
                 grid-template-columns: 64px 24px 1fr
@@ -780,3 +985,45 @@ pbx-chat
                                     font-size: 14px
                                     font-weight: 200
                                     color: $dark_white_75
+            //////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////
+            &.naming_2
+                .enter_name
+                    display: none
+                .members
+                    .amount
+                        display: none
+                .enter_name_2
+                    display: grid
+                    grid-template-columns: 1fr
+                    grid-template-rows: 1fr 1fr
+                    margin-bottom: 32px
+                    .up
+                        display: grid
+                        grid-template-columns: 56px 1fr 56px
+                        box-shadow: 0 7px 8px -7px rgba(0, 0, 0, 0.5)
+                        padding-bottom: 8px
+                        margin-left: -16px
+                        margin-right: -16px
+                        .back
+                            grid-column: 1/2
+                            grid-row: 1/3
+                            svg-icon
+                                margin: auto
+                                svg
+                                    width: 16px
+                                    cursor: pointer
+                                    *
+                                        cursor: pointer
+                                    polygon
+                                        fill: #fff
+                        .input_enter_name
+                            font-size: 20px
+                    .add_people
+                        display: grid
+                        grid-template-columns: 56px 1fr 56px
+                        margin: 8px -16px 0 -16px
+                        input
+                            grid-column: 2/3
