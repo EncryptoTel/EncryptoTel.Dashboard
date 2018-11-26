@@ -1,7 +1,7 @@
 import {BaseItemModel, PageInfoModel, PlayerModel, RecordModel} from "./base.model";
-import {Type} from "class-transformer";
+import {Type, Transform} from "class-transformer";
 import {formatDate, formatDateTime} from "../shared/shared.functions";
-
+import * as moment from "moment";
 export class CdrModel extends PageInfoModel {
     items: CdrItem[];
 }
@@ -16,6 +16,7 @@ export class CdrItem extends BaseItemModel {
     public type: number;
     public tag: string;
     @Type(() => Date)
+    @Transform(value => moment(value, ["YYYY-MM-DD HH:mm:ss"]).toDate(), { toClassOnly: true })
     public created: Date;
     public price: number;
     public contactId: number;
@@ -66,6 +67,7 @@ export class AccountFileItem {
     public id: number;
     public accountId: number;
     @Type(() => Date)
+    @Transform(value => moment(value, ["YYYY-MM-DD HH:mm:ss"]).toDate(), { toClassOnly: true })
     public created: Date;
     public description: string;
     public duration: number;
@@ -82,6 +84,7 @@ export class CdrMediaInfo {
     id: number;
     accountId: number;
     @Type(() => Date)
+    @Transform(value => moment(value, ["YYYY-MM-DD HH:mm:ss"]).toDate(), { toClassOnly: true })
     created: Date;
     description: string;
     downloadHash: string;

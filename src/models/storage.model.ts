@@ -1,7 +1,7 @@
 import {BaseItemModel, PageInfoModel, PlayerModel, RecordModel} from "./base.model";
-import {Type} from "class-transformer";
+import {Type, Transform} from "class-transformer";
 import {formatDateTime} from "../shared/shared.functions";
-
+import * as moment from "moment";
 export class StorageModel extends PageInfoModel {
     public items: StorageItem[];
 }
@@ -9,6 +9,7 @@ export class StorageModel extends PageInfoModel {
 export class StorageItem extends BaseItemModel {
     public accountId: number;
     @Type(() => Date)
+    @Transform(value => moment(value, ["YYYY-MM-DD HH:mm:ss"]).toDate(), { toClassOnly: true })
     public created: Date;
     public description: string;
     public duration: number;

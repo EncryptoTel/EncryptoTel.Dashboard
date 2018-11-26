@@ -1,7 +1,7 @@
 import {PageInfoModel} from "./base.model";
-import {Type} from "class-transformer";
+import {Type, Transform} from "class-transformer";
 import {formatDate, formatDateTime} from "../shared/shared.functions";
-
+import * as moment from "moment";
 export class InvoiceModel extends PageInfoModel {
     items: InvoiceItem[];
 }
@@ -9,6 +9,7 @@ export class InvoiceModel extends PageInfoModel {
 
 export class InvoiceItem {
     @Type(() => Date)
+    @Transform(value => moment(value, ["YYYY-MM-DD HH:mm:ss"]).toDate(), { toClassOnly: true })
     created: Date;
     number: string;
     type: string;
