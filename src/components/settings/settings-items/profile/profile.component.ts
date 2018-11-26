@@ -30,6 +30,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     model: SettingsModel;
 
+    public sidebarActive: boolean;
+
     generalForm: FormGroup;
     emailChange: FormGroup;
     passwordChange: FormGroup;
@@ -319,6 +321,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     dragOverHandler(event): void {
+        this.sidebarActive = true;
         event.preventDefault();
     }
 
@@ -326,6 +329,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     dragLeaveHandler(event): void {
+        this.sidebarActive = false;
         event.preventDefault();
     }
 
@@ -336,12 +340,14 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 if (response.avatar) {
                     this.userDefaultPhoto = response.avatar;
                     this.user.fetchProfileParams().then();
+                    this.sidebarActive = false;
                 }
             }).catch(() => {
-
+                this.sidebarActive = false;
             });
         } else {
             this.message.writeError('Accepted formats: jpg, jpeg, png, gif');
+            this.sidebarActive = false;
         }
     }
 

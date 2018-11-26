@@ -398,3 +398,66 @@ main-view
 .main_grid
     height: 100vh !important
     min-height: 640px !important
+
+pbx-table
+    .tablet_body
+        .qwerty
+            max-width: 200px !important
+            overflow: hidden !important
+            text-overflow: ellipsis !important
+            display: block !important
+
+pbx-select
+    .select_item.selected
+        position: relative
+        padding-right: 40px
+        overflow: hidden
+        text-overflow: ellipsis
+        display: inline-block
+        padding-top: 13px
+        svg-icon
+            position: absolute
+            top: 50%
+            right: 16px
+            transform: translateY(-50%)
+    .select_options
+        .select_item
+            max-width: 100%
+            overflow: hidden
+            display: inline-block
+            text-overflow: ellipsis
+            align-items: center
+            padding-top: 15px
+
+pbx-modal
+    .modal_wrap
+        background: $dark_tariff_plan_modal_header !important
+        .modal_title
+            color: $dark_white !important
+        button
+            height: 56px !important
+    .modal_body
+        display: block
+        div
+            justify-content: center
+        span
+            font-weight: 500
+            max-width: 300px
+            overflow: hidden
+            text-overflow: ellipsis
+            display: inline-block
+            white-space: nowrap
+            &.all
+                display: inline-flex
+        .fileName
+            overflow: hidden
+            justify-content: left
+            text-overflow: ellipsis
+            display: block
+
+.main_grid
+    .body_wrap
+        max-width: calc(100vw - 192px) !important
+
+.sidebar_active
+    border: rem(1) solid $dark_accent !important

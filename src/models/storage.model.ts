@@ -7,7 +7,7 @@ export class StorageModel extends PageInfoModel {
 }
 
 export class StorageItem extends BaseItemModel {
-    public accountId: number;    
+    public accountId: number;
     @Type(() => Date)
     public created: Date;
     public description: string;
@@ -19,6 +19,7 @@ export class StorageItem extends BaseItemModel {
     public md5: string;
     public originalFileName: string;
     public type: string;
+    public converted: number;
 
     public player: PlayerModel;
     public record: RecordModel;

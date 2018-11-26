@@ -39,3 +39,39 @@ general-add-extension-component
                 position: absolute
                 left: 140px
 
+extensions-component
+    position: relative
+    .ext
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+        pbx-list
+            overflow: auto
+
+add-extension-component
+    pbx-input[name="Enable"]
+        .pbx_input_item_input_wrap
+            display: grid
+            grid-template-columns: min-content 1fr
+        .more
+            height: 36px
+            display: flex
+            align-items: center
+            background: $dark_ext_more
+            padding: 0 16px
+            width: 100%
+            margin-left: 16px
+            a
+                font-family: Roboto, sans-serif
+                font-size: 12px
+                font-weight: 300
+                color: $dark_accent
+                margin-right: 16px
+                font-weight: 400
+            .host_port
+                font-family: Roboto, sans-serif
+                font-size: 12px
+                font-weight: 300
+                color: $dark_white

@@ -96,16 +96,7 @@ pbx-call-rules-create
                     position: absolute
                     left: 0
                     top: 0
-
-pbx-call-rules,
-pbx-call-queues,
-ring-groups-component,
-pbx-department,
-extensions-component
-    pbx-table
-        .tablet_body
-            .qwerty
-                max-width: 200px
-                overflow: hidden
-                text-overflow: ellipsis
-                display: block
+        pbx-input[displaykey="fileName"]
+            .pbx_input_item_input_wrap
+                display: grid
+                grid-template-columns: 1fr min-content

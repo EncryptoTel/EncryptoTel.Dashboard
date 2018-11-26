@@ -181,6 +181,12 @@ export class ModalEx {
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('success', 'Yes'));
                 break;
+            case 'emptyTrash':
+                this.title = 'Confirm';
+                this.body = 'Permanently delete&nbsp;<span class="all">all</span>&nbsp;files?';
+                this.buttons.push(new ModalButton('cancel', 'Cancel'));
+                this.buttons.push(new ModalButton('error', 'Permanently Delete'));
+                break;
         }
     }
 

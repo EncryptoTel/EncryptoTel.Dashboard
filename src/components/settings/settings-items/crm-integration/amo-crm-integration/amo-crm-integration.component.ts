@@ -15,6 +15,8 @@ export class AmoCrmIntegrationComponent implements OnInit {
     public filters: FilterItem[];
     public buttons: ButtonItem[];
     public loading: number;
+    amoCrmEnable: boolean = false;
+    tab: any;
 
     constructor() {
         this.loading = 0;
@@ -28,8 +30,25 @@ export class AmoCrmIntegrationComponent implements OnInit {
                 inactive: false,
                 buttonClass: '',
                 icon: false
+            },
+            {
+                id: 1,
+                title: 'Edit',
+                type: 'accent',
+                visible: true,
+                inactive: false,
+                buttonClass: '',
+                icon: false
             }
         ];
+        this.tab = {
+            items: [
+                'General',
+                'Address Book',
+                'Managers'
+            ],
+            select: 'General'
+        };
     }
 
     ngOnInit(): void {
@@ -46,6 +65,14 @@ export class AmoCrmIntegrationComponent implements OnInit {
 
     reloadFilter(filter: any): void {
 
+    }
+
+    checkboxClick() {
+     this.amoCrmEnable = !this.amoCrmEnable;
+    }
+
+    selectTab(text: string): void {
+        this.tab.select = text;
     }
 
 }

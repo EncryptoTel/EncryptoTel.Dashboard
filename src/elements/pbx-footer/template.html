@@ -1,0 +1,57 @@
+<div class="footer">
+    <a href="https://encryptotel.com" target="_blank">&copy; Encrypto Telecom</a>
+    <div class="center">
+        <a href="{{links['Terms and Conditions'].link}}" translate>{{links['Terms and Conditions'].title}}</a>
+        <a href="{{links['Privacy & cookie'].link}}" translate>{{links['Privacy & cookie'].title}}</a>
+        <a href="{{links['Security Policy'].link}}" translate>{{links['Security Policy'].title}}</a>
+        <a href="{{links['Terms of use'].link}}" translate>{{links['Terms of use'].title}}</a>
+    </div> <!-- center -->
+    <div class="lang_wrap">
+        <pbx-select class="lang-select"
+                    [options]="languages"
+                    [objectKey]="'title'"
+                    [selected]="currentLang"
+                    (onSelect)="onChange($event)"
+                    [onlyTop]="true">
+        </pbx-select>
+    </div> <!-- lang_wrap -->
+</div> <!-- footer -->
+
+<div class="feedback_btn_wrap" (click)="showHideForm($event)">
+    <div class="feedback_btn">
+        <svg-icon src="./assets/icons/_middle/email.svg"></svg-icon>
+    </div> <!-- feedback_btn -->
+</div> <!-- feedback_btn_wrap -->
+
+<div class="feedback_form" *ngIf="formVisible">
+
+    <div class="header">
+        <div class="title">Заполните форму</div>
+        <svg-icon src="./assets/icons/_middle/cancel_delete_12px.svg" (click)="showHideForm($event)"></svg-icon>
+    </div> <!-- header -->
+
+    <div class="body">
+        <div class="title" translate>Ask us your question and we will respond within 24 hours.</div>
+
+        <form action="" method="">
+
+            <div class="temp">Name</div>
+            <div class="temp">Email</div>
+            <div class="temp">Country</div>
+            <div class="temp">Department</div>
+            <div class="temp msg">Request</div>
+
+            <div class="privacy">
+                <pbx-checkbox></pbx-checkbox>
+                <div class="text" translate>
+                    Нажимая на кнопку «Отправить», я принимаю условия пользовательского соглашения и даю согласие на обработку моих персональных данных.
+                </div>
+            </div> <!-- privacy -->
+            <pbx-button [buttonType]="'success'" value="{{buttonText}}"></pbx-button>
+        </form>
+
+    </div> <!-- body -->
+
+    <div class="footer">+1 (844) 267-05-73</div>
+
+</div> <!-- feedback_form -->

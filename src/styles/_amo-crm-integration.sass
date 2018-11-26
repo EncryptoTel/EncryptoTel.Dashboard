@@ -1,0 +1,200 @@
+amo-crm-integration
+    .amo_crm_integration
+        display: grid
+        grid-template-columns: 1fr 384px
+        grid-template-rows: min-content 1fr
+        height: 100%
+        display: none
+        pbx-header
+            grid-column: 1/2
+            grid-row: 1/2
+            .pbx_header
+                margin-bottom: 8px
+        .integration_cnt
+            grid-column: 1/2
+            grid-row: 2/3
+            background: $dark_overlay
+            padding: 32px 28px
+            flex-direction: column
+            .connection_block
+                flex-direction: column
+            .connection_block,
+            .sync
+                .item
+                    .label
+                        cursor: default !important
+                        &:hover
+                            color: $dark_white_70 !important
+            .item
+                display: grid
+                grid-template-columns: 116px 1fr
+                height: 40px
+                align-items: center
+                margin-bottom: 16px
+                .info_block
+                    height: 36px
+                    .text
+                        background: $dark_sidebar_input_link
+                        padding: 0 16px
+                        align-items: center
+                        min-width: 300px
+                        max-width: 300px
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 14px
+                        color: $dark_white
+                        margin-right: 12px
+                        span
+                            width: 100%
+                            overflow: hidden
+                            white-space: nowrap
+                            text-overflow: ellipsis
+                            display: inline-block
+                    .warning
+                        svg-icon
+                            display: flex
+                            align-items: center
+                            svg
+                                width: 14px
+                                height: 14px
+                                cursor: pointer
+                                *
+                                    cursor: pointer
+                                path, circle
+                                    fill: $dark_error_message
+                .label
+                    font-family: Roboto, sans-serif
+                    font-weight: 300
+                    font-size: 12px
+                    line-height: 16px
+                    color: $dark_white_70
+                    cursor: pointer
+                    &:hover
+                        color: $dark_accent
+                pbx-button
+                    .button.accent
+                        width: auto !important
+            .sync
+                flex-direction: column
+                margin-top: 46px
+                .item
+                    height: 24px
+                    .date
+                        svg-icon.ok
+                            svg
+                                width: 13px
+                                width: 13px
+                                polygon
+                                    fill: $dark_white
+                        svg-icon.refresh
+                            display: none
+                            svg
+                                width: 14px
+                                width: 14px
+                                cursor: pointer
+                                *
+                                    cursor: pointer
+                                path
+                                    fill: $dark_accent
+                        .text
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 10px
+                            line-height: 13px
+                            color: $dark_white
+                            margin: 0 12px 0 16px
+                            a
+                                color: $dark_yellow
+                                text-decoration: underline
+                        .warning
+                            margin-left: 6px
+                            svg-icon
+                                svg
+                                    width: 14px
+                                    height: 14px
+                                    cursor: pointer
+                                    *
+                                        cursor: pointer
+                                    path, circle
+                                        fill: $dark_error_message
+
+            .title
+                font-family: Roboto, sans-serif
+                font-weight: 400
+                font-size: 14px
+                line-height: 19px
+                color: $dark_white_80
+                margin-bottom: 16px
+        .info
+            grid-column: 2/3
+            grid-row: 1/3
+            padding: 40px 32px
+            background: $dark_overlay
+            margin-left: 24px
+            flex-direction: column
+            .title
+                font-family: Roboto, sans-serif
+                font-size: 40px
+                font-weight: 300
+                color: $dark_white
+                margin-bottom: 24px
+            .desc
+                font-family: Roboto, sans-serif
+                font-size: 16px
+                font-weight: 300
+                color: $dark_white
+                line-height: 21px
+                flex-direction: column
+                a
+                    color: $dark_accent
+
+
+
+    .amo_crm_integration_edit
+        display: grid
+        grid-template-columns: 1fr 384px
+        grid-template-rows: min-content 1fr
+        height: 100%
+        .amo_crm_header
+            grid-column: 1/2
+            grid-row: 1/2
+            .amo_crm_tab_wrap
+                .amo_crm_tab
+                    padding: rem(16)
+                    background: rgba($dark_overlay, .33)
+                    cursor: pointer
+                    *
+                        cursor: pointer
+                    &:hover
+                        background: rgba($dark_overlay, .67)
+                    &.active
+                        cursor: default
+                        color: $dark_accent
+                        background: $dark_overlay
+                        &:hover
+                            background: $dark_overlay
+            .amo_crm_control
+                margin-left: auto
+        .amo_crm_cnt
+            grid-column: 1/2
+            grid-row: 2/3
+        .amo_crm_info
+            grid-column: 2/3
+            grid-row: 1/3
+            padding: 40px 32px
+            background: $dark_overlay
+            margin-left: 24px
+            flex-direction: column
+            .title
+                font-family: Roboto, sans-serif
+                font-size: 40px
+                font-weight: 300
+                color: $dark_white
+                margin-bottom: 24px
+            .desc
+                font-family: Roboto, sans-serif
+                font-size: 16px
+                font-weight: 300
+                color: $dark_white
+                line-height: 21px
+                flex-direction: column

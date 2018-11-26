@@ -61,7 +61,7 @@ export class StorageService extends BaseService {
     checkModal(): void {
         if (this.files.length > 0 && !this.modalUpload.visible) {
             this.updateLoading(1);
-            this.modalUpload.body = `A file ${this.files[0].name} has already been uploaded. Do you want to replace it?`;
+            this.modalUpload.body = `A file <div class="fileName">${this.files[0].name}</div> has already been uploaded. Do you want to replace it?`;
             setTimeout(() => {
                 this.modalUpload.visible = true;
             }, 100);
@@ -191,6 +191,23 @@ export class StorageService extends BaseService {
                     this.updateLoading(-1);
                 });
         }
+    }
+
+    deleteAll(callback = null, showSuccess = true): Promise<any> {
+        this.callback = callback;
+        this.updateLoading(1);
+
+        return super.deleteAll(showSuccess, 'delete')
+            .then(result => {
+                if (this.loading === 1) {
+                    this.getItems(this.pageInfo, this.filter, this.sort);
+                }
+                this.successCount++;
+                this.updateLoading(-1);
+            }).catch(() => {
+                this.errorCount++;
+                this.updateLoading(-1);
+            });
     }
 
     restoreById(id: number, callback = null, showSuccess = true): Promise<any> {

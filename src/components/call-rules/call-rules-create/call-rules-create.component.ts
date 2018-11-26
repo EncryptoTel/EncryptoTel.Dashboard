@@ -13,6 +13,8 @@ import {redirectToExtensionValidator, numberRangeValidator, callRuleTimeValidato
 import {callRuleNameRegExp} from '../../../shared/vars';
 import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {isValidId} from '../../../shared/shared.functions';
+import {Subscription} from 'rxjs/Subscription';
+import {WsServices} from '@services/ws.services';
 
 
 @Component({
@@ -46,8 +48,11 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     loading: number = 0;
     loadingStuff: number = 0;
     saving: number = 0;
+    canPlay: boolean = true;
 
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
+
+    storageItemSubscription: Subscription;
 
     // -- properties ----------------------------------------------------------
 
@@ -62,7 +67,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private storage: StorageService,
-                protected message: MessageServices
+                protected message: MessageServices,
+                private _ws: WsServices,
     ) {
         super(fb, message);
 
@@ -90,6 +96,15 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         super.ngOnInit();
         super.setFormData(this.callRule);
         this.getParams();
+        let $this: any;
+        $this = this;
+        this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
+            let storageItem: any;
+            storageItem = $this.selectedFiles.find(item => item.id === result.id);
+            if (result.converted === 1) {
+                storageItem.converted = result.converted;
+            }
+        });
 
         this.loading--;
     }
@@ -164,7 +179,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     private createRedirectToGroup(): FormGroup {
         return this.fb.group({
-            action: 3,
+            action: 6,
             parameter: [null, [Validators.required]],
             timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
             timeRules: ['', []],
@@ -338,6 +353,10 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     selectFile(index: number, file: any): void {
+        // console.log(!this.isFileSelected(index) && this.canPlay);
+        if (file.converted !== 1) {
+            this.canPlay = false;
+        }
         if (this.mediaPlayer.selectedMediaId !== file.id && this.mediaPlayer.state === MediaState.PLAYING) {
             this.stopPlayerPlay();
         }
@@ -346,7 +365,9 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     isFileSelected(index: number): boolean {
-        return !!this.selectedFiles[index];
+        return !!this.selectedFiles[index] &&
+        this.selectedFiles[index].converted !== undefined &&
+        this.selectedFiles[index].converted > 0 ? true : false;
     }
 
     setParameterControlValue(index: number, value: any): void {
@@ -527,10 +548,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             this.service.edit(this.activatedRoute.snapshot.params.id, {...this.callRulesForm.value}).then(() => {
                 this.saveFormState();
             }).catch(() => {
-                let tmp: any;
-                tmp = '';
-            })
-                .then(() => this.saving--);
+            }).then(() => this.saving--);
         }
     }
 
@@ -542,8 +560,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             this.formatForEdit(this.ruleActions);
             this.saveFormState();
         }).catch(() => {
-        })
-            .then(() => this.loadingStuff--);
+        }).then(() => this.loadingStuff--);
     }
 
     private getParams(): void {
@@ -568,8 +585,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 }
             });
         }).catch(() => {
-        })
-            .then(() => this.loading--);
+        }).then(() => this.loading--);
     }
 
     private getFiles(): void {
@@ -580,8 +596,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 this.getCallRule();
             }
         }).catch(() => {
-        })
-            .then(() => this.loading--);
+        }).then(() => this.loading--);
     }
 
     private getNumbers(): void {
@@ -594,8 +609,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             });
             this.numbers = response;
         }).catch(() => {
-        })
-            .then(() => this.loading--);
+        }).then(() => this.loading--);
     }
 
     private getQueue(): void {
@@ -603,8 +617,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.service.getQueue().then(response => {
             this.queues = response.items;
         }).catch(() => {
-        })
-            .then(() => this.loading--);
+        }).then(() => this.loading--);
     }
 
     private getGroup(): void {
@@ -612,8 +625,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.service.getGroup().then(response => {
             this.groups = response.items;
         }).catch(() => {
-        })
-            .then(() => this.loading--);
+        }).then(() => this.loading--);
     }
 
     refreshFiles(loading: number): void {
@@ -623,7 +635,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.service.getFiles().then((response) => {
             this.files = response.items;
         }).catch(() => {
-        })
-            .then(() => this.storage.loading--);
+        }).then(() => this.storage.loading--);
     }
 }

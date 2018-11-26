@@ -1,4 +1,4 @@
-main-view.dark_theme    
+main-view.dark_theme
     sign-in,
     sign-up-form,
     password-recovery,
@@ -9,7 +9,7 @@ main-view.dark_theme
                 color: $dark-white_60 !important
         form
             .auth_form_message.error,
-            .input_error 
+            .input_error
                 top: 0
                 left: unset
                 font-size: 12px
@@ -83,6 +83,22 @@ main-view.dark_theme
             border: none
             color: $dark_white
             font-size: 14px
+        pbx-select
+            .select_wrap
+                .select_item.selected
+                    display: flex !important
+                    align-items: center !important
+                    padding-top: 0 !important
+                    svg-icon
+                        top: 35% !important
+                .select_options
+                    border-top: 1px solid $white_input_border !important
+                    border-bottom: none !important
+                    .select_item
+                        display: flex
+                        align-items: center
+                        padding-top: 0 !important
+
 
 main-view.dark_theme
     sign-up-form
@@ -135,6 +151,22 @@ temporary-code
                 z-index: 15
                 background: $dark_accent
                 animation: pulse_after 1.5s linear infinite
+                -webkit-animation-name: pulse_after
+                -moz-animation-name: pulse_after
+                -o-animation-name: pulse_after
+                animation-name: pulse_after
+                -webkit-animation-duration: 1.5s
+                -moz-animation-duration: 1.5s
+                -o-animation-duration: 1.5s
+                animation-duration: 1.5s
+                -webkit-animation-timing-function: linear
+                -moz-animation-timing-function: linear
+                -o-animation-timing-function: linear
+                animation-timing-function: linear
+                -webkit-animation-iteration-count: infinite
+                -moz-animation-iteration-count: infinite
+                -o-animation-iteration-count: infinite
+                animation-iteration-count: infinite
             &:before
                 content: ''
                 width: 58px
@@ -148,6 +180,22 @@ temporary-code
                 background: transparent
                 border: 2px solid $dark_accent
                 animation: pulse_before 2s linear infinite
+                -webkit-animation-name: pulse_before
+                -moz-animation-name: pulse_before
+                -o-animation-name: pulse_before
+                animation-name: pulse_before
+                -webkit-animation-duration: 2s
+                -moz-animation-duration: 2s
+                -o-animation-duration: 2s
+                animation-duration: 2s
+                -webkit-animation-timing-function: linear
+                -moz-animation-timing-function: linear
+                -o-animation-timing-function: linear
+                animation-timing-function: linear
+                -webkit-animation-iteration-count: infinite
+                -moz-animation-iteration-count: infinite
+                -o-animation-iteration-count: infinite
+                animation-iteration-count: infinite
             .feedback_btn
                 position: relative
                 width: 58px
@@ -169,14 +217,13 @@ temporary-code
             position: absolute
             z-index: 25
             top: 0
-            right: 0
+            right: -2px
             bottom: 0
             width: 360px
             background: $dark_grey_1
             display: grid
             grid-template-columns: 1fr
             grid-template-rows: min-content 1fr min-content
-            display: none
             .header
                 position: relative
                 border-bottom: 1px solid $white_black_30
@@ -210,6 +257,8 @@ temporary-code
                 grid-row: 2/3
                 padding: 0 28px
                 flex-direction: column
+                overflow: auto
+                padding-bottom: 92px
                 .title
                     font-family: Roboto, sans-serif
                     font-size: 14px
@@ -264,28 +313,83 @@ temporary-code
                 border-top: 1px solid $dark_accent
                 padding: 12px 0
                 justify-content: center
-                background: transparent !important
+                background: $dark_white !important
+sign-in,
+sign-up-form,
+password-recovery,
+temporary-code
+    min-height: 640px
+    .auth_form
+        min-height: 640px
+
+sign-up
+    form
+        pbx-input
+            .pbx_input_item_label
+                span
+                    cursor: pointer
+                    &:hover
+                        color: $dark_accent
+pbx-input
+    .pbx_input_item_label
+        span
+            cursor: pointer
+            &:hover
+                color: $dark_accent
+
+main-view.light_theme
+    .auth_form
+        form
+            pbx-input[key="agreementConfirmation"]
+                .pbx_input_item_input_wrap
+                    color: $white_startpage_checkbox_border !important
+                    //border: 1px solid $white_startpage_checkbox_border !important
+                    &:hover
+                        color: $dark_accent !important
+                        //border: 1px solid $dark_accent !important
 
 @keyframes pulse_after
     0%
-        width: 58px
-        height: 58px
+        -webkit-transform: translate(-50%, -50%) scale(1)
+        -moz-transform: translate(-50%, -50%) scale(1)
+        -ms-transform: translate(-50%, -50%) scale(1)
+        -o-transform: translate(-50%, -50%) scale(1)
+        transform: translate(-50%, -50%) scale(1)
+        opacity: 0
+    10%
+        -webkit-transform: translate(-50%, -50%) scale(1)
+        -moz-transform: translate(-50%, -50%) scale(1)
+        -ms-transform: translate(-50%, -50%) scale(1)
+        -o-transform: translate(-50%, -50%) scale(1)
+        transform: translate(-50%, -50%) scale(1)
         opacity: .7
     100%
-        width: 100px
-        height: 100px
+        -webkit-transform: translate(-50%, -50%) scale(1.7)
+        -moz-transform: translate(-50%, -50%) scale(1.7)
+        -ms-transform: translate(-50%, -50%) scale(1.7)
+        -o-transform: translate(-50%, -50%) scale(1.7)
+        transform: translate(-50%, -50%) scale(1.7)
         opacity: 0
 
 @keyframes pulse_before
     0%
-        width: 58px
-        height: 58px
+        -webkit-transform: translate(-50%, -50%) scale(1)
+        -moz-transform: translate(-50%, -50%) scale(1)
+        -ms-transform: translate(-50%, -50%) scale(1)
+        -o-transform: translate(-50%, -50%) scale(1)
+        transform: translate(-50%, -50%) scale(1)
         opacity: 0
     15%
-        width: 58px
-        height: 58px
+        -webkit-transform: translate(-50%, -50%) scale(1)
+        -moz-transform: translate(-50%, -50%) scale(1)
+        -ms-transform: translate(-50%, -50%) scale(1)
+        -o-transform: translate(-50%, -50%) scale(1)
+        transform: translate(-50%, -50%) scale(1)
         opacity: .7
     100%
-        width: 100px
-        height: 100px
+        -webkit-transform: translate(-50%, -50%) scale(1.7)
+        -moz-transform: translate(-50%, -50%) scale(1.7)
+        -ms-transform: translate(-50%, -50%) scale(1.7)
+        -o-transform: translate(-50%, -50%) scale(1.7)
+        transform: translate(-50%, -50%) scale(1.7)
         opacity: 0

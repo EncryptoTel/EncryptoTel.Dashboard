@@ -135,7 +135,12 @@
     <pbx-sidebar [sidebarInfo]="sidebarInfo"></pbx-sidebar>
 
     <div class="upload_img profile_settings_photo">
-        <div class="inner">
+        <div class="inner" [ngClass]="{ 'sidebar_active': sidebarActive }"
+             (drop)="dropHandler($event)"
+             (dragover)="dragOverHandler($event)"
+             (dragend)="dragEndHandler($event)"
+             (dragleave)="dragLeaveHandler($event)"
+        >
 
             <div class="grey grey_1"></div>
 
@@ -149,10 +154,7 @@
 
             <div class="store">
                 <pbx-sidebar>
-                    <div class="store_sidebar_audio" (drop)="dropHandler($event)"
-                         (dragover)="dragOverHandler($event)"
-                         (dragend)="dragEndHandler($event)"
-                         (dragleave)="dragLeaveHandler($event)">
+                    <div class="store_sidebar_audio">
                         <a [href]="logo" target="_blank" class="a_download">
                             <div class="store_sidebar_audio_icon">
                                 <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>

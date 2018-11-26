@@ -10,272 +10,52 @@
 
         <input type="text" name="searching" placeholder="Search people">
 
-        <div class="mic">
-            <svg-icon src="../../assets/images/chat/microphone_24px.svg"></svg-icon>
-        </div> <!-- mic -->
+        <div class="create" (click)="changeCreateStatus()">
+            <svg-icon src="../../assets/images/chat/create_18px.svg"></svg-icon>
+            <div class="dropdown_block_create" *ngIf="createStatus">
+                <div class="item">New Group</div>
+                <div class="item">New Secret Chat</div>
+            </div> <!-- dropdown -->
+        </div> <!-- create -->
 
     </div> <!-- search_wrap -->
 
     <div class="items">
 
-        <div class="item">
+        <div class="item menu_block" *ngFor="let chat of chatObjects; let i = index">
             <div class="logo_wrap">
                 <div class="logo"><span>AS</span></div>
             </div> <!-- logo_wrap -->
             <div class="cnt">
                 <div class="name">
-                    <span>Adam Smit</span>
+                    <span>{{chat.isGroup ? chat.titleGroup : chat.userName}}</span>
                 </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
+                <div class="date">{{chat.lastMessageTime}}</div>
+                <div class="msg">{{chat.lastMessage}}</div>
+                <div class="new_msgs"><span [ngClass]="chat.countUnread > 10 ? 'long' : ''">{{chat.countUnread > 999 ? '999+': chat.countUnread}}</span></div>
             </div> <!-- cnt -->
-            <div class="settings">
+            <div class="settings" (click)="dropdownSettings($event, i)" (clickOutside)="clickOutside(i)">
                 <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
+                <div class="dropdown_block_settings user" *ngIf="!chat.isGroup && dropdownSettingsStatus[i]">
+                    <div class="item">Pin</div>
+                    <div class="item">Mute</div>
+                    <div class="item">Call</div>
+                    <div class="item">Clear History</div>
+                    <div class="item">Delete Chat</div>
+                    <div class="item">Mark As Reed</div>
+                </div> <!-- dropdown_block -->
+                <div class="dropdown_block_settings group" *ngIf="chat.isGroup && dropdownSettingsStatus[i]">
+                    <div class="item">Pin</div>
+                    <div class="item">Mute</div>
+                    <div class="item">Mark As Reed</div>
+                    <div class="item">Clear History</div>
+                    <div class="item">Leave Group</div>
+                </div> <!-- dropdown_block -->
             </div> <!-- settings -->
         </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="logo_wrap">
-                <div class="logo"><span>AS</span></div>
-            </div> <!-- logo_wrap -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span>
-                </div>
-                <div class="date">13:57</div>
-                <div class="msg">Hello. If a curator called Mona Lisa tell me</div>
-            </div> <!-- cnt -->
-            <div class="settings">
-                <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
-            </div> <!-- settings -->
-        </div> <!-- item -->
-
 
     </div> <!-- items -->
+
 
     <div class="add_people">
         <svg-icon src="../../assets/images/chat/add_people_32px.svg"></svg-icon>
@@ -298,8 +78,15 @@
         <div class="search">
             <svg-icon src="../../assets/images/chat/magnifier_18px.svg"></svg-icon>
         </div> <!-- search -->
-        <div class="settings">
+        <div class="settings" (click)="changeSettingsUserChat()">
             <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
+            <div class="dropdown_block_settings user_chat" *ngIf="dropdownSettingsUserChat">
+                <div class="item">Edit</div>
+                <div class="item">Shared Media</div>
+                <div class="item">Info</div>
+                <div class="item">Clear Chat History</div>
+                <div class="item">Delete Chat</div>
+            </div> <!-- dropdown_block -->
         </div> <!-- settings -->
     </div> <!-- top -->
 
@@ -333,11 +120,13 @@
         </div> <!-- message -->
     </div> <!-- messages -->
 
+    <div class="empty_text">No messages here yet</div>
+
     <div class="input_wrap">
         <div class="smiles">
             <svg-icon src="../../assets/images/chat/smiley_18px.svg"></svg-icon>
         </div> <!-- smiles -->
-        <input type="text" placeholder="Message" [(ngModel)]="message" (keyup)="onMessageKeyUp($event)">
+        <input type="text" placeholder="Write a message..." [(ngModel)]="message" (keyup)="onMessageKeyUp($event)">
         <div class="files">
             <svg-icon src="../../assets/images/chat/clip_18px.svg"></svg-icon>
         </div> <!-- files -->
@@ -350,7 +139,7 @@
 
 <div class="new_group">
 
-    <div class="top">
+    <div class="top top2">
 
         <div class="back">
             <svg-icon src="../../assets/images/chat/return_24px.svg"></svg-icon>
@@ -364,6 +153,7 @@
 
         <div class="cnt">
             <div class="title">New group</div> <!-- class naming -->
+            <input class="enter_name" type="text" placeholder="Enter Name">
             <div class="desc">up to 20000 members</div> <!-- class remove -->
         </div> <!-- cnt -->
 
@@ -373,7 +163,7 @@
 
     </div> <!-- top -->
 
-    <div class="add_people">
+    <div class="add_people top2">
         <input type="text" placeholder="Add people...">
     </div> <!-- add_people -->
 

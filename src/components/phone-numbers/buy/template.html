@@ -42,15 +42,19 @@
         </div>
         <div class="buy_phone_header_options">
             <div class="buy_phone_header_options_title">Number types:</div>
+
             <pbx-checkbox [value]="requestDetails.local"
                           (onToggle)="requestDetails.local = $event; getList()"></pbx-checkbox>
-            <div>Local</div>
+            <div (click)="checkboxClick('local')">Local</div>
+
             <pbx-checkbox [value]="requestDetails.mobile"
                           (onToggle)="requestDetails.mobile = $event; getList()"></pbx-checkbox>
-            <div>Mobile</div>
+            <div (click)="checkboxClick('mobile')">Mobile</div>
+
             <pbx-checkbox [value]="requestDetails.tollFree"
                           (onToggle)="requestDetails.tollFree = $event; getList()"></pbx-checkbox>
-            <div>Toll-free</div>
+            <div (click)="checkboxClick('tollFree')">Toll-free</div>
+
         </div>
         <div class="buy_phone_header_refresh" (click)="getList()">Refresh phone lists
             <svg-icon class="buy_phone_header_refresh_icon" src="../../assets/icons/refresh.svg"></svg-icon>
@@ -85,14 +89,14 @@
         <span class="msg" *ngIf="!requestDetails.areaCode && !requestDetails.contains">No data to display</span>
         <span class="msg"
               *ngIf="requestDetails.areaCode && !requestDetails.contains">Sorry, no matches were found for <span
-            class="outerSpan">"<span class="innerSpan">{{requestDetails.areaCode}}</span>"</span></span>
+            class="outerSpan"><span class="innerSpan">{{requestDetails.areaCode}}</span></span></span>
         <span class="msg"
               *ngIf="requestDetails.contains && !requestDetails.areaCode">Sorry, no matches were found for <span
-            class="outerSpan">"<span class="innerSpan">{{requestDetails.contains}}</span>"</span></span>
+            class="outerSpan"><span class="innerSpan">{{requestDetails.contains}}</span></span></span>
         <span class="msg"
               *ngIf="requestDetails.contains && requestDetails.areaCode">Sorry, no matches were found for <span
-            class="outerSpan">"<span class="innerSpan">{{requestDetails.areaCode}}</span>"</span> and <span
-            class="outerSpan">"<span class="innerSpan">{{requestDetails.contains}}</span>"</span></span>
+            class="outerSpan"><span class="innerSpan">{{requestDetails.areaCode}}</span></span> and <span
+            class="outerSpan"><span class="innerSpan">{{requestDetails.contains}}</span></span></span>
     </div>
     <div class="buy_phone_pagination" *ngIf="pagination.total>1">
         <pbx-pagination [currentPage]="pagination.page"

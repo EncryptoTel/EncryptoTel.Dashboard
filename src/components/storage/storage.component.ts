@@ -7,6 +7,9 @@ import {MessageServices} from '../../services/message.services';
 import {ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction} from '../../models/base.model';
 import {StorageModel, StorageItem} from '../../models/storage.model';
 import {killEvent} from '../../shared/shared.functions';
+import {ListComponent} from '@elements/pbx-list/pbx-list.component';
+import {Subscription} from 'rxjs/Subscription';
+import {WsServices} from '@services/ws.services';
 
 
 @Component({
@@ -24,9 +27,12 @@ export class StorageComponent implements OnInit {
     public buttons: ButtonItem[];
     public currentFilter: any;
 
+    storageItemSubscription: Subscription;
+
     @ViewChild('mediaTable')
     @ViewChild('fileInput') fileInput: ElementRef;
-    public mediaTable: MediaTableComponent;
+    @ViewChild(MediaTableComponent) mediaTable: MediaTableComponent;
+    // public mediaTable: MediaTableComponent;
 
     public modal: ModalEx;
     public sidebarActive: boolean;
@@ -43,7 +49,8 @@ export class StorageComponent implements OnInit {
     constructor(
         public service: StorageService,
         private _message: MessageServices,
-        private _size: SizePipe
+        private _size: SizePipe,
+        private _ws: WsServices,
     ) {
         this.loading = 0;
         this.modal = new ModalEx('', 'deleteFiles');
@@ -92,6 +99,15 @@ export class StorageComponent implements OnInit {
                 icon: false
             },
             {
+                id: 3,
+                title: 'Empty trash',
+                type: 'error',
+                visible: false,
+                inactive: false,
+                buttonClass: 'trash',
+                icon: 'trash'
+            },
+            {
                 id: 2,
                 title: 'Upload',
                 type: 'success',
@@ -99,14 +115,25 @@ export class StorageComponent implements OnInit {
                 inactive: false,
                 buttonClass: 'button-upload',
                 icon: false
-            },
+            }
         ];
         this.buttonType = 1;
     }
 
     ngOnInit() {
+        let $this: any;
+        $this = this;
         this.pageInfo.limit = Math.floor((window.innerHeight - 180) / 48);
         this.getItems();
+        this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
+            let storageItem: any;
+            storageItem = $this.pageInfo.items.find(item => item.id === result.id);
+            console.log('storageItem', storageItem);
+            console.log('result', result);
+            if (result.converted === 1) {
+                storageItem.converted = result.converted;
+            }
+        });
     }
 
     // --- data methods -----------------------------------
@@ -155,23 +182,24 @@ export class StorageComponent implements OnInit {
             this.buttons[0].inactive = false;
         }
 
-        this.buttons[1].visible = this.pageInfo.itemsCount > 0;
-        this.buttons[1].inactive = this.service.select.length === 0;
+        // this.buttons[3].visible = this.pageInfo.itemsCount > 0;
+        // this.buttons[1].inactive = this.service.select.length === 0;
 
-        this.buttons[2].inactive = false;
-        this.buttons[2].visible = true;
+        this.buttons[3].inactive = false;
+        this.buttons[3].visible = true;
     }
 
     // --- filter methods ---------------------------------
 
     reloadFilter(filter: any): void {
         if (filter.type === 'trash') {
-            this.buttons[1].title = 'Empty trash';
-            this.buttons[1].icon = 'trash';
+            this.buttons[2].visible = true;
+            this.buttons[1].visible = false;
+            this.buttons[1].inactive = true;
             this.buttons[0].inactive = true;
         } else {
-            this.buttons[1].title = 'Delete Selected';
-            this.buttons[1].icon = false;
+            this.buttons[2].visible = false;
+            this.buttons[1].visible = true;
             this.buttons[0].inactive = true;
         }
         this.currentFilter = filter;
@@ -196,7 +224,7 @@ export class StorageComponent implements OnInit {
         this.service.selectItem(item.id);
         this.buttons[0].inactive = this.service.select.length === 0;
         this.buttons[1].inactive = this.service.select.length === 0;
-        this.buttons[2].inactive = false;
+        this.buttons[3].inactive = false;
     }
 
     // --- file uploading ---------------------------------
@@ -281,48 +309,77 @@ export class StorageComponent implements OnInit {
 
     deleteSelected($event: any) {
         this.buttonType = $event.id;
-        if (this.buttonType !== 2) {
-            if (this.buttonType === 0) {
-                this.modal = new ModalEx('', 'restoreFiles');
-            } else {
-                this.modal = new ModalEx('', 'deleteFiles');
+        if (this.buttonType === 1) {
+            this.modal = new ModalEx('', 'deleteFiles');
+            this.modal.visible = true;
+        } else if (this.buttonType === 2) {
+            this.fileInput.nativeElement.click();
+        } else if (this.buttonType === 3) {
+            this.modal = new ModalEx('', 'emptyTrash');
+            if (this.service.select.length > 0) {
+                this.modal.body = 'Permanently delete ' + this.service.select.length + ' file(s)?';
             }
             this.modal.visible = true;
         } else {
-            this.fileInput.nativeElement.click();
+            this.modal = new ModalEx('', 'restoreFiles');
+            this.modal.visible = true;
         }
+        // if (this.buttonType !== 2) {
+        //     if (this.buttonType === 0) {
+        //         this.modal = new ModalEx('', 'restoreFiles');
+        //     } else {
+        //         this.modal = new ModalEx('', 'deleteFiles');
+        //     }
+        //     this.modal.visible = true;
+        // } else if (this.buttonType === 3) {
+        //
+        // } else {
+        //
+        // }
     }
 
     deleteConfirmed() {
         this.service.resetCount();
-        this.service.select.forEach(id => {
-            let typeDelete: string;
-            typeDelete = 'trash';
-            if (this.currentFilter && this.currentFilter.type === 'trash') {
-                typeDelete = 'delete';
-            }
-            let item: any;
-            item = this.pageInfo.items.find(item => item.id === id);
-            // item ? item.loading++ : null;
+        if (this.service.select.length > 0) {
+            this.service.select.forEach(id => {
+                let typeDelete: string;
+                typeDelete = 'trash';
+                if (this.currentFilter && this.currentFilter.type === 'trash') {
+                    typeDelete = 'delete';
+                }
+                let item: any;
+                item = this.pageInfo.items.find(item => item.id === id);
+                // item ? item.loading++ : null;
 
-            if (this.buttonType === 0) {
-                this.service.restoreById(id, (loading) => {
+                if (this.buttonType === 0) {
+                    this.service.restoreById(id, (loading) => {
+                        this.updateLoading(loading, true);
+                    }, false).then(() => {
+                        item ? item.loading-- : null;
+                    }).catch(() => {
+                        item ? item.loading-- : null;
+                    });
+                } else {
+                    this.service.deleteById(id, (loading) => {
+                        this.updateLoading(loading, true);
+                    }, typeDelete, false).then(() => {
+                        item ? item.loading-- : null;
+                    }).catch(() => {
+                            item ? item.loading-- : null;
+                        });
+                }
+            });
+        } else {
+            if (this.buttonType === 2) {
+                this.service.deleteAll((loading) => {
                     this.updateLoading(loading, true);
-                }, false).then(() => {
-                    item ? item.loading-- : null;
-                }).catch(() => {
-                    item ? item.loading-- : null;
-                });
-            } else {
-                this.service.deleteById(id, (loading) => {
-                    this.updateLoading(loading, true);
-                }, typeDelete, false).then(() => {
-                    item ? item.loading-- : null;
-                }).catch(() => {
-                    item ? item.loading-- : null;
-                });
+                }, false).then(
+                    () => {}
+                    ).catch(
+                        () => {}
+                );
             }
-        });
+        }
     }
 
     deleteItem(item: StorageItem): void {

@@ -149,7 +149,7 @@ export class MediaTableComponent extends TableComponent implements OnChanges {
     }
 
     setMediaData(item: any): void {
-        if (item == this._selectedItem) {
+        if (item === this._selectedItem) {
             this.startPlayRecord();
         }
     }

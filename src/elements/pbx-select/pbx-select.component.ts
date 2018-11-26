@@ -1,14 +1,6 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {assertNumber} from "@angular/core/src/render3/assert";
-import {StorageService} from '../../services/storage.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CallRulesService} from '../../services/call-rules.service';
-import {MessageServices} from '../../services/message.services';
-import {FormBuilder} from '@angular/forms';
-import {RefsServices} from '../../services/refs.services';
-
 @Component({
     selector: 'pbx-select',
     templateUrl: './template.html',
@@ -52,6 +44,7 @@ export class SelectComponent implements OnInit {
     _placeholder: string;
 
     @Input() errors: any[];
+    @Input() onlyTop: boolean;
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onOpen: EventEmitter<object> = new EventEmitter();
     @Output() onClose: EventEmitter<object> = new EventEmitter();
@@ -78,8 +71,13 @@ export class SelectComponent implements OnInit {
     }
 
     calcPosition(): string {
-        const comparison = (window.innerHeight - this.selectWrap.nativeElement.offsetTop + 40) > 230;
-        return comparison ? 'bottom' : 'top';
+        const position = (window.innerHeight - this.selectWrap.nativeElement.offsetTop + 40);
+        const comparison = position > 230;
+        if (this.onlyTop) {
+            return 'top';
+        } else {
+            return comparison ? 'bottom' : 'top';
+        }
     }
 
     /*
