@@ -59,9 +59,7 @@ import {OverviewPartnerProgramComponent} from '../components/partner-program/ove
 import {LinksPartnerProgramComponent} from '../components/partner-program/links/links.partner-program.component';
 import {ReportsPartnerProgramComponent} from '../components/partner-program/reports/reports.partner-program.component';
 import {TermsPartnerProgramComponent} from '../components/partner-program/terms/terms.partner-program.component';
-import {IvrComponent} from '../components/ivr/ivr.component';
 import {AudioConferenceComponent} from '../components/audio-conference/audio-conference.component';
-import {IvrCreateComponent} from '../components/ivr/ivr-create/ivr-create.component';
 import {AudioConferenceCreateComponent} from '../components/audio-conference/audio-conference-create/audio-conference-create.component';
 import {BaseSettingsComponent} from '../components/settings/settings-items/base-settings/base-settings.component';
 import {VgCoreModule} from 'videogular2/core';
@@ -79,7 +77,6 @@ import {GeneralAudioConferenceComponent} from '../components/audio-conference/au
 import {MembersAudioConferenceComponent} from '../components/audio-conference/audio-conference-create/members/members.audio-conference.component';
 import {StatisticAudioConferenceComponent} from '../components/audio-conference/audio-conference-create/statistic/statistic.audio-conference.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {IvrLevelComponent} from '../components/ivr/ivr-level/ivr-level.component';
 import {CRMIntegrationComponent} from '../components/settings/settings-items/crm-integration/crm-integration.component';
 import {AmoCrmIntegrationComponent} from '../components/settings/settings-items/crm-integration/amo-crm-integration/amo-crm-integration.component';
 import {AmoCrmIntegrationGeneralComponent} from '../components/settings/settings-items/crm-integration/amo-crm-integration/general/amo-crm-integration-general.component';
@@ -88,7 +85,6 @@ import {AmoCrmIntegrationManagersComponent} from '@components/settings/settings-
 import {ContactsComponent} from '@components/contacts/contacts.component';
 import {CallComponent} from '@components/call/call.component';
 import {NotificationComponent} from '@components/notification/notification.component';
-
 /*
   Components declarations and exports
  */
@@ -106,7 +102,7 @@ import {NotificationComponent} from '@components/notification/notification.compo
         VgOverlayPlayModule,
         VgBufferingModule,
         VgStreamingModule,
-        TranslateModule,
+        TranslateModule
     ],
     declarations: [
         BaseComponent,
@@ -168,10 +164,7 @@ import {NotificationComponent} from '@components/notification/notification.compo
         ReportsPartnerProgramComponent,
         TermsPartnerProgramComponent,
         KnowledgeBaseComponent,
-        IvrComponent,
         AudioConferenceComponent,
-        IvrCreateComponent,
-        IvrLevelComponent,
         AudioConferenceCreateComponent,
         BaseSettingsComponent,
         RefComponent,
@@ -235,10 +228,7 @@ import {NotificationComponent} from '@components/notification/notification.compo
         LinksPartnerProgramComponent,
         ReportsPartnerProgramComponent,
         TermsPartnerProgramComponent,
-        IvrComponent,
-        IvrLevelComponent,
         AudioConferenceComponent,
-        IvrCreateComponent,
         AudioConferenceCreateComponent,
         BaseSettingsComponent,
         RefComponent,

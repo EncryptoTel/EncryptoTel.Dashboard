@@ -1,0 +1,54 @@
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div class="one" *ngIf="!loading">
+    <pbx-input name="IVR Name" key="name" placeholder="Unnamed" [required]="true" [form]="true" [object]="form"
+        [errors]="service.errors" [validationHost]="validationHost">
+    </pbx-input>
+    <pbx-input name="IVR Description" key="description" placeholder="IVR from 8 a.m. to 6 p.m." [form]="true" [object]="form"
+        [errors]="service.errors" [validationHost]="validationHost">
+    </pbx-input>
+    <pbx-input name="Phone number" key="sipId" placeholder="[choose one]" [required]="true" [form]="true" [object]="form"
+        [options]="service.references.sip" displayKey="phoneNumber" [errors]="service.errors"
+        [validationHost]="validationHost" class="phone_number" *ngIf="form.value.levelNum===1">
+    </pbx-input>
+
+    <div class="call-rules-create_row">
+        <h3>{{'IVR Options' | translate }}</h3>
+    </div>
+
+    <pbx-input name="{{'Enable IVR' | translate }}" key="enabled" [checkbox]="true" [form]="true" [object]="form" *ngIf="form.value.levelNum===1"
+        [(errors)]="service.errors" [validationHost]="validationHost">
+    </pbx-input>
+
+    <pbx-input name="{{'Voice greeting' | translate }}" key="voiceGreeting" [required]="true" [placeholder]="'[choose file]'"
+        [form]="true" [object]="form" [options]="files" displayKey="fileName" [(errors)]="service.errors"
+        [validationHost]="validationHost">
+        <div class="greeting">
+            <pbx-button [value]="playButtonText" [inactive]="!isFileSelected()" [loading]="!mediaPlayer.locker.free"
+                (onClick)="togglePlay()">
+            </pbx-button>
+            <div class="hidden_button_wrapper">
+                <pbx-button value="Upload" buttonType="accent" [loading]="storage.loading"></pbx-button>
+                <input type="file" class="hidden_input" #fileInput (change)="uploadFile($event)">
+            </div>
+        </div>
+    </pbx-input>
+
+    <pbx-input name="{{'Loop message' | translate }}" key="loopMessage" [form]="true" [object]="form" [(errors)]="service.errors"
+        [validationHost]="validationHost">
+    </pbx-input>
+
+    <div class="call-rules-create_row" *ngIf="form.value.levelNum===1">
+        <h3>{{ 'If user nothing is chosen' | translate }}</h3>
+    </div>
+    <pbx-input name="{{'Then' | translate }}" key="action" [form]="true" [object]="form" [options]="service.references.params" *ngIf="form.value.levelNum===1"
+        displayKey="code" [(errors)]="service.errors" [validationHost]="validationHost">
+    </pbx-input>
+
+    <pbx-input name="{{paramsInfo.label | translate }}" key="parameter" [required]="true" [form]="true" [object]="form" [options]="paramsInfo.option"
+        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible && form.value.levelNum===1" displayKey="name">
+    </pbx-input>
+</div>
+{{actionVal|json}}
+<pbx-media-player #mediaPlayer [mediaStream]="currentMediaStream" (onGetMediaData)="getMediaData($event)"
+    (onMediaStateChanged)="mediaStateChanged($event)">
+</pbx-media-player>

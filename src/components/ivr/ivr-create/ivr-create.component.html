@@ -1,0 +1,59 @@
+
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div *ngIf="!loading" class="ivr_create_wrap" [@Fade]>
+    <div class="ivr_create_header">
+        <div class="ivr_create_tab_wrap">
+            <!-- <pbx-button buttonType="accent" *ngIf="true"
+                        value="Add IVR Level"
+                        (onClick)="addLevel()">
+            </pbx-button> -->
+        </div>
+        <div class="ivr_create_buttons">
+            <pbx-button buttonType="cancel"
+                        value="Cancel"
+                        (onClick)="onCancel()">
+            </pbx-button>
+            <pbx-button buttonType="success"
+                        value="Save"
+                        (onClick)="save()"
+                        [loading]="saving">
+            </pbx-button>
+        </div>
+    </div>
+    <div class="ivr_create_body"> <!-- class one_block -->
+
+        <!-- IVR levels -->
+        <div class="left" #levelPanel>
+            <pbx-ivr-level *ngFor="let level of getVisibleLevels()"
+                           [level]="level"
+                           [isValidForm] = "isValidForm"
+                           (ivrSelected)="onIvrSelected($event)"
+                           (onCancelEdit)="cancelEdit($event)"
+                           (onDeleteLevel)="onDeleteLevel($event)"
+            >
+            </pbx-ivr-level>
+        </div>
+
+        <div class="right">
+
+            <!-- IVR main form -->
+            <!-- <pbx-ivr-level-form></pbx-ivr-level-form> -->
+            <ng-template hostIvr></ng-template>
+            <!-- IVR digit form -->
+            <!-- <pbx-ivr-digest-form></pbx-ivr-digest-form> -->
+        </div>
+
+    </div> <!-- ivr_create_body -->
+</div>
+
+<pbx-modal [modalEx]="modalExit"
+           (onConfirmEx)="cancel()"
+           >
+</pbx-modal>
+
+<pbx-media-player #mediaPlayer
+                  [mediaStream]="currentMediaStream"
+                  (onGetMediaData)="getMediaData($event)"
+                  (onMediaStateChanged)="mediaStateChanged($event)"
+>
+</pbx-media-player>
