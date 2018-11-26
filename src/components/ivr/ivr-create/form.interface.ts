@@ -5,4 +5,5 @@ export interface IvrFormInterface {
     onDelete: Function;
     onFormChange: Subject<any>;
     onAddLevel: Function;
+    getData();
 }

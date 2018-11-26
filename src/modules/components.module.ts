@@ -102,8 +102,7 @@ import {NotificationComponent} from '@components/notification/notification.compo
         VgOverlayPlayModule,
         VgBufferingModule,
         VgStreamingModule,
-        TranslateModule,
-        BsDatepickerModule
+        TranslateModule
     ],
     declarations: [
         BaseComponent,

@@ -1,3 +1,10 @@
+import {
+    trigger,
+    state,
+    style,
+    transition,
+    animate
+} from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 import {
     Component,
@@ -19,7 +26,6 @@ import { IvrFormInterface } from './form.interface';
 import { IvrDigitFormComponent } from './ivr-digit-form/ivr-digit-form';
 import { IvrLevelFormComponent } from './ivr-level-form/ivr-level-form';
 import * as _ from 'lodash';
-import { numberRangeValidator } from '@shared/encry-form-validators';
 import { ValidationErrors } from '@angular/forms';
 
 @Component({
@@ -30,6 +36,7 @@ import { ValidationErrors } from '@angular/forms';
     providers: [StorageService]
 })
 export class IvrCreateComponent implements OnInit {
+    state = 'end';
     ivrLevels: Array<IvrLevel> = []; // all levels
     currentLevel: IvrLevel;
     currentDigit: Digit;
@@ -94,7 +101,7 @@ export class IvrCreateComponent implements OnInit {
             .then(val => {
                 this.initExistsIvr(val);
             })
-            .catch(() => { })
+            .catch(() => {})
             .then(() => this.loading--);
     }
 
@@ -146,11 +153,17 @@ export class IvrCreateComponent implements OnInit {
 
     getFormValidationErrors(form) {
         Object.keys(form.controls).forEach(key => {
-
             const controlErrors: ValidationErrors = form.get(key).errors;
             if (controlErrors != null) {
                 Object.keys(controlErrors).forEach(keyError => {
-                    console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
+                    console.log(
+                        'Key control: ' +
+                            key +
+                            ', keyError: ' +
+                            keyError +
+                            ', err value: ',
+                        controlErrors[keyError]
+                    );
                 });
             }
         });
@@ -253,6 +266,7 @@ export class IvrCreateComponent implements OnInit {
     }
 
     save() {
+        this.currentForm.getData();
         const levelIndex = this.ivrLevels.findIndex(
             x => x.levelNum === this.currentLevel.levelNum
         );
@@ -319,16 +333,18 @@ export class IvrCreateComponent implements OnInit {
             if (x.levelNum > this.currentLevel.levelNum) {
                 x.isVisible = false;
             }
-        })
+        });
         if (digit.action && digit.action.toString() === '7') {
             const nextIvr = this.ivrLevels.find(
                 x => x.levelNum.toString() === digit.parameter.toString()
             );
-            nextIvr.isVisible = true;
+            const visibled = this.ivrLevels.filter(x => x.isVisible || x.levelNum === 1);
+            if (visibled[visibled.length - 1].levelNum < nextIvr.levelNum) {
+                nextIvr.isVisible = true;
+            }
             setTimeout(() => {
                 this.panel.nativeElement.scrollLeft += 500;
-                console.log('scroll');
-            }, 100)
+            }, 300);
         }
     }
 
@@ -382,28 +398,40 @@ export class IvrCreateComponent implements OnInit {
     onDeleteLevel(l: IvrLevel) {
         // remove all digit linked to level
         this.ivrLevels.forEach(x => {
-            x.digits = x.digits.filter(d => !(d.action.toString() === '7' && d.parameter === l.levelNum.toString()));
+            x.digits = x.digits.filter(
+                d =>
+                    !(
+                        d.action.toString() === '7' &&
+                        d.parameter === l.levelNum.toString()
+                    )
+            );
         });
         this.ivrLevels = this.ivrLevels.filter(x => x.levelNum !== l.levelNum);
 
         l.digits.forEach(d => {
-            if (d.action.toString() === '7' && d.parameter === l.levelNum.toString()) {
-                const level = this.ivrLevels.find(x => x.levelNum.toString() === d.parameter);
+            if (
+                d.action.toString() === '7' &&
+                d.parameter === l.levelNum.toString()
+            ) {
+                const level = this.ivrLevels.find(
+                    x => x.levelNum.toString() === d.parameter
+                );
                 if (level) {
                     this.onDeleteLevel(level);
                 }
             }
         });
-        const lastLevel = this.ivrLevels.filter(x=>x.isVisible);
-        this.onIvrSelected({level: lastLevel[lastLevel.length-1], digit: undefined });
+        const lastLevel = this.ivrLevels.filter(x => x.isVisible);
+        this.onIvrSelected({
+            level: lastLevel[lastLevel.length - 1],
+            digit: undefined
+        });
     }
 
-    deleteLevelWithDependency() {
-
-    }
+    deleteLevelWithDependency() {}
 
     arraymove(arr, fromIndex, toIndex) {
-        var element = arr[fromIndex];
+        const element = arr[fromIndex];
         arr.splice(fromIndex, 1);
         arr.splice(toIndex, 0, element);
     }

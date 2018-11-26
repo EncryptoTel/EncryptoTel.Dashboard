@@ -21,10 +21,10 @@
 
     <pbx-input name="{{'Voice greeting' | translate }}" key="voiceGreeting" [required]="true" [placeholder]="'[choose file]'"
         [form]="true" [object]="form" [options]="files" displayKey="fileName" [(errors)]="service.errors"
-        [validationHost]="validationHost" [(objectView)]="selectedFiles[i]" (onSelect)="selectFile(i, $event)">
+        [validationHost]="validationHost">
         <div class="greeting">
-            <pbx-button [value]="playButtonText" [inactive]="!isFileSelected(i)" [loading]="!mediaPlayer.locker.free"
-                (onClick)="togglePlay(i)">
+            <pbx-button [value]="playButtonText" [inactive]="!isFileSelected()" [loading]="!mediaPlayer.locker.free"
+                (onClick)="togglePlay()">
             </pbx-button>
             <div class="hidden_button_wrapper">
                 <pbx-button value="Upload" buttonType="accent" [loading]="storage.loading"></pbx-button>
@@ -36,66 +36,7 @@
     <pbx-input name="{{'Loop message' | translate }}" key="loopMessage" [form]="true" [object]="form" [(errors)]="service.errors"
         [validationHost]="validationHost">
     </pbx-input>
-    <!-- <pbx-input name="{{'Rule applies for' | translate }}"
-                                       key="rule_for"
-                                       [form]="true"
-                                       [object]="form"
-                                       [placeholder]="'[choose]'"
-                                       [options]="ruleFor"
-                                       displayKey="name"
-                                       [(errors)]="service.errors"
-                                       [validationHost]="validationHost"
-                            >
-                </pbx-input>
-                <div class="rule-applies-for">
-                    <div class="call-rules-create_row days" *ngIf="visibleElementForRule(3)">
-                        <label>Days</label>
-                        <div class="days_wrap">
-                            <pbx-button *ngFor="let day of callRuleTimeDays; let idx = index"
-                                        class="eqwwqewrqwer"
-                                        [buttonType]="day.type"
-                                        [value]="day.day"
-                                        (onClick)="selectDay(idx, day)">
-                            </pbx-button>
-                        </div>
-                    </div>
-                    <div class="cv" *ngIf="visibleElementForRule(2)">
-                        <label>Duration period</label>
-                        <pbx-calendar></pbx-calendar>
-                    </div>
-                </div>
 
-                <pbx-input name="{{'Duration time' | translate }}"
-                                       key="duration_time"
-                                       [form]="true"
-                                       [object]="form"
-                                       [placeholder]="'[choose]'"
-                                       [options]="durationTimes"
-                                       displayKey="code"
-                                       [(errors)]="service.errors"
-                                       [validationHost]="validationHost">
-                </pbx-input>
-
-                <div class="call-rules-create_row" *ngIf="timeVisible">
-                        <label>Time</label>
-                                    <div class="time_wrap">
-                                        <pbx-select [singleBorder]="true"
-                                    [objectKey]="'time'"
-                                    [options]="callRuleTimes"
-                                    [selected]="selectedDurationTimeRange[0]"
-                                    (onSelect)="selectTime($event, 0)"
-                        >
-                        </pbx-select>
-                        <span>―</span>
-                        <pbx-select [singleBorder]="true"
-                                    [objectKey]="'time'"
-                                    [options]="callRuleTimes"
-                                    [selected]="selectedDurationTimeRange[1]"
-                                    (onSelect)="selectTime($event, 1)"
-                        >
-                                        </pbx-select>
-                        </div>
-                </div> -->
     <div class="call-rules-create_row" *ngIf="form.value.levelNum===1">
         <h3>{{ 'If user nothing is chosen' | translate }}</h3>
     </div>

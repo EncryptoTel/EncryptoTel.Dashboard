@@ -44,62 +44,10 @@ export class IvrLevelFormComponent extends FormBaseComponent
     loading: number = 0;
     sipOuters: any;
     bsRangeValue = new Date();
-    callRuleTimeDays = CallRuleDay.fromPlain([
-        { type: 'accent', day: 'Mon', code: 'mon' },
-        { type: 'accent', day: 'Tue', code: 'tue' },
-        { type: 'accent', day: 'Wed', code: 'wed' },
-        { type: 'accent', day: 'Thu', code: 'thu' },
-        { type: 'accent', day: 'Fri', code: 'fri' },
-        { type: 'cancel', day: 'Sat', code: 'sat' },
-        { type: 'cancel', day: 'Sun', code: 'sun' }
-    ]);
-    sipInners: any;
-    durationTimes = CallRuleTimeType.fromPlain([
-        { id: 1, code: 'Always (24 hours)' },
-        { id: 2, code: 'Set the time' }
-    ]);
-
-    callRuleTimes = CallRuleTime.fromPlain([
-        { time: '12:00 a.m', asteriskTime: '00:00' },
-        { time: '1:00 a.m', asteriskTime: '01:00' },
-        { time: '2:00 a.m', asteriskTime: '02:00' },
-        { time: '3:00 a.m', asteriskTime: '03:00' },
-        { time: '4:00 a.m', asteriskTime: '04:00' },
-        { time: '5:00 a.m', asteriskTime: '05:00' },
-        { time: '6:00 a.m', asteriskTime: '06:00' },
-        { time: '7:00 a.m', asteriskTime: '07:00' },
-        { time: '8:00 a.m', asteriskTime: '08:00' },
-        { time: '9:00 a.m', asteriskTime: '09:00' },
-        { time: '10:00 a.m', asteriskTime: '10:00' },
-        { time: '11:00 a.m', asteriskTime: '11:00' },
-        { time: '12:00 p.m', asteriskTime: '12:00' },
-        { time: '1:00 p.m', asteriskTime: '13:00' },
-        { time: '2:00 p.m', asteriskTime: '14:00' },
-        { time: '3:00 p.m', asteriskTime: '15:00' },
-        { time: '4:00 p.m', asteriskTime: '16:00' },
-        { time: '5:00 p.m', asteriskTime: '17:00' },
-        { time: '6:00 p.m', asteriskTime: '18:00' },
-        { time: '7:00 p.m', asteriskTime: '19:00' },
-        { time: '8:00 p.m', asteriskTime: '20:00' },
-        { time: '9:00 p.m', asteriskTime: '21:00' },
-        { time: '10:00 p.m', asteriskTime: '22:00' },
-        { time: '11:00 p.m', asteriskTime: '23:00' }
-    ]);
-    then_data = [
-        { id: 1, code: 'Redirect to extension number' },
-        { id: 2, code: 'Redirect to external number' },
-        { id: 3, code: 'Create new level' }
-    ];
-    selectedDurationTimeRange = [this.callRuleTimes[9], this.callRuleTimes[18]];
-    currentMediaStream: string;
+    currentMediaStream: string = '/assets/mp3/silence.mp3';
     playButtonText: string;
-    selectedFiles = [];
     files = [];
-    ruleFor = [
-        { id: 1, name: 'Allways' },
-        { id: 2, name: 'Date (period)' },
-        { id: 3, name: 'Day of the week' }
-    ];
+
     period: any;
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
 
@@ -141,6 +89,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
         super.ngOnInit();
         this.service.reset();
         this.form.patchValue(this.data);
+        console.log(this.form.value);
     }
 
     initFiles() {
@@ -164,10 +113,6 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 2,
                 [Validators.required, Validators.pattern('[0-9]*')]
             ],
-            // rule_for: [null],
-            // rule_value: [null],
-            // duration_time: [null],
-            // duration: [null],
             action: [null],
             enabled: [null],
             parameter: [null],
@@ -186,9 +131,6 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 )
                 .then(res => {
                     this.paramsInfo = res;
-                    console.group('params');
-                    console.log(res);
-                    console.groupEnd();
                     this.loading--;
                 })
                 .catch(() => {
@@ -199,15 +141,14 @@ export class IvrLevelFormComponent extends FormBaseComponent
             this.references.sipId = val;
             this.service.currentSip = val;
         });
-
-        // this.form.get("duration_time").valueChanges.subscribe(val => {
-        //     this.timeVisible = (val === 2);
-        // });
+        this.form.get('voiceGreeting').valueChanges.subscribe(val => {
+            this.selectFile(val);
+        });
         this.addForm(this.formKey, this.form);
     }
 
-    isFileSelected(index: number): boolean {
-        return !!this.selectedFiles[index];
+    isFileSelected(): boolean {
+        return !!this.form.value.voiceGreeting;
     }
 
     uploadFile(event: any): void {
@@ -228,14 +169,14 @@ export class IvrLevelFormComponent extends FormBaseComponent
         }
     }
 
-    selectFile(index: number, file: any): void {
+    selectFile(id: any): void {
         if (
-            this.mediaPlayer.selectedMediaId !== file.id &&
+            this.mediaPlayer.selectedMediaId !== id &&
             this.mediaPlayer.state === MediaState.PLAYING
         ) {
             this.mediaPlayer.stopPlay();
         }
-        this.selectedFiles[index] = file;
+        this.mediaStateChanged(this.mediaPlayer.state);
     }
 
     togglePlay(i: number): void {
@@ -251,9 +192,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
     getMediaData(fileId: number): void {
         this.mediaPlayer.locker.lock();
-
-        this.storage
-            .getMediaData(fileId)
+        console.log('getMediaData');
+        this.storage.getMediaData(fileId)
             .then((media: CdrMediaInfo) => {
                 this.currentMediaStream = media.fileLink;
             })
@@ -286,8 +226,4 @@ export class IvrLevelFormComponent extends FormBaseComponent
     visibleElementForRule(val) {
         return this.rule_value_visible === val;
     }
-
-    selectTime(val, idx) {
-        this.selectedDurationTimeRange[idx] = val;
-    }    
 }
