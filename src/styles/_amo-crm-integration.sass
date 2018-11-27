@@ -4,7 +4,7 @@ amo-crm-integration
         grid-template-columns: 1fr 384px
         grid-template-rows: min-content 1fr
         height: 100%
-        display: none
+        //display: none
         pbx-header
             grid-column: 1/2
             grid-row: 1/2
@@ -24,7 +24,7 @@ amo-crm-integration
                     .label
                         cursor: default !important
                         &:hover
-                            color: $dark_white_70 !important
+                            color: $dark_white_70
             .item
                 display: grid
                 grid-template-columns: 116px 1fr
@@ -68,6 +68,8 @@ amo-crm-integration
                     font-size: 12px
                     line-height: 16px
                     color: $dark_white_70
+                    text-align: left
+                    padding-left: 0
                     cursor: pointer
                     &:hover
                         color: $dark_accent
@@ -156,7 +158,7 @@ amo-crm-integration
         grid-template-rows: min-content 1fr
         height: 100%
         overflow: hidden
-        //display: none
+        display: none
         .amo_crm_control
             pbx-button
                 margin-left: 8px
