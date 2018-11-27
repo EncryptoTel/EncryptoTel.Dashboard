@@ -75,7 +75,7 @@
         "lodash": "^4.17.11",
         "moment": "^2.22.2",
         "ng-socket-io": "^0.2.4",
-        "ngx-bootstrap": "^2.0.5",
+        "ngx-bootstrap": "^3.1.2",
         "ngx-clipboard": "^11.1.7",
         "ngx-cookie-service": "^1.0.10",
         "npm": "^6.4.1",

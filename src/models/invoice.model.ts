@@ -7,10 +7,6 @@ export class InvoiceModel extends PageInfoModel {
 }
 
 export class InvoiceItem {
-    @Type(() => Date)
-    @Transform(value => moment(value, ['YYYY-MM-DD HH:mm:ss']).toDate(), {
-        toClassOnly: true
-    })
     created: string;
     number: string;
     type: string;
