@@ -5,9 +5,9 @@
             <div class="label">Search:</div>
             <input type="text" placeholder="Name, Phone or Email">
             <div class="checkbox_round">
-                <div class="label">Auto create Extensions</div>
+                <div class="label" (click)="changeAutoCreateExtensions()">Auto create Extensions</div>
                 <div class="wrapper">
-                    <input id="createExtensions" type="checkbox">
+                    <input id="createExtensions" type="checkbox" checked="{{autoCreateExtensions ? 'checked' : ''}}">
                     <div class="visual"><span></span></div>
                     <label for="createExtensions"></label>
                 </div> <!-- wrapper -->
