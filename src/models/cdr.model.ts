@@ -1,7 +1,11 @@
-import {BaseItemModel, PageInfoModel, PlayerModel, RecordModel} from "./base.model";
-import {Type, Transform} from "class-transformer";
-import {formatDate, formatDateTime} from "../shared/shared.functions";
-import * as moment from "moment";
+import {
+    BaseItemModel,
+    PageInfoModel,
+    PlayerModel,
+    RecordModel
+} from './base.model';
+import { Type, Transform } from 'class-transformer';
+import { formatDate, formatDateTime } from '../shared/shared.functions';
 export class CdrModel extends PageInfoModel {
     items: CdrItem[];
 }
@@ -15,9 +19,7 @@ export class CdrItem extends BaseItemModel {
     public statusName: string;
     public type: number;
     public tag: string;
-    @Type(() => Date)
-    @Transform(value => moment(value, ["YYYY-MM-DD HH:mm:ss"]).toDate(), { toClassOnly: true })
-    public created: Date;
+    public created: string;
     public price: number;
     public contactId: number;
 
@@ -43,7 +45,7 @@ export class CdrItem extends BaseItemModel {
         const minutes = Math.floor(sec_num / 60) % 60;
         const seconds = sec_num % 60;
         return [hours, minutes, seconds]
-            .map(v => v < 10 ? '0' + v : v)
+            .map(v => (v < 10 ? '0' + v : v))
             .filter((v, i) => v !== '00 ' || i > 0)
             .join(':');
     }
@@ -66,9 +68,7 @@ export class CdrItem extends BaseItemModel {
 export class AccountFileItem {
     public id: number;
     public accountId: number;
-    @Type(() => Date)
-    @Transform(value => moment(value, ["YYYY-MM-DD HH:mm:ss"]).toDate(), { toClassOnly: true })
-    public created: Date;
+    public created: string;
     public description: string;
     public duration: number;
     public externalId: number;
@@ -83,9 +83,7 @@ export class AccountFileItem {
 export class CdrMediaInfo {
     id: number;
     accountId: number;
-    @Type(() => Date)
-    @Transform(value => moment(value, ["YYYY-MM-DD HH:mm:ss"]).toDate(), { toClassOnly: true })
-    created: Date;
+    created: string;
     description: string;
     downloadHash: string;
     duration: number;
