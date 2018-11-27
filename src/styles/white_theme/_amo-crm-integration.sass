@@ -36,6 +36,9 @@
                 .desc
                     color: $white_black
         .amo_crm_integration_edit
+            .amo_crm_header
+                .information
+                    color: $white_black_70
             .amo_crm_info
                 background: $white_grey_dark
                 .extensions
@@ -55,6 +58,8 @@
             amo-crm-integration-general-component
                 .main_inner
                     background: $white_grey_dark
+                    pbx-checkbox
+                        color: $white_black_60
                     .label.enable
                         cursor: pointer !important
                         &:hover
@@ -79,3 +84,52 @@
                                 border-top: 1px solid transparent !important
                                 border-left: 1px solid transparent !important
                                 border-right: 1px solid transparent !important
+            amo-crm-integration-address-book-component
+                .top
+                    background: $white_grey_dark
+                    .label
+                        color: $white_black_70
+                .table
+                    pbx-checkbox
+                        color: $white_black_60
+                    .header
+                        .item
+                            color: $white_black_60
+                    .body
+                        .line
+                            .item
+                                color: $white_black
+                            &.active
+                                background: $white_queue_tab_grey_light
+            amo-crm-integration-managers-component
+                .top
+                    background: $white_grey_dark
+                    .item
+                        .label
+                            color: $white_black_70
+                        .checkbox_round
+                            .label
+                                color: $white_black_70
+                .table
+                    pbx-checkbox
+                        color: $white_black_60
+                    .header
+                        .item
+                            color: $white_black_60
+                    .body
+                        .line
+                            .item
+                                color: $white_black
+                                input
+                                    background: transparent
+                                pbx-select
+                                    .select_item.selected
+                                        background: transparent
+                            &.active
+                                background: $white_queue_tab_grey_light
+                                .item
+                                    input
+                                        background: transparent
+                                    pbx-select
+                                        .select_item.selected
+                                            background: transparent
