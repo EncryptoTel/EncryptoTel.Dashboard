@@ -21,10 +21,13 @@
             "testTsconfig": "tsconfig.spec.json",
             "prefix": "app",
             "styles": [
+                "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+                "../node_modules/bootstrap/dist/css/bootstrap.min.css",
                 "styles.sass"
             ],
             "scripts": [
                 "../node_modules/hls.js/dist/hls.min.js",
+                "../node_modules/moment/min/moment.min.js",
                 "../node_modules/wallet-address-validator/dist/wallet-address-validator.min.js"
             ],
             "environmentSource": "environments/environment.ts",

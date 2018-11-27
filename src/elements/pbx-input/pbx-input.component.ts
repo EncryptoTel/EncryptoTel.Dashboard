@@ -146,7 +146,7 @@ export class InputComponent implements OnInit {
 
     checkFormValidationError(): boolean {
         const control = this.getForm();
-        
+
         if (control && control.errors) {
             const validationResult = (control.errors['required'])
                 ? !control.valid && control.touched
@@ -335,8 +335,8 @@ export class InputComponent implements OnInit {
 
     resetError() {
         if (this.checkError()) {
-            if (this.errors) { 
-                this.setError(null); 
+            if (this.errors) {
+                this.setError(null);
             }
             if (this.form) {
                 const form = this.getForm();
@@ -482,7 +482,7 @@ export class InputComponent implements OnInit {
             if (this.objectView) {
                 this.value = this.objectView;
             }
-        } 
+        }
         else if (this.options) {
             if (this.updateObjectByObject) {
                 this.value = this.object[this.key];
@@ -490,7 +490,7 @@ export class InputComponent implements OnInit {
             else {
                 this.value = this.objectView ? this.objectView : this.object;
             }
-        } 
+        }
         else {
             this.value = this.object[this.key];
         }
@@ -501,7 +501,7 @@ export class InputComponent implements OnInit {
             let selectedValue: any;
             selectedValue = this.getForm().value;
             this.value = this.options.find(o => o[this.optionsSelectedKey] === selectedValue);
-        } 
+        }
         else if (this.form && this.options && this.selectedItem) {
             this.value = this.selectedItem;
         }

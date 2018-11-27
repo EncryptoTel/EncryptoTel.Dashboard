@@ -14,7 +14,7 @@ import {Locker} from '../../models/locker.model';
     styleUrls: ['./local.sass'],
 })
 export class MediaPlayerComponent implements OnChanges {
-    
+
     api: VgAPI;
 
     mediaStreams: {} = {};
@@ -35,12 +35,14 @@ export class MediaPlayerComponent implements OnChanges {
     get state(): MediaState {
         if (!this.locker.free) return MediaState.LOADING;
 
-        return (this.api && this.api.state == 'playing')
+        return (this.api && this.api.state === 'playing')
             ? MediaState.PLAYING
             : MediaState.PAUSED;
     }
 
-    constructor() {}
+    constructor() {
+        console.log('media plaer created');
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.mediaStream && changes.mediaStream.currentValue) {
@@ -63,7 +65,7 @@ export class MediaPlayerComponent implements OnChanges {
     }
 
     fireOnMediaStateChanged(): void {
-        let timer: Subscription = TimerObservable.create(100, 0).subscribe(
+        const timer: Subscription = TimerObservable.create(100, 0).subscribe(
             () => {
                 timer.unsubscribe();
                 this.onMediaStateChanged.emit(this.state);
@@ -72,7 +74,7 @@ export class MediaPlayerComponent implements OnChanges {
     }
 
     stopPlay(): void {
-        if (this.api && this.api.state == <string>MediaState.PLAYING) {
+        if (this.api && this.api.state === <string>MediaState.PLAYING) {
             this.api.pause();
             this.fireOnMediaStateChanged();
         }
@@ -80,13 +82,13 @@ export class MediaPlayerComponent implements OnChanges {
 
     togglePlay(mediaId: number) {
         if (this.mediaStreams[mediaId]) {
-            if (mediaId != this.selectedMediaId) {
+            if (mediaId !== this.selectedMediaId) {
                 this.selectedMediaId = mediaId;
                 this.startPlayRecord();
             }
             else {
                 // states are: playing, pause, ended
-                if (this.api.state == <string>MediaState.PLAYING) {
+                if (this.api.state === <string>MediaState.PLAYING) {
                     this.api.pause();
                 }
                 else {
@@ -96,7 +98,7 @@ export class MediaPlayerComponent implements OnChanges {
             }
         }
         else {
-            if (mediaId != this.selectedMediaId) {
+            if (mediaId !== this.selectedMediaId) {
                 this.selectedMediaId = mediaId;
                 this.onGetMediaData.emit(mediaId);
                 this.locker.lock();
@@ -106,12 +108,12 @@ export class MediaPlayerComponent implements OnChanges {
     }
 
     startPlayRecord(): void {
-        let timer: Subscription = TimerObservable.create(0, 100).subscribe(
+        const timer: Subscription = TimerObservable.create(0, 100).subscribe(
             () => {
                 timer.unsubscribe();
                 this.mediaStream = this.mediaStreams[this.selectedMediaId];
 
-                let onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(
+                const onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(
                     () => {
                         onCanPlay.unsubscribe();
                         this.togglePlay(this.selectedMediaId);

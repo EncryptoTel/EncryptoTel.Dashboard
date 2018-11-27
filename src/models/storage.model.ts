@@ -1,15 +1,13 @@
 import {BaseItemModel, PageInfoModel, PlayerModel, RecordModel} from "./base.model";
-import {Type} from "class-transformer";
+import {Type, Transform} from "class-transformer";
 import {formatDateTime} from "../shared/shared.functions";
-
 export class StorageModel extends PageInfoModel {
     public items: StorageItem[];
 }
 
 export class StorageItem extends BaseItemModel {
     public accountId: number;
-    @Type(() => Date)
-    public created: Date;
+    public created: string;
     public description: string;
     public duration: number;
     public externalId: number;

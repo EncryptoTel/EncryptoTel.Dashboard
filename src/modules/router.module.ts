@@ -43,9 +43,6 @@ import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-c
 import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
 import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
 
-import {IvrComponent} from '../components/ivr/ivr.component';
-import {IvrCreateComponent} from '../components/ivr/ivr-create/ivr-create.component';
-
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
 
@@ -184,19 +181,8 @@ const Routes: Routes = [
                 ]
             },
             {
-                path: 'ivr', children: [
-                    {path: '', component: IvrComponent, data: {title: 'IVR', indexed: true}},
-                    {
-                        path: 'create',
-                        component: IvrCreateComponent,
-                        data: {title: 'Create IVR', indexed: true},
-                    },
-                    {
-                        path: ':id',
-                        component: IvrCreateComponent,
-                        data: {title: 'Edit IVR', indexed: true},
-                    }
-                ]
+                path: 'ivr', 
+                loadChildren: '../components/ivr/ivr.module#IvrModule'
             },
             {
                 path: 'audio-conference', children: [

@@ -24,14 +24,16 @@
     },
     "private": true,
     "build": {
-        "appId":"com.encry.pbx",
+        "appId": "com.encry.pbx",
         "productName": "EncryPbx",
         "linux": {
             "category": "Utils",
             "icon": "resources/assets/logoEncryptoTel.png",
             "packageCategory": "Utils",
             "maintainer": "EncryPbx <info@encryptotel.com>",
-            "target": ["deb"]
+            "target": [
+                "deb"
+            ]
         },
         "deb": {
             "depends": [
@@ -52,8 +54,10 @@
         "@ngx-translate/core": "^9.0.1",
         "@ngx-translate/http-loader": "^2.0.1",
         "@types/howler": "^2.0.5",
+        "@types/moment": "^2.13.0",
         "angular-svg-icon": "^4.2.5",
         "baron": "^3.0.3",
+        "bootstrap": "^3.3.7",
         "cheerio": "^1.0.0-rc.2",
         "class-transformer": "^0.1.9",
         "core-js": "^2.4.1",
@@ -68,7 +72,10 @@
         "jquery.nicescroll": "^3.7.6",
         "jquery.scrollbar": "^0.2.11",
         "libphonenumber-js": "^1.4.7",
+        "lodash": "^4.17.11",
+        "moment": "^2.22.2",
         "ng-socket-io": "^0.2.4",
+        "ngx-bootstrap": "^3.1.2",
         "ngx-clipboard": "^11.1.7",
         "ngx-cookie-service": "^1.0.10",
         "npm": "^6.4.1",

@@ -1,15 +1,13 @@
-import {PageInfoModel} from "./base.model";
-import {Type} from "class-transformer";
-import {formatDate, formatDateTime} from "../shared/shared.functions";
-
+import { PageInfoModel } from './base.model';
+import { Type, Transform } from 'class-transformer';
+import { formatDate, formatDateTime } from '../shared/shared.functions';
+import * as moment from 'moment';
 export class InvoiceModel extends PageInfoModel {
     items: InvoiceItem[];
 }
 
-
 export class InvoiceItem {
-    @Type(() => Date)
-    created: Date;
+    created: string;
     number: string;
     type: string;
     status: string;
@@ -23,5 +21,4 @@ export class InvoiceItem {
     get displayDateTime() {
         return formatDateTime(this.created);
     }
-
 }
