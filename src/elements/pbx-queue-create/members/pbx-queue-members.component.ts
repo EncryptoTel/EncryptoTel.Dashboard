@@ -47,11 +47,14 @@ export class QueueMembersComponent implements OnInit {
     }
 
     deleteMember(memberId) {
+        console.log(this.service.item);
+        console.log('memberId', memberId);
         const indexCallQueue = this.service.item.queueMembers.findIndex(el => {
-            return el.sipId === memberId;
+            return el.sipId === memberId.id;
         });
+        console.log('indexCallQueue', indexCallQueue);
         const indexView = this.service.userView.members.findIndex(el => {
-            return el.id === memberId;
+            return el.id === memberId.id;
         });
         this.service.item.queueMembers.splice(indexCallQueue, 1);
         this.service.userView.members.splice(indexView, 1);
