@@ -1,36 +1,81 @@
 .light_theme
     amo-crm-integration
-        .integration_cnt
-            background: $white_grey_dark
-            .connection_block,
-            .sync
+        .amo_crm_integration
+            .integration_cnt
+                background: $white_grey_dark
+                .connection_block,
+                .sync
+                    .item
+                        .label
+                            &:hover
+                                color: $white_black_70
+                .title
+                    color: $white_black_80
                 .item
                     .label
-                        &:hover
-                            color: $white_black_70
-            .title
-                color: $white_black_80
-            .item
-                .label
-                    color: $white_black_70
-                .info_block
-                    .text
-                        color: $white_black_80
-                        background: $white_queue_tab_grey_light
-            .sync
-                .item
-                    .text
-                        color: $white_black
-                    .date
-                        svg-icon.ok
-                            svg
-                                polygon
-                                    fill: $white_black
+                        color: $white_black_70
+                    .info_block
+                        .text
+                            color: $white_black_80
+                            background: $white_queue_tab_grey_light
+                .sync
+                    .item
                         .text
                             color: $white_black
-        .info
-            background: $white_grey_dark
-            .title
-                color: $white_black
-            .desc
-                color: $white_black
+                        .date
+                            svg-icon.ok
+                                svg
+                                    polygon
+                                        fill: $white_black
+                            .text
+                                color: $white_black
+            .info
+                background: $white_grey_dark
+                .title
+                    color: $white_black
+                .desc
+                    color: $white_black
+        .amo_crm_integration_edit
+            .amo_crm_info
+                background: $white_grey_dark
+                .extensions
+                    span
+                        color: $white_black_80
+                .title
+                    color: $white_black
+                .desc
+                    color: $white_black
+            .amo_crm_header
+                .amo_crm_tab_wrap
+                    .amo_crm_tab
+                        background: $white_queue_tab_grey_light
+                        color: $white_black_70
+                        &.active
+                            background: $white_grey_dark
+            amo-crm-integration-general-component
+                .main_inner
+                    background: $white_grey_dark
+                    .label.enable
+                        cursor: pointer !important
+                        &:hover
+                            color: $dark_accent
+                    .title
+                        color: $white_black_80
+                    .item
+                        .label
+                            cursor: default
+                            color: $white_black_70
+                        input
+                            border-top: none !important
+                            border-left: none !important
+                            border-right: none !important
+                    .integration_block
+                        pbx-select
+                            .select_wrap:focus > .selected
+                                border-top: 1px solid transparent !important
+                                border-left: 1px solid transparent !important
+                                border-right: 1px solid transparent !important
+                            .select_item.selected
+                                border-top: 1px solid transparent !important
+                                border-left: 1px solid transparent !important
+                                border-right: 1px solid transparent !important
