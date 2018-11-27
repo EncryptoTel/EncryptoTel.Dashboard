@@ -215,6 +215,7 @@ amo-crm-integration
                 line-height: 21px
                 flex-direction: column
         amo-crm-integration-general-component
+            overflow: hidden
             .main_inner
                 background: $dark_overlay
                 padding: 32px 28px
@@ -281,6 +282,7 @@ amo-crm-integration
                         &:hover
                             color: $dark_accent
                     input
+                        width: 224px
                         border: 1px solid rgba($dark_white, .1)
                         &:focus
                             border: 1px solid $dark_accent
@@ -302,7 +304,7 @@ amo-crm-integration
                     .item
                         display: grid
                         align-items: center
-                        height: 40px
+                        height: 48px
                         &:first-child
                             padding-left: 24px
                 .header
@@ -315,9 +317,11 @@ amo-crm-integration
                 .body
                     display: grid
                     grid-template-columns: 1fr
+                    grid-template-rows: min-content
                     overflow: auto
                     .line
                         cursor: pointer
+                        height: 48px
                         border-bottom: 1px solid rgba($white_nav_border, .2)
                         *
                             cursor: pointer
@@ -328,3 +332,157 @@ amo-crm-integration
                             font-weight: 300
                             font-size: 14px
                             color: $dark_white
+        amo-crm-integration-managers-component
+            overflow: hidden
+            .main_inner
+                height: inherit
+                display: grid
+                grid-template-rows: min-content auto
+                .top
+                    background: $dark_overlay
+                    padding: 18px 0
+                    .item
+                        display: grid
+                        grid-template-columns: 80px min-content 1fr
+                        height: 40px
+                        align-items: center
+                        .label
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 12px
+                            line-height: 16px
+                            color: $dark_white_70
+                            cursor: pointer
+                            padding-left: 24px
+                            &:hover
+                                color: $dark_accent
+                        input
+                            width: 224px
+                            border: 1px solid rgba($dark_white, .1)
+                            &:focus
+                                border: 1px solid $dark_accent
+                            &::placeholder
+                                font-family: Roboto, sans-serif
+                                font-weight: 300
+                                font-size: 14px
+                                color: $dark_white_35
+                        .checkbox_round
+                            .label
+                                font-family: Roboto, sans-serif
+                                font-weight: 300
+                                font-size: 12px
+                                line-height: 16px
+                                color: $dark_white_70
+                                cursor: pointer
+                                padding-left: 48px
+                                &:hover
+                                    color: $dark_accent
+                            .wrapper
+                                position: relative
+                                width: 44px
+                                height: 20px
+                                margin-left: 12px
+                                cursor: pointer
+                                *
+                                    cursor: pointer
+                                label
+                                    position: absolute
+                                    top: 0
+                                    right: 0
+                                    bottom: 0
+                                    left: 0
+                                    opacity: 0
+                                    z-index: 10
+                                input[type="checkbox"]
+                                    position: relative
+                                    z-index: -20
+                                    opacity: 0
+                                    &:checked
+                                        + .visual
+                                            background: $dark_accent
+                                            span
+                                                left: unset
+                                                right: 5px
+                                .visual
+                                    position: absolute
+                                    top: 0
+                                    right: 0
+                                    bottom: 0
+                                    left: 0
+                                    background: $checkbox_round_grey
+                                    border-radius: 10px
+                                    span
+                                        width: 10px
+                                        height: 10px
+                                        border-radius: 100%
+                                        background: $dark_white
+                                        position: absolute
+                                        top: 50%
+                                        left: 5px
+                                        transform: translateY(-50%)
+                .table
+                    display: grid
+                    grid-template-columns: 1fr
+                    grid-template-rows: min-content 1fr
+                    margin-top: 16px
+                    overflow: hidden
+                    .header, .body .line
+                        display: grid
+                        width: 100%
+                        grid-template-columns: 80px repeat(5, 1fr)
+                        .item
+                            display: grid
+                            align-items: center
+                            height: 48px
+                            &:first-child
+                                padding-left: 24px
+                    .header
+                        border-bottom: 1px solid rgba($white_nav_border, .2)
+                        .item
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 12px
+                            color: $dark_white_60
+                    .body
+                        display: grid
+                        grid-template-columns: 1fr
+                        grid-template-rows: min-content
+                        overflow: auto
+                        .line
+                            cursor: pointer
+                            height: 48px
+                            border-bottom: 1px solid rgba($white_nav_border, .2)
+                            *
+                                cursor: pointer
+                            &.active
+                                background: $dark_overlay
+                            .item
+                                font-family: Roboto, sans-serif
+                                font-weight: 300
+                                font-size: 14px
+                                color: $dark_white
+                                input
+                                    width: 84px
+                                    height: 32px
+                                    border: 1px solid $white_input_border
+                                    background: $dark_overlay
+                                    cursor: text
+                                    &:focus
+                                        border: 1px solid $dark_accent
+                                pbx-select
+                                    width: 84px
+                                    height: 32px
+                                    .select_item.selected
+                                        height: 32px
+                                        border: 1px solid $white_input_border
+                                        background: $dark_overlay
+                                        svg-icon
+                                            right: 8px
+                            &.active
+                                .item
+                                    input
+                                        border: 1px solid $white_input_border
+                                        background: $dark_background
+                                    pbx-select
+                                        .select_item.selected
+                                            background: $dark_background
