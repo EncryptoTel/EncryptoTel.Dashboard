@@ -98,8 +98,9 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     selectRefillMethod(refillMethod: RefillModel): void {
+        console.log('selectRefillMethod');
         if (this.refillMethods.find(m => m.loading)) return;
-
+        
         if (this.validateFilters()) {
             refillMethod.loading = true;
             this._refill
@@ -117,33 +118,38 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     validateFilters(): boolean {
-        return (
-            this.validateAmount(this.currentFilter['amount']) &&
-            this.ValidateWalet(this.currentFilter['returnAddress'])
-        );
+        const validAmmount = this.validateAmount(this.currentFilter['amount']);
+        const validWallet = this.ValidateWallet(this.currentFilter['returnAddress'])
+        return validAmmount && validWallet;
     }
 
     validateAmount(text: string): boolean {
-        if (numberRegExp.test(text)) {
+        this.validInput = numberRegExp.test(text);
+        if (this.validInput) {
             if (parseInt(text, 10)) {
                 this.currentFilter['amount'] = parseInt(text, 10);
-                return (this.validInput =
+                this.validInput =
                     this.amount.min <= this.currentFilter['amount'] &&
-                    this.currentFilter['amount'] <= this.amount.max);
+                    this.currentFilter['amount'] <= this.amount.max;
+            } else {
+                this.validInput = false;
             }
         }
-        if ((this.validInput = false)) {
+        if ((this.validInput === false)) {
             this.errors = { amount: this.amountValidationError };
-            return true;
-        } else {
             return false;
+        } else {            
+            delete this.errors.amount;
+            return true;
         }
     }
 
-    ValidateWalet(text: string) {
+    ValidateWallet(text: string) {
         if (text) {
             const coinType = this.selected ? this.selected.currency.code : '';
-            if (WAValidator.validate(text, coinType)) {
+            const res = WAValidator.validate(text, coinType);
+            if (res) {
+                delete this.errors.returnAddress;
                 return true;
             } else {
                 this.errors['returnAddress'] = 'Invalid address';
@@ -214,11 +220,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
 
     reloadFilter(filter) {
         this.currentFilter = filter;
-        if (this.currentFilter['amount'] && !this.validateFilters()) {
-            this.errors = { amount: this.amountValidationError };
-        } else {
-            this.errors = {};
-        }
+        this.validateFilters();
     }
 
     ngOnInit(): void {
