@@ -4,7 +4,7 @@ amo-crm-integration
         grid-template-columns: 1fr 384px
         grid-template-rows: min-content 1fr
         height: 100%
-        //display: none
+        display: none
         pbx-header
             grid-column: 1/2
             grid-row: 1/2
@@ -158,7 +158,7 @@ amo-crm-integration
         grid-template-rows: min-content 1fr
         height: 100%
         overflow: hidden
-        display: none
+        //display: none
         .amo_crm_control
             pbx-button
                 margin-left: 8px
@@ -202,6 +202,12 @@ amo-crm-integration
                         background: $dark_overlay
                         &:hover
                             background: $dark_overlay
+                    svg-icon
+                        display: none
+                        svg
+                            height: 16px
+                            path
+                                fill: $dark_white_70
             .information
                 grid-column: 2/3
                 align-items: center
