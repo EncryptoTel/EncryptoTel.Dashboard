@@ -95,7 +95,9 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             phone: [null, [Validators.pattern(phoneRegExp), Validators.minLength(5), Validators.maxLength(16)]],
             language: [null],
             region: [null],
-            time_zone: [null]
+            time_zone: [null],
+            date_format: [null],
+            clock: [null],
         });
         this.addForm('generalForm', this.generalForm);
 
@@ -132,6 +134,9 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         killEvent(event);
         this.generalForm.controls['language'].setValue(this.model.items[0]['children'][0].value);
         this.generalForm.controls['region'].setValue(this.model.items[0]['children'][1].value);
+        this.generalForm.controls['clock'].setValue(this.model.items[1]['children'][0].value);
+        this.generalForm.controls['time_zone'].setValue(this.model.items[1]['children'][1].value);
+        this.generalForm.controls['date_format'].setValue(this.model.items[1]['children'][2].value);
         this.generalForm.value.region = this.model.items[0]['children'][1].value;
         this.generalForm.value.language = this.model.items[0]['children'][0].value;
         let validationResult = true;
@@ -180,6 +185,10 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 } else if (key === 'region') {
                     data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.language_and_region.children[key].value);
                 } else if (key === 'time_zone') {
+                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.time_zone_clock_and_date_format.children[key].value);}
+                else if (key === 'date_format') {
+                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.time_zone_clock_and_date_format.children[key].value);
+                } else if (key === 'clock') {
                     data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.time_zone_clock_and_date_format.children[key].value);
                 } else {
                     data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.user[key]);
@@ -204,7 +213,9 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     onValueChange(item: SettingsItem) {
         this.generalForm.controls['language'].setValue(this.model.items[0]['children'][0].value);
         this.generalForm.controls['region'].setValue(this.model.items[0]['children'][0].value);
+        this.generalForm.controls['clock'].setValue(this.model.items[1]['children'][1].value);
         this.generalForm.controls['time_zone'].setValue(this.model.items[1]['children'][1].value);
+        this.generalForm.controls['date_format'].setValue(this.model.items[1]['children'][2].value);
         console.log(item);
         if (item.key === 'language') {
             const language = (item.value === 19) ? 'ru' : 'en';
@@ -223,7 +234,16 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             this.generalForm.value.region = item.value;
             this.model.items[1]['children'][1].value = item.value;
             this.generalForm.value.time_zone = this.model.items[1]['children'][1].value;
-
+        }
+        if (item.key === 'date_format') {
+            this.generalForm.value.region = item.value;
+            this.model.items[1]['children'][2].value = item.value;
+            this.generalForm.value.date_format = this.model.items[1]['children'][2].value;
+        }
+        if (item.key === 'clock') {
+            this.generalForm.value.region = item.value;
+            this.model.items[1]['children'][0].value = item.value;
+            this.generalForm.value.clock = this.model.items[1]['children'][0].value;
         }
     }
 

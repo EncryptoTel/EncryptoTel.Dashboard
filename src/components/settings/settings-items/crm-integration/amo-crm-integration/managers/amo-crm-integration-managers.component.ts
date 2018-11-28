@@ -17,6 +17,7 @@ export class AmoCrmIntegrationManagersComponent implements OnInit {
         tag: true
     };
     tag;
+    autoCreateExtensions: boolean = false;
 
     constructor() {
 
@@ -25,6 +26,10 @@ export class AmoCrmIntegrationManagersComponent implements OnInit {
     setTag(): void {
         this.tag = {active: [], inactive: []};
         this.loading.tag = false;
+    }
+
+    changeAutoCreateExtensions() {
+        this.autoCreateExtensions = !this.autoCreateExtensions;
     }
 
     clickActiveTag(item): void {
