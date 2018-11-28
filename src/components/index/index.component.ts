@@ -83,7 +83,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     logout(): void {
         this._refs.request.logout();
-        this.message.writeSuccess('Logout successful');
+        this.message.writeSuccess('You have successfully logged out');
     }
 
     userInit(): void {

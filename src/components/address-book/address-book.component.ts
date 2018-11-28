@@ -77,8 +77,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.itemsCache = [];
 
         this.validationHost.customMessages = [
-            {name: 'Phone', error: 'pattern', message: 'Please enter valid phone number'},
-            {name: 'Email', error: 'pattern', message: 'Please enter valid email address'},
+            {name: 'Phone', error: 'pattern', message: 'Phone number contains invalid characters. You can only use numbers and #'},
+            {name: 'Email', error: 'pattern', message: 'Please enter a valid email address'},
         ];
     }
 

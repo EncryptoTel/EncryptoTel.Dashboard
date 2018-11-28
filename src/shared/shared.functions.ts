@@ -7,6 +7,11 @@ import {CountryModel} from '@models/country.model';
 import {CurrencyModel} from '@models/currency.model';
 import {environment} from '@env/environment';
 import {numberRegExp} from './vars';
+import * as moment from 'moment';
+
+const formatDateUser = 'MMM D, YYYY';
+const formatDateTimeUser = 'MMM D, YYYY HH:mm:ss';
+const formatDateServer = 'YYYY-MM-DD HH:mm:ss.s';
 
 export function getCountryById(id: number): CountryModel {
     const list: CountryModel[] = plainToClass(CountryModel, JSON.parse(localStorage.getItem('pbx_countries')));
@@ -18,8 +23,9 @@ export function getCurrencyById(id: number): CurrencyModel {
     return list ? list.find(currency => currency.id === id) : null;
 }
 
-export function dateComparison(date0: Date, date1: Date) {
-    return (date0.getMonth() === date1.getMonth()) && (date0.getDate() === date1.getDate());
+export function dateComparison(date0: string, date1: Date) {
+    const d0 = moment(date0, formatDateServer).toDate();
+    return (d0.getMonth() === date1.getMonth()) && (d0.getDate() === date1.getDate());
 }
 
 // export function validateForm(form: FormGroup): void {
@@ -89,14 +95,14 @@ export function evalByKey(key: string, variable: any): any {
     return value;
 }
 
-export function formatDate(value: Date): string {
-    let datePipe = new DatePipe('en-US');
-    return datePipe.transform(value, 'MMM d, yyyy');
+export function formatDate(value: string): string {
+    const date = moment(value, [formatDateServer]);
+    return date.format(formatDateUser);
 }
 
-export function formatDateTime(value: Date): string {
-    let datePipe = new DatePipe('en-US');
-    return datePipe.transform(value, 'MMM d, yyyy HH:mm:ss');
+export function formatDateTime(value: string): string {
+    const date = moment(value, [formatDateServer]);
+    return date.format(formatDateTimeUser);
 }
 
 export function getInterval(items, dateAttr, displayAttr): string {
@@ -123,9 +129,9 @@ export function getDateRange(items, dateAttr): Date[] {
 
 export function str2regexp(pattern: string): RegExp {
     let parts = pattern.split('/');
-    if (parts.length == 3) 
+    if (parts.length == 3)
         return new RegExp(parts[1], parts[2]);
-    
+
     return new RegExp(pattern);
 }
 

@@ -1,0 +1,52 @@
+<pbx-loader *ngIf="loading"></pbx-loader>
+<div class="one" *ngIf="!loading">
+    <div class="select_digit">
+        <pbx-input name="Select Digit"
+                   key="digit"
+                   [form]="true"
+                   [object]="digitForm"
+                   [options]="digits"
+                   displayKey="title"
+                   optionsSelectedKey="id"
+                   [errors]="service.errors"
+                   errorKey="digit"
+                   [validationHost]="validationHost"
+                   validationKey="digit"
+                   >
+        </pbx-input>
+        <pbx-button value="Delete" buttonType="error" (onClick)="deleteDigit()"></pbx-button>
+
+    </div> <!-- select_digit -->
+
+    <pbx-input name="Description"
+               key="description"
+               placeholder=""
+               [form]="true"
+               [object]="digitForm"
+               [errors]="service.errors"
+               errorKey="description"
+               [validationHost]="validationHost"
+               >
+    </pbx-input>
+
+    <div class="title accent">When the caller presses {{ formSelectedDigit?.title }}</div>
+    <pbx-input name="then"
+               key="action"
+               [required]="true"
+               placeholder="[choose one]"
+               [form]="true"
+               [object]="digitForm"
+               [options]="service.references.params"
+               displayKey="code"
+               [errors]="service.errors"
+               errorKey="action"
+               [validationHost]="validationHost"
+               validationKey="parameter"
+               >
+    </pbx-input>
+
+    <pbx-input name="{{paramsInfo.label | translate }}" key="parameter" [required]="true" [form]="true" [object]="digitForm" [options]="paramsInfo.option"
+        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible" displayKey="name">
+    </pbx-input>
+
+</div>

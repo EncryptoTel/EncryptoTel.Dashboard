@@ -95,7 +95,7 @@ export class ModalEx {
             case 'changeTariff':
                 this.title = 'Confirm';
                 if (!this.body) {
-                    this.body = 'Are you sure you want to change tariff plan?';
+                    this.body = 'Are you sure you want to change your tariff plan?';
                 }
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('success', 'Yes'));

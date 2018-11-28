@@ -1,6 +1,6 @@
-import {Type} from "class-transformer";
-import {BaseItemModel, PageInfoModel} from "./base.model";
-import {formatDateTime} from "../shared/shared.functions";
+import { Type } from 'class-transformer';
+import { BaseItemModel, PageInfoModel } from './base.model';
+import { formatDateTime } from '../shared/shared.functions';
 
 export class SessionsModel extends PageInfoModel {
     items: SessionItem[] = [];
@@ -12,29 +12,31 @@ export class SessionItem extends BaseItemModel {
     userAgent: string;
     userToken: string;
     session: string;
-    @Type(() => Date)
-    expires: Date;
+    expires: string;
     active: boolean;
 
     get displayExpires() {
         return formatDateTime(this.expires);
     }
-
 }
 
 export class SettingsBaseItem {
     key: string = '';
     name: string = '';
     title: string = '';
-    type: 'group' | 'group_field' | 'bool' | 'int' | 'string' | 'list' = 'group';
+    type: 'group' | 'group_field' | 'bool' | 'int' | 'string' | 'list' =
+        'group';
 
-    constructor(key: string, type: 'group' | 'group_field' | 'bool' | 'int' | 'string' | 'list') {
+    constructor(
+        key: string,
+        type: 'group' | 'group_field' | 'bool' | 'int' | 'string' | 'list'
+    ) {
         this.key = key;
         this.type = type;
     }
 
     get isGroup(): boolean {
-        return this.type === 'group' || this.type === 'group_field'
+        return this.type === 'group' || this.type === 'group_field';
     }
 
     get itemTitle(): string {
@@ -43,7 +45,10 @@ export class SettingsBaseItem {
         text = text
             .replace(/\r?\n/g, '')
             .replace(/_/g, ' ')
-            .replace(/\w\S*/g, (txt => txt[0].toUpperCase() + txt.substr(1).toLowerCase()));
+            .replace(
+                /\w\S*/g,
+                txt => txt[0].toUpperCase() + txt.substr(1).toLowerCase()
+            );
 
         return text.trim();
     }
@@ -58,7 +63,10 @@ export class SettingsBaseItem {
         text = text
             .replace(/\r?\n/g, '')
             .replace(/_/g, ' ')
-            .replace(/^\w/, (txt => txt[0].toUpperCase() + txt.substr(1).toLowerCase()));
+            .replace(
+                /^\w/,
+                txt => txt[0].toUpperCase() + txt.substr(1).toLowerCase()
+            );
 
         return text.trim();
     }
@@ -77,8 +85,7 @@ export class SettingsItem extends SettingsBaseItem {
 }
 
 export class SettingsOptionItem {
-    constructor(public id: number, public value: string)
-    {}
+    constructor(public id: number, public value: string) {}
 }
 
 export class SettingsModel {
@@ -101,14 +108,20 @@ export class SettingsModel {
         Object.keys(plainObj).forEach(key => {
             if (key !== 'children' && key !== 'list_value') {
                 item[key] = plainObj[key];
-            }
-            else if (key === 'list_value') {
-                (<SettingsItem>item).options = Object.keys(plainObj.list_value)
-                    .map(lkey => { return new SettingsOptionItem(+lkey, plainObj.list_value[lkey]); });
-            }
-            else if (key === 'children') {
+            } else if (key === 'list_value') {
+                (<SettingsItem>item).options = Object.keys(
+                    plainObj.list_value
+                ).map(lkey => {
+                    return new SettingsOptionItem(
+                        +lkey,
+                        plainObj.list_value[lkey]
+                    );
+                });
+            } else if (key === 'children') {
                 Object.keys(plainObj.children).forEach(childKey => {
-                    (<SettingsGroupItem>item).children.push(this.createItem(childKey, plainObj.children[childKey]));
+                    (<SettingsGroupItem>item).children.push(
+                        this.createItem(childKey, plainObj.children[childKey])
+                    );
                 });
             }
         });

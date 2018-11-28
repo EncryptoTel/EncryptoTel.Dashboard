@@ -17,6 +17,7 @@ export class RefsServices extends BaseService {
     }
 
     getSipOuters(): Promise<any> {
+        
         return this.request.get(`v1/sip/outers?limit=1000`).then(outers => {
             this.sipOuters = outers['items'];
             return Promise.resolve(this.sipOuters);

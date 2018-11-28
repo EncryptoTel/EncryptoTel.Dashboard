@@ -11,9 +11,9 @@
                    (mouseenter)="mouseEnter(nameInput)" (mouseleave)="mouseLeave(nameInput)">
             <div class="input_error" *ngIf="inputValidation('login') && errorName" [@Fade]>
                 <span id="sign_in_err_no_email" class="input_error_item" *ngIf="inputValidation('login', 'required')"
-                      translate>Please enter your e-mail address or internal number</span>
+                      translate>Please enter your email address or internal number</span>
                 <span id="sign_in_err_invalid_email" class="input_error_item"
-                      *ngIf="inputValidation('login', 'pattern')" translate>Please enter correct e-mail address or internal number</span>
+                      *ngIf="inputValidation('login', 'pattern')" translate>Please enter correct email address or internal number</span>
             </div>
         </div>
         <div class="input_wrap">
@@ -23,9 +23,9 @@
             <div class="input_error" *ngIf="(inputValidation('password') && errorPassword) || passwordFormError"
                  [@Fade]>
                 <span id="sign_in_err_no_password" class="input_error_item"
-                      *ngIf="!passwordFormError && inputValidation('password', 'required')" translate>Please enter password</span>
+                      *ngIf="!passwordFormError && inputValidation('password', 'required')" translate>Please enter your password</span>
                 <span id="sign_in_err_short_password" class="input_error_item"
-                      *ngIf="!passwordFormError && inputValidation('password', 'minlength')" translate>Password is too short</span>
+                      *ngIf="!passwordFormError && inputValidation('password', 'minlength')" translate>The password is too short</span>
                 <span id="sign_in_err_password_form_error" class="input_error_item" *ngIf="passwordFormError">{{passwordFormErrorMessage}}</span>
             </div>
         </div>

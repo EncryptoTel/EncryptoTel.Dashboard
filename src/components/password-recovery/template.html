@@ -8,9 +8,9 @@
             <input name="E-mail" id="confirmation_email" placeholder="E-mail" formControlName="email">
             <div class="input_error" *ngIf="inputValidation('email')" [@Fade]>
                 <span id="password_recovery_err_no_email" class="input_error_item"
-                      *ngIf="inputValidation('email', 'required')">Please enter your e-mail</span>
+                      *ngIf="inputValidation('email', 'required')">Please enter your email address</span>
                 <span id="password_recovery_err_invalid_email" class="input_error_item"
-                      *ngIf="inputValidation('email', 'pattern')">Please enter correct e-mail address</span>
+                      *ngIf="inputValidation('email', 'pattern')">Please enter correct email address</span>
             </div>
         </div>
         <pbx-button [buttonType]="'accent'" [loading]="loading" [value]="'Request recovery link'"

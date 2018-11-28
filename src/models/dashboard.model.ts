@@ -36,8 +36,7 @@ export class CurrencyModel {
 
 export class TariffPlanModel {
     title: string = '';
-    @Type(() => Date)
-    expired: Date;
+    expired: string;
     sum: number = 0;
 
     get displayExpired() {
@@ -84,8 +83,7 @@ export class CallDetailItem {
 }
 
 export class CallDetailModel {
-    @Type(() => Date)
-    date: Date;
+    date: string;
     @Type(() => CallDetailItem)
     list: CallDetailItem[] = [];
 

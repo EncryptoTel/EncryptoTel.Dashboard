@@ -26,7 +26,7 @@ import {AddressBookService} from '../services/address-book.service';
 import {DepartmentService} from '../services/department.service';
 import {CallRulesService} from '../services/call-rules.service';
 import {RingGroupService} from '../services/ring-group.service';
-import {IvrService} from '../services/ivr.service';
+
 import {AudioConferenceService} from '../services/audio-conference.service';
 
 import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
@@ -89,7 +89,6 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         RefsServices,
         RingGroupService,
         SizePipe,
-        IvrService,
         DashboardServices,
         CompanyService,
         SelectService,

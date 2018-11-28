@@ -1,0 +1,30 @@
+@media screen and (max-width: 1099px)
+    amo-crm-integration
+        .amo_crm_integration
+            .integration_cnt
+                .connection_block
+                    .item
+                        .info_block
+                            .text
+                                min-width: unset
+                                width: 200px
+@media screen and (max-width: 1539px)
+    amo-crm-integration
+        .amo_crm_integration_edit
+            grid-template-columns: 1fr
+            .amo_crm_info
+                display: none
+            .amo_crm_header
+                .information
+                    display: none
+                .amo_crm_tab_wrap
+                    .amo_crm_tab
+                        span
+                            display: none
+                        svg-icon
+                            display: flex
+                        &.active
+                            svg-icon
+                                svg
+                                    path
+                                        fill: $dark_accent

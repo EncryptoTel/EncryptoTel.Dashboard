@@ -70,6 +70,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
             this.asteriskTimeRule.time = rules[0];
 
             const times = rules[0].split('-');
+            console.log(times);
             this.selectedDurationTimeRange = [
                 this.callRuleTimes.find(t => t.asteriskTime === times[0]),
                 this.callRuleTimes.find(t => t.asteriskTime === times[1])

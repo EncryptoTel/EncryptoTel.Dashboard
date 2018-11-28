@@ -91,9 +91,9 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
         this.validationHost.customMessages = [
             { name: 'Ring Time', error: 'pattern', message: 'Please enter valid number' },
-            { name: 'Ring Time', error: 'range', message: 'Please enter value between 15 and 600' },
+            { name: 'Ring Time', error: 'range', message: 'Please enter a value from 15 to 600' },
             { name: 'Maximum Callers in Queue', error: 'pattern', message: 'Please enter valid number' },
-            { name: 'Maximum Callers in Queue', error: 'range', message: 'Please enter value between 1 and 100' },
+            { name: 'Maximum Callers in Queue', error: 'range', message: 'Please enter a value from 1 to 100' },
         ];
     }
 
@@ -216,7 +216,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
                 if (response.errors.queueMembers) {
                     this.message.writeError(this.formComponent.selected === 'Members'
                         ? 'You have not selected members'
-                        : 'You must select members');
+                        : 'Choose at least one member');
                 }
                 return true;
             }

@@ -224,6 +224,7 @@ pbx-list
         transform: translate(-50%, 0)
         display: block
         width: 100%
+        font-family: Roboto, sans-serif
         font-weight: 200
     .pbx_list_empty_icon
         grid-column: 3/4
@@ -461,3 +462,9 @@ pbx-modal
 
 .sidebar_active
     border: rem(1) solid $dark_accent !important
+
+pbx-footer
+    .footer
+        pbx-select
+            .select_item.selected
+                white-space: nowrap
