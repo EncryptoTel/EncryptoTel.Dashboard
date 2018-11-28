@@ -56,7 +56,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     paramsInfo = {
         label: '',
         option: [],
-        visible: true
+        visible: false
     };
     // -- properties ----------------------------------------------------------
 
@@ -84,12 +84,10 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     ngOnInit() {
-        console.log('form init');
         this.initFiles();
         super.ngOnInit();
         this.service.reset();
         this.form.patchValue(this.data);
-        console.log(this.form.value);
     }
 
     initFiles() {
@@ -192,7 +190,6 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
     getMediaData(fileId: number): void {
         this.mediaPlayer.locker.lock();
-        console.log('getMediaData');
         this.storage.getMediaData(fileId)
             .then((media: CdrMediaInfo) => {
                 this.currentMediaStream = media.fileLink;

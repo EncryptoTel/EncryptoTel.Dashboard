@@ -267,7 +267,7 @@ export class IvrCreateComponent implements OnInit {
     }
 
     save() {
-        this.currentForm.getData();
+        if(!this.currentForm.getData()) return;
         const levelIndex = this.ivrLevels.findIndex(
             x => x.levelNum === this.currentLevel.levelNum
         );
@@ -293,14 +293,6 @@ export class IvrCreateComponent implements OnInit {
         }
 
         this.ref.levels = this.ivrLevels;
-    }
-
-    saveDigit(d: Digit) {
-        const idx = this.currentLevel.digits.findIndex(
-            x => x === this.currentDigit
-        );
-        this.currentLevel.digits[idx] = d;
-        this.currentDigit = d;
     }
 
     onIvrSelected(e) {

@@ -47,7 +47,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     paramsInfo = {
         label: '',
         option: [],
-        visible: true
+        visible: false
     };
     onFormChange: Subject<any>;
     constructor(
