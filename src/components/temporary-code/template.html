@@ -9,9 +9,9 @@
                    [ngClass]="!errorForm ? '': 'error'">
             <div class="input_error" *ngIf="inputValidation('email')" [@Fade]>
                 <span id="temporary_code_err_no_email" class="input_error_item"
-                      *ngIf="inputValidation('email', 'required')" translate>Please enter your e-mail address</span>
+                      *ngIf="inputValidation('email', 'required')" translate>Please enter your email address</span>
                 <span id="temporary_code_err_invalid_email" class="input_error_item"
-                      *ngIf="inputValidation('email', 'pattern')" translate>Please enter correct e-mail address</span>
+                      *ngIf="inputValidation('email', 'pattern')" translate>Please enter correct email address</span>
             </div>
         </div>
         <pbx-button [buttonType]="'accent'" [loading]="loading" [value]="'Send me a temporary password'"

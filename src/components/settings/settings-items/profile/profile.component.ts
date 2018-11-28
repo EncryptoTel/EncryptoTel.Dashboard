@@ -340,8 +340,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                     formErrors.pattern ? errors.push('Please enter correct phone number') : null;
                     break;
                 case 'email':
-                    formErrors.required ? errors.push('Please enter your e-mail address') : null;
-                    formErrors.pattern ? errors.push('Please enter correct e-mail address') : null;
+                    formErrors.required ? errors.push('Please enter your email address') : null;
+                    formErrors.pattern ? errors.push('Please enter correct email address') : null;
                     break;
                 case 'oldPassword':
                     formErrors.required ? errors.push('Please enter password') : null;
@@ -358,7 +358,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                     !formErrors && this.passwordsMismatch() ? errors.push('Passwords don\'t match') : null;
                     break;
                 case 'code':
-                    formErrors.pattern ? errors.push('Please enter correct confirmation code') : null;
+                    formErrors.pattern ? errors.push('Confirmation code is incorrect') : null;
                     break;
             }
             const result = {};

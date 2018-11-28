@@ -139,7 +139,7 @@ export class AuthorizationServices {
             } else {
                 this.setMessage({
                     type: 'error',
-                    message: (error.errors && error.errors.email) ? 'This user already exist' : 'Internal server error'
+                    message: (error.errors && error.errors.email) ? 'A user with this email address already exists' : 'Internal server error'
                 });
             }
             return Promise.reject(error);
