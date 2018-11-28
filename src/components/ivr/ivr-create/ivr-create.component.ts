@@ -110,6 +110,7 @@ export class IvrCreateComponent implements OnInit {
         const newLevel = new IvrLevel();
         newLevel.levelNum = 1;
         newLevel.isVisible = true;
+        this.ivrLevels.push(newLevel);
         this.loadForm(this.forms.levelForm, newLevel);
     }
 
@@ -229,7 +230,7 @@ export class IvrCreateComponent implements OnInit {
                         parameter: i.voiceGreeting,
                         description: i.description,
                         name: i.name,
-                        loop: 1
+                        loop: i.loopMessage
                     },
                     {
                         level: i.levelNum,
@@ -239,7 +240,7 @@ export class IvrCreateComponent implements OnInit {
                         parameter: i.parameter,
                         description: i.description,
                         name: i.name,
-                        loop: 1
+                        loop: i.loopMessage
                     }
                 ]
             };
@@ -434,5 +435,9 @@ export class IvrCreateComponent implements OnInit {
         const element = arr[fromIndex];
         arr.splice(fromIndex, 1);
         arr.splice(toIndex, 0, element);
+    }
+
+    onCancel() {
+        this.router.navigate(['/cabinet/ivr']);
     }
 }

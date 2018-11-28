@@ -26,7 +26,7 @@ export class IvrComponent implements OnInit {
 
     ngOnInit(): void {
         this.model.page = 1;
-        this.model.limit = 1000;
+        this.model.limit = 10;
         this.getItems();
     }
 
