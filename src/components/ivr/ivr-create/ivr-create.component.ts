@@ -440,8 +440,4 @@ export class IvrCreateComponent implements OnInit {
         arr.splice(fromIndex, 1);
         arr.splice(toIndex, 0, element);
     }
-
-    onCancel() {
-        this.router.navigate(['/cabinet/ivr']);
-    }
 }
