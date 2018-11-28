@@ -53,6 +53,7 @@ export class KnowledgeBaseComponent implements OnInit {
             buttonClass: '',
             icon: false
         });
+        this.helpGroups.limit = 20;
     }
 
     ngOnInit() {
