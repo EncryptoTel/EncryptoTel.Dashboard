@@ -382,6 +382,10 @@ export class IvrCreateComponent implements OnInit {
         this.ref.levels = this.ivrLevels;
     }
 
+    onCancel(): void {
+        this.router.navigate(['cabinet', 'ivr']);
+    }
+
     cancelEdit(e) {
         console.log(e);
         if (this.currentDigit) {
