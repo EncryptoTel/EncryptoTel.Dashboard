@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BrowserModule} from '@angular/platform-browser';
 import {AngularSvgIconModule} from 'angular-svg-icon';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -47,7 +46,6 @@ import {PbxFooterComponent} from '../elements/pbx-footer/pbx-footer.component';
 @NgModule({
     imports: [
         CommonModule,
-        BrowserModule,
         AngularSvgIconModule,
         FormsModule,
         ReactiveFormsModule,

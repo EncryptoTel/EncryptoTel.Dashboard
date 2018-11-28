@@ -79,10 +79,10 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.playButtonText = 'Play';
 
         this.validationHost.customMessages = [
-            {name: 'Rule Name', error: 'pattern', message: 'Rule Name may contain letters, digits, dashes and underscores only'},
-            {name: 'Action', error: 'required', message: 'Please choose an action'},
-            {name: 'If I do not answer call within', error: 'range', message: 'Please enter value between 5 and 300'},
-            {name: 'Action applies for', error: 'days', message: 'Please select days of the week'},
+            {name: 'Rule Name', error: 'pattern', message: 'Rule name contains invalid characters or symbols. You can only use letters, numbers and the following characters: -_'},
+            {name: 'Action', error: 'required', message: 'Please choose the Action'},
+            {name: 'If I do not answer call within', error: 'range', message: 'Please enter a value from 5 to 300'},
+            {name: 'Action applies for', error: 'days', message: 'Please enter at least one day of the week'},
             {name: 'Duration time', error: 'startTime', message: 'Start time cannot be greater than end time'},
             {name: 'Duration time', error: 'equalTime', message: 'Start time cannot be the same as end time'},
             {name: 'Duration time', error: 'invalidRange', message: 'Invalid time range format'},

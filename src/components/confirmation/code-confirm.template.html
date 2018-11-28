@@ -8,7 +8,7 @@
             <input name="Confirmation code" id="confirmation_code" placeholder="Confirmation code"
                    formControlName="code">
             <div class="input_error" *ngIf="inputValidation('code')" [@Fade]>
-                <span class="input_error_item" *ngIf="inputValidation('code')">Please enter confirmation code</span>
+                <span class="input_error_item" *ngIf="inputValidation('code')">Please enter your confirmation code</span>
             </div>
         </div>
         <pbx-button [buttonType]="'accent'" [value]="'Sign In'" [loading]="loading"

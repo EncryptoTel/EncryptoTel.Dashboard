@@ -100,7 +100,7 @@ export class TableComponent implements OnInit, OnDestroy {
                 if (item.sipInners && item.sipInners.length > 0) {
                     innerCount = item.sipInners.length;
                 }
-                body = body.concat('Are you sure you want to delete +', item.phoneNumber, ' and ', innerCount, ' Ext(s)?');
+                body = body.concat('Are you sure you want to delete +', item.phoneNumber, ' and ', innerCount, ' extensions?');
                 this.modal.body = body;
             }
             if (item instanceof StorageItem) {
