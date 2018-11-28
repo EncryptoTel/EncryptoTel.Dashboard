@@ -1,4 +1,3 @@
-import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import {NgModule} from '@angular/core';
 import { IvrComponent } from "./ivr.component";
 import { IvrCreateComponent } from "./ivr-create/ivr-create.component";
@@ -40,7 +39,6 @@ const routes: Routes = [
         HostIvrFormDirective
     ],
     imports: [
-        BsDatepickerModule,
         ElementsModule,
         TranslateModule,
         AngularSvgIconModule,

@@ -45,7 +45,6 @@ import {CookieService} from 'ngx-cookie-service';
 import {RouterExtService} from '../services/router-ext.service';
 import {PbxTranslateLoader} from '../shared/pbx-translate-loader';
 import { ModalServices } from '@services/modal.service';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -61,7 +60,6 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         ComponentsModule,
         MainRouterModule,
         SocketIoModule.forRoot(config),
-        BsDatepickerModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
