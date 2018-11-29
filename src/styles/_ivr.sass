@@ -33,7 +33,11 @@
         .left
             padding-bottom: 0
             //max-width: 50%
-            max-width: 500px
+            max-width: 300px
+            pbx-ivr-level
+                &:last-child
+                    .item
+                        margin-right: 0 !important
             &.h_scroll
                 padding-bottom: 16px
             .item
@@ -167,6 +171,22 @@
             overflow: auto
             padding: 24px
             display: grid
+            .pbx_input_item_label
+                width: 100px !important
+            pbx-input[key="voiceGreeting"]
+                .pbx_input_wrap
+                    display: grid
+                    grid-template-columns: 1fr
+                    .pbx_input_item.selectWrap
+                        display: grid
+                        grid-template-columns: auto 1fr
+                        .pbx_input_item_input_wrap
+                            display: grid
+                            grid-template-columns: 1fr min-content
+            .select_item.selected
+                position: absolute
+                left: 0
+                top: 0
             pbx-ivr-digit-form
                 .one
                     width: 100%
