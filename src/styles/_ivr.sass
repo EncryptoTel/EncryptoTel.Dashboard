@@ -63,6 +63,8 @@
                         pbx-button
                             &:nth-child(2)
                                 display: none
+                            button
+                                width: 100%
                 &.selected
                     background: $ivr_dark_selected
                     .buttons
@@ -165,6 +167,16 @@
             overflow: auto
             padding: 24px
             display: grid
+            pbx-ivr-digit-form
+                .one
+                    width: 100%
+                    .select_digit
+                        display: grid
+                        grid-template-columns: 1fr min-content
+                        align-items: center
+                        pbx-button
+                            width: min-content
+                            margin-left: 24px
             .one
                 flex-direction: column
                 //display: none
@@ -187,6 +199,10 @@
                             font-weight: 200 !important
                             color: $dark_white !important
                             opacity: 1 !important
+                    .greeting
+                        margin-left: 40px
+                .call-rules-create_row
+                    margin: 24px 0
                 .phone_number
                     position: relative
                     z-index: 11
