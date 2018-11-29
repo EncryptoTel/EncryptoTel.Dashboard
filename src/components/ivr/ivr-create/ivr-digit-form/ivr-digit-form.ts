@@ -87,9 +87,12 @@ export class IvrDigitFormComponent extends FormBaseComponent
                 )
                 .then(res => {
                     this.paramsInfo = res;
-                    this.loading--;
+                    if (!res.visible) {
+                        this.digitForm.get('parameter').setValidators([]);
+                    }
                 })
-                .catch(() => {
+                .catch(() => {})
+                .then(() => {
                     this.loading--;
                 });
         });

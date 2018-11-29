@@ -21,7 +21,7 @@ import {ButtonItem, InputAction} from '../../models/base.model';
 export class DepartmentsComponent implements OnInit {
 
     @ViewChild(ListComponent) list;
-
+    filters: any;
     sidebar = {
         visible: false,
         loading: 0,
@@ -157,13 +157,12 @@ export class DepartmentsComponent implements OnInit {
         if (this.departmentForm.valid) {
             this.checkEmpty();
             this.saving++;
-            // console.log(this.departmentForm.value);
             this.service.save(this.selected ? this.selected.id : null, this.departmentForm.value).then(() => {
                 this.reset();
                 this.list.getItems();
                 this.close();
                 this.saving--;
-            }).catch(() => {
+            }).catch((err) => {
                 this.addPhone();
                 this.saving--;
             });

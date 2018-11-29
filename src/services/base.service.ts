@@ -48,8 +48,8 @@ export class BaseService {
                 this.errors = res.errors;
                 if (this.url === 'v1/sip/inners' && (_method === 'PUT' || _method === 'POST')) {
                     if (this.errors.user['lastName'] || this.errors.user['firstName']) {
-                        let lastName = this.errors.user['lastName'];
-                        let firstName = this.errors.user['firstName'];
+                        const lastName = this.errors.user['lastName'];
+                        const firstName = this.errors.user['firstName'];
                         delete this.errors.user;
                         if (lastName) {
                             this.errors['lastName'] = lastName;
