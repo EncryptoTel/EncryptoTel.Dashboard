@@ -14,6 +14,7 @@ import {TabComponent} from '../../../elements/pbx-tabs/tab/pbx-tab.component';
 import {TabsComponent} from '../../../elements/pbx-tabs/pbx-tabs.component';
 import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {InputComponent} from '../../../elements/pbx-input/pbx-input.component';
+import { getErrorMessageFromServer } from '@shared/shared.functions';
 
 
 @Component({
@@ -62,6 +63,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                 private refs: RefsServices,
                 private company: CompanyService,
                 private activatedRoute: ActivatedRoute,
+                private _messages: MessageServices,
                 private router: Router,
                 protected fb: FormBuilder,
                 protected message: MessageServices) {
@@ -209,7 +211,11 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                 this.getItem();
                 this.saveFormState();
             }
-        }).catch(() => {})
+        }).catch((err) => {
+            const msg = getErrorMessageFromServer(err);
+            console.log(msg);
+            this._messages.writeError(msg, 5000);
+        })
           .then(() => this.locker.unlock());
     }
 
