@@ -365,9 +365,9 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     isFileSelected(index: number): boolean {
-        return !!this.selectedFiles[index] &&
-        this.selectedFiles[index].converted !== undefined &&
-        this.selectedFiles[index].converted > 0 ? true : false;
+        return !!this.selectedFiles[index]
+            && this.selectedFiles[index].converted != undefined
+            && this.selectedFiles[index].converted > 0;
     }
 
     setParameterControlValue(index: number, value: any): void {
@@ -589,52 +589,62 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     private getFiles(): void {
-        this.loading++;
-        this.service.getFiles().then((response) => {
-            this.files = response.items;
-            if (this.mode === 'edit') {
-                this.getCallRule();
-            }
-        }).catch(() => {
-        }).then(() => this.loading--);
+        this.loading ++;
+        this.service.getFiles()
+            .then((response) => {
+                this.files = response.items;
+                if (this.mode === 'edit') {
+                    this.getCallRule();
+                }
+            })
+            .catch(() => {})
+            .then(() => this.loading --);
     }
 
     private getNumbers(): void {
-        this.loading++;
-        this.service.getOuters().then(response => {
-            response.forEach(item => {
-               if (item.providerId !== 1) {
-                   item.phoneNumber = '+' + item.phoneNumber;
-               }
-            });
-            this.numbers = response;
-        }).catch(() => {
-        }).then(() => this.loading--);
+        this.loading ++;
+        this.service.getOuters()
+            .then(response => {
+                response.forEach(item => {
+                if (item.providerId !== 1) {
+                    item.phoneNumber = '+' + item.phoneNumber;
+                }
+                });
+                this.numbers = response;
+            })
+            .catch(() => {})
+            .then(() => this.loading --);
     }
 
     private getQueue(): void {
-        this.loading++;
-        this.service.getQueue().then(response => {
-            this.queues = response.items;
-        }).catch(() => {
-        }).then(() => this.loading--);
+        this.loading ++;
+        this.service.getQueue()
+            .then(response => {
+                this.queues = response.items;
+            })
+            .catch(() => {})
+            .then(() => this.loading --);
     }
 
     private getGroup(): void {
-        this.loading++;
-        this.service.getGroup().then(response => {
-            this.groups = response.items;
-        }).catch(() => {
-        }).then(() => this.loading--);
+        this.loading ++;
+        this.service.getGroup()
+            .then(response => {
+                this.groups = response.items;
+            })
+            .catch(() => {})
+            .then(() => this.loading --);
     }
 
     refreshFiles(loading: number): void {
         if (loading) return;
 
-        this.storage.loading++;
-        this.service.getFiles().then((response) => {
-            this.files = response.items;
-        }).catch(() => {
-        }).then(() => this.storage.loading--);
+        this.storage.loading ++;
+        this.service.getFiles()
+            .then((response) => {
+                this.files = response.items;
+            })
+            .catch(() => {})
+            .then(() => this.storage.loading --);
     }
 }

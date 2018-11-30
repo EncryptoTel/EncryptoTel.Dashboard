@@ -91,11 +91,13 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     initFiles() {
-        this.loading++;
-        return this.service.getFiles().then(res => {
-            this.files = res.items;
-            this.loading--;
-        });
+        this.loading ++;
+        return this.service.getFiles()
+            .then(response => {
+                this.files = response.items;
+            })
+            .catch(() => {})
+            .then(() => this.loading --);
     }
 
     initForm(): void {
@@ -146,8 +148,13 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     isFileSelected(): boolean {
-        return !!this.form.value.voiceGreeting;
-    }
+        if (!this.form.value.voiceGreeting) return false;
+
+        const file = this.files.find(f => f.id === this.form.value.voiceGreeting);
+        return !!file
+            && file.converted != undefined
+            && file.converted > 0;
+}
 
     uploadFile(event: any): void {
         event.preventDefault();
