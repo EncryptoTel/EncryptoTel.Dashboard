@@ -47,7 +47,8 @@ export class IvrDigitFormComponent extends FormBaseComponent
     paramsInfo = {
         label: '',
         option: [],
-        visible: false
+        visible: false,
+        validators: [],
     };
     onFormChange: Subject<any>;
     constructor(
@@ -76,7 +77,9 @@ export class IvrDigitFormComponent extends FormBaseComponent
             action: [null, [Validators.required]],
             parameter: [null, [Validators.required]]
         });
+        
         this.addForm(this.digitFormKey, this.digitForm);
+        
         this.digitForm.get('action').valueChanges.subscribe(val => {
             this.loading++;
             this.service
@@ -85,11 +88,11 @@ export class IvrDigitFormComponent extends FormBaseComponent
                     this.references.sipId,
                     this.references.levels
                 )
-                .then(res => {
-                    this.paramsInfo = res;
-                    if (!res.visible) {
-                        this.digitForm.get('parameter').setValidators([]);
-                    }
+                .then(response => {
+                    this.paramsInfo = response;
+                    this.digitForm.get('parameter').setValidators(this.paramsInfo.validators)
+                    this.digitForm.get('parameter').setValue(null);
+                    this.validationHost.initItems();
                 })
                 .catch(() => {})
                 .then(() => {
@@ -107,19 +110,14 @@ export class IvrDigitFormComponent extends FormBaseComponent
                 console.log(val);
             }
         });
+        
         this.digitForm.statusChanges.subscribe(() => {
             this.onFormChange.next(this.digitForm);
         });
     }
 
     getData() {
-        if (this.digitForm.valid) {
-            return this.digitForm.value;
-        } else {
-            validateFormControls(this.digitForm);
-        }
-        this.validationHost.clearControlsFocusedState();
-        return null;
+        return this.validateForms() ? this.form.value : null;
     }
 
     getExtensions(id: number): void {

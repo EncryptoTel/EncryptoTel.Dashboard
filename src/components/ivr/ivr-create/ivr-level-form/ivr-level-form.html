@@ -103,7 +103,8 @@
                >
     </pbx-input>
 
-    <pbx-input name="{{ paramsInfo.label | translate }}"
+    <pbx-input *ngIf="paramsInfo.visible"
+               name="{{ paramsInfo.label | translate }}"
                key="parameter"
                [required]="true"
                [form]="true"

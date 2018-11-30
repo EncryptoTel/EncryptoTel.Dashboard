@@ -1,7 +1,11 @@
+import { plainToClass } from 'class-transformer';
+import {Validators} from '@angular/forms';
+
 import { BaseService } from '@services/base.service';
 import { IvrItem, IvrModel, IvrTreeItem } from '@models/ivr.model';
 import { PageInfoModel } from '@models/base.model';
-import { plainToClass } from 'class-transformer';
+import {addressPhoneRegExp} from '@shared/vars';
+
 
 export enum DigitActions {
     REDIRECT_TO_EXT = '1',
@@ -102,8 +106,10 @@ export class IvrService extends BaseService {
         const paramsInfo = {
             label: '',
             option: [],
-            visible: true
+            visible: true,
+            validators: []
         };
+
         return new Promise((resolve, reject) => {
             switch (val.toString()) {
                 case DigitActions.REDIRECT_TO_EXT:
@@ -115,12 +121,14 @@ export class IvrService extends BaseService {
                         : undefined;
                     paramsInfo.label = 'Extension number';
                     paramsInfo.visible = true;
+                    paramsInfo.validators = [Validators.required];
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_NUM:
                     paramsInfo.label = 'External number';
                     paramsInfo.option = undefined;
                     paramsInfo.visible = true;
+                    paramsInfo.validators = [Validators.required, Validators.minLength(6), Validators.maxLength(16), Validators.pattern(addressPhoneRegExp)];
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_QUEUE:
@@ -129,6 +137,7 @@ export class IvrService extends BaseService {
                         return { id: x.id, name: x.name };
                     });
                     paramsInfo.visible = true;
+                    paramsInfo.validators = [Validators.required];
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_RING_GROUP:
@@ -137,6 +146,7 @@ export class IvrService extends BaseService {
                         return { id: x.id, name: x.name };
                     });
                     paramsInfo.visible = true;
+                    paramsInfo.validators = [Validators.required];
                     resolve(paramsInfo);
 
                     break;
@@ -156,6 +166,7 @@ export class IvrService extends BaseService {
                         name: 'new level'
                     });
                     paramsInfo.visible = true;
+                    paramsInfo.validators = [Validators.required];
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REPEAT_LEVEL:
@@ -168,6 +179,7 @@ export class IvrService extends BaseService {
                         name: 'new level'
                     });
                     paramsInfo.visible = true;
+                    paramsInfo.validators = [Validators.required];
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_INTEGRATION:

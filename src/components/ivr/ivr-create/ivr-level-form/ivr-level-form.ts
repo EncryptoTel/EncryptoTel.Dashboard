@@ -56,7 +56,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
     paramsInfo = {
         label: '',
         option: [],
-        visible: false
+        visible: false,
+        validators: [],
     };
     // -- properties ----------------------------------------------------------
 
@@ -71,16 +72,14 @@ export class IvrLevelFormComponent extends FormBaseComponent
     ) {
         super(fb, message);
         this.onFormChange = new Subject();
+
+        this.validationHost.customMessages = [
+            {name: 'External number', error: 'pattern', message: 'Phone number contains invalid characters. You can only use numbers.'},
+        ];
     }
 
     getData() {
-        if (this.form.valid) {
-            return this.form.value;
-        } else {
-            validateFormControls(this.form);
-        }
-        this.validationHost.clearControlsFocusedState();
-        return null;
+        return this.validateForms() ? this.form.value : null;
     }
 
     ngOnInit() {
@@ -118,9 +117,11 @@ export class IvrLevelFormComponent extends FormBaseComponent
             parameter: [null],
             levelNum: [null]
         });
+        
         this.form.statusChanges.subscribe(() => {
             this.onFormChange.next(this.form);
         });
+        
         this.form.get('action').valueChanges.subscribe(val => {
             this.loading ++;
             this.service
@@ -131,17 +132,23 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 )
                 .then(response => {
                     this.paramsInfo = response;
+                    this.form.get('parameter').setValidators(this.paramsInfo.validators)
+                    this.form.get('parameter').setValue(null);
+                    this.validationHost.initItems();
                 })
                 .catch(() => {})
                 .then(() => this.loading --);
         });
+        
         this.form.get('sipId').valueChanges.subscribe(val => {
             this.references.sipId = val;
             this.service.currentSip = val;
         });
+        
         this.form.get('voiceGreeting').valueChanges.subscribe(val => {
             this.selectFile(val);
         });
+        
         this.addForm(this.formKey, this.form);
     }
 
