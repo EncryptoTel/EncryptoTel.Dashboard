@@ -45,6 +45,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {RouterExtService} from '../services/router-ext.service';
 import {PbxTranslateLoader} from '../shared/pbx-translate-loader';
 import { ModalServices } from '@services/modal.service';
+import { CallService } from '@services/call.server';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -97,7 +98,8 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         LangStateService,
         CookieService,
         RouterExtService,
-        ModalServices
+        ModalServices,
+        CallService
     ],
     bootstrap: [MainViewComponent]
 })

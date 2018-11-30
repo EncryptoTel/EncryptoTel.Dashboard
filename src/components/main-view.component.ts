@@ -12,6 +12,7 @@ import {MessageServices} from '@services/message.services';
 import {LocalStorageServices} from '@services/local-storage.services';
 import {FadeAnimation} from '@shared/fade-animation';
 import {PbxTranslateLoader} from '@shared/pbx-translate-loader';
+import { CallService } from '@services/call.server';
 
 
 // first and second
@@ -45,6 +46,7 @@ export class MainViewComponent implements OnInit, OnDestroy {
                 private title: Title,
                 private storage: LocalStorageServices,
                 private cookieService: CookieService,
+                public callService: CallService,
                 private translate: TranslateService) {
 
         (<PbxTranslateLoader>this.translate.currentLoader).loadTranslations().then(() => {

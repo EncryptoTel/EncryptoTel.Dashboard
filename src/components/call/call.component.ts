@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {WsServices} from '../../services/ws.services';
-import {LoggerServices} from '../../services/logger.services';
-import {ChatModel, MessageModel} from '../../models/chat.model';
-import {Subscription} from 'rxjs/Subscription';
-import {UserServices} from '../../services/user.services';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { WsServices } from '../../services/ws.services';
+import { LoggerServices } from '../../services/logger.services';
+import { ChatModel, MessageModel } from '../../models/chat.model';
+import { Subscription } from 'rxjs/Subscription';
+import { UserServices } from '../../services/user.services';
+import { CallService } from '@services/call.server';
 
 @Component({
     selector: 'pbx-call',
@@ -12,7 +13,12 @@ import {UserServices} from '../../services/user.services';
 })
 
 export class CallComponent implements OnInit, OnDestroy {
+    @ViewChild("remoteVideo") remoteVideo: ElementRef;
+    @ViewChild("localVideo") localVideo: ElementRef;
 
+    
+    sipOptions: any;
+    sip: any;
     messages: MessageModel[] = [];
     chats: ChatModel[] = [];
     message: string = '';
@@ -21,9 +27,14 @@ export class CallComponent implements OnInit, OnDestroy {
     selected: number = 0;
     currentUserId: number;
 
+    call() {
+        
+    }
+    
     constructor(private socket: WsServices,
-                private logger: LoggerServices,
-                private _user: UserServices) {
+        private logger: LoggerServices,
+        private _user: UserServices,
+        public callService: CallService) {
         let tmpUser: any;
         tmpUser = this._user.fetchUser();
         this.currentUserId = tmpUser.profile.id;
