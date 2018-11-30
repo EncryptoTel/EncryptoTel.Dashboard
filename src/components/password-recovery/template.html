@@ -8,14 +8,14 @@
             <input name="E-mail" id="confirmation_email" placeholder="E-mail" formControlName="email">
             <div class="input_error" *ngIf="inputValidation('email')" [@Fade]>
                 <span id="password_recovery_err_no_email" class="input_error_item"
-                      *ngIf="inputValidation('email', 'required')">Please enter your email address</span>
+                      *ngIf="inputValidation('email', 'required')" translate>Please enter your email address</span>
                 <span id="password_recovery_err_invalid_email" class="input_error_item"
-                      *ngIf="inputValidation('email', 'pattern')">Please enter correct email address</span>
+                      *ngIf="inputValidation('email', 'pattern')" translate>Please enter correct email address</span>
             </div>
         </div>
         <pbx-button [buttonType]="'accent'" [loading]="loading" [value]="'Request recovery link'"
                     (onClick)="sendEmail()"></pbx-button>
-        <a routerLink="../sign-in" class="auth_form_link" translate>Back to login</a>
+        <a routerLink="../sign-in" class="auth_form_link" translate >Back to login</a>
         <div class="auth_form_text" translate>Don't have an EncryptoTel Account?</div>
         <a routerLink="../sign-up" class="auth_form_link" translate>Create one now</a>
     </form>
