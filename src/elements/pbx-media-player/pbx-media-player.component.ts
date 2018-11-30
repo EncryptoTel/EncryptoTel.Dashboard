@@ -41,7 +41,7 @@ export class MediaPlayerComponent implements OnChanges {
     }
 
     constructor() {
-        console.log('media plaer created');
+        console.log('media player created');
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -107,18 +107,29 @@ export class MediaPlayerComponent implements OnChanges {
         }
     }
 
-    startPlayRecord(): void {
-        const timer: Subscription = TimerObservable.create(0, 100).subscribe(
-            () => {
-                timer.unsubscribe();
-                this.mediaStream = this.mediaStreams[this.selectedMediaId];
+    delay(ms: number) {
+        return new Promise<void>(function(resolve) {
+            setTimeout(resolve, ms);
+        });
+    }
 
-                const onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(
-                    () => {
-                        onCanPlay.unsubscribe();
-                        this.togglePlay(this.selectedMediaId);
-                        this.fireOnMediaStateChanged();
-                    });
-            });
+    startPlayRecord() {
+        setTimeout(async () => {
+            this.mediaStream = this.mediaStreams[this.selectedMediaId];
+
+            let attempt = 0;
+            while (!this.api.getDefaultMedia().canPlay && attempt < 10) {
+                await this.delay(100);
+                ++ attempt;
+            }
+
+            if (attempt < 10) {
+                this.togglePlay(this.selectedMediaId);
+                this.fireOnMediaStateChanged();
+            }
+            else {
+                console.log('Media stream loading error');
+            }
+        }, 100);
     }
 }

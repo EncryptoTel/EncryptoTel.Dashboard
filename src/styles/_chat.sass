@@ -8,7 +8,7 @@ pbx-chat
     padding: 16px
     pbx-loader
         display: none
-    .list
+    .list_of_chats
         flex-direction: column
         width: 100%
         position: relative
@@ -16,30 +16,35 @@ pbx-chat
         //display: none
         .search_wrap
             display: grid
-            grid-template-columns: 18px 10px 1fr 10px 18px
+            grid-template-columns: 1fr 10px 18px
             margin-bottom: 40px
-            .search_icon
+            .input_wrap
                 grid-column: 1/2
-                svg-icon
-                    width: 18px
-                    position: relative
-                    svg
+                position: relative
+                margin-bottom: 0
+                input
+                    width: 100%
+                    padding-left: 26px
+                    &::placeholder
+                        font-family: Roboto, sans-serif !important
+                        font-weight: 100 !important
+                .search_icon
+                    position: absolute
+                    left: 0
+                    top: 50%
+                    transform: translateY(-50%)
+                    svg-icon
                         width: 18px
-                        cursor: pointer
-                        position: absolute
-                        top: 50%
-                        transform: translateY(-50%)
-                        *
-                            cursor: pointer
-                        path
-                            fill: $chat_icon_grey_color
-            input
-                grid-column: 3/4
-                &::placeholder
-                    font-family: Roboto, sans-serif !important
-                    font-weight: 100 !important
+                        position: relative
+                        svg
+                            width: 18px
+                            position: absolute
+                            top: 50%
+                            transform: translateY(-50%)
+                            path
+                                fill: $chat_icon_grey_color
             .create
-                grid-column: 5/6
+                grid-column: 3/4
                 position: relative
                 svg-icon
                     width: 18px
@@ -214,6 +219,7 @@ pbx-chat
             cursor: pointer
             transition: all linear 1s
             opacity: 0
+            display: none
             svg-icon
                 width: 38px
                 position: absolute
@@ -232,7 +238,9 @@ pbx-chat
                         cursor: pointer
             &.opened
                 opacity: 1
-    .talking
+
+
+    .single_chat
         flex-direction: column
         width: 100%
         padding-bottom: 56px
@@ -247,14 +255,17 @@ pbx-chat
             .back
                 grid-column: 1/2
                 height: 100%
+                align-items: center
                 svg-icon
                     width: 100%
                     position: relative
+                    height: 16px
                     svg
                         cursor: pointer
                         position: absolute
                         top: 50%
                         transform: translateY(-50%)
+                        height: inherit
                         *
                             cursor: pointer
                         polygon
@@ -317,11 +328,11 @@ pbx-chat
                     cursor: pointer
                 svg-icon
                     width: 100%
-                    height: 30px
+                    height: 24px
                     position: relative
                     overflow: hidden
                     svg
-                        height: 30px
+                        height: inherit
                         cursor: pointer
                         position: absolute
                         top: 50%
@@ -533,6 +544,11 @@ pbx-chat
             .files
                 grid-column: 4/5
                 height: 100%
+                &.active
+                    svg-icon
+                        svg
+                            path
+                                fill: $dark_accent
                 svg-icon
                     width: 100%
                     position: relative
@@ -549,7 +565,8 @@ pbx-chat
             .record
                 grid-column: 6/7
                 height: 100%
-                svg-icon
+                svg-icon.mic,
+                svg-icon.send
                     width: 100%
                     position: relative
                     overflow: hidden
@@ -564,6 +581,21 @@ pbx-chat
                             cursor: pointer
                         path
                             fill: $chat_icon_grey_color
+                svg-icon.send
+                    display: none
+                    svg
+                        path
+                            fill: $dark_accent
+            &.send
+                grid-template-columns: 8px 18px 1fr 17px 12px 21px 8px
+                .record
+                    svg-icon.mic
+                        display: none
+                    svg-icon.send
+                        display: block
+
+
+
     .new_group
         flex-direction: column
         width: 100%
@@ -730,7 +762,7 @@ pbx-chat
                             color: $dark_white_75
         .adding
             flex-direction: column
-            //display: none
+            display: none
             .top
                 background: $dark_overlay
                 padding: 8px 16px

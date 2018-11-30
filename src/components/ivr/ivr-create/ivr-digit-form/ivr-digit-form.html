@@ -17,7 +17,7 @@
         <pbx-button value="Delete" buttonType="error" (onClick)="deleteDigit()"></pbx-button>
 
     </div> <!-- select_digit -->
-
+<ng-container *ngIf="!!digitForm.value.digit">
     <pbx-input name="Description"
                key="description"
                placeholder=""
@@ -48,5 +48,5 @@
     <pbx-input name="{{paramsInfo.label | translate }}" key="parameter" [required]="true" [form]="true" [object]="digitForm" [options]="paramsInfo.option"
         [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible" displayKey="name">
     </pbx-input>
-
+</ng-container>
 </div>
