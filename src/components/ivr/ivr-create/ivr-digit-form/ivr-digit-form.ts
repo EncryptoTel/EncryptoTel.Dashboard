@@ -143,7 +143,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
         for (let i = 1; i <= 10; i++) {
             const number = i % 10;
             if (
-                !this.references.usedDiget.includes(i.toString()) ||
+                !this.references.usedDigit.includes(i.toString()) ||
                 i.toString() === this.data.digit
             ) {
                 this.digits.push({
@@ -153,13 +153,13 @@ export class IvrDigitFormComponent extends FormBaseComponent
             }
         }
         if (
-            !this.references.usedDiget.includes('*') ||
+            !this.references.usedDigit.includes('*') ||
             this.data.digit === '*'
         ) {
             this.digits.push({ id: '*', title: '*' });
         }
         if (
-            !this.references.usedDiget.includes('#') ||
+            !this.references.usedDigit.includes('#') ||
             this.data.digit === '#'
         ) {
             this.digits.push({ id: '#', title: '#' });

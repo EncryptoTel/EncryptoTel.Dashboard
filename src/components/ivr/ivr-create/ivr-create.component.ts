@@ -44,7 +44,7 @@ export class IvrCreateComponent implements OnInit {
     ref = {
         sip: [],
         params: [],
-        usedDiget: [],
+        usedDigit: [],
         sipId: 0,
         levels: []
     };
@@ -129,7 +129,7 @@ export class IvrCreateComponent implements OnInit {
             this.currentDigit = undefined;
         } else {
             if (this.currentLevel) {
-                this.ref.usedDiget = this.currentLevel.digits.map(d => d.digit);
+                this.ref.usedDigit = this.currentLevel.digits.map(d => d.digit);
             }
             this.currentDigit = data;
         }
@@ -272,21 +272,25 @@ export class IvrCreateComponent implements OnInit {
 
     save() {
         if(!this.currentForm.getData()) return;
+
         const levelIndex = this.ivrLevels.findIndex(
             x => x.levelNum === this.currentLevel.levelNum
         );
         if (levelIndex !== -1) {
             this.ivrLevels[levelIndex] = this.currentLevel;
-        } else {
+        }
+        else {
             this.ivrLevels.push(this.currentLevel);
         }
+        
         const data = this.convertIvrLevelsToIverItems(this.ivrLevels);
         if (this.id) {
             this.service.edit(this.id, data).then(res => {
                 this.initExistsIvr(res);
                 this.isValidForm = true;
             });
-        } else {
+        }
+        else {
             this.service.save(data).then(res => {
                 if (!this.id) {
                     this.id = res.id;

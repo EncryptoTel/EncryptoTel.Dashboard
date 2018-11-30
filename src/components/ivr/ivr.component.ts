@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
-import {FadeAnimation} from '../../shared/fade-animation';
-import {IvrService} from '../../services/ivr.service';
-import {PageInfoModel} from '../../models/base.model';
+import {FadeAnimation} from '@shared/fade-animation';
+import {IvrService} from '@services/ivr.service';
+import {PageInfoModel} from '@models/base.model';
 
 
 @Component({
@@ -31,11 +31,10 @@ export class IvrComponent implements OnInit {
     }
 
     getItems() {
-        this.loading++;
-        this.service.getItems(this.model).then(response => {
-            console.log('ivr', response);
-        }).catch(() => {
-        })
-            .then(() => this.loading--);
+        this.loading ++;
+        this.service.getItems(this.model)
+            .then(response => {})
+            .catch(() => {})
+            .then(() => this.loading --);
     }
 }

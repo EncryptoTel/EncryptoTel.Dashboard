@@ -41,10 +41,12 @@ export class IvrService extends BaseService {
     }
 
     getItems(pageInfo: PageInfoModel, filter = null): Promise<IvrModel> {
-        return super.getItems(pageInfo, filter).then((res: IvrModel) => {
-            this.pageInfo = this.plainToClassEx(IvrModel, IvrItem, res);
-            return Promise.resolve(this.pageInfo);
-        });
+        return super.getItems(pageInfo, filter)
+            .then((response: IvrModel) => {
+                this.pageInfo = this.plainToClassEx(IvrModel, IvrItem, response);
+                console.log('ivr-page-info', this.pageInfo);
+                return Promise.resolve(this.pageInfo);
+            });
     }
 
     getExtensions(id: number): Promise<any> {
