@@ -32,8 +32,12 @@
             overflow: auto
         .left
             padding-bottom: 0
-            //max-width: 50%
-            max-width: 500px
+            max-width: 50%
+            //max-width: 300px
+            pbx-ivr-level
+                &:last-child
+                    .item
+                        margin-right: 0 !important
             &.h_scroll
                 padding-bottom: 16px
             .item
@@ -63,12 +67,14 @@
                         pbx-button
                             &:nth-child(2)
                                 display: none
+                            button
+                                width: 100%
                 &.selected
                     background: $ivr_dark_selected
                     .buttons
                         background: $ivr_dark_selected
                 .top
-                    padding: 8px 12px 10px
+                    padding: 10px 12px
                     display: block
                     width: 100%
                     border-bottom: 1px solid $dark-white_20
@@ -77,12 +83,14 @@
                     .desc
                         font-family: Roboto, sans-serif
                         font-size: 10px
+                        line-height: 16px
                         color: $dark_white_60
-                        margin-bottom: 6px
+                        margin-bottom: 3px
                         display: block
                     .title
                         font-family: Roboto, sans-serif
                         font-size: 14px
+                        line-height: 16px
                         color: $dark_white
                         display: block
                         white-space: nowrap
@@ -165,6 +173,32 @@
             overflow: auto
             padding: 24px
             display: grid
+            .pbx_input_item_label
+                width: 120px !important
+            pbx-input[key="voiceGreeting"]
+                .pbx_input_wrap
+                    display: grid
+                    grid-template-columns: 1fr
+                    .pbx_input_item.selectWrap
+                        display: grid
+                        grid-template-columns: auto 1fr
+                        .pbx_input_item_input_wrap
+                            display: grid
+                            grid-template-columns: 1fr min-content
+            .select_item.selected
+                position: absolute
+                left: 0
+                top: 0
+            pbx-ivr-digit-form
+                .one
+                    width: 100%
+                    .select_digit
+                        display: grid
+                        grid-template-columns: 1fr min-content
+                        align-items: center
+                        pbx-button
+                            width: min-content
+                            margin-left: 24px
             .one
                 flex-direction: column
                 //display: none
@@ -187,6 +221,10 @@
                             font-weight: 200 !important
                             color: $dark_white !important
                             opacity: 1 !important
+                    .greeting
+                        margin-left: 40px
+                .call-rules-create_row
+                    margin: 24px 0
                 .phone_number
                     position: relative
                     z-index: 11

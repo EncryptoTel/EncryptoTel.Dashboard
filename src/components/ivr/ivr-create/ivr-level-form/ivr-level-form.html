@@ -1,9 +1,9 @@
 <pbx-loader *ngIf="loading"></pbx-loader>
 <div class="one" *ngIf="!loading">
-    <pbx-input name="IVR Name" key="name" placeholder="Unnamed" [required]="true" [form]="true" [object]="form"
+    <pbx-input name="{{form.value.levelNum===1?'IVR Name':'Level Name'}}" key="name" placeholder="" [required]="true" [form]="true" [object]="form"
         [errors]="service.errors" [validationHost]="validationHost">
     </pbx-input>
-    <pbx-input name="IVR Description" key="description" placeholder="IVR from 8 a.m. to 6 p.m." [form]="true" [object]="form"
+    <pbx-input name="{{form.value.levelNum===1?'IVR Description':'Level Description'}}" key="description" placeholder="" [form]="true" [object]="form"
         [errors]="service.errors" [validationHost]="validationHost">
     </pbx-input>
     <pbx-input name="Phone number" key="sipId" placeholder="[choose one]" [required]="true" [form]="true" [object]="form"
@@ -37,15 +37,15 @@
         [validationHost]="validationHost">
     </pbx-input>
 
-    <div class="call-rules-create_row" *ngIf="form.value.levelNum===1">
+    <div class="call-rules-create_row">
         <h3>{{ 'If user nothing is chosen' | translate }}</h3>
     </div>
-    <pbx-input name="{{'Then' | translate }}" key="action" [form]="true" [object]="form" [options]="service.references.params" *ngIf="form.value.levelNum===1"
+    <pbx-input name="{{'Then' | translate }}" key="action" [form]="true" [object]="form" [options]="service.references.params"
         displayKey="code" [(errors)]="service.errors" [validationHost]="validationHost">
     </pbx-input>
 
     <pbx-input name="{{paramsInfo.label | translate }}" key="parameter" [required]="true" [form]="true" [object]="form" [options]="paramsInfo.option"
-        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible && form.value.levelNum===1" displayKey="name">
+        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible" displayKey="name">
     </pbx-input>
 </div>
 {{actionVal|json}}

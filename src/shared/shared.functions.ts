@@ -1,12 +1,12 @@
-import {FormArray, FormGroup} from '@angular/forms';
-import {ElementRef, Component, isDevMode} from '@angular/core';
-import {DatePipe} from '@angular/common';
-import {plainToClass} from 'class-transformer';
+import { FormArray, FormGroup } from '@angular/forms';
+import { ElementRef, Component, isDevMode } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { plainToClass } from 'class-transformer';
 
-import {CountryModel} from '@models/country.model';
-import {CurrencyModel} from '@models/currency.model';
-import {environment} from '@env/environment';
-import {numberRegExp} from './vars';
+import { CountryModel } from '@models/country.model';
+import { CurrencyModel } from '@models/currency.model';
+import { environment } from '@env/environment';
+import { numberRegExp } from './vars';
 import * as moment from 'moment';
 
 const formatDateUser = 'MMM D, YYYY';
@@ -14,18 +14,26 @@ const formatDateTimeUser = 'MMM D, YYYY HH:mm:ss';
 const formatDateServer = 'YYYY-MM-DD HH:mm:ss.s';
 
 export function getCountryById(id: number): CountryModel {
-    const list: CountryModel[] = plainToClass(CountryModel, JSON.parse(localStorage.getItem('pbx_countries')));
+    const list: CountryModel[] = plainToClass(
+        CountryModel,
+        JSON.parse(localStorage.getItem('pbx_countries'))
+    );
     return list ? list.find(country => country.id === id) : null;
 }
 
 export function getCurrencyById(id: number): CurrencyModel {
-    const list: CurrencyModel[] = plainToClass(CurrencyModel, JSON.parse(localStorage.getItem('pbx_currencies')));
+    const list: CurrencyModel[] = plainToClass(
+        CurrencyModel,
+        JSON.parse(localStorage.getItem('pbx_currencies'))
+    );
     return list ? list.find(currency => currency.id === id) : null;
 }
 
 export function dateComparison(date0: string, date1: Date) {
     const d0 = moment(date0, formatDateServer).toDate();
-    return (d0.getMonth() === date1.getMonth()) && (d0.getDate() === date1.getDate());
+    return (
+        d0.getMonth() === date1.getMonth() && d0.getDate() === date1.getDate()
+    );
 }
 
 // export function validateForm(form: FormGroup): void {
@@ -62,12 +70,26 @@ export function validateFormControls(form: FormGroup | FormArray): void {
     });
 }
 
-export function calculateHeight(table: ElementRef, row: ElementRef, row2?: ElementRef): number {
-    const height = row2 ?
-        table.nativeElement.clientHeight - (row.nativeElement.clientHeight + +getComputedStyle(row.nativeElement).marginBottom.split('px')[0] +
-        (row2.nativeElement.clientHeight + +getComputedStyle(row2.nativeElement).marginTop.split('px')[0]))
-        : table.nativeElement.clientHeight - (row.nativeElement.clientHeight + +getComputedStyle(row.nativeElement).marginBottom.split('px')[0]) * 2;
-    return Math.round((height - height % 41) / 41) - 1;
+export function calculateHeight(
+    table: ElementRef,
+    row: ElementRef,
+    row2?: ElementRef
+): number {
+    const height = row2
+        ? table.nativeElement.clientHeight -
+          (row.nativeElement.clientHeight +
+              +getComputedStyle(row.nativeElement).marginBottom.split('px')[0] +
+              (row2.nativeElement.clientHeight +
+                  +getComputedStyle(row2.nativeElement).marginTop.split(
+                      'px'
+                  )[0]))
+        : table.nativeElement.clientHeight -
+          (row.nativeElement.clientHeight +
+              +getComputedStyle(row.nativeElement).marginBottom.split(
+                  'px'
+              )[0]) *
+              2;
+    return Math.round((height - (height % 41)) / 41) - 1;
 }
 
 export function compareValues(key: string, order: string = 'asc') {
@@ -78,19 +100,21 @@ export function compareValues(key: string, order: string = 'asc') {
         let comparison = 0;
         if (varA > varB) {
             comparison = 1;
-        }
-        else if (varA < varB) {
+        } else if (varA < varB) {
             comparison = -1;
         }
 
-        return (order == 'desc') ? (comparison * -1) : comparison;
+        return order == 'desc' ? comparison * -1 : comparison;
     };
 }
 
 export function evalByKey(key: string, variable: any): any {
     let value = 0;
     if (variable.hasOwnProperty(key)) {
-        value = (typeof variable[key] === 'string') ? variable[key].toUpperCase() : variable[key];
+        value =
+            typeof variable[key] === 'string'
+                ? variable[key].toUpperCase()
+                : variable[key];
     }
     return value;
 }
@@ -124,19 +148,18 @@ export function getDateRange(items, dateAttr): Date[] {
         min = !min || item[dateAttr] < min[dateAttr] ? item : min;
         max = !max || item[dateAttr] > max[dateAttr] ? item : max;
     }
-    return [ min, max ];
+    return [min, max];
 }
 
 export function str2regexp(pattern: string): RegExp {
     let parts = pattern.split('/');
-    if (parts.length == 3)
-        return new RegExp(parts[1], parts[2]);
+    if (parts.length == 3) return new RegExp(parts[1], parts[2]);
 
     return new RegExp(pattern);
 }
 
 export function AnimationComponent(extendedConfig: Component = {}) {
-    return function (target: Function) {
+    return function(target: Function) {
         const ANNOTATIONS = '__annotations__';
         const PARAMETERS = '__paramaters__';
         const PROP_METADATA = '__prop__metadata__';
@@ -154,8 +177,8 @@ export function AnimationComponent(extendedConfig: Component = {}) {
                         extendedConfig[key] = parentAnnotations[key];
                         annotations[0][key] = '';
                     } else {
-                        if (extendedConfig[key] === parentAnnotations[key]){
-                             annotations[0][key] = '';
+                        if (extendedConfig[key] === parentAnnotations[key]) {
+                            annotations[0][key] = '';
                         }
                     }
                 }
@@ -173,9 +196,26 @@ export function killEvent(event?: Event): void {
 }
 
 export function isValidId(id: any): boolean {
-    return !!id != undefined && numberRegExp.test(id) && <number>id > 0;
+    return !!id !== undefined && numberRegExp.test(id) && <number>id > 0;
 }
 
 export function isDevEnv(): boolean {
     return isDevMode() && environment.title === 'development';
+}
+
+export function getErrorMessageFromServer(err) {
+    if (err.errors) {
+        let result = '';
+        const e = err.errors;
+        for (const key in e) {
+            if (e.hasOwnProperty(key)) {
+                const element = e[key];
+                element.forEach(msg => {
+                    result += msg + '\r\n';
+                });
+            }
+        }
+        return result;
+    }
+    return '';
 }

@@ -229,19 +229,25 @@
                                        [validationHost]="validationHost"
                                        [(objectView)]="selectedFiles[i]"
                                        (onSelect)="selectFile(i, $event)"
-                            >
+                                       >
                                 <div class="greeting">
                                     <pbx-button [value]="playButtonText"
                                                 [inactive]="!isFileSelected(i)"
                                                 [loading]="!mediaPlayer.locker.free"
                                                 (onClick)="togglePlay(i)"
-                                    >
+                                                >
                                     </pbx-button>
                                     <div class="hidden_button_wrapper">
-                                        <pbx-button value="Upload" buttonType="accent"
-                                                    [loading]="storage.loading"></pbx-button>
-                                        <input type="file" class="hidden_input" #fileInput
-                                               (change)="uploadFile($event)">
+                                        <pbx-button value="Upload" 
+                                                    buttonType="accent"
+                                                    [loading]="storage.loading"
+                                                    >
+                                        </pbx-button>
+                                        <input type="file"
+                                               class="hidden_input"
+                                               #fileInput
+                                               (change)="uploadFile($event)"
+                                               >
                                     </div>
                                 </div>
                             </pbx-input>

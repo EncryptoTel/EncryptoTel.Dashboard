@@ -1,0 +1,85 @@
+.light_theme
+    button
+        &.success
+            background: $dark_success
+    pbx-ivr-create
+        .ivr_create_body
+            .left
+                pbx-ivr-level
+                    button
+                        width: 100%
+                        &.error
+                            background: $dark_error
+                    .item
+                        &.one_up, &.two
+                            background: $white_grey_dark
+                            .top
+                                border-bottom: 1px solid rgba($white_black, .03)
+                                &.selected
+                                    background: $white_queue_tab_grey_light
+                                .title
+                                    color: $white_black_80
+                                .desc
+                                    color: $white_black_70
+                            .buttons
+                                background: inherit
+                            .numbers
+                                .number
+                                    &.selected
+                                        background: $white_queue_tab_grey_light
+                                    .digit
+                                        .inner
+                                            border: 1px solid $white_black_70
+                                            span
+                                                color: $white_black_70
+                                    .line
+                                        color: $white_black_70
+            .right
+                background: $white_grey_dark
+                button
+                    &.error
+                        background: $dark_error
+                pbx-ivr-level-form
+                    .one
+                        pbx-input
+                            .pbx_input_item_label
+                                span
+                                    color: $white_black_70
+                                    &:hover
+                                        color: $dark_accent
+                            .greeting
+                                .button.accent:disabled
+                                    background: $white_queue_tab_grey_light
+                        pbx-select
+                            .select_item.selected
+                                border-top: none !important
+                                border-right: none !important
+                                border-left: none !important
+                                &:focus
+                                    border-bottom: 1px solid $dark_accent
+                        input
+                            border-top: none !important
+                            border-right: none !important
+                            border-left: none !important
+                pbx-ivr-digit-form
+                    .one
+                        .select_digit
+                        pbx-input
+                            .pbx_input_item_label
+                                span
+                                    color: $white_black_70
+                                    &:hover
+                                        color: $dark_accent
+                        .title
+                            color: $white_black_80
+                        pbx-select
+                            .select_item.selected
+                                border-top: none !important
+                                border-right: none !important
+                                border-left: none !important
+                                &:focus
+                                    border-bottom: 1px solid $dark_accent
+                        input
+                            border-top: none !important
+                            border-right: none !important
+                            border-left: none !important

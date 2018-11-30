@@ -47,7 +47,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     paramsInfo = {
         label: '',
         option: [],
-        visible: true
+        visible: false
     };
     onFormChange: Subject<any>;
     constructor(
@@ -87,9 +87,12 @@ export class IvrDigitFormComponent extends FormBaseComponent
                 )
                 .then(res => {
                     this.paramsInfo = res;
-                    this.loading--;
+                    if (!res.visible) {
+                        this.digitForm.get('parameter').setValidators([]);
+                    }
                 })
-                .catch(() => {
+                .catch(() => {})
+                .then(() => {
                     this.loading--;
                 });
         });

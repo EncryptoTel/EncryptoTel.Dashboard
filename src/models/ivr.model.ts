@@ -85,7 +85,6 @@ export class IvrLevel extends IvrLevelBase {
                 this.name = ivr.name || '';
                 this.sipId = ivr.sipId || ivr.sip.id || null;
                 this.enabled = ivr.enabled || false;
-                this.loopMessage = ivr.loopMessage || 2;
                 this.dateType = ivr.dateType || '';
                 this.dateValue = ivr.dateValue || '';
                 this.timeType = ivr.timeType || '';
@@ -116,6 +115,7 @@ export class IvrLevel extends IvrLevelBase {
                 this.name = intro.name;
                 this.description = intro.description;
                 this.levelNum = intro.level;
+                this.loopMessage = intro.loop || 2;
             }
         }
         const timeout = tree.find(x => x.digit === 'timeout');
