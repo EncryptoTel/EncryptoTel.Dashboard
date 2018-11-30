@@ -94,34 +94,40 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     getParameter(val) {
         switch (val.action.toString()) {
             case DigitActions.REDIRECT_TO_EXT:
-                const sip = this.service.references.sip.find(
-                    x => x.id === this.service.currentSip
-                );
-                if (sip) {
-                    const inner = sip.sipInners.find(
-                        x => x.id === val.parameter
+                if (this.service.references.sip) {
+                    const sip = this.service.references.sip.find(
+                        x => x.id === this.service.currentSip
                     );
-                    if (inner) {
-                        return inner.phoneNumber;
+                    if (sip) {
+                        const inner = sip.sipInners.find(
+                            x => x.id === val.parameter
+                        );
+                        if (inner) {
+                            return inner.phoneNumber;
+                        }
                     }
                 }
                 return '';
             case DigitActions.REDIRECT_TO_NUM:
                 return val.parameter;
             case DigitActions.REDIRECT_TO_QUEUE:
-                const rtq = this.service.references.queue.find(
-                    x => x.id === val.parameter
-                );
-                if (rtq) {
-                    return rtq.name;
+                if (this.service.references.queue) {
+                    const rtq = this.service.references.queue.find(
+                        x => x.id === val.parameter
+                    );
+                    if (rtq) {
+                        return rtq.name;
+                    }
                 }
                 return '';
             case DigitActions.REDIRECT_TO_RING_GROUP:
-                const rtr = this.service.references.queue.find(
-                    x => x.id === val.parameter
-                );
-                if (rtr) {
-                    return rtr.name;
+                if (this.service.references.ringGroup) {
+                    const rtr = this.service.references.ringGroup.find(
+                        x => x.id === val.parameter
+                    );
+                    if (rtr) {
+                        return rtr.name;
+                    }
                 }
                 return '';
             case DigitActions.CANCEL_CALL:

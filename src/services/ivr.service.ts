@@ -84,7 +84,7 @@ export class IvrService extends BaseService {
             this.getQueue(),
             this.getRingGroup()
         ]).then(res => {
-            this.references.sip = res[0].items;
+            this.references.sip = !!res[0].items ? res[0].items : [];
             const action = res[1].actions;
             this.references.params = Object.keys(action).map(val => {
                 return { id: val, code: action[val] };

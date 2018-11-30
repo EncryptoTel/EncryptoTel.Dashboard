@@ -122,20 +122,18 @@ export class IvrLevelFormComponent extends FormBaseComponent
             this.onFormChange.next(this.form);
         });
         this.form.get('action').valueChanges.subscribe(val => {
-            this.loading++;
+            this.loading ++;
             this.service
                 .showParameter(
                     val,
                     this.form.value.sipId || this.data.sipId,
                     this.references.levels
                 )
-                .then(res => {
-                    this.paramsInfo = res;
-                    this.loading--;
+                .then(response => {
+                    this.paramsInfo = response;
                 })
-                .catch(() => {
-                    this.loading--;
-                });
+                .catch(() => {})
+                .then(() => this.loading --);
         });
         this.form.get('sipId').valueChanges.subscribe(val => {
             this.references.sipId = val;

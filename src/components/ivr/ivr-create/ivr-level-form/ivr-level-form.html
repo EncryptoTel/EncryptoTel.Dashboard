@@ -39,7 +39,7 @@
     </div>
 
     <pbx-input *ngIf="form.value.levelNum === 1"
-               name="{{'Enable IVR' | translate }}"
+               name="{{ 'Enable IVR' | translate }}"
                key="enabled"
                [checkbox]="true"
                [form]="true"
@@ -49,7 +49,7 @@
                >
     </pbx-input>
 
-    <pbx-input name="{{'Voice greeting' | translate }}"
+    <pbx-input name="{{ 'Voice greeting' | translate }}"
                key="voiceGreeting"
                [required]="true"
                [placeholder]="'[choose file]'"
@@ -78,7 +78,7 @@
         </div>
     </pbx-input>
 
-    <pbx-input name="{{'Loop message' | translate }}"
+    <pbx-input name="{{ 'Loop message' | translate }}"
                key="loopMessage"
                [form]="true"
                [object]="form"
@@ -92,7 +92,7 @@
          >
         <h3>{{ 'If user has chosen nothing' | translate }}</h3>
     </div>
-    <pbx-input name="{{'Then' | translate }}" 
+    <pbx-input name="{{ 'Then' | translate }}" 
                key="action"
                [form]="true"
                [object]="form"
@@ -103,7 +103,7 @@
                >
     </pbx-input>
 
-    <pbx-input name="{{paramsInfo.label | translate }}"
+    <pbx-input name="{{ paramsInfo.label | translate }}"
                key="parameter"
                [required]="true"
                [form]="true"
