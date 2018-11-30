@@ -11,7 +11,9 @@ export class IvrItem extends BaseItemModel {
     description: string;
     status: number = 0;
     enabled: boolean;
+    
     tree: IvrTreeItem[] = [];
+    
     dateType: string;
     dateValue: string;
     timeType: string;
@@ -19,6 +21,7 @@ export class IvrItem extends BaseItemModel {
     timeoutAction: string;
     timeoutParams: string;
     loopMessage: number;
+    
     constructor() {
         super();
         this.name = '';

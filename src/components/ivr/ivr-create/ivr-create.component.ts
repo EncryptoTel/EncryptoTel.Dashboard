@@ -15,6 +15,7 @@ import {
     ElementRef
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ValidationErrors } from '@angular/forms';
 
 import { IvrService } from '@services/ivr.service';
 import { MessageServices } from '@services/message.services';
@@ -26,7 +27,7 @@ import { IvrFormInterface } from './form.interface';
 import { IvrDigitFormComponent } from './ivr-digit-form/ivr-digit-form';
 import { IvrLevelFormComponent } from './ivr-level-form/ivr-level-form';
 import * as _ from 'lodash';
-import { ValidationErrors } from '@angular/forms';
+
 
 @Component({
     selector: 'pbx-ivr-create',
@@ -40,7 +41,6 @@ export class IvrCreateComponent implements OnInit {
     ivrLevels: Array<IvrLevel> = []; // all levels
     currentLevel: IvrLevel;
     currentDigit: Digit;
-    isValidForm = false;
     ref = {
         sip: [],
         params: [],
@@ -53,14 +53,17 @@ export class IvrCreateComponent implements OnInit {
     loading: number;
     sipOuters: any;
     modelFromServer: IvrItem;
+    
     formChangeSubscription: Subscription;
     forms = {
         levelForm: IvrLevelFormComponent,
         digits: IvrDigitFormComponent
     };
+    currentForm: IvrFormInterface;
+    isValidForm = false;
+    
     @ViewChild(HostIvrFormDirective) hostIvr: HostIvrFormDirective;
     @ViewChild('levelPanel', { read: ElementRef }) panel: ElementRef;
-    currentForm: IvrFormInterface;
 
     constructor(
         public service: IvrService,
@@ -75,14 +78,15 @@ export class IvrCreateComponent implements OnInit {
 
     ngOnInit(): void {
         this.loading++;
-        this.service.initReferences().then(() => {
-            if (this.id) {
-                this.getItem(this.id);
-            } else {
-                this.initEmptyModel();
-            }
-            this.loading--;
-        });
+        this.service.initReferences()
+            .then(() => {
+                if (this.id) {
+                    this.getItem(this.id);
+                } else {
+                    this.initEmptyModel();
+                }
+                this.loading--;
+            });
     }
 
     initExistsIvr(val) {

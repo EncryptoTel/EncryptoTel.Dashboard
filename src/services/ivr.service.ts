@@ -19,6 +19,7 @@ export class IvrService extends BaseService {
     item: IvrItem;
     references: any = {};
     currentSip: any;
+    
     reset() {
         this.item = new IvrItem();
     }

@@ -21,6 +21,7 @@ import { AddressBookComponent } from '../../components/address-book/address-book
 import { TariffStateService } from '../../services/state/tariff.state.service';
 import { ModalServices } from '@services/modal.service';
 import {StorageItem} from '@models/storage.model';
+import {IvrItem} from '@models/ivr.model';
 
 
 @Component({
@@ -109,6 +110,12 @@ export class TableComponent implements OnInit, OnDestroy {
                 body = '';
                 body = body.concat('Permanently delete<div><span>', item.fileName, '</span>&nbsp;file?</div>');
                 this.modal.buttons[1].value = 'Permanently Delete';
+                this.modal.body = body;
+            }
+            if (item instanceof IvrItem) {
+                const body: string = (<IvrItem>item).status > 0
+                    ? 'Are you sure you want to delete this active IVR?'
+                    : 'Are you sure you want to delete this IVR';
                 this.modal.body = body;
             }
             this.modal.visible = true;
