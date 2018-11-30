@@ -1,14 +1,15 @@
 <pbx-loader *ngIf="chats.length === 0"></pbx-loader>
 
-<div class="list">
+<div class="list_of_chats">
 
     <div class="search_wrap">
 
-        <div class="search_icon">
-            <svg-icon src="../../assets/images/chat/magnifier_18px.svg"></svg-icon>
-        </div> <!-- search-icon -->
-
-        <input type="text" name="searching" placeholder="Search people">
+        <div class="input_wrap">
+            <div class="search_icon">
+                <svg-icon src="../../assets/images/chat/magnifier_18px.svg"></svg-icon>
+            </div> <!-- search-icon -->
+            <input type="text" name="searching" placeholder="Search people">
+        </div> <!-- input_wrap -->
 
         <div class="create" (click)="changeCreateStatus()">
             <svg-icon src="../../assets/images/chat/create_18px.svg"></svg-icon>
@@ -57,13 +58,14 @@
     </div> <!-- items -->
 
 
-    <div class="add_people">
-        <svg-icon src="../../assets/images/chat/add_people_32px.svg"></svg-icon>
-    </div>
+    <!--<div class="add_people">-->
+        <!--<svg-icon src="../../assets/images/chat/add_people_32px.svg"></svg-icon>-->
+    <!--</div>-->
 
 </div> <!-- list -->
 
-<div class="talking" *ngIf="chats.length > 0"> <!-- can have the class 'group' - for group conversation -->
+
+<div class="single_chat" *ngIf="chats.length >= 0"> <!-- can have the class 'group' - for group conversation -->
 
     <div class="top">
         <div class="back">
@@ -122,12 +124,12 @@
 
     <div class="empty_text">No messages here yet</div>
 
-    <div class="input_wrap">
+    <div class="input_wrap" [ngClass]="message.length > 0 ? 'send':''">
         <div class="smiles">
             <svg-icon src="../../assets/images/chat/smiley_18px.svg"></svg-icon>
         </div> <!-- smiles -->
         <input type="text" placeholder="Write a message..." [(ngModel)]="message" (keyup)="onMessageKeyUp($event)">
-        <div class="files" (click)="dropdownFilesFunc()">
+        <div class="files" [ngClass]="dropdownFilesStatus ? 'active':''" (click)="dropdownFilesFunc()">
             <svg-icon src="../../assets/images/chat/clip_18px.svg"></svg-icon>
             <div class="dropdown_block" *ngIf="dropdownFilesStatus">
                 <div class="item">Photo or Video</div>
@@ -137,11 +139,13 @@
             </div> <!-- dropdown_block -->
         </div> <!-- files -->
         <div class="record">
-            <svg-icon src="../../assets/images/chat/microphone_18px.svg"></svg-icon>
+            <svg-icon class="mic" src="../../assets/images/chat/microphone_18px.svg"></svg-icon>
+            <svg-icon class="send" src="../../assets/images/chat/send_message.svg"></svg-icon>
         </div> <!-- record -->
     </div> <!-- input_wrap -->
 
 </div> <!-- talking -->
+
 
 <div class="new_group">
 
