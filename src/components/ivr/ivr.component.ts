@@ -33,7 +33,9 @@ export class IvrComponent implements OnInit {
     getItems() {
         this.loading ++;
         this.service.getItems(this.model)
-            .then(response => {})
+            .then(response => {
+                // console.log('ivr-list', response);
+            })
             .catch(() => {})
             .then(() => this.loading --);
     }

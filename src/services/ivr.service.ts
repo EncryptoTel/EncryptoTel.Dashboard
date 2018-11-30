@@ -44,7 +44,11 @@ export class IvrService extends BaseService {
         return super.getItems(pageInfo, filter)
             .then((response: IvrModel) => {
                 this.pageInfo = this.plainToClassEx(IvrModel, IvrItem, response);
-                console.log('ivr-page-info', this.pageInfo);
+                if (this.pageInfo.items) {
+                    this.pageInfo.items.forEach(item => {
+                        item.status = item.enabled ? 1 : 0;
+                    });
+                }
                 return Promise.resolve(this.pageInfo);
             });
     }
