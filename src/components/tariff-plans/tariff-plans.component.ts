@@ -105,17 +105,22 @@ export class TariffPlansComponent implements OnInit {
     fillTariffsData(tariffs: any): void {
         tariffs.map(tariff => {
             let price = 0;
+            let discountPrice = 0;
             let services: any;
             services = [];
             tariff.offers.map(offer => {
                 price += offer.service.sum;
+                discountPrice += offer.currentPrice.sum;
                 services.push({title: offer.service.title});
             });
             price = Math.round(price * 100) / 100;
+            discountPrice = Math.round(discountPrice * 100) / 100;
             this.tariffs.push({
                 id: tariff.id,
                 title: tariff.title,
+                tariffPrice: tariff.sum,
                 price: price,
+                discountPrice: discountPrice,
                 services: services
             });
         });
