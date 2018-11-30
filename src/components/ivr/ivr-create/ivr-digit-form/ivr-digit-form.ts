@@ -58,6 +58,10 @@ export class IvrDigitFormComponent extends FormBaseComponent
     ) {
         super(fb, message);
         this.onFormChange = new Subject();
+
+        this.validationHost.customMessages = [
+            {name: 'External number', error: 'pattern', message: 'Phone number contains invalid characters. You can only use numbers.'},
+        ];
     }
 
     onDelete: Function;

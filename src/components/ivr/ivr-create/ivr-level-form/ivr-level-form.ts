@@ -19,7 +19,7 @@ import {
 } from '@models/call-rules.model';
 import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import { FadeAnimation } from '@shared/fade-animation';
-import { nameRegExp, phoneRegExp } from '@shared/vars';
+import { nameRegExp, phoneRegExp, ivrNameRegExp } from '@shared/vars';
 import { MediaPlayerComponent } from '@elements/pbx-media-player/pbx-media-player.component';
 import { StorageService } from '@services/storage.service';
 import { MediaState, CdrMediaInfo } from '@models/cdr.model';
@@ -75,6 +75,9 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
         this.validationHost.customMessages = [
             {name: 'External number', error: 'pattern', message: 'Phone number contains invalid characters. You can only use numbers.'},
+            {name: 'Loop message', error: 'pattern', message: 'Loop message value should be from 1 to 5.'},
+            {name: 'IVR Name', error: 'pattern', message: 'IVR Name may contain letters, digits, dots and dashes only.'},
+            {name: 'Level Name', error: 'pattern', message: 'Level Name may contain letters, digits, dots and dashes only.'},
         ];
     }
 
@@ -105,12 +108,12 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 null,
                 this.data.levelNum === 1 ? [Validators.required] : []
             ],
-            name: ['', [Validators.required, Validators.pattern(nameRegExp)]],
+            name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(ivrNameRegExp)]],
             description: ['', [Validators.maxLength(255)]],
             voiceGreeting: [null, [Validators.required]],
             loopMessage: [
                 2,
-                [Validators.required, Validators.pattern('[0-9]*')]
+                [Validators.required, Validators.pattern('[1-5]')]
             ],
             action: [null],
             enabled: [null],
