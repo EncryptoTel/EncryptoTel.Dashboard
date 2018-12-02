@@ -2,21 +2,10 @@ import { plainToClass } from 'class-transformer';
 import {Validators} from '@angular/forms';
 
 import { BaseService } from '@services/base.service';
-import { IvrItem, IvrModel, IvrTreeItem } from '@models/ivr.model';
+import { IvrItem, IvrModel, IvrTreeItem, DigitActions } from '@models/ivr.model';
 import { PageInfoModel } from '@models/base.model';
 import {addressPhoneRegExp} from '@shared/vars';
 
-
-export enum DigitActions {
-    REDIRECT_TO_EXT = '1',
-    REDIRECT_TO_NUM = '2',
-    REDIRECT_TO_QUEUE = '3',
-    REDIRECT_TO_RING_GROUP = '4',
-    CANCEL_CALL = '6',
-    GO_TO_LEVEL = '7',
-    REPEAT_LEVEL = '8',
-    REDIRECT_TO_INTEGRATION = '9'
-}
 
 export class IvrService extends BaseService {
     pageInfo: IvrModel = new IvrModel();

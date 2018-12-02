@@ -11,7 +11,7 @@ import {
 import { IvrService } from '@services/ivr.service';
 import { RefsServices } from '@services/refs.services';
 import { MessageServices } from '@services/message.services';
-import { IvrLevel } from '@models/ivr.model';
+import { IvrLevel, DigitActions } from '@models/ivr.model';
 import {
     CallRuleDay,
     CallRuleTimeType,
@@ -89,6 +89,10 @@ export class IvrLevelFormComponent extends FormBaseComponent
         this.initFiles();
         super.ngOnInit();
         this.service.reset();
+
+        if (!this.data.action) {
+            this.data.action = DigitActions.CANCEL_CALL;
+        }
         this.form.patchValue(this.data);
     }
 

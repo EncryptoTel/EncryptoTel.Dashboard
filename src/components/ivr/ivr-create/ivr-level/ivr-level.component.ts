@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 
 import { FadeAnimation } from '@shared/fade-animation';
-import { IvrTreeItem, IvrLevelItem, IvrLevel, Digit } from '@models/ivr.model';
+import { IvrTreeItem, IvrLevelItem, IvrLevel, Digit, DigitActions } from '@models/ivr.model';
 import {
     ModalEx,
     ModalComponent
 } from '@elements/pbx-modal/pbx-modal.component';
 import { ModalServices } from '@services/modal.service';
-import { IvrService, DigitActions } from '@services/ivr.service';
+import { IvrService } from '@services/ivr.service';
 
 @Component({
     selector: 'pbx-ivr-level',

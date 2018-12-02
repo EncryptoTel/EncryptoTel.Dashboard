@@ -18,13 +18,8 @@ import { IvrFormInterface } from '../form.interface';
 import { validateFormControls } from '@shared/shared.functions';
 import { Subscription } from 'rxjs/Subscription';
 import { ModalEx } from '@elements/pbx-modal/pbx-modal.component';
-import { IvrLevel } from '@models/ivr.model';
+import { IvrLevel, DigitActions } from '@models/ivr.model';
 
-export enum DigitActions {
-    EXTENSION_NUMBER = 1,
-    EXTERNAL_NUMBER = 2,
-    SEND_TO_IVR = 3
-}
 
 @Component({
     selector: 'pbx-ivr-digit-form',
@@ -71,6 +66,9 @@ export class IvrDigitFormComponent extends FormBaseComponent
         this.initAvaliableDigit();
         super.ngOnInit();
         this.service.reset();
+        if (!this.data.action) {
+            this.data.action = DigitActions.CANCEL_CALL;
+        }
         this.digitForm.patchValue(this.data);
     }
 
