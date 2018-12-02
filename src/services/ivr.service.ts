@@ -171,15 +171,8 @@ export class IvrService extends BaseService {
                     break;
                 case DigitActions.REPEAT_LEVEL:
                     paramsInfo.label = 'Ivr repeat level';
-                    paramsInfo.option = levels.map(l => {
-                        return { id: l.levelNum, name: l.name };
-                    });
-                    paramsInfo.option.push({
-                        id: -1,
-                        name: 'new level'
-                    });
-                    paramsInfo.visible = true;
-                    paramsInfo.validators = [Validators.required];
+                    paramsInfo.option = undefined;
+                    paramsInfo.visible = false;
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_INTEGRATION:
