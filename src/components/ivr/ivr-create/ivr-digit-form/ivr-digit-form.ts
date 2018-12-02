@@ -105,7 +105,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
 
         this.digitForm.get('parameter').valueChanges.subscribe(val => {
             if (this.digitForm.value.action === '7' && val === -1) {
-                console.log(val);
+                // console.log(val);
                 val = this.onAddLevel(new IvrLevel());
                 this.digitForm
                     .get('parameter')

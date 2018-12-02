@@ -19,7 +19,7 @@ import { ValidationErrors } from '@angular/forms';
 
 import { IvrService } from '@services/ivr.service';
 import { MessageServices } from '@services/message.services';
-import { IvrItem, IvrLevel, IvrLevelBase, Digit } from '@models/ivr.model';
+import { IvrItem, IvrLevel, IvrLevelBase, Digit, MAX_IVR_LEVEL_COUNT } from '@models/ivr.model';
 import { FadeAnimation } from '@shared/fade-animation';
 import { StorageService } from '@services/storage.service';
 import { HostIvrFormDirective } from './directive/host.directive';
@@ -77,7 +77,7 @@ export class IvrCreateComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loading++;
+        this.loading ++;
         this.service.initReferences()
             .then(() => {
                 if (this.id) {
@@ -85,13 +85,14 @@ export class IvrCreateComponent implements OnInit {
                 } else {
                     this.initEmptyModel();
                 }
-                this.loading--;
+                this.loading --;
             });
     }
 
     initExistsIvr(val) {
         this.modelFromServer = val;
         this.ivrLevels = this.convertIvrItems(this.modelFromServer);
+        // console.log('ivr-levels', this.ivrLevels);
         if (this.ivrLevels.length > 0) {
             this.loadForm(this.forms.levelForm, this.ivrLevels[0]);
         }
@@ -99,14 +100,13 @@ export class IvrCreateComponent implements OnInit {
     }
 
     getItem(id) {
-        this.loading++;
-        this.service
-            .getById(id)
+        this.loading ++;
+        this.service.getById(id)
             .then(val => {
                 this.initExistsIvr(val);
             })
             .catch(() => {})
-            .then(() => this.loading--);
+            .then(() => this.loading --);
     }
 
     initEmptyModel() {
@@ -161,14 +161,14 @@ export class IvrCreateComponent implements OnInit {
             const controlErrors: ValidationErrors = form.get(key).errors;
             if (controlErrors != null) {
                 Object.keys(controlErrors).forEach(keyError => {
-                    console.log(
-                        'Key control: ' +
-                            key +
-                            ', keyError: ' +
-                            keyError +
-                            ', err value: ',
-                        controlErrors[keyError]
-                    );
+                    // console.log(
+                    //     'Key control: ' +
+                    //         key +
+                    //         ', keyError: ' +
+                    //         keyError +
+                    //         ', err value: ',
+                    //     controlErrors[keyError]
+                    // );
                 });
             }
         });
@@ -211,7 +211,8 @@ export class IvrCreateComponent implements OnInit {
                 })
                 .value();
             return _.orderBy(result, ['levelNum']);
-        } catch (error) {
+        } 
+        catch (error) {
             console.error(error);
         }
     }
@@ -350,10 +351,12 @@ export class IvrCreateComponent implements OnInit {
     }
 
     addLevel(l) {
-        l.levelNum = this.ivrLevels.length + 1;
-        this.currentDigit.parameter = l.levelNum;
-        l.isVisible = true;
-        this.onIvrSelected({ level: l, digit: undefined });
+        if (this.ivrLevels.length + 1 <= MAX_IVR_LEVEL_COUNT) {
+            l.levelNum = this.ivrLevels.length + 1;
+            this.currentDigit.parameter = l.levelNum;
+            l.isVisible = true;
+            this.onIvrSelected({ level: l, digit: undefined });
+        }
         return l.levelNum;
     }
 

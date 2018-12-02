@@ -1,5 +1,7 @@
 import { BaseItemModel, PageInfoModel } from './base.model';
 
+export const MAX_IVR_LEVEL_COUNT = 6;
+
 export enum DigitActions {
     REDIRECT_TO_EXT = '1',
     REDIRECT_TO_NUM = '2',

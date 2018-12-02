@@ -1,7 +1,7 @@
 <div class="item one_up" [ngClass]="{ 'one_up': level.levelNum===1, 'two': level.levelNum!==1 }"> <!-- class two and one_up-->
 
     <div class="top" (click)="onSelectLevel()" [ngClass]="{ 'selected': selectedItem === level }">
-        <div class="desc">{{ level.description }}</div>
+        <div class="desc">{{ levelDescription }}</div>
         <div class="title">{{ level.name }}</div>
     </div> <!-- top -->
 
@@ -25,7 +25,7 @@
     </div> <!-- numbers -->
 
     <div class="buttons">
-        <pbx-button value="Add Digit" buttonType="accent" (onClick)="addDigit()" *ngIf="isValidForm"></pbx-button>
+        <pbx-button value="Add Digit" buttonType="accent" (onClick)="addDigit()" *ngIf="addDigitButtonVisible"></pbx-button>
         <pbx-button value="Delete Level IVR" buttonType="error" *ngIf="level.levelNum!==1" (onClick)="deleteLevel()"></pbx-button>
     </div> <!-- buttons -->
 

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { FadeAnimation } from '@shared/fade-animation';
-import { IvrTreeItem, IvrLevelItem, IvrLevel, Digit, DigitActions } from '@models/ivr.model';
+import { IvrTreeItem, IvrLevelItem, IvrLevel, Digit, DigitActions, MAX_IVR_LEVEL_COUNT } from '@models/ivr.model';
 import {
     ModalEx,
     ModalComponent
@@ -25,12 +25,25 @@ import { IvrService } from '@services/ivr.service';
 export class IvrLevelComponent implements OnInit, OnDestroy {
     @Input() level: IvrLevel;
     @Input() isValidForm: boolean;
+    
     @Output() ivrSelected: EventEmitter<any> = new EventEmitter<any>();
     @Output() onCancelEdit: EventEmitter<any> = new EventEmitter<any>();
     @Output() onDeleteLevel: EventEmitter<IvrLevel> = new EventEmitter<IvrLevel>();
+    
     modal: ModalEx;
     modalWnd: ModalComponent;
     selectedItem: any;
+    
+    get levelDescription(): string {
+        return !this.level || this.level.levelNum === 1
+            ? 'IVR Menu'
+            : `Level ${this.level.levelNum - 1}`;
+    }
+
+    get addDigitButtonVisible(): boolean {
+        return this.isValidForm && this.level && this.level.levelNum < MAX_IVR_LEVEL_COUNT;
+    }
+
     constructor(
         private modalService: ModalServices,
         private service: IvrService
@@ -44,6 +57,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.selectedItem = this.level;
+        // console.log('ivr-level', this.level);
     }
 
     onSelectDigit(digit: Digit) {
