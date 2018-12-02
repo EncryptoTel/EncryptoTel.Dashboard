@@ -137,6 +137,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     this.paramsInfo = response;
                     this.form.get('parameter').setValidators(this.paramsInfo.validators)
                     this.form.get('parameter').setValue(null);
+                    this.form.get('parameter').markAsUntouched();
                     this.validationHost.initItems();
                 })
                 .catch(() => {})

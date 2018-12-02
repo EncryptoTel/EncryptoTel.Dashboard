@@ -102,7 +102,7 @@ export class IvrService extends BaseService {
         });
     }
 
-    showParameter(val, sipId, levels): any {
+    showParameter(action, sipId, levels): any {
         const paramsInfo = {
             label: '',
             option: [],
@@ -111,7 +111,7 @@ export class IvrService extends BaseService {
         };
 
         return new Promise((resolve, reject) => {
-            switch (val.toString()) {
+            switch (action.toString()) {
                 case DigitActions.REDIRECT_TO_EXT:
                     const sip = this.references.sip.find(x => x.id === sipId);
                     paramsInfo.option = sip
