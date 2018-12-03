@@ -1,5 +1,18 @@
 import { BaseItemModel, PageInfoModel } from './base.model';
 
+export const MAX_IVR_LEVEL_COUNT = 6;
+
+export enum DigitActions {
+    REDIRECT_TO_EXT = '1',
+    REDIRECT_TO_NUM = '2',
+    REDIRECT_TO_QUEUE = '3',
+    REDIRECT_TO_RING_GROUP = '4',
+    CANCEL_CALL = '6',
+    GO_TO_LEVEL = '7',
+    REPEAT_LEVEL = '8',
+    REDIRECT_TO_INTEGRATION = '9'
+}
+
 export class IvrModel extends PageInfoModel {
     items: IvrItem[];
 }
@@ -11,7 +24,9 @@ export class IvrItem extends BaseItemModel {
     description: string;
     status: number = 0;
     enabled: boolean;
+    
     tree: IvrTreeItem[] = [];
+    
     dateType: string;
     dateValue: string;
     timeType: string;
@@ -19,6 +34,7 @@ export class IvrItem extends BaseItemModel {
     timeoutAction: string;
     timeoutParams: string;
     loopMessage: number;
+    
     constructor() {
         super();
         this.name = '';

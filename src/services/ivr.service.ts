@@ -1,24 +1,18 @@
-import { BaseService } from '@services/base.service';
-import { IvrItem, IvrModel, IvrTreeItem } from '@models/ivr.model';
-import { PageInfoModel } from '@models/base.model';
 import { plainToClass } from 'class-transformer';
+import {Validators} from '@angular/forms';
 
-export enum DigitActions {
-    REDIRECT_TO_EXT = '1',
-    REDIRECT_TO_NUM = '2',
-    REDIRECT_TO_QUEUE = '3',
-    REDIRECT_TO_RING_GROUP = '4',
-    CANCEL_CALL = '6',
-    GO_TO_LEVEL = '7',
-    REPEAT_LEVEL = '8',
-    REDIRECT_TO_INTEGRATION = '9'
-}
+import { BaseService } from '@services/base.service';
+import { IvrItem, IvrModel, IvrTreeItem, DigitActions } from '@models/ivr.model';
+import { PageInfoModel } from '@models/base.model';
+import {addressPhoneRegExp} from '@shared/vars';
+
 
 export class IvrService extends BaseService {
     pageInfo: IvrModel = new IvrModel();
     item: IvrItem;
     references: any = {};
     currentSip: any;
+    
     reset() {
         this.item = new IvrItem();
     }
@@ -40,10 +34,16 @@ export class IvrService extends BaseService {
     }
 
     getItems(pageInfo: PageInfoModel, filter = null): Promise<IvrModel> {
-        return super.getItems(pageInfo, filter).then((res: IvrModel) => {
-            this.pageInfo = this.plainToClassEx(IvrModel, IvrItem, res);
-            return Promise.resolve(this.pageInfo);
-        });
+        return super.getItems(pageInfo, filter)
+            .then((response: IvrModel) => {
+                this.pageInfo = this.plainToClassEx(IvrModel, IvrItem, response);
+                if (this.pageInfo.items) {
+                    this.pageInfo.items.forEach(item => {
+                        item.status = item.enabled ? 1 : 0;
+                    });
+                }
+                return Promise.resolve(this.pageInfo);
+            });
     }
 
     getExtensions(id: number): Promise<any> {
@@ -81,7 +81,7 @@ export class IvrService extends BaseService {
             this.getQueue(),
             this.getRingGroup()
         ]).then(res => {
-            this.references.sip = res[0].items;
+            this.references.sip = !!res[0].items ? res[0].items : [];
             const action = res[1].actions;
             this.references.params = Object.keys(action).map(val => {
                 return { id: val, code: action[val] };
@@ -91,14 +91,16 @@ export class IvrService extends BaseService {
         });
     }
 
-    showParameter(val, sipId, levels): any {
+    showParameter(action, sipId, levels): any {
         const paramsInfo = {
             label: '',
             option: [],
-            visible: true
+            visible: true,
+            validators: []
         };
+
         return new Promise((resolve, reject) => {
-            switch (val.toString()) {
+            switch (action.toString()) {
                 case DigitActions.REDIRECT_TO_EXT:
                     const sip = this.references.sip.find(x => x.id === sipId);
                     paramsInfo.option = sip
@@ -108,12 +110,14 @@ export class IvrService extends BaseService {
                         : undefined;
                     paramsInfo.label = 'Extension number';
                     paramsInfo.visible = true;
+                    paramsInfo.validators = [Validators.required];
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_NUM:
                     paramsInfo.label = 'External number';
                     paramsInfo.option = undefined;
                     paramsInfo.visible = true;
+                    paramsInfo.validators = [Validators.required, Validators.minLength(6), Validators.maxLength(16), Validators.pattern(addressPhoneRegExp)];
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_QUEUE:
@@ -122,6 +126,7 @@ export class IvrService extends BaseService {
                         return { id: x.id, name: x.name };
                     });
                     paramsInfo.visible = true;
+                    paramsInfo.validators = [Validators.required];
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_RING_GROUP:
@@ -130,6 +135,7 @@ export class IvrService extends BaseService {
                         return { id: x.id, name: x.name };
                     });
                     paramsInfo.visible = true;
+                    paramsInfo.validators = [Validators.required];
                     resolve(paramsInfo);
 
                     break;
@@ -149,18 +155,13 @@ export class IvrService extends BaseService {
                         name: 'new level'
                     });
                     paramsInfo.visible = true;
+                    paramsInfo.validators = [Validators.required];
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REPEAT_LEVEL:
                     paramsInfo.label = 'Ivr repeat level';
-                    paramsInfo.option = levels.map(l => {
-                        return { id: l.levelNum, name: l.name };
-                    });
-                    paramsInfo.option.push({
-                        id: -1,
-                        name: 'new level'
-                    });
-                    paramsInfo.visible = true;
+                    paramsInfo.option = undefined;
+                    paramsInfo.visible = false;
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_INTEGRATION:

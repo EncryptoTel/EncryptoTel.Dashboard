@@ -10,6 +10,8 @@ export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.
 export const simpleNameRegExp = new RegExp(/^[a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]+$/i);
 export const nameRegExp = new RegExp(/^([А-Яа-яA-Za-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\-\. ']+)?)+$/i);
 
+export const ivrNameRegExp = new RegExp(/^([А-Яа-яA-Za-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\-\.']+)?)+$/i);
+
 export const numberRegExp = new RegExp(/^\d+$/);
 export const phoneRegExp = new RegExp(/^\d{6,16}$/m);
 

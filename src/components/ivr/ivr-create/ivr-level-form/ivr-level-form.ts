@@ -11,7 +11,7 @@ import {
 import { IvrService } from '@services/ivr.service';
 import { RefsServices } from '@services/refs.services';
 import { MessageServices } from '@services/message.services';
-import { IvrLevel } from '@models/ivr.model';
+import { IvrLevel, DigitActions } from '@models/ivr.model';
 import {
     CallRuleDay,
     CallRuleTimeType,
@@ -19,7 +19,7 @@ import {
 } from '@models/call-rules.model';
 import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import { FadeAnimation } from '@shared/fade-animation';
-import { nameRegExp, phoneRegExp } from '@shared/vars';
+import { nameRegExp, phoneRegExp, ivrNameRegExp } from '@shared/vars';
 import { MediaPlayerComponent } from '@elements/pbx-media-player/pbx-media-player.component';
 import { StorageService } from '@services/storage.service';
 import { MediaState, CdrMediaInfo } from '@models/cdr.model';
@@ -56,7 +56,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
     paramsInfo = {
         label: '',
         option: [],
-        visible: false
+        visible: false,
+        validators: [],
     };
     // -- properties ----------------------------------------------------------
 
@@ -71,22 +72,27 @@ export class IvrLevelFormComponent extends FormBaseComponent
     ) {
         super(fb, message);
         this.onFormChange = new Subject();
+
+        this.validationHost.customMessages = [
+            {name: 'External number', error: 'pattern', message: 'Phone number contains invalid characters. You can only use numbers.'},
+            {name: 'Loop message', error: 'pattern', message: 'Loop message value should be from 1 to 5.'},
+            {name: 'IVR Name', error: 'pattern', message: 'IVR Name may contain letters, digits, dots and dashes only.'},
+            {name: 'Level Name', error: 'pattern', message: 'Level Name may contain letters, digits, dots and dashes only.'},
+        ];
     }
 
     getData() {
-        if (this.form.valid) {
-            return this.form.value;
-        } else {
-            validateFormControls(this.form);
-        }
-        this.validationHost.clearControlsFocusedState();
-        return null;
+        return this.validateForms() ? this.form.value : null;
     }
 
     ngOnInit() {
         this.initFiles();
         super.ngOnInit();
         this.service.reset();
+
+        if (!this.data.action) {
+            this.data.action = DigitActions.CANCEL_CALL;
+        }
         this.form.patchValue(this.data);
     }
 
@@ -106,44 +112,51 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 null,
                 this.data.levelNum === 1 ? [Validators.required] : []
             ],
-            name: ['', [Validators.required, Validators.pattern(nameRegExp)]],
+            name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(ivrNameRegExp)]],
             description: ['', [Validators.maxLength(255)]],
             voiceGreeting: [null, [Validators.required]],
             loopMessage: [
                 2,
-                [Validators.required, Validators.pattern('[0-9]*')]
+                [Validators.required, Validators.pattern('[1-5]')]
             ],
             action: [null],
             enabled: [null],
             parameter: [null],
             levelNum: [null]
         });
+        
         this.form.statusChanges.subscribe(() => {
             this.onFormChange.next(this.form);
         });
+        
         this.form.get('action').valueChanges.subscribe(val => {
-            this.loading++;
+            this.loading ++;
             this.service
                 .showParameter(
                     val,
                     this.form.value.sipId || this.data.sipId,
                     this.references.levels
                 )
-                .then(res => {
-                    this.paramsInfo = res;
-                    this.loading--;
+                .then(response => {
+                    this.paramsInfo = response;
+                    this.form.get('parameter').setValidators(this.paramsInfo.validators)
+                    this.form.get('parameter').setValue(null);
+                    this.form.get('parameter').markAsUntouched();
+                    this.validationHost.initItems();
                 })
-                .catch(() => {
-                    this.loading--;
-                });
+                .catch(() => {})
+                .then(() => this.loading --);
         });
+        
         this.form.get('sipId').valueChanges.subscribe(val => {
             this.references.sipId = val;
             this.service.currentSip = val;
         });
+        
         this.form.get('voiceGreeting').valueChanges.subscribe(val => {
             this.selectFile(val);
         });
+        
         this.addForm(this.formKey, this.form);
     }
 

@@ -5,16 +5,34 @@ pbx-sign-up-tariff-plans
             background: transparent
             outline: 1px solid $dark_accent
             color: $dark_accent
+    .tariff_item__description
+        .tariff_item__description_price.old_price
+            margin-top: 0
+            text-decoration: line-through
+            color: $dark_white
+    .tariff_wrap_items
+        grid-template-columns: repeat(3, minmax(290px, 1fr)) !important
+        .tariff_item__description_price
+            span
+                font-weight: 400
 
 pbx-tariff-plans
     .tariff_item
         background: $dark_accent !important
+        .tariff_item_price.old_price
+            margin-top: 0
+            text-decoration: line-through
+            color: $dark_white
         &.current_tariff
             background: $dark_tariff_plan_current_bg !important
         .tariff_item_button
             background: $dark_white_25 !important
             color: $dark_white !important
     .tariff_list
+        grid-template-columns: repeat(3, minmax(290px, 1fr)) !important
+        .tariff_item_price
+            span
+                font-weight: 400
     .info
         padding: 32px 66px 32px 56px
         flex-direction: column

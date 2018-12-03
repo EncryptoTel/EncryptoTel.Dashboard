@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
 
 import {SwipeAnimation} from '../../shared/swipe-animation';
 @Component({
@@ -8,7 +8,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
     animations: [SwipeAnimation('y', '200ms')]
 })
 
-export class SelectComponent implements OnInit {
+export class SelectComponent implements OnInit, OnChanges {
     @Input() name: string;
     @Input() singleBorder: boolean;
     @Input() options: any[];
@@ -68,6 +68,15 @@ export class SelectComponent implements OnInit {
 
     ngOnInit() {
         // console.log('select', this.options, this.objectKey, this.options[0][this.objectKey]);
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.options 
+            && changes.options.currentValue
+            && changes.options.currentValue !== changes.options.previousValue
+            && changes.options.previousValue !== undefined) {
+            this._selected = null;
+        }
     }
 
     calcPosition(): string {

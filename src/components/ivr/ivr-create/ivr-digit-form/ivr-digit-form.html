@@ -45,8 +45,17 @@
                >
     </pbx-input>
 
-    <pbx-input name="{{paramsInfo.label | translate }}" key="parameter" [required]="true" [form]="true" [object]="digitForm" [options]="paramsInfo.option"
-        [(errors)]="service.errors" [validationHost]="validationHost" *ngIf="paramsInfo.visible" displayKey="name">
+    <pbx-input *ngIf="paramsInfo.visible"
+               name="{{paramsInfo.label | translate }}" 
+               key="parameter"
+               [required]="true"
+               [form]="true"
+               [object]="digitForm"
+               [options]="paramsInfo.option"
+               [(errors)]="service.errors"
+               [validationHost]="validationHost"
+               displayKey="name"
+               >
     </pbx-input>
 </ng-container>
 </div>
