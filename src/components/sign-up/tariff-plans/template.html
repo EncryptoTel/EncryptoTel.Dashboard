@@ -12,11 +12,11 @@
                             *ngFor="let service of tariff.services">{{service.title}}
                         </li>
                     </ul>
-                    <p class="tariff_item__description_price" style="text-decoration: line-through; margin: 0 0;">
-                        {{tariff.title === 'Basic' ? '' : 'From $' + tariff.tariffPrice +'/monthly'}}
-                    </p>
                     <p class="tariff_item__description_price">
-                        {{tariff.title === 'Basic' ? 'FREE' : 'From $' + tariff.discountPrice +'/monthly'}}
+                        {{tariff.title === 'Basic' ? 'FREE' : '$' + tariff.discountPrice +'/monthly'}}
+                    </p>
+                    <p class="tariff_item__description_price old_price">
+                        {{tariff.title === 'Basic' ? '' : '$' + tariff.tariffPrice +'/monthly'}}
                     </p>
                 </div>
                 <button class="tariff_item__button"
