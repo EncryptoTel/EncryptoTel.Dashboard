@@ -18,13 +18,8 @@ import { IvrFormInterface } from '../form.interface';
 import { validateFormControls } from '@shared/shared.functions';
 import { Subscription } from 'rxjs/Subscription';
 import { ModalEx } from '@elements/pbx-modal/pbx-modal.component';
-import { IvrLevel } from '@models/ivr.model';
+import { IvrLevel, DigitActions } from '@models/ivr.model';
 
-export enum DigitActions {
-    EXTENSION_NUMBER = 1,
-    EXTERNAL_NUMBER = 2,
-    SEND_TO_IVR = 3
-}
 
 @Component({
     selector: 'pbx-ivr-digit-form',
@@ -47,7 +42,8 @@ export class IvrDigitFormComponent extends FormBaseComponent
     paramsInfo = {
         label: '',
         option: [],
-        visible: false
+        visible: false,
+        validators: [],
     };
     onFormChange: Subject<any>;
     constructor(
@@ -57,6 +53,10 @@ export class IvrDigitFormComponent extends FormBaseComponent
     ) {
         super(fb, message);
         this.onFormChange = new Subject();
+
+        this.validationHost.customMessages = [
+            {name: 'External number', error: 'pattern', message: 'Phone number contains invalid characters. You can only use numbers.'},
+        ];
     }
 
     onDelete: Function;
@@ -66,6 +66,9 @@ export class IvrDigitFormComponent extends FormBaseComponent
         this.initAvaliableDigit();
         super.ngOnInit();
         this.service.reset();
+        if (!this.data.action) {
+            this.data.action = DigitActions.CANCEL_CALL;
+        }
         this.digitForm.patchValue(this.data);
     }
 
@@ -76,7 +79,9 @@ export class IvrDigitFormComponent extends FormBaseComponent
             action: [null, [Validators.required]],
             parameter: [null, [Validators.required]]
         });
+        
         this.addForm(this.digitFormKey, this.digitForm);
+        
         this.digitForm.get('action').valueChanges.subscribe(val => {
             this.loading++;
             this.service
@@ -85,11 +90,12 @@ export class IvrDigitFormComponent extends FormBaseComponent
                     this.references.sipId,
                     this.references.levels
                 )
-                .then(res => {
-                    this.paramsInfo = res;
-                    if (!res.visible) {
-                        this.digitForm.get('parameter').setValidators([]);
-                    }
+                .then(response => {
+                    this.paramsInfo = response;
+                    this.digitForm.get('parameter').setValidators(this.paramsInfo.validators)
+                    this.digitForm.get('parameter').setValue(null);
+                    this.digitForm.get('parameter').markAsUntouched();
+                    this.validationHost.initItems();
                 })
                 .catch(() => {})
                 .then(() => {
@@ -99,7 +105,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
 
         this.digitForm.get('parameter').valueChanges.subscribe(val => {
             if (this.digitForm.value.action === '7' && val === -1) {
-                console.log(val);
+                // console.log(val);
                 val = this.onAddLevel(new IvrLevel());
                 this.digitForm
                     .get('parameter')
@@ -107,19 +113,14 @@ export class IvrDigitFormComponent extends FormBaseComponent
                 console.log(val);
             }
         });
+        
         this.digitForm.statusChanges.subscribe(() => {
             this.onFormChange.next(this.digitForm);
         });
     }
 
     getData() {
-        if (this.digitForm.valid) {
-            return this.digitForm.value;
-        } else {
-            validateFormControls(this.digitForm);
-        }
-        this.validationHost.clearControlsFocusedState();
-        return null;
+        return this.validateForms() ? this.form.value : null;
     }
 
     getExtensions(id: number): void {
@@ -143,7 +144,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
         for (let i = 1; i <= 10; i++) {
             const number = i % 10;
             if (
-                !this.references.usedDiget.includes(i.toString()) ||
+                !this.references.usedDigit.includes(i.toString()) ||
                 i.toString() === this.data.digit
             ) {
                 this.digits.push({
@@ -153,13 +154,13 @@ export class IvrDigitFormComponent extends FormBaseComponent
             }
         }
         if (
-            !this.references.usedDiget.includes('*') ||
+            !this.references.usedDigit.includes('*') ||
             this.data.digit === '*'
         ) {
             this.digits.push({ id: '*', title: '*' });
         }
         if (
-            !this.references.usedDiget.includes('#') ||
+            !this.references.usedDigit.includes('#') ||
             this.data.digit === '#'
         ) {
             this.digits.push({ id: '#', title: '#' });

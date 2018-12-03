@@ -17,6 +17,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     messages: MessageModel[] = [];
     chats: ChatModel[] = [];
     message: string = '';
+    groupName: string = '';
     messagesSubscription: Subscription;
     chatsSubscription: Subscription;
     selected: number = 0;

@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 
 import { FadeAnimation } from '@shared/fade-animation';
-import { IvrTreeItem, IvrLevelItem, IvrLevel, Digit } from '@models/ivr.model';
+import { IvrTreeItem, IvrLevelItem, IvrLevel, Digit, DigitActions, MAX_IVR_LEVEL_COUNT } from '@models/ivr.model';
 import {
     ModalEx,
     ModalComponent
 } from '@elements/pbx-modal/pbx-modal.component';
 import { ModalServices } from '@services/modal.service';
-import { IvrService, DigitActions } from '@services/ivr.service';
+import { IvrService } from '@services/ivr.service';
 
 @Component({
     selector: 'pbx-ivr-level',
@@ -25,12 +25,25 @@ import { IvrService, DigitActions } from '@services/ivr.service';
 export class IvrLevelComponent implements OnInit, OnDestroy {
     @Input() level: IvrLevel;
     @Input() isValidForm: boolean;
+    
     @Output() ivrSelected: EventEmitter<any> = new EventEmitter<any>();
     @Output() onCancelEdit: EventEmitter<any> = new EventEmitter<any>();
     @Output() onDeleteLevel: EventEmitter<IvrLevel> = new EventEmitter<IvrLevel>();
+    
     modal: ModalEx;
     modalWnd: ModalComponent;
     selectedItem: any;
+    
+    get levelDescription(): string {
+        return !this.level || this.level.levelNum === 1
+            ? 'IVR Menu'
+            : `Level ${this.level.levelNum - 1}`;
+    }
+
+    get addDigitButtonVisible(): boolean {
+        return this.isValidForm && this.level && this.level.levelNum < MAX_IVR_LEVEL_COUNT;
+    }
+
     constructor(
         private modalService: ModalServices,
         private service: IvrService
@@ -44,6 +57,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.selectedItem = this.level;
+        // console.log('ivr-level', this.level);
     }
 
     onSelectDigit(digit: Digit) {
@@ -94,34 +108,40 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     getParameter(val) {
         switch (val.action.toString()) {
             case DigitActions.REDIRECT_TO_EXT:
-                const sip = this.service.references.sip.find(
-                    x => x.id === this.service.currentSip
-                );
-                if (sip) {
-                    const inner = sip.sipInners.find(
-                        x => x.id === val.parameter
+                if (this.service.references.sip) {
+                    const sip = this.service.references.sip.find(
+                        x => x.id === this.service.currentSip
                     );
-                    if (inner) {
-                        return inner.phoneNumber;
+                    if (sip) {
+                        const inner = sip.sipInners.find(
+                            x => x.id === val.parameter
+                        );
+                        if (inner) {
+                            return inner.phoneNumber;
+                        }
                     }
                 }
                 return '';
             case DigitActions.REDIRECT_TO_NUM:
                 return val.parameter;
             case DigitActions.REDIRECT_TO_QUEUE:
-                const rtq = this.service.references.queue.find(
-                    x => x.id === val.parameter
-                );
-                if (rtq) {
-                    return rtq.name;
+                if (this.service.references.queue) {
+                    const rtq = this.service.references.queue.find(
+                        x => x.id === val.parameter
+                    );
+                    if (rtq) {
+                        return rtq.name;
+                    }
                 }
                 return '';
             case DigitActions.REDIRECT_TO_RING_GROUP:
-                const rtr = this.service.references.queue.find(
-                    x => x.id === val.parameter
-                );
-                if (rtr) {
-                    return rtr.name;
+                if (this.service.references.ringGroup) {
+                    const rtr = this.service.references.ringGroup.find(
+                        x => x.id === val.parameter
+                    );
+                    if (rtr) {
+                        return rtr.name;
+                    }
                 }
                 return '';
             case DigitActions.CANCEL_CALL:

@@ -5,10 +5,19 @@ pbx-sign-up-tariff-plans
             background: transparent
             outline: 1px solid $dark_accent
             color: $dark_accent
+    .tariff_item__description
+        .tariff_item__description_price.old_price
+            margin-top: 0
+            text-decoration: line-through
+            color: $dark_white
 
 pbx-tariff-plans
     .tariff_item
         background: $dark_accent !important
+        .tariff_item_price.old_price
+            margin-top: 0
+            text-decoration: line-through
+            color: $dark_white
         &.current_tariff
             background: $dark_tariff_plan_current_bg !important
         .tariff_item_button

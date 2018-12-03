@@ -31,10 +31,23 @@ export class SignUpTariffPlansComponent implements OnInit {
         this.services.getTariffPlans()
             .then(res => {
                 res.map(tariff => {
+                    let servicePrice = 0;
+                    let discountPrice = 0;
+                    let tariffPrice = 0;
+
+                    tariff.offers.map(offer => {
+                        servicePrice += offer.service.sum;
+                        discountPrice += offer.currentPrice.sum;
+                    });
+                    servicePrice = Math.round(servicePrice * 100) / 100;
+                    discountPrice = Math.round(discountPrice * 100) / 100;
+                    tariffPrice = Math.round(tariff.sum * 100) / 100;
                     this.tariffs.push({
                         id: tariff.id,
                         title: tariff.title,
-                        price: tariff.sum,
+                        tariffPrice: tariffPrice,
+                        servicePrice: servicePrice,
+                        discountPrice: discountPrice,
                         services: []
                     });
                     tariff.offers.map(offer => {

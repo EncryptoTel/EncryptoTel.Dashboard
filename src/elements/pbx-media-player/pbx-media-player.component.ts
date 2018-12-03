@@ -40,9 +40,8 @@ export class MediaPlayerComponent implements OnChanges {
             : MediaState.PAUSED;
     }
 
-    constructor() {
-        console.log('media player created');
-    }
+    constructor()
+    {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.mediaStream && changes.mediaStream.currentValue) {
