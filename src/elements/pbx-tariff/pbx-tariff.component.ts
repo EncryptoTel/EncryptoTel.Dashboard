@@ -28,19 +28,19 @@ export class TariffComponent {
 
     get cost(): string {
         return this.value.discountPrice > 0
-            ? '<span>$' + this.value.price + '</span>/monthly'
+            ? '<span>$' + this.value.price + '</span> / monthly'
             : 'Free';
     }
 
     get discountPrice(): string {
         return this.value.discountPrice > 0
-            ? '<span>$' + this.value.discountPrice + '</span>/monthly'
+            ? '<span>$' + this.value.discountPrice + '</span> / monthly'
             : '';
     }
 
     get tariffPrice(): string {
         return this.value.tariffPrice > 0
-            ? '<span>$' + this.value.tariffPrice + '</span>/monthly'
+            ? '<span>$' + this.value.tariffPrice + '</span> / monthly'
             : '';
     }
 
