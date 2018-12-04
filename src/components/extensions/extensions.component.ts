@@ -1,13 +1,11 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ExtensionService} from '../../services/extension.service';
 import {MainViewComponent} from '../main-view.component';
-import {ExtensionItem, ExtensionModel} from '../../models/extension.model';
-import {Router, ActivatedRoute} from '@angular/router';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MessageServices} from '../../services/message.services';
-import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
-import {FilterItem, TableInfoExModel, TableInfoItem} from '../../models/base.model';
+import {ExtensionService} from '../../services/extension.service';
 import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
-import {RouterExtService} from '../../services/router-ext.service';
+import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
+import {ExtensionItem, ExtensionModel} from '../../models/extension.model';
+import {FilterItem, TableInfoExModel, TableInfoItem} from '../../models/base.model';
 
 @Component({
     selector: 'extensions-component',
@@ -58,6 +56,7 @@ export class ExtensionsComponent implements OnInit {
 
             } else {
                 this.sidebar = this.sidebar ? (this.sidebar.id === item.id ? null : item) : item;
+                console.log(this.sidebar);
             }
 
         }
