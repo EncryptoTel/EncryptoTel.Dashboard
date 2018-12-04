@@ -1,7 +1,7 @@
-import {StorageService} from '@services/storage.service';
+import {Component, Input, OnInit, ViewChildren} from '@angular/core';
 import {RefsServices} from '../../../../services/refs.services';
 import {Locker, Lockable} from '../../../../models/locker.model';
-import {Component, Input, OnInit, ViewChildren} from '@angular/core';
+import {StorageService} from '../../../../services/storage.service';
 import {MessageServices} from '../../../../services/message.services';
 import {ExtensionService} from '../../../../services/extension.service';
 import {ValidationHost} from '../../../../models/validation-host.model';
@@ -29,6 +29,7 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
     @Input() encryption: boolean;
     @Input() id: number;
     @Input() service;
+    @Input() storageService;
     @Input() validationHost: ValidationHost;
 
     @ViewChildren('label') labelFields;
@@ -38,8 +39,7 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
     constructor(private _numbers: PhoneNumberService,
                 public _extensions: ExtensionService,
                 private _messages: MessageServices,
-                private refs: RefsServices,
-                private file: StorageService) {
+                private refs: RefsServices) {
         this.sipOuters = {
             option: [],
             selected: null,
@@ -55,8 +55,8 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
     }
 
     ngOnInit(): void {
-        this.getCertificate()
         this.getSipOuters();
+        this.getCertificate();
     }
 
     // -- event handlers ------------------------------------------------------
@@ -110,9 +110,10 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
     }
 
     getCertificate() {
-        if(this.certificateId) {
-            this.file.getById(this.certificateId).then(response => {
+        if (this.certificateId) {
+            this.storageService.getById(this.certificateId).then(response => {
                 this.certificateFile = response;
+                console.log(this.form);
                 console.log(this.certificateFile);
             }).catch(() => {
             }).then(() => this.locker.unlock());
