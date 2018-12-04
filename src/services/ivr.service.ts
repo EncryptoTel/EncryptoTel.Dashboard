@@ -86,6 +86,8 @@ export class IvrService extends BaseService {
             this.references.params = Object.keys(action).map(val => {
                 return { id: val, code: action[val] };
             });
+            this.references.levelParams = this.references.params
+                .filter(p => p.id !== DigitActions.GO_TO_LEVEL);
             this.references.queue = res[2].items;
             this.references.ringGroup = res[3].items;
         });
@@ -118,7 +120,7 @@ export class IvrService extends BaseService {
                         ? sip.sipInners.map(x => {
                               return { id: x.id, name: x.phoneNumber };
                           })
-                        : undefined;
+                        : [];
                     paramsInfo.label = 'Extension number';
                     paramsInfo.visible = true;
                     paramsInfo.validators = [Validators.required];

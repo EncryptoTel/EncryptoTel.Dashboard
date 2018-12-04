@@ -96,7 +96,7 @@
                key="action"
                [form]="true"
                [object]="form"
-               [options]="service.references.params"
+               [options]="service.references.levelParams"
                displayKey="code"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
@@ -113,6 +113,7 @@
                [(errors)]="service.errors"
                [validationHost]="validationHost"
                displayKey="name"
+               placeholder="{{ paramsPlaceholder }}"
                >
     </pbx-input>
 </div>
