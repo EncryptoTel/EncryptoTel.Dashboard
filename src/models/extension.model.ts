@@ -13,6 +13,8 @@ export class ExtensionItem extends BaseItemModel {
     mobileApp: boolean;
     online: boolean;
     phoneNumber: string;
+    host: string;
+    port: string;
     sipOuter: SipOuterModel;
     status: number;
     // statusName: string;
@@ -20,6 +22,14 @@ export class ExtensionItem extends BaseItemModel {
 
     get extension(): string {
         return this.phoneNumber;
+    }
+
+    get extensionPort(): string {
+        return this.port;
+    }
+
+    get extensionHost(): string {
+        return this.host;
     }
 
     get userFirstName(): string {

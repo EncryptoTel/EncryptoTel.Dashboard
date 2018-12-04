@@ -81,7 +81,7 @@
                [errors]="service.errors"
                [object]="form"
     >
-        <div class="more"><a href="">Download file certificate: 18005551212-101.pem</a><div class="host_port">Host: 4700 Port: porta-sip.runexis.ru</div></div>
+        <div class="more" *ngIf="encryption"><a href="">Download file certificate: 18005551212-101.pem</a><div class="host_port">Host: 4700 Port: porta-sip.runexis.ru</div></div>
     </pbx-input>
 
     <div class="add_ext_form_title">Generate new password and send to:</div>
