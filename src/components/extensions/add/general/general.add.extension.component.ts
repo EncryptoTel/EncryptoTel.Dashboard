@@ -118,13 +118,14 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
         }
     }
 
-    newLink() {
+    newLink(event) {
         if (this.certificateId) {
             this.storageService.getById(this.certificateId).then(response => {
                 this.certificateFile = response;
             }).catch(() => {
             }).then(() => this.locker.unlock());
         }
+        event.preventDefault();
     }
 
 }
