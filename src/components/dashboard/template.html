@@ -12,18 +12,18 @@
         </div>
         <div class="dashboard_item_link_row">
             <a class="dashboard_item_link_item" [routerLink]="'../settings/billing'" routerLinkActive="active">
-                Billing
+                <span translate>Billing</span>
                 <svg-icon class="dashboard_item_icon"
                           src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
             <a class="dashboard_item_link_item dashboard_center" [routerLink]="'../invoices'"
                routerLinkActive="active">
-                Invoices
+                <span translate>Invoices</span>
                 <svg-icon class="dashboard_item_icon"
                           src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
             <a class="dashboard_item_link_item" routerLink="/cabinet/refill" routerLinkActive="active">
-                Refill
+                <span translate>Refill</span>
                 <svg-icon class="dashboard_item_icon"
                           src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </a>
@@ -32,11 +32,11 @@
     <pbx-loader class="inactive dashboard_tariff" *ngIf="loading"></pbx-loader>
     <div class="dashboard_item dashboard_tariff" *ngIf="!loading">
         <div class="dashboard_item_title_row">
-            <div class="dashboard_item_title_key">Tariff<i>&nbsp;plan</i></div>
+            <div class="dashboard_item_title_key" translate>Tariff&nbsp;plan</div>
             <div class="dashboard_item_title_value" *ngIf="dashboard.tariffPlan">{{dashboard.tariffPlan.title}}</div>
         </div>
         <div class="dashboard_item_content_row">
-            <div class="dashboard_item_content_key">Next&nbsp;<i>monthly&nbsp;</i>payment</div>
+            <div class="dashboard_item_content_key" translate>Next monthly payment</div>
             <div class="dashboard_item_content_value" *ngIf="dashboard.tariffPlan">
                 {{dashboard.tariffPlan.displayExpired}}
             </div>
@@ -58,7 +58,7 @@
     <pbx-loader class="inactive dashboard_numbers" *ngIf="loading"></pbx-loader>
     <div class="dashboard_item dashboard_numbers" *ngIf="!loading">
         <div class="dashboard_item_title_row">
-            <div class="dashboard_item_title_name" translate>Phone<i translate>&nbsp;numbers</i></div>
+            <div class="dashboard_item_title_name" translate>Numbers</div>
         </div>
         <div class="dashboard_numbers_body">
             <div class="dashboard_item_content_row" *ngFor="let number of dashboard.numbers; let i = index">

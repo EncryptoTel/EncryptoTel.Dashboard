@@ -6,6 +6,7 @@ import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {ExtensionItem, ExtensionModel} from '../../models/extension.model';
 import {FilterItem, TableInfoExModel, TableInfoItem} from '../../models/base.model';
+import {StorageService} from '../../services/storage.service';
 
 @Component({
     selector: 'extensions-component',

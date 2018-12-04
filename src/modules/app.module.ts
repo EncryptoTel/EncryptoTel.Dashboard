@@ -14,6 +14,7 @@ import {ComponentsModule} from './components.module';
 
 import {LoggerServices} from '../services/logger.services';
 import {LocalStorageServices} from '../services/local-storage.services';
+import {StorageService} from '../services/storage.service';
 import {RequestServices} from '../services/request.services';
 import {MessageServices} from '../services/message.services';
 import {AuthorizationServices} from '../services/authorization.services';
@@ -97,7 +98,8 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         LangStateService,
         CookieService,
         RouterExtService,
-        ModalServices
+        ModalServices,
+        StorageService
     ],
     bootstrap: [MainViewComponent]
 })
