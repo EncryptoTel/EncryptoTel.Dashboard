@@ -46,6 +46,16 @@ export class IvrDigitFormComponent extends FormBaseComponent
         validators: [],
     };
     onFormChange: Subject<any>;
+    onDelete: Function;
+
+    // -- properties ----------------------------------------------------------
+
+    get valid(): boolean {
+        return this.digitForm.valid;
+    }
+
+    // -- component lifecycle methods -----------------------------------------
+
     constructor(
         public service: IvrService,
         protected fb: FormBuilder,
@@ -59,9 +69,6 @@ export class IvrDigitFormComponent extends FormBaseComponent
         ];
     }
 
-    onDelete: Function;
-    ngOnDestroy(): void {}
-
     ngOnInit() {
         this.initAvaliableDigit();
         super.ngOnInit();
@@ -71,6 +78,8 @@ export class IvrDigitFormComponent extends FormBaseComponent
         }
         this.digitForm.patchValue(this.data);
     }
+
+    ngOnDestroy(): void {}
 
     initForm(): void {
         this.digitForm = this.fb.group({
@@ -82,35 +91,36 @@ export class IvrDigitFormComponent extends FormBaseComponent
         
         this.addForm(this.digitFormKey, this.digitForm);
         
-        this.digitForm.get('action').valueChanges.subscribe(val => {
-            this.loading++;
+        this.digitForm.get('action').valueChanges.subscribe(actionValue => {
+            this.loading ++;
             this.service
                 .showParameter(
-                    val,
+                    actionValue,
                     this.references.sipId,
-                    this.references.levels
+                    this.references.levels,
+                    this.data
                 )
                 .then(response => {
                     this.paramsInfo = response;
-                    this.digitForm.get('parameter').setValidators(this.paramsInfo.validators)
-                    this.digitForm.get('parameter').setValue(null);
+                    this.digitForm.get('parameter').setValidators(this.paramsInfo.validators);
+                    if (actionValue !== this.data.action) {
+                        this.digitForm.get('parameter').setValue(null);
+                    }
                     this.digitForm.get('parameter').markAsUntouched();
                     this.validationHost.initItems();
                 })
                 .catch(() => {})
                 .then(() => {
-                    this.loading--;
+                    this.loading --;
                 });
         });
 
         this.digitForm.get('parameter').valueChanges.subscribe(val => {
             if (this.digitForm.value.action === '7' && val === -1) {
-                // console.log(val);
                 val = this.onAddLevel(new IvrLevel());
                 this.digitForm
                     .get('parameter')
                     .setValue(val, { onlySelf: true });
-                console.log(val);
             }
         });
         
@@ -120,7 +130,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     }
 
     getData() {
-        return this.validateForms() ? this.form.value : null;
+        return this.validateForms() ? this.digitForm.value : null;
     }
 
     getExtensions(id: number): void {

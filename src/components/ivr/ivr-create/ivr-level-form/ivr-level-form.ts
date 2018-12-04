@@ -59,7 +59,12 @@ export class IvrLevelFormComponent extends FormBaseComponent
         visible: false,
         validators: [],
     };
+
     // -- properties ----------------------------------------------------------
+
+    get valid(): boolean {
+        return this.form.valid;
+    }
 
     // -- component lifecycle methods -----------------------------------------
 
@@ -93,7 +98,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
         if (!this.data.action) {
             this.data.action = DigitActions.CANCEL_CALL;
         }
-        this.form.patchValue(this.data);
+
+        this.setFormData(this.data);
     }
 
     initFiles() {
@@ -129,18 +135,21 @@ export class IvrLevelFormComponent extends FormBaseComponent
             this.onFormChange.next(this.form);
         });
         
-        this.form.get('action').valueChanges.subscribe(val => {
+        this.form.get('action').valueChanges.subscribe(actionValue => {
             this.loading ++;
             this.service
                 .showParameter(
-                    val,
+                    actionValue,
                     this.form.value.sipId || this.data.sipId,
-                    this.references.levels
+                    this.references.levels,
+                    this.data
                 )
                 .then(response => {
                     this.paramsInfo = response;
                     this.form.get('parameter').setValidators(this.paramsInfo.validators)
-                    this.form.get('parameter').setValue(null);
+                    if (actionValue !== this.data.action) {
+                        this.form.get('parameter').setValue(null);
+                    }
                     this.form.get('parameter').markAsUntouched();
                     this.validationHost.initItems();
                 })
@@ -156,18 +165,16 @@ export class IvrLevelFormComponent extends FormBaseComponent
         this.form.get('voiceGreeting').valueChanges.subscribe(val => {
             this.selectFile(val);
         });
-        
-        this.addForm(this.formKey, this.form);
     }
 
-    isFileSelected(): boolean {
+    get isFileSelected(): boolean {
         if (!this.form.value.voiceGreeting) return false;
 
-        const file = this.files.find(f => f.id === this.form.value.voiceGreeting);
+        const file = this.files.find(f => +f.id === +this.form.value.voiceGreeting);
         return !!file
             && file.converted != undefined
             && file.converted > 0;
-}
+    }
 
     uploadFile(event: any): void {
         event.preventDefault();

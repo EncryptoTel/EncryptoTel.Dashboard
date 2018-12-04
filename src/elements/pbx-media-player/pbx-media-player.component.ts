@@ -115,6 +115,7 @@ export class MediaPlayerComponent implements OnChanges {
     startPlayRecord() {
         setTimeout(async () => {
             this.mediaStream = this.mediaStreams[this.selectedMediaId];
+            console.log('media-stream-selected', this.mediaStream);
 
             let attempt = 0;
             while (!this.api.getDefaultMedia().canPlay && attempt < 10) {
