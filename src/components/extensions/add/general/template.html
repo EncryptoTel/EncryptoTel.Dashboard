@@ -81,7 +81,7 @@
                [errors]="service.errors"
                [object]="form"
     >
-        <div class="more" *ngIf="encryption && certificateFile"><a href="/download/{{certificateFile.downloadHash}}">Download file certificate: {{certificateFile.fileName}}</a>
+        <div class="more" *ngIf="encryption && certificateFile"><a href="/download/{{certificateFile.downloadHash}}" (click)="newLink()">Download file certificate: {{certificateFile.fileName}}</a>
             <!--<div class="host_port">Host: 4700 Port: porta-sip.runexis.ru</div>-->
         </div>
     </pbx-input>
