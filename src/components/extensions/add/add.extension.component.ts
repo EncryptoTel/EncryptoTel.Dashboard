@@ -21,6 +21,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     mode = 'create';
     id: number;
     background: string;
+    encryption: boolean = false;
 
     tab = {
         items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
@@ -107,6 +108,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             this.formExtension.get('default').setValue(response.default);
             this.formExtension.get('mobileApp').setValue(response.mobileApp);
             this.formExtension.get('encryption').setValue(response.encryption);
+            this.encryption = response.encryption;
             this.formExtension.get('toAdmin').setValue(false);
             this.formExtension.get('toUser').setValue(false);
             this.formExtension.get('callRecord').setValue(response.callRecord);

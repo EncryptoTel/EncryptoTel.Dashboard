@@ -6,7 +6,7 @@
                 {{ service.title }}
             </li>
         </ul>
-        <div class="tariff_item_price" [innerHTML]="discountPrice"></div>
+        <div class="tariff_item_price new_price" [innerHTML]="discountPrice"></div>
         <div class="tariff_item_price old_price"[innerHTML]="tariffPrice"></div>
         <button [ngClass]="{ 'inactive' : isCurrent }" class="tariff_item_button" *ngIf="!value.loading" (click)="clicked($event)">
             <span *ngIf="!value.loading" style="cursor: pointer">{{ status }}</span>

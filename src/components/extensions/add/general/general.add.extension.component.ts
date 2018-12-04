@@ -23,6 +23,7 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
     modal: ModalEx;
 
     @Input() form: any;
+    @Input() encryption: boolean;
     @Input() id: number;
     @Input() service;
     @Input() validationHost: ValidationHost;
@@ -100,7 +101,6 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
             });
             this.sipOuters.selected = this.sipOuters.option.find(item => item.id === this.form.get('outer').value.id);
         }).catch(() => {
-        })
-            .then(() => this.locker.unlock());
+        }).then(() => this.locker.unlock());
     }
 }
