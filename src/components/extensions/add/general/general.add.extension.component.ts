@@ -1,11 +1,12 @@
 import {Component, Input, OnInit, ViewChildren} from '@angular/core';
-import {ExtensionService} from '../../../../services/extension.service';
-import {PhoneNumberService} from '../../../../services/phone-number.service';
-import {MessageServices} from '../../../../services/message.services';
 import {RefsServices} from '../../../../services/refs.services';
-import {ModalEx} from '../../../../elements/pbx-modal/pbx-modal.component';
 import {Locker, Lockable} from '../../../../models/locker.model';
+import {StorageService} from '../../../../services/storage.service';
+import {MessageServices} from '../../../../services/message.services';
+import {ExtensionService} from '../../../../services/extension.service';
 import {ValidationHost} from '../../../../models/validation-host.model';
+import {ModalEx} from '../../../../elements/pbx-modal/pbx-modal.component';
+import {PhoneNumberService} from '../../../../services/phone-number.service';
 
 @Component({
     selector: 'general-add-extension-component',
@@ -21,11 +22,14 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
     passwordLoading = 0;
 
     modal: ModalEx;
+    certificateFile: any;
+    @Input() certificateId: number;
 
     @Input() form: any;
     @Input() encryption: boolean;
     @Input() id: number;
     @Input() service;
+    @Input() storageService;
     @Input() validationHost: ValidationHost;
 
     @ViewChildren('label') labelFields;
@@ -52,6 +56,7 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
 
     ngOnInit(): void {
         this.getSipOuters();
+        this.getCertificate();
     }
 
     // -- event handlers ------------------------------------------------------
@@ -103,4 +108,16 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
         }).catch(() => {
         }).then(() => this.locker.unlock());
     }
+
+    getCertificate() {
+        if (this.certificateId) {
+            this.storageService.getById(this.certificateId).then(response => {
+                this.certificateFile = response;
+                console.log(this.form);
+                console.log(this.certificateFile);
+            }).catch(() => {
+            }).then(() => this.locker.unlock());
+        }
+    }
+
 }

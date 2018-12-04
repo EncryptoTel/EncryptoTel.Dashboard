@@ -8,6 +8,7 @@ import {ExtensionItem} from '../../../models/extension.model';
 import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {validateForm} from '../../../shared/shared.functions';
 import {MessageServices} from '../../../services/message.services';
+import {StorageService} from '../../../services/storage.service';
 
 @Component({
     selector: 'add-extension-component',
@@ -22,6 +23,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     id: number;
     background: string;
     encryption: boolean = false;
+    certificateId: number = undefined;
 
     tab = {
         items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
@@ -44,7 +46,8 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
                 protected message: MessageServices,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
-                private extension: ExtensionService) {
+                private extension: ExtensionService,
+                private storageService: StorageService) {
         super(fb, message);
 
         this.background = 'form-body-fill';
@@ -109,6 +112,9 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             this.formExtension.get('mobileApp').setValue(response.mobileApp);
             this.formExtension.get('encryption').setValue(response.encryption);
             this.encryption = response.encryption;
+            if (response.certificate) {
+                this.certificateId = response.certificate;
+            }
             this.formExtension.get('toAdmin').setValue(false);
             this.formExtension.get('toUser').setValue(false);
             this.formExtension.get('callRecord').setValue(response.callRecord);
