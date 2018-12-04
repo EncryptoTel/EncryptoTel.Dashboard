@@ -66,6 +66,13 @@ export class IvrLevelFormComponent extends FormBaseComponent
         return this.form.valid;
     }
 
+    get paramsPlaceholder(): string {
+        const placeholder: string = (Array.isArray(this.paramsInfo.option) && this.paramsInfo.option.length === 0)
+            ? 'None'
+            : '';
+        return placeholder;
+    }
+
     // -- component lifecycle methods -----------------------------------------
 
     constructor(
@@ -157,9 +164,25 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 .then(() => this.loading --);
         });
         
-        this.form.get('sipId').valueChanges.subscribe(val => {
-            this.references.sipId = val;
-            this.service.currentSip = val;
+        this.form.get('sipId').valueChanges.subscribe(sipId => {
+            if (typeof sipId === 'number') {
+                this.references.sipId = sipId;
+                this.service.currentSip = sipId;
+
+                this.loading ++;
+                this.service
+                    .showParameter(
+                        this.form.get('action').value,
+                        sipId,
+                        this.references.levels,
+                        this.data
+                    )
+                    .then(response => {
+                        this.paramsInfo = response;
+                    })
+                    .catch(() => {})
+                    .then(() => this.loading --);
+            }
         });
         
         this.form.get('voiceGreeting').valueChanges.subscribe(val => {

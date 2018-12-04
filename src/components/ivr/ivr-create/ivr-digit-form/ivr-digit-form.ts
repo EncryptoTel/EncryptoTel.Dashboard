@@ -54,6 +54,13 @@ export class IvrDigitFormComponent extends FormBaseComponent
         return this.digitForm.valid;
     }
 
+    get paramsPlaceholder(): string {
+        const placeholder: string = (Array.isArray(this.paramsInfo.option) && this.paramsInfo.option.length === 0)
+            ? 'None'
+            : '';
+        return placeholder;
+    }
+
     // -- component lifecycle methods -----------------------------------------
 
     constructor(
@@ -70,6 +77,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     }
 
     ngOnInit() {
+        console.log('digit-form', this.references);
         this.initAvaliableDigit();
         super.ngOnInit();
         this.service.reset();

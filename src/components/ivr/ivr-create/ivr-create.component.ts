@@ -140,7 +140,9 @@ export class IvrCreateComponent implements OnInit {
 
     loadForm(form, data) {
         this.ref.sipId = this.modelFromServer.sipId;
-        this.service.currentSip = this.modelFromServer.sipId;
+        if (!this.service.currentSip) {
+            this.service.currentSip = this.modelFromServer.sipId;
+        }
         if (this.formChangeSubscription) {
             this.formChangeSubscription.unsubscribe();
         }
