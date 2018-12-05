@@ -134,7 +134,7 @@ export class IvrService extends BaseService {
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_QUEUE:
-                    paramsInfo.label = 'Redirect to queue';
+                    paramsInfo.label = 'Queue';
                     paramsInfo.option = this.references.queue.map(x => {
                         return { id: x.id, name: x.name };
                     });
@@ -143,7 +143,7 @@ export class IvrService extends BaseService {
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_RING_GROUP:
-                    paramsInfo.label = 'Redirect to ring group ';
+                    paramsInfo.label = 'Ring Group';
                     paramsInfo.option = this.references.ringGroup.map(x => {
                         return { id: x.id, name: x.name };
                     });
@@ -159,7 +159,7 @@ export class IvrService extends BaseService {
                     resolve(paramsInfo);
                     break;
                 case DigitActions.GO_TO_LEVEL:
-                    paramsInfo.label = 'Ivr goto level';
+                    paramsInfo.label = 'Level';
                     paramsInfo.option = levels.map(l => {
                         return { id: l.levelNum, name: l.name };
                     });

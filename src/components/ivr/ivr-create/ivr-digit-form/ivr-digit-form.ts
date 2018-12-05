@@ -5,19 +5,14 @@ import {
     FormBuilder,
     Validators,
     FormGroup,
-    ValidationErrors
 } from '@angular/forms';
 
 import { IvrService } from '@services/ivr.service';
-import { RefsServices } from '@services/refs.services';
 import { MessageServices } from '@services/message.services';
 import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import { FadeAnimation } from '@shared/fade-animation';
 import { StorageService } from '@services/storage.service';
 import { IvrFormInterface } from '../form.interface';
-import { validateFormControls } from '@shared/shared.functions';
-import { Subscription } from 'rxjs/Subscription';
-import { ModalEx } from '@elements/pbx-modal/pbx-modal.component';
 import { IvrLevel, DigitActions } from '@models/ivr.model';
 
 
@@ -162,7 +157,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
         for (let i = 1; i <= 10; i++) {
             const number = i % 10;
             if (
-                !this.references.usedDigit.includes(i.toString()) ||
+                !this.references.usedDigit.includes(number.toString()) ||
                 i.toString() === this.data.digit
             ) {
                 this.digits.push({

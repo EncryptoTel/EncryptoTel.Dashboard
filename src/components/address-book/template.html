@@ -18,7 +18,7 @@
               [sidebar]="sidebar"
               [multiple]="true"
               [ngClass]="sidebar.visible ? 'someClass':''"
-    >
+              >
     </pbx-list>
 
     <pbx-sidebar *ngIf="sidebar.visible" [sidebarInfo]="sidebar" (onClick)="click($event)" [@Swipe] [@Fade]>

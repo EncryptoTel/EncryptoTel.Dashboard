@@ -416,7 +416,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     addPhone() {
         this.selected = new AddressBookItem(this.form.value);
 
-        let phoneModel = new ContactValueModel();
+        const phoneModel = new ContactValueModel();
         this.selected.addContactPhone(phoneModel);
 
         this.setFormData();
@@ -434,7 +434,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     addEmail() {
         this.selected = new AddressBookItem(this.form.value);
 
-        let emailModel = new ContactValueModel();
+        const emailModel = new ContactValueModel();
         this.selected.addContactEmail(emailModel);
 
         this.setFormData();
@@ -485,11 +485,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     setFilters(): void {
-
         let keys: any;
-        if (this.addressBookModel.items.length === 1) {
-            this.filters = [];
-        }
+        this.filters = [];
         const filterValue = [];
         this.addressBookModel.contactFilter.forEach(item => {
             filterValue.push({id: item.value, title: item.displayTitle, count: item.count});
@@ -559,13 +556,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     setPhoneType($event, i) {
         console.log($event, i);
-        let phone = this.selected.contactPhone[i];
+        const phone = this.selected.contactPhone[i];
         phone.value = this.form.value.contactPhone[i].value;
         console.log(phone);
         phone.typeId = $event.id;
         phone.type = this.types.contactPhone.find(item => item.id === phone.typeId);
 
-        let phoneControl = this.createPhoneFormControl(this.selected.contactPhone[i]);
+        const phoneControl = this.createPhoneFormControl(this.selected.contactPhone[i]);
         this.contactPhonesFormArray.setControl(i, phoneControl);
     }
 
