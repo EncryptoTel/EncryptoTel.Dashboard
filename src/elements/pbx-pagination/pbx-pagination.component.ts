@@ -51,8 +51,7 @@ export class PaginationComponent implements OnInit {
     }
 
     selectLimit(limit: number): void {
-        if (!this.limitSelectorVisible /*|| !this.isInCurrentPage(limit)*/)
-            return;
+        if (!this.limitSelectorVisible) return;
 
         this.limitSelectorVisible = false;
 
@@ -87,7 +86,7 @@ export class PaginationComponent implements OnInit {
     }
 
     get isVisible(): boolean {
-        return !!this.pageInfo && this.pageInfo.visible !== false && this.pageInfo.itemsCount > this.pageInfo.limit;
+        return !!this.pageInfo && this.pageInfo.visible !== false;
     }
 
     get canMoveToFirst(): boolean {
@@ -107,8 +106,7 @@ export class PaginationComponent implements OnInit {
     }
 
     moveToFirst(): void {
-        if (!this.canMoveToFirst)
-            return;
+        if (!this.canMoveToFirst) return;
         this.changePage(1);
     }
 
@@ -121,14 +119,12 @@ export class PaginationComponent implements OnInit {
     }
 
     moveForward(): void {
-        if (!this.canMoveForward)
-            return;
+        if (!this.canMoveForward) return;
         this.changePage(this.pageInfo.page + 1);
     }
 
     moveToLast(): void {
-        if (!this.canMoveToLast)
-            return;
+        if (!this.canMoveToLast) return;
         this.changePage(this.pageInfo.pageCount);
     }
 
