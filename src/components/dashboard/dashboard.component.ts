@@ -5,6 +5,7 @@ import {DashboardServices} from '../../services/dashboard.services';
 
 import {Subscription} from 'rxjs/Subscription';
 import {WsServices} from '../../services/ws.services';
+import {LocalStorageServices} from '@services/local-storage.services';
 
 @Component({
     selector: 'pbx-dashboard',
@@ -16,9 +17,14 @@ import {WsServices} from '../../services/ws.services';
 })
 
 export class DashboardComponent {
+
+    user: any;
+
     constructor(private _dashboard: DashboardServices,
-                private _ws: WsServices) {
+                private _ws: WsServices,
+                private storage: LocalStorageServices) {
         this.initDashboard();
+        this.user = this.storage.readItem('pbx_user');
     }
 
     dashboard: DashboardModel;
@@ -56,5 +62,13 @@ export class DashboardComponent {
             model.list.unshift(item);
             this.fetchDashboard(item);
         });
+    }
+
+    isAdmin() {
+        if (!this.user.profile.tariffPlan) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

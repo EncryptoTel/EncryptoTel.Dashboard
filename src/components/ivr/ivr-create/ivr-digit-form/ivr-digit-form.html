@@ -55,7 +55,13 @@
                [(errors)]="service.errors"
                [validationHost]="validationHost"
                displayKey="name"
+               placeholder="{{ paramsPlaceholder }}"
                >
     </pbx-input>
 </ng-container>
 </div>
+<pbx-modal 
+    [modalEx]="modalExit"
+    (onConfirmEx)="cancel()"
+    >
+</pbx-modal>

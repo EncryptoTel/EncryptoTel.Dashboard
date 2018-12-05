@@ -81,12 +81,12 @@
                [errors]="service.errors"
                [object]="form"
     >
-        <div class="more" *ngIf="encryption && certificateFile"><a href="/download/{{certificateFile.downloadHash}}" (click)="newLink(event)">Download file certificate: {{certificateFile.fileName}}</a>
+        <div class="more" *ngIf="encryption && certificateFile"><a href="/download/{{certificateFile.downloadHash}}" (click)="newLink(event)"><span>Download file certificate:</span> {{certificateFile.fileName}}</a>
             <!--<div class="host_port">Host: 4700 Port: porta-sip.runexis.ru</div>-->
         </div>
     </pbx-input>
 
-    <div class="add_ext_form_title">Generate new password and send to:</div>
+    <div class="add_ext_form_title" translate>Generate new password and send to:</div>
 
     <pbx-input name="Admin email"
                description="Send password to admin email address"

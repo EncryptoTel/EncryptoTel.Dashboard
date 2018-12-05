@@ -17,9 +17,9 @@
         </div>
         <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
         <div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">
-            <a routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item" translate>Refill
+            <a *ngIf="isAdmin()" routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item" translate>Refill
                 balance</a>
-            <a routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item" translate>Tariff
+            <a *ngIf="isAdmin()" routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item" translate>Tariff
                 plan</a>
             <div (click)="logout()" class="user_navigation_item">
                 <span translate>Exit</span>

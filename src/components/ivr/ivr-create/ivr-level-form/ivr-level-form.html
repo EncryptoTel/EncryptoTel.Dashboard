@@ -62,7 +62,7 @@
                >
         <div class="greeting">
             <pbx-button [value]="playButtonText"
-                        [inactive]="!isFileSelected()"
+                        [inactive]="!isFileSelected"
                         [loading]="!mediaPlayer.locker.free"
                         (onClick)="togglePlay()"
                         >
@@ -96,7 +96,7 @@
                key="action"
                [form]="true"
                [object]="form"
-               [options]="service.references.params"
+               [options]="service.references.levelParams"
                displayKey="code"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
@@ -113,13 +113,20 @@
                [(errors)]="service.errors"
                [validationHost]="validationHost"
                displayKey="name"
+               placeholder="{{ paramsPlaceholder }}"
                >
     </pbx-input>
 </div>
 {{ actionVal | json }}
-<pbx-media-player #mediaPlayer 
-                  [mediaStream]="currentMediaStream"
-                  (onGetMediaData)="getMediaData($event)"
-                  (onMediaStateChanged)="mediaStateChanged($event)"
-                  >
+<pbx-media-player 
+    #mediaPlayer 
+    [mediaStream]="currentMediaStream"
+    (onGetMediaData)="getMediaData($event)"
+    (onMediaStateChanged)="mediaStateChanged($event)"
+    >
 </pbx-media-player>
+<pbx-modal 
+    [modalEx]="modalExit"
+    (onConfirmEx)="cancel()"
+    >
+</pbx-modal>
