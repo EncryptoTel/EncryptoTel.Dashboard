@@ -65,7 +65,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         this.addressBookModel = new AddressBookModel();
         this.addressListHeaders = {
-            titles: ['First Name', 'Last Name', 'Phone Number', 'E-mail', 'Company Name', 'Country'],
+            titles: [
+                this.translate.instant('First Name'),
+                this.translate.instant('Last Name'),
+                this.translate.instant('Phone Number'),
+                this.translate.instant('E-mail'), this.translate.instant('Company Name'),
+                this.translate.instant('Country')
+            ],
             keys: ['firstname', 'lastname', 'phone', 'email', 'company', 'country.title'],
             hide: [false, false, false, true, true, true]
         };
