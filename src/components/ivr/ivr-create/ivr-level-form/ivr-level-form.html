@@ -33,7 +33,7 @@
                class="phone_number"
                >
     </pbx-input>
-
+    <ng-container *ngIf="!!form.value.sipId">
     <div class="call-rules-create_row">
         <h3>{{'IVR Options' | translate }}</h3>
     </div>
@@ -116,6 +116,7 @@
                placeholder="{{ paramsPlaceholder }}"
                >
     </pbx-input>
+    </ng-container>
 </div>
 {{ actionVal | json }}
 <pbx-media-player 
