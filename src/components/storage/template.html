@@ -27,16 +27,16 @@
 
         <pbx-loader *ngIf="loading"></pbx-loader>
 
-        <div class="media-table-message" *ngIf="!loading && activeFilter && pageInfo.itemsCount === 0" translate>
+        <div class="media-table-message" *ngIf="isEmptySearch" translate>
             Nothing found
         </div>
 
-        <div class="media-table-message" *ngIf="!loading && !activeFilter && pageInfo.itemsCount === 0" translate>
+        <div class="media-table-message" *ngIf="isNothingFound" translate>
             No data to display
         </div>
 
         <pbx-pagination
-            *ngIf="!loading"
+            *ngIf="isPaginationVisible"
             [pageInfo]="pageInfo"
             (onPageChangeEx)="getItems()">
         </pbx-pagination>

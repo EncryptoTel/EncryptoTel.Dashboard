@@ -80,6 +80,33 @@ export class ListComponent implements OnInit {
         return this._sidebar ? this._sidebar.visible : false;
     }
 
+    get isEmptySearch(): boolean {
+        const isLoading: boolean = !!this.loading || !!this.loadingEx || !!this.filter.loading;
+        const filteredWithSearch: boolean = this.activeFilter()
+            && this.currentFilter
+            && this.currentFilter.hasOwnProperty('search')
+            && this.currentFilter.search;
+        return !isLoading && filteredWithSearch && this.pageInfo.itemsCount === 0;
+    }
+
+    get isNothingFound(): boolean {
+        const isLoading: boolean = !!this.loading || !!this.loadingEx || !!this.filter.loading;
+        const filteredWithoutSearch: boolean = this.activeFilter()
+            && this.currentFilter
+            && (!this.currentFilter.hasOwnProperty('search') || !this.currentFilter.search);
+        return !isLoading && filteredWithoutSearch && this.pageInfo.itemsCount === 0;
+    }
+
+    get isNoData(): boolean {
+        const isLoading: boolean = !!this.loading || !!this.loadingEx;
+        return this.showEmptyInfo && !isLoading && this.listDataEmpty;
+    }
+
+    get isPaginationVisible(): boolean {
+        const isLoading: boolean = !!this.loading || !!this.loadingEx || !!this.filter.loading;
+        return !isLoading && this.pageInfo.itemsCount > 10;
+    }
+
     constructor(private router: Router,
                 public translate: TranslateService) {
     }
@@ -142,10 +169,12 @@ export class ListComponent implements OnInit {
     delete(item: BaseItemModel) {
         item.loading ++;
         this.onDelete.emit(item);
-        this.service.deleteById(item.id).then(() => {
-            this.getItems(item);
-        }).catch(() => {})
-          .then(() => item.loading --);
+        this.service.deleteById(item.id)
+            .then(() => {
+                this.getItems(item);
+            })
+            .catch(() => {})
+            .then(() => item.loading --);
     }
 
     sort() {
@@ -248,10 +277,10 @@ export class ListComponent implements OnInit {
         totalItemsCount = 0;
         if (this._filters !== undefined && this._filters.length > 0 && this._filters[0].options.length > 0) {
             if (this._filters[0].options[0].count !== undefined) {
-                totalItemsCount = totalItemsCount + this._filters[0].options[0].count;
+                totalItemsCount = totalItemsCount + +this._filters[0].options[0].count;
             }
             if (this._filters[0].options[1].count !== undefined) {
-                totalItemsCount = totalItemsCount + this._filters[0].options[1].count;
+                totalItemsCount = totalItemsCount + +this._filters[0].options[1].count;
             }
         }
         totalItemsCount = totalItemsCount + this._totalItemsCount;

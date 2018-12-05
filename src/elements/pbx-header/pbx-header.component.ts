@@ -36,7 +36,8 @@ export class HeaderComponent implements OnInit {
         this.onUpdate = new EventEmitter<any>();
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+    }
 
     // -- properties ----------------------------------------------------------
 

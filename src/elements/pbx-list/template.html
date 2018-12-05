@@ -12,8 +12,8 @@
 
     <pbx-loader *ngIf="loading || loadingEx || filter.loading"></pbx-loader>
 
-        <div class="pbx_list_empty {{sidebarVisible?'notArrow_changedClass':''}}" *ngIf="showEmptyInfo && !loading && !loadingEx && listDataEmpty">
-        <div class="pbx_list_empty_text" *ngIf="!EmptyInfo"> {{pbxListEmptyText_1}}<br>{{pbxListEmptyText_2}}
+        <div class="pbx_list_empty {{sidebarVisible?'notArrow_changedClass':''}}" *ngIf="isNoData">
+            <div class="pbx_list_empty_text" *ngIf="!EmptyInfo"> {{pbxListEmptyText_1}}<br>{{pbxListEmptyText_2}}
         </div>
         <div class="pbx_list_empty_text" *ngIf="EmptyInfo" [innerHtml]="EmptyInfo">
 
@@ -39,15 +39,15 @@
                (onDelete)="delete($event)">
     </pbx-table>
 
-    <div class="pbx_list_message" *ngIf="!loading && !loadingEx && !filter.loading && activeFilter() && pageInfo.itemsCount === 0" translate>
+    <div class="pbx_list_message" *ngIf="isEmptySearch" translate>
         Nothing found
     </div>
 
-    <div class="pbx_list_message" *ngIf="!loading && !loadingEx && !filter.loading && !activeFilter() && pageInfo.itemsCount === 0" translate>
+    <div class="pbx_list_message" *ngIf="isNothingFound" translate>
         No data to display
     </div>
 
-    <pbx-pagination *ngIf="!loading && !loadingEx && !filter.loading && pageInfo.itemsCount > 0"
+    <pbx-pagination *ngIf="isPaginationVisible"
             [pageInfo]="pageInfo"
             (onLimitSelect)="onLimitSelect()"
             (onPageChange)="onPageChange($event)">
