@@ -144,7 +144,7 @@ export class ListComponent implements OnInit {
         let result = 0;
         if (this.currentFilter) {
             Object.keys(this.currentFilter).forEach(key => {
-                this.currentFilter[key] && result++;
+                if (this.currentFilter[key]) result ++;
             });
         }
         if (this._filters) {
