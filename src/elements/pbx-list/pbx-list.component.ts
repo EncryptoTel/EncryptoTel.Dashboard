@@ -11,6 +11,7 @@ import {
 import {HeaderComponent} from '../pbx-header/pbx-header.component';
 import {Router} from '@angular/router';
 import {TableComponent} from '../pbx-table/pbx-table.component';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'pbx-list',
@@ -69,11 +70,15 @@ export class ListComponent implements OnInit {
     _sidebar: any;
     _totalItemsCount: number;
 
+    pbxListEmptyText_1: string;
+    pbxListEmptyText_2: string;
+
     get sidebarVisible(): boolean {
         return this._sidebar ? this._sidebar.visible : false;
     }
 
-    constructor(private router: Router) {
+    constructor(private router: Router,
+                public translate: TranslateService) {
     }
 
     create() {
@@ -217,5 +222,18 @@ export class ListComponent implements OnInit {
         }
 
         this.getItems();
+
+        this.pbxListEmptyText_1 = '';
+        this.pbxListEmptyText_2 = '';
+        let tmp: string;
+        tmp = this.itemsName ? this.itemsName : this.name;
+        this.pbxListEmptyText_1 = this.translate.instant('You do not have any ') + this.translate.instant(tmp);
+        this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
+        this.pbxListEmptyText_2 = this.translate.instant('Click on the button to create');
+
+        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+                this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
+                this.pbxListEmptyText_2 = this.translate.instant(this.pbxListEmptyText_2);
+        });
     }
 }

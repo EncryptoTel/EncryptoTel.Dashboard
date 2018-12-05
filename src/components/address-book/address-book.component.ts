@@ -17,6 +17,7 @@ import {AnimationComponent} from '../../shared/shared.functions';
 import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp} from '../../shared/vars';
 import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {TariffStateService} from '../../services/state/tariff.state.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @AnimationComponent({
     selector: 'pbx-address-book',
@@ -58,7 +59,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 public refs: RefsServices,
                 protected message: MessageServices,
                 protected fb: FormBuilder,
-                protected state: TariffStateService) {
+                protected state: TariffStateService,
+                public translate: TranslateService) {
         super(fb, message);
 
         this.addressBookModel = new AddressBookModel();
@@ -96,15 +98,15 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.sidebar.buttons.push(new SidebarButtonItem(2, 'Edit', 'success'));
 
         this.sidebar.items = [];
-        this.sidebar.items.push(new SidebarInfoItem(4, 'First Name', this.selected.firstname));
-        this.sidebar.items.push(new SidebarInfoItem(5, 'Last Name', this.selected.lastname));
+        this.sidebar.items.push(new SidebarInfoItem(4, this.translate.instant('First Name'), this.selected.firstname));
+        this.sidebar.items.push(new SidebarInfoItem(5, this.translate.instant('Last Name'), this.selected.lastname));
 
         let phones: any;
         phones = [];
         this.selected.contactPhone.forEach(item => {
             if (item.value) phones.push(item.value);
         });
-        this.sidebar.items.push(new SidebarInfoItem(6, phones.length > 1 ? 'Phone' : 'Phone', phones));
+        this.sidebar.items.push(new SidebarInfoItem(6, phones.length > 1 ? this.translate.instant('Phone') : this.translate.instant('Phone'), phones));
 
         let emails: any;
         emails = [];
@@ -113,13 +115,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         });
         this.sidebar.items.push(new SidebarInfoItem(7, emails.length > 1 ? 'Email' : 'Email', emails));
 
-        this.sidebar.items.push(new SidebarInfoItem(8, 'Company Name', this.selected.company));
-        this.sidebar.items.push(new SidebarInfoItem(9, 'Department', this.selected.department));
-        this.sidebar.items.push(new SidebarInfoItem(9, 'Position', this.selected.position));
-        this.sidebar.items.push(new SidebarInfoItem(10, 'Country', this.selected.countryName));
-        this.sidebar.items.push(new SidebarInfoItem(11, 'Address', this.selected.address));
-        this.sidebar.items.push(new SidebarInfoItem(12, this.selected.blacklist ? 'Unblock contact' : 'Block contact', null, true, false, true));
-        this.sidebar.items.push(new SidebarInfoItem(13, 'Delete contact', null, true, false, true));
+        this.sidebar.items.push(new SidebarInfoItem(8, this.translate.instant('Company Name'), this.selected.company));
+        this.sidebar.items.push(new SidebarInfoItem(9, this.translate.instant('contactDepartment'), this.selected.department));
+        this.sidebar.items.push(new SidebarInfoItem(9, this.translate.instant('Position'), this.selected.position));
+        this.sidebar.items.push(new SidebarInfoItem(10, this.translate.instant('Country'), this.selected.countryName));
+        this.sidebar.items.push(new SidebarInfoItem(11, this.translate.instant('Address'), this.selected.address));
+        this.sidebar.items.push(new SidebarInfoItem(12, this.selected.blacklist ? this.translate.instant('Unblock contact') : this.translate.instant('Block contact'), null, true, false, true));
+        this.sidebar.items.push(new SidebarInfoItem(13, this.translate.instant('Delete contact'), null, true, false, true));
 
         this.sidebar.visible = true;
     }
@@ -488,7 +490,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         });
         if (this.filters.length === 0) {
             this.filters.push(new FilterItem(1, 'type', 'Source', filterValue, 'title'));
-            this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Name, Phone or Email'));
+            this.filters.push(new FilterItem(2, 'search', 'Search', null, null, this.translate.instant('Name, Phone or Email')));
 
             if (this.list.currentFilter) {
                 keys = Object.keys(this.list.currentFilter);

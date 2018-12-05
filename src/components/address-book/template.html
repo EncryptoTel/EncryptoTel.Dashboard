@@ -59,7 +59,7 @@
                             <ng-container formArrayName="contactPhone">
                                 <pbx-input *ngFor="let phone of contactPhonesFormArray.controls; let i = index"
                                            [formGroupName]="i"
-                                           name="Phone"
+                                           name="{{'Phone' | translate}}"
                                            key="value"
                                            [form]="true"
                                            [object]="phone"
@@ -98,7 +98,7 @@
                             <ng-container formArrayName="contactEmail">
                                 <pbx-input *ngFor="let email of contactEmailsFormArray.controls; let i = index"
                                            [formGroupName]="i"
-                                           name="Email"
+                                           name="{{'Email' | translate}}"
                                            key="value"
                                            [form]="true"
                                            [object]="email"
@@ -145,7 +145,7 @@
                         >
                         </pbx-input>
 
-                        <pbx-input name="{{'Department' | translate }}"
+                        <pbx-input name="{{'contactDepartment' | translate }}"
                                    key="department"
                                    [form]="true"
                                    [object]="form"
@@ -183,7 +183,7 @@
                                    [(errors)]="service.errors"
                                    [singleBorder]="false"
                                    [floatError]="true"
-                                   [placeholder]="'[choose one]'"
+                                   [placeholder]="'[choose one]' | translate"
                                    [editable]="true"
                                    [validationHost]="validationHost"
                         >
