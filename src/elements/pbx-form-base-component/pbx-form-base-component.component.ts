@@ -42,8 +42,10 @@ export class FormBaseComponent implements OnInit, Lockable {
     }
 
 
-    constructor(protected fb: FormBuilder,
-                protected message: MessageServices) {
+    constructor(
+        protected fb: FormBuilder,
+        protected message: MessageServices
+    ) {
         this.locker = new Locker();
         this.formKey = 'form';
         this.forms = [];

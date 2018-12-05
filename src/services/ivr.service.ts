@@ -2,7 +2,7 @@ import { plainToClass } from 'class-transformer';
 import {Validators} from '@angular/forms';
 
 import { BaseService } from '@services/base.service';
-import { IvrItem, IvrModel, IvrTreeItem, DigitActions } from '@models/ivr.model';
+import { IvrItem, IvrModel, IvrTreeItem, DigitActions, IvrLevel, Digit, MAX_IVR_LEVEL_COUNT } from '@models/ivr.model';
 import { PageInfoModel } from '@models/base.model';
 import {addressPhoneRegExp} from '@shared/vars';
 
@@ -86,18 +86,31 @@ export class IvrService extends BaseService {
             this.references.params = Object.keys(action).map(val => {
                 return { id: val, code: action[val] };
             });
+            this.references.levelParams = this.references.params
+                .filter(p => p.id !== DigitActions.GO_TO_LEVEL);
             this.references.queue = res[2].items;
             this.references.ringGroup = res[3].items;
         });
     }
 
-    showParameter(action, sipId, levels): any {
+    showParameter(action, sipId, levels, data: IvrLevel | Digit): any {
         const paramsInfo = {
             label: '',
             option: [],
             visible: true,
             validators: []
         };
+
+        let lastLevel: boolean = false;
+        if (data instanceof IvrLevel) {
+            lastLevel = data.levelNum === MAX_IVR_LEVEL_COUNT;
+        }
+        else {
+            const level = levels.find(l => l.digits.some(d => d.id === data.id));
+            if (level) {
+                lastLevel = level.levelNum === MAX_IVR_LEVEL_COUNT;
+            }
+        }
 
         return new Promise((resolve, reject) => {
             switch (action.toString()) {
@@ -107,7 +120,7 @@ export class IvrService extends BaseService {
                         ? sip.sipInners.map(x => {
                               return { id: x.id, name: x.phoneNumber };
                           })
-                        : undefined;
+                        : [];
                     paramsInfo.label = 'Extension number';
                     paramsInfo.visible = true;
                     paramsInfo.validators = [Validators.required];
@@ -150,10 +163,12 @@ export class IvrService extends BaseService {
                     paramsInfo.option = levels.map(l => {
                         return { id: l.levelNum, name: l.name };
                     });
-                    paramsInfo.option.push({
-                        id: -1,
-                        name: 'new level'
-                    });
+                    if (!lastLevel) {
+                        paramsInfo.option.push({
+                            id: -1,
+                            name: 'new level'
+                        });
+                    }
                     paramsInfo.visible = true;
                     paramsInfo.validators = [Validators.required];
                     resolve(paramsInfo);

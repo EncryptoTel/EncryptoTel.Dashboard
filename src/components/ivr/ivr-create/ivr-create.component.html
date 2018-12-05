@@ -24,13 +24,15 @@
 
         <!-- IVR levels -->
         <div class="left" #levelPanel>
-            <pbx-ivr-level *ngFor="let level of getVisibleLevels()"
-                           [level]="level"
-                           [isValidForm] = "isValidForm"
-                           (ivrSelected)="onIvrSelected($event)"
-                           (onCancelEdit)="cancelEdit($event)"
-                           (onDeleteLevel)="onDeleteLevel($event)"
-            >
+            <pbx-ivr-level 
+                *ngFor="let level of getVisibleLevels()"
+                [level]="level"
+                [form]="currentForm"
+                [editMode]="editMode"
+                (ivrSelected)="onIvrSelected($event)"
+                (onCancelEdit)="cancelEdit($event)"
+                (onDeleteLevel)="onDeleteLevel($event)"
+                >
             </pbx-ivr-level>
         </div>
 
@@ -46,14 +48,16 @@
     </div> <!-- ivr_create_body -->
 </div>
 
-<pbx-modal [modalEx]="modalExit"
-           (onConfirmEx)="cancel()"
-           >
+<pbx-modal
+    [modalEx]="modalExit"
+    (onConfirmEx)="cancel()"
+    >
 </pbx-modal>
 
-<pbx-media-player #mediaPlayer
-                  [mediaStream]="currentMediaStream"
-                  (onGetMediaData)="getMediaData($event)"
-                  (onMediaStateChanged)="mediaStateChanged($event)"
->
+<pbx-media-player 
+    #mediaPlayer
+    [mediaStream]="currentMediaStream"
+    (onGetMediaData)="getMediaData($event)"
+    (onMediaStateChanged)="mediaStateChanged($event)"
+    >
 </pbx-media-player>

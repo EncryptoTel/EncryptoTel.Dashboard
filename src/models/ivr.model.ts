@@ -144,10 +144,10 @@ export class IvrLevel extends IvrLevelBase {
 
     fillTree(tree) {
         this.digits = tree
-        .filter(x => !(x.digit === 'intro' || x.digit === 'timeout'))
-        .map(d => {
-            return new Digit(d);
-        });
+            .filter(x => !(x.digit === 'intro' || x.digit === 'timeout'))
+            .map(d => {
+                return new Digit(d);
+            });
     }
 }
 export class Digit {
