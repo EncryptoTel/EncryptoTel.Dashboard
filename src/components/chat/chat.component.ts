@@ -24,9 +24,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     currentUserId: number;
     createStatus: boolean = false;
     chatObjects: any;
+    chatMessages: any;
     dropdownSettingsStatus: any;
     dropdownSettingsUserChat: boolean = false;
     dropdownFilesStatus: boolean = false;
+    dropdownSettingsGroupStatus: boolean = false;
+    chatGroupName: boolean = false;
+    listOfChats: boolean = true;
+    addedUser: boolean = false;
+    countOfAddedUsers: number = 0;
     @ViewChildren('menu_block') menu: ElementRef[];
 
     constructor(private socket: WsServices,
@@ -239,13 +245,164 @@ export class ChatComponent implements OnInit, OnDestroy {
                 titleGroup: ''
             }
         ];
+        this.chatMessages = [
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            }
+
+
+        ];
         this.dropdownSettingsStatus = [];
         this.chatObjects.forEach(item => {
             this.dropdownSettingsStatus.push(false);
         });
     }
+
+    countAddedUsers() {
+        let count = 0;
+        for (let i = 0; i < this.chatMessages.length; i++) {
+            if (this.chatMessages[i].status) count++;
+        }
+        this.countOfAddedUsers = count;
+    }
+
+    addUserToGroup(i) {
+        this.chatMessages[i].status = !this.chatMessages[i].status;
+        this.countAddedUsers();
+    }
+
     clickOutside(index): void {
         this.dropdownSettingsStatus[index] = false;
+    }
+
+    dropdownSettingsGroup() {
+        this.dropdownSettingsGroupStatus = !this.dropdownSettingsGroupStatus;
+    }
+
+    acceptGroupName() {
+        this.chatGroupName = !this.chatGroupName;
+    }
+
+    createNewGroup() {
+        this.chatGroupName = false;
+        this.listOfChats = !this.listOfChats;
     }
 
     changeCreateStatus() {
