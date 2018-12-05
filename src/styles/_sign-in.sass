@@ -351,6 +351,29 @@ main-view.light_theme
                     &:hover
                         color: $dark_accent !important
                         //border: 1px solid $dark_accent !important
+main-view.dark_theme,
+main-view.light_theme
+    sign-up
+        sign-up-form
+            form
+                pbx-input[key="agreementConfirmation"]
+                    .pbx_input_item_label
+                        span
+                            opacity: 1
+                            color: $dark_white_50
+                            display: block
+                            font-size: 13px
+                            &.removemargin
+                                display: none
+                            &:hover
+                                opacity: 1 !important
+                                color: $dark_white_50 !important
+                            a
+                                display: inline-block
+                                color: $dark_white
+                                &:hover
+                                    color: $dark_accent
+
 
 @keyframes pulse_after
     0%

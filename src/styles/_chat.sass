@@ -940,18 +940,22 @@ pbx-chat
                                 width: fit-content
                                 min-width: 80px
                                 flex-direction: column
+                                display: grid
+                                grid-template-columns: 1fr
                                 .name
                                     display: none
                                     font-size: 10px
                                     color: $chat_color1
                                 .msg
                                     overflow: hidden
-                                    padding-bottom: 14px
+                                    padding-bottom: 0
                                     line-height: 20px
                                 .info
-                                    position: absolute
-                                    bottom: 8px
-                                    right: 8px
+                                    //position: absolute
+                                    //bottom: 8px
+                                    //right: 8px
+                                    justify-content: flex-end
+                                    padding-left: 16px
                                     .date
                                         font-size: 13px
                                         margin-right: 5px
@@ -971,6 +975,7 @@ pbx-chat
                                         height: 14px
                                         border-radius: unset
                                         background: unset
+                                        margin: 0
                                         svg-icon
                                             width: 100%
                                             position: relative
@@ -997,6 +1002,7 @@ pbx-chat
                                     background: $white_grey_hover
                                     color: $white_black
                                     font-weight: 400
+                                    grid-template-rows: min-content 1fr min-content
                                     .name
                                         display: grid
                             &.right
@@ -1006,6 +1012,7 @@ pbx-chat
                                     background: $white_salad
                                     color: $dark_white
                                     margin-left: auto
+                                    grid-template-rows: min-content 1fr min-content
                                     .info
                                         .date
                                             color: $dark_white
