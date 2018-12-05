@@ -26,8 +26,8 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     certificateId: number = undefined;
 
     tab = {
-        items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Rights', 'Privacy and Security'],
-        icons: ['general_16px', 'voicemail_16px', 'forwarding_rules_16px_1', 'settings_16px', 'key_16px_3', 'security_16px'],
+        items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Privacy and Security'],
+        icons: ['general_16px', 'voicemail_16px', 'forwarding_rules_16px_1', 'settings_16px', 'security_16px'],
         select: 'General',
         active: [true, false, false, true, false, false]
     };
