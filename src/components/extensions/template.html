@@ -30,13 +30,13 @@
                     </div>
                 </div>
                 <div class="ext_sidebar_item_row">
-                    <div class="ext_sidebar_item" *ngIf="sidebar.extension !==  ''">
-                        <div class="ext_sidebar_item_key">Host</div>
-                        <div class="ext_sidebar_item_value">{{sidebar.extensionHost}}</div>
-                    </div>
                     <div class="ext_sidebar_item" *ngIf="sidebar.phone !==  null">
                         <div class="ext_sidebar_item_key">Port</div>
                         <div class="ext_sidebar_item_value">{{sidebar.extensionPort}}</div>
+                    </div>
+                    <div class="ext_sidebar_item" *ngIf="sidebar.extension !==  ''">
+                        <div class="ext_sidebar_item_key">Host</div>
+                        <div class="ext_sidebar_item_value">{{sidebar.extensionHost}}</div>
                     </div>
                 </div>
                 <div class="ext_sidebar_item" *ngIf="sidebar.userFirstName !==  null">
