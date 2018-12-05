@@ -421,26 +421,26 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         //  расчет для вывода меню в верхнем положении
 
-        let scrolling = (document.querySelector('pbx-chat .list .items').scrollTop) * 1;
-        let visibleHeight = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list .items'), null).getPropertyValue('height')) + scrolling;
-        let itemHeight = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list .items .item'), null).getPropertyValue('height'));
-        let itemMarginBottom = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list .items .item'), null).getPropertyValue('margin-bottom'));
+        let scrolling = (document.querySelector('pbx-chat .list_of_chats .items').scrollTop) * 1;
+        let visibleHeight = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list_of_chats .items'), null).getPropertyValue('height')) + scrolling;
+        let itemHeight = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list_of_chats .items .item'), null).getPropertyValue('height'));
+        let itemMarginBottom = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list_of_chats .items .item'), null).getPropertyValue('margin-bottom'));
         let totalItemHeight = itemHeight + itemMarginBottom;
         let countVisible = (visibleHeight - (visibleHeight % totalItemHeight)) / totalItemHeight;
         let dropdownTop = 'dropdownTop';
 
         function settingClass () {
-            for (let k = 0; k < document.querySelectorAll('pbx-chat .list .items .item').length; k++) {
-                document.querySelectorAll('pbx-chat .list .items .item')[k].classList.remove(dropdownTop);
+            for (let k = 0; k < document.querySelectorAll('pbx-chat .list_of_chats .items .item').length; k++) {
+                document.querySelectorAll('pbx-chat .list_of_chats .items .item')[k].classList.remove(dropdownTop);
             }
 
-            document.querySelectorAll('pbx-chat .list .items .item')[countVisible - 1].classList.add(dropdownTop);
-            document.querySelectorAll('pbx-chat .list .items .item')[countVisible - 2].classList.add(dropdownTop);
-            document.querySelectorAll('pbx-chat .list .items .item')[countVisible - 3].classList.add(dropdownTop);
-            document.querySelectorAll('pbx-chat .list .items .item')[countVisible - 4].classList.add(dropdownTop);
+            document.querySelectorAll('pbx-chat .list_of_chats .items .item')[countVisible - 1].classList.add(dropdownTop);
+            document.querySelectorAll('pbx-chat .list_of_chats .items .item')[countVisible - 2].classList.add(dropdownTop);
+            document.querySelectorAll('pbx-chat .list_of_chats .items .item')[countVisible - 3].classList.add(dropdownTop);
+            document.querySelectorAll('pbx-chat .list_of_chats .items .item')[countVisible - 4].classList.add(dropdownTop);
 
-            if (countVisible < document.querySelectorAll('pbx-chat .list .items .item').length) {
-                document.querySelectorAll('pbx-chat .list .items .item')[countVisible].classList.add(dropdownTop);
+            if (countVisible < document.querySelectorAll('pbx-chat .list_of_chats .items .item').length) {
+                document.querySelectorAll('pbx-chat .list_of_chats .items .item')[countVisible].classList.add(dropdownTop);
             }
 
         }
