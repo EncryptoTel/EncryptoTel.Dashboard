@@ -13,7 +13,6 @@ pbx-chat
         width: 100%
         position: relative
         overflow: hidden
-        display: none
         .search_wrap
             display: grid
             grid-template-columns: 1fr 10px 18px
@@ -605,6 +604,7 @@ pbx-chat
             grid-template-columns: 1fr
             grid-template-rows: min-content min-content
             background: $dark_overlay
+            margin-bottom: 16px
             .line
                 &:first-child
                     display: grid
@@ -615,6 +615,8 @@ pbx-chat
                     padding-left: 16px
                 &:nth-child(3)
                     grid-row: 3/4
+                    margin-top: 8px
+                    height: 14px
                 .back
                     grid-column: 1/2
                     grid-row: 1/3
@@ -649,11 +651,18 @@ pbx-chat
                         font-size: 20px
                         font-weight: 200
                         color: $dark_white
-                        line-height: 28px
+                        height: 40px
+                        align-items: center
+                        white-space: nowrap
+                        overflow: hidden
+                        display: inline-block
+                        max-width: 220px
+                        text-overflow: ellipsis
+                        line-height: 40px
                     .enter_name
                         font-size: 20px
                 .accept
-                    display: grid
+                    display: none
                     align-items: center
                     margin-left: 16px
                     &.active
@@ -682,19 +691,103 @@ pbx-chat
                     svg-icon
                         margin: auto
                         svg
-                            width: 16px
+                            width: 22px
                             cursor: pointer
                             *
                                 cursor: pointer
                             circle
                                 fill: #fff
+                    .dropdown_block_settings
+                        position: absolute
+                        top: 64px
+                        right: 16px
+                        flex-direction: column
+                        z-index: 10
+                        .item
+                            font-family: Roboto, sans-serif
+                            font-size: 14px
+                            line-height: 19px
+                            color: $dark_white
+                            background: $dark_pagination_inactive
+                            padding: 0 16px
+                            height: 40px
+                            align-items: center
+                            cursor: pointer
+                            white-space: nowrap
+                            display: flex !important
+                            margin-bottom: 0 !important
+                            &:hover
+                                background: $dark_player_bg
             .line
                 .add_people
                     width: 100%
+                    flex-flow: wrap
+                    margin: 12px 0 8px
+                    border-bottom: 1px solid $white_button_cancel
+                    .item
+                        border-radius: 14px
+                        display: inline-grid
+                        grid-template-columns: 28px 1fr
+                        margin: 0 8px 8px 0
+                        .letters
+                            width: 28px
+                            height: 28px
+                            border-radius: 100%
+                            box-shadow: 0 0 4px 2px rgba(0, 0, 0, .1)
+                            span
+                                margin: auto
+                                font-family: Roboto, sans-serif
+                                font-size: 12px
+                                font-weight: 400
+                                color: $dark_white
+                        .name
+                            font-family: Roboto, sans-serif
+                            font-size: 12px
+                            font-weight: 200
+                            color: $dark_white
+                            padding: 0 8px
+                            align-items: center
+                            white-space: nowrap
+                    .addedUsers
+                        flex-wrap: wrap
+                        div
+                            .item
+                                height: 32px
+                            &:nth-child(1n) .item
+                                background: rgba($chat_color1, .8)
+                                .letters
+                                    background: rgba($chat_color1, 1)
+                            &:nth-child(2n) .item
+                                background: rgba($chat_color2, .8)
+                                .letters
+                                    background: rgba($chat_color2, 1)
+                            &:nth-child(3n) .item
+                                background: rgba($chat_color3, .8)
+                                .letters
+                                    background: rgba($chat_color3, 1)
+                            &:nth-child(4n) .item
+                                background: rgba($chat_color4, .8)
+                                .letters
+                                    background: rgba($chat_color4, 1)
+                            &:nth-child(5n) .item
+                                background: rgba($chat_color5, .8)
+                                .letters
+                                    background: rgba($chat_color5, 1)
+                            &:nth-child(6n) .item
+                                background: rgba($chat_color6, .8)
+                                .letters
+                                    background: rgba($chat_color6, 1)
+                            &:nth-child(7n) .item
+                                background: rgba($chat_color7, .8)
+                                .letters
+                                    background: rgba($chat_color7, 1)
                 .info_block
             .line
                 .members
         &.create
+            display: grid
+            grid-template-columns: 1fr
+            grid-template-rows: min-content 1fr min-content
             .top
                 .line
                     &:first-child
@@ -705,298 +798,105 @@ pbx-chat
                         grid-template-columns: 16px 1fr
                         .add_people
                             grid-column: 2/3
+                    &.typingName
+                        grid-template-columns: 16px 1fr 32px
+                    &.acceptedName
+                        grid-template-columns: 16px 1fr 32px 32px
+                        .search
+                            grid-column: 3/4
+                        .settings
+                            grid-column: 4/5
                     .avatar
                         display: none
                     .cnt
                         .title
-                            display: none
                     .accept, .search, .settings
-                        display: none
                     .info_block
                         display: none
                     &:last-child
-                        display: none
-
-
-
-
-
-
-
-
-
-
-
-
-    .old_group
-        flex-direction: column
-        width: 100%
-        display: none
-        .top
-            display: grid
-            grid-template-columns: 56px 40px 1fr 56px
-            background: $dark_overlay
-            box-shadow: 0 7px 8px -7px rgba(0, 0, 0, 0.5)
-            margin-left: -16px
-            margin-right: -16px
-            //display: none
-            .input_enter_name
-                display: none
-            .back
-                grid-column: 1/2
-                grid-row: 1/3
-                svg-icon
-                    margin: auto
-                    svg
-                        width: 16px
-                        cursor: pointer
-                        *
-                            cursor: pointer
-                        polygon
-                            fill: #fff
-            .avatar
-                &.remove
-                    display: none
-                .inner
-                    width: 40px
-                    height: 40px
-                    border-radius: 100%
-                    overflow: hidden
-                    background: $dark_accent
-                    margin: auto
-                    svg-icon
-                        margin: auto
-                        svg
-                            width: 24px
-                            path
-                                fill: #fff
-            .cnt
+                    .addedUsers
+                        min-height: 40px
+                        max-height: 120px
+                        overflow: auto
+                    &.coloredAddedUsers
+                        grid-template-columns: 1fr
+                        padding-left: 0
+                        .add_people
+                            grid-column: 1/2
+            .items
                 display: grid
-                grid-template-rows: 1fr 1fr
-                padding-left: 16px
-                .title
-                    grid-row: 1/2
-                    font-family: Roboto, sans-serif
-                    font-size: 20px
-                    font-weight: 200
-                    color: $dark_white
-                    line-height: 28px
-                    &.naming
-                        grid-row: 1/3
-                        white-space: nowrap
-                        padding: 16px 0
-                .desc
-                    grid-row: 2/3
-                    font-family: Roboto, sans-serif
-                    font-size: 16px
-                    font-weight: 200
-                    color: $dark_white
-                    line-height: 20px
-                    &.remove
-                        display: none
-            .accept
-                grid-column: 4/5
-                grid-row: 1/3
-                svg-icon
-                    margin: auto
-                    svg
-                        width: 16px
-                        cursor: pointer
-                        *
-                            cursor: pointer
-                        polygon
-                            fill: #fff
-            &.input_enter_name
-                grid-template-columns: 56px 1fr 56px
-                padding-bottom: 8px
-                //box-shadow: none
-                .avatar, .accept
-                    display: none
-                .cnt
-                    grid-template-rows: 1fr
-                    padding-left: 0
-                    .title, .desc
-                        display: none
-                .enter_name
-                    display: grid
-                    font-size: 20px
-        .add_people
-            margin: 16px 0
-            display: block
-            //display: none
-            input
-                height: 46px
-                &::placeholder
-                    font-family: Roboto, sans-serif !important
-                    font-weight: 100 !important
-            &.enter_name
-                display: grid
-                grid-template-columns: 56px 1fr 56px
-                margin-left: -16px
-                margin-right: -16px
-                input
-                    grid-column: 2/3
-        .items
-            display: grid
-            overflow: auto
-            //display: none
-            .item
-                display: grid
-                grid-template-columns: 40px 1fr
-                margin-bottom: 32px
-                .avatar
-                    grid-column: 1/2
-                    .inner
-                        width: 40px
-                        height: 40px
-                        background: $dark_accent
-                        overflow: hidden
-                        border-radius: 100%
-                        span
-                            margin: auto
-                            text-transform: uppercase
-                            font-family: Roboto, sans-serif
-                            font-size: 20px
-                            color: $dark_white
-                .cnt
-                    grid-column: 2/3
-                    padding: 0 16px
-                    display: grid
-                    grid-template-columns: 1fr
-                    grid-template-rows: 1fr 1fr
-                    .name
-                        grid-column: 1/2
-                        grid-row: 1/2
-                        overflow: hidden
-                        white-space: nowrap
-                        align-items: center
-                        span
-                            text-overflow: ellipsis
-                            overflow: hidden
-                            display: block
-                            font-family: Roboto, sans-serif
-                            font-size: 16px
-                            font-weight: 200
-                            color: $dark_white
-                    .msg
-                        grid-column: 1/2
-                        grid-row: 2/3
-                        overflow: hidden
-                        white-space: nowrap
-                        align-items: center
-                        span
-                            text-overflow: ellipsis
-                            overflow: hidden
-                            display: block
-                            font-family: Roboto, sans-serif
-                            font-size: 14px
-                            font-weight: 200
-                            color: $dark_white_75
-        .adding
-            flex-direction: column
-            display: none
-            .top
-                background: $dark_overlay
-                padding: 8px 16px
-                margin: -16px 0 0 -16px
-                align-items: center
-                display: grid
-                grid-template-columns: 24px 16px 1fr 16px 18px
-                .back
-                    grid-column: 1/2
-                    height: 100%
-                    svg-icon
-                        width: 100%
-                        position: relative
-                        svg
-                            cursor: pointer
-                            position: absolute
-                            top: 50%
-                            transform: translateY(-50%)
-                            *
-                                cursor: pointer
-                            polygon
-                                fill: $dark_white
-                input
-                    font-size: 20px
-                    grid-column: 3/4
-                .accept
-                    grid-column: 5/6
-            .added
-                flex-flow: wrap
-                margin: 12px 0 8px
-                display: block
-                border-bottom: 1px solid $white_button_cancel
-                .item
-                    border-radius: 14px
-                    display: inline-grid
-                    grid-template-columns: 28px 1fr
-                    margin: 0 8px 8px 0
-                    .letters
-                        width: 28px
-                        height: 28px
-                        border-radius: 100%
-                        box-shadow: 0 0 4px 2px rgba(0, 0, 0, .1)
-                        span
-                            margin: auto
-                            font-family: Roboto, sans-serif
-                            font-size: 12px
-                            font-weight: 400
-                            color: $dark_white
-                    .name
-                        font-family: Roboto, sans-serif
-                        font-size: 12px
-                        font-weight: 200
-                        color: $dark_white
-                        padding: 0 8px
-                        align-items: center
-                        white-space: nowrap
-                    &:nth-child(1)
-                        background: rgba($chat_color1, .8)
-                        .letters
-                            background: rgba($chat_color1, 1)
-                    &:nth-child(2)
-                        background: rgba($chat_color2, .8)
-                        .letters
-                            background: rgba($chat_color2, 1)
-                    &:nth-child(3)
-                        background: rgba($chat_color3, .8)
-                        .letters
-                            background: rgba($chat_color3, 1)
-                    &:nth-child(4)
-                        background: rgba($chat_color4, .8)
-                        .letters
-                            background: rgba($chat_color4, 1)
-                    &:nth-child(5)
-                        background: rgba($chat_color5, .8)
-                        .letters
-                            background: rgba($chat_color5, 1)
-                    &:nth-child(6)
-                        background: rgba($chat_color6, .8)
-                        .letters
-                            background: rgba($chat_color6, 1)
-                    &:nth-child(7)
-                        background: rgba($chat_color7, .8)
-                        .letters
-                            background: rgba($chat_color7, 1)
-            .count
-            .choose_to_add
-                flex-direction: column
                 overflow: auto
-                padding-top: 24px
-                display: grid
+                margin-bottom: 8px
                 .item
                     display: grid
                     grid-template-columns: 40px 1fr
-                    grid-template-rows: 1fr 1fr
-                    padding-bottom: 7px
-                    margin-bottom: 28px
-                    cursor: pointer
+                    margin-bottom: 32px
+                    cursor: pointer !important
                     *
-                        cursor: pointer
-                    .ava
+                        cursor: pointer !important
+                    .avatar
                         grid-column: 1/2
-                        grid-row: 1/3
+                        .inner
+                            width: 40px
+                            height: 40px
+                            background: $dark_accent
+                            //overflow: hidden
+                            border-radius: 100%
+                            span
+                                margin: auto
+                                text-transform: uppercase
+                                font-family: Roboto, sans-serif
+                                font-size: 20px
+                                color: $dark_white
+                    .cnt
+                        grid-column: 2/3
+                        padding: 0 16px
+                        display: grid
+                        grid-template-columns: 1fr
+                        grid-template-rows: 1fr 1fr
+                        .name
+                            grid-column: 1/2
+                            grid-row: 1/2
+                            overflow: hidden
+                            white-space: nowrap
+                            align-items: center
+                            span
+                                text-overflow: ellipsis
+                                overflow: hidden
+                                display: block
+                                font-family: Roboto, sans-serif
+                                font-size: 16px
+                                font-weight: 200
+                                color: $dark_white
+                        .msg
+                            grid-column: 1/2
+                            grid-row: 2/3
+                            overflow: hidden
+                            white-space: nowrap
+                            align-items: center
+                            span
+                                text-overflow: ellipsis
+                                overflow: hidden
+                                display: block
+                                font-family: Roboto, sans-serif
+                                font-size: 14px
+                                font-weight: 200
+                                color: $dark_white_75
+                    &.added
+                        &:nth-child(1n) .avatar .inner
+                            background: $chat_color1
+                        &:nth-child(2n) .avatar .inner
+                            background: $chat_color2
+                        &:nth-child(3n) .avatar .inner
+                            background: $chat_color3
+                        &:nth-child(4n) .avatar .inner
+                            background: $chat_color4
+                        &:nth-child(5n) .avatar .inner
+                            background: $chat_color5
+                        &:nth-child(6n) .avatar .inner
+                            background: $chat_color6
+                        &:nth-child(7n) .avatar .inner
+                            background: $chat_color7
                         .inner
                             width: 40px
                             height: 40px
@@ -1010,184 +910,217 @@ pbx-chat
                                 position: absolute
                                 bottom: -3px
                                 right: -3px
-                            span
-                                font-family: Roboto, sans-serif
-                                font-size: 20px
-                                color: $dark_white
-                                text-transform: uppercase
-                                margin: auto
-                    .name
-                        grid-column: 2/3
-                        grid-row: 1/2
-                        padding: 0 16px
-                        overflow: hidden
-                        align-items: center
-                        span
-                            display: block
-                            overflow: hidden
-                            white-space: nowrap
-                            text-overflow: ellipsis
-                    .msg
-                        grid-column: 2/3
-                        grid-row: 2/3
-                        padding: 0 16px
-                        overflow: hidden
-                        align-items: center
-                        span
-                            display: block
-                            overflow: hidden
-                            white-space: nowrap
-                            text-overflow: ellipsis
-                    &:nth-child(1n) .ava .inner
-                        background: $chat_color1
-                    &:nth-child(2n) .ava .inner
-                        background: $chat_color2
-                    &:nth-child(3n+7) .ava .inner
-                        background: $chat_color3
-                    &:nth-child(4n) .ava .inner
-                        background: $chat_color4
-                    &:nth-child(5n) .ava .inner
-                        background: $chat_color5
-                    &:nth-child(6n) .ava .inner
-                        background: $chat_color6
-                    &:nth-child(7n) .ava .inner
-                        background: $chat_color7
-        .naming
-            flex-direction: column
-            display: none
-            .enter_name_2
-                display: none
-            .enter_name
-                display: grid
-                grid-template-columns: 64px 24px 1fr
-                margin: 16px 0
-                .ava
-                    grid-column: 1/2
-                    width: 64px
-                    height: 64px
-                    border-radius: 100%
-                    background: $dark_accent
-                    svg-icon
-                        margin: auto
-                        svg
-                            width: 32px
-                            path
-                                fill: #fff
-                .input_wrap
-                    grid-column: 3/4
-                    align-items: center
-                    margin-bottom: 0
-                    input
-                        font-family: Roboto, sans-serif !important
-                        font-size: 20px !important
-                        color: $dark_white !important
-                        &::placeholder
-                            font-family: Roboto, sans-serif !important
-                            font-size: 20px !important
-                            color: $dark_white !important
-            .members
-                flex-direction: column
-                .amount
-                    font-family: Roboto, sans-serif
-                    font-size: 14px
-                    color: $dark_white
-                    padding: 8px 0 8px 16px
-                    margin: 0 -16px 24px -16px
-                    border-top: 1px solid $white_button_cancel
-                .members_list
-                    display: grid
-                    overflow: auto
-                    .member
-                        display: grid
-                        grid-template-columns: 40px 1fr
-                        margin-bottom: 32px
-                        .avatar
-                            grid-column: 1/2
-                            .inner
+                &.group_chat
+                    .messages
+                        display: block
+                        overflow: auto
+                        padding-right: 3px
+                        .message
+                            margin: 0 0 16px
+                            display: grid
+                            .avatar
                                 width: 40px
                                 height: 40px
-                                background: $dark_accent
-                                overflow: hidden
                                 border-radius: 100%
-                                span
-                                    margin: auto
-                                    text-transform: uppercase
-                                    font-family: Roboto, sans-serif
-                                    font-size: 20px
+                                overflow: hidden
+                                position: relative
+                                display: none
+                                background: $dark_accent
+                                img
+                                    width: 50px
+                                    height: auto
+                                    position: absolute
+                                    left: 50%
+                                    top: 50%
+                                    transform: translate(-50%, -50%)
+                            .cnt
+                                //margin-left: 16px
+                                padding: 8px
+                                position: relative
+                                width: fit-content
+                                min-width: 80px
+                                flex-direction: column
+                                .name
+                                    display: none
+                                    font-size: 10px
+                                    color: $chat_color1
+                                .msg
+                                    overflow: hidden
+                                    padding-bottom: 14px
+                                    line-height: 20px
+                                .info
+                                    position: absolute
+                                    bottom: 8px
+                                    right: 8px
+                                    .date
+                                        font-size: 13px
+                                        margin-right: 5px
+                                        color: $white_black_50
+                                        position: relative
+                                        &:before
+                                            content: ''
+                                            width: 2px
+                                            height: 2px
+                                            background: $white_black_50
+                                            position: absolute
+                                            top: 50%
+                                            transform: translateY(-50%)
+                                            left: -5px
+                                    .status
+                                        width: 14px
+                                        height: 14px
+                                        border-radius: unset
+                                        background: unset
+                                        svg-icon
+                                            width: 100%
+                                            position: relative
+                                            overflow: hidden
+                                            svg
+                                                height: 14px
+                                                position: absolute
+                                                top: 50%
+                                                left: 50%
+                                                transform: translate(-50%, -50%)
+                                                polygon
+                                                    fill: $white_black_50
+                                        &.ext_table_item_circle
+                                        // прочитаны - двойная иконка
+                                        &.ext_table_item_circle2
+                                        // непрочитаны - иконка в одну линию
+                            &.left
+                                grid-template-columns: min-content 1fr
+                                .avatar
+                                    display: grid
+                                    margin-right: 8px
+                                .cnt
+                                    border-radius: 10px 10px 10px 0
+                                    background: $white_grey_hover
+                                    color: $white_black
+                                    font-weight: 400
+                                    .name
+                                        display: grid
+                            &.right
+                                grid-template-columns: 1fr
+                                .cnt
+                                    border-radius: 10px 10px 0 10px
+                                    background: $white_salad
                                     color: $dark_white
-                        .cnt
-                            grid-column: 2/3
+                                    margin-left: auto
+                                    .info
+                                        .date
+                                            color: $dark_white
+                                            &:before
+                                                background: $dark_white
+                                    .status
+                                        svg-icon
+                                            svg
+                                                polygon
+                                                    fill: $dark_white
+            .bottom.input_wrap
+                //position: absolute
+                //left: 16px
+                //bottom: 16px
+                //right: 16px
+                background: $dark_pagination_inactive
+                margin-bottom: 0 !important
+                display: grid
+                grid-template-columns: 8px 18px 1fr 17px 12px 11px 8px
+                padding-bottom: 8px
+                .smiles
+                    grid-column: 2/3
+                    height: 100%
+                    svg-icon
+                        width: 100%
+                        position: relative
+                        svg
+                            cursor: pointer
+                            position: absolute
+                            top: 50%
+                            transform: translateY(-50%)
+                            *
+                                cursor: pointer
+                            path,
+                            ellipse
+                                fill: $chat_icon_grey_color
+                input
+                    width: 100%
+                    grid-column: 3/4
+                    &::placeholder
+                        color: $dark_white_50
+                .files
+                    grid-column: 4/5
+                    height: 100%
+                    position: relative
+                    &.active
+                        svg-icon
+                            svg
+                                path
+                                    fill: $dark_accent
+                    svg-icon
+                        width: 100%
+                        position: relative
+                        svg
+                            height: 18px
+                            cursor: pointer
+                            position: absolute
+                            top: 50%
+                            transform: translateY(-50%)
+                            *
+                                cursor: pointer
+                            path
+                                fill: $chat_icon_grey_color
+                    .dropdown_block_files
+                        position: absolute
+                        bottom: 48px
+                        right: 0px
+                        flex-direction: column
+                        z-index: 10
+                        box-shadow: 7px 7px 8px -7px rgba(0, 0, 0, 0.5), -7px -7px 8px -7px rgba(0, 0, 0, 0.5)
+                        .item
+                            font-family: Roboto, sans-serif
+                            font-size: 14px
+                            line-height: 19px
+                            color: $dark_white
+                            background: $dark_pagination_inactive
                             padding: 0 16px
-                            display: grid
-                            grid-template-columns: 1fr
-                            grid-template-rows: 1fr 1fr
-                            .name
-                                grid-column: 1/2
-                                grid-row: 1/2
-                                overflow: hidden
-                                white-space: nowrap
-                                align-items: center
-                                span
-                                    text-overflow: ellipsis
-                                    overflow: hidden
-                                    display: block
-                                    font-family: Roboto, sans-serif
-                                    font-size: 16px
-                                    font-weight: 200
-                                    color: $dark_white
-                            .msg
-                                grid-column: 1/2
-                                grid-row: 2/3
-                                overflow: hidden
-                                white-space: nowrap
-                                align-items: center
-                                span
-                                    text-overflow: ellipsis
-                                    overflow: hidden
-                                    display: block
-                                    font-family: Roboto, sans-serif
-                                    font-size: 14px
-                                    font-weight: 200
-                                    color: $dark_white_75
-            //////////////////////////////////////////////////////////////
-            //////////////////////////////////////////////////////////////
-            //////////////////////////////////////////////////////////////
-            //////////////////////////////////////////////////////////////
-            &.naming_2
-                .enter_name
-                    display: none
-                .members
-                    .amount
+                            height: 40px
+                            align-items: center
+                            cursor: pointer
+                            white-space: nowrap
+                            display: flex !important
+                            margin-bottom: 0 !important
+                            &:hover
+                                background: $dark_player_bg
+                .record
+                    grid-column: 6/7
+                    height: 100%
+                    svg-icon.mic,
+                    svg-icon.send
+                        width: 100%
+                        position: relative
+                        overflow: hidden
+                        svg
+                            height: 18px
+                            cursor: pointer
+                            position: absolute
+                            top: 50%
+                            left: 50%
+                            transform: translate(-50%, -50%)
+                            *
+                                cursor: pointer
+                            path
+                                fill: $chat_icon_grey_color
+                    svg-icon.send
                         display: none
-                .enter_name_2
-                    display: grid
-                    grid-template-columns: 1fr
-                    grid-template-rows: 1fr 1fr
-                    margin-bottom: 32px
-                    .up
-                        display: grid
-                        grid-template-columns: 56px 1fr 56px
-                        box-shadow: 0 7px 8px -7px rgba(0, 0, 0, 0.5)
-                        padding-bottom: 8px
-                        margin-left: -16px
-                        margin-right: -16px
-                        .back
-                            grid-column: 1/2
-                            grid-row: 1/3
-                            svg-icon
-                                margin: auto
-                                svg
-                                    width: 16px
-                                    cursor: pointer
-                                    *
-                                        cursor: pointer
-                                    polygon
-                                        fill: #fff
-                        .input_enter_name
-                            font-size: 20px
-                    .add_people
-                        display: grid
-                        grid-template-columns: 56px 1fr 56px
-                        margin: 8px -16px 0 -16px
-                        input
-                            grid-column: 2/3
+                        svg
+                            path
+                                fill: $dark_accent
+                &.send
+                    grid-template-columns: 8px 18px 1fr 17px 12px 21px 8px
+                    .record
+                        svg-icon.mic
+                            display: none
+                        svg-icon.send
+                            display: block
+
+

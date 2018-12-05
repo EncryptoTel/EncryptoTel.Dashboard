@@ -1,6 +1,6 @@
 <pbx-loader *ngIf="chats.length === 0"></pbx-loader>
 
-<div class="list_of_chats">
+<div class="list_of_chats" *ngIf="listOfChats">
 
     <div class="search_wrap">
 
@@ -14,7 +14,7 @@
         <div class="create" (click)="changeCreateStatus()">
             <svg-icon src="../../assets/images/chat/create_18px.svg"></svg-icon>
             <div class="dropdown_block_create" *ngIf="createStatus">
-                <div class="item">New Group</div>
+                <div class="item" (click)="createNewGroup()">New Group</div>
                 <div class="item">New Secret Chat</div>
             </div> <!-- dropdown -->
         </div> <!-- create -->
@@ -63,7 +63,6 @@
     <!--</div>-->
 
 </div> <!-- list -->
-
 
 <div class="single_chat" *ngIf="chats.length > 0"> <!-- can have the class 'group' - for group conversation -->
 
@@ -146,12 +145,12 @@
 
 </div> <!-- talking -->
 
-<div class="new_group create">
+<div class="new_group create" *ngIf="!listOfChats">
 
     <div class="top">
 
-        <div class="line">
-            <div class="back">
+        <div class="line {{chatGroupName ? 'acceptedName':''}} {{groupName.length > 0 && !chatGroupName ? 'typingName':''}}">
+            <div class="back" (click)="createNewGroup()">
                 <svg-icon src="../../assets/images/chat/return_24px.svg"></svg-icon>
             </div> <!-- back -->
 
@@ -162,620 +161,126 @@
             </div> <!-- avatar -->
 
             <div class="cnt">
-                <div class="title">New group</div>
-                <input class="enter_name" type="text" placeholder="Enter Name" [(ngModel)]="groupName" (keyup)="onMessageKeyUp($event)">
+                <div class="title" *ngIf="chatGroupName">{{groupName}}</div>
+                <input class="enter_name" type="text" placeholder="Enter Name" [(ngModel)]="groupName" (keyup)="onMessageKeyUp($event)" *ngIf="!chatGroupName">
             </div> <!-- cnt -->
 
-            <div class="accept" [ngClass]="groupName.length > 0 ? 'active':''">
+            <div class="accept" *ngIf="!chatGroupName" [ngClass]="groupName.length > 0 ? 'active':''" (click)="acceptGroupName()">
                 <svg-icon src="../../assets/images/chat/check_mark_14px.svg"></svg-icon>
             </div> <!-- accept -->
 
-            <div class="search">
+            <div class="search" *ngIf="chatGroupName">
                 <svg-icon src="../../assets/images/chat/magnifier_18px.svg"></svg-icon>
             </div> <!-- search -->
 
-            <div class="settings">
+            <div class="settings" *ngIf="chatGroupName" (click)="dropdownSettingsGroup()">
                 <svg-icon src="../../assets/images/chat/overflow_16px.svg"></svg-icon>
+                <div class="dropdown_block_settings" *ngIf="dropdownSettingsGroupStatus">
+                    <div class="item">Edit</div>
+                    <div class="item">Shared Media</div>
+                    <div class="item">Info</div>
+                    <div class="item">Mute</div>
+                    <div class="item">Clear Chat History</div>
+                    <div class="item">Leave Group</div>
+                </div> <!-- dropdown_block -->
             </div> <!-- settings -->
         </div> <!-- line -->
 
-        <div class="line">
+        <div class="line" *ngIf="!chatGroupName" [ngClass]="countOfAddedUsers > 0 ? 'coloredAddedUsers': ''">
             <div class="add_people"> <!-- enter_name -->
-                <input type="text" placeholder="Add people...">
+                <input type="text" placeholder="Add people..." *ngIf="countOfAddedUsers === 0">
+                <div class="addedUsers" *ngIf="countOfAddedUsers > 0">
+                    <div *ngFor="let item of chatMessages; let i = index">
+                        <div class="item" *ngIf="item.status">
+                            <div class="letters"><span>AS</span></div>
+                            <div class="name">{{item.userName}}</div>
+                        </div> <!-- item -->
+                    </div>
+                </div> <!-- addedUsers -->
             </div> <!-- add_people -->
             <div class="info_block">Info block</div>
         </div> <!-- line -->
 
         <div class="line">
-            <div class="members">6 members</div>
+            <div class="members" *ngIf="countOfAddedUsers > 0 && !chatGroupName">{{countOfAddedUsers}}&nbsp;member{{countOfAddedUsers > 1 ? 's':''}}</div>
         </div> <!-- line -->
 
     </div> <!-- top -->
 
-</div> <!-- new_group -->
+    <div class="items" *ngIf="!chatGroupName">
 
-
-<!-- ================================================== -->
-<!-- ================================================== -->
-<!-- ================================================== -->
-<!-- ================================================== -->
-<!-- ================================================== -->
-<!-- ================================================== -->
-<!-- ================================================== -->
-<!-- ================================================== -->
-<!-- ================================================== -->
-<!-- ================================================== -->
-<!-- ================================================== -->
-
-
-<div class="old_group">
-
-    <div class="top"> <!-- enter_name -->
-
-        <div class="back">
-            <svg-icon src="../../assets/images/chat/return_24px.svg"></svg-icon>
-        </div> <!-- back -->
-
-        <div class="avatar"> <!-- class remove -->
-            <div class="inner">
-                <svg-icon src="../../assets/images/chat/new_group_24px.svg"></svg-icon>
-            </div> <!-- inner -->
-        </div> <!-- avatar -->
-
-        <div class="cnt">
-            <div class="title">New group</div> <!-- class naming -->
-            <input class="input_enter_name" type="text" placeholder="Enter Name">
-            <div class="desc">up to 20000 members</div> <!-- class remove -->
-        </div> <!-- cnt -->
-
-        <div class="accept">
-            <svg-icon src="../../assets/images/chat/check_mark_14px.svg"></svg-icon>
-        </div> <!-- accept -->
-
-    </div> <!-- top -->
-
-    <div class="add_people"> <!-- enter_name -->
-        <input type="text" placeholder="Add people...">
-    </div> <!-- add_people -->
-
-    <div class="items">
-
-        <div class="item">
+        <div class="item" *ngFor="let item of chatMessages; let i = index" (click)="addUserToGroup(i)" [ngClass]="item.status ? 'added':''">
             <div class="avatar">
                 <div class="inner"><span>AS</span></div>
             </div> <!-- avatar -->
             <div class="cnt">
                 <div class="name">
-                    <span>Adam Smit</span></div>
+                    <span>{{item.userName}}</span></div>
                 <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- cnt -->
-        </div> <!-- item -->
-
-        <div class="item">
-            <div class="avatar">
-                <div class="inner"><span>AS</span></div>
-            </div> <!-- avatar -->
-            <div class="cnt">
-                <div class="name">
-                    <span>Adam Smit</span></div>
-                <div class="msg">
-                    <span>Hello. If a curator called Mona Lisa tell me</span></div>
+                    <span>{{item.lastMessage}}</span></div>
             </div> <!-- cnt -->
         </div> <!-- item -->
 
     </div> <!-- items -->
 
-    <div class="adding">
+    <div class="items group_chat" *ngIf="chatGroupName">
+        <div class="messages">
 
-        <div class="top">
-            <div class="back">
-                <svg-icon src="../../assets/images/chat/return_24px.svg"></svg-icon>
-            </div> <!-- back -->
-            <input type="text">
-            <div class="accept">
-                <svg-icon src="../../assets/icons/_middle/ok_32px.svg"></svg-icon>
-            </div> <!-- accept -->
-        </div> <!-- top -->
+            <div class="message left">
+                <div class="avatar"> </div>
+                <div class="cnt">
+                    <span class="name">John Smith</span>
+                    <div class="msg">Some random phrase. Let's see what will happen if we had typed long message here. I think I have some mistakes, cuz English isn't my native language.</div>
+                    <div class="info">
+                        <span class="date">14:54</span>
+                        <span class="status ext_table_item_circle2">
+                            <svg-icon src="../../assets/images/chat/check_mark_14px.svg"></svg-icon>
+                        </span>
+                        <span class="status ext_table_item_circle">
+                            <svg-icon src="../../assets/images/chat/check_mark_double_16px.svg"></svg-icon>
+                        </span>
+                    </div>
+                </div> <!-- cnt -->
+            </div> <!-- message -->
 
-        <div class="added">
+            <div class="message right">
+                <div class="avatar"> </div>
+                <div class="cnt">
+                    <span class="name">John Smith</span>
+                    <div class="msg">Some random phrase. Let's type more random phrases. More amd more. London is the capital of Great Britan.</div>
+                    <div class="info">
+                        <span class="date">14:54</span>
+                        <span class="status ext_table_item_circle2">
+                            <svg-icon src="../../assets/images/chat/check_mark_14px.svg"></svg-icon>
+                        </span>
+                        <span class="status ext_table_item_circle">
+                            <svg-icon src="../../assets/images/chat/check_mark_double_16px.svg"></svg-icon>
+                        </span>
+                    </div>
+                </div> <!-- cnt -->
+            </div> <!-- message -->
 
-            <div class="item">
-                <div class="letters"><span>AS</span></div>
-                <div class="name">Adam Smit</div>
-            </div> <!-- item -->
+        </div> <!-- messages -->
+    </div> <!-- group_chat -->
 
-            <div class="item">
-                <div class="letters"><span>AF</span></div>
-                <div class="name">Alex Freeman</div>
-            </div> <!-- item -->
-
-            <div class="item">
-                <div class="letters"><span>J</span></div>
-                <div class="name">John</div>
-            </div> <!-- item -->
-
-            <div class="item">
-                <div class="letters"><span>D</span></div>
-                <div class="name">Daniel</div>
-            </div> <!-- item -->
-
-            <div class="item">
-                <div class="letters"><span>K</span></div>
-                <div class="name">Kevin</div>
-            </div> <!-- item -->
-
-            <div class="item">
-                <div class="letters"><span>DC</span></div>
-                <div class="name">Dani Connors</div>
-            </div> <!-- item -->
-
-            <div class="item">
-                <div class="letters"><span>WG</span></div>
-                <div class="name">Work group</div>
-            </div> <!-- item -->
-
-        </div> <!-- added -->
-
-        <div class="count">6 members</div>
-
-        <div class="choose_to_add">
-
-            <div class="item">
-                <div class="ava">
-                    <div class="inner">
-                        <span>AS</span>
-                    </div> <!-- inner -->
-                </div> <!-- ava -->
-                <div class="name"><span>Adam Smit</span></div>
-                <div class="msg"><span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- item -->
-
-            <div class="item">
-                <div class="ava">
-                    <div class="inner">
-                        <span>AS</span>
-                    </div> <!-- inner -->
-                </div> <!-- ava -->
-                <div class="name"><span>Adam Smit</span></div>
-                <div class="msg"><span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- item -->
-
-            <div class="item">
-                <div class="ava">
-                    <div class="inner">
-                        <span>AS</span>
-                    </div> <!-- inner -->
-                </div> <!-- ava -->
-                <div class="name"><span>Adam Smit</span></div>
-                <div class="msg"><span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- item -->
-
-            <div class="item">
-                <div class="ava">
-                    <div class="inner">
-                        <span>AS</span>
-                    </div> <!-- inner -->
-                </div> <!-- ava -->
-                <div class="name"><span>Adam Smit</span></div>
-                <div class="msg"><span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- item -->
-
-            <div class="item">
-                <div class="ava">
-                    <div class="inner">
-                        <span>AS</span>
-                    </div> <!-- inner -->
-                </div> <!-- ava -->
-                <div class="name"><span>Adam Smit</span></div>
-                <div class="msg"><span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- item -->
-
-            <div class="item">
-                <div class="ava">
-                    <div class="inner">
-                        <span>AS</span>
-                    </div> <!-- inner -->
-                </div> <!-- ava -->
-                <div class="name"><span>Adam Smit</span></div>
-                <div class="msg"><span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- item -->
-
-            <div class="item">
-                <div class="ava">
-                    <div class="inner">
-                        <span>AS</span>
-                    </div> <!-- inner -->
-                </div> <!-- ava -->
-                <div class="name"><span>Adam Smit</span></div>
-                <div class="msg"><span>Hello. If a curator called Mona Lisa tell me</span></div>
-            </div> <!-- item -->
-
-        </div> <!-- choose_to_add -->
-
-    </div> <!-- adding -->
-
-    <div class="naming naming_2">
-
-        <div class="enter_name">
-            <div class="ava">
-                <svg-icon src="../../assets/images/chat/new_group_24px.svg"></svg-icon>
-            </div> <!-- ava -->
-            <div class="input_wrap">
-                <input type="text" placeholder="Enter group name">
-            </div> <!-- input_wrap -->
-        </div> <!-- enter_name -->
-
-        <div class="enter_name_2">
-            <div class="up">
-                <div class="back">
-                    <svg-icon src="../../assets/images/chat/return_24px.svg"></svg-icon>
-                </div> <!-- back -->
-                <input class="input_enter_name" type="text" placeholder="Enter Name">
-            </div> <!-- up -->
-            <div class="add_people"> <!-- enter_name -->
-                <input type="text" placeholder="Add people...">
-            </div> <!-- add_people -->
-        </div> <!-- enter_name_2 -->
-
-        <div class="members">
-
-            <div class="amount">6 members</div>
-
-            <div class="members_list">
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-                <div class="member">
-                    <div class="avatar">
-                        <div class="inner"><span>AS</span></div>
-                    </div> <!-- avatar -->
-                    <div class="cnt">
-                        <div class="name">
-                            <span>Adam Smit</span></div>
-                        <div class="msg">
-                            <span>Hello. If a curator called Mona Lisa tell me</span></div>
-                    </div> <!-- cnt -->
-                </div> <!-- member -->
-
-            </div> <!-- items -->
-
-        </div> <!-- members_list -->
-
-    </div> <!-- naming -->
+    <div class="input_wrap bottom" [ngClass]="message.length > 0 ? 'send':''" *ngIf="chatGroupName">
+        <div class="smiles">
+            <svg-icon src="../../assets/images/chat/smiley_18px.svg"></svg-icon>
+        </div> <!-- smiles -->
+        <input type="text" placeholder="Write a message..." [(ngModel)]="message" (keyup)="onMessageKeyUp($event)">
+        <div class="files" [ngClass]="dropdownFilesStatus ? 'active':''" (click)="dropdownFilesFunc()">
+            <svg-icon src="../../assets/images/chat/clip_18px.svg"></svg-icon>
+            <div class="dropdown_block_files" *ngIf="dropdownFilesStatus">
+                <div class="item">Photo or Video</div>
+                <div class="item">Camera</div>
+                <div class="item">File</div>
+                <div class="item">Location</div>
+            </div> <!-- dropdown_block -->
+        </div> <!-- files -->
+        <div class="record">
+            <svg-icon class="mic" src="../../assets/images/chat/microphone_18px.svg"></svg-icon>
+            <svg-icon class="send" src="../../assets/images/chat/send_message.svg"></svg-icon>
+        </div> <!-- record -->
+    </div> <!-- input_wrap -->
 
 </div> <!-- new_group -->

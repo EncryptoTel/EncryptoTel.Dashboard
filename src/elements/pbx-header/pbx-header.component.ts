@@ -11,7 +11,6 @@ import {ButtonItem, FilterItem} from '../../models/base.model';
 export class HeaderComponent implements OnInit {
     currentFilter;
     selectedFilter;
-    timeout: any; // NodeJS.Timer;
 
     @Input() buttons: ButtonItem[];
     @Input() filters: FilterItem[];
@@ -31,8 +30,6 @@ export class HeaderComponent implements OnInit {
         this.filters = [];
         this.currentFilter = [];
         this.selectedFilter = [];
-
-        this.timeout = null;
 
         this.onClick = new EventEmitter<ButtonItem>();
         this.onReload = new EventEmitter<any>();
@@ -61,15 +58,14 @@ export class HeaderComponent implements OnInit {
     }
 
     reload(): void {
-        clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => {
+        setTimeout(() => {
             this.onReload.emit(this.currentFilter);
-        }, 500);
+        }, 0);
     }
 
     updateFilter(index: number, filter): void {
         this.selectedFilter[index] = filter;
-        let item = this.inputs.find((item, idx) => idx === index);
+        const item = this.inputs.find((i, idx) => idx === index);
         if (item) item.value = filter;
     }
 

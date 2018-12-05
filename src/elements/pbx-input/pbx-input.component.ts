@@ -6,6 +6,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
 import {FilterItem, InputAction} from '../../models/base.model';
 import {ValidationHost} from '../../models/validation-host.model';
 import {CheckboxComponent} from '@elements/pbx-checkbox/pbx-checkbox.component';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -98,7 +99,7 @@ export class InputComponent implements OnInit {
     inFocus: boolean = false;
     inMouseHover: boolean = false;
 
-    constructor() {}
+    constructor(public translate: TranslateService) {}
 
     // -- properties ----------------------------------------------------------
 
@@ -475,6 +476,7 @@ export class InputComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.name = this.translate.instant(this.name);
         this.loading ++;
 
         if (this.form && (this.checkbox || this.options)) {

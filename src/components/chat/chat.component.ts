@@ -24,9 +24,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     currentUserId: number;
     createStatus: boolean = false;
     chatObjects: any;
+    chatMessages: any;
     dropdownSettingsStatus: any;
     dropdownSettingsUserChat: boolean = false;
     dropdownFilesStatus: boolean = false;
+    dropdownSettingsGroupStatus: boolean = false;
+    chatGroupName: boolean = false;
+    listOfChats: boolean = true;
+    addedUser: boolean = false;
+    countOfAddedUsers: number = 0;
     @ViewChildren('menu_block') menu: ElementRef[];
 
     constructor(private socket: WsServices,
@@ -239,13 +245,164 @@ export class ChatComponent implements OnInit, OnDestroy {
                 titleGroup: ''
             }
         ];
+        this.chatMessages = [
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            },
+            {
+                userName: 'Adam Smith',
+                lastMessage: 'Hello. If a curator called Mona Lisa tell me',
+                status: false
+            },
+            {
+                userName: 'Albert Cool',
+                lastMessage: 'Hello. This is a message from me. Enjoy it!',
+                status: false
+            },
+            {
+                userName: 'John Does',
+                lastMessage: 'Hi! I\'m going to tell you some cool stories!',
+                status: false
+            }
+
+
+        ];
         this.dropdownSettingsStatus = [];
         this.chatObjects.forEach(item => {
             this.dropdownSettingsStatus.push(false);
         });
     }
+
+    countAddedUsers() {
+        let count = 0;
+        for (let i = 0; i < this.chatMessages.length; i++) {
+            if (this.chatMessages[i].status) count++;
+        }
+        this.countOfAddedUsers = count;
+    }
+
+    addUserToGroup(i) {
+        this.chatMessages[i].status = !this.chatMessages[i].status;
+        this.countAddedUsers();
+    }
+
     clickOutside(index): void {
         this.dropdownSettingsStatus[index] = false;
+    }
+
+    dropdownSettingsGroup() {
+        this.dropdownSettingsGroupStatus = !this.dropdownSettingsGroupStatus;
+    }
+
+    acceptGroupName() {
+        this.chatGroupName = !this.chatGroupName;
+    }
+
+    createNewGroup() {
+        this.chatGroupName = false;
+        this.listOfChats = !this.listOfChats;
     }
 
     changeCreateStatus() {
@@ -264,26 +421,26 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         //  расчет для вывода меню в верхнем положении
 
-        let scrolling = (document.querySelector('pbx-chat .list .items').scrollTop) * 1;
-        let visibleHeight = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list .items'), null).getPropertyValue('height')) + scrolling;
-        let itemHeight = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list .items .item'), null).getPropertyValue('height'));
-        let itemMarginBottom = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list .items .item'), null).getPropertyValue('margin-bottom'));
+        let scrolling = (document.querySelector('pbx-chat .list_of_chats .items').scrollTop) * 1;
+        let visibleHeight = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list_of_chats .items'), null).getPropertyValue('height')) + scrolling;
+        let itemHeight = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list_of_chats .items .item'), null).getPropertyValue('height'));
+        let itemMarginBottom = parseInt(window.getComputedStyle(document.querySelector('pbx-chat .list_of_chats .items .item'), null).getPropertyValue('margin-bottom'));
         let totalItemHeight = itemHeight + itemMarginBottom;
         let countVisible = (visibleHeight - (visibleHeight % totalItemHeight)) / totalItemHeight;
         let dropdownTop = 'dropdownTop';
 
         function settingClass () {
-            for (let k = 0; k < document.querySelectorAll('pbx-chat .list .items .item').length; k++) {
-                document.querySelectorAll('pbx-chat .list .items .item')[k].classList.remove(dropdownTop);
+            for (let k = 0; k < document.querySelectorAll('pbx-chat .list_of_chats .items .item').length; k++) {
+                document.querySelectorAll('pbx-chat .list_of_chats .items .item')[k].classList.remove(dropdownTop);
             }
 
-            document.querySelectorAll('pbx-chat .list .items .item')[countVisible - 1].classList.add(dropdownTop);
-            document.querySelectorAll('pbx-chat .list .items .item')[countVisible - 2].classList.add(dropdownTop);
-            document.querySelectorAll('pbx-chat .list .items .item')[countVisible - 3].classList.add(dropdownTop);
-            document.querySelectorAll('pbx-chat .list .items .item')[countVisible - 4].classList.add(dropdownTop);
+            document.querySelectorAll('pbx-chat .list_of_chats .items .item')[countVisible - 1].classList.add(dropdownTop);
+            document.querySelectorAll('pbx-chat .list_of_chats .items .item')[countVisible - 2].classList.add(dropdownTop);
+            document.querySelectorAll('pbx-chat .list_of_chats .items .item')[countVisible - 3].classList.add(dropdownTop);
+            document.querySelectorAll('pbx-chat .list_of_chats .items .item')[countVisible - 4].classList.add(dropdownTop);
 
-            if (countVisible < document.querySelectorAll('pbx-chat .list .items .item').length) {
-                document.querySelectorAll('pbx-chat .list .items .item')[countVisible].classList.add(dropdownTop);
+            if (countVisible < document.querySelectorAll('pbx-chat .list_of_chats .items .item').length) {
+                document.querySelectorAll('pbx-chat .list_of_chats .items .item')[countVisible].classList.add(dropdownTop);
             }
 
         }

@@ -133,10 +133,13 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     isAdmin() {
-        if (!this._user.profile.tariffPlan) {
-            return false;
-        } else {
-            return true;
+        this._user = this._storage.readItem('pbx_user');
+        if (this._user.profile) {
+            if (!this._user.profile.tariffPlan) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 

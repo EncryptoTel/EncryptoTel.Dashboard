@@ -5,7 +5,7 @@
                     (onClick)="deleteSelected($event)"
                     (onUpdate)="updateFilter($event)"
                     (onReload)="reloadFilter($event)"
-                    [inactive]="loading || loadingEx">
+                    [inactive]="loading">
         </pbx-header>
 
         <pbx-media-table
@@ -28,6 +28,10 @@
         <pbx-loader *ngIf="loading"></pbx-loader>
 
         <div class="media-table-message" *ngIf="!loading && activeFilter && pageInfo.itemsCount === 0" translate>
+            Nothing found
+        </div>
+
+        <div class="media-table-message" *ngIf="!loading && !activeFilter && pageInfo.itemsCount === 0" translate>
             No data to display
         </div>
 

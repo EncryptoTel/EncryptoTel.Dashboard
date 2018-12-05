@@ -121,15 +121,14 @@ export class StorageComponent implements OnInit {
     }
 
     ngOnInit() {
-        let $this: any;
-        $this = this;
+        const $this: StorageComponent = this;
         this.pageInfo.limit = Math.floor((window.innerHeight - 180) / 48);
         this.getItems();
         this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
             let storageItem: any;
             storageItem = $this.pageInfo.items.find(item => item.id === result.id);
-            console.log('storageItem', storageItem);
-            console.log('result', result);
+            // console.log('storageItem', storageItem);
+            // console.log('result', result);
             if (result.converted === 1) {
                 storageItem.converted = result.converted;
             }
@@ -139,17 +138,17 @@ export class StorageComponent implements OnInit {
     // --- data methods -----------------------------------
 
     private getItems(): void {
-        this.loading++;
+        this.loading ++;
 
         this.service.getItems(this.pageInfo, this.currentFilter, this.table.sort)
             .then(result => {
                 this.pageInfo = result;
                 this.onMediaDataLoaded();
-                this.loading--;
-            }).catch((error) => {
-            console.log('get items failed', error);
-            this.loading--;
-        });
+            })
+            .catch((error) => {
+                console.log('get items failed', error);
+            })
+            .then(() => this.loading --);
     }
 
     getMediaData(item: StorageItem): void {
@@ -160,7 +159,7 @@ export class StorageComponent implements OnInit {
                 item.record.mediaStream = result.fileLink;
                 this.mediaTable.setMediaData(item);
             })
-            .catch(error => {
+            .catch(() => {
                 item.record.mediaLoading = false;
                 item.record.playable = false;
             });
@@ -192,6 +191,7 @@ export class StorageComponent implements OnInit {
     // --- filter methods ---------------------------------
 
     reloadFilter(filter: any): void {
+        this.loading ++;
         if (filter.type === 'trash') {
             this.buttons[2].visible = true;
             this.buttons[1].visible = false;
@@ -204,7 +204,7 @@ export class StorageComponent implements OnInit {
         }
         this.currentFilter = filter;
         this.getItems();
-
+        this.loading --;
     }
 
     updateFilter(filter: any): void {
@@ -213,7 +213,7 @@ export class StorageComponent implements OnInit {
 
     get activeFilter(): boolean {
         if (this.currentFilter) {
-            let keys = Object.keys(this.currentFilter);
+            const keys = Object.keys(this.currentFilter);
             return keys.some(key => this.currentFilter[key] !== undefined && this.currentFilter[key]);
         }
     }
@@ -347,26 +347,23 @@ export class StorageComponent implements OnInit {
                 if (this.currentFilter && this.currentFilter.type === 'trash') {
                     typeDelete = 'delete';
                 }
-                let item: any;
-                item = this.pageInfo.items.find(item => item.id === id);
+                const item: any = this.pageInfo.items.find(i => i.id === id);
                 // item ? item.loading++ : null;
 
                 if (this.buttonType === 0) {
                     this.service.restoreById(id, (loading) => {
-                        this.updateLoading(loading, true);
-                    }, false).then(() => {
-                        item ? item.loading-- : null;
-                    }).catch(() => {
-                        item ? item.loading-- : null;
-                    });
+                            this.updateLoading(loading, true);
+                        }, false)
+                        .then(() => {})
+                        .catch(() => {})
+                        .then(() => { if (!!item) item.loading --; });
                 } else {
                     this.service.deleteById(id, (loading) => {
-                        this.updateLoading(loading, true);
-                    }, typeDelete, false).then(() => {
-                        item ? item.loading-- : null;
-                    }).catch(() => {
-                            item ? item.loading-- : null;
-                        });
+                            this.updateLoading(loading, true);
+                        }, typeDelete, false)
+                        .then(() => {})
+                        .catch(() => {})
+                        .then(() => { if (!!item) item.loading --; });
                 }
             });
         } else {
@@ -384,20 +381,19 @@ export class StorageComponent implements OnInit {
 
     deleteItem(item: StorageItem): void {
         this.buttonType = 4;
-        let _this = this;
         if (!item) return;
 
-        let typeDelete: string;
-        typeDelete = 'trash';
+        const _this = this;
+        let typeDelete: string = 'trash';
         if (_this.currentFilter && _this.currentFilter.type === 'trash') {
             typeDelete = 'delete';
         }
+
         this.service.deleteById(item.id, (loading) => {
-            _this.updateLoading(loading, true);
-        }, typeDelete, false).then(() => {
-            item.loading--;
-        }).catch(() => {
-            item.loading--;
-        });
+                _this.updateLoading(loading, true);
+            }, typeDelete, false)
+            .then(() => {})
+            .catch(() => {})
+            .then(() => item.loading --);
     }
 }
