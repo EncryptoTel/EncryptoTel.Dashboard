@@ -4,6 +4,7 @@ import {CountryModel} from '../../../models/country.model';
 import {RefsServices} from '../../../services/refs.services';
 import {ModalEx} from '../../../elements/pbx-modal/pbx-modal.component';
 import {MessageServices} from '@services/message.services';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'buy-phone-numbers-component',
@@ -73,10 +74,12 @@ export class BuyPhoneNumbersComponent implements OnInit {
 
     constructor(private _services: PhoneNumberService,
                 private refs: RefsServices,
-                private message: MessageServices) {
+                private message: MessageServices,
+                public translate: TranslateService) {
         this.pagination = {page: 1, total: 1};
         this.clearNumberVisible = false;
         this.clearSearchVisible = false;
+        this.matches = [{id: 0, title: this.translate.instant('Any part of number')}];
     }
 
     clearAreaCode() {
