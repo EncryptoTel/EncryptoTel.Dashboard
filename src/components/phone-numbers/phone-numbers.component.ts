@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {PhoneNumberItem, PhoneNumberModel} from '../../models/phone-number.model';
 import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {MessageServices} from '../../services/message.services';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'phone-numbers-component',
@@ -35,22 +36,33 @@ export class PhoneNumbersComponent implements OnInit {
 
     constructor(public service: PhoneNumberService,
                 public router: Router,
-                private message: MessageServices) {
+                private message: MessageServices,
+                public translate: TranslateService) {
         this.sidebar.title = '';
         this.loading = 0;
+        this.tableInfo = {
+            titles: [
+                this.translate.instant('Phone Number'),
+                this.translate.instant('Amount of Exts'),
+                this.translate.instant('Default Ext'),
+                this.translate.instant('Status'),
+                this.translate.instant('Number type')
+            ],
+            keys: ['phoneNumberWithType', 'innersCount', 'defaultInner', 'statusName', 'typeName']
+        };
     }
 
     select(item: any): void {
         this.selected = item;
         this.sidebar.buttons = [];
-        this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
-        this.sidebar.buttons.push(new SidebarButtonItem(2, this.selected.status ? 'Disable' : 'Enable', 'accent'));
+        this.sidebar.buttons.push(new SidebarButtonItem(1, this.translate.instant('Cancel'), 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(2, this.translate.instant(this.selected.status ? 'phoneDisable' : 'phoneEnable'), 'accent'));
         this.sidebar.items = [];
-        this.sidebar.items.push(new SidebarInfoItem(3, 'Phone number', this.selected.providerId !== 1 ? '+' + this.selected.phoneNumber : this.selected.phoneNumber));
-        this.sidebar.items.push(new SidebarInfoItem(4, 'Amount of Exts', this.selected.innersCount));
-        this.sidebar.items.push(new SidebarInfoItem(5, 'Default Ext', this.selected.defaultInner));
-        this.sidebar.items.push(new SidebarInfoItem(6, 'Status', this.selected.statusName));
-        this.sidebar.items.push(new SidebarInfoItem(7, 'Phone number type', this.selected.typeName));
+        this.sidebar.items.push(new SidebarInfoItem(3, this.translate.instant('Phone Number'), this.selected.providerId !== 1 ? '+' + this.selected.phoneNumber : this.selected.phoneNumber));
+        this.sidebar.items.push(new SidebarInfoItem(4, this.translate.instant('Amount of Exts'), this.selected.innersCount));
+        this.sidebar.items.push(new SidebarInfoItem(5, this.translate.instant('Default Ext'), this.selected.defaultInner));
+        this.sidebar.items.push(new SidebarInfoItem(6, this.translate.instant('Status'), this.selected.statusName));
+        this.sidebar.items.push(new SidebarInfoItem(7, this.translate.instant('Phone number type'), this.selected.typeName));
         if (!this.selected.delete) {
             this.sidebar.items.push(new SidebarInfoItem(8, 'Delete phone number ' +
                 (this.selected.innersCount === 1 ? 'and 1 Ext' : this.selected.innersCount > 1 ? 'and ' + this.selected.innersCount + ' Exts' : ''), null, true, false, true));

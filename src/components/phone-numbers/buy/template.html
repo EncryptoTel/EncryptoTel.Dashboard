@@ -6,16 +6,16 @@
 <div class="buy_phone_grid">
     <div class="buy_phone_header">
         <div class="buy_phone_header_block">
-            <div class="buy_phone_header_block_key">Select country:</div>
+            <div class="buy_phone_header_block_key" translate>Select country:</div>
             <pbx-editable-select [options]="countries"
                                  [objectKey]="'title'"
                                  (onSelect)="selectCountry($event)"
                                  [selected]="selectedCountry">
             </pbx-editable-select>
-            <div class="buy_phone_header_block_key">Search:</div>
+            <div class="buy_phone_header_block_key" translate>Search:</div>
 
             <div class="input_wr">
-                <input class="searching" type="text" placeholder="Type city prefix" name="search-by-city-prefix"
+                <input class="searching" type="text" placeholder="{{'Type city prefix' | translate}}" name="search-by-city-prefix"
                        (keyup)="searchInit()"
                        [(ngModel)]="requestDetails.areaCode">
                 <div class="clear_icon clear_icon_search" (click)="clearAreaCode()" *ngIf="clearSearchVisible">
@@ -26,22 +26,22 @@
 
         </div>
         <div class="buy_phone_header_block">
-            <div class="buy_phone_header_block_key">Number:</div>
+            <div class="buy_phone_header_block_key" translate>Number:</div>
 
             <div class="input_wr">
                 <input class="searching" #myNumberOnly type="text" name="search-by-digits"
-                       placeholder="Search by digits" (keyup)="searchInit()"
+                       placeholder="{{'Search by digits' | translate}}" (keyup)="searchInit()"
                        [(ngModel)]="requestDetails.contains">
                 <div class="clear_icon clear_icon_number" (click)="clearContains()" *ngIf="clearNumberVisible">
                     <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
                 </div>
             </div> <!-- input_wr -->
 
-            <div class="buy_phone_header_block_key">Match to:</div>
+            <div class="buy_phone_header_block_key" translate>Match to:</div>
             <pbx-select [options]="matches" [objectKey]="'title'" [selected]="matches[0]"></pbx-select>
         </div>
         <div class="buy_phone_header_options">
-            <div class="buy_phone_header_options_title">Number types:</div>
+            <div class="buy_phone_header_options_title" translate>Number types:</div>
 
             <pbx-checkbox [value]="requestDetails.local"
                           (onToggle)="requestDetails.local = $event; getList()"></pbx-checkbox>
@@ -56,7 +56,7 @@
             <div (click)="checkboxClick('tollFree')">Toll-free</div>
 
         </div>
-        <div class="buy_phone_header_refresh" (click)="getList()">Refresh phone lists
+        <div class="buy_phone_header_refresh" (click)="getList()" translate>Refresh phone lists
             <svg-icon class="buy_phone_header_refresh_icon" src="../../assets/icons/refresh.svg"></svg-icon>
         </div>
     </div>

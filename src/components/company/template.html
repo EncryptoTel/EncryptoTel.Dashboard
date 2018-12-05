@@ -20,10 +20,10 @@
             </pbx-input>
             <ng-container formArrayName="companyAddress">
                 <ng-container *ngFor="let address of addressControls.controls; let i = index;" [formGroupName]="i">
-                    <pbx-input name="Country"
+                    <pbx-input name="{{'Country' | translate}}"
                                key="country"
                                [required]="true"
-                               [placeholder]="'[choose one]'"
+                               [placeholder]="'[choose one]' | translate"
                                [form]="true"
                                [object]="address"
                                [options]="countries"
@@ -35,7 +35,7 @@
                                (onSelect)="selectCountry($event)"
                     >
                     </pbx-input>
-                    <pbx-input name="State/Region"
+                    <pbx-input name="{{'State/Region' | translate }}"
                                key="regionName"
                                [required]="true"
                                [form]="true"
@@ -46,7 +46,7 @@
                                [singleBorder]="true"
                     >
                     </pbx-input>
-                    <pbx-input name="City"
+                    <pbx-input name="{{'City' | translate}}"
                                key="locationName"
                                [required]="true"
                                [form]="true"
@@ -57,7 +57,7 @@
                                [singleBorder]="true"
                     >
                     </pbx-input>
-                    <pbx-input name="Street"
+                    <pbx-input name="{{'Street' | translate}}"
                                key="street"
                                [required]="true"
                                [form]="true"
@@ -68,7 +68,7 @@
                                [singleBorder]="true"
                     >
                     </pbx-input>
-                    <pbx-input name="House"
+                    <pbx-input name="{{'House' | translate}}"
                                key="building"
                                [required]="true"
                                [form]="true"
@@ -79,7 +79,7 @@
                                [singleBorder]="true"
                     >
                     </pbx-input>
-                    <pbx-input name="Office"
+                    <pbx-input name="{{'Office' | translate}}"
                                key="office"
                                [required]="false"
                                [form]="true"
@@ -90,7 +90,7 @@
                                [singleBorder]="true"
                     >
                     </pbx-input>
-                    <pbx-input name="Postal code"
+                    <pbx-input name="{{'Postal code' | translate}}"
                                key="postalCode"
                                [required]="false"
                                [form]="true"
@@ -112,7 +112,7 @@
                        [singleBorder]="true"
             >
             </pbx-input>
-            <pbx-input name="Phone"
+            <pbx-input name="{{'Phone' | translate}}"
                        key="phone"
                        [form]="true"
                        [object]="form"
@@ -121,7 +121,7 @@
                        [singleBorder]="true"
             >
             </pbx-input>
-            <pbx-input name="VAT ID"
+            <pbx-input name="{{'VAT ID' | translate}}"
                        key="vatId"
                        [form]="true"
                        [object]="form"
@@ -160,10 +160,10 @@
                                 <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
                             </div>
                         </a>
-                        <div class="store_sidebar_audio_text">Drop files here to upload</div>
-                        <div class="store_sidebar_audio_text">or</div>
+                        <div class="store_sidebar_audio_text" translate>Drop files here to upload</div>
+                        <div class="store_sidebar_audio_text" translate>or</div>
                         <div class="store_sidebar_audio_select hidden_button_wrapper">
-                            <p class="select_file" #fileSelect (click)="selectFile()">select files</p>
+                            <p class="select_file" #fileSelect (click)="selectFile()" translate>select files</p>
                             <input type="file" class="hidden_input" #fileInput (change)="sendFile($event)">
                         </div>
                     </div>
