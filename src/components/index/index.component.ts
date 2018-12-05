@@ -55,6 +55,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     userNavigationVisible: boolean = false;
     mobileNavigationVisible: boolean = false;
     NotificationSubscription: Subscription;
+    lockCaller: boolean = true;
 
     get username(): string {
         if (this.user && this.user.profile) {
@@ -104,10 +105,12 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     toggleActiveButton(ix: number, ev: MouseEvent): void {
-        if (ev) {
-            ev.preventDefault();
+        if (!this.lockCaller) {
+            if (ev) {
+                ev.preventDefault();
+            }
+            this.activeButtonIndex = this.activeButtonIndex === ix ? undefined : ix;
         }
-        this.activeButtonIndex = this.activeButtonIndex === ix ? undefined : ix;
     }
 
     toggleHeaderButtons(ev: MouseEvent): void {
