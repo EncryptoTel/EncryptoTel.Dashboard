@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, HostListener} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, HostListener, OnDestroy} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 
 import {FadeAnimation} from '../../shared/fade-animation';
@@ -7,6 +7,7 @@ import {FilterItem, InputAction} from '../../models/base.model';
 import {ValidationHost} from '../../models/validation-host.model';
 import {CheckboxComponent} from '@elements/pbx-checkbox/pbx-checkbox.component';
 import {TranslateService} from '@ngx-translate/core';
+import { Subscriber } from 'rxjs/Subscriber';
 
 
 @Component({
@@ -15,8 +16,8 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms'), SwipeAnimation('y', '200ms')]
 })
-export class InputComponent implements OnInit {
-
+export class InputComponent implements OnInit, OnDestroy {
+    changeSubscriber: Subscriber<any>;
     @Input() key: string;
     @Input() name: string;
     @Input() description: string;
@@ -476,9 +477,12 @@ export class InputComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('input init')
         this.name = this.translate.instant(this.name);
         this.loading ++;
-
+        if (this.options) {
+            this.changeSelectWatch();
+        }
         if (this.form && (this.checkbox || this.options)) {
             this.value = this.getForm() ? this.getForm().value : false;
             if (this.objectView) {
@@ -520,4 +524,18 @@ export class InputComponent implements OnInit {
         this.loading --;
     }
 
+    changeSelectWatch() {
+        console.log('changeSelectWatch init');
+        this.getForm().valueChanges.subscribe((val) => {
+            console.log('changeSelectWatch', val, this.value);
+            this.value = val;
+            this.selectedItem = val;
+        })
+    }
+
+    ngOnDestroy(): void {
+        if(this.changeSubscriber) {
+            this.changeSubscriber.unsubscribe();
+        }
+    }
 }

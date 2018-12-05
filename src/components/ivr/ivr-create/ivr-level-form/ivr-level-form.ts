@@ -2,29 +2,20 @@ import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import {
     FormBuilder,
-    Validators,
-    FormGroup,
-    FormControl,
-    ValidationErrors
+    Validators
 } from '@angular/forms';
 
 import { IvrService } from '@services/ivr.service';
 import { RefsServices } from '@services/refs.services';
 import { MessageServices } from '@services/message.services';
 import { IvrLevel, DigitActions } from '@models/ivr.model';
-import {
-    CallRuleDay,
-    CallRuleTimeType,
-    CallRuleTime
-} from '@models/call-rules.model';
 import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import { FadeAnimation } from '@shared/fade-animation';
-import { nameRegExp, phoneRegExp, ivrNameRegExp } from '@shared/vars';
+import { ivrNameRegExp } from '@shared/vars';
 import { MediaPlayerComponent } from '@elements/pbx-media-player/pbx-media-player.component';
 import { StorageService } from '@services/storage.service';
 import { MediaState, CdrMediaInfo } from '@models/cdr.model';
 import { IvrFormInterface } from '../form.interface';
-import { validateFormControls } from '@shared/shared.functions';
 
 @Component({
     selector: 'pbx-ivr-level-form',
@@ -86,10 +77,10 @@ export class IvrLevelFormComponent extends FormBaseComponent
         this.onFormChange = new Subject();
 
         this.validationHost.customMessages = [
-            {name: 'External number', error: 'pattern', message: 'Phone number contains invalid characters. You can only use numbers.'},
-            {name: 'Loop message', error: 'pattern', message: 'Loop message value should be from 1 to 5.'},
-            {name: 'IVR Name', error: 'pattern', message: 'IVR Name may contain letters, digits, dots and dashes only.'},
-            {name: 'Level Name', error: 'pattern', message: 'Level Name may contain letters, digits, dots and dashes only.'},
+            { name: 'External number', error: 'pattern', message: 'Phone number contains invalid characters. You can only use numbers.' },
+            { name: 'Loop message', error: 'pattern', message: 'Loop message value should be from 1 to 5.' },
+            { name: 'IVR Name', error: 'pattern', message: 'IVR Name may contain letters, digits, dots and dashes only.' },
+            { name: 'Level Name', error: 'pattern', message: 'Level Name may contain letters, digits, dots and dashes only.' },
         ];
     }
 
@@ -110,13 +101,13 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     initFiles() {
-        this.loading ++;
+        this.loading++;
         return this.service.getFiles()
             .then(response => {
                 this.files = response.items;
             })
-            .catch(() => {})
-            .then(() => this.loading --);
+            .catch(() => { })
+            .then(() => this.loading--);
     }
 
     initForm(): void {
@@ -137,13 +128,13 @@ export class IvrLevelFormComponent extends FormBaseComponent
             parameter: [null],
             levelNum: [null]
         });
-        
+
         this.form.statusChanges.subscribe(() => {
             this.onFormChange.next(this.form);
         });
-        
+
         this.form.get('action').valueChanges.subscribe(actionValue => {
-            this.loading ++;
+            this.loading++;
             this.service
                 .showParameter(
                     actionValue,
@@ -160,16 +151,16 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     this.form.get('parameter').markAsUntouched();
                     this.validationHost.initItems();
                 })
-                .catch(() => {})
-                .then(() => this.loading --);
+                .catch(() => { })
+                .then(() => this.loading--);
         });
-        
+
         this.form.get('sipId').valueChanges.subscribe(sipId => {
             if (typeof sipId === 'number') {
                 this.references.sipId = sipId;
                 this.service.currentSip = sipId;
 
-                this.loading ++;
+                this.loading++;
                 this.service
                     .showParameter(
                         this.form.get('action').value,
@@ -180,12 +171,13 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     .then(response => {
                         this.paramsInfo = response;
                     })
-                    .catch(() => {})
-                    .then(() => this.loading --);
+                    .catch(() => { })
+                    .then(() => this.loading--);
             }
         });
-        
+
         this.form.get('voiceGreeting').valueChanges.subscribe(val => {
+            console.log(val);
             this.selectFile(val);
         });
     }
@@ -201,19 +193,34 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
     uploadFile(event: any): void {
         event.preventDefault();
-
         const file = event.target.files[0];
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
-                this.storage.checkFileExists(file, loading => {
-                    if (!this.storage.loading) {
-                        this.initFiles();
+                this.storage.checkOnlyFileExists(file).then((res) => {
+                    if (!res) {
+                        this.storage.uploadFile(file, null).then(f => {
+                            this.initFiles().then(() => {
+                                this.selectVoiceGreeting(f);
+                            });
+                        })
+                    } else {
+                        const f = this.files.find(f => f.fileName === file.name);
+                        this.selectVoiceGreeting(f);
                     }
-                });
+                })
             } else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
             }
             this.storage.checkModal();
+        }
+    }
+
+    selectVoiceGreeting(file) {
+        if (file) {
+            this.form.get('voiceGreeting').setValue(file.id);
+            this.form.get('name').setValue(file.id);
+            // this.form.value.voiceGreeting = file.id;
+            this.files = this.files.slice();
         }
     }
 

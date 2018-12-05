@@ -15,6 +15,7 @@ export class SelectComponent implements OnInit, OnChanges {
     @Input() objectKey: string;
     @Input()
     set selected(selected: any) {
+        console.log('=======================', selected);
         if (typeof selected === 'number' || typeof selected === 'string') {
             let option: any;
             option = this.options.find(o => +o.id === +selected);
