@@ -10,7 +10,7 @@
             <div class="dashboard_item_title_key">ETT</div>
             <div class="dashboard_balance_value">{{dashboard.balance.ett}}</div>
         </div>
-        <div class="dashboard_item_link_row">
+        <div class="dashboard_item_link_row" *ngIf="isAdmin()">
             <a class="dashboard_item_link_item" [routerLink]="'../settings/billing'" routerLinkActive="active">
                 <span translate>Billing</span>
                 <svg-icon class="dashboard_item_icon"
@@ -47,7 +47,7 @@
                 {{dashboard.balance.currency.shortName}}{{dashboard.tariffPlan.sum}}
             </div>
         </div>
-        <div class="dashboard_item_link_row">
+        <div class="dashboard_item_link_row" *ngIf="isAdmin()">
             <a [routerLink]="'../tariff'" routerLinkActive="active" class="dashboard_item_link_item" translate>
                 Change tariff plan
                 <svg-icon class="dashboard_item_icon"
@@ -70,7 +70,7 @@
                 </div>
             </div>
         </div>
-        <div class="dashboard_item_link_row">
+        <div class="dashboard_item_link_row" *ngIf="isAdmin()">
             <a class="dashboard_item_link_item dashboard_right" [routerLink]="'../phone-numbers'"
                routerLinkActive="active" translate>
                 Details

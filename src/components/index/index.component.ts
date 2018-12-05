@@ -28,6 +28,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     language: string;
     text: any;
+    _user: any;
 
     constructor(public userService: UserServices,
                 public _main: MainViewComponent,
@@ -38,7 +39,7 @@ export class IndexComponent implements OnInit, OnDestroy {
                 private _refs: RefsServices,
                 private langState: LangStateService) {
         this.user = this.userService.fetchUser();
-
+        this._user = this._storage.readItem('pbx_user');
         this.text = langState.get();
     }
 
@@ -129,6 +130,14 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.serviceSubscription = this._ws.getService().subscribe(service => {
             this.navigationInit();
         });
+    }
+
+    isAdmin() {
+        if (!this._user.profile.tariffPlan) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     ngOnInit(): void {
