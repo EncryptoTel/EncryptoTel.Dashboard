@@ -44,7 +44,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     }
 
     get addDigitButtonVisible(): boolean {
-        return this.form.valid && !!this.level;
+        return this.form.valid && !!this.level && this.level.digits.length < 12;
     }
 
     constructor(
