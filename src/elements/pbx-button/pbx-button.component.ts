@@ -43,7 +43,9 @@ export class ButtonComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._value = this.translate.instant(this._valueCanonical);
+        if (this._valueCanonical) {
+            this._value = this.translate.instant(this._valueCanonical);
+        }
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             if (this._valueCanonical) {
                 this._value = this.translate.instant(this._valueCanonical);
