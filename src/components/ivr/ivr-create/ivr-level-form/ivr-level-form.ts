@@ -220,7 +220,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
             this.form.get('voiceGreeting').setValue(file.id);
             this.form.get('name').setValue(file.id);
             // this.form.value.voiceGreeting = file.id;
-            this.files = this.files.slice();
+            // this.files = this.files.slice();
         }
     }
 
