@@ -3,6 +3,6 @@ export const environment = {
     production: false,
     backApiVersion: 'v1',
     translation: 'https://new.encryptotel.com/translation/translations',
-    back: 'https://new.encryptotel.com/front-api',
+    back: 'https://pbx.encryptotel.com/front-api',
     ws: 'ws.encryptotel.com',
 };
