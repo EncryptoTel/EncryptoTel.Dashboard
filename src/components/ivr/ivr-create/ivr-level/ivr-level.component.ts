@@ -28,15 +28,15 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     // @Input() isValidForm: boolean;
     @Input() form: IvrFormInterface;
     @Input() editMode: boolean;
-    
+
     @Output() ivrSelected: EventEmitter<any> = new EventEmitter<any>();
     @Output() onCancelEdit: EventEmitter<any> = new EventEmitter<any>();
     @Output() onDeleteLevel: EventEmitter<IvrLevel> = new EventEmitter<IvrLevel>();
-    
+
     modal: ModalEx;
     modalWnd: ModalComponent;
     selectedItem: any;
-    
+
     get levelDescription(): string {
         return !this.level || this.level.levelNum === 1
             ? 'IVR Menu'
@@ -44,7 +44,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     }
 
     get addDigitButtonVisible(): boolean {
-        return this.form.valid && !!this.level;
+        return this.form.valid && !!this.level && this.level.digits.length < 12;
     }
 
     constructor(
@@ -66,8 +66,9 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
         if (this.form.valid) {
             this.selectedItem = digit;
             this.ivrSelected.emit({level: this.level, digit: this.selectedItem});
-        } 
+        }
         else {
+            this.modal.body = 'Form is not saved. This element will be deleted. Do you want to continue?';
             this.modal.visible = true;
             this.modalWnd.onConfirmEx.subscribe(() => {
                 this.onCancelEdit.emit();
@@ -162,7 +163,11 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     }
 
     deleteLevel() {
-        this.onDeleteLevel.emit(this.level);
+        this.modal.body = 'Are you sure want to delete this level?';
+            this.modal.visible = true;
+            this.modalWnd.onConfirmEx.subscribe(() => {
+                this.onDeleteLevel.emit(this.level);
+            });
     }
 
     ngOnDestroy(): void {

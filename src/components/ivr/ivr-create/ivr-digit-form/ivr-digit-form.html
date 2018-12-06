@@ -29,7 +29,7 @@
                >
     </pbx-input>
 
-    <div class="title accent">When the caller presses {{ formSelectedDigit?.title }}</div>
+    <div class="title accent">When the caller presses {{ digitForm.value.digit }}</div>
     <pbx-input name="then"
                key="action"
                [required]="true"
@@ -46,7 +46,7 @@
     </pbx-input>
 
     <pbx-input *ngIf="paramsInfo.visible"
-               name="{{paramsInfo.label | translate }}" 
+               name="{{paramsInfo.label | translate }}"
                key="parameter"
                [required]="true"
                [form]="true"
@@ -60,7 +60,7 @@
     </pbx-input>
 </ng-container>
 </div>
-<pbx-modal 
+<pbx-modal
     [modalEx]="modalExit"
     (onConfirmEx)="cancel()"
     >

@@ -44,6 +44,33 @@ export class StorageComponent implements OnInit {
 
     private buttonType: number;
 
+    // --- properties -------------------------------------
+
+    get isEmptySearch(): boolean {
+        // !loading && activeFilter && pageInfo.itemsCount === 0
+        const isLoading: boolean = !!this.loading;
+        const filteredWithSearch: boolean = this.activeFilter
+            && this.currentFilter
+            && this.currentFilter.hasOwnProperty('search')
+            && this.currentFilter.search;
+        return !isLoading && filteredWithSearch && this.pageInfo.itemsCount === 0;
+    }
+
+    get isNothingFound(): boolean {
+        // !loading && !activeFilter && pageInfo.itemsCount === 0
+        const isLoading: boolean = !!this.loading;
+        const filteredWithoutSearch: boolean = this.activeFilter
+            && this.currentFilter
+            && (!this.currentFilter.hasOwnProperty('search') || !this.currentFilter.search);
+        return !isLoading && filteredWithoutSearch && this.pageInfo.itemsCount === 0;
+    }
+
+    get isPaginationVisible(): boolean {
+        // !loading && !loadingEx && !filter.loading && pageInfo.itemsCount > 0
+        const isLoading: boolean = !!this.loading;
+        return !isLoading && this.pageInfo.itemsCount > 10;
+    }
+
     // --- component methods ------------------------------
 
     constructor(
@@ -190,6 +217,13 @@ export class StorageComponent implements OnInit {
 
     // --- filter methods ---------------------------------
 
+    get activeFilter(): boolean {
+        if (this.currentFilter) {
+            const keys = Object.keys(this.currentFilter);
+            return keys.some(key => this.currentFilter[key] !== undefined && this.currentFilter[key]);
+        }
+    }
+
     reloadFilter(filter: any): void {
         this.loading ++;
         if (filter.type === 'trash') {
@@ -209,13 +243,6 @@ export class StorageComponent implements OnInit {
 
     updateFilter(filter: any): void {
         this.currentFilter = filter;
-    }
-
-    get activeFilter(): boolean {
-        if (this.currentFilter) {
-            const keys = Object.keys(this.currentFilter);
-            return keys.some(key => this.currentFilter[key] !== undefined && this.currentFilter[key]);
-        }
     }
 
     // --- selection --------------------------------------

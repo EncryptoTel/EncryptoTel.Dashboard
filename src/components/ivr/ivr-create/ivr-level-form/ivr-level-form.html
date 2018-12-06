@@ -33,7 +33,7 @@
                class="phone_number"
                >
     </pbx-input>
-
+    <ng-container *ngIf="!!form.value.sipId || form.value.levelNum !== 1">
     <div class="call-rules-create_row">
         <h3>{{'IVR Options' | translate }}</h3>
     </div>
@@ -68,7 +68,7 @@
                         >
             </pbx-button>
             <div class="hidden_button_wrapper">
-                <pbx-button value="Upload" 
+                <pbx-button value="Upload"
                             buttonType="accent"
                             [loading]="storage.loading"
                             >
@@ -92,7 +92,7 @@
          >
         <h3>{{ 'If user has chosen nothing' | translate }}</h3>
     </div>
-    <pbx-input name="{{ 'Then' | translate }}" 
+    <pbx-input name="{{ 'Then' | translate }}"
                key="action"
                [form]="true"
                [object]="form"
@@ -116,16 +116,17 @@
                placeholder="{{ paramsPlaceholder }}"
                >
     </pbx-input>
+    </ng-container>
 </div>
 {{ actionVal | json }}
-<pbx-media-player 
-    #mediaPlayer 
+<pbx-media-player
+    #mediaPlayer
     [mediaStream]="currentMediaStream"
     (onGetMediaData)="getMediaData($event)"
     (onMediaStateChanged)="mediaStateChanged($event)"
     >
 </pbx-media-player>
-<pbx-modal 
+<pbx-modal
     [modalEx]="modalExit"
     (onConfirmEx)="cancel()"
     >
