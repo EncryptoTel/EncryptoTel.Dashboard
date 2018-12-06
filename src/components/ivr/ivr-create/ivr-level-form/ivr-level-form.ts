@@ -98,7 +98,6 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     ngOnInit() {
-        this.initFiles();
         super.ngOnInit();
         this.service.reset();
 
@@ -107,16 +106,6 @@ export class IvrLevelFormComponent extends FormBaseComponent
         }
 
         this.setFormData(this.data);
-    }
-
-    initFiles() {
-        this.loading ++;
-        return this.service.getFiles()
-            .then(response => {
-                this.files = response.items;
-            })
-            .catch(() => {})
-            .then(() => this.loading --);
     }
 
     initForm(): void {
@@ -137,11 +126,11 @@ export class IvrLevelFormComponent extends FormBaseComponent
             parameter: [null],
             levelNum: [null]
         });
-        
+
         this.form.statusChanges.subscribe(() => {
             this.onFormChange.next(this.form);
         });
-        
+
         this.form.get('action').valueChanges.subscribe(actionValue => {
             this.loading ++;
             this.service
@@ -163,7 +152,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 .catch(() => {})
                 .then(() => this.loading --);
         });
-        
+
         this.form.get('sipId').valueChanges.subscribe(sipId => {
             if (typeof sipId === 'number') {
                 this.references.sipId = sipId;
@@ -184,7 +173,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     .then(() => this.loading --);
             }
         });
-        
+
         this.form.get('voiceGreeting').valueChanges.subscribe(val => {
             this.selectFile(val);
         });
@@ -207,7 +196,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
             if (this.storage.checkCompatibleType(file)) {
                 this.storage.checkFileExists(file, loading => {
                     if (!this.storage.loading) {
-                        this.initFiles();
+                        this.service.initFiles();
                     }
                 });
             } else {

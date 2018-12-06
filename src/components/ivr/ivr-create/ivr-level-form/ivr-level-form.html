@@ -55,7 +55,7 @@
                [placeholder]="'[choose file]'"
                [form]="true"
                [object]="form"
-               [options]="files"
+               [options]="this.service.references.files"
                displayKey="fileName"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
