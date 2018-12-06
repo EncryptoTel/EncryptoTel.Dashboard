@@ -34,7 +34,6 @@ export class IvrLevelFormComponent extends FormBaseComponent
     bsRangeValue = new Date();
     currentMediaStream: string = '/assets/mp3/silence.mp3';
     playButtonText: string;
-    files = [];
 
     period: any;
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
@@ -201,7 +200,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     get isFileSelected(): boolean {
         if (!this.form.value.voiceGreeting) return false;
 
-        const file = this.files.find(
+        const file = this.service.references.files.find(
             f => +f.id === +this.form.value.voiceGreeting
         );
         return !!file && file.converted !== undefined && file.converted > 0;
@@ -213,14 +212,16 @@ export class IvrLevelFormComponent extends FormBaseComponent
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
                 this.storage.checkOnlyFileExists(file).then(res => {
+                    console.log(res);
                     if (!res) {
                         this.storage.uploadFile(file, null).then(f => {
-                            this.initFiles().then(() => {
+                            this.service.initFiles().then(() => {
                                 this.selectVoiceGreeting(f);
                             });
                         });
                     } else {
-                        const f = this.files.find(
+                        console.log(this.service.references.files);
+                        const f = this.service.references.files.find(
                             fileInfo => fileInfo.fileName === file.name
                         );
                         this.selectVoiceGreeting(f);
@@ -234,6 +235,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     selectVoiceGreeting(file) {
+        console.log(file);
         if (file) {
             this.form.get('voiceGreeting').setValue(file.id);
         }
