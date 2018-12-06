@@ -14,6 +14,10 @@
     .ivr_create_body
         display: flex
         height: 100%
+        .right
+            pbx-input
+                position: relative
+                z-index: 15
         &.one_block
             .left
                 display: none
@@ -174,9 +178,6 @@
             overflow: auto
             padding: 24px
             display: grid
-            pbx-input
-                .pbx_input_error
-                    z-index: 15
             .pbx_input_item_label
                 width: 120px !important
             pbx-input[key="voiceGreeting"]
