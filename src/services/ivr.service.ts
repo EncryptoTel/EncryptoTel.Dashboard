@@ -85,7 +85,8 @@ export class IvrService extends BaseService {
             this.getSipOuters(),
             this.getParams(),
             this.getQueue(),
-            this.getRingGroup()
+            this.getRingGroup(),
+            this.initFiles()
         ]).then(res => {
             this.references.sip = !!res[0].items ? res[0].items : [];
             this.references.sip.map(item => {
@@ -101,6 +102,14 @@ export class IvrService extends BaseService {
             this.references.queue = res[2].items;
             this.references.ringGroup = res[3].items;
         });
+    }
+
+    initFiles() {
+        return this.getFiles()
+            .then(response => {
+                this.references.files = response.items;
+            })
+            .catch(() => {});
     }
 
     showParameter(action, sipId, levels, data: IvrLevel | Digit): any {
@@ -199,6 +208,14 @@ export class IvrService extends BaseService {
                     paramsInfo.label = 'Ivr integration';
                     paramsInfo.option = undefined;
                     paramsInfo.visible = false;
+                    resolve(paramsInfo);
+                    break;
+                case DigitActions.PLAY_VOICE:
+                    paramsInfo.label = 'Play file';
+                    paramsInfo.option = this.references.files.map(file => {
+                        return { id: file.id, name: file.fileName };
+                    });
+                    paramsInfo.visible = true;
                     resolve(paramsInfo);
                     break;
                 default:

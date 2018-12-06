@@ -1,30 +1,18 @@
 import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import {
-    FormBuilder,
-    Validators,
-    FormGroup,
-    FormControl,
-    ValidationErrors
-} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 import { IvrService } from '@services/ivr.service';
 import { RefsServices } from '@services/refs.services';
 import { MessageServices } from '@services/message.services';
 import { IvrLevel, DigitActions } from '@models/ivr.model';
-import {
-    CallRuleDay,
-    CallRuleTimeType,
-    CallRuleTime
-} from '@models/call-rules.model';
 import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import { FadeAnimation } from '@shared/fade-animation';
-import { nameRegExp, phoneRegExp, ivrNameRegExp } from '@shared/vars';
+import { ivrNameRegExp } from '@shared/vars';
 import { MediaPlayerComponent } from '@elements/pbx-media-player/pbx-media-player.component';
 import { StorageService } from '@services/storage.service';
 import { MediaState, CdrMediaInfo } from '@models/cdr.model';
 import { IvrFormInterface } from '../form.interface';
-import { validateFormControls } from '@shared/shared.functions';
 
 @Component({
     selector: 'pbx-ivr-level-form',
@@ -46,7 +34,6 @@ export class IvrLevelFormComponent extends FormBaseComponent
     bsRangeValue = new Date();
     currentMediaStream: string = '/assets/mp3/silence.mp3';
     playButtonText: string;
-    files = [];
 
     period: any;
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
@@ -57,7 +44,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
         label: '',
         option: [],
         visible: false,
-        validators: [],
+        validators: []
     };
 
     // -- properties ----------------------------------------------------------
@@ -67,9 +54,11 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     get paramsPlaceholder(): string {
-        const placeholder: string = (Array.isArray(this.paramsInfo.option) && this.paramsInfo.option.length === 0)
-            ? 'None'
-            : '';
+        const placeholder: string =
+            Array.isArray(this.paramsInfo.option) &&
+            this.paramsInfo.option.length === 0
+                ? 'None'
+                : '';
         return placeholder;
     }
 
@@ -86,10 +75,29 @@ export class IvrLevelFormComponent extends FormBaseComponent
         this.onFormChange = new Subject();
 
         this.validationHost.customMessages = [
-            {name: 'External number', error: 'pattern', message: 'Phone number contains invalid characters. You can only use numbers.'},
-            {name: 'Loop message', error: 'pattern', message: 'Loop message value should be from 1 to 5.'},
-            {name: 'IVR Name', error: 'pattern', message: 'IVR Name may contain letters, digits, dots and dashes only.'},
-            {name: 'Level Name', error: 'pattern', message: 'Level Name may contain letters, digits, dots and dashes only.'},
+            {
+                name: 'External number',
+                error: 'pattern',
+                message:
+                    'Phone number contains invalid characters. You can only use numbers.'
+            },
+            {
+                name: 'Loop message',
+                error: 'pattern',
+                message: 'Loop message value should be from 1 to 5.'
+            },
+            {
+                name: 'IVR Name',
+                error: 'pattern',
+                message:
+                    'IVR Name may contain letters, digits, dots and dashes only.'
+            },
+            {
+                name: 'Level Name',
+                error: 'pattern',
+                message:
+                    'Level Name may contain letters, digits, dots and dashes only.'
+            }
         ];
     }
 
@@ -98,7 +106,6 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     ngOnInit() {
-        this.initFiles();
         super.ngOnInit();
         this.service.reset();
 
@@ -109,23 +116,21 @@ export class IvrLevelFormComponent extends FormBaseComponent
         this.setFormData(this.data);
     }
 
-    initFiles() {
-        this.loading ++;
-        return this.service.getFiles()
-            .then(response => {
-                this.files = response.items;
-            })
-            .catch(() => {})
-            .then(() => this.loading --);
-    }
-
     initForm(): void {
         this.form = this.fb.group({
             sipId: [
                 null,
                 this.data.levelNum === 1 ? [Validators.required] : []
             ],
-            name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(ivrNameRegExp)]],
+            name: [
+                '',
+                [
+                    Validators.required,
+                    Validators.minLength(4),
+                    Validators.maxLength(40),
+                    Validators.pattern(ivrNameRegExp)
+                ]
+            ],
             description: ['', [Validators.maxLength(255)]],
             voiceGreeting: [null, [Validators.required]],
             loopMessage: [
@@ -137,13 +142,13 @@ export class IvrLevelFormComponent extends FormBaseComponent
             parameter: [null],
             levelNum: [null]
         });
-        
+
         this.form.statusChanges.subscribe(() => {
             this.onFormChange.next(this.form);
         });
-        
+
         this.form.get('action').valueChanges.subscribe(actionValue => {
-            this.loading ++;
+            this.loading++;
             this.service
                 .showParameter(
                     actionValue,
@@ -153,7 +158,9 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 )
                 .then(response => {
                     this.paramsInfo = response;
-                    this.form.get('parameter').setValidators(this.paramsInfo.validators)
+                    this.form
+                        .get('parameter')
+                        .setValidators(this.paramsInfo.validators);
                     if (actionValue !== this.data.action) {
                         this.form.get('parameter').setValue(null);
                     }
@@ -161,15 +168,15 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     this.validationHost.initItems();
                 })
                 .catch(() => {})
-                .then(() => this.loading --);
+                .then(() => this.loading--);
         });
-        
+
         this.form.get('sipId').valueChanges.subscribe(sipId => {
             if (typeof sipId === 'number') {
                 this.references.sipId = sipId;
                 this.service.currentSip = sipId;
 
-                this.loading ++;
+                this.loading++;
                 this.service
                     .showParameter(
                         this.form.get('action').value,
@@ -181,10 +188,10 @@ export class IvrLevelFormComponent extends FormBaseComponent
                         this.paramsInfo = response;
                     })
                     .catch(() => {})
-                    .then(() => this.loading --);
+                    .then(() => this.loading--);
             }
         });
-        
+
         this.form.get('voiceGreeting').valueChanges.subscribe(val => {
             this.selectFile(val);
         });
@@ -193,27 +200,44 @@ export class IvrLevelFormComponent extends FormBaseComponent
     get isFileSelected(): boolean {
         if (!this.form.value.voiceGreeting) return false;
 
-        const file = this.files.find(f => +f.id === +this.form.value.voiceGreeting);
-        return !!file
-            && file.converted != undefined
-            && file.converted > 0;
+        const file = this.service.references.files.find(
+            f => +f.id === +this.form.value.voiceGreeting
+        );
+        return !!file && file.converted !== undefined && file.converted > 0;
     }
 
     uploadFile(event: any): void {
         event.preventDefault();
-
         const file = event.target.files[0];
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
-                this.storage.checkFileExists(file, loading => {
-                    if (!this.storage.loading) {
-                        this.initFiles();
+                this.storage.checkOnlyFileExists(file).then(res => {
+                    console.log(res);
+                    if (!res) {
+                        this.storage.uploadFile(file, null).then(f => {
+                            this.service.initFiles().then(() => {
+                                this.selectVoiceGreeting(f);
+                            });
+                        });
+                    } else {
+                        console.log(this.service.references.files);
+                        const f = this.service.references.files.find(
+                            fileInfo => fileInfo.fileName === file.name
+                        );
+                        this.selectVoiceGreeting(f);
                     }
                 });
             } else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
             }
             this.storage.checkModal();
+        }
+    }
+
+    selectVoiceGreeting(file) {
+        console.log(file);
+        if (file) {
+            this.form.get('voiceGreeting').setValue(file.id);
         }
     }
 
@@ -240,7 +264,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
     getMediaData(fileId: number): void {
         this.mediaPlayer.locker.lock();
-        this.storage.getMediaData(fileId)
+        this.storage
+            .getMediaData(fileId)
             .then((media: CdrMediaInfo) => {
                 this.currentMediaStream = media.fileLink;
             })
