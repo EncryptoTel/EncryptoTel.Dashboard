@@ -107,6 +107,38 @@ export class ListComponent implements OnInit {
     constructor(private router: Router,
                 public translate: TranslateService) {
     }
+    
+    ngOnInit() {
+        if (this.buttons.length === 0) {
+            this.buttons.push({
+                id: 0,
+                title: this.buttonTitle ? this.buttonTitle : 'Create ' + (this.itemName ? this.itemName : this.name),
+                type: 'success',
+                visible: true,
+                inactive: false,
+                buttonClass: '',
+                icon: false
+            });
+        }
+
+        this.getItems();
+
+        this.pbxListEmptyText_1 = '';
+        this.pbxListEmptyText_2 = '';
+        let tmp: string;
+        let name: string;
+        name = this.itemsName ? this.itemsName : this.name;
+        tmp = 'You do not have any ' + name;
+        this.pbxListEmptyText_1 = this.translate.instant(tmp);
+        // this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
+        this.pbxListEmptyText_2 = this.translate.instant('Click on the button to create');
+
+        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+                this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
+                this.pbxListEmptyText_2 = this.translate.instant(this.pbxListEmptyText_2);
+        });
+        console.log('is-empty-info', !!this.EmptyInfo, this.EmptyInfo);
+    }
 
     create() {
         if (this.onCreate.observers.length > 0) {
@@ -235,36 +267,5 @@ export class ListComponent implements OnInit {
         }
         totalItemsCount = totalItemsCount + this._totalItemsCount;
         return !totalItemsCount || totalItemsCount === 0;
-    }
-
-    ngOnInit() {
-        if (this.buttons.length === 0) {
-            this.buttons.push({
-                id: 0,
-                title: this.buttonTitle ? this.buttonTitle : 'Create ' + (this.itemName ? this.itemName : this.name),
-                type: 'success',
-                visible: true,
-                inactive: false,
-                buttonClass: '',
-                icon: false
-            });
-        }
-
-        this.getItems();
-
-        this.pbxListEmptyText_1 = '';
-        this.pbxListEmptyText_2 = '';
-        let tmp: string;
-        let name: string;
-        name = this.itemsName ? this.itemsName : this.name;
-        tmp = 'You do not have any ' + name;
-        this.pbxListEmptyText_1 = this.translate.instant(tmp);
-        // this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
-        this.pbxListEmptyText_2 = this.translate.instant('Click on the button to create');
-
-        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-                this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
-                this.pbxListEmptyText_2 = this.translate.instant(this.pbxListEmptyText_2);
-        });
     }
 }
