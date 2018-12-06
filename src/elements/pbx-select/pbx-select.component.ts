@@ -1,6 +1,6 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 
-import {SwipeAnimation} from '../../shared/swipe-animation';
+import { SwipeAnimation } from '../../shared/swipe-animation';
 @Component({
     selector: 'pbx-select',
     templateUrl: './template.html',
@@ -23,7 +23,9 @@ export class SelectComponent implements OnInit, OnChanges {
             this._selected = selected;
         }
 
-        if (this._selected && (this._selected.title || this._selected.value)) this.selectedObject = true;
+        if (this._selected) {
+            this.selectedObject = true;
+        }
     }
     _selected: any;
 
@@ -71,7 +73,7 @@ export class SelectComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.options 
+        if (changes.options
             && changes.options.currentValue
             && changes.options.currentValue !== changes.options.previousValue
             && changes.options.previousValue !== undefined) {
