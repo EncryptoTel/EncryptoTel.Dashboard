@@ -137,7 +137,6 @@ export class ListComponent implements OnInit {
                 this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
                 this.pbxListEmptyText_2 = this.translate.instant(this.pbxListEmptyText_2);
         });
-        console.log('is-empty-info', !!this.EmptyInfo, this.EmptyInfo);
     }
 
     create() {
