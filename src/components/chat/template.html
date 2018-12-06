@@ -145,7 +145,7 @@
 
 </div> <!-- talking -->
 
-<div class="new_group create" *ngIf="!listOfChats">
+<div class="new_group create" *ngIf="!listOfChats && !groupInfo">
 
     <div class="top">
 
@@ -178,7 +178,7 @@
                 <div class="dropdown_block_settings" *ngIf="dropdownSettingsGroupStatus">
                     <div class="item">Edit</div>
                     <div class="item">Shared Media</div>
-                    <div class="item">Info</div>
+                    <div class="item" (click)="getGroupInfo()">Info</div>
                     <div class="item">Mute</div>
                     <div class="item">Clear Chat History</div>
                     <div class="item">Leave Group</div>
@@ -198,7 +198,6 @@
                     </div>
                 </div> <!-- addedUsers -->
             </div> <!-- add_people -->
-            <div class="info_block">Info block</div>
         </div> <!-- line -->
 
         <div class="line">
@@ -318,3 +317,78 @@
     </div> <!-- input_wrap -->
 
 </div> <!-- new_group -->
+
+<div class="group_info" *ngIf="!listOfChats && groupInfo">
+
+    <div class="top">
+
+        <div class="back">
+            <svg-icon src="../../assets/images/chat/return_24px.svg"></svg-icon>
+            <span>Back</span>
+        </div> <!-- back -->
+
+        <div class="title">Info</div>
+
+        <div class="search">
+            <svg-icon src="../../assets/images/chat/magnifier_18px.svg"></svg-icon>
+        </div> <!-- search -->
+
+        <div class="edit">Edit</div>
+
+    </div> <!-- top -->
+
+    <div class="header">
+        <div class="logo">
+            <svg-icon src="/assets/images/chat/group_info_logo.svg"></svg-icon>
+        </div> <!-- logo -->
+        <div class="info">
+            <div class="group_name">Encry</div>
+            <div class="data">
+                9 members, 2 online
+            </div> <!-- numbers -->
+        </div> <!-- info -->
+        <div class="settings">
+            <div class="media"><span>Shared Media</span></div>
+            <div class="notifications">
+                <div class="checkbox_round">
+                    <div class="label" (click)="groupInfoChangeNotification()">Notifications</div>
+                    <div class="wrapper">
+                        <input id="group_info_notifications" type="checkbox" checked="{{groupInfoNotification ? 'checked':''}}">
+                        <div class="visual"><span></span></div>
+                        <label for="group_info_notifications"></label>
+                    </div> <!-- wrapper -->
+                </div> <!-- checkbox_round -->
+            </div> <!-- notifications -->
+        </div> <!-- settings -->
+    </div> <!-- header -->
+
+    <div class="members">
+        <div class="count">9 members</div>
+        <div class="add_members">
+            <svg-icon src="/assets/icons/_middle/plus.svg"></svg-icon>
+            <span>Add Members</span>
+        </div>
+    </div> <!-- members -->
+
+    <div class="items">
+
+        <div class="item menu_block" *ngFor="let item of groupInfoContacts; let i = index">
+            <div class="logo_wrap">
+                <div class="logo"><span>AS</span></div>
+            </div> <!-- logo_wrap -->
+            <div class="cnt">
+                <div class="name">
+                    <span>{{item.userName}}</span>
+                </div>
+                <div class="admin" (click)="dropdownSettings($event, i)" (clickOutside)="clickOutside(i)">
+                    {{item.isAdmin ? 'admin':''}}
+                </div> <!-- admin -->
+                <div class="msg" [ngClass]="item.isOnline ? 'online':''">{{item.isOnline ? 'online' : item.lastTimeOnline}}</div>
+            </div> <!-- cnt -->
+        </div> <!-- item -->
+
+    </div> <!-- items -->
+
+    <div class="btn"><div><span>Delete and Exit</span></div></div>
+
+</div> <!-- group_info -->

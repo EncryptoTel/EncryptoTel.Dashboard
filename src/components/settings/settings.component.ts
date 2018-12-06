@@ -78,7 +78,7 @@ export class SettingsComponent {
             },
             {
                 id: 3,
-                available: true,
+                available: false,
                 icon: false,
                 src: '',
                 title: 'Allowed country codes',
@@ -94,7 +94,7 @@ export class SettingsComponent {
             },
             {
                 id: 5,
-                available: true,
+                available: false,
                 icon: true,
                 src: '../../assets/icons/_settings/backup_48px.svg',
                 title: 'Backup',
@@ -110,7 +110,7 @@ export class SettingsComponent {
             },
             {
                 id: 7,
-                available: true,
+                available: false,
                 icon: false,
                 src: '',
                 title: 'CRM integration',
@@ -118,7 +118,7 @@ export class SettingsComponent {
             },
             {
                 id: 8,
-                available: true,
+                available: false,
                 icon: false,
                 src: '',
                 title: 'API integration',

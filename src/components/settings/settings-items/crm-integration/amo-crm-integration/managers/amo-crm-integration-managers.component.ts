@@ -17,7 +17,7 @@ export class AmoCrmIntegrationManagersComponent implements OnInit {
         tag: true
     };
     tag;
-    autoCreateExtensions: boolean = false;
+    autoCreateExtensions: boolean = true;
 
     constructor() {
 

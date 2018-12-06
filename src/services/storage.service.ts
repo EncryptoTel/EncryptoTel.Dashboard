@@ -39,7 +39,7 @@ export class StorageService extends BaseService {
         this.successCount = 0;
         this.errorCount = 0;
 
-        this._compatibleMediaTypes = [ 'audio/mp3', 'audio/ogg', 'audio/wav', 'audio/mpeg', 'audio/x-wav' ];
+        this._compatibleMediaTypes = ['audio/mp3', 'audio/ogg', 'audio/wav', 'audio/mpeg', 'audio/x-wav'];
     }
 
     onInit(): void {
@@ -86,12 +86,25 @@ export class StorageService extends BaseService {
                     this.checkModal();
                 }
                 else {
-                    this.uploadFile(file, null, null);
+                    return this.uploadFile(file, null, null);
                 }
             }).catch(error => {
                 console.log('checkFileExists', error);
             }).then(() => this.updateLoading(-1));
         }
+    }
+
+    checkOnlyFileExists(file): Promise<boolean> {
+        this.updateLoading(1);
+        return this.get(`?filter[search]=${file.name}`).then(response => {
+            return response.itemsCount > 0;
+        }).catch(error => {
+            console.log('checkFileExists', error);
+            return error; 
+        }).then((res) => {
+            this.updateLoading(-1)
+            return res;
+        });
     }
 
     deleteFileFromQueue() {
@@ -115,13 +128,18 @@ export class StorageService extends BaseService {
 
         this.callback ? this.callback(this.loading) : null;
 
-        return this.rawRequest('POST', '', data).then(() => {
-                if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);
-                this.successCount ++;
-                this.errorCount ++;
-            }).catch(() => {
-                this.errorCount ++;
-            }).then(() => this.updateLoading(-1));
+        return this.rawRequest('POST', '', data).then((res) => {
+            console.log(res);
+            if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);
+            this.successCount++;
+            this.errorCount++;
+            return res;
+        }).catch(() => {
+            this.errorCount++;
+        }).then((res) => {
+            this.updateLoading(-1);
+            return res;
+        });
     }
 
     doUploadAction(button) {

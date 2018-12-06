@@ -1,13 +1,23 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, HostListener} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+    HostListener,
+    OnDestroy
+} from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
-import {FadeAnimation} from '../../shared/fade-animation';
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {FilterItem, InputAction} from '../../models/base.model';
-import {ValidationHost} from '../../models/validation-host.model';
-import {CheckboxComponent} from '@elements/pbx-checkbox/pbx-checkbox.component';
-import {TranslateService} from '@ngx-translate/core';
-
+import { FadeAnimation } from '../../shared/fade-animation';
+import { SwipeAnimation } from '../../shared/swipe-animation';
+import { FilterItem, InputAction } from '../../models/base.model';
+import { ValidationHost } from '../../models/validation-host.model';
+import { CheckboxComponent } from '@elements/pbx-checkbox/pbx-checkbox.component';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscriber } from 'rxjs/Subscriber';
 
 @Component({
     selector: 'pbx-input',
@@ -15,8 +25,8 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms'), SwipeAnimation('y', '200ms')]
 })
-export class InputComponent implements OnInit {
-
+export class InputComponent implements OnInit, OnDestroy {
+    changeSubscriber: Subscriber<any>;
     @Input() key: string;
     @Input() name: string;
     @Input() description: string;
@@ -62,7 +72,8 @@ export class InputComponent implements OnInit {
     @Input() validatorMinLengthMsg: string;
     @Input() validatorMaxLengthMsg: string;
     @Input() validatorPatternMsg: string;
-    @Input() set errorShow(errorShow: boolean) {
+    @Input()
+    set errorShow(errorShow: boolean) {
         this._errorShow = errorShow;
         this.checkError();
     }
@@ -149,7 +160,7 @@ export class InputComponent implements OnInit {
         const control = this.getForm();
 
         if (control && control.errors) {
-            const validationResult = (control.errors['required'])
+            const validationResult = control.errors['required']
                 ? !control.valid && control.touched
                 : !control.valid && (control.touched || control.dirty);
 
@@ -225,7 +236,10 @@ export class InputComponent implements OnInit {
     }
 
     inputKeyUp($event) {
-        if ($event && ![ 'Tab', 'ArrowRight', 'ArrowLeft' ].includes($event.key)) {
+        if (
+            $event &&
+            !['Tab', 'ArrowRight', 'ArrowLeft'].includes($event.key)
+        ) {
             this.resetError();
         }
 
@@ -244,7 +258,7 @@ export class InputComponent implements OnInit {
             return null;
         }
         const keyArray = key.split('.');
-        keyArray.forEach(k => item = item && item[k]);
+        keyArray.forEach(k => (item = item && item[k]));
         return item;
     }
 
@@ -273,8 +287,12 @@ export class InputComponent implements OnInit {
             return this._errorShow ? this.checkForm(textOnly) : '';
         }
 
-        const error = this.errors && this.getValueByKey(this.errors, this.getErrorKey());
-        const result = (this.errors && (textOnly ? (error !== true ? error : null) : error)) || (textOnly ? null : this.checkForm(textOnly));
+        const error =
+            this.errors && this.getValueByKey(this.errors, this.getErrorKey());
+        const result =
+            (this.errors &&
+                (textOnly ? (error !== true ? error : null) : error)) ||
+            (textOnly ? null : this.checkForm(textOnly));
 
         return result;
     }
@@ -294,7 +312,9 @@ export class InputComponent implements OnInit {
     }
 
     checkForm(textOnly = null) {
-        if (!this.form) { return null; }
+        if (!this.form) {
+            return null;
+        }
 
         const form = this.getForm();
         if (textOnly) {
@@ -302,8 +322,7 @@ export class InputComponent implements OnInit {
                 let keys;
                 if (form.errors) {
                     keys = Object.keys(form.errors);
-                }
-                else {
+                } else {
                     const control = form.get(this.objectKey);
                     if (control && control.errors) {
                         keys = Object.keys(control.errors);
@@ -328,7 +347,10 @@ export class InputComponent implements OnInit {
             case 'pattern':
                 return this.validatorPatternMsg || 'This value is invalid';
             case 'duplicated':
-                return this.validatorPatternMsg || 'Extension number cannot be the same as previous';
+                return (
+                    this.validatorPatternMsg ||
+                    'Extension number cannot be the same as previous'
+                );
             default:
                 return 'This value is invalid';
         }
@@ -361,22 +383,19 @@ export class InputComponent implements OnInit {
                 }
             }
             if (this.options && this.key) {
-                const value = (this.selectAsObject) ? event : event.id;
+                const value = this.selectAsObject ? event : event.id;
                 this.getForm().setValue(value);
             }
-        }
-        else {
+        } else {
             if (this.updateObjectByObject) {
                 this.object[this.key] = event;
-            }
-            else {
+            } else {
                 this.object[this.key] = event.id;
             }
             if (this.updateValueByKey) {
                 this.value.id = event.id;
                 this.value[this.displayKey] = event[this.displayKey];
-            }
-            else {
+            } else {
                 this.value = event;
             }
         }
@@ -448,11 +467,13 @@ export class InputComponent implements OnInit {
                 } else if (control.errors) {
                     errors[field] = control.errors;
                 }
-
             });
             if (JSON.stringify(errors) !== this.prevFormError) {
                 this.prevFormError = JSON.stringify(errors);
-                const key = this.index2 === undefined ? this.getFormKey() : `${this.getFormKey()}_${this.index2}`;
+                const key =
+                    this.index2 === undefined
+                        ? this.getFormKey()
+                        : `${this.getFormKey()}_${this.index2}`;
                 this.checkControlError(errors, key);
             }
         }
@@ -472,28 +493,30 @@ export class InputComponent implements OnInit {
     }
 
     isSwipeAnimation(): boolean {
-        return !this.animationMode || this.animationMode.toLowerCase() !== 'fade';
+        return (
+            !this.animationMode || this.animationMode.toLowerCase() !== 'fade'
+        );
     }
 
     ngOnInit() {
+        console.log('input init');
         this.name = this.translate.instant(this.name);
-        this.loading ++;
-
+        this.loading++;
+        if (this.options) {
+            this.changeSelectWatch();
+        }
         if (this.form && (this.checkbox || this.options)) {
             this.value = this.getForm() ? this.getForm().value : false;
             if (this.objectView) {
                 this.value = this.objectView;
             }
-        }
-        else if (this.options) {
+        } else if (this.options) {
             if (this.updateObjectByObject) {
                 this.value = this.object[this.key];
-            }
-            else {
+            } else {
                 this.value = this.objectView ? this.objectView : this.object;
             }
-        }
-        else {
+        } else {
             this.value = this.object[this.key];
         }
 
@@ -502,9 +525,10 @@ export class InputComponent implements OnInit {
         if (this.form && this.options && this.optionsSelectedKey) {
             let selectedValue: any;
             selectedValue = this.getForm().value;
-            this.value = this.options.find(o => o[this.optionsSelectedKey] === selectedValue);
-        }
-        else if (this.form && this.options && this.selectedItem) {
+            this.value = this.options.find(
+                o => o[this.optionsSelectedKey] === selectedValue
+            );
+        } else if (this.form && this.options && this.selectedItem) {
             this.value = this.selectedItem;
         }
 
@@ -517,7 +541,22 @@ export class InputComponent implements OnInit {
             this.validationHost.addControl(this);
         }
 
-        this.loading --;
+        this.loading--;
     }
 
+    changeSelectWatch() {
+        if (this.form) {
+            this.getForm().valueChanges.subscribe(val => {
+                console.log('changeSelectWatch', val, this.value);
+                this.value = val;
+                this.selectedItem = val;
+            });
+        }
+    }
+
+    ngOnDestroy(): void {
+        if (this.changeSubscriber) {
+            this.changeSubscriber.unsubscribe();
+        }
+    }
 }

@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     createStatus: boolean = false;
     chatObjects: any;
     chatMessages: any;
+    groupInfoContacts: any;
     dropdownSettingsStatus: any;
     dropdownSettingsUserChat: boolean = false;
     dropdownFilesStatus: boolean = false;
@@ -33,6 +34,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     listOfChats: boolean = true;
     addedUser: boolean = false;
     countOfAddedUsers: number = 0;
+    groupInfoNotification: boolean = true;
+    groupInfo: boolean = false;
     @ViewChildren('menu_block') menu: ElementRef[];
 
     constructor(private socket: WsServices,
@@ -50,6 +53,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.chatsSubscription = this.socket.subChats().subscribe(chats => {
             this.updateChats(chats);
         });
+
 
         this.chatObjects = [
             {
@@ -369,10 +373,75 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 
         ];
+        this.groupInfoContacts = [
+            {
+                userName: 'Adam Smith',
+                lastTimeOnline: '',
+                isAdmin: true,
+                isOnline: true
+            },
+            {
+                userName: 'John Does',
+                lastTimeOnline: 'last seen 1 minute ago',
+                isAdmin: true,
+                isOnline: false
+            },
+            {
+                userName: 'Albert Brown',
+                lastTimeOnline: '',
+                isAdmin: false,
+                isOnline: true
+            },
+            {
+                userName: 'Albert Brown',
+                lastTimeOnline: 'last seen yesterday at 19:23',
+                isAdmin: false,
+                isOnline: false
+            },
+            {
+                userName: 'Albert Brown',
+                lastTimeOnline: '',
+                isAdmin: false,
+                isOnline: true
+            },
+            {
+                userName: 'Albert Brown',
+                lastTimeOnline: '',
+                isAdmin: false,
+                isOnline: true
+            },
+            {
+                userName: 'Albert Brown',
+                lastTimeOnline: '',
+                isAdmin: false,
+                isOnline: true
+            },
+            {
+                userName: 'Albert Brown',
+                lastTimeOnline: '',
+                isAdmin: false,
+                isOnline: true
+            },
+            {
+                userName: 'Albert Brown',
+                lastTimeOnline: '',
+                isAdmin: false,
+                isOnline: true
+            }
+        ];
+
         this.dropdownSettingsStatus = [];
         this.chatObjects.forEach(item => {
             this.dropdownSettingsStatus.push(false);
         });
+    }
+
+    getGroupInfo() {
+        this.groupInfo = !this.groupInfo;
+    }
+
+    groupInfoChangeNotification() {
+        this.groupInfoNotification = !this.groupInfoNotification;
     }
 
     countAddedUsers() {
