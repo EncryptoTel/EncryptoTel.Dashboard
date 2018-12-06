@@ -131,6 +131,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     // -- event handlers ------------------------------------------------------
 
     edit(): void {
+        this.setFormData(this.company);
         this.editMode = true;
     }
 
