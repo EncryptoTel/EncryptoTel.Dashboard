@@ -101,6 +101,7 @@ export class MarketplaceComponent implements OnInit, Lockable {
         else if (title == 'storage') return 6; // green
         else if (title == 'schedule') return 2; // pink
         else if (title == 'send sms messages') return 2; // pink
+        else if (title == 'audio conference') return 3; // violet
         // 4 - blue, 3 - violet
         return 4;
     }

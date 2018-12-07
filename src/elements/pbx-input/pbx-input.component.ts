@@ -544,18 +544,18 @@ export class InputComponent implements OnInit, OnDestroy {
     }
 
     changeSelectWatch() {
-        if (this.form) {
-            this.getForm().valueChanges.subscribe(val => {
-                console.log('changeSelectWatch', val, this.value);
-                this.value = val;
-                this.selectedItem = val;
-            });
-        }
+        // if (this.form) {
+        //     this.getForm().valueChanges.subscribe(val => {
+        //         console.log('changeSelectWatch', val, this.value);
+        //         this.value = val;
+        //         this.selectedItem = val;
+        //     });
+        // }
     }
 
     ngOnDestroy(): void {
-        if (this.changeSubscriber) {
-            this.changeSubscriber.unsubscribe();
-        }
+        // if (this.changeSubscriber) {
+        //     this.changeSubscriber.unsubscribe();
+        // }
     }
 }

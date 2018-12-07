@@ -1,0 +1,147 @@
+.invite_link_modal_first
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    display: none
+    .inner
+        width: 816px
+        padding: 24px
+        position: relative
+        display: block
+        background: $dark_tariff_plan_modal_header
+        .close
+            position: absolute
+            top: 16px
+            right: 16px
+            cursor: pointer
+            *
+                cursor: pointer
+            svg
+                width: 16px
+                polygon
+                    fill: $dark_white
+        .title
+            font-family: Roboto, sans-serif
+            font-weight: 400
+            font-size: 16px
+            line-height: 21px
+            color: $dark_white
+            justify-content: center
+            margin-bottom: 32px
+        .desc
+            font-family: Roboto, sans-serif
+            font-weight: 300
+            font-size: 16px
+            line-height: 21px
+            color: $dark_white
+            text-align: center
+            margin-bottom: 32px
+            padding: 0 54px
+        .text
+            background: $dark_57
+            padding: 16px 8px 16px 20px
+            font-family: Roboto, sans-serif
+            font-weight: 300
+            font-size: 16px
+            line-height: 21px
+            color: $dark_white
+            max-height: 264px
+            margin-bottom: 24px
+            .inner_text
+                overflow: auto
+                padding-right: 20px
+        .buttons
+            display: grid
+            grid-template-columns: 1fr 1fr
+            pbx-button
+                button
+                    width: 224px !important
+                    height: 56px
+                &:first-child
+                    justify-content: flex-end
+
+
+.invite_link_modal
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    display: none
+    .inner
+        width: 440px
+        position: relative
+        display: block
+        background: $dark_tariff_plan_modal_header
+        .close
+            position: absolute
+            top: 16px
+            right: 16px
+            cursor: pointer
+            *
+                cursor: pointer
+            svg
+                width: 16px
+                polygon
+                    fill: $dark_white
+        .cnt
+            padding: 16px 32px 32px
+            flex-direction: column
+            .title
+                font-family: Roboto, sans-serif
+                font-weight: 400
+                font-size: 16px
+                line-height: 21px
+                color: $dark_white
+                margin-bottom: 16px
+                justify-content: center
+            .desc
+                font-family: Roboto, sans-serif
+                font-weight: 300
+                font-size: 14px
+                line-height: 19px
+                color: $dark_white
+                margin-bottom: 10px
+                justify-content: center
+            .text
+                font-family: Roboto, sans-serif
+                font-weight: 400
+                font-size: 16px
+                line-height: 21px
+                color: $dark_white
+                display: block
+                text-align: center
+                span
+                    white-space: nowrap
+                    display: inline-block
+                    &.usual
+                        color: $dark_info_yellow
+                    &.phone
+
+            .link
+                justify-content: center
+                a
+                    font-family: Roboto, sans-serif
+                    font-weight: 400
+                    font-size: 14px
+                    line-height: 19px
+                    color: $dark_accent
+        .buttons
+            pbx-button
+                button
+                    height: 56px
+    &.sms
+        .cnt
+            .link
+                display: none
+        .buttons
+            pbx-button.link
+                display: none
+    &.link
+        .cnt
+            .text
+                display: none
+        .buttons
+            pbx-button
+                &.cancel, &.success
+                    display: none
