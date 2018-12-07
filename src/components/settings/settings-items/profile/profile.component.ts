@@ -168,6 +168,10 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         }
     }
 
+    close() {
+        this.router.navigateByUrl('/cabinet/settings');
+    }
+
     // --- forms processing methods -------------------------------------------
 
     inputValidation(form: FormGroup, name: string, errorType?: string): boolean {

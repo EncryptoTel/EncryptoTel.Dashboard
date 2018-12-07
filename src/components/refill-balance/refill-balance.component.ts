@@ -100,7 +100,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     selectRefillMethod(refillMethod: RefillModel): void {
         console.log('selectRefillMethod');
         if (this.refillMethods.find(m => m.loading)) return;
-        
+
         if (this.validateFilters()) {
             refillMethod.loading = true;
             this._refill
@@ -138,8 +138,10 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         if ((this.validInput === false)) {
             this.errors = { amount: this.amountValidationError };
             return false;
-        } else {            
-            delete this.errors.amount;
+        } else {
+            if (this.errors && 'amount' in this.errors) {
+                delete this.errors.amount;
+            }
             return true;
         }
     }
