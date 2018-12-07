@@ -13,6 +13,8 @@ import {FormBaseComponent} from '../../../../elements/pbx-form-base-component/pb
 import {SettingsModel, SettingsItem} from '../../../../models/settings.models';
 import {LocalStorageServices} from '../../../../services/local-storage.services';
 import {TranslateService} from '@ngx-translate/core';
+import {ScrollEvent} from '@shared/scroll.directive';
+import {InputComponent} from '@elements/pbx-input/pbx-input.component';
 
 export enum EmailChangeState {
     NOT_STARTED,
@@ -39,6 +41,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     userDefaultPhoto: string;
 
     emailChangeState: EmailChangeState;
+    
     @ViewChild('fileInput') fileInput: ElementRef;
 
     get messageSent(): boolean {
@@ -50,7 +53,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     cancelButton: any;
     text: any;
     private _compatibleMediaTypes: string[];
-
+    
     // --- component lifecycle methods ----------------------------------------
 
     constructor(private service: SettingsService,
@@ -129,16 +132,10 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         validateForm(this.generalForm);
         // this.saveButton.inactive = !this.generalForm.valid;
     }
-
+    
     save(event?: Event): void {
         killEvent(event);
-        this.generalForm.controls['language'].setValue(this.model.items[0]['children'][0].value);
-        this.generalForm.controls['region'].setValue(this.model.items[0]['children'][1].value);
-        this.generalForm.controls['clock'].setValue(this.model.items[1]['children'][0].value);
-        this.generalForm.controls['time_zone'].setValue(this.model.items[1]['children'][1].value);
-        this.generalForm.controls['date_format'].setValue(this.model.items[1]['children'][2].value);
-        this.generalForm.value.region = this.model.items[0]['children'][1].value;
-        this.generalForm.value.language = this.model.items[0]['children'][0].value;
+
         let validationResult = true;
 
         const profileFormChanged = this.checkFormChanged('generalForm');
@@ -165,6 +162,9 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             profileFormChanged && this.saveProfileSettings();
             emailFormChanged && this.saveEmailSettings();
             passwordFormChanged && this.savePasswordSettings();
+        }
+        else {
+            this.scrollToFirstError();
         }
     }
 
@@ -216,38 +216,15 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     onValueChange(item: SettingsItem) {
         this.generalForm.controls['language'].setValue(this.model.items[0]['children'][0].value);
-        this.generalForm.controls['region'].setValue(this.model.items[0]['children'][0].value);
+        this.generalForm.controls['region'].setValue(this.model.items[0]['children'][1].value);
         this.generalForm.controls['clock'].setValue(this.model.items[1]['children'][1].value);
-        this.generalForm.controls['time_zone'].setValue(this.model.items[1]['children'][1].value);
+        this.generalForm.controls['time_zone'].setValue(this.model.items[1]['children'][1].value); //+
         this.generalForm.controls['date_format'].setValue(this.model.items[1]['children'][2].value);
-        console.log(item);
+
         if (item.key === 'language') {
             const language = (item.value === 19) ? 'ru' : 'en';
-            this.generalForm.value.language = item.value;
-            this.model.items[0]['children'][0].value = item.value;
-            this.generalForm.controls['language'].setValue(this.model.items[0]['children'][0].value);
             this.translate.use(language);
             this.storage.writeItem('user_lang', language);
-        }
-        if (item.key === 'region') {
-            this.generalForm.value.region = item.value;
-            this.model.items[0]['children'][1].value = item.value;
-            this.generalForm.controls['region'].setValue(this.model.items[0]['children'][0].value);
-        }
-        if (item.key === 'time_zone') {
-            this.generalForm.value.region = item.value;
-            this.model.items[1]['children'][1].value = item.value;
-            this.generalForm.value.time_zone = this.model.items[1]['children'][1].value;
-        }
-        if (item.key === 'date_format') {
-            this.generalForm.value.region = item.value;
-            this.model.items[1]['children'][2].value = item.value;
-            this.generalForm.value.date_format = this.model.items[1]['children'][2].value;
-        }
-        if (item.key === 'clock') {
-            this.generalForm.value.region = item.value;
-            this.model.items[1]['children'][0].value = item.value;
-            this.generalForm.value.clock = this.model.items[1]['children'][0].value;
         }
     }
 

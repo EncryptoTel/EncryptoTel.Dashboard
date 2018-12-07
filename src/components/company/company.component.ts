@@ -153,10 +153,13 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     save(): void {
-        if (!this.validateForms()) return;
-
-        this.setModelData(this.company);
-        this.saveCompany();
+        if (this.validateForms()) {
+            this.setModelData(this.company);
+            this.saveCompany();
+        }
+        else {
+            this.scrollToFirstError();
+        }
     }
 
     selectCountry(country: CountryModel): void {

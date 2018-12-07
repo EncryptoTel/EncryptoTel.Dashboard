@@ -3,7 +3,8 @@
           [decline]="{ value: 'Cancel', buttonType: 'cancel' }"
           (onConfirm)="save()"
           (onDecline)="cancel()"
->
+          (onScroll)="handleScroll($event)"
+          >
     <pbx-loader *ngIf="loading"></pbx-loader>
     <form [formGroup]="callRulesForm" class="call-rules-create" *ngIf="!loading">
         <div class="call-rules-create_row">

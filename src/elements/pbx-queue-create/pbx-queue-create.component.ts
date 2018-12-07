@@ -160,10 +160,13 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     save(): void {
-        if (!this.validateForms()) return;
-
-        this.setModelData();
-        this.saveModel();
+        if (this.validateForms()) {
+            this.setModelData();
+            this.saveModel();
+        }
+        else {
+            this.scrollToFirstError();
+        }
     }
 
     cancel(): void {

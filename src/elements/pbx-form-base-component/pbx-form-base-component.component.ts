@@ -8,6 +8,8 @@ import {ModalEx} from '../pbx-modal/pbx-modal.component';
 import {FormsSnapshots} from '../../models/forms-snapshots.model';
 import {validateForm, validateFormControls} from '../../shared/shared.functions';
 import {MessageServices} from '../../services/message.services';
+import {InputComponent} from '@elements/pbx-input/pbx-input.component';
+import {ScrollEvent} from '@shared/scroll.directive';
 
 
 @Component({
@@ -31,6 +33,8 @@ export class FormBaseComponent implements OnInit, Lockable {
 
     locker: Locker;
     modalExit: ModalEx;
+
+    formPanel: Element = null;
 
 
     get isNewFormModel(): boolean {
@@ -70,6 +74,10 @@ export class FormBaseComponent implements OnInit, Lockable {
     initForm(): void {
         // should be overriden in derived class
         throw new Error('initForm() method not implemented.');
+    }
+    
+    handleScroll(event: ScrollEvent) {
+        this.formPanel = event.originalEvent.srcElement;
     }
 
     getForm(formKey: string): FormGroup | null {
@@ -216,5 +224,23 @@ export class FormBaseComponent implements OnInit, Lockable {
         this.modalExit.setMessage(message);
         this.modalExit.confirmCallback = confirmCallback;
         this.modalExit.show();
+    }
+
+    /**
+     * Scrolls form DOM element to the first error element
+     * @param element invalid control DOM element
+     */
+    scrollToFirstError(): void {
+        const control: InputComponent = this.validationHost.getFirstInvalidControl();
+        if (control && this.formPanel) {
+            let elementTop: number = control.inputDiv.nativeElement.parentElement.offsetTop;
+            if (control.name.toLowerCase() === 'ivr name' || elementTop <= 30) {
+                elementTop = 0;
+            }
+            this.formPanel.scrollTop = elementTop;
+        }
+        else {
+            this.formPanel.scrollTop = 0;
+        }
     }
 }

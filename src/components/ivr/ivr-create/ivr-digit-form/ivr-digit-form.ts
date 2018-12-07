@@ -42,6 +42,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     };
     onFormChange: Subject<any>;
     onDelete: Function;
+    formPanel: Element = null;
 
     // -- properties ----------------------------------------------------------
 

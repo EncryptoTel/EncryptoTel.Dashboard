@@ -12,7 +12,9 @@ import {
     ViewChild,
     ComponentFactoryResolver,
     OnDestroy,
-    ElementRef
+    ElementRef,
+    Output,
+    EventEmitter
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ValidationErrors } from '@angular/forms';
@@ -27,6 +29,7 @@ import { IvrFormInterface } from './form.interface';
 import { IvrDigitFormComponent } from './ivr-digit-form/ivr-digit-form';
 import { IvrLevelFormComponent } from './ivr-level-form/ivr-level-form';
 import * as _ from 'lodash';
+import {ScrollEvent} from '@shared/scroll.directive';
 
 
 @Component({
@@ -63,7 +66,7 @@ export class IvrCreateComponent implements OnInit {
     };
     currentForm: IvrFormInterface;
     isValidForm = false;
-    
+
     @ViewChild(HostIvrFormDirective) hostIvr: HostIvrFormDirective;
     @ViewChild('levelPanel', { read: ElementRef }) panel: ElementRef;
 
@@ -310,8 +313,17 @@ export class IvrCreateComponent implements OnInit {
         return this.convertIvrLevelsToIvrItems(this.ivrLevels);
     }
 
+    handleScroll(event: ScrollEvent): void {
+        if (this.currentForm) {
+            this.currentForm.formPanel = event.originalEvent.srcElement;
+        }
+    }
+
     save() {
-        if(!this.currentForm.getData()) return;
+        if(!this.currentForm.getData()) {
+            this.currentForm.scrollToFirstError();
+            return;
+        }
 
         const data = this.updateIvrModel();
 

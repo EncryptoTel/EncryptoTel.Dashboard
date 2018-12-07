@@ -435,8 +435,12 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     save(): void {
-        if (!this.validateForms()) return;
-        this.saveCallRule();
+        if (this.validateForms()) {
+            this.saveCallRule();
+        }
+        else {
+            this.scrollToFirstError();
+        }
     }
 
     cancel(): void {

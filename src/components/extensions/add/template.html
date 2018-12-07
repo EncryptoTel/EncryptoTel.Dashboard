@@ -9,7 +9,9 @@
               (onDecline)="close()"
               (onConfirm)="doSave()"
               [background]="background"
-              (onSelect)="selectTab($event)">
+              (onSelect)="selectTab($event)"
+              (onScroll)="handleScroll($event)"
+              >
         <general-add-extension-component *ngIf="tab.select==='General'" class="add_ext_item"
                                          [service]="extension"
                                          [storageService]="storageService"

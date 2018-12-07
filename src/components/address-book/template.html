@@ -24,7 +24,11 @@
     <pbx-sidebar *ngIf="sidebar.visible" [sidebarInfo]="sidebar" (onClick)="click($event)" [@Swipe] [@Fade]>
         <form *ngIf="editMode" [formGroup]="form">
             <div class="side_wrap" *ngIf="locker.free && !sidebar.loading && sidebar.mode === 'edit'">
-                <div class="side_body" *ngIf="!sidebar.saving">
+                <div *ngIf="!sidebar.saving"
+                     class="side_body"
+                     detect-scroll
+                     (onScroll)="handleScroll($event)"
+                     >
                     <div class="inner">
                         <pbx-input name="{{'First Name' | translate }}"
                                    key="firstname"
