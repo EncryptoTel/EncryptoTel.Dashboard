@@ -4,48 +4,54 @@
 
         <div class="search_wrap">
 
-            <div class="search_icon">
-                <svg-icon src="../../assets/images/chat/magnifier_18px.svg"></svg-icon>
-            </div> <!-- search-icon -->
+            <div class="input_wrap">
+                <div class="search_icon">
+                    <svg-icon src="../../assets/images/chat/magnifier_18px.svg"></svg-icon>
+                </div> <!-- search-icon -->
+                <input type="text" name="searching" placeholder="Search people">
+            </div> <!-- input_wrap -->
 
-            <input type="text" name="searching" placeholder="Search people">
-
-            <div class="mic">
-                <svg-icon src="../../assets/images/chat/microphone_24px.svg"></svg-icon>
-            </div> <!-- mic -->
+            <div class="create" (click)="changeCreateStatus()">
+                <svg-icon src="../../assets/images/chat/create_18px.svg"></svg-icon>
+                <div class="dropdown_block_create" *ngIf="createStatus">
+                    <div class="item">New Group</div>
+                    <div class="item">New Secret Chat</div>
+                </div> <!-- dropdown -->
+            </div> <!-- create -->
 
         </div> <!-- search_wrap -->
+
+        <div class="add_contact">
+            <svg-icon src="/assets/images/chat/add_contact.svg"></svg-icon>
+            <span>Add contact</span>
+        </div> <!-- add_contact -->
 
         <div class="items">
 
             <div class="group">
                 <div class="icon">
-                    <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
+                    <svg-icon src="/assets/icons/_middle/favorites.svg"></svg-icon>
                 </div> <!-- icon -->
                 <div class="inner">
 
-                    <div class="item">
+                    <div class="item msg">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
+                        <div class="right">
+                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                        </div> <!-- right -->
                     </div> <!-- item -->
 
-                    <div class="item">
+                    <div class="item invite">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
-                    </div> <!-- item -->
-
-                    <div class="item">
-                        <div class="logo">AS</div>
-                        <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
+                        <div class="right">
+                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                        </div> <!-- right -->
                     </div> <!-- item -->
 
                 </div> <!-- inner -->
@@ -57,28 +63,24 @@
                 </div> <!-- icon -->
                 <div class="inner">
 
-                    <div class="item">
+                    <div class="item msg">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
+                        <div class="right">
+                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                        </div> <!-- right -->
                     </div> <!-- item -->
 
-                    <div class="item">
+                    <div class="item invite">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
-                    </div> <!-- item -->
-
-                    <div class="item">
-                        <div class="logo">AS</div>
-                        <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
+                        <div class="right">
+                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                        </div> <!-- right -->
                     </div> <!-- item -->
 
                 </div> <!-- inner -->
@@ -90,28 +92,24 @@
                 </div> <!-- icon -->
                 <div class="inner">
 
-                    <div class="item">
+                    <div class="item msg">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
+                        <div class="right">
+                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                        </div> <!-- right -->
                     </div> <!-- item -->
 
-                    <div class="item">
+                    <div class="item invite">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
-                    </div> <!-- item -->
-
-                    <div class="item">
-                        <div class="logo">AS</div>
-                        <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
+                        <div class="right">
+                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                        </div> <!-- right -->
                     </div> <!-- item -->
 
                 </div> <!-- inner -->
@@ -123,36 +121,59 @@
                 </div> <!-- icon -->
                 <div class="inner">
 
-                    <div class="item">
+                    <div class="item msg">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
+                        <div class="right">
+                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                        </div> <!-- right -->
                     </div> <!-- item -->
 
-                    <div class="item">
+                    <div class="item invite">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
+                        <div class="right">
+                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                        </div> <!-- right -->
                     </div> <!-- item -->
 
-                    <div class="item">
+                </div> <!-- inner -->
+            </div> <!-- group -->
+
+            <div class="group">
+                <div class="icon">
+                    D
+                </div> <!-- icon -->
+                <div class="inner">
+
+                    <div class="item msg">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
-                        <div class="member">
-                            <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg"></svg-icon>
-                        </div> <!-- member -->
+                        <div class="right">
+                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                        </div> <!-- right -->
+                    </div> <!-- item -->
+
+                    <div class="item invite">
+                        <div class="logo">AS</div>
+                        <div class="name"><span>Adam Smit</span></div>
+                        <div class="right">
+                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                        </div> <!-- right -->
                     </div> <!-- item -->
 
                 </div> <!-- inner -->
             </div> <!-- group -->
 
         </div> <!-- items -->
-
-        <div class="add_contact">+</div>
 
     </div> <!-- list -->
 
