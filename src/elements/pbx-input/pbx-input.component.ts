@@ -499,7 +499,6 @@ export class InputComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        console.log('input init');
         this.name = this.translate.instant(this.name);
         this.loading++;
         if (this.options) {

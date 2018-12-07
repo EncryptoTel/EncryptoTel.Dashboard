@@ -15,7 +15,7 @@
         <div class="pbx_list_empty {{!!EmptyInfo ? 'no_company':''}} {{sidebarVisible?'notArrow_changedClass':''}}" *ngIf="isNoData">
             <div class="pbx_list_empty_text" *ngIf="!EmptyInfo"> {{pbxListEmptyText_1}}<br>{{pbxListEmptyText_2}}
         </div>
-        <div class="pbx_list_empty_text" *ngIf="EmptyInfo" [innerHtml]="EmptyInfo">
+        <div class="pbx_list_empty_text" *ngIf="!!EmptyInfo" [innerHtml]="EmptyInfo">
 
         </div>
         <div class="pbx_list_empty_icon" *ngIf="!EmptyInfo">

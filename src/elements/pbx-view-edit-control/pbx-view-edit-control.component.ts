@@ -13,7 +13,7 @@ export class ViewEditControlComponent implements OnInit {
 
     @Input() headerText: string;
     @Input() buttonText: string;
-    @Input() noDataMessage: string = 'No data to display';
+    @Input() noDataMessage: string = 'Nothing found';
     @Input() parentEditMode: boolean = true;
 
     @Input() tableInfo: {};

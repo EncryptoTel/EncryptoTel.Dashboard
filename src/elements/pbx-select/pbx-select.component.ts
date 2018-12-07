@@ -75,7 +75,7 @@ export class SelectComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.options
             && changes.options.currentValue
-            && changes.options.currentValue !== changes.options.previousValue
+            && JSON.stringify(changes.options.currentValue) !== JSON.stringify(changes.options.previousValue)
             && changes.options.previousValue !== undefined) {
             this._selected = null;
         }

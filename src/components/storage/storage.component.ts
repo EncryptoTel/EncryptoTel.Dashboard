@@ -168,8 +168,8 @@ export class StorageComponent implements OnInit {
         this.loading ++;
 
         this.service.getItems(this.pageInfo, this.currentFilter, this.table.sort)
-            .then(result => {
-                this.pageInfo = result;
+            .then(response => {
+                this.pageInfo = response;
                 this.onMediaDataLoaded();
             })
             .catch((error) => {

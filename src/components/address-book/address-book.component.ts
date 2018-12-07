@@ -56,11 +56,11 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     hideField: boolean = false;
 
     constructor(public service: AddressBookService,
-                public refs: RefsServices,
-                protected message: MessageServices,
-                protected fb: FormBuilder,
-                protected state: TariffStateService,
-                public translate: TranslateService) {
+        public refs: RefsServices,
+        protected message: MessageServices,
+        protected fb: FormBuilder,
+        protected state: TariffStateService,
+        public translate: TranslateService) {
         super(fb, message);
 
         this.addressBookModel = new AddressBookModel();
@@ -254,7 +254,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         if (this.selected) {
             item = this.selected;
         }
-        item.loading ++;
+        item.loading++;
         this.service.deleteById(item.id).then(() => {
             this.list.getItems(item);
             this.setFilters();
@@ -263,7 +263,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.hideField = false;
             this.state.change.emit(this.hideField);
 
-        }).catch(() => {}).then(() => item.loading --);
+        }).catch(() => {}).then(() => item.loading--);
     }
 
     load(pageInfo: AddressBookModel) {
@@ -486,11 +486,12 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     setFilters(): void {
         let keys: any;
-        this.filters = [];
+        // this.filters = [];
         const filterValue = [];
         this.addressBookModel.contactFilter.forEach(item => {
             filterValue.push({id: item.value, title: item.displayTitle, count: item.count});
         });
+
         if (this.filters.length === 0) {
             this.filters.push(new FilterItem(1, 'type', 'Source', filterValue, 'title'));
             this.filters.push(new FilterItem(2, 'search', 'Search', null, null, this.translate.instant('Name, Phone or Email')));
@@ -501,21 +502,24 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                     this.list.header.selectedFilter[0] = filterValue[1];
                     this.list.header.inputs.first.objectView = filterValue[1];
                     this.list.header.inputs.first.value = filterValue[1];
-                } else {
+                }
+                else {
                     this.list.header.selectedFilter[0] = filterValue[0];
                     if (this.list.header.inputs.first) {
                         this.list.header.inputs.first.objectView = filterValue[0];
                         this.list.header.inputs.first.value = filterValue[0];
                     }
                 }
-            } else {
+            }
+            else {
                 this.list.header.selectedFilter[0] = filterValue[0];
                 if (this.list.header.inputs.first !== undefined) {
                     this.list.header.inputs.first.objectView = filterValue[0];
                     this.list.header.inputs.first.value = filterValue[0];
                 }
             }
-        } else {
+        }
+        else {
             this.filters[0].options = filterValue;
             if (this.list.currentFilter) {
                 keys = Object.keys(this.list.currentFilter);
@@ -523,29 +527,21 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                     this.list.header.selectedFilter[0] = filterValue[1];
                     this.list.header.inputs.first.objectView = filterValue[1];
                     this.list.header.inputs.first.value = filterValue[1];
-                } else {
-                    if (this.list.currentFilter.type === 1) {
-                        if (this.list.header.inputs.first.value.id === 'blacklist') {
-                            this.list.header.selectedFilter[0] = filterValue[1];
-                            this.list.header.inputs.first.objectView = filterValue[1];
-                            this.list.header.inputs.first.value = filterValue[1];
-                        } else {
-                            this.list.header.selectedFilter[0] = filterValue[0];
-                            this.list.header.inputs.first.objectView = filterValue[0];
-                            this.list.header.inputs.first.value = filterValue[0];
-                        }
-                    } else {
-                        this.list.header.selectedFilter[0] = filterValue[0];
-                        if (this.list.header.inputs.first) {
-                            this.list.header.inputs.first.objectView = filterValue[0];
-                            this.list.header.inputs.first.value = filterValue[0];
-                        }
+                } 
+                else {
+                    this.list.header.selectedFilter[0] = filterValue[0];
+                    if (this.list.header.inputs.first) {
+                        this.list.header.inputs.first.objectView = filterValue[0];
+                        this.list.header.inputs.first.value = filterValue[0];
                     }
                 }
-            } else {
+            }
+            else {
                 this.list.header.selectedFilter[0] = filterValue[0];
-                this.list.header.inputs.first.objectView = filterValue[0];
-                this.list.header.inputs.first.value = filterValue[0];
+                if (this.list.header.inputs.first !== undefined) {
+                    this.list.header.inputs.first.objectView = filterValue[0];
+                    this.list.header.inputs.first.value = filterValue[0];
+                }
             }
         }
 

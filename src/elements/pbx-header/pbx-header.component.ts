@@ -59,9 +59,7 @@ export class HeaderComponent implements OnInit {
     }
 
     reload(): void {
-        setTimeout(() => {
-            this.onReload.emit(this.currentFilter);
-        }, 0);
+        this.onReload.emit(this.currentFilter);
     }
 
     updateFilter(index: number, filter): void {

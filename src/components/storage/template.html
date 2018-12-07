@@ -9,7 +9,7 @@
         </pbx-header>
 
         <pbx-media-table
-            *ngIf="pageInfo.itemsCount > 0"
+            *ngIf="pageInfo.itemsCount > 0 && !loading"
             #mediaTable
             [tableInfoEx]="table"
             [tableItems]="pageInfo.items"
