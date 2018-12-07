@@ -8,7 +8,7 @@
               key="departments"
               name="Departments"
               itemName="Department"
-              [EmptyInfo]="companyActive ? null : getEmptyInfo()"
+              [EmptyInfo]="emptyInfo"
               [hideArrow]="!companyActive"
               [hideHeader]="!companyActive"
               (onSelect)="select($event)"

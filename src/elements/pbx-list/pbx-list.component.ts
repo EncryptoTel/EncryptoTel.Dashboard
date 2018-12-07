@@ -54,6 +54,7 @@ export class ListComponent implements OnInit {
     set sidebar(sidebar: any) {
         this._sidebar = sidebar;
     }
+
     @Output() onCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
@@ -72,6 +73,8 @@ export class ListComponent implements OnInit {
 
     pbxListEmptyText_1: string;
     pbxListEmptyText_2: string;
+
+    // -- properties ----------------------------------------------------------
 
     get sidebarVisible(): boolean {
         return this._sidebar ? this._sidebar.visible : false;
@@ -108,6 +111,37 @@ export class ListComponent implements OnInit {
                 public translate: TranslateService) {
     }
 
+    ngOnInit() {
+        if (this.buttons.length === 0) {
+            this.buttons.push({
+                id: 0,
+                title: this.buttonTitle ? this.buttonTitle : 'Create ' + (this.itemName ? this.itemName : this.name),
+                type: 'success',
+                visible: true,
+                inactive: false,
+                buttonClass: '',
+                icon: false
+            });
+        }
+
+        this.getItems();
+
+        this.pbxListEmptyText_1 = '';
+        this.pbxListEmptyText_2 = '';
+        let tmp: string;
+        tmp = this.itemsName ? this.itemsName : this.name;
+        this.pbxListEmptyText_1 = this.translate.instant('You do not have any ') + this.translate.instant(tmp);
+        this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
+        this.pbxListEmptyText_2 = this.translate.instant('Click on the button to create');
+
+        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+                this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
+                this.pbxListEmptyText_2 = this.translate.instant(this.pbxListEmptyText_2);
+        });
+    }
+
+    // -- event handlers ------------------------------------------------------
+
     create() {
         if (this.onCreate.observers.length > 0) {
             this.onCreate.emit();
@@ -143,27 +177,21 @@ export class ListComponent implements OnInit {
             .then(() => item.loading --);
     }
 
-    getItems(item = null) {
-        item ? item.loading ++ : this.loadingEx ++;
-        const limit = this.pageInfo.limit;
-        if (this.currentFilter && this.currentFilter.type === 1) {
-            if (this.header.inputs.first.value.id === 'company') {
-                this.currentFilter.type = 'company';
-            } else {
-                this.currentFilter.type = 'blacklist';
-            }
-        }
-        this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null).then(res => {
-            this.pageInfo = res;
-            this.pageInfo.limit = limit;
-
-            this.onLoad.emit(this.pageInfo);
-
-            this.header.load();
-            this.updateTotalItems();
-        }).catch(() => {})
-          .then(() => item ? item.loading -- : this.loadingEx --);
+    sort() {
+        this.getItems();
     }
+
+    onLimitSelect(): void {
+        this.pageInfo.page = 1;
+        this.getItems();
+    }
+
+    onPageChange(pageNumber: number): void {
+        this.pageInfo.page = pageNumber;
+        this.getItems();
+    }
+
+    // -- filtering -----------------------------------------------------------
 
     reloadFilter(filter) {
         this.currentFilter = filter;
@@ -191,8 +219,30 @@ export class ListComponent implements OnInit {
         return result > 0;
     }
 
-    sort() {
-        this.getItems();
+    // -- data methods --------------------------------------------------------
+
+    getItems(item = null) {
+        item ? item.loading ++ : this.loadingEx ++;
+        const limit = this.pageInfo.limit;
+        if (this.currentFilter && this.currentFilter.type === 1) {
+            if (this.header.inputs.first.value.id === 'company') {
+                this.currentFilter.type = 'company';
+            } else {
+                this.currentFilter.type = 'blacklist';
+            }
+        }
+        this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null)
+            .then(res => {
+                this.pageInfo = res;
+                this.pageInfo.limit = limit;
+
+                this.onLoad.emit(this.pageInfo);
+
+                this.header.load();
+                this.updateTotalItems();
+            })
+            .catch(() => {})
+            .then(() => item ? item.loading -- : this.loadingEx --);
     }
 
     savePageInfoToSession(): void {
@@ -235,36 +285,5 @@ export class ListComponent implements OnInit {
         }
         totalItemsCount = totalItemsCount + this._totalItemsCount;
         return !totalItemsCount || totalItemsCount === 0;
-    }
-
-    ngOnInit() {
-        if (this.buttons.length === 0) {
-            this.buttons.push({
-                id: 0,
-                title: this.buttonTitle ? this.buttonTitle : 'Create ' + (this.itemName ? this.itemName : this.name),
-                type: 'success',
-                visible: true,
-                inactive: false,
-                buttonClass: '',
-                icon: false
-            });
-        }
-
-        this.getItems();
-
-        this.pbxListEmptyText_1 = '';
-        this.pbxListEmptyText_2 = '';
-        let tmp: string;
-        let name: string;
-        name = this.itemsName ? this.itemsName : this.name;
-        tmp = 'You do not have any ' + name;
-        this.pbxListEmptyText_1 = this.translate.instant(tmp);
-        // this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
-        this.pbxListEmptyText_2 = this.translate.instant('Click on the button to create');
-
-        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-                this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
-                this.pbxListEmptyText_2 = this.translate.instant(this.pbxListEmptyText_2);
-        });
     }
 }

@@ -9,7 +9,7 @@
      (keydown)="keyboardNavigation($event)">
     <span *ngIf="!selectedObject || !(_selected && _selected[objectKey])" class="pbx-select-placeholder">{{_placeholder}}</span>
     <div [ngClass]="['select_item', 'selected', !selected ? 'blank' : '', singleBorder ? 'no_border' : '', errors ? 'error' : '', name ? 'pbx_select_' + name : '']">
-        {{_selected ? _selected[objectKey] : ''}}
+        {{ _selected ? _selected[objectKey] : '' }}
         <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg" class="select_icon"></svg-icon>
     </div>
 

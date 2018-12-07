@@ -43,6 +43,13 @@ export class DepartmentsComponent implements OnInit {
     buttons: ButtonItem[] = [];
     phoneActions: InputAction[] = [];
 
+
+    get emptyInfo(): string | null {
+        return !this.companyActive 
+        ? `<span class="empty_company">To get started with the module Departments<br/>fill in the data in the <a class="link_empty_company" href="/cabinet/company">module Company</a></span>`
+        : null;
+    }
+
     constructor(public service: DepartmentService,
                 private _fb: FormBuilder,
                 private _refs: RefsServices,
@@ -231,19 +238,15 @@ export class DepartmentsComponent implements OnInit {
     }
 
     private getCompany() {
-        this.loading++;
-        this._company.getCompany().then((res) => {
-            this.companyActive = !!res.id;
-            this.buttons[0].inactive = !this.companyActive;
-            this.buttons[0].visible = this.companyActive;
-            this.loading--;
-        }).catch((res) => {
-            this.loading--;
-        });
-    }
-
-    getEmptyInfo() {
-        return `<span class="empty_company">To get started with the module Departments<br/>fill in the data in the <a class="link_empty_company" href="/cabinet/company">module Company</a></span>`;
+        this.loading ++;
+        this._company.getCompany()
+            .then((response) => {
+                this.companyActive = !!response.id;
+                this.buttons[0].inactive = !this.companyActive;
+                this.buttons[0].visible = this.companyActive;
+            })
+            .catch(() => {})
+            .then(() => this.loading --);
     }
 
     ngOnInit(): void {
