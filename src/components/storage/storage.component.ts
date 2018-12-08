@@ -56,6 +56,10 @@ export class StorageComponent implements OnInit {
         return !isLoading && filteredWithSearch && this.pageInfo.itemsCount === 0;
     }
 
+    get isFilterTrashSelected(): boolean {
+        return this.currentFilter && this.currentFilter.type && this.currentFilter.type === 'trash';
+    }
+
     get isNothingFound(): boolean {
         // !loading && !activeFilter && pageInfo.itemsCount === 0
         const isLoading: boolean = !!this.loading;
@@ -154,8 +158,6 @@ export class StorageComponent implements OnInit {
         this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
             let storageItem: any;
             storageItem = $this.pageInfo.items.find(item => item.id === result.id);
-            // console.log('storageItem', storageItem);
-            // console.log('result', result);
             if (result.converted === 1) {
                 storageItem.converted = result.converted;
             }
@@ -195,15 +197,19 @@ export class StorageComponent implements OnInit {
     onMediaDataLoaded(): void {
         this.service.select = [];
         this.pageInfo = this.service.pageInfo;
-        if (this.currentFilter && this.currentFilter.type && this.currentFilter.type === 'trash') {
+        if (this.isFilterTrashSelected) {
             if (this.pageInfo.itemsCount > 0) {
                 this.buttons[0].visible = true;
                 this.buttons[0].inactive = true;
-            } else {
+                this.buttons[2].inactive = false;
+            }
+            else {
                 this.buttons[0].visible = false;
                 this.buttons[0].inactive = true;
+                this.buttons[2].inactive = true;
             }
-        } else {
+        }
+        else {
             this.buttons[0].visible = false;
             this.buttons[0].inactive = false;
         }
@@ -231,7 +237,8 @@ export class StorageComponent implements OnInit {
             this.buttons[1].visible = false;
             this.buttons[1].inactive = true;
             this.buttons[0].inactive = true;
-        } else {
+        }
+        else {
             this.buttons[2].visible = false;
             this.buttons[1].visible = true;
             this.buttons[0].inactive = true;

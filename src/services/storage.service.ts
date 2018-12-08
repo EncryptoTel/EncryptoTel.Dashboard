@@ -34,7 +34,7 @@ export class StorageService extends BaseService {
         super(request, message, http);
 
         this.pageInfo = new StorageModel();
-        this.modalUpload = new ModalEx('', 'replaceFiles');
+        this.modalUpload = new ModalEx('', 'replaceOnlyFiles');
         this.loading = 0;
         this.successCount = 0;
         this.errorCount = 0;
@@ -80,17 +80,20 @@ export class StorageService extends BaseService {
             pageInfo.page = 1;
 
             this.updateLoading(1);
-            this.get(`?filter[search]=${file.name}`).then(response => {
-                if (response.itemsCount > 0) {
-                    this.files.push(file);
-                    this.checkModal();
-                }
-                else {
-                    return this.uploadFile(file, null, null);
-                }
-            }).catch(error => {
-                console.log('checkFileExists', error);
-            }).then(() => this.updateLoading(-1));
+            this.get(`?filter[search]=${file.name}`)
+                .then(response => {
+                    if (response.itemsCount > 0) {
+                        this.files.push(file);
+                        this.checkModal();
+                    }
+                    else {
+                        return this.uploadFile(file, null, null);
+                    }
+                })
+                .catch(error => {
+                    console.log('checkFileExists', error);
+                })
+                .then(() => this.updateLoading(-1));
         }
     }
 
