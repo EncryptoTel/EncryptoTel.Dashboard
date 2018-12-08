@@ -70,10 +70,10 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
         // Override default ValidationHost messages
         this.validationHost.customMessages = [
-            {name: 'Password confirmation', error: 'required', message: 'Please confirm password'},
+            { name: 'Confirm password', error: 'required', message: 'Please confirm the password' },
         ];
 
-        this._compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+        this._compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/jpg', 'image/gif' ];
     }
 
     checkCompatibleType(file: any): boolean {
@@ -159,9 +159,9 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         }
 
         if (validationResult) {
-            profileFormChanged && this.saveProfileSettings();
-            emailFormChanged && this.saveEmailSettings();
-            passwordFormChanged && this.savePasswordSettings();
+            if (profileFormChanged) this.saveProfileSettings();
+            if (emailFormChanged) this.saveEmailSettings();
+            if (passwordFormChanged) this.savePasswordSettings();
         }
         else {
             this.scrollToFirstError();
@@ -184,18 +184,20 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     initFormData(formKey: string, form: FormGroup, data?: any): void {
         if (data) {
             Object.keys(form.controls).map(key => {
-                if (key === 'language') {
-                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.language_and_region.children[key].value);
-                } else if (key === 'region') {
-                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.language_and_region.children[key].value);
-                } else if (key === 'time_zone') {
-                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.time_zone_clock_and_date_format.children[key].value);}
-                else if (key === 'date_format') {
-                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.time_zone_clock_and_date_format.children[key].value);
-                } else if (key === 'clock') {
-                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.settings.time_zone_clock_and_date_format.children[key].value);
-                } else {
-                    data.profile.user.hasOwnProperty(key) && form.controls[key].setValue(data.profile.user[key]);
+                if (key === 'language' || key === 'region') {
+                    if (data.profile.user.hasOwnProperty(key)) {
+                        form.controls[key].setValue(data.profile.settings.language_and_region.children[key].value);
+                    }
+                }
+                else if (key === 'time_zone' || key === 'date_format' || key === 'clock') {
+                    if (data.profile.user.hasOwnProperty(key)) {
+                        form.controls[key].setValue(data.profile.settings.time_zone_clock_and_date_format.children[key].value);
+                    }
+                }
+                else {
+                    if (data.profile.user.hasOwnProperty(key)) {
+                        form.controls[key].setValue(data.profile.user[key]);
+                    }
                 }
             });
         }
@@ -218,7 +220,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         this.generalForm.controls['language'].setValue(this.model.items[0]['children'][0].value);
         this.generalForm.controls['region'].setValue(this.model.items[0]['children'][1].value);
         this.generalForm.controls['clock'].setValue(this.model.items[1]['children'][1].value);
-        this.generalForm.controls['time_zone'].setValue(this.model.items[1]['children'][1].value); //+
+        this.generalForm.controls['time_zone'].setValue(this.model.items[1]['children'][1].value);
         this.generalForm.controls['date_format'].setValue(this.model.items[1]['children'][2].value);
 
         if (item.key === 'language') {
@@ -255,7 +257,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     saveEmailSettings(): void {
-        if (this.emailChangeState == EmailChangeState.NOT_STARTED) {
+        if (this.emailChangeState === EmailChangeState.NOT_STARTED) {
             this.loading++;
 
             this.service.requestEmailChange(this.emailChange.get('email').value).then(response => {
@@ -265,7 +267,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             })
                 .then(() => this.loading--);
         }
-        else if (this.emailChangeState == EmailChangeState.CONFIRMATION_CODE_SENT) {
+        else if (this.emailChangeState === EmailChangeState.CONFIRMATION_CODE_SENT) {
             this.loading++;
 
             this.service.confirmEmailChange(this.emailChange.get('code').value).then(response => {
