@@ -19,13 +19,13 @@ import {WsServices} from '@services/ws.services';
     providers: [StorageService],
 })
 export class StorageComponent implements OnInit {
-    public pageInfo: StorageModel = new StorageModel();
-    public table: TableInfoExModel = new TableInfoExModel();
-    public loading: number;
+    pageInfo: StorageModel = new StorageModel();
+    table: TableInfoExModel = new TableInfoExModel();
+    loading: number = 0;
 
-    public filters: FilterItem[];
-    public buttons: ButtonItem[];
-    public currentFilter: any;
+    filters: FilterItem[];
+    buttons: ButtonItem[];
+    currentFilter: any;
 
     storageItemSubscription: Subscription;
 
@@ -34,13 +34,8 @@ export class StorageComponent implements OnInit {
     @ViewChild(MediaTableComponent) mediaTable: MediaTableComponent;
     // public mediaTable: MediaTableComponent;
 
-    public modal: ModalEx;
-    public sidebarActive: boolean;
-
-    // TODO: ???
-    public source = {
-        select: {title: '', type: ''}
-    };
+    modal: ModalEx;
+    sidebarActive: boolean = false;
 
     private buttonType: number;
 
@@ -57,7 +52,7 @@ export class StorageComponent implements OnInit {
     }
 
     get isFilterTrashSelected(): boolean {
-        return this.currentFilter && this.currentFilter.type && this.currentFilter.type === 'trash';
+        return !!(this.currentFilter && this.currentFilter.type && this.currentFilter.type === 'trash');
     }
 
     get isNothingFound(): boolean {
@@ -83,7 +78,6 @@ export class StorageComponent implements OnInit {
         private _size: SizePipe,
         private _ws: WsServices,
     ) {
-        this.loading = 0;
         this.modal = new ModalEx('', 'deleteFiles');
         this.sidebarActive = false;
 

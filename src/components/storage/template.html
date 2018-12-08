@@ -41,7 +41,8 @@
             (onPageChangeEx)="getItems()">
         </pbx-pagination>
     </div>
-    <pbx-sidebar *ngIf="source.select.type != 'trash'">
+    
+    <pbx-sidebar *ngIf="!isFilterTrashSelected">
         <div class="store_sidebar_audio"
              [ngClass]="{ 'sidebar_active': sidebarActive }"
              (drop)="dropHandler($event)"
