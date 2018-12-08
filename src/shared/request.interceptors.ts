@@ -15,9 +15,10 @@ import {Router} from '@angular/router';
 @Injectable()
 export class UserTokenInterceptor implements HttpInterceptor {
 
-    constructor(private _storage: LocalStorageServices,
-                private _router: Router)
-    {}
+    constructor(
+        private _storage: LocalStorageServices,
+        private _router: Router
+    ) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const user: UserModel = this._storage.readItem('pbx_user');

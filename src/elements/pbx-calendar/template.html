@@ -1,4 +1,8 @@
-<div class="calendar" [ngClass]="isSetting?'fullLength':'fullBorder'" (clickOutside)="apply()" (blur)="apply()">
+<div class="calendar"
+     [ngClass]="isSetting?'fullLength':'fullBorder'"
+     (clickOutside)="apply()"
+     (blur)="apply()"
+     >
     <div class="calendar-head" (click)="openCalendar()">
         <span>{{title[0] + ' ― '}}<span (click)="goEnd=true">{{title[1]}}</span></span>
         <div class="calendar-icon"><svg-icon src="../../assets/icons/schedule.svg"></svg-icon></div>

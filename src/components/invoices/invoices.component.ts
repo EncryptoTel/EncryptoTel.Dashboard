@@ -15,7 +15,8 @@ import {getInterval} from '../../shared/shared.functions';
 export class InvoicesComponent implements OnInit {
 
     @ViewChild(ListComponent) list;
-    loading = 0;
+
+    loading: number = 0;
     pageInfo: InvoiceModel = new InvoiceModel();
     table: TableInfoExModel = new TableInfoExModel();
     buttons: ButtonItem[] = [];
@@ -26,7 +27,7 @@ export class InvoicesComponent implements OnInit {
         this.table.items.push(new TableInfoItem('Invoice Number', 'number'));
         this.table.items.push(new TableInfoItem('Invoice Type', 'type'));
         this.table.items.push(new TableInfoItem('Transaction Date', 'displayDateTime', 'date'));
-        let statusColumn = new TableInfoItem('Status', 'status');
+        const statusColumn = new TableInfoItem('Status', 'status');
         statusColumn.specialFormatting = [{
             pattern: '/waiting for payment/i',
             cssClass: 'waiting-status'
