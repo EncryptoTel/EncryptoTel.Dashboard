@@ -51,8 +51,8 @@ export class StorageComponent implements OnInit {
         return !isLoading && filteredWithSearch && this.pageInfo.itemsCount === 0;
     }
 
-    get isFilterTrashSelected(): boolean {
-        return !!(this.currentFilter && this.currentFilter.type && this.currentFilter.type === 'trash');
+    get isSidebarVisible(): boolean {
+        return !!(this.currentFilter && this.currentFilter.type && this.currentFilter.type === 'audio');
     }
 
     get isNothingFound(): boolean {
@@ -68,6 +68,14 @@ export class StorageComponent implements OnInit {
         // !loading && !loadingEx && !filter.loading && pageInfo.itemsCount > 0
         const isLoading: boolean = !!this.loading;
         return !isLoading && this.pageInfo.itemsCount > 10;
+    }
+
+    get isFilterTrashSelected(): boolean {
+        return !!(this.currentFilter && this.currentFilter.type && this.currentFilter.type === 'trash');
+    }
+
+    get deletionType(): string {
+        return this.isFilterTrashSelected ? 'delete' : 'trash';
     }
 
     // --- component methods ------------------------------
@@ -137,7 +145,7 @@ export class StorageComponent implements OnInit {
                 title: 'Upload',
                 type: 'success',
                 visible: true,
-                inactive: false,
+                inactive: true,
                 buttonClass: 'button-upload',
                 icon: false
             }
@@ -208,10 +216,7 @@ export class StorageComponent implements OnInit {
             this.buttons[0].inactive = false;
         }
 
-        // this.buttons[3].visible = this.pageInfo.itemsCount > 0;
-        // this.buttons[1].inactive = this.service.select.length === 0;
-
-        this.buttons[3].inactive = false;
+        this.buttons[3].inactive = !this.isSidebarVisible;
         this.buttons[3].visible = true;
     }
 
@@ -263,7 +268,7 @@ export class StorageComponent implements OnInit {
             this.onMediaDataLoaded();
             if (this.service.successCount) {
                 let messageText: string;
-                if (this.currentFilter !== undefined && this.currentFilter.type === 'trash') {
+                if (this.isFilterTrashSelected) {
                     if (this.buttonType === 0) {
                         messageText = this.service.successCount > 1
                             ? `${this.service.successCount} files have been successfully ${deleting ? 'restored' : 'uploaded'}.`
@@ -335,49 +340,54 @@ export class StorageComponent implements OnInit {
 
     // --- file deletion methods --------------------------
 
-    deleteSelected($event: any) {
-        this.buttonType = $event.id;
+    deleteSelected(event: any) {
+        this.buttonType = event.id;
+        this.confirmDeletion();
+    }
+    
+    deleteItem(item: StorageItem): void {
+        if (!item) return;
+
+        this.buttonType = this.isFilterTrashSelected ? 3 : 1;
+        this.service.select = [ item.id ];
+        this.confirmDeletion();
+    }
+
+    confirmDeletion(): void {
         if (this.buttonType === 1) {
             this.modal = new ModalEx('', 'deleteFiles');
+            if (this.service.select.length === 1) {
+                const item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
+                this.modal.body = 'Are you sure you want to delete ' + item.fileName + ' file?';
+            }
             this.modal.visible = true;
-        } else if (this.buttonType === 2) {
+        }
+        else if (this.buttonType === 2) {
             this.fileInput.nativeElement.click();
-        } else if (this.buttonType === 3) {
+        }
+        else if (this.buttonType === 3) {
             this.modal = new ModalEx('', 'emptyTrash');
-            if (this.service.select.length > 0) {
+            if (this.service.select.length === 1) {
+                const item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
+                this.modal.body = 'Permanently delete ' + item.fileName + ' file?';
+            }
+            else if (this.service.select.length > 0) {
                 this.modal.body = 'Permanently delete ' + this.service.select.length + ' file(s)?';
             }
             this.modal.visible = true;
-        } else {
+        }
+        else {
             this.modal = new ModalEx('', 'restoreFiles');
             this.modal.visible = true;
         }
-        // if (this.buttonType !== 2) {
-        //     if (this.buttonType === 0) {
-        //         this.modal = new ModalEx('', 'restoreFiles');
-        //     } else {
-        //         this.modal = new ModalEx('', 'deleteFiles');
-        //     }
-        //     this.modal.visible = true;
-        // } else if (this.buttonType === 3) {
-        //
-        // } else {
-        //
-        // }
     }
 
     deleteConfirmed() {
         this.service.resetCount();
         if (this.service.select.length > 0) {
             this.service.select.forEach(id => {
-                let typeDelete: string;
-                typeDelete = 'trash';
-                if (this.currentFilter && this.currentFilter.type === 'trash') {
-                    typeDelete = 'delete';
-                }
                 const item: any = this.pageInfo.items.find(i => i.id === id);
                 // item ? item.loading++ : null;
-
                 if (this.buttonType === 0) {
                     this.service.restoreById(id, (loading) => {
                             this.updateLoading(loading, true);
@@ -385,43 +395,25 @@ export class StorageComponent implements OnInit {
                         .then(() => {})
                         .catch(() => {})
                         .then(() => { if (!!item) item.loading --; });
-                } else {
+                }
+                else {
                     this.service.deleteById(id, (loading) => {
                             this.updateLoading(loading, true);
-                        }, typeDelete, false)
+                        }, this.deletionType, false)
                         .then(() => {})
                         .catch(() => {})
                         .then(() => { if (!!item) item.loading --; });
                 }
             });
-        } else {
+        }
+        else {
             if (this.buttonType === 2) {
                 this.service.deleteAll((loading) => {
                     this.updateLoading(loading, true);
-                }, false).then(
-                    () => {}
-                    ).catch(
-                        () => {}
-                );
+                }, false)
+                    .then(() => {})
+                    .catch(() => {});
             }
         }
-    }
-
-    deleteItem(item: StorageItem): void {
-        this.buttonType = 4;
-        if (!item) return;
-
-        const _this = this;
-        let typeDelete: string = 'trash';
-        if (_this.currentFilter && _this.currentFilter.type === 'trash') {
-            typeDelete = 'delete';
-        }
-
-        this.service.deleteById(item.id, (loading) => {
-                _this.updateLoading(loading, true);
-            }, typeDelete, false)
-            .then(() => {})
-            .catch(() => {})
-            .then(() => item.loading --);
     }
 }

@@ -366,7 +366,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     isFileSelected(index: number): boolean {
         return !!this.selectedFiles[index]
-            && this.selectedFiles[index].converted != undefined
+            && this.selectedFiles[index].converted != null
             && this.selectedFiles[index].converted > 0;
     }
 

@@ -52,8 +52,8 @@ export class StorageService extends BaseService {
 
     updateLoading(increment: number) {
         this.loading += increment;
-        this.callback ? this.callback(this.loading) : null;
-        if (this.callback && this.loading == 0 && this.files.length == 0 && !this.modalUpload.visible) {
+        if (this.callback) this.callback(this.loading);
+        if (this.callback && this.loading === 0 && this.files.length === 0 && !this.modalUpload.visible) {
             this.callback = null;
         }
     }
@@ -70,12 +70,12 @@ export class StorageService extends BaseService {
 
     checkFileExists(file, callback = null): void {
         this.callback = callback;
-        const index = this.pageInfo.items.findIndex(item => item.fileName == file.name);
-        if (index != -1) {
+        const index = this.pageInfo.items.findIndex(item => item.fileName === file.name);
+        if (index !== -1) {
             this.files.push(file);
         }
         else {
-            let pageInfo: StorageModel = new StorageModel();
+            const pageInfo: StorageModel = new StorageModel();
             pageInfo.limit = 1;
             pageInfo.page = 1;
 
