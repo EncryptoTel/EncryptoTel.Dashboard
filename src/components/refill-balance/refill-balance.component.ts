@@ -66,7 +66,8 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                 'amount',
                 `$${this.amount.min}`,
                 `$${this.amount.max}`,
-                true
+                true,
+                `5`
             )
         );
         this.filters.push(
