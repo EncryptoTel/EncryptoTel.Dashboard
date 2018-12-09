@@ -90,7 +90,9 @@ export class IvrService extends BaseService {
         ]).then(res => {
             this.references.sip = !!res[0].items ? res[0].items : [];
             this.references.sip.map(item => {
-                item.phoneNumber = `+${item.phoneNumber}`;
+                if (item.providerId !== 1) {
+                    item.phoneNumber = `+${item.phoneNumber}`;
+                }
             });
             const action = res[1].actions;
             this.references.params = Object.keys(action).map(val => {
@@ -109,7 +111,7 @@ export class IvrService extends BaseService {
             .then(response => {
                 this.references.files = response.items;
             })
-            .catch(() => {});
+            .catch(() => { });
     }
 
     showParameter(action, sipId, levels, data: IvrLevel | Digit): any {
@@ -138,8 +140,8 @@ export class IvrService extends BaseService {
                     const sip = this.references.sip.find(x => x.id === sipId);
                     paramsInfo.option = sip
                         ? sip.sipInners.map(x => {
-                              return { id: x.id, name: x.phoneNumber };
-                          })
+                            return { id: x.id, name: x.phoneNumber };
+                        })
                         : [];
                     paramsInfo.label = 'Extension number';
                     paramsInfo.visible = true;
