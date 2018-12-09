@@ -88,6 +88,7 @@ export class InputComponent implements OnInit, OnDestroy {
     @Input()
     set defaultValue(value: string){
         this._defaultValue = value;
+        this.value = this._defaultValue;
     }
     _defaultValue: string = '';
 
@@ -179,7 +180,7 @@ export class InputComponent implements OnInit, OnDestroy {
 
     @HostListener('window:scroll', ['$event'])
     onWindowScroll(event) {
-        console.log('scroll', event, this.inputDiv.nativeElement);
+        // console.log('scroll', event, this.inputDiv.nativeElement);
     }
 
     setFocus(): void {
@@ -250,6 +251,7 @@ export class InputComponent implements OnInit, OnDestroy {
         }
 
         this.object[this.key] = $event.target.value;
+        this._defaultValue = $event.target.value;
         this.onKeyUp.emit($event);
     }
 
@@ -376,6 +378,7 @@ export class InputComponent implements OnInit, OnDestroy {
 
     clearValue(): void {
         this.value = this.object[this.key] = null;
+        this._defaultValue = this.object[this.key] = null;
         this.onKeyUp.emit();
     }
 

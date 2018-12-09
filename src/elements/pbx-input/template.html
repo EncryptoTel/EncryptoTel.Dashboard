@@ -38,7 +38,7 @@
                        appAutofocus
                        >
 
-                <div *ngIf="!options && !checkbox && type !== 'textarea' && resetable && value" class="clear_icon_wrap">
+                <div *ngIf="!options && !checkbox && type !== 'textarea' && resetable && (value || _defaultValue)" class="clear_icon_wrap">
                     <div class="clear_icon" (click)="clearValue()">
                         <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
                     </div>
