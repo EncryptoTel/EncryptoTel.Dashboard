@@ -10,6 +10,7 @@ import {getInterval, getDateRange, dateToServerFormat} from '../../shared/shared
 import {TableInfoAction, TableInfoActionOption, TableInfoExModel, TableInfoItem, TagModel} from '../../models/base.model';
 import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
 import {TagSelectorComponent} from '../../elements/pbx-tag-selector/pbx-tag-selector.component';
+import {StorageService} from '../../services/storage.service';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class DetailsAndRecordsComponent implements OnInit {
 
     startDate: string;
     endDate: string;
+    downloadFile: any;
 
     @ViewChild('mediaTable') mediaTable: MediaTableComponent;
     @ViewChild('tagSelector') tagSelector: TagSelectorComponent;
@@ -37,7 +39,8 @@ export class DetailsAndRecordsComponent implements OnInit {
     // -- component lifecycle methods -----------------------------------------
 
     constructor(private service: CdrService,
-                private ws: WsServices) {
+                private ws: WsServices,
+                private storageService: StorageService) {
 
         this.table.sort.isDown = true;
         this.table.sort.column = 'callDate';
@@ -95,7 +98,7 @@ export class DetailsAndRecordsComponent implements OnInit {
         switch (event.action.id) {
             case 2:
                 event.action.options = [];
-                if (event.item.playable) event.action.options.push(new TableInfoActionOption(1, 'Download file'));
+                if (event.item.accountFile && event.item.accountFile.id > 0) event.action.options.push(new TableInfoActionOption(1, 'Download file'));
                 if (event.item.contactId) event.action.options.push(new TableInfoActionOption(2, 'View contact'));
                 event.action.options.push(new TableInfoActionOption(3, 'Block user', 'ban'));
                 break;
@@ -107,16 +110,33 @@ export class DetailsAndRecordsComponent implements OnInit {
             case 2:
                 switch (event.option.id) {
                     case 1:
-                        console.log('Download file');
+                        this.getFile(event.item.accountFile.id);
                         break;
                     case 2:
-                        console.log('View contact');
+                        console.log('contact view');
                         break;
                     case 3:
                         console.log('Block user');
                         break;
                 }
                 break;
+        }
+    }
+
+    getFile(fileId) {
+        if (fileId) {
+            this.storageService.getById(fileId).then(response => {
+                this.downloadFile = response;
+                let url: string;
+                url = '/download/' + this.downloadFile.downloadHash;
+                let a: any;
+                a = document.createElement('a');
+                document.body.appendChild(a);
+                a.setAttribute('style', 'display: none');
+                a.href = url;
+                a.click();
+                a.remove();
+            }).catch(() => {}).then(() => {});
         }
     }
 
