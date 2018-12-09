@@ -158,6 +158,9 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                 return false;
             }
         } else {
+            if (this.errors && 'returnAddress' in this.errors) {
+                delete this.errors.returnAddress;
+            }
             return true;
         }
     }
