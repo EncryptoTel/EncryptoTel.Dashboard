@@ -30,7 +30,7 @@ export function getCurrencyById(id: number): CurrencyModel {
     return list ? list.find(currency => currency.id === id) : null;
 }
 
-export function dateComparison(date0: string, date1: Date) {
+export function dateComparison(date0: string, date1: string) {
     // const date0 = moment(date0, ['YYYY-MM-DD HH:mm:ss']).format('Y-MM-DD HH:mm:ss');
     return (
         date0 === date1
