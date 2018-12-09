@@ -123,7 +123,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         return validAmmount && validWallet;
     }
 
-    validateAmount(text: string = 5): boolean {
+    validateAmount(text: string = '5'): boolean {
         this.validInput = numberRegExp.test(text);
         if (this.validInput) {
             if (parseInt(text, 10)) {
