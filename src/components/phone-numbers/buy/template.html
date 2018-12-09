@@ -9,6 +9,7 @@
             <div class="buy_phone_header_block_key" translate>Select country:</div>
             <pbx-editable-select [options]="countries"
                                  [objectKey]="'title'"
+                                 [searchStartWith]="true"
                                  (onSelect)="selectCountry($event)"
                                  [selected]="selectedCountry">
             </pbx-editable-select>

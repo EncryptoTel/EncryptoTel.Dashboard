@@ -32,6 +32,7 @@
                                [editable]="true"
                                [errors]="service.errors"
                                [errorKey]="'companyAddress.new_0.country.id'"
+                               [searchStartWith]="true"
                                [validationHost]="validationHost"
                                (onSelect)="selectCountry($event)"
                     >

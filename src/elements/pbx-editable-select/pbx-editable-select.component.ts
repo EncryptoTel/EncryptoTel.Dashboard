@@ -1,6 +1,17 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {SelectService} from '../../services/state/select.service';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+    OnChanges,
+    SimpleChanges
+} from '@angular/core';
+import { SwipeAnimation } from '../../shared/swipe-animation';
+import { SelectService } from '../../services/state/select.service';
 
 @Component({
     selector: 'pbx-editable-select',
@@ -31,7 +42,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     @Input() objectKey: string;
     @Input() selected: any; // read selectedItem
     @Input() errors: any[];
-
+    @Input() searchStartWith: boolean = false;
     @Output() onSelect: EventEmitter<object>;
     @Output() onOpen: EventEmitter<object>;
     @Output() onClose: EventEmitter<object>;
@@ -43,7 +54,6 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     @ViewChild('selectInput') selectInput: ElementRef;
 
     // -- component lifecycle functions -------------------
-
 
     constructor(private selectService: SelectService) {
         this.isVisible = false;
@@ -90,14 +100,20 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     // -- selection functions -----------------------------
 
     get currentIndex(): number {
-        return this.filteredOptions.findIndex(item => this.isItemSelected(item));
+        return this.filteredOptions.findIndex(item =>
+            this.isItemSelected(item)
+        );
     }
 
     isItemSelected(item: any): boolean {
         if (Number.isInteger(item)) {
             return item === this.filteredSelectedItem;
         }
-        return item && this.filteredSelectedItem && item.id === this.filteredSelectedItem.id;
+        return (
+            item &&
+            this.filteredSelectedItem &&
+            item.id === this.filteredSelectedItem.id
+        );
     }
 
     selectItem(option: any, event?: Event): void {
@@ -164,8 +180,9 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     clickOutside(): void {
-        if (this.inFocus)
+        if (this.inFocus) {
             this.clearControlFocus();
+        }
         this.setSelectCtrlFocus(false);
         this.hideOptions();
     }
@@ -173,8 +190,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     setSelectCtrlFocus(state: boolean): void {
         if (state) {
             setTimeout(() => this.selectWrap.nativeElement.focus(), 0);
-        }
-        else {
+        } else {
             setTimeout(() => this.selectWrap.nativeElement.blur(), 0);
         }
     }
@@ -190,8 +206,10 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     handleInputKeyboardEvent(event: KeyboardEvent): void {
         switch (event.code) {
             case 'ArrowDown': {
-                if ((this.currentIndex + 1) !== this.filteredOptions.length) {
-                    this.filteredSelectedItem = this.filteredOptions[this.currentIndex + 1];
+                if (this.currentIndex + 1 !== this.filteredOptions.length) {
+                    this.filteredSelectedItem = this.filteredOptions[
+                        this.currentIndex + 1
+                    ];
                     this.scrollToCurrent();
                 } else {
                     this.filteredSelectedItem = this.filteredOptions[0];
@@ -202,10 +220,14 @@ export class EditableSelectComponent implements OnInit, OnChanges {
             }
             case 'ArrowUp': {
                 if (this.currentIndex > 0) {
-                    this.filteredSelectedItem = this.filteredOptions[this.currentIndex - 1];
+                    this.filteredSelectedItem = this.filteredOptions[
+                        this.currentIndex - 1
+                    ];
                     this.scrollToCurrent();
                 } else {
-                    this.filteredSelectedItem = this.filteredOptions[this.filteredOptions.length - 1];
+                    this.filteredSelectedItem = this.filteredOptions[
+                        this.filteredOptions.length - 1
+                    ];
                     this.scrollToCurrent();
                 }
                 this.killEvent(event);
@@ -267,13 +289,30 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     filterOptions(): void {
-        this.filteredOptions = this._options
-            .filter(opt => !this.filterValue || opt[this.objectKey].toLowerCase().search(this.filterValue.toLowerCase()) >= 0);
+        if (this.searchStartWith) {
+            this.filteredOptions = this._options.filter(
+                opt =>
+                    !this.filterValue ||
+                    opt[this.objectKey]
+                        .toLowerCase()
+                        .startsWith(this.filterValue.toLowerCase())
+            );
+        } else {
+            this.filteredOptions = this._options.filter(
+                opt =>
+                    !this.filterValue ||
+                    opt[this.objectKey]
+                        .toLowerCase()
+                        .search(this.filterValue.toLowerCase()) >= 0
+            );
+        }
 
-        if (this.filteredOptions.length == 0) this.filteredOptions.push(this._emptyOption);
-        this.filteredSelectedItem = (this.filterValue && this.filteredOptions[0].id)
-            ? this.filteredOptions[0]
-            : this.selected;
+        if (this.filteredOptions.length == 0)
+            this.filteredOptions.push(this._emptyOption);
+        this.filteredSelectedItem =
+            this.filterValue && this.filteredOptions[0].id
+                ? this.filteredOptions[0]
+                : this.selected;
 
         this.scrollToCurrent();
     }
@@ -300,8 +339,10 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     scrollToCurrent(deferred: boolean = false): void {
         if (this.isVisible && this.optionsWrap) {
             const optionsWrap = this.optionsWrap.nativeElement;
-            let scrollFn = () => { optionsWrap.scrollTop = (this.currentIndex - 2) * 40; }
-            (deferred) ? setTimeout(scrollFn, 0) : scrollFn();
+            let scrollFn = () => {
+                optionsWrap.scrollTop = (this.currentIndex - 2) * 40;
+            };
+            deferred ? setTimeout(scrollFn, 0) : scrollFn();
         }
     }
 }
