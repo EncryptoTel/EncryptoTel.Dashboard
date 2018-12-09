@@ -344,7 +344,7 @@ export class StorageComponent implements OnInit {
         this.buttonType = event.id;
         this.confirmDeletion();
     }
-    
+
     deleteItem(item: StorageItem): void {
         if (!item) return;
 
