@@ -36,11 +36,6 @@ export class SignInComponent implements OnInit, OnDestroy {
     passwordFormError = false;
     passwordFormErrorMessage: string = 'rqwerqwerqwerqwerqwer';
 
-    get isErrorMessage(): boolean {
-        return this.message && this.message.type === 'error';
-        
-    }
-
     setFocus(element): void {
         switch (element.name) {
             case 'Username':
@@ -64,13 +59,15 @@ export class SignInComponent implements OnInit, OnDestroy {
     }
 
     mouseEnter(element) {
-        switch (element.name) {
-            case 'Username':
-                this.errorName = true;
-                break;
-            case 'Password':
-                this.errorPassword = true;
-                break;
+        if (element.name === 'Username' && !this.isErrorMessage(this.message)) {
+            switch (element.name) {
+                case 'Username':
+                    this.errorName = true;
+                    break;
+                case 'Password':
+                    this.errorPassword = true;
+                    break;
+            }
         }
     }
 
@@ -145,18 +142,23 @@ export class SignInComponent implements OnInit, OnDestroy {
         }
     }
 
+    isErrorMessage(message: any): boolean {
+        return message && message.type && message.type === 'error';
+        
+    }
+
     ngOnInit(): void {
         this._services.clearMessage();
         this.message = this._services.message;
         this.errorsSubscription = this._services.readMessage().subscribe(message => {
-            this.message = message;
-            if (this.isErrorMessage) {
+            if (this.isErrorMessage(message)) {
                 this.signInForm.controls['login'].markAsTouched();
                 this.signInForm.controls['login'].setErrors({ 'userNotFound': true });
             }
-            else {
+            else if (this.message != null && !this.isErrorMessage(message)) {
                 this.signInForm.controls['login'].setErrors(null);
             }
+            this.message = message;
         });
         if (this._user.fetchUser()) {
             this._router.navigateByUrl('/cabinet');
