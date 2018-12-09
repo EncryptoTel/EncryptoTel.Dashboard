@@ -37,7 +37,8 @@ export class DashboardComponent {
         this._dashboard.getDashboard().then(dashboard => {
             this.dashboard = dashboard;
             (item ? item : this).loading = false;
-        }).catch(() => {
+        }).catch((error) => {
+            console.log('catch fetchDashboard', error);
             (item ? item : this).loading = false;
         });
     }

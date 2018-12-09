@@ -6,10 +6,11 @@ import {
     DashboardModel,
     StorageModel,
     TariffPlanModel
-} from "../models/dashboard.model";
+} from '../models/dashboard.model';
 import {plainToClass} from 'class-transformer';
-import {dateComparison} from '../shared/shared.functions';
-import {WsServices} from "./ws.services";
+import {dateComparison, stringToDate} from '../shared/shared.functions';
+import {WsServices} from './ws.services';
+import * as moment from 'moment';
 
 @Injectable()
 export class DashboardServices {
@@ -34,8 +35,8 @@ export class DashboardServices {
             const dates: string[] = [];
             if (list) {
                 list.forEach(item => {
-                    const date = new Date(item.callDate);
-                    const dateObj = [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('.');
+                    const date = item.callDate.split(' ')[0];
+                    const dateObj = date.split('-').join('.');
                     if (dates.indexOf(dateObj) === -1) {
                         dates.push(dateObj);
                     } else {
@@ -47,20 +48,25 @@ export class DashboardServices {
                 this.dashboard.callDetail = [];
                 dates.forEach(date => {
                     this.dashboard.callDetail.push(plainToClass(CallDetailModel, {
-                        date: new Date(date),
+                        date: moment(new Date(date), ['YYYY-MM-DD HH:mm:ss']).format('YYYY-MM-DD HH:mm:ss'),
                         list: []
                     }));
                 });
             }
             if (list) {
-                list.map((item: CallDetailItem) => {
-                    this.dashboard.callDetail.find(historyItem => {
-                        return dateComparison(historyItem.date, new Date(item.callDate));
-                    }).list.push(plainToClass(CallDetailItem, item));
+                list.forEach(listItem => {
+                    this.dashboard.callDetail.forEach(callDetail => {
+
+                    });
                 });
+
+                // const tmp = list.map((item: CallDetailItem) => {
+                //     const callDetail = this.dashboard.callDetail.find(historyItem => {
+                //         return dateComparison(historyItem.date, item.callDate);
+                //     });
+                //     return callDetail.list.push(plainToClass(CallDetailItem, item);
+                // });
             }
-            // this._storage.writeItem('pbx_history', this.history);
-            // this.touchHistory();
             return Promise.resolve(this.dashboard);
         });
     }
