@@ -260,11 +260,14 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         if (this.emailChangeState === EmailChangeState.NOT_STARTED) {
             this.loading++;
 
-            this.service.requestEmailChange(this.emailChange.get('email').value).then(response => {
-                this.emailChangeState = EmailChangeState.CONFIRMATION_CODE_SENT;
-                // this._message.writeSuccess(response.message);
-            }).catch(() => {
-            })
+            this.service.requestEmailChange(this.emailChange.get('email').value)
+                .then(() => {
+                    this.emailChangeState = EmailChangeState.CONFIRMATION_CODE_SENT;
+                }).catch(response => {
+                    if (response.errors && response.errors['email']) {
+                        response.errors['email'] = `A user with this email address already exists`;
+                    }
+                })
                 .then(() => this.loading--);
         }
         else if (this.emailChangeState === EmailChangeState.CONFIRMATION_CODE_SENT) {

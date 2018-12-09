@@ -17,6 +17,7 @@
                            [form]="true"
                            [required]="true"
                            [object]="generalForm"
+                           [errors]="service.errors"
                            [validationHost]="validationHost"
                            (onKeyUp)="change()"
                 ></pbx-input>
@@ -26,6 +27,7 @@
                            placeholder="{{'Last Name' | translate}}"
                            [form]="true"
                            [object]="generalForm"
+                           [errors]="service.errors"
                            [validationHost]="validationHost"
                            (onKeyUp)="change()"
                 ></pbx-input>
@@ -35,6 +37,7 @@
                            placeholder="Patronymic"
                            [form]="true"
                            [object]="generalForm"
+                           [errors]="service.errors"
                            [validationHost]="validationHost"
                            (onKeyUp)="change()"
                 ></pbx-input>
@@ -44,6 +47,7 @@
                            placeholder="{{'Phone' | translate}}"
                            [form]="true"
                            [object]="generalForm"
+                           [errors]="service.errors"
                            [validationHost]="validationHost"
                            (onKeyUp)="change()"
                 ></pbx-input>
@@ -59,8 +63,9 @@
                            [required]="true"
                            [form]="true"
                            [object]="emailChange"
+                           [errors]="service.errors"
                            [validationHost]="validationHost"
-                >
+                           >
                 </pbx-input>
 
                 <div class="settings_input_item string" *ngIf="messageSent">
@@ -69,6 +74,7 @@
                                placeholder="{{ 'Confirmation code' | translate }}"
                                [form]="true"
                                [object]="emailChange"
+                               [errors]="service.errors"
                                [validationHost]="validationHost"
                     ></pbx-input>
                 </div>
@@ -83,6 +89,7 @@
                            type="password"
                            [form]="true"
                            [object]="passwordChange"
+                           [errors]="service.errors"
                            [validationHost]="validationHost"
                 ></pbx-input>
 
@@ -92,6 +99,7 @@
                            type="password"
                            [form]="true"
                            [object]="passwordChange"
+                           [errors]="service.errors"
                            [validationHost]="validationHost"
                 ></pbx-input>
 
@@ -101,6 +109,7 @@
                            type="password"
                            [form]="true"
                            [object]="passwordChange"
+                           [errors]="service.errors"
                            [validationHost]="validationHost"
                 >
                 </pbx-input>

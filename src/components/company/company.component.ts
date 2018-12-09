@@ -219,31 +219,35 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     private getCompany(): void {
         this.locker.lock();
 
-        this.service.getCompany().then((company: CompanyModel) => {
-            this.company = company;
-            this.companyInfo.logo = company.logo;
-            this.company.logo = company.logo;
-        }).catch(() => {
-            if (isDevEnv() && this.service.model) {
-                this.company = this.service.model;
-            }
-        }).then(() => {
-            this.setFormData(this.company);
-            if (!this.company.isValid) {
-                this.isNewCompany = true;
-                this.editMode = true;
-            }
-            this.locker.unlock();
-        });
+        this.service.getCompany()
+            .then((company: CompanyModel) => {
+                this.company = company;
+                this.companyInfo.logo = company.logo;
+                this.company.logo = company.logo;
+            })
+            .catch(() => {
+                if (isDevEnv() && this.service.model) {
+                    this.company = this.service.model;
+                }
+            })
+            .then(() => {
+                this.setFormData(this.company);
+                if (!this.company.isValid) {
+                    this.isNewCompany = true;
+                    this.editMode = true;
+                }
+                this.locker.unlock();
+            });
     }
 
     private getCountries() {
         this.locker.lock();
 
-        this.refs.getCountries().then(res => {
-            this.countries = res;
-        }).catch(() => {
-        })
+        this.refs.getCountries()
+            .then(res => {
+                this.countries = res;
+            })
+            .catch(() => {})
             .then(() => this.locker.unlock());
     }
 
@@ -290,7 +294,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             this.getCompany();
         }).catch(error => {
             console.error('Company update error', error);
-            isDevEnv() && this.getCompany();
+            if (isDevEnv()) this.getCompany();
         }).then(() => this.locker.unlock());
     }
 
