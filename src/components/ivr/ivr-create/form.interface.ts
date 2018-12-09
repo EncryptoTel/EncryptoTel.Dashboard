@@ -10,7 +10,10 @@ export interface IvrFormInterface {
     onFormChange: Subject<any>;
     onAddLevel: Function;
 
+    formPanel: Element;
+
     getData();
     close(editMode: boolean, confirmCallback?: () => void): void;
     showExitModal(editMode: boolean, confirmCallback?: () => void): void;
+    scrollToFirstError(): void;
 }

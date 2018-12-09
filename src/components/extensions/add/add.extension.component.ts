@@ -183,6 +183,9 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
                 });
             }
         }
+        else {
+            this.scrollToFirstError();
+        }
     }
 
     errorSaveExtension(response) {

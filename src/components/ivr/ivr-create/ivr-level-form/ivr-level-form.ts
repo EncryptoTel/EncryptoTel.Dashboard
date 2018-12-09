@@ -47,6 +47,9 @@ export class IvrLevelFormComponent extends FormBaseComponent
         validators: []
     };
 
+    formPanel: Element = null;
+
+
     // -- properties ----------------------------------------------------------
 
     get valid(): boolean {

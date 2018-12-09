@@ -18,6 +18,7 @@ import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp} from '../../sh
 import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {TariffStateService} from '../../services/state/tariff.state.service';
 import {TranslateService} from '@ngx-translate/core';
+import {ScrollEvent} from '@shared/scroll.directive';
 
 @AnimationComponent({
     selector: 'pbx-address-book',
@@ -44,6 +45,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     editMode: boolean = false;
 
     private _forceReload: boolean;
+
+    @Output() onScroll = new EventEmitter<ScrollEvent>();
 
     // -- properties ----------------------------------------------------------
 
@@ -330,6 +333,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         if (this.validateForms()) {
             this.setFilters();
             this.saveAddress();
+        }
+        else {
+            this.scrollToFirstError();
         }
     }
 

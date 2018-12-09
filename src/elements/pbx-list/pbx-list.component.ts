@@ -12,6 +12,7 @@ import {HeaderComponent} from '../pbx-header/pbx-header.component';
 import {Router} from '@angular/router';
 import {TableComponent} from '../pbx-table/pbx-table.component';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {getDateRange, dateToServerFormat} from '@shared/shared.functions';
 
 @Component({
     selector: 'pbx-list',
@@ -54,6 +55,7 @@ export class ListComponent implements OnInit {
     set sidebar(sidebar: any) {
         this._sidebar = sidebar;
     }
+    @Input() calendarDateKey: string = null;
 
     @Output() onCreate: EventEmitter<any> = new EventEmitter<any>();
     @Output() onEdit: EventEmitter<object> = new EventEmitter<object>();
@@ -74,10 +76,18 @@ export class ListComponent implements OnInit {
     pbxListEmptyText_1: string;
     pbxListEmptyText_2: string;
 
+    calendarDateRange: string[] = null;
+    startDate: string;
+    endDate: string;
+
     // -- properties ----------------------------------------------------------
 
     get sidebarVisible(): boolean {
         return this._sidebar ? this._sidebar.visible : false;
+    }
+
+    get calendarVisible(): boolean {
+        return !!this.calendarDateKey;
     }
 
     get isEmptySearch(): boolean {
@@ -112,7 +122,7 @@ export class ListComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.buttons.length === 0) {
+        if (this.buttons.length === 0 && !this.calendarVisible) {
             this.buttons.push({
                 id: 0,
                 title: this.buttonTitle ? this.buttonTitle : 'Create ' + (this.itemName ? this.itemName : this.name),
@@ -191,6 +201,11 @@ export class ListComponent implements OnInit {
         this.getItems();
     }
 
+    dateChanged(range: string[]): void {
+        this.calendarDateRange = range;
+        this.getItems();
+    }
+
     // -- filtering -----------------------------------------------------------
 
     reloadFilter(filter) {
@@ -231,15 +246,24 @@ export class ListComponent implements OnInit {
                 this.currentFilter.type = 'blacklist';
             }
         }
+        if (this.calendarVisible && this.calendarDateRange) {
+            if (!this.currentFilter) this.currentFilter = {};
+            this.currentFilter['startDate'] = dateToServerFormat(this.calendarDateRange[0]);
+            this.currentFilter['endDate'] = dateToServerFormat(this.calendarDateRange[1]);
+        }
         this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null)
-            .then(res => {
-                this.pageInfo = res;
+            .then(response => {
+                this.pageInfo = response;
                 this.pageInfo.limit = limit;
 
-                this.onLoad.emit(this.pageInfo);
+                if (this.calendarVisible) {
+                    this.calendarDateRange = getDateRange(this.pageInfo.items, this.calendarDateKey);
+                }
 
-                this.header.load();
                 this.updateTotalItems();
+                if (this.header) this.header.load();
+
+                this.onLoad.emit(this.pageInfo);
             })
             .catch(() => {})
             .then(() => item ? item.loading -- : this.loadingEx --);
@@ -267,7 +291,7 @@ export class ListComponent implements OnInit {
                 this.pageInfo.itemsCount = totalItemsCount;
             }
         }
-        if (Object.keys(this.currentFilter).length === 0) {
+        if (!this.currentFilter || Object.keys(this.currentFilter).length === 0) {
             this._totalItemsCount = this.pageInfo.itemsCount;
         }
     }

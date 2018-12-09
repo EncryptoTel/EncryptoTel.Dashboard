@@ -9,6 +9,7 @@
           (onConfirm)="save()"
           (onDecline)="addMembersMode ? back() : cancel()"
           (onSelect)="selectTab($event)"
+          (onScroll)="handleScroll($event)"
           >
     <pbx-queue-general *ngIf="tabGeneralActive"
                        [name]="name"

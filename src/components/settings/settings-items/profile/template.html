@@ -3,7 +3,8 @@
           [background]="true"
           (onConfirm)="save()"
           (onDecline)="close()"
->
+          (onScroll)="handleScroll($event)"
+          >
     <pbx-loader *ngIf="loading"></pbx-loader>
     <div class="overlay_content" *ngIf="!loading" [@Fade]>
         <form class="settings_form" (submit)="saveSettings($event)">
@@ -110,7 +111,7 @@
                 [items]="model.items"
                 [level]="1"
                 (valueChange)="onValueChange($event)"
-            >
+                >
             </pbx-settings-group>
 
             <!--<div class="settings_form_section" [formGroup]="passwordChange">-->

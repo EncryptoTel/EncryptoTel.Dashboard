@@ -6,10 +6,11 @@ import {PlayerAnimation} from '../../shared/player-animation';
 import {CdrService} from '../../services/cdr.service';
 import {WsServices} from '../../services/ws.services';
 import {CdrItem, CdrModel} from '../../models/cdr.model';
-import {getInterval, getDateRange} from '../../shared/shared.functions';
+import {getInterval, getDateRange, dateToServerFormat} from '../../shared/shared.functions';
 import {TableInfoAction, TableInfoActionOption, TableInfoExModel, TableInfoItem, TagModel} from '../../models/base.model';
 import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
 import {TagSelectorComponent} from '../../elements/pbx-tag-selector/pbx-tag-selector.component';
+import {StorageService} from '../../services/storage.service';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class DetailsAndRecordsComponent implements OnInit {
 
     startDate: string;
     endDate: string;
-
+    downloadFile: any;
 
     @ViewChild('mediaTable') mediaTable: MediaTableComponent;
     @ViewChild('tagSelector') tagSelector: TagSelectorComponent;
@@ -38,7 +39,8 @@ export class DetailsAndRecordsComponent implements OnInit {
     // -- component lifecycle methods -----------------------------------------
 
     constructor(private service: CdrService,
-                private ws: WsServices) {
+                private ws: WsServices,
+                private storageService: StorageService) {
 
         this.table.sort.isDown = true;
         this.table.sort.column = 'callDate';
@@ -53,7 +55,7 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.table.actions.push(new TableInfoAction(2, 'drop-down', 25));
 
         this.cdrSubscription = this.ws.subCdr().subscribe(() => {
-            let item = new CdrItem();
+            const item = new CdrItem();
             this.pageInfo.items.unshift(item);
             this.getItems(item);
         });
@@ -81,32 +83,14 @@ export class DetailsAndRecordsComponent implements OnInit {
         return getInterval(this.pageInfo.items, 'created', 'displayDate');
     }
 
-    getDateRange(): string[] {
-        let range = getDateRange(this.pageInfo.items, 'created');
-
-        if (!range[0] || !range[1]) {
-            const today = new Date();
-            if (!range[0]) range[0] = new Date(today.getFullYear(), 0, 1);
-            if (!range[1]) range[1] = today;
-        }
-
-        return [this.formatDate(range[0]), this.formatDate(range[1])];
-    }
-
     formatDate(value: Date): string {
-        let formatPipe = new DatePipe('en-US');
+        const formatPipe = new DatePipe('en-US');
         return formatPipe.transform(value, 'yyyy-MM-dd');
     }
 
     dateChanged(range: string[]): void {
-
-        let dateArray: any;
-        dateArray = range[0].split('/');
-        this.startDate = dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0];
-
-        dateArray = range[1].split('/');
-        this.endDate = dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0];
-
+        this.startDate = dateToServerFormat(range[0]);
+        this.endDate = dateToServerFormat(range[1]);
         this.getItems();
     }
 
@@ -114,7 +98,7 @@ export class DetailsAndRecordsComponent implements OnInit {
         switch (event.action.id) {
             case 2:
                 event.action.options = [];
-                if (event.item.playable) event.action.options.push(new TableInfoActionOption(1, 'Download file'));
+                if (event.item.accountFile && event.item.accountFile.id > 0) event.action.options.push(new TableInfoActionOption(1, 'Download file'));
                 if (event.item.contactId) event.action.options.push(new TableInfoActionOption(2, 'View contact'));
                 event.action.options.push(new TableInfoActionOption(3, 'Block user', 'ban'));
                 break;
@@ -126,16 +110,33 @@ export class DetailsAndRecordsComponent implements OnInit {
             case 2:
                 switch (event.option.id) {
                     case 1:
-                        console.log('Download file');
+                        this.getFile(event.item.accountFile.id);
                         break;
                     case 2:
-                        console.log('View contact');
+                        console.log('contact view');
                         break;
                     case 3:
                         console.log('Block user');
                         break;
                 }
                 break;
+        }
+    }
+
+    getFile(fileId) {
+        if (fileId) {
+            this.storageService.getById(fileId).then(response => {
+                this.downloadFile = response;
+                let url: string;
+                url = '/download/' + this.downloadFile.downloadHash;
+                let a: any;
+                a = document.createElement('a');
+                document.body.appendChild(a);
+                a.setAttribute('style', 'display: none');
+                a.href = url;
+                a.click();
+                a.remove();
+            }).catch(() => {}).then(() => {});
         }
     }
 
@@ -146,16 +147,19 @@ export class DetailsAndRecordsComponent implements OnInit {
     // -- data retrieval methods ----------------------------------------------
 
     private getItems(item = null): void {
-        (item ? item : this).loading++;
-        let tags = this.tagSelector.selectedTags.map(t => {
+        (item ? item : this).loading ++;
+        const tags = this.tagSelector.selectedTags.map(t => {
             return t.key;
         });
-        this.service.getItems(this.pageInfo, {status: tags.length > 0 ? tags : null, startDate: this.startDate, endDate: this.endDate}, this.table.sort).then(result => {
-            this.pageInfo = result;
-            (item ? item : this).loading--;
-        }).catch(() => {
-            (item ? item : this).loading--;
-        });
+        this.service.getItems(
+                this.pageInfo,
+                { status: tags.length > 0 ? tags : null, startDate: this.startDate, endDate: this.endDate },
+                this.table.sort)
+            .then(result => {
+                this.pageInfo = result;
+            })
+            .catch(() => {})
+            .then(() => (item ? item : this).loading --);
     }
 
     getMediaData(item: CdrItem): void {

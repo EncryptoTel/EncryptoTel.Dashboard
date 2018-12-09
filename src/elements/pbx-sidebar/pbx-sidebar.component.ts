@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {SidebarInfoModel} from "../../models/base.model";
-import { ValidationHost } from '../../models/validation-host.model';
+
+import {SidebarInfoModel} from '@models/base.model';
+import { ValidationHost } from '@models/validation-host.model';
 
 
 @Component({

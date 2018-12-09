@@ -1,6 +1,7 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {week} from '../../shared/vars';
-import {SwipeAnimation} from '../../shared/swipe-animation';
+import {Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
+
+import {week} from '@shared/vars';
+import {SwipeAnimation} from '@shared/swipe-animation';
 
 
 @Component({
@@ -9,7 +10,7 @@ import {SwipeAnimation} from '../../shared/swipe-animation';
   styleUrls: ['./local.sass'],
   animations: [SwipeAnimation('y', '200ms')]
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnChanges {
     today: Date;
     goEnd: boolean;
     week: string[];
@@ -43,11 +44,29 @@ export class CalendarComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.initCalendar();
+    }
+    
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.dates && changes.dates.currentValue) {
+            this.initCalendar();
+        }
+    }
+
+    initCalendar(): void {
         if (!this.dates || this.dates.length !== 2) {
             this.dates = [];
             this.dates.push(this.dateToString(this.isSetting ? this.today : new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate() - 13)));
             this.dates.push(this.dateToString(!this.isSetting ? this.today : new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate() + 1)));
         }
+
+        this.title = [];
+        this.pick = [];
+        this.view = [];
+        this.array = [[]];
+        this.type = [[]];
+        this.before = [];
+
         this.index.forEach(i => {
             this.title.push(this.dates[i]);
             this.pick.push(this.stringToDate(this.dates[i], i));

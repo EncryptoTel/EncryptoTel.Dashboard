@@ -4,22 +4,23 @@ import {InvoiceItem, InvoiceModel} from '../models/invoice.model';
 
 export class InvoiceService extends BaseService {
 
+    onInit() {
+        this.url = 'invoice';
+    }
+
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<InvoiceModel> {
         return super.getItems(pageInfo, filter, sort).then((res: InvoiceModel) => {
-            let pageInfo = this.plainToClassEx(InvoiceModel, InvoiceItem, res);
+            const invoicesData = this.plainToClassEx(InvoiceModel, InvoiceItem, res);
 
-            if (pageInfo instanceof InvoiceModel) {
-                pageInfo.items.forEach(item => {
+            if (invoicesData instanceof InvoiceModel) {
+                invoicesData.items.forEach(item => {
                     item = this.addLeadingZeros(item);
                     return item;
                 });
             }
-            return Promise.resolve(pageInfo);
+            
+            return Promise.resolve(invoicesData);
         });
-    }
-
-    onInit() {
-        this.url = 'invoice';
     }
 
     addLeadingZeros(item) {

@@ -175,6 +175,18 @@ export class ValidationHost implements Lockable {
         return firstInvalidControl;
     }
 
+    getFirstInvalidControl(): InputComponent {
+        const controlKey: string = this.takeFirstInvalidControl();
+        if (!controlKey) return null;
+
+        let control: InputComponent;
+        control = this.controls.find(ctrl => {
+            return controlKey === this.getValidatorKey(ctrl);
+        });
+
+        return control;
+    }
+
     private scanForm(form: FormGroup | FormArray, parent: string = '', action: (control: AbstractControl, name: string) => void): void {
         Object.keys(form.controls).forEach(field => {
             const name = (parent) ? `${parent}.` + field : field;

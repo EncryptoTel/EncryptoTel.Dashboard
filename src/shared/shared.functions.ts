@@ -104,7 +104,7 @@ export function compareValues(key: string, order: string = 'asc') {
             comparison = -1;
         }
 
-        return order == 'desc' ? comparison * -1 : comparison;
+        return order === 'desc' ? comparison * -1 : comparison;
     };
 }
 
@@ -132,28 +132,42 @@ export function formatDateTime(value: string): string {
 export function getInterval(items, dateAttr, displayAttr): string {
     let max = null;
     let min = null;
-    for (let i in items) {
-        let item = items[i];
-        min = !min || item[dateAttr] < min[dateAttr] ? item : min;
-        max = !max || item[dateAttr] > max[dateAttr] ? item : max;
+    for (const i in items) {
+        if (items.hasOwnProperty(i)) {
+            const item = items[i];
+            min = !min || item[dateAttr] < min[dateAttr] ? item : min;
+            max = !max || item[dateAttr] > max[dateAttr] ? item : max;
+        }
     }
     return max && min ? `${min[displayAttr]} - ${max[displayAttr]}` : '';
 }
 
-export function getDateRange(items, dateAttr): Date[] {
+export function getDateRange(items, dateAttr): string[] {
     let max = null;
     let min = null;
-    for (let i in items) {
-        let item = items[i];
-        min = !min || item[dateAttr] < min[dateAttr] ? item : min;
-        max = !max || item[dateAttr] > max[dateAttr] ? item : max;
+    for (const i in items) {
+        if (items.hasOwnProperty(i)) {
+            const item = items[i];
+            min = !min || item[dateAttr] < min[dateAttr] ? item : min;
+            max = !max || item[dateAttr] > max[dateAttr] ? item : max;
+        }
     }
-    return [min, max];
+    return [ dateFromServerFormat(min[dateAttr]), dateFromServerFormat(max[dateAttr]) ];
+}
+
+export function dateToServerFormat(srcDate: string): string {
+    const dateParts: string[] = srcDate.split('/');
+    return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+}
+
+export function dateFromServerFormat(srcDate: Date): string {
+    const date = moment(srcDate, [formatDateServer]);
+    return date.format('DD/MM/YYYY').toString();
 }
 
 export function str2regexp(pattern: string): RegExp {
-    let parts = pattern.split('/');
-    if (parts.length == 3) return new RegExp(parts[1], parts[2]);
+    const parts = pattern.split('/');
+    if (parts.length === 3) return new RegExp(parts[1], parts[2]);
 
     return new RegExp(pattern);
 }

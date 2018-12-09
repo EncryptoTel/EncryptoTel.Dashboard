@@ -1,6 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, HostListener, ViewChild, ElementRef} from '@angular/core';
 import {OnInit} from '@angular/core';
 import {StateService} from '@services/state/state.service';
+import {ScrollEvent} from '@shared/scroll.directive';
 
 @Component({
     selector: 'pbx-form',
@@ -25,12 +26,16 @@ export class FormComponent implements OnInit {
     @Output() onConfirm: EventEmitter<void> = new EventEmitter<void>();
     @Output() onDecline: EventEmitter<void> = new EventEmitter<void>();
     @Output() onSelect: EventEmitter<string> = new EventEmitter<string>();
-
-
+    @Output() onScroll = new EventEmitter<ScrollEvent>();
+    
     // -- event handlers ------------------------------------------------------
-
+    
     showIcon(index: number): boolean {
         return !!this.icons && index < this.icons.length && !!this.icons[index];
+    }
+
+    handleScroll(event: ScrollEvent) {
+        this.onScroll.emit(event);
     }
 
     // -- component lifecycle methods -----------------------------------------
