@@ -22,7 +22,7 @@ export class InvoicesComponent implements OnInit {
     buttons: ButtonItem[] = [];
 
     constructor(public service: InvoiceService) {
-        this.table.sort.isDown = false;
+        this.table.sort.isDown = true;
         this.table.sort.column = 'date';
         this.table.items.push(new TableInfoItem('Invoice Number', 'number'));
         this.table.items.push(new TableInfoItem('Invoice Type', 'type'));
