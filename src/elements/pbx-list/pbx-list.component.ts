@@ -256,9 +256,9 @@ export class ListComponent implements OnInit {
                 this.pageInfo = response;
                 this.pageInfo.limit = limit;
 
-                if (this.calendarVisible) {
-                    this.calendarDateRange = getDateRange(this.pageInfo.items, this.calendarDateKey);
-                }
+                // if (this.calendarVisible) {
+                //     this.calendarDateRange = getDateRange(this.pageInfo.items, this.calendarDateKey);
+                // }
 
                 this.updateTotalItems();
                 if (this.header) this.header.load();
