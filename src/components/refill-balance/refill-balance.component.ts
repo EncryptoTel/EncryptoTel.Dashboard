@@ -66,7 +66,8 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                 'amount',
                 `$${this.amount.min}`,
                 `$${this.amount.max}`,
-                true
+                true,
+                `5`
             )
         );
         this.filters.push(
@@ -94,11 +95,10 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     resetFilters(): void {
-        this.currentFilter = { amount: null, returnAddress: null };
+        this.currentFilter = { amount: 5, returnAddress: null };
     }
 
     selectRefillMethod(refillMethod: RefillModel): void {
-        console.log('selectRefillMethod');
         if (this.refillMethods.find(m => m.loading)) return;
 
         if (this.validateFilters()) {
@@ -123,7 +123,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         return validAmmount && validWallet;
     }
 
-    validateAmount(text: string): boolean {
+    validateAmount(text: string = '5'): boolean {
         this.validInput = numberRegExp.test(text);
         if (this.validInput) {
             if (parseInt(text, 10)) {

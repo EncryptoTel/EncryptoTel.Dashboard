@@ -1,7 +1,51 @@
+//.light_theme
+//    pbx-invoices
+//        pbx-header
+//            pbx-button
+//                button
+//                    background: $white_btn_invoices !important
+//                    color: $white_black !important
+
+
 .light_theme
     pbx-invoices
-        pbx-header
-            pbx-button
-                button
-                    background: $white_btn_invoices !important
-                    color: $white_black !important
+    pbx-storage
+        .filters
+            border-right-color: $white_black_31 !important
+            .tags-button
+                color: $dark_white
+            .inactive-button
+                border-color: $white_btn_border_details
+                color: $white_btn_border_details
+        pbx-media-table
+            .tablet
+                .tablet_header
+                    border-bottom-color: $white_nav_border_80
+                    .tablet_item
+                        span
+                            color: $white_black_60
+    pbx-invoices
+        pbx-calendar
+            .calendar
+                .calendar-head
+                    border: 1px solid $white_details_calendar_border
+                    color: $white_black
+                .calendar-wrap
+                    background: $white_main_bg
+                    border: 1px solid $white_details_calendar_border
+                    .calendar-block
+                        .calendar-block-month
+                            color: $white_black
+                        .calendar-block-week
+                            .calendar-block-week-item
+                                color: $white_black_50
+                        .calendar-block-day
+                            .calendar-block-day-item
+                                &.able
+                                    color: $white_black
+                                &.mid
+                                    background: $white_grey_hover
+                                    color: $white_black
+                        .calendar-button
+                            span
+                                color: $white_black

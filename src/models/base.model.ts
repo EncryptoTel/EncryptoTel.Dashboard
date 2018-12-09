@@ -258,9 +258,10 @@ export class FilterItem {
     min: string;
     max: string;
     focus: boolean;
+    value: string;
 
     constructor(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string,
-                width?: number, hidden?: boolean, inputCenter?: boolean, minMaxText?: string, min?: string, max?: string, focus?: boolean) {
+                width?: number, hidden?: boolean, inputCenter?: boolean, minMaxText?: string, min?: string, max?: string, focus?: boolean, value?: string) {
         this.id = id;
         this.key = key;
         this.name = name;
@@ -274,6 +275,7 @@ export class FilterItem {
         this.min = min;
         this.max = max;
         this.focus = focus;
+        this.value = value;
     }
 }
 

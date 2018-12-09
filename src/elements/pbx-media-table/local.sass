@@ -247,7 +247,6 @@
     &.delete /deep/ polygon
       fill: $dark_error
 .tablet_item_cols_dropdown
-  z-index: 99999
   //display: none
   flex-direction: column
   align-items: center
@@ -255,6 +254,7 @@
   width: 22px
   //margin-left: -32px
   cursor: pointer
+
   span
     display: block
     width: 2px
@@ -277,6 +277,9 @@
     align-content: space-between
     &.top
       bottom: 32px
+      // 2018-12-09-s
+      z-index: 1
+      // 2018-12-09-f
     &.bottom
       top: 32px
     li
@@ -287,10 +290,19 @@
       padding: 12px 0 12px 20px
       background-color: #414040
       color: rgba($dark_primary, .7)
+
       &.ban
         color: $dark_error
       &:hover
         background: #504f4f
+
+// 2018-12-09-s
+.tablet_row .dd-menu.posit
+  top: 32px
+
+.tablet_row:last-child .dd-menu.posit
+  bottom: 32px
+
 
 .player--play-pause
   position: relative
