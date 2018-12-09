@@ -278,7 +278,7 @@ export class ListComponent implements OnInit {
 
     updateTotalItems(): void {
         let totalItemsCount: number;
-        if (this.pageInfo.itemsCount === 0 && Object.keys(this.currentFilter).length === 0) {
+        if (this.pageInfo.itemsCount === 0 && (this.currentFilter !== undefined && Object.keys(this.currentFilter).length === 0)) {
             if (this._filters !== undefined && this._filters.length > 0 && this._filters[0].options.length > 0) {
                 if (this._totalItemsCount === undefined) {
                     this._totalItemsCount = 0;

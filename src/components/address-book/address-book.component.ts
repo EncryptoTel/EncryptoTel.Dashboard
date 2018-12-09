@@ -273,7 +273,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     load(pageInfo: AddressBookModel) {
         this.locker.lock();
-
+        console.log(pageInfo);
         this.addressBookModel = pageInfo;
         this.setFilters();
 
@@ -496,10 +496,11 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         let keys: any;
         // this.filters = [];
         const filterValue = [];
-        this.addressBookModel.contactFilter.forEach(item => {
-            filterValue.push({id: item.value, title: item.displayTitle, count: item.count});
-        });
-
+        if (this.addressBookModel.contactFilter !== undefined) {
+            this.addressBookModel.contactFilter.forEach(item => {
+                filterValue.push({id: item.value, title: item.displayTitle, count: item.count});
+            });
+        }
         if (this.filters.length === 0) {
             this.filters.push(new FilterItem(1, 'type', 'Source', filterValue, 'title'));
             this.filters.push(new FilterItem(2, 'search', 'Search', null, null, this.translate.instant('Name, Phone or Email')));
