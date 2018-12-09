@@ -166,6 +166,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     cancelPay(): void {
+        this.resetFilters();
         this.refill_status = 'main';
         this.selected = null;
         this.errors = null;
