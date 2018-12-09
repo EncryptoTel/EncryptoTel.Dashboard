@@ -12,6 +12,7 @@ import * as moment from 'moment';
 const formatDateUser = 'MMM D, YYYY';
 const formatDateTimeUser = 'MMM D, YYYY HH:mm:ss';
 const formatDateServer = 'YYYY-MM-DD HH:mm:ss.s';
+const formatDateServer2 = 'YYYY-MM-DD HH:mm:ss';
 
 export function getCountryById(id: number): CountryModel {
     const list: CountryModel[] = plainToClass(
@@ -30,10 +31,14 @@ export function getCurrencyById(id: number): CurrencyModel {
 }
 
 export function dateComparison(date0: string, date1: Date) {
-    const d0 = moment(date0, formatDateServer).toDate();
+    // const date0 = moment(date0, ['YYYY-MM-DD HH:mm:ss']).format('Y-MM-DD HH:mm:ss');
     return (
-        d0.getMonth() === date1.getMonth() && d0.getDate() === date1.getDate()
+        date0 === date1
     );
+}
+
+export function stringToDate(value) {
+      return moment(value, [formatDateServer, formatDateServer2]).toDate();
 }
 
 // export function validateForm(form: FormGroup): void {

@@ -63,8 +63,7 @@ export class StorageModel {
 
 
 export class CallDetailItem {
-    @Type(() => Date)
-    callDate: Date;
+    callDate: string;
     direction: number;
     source: string;
     destination: string;
