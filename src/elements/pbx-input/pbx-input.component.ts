@@ -84,7 +84,7 @@ export class InputComponent implements OnInit, OnDestroy {
     @Input() selectAsObject: boolean;
     @Input() validationKey: string;
     @Input() validationHost: ValidationHost;
-
+    @Input() searchStartWith: boolean = false;
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<boolean> = new EventEmitter();
     @Output() onKeyUp: EventEmitter<object> = new EventEmitter();
