@@ -60,7 +60,7 @@ export class AuthorizationServices {
         return this._req.post('login', {...data}, false).then(result => {
             if (result && !result.auth) {
                 this._services.saveUserData({secrets: this._req.getSecrets(result)});
-                let URL = this.storage.readItem('pbx_url');
+                const URL = this.storage.readItem('pbx_url');
                 if (URL && URL.startsWith('/cabinet/')) {
                     this.router.navigateByUrl(URL);
                 }
@@ -206,11 +206,11 @@ export class AuthorizationServices {
 
         let tariffId = this.signUpData.controls.tariffPlanId.value;
         if (!tariffId) {
-            let basicPlan = this.tariffPlans.find(tariff => tariff.title == 'Basic');
+            const basicPlan = this.tariffPlans.find(tariff => tariff.title === 'Basic');
             tariffId = basicPlan.id;
             this.signUpData.controls.tariffPlanId.setValue(tariffId);
         }
 
-        return this.tariffPlans.find(tariff => tariff.id == tariffId);
+        return this.tariffPlans.find(tariff => tariff.id === tariffId);
     }
 }

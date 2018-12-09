@@ -36,6 +36,11 @@ export class SignInComponent implements OnInit, OnDestroy {
     passwordFormError = false;
     passwordFormErrorMessage: string = 'rqwerqwerqwerqwerqwer';
 
+    get isErrorMessage(): boolean {
+        return this.message && this.message.type === 'error';
+        
+    }
+
     setFocus(element): void {
         switch (element.name) {
             case 'Username':
@@ -91,45 +96,51 @@ export class SignInComponent implements OnInit, OnDestroy {
     inputValidation(name: string, errorType?: string): boolean {
         if (errorType) {
             const field = this.signInForm.controls[name];
-            return field.errors[errorType] && (field.dirty || field.touched);
-        } else {
+            return field.errors && field.errors[errorType] && (field.dirty || field.touched);
+        }
+        else {
             const field = this.signInForm.controls[name];
-            return field.invalid && (field.dirty || field.touched);
+            return (field.invalid && (field.dirty || field.touched));
         }
     }
 
     /*
       Sign-in action
      */
-    signIn(ev?: Event): void {
+    signIn(event?: Event): void {
         this.passwordFormError = false;
-        if (ev) {
-            ev.preventDefault();
+        
+        if (event) {
+            event.preventDefault();
         }
+        
         validateForm(this.signInForm);
         if (this.signInForm.valid) {
             this.loading = true;
-            this._services.signIn(this.signInForm.value).then(res => {
-                let errorKey: string = '';
+            this._services.signIn(this.signInForm.value)
+                .then(response => {
+                    let errorKey: string = '';
 
-                if (res.errors) {
-                    for (errorKey in res.errors) {
-                        if (errorKey === 'password') {
-                            this.passwordFormError = true;
-                            this.passwordFormErrorMessage = res.errors[errorKey][0];
+                    if (response && response.errors) {
+                        for (errorKey in response.errors) {
+                            if (errorKey === 'password') {
+                                this.passwordFormError = true;
+                                this.passwordFormErrorMessage = response.errors[errorKey][0];
+                            }
                         }
                     }
-                }
-                this.loading = false;
-            }).catch(() => this.loading = false);
-        } else {
+                })
+                .catch(() => {})
+                .then(() => this.loading = false);
+        }
+        else {
             if (this.inputValidation('login')) this.errorName = true;
             if (this.inputValidation('password') && !this.errorName) this.errorPassword = true;
         }
     }
 
-    clearMessage(ev?: KeyboardEvent): void {
-        if (ev.key) {
+    clearMessage(event?: KeyboardEvent): void {
+        if (event.key) {
             this._services.clearMessage();
         }
     }
@@ -139,6 +150,13 @@ export class SignInComponent implements OnInit, OnDestroy {
         this.message = this._services.message;
         this.errorsSubscription = this._services.readMessage().subscribe(message => {
             this.message = message;
+            if (this.isErrorMessage) {
+                this.signInForm.controls['login'].markAsTouched();
+                this.signInForm.controls['login'].setErrors({ 'userNotFound': true });
+            }
+            else {
+                this.signInForm.controls['login'].setErrors(null);
+            }
         });
         if (this._user.fetchUser()) {
             this._router.navigateByUrl('/cabinet');
