@@ -105,7 +105,7 @@ export class StorageComponent implements OnInit {
             new FilterItem(1, 'type', 'Source:', [
                 {id: 'audio', title: 'Audio'},
                 {id: 'call_record', title: 'Call Records'},
-                {id: 'voice_mail', title: 'Voice Mail'},
+                // {id: 'voice_mail', title: 'Voice Mail'},
                 {id: 'certificate', title: 'Certificate'},
                 {id: 'trash', title: 'Trash'},
             ], 'title', '[choose one]'),
