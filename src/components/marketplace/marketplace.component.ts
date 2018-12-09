@@ -57,7 +57,8 @@ export class MarketplaceComponent implements OnInit, Lockable {
                 if (module.service.marketPlace) {
                     this.modules.push({
                         id: module.service.id,
-                        title: module.service.title,
+                        // title: module.service.title,
+                        title: this.toUpperTitle(module.service.title),
                         content: module.service.description,
                         price: Math.round(module.currentPrice.sum * 100) / 100,
                         status: module.service.isUserBuy,
@@ -70,9 +71,17 @@ export class MarketplaceComponent implements OnInit, Lockable {
                 else if (!a.status && b.status) return 1;
                 else return a.title > b.title ? 1 : -1;
             });
+            console.log(this.modules[0].title);
+
         }).catch(() => {
         })
             .then(() => this.locker.unlock());
+    }
+
+    // 2018-12-09-s
+    toUpperTitle(title) {
+        title = title.replace(/\b\w/g, function(str){ return str.toUpperCase()});
+        return title;
     }
 
     purchaseService = (): void => {

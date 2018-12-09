@@ -1,21 +1,27 @@
 {
-    "/translations": {
-        "target": "https://new.encryptotel.com/translation",
-        "secure": false,
-        "changeOrigin": true,
-        "logLevel": "debug"
-    },
-    "/front-api": {
-        "target": "http://pbx-front-dev.encry.ru",
-        "secure": false,
-        "changeOrigin": true,
-        "logLevel": "debug"
-    },
-    "/files": {
-        "target": "http://pbx-front-dev.encry.ru",
-        "secure": false,
-        "changeOrigin": true,
-        "logLevel": "debug"
-    }
+  "/translations": {
+    "target": "https://new.encryptotel.com/translation",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/front-api": {
+    "target": "https://pbx.encryptotel.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/files": {
+    "target": "https://pbx.encryptotel.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/download": {
+    "target": "https://pbx.encryptotel.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
 }
 

@@ -7,19 +7,19 @@ import {
     OnDestroy,
     ChangeDetectorRef
 } from '@angular/core';
-import { TableInfoExModel, TableInfoItem, TableInfoModel } from '../../models/base.model';
-import { ModalEx, ModalComponent } from "../pbx-modal/pbx-modal.component";
-import { PlayerAnimation } from "../../shared/player-animation";
-import { FadeAnimation } from "../../shared/fade-animation";
-import { str2regexp, killEvent } from '../../shared/shared.functions';
-import { isObject, isArray } from 'util';
-import { RefsServices } from '../../services/refs.services';
-import { FormBuilder } from '@angular/forms';
-import { MessageServices } from '../../services/message.services';
-import { AddressBookService } from '../../services/address-book.service';
-import { AddressBookComponent } from '../../components/address-book/address-book.component';
-import { TariffStateService } from '../../services/state/tariff.state.service';
-import { ModalServices } from '@services/modal.service';
+import {TableInfoExModel, TableInfoItem, TableInfoModel} from '../../models/base.model';
+import {ModalEx, ModalComponent} from '../pbx-modal/pbx-modal.component';
+import {PlayerAnimation} from '../../shared/player-animation';
+import {FadeAnimation} from '../../shared/fade-animation';
+import {str2regexp, killEvent} from '../../shared/shared.functions';
+import {isObject, isArray} from 'util';
+import {RefsServices} from '../../services/refs.services';
+import {FormBuilder} from '@angular/forms';
+import {MessageServices} from '../../services/message.services';
+import {AddressBookService} from '../../services/address-book.service';
+import {AddressBookComponent} from '../../components/address-book/address-book.component';
+import {TariffStateService} from '../../services/state/tariff.state.service';
+import {ModalServices} from '@services/modal.service';
 import {StorageItem} from '@models/storage.model';
 import {IvrItem} from '@models/ivr.model';
 
@@ -62,7 +62,7 @@ export class TableComponent implements OnInit, OnDestroy {
     modalWnd: ModalComponent;
 
     constructor(protected state: TariffStateService,
-        private modalService: ModalServices) {
+                private modalService: ModalServices) {
         this.modal = new ModalEx('Are you sure?', 'delete');
         this.modalWnd = this.modalService.createModal(this.modal);
         this.modalWnd.onConfirmEx.subscribe(() => this.deleteItem());
@@ -175,18 +175,28 @@ export class TableComponent implements OnInit, OnDestroy {
         this.tableItems.forEach((item) => {
             item.ddShow = false;
         });
-        this.onDropDown.emit({ action: action, item: item });
+        this.onDropDown.emit({action: action, item: item});
         item.ddShow = prev === false;
 
-        if ((this.tableItems.length - 4) < this.tableItems.indexOf(item)) {
+        // if ((this.tableItems.length - 4) < this.tableItems.indexOf(item)) {
+        //     this.dropDirection = 'top';
+        // } else {
+        //     this.dropDirection = 'bottom';
+        // }
+
+        //// 2018-12-09-s
+        if ((this.tableItems.length - 3) < this.tableItems.indexOf(item)) {
             this.dropDirection = 'top';
-        } else {
+
+        }
+        else {
             this.dropDirection = 'bottom';
         }
+
     }
 
     dropClick(action, option, item) {
-        this.onDropDownClick.emit({ action: action, option: option, item: item });
+        this.onDropDownClick.emit({action: action, option: option, item: item});
     }
 
     mouseEnter(event, item) {
