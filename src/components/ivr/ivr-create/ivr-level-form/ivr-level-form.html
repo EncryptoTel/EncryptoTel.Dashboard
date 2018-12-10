@@ -62,10 +62,10 @@
                #voiceGreeting
                >
         <div class="greeting">
-            <pbx-button [value]="playButtonText"
-                        [inactive]="!isFileSelected"
+            <pbx-button [value]="getPlayButtonText('voiceGreeting')"
+                        [inactive]="!isFileSelected('voiceGreeting')"
                         [loading]="!mediaPlayer.locker.free"
-                        (onClick)="togglePlay()"
+                        (onClick)="togglePlay('voiceGreeting')"
                         >
             </pbx-button>
             <div class="hidden_button_wrapper">
@@ -117,10 +117,28 @@
                displayKey="name"
                placeholder="{{ paramsPlaceholder }}"
                >
+               
+               <div class="greeting" *ngIf="form.value.action==5">
+
+                <pbx-button [value]="getPlayButtonText('playFile')"
+                            [inactive]="!isFileSelected('playFile')"
+                            [loading]="!mediaPlayer.locker.free"
+                            (onClick)="togglePlay('playFile')"
+                            >
+                </pbx-button>
+                <div class="hidden_button_wrapper">
+                    <pbx-button value="Upload"
+                                buttonType="accent"
+                                [loading]="storage.loading"
+                                >
+                    </pbx-button>
+                    <input type="file" class="hidden_input" #fileInput (change)="uploadFile($event)">
+                </div>
+            </div>
+
     </pbx-input>
     </ng-container>
 </div>
-{{ actionVal | json }}
 <pbx-media-player
     #mediaPlayer
     [mediaStream]="currentMediaStream"

@@ -15,6 +15,11 @@ import { MediaState, CdrMediaInfo } from '@models/cdr.model';
 import { IvrFormInterface } from '../form.interface';
 import { InputComponent } from '@elements/pbx-input/pbx-input.component';
 
+export enum FormButtons {
+    VOICE_GREETING = 'voiceGreeting',
+    PLAY_FILE = 'playFile'
+}
+
 @Component({
     selector: 'pbx-ivr-level-form',
     templateUrl: './ivr-level-form.html',
@@ -35,7 +40,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     bsRangeValue = new Date();
     currentMediaStream: string = '/assets/mp3/silence.mp3';
     playButtonText: string;
-
+    currentButton: FormButtons;
     period: any;
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
     @ViewChild('voiceGreeting') voiceGreeting: InputComponent;
@@ -61,7 +66,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     get paramsPlaceholder(): string {
         const placeholder: string =
             Array.isArray(this.paramsInfo.option) &&
-            this.paramsInfo.option.length === 0
+                this.paramsInfo.option.length === 0
                 ? 'None'
                 : '';
         return placeholder;
@@ -172,7 +177,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     this.form.get('parameter').markAsUntouched();
                     this.validationHost.initItems();
                 })
-                .catch(() => {})
+                .catch(() => { })
                 .then(() => this.loading--);
         });
 
@@ -192,7 +197,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     .then(response => {
                         this.paramsInfo = response;
                     })
-                    .catch(() => {})
+                    .catch(() => { })
                     .then(() => this.loading--);
             }
         });
@@ -200,13 +205,23 @@ export class IvrLevelFormComponent extends FormBaseComponent
         this.form.get('voiceGreeting').valueChanges.subscribe(val => {
             this.selectFile(val);
         });
+
+        this.form.get('parameter').valueChanges.subscribe(val => {
+            this.selectFile(val);
+        });
     }
 
-    get isFileSelected(): boolean {
-        if (!this.form.value.voiceGreeting) return false;
-
+    isFileSelected(btn: FormButtons): boolean {
+        let fileId;
+        if (btn === FormButtons.VOICE_GREETING) {
+            if (!this.form.value.voiceGreeting) return false;
+            fileId = this.form.value.voiceGreeting
+        } else {
+            if (!this.form.value.parameter) return false;
+            fileId = this.form.value.parameter
+        }
         const file = this.service.references.files.find(
-            f => +f.id === +this.form.value.voiceGreeting
+            f => +f.id === +fileId
         );
         return !!file && file.converted !== undefined && file.converted > 0;
     }
@@ -253,9 +268,16 @@ export class IvrLevelFormComponent extends FormBaseComponent
         this.mediaStateChanged(this.mediaPlayer.state);
     }
 
-    togglePlay(i: number): void {
-        const fileId = this.form.value.voiceGreeting;
+    togglePlay(btn: FormButtons): void {
+        let fileId;
+        this.currentButton = btn;
+        if (btn === FormButtons.VOICE_GREETING) {
+            fileId = this.form.value.voiceGreeting
+        } else {
+            fileId = this.form.value.parameter
+        }
         if (fileId) {
+            // this.mediaPlayer.stopPlay();
             this.mediaPlayer.togglePlay(fileId);
         }
     }
@@ -274,6 +296,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
             .catch(error => {
                 console.log(error);
                 // Error handling here ...
+                this.mediaPlayer.locker.unlock();
+                this.mediaStateChanged(MediaState.PAUSED);
             })
             .then(() => this.mediaPlayer.locker.unlock());
     }
@@ -290,6 +314,14 @@ export class IvrLevelFormComponent extends FormBaseComponent
             default:
                 this.playButtonText = 'Play';
                 break;
+        }
+    }
+
+    getPlayButtonText(btn: FormButtons) {
+        if (this.currentButton === btn) {
+            return this.playButtonText;
+        } else {
+            return 'Play';
         }
     }
 
