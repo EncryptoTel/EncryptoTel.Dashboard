@@ -307,8 +307,9 @@ export class EditableSelectComponent implements OnInit, OnChanges {
             );
         }
 
-        if (this.filteredOptions.length == 0)
+        if (this.filteredOptions.length === 0) {
             this.filteredOptions.push(this._emptyOption);
+        }
         this.filteredSelectedItem =
             this.filterValue && this.filteredOptions[0].id
                 ? this.filteredOptions[0]
@@ -339,7 +340,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     scrollToCurrent(deferred: boolean = false): void {
         if (this.isVisible && this.optionsWrap) {
             const optionsWrap = this.optionsWrap.nativeElement;
-            let scrollFn = () => {
+            const scrollFn = () => {
                 optionsWrap.scrollTop = (this.currentIndex - 2) * 40;
             };
             deferred ? setTimeout(scrollFn, 0) : scrollFn();

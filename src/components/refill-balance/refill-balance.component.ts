@@ -147,7 +147,11 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     ValidateWallet(text: string) {
-        if (text) {
+        if (!this.filters[1].hidden) {
+            if(!text) {
+                this.errors['returnAddress'] = 'Invalid address';
+                return false;
+            }
             const coinType = this.selected ? this.selected.currency.code : '';
             const res = WAValidator.validate(text, coinType);
             if (res) {

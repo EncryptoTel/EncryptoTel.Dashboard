@@ -59,13 +59,15 @@ export class SignInComponent implements OnInit, OnDestroy {
     }
 
     mouseEnter(element) {
-        switch (element.name) {
-            case 'Username':
-                this.errorName = true;
-                break;
-            case 'Password':
-                this.errorPassword = true;
-                break;
+        if (element.name === 'Username' && !this.isErrorMessage(this.message)) {
+            switch (element.name) {
+                case 'Username':
+                    this.errorName = true;
+                    break;
+                case 'Password':
+                    this.errorPassword = true;
+                    break;
+            }
         }
     }
 
@@ -91,53 +93,71 @@ export class SignInComponent implements OnInit, OnDestroy {
     inputValidation(name: string, errorType?: string): boolean {
         if (errorType) {
             const field = this.signInForm.controls[name];
-            return field.errors[errorType] && (field.dirty || field.touched);
-        } else {
+            return field.errors && field.errors[errorType] && (field.dirty || field.touched);
+        }
+        else {
             const field = this.signInForm.controls[name];
-            return field.invalid && (field.dirty || field.touched);
+            return (field.invalid && (field.dirty || field.touched));
         }
     }
 
     /*
       Sign-in action
      */
-    signIn(ev?: Event): void {
+    signIn(event?: Event): void {
         this.passwordFormError = false;
-        if (ev) {
-            ev.preventDefault();
+        
+        if (event) {
+            event.preventDefault();
         }
+        
         validateForm(this.signInForm);
         if (this.signInForm.valid) {
             this.loading = true;
-            this._services.signIn(this.signInForm.value).then(res => {
-                let errorKey: string = '';
+            this._services.signIn(this.signInForm.value)
+                .then(response => {
+                    let errorKey: string = '';
 
-                if (res.errors) {
-                    for (errorKey in res.errors) {
-                        if (errorKey === 'password') {
-                            this.passwordFormError = true;
-                            this.passwordFormErrorMessage = res.errors[errorKey][0];
+                    if (response && response.errors) {
+                        for (errorKey in response.errors) {
+                            if (errorKey === 'password') {
+                                this.passwordFormError = true;
+                                this.passwordFormErrorMessage = response.errors[errorKey][0];
+                            }
                         }
                     }
-                }
-                this.loading = false;
-            }).catch(() => this.loading = false);
-        } else {
+                })
+                .catch(() => {})
+                .then(() => this.loading = false);
+        }
+        else {
             if (this.inputValidation('login')) this.errorName = true;
             if (this.inputValidation('password') && !this.errorName) this.errorPassword = true;
         }
     }
 
-    clearMessage(ev?: KeyboardEvent): void {
-        if (ev.key) {
+    clearMessage(event?: KeyboardEvent): void {
+        if (event.key) {
             this._services.clearMessage();
         }
+    }
+
+    isErrorMessage(message: any): boolean {
+        return message && message.type && message.type === 'error';
+        
     }
 
     ngOnInit(): void {
         this._services.clearMessage();
         this.message = this._services.message;
         this.errorsSubscription = this._services.readMessage().subscribe(message => {
+            if (this.isErrorMessage(message)) {
+                this.signInForm.controls['login'].markAsTouched();
+                this.signInForm.controls['login'].setErrors({ 'userNotFound': true });
+            }
+            else if (this.message != null && !this.isErrorMessage(message)) {
+                this.signInForm.controls['login'].setErrors(null);
+            }
             this.message = message;
         });
         if (this._user.fetchUser()) {

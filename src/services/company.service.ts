@@ -32,14 +32,16 @@ export class CompanyService extends BaseService {
     }
 
     public getCompany(): Promise<CompanyModel> {
-        return this.get().then((response: CompanyModel) => {
-            let company = plainToClass(CompanyModel, response);
-            this.companyInfo.setCompanyData(company);
-            return Promise.resolve(company);
-        }).catch((error) => {
-            // isDevEnv() && this.mockCompanyData();
-            return Promise.reject(error);
-        });
+        return this.get()
+            .then((response: CompanyModel) => {
+                const company = plainToClass(CompanyModel, response);
+                this.companyInfo.setCompanyData(company);
+                return Promise.resolve(company);
+            })
+            .catch((error) => {
+                // isDevEnv() && this.mockCompanyData();
+                return Promise.reject(error);
+            });
     }
 
     uploadFile(file, mode, type = null): Promise<any> {
@@ -58,9 +60,9 @@ export class CompanyService extends BaseService {
     }
 
     mockCompanyData(): void {
-        this.model = new CompanyModel("Organisation", null, "stas@co.il", "5553322", 75, []);
-        let country = new CountryModel(103, "AD", "Andorra", "376");
-        this.model.companyAddress.push(new CompanyAddress(country, "332332", "Regi", "Loki", "Ave", "221B", "89"));
+        this.model = new CompanyModel('Organisation', null, 'stas@co.il', '5553322', 75, []);
+        const country = new CountryModel(103, 'AD', 'Andorra', '376');
+        this.model.companyAddress.push(new CompanyAddress(country, '332332', 'Regi', 'Loki', 'Ave', '221B', '89'));
         console.log('model', this.model);
     }
 }

@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
-
-import {RequestServices} from './request.services';
-import {LoggerServices} from './logger.services';
-import {UserServices} from './user.services';
-
-import {SignInFormModel} from '../models/form-sign-in.model';
-import {SignUpFormModel} from '../models/form-sign-up.model';
-import {Observable} from 'rxjs/Observable';
-import {PasswordChangingFormModel} from '../models/form-password-changing.model';
 import {FormGroup} from '@angular/forms';
-import {FormMessageModel} from '../models/form-message.model';
-import {LocalStorageServices} from "./local-storage.services";
+import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
+
+import {RequestServices} from '@services/request.services';
+import {LoggerServices} from '@services/logger.services';
+import {UserServices} from '@services/user.services';
+import {LocalStorageServices} from '@services/local-storage.services';
+import {SignInFormModel} from '@models/form-sign-in.model';
+import {SignUpFormModel} from '@models/form-sign-up.model';
+import {PasswordChangingFormModel} from '@models/form-password-changing.model';
+import {FormMessageModel} from '@models/form-message.model';
+
 
 @Injectable()
 export class AuthorizationServices {
@@ -60,7 +60,7 @@ export class AuthorizationServices {
         return this._req.post('login', {...data}, false).then(result => {
             if (result && !result.auth) {
                 this._services.saveUserData({secrets: this._req.getSecrets(result)});
-                let URL = this.storage.readItem('pbx_url');
+                const URL = this.storage.readItem('pbx_url');
                 if (URL && URL.startsWith('/cabinet/')) {
                     this.router.navigateByUrl(URL);
                 }
@@ -206,11 +206,11 @@ export class AuthorizationServices {
 
         let tariffId = this.signUpData.controls.tariffPlanId.value;
         if (!tariffId) {
-            let basicPlan = this.tariffPlans.find(tariff => tariff.title == 'Basic');
+            const basicPlan = this.tariffPlans.find(tariff => tariff.title === 'Basic');
             tariffId = basicPlan.id;
             this.signUpData.controls.tariffPlanId.setValue(tariffId);
         }
 
-        return this.tariffPlans.find(tariff => tariff.id == tariffId);
+        return this.tariffPlans.find(tariff => tariff.id === tariffId);
     }
 }

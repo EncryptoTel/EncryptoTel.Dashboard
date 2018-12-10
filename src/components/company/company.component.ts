@@ -2,17 +2,18 @@ import {Component, ElementRef, OnInit, ViewChild, ViewChildren} from '@angular/c
 import {FormArray, FormBuilder, Validators} from '@angular/forms';
 import {formatNumber} from 'libphonenumber-js';
 
-import {CountryModel} from '../../models/country.model';
-import {DashboardModel} from '../../models/dashboard.model';
-import {CompanyModel, CompanyInfoModel, CompanyAddress} from '../../models/company.model';
-import {SidebarInfoItem, SidebarInfoModel} from '../../models/base.model';
-import {RefsServices} from '../../services/refs.services';
-import {CompanyService} from '../../services/company.service';
-import {MessageServices} from '../../services/message.services';
-import {DashboardServices} from '../../services/dashboard.services';
-import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
+import {CountryModel} from '@models/country.model';
+import {DashboardModel} from '@models/dashboard.model';
+import {CompanyModel, CompanyInfoModel} from '@models/company.model';
+import {SidebarInfoItem, SidebarInfoModel} from '@models/base.model';
+import {RefsServices} from '@services/refs.services';
+import {CompanyService} from '@services/company.service';
+import {MessageServices} from '@services/message.services';
+import {DashboardServices} from '@services/dashboard.services';
+import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import {emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp} from '../../shared/vars';
-import {isDevEnv} from '../../shared/shared.functions';
+import {isDevEnv} from '@shared/shared.functions';
+import {companyCountryValidator} from '@shared/encry-form-validators';
 
 
 @Component({
@@ -103,11 +104,11 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 this.fb.group({
                     id: [null],
                     country: this.fb.group({
-                        id: [null, [Validators.required]],
+                        id: [null],
                         code: [''],
                         title: [''],
                         phoneCode: ['']
-                    }),
+                    }, { validator: companyCountryValidator }),
                     regionName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
                     locationName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
                     street: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(companyNameRegExp)]],
@@ -219,31 +220,35 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     private getCompany(): void {
         this.locker.lock();
 
-        this.service.getCompany().then((company: CompanyModel) => {
-            this.company = company;
-            this.companyInfo.logo = company.logo;
-            this.company.logo = company.logo;
-        }).catch(() => {
-            if (isDevEnv() && this.service.model) {
-                this.company = this.service.model;
-            }
-        }).then(() => {
-            this.setFormData(this.company);
-            if (!this.company.isValid) {
-                this.isNewCompany = true;
-                this.editMode = true;
-            }
-            this.locker.unlock();
-        });
+        this.service.getCompany()
+            .then((company: CompanyModel) => {
+                this.company = company;
+                this.companyInfo.logo = company.logo;
+                this.company.logo = company.logo;
+            })
+            .catch(() => {
+                if (isDevEnv() && this.service.model) {
+                    this.company = this.service.model;
+                }
+            })
+            .then(() => {
+                this.setFormData(this.company);
+                if (!this.company.isValid) {
+                    this.isNewCompany = true;
+                    this.editMode = true;
+                }
+                this.locker.unlock();
+            });
     }
 
     private getCountries() {
         this.locker.lock();
 
-        this.refs.getCountries().then(res => {
-            this.countries = res;
-        }).catch(() => {
-        })
+        this.refs.getCountries()
+            .then(res => {
+                this.countries = res;
+            })
+            .catch(() => {})
             .then(() => this.locker.unlock());
     }
 
@@ -290,7 +295,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             this.getCompany();
         }).catch(error => {
             console.error('Company update error', error);
-            isDevEnv() && this.getCompany();
+            if (isDevEnv()) this.getCompany();
         }).then(() => this.locker.unlock());
     }
 

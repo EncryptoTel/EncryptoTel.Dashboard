@@ -21,6 +21,8 @@ export class ContactsComponent implements OnInit, OnDestroy {
     selected: number = 0;
     currentUserId: number;
     createStatus: boolean = false;
+    callMenuDropdown: boolean = false;
+    inviteMenuDropdown: boolean = false;
 
     constructor(private socket: WsServices,
                 private logger: LoggerServices,
@@ -36,6 +38,14 @@ export class ContactsComponent implements OnInit, OnDestroy {
         this.chatsSubscription = this.socket.subChats().subscribe(chats => {
             this.updateChats(chats);
         });
+    }
+
+    showInviteMenu() {
+        this.inviteMenuDropdown = !this.inviteMenuDropdown;
+    }
+
+    showCallMenu() {
+        this.callMenuDropdown = !this.callMenuDropdown;
     }
 
     changeCreateStatus() {

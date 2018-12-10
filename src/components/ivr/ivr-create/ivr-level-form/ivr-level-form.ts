@@ -13,6 +13,7 @@ import { MediaPlayerComponent } from '@elements/pbx-media-player/pbx-media-playe
 import { StorageService } from '@services/storage.service';
 import { MediaState, CdrMediaInfo } from '@models/cdr.model';
 import { IvrFormInterface } from '../form.interface';
+import { InputComponent } from '@elements/pbx-input/pbx-input.component';
 
 @Component({
     selector: 'pbx-ivr-level-form',
@@ -37,6 +38,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
     period: any;
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
+    @ViewChild('voiceGreeting') voiceGreeting: InputComponent;
 
     rule_value_visible = 0;
     timeVisible = false;
@@ -215,15 +217,12 @@ export class IvrLevelFormComponent extends FormBaseComponent
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
                 this.storage.checkOnlyFileExists(file).then(res => {
-                    console.log(res);
                     if (!res) {
                         this.storage.uploadFile(file, null).then(f => {
-                            this.service.initFiles().then(() => {
-                                this.selectVoiceGreeting(f);
-                            });
+                            this.service.references.files.push(file);
+                            this.selectVoiceGreeting(f);
                         });
                     } else {
-                        console.log(this.service.references.files);
                         const f = this.service.references.files.find(
                             fileInfo => fileInfo.fileName === file.name
                         );
@@ -238,8 +237,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     selectVoiceGreeting(file) {
-        console.log(file);
         if (file) {
+            this.voiceGreeting.value = file;
             this.form.get('voiceGreeting').setValue(file.id);
         }
     }
