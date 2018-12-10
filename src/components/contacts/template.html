@@ -34,13 +34,25 @@
                 </div> <!-- icon -->
                 <div class="inner">
 
-                    <div class="item msg">
+                    <div class="item">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
                         <div class="right">
-                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
-                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
-                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                            <div class="call_wrap svg_wrap" (click)="showCallMenu()" [ngClass]="callMenuDropdown ? 'active':''">
+                                <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                                <div class="dropdown_block_call" *ngIf="callMenuDropdown">
+                                    <div class="item"><span>Work</span>+1 (800) 555 12 12 #101</div>
+                                    <div class="item"><span>Mobile</span>+1 (987) 463 33 00</div>
+                                    <div class="item"><span>Mobile</span>+1 (987) 463 32 12</div>
+                                    <div class="item"><span>Line</span>To Call</div>
+                                </div> <!-- dropdown -->
+                            </div> <!-- call_wrap -->
+                            <div class="chat_wrap svg_wrap">
+                                <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            </div> <!-- chat_wrap -->
+                            <div class="invite_wrap svg_wrap">
+                                <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                            </div> <!-- invite_wrap -->
                         </div> <!-- right -->
                     </div> <!-- item -->
 
@@ -48,125 +60,20 @@
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
                         <div class="right">
-                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
-                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
-                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
-                        </div> <!-- right -->
-                    </div> <!-- item -->
-
-                </div> <!-- inner -->
-            </div> <!-- group -->
-
-            <div class="group">
-                <div class="icon">
-                    A
-                </div> <!-- icon -->
-                <div class="inner">
-
-                    <div class="item msg">
-                        <div class="logo">AS</div>
-                        <div class="name"><span>Adam Smit</span></div>
-                        <div class="right">
-                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
-                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
-                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
-                        </div> <!-- right -->
-                    </div> <!-- item -->
-
-                    <div class="item invite">
-                        <div class="logo">AS</div>
-                        <div class="name"><span>Adam Smit</span></div>
-                        <div class="right">
-                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
-                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
-                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
-                        </div> <!-- right -->
-                    </div> <!-- item -->
-
-                </div> <!-- inner -->
-            </div> <!-- group -->
-
-            <div class="group">
-                <div class="icon">
-                    B
-                </div> <!-- icon -->
-                <div class="inner">
-
-                    <div class="item msg">
-                        <div class="logo">AS</div>
-                        <div class="name"><span>Adam Smit</span></div>
-                        <div class="right">
-                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
-                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
-                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
-                        </div> <!-- right -->
-                    </div> <!-- item -->
-
-                    <div class="item invite">
-                        <div class="logo">AS</div>
-                        <div class="name"><span>Adam Smit</span></div>
-                        <div class="right">
-                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
-                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
-                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
-                        </div> <!-- right -->
-                    </div> <!-- item -->
-
-                </div> <!-- inner -->
-            </div> <!-- group -->
-
-            <div class="group">
-                <div class="icon">
-                    C
-                </div> <!-- icon -->
-                <div class="inner">
-
-                    <div class="item msg">
-                        <div class="logo">AS</div>
-                        <div class="name"><span>Adam Smit</span></div>
-                        <div class="right">
-                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
-                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
-                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
-                        </div> <!-- right -->
-                    </div> <!-- item -->
-
-                    <div class="item invite">
-                        <div class="logo">AS</div>
-                        <div class="name"><span>Adam Smit</span></div>
-                        <div class="right">
-                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
-                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
-                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
-                        </div> <!-- right -->
-                    </div> <!-- item -->
-
-                </div> <!-- inner -->
-            </div> <!-- group -->
-
-            <div class="group">
-                <div class="icon">
-                    D
-                </div> <!-- icon -->
-                <div class="inner">
-
-                    <div class="item msg">
-                        <div class="logo">AS</div>
-                        <div class="name"><span>Adam Smit</span></div>
-                        <div class="right">
-                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
-                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
-                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
-                        </div> <!-- right -->
-                    </div> <!-- item -->
-
-                    <div class="item invite">
-                        <div class="logo">AS</div>
-                        <div class="name"><span>Adam Smit</span></div>
-                        <div class="right">
-                            <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
-                            <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
-                            <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                            <div class="call_wrap svg_wrap" (click)="showCallMenu()">
+                                <svg-icon class="call" src="/assets/images/chat/call.svg"></svg-icon>
+                            </div> <!-- call_wrap -->
+                            <div class="chat_wrap svg_wrap">
+                                <svg-icon class="chat" src="/assets/images/chat/chat.svg"></svg-icon>
+                            </div> <!-- chat_wrap -->
+                            <div class="invite_wrap svg_wrap" (click)="showInviteMenu()" [ngClass]="inviteMenuDropdown ? 'active':''">
+                                <svg-icon class="invite" src="/assets/images/chat/invite.svg"></svg-icon>
+                                <div class="dropdown_block_invite" *ngIf="inviteMenuDropdown">
+                                    <div class="item">Send to SMS</div>
+                                    <div class="item">Send to Email</div>
+                                    <div class="item">Copy Link</div>
+                                </div> <!-- dropdown -->
+                            </div> <!-- invite_wrap -->
                         </div> <!-- right -->
                     </div> <!-- item -->
 

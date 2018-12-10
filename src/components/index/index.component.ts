@@ -55,7 +55,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     userNavigationVisible: boolean = false;
     mobileNavigationVisible: boolean = false;
     NotificationSubscription: Subscription;
-    lockCaller: boolean = true;
+    isLockedCaller: boolean = true;
     get username(): string {
         if (this.user && this.user.profile) {
             let firstName: string;
@@ -104,7 +104,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     toggleActiveButton(ix: number, ev: MouseEvent): void {
-        if (!this.lockCaller) {
+        if (!this.isLockedCaller) {
             if (ev) {
                 ev.preventDefault();
             }

@@ -9,10 +9,15 @@ pbx-contacts
     .contacts
         width: 100%
         flex-direction: column
+        display: grid
         .list
             flex-direction: column
             width: 100%
             position: relative
+            display: grid
+            grid-template-columns: 1fr
+            grid-template-rows: min-content min-content 1fr
+            overflow: auto
             //display: none
             .search_wrap
                 display: grid
@@ -66,6 +71,7 @@ pbx-contacts
                         right: 0
                         flex-direction: column
                         z-index: 10
+                        box-shadow: $box-shadow
                         .item
                             font-family: Roboto, sans-serif
                             font-size: 14px
@@ -149,19 +155,84 @@ pbx-contacts
                                     cursor: pointer
                             .right
                                 align-items: center
-                                svg-icon
+                                .svg_wrap
                                     margin-left: 16px
-                                    cursor: pointer
-                                    *
+                                    position: relative
+                                    padding: 2px
+                                    &.active
+                                        background: $dark_caller_contacts_active_btn_bg
+                                    svg-icon
                                         cursor: pointer
-                                    svg
-                                        width: 20px
-                                        height: 20px
                                         *
-                                            fill: $dark_accent
-                            &.msg
-                                svg-icon.invite
-                                    display: none
+                                            cursor: pointer
+                                        svg
+                                            width: 20px
+                                            height: 20px
+                                            *
+                                                fill: $dark_accent
+                            .call_wrap
+                                .dropdown_block_call
+                                    position: absolute
+                                    top: 28px
+                                    right: 0px
+                                    flex-direction: column
+                                    z-index: 10
+                                    box-shadow: $box-shadow
+                                    .item
+                                        font-family: Roboto, sans-serif
+                                        font-size: 14px
+                                        line-height: 19px
+                                        color: $dark_white
+                                        background: $dark_pagination_inactive
+                                        padding: 0 16px
+                                        height: 40px
+                                        align-items: center
+                                        cursor: pointer
+                                        white-space: nowrap
+                                        display: grid !important
+                                        grid-template-columns: 50px 1fr
+                                        margin-bottom: 0 !important
+                                        span
+                                            font-family: Roboto, sans-serif
+                                            font-weight: 300
+                                            font-size: 12px
+                                            line-height: 16px
+                                            color: rgba($dark_white, .4)
+                                        &:hover
+                                            background: $dark_player_bg
+                            .invite_wrap
+                                .dropdown_block_invite
+                                    position: absolute
+                                    top: 28px
+                                    right: 0px
+                                    flex-direction: column
+                                    z-index: 10
+                                    box-shadow: $box-shadow
+                                    .item
+                                        font-family: Roboto, sans-serif
+                                        font-size: 14px
+                                        line-height: 19px
+                                        color: $dark_white
+                                        background: $dark_pagination_inactive
+                                        padding: 0 16px
+                                        height: 40px
+                                        align-items: center
+                                        cursor: pointer
+                                        white-space: nowrap
+                                        display: flex !important
+                                        margin-bottom: 0 !important
+                                        span
+                                            font-family: Roboto, sans-serif
+                                            font-weight: 300
+                                            font-size: 12px
+                                            line-height: 16px
+                                            color: rgba($dark_white, .4)
+                                        &:hover
+                                            background: $dark_player_bg
+                            .invite_wrap
+                                display: none
                             &.invite
-                                svg-icon.chat
+                                .chat_wrap
                                     display: none
+                                .invite_wrap
+                                    display: flex

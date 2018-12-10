@@ -32,23 +32,23 @@
         <div class="header_title" translate>{{_main.pageTitle}}</div>
         <div class="header_button_row">
             <div class="header_button_wrap" [ngClass]="{'visible': headerButtonsVisible}">
-                <div class="header_button phone {{lockCaller ? 'locked':''}}" [ngClass]="{'active': activeButtonIndex === 0}"
+                <div class="header_button phone {{isLockedCaller ? 'locked':''}}" [ngClass]="{'active': activeButtonIndex === 0}"
                      (click)="toggleActiveButton(0, $event)">
                     <svg-icon src="../../assets/icons/_call_panel/dialer_24px.svg"></svg-icon>
                     <div class="button_animation" *ngIf="activeButtonIndex === 0"></div>
                 </div>
-                <div class="header_button contacts {{lockCaller ? 'locked':''}}" [ngClass]="{'active': activeButtonIndex === 1}"
+                <div class="header_button contacts {{isLockedCaller ? 'locked':''}}" [ngClass]="{'active': activeButtonIndex === 1}"
                      (click)="toggleActiveButton(1, $event)">
                     <svg-icon src="../../assets/icons/_call_panel/contacts_24px.svg"></svg-icon>
                     <div class="button_animation" *ngIf="activeButtonIndex === 1"></div>
                 </div>
-                <div class="header_button chat {{lockCaller ? 'locked':''}}" [ngClass]="{'active': activeButtonIndex === 2}"
+                <div class="header_button chat {{isLockedCaller ? 'locked':''}}" [ngClass]="{'active': activeButtonIndex === 2}"
                      (click)="toggleActiveButton(2, $event)">
                     <svg-icon src="../../assets/icons/_call_panel/chat_24px.svg"></svg-icon>
                     <div class="button_animation" *ngIf="activeButtonIndex === 2"></div>
                     <div class="notification"><i>9</i></div>
                 </div>
-                <div class="header_button notifications {{lockCaller ? 'locked':''}}"
+                <div class="header_button notifications {{isLockedCaller ? 'locked':''}}"
                      [ngClass]="{'active': activeButtonIndex === 3}"
                      (click)="toggleActiveButton(3, $event)"
                 >
