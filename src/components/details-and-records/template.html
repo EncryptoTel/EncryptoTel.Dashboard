@@ -13,7 +13,7 @@
 
                 <div class="details-header__wrap-daterange-wrapper">
                     <!--<div class="details-header__daterange">{{ getInterval() }}</div>-->
-                    <pbx-calendar 
+                    <pbx-calendar
                         split="/"
                         (newDates)="dateChanged($event)"
                         >
@@ -43,3 +43,8 @@
 
     </div>
 </div>
+
+<pbx-modal [modalEx]="modalBlock"
+           (onConfirmEx)="confirmBlock()"
+>
+</pbx-modal>
