@@ -4,8 +4,8 @@ import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
 import {Subscription} from 'rxjs/Subscription';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 
-import { MediaState } from '../../models/cdr.model';
-import {Locker} from '../../models/locker.model';
+import { MediaState } from '@models/cdr.model';
+import {Locker} from '@models/locker.model';
 
 
 @Component({
@@ -40,8 +40,7 @@ export class MediaPlayerComponent implements OnChanges {
             : MediaState.PAUSED;
     }
 
-    constructor()
-    {}
+    constructor() {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.mediaStream && changes.mediaStream.currentValue) {
@@ -80,6 +79,10 @@ export class MediaPlayerComponent implements OnChanges {
     }
 
     togglePlay(mediaId: number) {
+        if (this.api.state === <string>MediaState.PLAYING) {
+            this.api.pause();
+        }
+
         if (this.mediaStreams[mediaId]) {
             if (mediaId !== this.selectedMediaId) {
                 this.selectedMediaId = mediaId;
@@ -88,10 +91,10 @@ export class MediaPlayerComponent implements OnChanges {
             else {
                 // states are: playing, pause, ended
                 if (this.api.state === <string>MediaState.PLAYING) {
-                    this.api.pause();
+                    setTimeout(() => { this.api.pause(); }, 0);
                 }
                 else {
-                    this.api.play();
+                    setTimeout(() => { this.api.play(); }, 0);
                 }
                 this.fireOnMediaStateChanged();
             }

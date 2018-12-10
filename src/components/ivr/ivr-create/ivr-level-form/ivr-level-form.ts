@@ -272,12 +272,11 @@ export class IvrLevelFormComponent extends FormBaseComponent
         let fileId;
         this.currentButton = btn;
         if (btn === FormButtons.VOICE_GREETING) {
-            fileId = this.form.value.voiceGreeting
+            fileId = this.form.value.voiceGreeting;
         } else {
-            fileId = this.form.value.parameter
+            fileId = this.form.value.parameter;
         }
         if (fileId) {
-            // this.mediaPlayer.stopPlay();
             this.mediaPlayer.togglePlay(fileId);
         }
     }
