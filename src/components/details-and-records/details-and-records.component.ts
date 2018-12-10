@@ -136,7 +136,9 @@ export class DetailsAndRecordsComponent implements OnInit {
                 a.href = url;
                 a.click();
                 a.remove();
-            }).catch(() => {}).then(() => {});
+            }).catch(() => {
+            }).then(() => {
+            });
         }
     }
 
@@ -147,19 +149,20 @@ export class DetailsAndRecordsComponent implements OnInit {
     // -- data retrieval methods ----------------------------------------------
 
     private getItems(item = null): void {
-        (item ? item : this).loading ++;
+        (item ? item : this).loading++;
         const tags = this.tagSelector.selectedTags.map(t => {
             return t.key;
         });
         this.service.getItems(
-                this.pageInfo,
-                { status: tags.length > 0 ? tags : null, startDate: this.startDate, endDate: this.endDate },
-                this.table.sort)
+            this.pageInfo,
+            {status: tags.length > 0 ? tags : null, startDate: this.startDate, endDate: this.endDate},
+            this.table.sort)
             .then(result => {
                 this.pageInfo = result;
             })
-            .catch(() => {})
-            .then(() => (item ? item : this).loading --);
+            .catch(() => {
+            })
+            .then(() => (item ? item : this).loading--);
     }
 
     getMediaData(item: CdrItem): void {
