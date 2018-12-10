@@ -43,9 +43,9 @@ export class BaseService {
         this.resetErrors();
         return this.request.request(method, `${this.url}${path}`, data, ShowSuccess, ShowError).then(response => {
             return Promise.resolve(response);
-        }).catch(res => {
-            if (res.errors) {
-                this.errors = res.errors;
+        }).catch(response => {
+            if (response.errors) {
+                this.errors = response.errors;
                 if (this.url === 'v1/sip/inners' && (_method === 'PUT' || _method === 'POST')) {
                     if (this.errors.user['lastName'] || this.errors.user['firstName']) {
                         const lastName = this.errors.user['lastName'];
@@ -60,7 +60,7 @@ export class BaseService {
                     }
                 }
             }
-            return Promise.reject(res);
+            return Promise.reject(response);
         });
     }
 

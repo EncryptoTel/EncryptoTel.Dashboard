@@ -19,14 +19,14 @@
                  [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_input_wrap' : 'pbx_input_row_input_wrap', inputClass]">
 
                 <input *ngIf="!options && !checkbox"
-                       class="{{singleBorder ? '' : 'show-border'}} {{inErrorState ? 'error-border' : ''}} searching"
+                       class="{{singleBorder ? '' : 'show-border'}} {{inErrorState ? 'error-border' : ''}} searching asdfafsdfa"
 					   [ngClass]="[ inErrorState ? 'input-invalid' : 'input-valid' ]"
                        [style.width]="inputWidth ? inputWidth + 'px' : '100%'"
                        [ngStyle]="inputCenter && {'text-align': 'center'}"
                        [type]="type"
                        [id]="key+'_'+name"
                        placeholder="{{ placeholder.length > 0 ? placeholder : '' }}"
-                       [(ngModel)]="value"
+                       [(ngModel)]="_defaultValue !== '' ? _defaultValue : value"
                        (keyup)="inputKeyUp($event)"
                        (focus)="setFocus()"
                        (blur)="removeFocus()"
@@ -38,7 +38,7 @@
                        appAutofocus
                        >
 
-                <div *ngIf="!options && !checkbox && type !== 'textarea' && resetable && value" class="clear_icon_wrap">
+                <div *ngIf="!options && !checkbox && type !== 'textarea' && resetable && (value || _defaultValue)" class="clear_icon_wrap">
                     <div class="clear_icon" (click)="clearValue()">
                         <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
                     </div>

@@ -29,7 +29,7 @@ import { IvrFormInterface } from './form.interface';
 import { IvrDigitFormComponent } from './ivr-digit-form/ivr-digit-form';
 import { IvrLevelFormComponent } from './ivr-level-form/ivr-level-form';
 import * as _ from 'lodash';
-import {ScrollEvent} from '@shared/scroll.directive';
+import { ScrollEvent } from '@shared/scroll.directive';
 
 
 @Component({
@@ -58,7 +58,7 @@ export class IvrCreateComponent implements OnInit {
     modelFromServer: IvrItem;
 
     ivrModelSnapshot: string = null;
-    
+
     formChangeSubscription: Subscription;
     forms = {
         levelForm: IvrLevelFormComponent,
@@ -90,7 +90,7 @@ export class IvrCreateComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loading ++;
+        this.loading++;
         this.service.initReferences()
             .then(() => {
                 if (this.editMode) {
@@ -98,7 +98,7 @@ export class IvrCreateComponent implements OnInit {
                 } else {
                     this.initEmptyModel();
                 }
-                this.loading --;
+                this.loading--;
             });
     }
 
@@ -115,13 +115,13 @@ export class IvrCreateComponent implements OnInit {
     }
 
     getItem(id) {
-        this.loading ++;
+        this.loading++;
         this.service.getById(id)
             .then(val => {
                 this.initExistsIvr(val);
             })
-            .catch(() => {})
-            .then(() => this.loading --);
+            .catch(() => { })
+            .then(() => this.loading--);
     }
 
     initEmptyModel() {
@@ -182,26 +182,7 @@ export class IvrCreateComponent implements OnInit {
         componentRef.changeDetectorRef.detectChanges();
     }
 
-    getFormValidationErrors(form) {
-        Object.keys(form.controls).forEach(key => {
-            const controlErrors: ValidationErrors = form.get(key).errors;
-            if (controlErrors != null) {
-                Object.keys(controlErrors).forEach(keyError => {
-                    // console.log(
-                    //     'Key control: ' +
-                    //         key +
-                    //         ', keyError: ' +
-                    //         keyError +
-                    //         ', err value: ',
-                    //     controlErrors[keyError]
-                    // );
-                });
-            }
-        });
-    }
-
     onChangeForm(form) {
-        this.getFormValidationErrors(form);
         this.isValidForm = form.valid;
 
         if (this.currentForm instanceof IvrDigitFormComponent) {
@@ -238,7 +219,7 @@ export class IvrCreateComponent implements OnInit {
                 })
                 .value();
             return _.orderBy(result, ['levelNum']);
-        } 
+        }
         catch (error) {
             console.error(error);
         }
@@ -320,7 +301,7 @@ export class IvrCreateComponent implements OnInit {
     }
 
     save() {
-        if(!this.currentForm.getData()) {
+        if (!this.currentForm.getData()) {
             this.currentForm.scrollToFirstError();
             return;
         }
@@ -333,21 +314,15 @@ export class IvrCreateComponent implements OnInit {
                     this.initExistsIvr(response);
                     this.isValidForm = true;
                     this.ivrModelSnapshot = this.takeIvrModelSnapshot();
+                    this.ref.levels = this.ivrLevels;
                 });
         }
         else {
             this.service.save(data)
-                .then(response => {
-                    if (!this.id) {
-                        this.id = response.id;
-                        this.router.navigate([`cabinet/ivr/${response.id}`]);
-                        this.isValidForm = true;
-                    }
-                    this.ivrModelSnapshot = this.takeIvrModelSnapshot();
+                .then(() => {
+                    this.router.navigate([`cabinet/ivr`]);
                 });
-        }
-
-        this.ref.levels = this.ivrLevels;
+        }        
     }
 
     onIvrSelected(info: { level: IvrLevel, digit: any }) {
@@ -356,7 +331,7 @@ export class IvrCreateComponent implements OnInit {
             this.visibleOrHideDigit(info.digit);
             this.loadForm(this.forms.digits, info.digit);
             this.currentDigit = info.digit;
-        } 
+        }
         else {
             this.loadForm(this.forms.levelForm, info.level);
             const levelIndex = this.ivrLevels.findIndex(
@@ -417,7 +392,7 @@ export class IvrCreateComponent implements OnInit {
                 this.currentLevel.digits.length - 1
             ];
             this.onIvrSelected({ level: this.currentLevel, digit: curDigit });
-        } 
+        }
         else {
             this.onIvrSelected({ level: this.currentLevel, digit: undefined });
         }
@@ -495,7 +470,7 @@ export class IvrCreateComponent implements OnInit {
         });
     }
 
-    deleteLevelWithDependency() {}
+    deleteLevelWithDependency() { }
 
     arraymove(arr, fromIndex, toIndex) {
         const element = arr[fromIndex];

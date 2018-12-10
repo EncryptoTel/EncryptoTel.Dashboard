@@ -31,11 +31,11 @@
                                displayKey="title"
                                [editable]="true"
                                [errors]="service.errors"
-                               [errorKey]="'companyAddress.new_0.country.id'"
+                               [errorKey]="'companyAddress.new_0.country'"
                                [searchStartWith]="true"
                                [validationHost]="validationHost"
                                (onSelect)="selectCountry($event)"
-                    >
+                               >
                     </pbx-input>
                     <pbx-input name="{{'State/Region' | translate }}"
                                key="regionName"

@@ -232,14 +232,14 @@ export class FormBaseComponent implements OnInit, Lockable {
      */
     scrollToFirstError(): void {
         const control: InputComponent = this.validationHost.getFirstInvalidControl();
-        if (control && this.formPanel) {
+        if (control && this.formPanel && this.formPanel.scrollTop) {
             let elementTop: number = control.inputDiv.nativeElement.parentElement.offsetTop;
             if (control.name.toLowerCase() === 'ivr name' || elementTop <= 30) {
                 elementTop = 0;
             }
             this.formPanel.scrollTop = elementTop;
         }
-        else {
+        else if (this.formPanel && this.formPanel.scrollTop) {
             this.formPanel.scrollTop = 0;
         }
     }

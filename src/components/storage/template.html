@@ -1,4 +1,4 @@
-<div class="store">
+<div class="store {{isSidebarVisible ? 'sidebar-visible' : ''}}">
     <div class="media-table-wrapper">
         <pbx-header [buttons]="buttons"
                     [filters]="filters"
@@ -41,7 +41,7 @@
             (onPageChangeEx)="getItems()">
         </pbx-pagination>
     </div>
-    
+
     <pbx-sidebar *ngIf="isSidebarVisible">
         <div class="store_sidebar_audio"
              [ngClass]="{ 'sidebar_active': sidebarActive }"

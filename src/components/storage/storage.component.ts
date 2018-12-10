@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, AfterViewChecked} from '@angular/core';
 import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
 import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {SizePipe} from '../../services/size.pipe';
@@ -10,6 +10,7 @@ import {killEvent} from '../../shared/shared.functions';
 import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 import {Subscription} from 'rxjs/Subscription';
 import {WsServices} from '@services/ws.services';
+import {HeaderComponent} from '@elements/pbx-header/pbx-header.component';
 
 
 @Component({
@@ -18,7 +19,7 @@ import {WsServices} from '@services/ws.services';
     styleUrls: ['./local.sass'],
     providers: [StorageService],
 })
-export class StorageComponent implements OnInit {
+export class StorageComponent implements OnInit, AfterViewChecked {
     pageInfo: StorageModel = new StorageModel();
     table: TableInfoExModel = new TableInfoExModel();
     loading: number = 0;
@@ -31,11 +32,13 @@ export class StorageComponent implements OnInit {
 
     @ViewChild('mediaTable')
     @ViewChild('fileInput') fileInput: ElementRef;
+    @ViewChild(HeaderComponent) header: HeaderComponent;
     @ViewChild(MediaTableComponent) mediaTable: MediaTableComponent;
     // public mediaTable: MediaTableComponent;
 
     modal: ModalEx;
     sidebarActive: boolean = false;
+    pageLoaded: boolean = false;
 
     private buttonType: number;
 
@@ -105,7 +108,7 @@ export class StorageComponent implements OnInit {
             new FilterItem(1, 'type', 'Source:', [
                 {id: 'audio', title: 'Audio'},
                 {id: 'call_record', title: 'Call Records'},
-                {id: 'voice_mail', title: 'Voice Mail'},
+                // {id: 'voice_mail', title: 'Voice Mail'},
                 {id: 'certificate', title: 'Certificate'},
                 {id: 'trash', title: 'Trash'},
             ], 'title', '[choose one]'),
@@ -156,6 +159,9 @@ export class StorageComponent implements OnInit {
     ngOnInit() {
         const $this: StorageComponent = this;
         this.pageInfo.limit = Math.floor((window.innerHeight - 180) / 48);
+        this.currentFilter = {
+            'type': 'audio'
+        };
         this.getItems();
         this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
             let storageItem: any;
@@ -164,6 +170,15 @@ export class StorageComponent implements OnInit {
                 storageItem.converted = result.converted;
             }
         });
+    }
+
+    ngAfterViewChecked() {
+        if (this.header && !this.pageLoaded) {
+            this.pageLoaded = true;
+            this.header.selectedFilter[0] = this.filters[0].options[0];
+            this.header.inputs.first.objectView = this.filters[0].options[0];
+            this.header.inputs.first.value = this.filters[0].options[0];
+        }
     }
 
     // --- data methods -----------------------------------
@@ -344,7 +359,7 @@ export class StorageComponent implements OnInit {
         this.buttonType = event.id;
         this.confirmDeletion();
     }
-    
+
     deleteItem(item: StorageItem): void {
         if (!item) return;
 

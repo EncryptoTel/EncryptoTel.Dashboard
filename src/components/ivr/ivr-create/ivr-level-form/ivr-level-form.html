@@ -59,6 +59,7 @@
                displayKey="fileName"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
+               #voiceGreeting
                >
         <div class="greeting">
             <pbx-button [value]="playButtonText"
@@ -82,6 +83,7 @@
                key="loopMessage"
                [form]="true"
                [object]="form"
+               [required]="true"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
                >

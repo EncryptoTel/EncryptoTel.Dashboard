@@ -66,7 +66,8 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                 'amount',
                 `$${this.amount.min}`,
                 `$${this.amount.max}`,
-                true
+                true,
+                `5`
             )
         );
         this.filters.push(
@@ -94,11 +95,10 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     resetFilters(): void {
-        this.currentFilter = { amount: null, returnAddress: null };
+        this.currentFilter = { amount: 5, returnAddress: null };
     }
 
     selectRefillMethod(refillMethod: RefillModel): void {
-        console.log('selectRefillMethod');
         if (this.refillMethods.find(m => m.loading)) return;
 
         if (this.validateFilters()) {
@@ -123,7 +123,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         return validAmmount && validWallet;
     }
 
-    validateAmount(text: string): boolean {
+    validateAmount(text: string = '5'): boolean {
         this.validInput = numberRegExp.test(text);
         if (this.validInput) {
             if (parseInt(text, 10)) {
@@ -147,7 +147,11 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     ValidateWallet(text: string) {
-        if (text) {
+        if (!this.filters[1].hidden) {
+            if(!text) {
+                this.errors['returnAddress'] = 'Invalid address';
+                return false;
+            }
             const coinType = this.selected ? this.selected.currency.code : '';
             const res = WAValidator.validate(text, coinType);
             if (res) {
@@ -158,11 +162,15 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                 return false;
             }
         } else {
+            if (this.errors && 'returnAddress' in this.errors) {
+                delete this.errors.returnAddress;
+            }
             return true;
         }
     }
 
     cancelPay(): void {
+        this.resetFilters();
         this.refill_status = 'main';
         this.selected = null;
         this.errors = null;
