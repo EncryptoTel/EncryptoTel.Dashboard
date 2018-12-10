@@ -23,6 +23,10 @@ export class AddressBookService extends BaseService {
         }
     }
 
+    blockByPhone(number: string): Promise<any> {
+        return this.request.post('v1/blacklist', {phoneNumber: number});
+    }
+
     getTypes(): Promise<TypesModel> {
         return this.get(`/get-types`).then((res: TypesModel) => {
             let result: TypesModel;
