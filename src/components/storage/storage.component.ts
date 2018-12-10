@@ -229,6 +229,7 @@ export class StorageComponent implements OnInit, AfterViewChecked {
         else {
             this.buttons[0].visible = false;
             this.buttons[0].inactive = false;
+            this.buttons[1].inactive = true;
         }
 
         this.buttons[3].inactive = !this.isSidebarVisible;
