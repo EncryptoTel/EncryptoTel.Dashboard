@@ -36,6 +36,7 @@
                         display: block
             .left
                 border-right: 1px solid rgba(193, 254, 255, .19)
+
                 .inner
                     margin-right: 80px
             .right
@@ -84,6 +85,11 @@
                     font-size: 14px
                     line-height: 20px
                     color: $dark_white
+                    display: grid
+                    grid-template-columns: 1fr
+// todo: не дотягивается до стилей ul
+.knowledge-base .content .questions .item .desc *
+    border: 1px solid red !important
 
 .empty-message-wrapper
     display: grid
