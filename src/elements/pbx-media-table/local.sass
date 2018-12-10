@@ -1,6 +1,5 @@
 @import '../../vars'
 
-
 .media-table-message
     flex: 1
     display: flex
@@ -13,381 +12,386 @@
     font-size: rem(32)
     margin: auto
 
-
 \:host
-  width: 100%
-  margin-top: 10px
+    width: 100%
+    margin-top: 10px
 
 .table
-  &_head, &_body
-    flex-direction: column
-  &_head &_column
-    text-transform: capitalize
-  &_column
-    flex-direction: column
-    flex: 1
-    height: rem(40)
-    justify-content: center
-    pointer-events: none
-    &:first-child
-      padding-left: rem(16)
-  &_body
-    &.multiple > .table_row.active .table_row_icon
-      opacity: 1
-    > .table_row
-      cursor: pointer
-  &_row
-    position: relative
-    height: rem(41)
-    cursor: pointer
-    > *, *
-      cursor: pointer
-    & > .table_row_icon
-      cursor: pointer
-    &:hover .table_row_icon,
-    &.active .table_row_icon
-      opacity: 1
-    &_content
-      flex: 1 0 auto
-    &_icon
-      width: rem(12)
-      height: rem(12)
-      cursor: pointer
-      pointer-events: initial
-      opacity: 0
-      & *, /deep/ *
+    &_head, &_body
+        flex-direction: column
+    &_head &_column
+        text-transform: capitalize
+    &_column
+        flex-direction: column
+        flex: 1
+        height: rem(40)
+        justify-content: center
+        pointer-events: none
+        &:first-child
+            padding-left: rem(16)
+    &_body
+        &.multiple > .table_row.active .table_row_icon
+            opacity: 1
+        > .table_row
+            cursor: pointer
+    &_row
+        position: relative
+        height: rem(41)
         cursor: pointer
-      &.edit
-        margin-right: rem(12)
-      &_wrap
-        position: absolute
-        right: rem(16)
-        top: rem(12)
+        > *, *
+            cursor: pointer
+        & > .table_row_icon
+            cursor: pointer
+        &:hover .table_row_icon,
+        &.active .table_row_icon
+            opacity: 1
+        &_content
+            flex: 1 0 auto
+        &_icon
+            width: rem(12)
+            height: rem(12)
+            cursor: pointer
+            pointer-events: initial
+            opacity: 0
+            & *, /deep/ *
+                cursor: pointer
+            &.edit
+                margin-right: rem(12)
+            &_wrap
+                position: absolute
+                right: rem(16)
+                top: rem(12)
 
 \:host-context(.dark_theme)
-  .table
-    &_head
-      color: darken($dark_primary, 35%)
-    &_row
-      border-bottom: 1px solid $dark_overlay
-      &_icon
-        &.delete
-          /deep/ polygon
-            fill: $dark_error
-        &.edit
-          /deep/ path, /deep/ rect
-            fill: $dark_success
-    &_body > .table_row:hover
-      background: rgba($dark_primary, .05)
-    &_body > .table_row.active
-      background: rgba($dark_primary, .10)
+    .table
+        &_head
+            color: darken($dark_primary, 35%)
+        &_row
+            border-bottom: 1px solid $dark_overlay
+            &_icon
+                &.delete
+                    /deep/ polygon
+                        fill: $dark_error
+                &.edit
+                    /deep/ path, /deep/ rect
+                        fill: $dark_success
+        &_body > .table_row:hover
+            background: rgba($dark_primary, .05)
+        &_body > .table_row.active
+            background: rgba($dark_primary, .10)
 
 .tablet
-  flex: 1
-  flex-direction: column
-  color: $font-color
-  pbx-pagination
-    flex: 0 1 rem(64)
-  &_header
-    flex-direction: row
-    height: rem(40)
-    border-bottom: rem(1) solid rgba($dark_primary,.15)
-    align-items: center
-  &_body
-    display: block
     flex: 1
     flex-direction: column
-    overflow-y: auto
-    overflow-x: hidden
-  &_row
-    height: rem(40)
-    border-bottom: rem(1) solid rgba($dark_primary,.15)
-    &:hover
-      background: rgba($dark_primary,.05)
-      .tablet_icon
-        opacity: .33
+    color: $font-color
+    pbx-pagination
+        flex: 0 1 rem(64)
+    &_header
+        flex-direction: row
+        height: rem(40)
+        border-bottom: rem(1) solid rgba($dark_primary, .15)
+        align-items: center
+    &_body
+        display: block
+        flex: 1
+        flex-direction: column
+        //todo: 2018-12-10 - перекрывали выпадающее меню 'details-and-records'
+        //overflow-y: auto
+        //overflow-x: hidden
+    &_row
+        height: rem(40)
+        border-bottom: rem(1) solid rgba($dark_primary, .15)
         &:hover
-          opacity: 1
-    &.pick
-      background: rgba($dark_primary,.1)
-      &:hover
-        background: rgba($dark_primary,.15)
-      .tablet_icon
-        opacity: 0.33
-  &_content
-    flex: 1
-    flex-direction: row
-    align-items: center
-    max-width: 100%
-    .tablet_item
-      cursor: pointer
-    .tablet_icon
-      cursor: pointer
-      /deep/ *
-        cursor: pointer
-  &_item
-    align-items: center
-    display: block
-    flex: 3
-    overflow: hidden
-    text-overflow: ellipsis
-    padding: rem(12) rem(16)
-    &.fixed
-      min-width: rem(80)
-      max-width: rem(80)
-      text-align: center
-      padding: 0
-    &.fix
-      text-align: center
-      padding: 0
-      &_0
-        min-width: rem(0)
-        max-width: rem(0)
-        padding: 0
-      &_48
-        min-width: rem(48)
-        max-width: rem(48)
-      &_80
-        min-width: rem(80)
-        max-width: rem(80)
-      &_88
-        min-width: rem(88)
-        max-width: rem(88)
-      &_104
-        min-width: rem(104)
-        max-width: rem(104)
-      &_168
-        min-width: rem(168)
-        max-width: rem(168)
-      &_200
-        min-width: rem(200)
-        max-width: rem(200)
-    &_circle
-      width: rem(12)
-      height: rem(12)
-      border-radius: 50%
-      background: $dark_success
-      margin: auto
-    &.tiny
-      flex: 1
-    &.small
-      flex: 2
-    &.medium
-      flex: 3
-    &.big
-      flex: 4
-    &.large
-      flex: 5
-    &.huge
-      flex: 6
-    &.error
-      color: $dark_error
-    &.success
-      color: $dark_success
-    &.accent
-      color: $dark_accent
-    >span
-      float: left
-      height: rem(16)
-      align-items: center
-      &.sort
-        cursor: pointer
-        /deep/ *
-          cursor: pointer
-        &:hover
-          color: $dark_accent
+            background: rgba($dark_primary, .05)
+            .tablet_icon
+                opacity: .33
+                &:hover
+                    opacity: 1
+        &.pick
+            background: rgba($dark_primary, .1)
+            &:hover
+                background: rgba($dark_primary, .15)
+            .tablet_icon
+                opacity: 0.33
+    &_content
+        flex: 1
+        flex-direction: row
+        align-items: center
+        max-width: 100%
+        .tablet_item
+            cursor: pointer
+        .tablet_icon
+            cursor: pointer
+            /deep/ *
+                cursor: pointer
+    &_item
+        align-items: center
+        display: block
+        flex: 3
+        overflow: hidden
+        text-overflow: ellipsis
+        padding: rem(12) rem(16)
+        &.fixed
+            min-width: rem(80)
+            max-width: rem(80)
+            text-align: center
+            padding: 0
+        &.fix
+            text-align: center
+            padding: 0
+            &_0
+                min-width: rem(0)
+                max-width: rem(0)
+                padding: 0
+            &_48
+                min-width: rem(48)
+                max-width: rem(48)
+            &_80
+                min-width: rem(80)
+                max-width: rem(80)
+            &_88
+                min-width: rem(88)
+                max-width: rem(88)
+            &_104
+                min-width: rem(104)
+                max-width: rem(104)
+            &_168
+                min-width: rem(168)
+                max-width: rem(168)
+            &_200
+                min-width: rem(200)
+                max-width: rem(200)
+        &_circle
+            width: rem(12)
+            height: rem(12)
+            border-radius: 50%
+            background: $dark_success
+            margin: auto
+        &.tiny
+            flex: 1
+        &.small
+            flex: 2
+        &.medium
+            flex: 3
+        &.big
+            flex: 4
+        &.large
+            flex: 5
+        &.huge
+            flex: 6
+        &.error
+            color: $dark_error
+        &.success
+            color: $dark_success
+        &.accent
+            color: $dark_accent
+        > span
+            float: left
+            height: rem(16)
+            align-items: center
+            &.sort
+                cursor: pointer
+                /deep/ *
+                    cursor: pointer
+                &:hover
+                    color: $dark_accent
+        &_icon
+            flex: 1
+            &.sort /deep/ .st1
+                fill: $dark_accent
+            &.search /deep/ path
+                fill: $dark_primary
+            &_wrap
+                width: rem(32)
+                padding-left: rem(16)
+        &_cols
+            width: 14%
+            display: flex
+            flex-flow: row
+            justify-content: flex-start
+            align-items: center
+            &.tag
+                transition: none
+                justify-content: center
+                padding-right: 30px
+            &.tags
+                justify-content: center
+            &.no-padding
+                padding: 0
+            &:nth-child(4)
+                justify-content: center
+            &:nth-child(5)
+                justify-content: center
+            &:nth-child(6)
+                width: 8%
+                justify-content: flex-end
+            &:nth-child(7)
+                width: 7%
+                justify-content: center
+            &:nth-child(8)
+                width: auto
     &_icon
-      flex: 1
-      &.sort /deep/ .st1
-        fill: $dark_accent
-      &.search /deep/ path
-        fill: $dark_primary
-      &_wrap
-        width: rem(32)
-        padding-left: rem(16)
-    &_cols
-      width: 14%
-      display: flex
-      flex-flow: row
-      justify-content: flex-start
-      align-items: center
-      &.tag
-        transition: none
-        justify-content: center
-        padding-right: 30px
-      &.tags
-        justify-content: center
-      &.no-padding
-        padding: 0
-      &:nth-child(4)
-        justify-content: center
-      &:nth-child(5)
-        justify-content: center
-      &:nth-child(6)
-        width: 8%
-        justify-content: flex-end
-      &:nth-child(7)
-        width: 7%
-        justify-content: center
-      &:nth-child(8)
-        width: auto
-  &_icon
-    opacity: 0
-    width: rem(16)
-    height: rem(16)
-    padding: rem(2)
-    margin-left: rem(16)
-    &:last-child
-      margin-right: rem(16)
-    svg-icon
-      flex: 1
-    &.edit
-      /deep/ path, /deep/ rect
-        fill: $dark_success
-    &.delete /deep/ polygon
-      fill: $dark_error
+        opacity: 0
+        width: rem(16)
+        height: rem(16)
+        padding: rem(2)
+        margin-left: rem(16)
+        &:last-child
+            margin-right: rem(16)
+        svg-icon
+            flex: 1
+        &.edit
+            /deep/ path, /deep/ rect
+                fill: $dark_success
+        &.delete /deep/ polygon
+            fill: $dark_error
+
 .tablet_item_cols_dropdown
-  //display: none
-  flex-direction: column
-  align-items: center
-  position: relative
-  width: 22px
-  //margin-left: -32px
-  cursor: pointer
-
-  span
-    display: block
-    width: 2px
-    height: 2px
-    border-radius: 50%
-    background: $dark_primary
-    margin-top: 6px
-    margin-left: 10px
-    cursor: pointer
-    &:first-child
-      margin-top: 0
-  .dd-menu
-    margin: 0
-    padding: 0
-    position: absolute
-    width: 162px
-    right: -10px
-    display: flex
+    //display: none
     flex-direction: column
-    align-content: space-between
-    &.top
-      bottom: 32px
-      // 2018-12-09-s
-      z-index: 1
-      // 2018-12-09-f
-    &.bottom
-      top: 32px
-    li
-      list-style-type: none
-      display: block
-      width: 100%
-      height: 40px
-      padding: 12px 0 12px 20px
-      background-color: #414040
-      color: rgba($dark_primary, .7)
+    align-items: center
+    cursor: pointer
+    position: relative
+    //width: 22px
+    width: 24px
+    height: 24px
+    margin-right: -32px
+    padding-right: 10px
 
-      &.ban
-        color: $dark_error
-      &:hover
-        background: #504f4f
+    span
+        display: block
+        width: 2px
+        height: 2px
+        border-radius: 50%
+        background: $dark_primary
+        margin-top: 6px
+        margin-left: 10px
+        cursor: pointer
+
+        position: relative
+        z-index: 0
+
+        &:first-child
+            margin-top: 0
+    .dd-menu
+        margin: 0
+        padding: 0
+        position: absolute
+        width: 162px
+        right: 0
+        display: flex
+        flex-direction: column
+        align-content: space-between
+        z-index: 1
+        &.top
+            bottom: 32px
+        &.bottom
+            top: 32px
+        li
+            list-style-type: none
+            display: block
+            width: 100%
+            height: 40px
+            padding: 12px 0 12px 20px
+            background-color: #414040
+            color: rgba($dark_primary, .7)
+
+            &.ban
+                color: $dark_error
+            &:hover
+                background: #504f4f
 
 // 2018-12-09-s
 .tablet_row .dd-menu.posit
-  top: 32px
+    bottom: 32px
 
 .tablet_row:last-child .dd-menu.posit
-  bottom: 32px
-
+    bottom: 32px
 
 .player--play-pause
-  position: relative
-  height: auto
-  width: 22px
-  right: -145px
-  cursor: pointer
-  svg-icon
-    margin: 0
-    width: 100%
-    height: 100%
-    fill: $dark_primary
+    position: relative
+    height: auto
+    width: 22px
+    right: -145px
     cursor: pointer
+    svg-icon
+        margin: 0
+        width: 100%
+        height: 100%
+        fill: $dark_primary
+        cursor: pointer
 
 .player--loader
-  position: relative
-  width: 22px
-  height: 22px
-  right: -145px
-  cursor: pointer
-  img
-    margin: 0
-    width: 100%
-    height: 100%
+    position: relative
+    width: 22px
+    height: 22px
+    right: -145px
     cursor: pointer
-    svg
-      width: 100%
-      height: 100%
+    img
+        margin: 0
+        width: 100%
+        height: 100%
+        cursor: pointer
+        svg
+            width: 100%
+            height: 100%
 
 .player-wrap
-  height: 22px
-  position: relative
-  .player-container
-    overflow: hidden
-    position: absolute
-    background: #4f4f4e
-    height: 35px
-    width: 175px
-    right: -175px
-    top: -7px
-    border-radius: 5px
-    padding: 0 25px 0 20px
-    display: flex
-    flex-direction: row
-    justify-content: space-between
-    align-items: center
-    .player-arrow
-      cursor: pointer
-      position: absolute
-      left: 0
-      top: 0
-      height: 100%
-      width: 10px
-      background: rgba($dark_background, .33)
-      display: flex
-      justify-content: center
-      align-items: center
-      .player-arrow-icon
-        cursor: pointer
-        height: 8px
-        width: 8px
-        transform: rotate(90deg)
-        /deep/ polygon
-          fill: $dark_primary
-          cursor: pointer
-        &.collapse
-          transform: rotate(-90deg)
-    .player-time
-      font-size: 10px
-      color: rgba($dark_primary, 1)
-    .player-wave
-      display: flex
-      flex-direction: row
-      justify-content: space-between
-      align-items: center
-      span
-        display: block
-        width: 1px
-        background-color: $dark_primary
-        margin-left: 2px
-        &:first-child
-          margin-left: 0
-        &.small
-          height: 6px
-        &.tall
-          height: 12px
-        &.active
-          background-color: $dark_accent
+    height: 22px
+    position: relative
+    .player-container
+        overflow: hidden
+        position: absolute
+        background: #4f4f4e
+        height: 35px
+        width: 175px
+        right: -175px
+        top: -7px
+        border-radius: 5px
+        padding: 0 25px 0 20px
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: center
+        .player-arrow
+            cursor: pointer
+            position: absolute
+            left: 0
+            top: 0
+            height: 100%
+            width: 10px
+            background: rgba($dark_background, .33)
+            display: flex
+            justify-content: center
+            align-items: center
+            .player-arrow-icon
+                cursor: pointer
+                height: 8px
+                width: 8px
+                transform: rotate(90deg)
+                /deep/ polygon
+                    fill: $dark_primary
+                    cursor: pointer
+                &.collapse
+                    transform: rotate(-90deg)
+        .player-time
+            font-size: 10px
+            color: rgba($dark_primary, 1)
+        .player-wave
+            display: flex
+            flex-direction: row
+            justify-content: space-between
+            align-items: center
+            span
+                display: block
+                width: 1px
+                background-color: $dark_primary
+                margin-left: 2px
+                &:first-child
+                    margin-left: 0
+                &.small
+                    height: 6px
+                &.tall
+                    height: 12px
+                &.active
+                    background-color: $dark_accent

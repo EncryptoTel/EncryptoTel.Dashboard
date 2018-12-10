@@ -12,7 +12,6 @@
 
     <pbx-calendar *ngIf="calendarVisible"
         split="/"
-        style="position: absolute; right: 10px; font-size: 13px;"
         [(dates)]="calendarDateRange"
         (newDates)="dateChanged($event)"
         >

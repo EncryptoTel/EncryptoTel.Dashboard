@@ -11,6 +11,9 @@ import {TableInfoAction, TableInfoActionOption, TableInfoExModel, TableInfoItem,
 import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
 import {TagSelectorComponent} from '../../elements/pbx-tag-selector/pbx-tag-selector.component';
 import {StorageService} from '../../services/storage.service';
+import {AddressBookService} from '@services/address-book.service';
+import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
+import {MessageServices} from '@services/message.services';
 
 
 @Component({
@@ -32,6 +35,9 @@ export class DetailsAndRecordsComponent implements OnInit {
     startDate: string;
     endDate: string;
     downloadFile: any;
+    modalBlock: ModalEx;
+
+    blockItem: any;
 
     @ViewChild('mediaTable') mediaTable: MediaTableComponent;
     @ViewChild('tagSelector') tagSelector: TagSelectorComponent;
@@ -40,7 +46,9 @@ export class DetailsAndRecordsComponent implements OnInit {
 
     constructor(private service: CdrService,
                 private ws: WsServices,
-                private storageService: StorageService) {
+                private storageService: StorageService,
+                private addressBookService: AddressBookService,
+                protected message: MessageServices) {
 
         this.table.sort.isDown = true;
         this.table.sort.column = 'callDate';
@@ -62,6 +70,8 @@ export class DetailsAndRecordsComponent implements OnInit {
 
         this.startDate = undefined;
         this.endDate = undefined;
+
+        this.modalBlock = new ModalEx('', 'block');
 
         this.tags = [
             {key: 'noAnswer', title: 'no-answer', selected: false},
@@ -116,11 +126,33 @@ export class DetailsAndRecordsComponent implements OnInit {
                         console.log('contact view');
                         break;
                     case 3:
-                        console.log('Block user');
+                        this.blockItem = undefined;
+                        this.blockItem = event.item;
+                        this.block();
                         break;
                 }
                 break;
         }
+    }
+
+    block() {
+        this.modalBlock = new ModalEx('', this.blockItem ? 'block' : 'unblock');
+        this.modalBlock.show();
+    }
+
+    confirmBlock() {
+        console.log('block');
+        if (this.blockItem) {
+            if (this.blockItem.contactId !== null) {
+
+            } else {
+                const phoneNumber = this.blockItem.source;
+                this.addressBookService.blockByPhone(phoneNumber).then(res => {
+                    this.message.writeSuccess(this.blockItem ? 'Contact blocked successfully' : 'Contact unblocked successfully');
+                }).catch(() => {}).then(() => {});
+            }
+        }
+
     }
 
     getFile(fileId) {
@@ -136,7 +168,9 @@ export class DetailsAndRecordsComponent implements OnInit {
                 a.href = url;
                 a.click();
                 a.remove();
-            }).catch(() => {}).then(() => {});
+            }).catch(() => {
+            }).then(() => {
+            });
         }
     }
 
@@ -147,19 +181,20 @@ export class DetailsAndRecordsComponent implements OnInit {
     // -- data retrieval methods ----------------------------------------------
 
     private getItems(item = null): void {
-        (item ? item : this).loading ++;
+        (item ? item : this).loading++;
         const tags = this.tagSelector.selectedTags.map(t => {
             return t.key;
         });
         this.service.getItems(
-                this.pageInfo,
-                { status: tags.length > 0 ? tags : null, startDate: this.startDate, endDate: this.endDate },
-                this.table.sort)
+            this.pageInfo,
+            {status: tags.length > 0 ? tags : null, startDate: this.startDate, endDate: this.endDate},
+            this.table.sort)
             .then(result => {
                 this.pageInfo = result;
             })
-            .catch(() => {})
-            .then(() => (item ? item : this).loading --);
+            .catch(() => {
+            })
+            .then(() => (item ? item : this).loading--);
     }
 
     getMediaData(item: CdrItem): void {

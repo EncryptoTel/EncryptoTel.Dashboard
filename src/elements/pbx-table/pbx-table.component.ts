@@ -185,14 +185,15 @@ export class TableComponent implements OnInit, OnDestroy {
         // }
 
         //// 2018-12-09-s
-        if ((this.tableItems.length - 3) < this.tableItems.indexOf(item)) {
+        if (this.tableItems.indexOf(item) < 2 && this.tableItems.length <= 2) {
+            this.dropDirection = 'bottom';
+        }
+        else if ((this.tableItems.length - 3) < this.tableItems.indexOf(item)) {
             this.dropDirection = 'top';
-
         }
         else {
             this.dropDirection = 'bottom';
         }
-
     }
 
     dropClick(action, option, item) {
