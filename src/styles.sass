@@ -231,11 +231,45 @@ pbx-table
     &_wrap
         position: relative
         margin-bottom: rem(24)
+        //2018-12-10
+    //&_error
+    //    position: absolute
+    //    top: calc(100% + 4px)
+    //    &_item
+    //        font-size: rem(12)
     &_error
         position: absolute
-        top: calc(100% + 4px)
+        top: 0
+
+        //left: unset
+        font-size: 12px
+        line-height: 16px
+        left: 100%
+        white-space: nowrap
+        justify-content: center
+        align-items: center
+        width: unset
+        //margin-bottom: unset
+        min-width: 200px
+        height: 32px
+        margin-left: 8px
+        background: $dark_error_message
+        color: $dark_white
+        padding: 0 10px
         &_item
+            color: $dark_white
             font-size: rem(12)
+        &:before
+            content: ''
+            position: absolute
+            left: -8px
+            top: 50%
+            transform: translateY(-50%)
+            width: 0
+            height: 0
+            border-top: 8px solid transparent
+            border-right: 8px solid $dark_error_message
+            border-bottom: 8px solid transparent
 
 .button_overlay
     position: absolute
@@ -414,7 +448,8 @@ main-view
         .button_overlay
             background: rgba($dark_primary, .35)
         .input_error_item
-            color: $dark_error
+            //color: $dark_error
+            color: $dark_white
         .auth_form
             &_icon
                 fill: $dark_accent
