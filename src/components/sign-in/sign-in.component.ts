@@ -37,13 +37,15 @@ export class SignInComponent implements OnInit, OnDestroy {
     passwordFormErrorMessage: string = 'rqwerqwerqwerqwerqwer';
 
     setFocus(element): void {
-        switch (element.name) {
-            case 'Username':
-                this.errorName = true;
-                break;
-            case 'Password':
-                this.errorPassword = true;
-                break;
+        if (element.name === 'Username' && !this.isErrorMessage(this.message)) {
+            switch (element.name) {
+                case 'Username':
+                    this.errorName = true;
+                    break;
+                case 'Password':
+                    this.errorPassword = true;
+                    break;
+            }
         }
     }
 
@@ -106,6 +108,7 @@ export class SignInComponent implements OnInit, OnDestroy {
      */
     signIn(event?: Event): void {
         this.passwordFormError = false;
+        this._services.clearMessage();
         
         if (event) {
             event.preventDefault();
@@ -147,22 +150,27 @@ export class SignInComponent implements OnInit, OnDestroy {
         
     }
 
+    onMessageChanged(message: any): void {
+        if (this.isErrorMessage(message)) {
+            this.signInForm.controls['login'].markAsTouched();
+            this.signInForm.controls['login'].setErrors({ 'userNotFound': true });
+        }
+        else if (this.message != null && !this.isErrorMessage(message)) {
+            this.signInForm.controls['login'].setErrors(null);
+        }
+        this.message = message;
+    }
+
     ngOnInit(): void {
         this._services.clearMessage();
         this.message = this._services.message;
-        this.errorsSubscription = this._services.readMessage().subscribe(message => {
-            if (this.isErrorMessage(message)) {
-                this.signInForm.controls['login'].markAsTouched();
-                this.signInForm.controls['login'].setErrors({ 'userNotFound': true });
-            }
-            else if (this.message != null && !this.isErrorMessage(message)) {
-                this.signInForm.controls['login'].setErrors(null);
-            }
-            this.message = message;
-        });
-        if (this._user.fetchUser()) {
+        this.errorsSubscription = this._services.readMessage()
+            .subscribe(message => this.onMessageChanged(message));
+        
+            if (this._user.fetchUser()) {
             this._router.navigateByUrl('/cabinet');
         }
+        
         this.signInForm = new FormGroup({
             'login': new FormControl('', [
                 Validators.required,
@@ -173,6 +181,7 @@ export class SignInComponent implements OnInit, OnDestroy {
                 Validators.minLength(6)
             ])
         });
+        
         const msg = JSON.parse(localStorage.getItem('pbx_message'));
         localStorage.removeItem('pbx_message');
         if (msg) {
