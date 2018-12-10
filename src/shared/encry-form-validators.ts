@@ -66,3 +66,11 @@ export function durationTimeValidator(control: FormGroup): { [key: string]: any 
 
     return null;
 }
+
+export function companyCountryValidator(control: FormGroup): { [key: string]: any } | null {
+    const countryId = control.get('id');
+    if (!countryId.value) {
+        return { 'required': true };
+    }
+    return null;
+}
