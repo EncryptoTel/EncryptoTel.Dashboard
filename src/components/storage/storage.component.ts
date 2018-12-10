@@ -373,7 +373,7 @@ export class StorageComponent implements OnInit, AfterViewChecked {
             this.modal = new ModalEx('', 'deleteFiles');
             if (this.service.select.length === 1) {
                 const item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
-                this.modal.body = 'Are you sure you want to delete ' + item.fileName + ' file?';
+                this.modal.body = 'Are you sure you want to delete <span>' + item.fileName + '</span> file?';
             }
             this.modal.visible = true;
         }
