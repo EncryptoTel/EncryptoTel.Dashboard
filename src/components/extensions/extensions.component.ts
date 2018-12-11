@@ -104,6 +104,8 @@ export class ExtensionsComponent implements OnInit {
         if (this.filters.length === 0) {
             this.filters.push(new FilterItem(1, 'department', 'Department', this.list.pageInfo.departmentFilter, 'displayName', '[choose one]'));
             this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
+
+            this.list.header.selectedFilter[0] = this.list.pageInfo.departmentFilter[0];
         }
     }
 
