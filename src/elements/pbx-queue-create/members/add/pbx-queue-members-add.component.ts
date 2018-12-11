@@ -111,9 +111,9 @@ export class QueueMembersAddComponent implements OnInit {
         this.loading ++;
         this.service.getDepartments(sipId).then((res) => {
             this.service.getMembers(sipId, this.searchStr, this.selectedDepartment ? this.selectedDepartment.id : 0).then((members) => {
-                const totalCount: number = 0;
+                let totalCount: number = 0;
                 res.items.forEach( item => {
-                    totalCount = parseInt(totalCount) + parseInt(item.employees);
+                    totalCount = totalCount + parseInt(item.employees);
                     item.name = item.name + ' (' + item.employees + ')';
                 });
 
