@@ -90,8 +90,8 @@ export class RingGroupService extends BaseQueueService {
         return this.request.get(url);
     }
 
-    getDepartments() {
-        return this.request.get(`v1/ring_group/departments`);
+    getDepartments(sipId: number) {
+        return this.request.get(`v1/ring_group/departments?sipOuter=${sipId}`);
     }
 
     onInit() {
