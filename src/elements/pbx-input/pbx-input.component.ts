@@ -91,7 +91,6 @@ export class InputComponent implements OnInit, OnDestroy {
         this.value = this._defaultValue;
     }
     _defaultValue: string = '';
-
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<boolean> = new EventEmitter();
     @Output() onKeyUp: EventEmitter<object> = new EventEmitter();
@@ -239,6 +238,9 @@ export class InputComponent implements OnInit, OnDestroy {
     }
 
     pasteEvent($event: any): void {
+        const data = $event.clipboardData.getData('Text');
+        this.object[this.key] = data;
+        this._defaultValue = data;
         this.onPaste.emit($event);
     }
 
