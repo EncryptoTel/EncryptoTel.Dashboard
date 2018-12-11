@@ -79,7 +79,6 @@ export class IvrDigitFormComponent extends FormBaseComponent
     }
 
     ngOnInit() {
-        console.log('digit-form', this.references);
         this.initAvaliableDigit();
         super.ngOnInit();
         this.service.reset();

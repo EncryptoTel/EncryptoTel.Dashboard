@@ -54,7 +54,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     ) {
         this.modal = new ModalEx(
             'Form is not saved. This element will be deleted. Do you want to continue?',
-            'changeTariff'
+            'delete'
         );
         this.modalWnd = this.modalService.createModal(this.modal);
     }
