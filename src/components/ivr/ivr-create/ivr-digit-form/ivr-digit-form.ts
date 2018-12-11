@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs/Subject';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import {
     FormBuilder,
@@ -14,6 +14,8 @@ import { FadeAnimation } from '@shared/fade-animation';
 import { StorageService } from '@services/storage.service';
 import { IvrFormInterface } from '../form.interface';
 import { IvrLevel, DigitActions } from '@models/ivr.model';
+import { MediaPlayerComponent } from '@elements/pbx-media-player/pbx-media-player.component';
+import { CdrMediaInfo, MediaState } from '@models/cdr.model';
 
 
 @Component({
@@ -30,6 +32,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     data: any;
     actionVal = 0;
     digitFormKey: string = 'digitForm';
+    currentMediaStream: string = '/assets/mp3/silence.mp3';
     loading: number = 0;
     digitForm: FormGroup;
     digits: Array<any> = [];
@@ -43,9 +46,11 @@ export class IvrDigitFormComponent extends FormBaseComponent
     onFormChange: Subject<any>;
     onDelete: Function;
     formPanel: Element = null;
-
+    playButtonText: string;
+    
+    @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
     // -- properties ----------------------------------------------------------
-
+    
     get valid(): boolean {
         return this.digitForm.valid;
     }
@@ -62,7 +67,8 @@ export class IvrDigitFormComponent extends FormBaseComponent
     constructor(
         public service: IvrService,
         protected fb: FormBuilder,
-        protected message: MessageServices
+        protected message: MessageServices,
+        private storage: StorageService
     ) {
         super(fb, message);
         this.onFormChange = new Subject();
@@ -178,6 +184,77 @@ export class IvrDigitFormComponent extends FormBaseComponent
             this.data.digit === '#'
         ) {
             this.digits.push({ id: '#', title: '#' });
+        }
+    }
+
+
+    isFileSelected(): boolean {
+        if (!this.digitForm.value.parameter) return false;
+        const fileId = this.digitForm.value.parameter
+        const file = this.service.references.files.find(
+            f => +f.id === +fileId
+        );
+        return !!file && file.converted !== undefined && file.converted > 0;
+    }
+
+    uploadFile(event: any): void {
+        event.preventDefault();
+        const file = event.target.files[0];
+        if (file) {
+            if (this.storage.checkCompatibleType(file)) {
+                this.storage.checkOnlyFileExists(file).then(res => {
+                    if (!res) {
+                        this.storage.uploadFile(file, null).then(f => {
+                            this.service.references.files.push(file);
+                        });
+                    } else {
+                        const f = this.service.references.files.find(
+                            fileInfo => fileInfo.fileName === file.name
+                        );
+                    }
+                });
+            } else {
+                this.message.writeError('Accepted formats: mp3, ogg, wav');
+            }
+            this.storage.checkModal();
+        }
+    }
+
+    togglePlay(): void {
+        const fileId = this.digitForm.value.parameter
+        if (fileId) {
+            this.mediaPlayer.togglePlay(fileId);
+        }
+    }
+
+    getMediaData(fileId: number): void {
+        this.mediaPlayer.locker.lock();
+        this.storage
+            .getMediaData(fileId)
+            .then((media: CdrMediaInfo) => {
+                this.currentMediaStream = media.fileLink;
+            })
+            .catch(error => {
+                console.log(error);
+                // Error handling here ...
+                this.mediaPlayer.locker.unlock();
+                this.mediaStateChanged(MediaState.PAUSED);
+            })
+            .then(() => this.mediaPlayer.locker.unlock());
+    }
+    
+    mediaStateChanged(state: MediaState): void {
+        switch (state) {
+            case MediaState.LOADING:
+                this.playButtonText = 'Loading';
+                break;
+            case MediaState.PLAYING:
+                this.playButtonText = 'Pause';
+                break;
+            case MediaState.PAUSED:
+            default:
+                this.playButtonText = 'Play';
+                break;
         }
     }
 }

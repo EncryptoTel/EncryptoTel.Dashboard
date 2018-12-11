@@ -43,10 +43,11 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
             : `Level ${this.level.levelNum - 1}`;
     }
 
-    get addDigitButtonVisible(): boolean {
+    addDigitButtonVisible(): boolean {
         return this.form.valid && !!this.level && this.level.digits.length < 12;
     }
 
+    
     constructor(
         private modalService: ModalServices,
         private service: IvrService
