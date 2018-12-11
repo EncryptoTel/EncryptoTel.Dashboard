@@ -373,8 +373,15 @@ export class StorageComponent implements OnInit, AfterViewChecked {
         let reg = /\.[a-z \d]{2,5}$/;
         let ext = name.match(reg)[0];
         let long = name.split(ext)[0];
-        let short = long.substr(0, 20);
-        item.fileName = short + '...' + ext;
+        var short;
+        var dots = '...';
+        if (long.length > 20) {
+            short = long.substr(0, 20);
+        } else {
+            short = long;
+            dots = '';
+        }
+        item.fileName = short + dots + ext;
         return item;
     }
 
