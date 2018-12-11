@@ -242,7 +242,8 @@ pbx-contacts
             position: relative
             display: grid
             grid-template-columns: 1fr
-            grid-template-rows: repeat(7, min-content)
+            grid-template-rows: min-content 1fr
+            overflow: auto
             .top
                 display: grid
                 grid-template-columns: min-content 1fr min-content
@@ -271,63 +272,144 @@ pbx-contacts
                 .edit
                     cursor: pointer
                     margin-left: 32px
-            .details_block
-                display: grid
-                grid-template-columns: 56px 1fr
-                > div:last-child
-                    padding-left: 16px
-                .icon
-                    justify-content: center
-                    align-items: start
-                    svg-icon
-                        svg
-                            *
-                                fill: $dark_white
-            .phone_block .icon svg,
-            .address_block .icon svg
-                width: 24px
-            .email_block .icon svg
-                width: 15px
-            .ava_name
-                grid-template-rows: 1fr
-                margin-bottom: 40px
-                .ava
-                    width: 56px
-                    height: 56px
-                    overflow: hidden
-                    border-radius: 100%
-                    background: $dark_accent
-                    align-items: center
-                .name
-                    font-family: Roboto, sans-serif
-                    font-weight: 300
-                    font-size: 19px
-                    line-height: 25px
-                    color: $dark_white
-                    align-items: center
-                    white-space: nowrap
-                    overflow: hidden
-                    text-overflow: ellipsis
-                    display: inline-block
-                    line-height: 56px
-            .details_block
-                .right
-                    flex-direction: column
-                    .phone
-                        font-family: Roboto, sans-serif
-                        font-weight: 300
-                        font-size: 16px
-                        line-height: 21px
-                        color: $dark_white
-                        margin-bottom: 1px
-                    .hint
-                        font-family: Roboto, sans-serif
-                        font-weight: 300
-                        font-size: 14px
-                        line-height: 20px
-                        color: rgba($dark_white, .3)
-                        margin-bottom: 8px
-
-
-
-
+            .inner
+                display: block
+                overflow: auto
+                padding-right: 8px
+                .details_block
+                    display: grid
+                    grid-template-columns: 56px 1fr
+                    margin-bottom: 16px
+                    grid-gap: 8px
+                    > .item
+                        margin-left: 8px
+                        grid-column: 2/3
+                    .icon
+                        justify-content: center
+                        align-items: center
+                        svg-icon
+                            svg
+                                *
+                                    fill: $dark_white
+                    .item
+                        flex-direction: column
+                        // margin-bottom: 8px
+                        .val
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 16px
+                            line-height: 21px
+                            color: $dark_white
+                            margin-bottom: 1px
+                        .hint
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 14px
+                            line-height: 20px
+                            color: rgba($dark_white, .3)
+                        &:last-child
+                            border-bottom: 1px solid rgba($dark_white, .3)
+                            padding-bottom: 12px
+                    &.ava_name
+                        grid-template-rows: 1fr
+                        margin-bottom: 40px
+                        .ava
+                            width: 56px
+                            height: 56px
+                            overflow: hidden
+                            border-radius: 100%
+                            background: $dark_accent
+                            align-items: center
+                        .name
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 19px
+                            line-height: 25px
+                            color: $dark_white
+                            align-items: center
+                            white-space: nowrap
+                            overflow: hidden
+                            text-overflow: ellipsis
+                            display: inline-block
+                            line-height: 56px
+                            margin-left: 8px
+                    &.phone_block .icon svg,
+                    &.email_block .icon svg
+                        width: 24px
+                    &.address_block .icon svg
+                        height: 24px
+                    &.no_icon_1,
+                    &.no_icon_2
+                        .item
+                            .val
+                                height: 48px
+                                display: grid
+                                align-items: center
+                                cursor: pointer
+                                color: $dark_accent
+                    &.no_icon_2
+                        .item
+                            .val
+                                color: $dark_white
+                            .checkbox_round
+                                .label
+                                    font-family: Roboto, sans-serif
+                                    font-weight: 300
+                                    font-size: 16px
+                                    line-height: 21px
+                                    color: $dark_white
+                                    cursor: pointer
+                                    &:hover
+                                        color: $dark_accent
+                                .wrapper
+                                    position: relative
+                                    width: 44px
+                                    height: 20px
+                                    margin-left: auto
+                                    cursor: pointer
+                                    *
+                                        cursor: pointer
+                                    label
+                                        position: absolute
+                                        top: 0
+                                        right: 0
+                                        bottom: 0
+                                        left: 0
+                                        opacity: 0
+                                        z-index: 10
+                                    input[type="checkbox"]
+                                        position: relative
+                                        z-index: -20
+                                        opacity: 0
+                                        &:checked
+                                            + .visual
+                                                background: $dark_accent
+                                                span
+                                                    left: unset
+                                                    right: 5px
+                                    .visual
+                                        position: absolute
+                                        top: 0
+                                        right: 0
+                                        bottom: 0
+                                        left: 0
+                                        background: $checkbox_round_grey
+                                        border-radius: 10px
+                                        span
+                                            width: 10px
+                                            height: 10px
+                                            border-radius: 100%
+                                            background: $dark_white
+                                            position: absolute
+                                            top: 50%
+                                            left: 5px
+                                            transform: translateY(-50%)
+                    &.btn_block
+                        .item
+                            border-bottom: none
+                            .val
+                                height: 48px
+                                display: grid
+                                align-items: center
+                                cursor: pointer
+                                color: $dark_error

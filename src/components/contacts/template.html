@@ -99,25 +99,98 @@
 
         </div> <!-- top -->
 
-        <div class="ava_name details_block">
-            <div class="ava"></div>
-            <div class="name">Markus Moser</div>
-        </div> <!-- ava_name -->
+        <div class="inner">
+            <div class="ava_name details_block">
+                <div class="ava"></div>
+                <div class="name">Markus Moser</div>
+            </div> <!-- ava_name -->
 
-        <div class="phone_block details_block">
+            <div class="phone_block details_block">
 
-            <div class="icon">
-                <svg-icon src="/assets/images/chat/contact_call.svg"></svg-icon>
-            </div> <!-- icon -->
+                <div class="icon">
+                    <svg-icon src="/assets/images/chat/contact_call.svg"></svg-icon>
+                </div> <!-- icon -->
 
-            <div class="right">
-                <div class="phone">+43 02754 8457</div>
-                <div class="hint">Mobile</div>
-                <div class="phone">(323)555-6789</div>
-                <div class="hint">Work</div>
-            </div> <!-- right -->
+                <div class="item">
+                    <div class="val">+43 02754 8457</div>
+                    <div class="hint">Mobile</div>
+                </div> <!-- item -->
 
-        </div> <!-- phone_block -->
+                <div class="item">
+                    <div class="val">+43 02754 8457</div>
+                    <div class="hint">Mobile</div>
+                </div> <!-- item -->
+
+            </div> <!-- details_block -->
+
+            <div class="email_block details_block">
+
+                <div class="icon">
+                    <svg-icon src="/assets/images/chat/contact_mail.svg"></svg-icon>
+                </div> <!-- icon -->
+
+                <div class="item">
+                    <div class="val">alexfreeman@example.com</div>
+                    <div class="hint">Personal</div>
+                </div> <!-- item -->
+
+                <div class="item">
+                    <div class="val">alex_freeman@example.com</div>
+                    <div class="hint">Work</div>
+                </div> <!-- item -->
+
+            </div> <!-- details_block -->
+
+            <div class="address_block details_block">
+
+                <div class="icon">
+                    <svg-icon src="/assets/images/chat/contact_address.svg"></svg-icon>
+                </div> <!-- icon -->
+
+                <div class="item">
+                    <div class="val">2000, Main Street San Francisco, SA, 94112</div>
+                    <div class="hint">Home</div>
+                </div> <!-- item -->
+
+            </div> <!-- details_block -->
+
+            <div class="no_icon_1 details_block">
+
+                <div class="item">
+                    <div class="val">Send Message</div>
+                    <div class="val">Share Contact</div>
+                    <div class="val">Start Secret Chat</div>
+                </div> <!-- item -->
+
+            </div> <!-- details_block -->
+
+            <div class="no_icon_2 details_block">
+
+                <div class="item">
+                    <div class="val">Shared Media</div>
+                    <div class="checkbox_round">
+                        <div class="label" (click)="changeContactNotification()">Notifications</div>
+                        <div class="wrapper">
+                            <input id="createExtensions" type="checkbox" checked="{{isContactNotificationOn ? 'checked':''}}">
+                            <div class="visual"><span></span></div>
+                            <label for="createExtensions"></label>
+                        </div> <!-- wrapper -->
+                    </div> <!-- checkbox_round -->
+                    <div class="val">Groups In Common</div>
+                </div> <!-- item -->
+
+            </div> <!-- details_block -->
+
+            <div class="btn_block details_block">
+
+                <div class="icon"></div>
+
+                <div class="item">
+                    <div class="val">Block User</div>
+                </div> <!-- item -->
+
+            </div> <!-- details_block -->
+        </div> <!-- inner -->
 
     </div> <!-- user_details -->
 
