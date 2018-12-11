@@ -363,17 +363,27 @@ export class StorageComponent implements OnInit, AfterViewChecked {
 
     deleteItem(item: StorageItem): void {
         if (!item) return;
-
         this.buttonType = this.isFilterTrashSelected ? 3 : 1;
         this.service.select = [ item.id ];
         this.confirmDeletion();
+    }
+
+    getShortName(item) {
+        let name = item.fileName;
+        let reg = /\.[a-z \d]{2,5}$/;
+        let ext = name.match(reg)[0];
+        let long = name.split(ext)[0];
+        let short = long.substr(0, 20);
+        item.fileName = short + '...' + ext;
+        return item;
     }
 
     confirmDeletion(): void {
         if (this.buttonType === 1) {
             this.modal = new ModalEx('', 'deleteFiles');
             if (this.service.select.length === 1) {
-                const item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
+                let item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
+                item = this.getShortName(item);
                 this.modal.body = 'Are you sure you want to delete <span>' + item.fileName + '</span> file?';
             }
             this.modal.visible = true;
@@ -384,7 +394,8 @@ export class StorageComponent implements OnInit, AfterViewChecked {
         else if (this.buttonType === 3) {
             this.modal = new ModalEx('', 'emptyTrash');
             if (this.service.select.length === 1) {
-                const item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
+                let item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
+                item = this.getShortName(item);
                 this.modal.body = 'Permanently delete ' + item.fileName + ' file?';
             }
             else if (this.service.select.length > 0) {
