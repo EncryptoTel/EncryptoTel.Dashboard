@@ -93,3 +93,9 @@
     (onConfirmEx)="cancel()"
     >
 </pbx-modal>
+
+<pbx-modal [modalEx]="storage.modalUpload"
+           (onConfirmEx)="storage.doUploadAction($event)"
+           (onDecline)="storage.cancelUploadAction()"
+>
+</pbx-modal>

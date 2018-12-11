@@ -238,6 +238,7 @@ export class InputComponent implements OnInit, OnDestroy {
     }
 
     pasteEvent($event: any): void {
+        $event.preventDefault();
         const data = $event.clipboardData.getData('Text');
         this.object[this.key] = data;
         this._defaultValue = data;
@@ -248,7 +249,6 @@ export class InputComponent implements OnInit, OnDestroy {
         if ($event && !['Tab', 'ArrowRight', 'ArrowLeft'].includes($event.key)) {
             this.resetError();
         }
-
         if (!this.form) {
             this.object[this.key] = $event.target.value;
         }

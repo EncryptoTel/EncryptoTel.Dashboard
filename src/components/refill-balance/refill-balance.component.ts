@@ -91,7 +91,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
 
         this.amountValidationError = `Please enter value between ${
             this.amount.min
-        } and ${this.amount.max}`;
+            } and ${this.amount.max}`;
     }
 
     resetFilters(): void {
@@ -147,11 +147,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     }
 
     ValidateWallet(text: string) {
-        if (!this.filters[1].hidden) {
-            if(!text) {
-                this.errors['returnAddress'] = 'Invalid address';
-                return false;
-            }
+        if (text) {
             const coinType = this.selected ? this.selected.currency.code : '';
             const res = WAValidator.validate(text, coinType);
             if (res) {

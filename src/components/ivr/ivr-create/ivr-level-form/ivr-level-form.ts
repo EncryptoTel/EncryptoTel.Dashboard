@@ -1,5 +1,6 @@
+import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { IvrService } from '@services/ivr.service';
@@ -28,7 +29,7 @@ export enum FormButtons {
     providers: [StorageService]
 })
 export class IvrLevelFormComponent extends FormBaseComponent
-    implements OnInit, IvrFormInterface {
+    implements OnInit, IvrFormInterface, OnDestroy {
     onAddLevel: Function;
     onFormChange: Subject<any>;
     onDelete: Function;
@@ -41,10 +42,11 @@ export class IvrLevelFormComponent extends FormBaseComponent
     currentMediaStream: string = '/assets/mp3/silence.mp3';
     playButtonText: string;
     currentButton: FormButtons;
+    currentUploadButton: FormButtons;
     period: any;
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
     @ViewChild('voiceGreeting') voiceGreeting: InputComponent;
-
+    @ViewChild('actionData') actionData: InputComponent;
     rule_value_visible = 0;
     timeVisible = false;
     paramsInfo = {
@@ -55,7 +57,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     };
 
     formPanel: Element = null;
-
+    uploadedFile: Subscription;
 
     // -- properties ----------------------------------------------------------
 
@@ -66,7 +68,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     get paramsPlaceholder(): string {
         const placeholder: string =
             Array.isArray(this.paramsInfo.option) &&
-                this.paramsInfo.option.length === 0
+            this.paramsInfo.option.length === 0
                 ? 'None'
                 : '';
         return placeholder;
@@ -123,6 +125,30 @@ export class IvrLevelFormComponent extends FormBaseComponent
             this.data.action = DigitActions.CANCEL_CALL;
         }
 
+        this.uploadedFile = this.storage.uploadedFile.subscribe(f => {
+            this.service.getFiles().then((res)=>{
+                console.log(res);
+                if (this.currentUploadButton === FormButtons.VOICE_GREETING) {
+                    if (f) {
+                        this.voiceGreeting.value = f;
+                        this.form.get('voiceGreeting').setValue(f.id);
+                    }
+                } else {
+                    if (f) {
+                        this.paramsInfo.option = res.items.map(file => {
+                            return { id: file.id, name: file.fileName };
+                        });
+                        let file = this.paramsInfo.option.find(x=>x.id === f.id);
+                        setTimeout(()=>{
+                            this.actionData.value = file;
+                            this.form.get('parameter').setValue(f.id);
+                        }, 50);
+                        
+                    }
+                }
+            })
+        });
+
         this.setFormData(this.data);
     }
 
@@ -177,7 +203,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     this.form.get('parameter').markAsUntouched();
                     this.validationHost.initItems();
                 })
-                .catch(() => { })
+                .catch(() => {})
                 .then(() => this.loading--);
         });
 
@@ -197,7 +223,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     .then(response => {
                         this.paramsInfo = response;
                     })
-                    .catch(() => { })
+                    .catch(() => {})
                     .then(() => this.loading--);
             }
         });
@@ -215,46 +241,26 @@ export class IvrLevelFormComponent extends FormBaseComponent
         let fileId;
         if (btn === FormButtons.VOICE_GREETING) {
             if (!this.form.value.voiceGreeting) return false;
-            fileId = this.form.value.voiceGreeting
+            fileId = this.form.value.voiceGreeting;
         } else {
             if (!this.form.value.parameter) return false;
-            fileId = this.form.value.parameter
+            fileId = this.form.value.parameter;
         }
-        const file = this.service.references.files.find(
-            f => +f.id === +fileId
-        );
+        const file = this.service.references.files.find(f => +f.id === +fileId);
         return !!file && file.converted !== undefined && file.converted > 0;
     }
 
-    uploadFile(event: any): void {
+    uploadFile(event: any, btn: FormButtons): void {
         event.preventDefault();
+        this.currentUploadButton = btn;
         const file = event.target.files[0];
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
-                this.storage.checkOnlyFileExists(file).then(res => {
-                    if (!res) {
-                        this.storage.uploadFile(file, null).then(f => {
-                            this.service.references.files.push(file);
-                            this.selectVoiceGreeting(f);
-                        });
-                    } else {
-                        const f = this.service.references.files.find(
-                            fileInfo => fileInfo.fileName === file.name
-                        );
-                        this.selectVoiceGreeting(f);
-                    }
-                });
+                this.storage.checkFileExists(file, loading => {});
             } else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
             }
-            this.storage.checkModal();
-        }
-    }
-
-    selectVoiceGreeting(file) {
-        if (file) {
-            this.voiceGreeting.value = file;
-            this.form.get('voiceGreeting').setValue(file.id);
+            // this.storage.checkModal();
         }
     }
 
@@ -330,5 +336,9 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
     visibleElementForRule(val) {
         return this.rule_value_visible === val;
+    }
+
+    ngOnDestroy(): void {
+        this.uploadedFile.unsubscribe();
     }
 }
