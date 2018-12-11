@@ -126,16 +126,27 @@ export class IvrLevelFormComponent extends FormBaseComponent
         }
 
         this.uploadedFile = this.storage.uploadedFile.subscribe(f => {
-            this.service.references.files.push(f);
-            if (this.currentUploadButton === FormButtons.VOICE_GREETING) {
-                this.selectVoiceGreeting(f);
-            } else {
-                if (f) {
-                    console.log(this.actionData);
-                    this.actionData.value = f;
-                    this.form.get('parameter').setValue(f.id);
+            this.service.getFiles().then((res)=>{
+                console.log(res);
+                if (this.currentUploadButton === FormButtons.VOICE_GREETING) {
+                    if (f) {
+                        this.voiceGreeting.value = f;
+                        this.form.get('voiceGreeting').setValue(f.id);
+                    }
+                } else {
+                    if (f) {
+                        this.paramsInfo.option = res.items.map(file => {
+                            return { id: file.id, name: file.fileName };
+                        });
+                        let file = this.paramsInfo.option.find(x=>x.id === f.id);
+                        setTimeout(()=>{
+                            this.actionData.value = file;
+                            this.form.get('parameter').setValue(f.id);
+                        }, 50);
+                        
+                    }
                 }
-            }
+            })
         });
 
         this.setFormData(this.data);
@@ -250,13 +261,6 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
             }
             // this.storage.checkModal();
-        }
-    }
-
-    selectVoiceGreeting(file) {
-        if (file) {
-            this.voiceGreeting.value = file;
-            this.form.get('voiceGreeting').setValue(file.id);
         }
     }
 
