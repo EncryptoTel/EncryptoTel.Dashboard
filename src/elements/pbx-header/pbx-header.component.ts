@@ -1,7 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
-import {InputComponent} from '../pbx-input/pbx-input.component';
-import {ButtonItem, FilterItem} from '../../models/base.model';
-
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    QueryList,
+    ViewChildren
+} from '@angular/core';
+import { InputComponent } from '../pbx-input/pbx-input.component';
+import { ButtonItem, FilterItem } from '../../models/base.model';
 
 @Component({
     selector: 'pbx-header',
@@ -23,7 +30,6 @@ export class HeaderComponent implements OnInit {
 
     @ViewChildren(InputComponent) inputs: QueryList<InputComponent>;
 
-
     // -- component lifecycle methods -----------------------------------------
 
     constructor() {
@@ -36,8 +42,7 @@ export class HeaderComponent implements OnInit {
         this.onUpdate = new EventEmitter<any>();
     }
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
     // -- properties ----------------------------------------------------------
 

@@ -119,7 +119,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
 
     validateFilters(): boolean {
         const validAmmount = this.validateAmount(this.currentFilter['amount']);
-        const validWallet = this.ValidateWallet(this.currentFilter['returnAddress'])
+        const validWallet = this.ValidateWallet(this.currentFilter['returnAddress']);
         return validAmmount && validWallet;
     }
 

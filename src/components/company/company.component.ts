@@ -52,7 +52,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 protected message: MessageServices) {
         super(fb, message);
 
-        this.company.logo = '/assets/images/logo/company_details.png';
+        this.company.logo = '/assets/icons/_middle/camera.png';
         this.companyInfo = this.service.companyInfo;
         this.companyInfo.logo = this.company.logo;
 
@@ -154,6 +154,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     save(): void {
+        console.log('form', this.form);
         if (this.validateForms()) {
             this.setModelData(this.company);
             this.saveCompany();
@@ -217,7 +218,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     // -- data retrieval methods ----------------------------------------------
 
-    private getCompany(): void {
+    getCompany(): void {
         this.locker.lock();
 
         this.service.getCompany()
@@ -241,7 +242,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             });
     }
 
-    private getCountries() {
+    getCountries() {
         this.locker.lock();
 
         this.refs.getCountries()
@@ -252,7 +253,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             .then(() => this.locker.unlock());
     }
 
-    private getSidebar() {
+    getSidebar() {
         this.sidebarInfo.loading++;
 
         this.dashboard.getDashboard().then(response => {
@@ -299,7 +300,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         }).then(() => this.locker.unlock());
     }
 
-    private uploadFiles(file: File): void {
+    uploadFiles(file: File): void {
         if (this.checkCompatibleType(file)) {
             this.service.uploadFile(file, null, null).then(response => {
                 if (response.logo) {

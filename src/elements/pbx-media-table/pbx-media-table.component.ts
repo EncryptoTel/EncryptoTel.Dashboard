@@ -1,12 +1,14 @@
-import {Component, PipeTransform, Pipe, ViewChild, ViewChildren, QueryList, Output, EventEmitter, OnChanges, SimpleChanges, Input} from '@angular/core';
+import {Component, PipeTransform, Pipe, ViewChild, ViewChildren, QueryList, Output, EventEmitter, OnChanges, SimpleChanges, Input, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {VgAPI} from 'videogular2/core';
 import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
+
+import {FadeAnimation} from '@shared/fade-animation';
+import {PlayerAnimation} from '@shared/player-animation';
 import {TableComponent} from '../pbx-table/pbx-table.component';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {PlayerAnimation} from '../../shared/player-animation';
 import {MediaTablePlayerComponent} from '../pbx-media-table-player/pbx-media-table-player.component';
+
 
 @Component({
     selector: 'pbx-media-table',
@@ -17,7 +19,7 @@ import {MediaTablePlayerComponent} from '../pbx-media-table-player/pbx-media-tab
         PlayerAnimation
     ]
 })
-export class MediaTableComponent extends TableComponent implements OnChanges {
+export class MediaTableComponent extends TableComponent implements OnInit, OnChanges {
 
     public currentMediaStream: string = '/assets/mp3/silence.mp3';
 
