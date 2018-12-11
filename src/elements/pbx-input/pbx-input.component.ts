@@ -244,15 +244,14 @@ export class InputComponent implements OnInit, OnDestroy {
         this.onPaste.emit($event);
     }
 
-    inputKeyUp($event) {
-        if (
-            $event &&
-            !['Tab', 'ArrowRight', 'ArrowLeft'].includes($event.key)
-        ) {
+    inputKeyUp($event: any): void {
+        if ($event && !['Tab', 'ArrowRight', 'ArrowLeft'].includes($event.key)) {
             this.resetError();
         }
 
-        this.object[this.key] = $event.target.value;
+        if (!this.form) {
+            this.object[this.key] = $event.target.value;
+        }
         this._defaultValue = $event.target.value;
         this.onKeyUp.emit($event);
     }

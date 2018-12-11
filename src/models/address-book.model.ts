@@ -1,6 +1,6 @@
-import {BaseItemModel, PageInfoModel} from "./base.model";
-import {CountryModel} from "./country.model";
-import {plainToClass} from "class-transformer";
+import {BaseItemModel, PageInfoModel} from './base.model';
+import {CountryModel} from './country.model';
+import {plainToClass} from 'class-transformer';
 
 export class AddressBookModel extends PageInfoModel {
     items: AddressBookItem[];
@@ -41,13 +41,13 @@ export class AddressBookItem extends BaseItemModel {
             this.blacklist = response.blacklist || false;
             if (response.contactPhone) {
                 for (let i = 0; i < response.contactPhone.length; i++) {
-                    let item: ContactValueModel = response.contactPhone[i];
+                    const item: ContactValueModel = response.contactPhone[i];
                     this.addContactPhone(plainToClass(ContactValueModel, item));
                 }
             }
             if (response.contactEmail) {
                 for (let i = 0; i < response.contactEmail.length; i++) {
-                    let item: ContactValueModel = response.contactEmail[i];
+                    const item: ContactValueModel = response.contactEmail[i];
                     this.addContactEmail(plainToClass(ContactValueModel, item));
                 }
             }
