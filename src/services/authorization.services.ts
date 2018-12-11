@@ -151,17 +151,19 @@ export class AuthorizationServices {
       E-mail: string - user e-mail address form value
      */
     sendEmail(email: object) {
-        return this._req.post(`password/reset`, {...email}).then(result => {
-            this.setMessage({
-                type: 'success',
-                message: result.message
+        return this._req.post(`password/reset`, {...email})
+            .then(result => {
+                this.setMessage({
+                    type: 'success',
+                    message: result.message
+                });
+            })
+            .catch(result => {
+                this.setMessage({
+                    type: 'error',
+                    message: result.message ? result.message : result.error.code === 404 ? 'User not found' : 'Unknown server error'
+                });
             });
-        }).catch(result => {
-            this.setMessage({
-                type: 'error',
-                message: result.message ? result.message : result.error.code === 404 ? 'User not found' : 'Unknown server error'
-            });
-        });
     }
 
     /*
