@@ -9,6 +9,7 @@ import { PageInfoModel } from '../models/base.model';
 import { StorageItem, StorageModel } from '../models/storage.model';
 
 import { ModalEx } from '../elements/pbx-modal/pbx-modal.component';
+import { Subject } from 'rxjs/Subject';
 
 
 @Injectable()
@@ -23,7 +24,7 @@ export class StorageService extends BaseService {
     public callback;
     public successCount: number;
     public errorCount: number;
-
+    uploadedFile: Subject<any> = new Subject();
     private _compatibleMediaTypes: string[];
 
     constructor(
@@ -103,7 +104,7 @@ export class StorageService extends BaseService {
             return response.itemsCount > 0;
         }).catch(error => {
             console.log('checkFileExists', error);
-            return error; 
+            return error;
         }).then((res) => {
             this.updateLoading(-1)
             return res;
@@ -132,10 +133,10 @@ export class StorageService extends BaseService {
         this.callback ? this.callback(this.loading) : null;
 
         return this.rawRequest('POST', '', data).then((res) => {
-            console.log(res);
             if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);
             this.successCount++;
             this.errorCount++;
+            this.uploadedFile.next(res);
             return res;
         }).catch(() => {
             this.errorCount++;

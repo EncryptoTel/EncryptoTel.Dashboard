@@ -74,7 +74,7 @@
                             [loading]="storage.loading"
                             >
                 </pbx-button>
-                <input type="file" class="hidden_input" #fileInput (change)="uploadFile($event)">
+                <input type="file" class="hidden_input" #fileInput (change)="uploadFile($event, 'voiceGreeting')">
             </div>
         </div>
     </pbx-input>
@@ -116,8 +116,9 @@
                [validationHost]="validationHost"
                displayKey="name"
                placeholder="{{ paramsPlaceholder }}"
+               #actionData
                >
-               
+
                <div class="greeting" *ngIf="form.value.action==5">
 
                 <pbx-button [value]="getPlayButtonText('playFile')"
@@ -132,7 +133,7 @@
                                 [loading]="storage.loading"
                                 >
                     </pbx-button>
-                    <input type="file" class="hidden_input" #fileInput (change)="uploadFile($event)">
+                    <input type="file" class="hidden_input" #fileInput (change)="uploadFile($event, 'playFile')">
                 </div>
             </div>
 
@@ -150,4 +151,10 @@
     [modalEx]="modalExit"
     (onConfirmEx)="cancel()"
     >
+</pbx-modal>
+
+<pbx-modal [modalEx]="storage.modalUpload"
+           (onConfirmEx)="storage.doUploadAction($event)"
+           (onDecline)="storage.cancelUploadAction()"
+>
 </pbx-modal>
