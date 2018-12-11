@@ -52,7 +52,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 protected message: MessageServices) {
         super(fb, message);
 
-        this.company.logo = '/assets/images/logo/company_details.png';
+        this.company.logo = '/assets/icons/_middle/camera.png';
         this.companyInfo = this.service.companyInfo;
         this.companyInfo.logo = this.company.logo;
 
