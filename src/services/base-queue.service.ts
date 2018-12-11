@@ -90,8 +90,8 @@ export class BaseQueueService extends BaseService {
         return this.request.get(url);
     }
 
-    getDepartments() {
-        return this.request.get(`v1/call_queue/departments`);
+    getDepartments(sipId: number) {
+        return this.request.get(`v1/call_queue/departments?sipOuter=${sipId}`);
     }
 
     setMembers(members) {

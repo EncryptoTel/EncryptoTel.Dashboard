@@ -23,6 +23,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
     createStatus: boolean = false;
     callMenuDropdown: boolean = false;
     inviteMenuDropdown: boolean = false;
+    isContactNotificationOn: boolean = true;
 
     constructor(private socket: WsServices,
                 private logger: LoggerServices,
@@ -38,6 +39,10 @@ export class ContactsComponent implements OnInit, OnDestroy {
         this.chatsSubscription = this.socket.subChats().subscribe(chats => {
             this.updateChats(chats);
         });
+    }
+
+    changeContactNotification() {
+        this.isContactNotificationOn = !this.isContactNotificationOn;
     }
 
     showInviteMenu() {

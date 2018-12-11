@@ -44,6 +44,7 @@ export class SelectComponent implements OnInit, OnChanges {
         }
     }
     _placeholder: string;
+    fromComponent: boolean = false;
 
     @Input() errors: any[];
     @Input() onlyTop: boolean;
@@ -77,7 +78,9 @@ export class SelectComponent implements OnInit, OnChanges {
             && changes.options.currentValue
             && JSON.stringify(changes.options.currentValue) !== JSON.stringify(changes.options.previousValue)
             && changes.options.previousValue !== undefined) {
-            this._selected = null;
+            if (!this.fromComponent) {
+                this._selected = null;
+            }
         }
     }
 
@@ -138,6 +141,8 @@ export class SelectComponent implements OnInit, OnChanges {
       Select option
      */
     selectItem(option: object, event?: Event): void {
+        this.fromComponent = false
+
         if (option) {
             this.selectedObject = true;
             // this._selected = option;

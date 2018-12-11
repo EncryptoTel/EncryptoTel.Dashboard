@@ -3,7 +3,7 @@
     <div class="dashboard_item dashboard_balance" *ngIf="!loading">
         <div class="dashboard_item_title_row">
             <div class="dashboard_item_title_key" translate>Balance</div>
-            <div class="dashboard_balance_value">{{dashboard.balance.currency.shortName}}{{dashboard.balance.value}}
+            <div class="dashboard_balance_value">{{dashboard.balance.currency.shortName}}{{dashboard.balance.value | currency:" ":2}}
             </div>
         </div>
         <div class="dashboard_item_title_row">
@@ -44,7 +44,7 @@
         <div class="dashboard_item_content_row">
             <div class="dashboard_item_content_key" translate>Estimated Payment</div>
             <div class="dashboard_item_content_value" *ngIf="dashboard.tariffPlan">
-                {{dashboard.balance.currency.shortName}}{{dashboard.tariffPlan.sum}}
+                {{dashboard.balance.currency.shortName}}{{dashboard.tariffPlan.sum | currency:" ":2}}
             </div>
         </div>
         <div class="dashboard_item_link_row" *ngIf="isAdmin()">
