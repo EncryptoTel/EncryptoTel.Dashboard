@@ -510,7 +510,10 @@ export class InputComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.name = this.translate.instant(this.name);
+        if (this.name) {
+            this.name = this.translate.instant(this.name);
+        }
+
         this.loading++;
         if (this.options) {
             this.changeSelectWatch();

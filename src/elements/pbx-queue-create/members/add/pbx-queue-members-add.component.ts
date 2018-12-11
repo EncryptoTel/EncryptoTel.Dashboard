@@ -2,6 +2,8 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FadeAnimation} from '../../../../shared/fade-animation';
 import {RefsServices} from '../../../../services/refs.services';
 import {isDevEnv} from '../../../../shared/shared.functions';
+import {ListComponent} from '@elements/pbx-list/pbx-list.component';
+import {SelectComponent} from '@elements/pbx-select/pbx-select.component';
 
 
 @Component({
@@ -20,7 +22,7 @@ export class QueueMembersAddComponent implements OnInit {
     selectedDepartment;
     table = {
         titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Email', 'Status'],
-        keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'email', 'statusName']
+        keys: ['phoneNumber', 'sipOuter.phoneNumber', 'firstName', 'lastName', 'email', 'statusName']
     };
     searchTimeout;
     searchStr = '';
@@ -29,6 +31,7 @@ export class QueueMembersAddComponent implements OnInit {
     nothingFound: boolean = false;
 
     @ViewChild('searchString') searchString: ElementRef;
+    @ViewChild(SelectComponent) pbxSelect: SelectComponent;
 
     // -- component lifecycle methods -----------------------------------------
 
@@ -37,7 +40,7 @@ export class QueueMembersAddComponent implements OnInit {
     ngOnInit() {
         if (this.service.item.sipId) {
             this.getMembers(this.service.item.sipId);
-            this.getDepartments();
+            this.getDepartments(this.service.item.sipId);
         }
     }
 
@@ -99,15 +102,29 @@ export class QueueMembersAddComponent implements OnInit {
             if (!this.members.length && isDevEnv()) {
                 this.mockMembersData();
             }
-        }).then(() => this.loading --);
+        }).then(() => {
+            this.loading --;
+        });
     }
 
-    private getDepartments() {
+    private getDepartments(sipId: number) {
         this.loading ++;
-        this.service.getDepartments().then((res) => {
-            const all = {'name': 'All members', 'id': 'all'};
-            this.departments = [ all, ...res.items];
-            this.selectedDepartment = this.departments[0];
+        this.service.getDepartments(sipId).then((res) => {
+            this.service.getMembers(sipId, this.searchStr, this.selectedDepartment ? this.selectedDepartment.id : 0).then((members) => {
+                const totalCount: number = 0;
+                res.items.forEach( item => {
+                    totalCount = parseInt(totalCount) + parseInt(item.employees);
+                    item.name = item.name + ' (' + item.employees + ')';
+                });
+
+                const all = {'name': 'All members (' + members.items.length + ')', 'id': 'all', 'count': 0};
+                this.departments = [ all, ...res.items];
+                this.pbxSelect.options = this.departments;
+                this.pbxSelect.fromComponent = true;
+                this.selectedDepartment = this.departments[0];
+                this.pbxSelect._selected = this.departments[0];
+
+            });
         }).catch(() => {})
           .then(() => this.loading --);
     }
