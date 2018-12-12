@@ -12,6 +12,7 @@ import {SignInFormModel} from '@models/form-sign-in.model';
 import {SignUpFormModel} from '@models/form-sign-up.model';
 import {PasswordChangingFormModel} from '@models/form-password-changing.model';
 import {FormMessageModel} from '@models/form-message.model';
+import {WsServices} from '@services/ws.services';
 
 
 @Injectable()
@@ -26,7 +27,8 @@ export class AuthorizationServices {
                 private _services: UserServices,
                 private _req: RequestServices,
                 private storage: LocalStorageServices,
-                private logger: LoggerServices) {
+                private logger: LoggerServices,
+                private _ws: WsServices) {
     }
 
     /*
@@ -61,6 +63,7 @@ export class AuthorizationServices {
             if (result && !result.auth) {
                 this._services.saveUserData({secrets: this._req.getSecrets(result)});
                 const URL = this.storage.readItem('pbx_url');
+                this._ws.connect();
                 if (URL && URL.startsWith('/cabinet/')) {
                     this.router.navigateByUrl(URL);
                 }
