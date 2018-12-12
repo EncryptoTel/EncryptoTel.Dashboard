@@ -6,3 +6,86 @@ pbx-call
     bottom: 0
     background: #373635
     padding: 16px
+    .calling
+        width: 100%
+        display: block
+        padding: 0 16px
+        .input_wrap
+            margin: 190px 0 32px
+            input.number
+                background: $ivr_dark_table_bg
+                border: 1px solid transparent !important
+                padding: 0 30px 0 8px
+                font-size: 20px
+                &:focus
+                    border: 1px solid $dark_accent !important
+                &::placeholder
+                    font-family: Roboto, sans-serif !important
+                    font-weight: 300 !important
+                    font-size: 20px !important
+                    line-height: 26px !important
+                    color: rgba($dark_white, .4) !important
+                    vertical-align: bottom !important
+            svg-icon
+                position: absolute
+                top: 50%
+                right: 10px
+                transform: translateY(-50%)
+                cursor: pointer
+                display: none
+                &.active
+                    display: block
+                *
+                    cursor: pointer
+                svg
+                    width: 12px
+                    *
+                        fill: $dark_error
+        .buttons
+            display: grid
+            grid-template-columns: repeat(3, min-content)
+            grid-template-rows: repeat(4, min-content)
+            grid-gap: 24px
+            margin-bottom: 48px
+            .item
+                width: 80px
+                height: 80px
+                border-radius: 100%
+                border: 1px solid rgba($dark_white, .3)
+                padding: 15px
+                flex-direction: column
+                justify-content: center
+                align-items: center
+                cursor: pointer
+                *
+                    cursor: pointer
+                .number
+                    font-family: Roboto, sans-serif
+                    font-weight: 300
+                    font-size: 32px
+                    line-height: 43px
+                    color: $dark_white
+                .chars
+                    font-family: Roboto, sans-serif
+                    font-weight: 400
+                    font-size: 12px
+                    line-height: 16px
+                    color: $dark_white
+                    text-transform: uppercase
+                    height: 13px
+        .btn_call
+            width: 208px
+            height: 56px
+            justify-content: center
+            align-items: center
+            background: $dark_success
+            margin: 0 auto
+            border-radius: 14%/50%
+            cursor: pointer
+            *
+                cursor: pointer
+            svg-icon
+                svg
+                    width: 24px
+                    *
+                        fill: $dark_white

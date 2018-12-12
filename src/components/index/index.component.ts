@@ -55,7 +55,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     userNavigationVisible: boolean = false;
     mobileNavigationVisible: boolean = false;
     NotificationSubscription: Subscription;
-    isLockedCaller: boolean = true;
+    isLockedCaller: boolean = false;
     get username(): string {
         if (this.user && this.user.profile) {
             let firstName: string;
