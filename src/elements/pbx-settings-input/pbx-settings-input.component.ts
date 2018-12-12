@@ -19,7 +19,11 @@ export class SettingsInputComponent implements OnInit {
     @Output() valueChange: EventEmitter<SettingsItem> = new EventEmitter<SettingsItem>();
 
     ngOnInit(): void {
-        // console.log('options', this.item.options);
+        // console.log('options', this.item);
+    }
+
+    isRegion() {
+        return this.item.key === 'region';
     }
 
     onValueChange(item: SettingsItem): void {
