@@ -47,10 +47,10 @@ export class IvrDigitFormComponent extends FormBaseComponent
     onDelete: Function;
     formPanel: Element = null;
     playButtonText: string;
-    
+
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
     // -- properties ----------------------------------------------------------
-    
+
     get valid(): boolean {
         return this.digitForm.valid;
     }
@@ -79,7 +79,6 @@ export class IvrDigitFormComponent extends FormBaseComponent
     }
 
     ngOnInit() {
-        console.log('digit-form', this.references);
         this.initAvaliableDigit();
         super.ngOnInit();
         this.service.reset();
@@ -98,9 +97,9 @@ export class IvrDigitFormComponent extends FormBaseComponent
             action: [null, [Validators.required]],
             parameter: [null, [Validators.required]]
         });
-        
+
         this.addForm(this.digitFormKey, this.digitForm);
-        
+
         this.digitForm.get('action').valueChanges.subscribe(actionValue => {
             this.loading ++;
             this.service
@@ -133,7 +132,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
                     .setValue(val, { onlySelf: true });
             }
         });
-        
+
         this.digitForm.statusChanges.subscribe(() => {
             this.onFormChange.next(this.digitForm);
         });
@@ -199,21 +198,15 @@ export class IvrDigitFormComponent extends FormBaseComponent
 
     uploadFile(event: any): void {
         event.preventDefault();
+
         const file = event.target.files[0];
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
-                this.storage.checkOnlyFileExists(file).then(res => {
-                    if (!res) {
-                        this.storage.uploadFile(file, null).then(f => {
-                            this.service.references.files.push(file);
-                        });
-                    } else {
-                        const f = this.service.references.files.find(
-                            fileInfo => fileInfo.fileName === file.name
-                        );
-                    }
-                });
-            } else {
+                this.storage.checkFileExists(
+                    file,
+                    (loading) => {});
+            }
+            else {
                 this.message.writeError('Accepted formats: mp3, ogg, wav');
             }
             this.storage.checkModal();
@@ -242,7 +235,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
             })
             .then(() => this.mediaPlayer.locker.unlock());
     }
-    
+
     mediaStateChanged(state: MediaState): void {
         switch (state) {
             case MediaState.LOADING:

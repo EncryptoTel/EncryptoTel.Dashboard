@@ -1,13 +1,15 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 
-import { SwipeAnimation } from '../../shared/swipe-animation';
+import { SwipeAnimation } from '@shared/swipe-animation';
+import {killEvent} from '@shared/shared.functions';
+
+
 @Component({
     selector: 'pbx-select',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
     animations: [SwipeAnimation('y', '200ms')]
 })
-
 export class SelectComponent implements OnInit, OnChanges {
     @Input() name: string;
     @Input() singleBorder: boolean;
@@ -35,7 +37,7 @@ export class SelectComponent implements OnInit, OnChanges {
         if (this._selected === undefined || this._selected === null) {
             this.selectedObject = false;
         } else {
-            if (this._selected[this.objectKey] != '') {
+            if (this._selected[this.objectKey] !== '') {
                 this.selectedObject = true;
             }
             if (this._selected[this.objectKey] === undefined) {
@@ -141,17 +143,15 @@ export class SelectComponent implements OnInit, OnChanges {
       Select option
      */
     selectItem(option: object, event?: Event): void {
-        this.fromComponent = false
+        this.fromComponent = false;
 
         if (option) {
             this.selectedObject = true;
             // this._selected = option;
         }
-        if (event) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
+        killEvent(event);
         this.onSelect.emit(option);
+        
         this.hideOptions();
     }
 

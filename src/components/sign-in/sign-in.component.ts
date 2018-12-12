@@ -3,14 +3,14 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
-import {AuthorizationServices} from '../../services/authorization.services';
-import {UserServices} from '../../services/user.services';
-
-import {FadeAnimation} from '../../shared/fade-animation';
-import {validateForm} from '../../shared/shared.functions';
-import * as _vars from '../../shared/vars';
-import {FormMessageModel} from '../../models/form-message.model';
-import {MessageServices} from '../../services/message.services';
+import {AuthorizationServices} from '@services/authorization.services';
+import {UserServices} from '@services/user.services';
+import {FadeAnimation} from '@shared/fade-animation';
+import {validateForm, killEvent} from '@shared/shared.functions';
+import * as _vars from '@shared/vars';
+import {FormMessageModel} from '@models/form-message.model';
+import {MessageServices} from '@services/message.services';
+import {WsServices} from '@services/ws.services';
 
 @Component({
     selector: 'sign-in',
@@ -18,10 +18,10 @@ import {MessageServices} from '../../services/message.services';
     animations: [FadeAnimation('300ms')],
     styleUrls: ['./local.sass']
 })
-
 export class SignInComponent implements OnInit, OnDestroy {
     constructor(private _router: Router,
                 private _user: UserServices,
+                private _ws: WsServices,
                 public _services: AuthorizationServices,
                 private _message: MessageServices) {
     }
@@ -109,11 +109,8 @@ export class SignInComponent implements OnInit, OnDestroy {
     signIn(event?: Event): void {
         this.passwordFormError = false;
         this._services.clearMessage();
-        
-        if (event) {
-            event.preventDefault();
-        }
-        
+        killEvent(event);
+
         validateForm(this.signInForm);
         if (this.signInForm.valid) {
             this.loading = true;
@@ -147,7 +144,7 @@ export class SignInComponent implements OnInit, OnDestroy {
 
     isErrorMessage(message: any): boolean {
         return message && message.type && message.type === 'error';
-        
+
     }
 
     onMessageChanged(message: any): void {
@@ -162,15 +159,16 @@ export class SignInComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this._ws.close();
         this._services.clearMessage();
         this.message = this._services.message;
         this.errorsSubscription = this._services.readMessage()
             .subscribe(message => this.onMessageChanged(message));
-        
-            if (this._user.fetchUser()) {
+
+        if (this._user.fetchUser()) {
             this._router.navigateByUrl('/cabinet');
         }
-        
+
         this.signInForm = new FormGroup({
             'login': new FormControl('', [
                 Validators.required,
@@ -181,7 +179,7 @@ export class SignInComponent implements OnInit, OnDestroy {
                 Validators.minLength(6)
             ])
         });
-        
+
         const msg = JSON.parse(localStorage.getItem('pbx_message'));
         localStorage.removeItem('pbx_message');
         if (msg) {

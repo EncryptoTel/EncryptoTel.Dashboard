@@ -39,7 +39,7 @@
 
         <pbx-loader *ngIf="loading"></pbx-loader>
 
-        <pbx-pagination [pageInfo]="pageInfo" (onPageChangeEx)="getItems()" *ngIf="pageInfo.items.length > 0"></pbx-pagination>
+        <pbx-pagination [pageInfo]="pageInfo" (onPageChangeEx)="getItems()" *ngIf="pageInfo.items.length > 0" [ngClass]="pageInfo.items.length > 0 ? 'active':''"></pbx-pagination>
 
     </div>
 </div>

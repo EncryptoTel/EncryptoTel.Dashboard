@@ -1,24 +1,26 @@
 import {ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormArray, FormControl} from '@angular/forms';
-import {AddressBookService} from '../../services/address-book.service';
+import {TranslateService} from '@ngx-translate/core';
+
+import {AddressBookService} from '@services/address-book.service';
 import {
     AddressBookItem,
     AddressBookModel,
     ContactValueModel,
     TypesModel
-} from '../../models/address-book.model';
-import {RefsServices} from '../../services/refs.services';
-import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from '../../models/base.model';
-import {CountryModel} from '../../models/country.model';
-import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
-import {MessageServices} from '../../services/message.services';
-import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
-import {AnimationComponent} from '../../shared/shared.functions';
-import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp} from '../../shared/vars';
-import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import {TariffStateService} from '../../services/state/tariff.state.service';
-import {TranslateService} from '@ngx-translate/core';
+} from '@models/address-book.model';
+import {RefsServices} from '@services/refs.services';
+import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from '@models/base.model';
+import {CountryModel} from '@models/country.model';
+import {ListComponent} from '@elements/pbx-list/pbx-list.component';
+import {MessageServices} from '@services/message.services';
+import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
+import {AnimationComponent} from '@shared/shared.functions';
+import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp} from '@shared/vars';
+import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import {TariffStateService} from '@services/state/tariff.state.service';
 import {ScrollEvent} from '@shared/scroll.directive';
+
 
 @AnimationComponent({
     selector: 'pbx-address-book',
@@ -288,15 +290,17 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     select(item: AddressBookItem) {
         this.editMode = false;
-        this.sidebar.loading++;
+
+        this.sidebar.loading ++;
         this.sidebar.visible = true;
-        this.service.getAddressBookItem(item.id).then((response: AddressBookItem) => {
+        this.service.getAddressBookItem(item.id)
+        .then((response: AddressBookItem) => {
             this.selected = response;
             this.setFormData();
             this.initSidebar();
-        }).catch(() => {
         })
-            .then(() => this.sidebar.loading--);
+        .catch(() => {})
+        .then(() => this.sidebar.loading --);
     }
 
     create() {
@@ -308,27 +312,29 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.state.change.emit(this.hideField);
         }
 
-        this.sidebar.loading++;
+        this.sidebar.loading ++;
 
         this.selected = null;
         this.selected = new AddressBookItem();
         this.editAddress();
 
         setTimeout(() => {
-            this.sidebar.loading--;
+            this.sidebar.loading --;
         }, 500);
     }
 
     edit(item: AddressBookItem) {
         this.editMode = true;
-        this.sidebar.loading++;
+
+        this.sidebar.loading ++;
         this.sidebar.visible = true;
-        this.service.getAddressBookItem(item.id).then((response: AddressBookItem) => {
-            this.selected = response;
-            this.editAddress();
-        }).catch(() => {
-        })
-            .then(() => this.sidebar.loading--);
+        this.service.getAddressBookItem(item.id)
+            .then((response: AddressBookItem) => {
+                this.selected = response;
+                this.editAddress();
+            })
+            .catch(() => {})
+            .then(() => this.sidebar.loading --);
     }
 
     save(): void {
@@ -389,7 +395,6 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         this.service.resetErrors();
         this.setFormData();
-        console.log('form', this.form.value);
 
         this.sidebar.buttons = [];
         this.sidebar.buttons.push(new SidebarButtonItem(1, 'Cancel', 'cancel'));
@@ -399,25 +404,28 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     saveAddress(): void {
-        this.sidebar.saving++;
+        this.sidebar.saving ++;
+
         this.removeEmptyItems(this.selected.contactPhone);
         this.removeEmptyItems(this.selected.contactEmail);
 
         this.selected = new AddressBookItem(this.form.value);
 
         if (this.selected.id) {
-            this.service.putById(this.selected.id, this.selected).then(() => {
-                this.close(true);
-            }).catch(() => {
-                this.setFormData();
-            }).then(() => this.sidebar.saving--);
+            this.service.putById(this.selected.id, this.selected)
+                .then(() => {
+                    this.close(true);
+                }).catch(() => {
+                    this.setFormData();
+                }).then(() => this.sidebar.saving --);
         }
         else {
-            this.service.post('', this.selected).then(() => {
-                this.close(true);
-            }).catch(() => {
-                this.setFormData();
-            }).then(() => this.sidebar.saving--);
+            this.service.post('', this.selected)
+                .then(() => {
+                    this.close(true);
+                }).catch(() => {
+                    this.setFormData();
+                }).then(() => this.sidebar.saving --);
         }
     }
 
@@ -460,17 +468,22 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     getTypes(): void {
         this.locker.lock();
 
-        this.service.getTypes().then(response => {
-            this.types = response;
-            this.updateTypes();
-
-            this.locker.unlock();
-        }).catch(() =>
-            this.locker.unlock());
+        this.service.getTypes()
+            .then(response => {
+                this.types = response;
+                this.updateTypes();
+            })
+            .catch(() => {})
+            .then(() => this.locker.unlock());
     }
 
     updateTypes() {
         this.addressBookModel.types = this.types;
+        this.addressBookModel.items.forEach(item => {
+            item.contactPhone.forEach(phone => {
+                phone.type = this.types.contactPhone.find(type => type.id === phone.typeId);
+            });
+        });
     }
 
     getCountries(): void {
@@ -560,15 +573,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     setPhoneType($event, i) {
-        console.log($event, i);
         const phone = this.selected.contactPhone[i];
         phone.value = this.form.value.contactPhone[i].value;
-        console.log(phone);
         phone.typeId = $event.id;
         phone.type = this.types.contactPhone.find(item => item.id === phone.typeId);
 
-        const phoneControl = this.createPhoneFormControl(this.selected.contactPhone[i]);
-        this.contactPhonesFormArray.setControl(i, phoneControl);
+        this.contactPhonesFormArray.at(i).patchValue(phone);
+        this.contactPhonesFormArray.at(i).get('type').setValue(phone.type);
     }
 
     setFormData() {
@@ -577,7 +588,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         if (this.selected.contactPhone.length === 0) {
             this.selected.addContactPhone(new ContactValueModel());
         }
-        for (let i = 0; i < this.selected.contactPhone.length; i++) {
+        for (let i = 0; i < this.selected.contactPhone.length; i ++) {
             let phone: any;
             if (!(this.selected.contactPhone[i] instanceof ContactValueModel)) {
                 phone = this.selected.contactPhone[i];
@@ -587,7 +598,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 }
             }
             phone = this.selected.contactPhone[i];
-            if (phone.type !== undefined) {
+            if (phone.type == null) {
                 phone.type = this.types.contactPhone.find(item => item.id === phone.typeId);
             }
 

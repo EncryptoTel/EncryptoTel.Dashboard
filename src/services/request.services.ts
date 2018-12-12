@@ -130,7 +130,7 @@ export class RequestServices {
             }
             default: {
                 if (ShowError && ShowError(response.error ? response.error : response)) {
-                    //error handled by caller
+                    // error handled by caller
                 } else if (ShowError === false) {
                     break;
                 } else if (response.error && response.error.message) {

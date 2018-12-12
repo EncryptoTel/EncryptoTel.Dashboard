@@ -214,6 +214,14 @@ export class WsServices {
     private onClose(data) {
     }
 
+    close() {
+        this.socket.disconnect();
+    }
+
+    connect() {
+        this.socket.connect();
+    }
+
     private send(eventName: string, data: any) {
         this.log(`>>> ${eventName}`, data)
         this.socket.emit(eventName, data);

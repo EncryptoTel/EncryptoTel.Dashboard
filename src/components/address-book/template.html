@@ -72,15 +72,14 @@
                                            [(errors)]="service.errors"
                                            [singleBorder]="false"
                                            [floatError]="true"
-                                           [object]="phone"
                                            [validationHost]="validationHost"
-                                >
+                                           >
                                     <pbx-select class="value-type"
                                                 [options]="types.contactPhone"
                                                 objectKey="value"
                                                 [selected]="phone.value.type"
                                                 (onSelect)="setPhoneType($event, i)"
-                                    >
+                                                >
                                     </pbx-select>
                                     <div class="side_unit_icon_wrap">
                                         <div *ngIf="selected.contactPhone.length > 1"

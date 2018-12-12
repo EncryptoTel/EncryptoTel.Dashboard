@@ -28,12 +28,27 @@ pbx-input
             cursor: default !important
             &:hover
                 color: rgba($dark_white, .7) !important
+.light_theme
+    pbx-input
+        .pbx_input_item_label
+            span
+                color: rgba($white_black, .7) !important
+                cursor: default !important
+                &:hover
+                    color: rgba($white_black, .7) !important
 
 pbx-modal
     .modal_wrap
         .modal_body
             span
                 vertical-align: bottom
+
+.tablet
+    .tablet_body
+        overflow: auto
+pbx-pagination
+    &.active
+        display: grid
 
 
 @media screen and (max-height: 850px)
