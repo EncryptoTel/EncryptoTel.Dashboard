@@ -1,8 +1,32 @@
 <div class="calling">
 
+    <div class="phones">
+
+        <div class="item">
+            <div class="name">Franz Gruber</div>
+            <div class="phone"><span>+43 02754</span>&nbsp;6381</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="name">Franz Gruber</div>
+            <div class="phone"><span>+43 02754</span>&nbsp;6381</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="name">Franz Gruber</div>
+            <div class="phone"><span>+43 02754</span>&nbsp;6381</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="name">Franz Gruber</div>
+            <div class="phone"><span>+43 02754</span>&nbsp;6381</div>
+        </div> <!-- item -->
+
+    </div> <!-- phones -->
+
     <div class="input_wrap">
-        <input type="text" class="number" placeholder="Enter number">
-        <svg-icon src="/assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
+        <input type="text" class="number" placeholder="Enter number" [(ngModel)]="phoneNumber">
+        <svg-icon src="/assets/icons/_middle/cancel_delete_12px.svg" [ngClass]="phoneNumber.length > 0 ? 'active':''"></svg-icon>
     </div> <!-- input_wrap -->
 
     <div class="buttons">
