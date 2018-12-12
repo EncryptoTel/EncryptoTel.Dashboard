@@ -10,7 +10,7 @@ import {validateForm, killEvent} from '@shared/shared.functions';
 import * as _vars from '@shared/vars';
 import {FormMessageModel} from '@models/form-message.model';
 import {MessageServices} from '@services/message.services';
-
+import {WsServices} from '@services/ws.services';
 
 @Component({
     selector: 'sign-in',
@@ -21,6 +21,7 @@ import {MessageServices} from '@services/message.services';
 export class SignInComponent implements OnInit, OnDestroy {
     constructor(private _router: Router,
                 private _user: UserServices,
+                private _ws: WsServices,
                 public _services: AuthorizationServices,
                 private _message: MessageServices) {
     }
@@ -109,7 +110,7 @@ export class SignInComponent implements OnInit, OnDestroy {
         this.passwordFormError = false;
         this._services.clearMessage();
         killEvent(event);
-        
+
         validateForm(this.signInForm);
         if (this.signInForm.valid) {
             this.loading = true;
@@ -143,6 +144,7 @@ export class SignInComponent implements OnInit, OnDestroy {
 
     isErrorMessage(message: any): boolean {
         return message && message.type && message.type === 'error';
+
     }
 
     onMessageChanged(message: any): void {
@@ -157,15 +159,16 @@ export class SignInComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this._ws.close();
         this._services.clearMessage();
         this.message = this._services.message;
         this.errorsSubscription = this._services.readMessage()
             .subscribe(message => this.onMessageChanged(message));
-        
+
         if (this._user.fetchUser()) {
             this._router.navigateByUrl('/cabinet');
         }
-        
+
         this.signInForm = new FormGroup({
             'login': new FormControl('', [
                 Validators.required,
@@ -176,7 +179,7 @@ export class SignInComponent implements OnInit, OnDestroy {
                 Validators.minLength(6)
             ])
         });
-        
+
         const msg = JSON.parse(localStorage.getItem('pbx_message'));
         localStorage.removeItem('pbx_message');
         if (msg) {
