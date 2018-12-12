@@ -120,7 +120,7 @@ export class IvrCreateComponent implements OnInit {
             .then(val => {
                 this.initExistsIvr(val);
             })
-            .catch(() => { })
+            .catch(() => {})
             .then(() => this.loading--);
     }
 
@@ -470,7 +470,7 @@ export class IvrCreateComponent implements OnInit {
         });
     }
 
-    deleteLevelWithDependency() { }
+    deleteLevelWithDependency() {}
 
     arraymove(arr, fromIndex, toIndex) {
         const element = arr[fromIndex];

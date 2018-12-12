@@ -125,7 +125,7 @@ export class RequestServices {
                 break;
             }
             case 403: {
-                this.router.navigate(['/cabinet/dashboard'])
+                this.router.navigate(['/cabinet/dashboard']);
                 break;
             }
             default: {
