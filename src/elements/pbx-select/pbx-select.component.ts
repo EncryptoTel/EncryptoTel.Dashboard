@@ -84,6 +84,11 @@ export class SelectComponent implements OnInit, OnChanges {
                 this._selected = null;
             }
         }
+        if (changes.selected && changes.selected.currentValue) {
+            setTimeout(() => {
+                this.selected = changes.selected.currentValue;
+            }, 0);
+        }
     }
 
     calcPosition(): string {

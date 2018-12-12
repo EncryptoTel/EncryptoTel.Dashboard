@@ -305,6 +305,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     create() {
         this.editMode = true;
+        
         let widthScreen: number;
         widthScreen = window.innerWidth;
         if (widthScreen < 1170) {

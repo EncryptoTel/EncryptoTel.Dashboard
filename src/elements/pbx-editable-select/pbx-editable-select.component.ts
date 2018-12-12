@@ -10,8 +10,10 @@ import {
     OnChanges,
     SimpleChanges
 } from '@angular/core';
-import { SwipeAnimation } from '../../shared/swipe-animation';
-import { SelectService } from '../../services/state/select.service';
+
+import { SwipeAnimation } from '@shared/swipe-animation';
+import { SelectService } from '@services/state/select.service';
+
 
 @Component({
     selector: 'pbx-editable-select',
