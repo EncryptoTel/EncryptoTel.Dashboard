@@ -1,16 +1,16 @@
-import {Component, ElementRef, OnInit, ViewChild, AfterViewChecked} from '@angular/core';
-import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
-import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
-import {SizePipe} from '../../services/size.pipe';
-import {StorageService} from '../../services/storage.service';
-import {MessageServices} from '../../services/message.services';
-import {ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction} from '../../models/base.model';
-import {StorageModel, StorageItem} from '../../models/storage.model';
-import {killEvent} from '../../shared/shared.functions';
-import {ListComponent} from '@elements/pbx-list/pbx-list.component';
-import {Subscription} from 'rxjs/Subscription';
-import {WsServices} from '@services/ws.services';
-import {HeaderComponent} from '@elements/pbx-header/pbx-header.component';
+import { Component, ElementRef, OnInit, ViewChild, AfterViewChecked, OnDestroy } from '@angular/core';
+import { MediaTableComponent } from '../../elements/pbx-media-table/pbx-media-table.component';
+import { ModalEx } from '../../elements/pbx-modal/pbx-modal.component';
+import { SizePipe } from '../../services/size.pipe';
+import { StorageService } from '../../services/storage.service';
+import { MessageServices } from '../../services/message.services';
+import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from '../../models/base.model';
+import { StorageModel, StorageItem } from '../../models/storage.model';
+import { killEvent } from '../../shared/shared.functions';
+import { ListComponent } from '@elements/pbx-list/pbx-list.component';
+import { Subscription } from 'rxjs/Subscription';
+import { WsServices } from '@services/ws.services';
+import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
 
 
 @Component({
@@ -19,7 +19,9 @@ import {HeaderComponent} from '@elements/pbx-header/pbx-header.component';
     styleUrls: ['./local.sass'],
     providers: [StorageService],
 })
-export class StorageComponent implements OnInit, AfterViewChecked {
+export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
+
+    uploadedFile: Subscription;
     pageInfo: StorageModel = new StorageModel();
     table: TableInfoExModel = new TableInfoExModel();
     loading: number = 0;
@@ -106,11 +108,11 @@ export class StorageComponent implements OnInit, AfterViewChecked {
 
         this.filters = [
             new FilterItem(1, 'type', 'Source:', [
-                {id: 'audio', title: 'Audio'},
-                {id: 'call_record', title: 'Call Records'},
+                { id: 'audio', title: 'Audio' },
+                { id: 'call_record', title: 'Call Records' },
                 // {id: 'voice_mail', title: 'Voice Mail'},
-                {id: 'certificate', title: 'Certificate'},
-                {id: 'trash', title: 'Trash'},
+                { id: 'certificate', title: 'Certificate' },
+                { id: 'trash', title: 'Trash' },
             ], 'title', '[choose one]'),
             new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'),
         ];
@@ -170,6 +172,10 @@ export class StorageComponent implements OnInit, AfterViewChecked {
                 storageItem.converted = result.converted;
             }
         });
+
+        this.uploadedFile = this.service.uploadedFile.subscribe(() => {
+            this.getItems();
+        })
     }
 
     ngAfterViewChecked() {
@@ -184,7 +190,7 @@ export class StorageComponent implements OnInit, AfterViewChecked {
     // --- data methods -----------------------------------
 
     private getItems(): void {
-        this.loading ++;
+        this.loading++;
 
         this.service.getItems(this.pageInfo, this.currentFilter, this.table.sort)
             .then(response => {
@@ -194,7 +200,7 @@ export class StorageComponent implements OnInit, AfterViewChecked {
             .catch((error) => {
                 console.log('get items failed', error);
             })
-            .then(() => this.loading --);
+            .then(() => this.loading = 0);
     }
 
     getMediaData(item: StorageItem): void {
@@ -246,7 +252,7 @@ export class StorageComponent implements OnInit, AfterViewChecked {
     }
 
     reloadFilter(filter: any): void {
-        this.loading ++;
+        this.loading++;
         if (filter.type === 'trash') {
             this.buttons[2].visible = true;
             this.buttons[1].visible = false;
@@ -260,7 +266,7 @@ export class StorageComponent implements OnInit, AfterViewChecked {
         }
         this.currentFilter = filter;
         this.getItems();
-        this.loading --;
+        this.loading--;
     }
 
     updateFilter(filter: any): void {
@@ -364,7 +370,7 @@ export class StorageComponent implements OnInit, AfterViewChecked {
     deleteItem(item: StorageItem): void {
         if (!item) return;
         this.buttonType = this.isFilterTrashSelected ? 3 : 1;
-        this.service.select = [ item.id ];
+        this.service.select = [item.id];
         this.confirmDeletion();
     }
 
@@ -424,19 +430,19 @@ export class StorageComponent implements OnInit, AfterViewChecked {
                 // item ? item.loading++ : null;
                 if (this.buttonType === 0) {
                     this.service.restoreById(id, (loading) => {
-                            this.updateLoading(loading, true);
-                        }, false)
-                        .then(() => {})
-                        .catch(() => {})
-                        .then(() => { if (!!item) item.loading --; });
+                        this.updateLoading(loading, true);
+                    }, false)
+                        .then(() => { })
+                        .catch(() => { })
+                        .then(() => { if (!!item) item.loading--; });
                 }
                 else {
                     this.service.deleteById(id, (loading) => {
-                            this.updateLoading(loading, true);
-                        }, this.deletionType, false)
-                        .then(() => {})
-                        .catch(() => {})
-                        .then(() => { if (!!item) item.loading --; });
+                        this.updateLoading(loading, true);
+                    }, this.deletionType, false)
+                        .then(() => { })
+                        .catch(() => { })
+                        .then(() => { if (!!item) item.loading--; });
                 }
             });
         }
@@ -445,9 +451,13 @@ export class StorageComponent implements OnInit, AfterViewChecked {
                 this.service.deleteAll((loading) => {
                     this.updateLoading(loading, true);
                 }, false)
-                    .then(() => {})
-                    .catch(() => {});
+                    .then(() => { })
+                    .catch(() => { });
             }
         }
+    }
+
+    ngOnDestroy(): void {
+        this.uploadedFile.unsubscribe();
     }
 }
