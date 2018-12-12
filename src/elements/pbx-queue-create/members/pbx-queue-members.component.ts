@@ -22,7 +22,7 @@ export class QueueMembersComponent implements OnInit {
 
     table = {
         titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Email', 'Status'],
-        keys: ['phoneNumber', 'sipOuterPhone', 'firstName', 'lastName', 'email', 'statusName']
+        keys: ['phoneNumber', 'sipOuter.phoneNumber', 'firstName', 'lastName', 'email', 'statusName']
     };
 
     // -- properties ----------------------------------------------------------
