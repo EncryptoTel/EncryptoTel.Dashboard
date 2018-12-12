@@ -71,6 +71,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         // Override default ValidationHost messages
         this.validationHost.customMessages = [
             { name: 'Confirm password', error: 'required', message: 'Please confirm the password' },
+            { name: 'Confirm password', error: 'mismatch', message: 'Passwords do not match' },
+
         ];
 
         this._compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/jpg', 'image/gif' ];
@@ -115,9 +117,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             password: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
             password_confirmation: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
         }, {
-            validator: (formGroup: FormGroup) => {
-                return passwordConfirmation(formGroup);
-            }
+            validator: passwordConfirmation
         });
         this.addForm('passwordChange', this.passwordChange);
     }
