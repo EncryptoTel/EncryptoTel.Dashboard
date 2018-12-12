@@ -38,22 +38,20 @@ export class TemporaryCodeComponent implements OnInit, OnDestroy {
         }
     }
 
-    sendTemporaryPassword(ev?: Event): void {
-        if (ev) {
-            ev.preventDefault();
-        }
+    sendTemporaryPassword(): void {
         validateForm(this.temporaryCodeForm);
+
         if (this.temporaryCodeForm.valid) {
             this.errorForm = false;
             this.loading = true;
-            this._services.sendTemporaryPassword(this.temporaryCodeForm.value).then((data) => {
-                this.loading = false;
-                if (this.message.type === 'error') {
-                    this.errorForm = true;
-                }
-            }).catch(() => {
-                this.loading = false;
-            });
+            this._services.sendTemporaryPassword(this.temporaryCodeForm.value)
+                .then((data) => {
+                    if (this.message.type === 'error') {
+                        this.errorForm = true;
+                    }
+                })
+                .catch(() => {})
+                .then(() => this.loading = false);
         } else {
             this.errorForm = true;
         }

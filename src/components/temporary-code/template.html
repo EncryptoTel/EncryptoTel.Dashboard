@@ -14,8 +14,12 @@
                       *ngIf="inputValidation('email', 'pattern')" translate>Please enter correct email address</span>
             </div>
         </div>
-        <pbx-button [buttonType]="'accent'" [loading]="loading" [value]="'Send me a temporary password'"
-                    (onClick)="sendTemporaryPassword()"></pbx-button>
+        <pbx-button [buttonType]="'accent'"
+                    [loading]="loading"
+                    [value]="'Send me a temporary password'"
+                    (onClick)="sendTemporaryPassword()"
+                    >
+        </pbx-button>
         <div class="auth_form_text" translate>Don't have an EncryptoTel Account?</div>
         <a routerLink="../sign-up" class="auth_form_link" translate>Create one now</a>
     </form>

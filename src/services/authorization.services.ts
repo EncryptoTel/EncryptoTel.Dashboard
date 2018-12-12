@@ -93,7 +93,7 @@ export class AuthorizationServices {
         return this._req.post('password/temporary', {...data}, false).then(result => {
             this.setMessage({
                 type: 'success',
-                message: result.message ? result.message : 'Temporary password sent to your e-mail'
+                message: result.message ? result.message : 'Temporary password has been sent to your e-mail'
             });
             this.router.navigateByUrl('/');
         }).catch(result => {
