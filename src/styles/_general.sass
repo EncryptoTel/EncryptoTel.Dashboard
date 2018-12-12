@@ -50,6 +50,13 @@ pbx-pagination
     &.active
         display: grid
 
+pbx-input[ng-reflect-checkbox="true"],
+pbx-input[ng-reflect-checkbox="false"]
+    .pbx_input_item_label
+        span
+            cursor: pointer !important
+            &:hover
+                color: $dark_accent !important
 
 @media screen and (max-height: 850px)
     sign-up

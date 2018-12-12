@@ -1,1 +1,101 @@
-call
+<div class="calling">
+
+    <div class="phones">
+
+        <div class="item">
+            <div class="name">Franz Gruber</div>
+            <div class="phone"><span>+43 02754</span>&nbsp;6381</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="name">Franz Gruber</div>
+            <div class="phone"><span>+43 02754</span>&nbsp;6381</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="name">Franz Gruber</div>
+            <div class="phone"><span>+43 02754</span>&nbsp;6381</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="name">Franz Gruber</div>
+            <div class="phone"><span>+43 02754</span>&nbsp;6381</div>
+        </div> <!-- item -->
+
+    </div> <!-- phones -->
+
+    <div class="input_wrap">
+        <input type="text" class="number" placeholder="Enter number" [(ngModel)]="phoneNumber">
+        <svg-icon src="/assets/icons/_middle/cancel_delete_12px.svg" [ngClass]="phoneNumber.length > 0 ? 'active':''"></svg-icon>
+    </div> <!-- input_wrap -->
+
+    <div class="buttons">
+
+        <div class="item one">
+            <div class="number">1</div>
+            <div class="chars"></div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="number">2</div>
+            <div class="chars">abc</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="number">3</div>
+            <div class="chars">def</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="number">4</div>
+            <div class="chars">ghi</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="number">5</div>
+            <div class="chars">jkl</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="number">6</div>
+            <div class="chars">mno</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="number">7</div>
+            <div class="chars">pqrs</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="number">8</div>
+            <div class="chars">tuv</div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="number">9</div>
+            <div class="chars">wxyz</div>
+        </div> <!-- item -->
+
+        <div class="item one">
+            <div class="number">*</div>
+            <div class="chars"></div>
+        </div> <!-- item -->
+
+        <div class="item">
+            <div class="number">0</div>
+            <div class="chars">+</div>
+        </div> <!-- item -->
+
+        <div class="item one">
+            <div class="number">#</div>
+            <div class="chars"></div>
+        </div> <!-- item -->
+
+    </div> <!-- buttons -->
+
+    <div class="btn_call">
+        <svg-icon src="/assets/icons/_call_panel/dialer_24px.svg"></svg-icon>
+    </div> <!-- btn_call -->
+
+
+</div> <!-- calling -->

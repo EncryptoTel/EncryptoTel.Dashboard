@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {WsServices} from '../../services/ws.services';
 import {LoggerServices} from '../../services/logger.services';
 import {ChatModel, MessageModel} from '../../models/chat.model';
@@ -20,6 +20,7 @@ export class CallComponent implements OnInit, OnDestroy {
     chatsSubscription: Subscription;
     selected: number = 0;
     currentUserId: number;
+    phoneNumber: string = '';
 
     constructor(private socket: WsServices,
                 private logger: LoggerServices,
