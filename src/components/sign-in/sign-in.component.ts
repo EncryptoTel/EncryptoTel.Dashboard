@@ -160,6 +160,16 @@ export class SignInComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this._ws.close();
+
+        if (this._services.message) {
+            if (this._services.message.type === 'error') {
+                this._message.writeError(this._services.message.message);
+            }
+            else {
+                this._message.writeSuccess(this._services.message.message);
+            }
+        }
+
         this._services.clearMessage();
         this.message = this._services.message;
         this.errorsSubscription = this._services.readMessage()

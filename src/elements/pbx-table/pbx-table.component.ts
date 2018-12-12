@@ -114,6 +114,12 @@ export class TableComponent implements OnInit, OnDestroy {
                     : 'Are you sure you want to delete this IVR?';
                 this.modal.body = body;
             }
+            if (item instanceof IvrItem) {
+                const body: string = (<IvrItem>item).status > 0
+                    ? 'Are you sure you want to delete this active IVR?'
+                    : 'Are you sure you want to delete this IVR';
+                this.modal.body = body;
+            }
             this.modal.visible = true;
         }
     }
