@@ -16,7 +16,7 @@
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"
-    }б
+    },
     "/download": {
         "target": "http://pbx-front-dev.encry.ru",
         "secure": false,
