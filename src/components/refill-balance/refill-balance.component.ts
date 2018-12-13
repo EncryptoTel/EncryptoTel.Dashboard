@@ -169,7 +169,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
         this.resetFilters();
         this.refill_status = 'main';
         this.selected = null;
-        this.errors = null;
+        this.errors = {};
         this.filters[1].hidden = true;
     }
 

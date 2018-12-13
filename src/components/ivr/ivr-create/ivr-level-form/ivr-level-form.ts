@@ -126,8 +126,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
         }
 
         this.uploadedFile = this.storage.uploadedFile.subscribe(f => {
-            this.service.getFiles().then((res)=>{
-                console.log(res);
+            this.service.getFiles().then(res => {
                 if (this.currentUploadButton === FormButtons.VOICE_GREETING) {
                     if (f) {
                         this.voiceGreeting.value = f;
@@ -138,15 +137,16 @@ export class IvrLevelFormComponent extends FormBaseComponent
                         this.paramsInfo.option = res.items.map(file => {
                             return { id: file.id, name: file.fileName };
                         });
-                        let file = this.paramsInfo.option.find(x=>x.id === f.id);
-                        setTimeout(()=>{
-                            this.actionData.value = file;
+                        const fileData = this.paramsInfo.option.find(
+                            x => x.id === f.id
+                        );
+                        setTimeout(() => {
+                            this.actionData.value = fileData;
                             this.form.get('parameter').setValue(f.id);
                         }, 50);
-                        
                     }
                 }
-            })
+            });
         });
 
         this.setFormData(this.data);
@@ -254,6 +254,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
         event.preventDefault();
         this.currentUploadButton = btn;
         const file = event.target.files[0];
+        event.target.value = '';
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
                 this.storage.checkFileExists(file, loading => {});

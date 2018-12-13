@@ -75,7 +75,7 @@ export class FormBaseComponent implements OnInit, Lockable {
         // should be overriden in derived class
         throw new Error('initForm() method not implemented.');
     }
-    
+
     handleScroll(event: ScrollEvent) {
         this.formPanel = event.originalEvent.srcElement;
     }
@@ -152,20 +152,20 @@ export class FormBaseComponent implements OnInit, Lockable {
             validateFormControls(item.form);
             result = result && item.form.valid;
         });
-        
+
         this.validationHost.clearControlsFocusedState();
-        
+
         return result;
     }
-    
+
     validateFormGroup(groupName: string, showMessage: boolean = false, message: string = ''): boolean {
         let formGroup: FormGroup;
         for (const item of this.forms) {
             formGroup = <FormGroup>item.form.get(groupName);
             if (formGroup) { break; }
         }
-        if (!formGroup) { 
-            return false; 
+        if (!formGroup) {
+            return false;
         }
 
         validateForm(formGroup);

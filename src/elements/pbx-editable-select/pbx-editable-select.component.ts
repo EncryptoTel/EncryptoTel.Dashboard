@@ -10,8 +10,10 @@ import {
     OnChanges,
     SimpleChanges
 } from '@angular/core';
-import { SwipeAnimation } from '../../shared/swipe-animation';
-import { SelectService } from '../../services/state/select.service';
+
+import { SwipeAnimation } from '@shared/swipe-animation';
+import { SelectService } from '@services/state/select.service';
+
 
 @Component({
     selector: 'pbx-editable-select',
@@ -40,7 +42,20 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     _options: any[];
 
     @Input() objectKey: string;
-    @Input() selected: any; // read selectedItem
+    @Input() 
+        set selected(val:any){
+            if(this._options && Number(val)) {
+                const opt = this._options.find((x)=>x.id===+val)
+                if(opt) {
+                    this._selected = opt;
+                }
+            } else {
+                this._selected = val;
+            }
+            
+        } // read selectedItem
+
+    _selected: any;
     @Input() errors: any[];
     @Input() searchStartWith: boolean = false;
     @Output() onSelect: EventEmitter<object>;
@@ -108,6 +123,9 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     isItemSelected(item: any): boolean {
         if (Number.isInteger(item)) {
             return item === this.filteredSelectedItem;
+        }
+        if(Number(this.filteredSelectedItem)) {
+            return item.id === +this.filteredSelectedItem
         }
         return (
             item &&
@@ -313,7 +331,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         this.filteredSelectedItem =
             this.filterValue && this.filteredOptions[0].id
                 ? this.filteredOptions[0]
-                : this.selected;
+                : this._selected;
 
         this.scrollToCurrent();
     }

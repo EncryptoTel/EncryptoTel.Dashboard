@@ -8,5 +8,7 @@
            (onToggle)="onValueChange(item)"
            (onSelect)="onValueChange(item)"
            (onKeyUp)="onValueChange(item)"
+           [searchStartWith]="isRegion()"
+           [editable]="isRegion()"
            >
 </pbx-input>

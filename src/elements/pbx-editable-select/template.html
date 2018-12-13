@@ -9,7 +9,7 @@
     
     <span *ngIf="isPlaceholder && !isVisible" class="pbx-select-placeholder">{{ placeholder }}</span>
     <div [ngClass]="[ 'select_item', 'selected', !selected ? 'blank' : '', singleBorder ? 'no_border' : '', errors ? 'error' : '', name ? 'pbx_select_' + name : '' ]">
-        <span *ngIf="!isVisible">{{ selected ? selected[objectKey] : '' }}</span>
+        <span *ngIf="!isVisible">{{ _selected ? _selected[objectKey] : '' }}</span>
             <input *ngIf="isVisible"
                 class="{{ singleBorder ? '' : 'show-border' }} pbx_select_edit_input"
                 #selectInput

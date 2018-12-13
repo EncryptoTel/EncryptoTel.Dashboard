@@ -138,7 +138,11 @@ const Routes: Routes = [
                     }
                 ]
             },
-            {path: 'address-book', component: AddressBookComponent, data: {title: 'Address Book', indexed: true}},
+            {
+                path: 'address-book', component: AddressBookComponent, data: {title: 'Address Book', indexed: true}, children: [
+                    {path: ':id', component: AddressBookComponent, data: {title: 'Address Book', indexed: true}}
+                ]
+            },
             {
                 path: 'call-rules', data: {title: 'Call Rules', indexed: true}, children: [
                     {path: '', component: CallRulesComponent, data: {title: 'Call Rules', indexed: true}},
@@ -181,7 +185,7 @@ const Routes: Routes = [
                 ]
             },
             {
-                path: 'ivr', 
+                path: 'ivr',
                 loadChildren: '../components/ivr/ivr.module#IvrModule'
             },
             {
