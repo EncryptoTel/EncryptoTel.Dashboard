@@ -189,7 +189,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
 
     isFileSelected(): boolean {
         if (!this.digitForm.value.parameter) return false;
-        const fileId = this.digitForm.value.parameter
+        const fileId = this.digitForm.value.parameter;
         const file = this.service.references.files.find(
             f => +f.id === +fileId
         );
@@ -200,6 +200,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
         event.preventDefault();
 
         const file = event.target.files[0];
+        event.target.value = '';
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
                 this.storage.checkFileExists(

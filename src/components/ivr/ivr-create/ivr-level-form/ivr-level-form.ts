@@ -254,6 +254,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
         event.preventDefault();
         this.currentUploadButton = btn;
         const file = event.target.files[0];
+        event.target.value = '';
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
                 this.storage.checkFileExists(file, loading => {});

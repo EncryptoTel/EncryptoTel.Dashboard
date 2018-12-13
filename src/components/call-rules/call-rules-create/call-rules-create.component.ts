@@ -455,6 +455,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         event.preventDefault();
 
         const file = event.target.files[0];
+        event.target.value = '';
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
                 this.storage.checkFileExists(
