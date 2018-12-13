@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {StorageModel} from '../models/storage.model';
 import {ModalEx} from '../elements/pbx-modal/pbx-modal.component';
 import {MessageServices} from './message.services';
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()
 export class SettingsService extends BaseService {
@@ -18,9 +19,10 @@ export class SettingsService extends BaseService {
 
     constructor(public request: RequestServices,
                 public message: MessageServices,
-                public http: HttpClient) {
-        super(request, message, http);
-        
+                public http: HttpClient,
+                public translate: TranslateService) {
+        super(request, message, http, translate);
+
         this.loading = 0;
         this.successCount = 0;
         this.errorCount = 0;

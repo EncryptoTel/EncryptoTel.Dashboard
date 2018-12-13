@@ -14,6 +14,7 @@ import {StorageService} from '../../services/storage.service';
 import {AddressBookService} from '@services/address-book.service';
 import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
 import {MessageServices} from '@services/message.services';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -49,17 +50,18 @@ export class DetailsAndRecordsComponent implements OnInit {
                 private ws: WsServices,
                 private storageService: StorageService,
                 private addressBookService: AddressBookService,
-                protected message: MessageServices) {
+                protected message: MessageServices,
+                public translate: TranslateService) {
 
         this.table.sort.isDown = true;
         this.table.sort.column = 'callDate';
-        this.table.items.push(new TableInfoItem('From', 'source', 'source'));
-        this.table.items.push(new TableInfoItem('To', 'destination', 'destination'));
-        this.table.items.push(new TableInfoItem('Date', 'displayDateTime', 'callDate'));
-        this.table.items.push(new TableInfoItem('Duration', 'displayDuration'));
-        this.table.items.push(new TableInfoItem('Tag', 'displayStatus', 'status'));
-        this.table.items.push(new TableInfoItem('Price', 'displayPrice'));
-        this.table.items.push(new TableInfoItem('Record', 'record', null, 200, 0));
+        this.table.items.push(new TableInfoItem(this.translate.instant('From'), 'source', 'source'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('To'), 'destination', 'destination'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'callDate'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Duration'), 'displayDuration'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Tag'), 'displayStatus', 'status'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Price'), 'displayPrice'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0));
         this.table.actions.push(new TableInfoAction(1, 'player', 175));
         this.table.actions.push(new TableInfoAction(2, 'drop-down', 25));
 
@@ -75,11 +77,11 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.modalBlock = new ModalEx('', 'block');
 
         this.tags = [
-            {key: 'noAnswer', title: 'no-answer', selected: false},
-            {key: 'incoming', title: 'incoming', selected: true},
-            {key: 'outgoing', title: 'outgoing', selected: true},
-            {key: 'missed', title: 'missed', selected: false},
-            {key: 'record', title: 'record', selected: false},
+            {key: 'noAnswer', title: this.translate.instant('no-answer'), selected: false},
+            {key: 'incoming', title: this.translate.instant('incoming'), selected: true},
+            {key: 'outgoing', title: this.translate.instant('outgoing'), selected: true},
+            {key: 'missed', title: this.translate.instant('missed'), selected: false},
+            {key: 'record', title: this.translate.instant('record'), selected: false},
         ];
     }
 

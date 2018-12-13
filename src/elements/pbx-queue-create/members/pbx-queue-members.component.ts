@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CallQueueService} from '../../../services/call-queue.service';
 import {FadeAnimation} from '../../../shared/fade-animation';
 import {isDevEnv} from '../../../shared/shared.functions';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -33,7 +34,19 @@ export class QueueMembersComponent implements OnInit {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor() {}
+    constructor(public translate: TranslateService) {
+        this.table = {
+            titles: [
+                this.translate.instant('#Ext'),
+                this.translate.instant('Phone number'),
+                this.translate.instant('First Name'),
+                this.translate.instant('Last Name'),
+                this.translate.instant('Email'),
+                this.translate.instant('Status')
+            ],
+            keys: ['phoneNumber', 'sipOuter.phoneNumber', 'firstName', 'lastName', 'email', 'statusName']
+        };
+    }
 
     ngOnInit() {
         this.service.userView.isCurCompMembersAdd = false;

@@ -5,6 +5,7 @@ import {plainToClass} from "class-transformer";
 import {MessageServices} from "./message.services";
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()
 export class BaseService {
@@ -22,7 +23,8 @@ export class BaseService {
 
     constructor(public request: RequestServices,
                 public message: MessageServices,
-                public http: HttpClient) {
+                public http: HttpClient,
+                public translate: TranslateService) {
         this.onInit();
     }
 

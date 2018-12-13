@@ -3,6 +3,7 @@ import {FadeAnimation} from '../../../shared/fade-animation';
 import {FormGroup} from '@angular/forms';
 import {ValidationHost} from '../../../models/validation-host.model';
 import {isDevEnv} from '../../../shared/shared.functions';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -46,9 +47,22 @@ export class QueueGeneralComponent implements OnInit {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor() {}
+    placeholder: any;
+    ringTimeDescription: any;
+    minMaxDescription: any;
+    announcePositionDescription: any;
+    announceHoldtimeDescription: any;
 
-    ngOnInit(): void {}
+    constructor(public translate: TranslateService) {
+    }
+
+    ngOnInit(): void {
+        this.placeholder = this.translate.instant('[choose one]');
+        this.ringTimeDescription = this.translate.instant('seconds (min 15 seconds, max 600 seconds)');
+        this.minMaxDescription = this.translate.instant('(min 1, max 100)');
+        this.announcePositionDescription = this.translate.instant('Announce Queue position to caller');
+        this.announceHoldtimeDescription = this.translate.instant('Announce Holdtime');
+    }
 
     // -- data processing methods ---------------------------------------------
 

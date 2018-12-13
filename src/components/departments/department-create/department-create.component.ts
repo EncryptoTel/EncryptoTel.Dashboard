@@ -15,6 +15,7 @@ import {TabsComponent} from '../../../elements/pbx-tabs/pbx-tabs.component';
 import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {InputComponent} from '../../../elements/pbx-input/pbx-input.component';
 import { getErrorMessageFromServer } from '@shared/shared.functions';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -66,7 +67,8 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                 private _messages: MessageServices,
                 private router: Router,
                 protected fb: FormBuilder,
-                protected message: MessageServices) {
+                protected message: MessageServices,
+                public translate: TranslateService) {
         super(fb, message);
 
         this.locker = new Locker();
@@ -84,11 +86,17 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         ];
 
         this.sipTableContext = {
-            titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Email', 'Status'],
+            titles: [
+                this.translate.instant('#Ext'),
+                this.translate.instant('Phone number'),
+                this.translate.instant('First Name'),
+                this.translate.instant('Last Name'),
+                this.translate.instant('E-mail'),
+                this.translate.instant('Status')],
             keys: ['phoneNumber', 'sipOuterPhoneNumber', 'firstName', 'lastName', 'email', 'statusName']
         };
 
-        this.filter = new FilterItem(1, 'search', 'Search', null, null, 'Search by Name or Phone');
+        this.filter = new FilterItem(1, 'search', this.translate.instant('Search'), null, null, this.translate.instant('Search by Name or Phone'));
         this.currentFilter = {value: null};
     }
 

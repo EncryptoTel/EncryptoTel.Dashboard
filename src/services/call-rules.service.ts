@@ -56,14 +56,14 @@ export class CallRulesService extends BaseService {
         this.url = 'outer_rule';
 
         this.callRuleTimeTypes = CallRuleTimeType.fromPlain([
-            { id: 1, code: 'Always (24 hours)' },
+            { id: 1, code: this.translate.instant('Always (24 hours)') },
             // { id: 2, code: 'Date (period)' },
-            { id: 3, code: 'Days of the week' },
+            { id: 3, code: this.translate.instant('Days of the week') },
         ]);
 
         this.durationTimeTypes = CallRuleTimeType.fromPlain([
-            { id: 1, code: 'Always (24 hours)' },
-            { id: 2, code: 'Set the time' }
+            { id: 1, code: this.translate.instant('Always (24 hours)') },
+            { id: 2, code: this.translate.instant('Set the time') }
         ]);
 
         this.callRuleTimes = CallRuleTime.fromPlain([
@@ -94,13 +94,13 @@ export class CallRulesService extends BaseService {
         ]);
 
         this.callRuleDays = CallRuleDay.fromPlain([
-            { type: 'accent', day: 'Mon', code: 'mon' },
-            { type: 'accent', day: 'Tue', code: 'tue' },
-            { type: 'accent', day: 'Wed', code: 'wed' },
-            { type: 'accent', day: 'Thu', code: 'thu' },
-            { type: 'accent', day: 'Fri', code: 'fri' },
-            { type: 'cancel', day: 'Sat', code: 'sat' },
-            { type: 'cancel', day: 'Sun', code: 'sun' }
+            { type: 'accent', day: this.translate.instant('Mon'), code: 'mon' },
+            { type: 'accent', day: this.translate.instant('Tue'), code: 'tue' },
+            { type: 'accent', day: this.translate.instant('Wed'), code: 'wed' },
+            { type: 'accent', day: this.translate.instant('Thu'), code: 'thu' },
+            { type: 'accent', day: this.translate.instant('Fri'), code: 'fri' },
+            { type: 'cancel', day: this.translate.instant('Sat'), code: 'sat' },
+            { type: 'cancel', day: this.translate.instant('Sun'), code: 'sun' }
         ]);
     }
 
