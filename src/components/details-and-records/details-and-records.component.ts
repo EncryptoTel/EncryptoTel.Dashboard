@@ -29,7 +29,7 @@ export class DetailsAndRecordsComponent implements OnInit {
     pageInfo: CdrModel = new CdrModel();
     cdrSubscription: Subscription;
     table: TableInfoExModel = new TableInfoExModel();
-
+    loading = 0;
     tags: TagModel[];
 
     startDate: string;
