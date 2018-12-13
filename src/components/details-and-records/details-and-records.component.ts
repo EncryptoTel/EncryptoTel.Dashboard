@@ -38,6 +38,7 @@ export class DetailsAndRecordsComponent implements OnInit {
     modalBlock: ModalEx;
 
     blockItem: any;
+    unblockItem: any;
 
     @ViewChild('mediaTable') mediaTable: MediaTableComponent;
     @ViewChild('tagSelector') tagSelector: TagSelectorComponent;
@@ -108,9 +109,19 @@ export class DetailsAndRecordsComponent implements OnInit {
         switch (event.action.id) {
             case 2:
                 event.action.options = [];
-                if (event.item.accountFile && event.item.accountFile.id > 0) event.action.options.push(new TableInfoActionOption(1, 'Download file'));
-                if (event.item.contactId) event.action.options.push(new TableInfoActionOption(2, 'View contact'));
-                event.action.options.push(new TableInfoActionOption(3, 'Block user', 'ban'));
+                if (event.item.accountFile && event.item.accountFile.id > 0) {
+                    event.action.options.push(new TableInfoActionOption(1, 'Download file'));
+                }
+                // if (event.item.contactId) {
+                //     event.action.options.push(new TableInfoActionOption(2, 'View contact'));
+                // } else {
+                //     event.action.options.push(new TableInfoActionOption(5, 'Create contact'));
+                // }
+                if (event.item.contact && event.item.contact.blacklist) {
+                    event.action.options.push(new TableInfoActionOption(4, 'Unblock user', 'ban'));
+                } else {
+                    event.action.options.push(new TableInfoActionOption(3, 'Block user', 'ban'));
+                }
                 break;
         }
     }
@@ -130,29 +141,51 @@ export class DetailsAndRecordsComponent implements OnInit {
                         this.blockItem = event.item;
                         this.block();
                         break;
+                    case 4:
+                        this.unblockItem = undefined;
+                        this.unblockItem = event.item;
+                        this.unblock();
+                        break;
                 }
                 break;
         }
     }
 
     block() {
-        this.modalBlock = new ModalEx('', this.blockItem ? 'block' : 'unblock');
+        this.modalBlock = new ModalEx('', this.blockItem ? 'block' : '');
+        this.modalBlock.show();
+    }
+
+    unblock() {
+        this.modalBlock = new ModalEx('', this.unblockItem ? 'unblock' : '');
         this.modalBlock.show();
     }
 
     confirmBlock() {
         console.log('block');
         if (this.blockItem) {
-            if (this.blockItem.contactId !== null) {
-
-            } else {
+            if (this.blockItem.contactId === null) {
                 const phoneNumber = this.blockItem.source;
                 this.addressBookService.blockByPhone(phoneNumber).then(res => {
-                    this.message.writeSuccess(this.blockItem ? 'Contact blocked successfully' : 'Contact unblocked successfully');
+                    this.blockItem = undefined;
+                    this.message.writeSuccess('Contact blocked successfully');
+                    this.getItems();
+                }).catch(() => {}).then(() => {});
+            } else {
+                this.addressBookService.blockByContact(this.blockItem.contact.id).then(res => {
+                    this.blockItem = undefined;
+                    this.message.writeSuccess('Contact blocked successfully');
+                    this.getItems();
                 }).catch(() => {}).then(() => {});
             }
         }
-
+        if (this.unblockItem) {
+            this.addressBookService.blockByContact(this.unblockItem.contact.id, true).then(res => {
+                this.unblockItem = undefined;
+                this.message.writeSuccess('Contact unblocked successfully');
+                this.getItems();
+            }).catch(() => {}).then(() => {});
+        }
     }
 
     getFile(fileId) {
