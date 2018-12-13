@@ -17,7 +17,7 @@
 
     <div class="call-rules-create_row days"
          *ngIf="isCallRuleDaysSelected">
-        <label>Days</label>
+        <label translate>Days</label>
         <div class="days_wrap">
             <pbx-button *ngFor="let day of callRuleTimeDays; let idx = index"
                         class="eqwwqewrqwer"
@@ -47,7 +47,7 @@
 
     <div class="call-rules-create_row"
          *ngIf="isDurationTimeRangeSelected">
-        <label>Time</label>
+        <label translate>Time</label>
         <div class="time_wrap">
             <pbx-select [singleBorder]="true"
                         [objectKey]="'time'"

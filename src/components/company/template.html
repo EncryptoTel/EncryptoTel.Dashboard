@@ -197,7 +197,7 @@
 
             <div *ngFor="let item of companyInfo.company">
                 <div class="mini" *ngIf="item.value">
-                    <div class="title">{{ item.title }}</div>
+                    <div class="title" translate>{{ item.title }}</div>
                     <div class="info" [ngClass]="item.cssClass">{{ item.value }}</div>
                 </div>
             </div> <!-- mini -->
@@ -211,7 +211,7 @@
                         <div class="title" translate>{{ section.title }}</div>
                         <div [ngClass]="section.cssClass" *ngFor="let item of section.items">
                             <ng-container *ngIf="item.value">
-                                <div class="key">{{ item.title }}</div>
+                                <div class="key" translate>{{ item.title }}</div>
                                 <div class="val">{{ item.value }}</div>
                                 <div class="status" *ngIf="section.cssClass == 'number'">{{ item.value2 }}</div>
                             </ng-container>

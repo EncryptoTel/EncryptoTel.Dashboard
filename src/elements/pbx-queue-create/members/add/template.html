@@ -1,7 +1,7 @@
 <div class="call_queues_members_add">
     <div class="call_queues_members_add_header">
         <div class="call_queues_members_add_filter">
-            <span>Department:</span>
+            <span translate>{{departmentName}}</span><span>:</span>
             <pbx-select
                 [objectKey]="'name'"
                 [options]="departments"
@@ -11,9 +11,9 @@
             </pbx-select>
         </div>
         <div class="call_queues_members_add_filter">
-            <span>Search:</span>
+            <span translate>{{searchName}}</span><span>:</span>
             <div class="input_wrap">
-                <input #searchString class="searching" type="text" placeholder="Search by Name or Phone" (keyup)="search($event)">
+                <input #searchString class="searching" type="text" placeholder="{{searchPlaceholder}}" (keyup)="search($event)">
                 <div class="clear_icon_wrap" *ngIf="searchIcon">
                     <div class="clear_icon" (click)="clearSearch()">
                         <svg-icon class="ng-tns-c13-36" src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>

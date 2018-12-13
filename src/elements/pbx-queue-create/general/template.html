@@ -24,7 +24,7 @@
     <pbx-input name="Phone number"
                key="sipId"
                [required]="true"
-               [placeholder]="'[choose one]'"
+               [placeholder]="placeholder"
                [form]="true"
                [object]="object"
                [options]="numbers"
@@ -38,7 +38,7 @@
     <pbx-input name="Ring Strategy"
                key="strategy"
                [required]="true"
-               [placeholder]="'[choose one]'"
+               [placeholder]="placeholder"
                [form]="true"
                [object]="object"
                [options]="service.params.strategies"
@@ -50,7 +50,7 @@
                >
            </pbx-input>
     <pbx-input name="Ring Time"
-               description="seconds (min 15 seconds, max 600 seconds)"
+               [description]="ringTimeDescription"
                key="timeout"
                [required]="true"
                [form]="true"
@@ -66,7 +66,7 @@
     <!-- call-queues -->
     <pbx-input *ngIf="isCallQueue"
                name="Maximum Callers in Queue"
-               description="(min 1, max 100)"
+               [description]="minMaxDescription"
                key="maxlen"
                [required]="true"
                [form]="true"
@@ -80,11 +80,11 @@
                >
     </pbx-input>
     <div class="queue-group" *ngIf="isCallQueue">
-        <h3 class="queue-group_h3">Queue options</h3>
+        <h3 class="queue-group_h3" translate>Queue options</h3>
     </div>
     <pbx-input *ngIf="isCallQueue"
                name=""
-               description="Announce Queue position to caller"
+               [description]="announcePositionDescription"
                key="announcePosition"
                [checkbox]="true"
                [form]="true"
@@ -96,7 +96,7 @@
     </pbx-input>
     <pbx-input *ngIf="isCallQueue"
                name=""
-               description="Announce Holdtime"
+               [description]="announceHoldtimeDescription"
                key="announceHoldtime"
                [checkbox]="true"
                [form]="true"

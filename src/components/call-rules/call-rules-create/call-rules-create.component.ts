@@ -15,6 +15,7 @@ import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-f
 import {isValidId} from '../../../shared/shared.functions';
 import {Subscription} from 'rxjs/Subscription';
 import {WsServices} from '@services/ws.services';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -60,6 +61,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         return isValidId(this.callRule.id);
     }
 
+    names: any;
+
     // -- component lifecycle methods -----------------------------------------
 
     constructor(private service: CallRulesService,
@@ -69,6 +72,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 private storage: StorageService,
                 protected message: MessageServices,
                 private _ws: WsServices,
+                public translate: TranslateService
     ) {
         super(fb, message);
 
@@ -76,17 +80,17 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.callRule.id = activatedRoute.snapshot.params.id;
 
         this.mode = this.callRule.id ? 'edit' : 'create';
-        this.playButtonText = 'Play';
+        this.playButtonText = this.translate.instant('Play');
 
         this.validationHost.customMessages = [
-            {name: 'Rule Name', error: 'pattern', message: 'Rule name contains invalid characters or symbols. You can only use letters, numbers and the following characters: -_'},
-            {name: 'Action', error: 'required', message: 'Please choose the Action'},
-            {name: 'If I do not answer call within', error: 'range', message: 'Please enter a value from 5 to 300'},
-            {name: 'Action applies for', error: 'days', message: 'Please enter at least one day of the week'},
-            {name: 'Duration time', error: 'startTime', message: 'Start time cannot be greater than end time'},
-            {name: 'Duration time', error: 'equalTime', message: 'Start time cannot be the same as end time'},
-            {name: 'Duration time', error: 'invalidRange', message: 'Invalid time range format'},
-            {name: 'Extension number', error: 'duplicated', message: 'You cannot use two identical extensions followed one by one'},
+            {name: 'Rule Name', error: 'pattern', message: this.translate.instant('Rule name contains invalid characters or symbols. You can only use letters, numbers and the following characters: -_')},
+            {name: 'Action', error: 'required', message: this.translate.instant('Please choose the Action')},
+            {name: 'If I do not answer call within', error: 'range', message: this.translate.instant('Please enter a value from 5 to 300')},
+            {name: 'Action applies for', error: 'days', message: this.translate.instant('Please enter at least one day of the week')},
+            {name: 'Duration time', error: 'startTime', message: this.translate.instant('Start time cannot be greater than end time')},
+            {name: 'Duration time', error: 'equalTime', message: this.translate.instant('Start time cannot be the same as end time')},
+            {name: 'Duration time', error: 'invalidRange', message: this.translate.instant('Invalid time range format')},
+            {name: 'Extension number', error: 'duplicated', message: this.translate.instant('You cannot use two identical extensions followed one by one')},
         ];
     }
 
@@ -105,6 +109,11 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 storageItem.converted = result.converted;
             }
         });
+
+        this.names = {
+            enableRule: this.translate.instant('Enable Rule'),
+            ruleName: this.translate.instant('Rule Name'),
+        };
 
         this.loading--;
     }
@@ -316,7 +325,10 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     checkNextAction(index: number) {
-        const valid = [1, 5].includes(this.selectedActions[index].id);
+        let valid: boolean = true;
+        if (4 === this.selectedActions[index].id) {
+            valid = false;
+        }
         if (!valid && this.actionsControls.length - 1 > index) {
             for (let i = this.actionsControls.length - 1; i >= index; i--) {
                 this.deleteAction(i);
@@ -501,14 +513,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     mediaStateChanged(state: MediaState): void {
         switch (state) {
             case MediaState.LOADING:
-                this.playButtonText = 'Loading';
+                this.playButtonText = this.translate.instant('Loading');
                 break;
             case MediaState.PLAYING:
-                this.playButtonText = 'Pause';
+                this.playButtonText = this.translate.instant('Pause');
                 break;
             case MediaState.PAUSED:
             default:
-                this.playButtonText = 'Play';
+                this.playButtonText = this.translate.instant('Play');
                 break;
         }
     }
@@ -573,6 +585,9 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.loading++;
         this.service.getParams().then(response => {
             this.actionsList = response.actions;
+            this.actionsList.forEach(item => {
+                item.code = this.translate.instant(item.code);
+            });
             response.actions.map(action => {
                 switch (action.id) {
                     case 1:

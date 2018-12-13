@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {CallRulesService} from '../../services/call-rules.service';
 import {CallRulesModel} from '../../models/call-rules.model';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -13,14 +14,14 @@ import {CallRulesModel} from '../../models/call-rules.model';
 
 export class CallRulesComponent {
 
-    table = {
-        titles: ['Phone number', 'Call Rule Name', 'Status', 'Description'],
-        keys: ['phoneNumber', 'name', 'statusName', 'description']
-    };
+    table: any;
     pageInfo: CallRulesModel = new CallRulesModel();
 
-    constructor(public service: CallRulesService) {
-
+    constructor(public service: CallRulesService, public translate: TranslateService) {
+        this.table = {
+            titles: [this.translate.instant('Phone number'), this.translate.instant('Call Rule Name'), this.translate.instant('Status'), this.translate.instant('Description')],
+            keys: ['phoneNumber', 'name', 'statusName', 'description']
+        };
     }
 
 

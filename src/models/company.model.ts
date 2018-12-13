@@ -39,7 +39,8 @@ export class CompanyInfoModel {
     public setCompanyData(company: CompanyModel): void {
         this.company.forEach(item => {
             if (item.key) {
-                let evaluator = new CompanyInfoEvaluator(item, company);
+                let evaluator: any;
+                evaluator = new CompanyInfoEvaluator(item, company);
                 item.value = evaluator.value;
             }
         });
@@ -47,11 +48,13 @@ export class CompanyInfoModel {
 
     public setSectionData(title: string, data: any): void {
         this.sectionGroups.forEach(group => {
-            let section = group.sections.find(s => s.title == title);
+            let section: any;
+            section = group.sections.find(s => s.title === title);
             if (section) {
                 section.items.forEach(item => {
                     if (item.key) {
-                        let evaluator = new CompanyInfoEvaluator(item, data);
+                        let evaluator: any;
+                        evaluator = new CompanyInfoEvaluator(item, data);
                         item.value = evaluator.value;
                     }
                     else item.value = '-';
@@ -62,7 +65,7 @@ export class CompanyInfoModel {
 
     public setPhoneNumbersData(title: string, data: any): void {
         this.sectionGroups.forEach(group => {
-            let section = group.sections.find(s => s.title == title);
+            let section = group.sections.find(s => s.title === title);
             if (section) {
                 section.items = [];
                 data.numbers.forEach(phone => {

@@ -5,6 +5,7 @@ import {PageInfoModel} from "../models/base.model";
 import {CdrItem, CdrModel} from "../models/cdr.model";
 import {RequestServices} from "./request.services";
 import {MessageServices} from "./message.services";
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()
 export class CdrService extends BaseService {
@@ -12,9 +13,10 @@ export class CdrService extends BaseService {
     constructor(
         public request: RequestServices,
         public message: MessageServices,
-        public http: HttpClient
+        public http: HttpClient,
+        public translate: TranslateService
     ) {
-        super(request, message, http);
+        super(request, message, http, translate);
     }
 
     isRecordPlayable(item: CdrItem): boolean {

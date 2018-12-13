@@ -9,6 +9,7 @@ import {FormBaseComponent} from '../pbx-form-base-component/pbx-form-base-compon
 import {numberRegExp} from '../../shared/vars';
 import {numberRangeValidator} from '../../shared/encry-form-validators';
 import {StateService} from '@services/state/state.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'pbx-queue-create',
@@ -35,7 +36,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     loading: number = 0;
     saving: number = 0;
 
-    tabs: string[] = [ 'General', 'Members' ];
+    tabs: string[];
     activeTabs: boolean[] = [ true, true ];
     currentTab: string = 'General';
 
@@ -76,25 +77,29 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         return this.currentTab === this.tabs[1] && this.addMembersMode;
     }
 
+    noDataMessage: any ;
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public router: Router,
                 private activatedRoute: ActivatedRoute,
                 protected fb: FormBuilder,
                 protected message: MessageServices,
-                protected tabChange: StateService) {
+                protected tabChange: StateService,
+                public translate: TranslateService) {
         super(fb, message);
 
         this.id = this.activatedRoute.snapshot.params.id;
+        this.tabs = [ this.translate.instant('General'), this.translate.instant('Members') ];
         this.currentTab = this.tabs[0];
         this.background = 'form-body-fill';
-
+        this.noDataMessage = this.translate.instant('No data to display. Please add members');
         this.validationHost.customMessages = [
-            { name: 'Ring Time', error: 'pattern', message: 'Please enter valid number' },
-            { name: 'Ring Time', error: 'range', message: 'Please enter a value from 15 to 600' },
-            { name: 'Maximum Callers in Queue', error: 'pattern', message: 'Please enter valid number' },
-            { name: 'Maximum Callers in Queue', error: 'range', message: 'Please enter a value from 1 to 100' },
+            { name: 'Ring Time', error: 'pattern', message: this.translate.instant('Please enter valid number') },
+            { name: 'Ring Time', error: 'range', message: this.translate.instant('Please enter a value from 15 to 600') },
+            { name: 'Maximum Callers in Queue', error: 'pattern', message: this.translate.instant('Please enter valid number') },
+            { name: 'Maximum Callers in Queue', error: 'range', message: this.translate.instant('Please enter a value from 1 to 100') },
         ];
+
     }
 
     ngOnInit(): void {
@@ -132,12 +137,12 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
     selectTab(tab: string): void {
         if (!this.validateForms()) {
-            this.currentTab = 'General';
+            this.currentTab = this.translate.instant('General');
             this.tabChange.value = this.currentTab;
             this.tabChange.change.emit(true);
             return;
         } else {
-            if (tab === 'Members') {
+            if (tab === this.translate.instant('Members')) {
                 this.background = 'form-body-empty';
             } else {
                 this.background = 'form-body-fill';
@@ -178,7 +183,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     back(): void {
-        if (this.currentTab === 'Members') {
+        if (this.currentTab === this.translate.instant('Members')) {
             this.background = 'form-body-empty';
         } else {
             this.background = 'form-body-fill';

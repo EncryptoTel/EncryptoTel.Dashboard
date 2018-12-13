@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {RingGroupService} from '../../services/ring-group.service';
 import {RingGroupModel} from '../../models/ring-group.model';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'ring-groups-component',
@@ -18,7 +19,17 @@ export class RingGroupsComponent {
     };
     pageInfo: RingGroupModel = new RingGroupModel();
 
-    constructor(private service: RingGroupService) {
+    constructor(private service: RingGroupService, public translate: TranslateService) {
+        this.table = {
+            titles: [
+                this.translate.instant('Ring Group Name'),
+                this.translate.instant('Phone Number'),
+                this.translate.instant('Ring Strategy'),
+                this.translate.instant('Ring Time'),
+                this.translate.instant('Description')
+            ],
+            keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
+        };
     }
 
 }
