@@ -41,7 +41,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     userDefaultPhoto: string;
 
     emailChangeState: EmailChangeState;
-    
+
     @ViewChild('fileInput') fileInput: ElementRef;
 
     get messageSent(): boolean {
@@ -53,7 +53,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     cancelButton: any;
     text: any;
     private _compatibleMediaTypes: string[];
-    
+
     // --- component lifecycle methods ----------------------------------------
 
     constructor(private service: SettingsService,
@@ -132,7 +132,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         validateForm(this.generalForm);
         // this.saveButton.inactive = !this.generalForm.valid;
     }
-    
+
     save(event?: Event): void {
         killEvent(event);
 
@@ -222,12 +222,6 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         this.generalForm.controls['clock'].setValue(this.model.items[1]['children'][1].value);
         this.generalForm.controls['time_zone'].setValue(this.model.items[1]['children'][1].value);
         this.generalForm.controls['date_format'].setValue(this.model.items[1]['children'][2].value);
-
-        if (item.key === 'language') {
-            const language = (item.value === 19) ? 'ru' : 'en';
-            this.translate.use(language);
-            this.storage.writeItem('user_lang', language);
-        }
     }
 
     getSettings(): void {
@@ -249,6 +243,11 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         this.loading++;
 
         this.service.saveProfileSettings(this.generalForm.value).then(() => {
+
+            const language = (this.generalForm.value.language === 19) ? 'ru' : 'en';
+            this.translate.use(language);
+            this.storage.writeItem('user_lang', language);
+
             this.getSettings();
             this.user.fetchProfileParams().then();
         }).catch(() => {
