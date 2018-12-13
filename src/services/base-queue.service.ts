@@ -126,6 +126,9 @@ export class BaseQueueService extends BaseService {
     getParams(): Promise<any> {
         return super.getParams().then((res) => {
             this.params = res;
+            this.params.strategies.forEach(item => {
+                item.code = this.translate.instant(item.code);
+            });
             if (this.editMode) {
                 this.setParams();
             }

@@ -80,23 +80,23 @@
                 </div>
                 <div class="buy_phone_table_item">{{item.sum?'$'+item.sum:'Free'}}</div>
                 <div class="buy_phone_table_item">
-                    <pbx-button value="Buy" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)"
+                    <pbx-button value="{{'Buy' | translate}}" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)"
                                 [inactive]="item.inactive"></pbx-button>
                 </div>
             </div>
         </div>
     </div>
     <div class="table-message" *ngIf="!loading && list[0].length === 0">
-        <span class="msg" *ngIf="!requestDetails.areaCode && !requestDetails.contains">No data to display</span>
+        <span class="msg" *ngIf="!requestDetails.areaCode && !requestDetails.contains" translate>No data to display</span>
         <span class="msg"
-              *ngIf="requestDetails.areaCode && !requestDetails.contains">Sorry, no matches were found for <span
+              *ngIf="requestDetails.areaCode && !requestDetails.contains" translate>Sorry, no matches were found for <span
             class="outerSpan"><span class="innerSpan">{{requestDetails.areaCode}}</span></span></span>
         <span class="msg"
-              *ngIf="requestDetails.contains && !requestDetails.areaCode">Sorry, no matches were found for <span
+              *ngIf="requestDetails.contains && !requestDetails.areaCode" translate>Sorry, no matches were found for <span
             class="outerSpan"><span class="innerSpan">{{requestDetails.contains}}</span></span></span>
         <span class="msg"
-              *ngIf="requestDetails.contains && requestDetails.areaCode">Sorry, no matches were found for <span
-            class="outerSpan"><span class="innerSpan">{{requestDetails.areaCode}}</span></span> and <span
+              *ngIf="requestDetails.contains && requestDetails.areaCode" translate>Sorry, no matches were found for <span
+            class="outerSpan"><span class="innerSpan">{{requestDetails.areaCode}}</span></span> <span>and</span> <span
             class="outerSpan"><span class="innerSpan">{{requestDetails.contains}}</span></span></span>
     </div>
     <div class="buy_phone_pagination" *ngIf="pagination.total>1">

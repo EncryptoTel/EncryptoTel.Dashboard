@@ -9,6 +9,7 @@ import {RefsServices} from '../../services/refs.services';
 import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {CompanyService} from '../../services/company.service';
 import {ButtonItem, InputAction} from '../../models/base.model';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -45,7 +46,7 @@ export class DepartmentsComponent implements OnInit {
 
 
     get emptyInfo(): string | null {
-        return !this.companyActive 
+        return !this.companyActive
         ? `<span class="empty_company">To get started with the module Departments<br/>fill in the data in the <a class="link_empty_company" href="/cabinet/company">module Company</a></span>`
         : null;
     }
@@ -53,8 +54,17 @@ export class DepartmentsComponent implements OnInit {
     constructor(public service: DepartmentService,
                 private _fb: FormBuilder,
                 private _refs: RefsServices,
-                private _company: CompanyService) {
+                private _company: CompanyService,
+                public translate: TranslateService) {
 
+        this.table = {
+            titles: [
+                this.translate.instant('Department'),
+                this.translate.instant('Employees'),
+                this.translate.instant('Comment')
+            ],
+            keys: ['name', 'employees', 'comment']
+        };
         this.buttons.push({
             id: 0,
             title: 'Add Department',
