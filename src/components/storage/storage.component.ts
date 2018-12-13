@@ -380,7 +380,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         let ext = name.match(reg)[0];
         let long = name.split(ext)[0];
         var short;
-        var dots = '...';
+        var dots = '..';
         if (long.length > 20) {
             short = long.substr(0, 20);
         } else {
