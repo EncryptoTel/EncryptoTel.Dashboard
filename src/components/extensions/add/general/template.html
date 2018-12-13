@@ -56,7 +56,7 @@
                key="email"
                errorKey="user.email"
                [form]="true"
-               [required]="!!form.controls.user.get('firstName').value || !!form.controls.user.get('lastName').value"
+               [required]="isEmailRequired()"
                [errors]="service.errors"
                [object]="form.controls.user"
                [validationHost]="validationHost"
