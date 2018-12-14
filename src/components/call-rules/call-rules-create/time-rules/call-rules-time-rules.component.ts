@@ -1,10 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
-import {AsteriskTimeRule, CallRuleTimeType, CallRuleTime, CallRuleDay} from '../../../../models/call-rules.model';
-import {ValidationHost} from '../../../../models/validation-host.model';
-import {CallRulesService} from '../../../../services/call-rules.service';
-import {callRuleTimeValidator, durationTimeValidator} from '../../../../shared/encry-form-validators';
+import {AsteriskTimeRule, CallRuleTimeType, CallRuleTime, CallRuleDay} from '@models/call-rules.model';
+import {ValidationHost} from '@models/validation-host.model';
+import {CallRulesService} from '@services/call-rules.service';
 
 
 @Component({
@@ -70,7 +69,6 @@ export class CallRulesTimeRulesComponent implements OnInit {
             this.asteriskTimeRule.time = rules[0];
 
             const times = rules[0].split('-');
-            console.log(times);
             this.selectedDurationTimeRange = [
                 this.callRuleTimes.find(t => t.asteriskTime === times[0]),
                 this.callRuleTimes.find(t => t.asteriskTime === times[1])
@@ -86,7 +84,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
             const weekDays = rules[1].split('&');
             weekDays.forEach(day => {
                 this.callRuleTimeDays.map(d => {
-                    if (d.code == day) d.type = 'accent';
+                    if (d.code === day) d.type = 'accent';
                 });
             });
             this.initAsteriskRuleDays();
@@ -177,7 +175,7 @@ export class CallRulesTimeRulesComponent implements OnInit {
         if (this.asteriskTimeRule.days.length > 0) {
             days = this.asteriskTimeRule.days.join('&');
         }
-        let rule = `${this.asteriskTimeRule.time}|${days}|${this.asteriskTimeRule.date}|${this.asteriskTimeRule.month}`;
+        const rule = `${this.asteriskTimeRule.time}|${days}|${this.asteriskTimeRule.date}|${this.asteriskTimeRule.month}`;
 
         this.action.get('callRuleTime').setValue(days);
         this.action.get('durationTime').setValue(this.asteriskTimeRule.time);

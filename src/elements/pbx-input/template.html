@@ -1,7 +1,7 @@
 <div *ngIf="!loading" class="pbx_input_wrap" [@Fade]>
     <div [ngClass]="[ labelPosition !== 'top' ? 'pbx_input_item' : 'pbx_input_row', options && !editable ? 'selectWrap' : '' ]">
 
-        <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']">
+        <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_label' : 'pbx_input_row_label', checkError() ? 'error-text' : '']" *ngIf="showLabel">
             <div class="colon">
                 <span *ngIf="!checkbox" class="{{errorVisible ? 'label-focus' : ''}}" [innerHTML]="name"></span>
                 <span *ngIf="checkbox" class="dfg {{errorVisible ? 'label-focus' : ''}}" (click)="checkBoxClick($event)" [innerHTML]="name"></span>
@@ -16,7 +16,7 @@
         <div [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_input_wrap' : 'pbx_input_row_input_wrap']" #inputDiv>
 
             <div *ngIf="!form"
-                 [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_input_wrap' : 'pbx_input_row_input_wrap', inputClass]">
+                 [ngClass]="[labelPosition !== 'top' ? 'pbx_input_item_input_wrap' : 'pbx_input_row_input_wrap', inputClass, !showLabel ? 'input_without_label' : '']">
 
                 <input *ngIf="!options && !checkbox"
                        class="{{singleBorder ? '' : 'show-border'}} {{inErrorState ? 'error-border' : ''}} searching asdfafsdfa"
@@ -106,7 +106,7 @@
 
             <div *ngIf="form"
                  [formGroup]="object"
-                 [ngClass]="['pbx_input_item_input_wrap', inputClass]">
+                 [ngClass]="['pbx_input_item_input_wrap', inputClass, !showLabel ? 'input_without_label' : '']">
 
                 <input *ngIf="!options && !checkbox && type !== 'textarea'"
                        class="{{ singleBorder ? '' : 'show-border' }} {{ inErrorState ? 'error-border error-text' : '' }}"
@@ -191,7 +191,7 @@
                      #errorSpan
                      [ngClass]="[floatError ? (getErrorVisible() || pbxInputFocus || hoverActive ? (labelPosition !== 'top' ? 'pbx_input_error_float_down_focus' : 'pbx_input_error_float_focus') : 'pbx_input_error_float') : 'pbx_input_error']"
                      [ngStyle]="{ 'left.px': hVMessageOffset, 'top.px': vVMessageOffset }"
-                >
+                    >
                     {{ errorMessage }}
                 </div>
             </div>

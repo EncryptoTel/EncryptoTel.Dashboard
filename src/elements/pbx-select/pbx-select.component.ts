@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 
 import { SwipeAnimation } from '@shared/swipe-animation';
-import {killEvent} from '@shared/shared.functions';
+import { killEvent } from '@shared/shared.functions';
 
 
 @Component({
@@ -11,6 +11,11 @@ import {killEvent} from '@shared/shared.functions';
     animations: [SwipeAnimation('y', '200ms')]
 })
 export class SelectComponent implements OnInit, OnChanges {
+
+    fromComponent: boolean = false;
+    isVisible = false;
+    selectedObject = false;
+
     @Input() name: string;
     @Input() singleBorder: boolean;
     @Input() options: any[];
@@ -46,18 +51,15 @@ export class SelectComponent implements OnInit, OnChanges {
         }
     }
     _placeholder: string;
-    fromComponent: boolean = false;
 
     @Input() errors: any[];
     @Input() onlyTop: boolean;
+    
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onOpen: EventEmitter<object> = new EventEmitter();
     @Output() onClose: EventEmitter<object> = new EventEmitter();
     @Output() onFocus: EventEmitter<object> = new EventEmitter();
     @Output() onBlur: EventEmitter<object> = new EventEmitter();
-    isVisible = false;
-
-    selectedObject = false;
 
     @ViewChild('optionsWrap') optionsWrap: ElementRef;
     @ViewChild('selectWrap') selectWrap: ElementRef;
@@ -68,12 +70,9 @@ export class SelectComponent implements OnInit, OnChanges {
         }
     }
 
-    constructor() {
-    }
+    constructor() {}
 
-    ngOnInit() {
-        // console.log('select', this.options, this.objectKey, this.options[0][this.objectKey]);
-    }
+    ngOnInit() {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.options
@@ -105,9 +104,8 @@ export class SelectComponent implements OnInit, OnChanges {
       Toggle options visibility
      */
     toggleOptions(event?: MouseEvent): void {
+        killEvent(event);
         if (event) {
-            event.stopPropagation();
-            event.preventDefault();
             this.isVisible ? this.hideOptions() : this.showOptions();
         }
     }

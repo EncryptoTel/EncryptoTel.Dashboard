@@ -126,7 +126,7 @@
                                                    [actionIndex]="i"
                                                    [validationHost]="validationHost"
                                                    (onChange)="onTimeRuleChange(i, $event)"
-                            >
+                                                   >
                             </call-rules-time-rules>
                         </ng-template>
 
@@ -160,7 +160,7 @@
                                                    [actionIndex]="i"
                                                    [validationHost]="validationHost"
                                                    (onChange)="onTimeRuleChange(i, $event)"
-                            >
+                                                   >
                             </call-rules-time-rules>
                         </ng-template>
 
@@ -342,7 +342,7 @@
                   [mediaStream]="currentMediaStream"
                   (onGetMediaData)="getMediaData($event)"
                   (onMediaStateChanged)="mediaStateChanged($event)"
->
+                  >
 </pbx-media-player>
 
 <pbx-modal [modalEx]="storage.modalUpload"
