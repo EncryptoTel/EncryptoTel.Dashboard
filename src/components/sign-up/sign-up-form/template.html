@@ -68,7 +68,7 @@
             routerLink="tariff_plans" class="auth_form_link" translate>Change it?</a></div>
 
         <pbx-input
-            name="{{'I confirm that I have read and agree to the <a href=\'\'>Terms and Conditions</a> and privacy statement. I consent to the processing of my Personal Data as set out in Encrypto Telecom\'s Data Protection Statement.' | translate}}"
+            name="{{links['By clicking'].title}} <a href='{{links['Privacy Policy'].link}}' target='_blank'>{{links['Privacy Policy'].title}}</a>"
             key="agreementConfirmation"
             [checkbox]="true"
             [form]="true"

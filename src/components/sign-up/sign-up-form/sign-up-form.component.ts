@@ -31,6 +31,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     errorConfirmPassword: boolean = false;
     errorCheck: boolean = false;
     signUpCompleted: boolean;
+    links: any;
 
     get email(): string {
         let email = this.signUpForm.value.email;
@@ -41,6 +42,16 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
                 private _user: UserServices,
                 public services: AuthorizationServices,
                 public translate: TranslateService) {
+        this.links = {
+            'By clicking': {
+                'title': 'By clicking below, you agree to the EncryptoTel Terms of Service and',
+                'link': ''
+            },
+            'Privacy Policy': {
+                'title': 'Privacy Policy',
+                'link': ''
+            }
+        };
     }
 
     setFocus(element): void {
