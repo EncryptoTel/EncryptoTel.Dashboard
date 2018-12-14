@@ -1,14 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {emailRegExp, nameRegExp} from '../../../shared/vars';
-import {ExtensionService} from '../../../services/extension.service';
-import {PhoneNumberService} from '../../../services/phone-number.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ExtensionItem} from '../../../models/extension.model';
-import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import {validateForm} from '../../../shared/shared.functions';
-import {MessageServices} from '../../../services/message.services';
-import {StorageService} from '../../../services/storage.service';
+
+import {emailRegExp, callRuleNameRegExp} from '@shared/vars';
+import {ExtensionService} from '@services/extension.service';
+import {PhoneNumberService} from '@services/phone-number.service';
+import {ExtensionItem} from '@models/extension.model';
+import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import {validateForm, validateFormControls} from '@shared/shared.functions';
+import {MessageServices} from '@services/message.services';
+import {StorageService} from '@services/storage.service';
+
 
 @Component({
     selector: 'add-extension-component',
@@ -24,6 +26,9 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     background: string;
     encryption: boolean = false;
     certificateId: number = undefined;
+    accessList;
+    // flag is in true when email become required and turns off when email is not required
+    emailRequiredFlag: boolean = false;
 
     tab = {
         items: ['General', 'Voicemail', 'Forwarding Rules', 'Options', 'Privacy and Security'],
@@ -40,7 +45,11 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         this.form = form;
     }
 
-    accessList;
+    get isEmailRequired(): boolean {
+        const formValue: any = this.formExtension.value;
+        return !!formValue.user &&
+               (!!formValue.user.firstName || !!formValue.user.lastName);
+    }
 
     constructor(protected fb: FormBuilder,
                 protected message: MessageServices,
@@ -55,10 +64,16 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         this.id ? this.mode = 'edit' : this.mode = 'create';
 
         this.validationHost.customMessages = [
-            {name: 'First Name', error: 'pattern', message: 'Last Name contain only letters, \'-\', \'_\' and \'.\''},
-            {name: 'Last Name', error: 'pattern', message: 'Last Name contain only letters, \'-\', \'_\' and \'.\''},
+            {name: 'First Name', error: 'pattern', message: 'First Name may contain only letters, \'-\', \'_\' and \'.\''},
+            {name: 'Last Name', error: 'pattern', message: 'Last Name may contain only letters, \'-\', \'_\' and \'.\''},
             {name: 'Email', error: 'pattern', message: 'Please enter valid email address'},
         ];
+    }
+
+    ngOnInit(): void {
+        super.ngOnInit();
+        this.getExtension();
+        // this.getSipOuters();
     }
 
     initForm(): void {
@@ -67,8 +82,8 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             phoneNumber: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
             default: false,
             user: this.fb.group({
-                firstName: [null, [Validators.pattern(nameRegExp)]],
-                lastName: [null, [Validators.pattern(nameRegExp)]],
+                firstName: [null, [Validators.minLength(1), Validators.maxLength(190), Validators.pattern(callRuleNameRegExp)]],
+                lastName: [null, [Validators.minLength(1), Validators.maxLength(190), Validators.pattern(callRuleNameRegExp)]],
                 email: [null, [Validators.pattern(emailRegExp)]]
             }),
             mobileApp: false,
@@ -78,6 +93,24 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             callRecord: false,
             status: false
         });
+
+        this.formExtension.valueChanges.subscribe(() => {
+            if (this.isEmailRequired && !this.emailRequiredFlag) {
+                this.emailRequiredFlag = true;
+
+                const ctrl = this.form.get(['user', 'email']);
+                ctrl.setValidators([Validators.required, Validators.pattern(emailRegExp)]);
+                ctrl.updateValueAndValidity();
+            }
+
+            if (!this.isEmailRequired && this.emailRequiredFlag) {
+                this.emailRequiredFlag = false;
+
+                const ctrl = this.form.get(['user', 'email']);
+                ctrl.setValidators([Validators.pattern(emailRegExp)]);
+                ctrl.updateValueAndValidity();
+            }
+        });
     }
 
     selectTab(text: string): void {
@@ -86,7 +119,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
 
     canActivateTab(item): boolean {
         if (item === 'Rights') {
-            return this.formExtension.get(['user', 'email']).value != '' && !this.formExtension.get(['user', 'email']).invalid;
+            return this.formExtension.get(['user', 'email']).value !== '' && !this.formExtension.get(['user', 'email']).invalid;
         } else {
             return true;
         }
@@ -149,7 +182,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     }
 
     close(): void {
-        super.close(this.mode == 'edit', () => this.doCancel());
+        super.close(this.mode === 'edit', () => this.doCancel());
     }
 
     doCancel(): void {
@@ -157,8 +190,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     }
 
     doSave() {
-        // this.formExtension.markAsTouched();
-        validateForm(this.formExtension);
+        this.validateForms();
 
         if (this.formExtension.valid) {
             this.locker.lock();
@@ -192,7 +224,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         const errors = response ? response.errors : null;
         if (errors) {
             Object.keys(errors).forEach(key => {
-                let obj = this.formExtension.get(key);
+                const obj = this.formExtension.get(key);
                 if (obj) obj.setErrors(errors[key]);
             });
         }
@@ -213,7 +245,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             return;
         }
 
-        let rights = [];
+        const rights = [];
         for (let i = 0; i < this.accessList.length; i++) {
             if (this.accessList[i].userStatus) {
                 rights.push({id: this.accessList[i].id});
@@ -226,11 +258,5 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         }).catch(() => {
         })
             .then(() => this.locker.unlock());
-    }
-
-    ngOnInit(): void {
-        super.ngOnInit();
-        this.getExtension();
-        // this.getSipOuters();
     }
 }

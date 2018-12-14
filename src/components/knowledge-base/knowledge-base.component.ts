@@ -5,6 +5,7 @@ import {KnowledgeBaseService} from '../../services/knowledge-base.service';
 import {HelpGroupItem, HelpGroupModel, HelpItem, HelpModel} from '../../models/knowledge-base.model';
 import {ButtonItem, FilterItem} from '../../models/base.model';
 import {ThrowStmt} from '../../../node_modules/@angular/compiler';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'partner-program-component',
@@ -31,7 +32,8 @@ export class KnowledgeBaseComponent implements OnInit {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(private service: KnowledgeBaseService) {
+    constructor(private service: KnowledgeBaseService,
+                public translate: TranslateService) {
         this.helpGroups = new HelpGroupModel();
         this.leftGroups = [];
         this.rightGroups = [];
@@ -67,7 +69,7 @@ export class KnowledgeBaseComponent implements OnInit {
     }
 
     get filterEmptyResult(): boolean {
-        return this.helps.items.length == 0 && this.hasFilter;
+        return this.helps.items.length === 0 && this.hasFilter;
     }
 
     resetFilter(): void {
@@ -153,8 +155,8 @@ export class KnowledgeBaseComponent implements OnInit {
             });
 
             if (this.filters.length === 0) {
-                this.filters.push(new FilterItem(1, 'group', 'Source', options, 'title', '[choose one]'));
-                this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search Pbx support', 404));
+                this.filters.push(new FilterItem(1, 'group', this.translate.instant('Source'), options, 'title', this.translate.instant('[choose one]')));
+                this.filters.push(new FilterItem(2, 'search', this.translate.instant('Search'), null, null, this.translate.instant('Search Pbx support'), 404));
             } else {
                 this.filters[0].options = options;
             }

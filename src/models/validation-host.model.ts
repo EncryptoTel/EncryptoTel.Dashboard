@@ -69,7 +69,7 @@ export class ValidationHost implements Lockable {
         const controlKey = this.getValidatorKey(control);
         let item;
         if (this.items) item = this.items.find(i => i.key === controlKey);
-        // if (controlKey === 'description') console.log('err-visible', controlKey, control.inErrorState, item);
+        // if (controlKey === 'outer') console.log('err-visible', control.inErrorState, item);
         return control.inErrorState && item && item.visible;
     }
 

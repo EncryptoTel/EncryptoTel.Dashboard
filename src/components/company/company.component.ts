@@ -77,7 +77,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             {name: 'Postal code', error: 'pattern', message: 'Postal code may contain letters and digits only'},
             {name: 'Email', error: 'pattern', message: 'Please enter valid email address'},
             {name: 'Phone', error: 'pattern', message: 'Phone number may contain digits only'},
-            {name: 'VAT ID', error: 'pattern', message: 'VAT ID may contain digits and letters only'},
+            {name: 'VAT ID', error: 'pattern', message: 'VAT ID contains invalid characters. You can use letters, numbers and the following characters: -_'},
         ];
 
         this._compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
@@ -96,7 +96,6 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     // -- form processing methods ---------------------------------------------
-
     initForm(): void {
         this.form = this.fb.group({
             id: [null],

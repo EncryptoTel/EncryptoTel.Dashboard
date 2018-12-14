@@ -37,4 +37,8 @@ export class SettingsGroupComponent implements OnInit {
     onValueChange(item: SettingsItem): void {
         this.valueChange.emit(item);
     }
+
+    getItemTitle(item) {
+        return this.translate.instant(item.itemTitle);
+    }
 }

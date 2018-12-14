@@ -64,7 +64,10 @@ export class ModalEx {
 
     confirmCallback: () => void = null;
 
-    constructor(body?: string, create?: string) {
+    constructor(
+        body?: string,
+        create?: string) {
+
         this.visible = false;
         this.title = '';
         this.body = body;
@@ -130,7 +133,7 @@ export class ModalEx {
                     this.body = 'Are you sure you want to restore the file(s)?';
                 }
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
-                this.buttons.push(new ModalButton('error', 'Restore'));
+                this.buttons.push(new ModalButton('success', 'Restore'));
                 break;
             case 'replaceOnlyFiles':
                 this.title = 'Attention';
