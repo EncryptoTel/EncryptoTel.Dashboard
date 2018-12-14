@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {FadeAnimation} from '../../shared/fade-animation';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'pbx-tariff',
@@ -14,7 +15,9 @@ export class TariffComponent {
     @Input() loadTariff: boolean;
     @Output() onBuy: EventEmitter<void> = new EventEmitter<void>();
 
-    constructor() {}
+    constructor(public translate: TranslateService) {
+
+    }
 
     get isCurrent(): boolean {
         return this.value.id === this.current.id;
@@ -22,26 +25,30 @@ export class TariffComponent {
 
     get status(): string {
         return this.current.id === this.value.id
-            ? 'Subscribed'
-            : (this.value.price > 0 ? 'Buy now' : 'Free');
+            ? this.translate.instant('Subscribed')
+            : (this.value.price > 0 ? this.translate.instant('Buy now') : this.translate.instant('Free'));
     }
 
     get cost(): string {
         return this.value.discountPrice > 0
-            ? '<span>$' + this.value.price + '</span> / monthly'
-            : 'Free';
+            ? '<span>$' + this.value.price + '</span> / ' + this.translate.instant('monthly')
+            : this.translate.instant('Free');
     }
 
     get discountPrice(): string {
         return this.value.discountPrice > 0
-            ? '<span>$' + this.value.discountPrice + '</span> / monthly'
+            ? '<span>$' + this.value.discountPrice + '</span> / ' + this.translate.instant('monthly')
             : '';
     }
 
     get tariffPrice(): string {
         return this.value.tariffPrice > 0
-            ? '<span>$' + this.value.tariffPrice + '</span> / monthly'
+            ? '<span>$' + this.value.tariffPrice + '</span> / ' + this.translate.instant('monthly')
             : '';
+    }
+
+    getServiceTitle(service) {
+        return this.translate.instant(service.title);
     }
 
     clicked(event?: MouseEvent): void {
