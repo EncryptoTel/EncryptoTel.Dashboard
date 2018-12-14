@@ -14,6 +14,7 @@ import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base
 import {emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp} from '../../shared/vars';
 import {isDevEnv} from '@shared/shared.functions';
 import {companyCountryValidator} from '@shared/encry-form-validators';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -49,7 +50,8 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 protected fb: FormBuilder,
                 private dashboard: DashboardServices,
                 private refs: RefsServices,
-                protected message: MessageServices) {
+                protected message: MessageServices,
+                public translate: TranslateService) {
         super(fb, message);
 
         this.company.logo = '/assets/icons/_middle/camera.png';

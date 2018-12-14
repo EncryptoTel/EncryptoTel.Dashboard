@@ -94,7 +94,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.modal = new ModalEx('', 'deleteFiles');
         this.sidebarActive = false;
 
-        this.table.sort.isDown = false;
+        this.table.sort.isDown = true;
         this.table.sort.column = 'date';
         this.table.items = [
             new TableInfoItem('Name', 'name', 'name'),

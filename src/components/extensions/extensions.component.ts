@@ -7,6 +7,7 @@ import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {ExtensionItem, ExtensionModel} from '../../models/extension.model';
 import {FilterItem, TableInfoExModel, TableInfoItem} from '../../models/base.model';
 import {StorageService} from '../../services/storage.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'extensions-component',
@@ -37,14 +38,15 @@ export class ExtensionsComponent implements OnInit {
     filters: FilterItem[] = [];
 
     constructor(public service: ExtensionService,
-                private _messages: MessageServices) {
-        this.table.items.push(new TableInfoItem('#Ext', 'extension', null, 80));
-        this.table.items.push(new TableInfoItem('Phone Number', 'phone'));
-        this.table.items.push(new TableInfoItem('First Name', 'userFirstName'));
-        this.table.items.push(new TableInfoItem('Last Name', 'userLastName'));
-        this.table.items.push(new TableInfoItem('E-mail', 'userEmail'));
-        this.table.items.push(new TableInfoItem('Status', 'statusName', null, 80));
-        this.table.items.push(new TableInfoItem('Default', 'default', null, 80));
+                private _messages: MessageServices,
+                public translate: TranslateService) {
+        this.table.items.push(new TableInfoItem(this.translate.instant('#Ext'), 'extension', null, 80));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Phone number'), 'phone'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('First Name'), 'userFirstName'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Last Name'), 'userLastName'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('E-mail'), 'userEmail'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Status'), 'statusName', null, 80));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Default'), 'default', null, 80));
     }
 
     closeExt(): void {
@@ -102,8 +104,8 @@ export class ExtensionsComponent implements OnInit {
     load() {
         this.sidebar = null;
         if (this.filters.length === 0) {
-            this.filters.push(new FilterItem(1, 'department', 'Department', this.list.pageInfo.departmentFilter, 'displayName', '[choose one]'));
-            this.filters.push(new FilterItem(2, 'search', 'Search', null, null, 'Search by Name or Phone'));
+            this.filters.push(new FilterItem(1, 'department', 'Department', this.list.pageInfo.departmentFilter, 'displayName', this.translate.instant('[choose one]')));
+            this.filters.push(new FilterItem(2, 'search', 'Search', null, null, this.translate.instant('Search by Name or Phone')));
 
             this.list.header.selectedFilter[0] = this.list.pageInfo.departmentFilter[0];
         }

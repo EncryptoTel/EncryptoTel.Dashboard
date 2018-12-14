@@ -37,7 +37,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
     countries: CountryModel[] = [];
     selectedCountry: CountryModel;
     matches = [{id: 0, title: 'Any part of number'}];
-    title = ['Number', 'Location', 'Type', 'Monthly', 'Buy'];
+    title = [this.translate.instant('Number'), this.translate.instant('Location'), this.translate.instant('Type'), this.translate.instant('Monthly'), this.translate.instant('Buy')];
     clearNumberVisible: boolean;
     clearSearchVisible: boolean;
 

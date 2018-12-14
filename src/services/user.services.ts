@@ -7,21 +7,23 @@ import {LocalStorageServices} from './local-storage.services';
 
 import {UserModel} from '../models/user.model';
 import {NavigationItemModel} from '../models/navigation-item.model';
+import {TranslateService} from '@ngx-translate/core';
 
 /*
   User services. Authentication, user params changing etc.
 */
 @Injectable()
 export class UserServices {
-    
+
     navigation: any[];
     user: UserModel;
-    
+
     subscription: Subject<UserModel> = new Subject<UserModel>();
     modulesChanged: EventEmitter<void> = new EventEmitter();
 
     constructor(private _request: RequestServices,
-                private _storage: LocalStorageServices) {
+                private _storage: LocalStorageServices,
+                private _translate: TranslateService) {
     }
 
     /*
@@ -32,6 +34,8 @@ export class UserServices {
             .then(result => {
                 this.changeUserParam('profile', result['user']);
                 this.changeUserParam('balance', result['balance']);
+                this._translate.use(result['user_lang']);
+                this._storage.writeItem('user_lang', result['user_lang']);
                 return Promise.resolve(this.fetchUser());
             });
     }

@@ -8,10 +8,10 @@
     <pbx-loader *ngIf="loading"></pbx-loader>
     <form [formGroup]="callRulesForm" class="call-rules-create" *ngIf="!loading">
         <div class="call-rules-create_row">
-            <h3>General</h3>
+            <h3 translate>General</h3>
         </div>
 
-        <pbx-input name="{{'Enable Rule' | translate }}"
+        <pbx-input name="{{names.enableRule}}"
                    key="enabled"
                    [checkbox]="true"
                    [form]="true"
@@ -20,7 +20,7 @@
                    [validationHost]="validationHost"
         >
         </pbx-input>
-        <pbx-input name="{{'Rule Name' | translate }}"
+        <pbx-input name="{{names.ruleName}}"
                    key="name"
                    [required]="true"
                    [form]="true"
@@ -39,7 +39,7 @@
         </pbx-input>
         <pbx-input name="{{'Phone number' | translate }}"
                    key="sipId"
-                   [placeholder]="'[choose one]'"
+                   [placeholder]="'[choose one]' | translate"
                    [required]="true"
                    [form]="true"
                    [(object)]="callRulesForm"
@@ -57,7 +57,7 @@
         <ng-container *ngIf="!callRulesForm.get('sipId').value">
             <div class="call-rules-create_row">
                 <label></label>
-                <div><p>Please note: you must select a phone number before creating a new action.</p></div>
+                <div><p><span translate>Please note</span>: <span>you must select a phone number before creating a new action.</span></p></div>
             </div>
         </ng-container>
 
@@ -65,12 +65,12 @@
 
         <ng-container *ngIf="!loadingStuff && callRulesForm.get('sipId').value">
             <div class="call-rules-create_row">
-                <h3>Options</h3>
+                <h3 translate>Options</h3>
             </div>
 
             <pbx-input name="{{'Action' | translate }}"
                        [required]="true"
-                       [placeholder]="'[choose one]'"
+                       [placeholder]="'[choose one]' | translate"
                        [form]="true"
                        [formKey]="getActionFormKey(0)"
                        [(object)]="callRulesForm"
@@ -94,7 +94,7 @@
                             <pbx-input name="{{'Extension number' | translate }}"
                                        key="parameter"
                                        [required]="true"
-                                       [placeholder]="'[choose one]'"
+                                       [placeholder]="'[choose one]' | translate"
                                        [form]="true"
                                        [object]="action"
                                        [options]="sipInners"
@@ -109,7 +109,7 @@
                             </pbx-input>
 
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
-                                       description="seconds"
+                                       [description]="'seconds' | translate"
                                        key="timeout"
                                        [form]="true"
                                        [object]="action"
@@ -144,7 +144,7 @@
                             </pbx-input>
 
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
-                                       description="seconds"
+                                       [description]="'seconds' | translate"
                                        key="timeout"
                                        [form]="true"
                                        [object]="action"
@@ -169,7 +169,7 @@
                             <pbx-input name="{{'Queue' | translate }}"
                                        key="parameter"
                                        [required]="true"
-                                       placeholder="{{queues.length === 0 ? 'None' : '[choose one]'}}"
+                                       placeholder="{{queues.length === 0 ? 'None' : '[choose one]' | translate }}"
                                        [form]="true"
                                        [object]="action"
                                        [options]="queues"
@@ -184,7 +184,7 @@
                             </pbx-input>
 
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
-                                       description="seconds"
+                                       [description]="'seconds' | translate"
                                        key="timeout"
                                        [form]="true"
                                        [object]="action"
@@ -208,7 +208,7 @@
                             <div class="call-rules-create_row">
                                 <label></label>
                                 <div>
-                                    <p>Terminate call</p>
+                                    <p translate>Terminate call</p>
                                 </div>
                             </div>
                             <!--<call-rules-timeout [value]="getTimeout(i)" (onChange)="onTimeoutChange(i, $event)"></call-rules-timeout>-->
@@ -220,7 +220,7 @@
                             <pbx-input name="{{'Voice greeting' | translate }}"
                                        key="parameter"
                                        [required]="true"
-                                       [placeholder]="'[choose file]'"
+                                       [placeholder]="'[choose file]' | translate"
                                        [form]="true"
                                        [object]="action"
                                        [options]="files"
@@ -239,7 +239,7 @@
                                                 >
                                     </pbx-button>
                                     <div class="hidden_button_wrapper">
-                                        <pbx-button value="Upload" 
+                                        <pbx-button value="Upload"
                                                     buttonType="accent"
                                                     [loading]="storage.loading"
                                                     >
@@ -254,7 +254,7 @@
                             </pbx-input>
 
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
-                                       description="seconds"
+                                       [description]="'seconds' | translate"
                                        key="timeout"
                                        [form]="true"
                                        [object]="action"
@@ -279,7 +279,7 @@
                             <pbx-input name="{{'Group' | translate }}"
                                        key="parameter"
                                        [required]="true"
-                                       placeholder="{{groups.length === 0 ? 'None' : '[choose one]'}}"
+                                       placeholder="{{groups.length === 0 ? 'None' : '[choose one]' | translate}}"
                                        [form]="true"
                                        [object]="action"
                                        [options]="groups"
@@ -294,7 +294,7 @@
                             </pbx-input>
 
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
-                                       description="seconds"
+                                       [description]="'seconds' | translate"
                                        key="timeout"
                                        [form]="true"
                                        [object]="action"
@@ -323,7 +323,7 @@
                                    [(errors)]="service.errors"
                                    [(objectView)]="selectedActions[i + 1]"
                                    [(object)]="callRulesForm"
-                                   [placeholder]="'[choose one]'"
+                                   [placeholder]="'[choose one]' | translate"
                                    class="noMargin">
                             <div>
                                 <div class="icon_wrap" (click)="deleteAction(i)">

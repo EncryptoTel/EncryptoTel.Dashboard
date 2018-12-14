@@ -4,6 +4,7 @@ import {RefsServices} from '../../../../services/refs.services';
 import {isDevEnv} from '../../../../shared/shared.functions';
 import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 import {SelectComponent} from '@elements/pbx-select/pbx-select.component';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -29,13 +30,31 @@ export class QueueMembersAddComponent implements OnInit {
     id = 0;
     searchIcon: boolean = false;
     nothingFound: boolean = false;
+    searchPlaceholder: any;
+    departmentName: any;
+    searchName: any;
 
     @ViewChild('searchString') searchString: ElementRef;
     @ViewChild(SelectComponent) pbxSelect: SelectComponent;
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(private refs: RefsServices) {}
+    constructor(private refs: RefsServices, public translate: TranslateService) {
+        this.table = {
+            titles: [
+                this.translate.instant('#Ext'),
+                this.translate.instant('Phone number'),
+                this.translate.instant('First Name'),
+                this.translate.instant('Last Name'),
+                this.translate.instant('E-mail'),
+                this.translate.instant('Status')
+            ],
+            keys: ['phoneNumber', 'sipOuter.phoneNumber', 'firstName', 'lastName', 'email', 'statusName']
+        };
+        this.searchPlaceholder = this.translate.instant('Search by Name or Phone');
+        this.departmentName = this.translate.instant('Department');
+        this.searchName = this.translate.instant('Search');
+    }
 
     ngOnInit() {
         if (this.service.item.sipId) {
@@ -117,7 +136,7 @@ export class QueueMembersAddComponent implements OnInit {
                     item.name = item.name + ' (' + item.employees + ')';
                 });
 
-                const all = {'name': 'All members (' + members.items.length + ')', 'id': 'all', 'count': 0};
+                const all = {'name': this.translate.instant('All members') + ' (' + members.items.length + ')', 'id': 'all', 'count': 0};
                 this.departments = [ all, ...res.items];
                 this.pbxSelect.options = this.departments;
                 this.pbxSelect.fromComponent = true;

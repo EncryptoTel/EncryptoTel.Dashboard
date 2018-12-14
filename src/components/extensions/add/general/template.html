@@ -1,10 +1,10 @@
 <form [formGroup]="form" class="add_ext_form" *ngIf="locker.free">
-    <div class="add_ext_form_title">Extension Info</div>
+    <div class="add_ext_form_title" translate>Extension Info</div>
 
     <pbx-input name="Phone"
                displayKey="title"
                key="outer"
-               placeholder="Please select phone"
+               [placeholder]="'Please select phone' | translate"
                [form]="true"
                [required]="true"
                [options]="sipOuters.option"
@@ -32,7 +32,7 @@
                [object]="form"
     ></pbx-input>
 
-    <div class="add_ext_form_title">Employee Info <span>Email is required when adding a new employee.</span></div>
+    <div class="add_ext_form_title" translate>Employee Info <span translate>Email is required when adding a new employee.</span></div>
 
     <pbx-input name="First Name"
                key="firstName"
@@ -56,13 +56,13 @@
                key="email"
                errorKey="user.email"
                [form]="true"
-               [required]="!!form.controls.user.get('firstName').value || !!form.controls.user.get('lastName').value"
+               [required]="isEmailRequired()"
                [errors]="service.errors"
                [object]="form.controls.user"
                [validationHost]="validationHost"
     ></pbx-input>
 
-    <div class="add_ext_form_title">Mobile APP</div>
+    <div class="add_ext_form_title" translate>Mobile APP</div>
 
     <pbx-input name="Enable"
                key="mobileApp"
@@ -72,7 +72,7 @@
                [object]="form"
     ></pbx-input>
 
-    <div class="add_ext_form_title">Encryption</div>
+    <div class="add_ext_form_title" translate>Encryption</div>
 
     <pbx-input name="Enable"
                key="encryption"
@@ -89,7 +89,7 @@
     <div class="add_ext_form_title" translate>Generate new password and send to:</div>
 
     <pbx-input name="Admin email"
-               description="Send password to admin email address"
+               [description]="'Send password to admin email address' | translate"
                descriptionClass="add_ext_form_item_description"
                key="toAdmin"
                [form]="true"
@@ -99,7 +99,7 @@
     ></pbx-input>
 
     <pbx-input name="User email"
-               description="Send password to user email address"
+               [description]="'Send password to user email address' | translate"
                descriptionClass="add_ext_form_item_description"
                key="toUser"
                [form]="true"

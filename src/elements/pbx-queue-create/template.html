@@ -25,7 +25,7 @@
                        [service]="service"
                        [headerText]="headerText"
                        (onClick)="addMembers($event)"
-                       noDataMessage="No data to display. Please add members"
+                       [noDataMessage]="noDataMessage"
                        >
     </pbx-queue-members>
     <pbx-queue-members-add *ngIf="tabMembersInEditModeActive"

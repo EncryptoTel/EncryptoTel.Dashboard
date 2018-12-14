@@ -8,18 +8,20 @@ import {RequestServices} from "./request.services";
 import {MessageServices} from "./message.services";
 import * as companyInfoMap from '../shared/company-info-map.json';
 import {Injectable} from "@angular/core";
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Injectable()
 export class CompanyService extends BaseService {
-    
+
     public model: CompanyModel;
     public companyInfo: CompanyInfoModel;
 
     constructor(public request: RequestServices,
                 public message: MessageServices,
-                public http: HttpClient) {
-        super(request, message, http);
+                public http: HttpClient,
+                public translate: TranslateService) {
+        super(request, message, http, translate);
     }
 
     public onInit(): void {

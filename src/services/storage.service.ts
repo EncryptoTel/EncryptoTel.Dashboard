@@ -10,6 +10,7 @@ import { StorageItem, StorageModel } from '../models/storage.model';
 
 import { ModalEx } from '../elements/pbx-modal/pbx-modal.component';
 import { Subject } from 'rxjs/Subject';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Injectable()
@@ -30,9 +31,9 @@ export class StorageService extends BaseService {
     constructor(
         public request: RequestServices,
         public message: MessageServices,
-        public http: HttpClient
-    ) {
-        super(request, message, http);
+        public http: HttpClient,
+        public translate: TranslateService) {
+        super(request, message, http, translate);
 
         this.pageInfo = new StorageModel();
         this.modalUpload = new ModalEx('', 'replaceOnlyFiles');
