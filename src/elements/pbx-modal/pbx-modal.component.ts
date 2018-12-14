@@ -64,7 +64,10 @@ export class ModalEx {
 
     confirmCallback: () => void = null;
 
-    constructor(body?: string, create?: string) {
+    constructor(
+        body?: string,
+        create?: string) {
+
         this.visible = false;
         this.title = '';
         this.body = body;

@@ -112,7 +112,7 @@ export class DetailsAndRecordsComponent implements OnInit {
             case 2:
                 event.action.options = [];
                 if (event.item.accountFile && event.item.accountFile.id > 0) {
-                    event.action.options.push(new TableInfoActionOption(1, 'Download file'));
+                    event.action.options.push(new TableInfoActionOption(1, this.translate.instant('Download file')));
                 }
                 // if (event.item.contactId) {
                 //     event.action.options.push(new TableInfoActionOption(2, 'View contact'));
@@ -120,9 +120,9 @@ export class DetailsAndRecordsComponent implements OnInit {
                 //     event.action.options.push(new TableInfoActionOption(5, 'Create contact'));
                 // }
                 if (event.item.contact && event.item.contact.blacklist) {
-                    event.action.options.push(new TableInfoActionOption(4, 'Unblock user', 'ban'));
+                    event.action.options.push(new TableInfoActionOption(4, this.translate.instant('Unblock user'), 'ban'));
                 } else {
-                    event.action.options.push(new TableInfoActionOption(3, 'Block user', 'ban'));
+                    event.action.options.push(new TableInfoActionOption(3, this.translate.instant('Block user'), 'ban'));
                 }
                 break;
         }
@@ -154,12 +154,16 @@ export class DetailsAndRecordsComponent implements OnInit {
     }
 
     block() {
-        this.modalBlock = new ModalEx('', this.blockItem ? 'block' : '');
+        this.modalBlock = new ModalEx('', this.blockItem ? this.translate.instant('block') : '');
+        // this.modalBlock.title = this.translate.instant(this.modalBlock.title);
+        // this.modalBlock.body = this.translate.instant(this.modalBlock.body);
         this.modalBlock.show();
     }
 
     unblock() {
-        this.modalBlock = new ModalEx('', this.unblockItem ? 'unblock' : '');
+        this.modalBlock = new ModalEx('', this.unblockItem ? this.translate.instant('unblock') : '');
+        // this.modalBlock.title = this.translate.instant(this.modalBlock.title);
+        // this.modalBlock.body = this.translate.instant(this.modalBlock.body);
         this.modalBlock.show();
     }
 

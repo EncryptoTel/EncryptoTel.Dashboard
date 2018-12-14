@@ -2,6 +2,7 @@ import {Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges
 
 import {week} from '@shared/vars';
 import {SwipeAnimation} from '@shared/swipe-animation';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -31,22 +32,40 @@ export class CalendarComponent implements OnInit, OnChanges {
     @Input() isSetting: boolean;
     @Input() split = '.' || '-' || '/';
     @Input() dates: string[];
-    
+
     @Output() newDates: EventEmitter<string[]> = new EventEmitter<string[]>();
+
+    clearButtonName: string;
+    applyButtonName: string;
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor() {
+    constructor(public translate: TranslateService) {
         this.today = new Date();
         this.goEnd = false;
         this.week = week;
-        this.month = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
+        this.month = [
+            this.translate.instant('January'),
+            this.translate.instant('February'),
+            this.translate.instant('March'),
+            this.translate.instant('April'),
+            this.translate.instant('May'),
+            this.translate.instant('June'),
+            this.translate.instant('July'),
+            this.translate.instant('August'),
+            this.translate.instant('September'),
+            this.translate.instant('October'),
+            this.translate.instant('November'),
+            this.translate.instant('December')
+        ];
+        this.clearButtonName = this.translate.instant('clear');
+        this.applyButtonName = this.translate.instant('apply');
     }
 
     ngOnInit(): void {
         this.initCalendar();
     }
-    
+
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.dates && changes.dates.currentValue) {
             this.initCalendar();
@@ -82,7 +101,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     apply(): void {
         if (this.showWrap) {
             if (!(this.title[0] === this.before[0] && this.title[1] === this.before[1])) {
-                this.newDates.emit(this.title); 
+                this.newDates.emit(this.title);
             }
             this.showWrap = false;
             this.goEnd = false;
@@ -123,25 +142,25 @@ export class CalendarComponent implements OnInit, OnChanges {
             this.array[index].push(i);
             let type = 'able';
             if (!this.isSetting && this.view[index] > this.today) {
-                type = 'block'; 
+                type = 'block';
             }
             if (this.pick[0] < this.view[index] && this.view[index] < this.pick[1]) {
-                type = 'mid'; 
+                type = 'mid';
             }
             if (this.datesIsEqual(this.view[index], this.pick[0]) || this.datesIsEqual(this.view[index], this.pick[1])) {
-                type = 'pick'; 
+                type = 'pick';
             }
             this.type[index].push(type);
         }
         if (index === 1) {
-            this.monthActive[1] = this.isSetting || !(this.view[1].getFullYear() === this.today.getFullYear() && this.view[1].getMonth() === this.today.getMonth()); 
+            this.monthActive[1] = this.isSetting || !(this.view[1].getFullYear() === this.today.getFullYear() && this.view[1].getMonth() === this.today.getMonth());
         }
     }
 
     clickMonth(value: number) {
         if (this.monthActive[value]) {
             this.index.forEach(i => {
-                this.view[i].setFullYear(this.view[i].getFullYear(), this.view[i].getMonth() + value * 2 - 1, 1); 
+                this.view[i].setFullYear(this.view[i].getFullYear(), this.view[i].getMonth() + value * 2 - 1, 1);
             });
             this.index.forEach(i => { this.fillArray(i); });
         }
@@ -171,7 +190,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     openCalendar(): void {
         if (this.showWrap = !this.showWrap) {
             if (!this.goEnd && this.pick[0].getFullYear() === this.today.getFullYear() && this.pick[0].getMonth() === this.today.getMonth()) {
-                this.goEnd = true; 
+                this.goEnd = true;
             }
             const n = this.goEnd ? 1 : 0;
             this.index.forEach(i => {
@@ -182,7 +201,7 @@ export class CalendarComponent implements OnInit, OnChanges {
             this.pick_start = true;
         }
         else {
-            this.apply(); 
+            this.apply();
         }
     }
 

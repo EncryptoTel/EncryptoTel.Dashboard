@@ -11,6 +11,7 @@ import { ListComponent } from '@elements/pbx-list/pbx-list.component';
 import { Subscription } from 'rxjs/Subscription';
 import { WsServices } from '@services/ws.services';
 import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -90,6 +91,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         private _message: MessageServices,
         private _size: SizePipe,
         private _ws: WsServices,
+        public translate: TranslateService
     ) {
         this.modal = new ModalEx('', 'deleteFiles');
         this.sidebarActive = false;
@@ -97,24 +99,24 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.table.sort.isDown = true;
         this.table.sort.column = 'date';
         this.table.items = [
-            new TableInfoItem('Name', 'name', 'name'),
-            new TableInfoItem('Date', 'displayDateTime', 'date', 168),
-            new TableInfoItem('Size, MB', 'size', 'size', 104),
-            new TableInfoItem('Record', 'record', null, 200, 0, true),
+            new TableInfoItem(this.translate.instant('Name'), 'name', 'name'),
+            new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 168),
+            new TableInfoItem(this.translate.instant('Size, MB'), 'size', 'size', 104),
+            new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
         ];
         this.table.actions = [
             new TableInfoAction(1, 'player', 175),
         ];
 
         this.filters = [
-            new FilterItem(1, 'type', 'Source:', [
-                { id: 'audio', title: 'Audio' },
-                { id: 'call_record', title: 'Call Records' },
-                // {id: 'voice_mail', title: 'Voice Mail'},
-                { id: 'certificate', title: 'Certificate' },
-                { id: 'trash', title: 'Trash' },
-            ], 'title', '[choose one]'),
-            new FilterItem(2, 'search', 'Search:', null, null, 'Search by Name'),
+            new FilterItem(1, 'type', this.translate.instant('Source:'), [
+                { id: 'audio', title: this.translate.instant('Audio') },
+                { id: 'call_record', title: this.translate.instant('Call Records') },
+                // {id: 'voice_mail', title: this.translate.instant('Voice Mail')},
+                { id: 'certificate', title: this.translate.instant('Certificate') },
+                { id: 'trash', title: this.translate.instant('Trash') },
+            ], 'title', this.translate.instant('[choose one]')),
+            new FilterItem(2, 'search', 'Search:', null, null, this.translate.instant('Search by Name')),
         ];
 
         this.buttons = [

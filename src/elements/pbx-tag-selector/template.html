@@ -2,10 +2,10 @@
     <div class="filters {{ selectedTags.length != 0 && unselectedTags.length != 0 ? '' : 'noBorderRight' }}">
         <button
             *ngFor="let tag of selectedTags"
-            class="{{ tag.title }} tags-button"
+            class="{{ tag.key }} tags-button"
             [ngClass]="{ 'uppercase' : tag.key === 'sms' }"
             (click)="toggleTag(tag.key)">
-            {{ tag.title }}
+            <span translate>{{ tag.title }}</span>
         </button>
     </div>
     <div class="filters">
@@ -14,7 +14,7 @@
             class="inactive-button tags-button"
             [ngClass]="{ 'uppercase' : tag.key === 'sms' }"
             (click)="toggleTag(tag.key)">
-            {{ tag.title }}
+            <span translate>{{ tag.title }}</span>
         </button>
     </div>
 </div>

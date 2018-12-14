@@ -5,6 +5,7 @@ import {SessionsModel} from '../../../../models/settings.models';
 import {ButtonItem, TableInfoExModel, TableInfoItem} from '../../../../models/base.model';
 import {SessionsService} from '../../../../services/sessions.service';
 import {Router} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
 
 @AnimationComponent({
     selector: 'profile-component',
@@ -20,13 +21,14 @@ export class SessionsComponent extends BaseComponent implements OnInit {
     buttons: ButtonItem[] = [];
 
     constructor(public service: SessionsService,
-                private router: Router) {
+                private router: Router,
+                public translate: TranslateService) {
         super();
-        this.table.items.push(new TableInfoItem('Active Session', 'session'));
-        this.table.items.push(new TableInfoItem('IP', 'ip'));
-        this.table.items.push(new TableInfoItem('Country', 'country'));
-        this.table.items.push(new TableInfoItem('Date', 'displayExpires'));
-        this.table.items.push(new TableInfoItem('Active', 'active', null, 80));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Active Session'), 'session'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('IP'), 'ip'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Country'), 'country'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Date'), 'displayExpires'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Active'), 'active', null, 80));
         // this.table.items.push(new TableInfoItem('User Agent', 'userAgent'));
         this.buttons.push(new ButtonItem(0, 'Back', 'cancel', true));
     }
