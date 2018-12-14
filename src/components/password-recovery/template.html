@@ -2,15 +2,16 @@
     <a class="auth_form_icon_wrap auth_form_icon" [@Fade] routerLink="../sign-in">
         <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg" class="auth_form_icon"></svg-icon>
     </a>
-    <form [formGroup]="emailForm"
+    <form *ngIf="showForm()"
+          [formGroup]="emailForm"
           [@Fade]
           (submit)="sendEmail($event)"
-          (keyup)="_services.clearMessage()"
+          (keyup)="clearMessage()"
           >
         <div *ngIf="message"
              class="auth_form_message"
              [ngClass]="message.type"
-             (click)="_services.clearMessage()"
+             (click)="clearMessage()"
              [@Fade]
              >
              {{ message.message }}
@@ -47,5 +48,20 @@
         <div class="auth_form_text" translate>Don't have an EncryptoTel Account?</div>
         <a routerLink="../sign-up" class="auth_form_link" translate>Create one now</a>
     </form>
+    
+    <div *ngIf="!showForm()" class="response_wrap">
+        <h6>Password</h6>
+        <div class="auth_form_text">
+            <span translate>Password has been sent to email</span>
+            {{ selectedEmail }}
+        </div>
+        <pbx-button [buttonType]="'accent'"
+                    [loading]="loading"
+                    [value]="'Sign in now'"
+                    (onClick)="back()"
+                    >
+        </pbx-button>
+    </div>
+
     <pbx-footer></pbx-footer>
 </div>

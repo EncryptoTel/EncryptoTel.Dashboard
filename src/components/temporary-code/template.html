@@ -3,8 +3,14 @@
         <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg" class="auth_form_icon"></svg-icon>
     </a>
     <form (submit)="sendTemporaryPassword($event)" [formGroup]="temporaryCodeForm" (keyup)="clearMessage($event)">
-        <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade]
-             (click)="_services.clearMessage()">{{message.message}}
+        <div *ngIf="message"
+             class="auth_form_message"
+             [ngClass]="message.type"
+             (click)="_services.clearMessage()"
+             [@Fade]
+             translate
+             >
+            {{message.message}}
         </div>
         <div class="input_wrap">
             <input name="Username" id="email" placeholder="{{'E-mail' | translate }}" formControlName="email"

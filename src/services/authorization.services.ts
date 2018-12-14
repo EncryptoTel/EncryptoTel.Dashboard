@@ -153,16 +153,16 @@ export class AuthorizationServices {
       Send password recovery e-mail. Accepted params:
       E-mail: string - user e-mail address form value
      */
-    sendEmail(email: object) {
+    sendEmail(email: object): Promise<void> {
         return this._req.post(`password/reset`, {...email})
             .then(result => {
-                this.setMessage({
+                return this.setMessage({
                     type: 'success',
                     message: result.message
                 });
             })
             .catch(result => {
-                this.setMessage({
+                return this.setMessage({
                     type: 'error',
                     message: result.message ? result.message : result.error.code === 404 ? 'User not found' : 'Unknown server error'
                 });
