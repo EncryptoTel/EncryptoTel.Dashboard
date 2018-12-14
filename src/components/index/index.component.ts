@@ -29,6 +29,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     language: string;
     text: any;
     _user: any;
+    menu: any;
 
     constructor(public userService: UserServices,
                 public _main: MainViewComponent,
@@ -41,6 +42,7 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.user = this.userService.fetchUser();
         this._user = this._storage.readItem('pbx_user');
         this.text = langState.get();
+
     }
 
     navigationList: NavigationItemModel[][];
@@ -156,7 +158,10 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.modulesChangedSubscription = this.userService.modulesChanged.subscribe(() => {
             this.navigationInit();
         });
-
+        this.menu = {
+            'Refill balance': this._translate.instant('Refill balance'),
+            'Tariff plan': this._translate.instant('Tariff plan'),
+        };
         // this._translate.onLangChange.subscribe((event: LangChangeEvent) => {
         //     Object.keys(this.userService.navigation).forEach(item => {
         //         this.userService.navigation[item].itemTitle = this._translate.instant(this.userService.navigation[item].name);
