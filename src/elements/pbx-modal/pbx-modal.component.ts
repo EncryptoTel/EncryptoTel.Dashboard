@@ -130,7 +130,7 @@ export class ModalEx {
                     this.body = 'Are you sure you want to restore the file(s)?';
                 }
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
-                this.buttons.push(new ModalButton('error', 'Restore'));
+                this.buttons.push(new ModalButton('success', 'Restore'));
                 break;
             case 'replaceOnlyFiles':
                 this.title = 'Attention';
