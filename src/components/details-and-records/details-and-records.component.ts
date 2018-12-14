@@ -224,11 +224,7 @@ export class DetailsAndRecordsComponent implements OnInit {
         const tags = this.tagSelector.selectedTags.map(t => {
             return t.key;
         });
-        this.service.getItems(
-            this.pageInfo,
-            {status: tags.length > 0 ? tags : null, startDate: this.startDate, endDate: this.endDate},
-            this.table.sort)
-            .then(result => {
+        this.service.getItems(this.pageInfo, {status: tags.length > 0 ? tags : null, startDate: this.startDate, endDate: this.endDate}, this.table.sort).then(result => {
                 this.pageInfo = result;
             })
             .catch(() => {
