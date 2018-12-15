@@ -1,25 +1,28 @@
 @import '../../vars'
 
 .checkbox
-  height: rem(16)
-  width: rem(16)
-  border: 1px solid
-  position: relative
-  cursor: pointer
-  transition: all linear 150ms
-  &:after
-    content: ''
-    position: absolute
-    left: rem(2)
-    top: rem(2)
-    height: rem(10)
-    width: rem(10)
+    height: rem(16)
+    width: rem(16)
+    border: 1px solid
+    position: relative
+    cursor: pointer
     transition: all linear 150ms
+    &:after
+        content: ''
+        position: absolute
+        left: rem(2)
+        top: rem(2)
+        height: rem(10)
+        width: rem(10)
+        transition: all linear 150ms
+
+.disabled
+    border-color: lighten($dark_overlay, 10%) !important
 
 \:host-context(.dark_theme)
-  .checkbox
-    border-color: lighten($dark_overlay, 30%)
-    &.active:after
-      background: $dark_accent
-    &:hover
-      border-color: $dark_accent
+    .checkbox
+        border-color: lighten($dark_overlay, 30%)
+        &.active:after
+            background: $dark_accent
+        &:hover
+            border-color: $dark_accent

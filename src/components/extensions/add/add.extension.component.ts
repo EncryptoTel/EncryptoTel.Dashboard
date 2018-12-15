@@ -7,7 +7,6 @@ import {ExtensionService} from '@services/extension.service';
 import {PhoneNumberService} from '@services/phone-number.service';
 import {ExtensionItem} from '@models/extension.model';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
-import {validateForm, validateFormControls} from '@shared/shared.functions';
 import {MessageServices} from '@services/message.services';
 import {StorageService} from '@services/storage.service';
 
@@ -18,7 +17,6 @@ import {StorageService} from '@services/storage.service';
     styleUrls: ['./local.sass'],
     providers: [ExtensionService, PhoneNumberService]
 })
-
 export class AddExtensionsComponent extends FormBaseComponent implements OnInit {
     // loading: number;
     mode = 'create';
@@ -60,7 +58,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         super(fb, message);
 
         this.background = 'form-body-fill';
-        this.id = activatedRoute.snapshot.params.id;
+        this.id = this.activatedRoute.snapshot.params.id;
         this.id ? this.mode = 'edit' : this.mode = 'create';
 
         this.validationHost.customMessages = [

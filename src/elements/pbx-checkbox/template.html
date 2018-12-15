@@ -1,1 +1,5 @@
-<div class="checkbox" [ngClass]="{'active': value}" (click)="toggleCheckbox()"></div>
+<div class="checkbox"
+     [ngClass]="{ 'active': value, 'disabled': disabled }"
+     (click)="toggleCheckbox()"
+     >
+</div>
