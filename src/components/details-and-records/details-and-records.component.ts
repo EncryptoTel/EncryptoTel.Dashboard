@@ -59,7 +59,7 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.table.items.push(new TableInfoItem(this.translate.instant('To'), 'destination', 'destination'));
         this.table.items.push(new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'callDate'));
         this.table.items.push(new TableInfoItem(this.translate.instant('Duration'), 'displayDuration'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Tag'), 'displayStatus', 'status'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Tag'), 'tag', 'status'));
         this.table.items.push(new TableInfoItem(this.translate.instant('Price'), 'displayPrice'));
         this.table.items.push(new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0));
         this.table.actions.push(new TableInfoAction(1, 'player', 175));
@@ -226,6 +226,9 @@ export class DetailsAndRecordsComponent implements OnInit {
         });
         this.service.getItems(this.pageInfo, {status: tags.length > 0 ? tags : null, startDate: this.startDate, endDate: this.endDate}, this.table.sort).then(result => {
                 this.pageInfo = result;
+                this.pageInfo.items.forEach( item => {
+                    item.tag = this.translate.instant(item.tag);
+                });
             })
             .catch(() => {
             })
