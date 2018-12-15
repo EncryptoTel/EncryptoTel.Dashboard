@@ -1,13 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormMessageModel} from '../../models/form-message.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Subscription} from 'rxjs/Subscription';
-import {UserServices} from '../../services/user.services';
 import {Router} from '@angular/router';
-import {AuthorizationServices} from '../../services/authorization.services';
-import * as _vars from '../../shared/vars';
-import {validateForm} from '../../shared/shared.functions';
-import {FadeAnimation} from '../../shared/fade-animation';
+import {Subscription} from 'rxjs/Subscription';
+
+import {FormMessageModel} from '@models/form-message.model';
+import {UserServices} from '@services/user.services';
+import {AuthorizationServices} from '@services/authorization.services';
+import * as _vars from '@shared/vars';
+import {validateForm, killEvent} from '@shared/shared.functions';
+import {FadeAnimation} from '@shared/fade-animation';
+
 
 @Component({
     selector: 'temporary-code',
@@ -15,56 +17,22 @@ import {FadeAnimation} from '../../shared/fade-animation';
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
-
 export class TemporaryCodeComponent implements OnInit, OnDestroy {
-    constructor(private _router: Router,
-                private _user: UserServices,
-                public _services: AuthorizationServices) {
-    }
 
-    loading = false;
+    loading: boolean = false;
     errorsSubscription: Subscription;
     message: FormMessageModel;
     temporaryCodeForm: FormGroup;
     errorForm: boolean = false;
+    temporaryPasswordSent: boolean = false;
 
-    inputValidation(name: string, errorType?: string): boolean {
-        if (errorType) {
-            const field = this.temporaryCodeForm.controls[name];
-            return field.errors[errorType] && (field.dirty || field.touched);
-        } else {
-            const field = this.temporaryCodeForm.controls[name];
-            return field.invalid && (field.dirty || field.touched);
-        }
+
+    constructor(private _router: Router,
+        private _user: UserServices,
+        public _services: AuthorizationServices) {
     }
 
-    sendTemporaryPassword(): void {
-        validateForm(this.temporaryCodeForm);
-
-        if (this.temporaryCodeForm.valid) {
-            this.errorForm = false;
-            this.loading = true;
-            this._services.sendTemporaryPassword(this.temporaryCodeForm.value)
-                .then((data) => {
-                    if (this.message.type === 'error') {
-                        this.errorForm = true;
-                    }
-                })
-                .catch(() => {})
-                .then(() => this.loading = false);
-        } else {
-            this.errorForm = true;
-        }
-    }
-
-    clearMessage(ev?: KeyboardEvent): void {
-        if (ev.key) {
-            this._services.clearMessage();
-            this.errorForm = false;
-        }
-    }
-
-    ngOnInit() {
+    ngOnInit(): void {
         this._services.clearMessage();
         this.message = this._services.message;
         this.errorsSubscription = this._services.readMessage().subscribe(message => {
@@ -81,7 +49,60 @@ export class TemporaryCodeComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.errorsSubscription.unsubscribe();
+    }
+
+    get selectedEmail(): string {
+        return this.temporaryCodeForm.value.email;
+    }
+
+    showForm(): boolean {
+        return !this.temporaryPasswordSent;
+    }
+
+    inputValidation(name: string, errorType?: string): boolean {
+        if (errorType) {
+            const field = this.temporaryCodeForm.controls[name];
+            return field.errors[errorType] && (field.dirty || field.touched);
+        } else {
+            const field = this.temporaryCodeForm.controls[name];
+            return field.invalid && (field.dirty || field.touched);
+        }
+    }
+
+    sendTemporaryPassword(): void {
+        this._services.clearMessage();
+
+        validateForm(this.temporaryCodeForm);
+        if (this.temporaryCodeForm.valid) {
+            this.errorForm = false;
+            this.loading = true;
+            this._services.sendTemporaryPassword(this.temporaryCodeForm.value)
+                .then(() => {
+                    if (this.message.type === 'error') {
+                        this.errorForm = true;
+                    }
+                    else {
+                        this._services.clearMessage();
+                        this.temporaryPasswordSent = true;
+                    }
+                })
+                .catch(() => {})
+                .then(() => this.loading = false);
+        } else {
+            this.errorForm = true;
+        }
+    }
+
+    back(): void {
+        this._router.navigate([ 'sign-in' ]);
+    }
+
+    clearMessage(event?: KeyboardEvent): void {
+        if (event.key) {
+            this._services.clearMessage();
+            this.errorForm = false;
+        }
     }
 }

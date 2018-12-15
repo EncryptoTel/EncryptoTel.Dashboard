@@ -95,7 +95,7 @@ export class AuthorizationServices {
                 type: 'success',
                 message: result.message ? result.message : 'Temporary password has been sent to your e-mail'
             });
-            this.router.navigateByUrl('/');
+            // this.router.navigateByUrl('/');
         }).catch(result => {
             this.setMessage({
                 type: 'error',
@@ -154,7 +154,7 @@ export class AuthorizationServices {
       E-mail: string - user e-mail address form value
      */
     sendEmail(email: object): Promise<void> {
-        return this._req.post(`password/reset`, {...email})
+        return this._req.post(`password/reset`, {...email}, false)
             .then(result => {
                 return this.setMessage({
                     type: 'success',
