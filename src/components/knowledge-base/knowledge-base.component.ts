@@ -6,6 +6,7 @@ import {HelpGroupItem, HelpGroupModel, HelpItem, HelpModel} from '../../models/k
 import {ButtonItem, FilterItem} from '../../models/base.model';
 import {ThrowStmt} from '../../../node_modules/@angular/compiler';
 import {TranslateService} from '@ngx-translate/core';
+import {LocalStorageServices} from '@services/local-storage.services';
 
 @Component({
     selector: 'partner-program-component',
@@ -33,7 +34,8 @@ export class KnowledgeBaseComponent implements OnInit {
     // -- component lifecycle methods -----------------------------------------
 
     constructor(private service: KnowledgeBaseService,
-                public translate: TranslateService) {
+                public translate: TranslateService,
+                private storage: LocalStorageServices) {
         this.helpGroups = new HelpGroupModel();
         this.leftGroups = [];
         this.rightGroups = [];
@@ -134,6 +136,13 @@ export class KnowledgeBaseComponent implements OnInit {
         this.loading++;
         this.service.getHelps(this.helps, this.currentFilter).then(response => {
             this.helps = response;
+            const lang = this.storage.readItem('user_lang');
+            this.helps.items.forEach(item => {
+                if (lang === 'ru') {
+                    item.title = item.titleRu;
+                    item.text = item.textRu;
+                }
+            });
         }).catch(() => {
         })
             .then(() => this.loading--);
@@ -143,7 +152,13 @@ export class KnowledgeBaseComponent implements OnInit {
         this.loading++;
         this.service.getGroups(this.helpGroups, '').then(response => {
             this.helpGroups = response;
-
+            const lang = this.storage.readItem('user_lang');
+            this.helpGroups.items.forEach(item => {
+                if (lang === 'ru') {
+                    item.title = item.titleRu;
+                    item.description = item.descriptionRu;
+                }
+            });
             this.leftGroups = [];
             this.rightGroups = [];
             const options = [];

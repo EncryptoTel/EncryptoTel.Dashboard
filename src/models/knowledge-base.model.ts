@@ -1,4 +1,4 @@
-import {BaseItemModel, PageInfoModel} from "./base.model";
+import {BaseItemModel, PageInfoModel} from './base.model';
 
 export class HelpGroupModel extends PageInfoModel {
     items: HelpGroupItem[];
@@ -7,6 +7,8 @@ export class HelpGroupModel extends PageInfoModel {
 export class HelpGroupItem extends BaseItemModel {
     title: string;
     description: string;
+    titleRu: string;
+    descriptionRu: string;
 }
 
 export class HelpModel extends PageInfoModel {
@@ -15,6 +17,8 @@ export class HelpModel extends PageInfoModel {
 
 export class HelpItem extends BaseItemModel {
     title: string;
-    text; string;
+    text: string;
+    titleRu: string;
+    textRu: string;
     open: boolean = false;
 }

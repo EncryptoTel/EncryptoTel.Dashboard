@@ -17,10 +17,8 @@
             <div class="left">
 
                 <div class="inner" *ngFor="let item of leftGroups">
-                    <div class="title" (click)="showQuestions(item)">{{item.title}}</div>
-                    <div class="desc">
-                        {{item.description}}
-                    </div> <!-- desc -->
+                    <div class="title" (click)="showQuestions(item)" translate>{{item.title}}</div>
+                    <div class="desc" translate>{{item.description}}</div> <!-- desc -->
                 </div> <!-- inner -->
 
             </div> <!-- left -->
@@ -28,10 +26,8 @@
             <div class="right">
 
                 <div class="inner" *ngFor="let item of rightGroups">
-                    <div class="title" (click)="showQuestions(item)">{{item.title}}</div>
-                    <div class="desc">
-                        {{item.description}}
-                    </div> <!-- desc -->
+                    <div class="title" (click)="showQuestions(item)" translate>{{item.title}}</div>
+                    <div class="desc" translate>{{item.description}}</div> <!-- desc -->
                 </div> <!-- inner -->
 
             </div> <!-- right -->
@@ -40,13 +36,13 @@
         <div class="questions" *ngIf="!loading && (selectedGroup || helps.items.length > 0)">
             <div class="item" *ngFor="let item of helps.items; let i = index">
                 <div class="title" [ngClass]="helps.items[i].open ? 'title-open': ''" (click)="showAnswer(i)">
-                    {{item.title}}
+                    <span translate>{{item.title}}</span>
                     <svg-icon
                         class="arrow"
                         [ngClass]="helps.items[i].open ? 'rotate': ''"
                         src="../../assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
                 </div>
-                <div class="desc" id="descId" *ngIf="helps.items[i].open" [innerHTML]="item.text"></div>
+                <div class="desc" id="descId" *ngIf="helps.items[i].open" [innerHTML]="item.text | translate"></div>
             </div> <!-- item -->
 
         </div> <!-- questions -->
