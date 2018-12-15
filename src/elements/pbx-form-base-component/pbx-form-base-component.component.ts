@@ -12,6 +12,9 @@ import {validateForm, validateFormControls} from '@shared/shared.functions';
 import {FadeAnimation} from '@shared/fade-animation';
 import {SwipeAnimation} from '@shared/swipe-animation';
 import {ScrollEvent} from '@shared/scroll.directive';
+import {CanFormComponentDeactivate} from '@services/can-deactivate-form-guard.service';
+import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
 
 
 @Component({
@@ -23,7 +26,7 @@ import {ScrollEvent} from '@shared/scroll.directive';
         FadeAnimation('300ms')
     ]
 })
-export class FormBaseComponent implements OnInit, Lockable {
+export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeactivate {
 
     form: FormGroup;
     formKey: string;
@@ -38,20 +41,19 @@ export class FormBaseComponent implements OnInit, Lockable {
 
     formPanel: Element = null;
 
-
-    get isNewFormModel(): boolean {
+    get isModelCreated(): boolean {
         if (this.form) {
             const id = this.form.get('id');
+            console.log('model-id', id, this.forms);
             return !(id && id.value);
         }
         return false;
     }
 
-
     constructor(
         protected fb: FormBuilder,
         protected message: MessageServices,
-        protected translate: TranslateService
+        protected translate: TranslateService,
     ) {
         this.locker = new Locker();
         this.formKey = 'form';
@@ -74,9 +76,32 @@ export class FormBaseComponent implements OnInit, Lockable {
         this.validationHost.start();
     }
 
+    get modelEdit(): boolean {
+        // should be overriden in derived class
+        throw new Error('modelEdit property not implemented.');
+    }
+
     initForm(): void {
         // should be overriden in derived class
         throw new Error('initForm() method not implemented.');
+    }
+
+    canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+        if (!this.checkFormChanged()) return true;
+        
+        // console.log('on-deactivate', this.modelEdit);
+        return Observable.create((observer: Observer<boolean>) => {
+            this.showExitModal(
+                this.modelEdit,
+                () => {
+                    observer.next(true);
+                    observer.complete();
+                },
+                () => {
+                    observer.next(false);
+                    observer.complete();
+                });
+        });
     }
 
     handleScroll(event: ScrollEvent) {
@@ -196,30 +221,31 @@ export class FormBaseComponent implements OnInit, Lockable {
         }
     }
 
-    close(editMode: boolean = true, confirmCallback?: () => void): void {
+    close(confirmCallback?: () => void): void {
         if (this.checkFormChanged()) {
-            this.showExitModal(editMode, confirmCallback);
+            this.showExitModal(this.modelEdit, confirmCallback);
         }
         else {
             if (confirmCallback) confirmCallback();
         }
     }
 
-    closeForm(editMode: boolean = true, formKey: string, confirmCallback?: () => void): void {
+    closeForm(formKey: string, confirmCallback?: () => void): void {
         if (this.checkFormChanged(formKey)) {
-            this.showExitModal(editMode, confirmCallback);
+            this.showExitModal(this.modelEdit, confirmCallback);
         }
         else {
             if (confirmCallback) confirmCallback();
         }
     }
 
-    showExitModal(editMode: boolean, confirmCallback?: () => void): void {
+    showExitModal(editMode: boolean, confirmCallback?: () => void, cancelCallback?: () => void): void {
         const message = (editMode)
             ? 'You have made changes. Do you really want to leave without saving?'
             : 'Do you really want to leave without saving?';
         this.modalExit.setMessage(message);
         this.modalExit.confirmCallback = confirmCallback;
+        this.modalExit.cancelCallback = cancelCallback;
         this.modalExit.show();
     }
 

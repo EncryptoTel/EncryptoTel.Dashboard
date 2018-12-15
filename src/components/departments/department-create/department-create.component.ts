@@ -58,6 +58,10 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         return !!this._id && this._id > 0;
     }
 
+    get modelEdit(): boolean {
+        return !!this._id && this._id > 0;
+    }
+
     // -- component lifecycle methods -----------------------------------------
 
     constructor(
@@ -103,7 +107,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
     }
 
     ngOnInit(): void {
-        if (this.hasId) {
+        if (this.modelEdit) {
             this.getItem();
         }
 
@@ -213,7 +217,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
         this.locker.lock();
         this.service.save(this._id, this._department).then((response) => {
-            if (!this.hasId) {
+            if (!this.modelEdit) {
                 this.confirmClose();
             }
             else {
@@ -335,7 +339,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         }
         else if (action === 'cancel') {
             this.fillSipInnersFormElements();
-            this.close(this.hasId, () => this.confirmClose());
+            this.close(() => this.confirmClose());
         }
         else if (action === 'back') {
             this.sipInnersControl.editMode = false;

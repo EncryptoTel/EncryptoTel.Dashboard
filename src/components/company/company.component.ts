@@ -98,6 +98,11 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     // -- form processing methods ---------------------------------------------
+    
+    get modelEdit(): boolean {
+        return this.company && this.company.isValid;
+    }
+
     initForm(): void {
         this.form = this.fb.group({
             id: [null],
@@ -140,7 +145,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     decline(): void {
-        this.close(this.company && this.company.isValid, () => this.cancel());
+        this.close(() => this.cancel());
     }
 
     cancel(): void {

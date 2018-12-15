@@ -61,6 +61,10 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
 
     // -- form methods --------------------------------------------------------
 
+    get modelEdit(): boolean {
+        return !!this.selected.id;
+    }
+
     initForm(): void {
         this.form = this.fb.group({
             id: [null],
@@ -127,7 +131,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
             this.sidebar.items.push(editItem);
         }
 
-        let statusOptions = [
+        const statusOptions = [
             {title: 'Enabled', value: true, id: 1},
             {title: 'Disabled', value: false, id: 0}
         ];
@@ -139,7 +143,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
     click(item: SidebarButtonItem): void {
         switch (item.id) {
             case 1:
-                this.close(!!this.selected.id, () => this.confirmClose());
+                this.close(() => this.confirmClose());
                 break;
             case 2:
                 this.edit(this.selected);
@@ -174,28 +178,30 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
         if (!this.validateForms()) return;
         this.setModelData(item);
 
-        let partner = this.partners.items.find(p => p.id === item.id);
-        if (partner) partner.loading--;
+        const partner = this.partners.items.find(p => p.id === item.id);
+        if (partner) partner.loading --;
 
-        this.service.save(item.id, item.name, item.status).then(() => {
-            this.getItems(item);
-            this.selected = null;
-        }).catch(() => {
-        })
+        this.service.save(item.id, item.name, item.status)
             .then(() => {
-                let partner = this.partners.items.find(p => p.id === item.id);
-                if (partner) partner.loading--;
+                this.getItems(item);
+                this.selected = null;
+            })
+            .catch(() => {})
+            .then(() => {
+                const current = this.partners.items.find(p => p.id === item.id);
+                if (current) current.loading --;
             });
     }
 
     getItems(item: PartnerProgramItem = null): void {
         this.selected = null;
-        (item ? item : this).loading++;
-        this.service.getItems(this.partners).then(response => {
-            this.partners = response;
-            console.log('partners', this.partners);
-        }).catch(() => {
-        })
-            .then(() => (item ? item : this).loading--);
+        (item ? item : this).loading ++;
+        this.service.getItems(this.partners)
+            .then(response => {
+                this.partners = response;
+                console.log('partners', this.partners);
+            })
+            .catch(() => {})
+            .then(() => (item ? item : this).loading --);
     }
 }

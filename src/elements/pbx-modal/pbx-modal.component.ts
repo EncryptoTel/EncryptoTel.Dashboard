@@ -34,6 +34,9 @@ export class ModalComponent {
             this.modal.visible = false;
         }
         if (this.modalEx) {
+            if (this.modalEx.cancelCallback) {
+                this.modalEx.cancelCallback();
+            }
             this.modalEx.visible = false;
         }
     }
@@ -63,6 +66,7 @@ export class ModalEx {
     buttons: ModalButton[];
 
     confirmCallback: () => void = null;
+    cancelCallback: () => void = null;
 
     constructor(
         body?: string,

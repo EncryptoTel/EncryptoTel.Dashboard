@@ -1,79 +1,80 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {AuthGuardServices} from '../services/auth-guard.services';
+import {AuthGuardServices} from '@services/auth-guard.services';
+import {CanDeactivateFormGuard} from '@services/can-deactivate-form-guard.service';
 
-import {PageNotFoundComponent} from '../components/errors/page-not-found/page-not-found.component';
+import {PageNotFoundComponent} from '@components/errors/page-not-found/page-not-found.component';
 
-import {BlankComponent} from '../components/blank/blank.component';
+import {BlankComponent} from '@components/blank/blank.component';
 
-import {IndexComponent} from '../components/index/index.component';
+import {IndexComponent} from '@components/index/index.component';
 
-import {SignInComponent} from '../components/sign-in/sign-in.component';
+import {SignInComponent} from '@components/sign-in/sign-in.component';
 
-import {SignUpComponent} from '../components/sign-up/sign-up.component';
-import {SignUpTariffPlansComponent} from '../components/sign-up/tariff-plans/sign-up-tariff-plans.component';
-import {SignUpFormComponent} from '../components/sign-up/sign-up-form/sign-up-form.component';
+import {SignUpComponent} from '@components/sign-up/sign-up.component';
+import {SignUpTariffPlansComponent} from '@components/sign-up/tariff-plans/sign-up-tariff-plans.component';
+import {SignUpFormComponent} from '@components/sign-up/sign-up-form/sign-up-form.component';
 
-import {TemporaryCodeComponent} from '../components/temporary-code/temporary-code.component';
+import {TemporaryCodeComponent} from '@components/temporary-code/temporary-code.component';
 
-import {EmailConfirmComponent} from '../components/confirmation/email-confirm.component';
-import {CodeConfirmComponent} from '../components/confirmation/code-confirm.component';
-import {PasswordResetComponent} from '../components/confirmation/password-reset.component';
+import {EmailConfirmComponent} from '@components/confirmation/email-confirm.component';
+import {CodeConfirmComponent} from '@components/confirmation/code-confirm.component';
+import {PasswordResetComponent} from '@components/confirmation/password-reset.component';
 
-import {PasswordRecoveryComponent} from '../components/password-recovery/password-recovery.component';
+import {PasswordRecoveryComponent} from '@components/password-recovery/password-recovery.component';
 
-import {DashboardComponent} from '../components/dashboard/dashboard.component';
+import {DashboardComponent} from '@components/dashboard/dashboard.component';
 
-import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
+import {RefillBalanceComponent} from '@components/refill-balance/refill-balance.component';
 
-import {TariffPlansComponent} from '../components/tariff-plans/tariff-plans.component';
+import {TariffPlansComponent} from '@components/tariff-plans/tariff-plans.component';
 
-import {PhoneNumbersComponent} from '../components/phone-numbers/phone-numbers.component';
-import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
+import {PhoneNumbersComponent} from '@components/phone-numbers/phone-numbers.component';
+import {BuyPhoneNumbersComponent} from '@components/phone-numbers/buy/buy.phone-numbers.component';
 
-import {AddressBookComponent} from '../components/address-book/address-book.component';
+import {AddressBookComponent} from '@components/address-book/address-book.component';
 
-import {CallRulesComponent} from '../components/call-rules/call-rules.component';
-import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
+import {CallRulesComponent} from '@components/call-rules/call-rules.component';
+import {CallRulesCreateComponent} from '@components/call-rules/call-rules-create/call-rules-create.component';
 
-import {CallQueuesComponent} from '../components/call-queues/call-queues.component';
-import {CallQueuesCreateComponent} from '../components/call-queues/call-queues-create/call-queues-create.component';
+import {CallQueuesComponent} from '@components/call-queues/call-queues.component';
+import {CallQueuesCreateComponent} from '@components/call-queues/call-queues-create/call-queues-create.component';
 
-import {RingGroupsComponent} from '../components/ring-groups/ring-groups.component';
-import {RingGroupsCreateComponent} from '../components/ring-groups/ring-groups-create/ring-groups-create.component';
+import {RingGroupsComponent} from '@components/ring-groups/ring-groups.component';
+import {RingGroupsCreateComponent} from '@components/ring-groups/ring-groups-create/ring-groups-create.component';
 
-import {ExtensionsComponent} from '../components/extensions/extensions.component';
-import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
+import {ExtensionsComponent} from '@components/extensions/extensions.component';
+import {AddExtensionsComponent} from '@components/extensions/add/add.extension.component';
 
-import {CompanyComponent} from '../components/company/company.component';
+import {CompanyComponent} from '@components/company/company.component';
 
-import {DepartmentsComponent} from '../components/departments/department.component';
-import {DepartmentCreateComponent} from '../components/departments/department-create/department-create.component';
+import {DepartmentsComponent} from '@components/departments/department.component';
+import {DepartmentCreateComponent} from '@components/departments/department-create/department-create.component';
 
-import {DetailsAndRecordsComponent} from '../components/details-and-records/details-and-records.component';
+import {DetailsAndRecordsComponent} from '@components/details-and-records/details-and-records.component';
 
-import {InvoicesComponent} from '../components/invoices/invoices.component';
+import {InvoicesComponent} from '@components/invoices/invoices.component';
 
-import {MarketplaceComponent} from '../components/marketplace/marketplace.component';
+import {MarketplaceComponent} from '@components/marketplace/marketplace.component';
 
-import {StorageComponent} from '../components/storage/storage.component';
+import {StorageComponent} from '@components/storage/storage.component';
 
-import {PartnerProgramComponent} from '../components/partner-program/partner-program.component';
-import {KnowledgeBaseComponent} from '../components/knowledge-base/knowledge-base.component';
+import {PartnerProgramComponent} from '@components/partner-program/partner-program.component';
+import {KnowledgeBaseComponent} from '@components/knowledge-base/knowledge-base.component';
 
-import {SettingsComponent} from '../components/settings/settings.component';
-import {ProfileComponent} from '../components/settings/settings-items/profile/profile.component';
-import {AuthenticationComponent} from '../components/settings/settings-items/authentication/authentication.component';
-import {BillingComponent} from '../components/settings/settings-items/billing/billing.component';
-import {AccountNotificationsComponent} from '../components/settings/settings-items/account-notifications/account-notifications.component';
-import {UserNotificationsComponent} from '../components/settings/settings-items/user-notifications/user-notifications.component';
-import {RefComponent} from '../components/confirmation/ref.component';
-import {SessionsComponent} from '../components/settings/settings-items/sessions/sessions.component';
-import {AudioConferenceComponent} from '../components/audio-conference/audio-conference.component';
-import {AudioConferenceCreateComponent} from '../components/audio-conference/audio-conference-create/audio-conference-create.component';
-import {CRMIntegrationComponent} from '../components/settings/settings-items/crm-integration/crm-integration.component';
-import {AmoCrmIntegrationComponent} from '../components/settings/settings-items/crm-integration/amo-crm-integration/amo-crm-integration.component';
+import {SettingsComponent} from '@components/settings/settings.component';
+import {ProfileComponent} from '@components/settings/settings-items/profile/profile.component';
+import {AuthenticationComponent} from '@components/settings/settings-items/authentication/authentication.component';
+import {BillingComponent} from '@components/settings/settings-items/billing/billing.component';
+import {AccountNotificationsComponent} from '@components/settings/settings-items/account-notifications/account-notifications.component';
+import {UserNotificationsComponent} from '@components/settings/settings-items/user-notifications/user-notifications.component';
+import {RefComponent} from '@components/confirmation/ref.component';
+import {SessionsComponent} from '@components/settings/settings-items/sessions/sessions.component';
+import {AudioConferenceComponent} from '@components/audio-conference/audio-conference.component';
+import {AudioConferenceCreateComponent} from '@components/audio-conference/audio-conference-create/audio-conference-create.component';
+import {CRMIntegrationComponent} from '@components/settings/settings-items/crm-integration/crm-integration.component';
+import {AmoCrmIntegrationComponent} from '@components/settings/settings-items/crm-integration/amo-crm-integration/amo-crm-integration.component';
 
 const Routes: Routes = [
     {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -186,7 +187,7 @@ const Routes: Routes = [
             },
             {
                 path: 'ivr',
-                loadChildren: '../components/ivr/ivr.module#IvrModule'
+                loadChildren: '@components/ivr/ivr.module#IvrModule'
             },
             {
                 path: 'audio-conference', children: [
@@ -221,13 +222,23 @@ const Routes: Routes = [
             },
             {
                 path: 'extensions', children: [
-                    {path: '', component: ExtensionsComponent, data: {title: 'Extensions', indexed: true}},
+                    {
+                        path: '', 
+                        component: ExtensionsComponent, 
+                        data: { title: 'Extensions', indexed: true }
+                    },
                     {
                         path: 'create',
                         component: AddExtensionsComponent,
-                        data: {title: 'Create Extension', indexed: true}
+                        data: { title: 'Create Extension', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
                     },
-                    {path: ':id', component: AddExtensionsComponent, data: {title: 'Edit Extension', indexed: true}}
+                    {
+                        path: ':id', 
+                        component: AddExtensionsComponent, 
+                        data: { title: 'Edit Extension', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
+                    }
                 ]
             },
             {
@@ -310,7 +321,8 @@ const Routes: Routes = [
         RouterModule
     ],
     providers: [
-        AuthGuardServices
+        AuthGuardServices,
+        CanDeactivateFormGuard
     ]
 })
 export class MainRouterModule {

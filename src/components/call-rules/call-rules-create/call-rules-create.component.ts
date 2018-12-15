@@ -58,7 +58,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     // -- properties ----------------------------------------------------------
 
-    get editMode(): boolean {
+    get modelEdit(): boolean {
         return isValidId(this.callRule.id);
     }
 
@@ -456,7 +456,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     cancel(): void {
-        this.close(this.editMode, () => this.cancelConfirm());
+        this.close(() => this.cancelConfirm());
     }
 
     cancelConfirm(): void {

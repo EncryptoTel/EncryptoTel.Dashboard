@@ -47,6 +47,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     };
 
     addMembersMode: boolean = false;
+    noDataMessage: any;
 
     // -- properties ----------------------------------------------------------
 
@@ -77,7 +78,10 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         return this.currentTab === this.tabs[1] && this.addMembersMode;
     }
 
-    noDataMessage: any ;
+    get modelEdit(): boolean {
+        return this.service.editMode;
+    }
+
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public router: Router,
@@ -175,7 +179,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     cancel(): void {
-        this.close(this.service.editMode, () => this.cancelConfirm());
+        this.close(() => this.cancelConfirm());
     }
 
     cancelConfirm(): void {

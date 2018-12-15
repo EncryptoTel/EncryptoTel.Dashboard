@@ -56,6 +56,10 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         return this.form;
     }
 
+    get modelEdit(): boolean {
+        return !this.isModelCreated;
+    }
+
     // -- component lifecycle methods -----------------------------------------
 
     hideField: boolean = false;
@@ -232,7 +236,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     click(item) {
         switch (item.id) {
             case 1:
-                this.close();
+                this.closePage();
                 this.hideField = false;
                 this.state.change.emit(this.hideField);
                 break;
@@ -253,7 +257,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     delete($event) {
-        this.close(true);
+        this.closePage(true);
         this.hideField = false;
         this.state.change.emit(this.hideField);
     }
@@ -268,7 +272,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.list.getItems(item);
             this.setFilters();
 
-            this.close(true);
+            this.closePage(true);
             this.hideField = false;
             this.state.change.emit(this.hideField);
 
@@ -277,7 +281,6 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     load(pageInfo: AddressBookModel) {
         this.locker.lock();
-        console.log(pageInfo);
         this.addressBookModel = pageInfo;
         this.setFilters();
 
@@ -350,11 +353,11 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    close(reload: boolean = false) {
+    closePage(reload: boolean = false) {
         this._forceReload = reload;
 
         if (!reload) {
-            super.close(!this.isNewFormModel, () => this.confirmClose());
+            super.close(() => this.confirmClose());
         } else {
             this.confirmClose();
         }
@@ -383,7 +386,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
             this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
             this.selected.loading--;
-            this.close(true);
+            this.closePage(true);
         }).catch(() => {
         }).then(() => {
             if (this.selected !== null && this.selected.loading !== undefined) {
@@ -417,7 +420,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         if (this.selected.id) {
             this.service.putById(this.selected.id, this.selected)
                 .then(() => {
-                    this.close(true);
+                    this.closePage(true);
                 }).catch(() => {
                     this.setFormData();
                 }).then(() => this.sidebar.saving --);
@@ -425,7 +428,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         else {
             this.service.post('', this.selected)
                 .then(() => {
-                    this.close(true);
+                    this.closePage(true);
                 }).catch(() => {
                     this.setFormData();
                 }).then(() => this.sidebar.saving --);

@@ -10,6 +10,7 @@ import {ExtensionItem} from '@models/extension.model';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import {MessageServices} from '@services/message.services';
 import {StorageService} from '@services/storage.service';
+import {Observable} from 'rxjs/Observable';
 
 
 @Component({
@@ -48,6 +49,10 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         const formValue: any = this.formExtension.value;
         return !!formValue.user &&
                (!!formValue.user.firstName || !!formValue.user.lastName);
+    }
+
+    get modelEdit(): boolean {
+        return this.mode === 'edit';
     }
 
     constructor(
@@ -184,7 +189,8 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     }
 
     close(): void {
-        super.close(this.mode === 'edit', () => this.doCancel());
+        // super.close(() => this.doCancel());
+        this.router.navigate(['cabinet', 'extensions']);
     }
 
     doCancel(): void {
@@ -201,6 +207,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
                 this.extension.create({...this.formExtension.value}).then(extension => {
                     this.id = extension.id;
                     this.afterSaveExtension(extension);
+                    this.saveFormState();
                     this.router.navigate(['cabinet', 'extensions']);
                 }).catch(response => {
                     this.errorSaveExtension(response);
@@ -209,6 +216,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             else if (this.mode === 'edit') {
                 this.extension.edit(this.id, {...this.formExtension.value}).then(extension => {
                     this.afterSaveExtension(extension);
+                    this.saveFormState();
                     if (extension.extension) {
                         this.getAccessList(extension.user);
                     }

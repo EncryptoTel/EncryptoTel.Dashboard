@@ -1,4 +1,4 @@
-import { FormGroup } from "@angular/forms";
+import { FormGroup } from '@angular/forms';
 
 export class FormsSnapshots {
     private _map: {};
@@ -16,7 +16,7 @@ export class FormsSnapshots {
     save(key: string): void {
         if (!this._map[key]) return;
 
-        let snapshot = this.takeSnapshot(key);
+        const snapshot = this.takeSnapshot(key);
         this._snapshots[key] = snapshot;
         // console.log('snapshot', key, snapshot);
     }

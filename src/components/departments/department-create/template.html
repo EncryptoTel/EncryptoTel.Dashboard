@@ -48,7 +48,7 @@
                                noDataMessage="{{'No data to display. Please add members' | translate }}"
                                [tableInfo]="sipTableContext"
                                [items]="filteredSips"
-                               [parentEditMode]="hasId"
+                               [parentEditMode]="modelEdit"
                                [(selectedItems)]="selectedSips"
         >
             <div class="dep-create-wrapper" *ngIf="sips.length > 0">

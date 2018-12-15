@@ -50,7 +50,7 @@ export class ValidationHost implements Lockable {
                 }
             });
         });
-        console.log('vh-items', this.items);
+        // console.log('vh-items', this.items);
     }
 
     // -- public methods ------------------------------------------------------
