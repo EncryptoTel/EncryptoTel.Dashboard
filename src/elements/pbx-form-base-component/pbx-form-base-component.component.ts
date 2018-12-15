@@ -1,14 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder } from '@angular/forms';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {Lockable, Locker} from '../../models/locker.model';
-import {ValidationHost} from '../../models/validation-host.model';
+import {TranslateService} from '@ngx-translate/core';
+
 import {ModalEx} from '../pbx-modal/pbx-modal.component';
-import {FormsSnapshots} from '../../models/forms-snapshots.model';
-import {validateForm, validateFormControls} from '../../shared/shared.functions';
-import {MessageServices} from '../../services/message.services';
+import {Lockable, Locker} from '@models/locker.model';
+import {ValidationHost} from '@models/validation-host.model';
+import {FormsSnapshots} from '@models/forms-snapshots.model';
+import {MessageServices} from '@services/message.services';
 import {InputComponent} from '@elements/pbx-input/pbx-input.component';
+import {validateForm, validateFormControls} from '@shared/shared.functions';
+import {FadeAnimation} from '@shared/fade-animation';
+import {SwipeAnimation} from '@shared/swipe-animation';
 import {ScrollEvent} from '@shared/scroll.directive';
 
 
@@ -48,13 +50,14 @@ export class FormBaseComponent implements OnInit, Lockable {
 
     constructor(
         protected fb: FormBuilder,
-        protected message: MessageServices
+        protected message: MessageServices,
+        protected translate: TranslateService
     ) {
         this.locker = new Locker();
         this.formKey = 'form';
         this.forms = [];
 
-        this.validationHost = new ValidationHost();
+        this.validationHost = new ValidationHost(this.translate);
         this.snapshots = new FormsSnapshots();
 
         this.modalExit = new ModalEx('', 'cancelEdit');

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
 
 import {emailRegExp, callRuleNameRegExp} from '@shared/vars';
 import {ExtensionService} from '@services/extension.service';
@@ -49,22 +50,25 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
                (!!formValue.user.firstName || !!formValue.user.lastName);
     }
 
-    constructor(protected fb: FormBuilder,
-                protected message: MessageServices,
-                private router: Router,
-                private activatedRoute: ActivatedRoute,
-                private extension: ExtensionService,
-                private storageService: StorageService) {
-        super(fb, message);
+    constructor(
+        protected fb: FormBuilder,
+        protected message: MessageServices,
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
+        private extension: ExtensionService,
+        protected storageService: StorageService,
+        protected translate: TranslateService,
+    ) {
+        super(fb, message, translate);
 
         this.background = 'form-body-fill';
         this.id = this.activatedRoute.snapshot.params.id;
         this.id ? this.mode = 'edit' : this.mode = 'create';
 
         this.validationHost.customMessages = [
-            {name: 'First Name', error: 'pattern', message: 'First Name may contain only letters, \'-\', \'_\' and \'.\''},
-            {name: 'Last Name', error: 'pattern', message: 'Last Name may contain only letters, \'-\', \'_\' and \'.\''},
-            {name: 'Email', error: 'pattern', message: 'Please enter valid email address'},
+            { key: 'user.firstName', error: 'pattern', message: this.translate.instant('First Name may contain only letters, \'-\', \'_\' and \'.\'') },
+            { key: 'user.lastName', error: 'pattern', message: this.translate.instant('Last Name may contain only letters, \'-\', \'_\' and \'.\'') },
+            { key: 'user.email', error: 'pattern', message: this.translate.instant('Please enter valid email address') },
         ];
     }
 

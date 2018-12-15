@@ -86,7 +86,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
                 protected message: MessageServices,
                 protected tabChange: StateService,
                 public translate: TranslateService) {
-        super(fb, message);
+        super(fb, message, translate);
 
         this.id = this.activatedRoute.snapshot.params.id;
         this.tabs = [ this.translate.instant('General'), this.translate.instant('Members') ];
@@ -94,10 +94,10 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.background = 'form-body-fill';
         this.noDataMessage = this.translate.instant('No data to display. Please add members');
         this.validationHost.customMessages = [
-            { name: 'Ring Time', error: 'pattern', message: this.translate.instant('Please enter valid number') },
-            { name: 'Ring Time', error: 'range', message: this.translate.instant('Please enter a value from 15 to 600') },
-            { name: 'Maximum Callers in Queue', error: 'pattern', message: this.translate.instant('Please enter valid number') },
-            { name: 'Maximum Callers in Queue', error: 'range', message: this.translate.instant('Please enter a value from 1 to 100') },
+            { key: 'timeout', error: 'pattern', message: this.translate.instant('Please enter valid number') },
+            { key: 'timeout', error: 'range', message: this.translate.instant('Please enter a value from 15 to 600') },
+            { key: 'maxlen', error: 'pattern', message: this.translate.instant('Please enter valid number') },
+            { key: 'maxlen', error: 'range', message: this.translate.instant('Please enter a value from 1 to 100') },
         ];
 
     }

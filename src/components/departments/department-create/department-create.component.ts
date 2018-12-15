@@ -60,16 +60,18 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(public service: DepartmentService,
-                private refs: RefsServices,
-                private company: CompanyService,
-                private activatedRoute: ActivatedRoute,
-                private _messages: MessageServices,
-                private router: Router,
-                protected fb: FormBuilder,
-                protected message: MessageServices,
-                public translate: TranslateService) {
-        super(fb, message);
+    constructor(
+        public service: DepartmentService,
+        private refs: RefsServices,
+        private company: CompanyService,
+        private activatedRoute: ActivatedRoute,
+        private _messages: MessageServices,
+        private router: Router,
+        protected fb: FormBuilder,
+        protected message: MessageServices,
+        public translate: TranslateService
+    ) {
+        super(fb, message, translate);
 
         this.locker = new Locker();
         this.sips = [];

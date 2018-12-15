@@ -1,5 +1,6 @@
-import { FormGroup, FormArray, FormControl, FormControlName, AbstractControl } from '@angular/forms';
+import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
+import { TranslateService } from '@ngx-translate/core';
 
 import { InputComponent } from '@elements/pbx-input/pbx-input.component';
 import { Lockable, Locker } from './locker.model';
@@ -20,7 +21,7 @@ export class ValidationHost implements Lockable {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor() {
+    constructor(public translate: TranslateService) {
         this.forms = [];
         this.controls = [];
 
@@ -49,7 +50,7 @@ export class ValidationHost implements Lockable {
                 }
             });
         });
-        // console.log('vh-items', this.items);
+        console.log('vh-items', this.items);
     }
 
     // -- public methods ------------------------------------------------------
@@ -156,7 +157,7 @@ export class ValidationHost implements Lockable {
                 if (name === controlKey) {
                     // console.log('scan-form', name, formControl);
                     const errorKeys = Object.keys(formControl.errors);
-                    errorMessage = this.getValidatorMessage(control.name, errorKeys[0], formControl.errors);
+                    errorMessage = this.getValidatorMessage(controlKey, errorKeys[0], formControl.errors);
                 }
             });
         });
@@ -204,36 +205,56 @@ export class ValidationHost implements Lockable {
         return control.key;
     }
 
-    getValidatorMessage(name: string, errorKey: string, errors: any): string {
-        const customMessage = this.getCustomValidatorMessage(name, errorKey);
+    // TODO: should be provided the following translations:
+    // 'character'
+    // 'characters'
+    // 'Please enter'
+    // 'Please enter at least'
+    // 'Please enter no more than'
+    // 'Please enter valid'
+
+    getValidatorMessage(controlKey: string, errorKey: string, errors: any): string {
+        const customMessage = this.getCustomValidatorMessage(controlKey, errorKey);
         if (customMessage) return customMessage;
         // console.log('vh-message', control, errorKey, errors);
 
         if (errorKey === 'required') {
-            const ctrlName = this.normalizeControlName(name);
-            return `Please enter ${ctrlName}`;
+            const ctrlName: string = this.normalizeControlName(controlKey);
+            const szPleaseEnter: string = this.translate.instant('Please enter');
+            return `${szPleaseEnter} ${ctrlName}`;
         }
         else if (errorKey === 'minlength') {
-            const pluralEnd = errors.minlength.requiredLength > 1 ? 's' : '';
-            return `Please enter at least ${errors.minlength.requiredLength} character${pluralEnd}`;
+            const pluralEnd: string = errors.minlength.requiredLength > 1 ? 's' : '';
+            const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
+            const szPleaseEnterAtLeast: string = 'Please enter at least';
+            return `${szPleaseEnterAtLeast} ${errors.minlength.requiredLength} ${szCharacters}`;
         }
         else if (errorKey === 'min') {
-            const pluralEnd = errors.min.min > 1 ? 's' : '';
-            return `Please enter at least ${errors.min.min} character${pluralEnd}`;
+            const pluralEnd: string = errors.min.min > 1 ? 's' : '';
+            const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
+            const szPleaseEnterAtLeast: string = 'Please enter at least';
+            return `${szPleaseEnterAtLeast} ${errors.min.min} ${szCharacters}`;
         }
         else if (errorKey === 'maxlength') {
-            const pluralEnd = errors.maxlength.requiredLength > 1 ? 's' : '';
-            return `Please enter no more than ${errors.maxlength.requiredLength} character${pluralEnd}`;
+            const pluralEnd: string = errors.maxlength.requiredLength > 1 ? 's' : '';
+            const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
+            const szPleaseEnterNoMoreThan: string = 'Please enter no more than';
+            return `${szPleaseEnterNoMoreThan} ${errors.maxlength.requiredLength} ${szCharacters}`;
         }
         else if (errorKey === 'max') {
-            const pluralEnd = errors.max.max > 1 ? 's' : '';
-            return `Please enter no more than ${errors.max.max} character${pluralEnd}`;
+            const pluralEnd: string = errors.max.max > 1 ? 's' : '';
+            const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
+            const szPleaseEnterNoMoreThan: string = 'Please enter no more than';
+            return `${szPleaseEnterNoMoreThan} ${errors.max.max} ${szCharacters}`;
         }
         else if (errorKey === 'pattern') {
-            const ctrlName = this.normalizeControlName(name);
-            return `Please enter valid ${ctrlName}`;
+            const ctrlName: string = this.normalizeControlName(name);
+            const szPleaseEnterValid: string = this.translate.instant('Please enter valid');
+            return `${szPleaseEnterValid} ${ctrlName}`;
         }
-        return 'The value is invalid';
+
+        const szInvalidDefault: string = this.translate.instant('The value is invalid');
+        return szInvalidDefault;
     }
 
     normalizeControlName(name: string): string {
@@ -242,14 +263,21 @@ export class ValidationHost implements Lockable {
         return normalized;
     }
     
-    getCustomValidatorMessage(name: string, errorKey: string): string {
+    getCustomValidatorMessage(controlKey: string, errorKey: string): string {
+        // FormArrays validation keys look like:
+        // - formName.arrayName.${index: number}.fieldName i.e. 'myForm.phones.0.extension'
+        // but customMessages should contain corresponding key in the following format:
+        // - formName.arrayName.*.fieldName i.e. 'myForm.phones.*.extension'
+        const customMessageKey = controlKey.replace(reFormArrayIdxRef, '.*.');
         if (this.customMessages) {
-            const item = this.customMessages.find(m => m.name === name && m.error === errorKey);
+            const item = this.customMessages.find(m => m.key === customMessageKey && m.error === errorKey);
             if (item) return item.message;
         }
         return null;
     }
 }
+
+export const reFormArrayIdxRef: RegExp = new RegExp(/(\.\d+\.)/);
 
 export class ValidationHostItem {
     key: string;

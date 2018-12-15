@@ -1,13 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
+import {TranslateService} from '@ngx-translate/core';
 
-import {SettingsService} from '../../../../services/settings.service';
-import {FadeAnimation} from '../../../../shared/fade-animation';
-import {MessageServices} from '../../../../services/message.services';
-import {FormBaseComponent} from '../../../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import {SettingsModel, SettingsOptionItem, SettingsBaseItem, SettingsItem, SettingsGroupItem} from '../../../../models/settings.models';
-import {ModalEx} from '../../../../elements/pbx-modal/pbx-modal.component';
+import {SettingsService} from '@services/settings.service';
+import {MessageServices} from '@services/message.services';
+import {FadeAnimation} from '@shared/fade-animation';
+import {SettingsModel, SettingsOptionItem, SettingsBaseItem, SettingsItem, SettingsGroupItem} from '@models/settings.models';
+import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
 
 
 @Component({
@@ -37,9 +38,10 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
         protected router: Router,
         protected service: SettingsService,
         protected message: MessageServices,
-        protected fb: FormBuilder
+        protected fb: FormBuilder,
+        protected translate: TranslateService
     ) {
-        super(fb, message);
+        super(fb, message, translate);
     }
 
     ngOnInit() {

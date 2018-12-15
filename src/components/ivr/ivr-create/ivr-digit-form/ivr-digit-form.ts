@@ -6,6 +6,7 @@ import {
     Validators,
     FormGroup,
 } from '@angular/forms';
+import {TranslateService} from '@ngx-translate/core';
 
 import { IvrService } from '@services/ivr.service';
 import { MessageServices } from '@services/message.services';
@@ -68,13 +69,14 @@ export class IvrDigitFormComponent extends FormBaseComponent
         public service: IvrService,
         protected fb: FormBuilder,
         protected message: MessageServices,
-        private storage: StorageService
+        private storage: StorageService,
+        protected translate: TranslateService
     ) {
-        super(fb, message);
+        super(fb, message, translate);
         this.onFormChange = new Subject();
 
         this.validationHost.customMessages = [
-            {name: 'External number', error: 'pattern', message: 'Phone number contains invalid characters. You can only use numbers.'},
+            { key: 'parameter', error: 'pattern', message: this.translate.instant('Phone number contains invalid characters. You can only use numbers.') },
         ];
     }
 
@@ -215,7 +217,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     }
 
     togglePlay(): void {
-        const fileId = this.digitForm.value.parameter
+        const fileId = this.digitForm.value.parameter;
         if (fileId) {
             this.mediaPlayer.togglePlay(fileId);
         }

@@ -1,13 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {PartnerProgramService} from '../../services/partner-program.service';
-import {PartnerProgramItem, PartnerProgramModel} from '../../models/partner-program.model';
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from '../../models/base.model';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {TranslateService} from '@ngx-translate/core';
 import {ClipboardService} from 'ngx-clipboard';
-import {MessageServices} from '../../services/message.services';
-import {FormGroup, FormBuilder, Validators} from '../../../node_modules/@angular/forms';
-import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import {simpleNameRegExp} from '../../shared/vars';
+
+import {PartnerProgramService} from '@services/partner-program.service';
+import {MessageServices} from '@services/message.services';
+import {PartnerProgramItem, PartnerProgramModel} from '@models/partner-program.model';
+import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from '@models/base.model';
+import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import {SwipeAnimation} from '@shared/swipe-animation';
+import {simpleNameRegExp} from '@shared/vars';
 
 
 @Component({
@@ -30,11 +32,14 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(public service: PartnerProgramService,
-                protected message: MessageServices,
-                protected fb: FormBuilder,
-                private clipboard: ClipboardService) {
-        super(fb, message);
+    constructor(
+        public service: PartnerProgramService,
+        protected message: MessageServices,
+        protected fb: FormBuilder,
+        private clipboard: ClipboardService,
+        protected translate: TranslateService
+    ) {
+        super(fb, message, translate);
 
         this.partners = new PartnerProgramModel();
         this.tab = {

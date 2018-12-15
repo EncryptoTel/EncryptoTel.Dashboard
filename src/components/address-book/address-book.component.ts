@@ -60,13 +60,15 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     hideField: boolean = false;
 
-    constructor(public service: AddressBookService,
+    constructor(
+        public service: AddressBookService,
         public refs: RefsServices,
         protected message: MessageServices,
         protected fb: FormBuilder,
         protected state: TariffStateService,
-        public translate: TranslateService) {
-        super(fb, message);
+        public translate: TranslateService
+    ) {
+        super(fb, message, translate);
 
         this.addressBookModel = new AddressBookModel();
         this.addressListHeaders = {
@@ -90,8 +92,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.itemsCache = [];
 
         this.validationHost.customMessages = [
-            {name: 'Phone', error: 'pattern', message: this.translate.instant('Phone number contains invalid characters. You can only use numbers and #')},
-            {name: 'Email', error: 'pattern', message: this.translate.instant('Please enter a valid email address')},
+            { key: 'contactPhone.*.value', error: 'pattern', message: this.translate.instant('Phone number contains invalid characters. You can only use numbers and #') },
+            { key: 'contactEmail.*.value', error: 'pattern', message: this.translate.instant('Please enter a valid email address') },
         ];
     }
 
