@@ -46,15 +46,15 @@
 
             <pbx-checkbox [value]="requestDetails.local"
                           (onToggle)="requestDetails.local = $event; getList()"></pbx-checkbox>
-            <div (click)="checkboxClick('local')">Local</div>
+            <div (click)="checkboxClick('local')" translate>Local</div>
 
             <pbx-checkbox [value]="requestDetails.mobile"
                           (onToggle)="requestDetails.mobile = $event; getList()"></pbx-checkbox>
-            <div (click)="checkboxClick('mobile')">Mobile</div>
+            <div (click)="checkboxClick('mobile')" translate>Mobile</div>
 
             <pbx-checkbox [value]="requestDetails.tollFree"
                           (onToggle)="requestDetails.tollFree = $event; getList()"></pbx-checkbox>
-            <div (click)="checkboxClick('tollFree')">Toll-free</div>
+            <div (click)="checkboxClick('tollFree')" translate>Toll-free</div>
 
         </div>
         <div class="buy_phone_header_refresh" (click)="getList()" translate>Refresh phone lists

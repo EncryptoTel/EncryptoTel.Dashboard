@@ -29,6 +29,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     filters: FilterItem[];
     buttons: ButtonItem[];
+    buttonsAudio: ButtonItem[];
     currentFilter: any;
 
     storageItemSubscription: Subscription;
@@ -118,7 +119,26 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             ], 'title', this.translate.instant('[choose one]')),
             new FilterItem(2, 'search', 'Search:', null, null, this.translate.instant('Search by Name')),
         ];
-
+        this.buttonsAudio = [
+            {
+                id: 2,
+                title: 'Upload',
+                type: 'success',
+                visible: true,
+                inactive: true,
+                buttonClass: 'button-upload',
+                icon: false
+            },
+            {
+                id: 1,
+                title: 'Delete Selected',
+                type: 'error',
+                visible: true,
+                inactive: true,
+                buttonClass: 'trash',
+                icon: false
+            },
+        ];
         this.buttons = [
             {
                 id: 0,

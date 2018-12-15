@@ -26,7 +26,7 @@ import { Subscriber } from 'rxjs/Subscriber';
     animations: [FadeAnimation('300ms'), SwipeAnimation('y', '200ms')]
 })
 export class InputComponent implements OnInit, OnDestroy {
-    changeSubscriber: Subscriber<any>;
+
     @Input() key: string;
     @Input() name: string;
     @Input() description: string;
@@ -91,6 +91,12 @@ export class InputComponent implements OnInit, OnDestroy {
         this.value = this._defaultValue;
     }
     _defaultValue: string = '';
+
+    // Properties to customise validation error message appearing place
+    @Input() hVMessageOffset: number;
+    @Input() vVMessageOffset: number;
+    @Input() showLabel: boolean = true;
+
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<boolean> = new EventEmitter();
     @Output() onKeyUp: EventEmitter<object> = new EventEmitter();
@@ -107,14 +113,12 @@ export class InputComponent implements OnInit, OnDestroy {
     hoverActive = false;
     loading = 0;
     pbxInputFocus = false;
-
-    // Properties to customise validation error message appearing place
-    @Input() hVMessageOffset: number;
-    @Input() vVMessageOffset: number;
+    changeSubscriber: Subscriber<any>;
 
     // Flags shows component's in focus or mouse over states
     inFocus: boolean = false;
     inMouseHover: boolean = false;
+
 
     constructor(public translate: TranslateService) {}
 
@@ -400,7 +404,9 @@ export class InputComponent implements OnInit, OnDestroy {
             if (this.updateObjectByObject) {
                 this.object[this.key] = event;
             } else {
-                this.object[this.key] = event.id;
+                if (this.object && this.key) {
+                    this.object[this.key] = event.id;
+                }
             }
             if (this.updateValueByKey) {
                 this.value.id = event.id;

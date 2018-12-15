@@ -54,6 +54,12 @@ export class InvoicesComponent implements OnInit {
     }
 
     load() {
+
+        this.list.pageInfo.items.forEach( item => {
+            item.status = this.translate.instant(item.status);
+            item.type = this.translate.instant(item.type);
+        });
+
         this.buttons[0].title = this.getInterval();
         this.buttons[0].visible = true;
     }

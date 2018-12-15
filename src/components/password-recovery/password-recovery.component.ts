@@ -7,6 +7,7 @@ import {FadeAnimation} from '@shared/fade-animation';
 import {validateForm, killEvent} from '@shared/shared.functions';
 import * as _vars from '@shared/vars';
 import {FormMessageModel} from '@models/form-message.model';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -21,8 +22,39 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
     message: FormMessageModel;
     emailForm: FormGroup;
     errorsSubscription: Subscription;
+    resetLinkSent: boolean = false;
 
-    constructor(private _services: AuthorizationServices) {}
+    get selectedEmail(): string {
+        return this.emailForm.value.email;
+    }
+
+    showForm(): boolean {
+        return !this.resetLinkSent;
+    }
+
+    constructor(
+        private service: AuthorizationServices,
+        private router: Router
+    ) {}
+
+    ngOnInit(): void {
+        this.service.clearMessage();
+        this.message = this.service.message;
+        this.errorsSubscription = this.service.readMessage()
+            .subscribe(message => this.onMessageChanged(message));
+        
+            this.emailForm = new FormGroup({
+            'email': new FormControl(null, [
+                Validators.required,
+                Validators.pattern(_vars.emailRegExp)
+            ])
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.service.clearMessage();
+        this.errorsSubscription.unsubscribe();
+    }
 
     /*
       Form field validation. Accepted params:
@@ -41,26 +73,32 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
     /*
       Code confirmation action
      */
-    sendEmail(ev?: Event): void {
-        this._services.clearMessage();
+    sendEmail(event: Event): void {
+        this.service.clearMessage();
         killEvent(event);
 
         validateForm(this.emailForm);
         if (this.emailForm.valid) {
             this.loading = true;
-            this._services.sendEmail(this.emailForm.value)
-                .then(() => {})
+            this.service.sendEmail(this.emailForm.value)
+                .then(() => {
+                    if (this.service.message && this.service.message.type === 'success') {
+                        this.resetLinkSent = true;
+                    }
+                })
                 .catch(() => {})
                 .then(() => {
                     this.loading = false;
                 });
         }
     }
+
+    back(): void {
+        this.router.navigate([ 'sign-in' ]);
+    }
     
-    clearMessage(event?: KeyboardEvent): void {
-        if (event.key) {
-            this._services.clearMessage();
-        }
+    clearMessage(): void {
+        this.service.clearMessage();
     }
 
     isErrorMessage(message: any): boolean {
@@ -76,24 +114,5 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
             this.emailForm.controls['email'].setErrors(null);
         }
         this.message = message;
-    }
-
-    ngOnInit(): void {
-        this._services.clearMessage();
-        this.message = this._services.message;
-        this.errorsSubscription = this._services.readMessage()
-            .subscribe(message => this.onMessageChanged(message));
-        
-            this.emailForm = new FormGroup({
-            'email': new FormControl(null, [
-                Validators.required,
-                Validators.pattern(_vars.emailRegExp)
-            ])
-        });
-    }
-
-    ngOnDestroy(): void {
-        this._services.clearMessage();
-        this.errorsSubscription.unsubscribe();
     }
 }

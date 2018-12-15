@@ -119,3 +119,26 @@ pbx-storage
     pbx-media-table-player
         .player-wrap
             display: none
+
+/* феерический костыль - не надо так делать */
+pbx-storage
+    pbx-sidebar
+        .store_sidebar_audio
+            .store_sidebar_audio_select
+                .select_file
+                    text-decoration: none !important
+                .hidden_input
+                    cursor: pointer !important
+                    top: -19px
+                    left: unset
+                    right: 0
+                    bottom: 0
+                    height: auto
+                    padding: 0 !important
+                    position: absolute
+                    font-size: 10px !important
+                    &:hover
+                        + p
+                            text-decoration: underline
+
+

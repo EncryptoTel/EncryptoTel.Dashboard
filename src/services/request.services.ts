@@ -128,6 +128,13 @@ export class RequestServices {
                 this.router.navigate(['/cabinet/dashboard']);
                 break;
             }
+            case 404: {
+                if (response.error && response.error.message) {
+                    this._messages.writeError(response.error.message, time);
+                }
+                console.error('Invalid API endpoint', response);
+                break;
+            }
             default: {
                 if (ShowError && ShowError(response.error ? response.error : response)) {
                     // error handled by caller

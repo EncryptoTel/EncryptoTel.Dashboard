@@ -1,7 +1,7 @@
 import { FormGroup, FormArray, FormControl, FormControlName, AbstractControl } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
-import { InputComponent } from '../elements/pbx-input/pbx-input.component';
+import { InputComponent } from '@elements/pbx-input/pbx-input.component';
 import { Lockable, Locker } from './locker.model';
 
 
@@ -156,14 +156,14 @@ export class ValidationHost implements Lockable {
                 if (name === controlKey) {
                     // console.log('scan-form', name, formControl);
                     const errorKeys = Object.keys(formControl.errors);
-                    errorMessage = this.getValidatorMessage(control, errorKeys[0], formControl.errors);
+                    errorMessage = this.getValidatorMessage(control.name, errorKeys[0], formControl.errors);
                 }
             });
         });
         return errorMessage;
     }
 
-    private takeFirstInvalidControl(): string {
+    takeFirstInvalidControl(): string {
         let firstInvalidControl = null;
         this.forms.forEach(form => {
             this.scanForm(form, '', (control, name) => {
@@ -187,7 +187,7 @@ export class ValidationHost implements Lockable {
         return control;
     }
 
-    private scanForm(form: FormGroup | FormArray, parent: string = '', action: (control: AbstractControl, name: string) => void): void {
+    scanForm(form: FormGroup | FormArray, parent: string = '', action: (control: AbstractControl, name: string) => void): void {
         Object.keys(form.controls).forEach(field => {
             const name = (parent) ? `${parent}.` + field : field;
             const control = form.get(field);
@@ -198,27 +198,26 @@ export class ValidationHost implements Lockable {
         });
     }
 
-    private getValidatorKey(control: InputComponent): string {
+    getValidatorKey(control: InputComponent): string {
         if (control.validationKey) return control.validationKey;
         if (control.errorKey) return control.errorKey.replace('new_', '');
         return control.key;
     }
 
-    private getValidatorMessage(control: InputComponent, errorKey: string, errors: any): string {
-        const customMessage = this.getCustomValidatorMessage(control, errorKey);
+    getValidatorMessage(name: string, errorKey: string, errors: any): string {
+        const customMessage = this.getCustomValidatorMessage(name, errorKey);
         if (customMessage) return customMessage;
         // console.log('vh-message', control, errorKey, errors);
 
         if (errorKey === 'required') {
-            const name = this.getControlName(control);
-            return `Please enter ${name}`;
+            const ctrlName = this.normalizeControlName(name);
+            return `Please enter ${ctrlName}`;
         }
         else if (errorKey === 'minlength') {
             const pluralEnd = errors.minlength.requiredLength > 1 ? 's' : '';
             return `Please enter at least ${errors.minlength.requiredLength} character${pluralEnd}`;
         }
         else if (errorKey === 'min') {
-            console.log('error', errors);
             const pluralEnd = errors.min.min > 1 ? 's' : '';
             return `Please enter at least ${errors.min.min} character${pluralEnd}`;
         }
@@ -231,21 +230,21 @@ export class ValidationHost implements Lockable {
             return `Please enter no more than ${errors.max.max} character${pluralEnd}`;
         }
         else if (errorKey === 'pattern') {
-            const name = this.getControlName(control);
-            return `Please enter valid ${name}`;
+            const ctrlName = this.normalizeControlName(name);
+            return `Please enter valid ${ctrlName}`;
         }
         return 'The value is invalid';
     }
 
-    private getControlName(control: InputComponent): string {
-        let name = control.name.toLowerCase();
-        name = name.replace(/\s+\*\s*$/, '');
-        return name;
+    normalizeControlName(name: string): string {
+        let normalized = name.toLowerCase();
+        normalized = normalized.replace(/\s+\*\s*$/, '');
+        return normalized;
     }
     
-    private getCustomValidatorMessage(control: InputComponent, errorKey: string): string {
+    getCustomValidatorMessage(name: string, errorKey: string): string {
         if (this.customMessages) {
-            const item = this.customMessages.find(m => m.name === control.name && m.error === errorKey);
+            const item = this.customMessages.find(m => m.name === name && m.error === errorKey);
             if (item) return item.message;
         }
         return null;

@@ -8,23 +8,6 @@
             [errors]="errors"
             (onReload)="reloadFilter($event)"
         ></pbx-header>
-
-        <!--<div class="refill_header_block">-->
-        <!--<div class="refill_header_block_key">Payment amount:</div>-->
-        <!--<input class="refill_header_block_input {{validInput?'':'error'}}"-->
-        <!--#input-->
-        <!--placeholder="Min ${{amount.min}}, Max ${{amount.max}}"-->
-        <!--[(ngModel)]="amount.value"-->
-        <!--(blur)="validValue(amount.value)"-->
-        <!--(keyup)="keyup(input.value)"-->
-        <!--autofocus-->
-        <!--[ngClass]="{'inactive':refill_status==='paying'}">-->
-        <!--</div>-->
-        <!--<div class="refill_header_block" *ngIf="refill_status==='paying' && selected.needReturnAddress">-->
-        <!--<div class="refill_header_block_key">Return address:</div>-->
-        <!--<input class="refill_header_block_input"-->
-        <!--[(ngModel)]="returnAddress">-->
-        <!--</div>-->
     </div>
     <div class="refill_body {{refill_status}}">
         <pbx-loader *ngIf="loading.body"></pbx-loader>
@@ -44,55 +27,31 @@
         </div>
         <div class="refill_paying" *ngIf="refill_status === 'paying' && !loading.body">
             <div class="refill_paying_container">
-                <div class="refill_paying_title">Payment method: {{selected.title}}</div>
-                <!--<div class="refill_sidebar_item">-->
-                <!--<div class="refill_sidebar_item_title">Invoice number</div>-->
-                <!--<div class="refill_sidebar_item_value">{{invoice_number}}</div>-->
-                <!--</div>-->
+                <div class="refill_paying_title"><span translate>Payment method</span>: {{selected.title}}</div>
                 <div class="refill_sidebar_item">
-                    <!--<div class="refill_sidebar_item_code"-->
-                    <!--*ngIf="findById(picked_currency,rates).code"-->
-                    <!--&gt;{{findById(picked_currency,rates).code.toUpperCase()}}-->
-                    <!--</div>-->
-                    <!--<div class="refill_sidebar_item_code">{{selected.title}}</div>-->
                     <div class="refill_sidebar_item_title">{{selected.title}}</div>
                     <div class="refill_sidebar_item_value">{{payment.amount}}</div>
                 </div>
                 <div class="refill_paying_buttons">
                     <pbx-button value="Cancel" buttonType="cancel"
                                 (onClick)="cancelPay()"></pbx-button>
-                    <pbx-button value="Pay" buttonType="success" (onClick)="pay()"
+                    <pbx-button value="{{'Pay' | translate}}" buttonType="success" (onClick)="pay()"
                                 [loading]="payment.loading"></pbx-button>
                 </div>
             </div>
         </div>
 
-        <!--<div class="refill_processing" *ngIf="refill_status === 'processing'">
-            <div class="refill_processing_title">Invoice pay processing</div>
-            <div class="refill_processing_item">
-                <div class="refill_processing_item_key">Payment amount
-                    {{selected.title}}
-                </div>
-                <div class="refill_processing_item_value">
-                    {{payment.amount}}
-                </div>
-            </div>
-            <div class="refill_processing_code">{{selected.title+' payment address: ' + payment.address}}
-            </div>
-            <div class="refill_processing_copy">(click to copy)</div>
-            <img class="qr_code_image" [src]="payment.qrCode">
-        </div>-->
         <div class="refill_processing" *ngIf="refill_status==='processing' && !loading.body">
             <div class="refill_processing_container">
-                <div class="refill_processing_title">Invoice pay processing</div>
-                <div class="refill_processing_amount">Invoice number
+                <div class="refill_processing_title" translate>Invoice pay processing</div>
+                <div class="refill_processing_amount"><span translate>Invoice number</span>
                     <span>{{'     '+addLeadingZeros(payment)}}</span></div>
-                <div class="refill_processing_amount">Payment amount
-                    {{selected.title}}:<span>{{'     '+payment.amount}}</span></div>
+                <div class="refill_processing_amount"><span translate>Payment amount</span>
+                    &nbsp;{{selected.title}}:<span>{{'     '+payment.amount}}</span></div>
                 <div class="refill_processing_address">
                     <div>{{selected.title}} payment address:</div>
                     <div>{{payment.address}}</div>
-                    <div (click)="copyToClipboard()">(click to copy)</div>
+                    <div (click)="copyToClipboard()" translate>(click to copy)</div>
                 </div>
                 <div class="refill_processing_qr_code_wrap">
                     <img [src]="payment.qrCode">
@@ -102,14 +61,14 @@
     </div>
     <div class="refill_sidebar" *ngIf="!loading.sidebar">
         <div class="refill_sidebar_block">
-            <div class="refill_sidebar_title">Current Balance</div>
+            <div class="refill_sidebar_title" translate>Current Balance</div>
             <div class="refill_sidebar_item">
-                <div class="refill_sidebar_item_title">Balance</div>
+                <div class="refill_sidebar_item_title" translate>Balance</div>
                 <div class="refill_sidebar_item_value">{{balance.symbol}} {{balance.balance}}</div>
             </div>
         </div>
         <div class="refill_sidebar_block" *ngIf="courses && refill_status !== 'processing'">
-            <div class="refill_sidebar_title rates">Exchange Rates</div>
+            <div class="refill_sidebar_title rates" translate>Exchange Rates</div>
             <div class="refill_sidebar_item {{selected && item.code === selected.currency.code ? 'picked' : ''}}"
                  *ngFor="let item of courses">
                 <div class="refill_sidebar_item_code" *ngIf="item.code">{{item.code.toUpperCase()}}</div>

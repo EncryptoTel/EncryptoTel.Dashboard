@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators, FormControl, AbstractControl} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {FadeAnimation} from '../../../shared/fade-animation';
@@ -83,13 +83,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.playButtonText = this.translate.instant('Play');
 
         this.validationHost.customMessages = [
-            {name: 'Rule Name', error: 'pattern', message: this.translate.instant('Rule name contains invalid characters or symbols. You can only use letters, numbers and the following characters: -_')},
+            {name: 'Rule Name', error: 'pattern', message: this.translate
+                .instant('Rule name contains invalid characters or symbols. You can only use letters, numbers and the following characters: -_')},
             {name: 'Action', error: 'required', message: this.translate.instant('Please choose the Action')},
             {name: 'If I do not answer call within', error: 'range', message: this.translate.instant('Please enter a value from 5 to 300')},
             {name: 'Action applies for', error: 'days', message: this.translate.instant('Please enter at least one day of the week')},
-            {name: 'Duration time', error: 'startTime', message: this.translate.instant('Start time cannot be greater than end time')},
-            {name: 'Duration time', error: 'equalTime', message: this.translate.instant('Start time cannot be the same as end time')},
-            {name: 'Duration time', error: 'invalidRange', message: this.translate.instant('Invalid time range format')},
+            {name: 'durationTime', error: 'startTime', message: this.translate.instant('Start time cannot be greater than end time')},
+            {name: 'durationTime', error: 'equalTime', message: this.translate.instant('Start time cannot be the same as end time')},
+            {name: 'durationTime', error: 'invalidRange', message: this.translate.instant('Invalid time range format')},
             {name: 'Extension number', error: 'duplicated', message: this.translate.instant('You cannot use two identical extensions followed one by one')},
         ];
     }
