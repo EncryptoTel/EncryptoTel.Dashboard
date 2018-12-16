@@ -9,6 +9,7 @@ import {FadeAnimation} from '@shared/fade-animation';
 import {SettingsModel, SettingsOptionItem, SettingsBaseItem, SettingsItem, SettingsGroupItem} from '@models/settings.models';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
+import {Observable} from 'rxjs/Observable';
 
 
 @Component({
@@ -32,6 +33,10 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
 
     @Input() path: string;
 
+    get modelEdit(): boolean {
+        return true;
+    }
+
     // -- component lifecycle methods -----------------------------------------
 
     constructor(
@@ -48,12 +53,17 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
         this.getInitialParams();
     }
 
+    canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+        const dataChanged: boolean = this.changes.length !== 0;
+        return super.canDeactivate(dataChanged);
+    }
+
     // -- event handlers ------------------------------------------------------
 
     onValueChange(item: SettingsItem): void {
-        let original = this.modelValues.find(v => v.id === item.id);
-        if (!original || original.value != item.value) {
-            let change = this.changes.find(c => c.id === item.id);
+        const original = this.modelValues.find(v => v.id === item.id);
+        if (!original || original.value !== item.value) {
+            const change = this.changes.find(c => c.id === item.id);
             if (change) change.value = item.value;
             else this.changes.push(new SettingsOptionItem(item.id, item.value));
         }
@@ -65,23 +75,13 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
     }
 
     cancel(): void {
-        if (this.changes.length !== 0) {
-            this.modalExit.setMessage('You have made changes. Do you really want to leave without saving?');
-            this.modalExit.show();
-        }
-        else {
-            this.goBack();
-        }
-    }
-
-    goBack(): void {
         this.router.navigateByUrl('/cabinet/settings');
     }
 
     // -- component methods ---------------------------------------------------
 
     findSettingById(id: number, items: SettingsBaseItem[]): SettingsItem {
-        for (let item of items) {
+        for (const item of items) {
             if ((<SettingsItem>item).id === id) return <SettingsItem>item;
             if (item.isGroup) {
                 const child = this.findSettingById(id, (<SettingsGroupItem>item).children);
@@ -95,7 +95,7 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
         this.modelValues = [];
         items.forEach(i => {
             if (!i.isGroup) {
-                let settingsItem = <SettingsItem>i;
+                const settingsItem = <SettingsItem>i;
                 this.modelValues.push(new SettingsOptionItem(settingsItem.id, settingsItem.value));
                 this.checkItemQRCode(settingsItem);
             }
@@ -115,12 +115,14 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
     }
 
     checkItemQRCode(item: SettingsItem): void {
-        if (item.key == 'two_factor_auth_type') {
-            let selected = item.options.find(o => o.id == item.value);
-            if (selected && selected.value === 'google')
+        if (item.key === 'two_factor_auth_type') {
+            const selected = item.options.find(o => o.id === item.value);
+            if (selected && selected.value === 'google') {
                 this.getQR();
-            else
+            }
+            else {
                 this.qrCode = null;
+            }
         }
     }
 

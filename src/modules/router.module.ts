@@ -146,13 +146,23 @@ const Routes: Routes = [
             },
             {
                 path: 'call-rules', data: {title: 'Call Rules', indexed: true}, children: [
-                    {path: '', component: CallRulesComponent, data: {title: 'Call Rules', indexed: true}},
+                    {
+                        path: '',
+                        component: CallRulesComponent,
+                        data: { title: 'Call Rules', indexed: true }
+                    },
                     {
                         path: 'create',
                         component: CallRulesCreateComponent,
-                        data: {title: 'Create Call Rule', indexed: true}
+                        data: { title: 'Create Call Rule', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
                     },
-                    {path: ':id', component: CallRulesCreateComponent, data: {title: 'Edit Call Rule', indexed: true}}
+                    {
+                        path: ':id',
+                        component: CallRulesCreateComponent,
+                        data: { title: 'Edit Call Rule', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
+                    }
                 ]
             },
             {
@@ -204,19 +214,29 @@ const Routes: Routes = [
                     }
                 ]
             },
-            {path: 'company', component: CompanyComponent, data: {title: 'Company', indexed: true}},
+            {
+                path: 'company',
+                component: CompanyComponent,
+                data: { title: 'Company', indexed: true},
+                canDeactivate: [ CanDeactivateFormGuard ]
+            },
             {
                 path: 'departments', children: [
-                    {path: '', component: DepartmentsComponent, data: {title: 'Departments', indexed: true}},
+                    {
+                        path: '',
+                        component: DepartmentsComponent,
+                        data: { title: 'Departments', indexed: true} },
                     {
                         path: 'create',
                         component: DepartmentCreateComponent,
-                        data: {title: 'Create Department', indexed: true},
+                        data: { title: 'Create Department', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
                     },
                     {
                         path: ':id',
                         component: DepartmentCreateComponent,
-                        data: {title: 'Edit Departments', indexed: true},
+                        data: { title: 'Edit Departments', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
                     }
                 ]
             },
@@ -252,22 +272,35 @@ const Routes: Routes = [
             {
                 path: 'settings', children: [
                     {path: '', component: SettingsComponent, data: {title: 'Settings', indexed: true}},
-                    {path: 'profile', component: ProfileComponent, data: {title: 'Profile Settings', indexed: true}},
+                    {
+                        path: 'profile',
+                        component: ProfileComponent,
+                        data: { title: 'Profile Settings', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
+                    },
                     {
                         path: 'authentication',
                         component: AuthenticationComponent,
-                        data: {title: 'Two-Factor Authentication', indexed: true}
+                        data: { title: 'Two-Factor Authentication', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
                     },
-                    {path: 'billing', component: BillingComponent, data: {title: 'Billing Settings', indexed: true}},
+                    {
+                        path: 'billing',
+                        component: BillingComponent,
+                        data: { title: 'Billing Settings', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
+                    },
                     {
                         path: 'account-notifications',
                         component: AccountNotificationsComponent,
-                        data: {title: 'Account Notification Settings', indexed: true}
+                        data: { title: 'Account Notification Settings', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
                     },
                     {
                         path: 'user-notifications',
                         component: UserNotificationsComponent,
-                        data: {title: 'User Notification Settings', indexed: true}
+                        data: { title: 'User Notification Settings', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
                     },
                     {
                         path: 'sessions',

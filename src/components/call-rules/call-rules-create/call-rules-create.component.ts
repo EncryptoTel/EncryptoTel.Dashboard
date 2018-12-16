@@ -456,10 +456,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     cancel(): void {
-        this.close(() => this.cancelConfirm());
-    }
-
-    cancelConfirm(): void {
         this.router.navigate(['cabinet', 'call-rules']);
     }
 

@@ -7,7 +7,7 @@
               [decline]="{value: 'Cancel', buttonType: 'cancel'}"
               [confirm]="{value: 'Save', buttonType: 'success'}"
               (onDecline)="close()"
-              (onConfirm)="doSave()"
+              (onConfirm)="save()"
               [background]="background"
               (onSelect)="selectTab($event)"
               (onScroll)="handleScroll($event)"
@@ -30,6 +30,6 @@
     </pbx-form>
 </div>
 <pbx-modal [modalEx]="modalExit"
-           (onConfirmEx)="doCancel()"
+           (onConfirmEx)="close()"
            >
 </pbx-modal>

@@ -54,10 +54,6 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
     // -- properties ----------------------------------------------------------
 
-    public get hasId(): boolean {
-        return !!this._id && this._id > 0;
-    }
-
     get modelEdit(): boolean {
         return !!this._id && this._id > 0;
     }
@@ -217,13 +213,13 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
         this.locker.lock();
         this.service.save(this._id, this._department).then((response) => {
+            this.saveFormState();
             if (!this.modelEdit) {
-                this.confirmClose();
+                this.close();
             }
             else {
                 this._id = response.id;
                 this.getItem();
-                this.saveFormState();
             }
         }).catch((err) => {
             const msg = getErrorMessageFromServer(err);
@@ -339,7 +335,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         }
         else if (action === 'cancel') {
             this.fillSipInnersFormElements();
-            this.close(() => this.confirmClose());
+            this.close();
         }
         else if (action === 'back') {
             this.sipInnersControl.editMode = false;
@@ -348,7 +344,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         }
     }
 
-    confirmClose(): void {
+    close(): void {
         this.router.navigate(['cabinet', 'departments']);
     }
 }

@@ -33,10 +33,10 @@ export class FormsSnapshots {
     check(key: string): boolean {
         if (!this._map[key]) return false;
         
-        let snapshot = this.takeSnapshot(key);
+        const snapshot = this.takeSnapshot(key);
         // console.log('check:1', key, this._snapshots[key]);
         // console.log('check:2', snapshot);
-        return snapshot != this._snapshots[key];
+        return snapshot !== this._snapshots[key];
     }
 
     checkAll(): boolean {

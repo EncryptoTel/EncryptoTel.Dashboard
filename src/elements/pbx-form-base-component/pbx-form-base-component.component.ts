@@ -44,7 +44,6 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
     get isModelCreated(): boolean {
         if (this.form) {
             const id = this.form.get('id');
-            console.log('model-id', id, this.forms);
             return !(id && id.value);
         }
         return false;
@@ -86,8 +85,8 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
         throw new Error('initForm() method not implemented.');
     }
 
-    canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-        if (!this.checkFormChanged()) return true;
+    canDeactivate(dataChanged?: boolean): Observable<boolean> | Promise<boolean> | boolean {
+        if (!dataChanged && !this.checkFormChanged()) return true;
         
         // console.log('on-deactivate', this.modelEdit);
         return Observable.create((observer: Observer<boolean>) => {

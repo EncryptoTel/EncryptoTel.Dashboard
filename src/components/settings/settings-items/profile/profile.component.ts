@@ -33,7 +33,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     model: SettingsModel;
 
-    public sidebarActive: boolean;
+    sidebarActive: boolean;
 
     generalForm: FormGroup;
     emailChange: FormGroup;
@@ -43,17 +43,22 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     emailChangeState: EmailChangeState;
 
-    @ViewChild('fileInput') fileInput: ElementRef;
-
-    get messageSent(): boolean {
-        return this.emailChangeState === EmailChangeState.CONFIRMATION_CODE_SENT;
-    }
-
     loading: number;
     saveButton: any;
     cancelButton: any;
     text: any;
     private _compatibleMediaTypes: string[];
+
+    @ViewChild('fileInput') fileInput: ElementRef;
+
+
+    get messageSent(): boolean {
+        return this.emailChangeState === EmailChangeState.CONFIRMATION_CODE_SENT;
+    }
+
+    get modelEdit(): boolean {
+        return true;
+    }
 
     // --- component lifecycle methods ----------------------------------------
 
@@ -127,7 +132,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     // --- event handlers -----------------------------------------------------
 
-    confirmClose(): void {
+    close(): void {
         this.router.navigateByUrl('/cabinet/settings');
     }
 
@@ -169,10 +174,6 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         else {
             this.scrollToFirstError();
         }
-    }
-
-    close() {
-        this.router.navigateByUrl('/cabinet/settings');
     }
 
     // --- forms processing methods -------------------------------------------
@@ -230,31 +231,32 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     getSettings(): void {
         this.loading++;
 
-        this.service.getProfileSettings().then(response => {
-            // console.log('profile', response);
-            this.model = SettingsModel.create(response.profile.settings);
-            this.userDefaultPhoto = response.profile.user.avatar;
-            this.initFormData('generalForm', this.generalForm, response);
-            this.initFormData('emailChange', this.emailChange, response);
-            this.initFormData('passwordChange', this.passwordChange);
-        }).catch(() => {
-        })
+        this.service.getProfileSettings()
+            .then(response => {
+                // console.log('profile', response);
+                this.model = SettingsModel.create(response.profile.settings);
+                this.userDefaultPhoto = response.profile.user.avatar;
+                this.initFormData('generalForm', this.generalForm, response);
+                this.initFormData('emailChange', this.emailChange, response);
+                this.initFormData('passwordChange', this.passwordChange);
+            })
+            .catch(() => {})
             .then(() => this.loading--);
     }
 
     saveProfileSettings(): void {
         this.loading++;
 
-        this.service.saveProfileSettings(this.generalForm.value).then(() => {
+        this.service.saveProfileSettings(this.generalForm.value)
+            .then(() => {
+                const language = (this.generalForm.value.language === 19) ? 'ru' : 'en';
+                this.translate.use(language);
+                this.storage.writeItem('user_lang', language);
 
-            const language = (this.generalForm.value.language === 19) ? 'ru' : 'en';
-            this.translate.use(language);
-            this.storage.writeItem('user_lang', language);
-
-            this.getSettings();
-            this.user.fetchProfileParams().then();
-        }).catch(() => {
-        })
+                this.getSettings();
+                this.user.fetchProfileParams().then();
+            })
+            .catch(() => {})
             .then(() => this.loading--);
     }
 
@@ -265,7 +267,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             this.service.requestEmailChange(this.emailChange.get('email').value)
                 .then(() => {
                     this.emailChangeState = EmailChangeState.CONFIRMATION_CODE_SENT;
-                }).catch(response => {
+                })
+                .catch(response => {
                     if (response.errors && response.errors['email']) {
                         response.errors['email'] = `A user with this email address already exists`;
                     }
@@ -275,13 +278,14 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         else if (this.emailChangeState === EmailChangeState.CONFIRMATION_CODE_SENT) {
             this.loading++;
 
-            this.service.confirmEmailChange(this.emailChange.get('code').value).then(response => {
-                this.emailChange.get('code').setValue('');
-                this.saveFormState('emailChange');
-                this.emailChangeState = EmailChangeState.NOT_STARTED;
-                // this._message.writeSuccess(response.message);
-            }).catch(() => {
-            })
+            this.service.confirmEmailChange(this.emailChange.get('code').value)
+                .then(response => {
+                    this.emailChange.get('code').setValue('');
+                    this.saveFormState('emailChange');
+                    this.emailChangeState = EmailChangeState.NOT_STARTED;
+                    // this._message.writeSuccess(response.message);
+                })
+                .catch(() => {})
                 .then(() => this.loading--);
         }
     }

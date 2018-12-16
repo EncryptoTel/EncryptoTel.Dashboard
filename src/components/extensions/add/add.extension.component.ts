@@ -141,38 +141,39 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         }
 
         this.locker.lock();
-        this.extension.getExtension(this.id).then(response => {
-            this.formExtension.get('outer').setValue({
-                id: response.sipOuter.id,
-                title: response.sipOuter.phoneNumber
-            });
+        this.extension.getExtension(this.id)
+            .then(response => {
+                this.formExtension.get('outer').setValue({
+                    id: response.sipOuter.id,
+                    title: response.sipOuter.phoneNumber
+                });
 
-            this.formExtension.get('phoneNumber').setValue(response.phoneNumber);
-            this.formExtension.get('default').setValue(response.default);
-            this.formExtension.get('mobileApp').setValue(response.mobileApp);
-            this.formExtension.get('encryption').setValue(response.encryption);
-            this.encryption = response.encryption;
-            if (response.certificate) {
-                this.certificateId = response.certificate;
-            }
-            this.formExtension.get('toAdmin').setValue(false);
-            this.formExtension.get('toUser').setValue(false);
-            this.formExtension.get('callRecord').setValue(response.callRecord);
-            this.formExtension.get('status').setValue(response.status);
+                this.formExtension.get('phoneNumber').setValue(response.phoneNumber);
+                this.formExtension.get('default').setValue(response.default);
+                this.formExtension.get('mobileApp').setValue(response.mobileApp);
+                this.formExtension.get('encryption').setValue(response.encryption);
+                this.encryption = response.encryption;
+                if (response.certificate) {
+                    this.certificateId = response.certificate;
+                }
+                this.formExtension.get('toAdmin').setValue(false);
+                this.formExtension.get('toUser').setValue(false);
+                this.formExtension.get('callRecord').setValue(response.callRecord);
+                this.formExtension.get('status').setValue(response.status);
 
-            this.formExtension.get(['user', 'firstName']).setValue(response.user ? response.user.firstname : null);
-            this.formExtension.get(['user', 'lastName']).setValue(response.user ? response.user.lastname : null);
-            this.formExtension.get(['user', 'email']).setValue(response.user ? response.user.email : null);
+                this.formExtension.get(['user', 'firstName']).setValue(response.user ? response.user.firstname : null);
+                this.formExtension.get(['user', 'lastName']).setValue(response.user ? response.user.lastname : null);
+                this.formExtension.get(['user', 'email']).setValue(response.user ? response.user.email : null);
 
-            if (!response.user.email) {
-                this.tab.active[4] = false;
-            } else {
-                this.tab.active[4] = true;
-            }
+                if (!response.user.email) {
+                    this.tab.active[4] = false;
+                } else {
+                    this.tab.active[4] = true;
+                }
 
-            this.getAccessList(response.user);
-        }).catch(() => {
-        })
+                this.getAccessList(response.user);
+            })
+            .catch(() => {})
             .then(() => {
                 this.saveFormState();
                 this.locker.unlock();
@@ -181,48 +182,48 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
 
     getAccessList(user) {
         this.locker.lock();
-        this.extension.getAccessList(user ? user.id : null).then(res => {
-            this.accessList = res;
-        }).catch(() => {
-        })
+        this.extension.getAccessList(user ? user.id : null)
+            .then(response => {
+                this.accessList = response;
+            })
+            .catch(() => {})
             .then(() => this.locker.unlock());
     }
 
     close(): void {
-        // super.close(() => this.doCancel());
         this.router.navigate(['cabinet', 'extensions']);
     }
 
-    doCancel(): void {
-        this.router.navigate(['cabinet', 'extensions']);
-    }
-
-    doSave() {
+    save() {
         this.validateForms();
 
         if (this.formExtension.valid) {
             this.locker.lock();
 
             if (this.mode === 'create') {
-                this.extension.create({...this.formExtension.value}).then(extension => {
-                    this.id = extension.id;
-                    this.afterSaveExtension(extension);
-                    this.saveFormState();
-                    this.router.navigate(['cabinet', 'extensions']);
-                }).catch(response => {
-                    this.errorSaveExtension(response);
-                });
+                this.extension.create({...this.formExtension.value})
+                    .then(extension => {
+                        this.id = extension.id;
+                        this.afterSaveExtension(extension);
+                        this.saveFormState();
+                        this.router.navigate(['cabinet', 'extensions']);
+                    })
+                    .catch(response => {
+                        this.errorSaveExtension(response);
+                    });
             }
             else if (this.mode === 'edit') {
-                this.extension.edit(this.id, {...this.formExtension.value}).then(extension => {
-                    this.afterSaveExtension(extension);
-                    this.saveFormState();
-                    if (extension.extension) {
-                        this.getAccessList(extension.user);
-                    }
-                }).catch(response => {
-                    this.errorSaveExtension(response);
-                });
+                this.extension.edit(this.id, {...this.formExtension.value})
+                    .then(extension => {
+                        this.afterSaveExtension(extension);
+                        this.saveFormState();
+                        if (extension.extension) {
+                            this.getAccessList(extension.user);
+                        }
+                    })
+                    .catch(response => {
+                        this.errorSaveExtension(response);
+                    });
             }
         }
         else {
@@ -251,7 +252,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         this.locker.unlock();
 
         if (!extension.user) {
-            this.doCancel();
+            this.close();
             return;
         }
 
@@ -263,10 +264,11 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         }
 
         this.locker.lock();
-        this.extension.saveAccessList(extension.user.id, rights).then(() => {
-            if (this.mode === 'create') this.doCancel();
-        }).catch(() => {
-        })
+        this.extension.saveAccessList(extension.user.id, rights)
+            .then(() => {
+                if (this.mode === 'create') this.close();
+            })
+            .catch(() => {})
             .then(() => this.locker.unlock());
     }
 }
