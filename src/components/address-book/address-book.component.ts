@@ -357,9 +357,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this._forceReload = reload;
 
         if (!reload) {
-            super.close(() => this.confirmClose());
+            super.close(() => this.close());
         } else {
-            this.confirmClose();
+            this.close();
         }
     }
 
@@ -370,7 +370,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     // -- component methods ---------------------------------------------------
 
-    confirmClose(): void {
+    close(): void {
         this.sidebar.visible = false;
         this.sidebar.mode = null;
 

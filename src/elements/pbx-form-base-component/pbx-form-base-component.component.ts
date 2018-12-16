@@ -34,10 +34,10 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
     forms: { key: string, form: FormGroup }[];
 
     validationHost: ValidationHost;
-    snapshots: FormsSnapshots;
+    snapshots: FormsSnapshots = new FormsSnapshots();
 
-    locker: Locker;
-    modalExit: ModalEx;
+    locker: Locker = new Locker();
+    modalExit: ModalEx = new ModalEx('', 'cancelEdit');
 
     formPanel: Element = null;
 
@@ -54,23 +54,19 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
         protected message: MessageServices,
         protected translate: TranslateService,
     ) {
-        this.locker = new Locker();
         this.formKey = 'form';
         this.forms = [];
 
         this.validationHost = new ValidationHost(this.translate);
-        this.snapshots = new FormsSnapshots();
-
-        this.modalExit = new ModalEx('', 'cancelEdit');
     }
 
     ngOnInit(): void {
         this.initForm();
-        this.saveFormState();
 
         if (this.form && this.forms.length === 0) {
             this.addForm(this.formKey, this.form);
         }
+        this.saveFormState();
 
         this.validationHost.start();
     }
@@ -88,7 +84,6 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
     canDeactivate(dataChanged?: boolean): Observable<boolean> | Promise<boolean> | boolean {
         if (!dataChanged && !this.checkFormChanged()) return true;
         
-        // console.log('on-deactivate', this.modelEdit);
         return Observable.create((observer: Observer<boolean>) => {
             this.showExitModal(
                 this.modelEdit,
@@ -240,8 +235,8 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
 
     showExitModal(editMode: boolean, confirmCallback?: () => void, cancelCallback?: () => void): void {
         const message = (editMode)
-            ? 'You have made changes. Do you really want to leave without saving?'
-            : 'Do you really want to leave without saving?';
+            ? this.translate.instant('You have made changes. Do you really want to leave without saving?')
+            : this.translate.instant('Do you really want to leave without saving?');
         this.modalExit.setMessage(message);
         this.modalExit.confirmCallback = confirmCallback;
         this.modalExit.cancelCallback = cancelCallback;
@@ -261,10 +256,7 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
     scrollToFirstError(): void {
         const control: InputComponent = this.validationHost.getFirstInvalidControl();
         if (control && this.formPanel && this.formPanel.scrollTop) {
-            let elementTop: number = control.inputDiv.nativeElement.parentElement.offsetTop;
-            if (control.name.toLowerCase() === 'ivr name' || elementTop <= 30) {
-                elementTop = 0;
-            }
+            const elementTop: number = control.inputDiv.nativeElement.parentElement.offsetTop;
             this.formPanel.scrollTop = elementTop;
         }
         else if (this.formPanel && this.formPanel.scrollTop) {

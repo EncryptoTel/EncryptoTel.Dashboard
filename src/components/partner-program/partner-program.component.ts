@@ -183,6 +183,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
 
         this.service.save(item.id, item.name, item.status)
             .then(() => {
+                this.saveFormState();
                 this.getItems(item);
                 this.selected = null;
             })
@@ -199,7 +200,6 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
         this.service.getItems(this.partners)
             .then(response => {
                 this.partners = response;
-                console.log('partners', this.partners);
             })
             .catch(() => {})
             .then(() => (item ? item : this).loading --);

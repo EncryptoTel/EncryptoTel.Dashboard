@@ -1,11 +1,12 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {FadeAnimation} from '../../../shared/fade-animation';
-import {PartnerProgramService} from '../../../services/partner-program.service';
-import {PartnerProgramItem, PartnerProgramModel} from '../../../models/partner-program.model';
-import {TableInfoExModel, TableInfoItem} from '../../../models/base.model';
-import {killEvent} from '../../../shared/shared.functions';
-import {ModalEx} from '../../../elements/pbx-modal/pbx-modal.component';
-import {Lockable, Locker} from '../../../models/locker.model';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+
+import {PartnerProgramService} from '@services/partner-program.service';
+import {PartnerProgramItem, PartnerProgramModel} from '@models/partner-program.model';
+import {TableInfoExModel, TableInfoItem} from '@models/base.model';
+import {Lockable, Locker} from '@models/locker.model';
+import {FadeAnimation} from '@shared/fade-animation';
+import {killEvent} from '@shared/shared.functions';
+import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
 
 
 @Component({
@@ -94,7 +95,7 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
     }
 
     clickCreateLink() {
-        let item = new PartnerProgramItem();
+        const item = new PartnerProgramItem();
         this.onEdit.emit(item);
     }
 

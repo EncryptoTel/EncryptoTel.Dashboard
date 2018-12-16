@@ -9,19 +9,24 @@
               [table]="addressListHeaders"
               [loading]="!locker.free"
               [(filters)]="filters"
+              [service]="service"
+              [sidebar]="sidebar"
+              [multiple]="true"
+              [ngClass]="sidebar.visible ? 'someClass':''"
               (onCreate)="create()"
               (onEdit)="edit($event)"
               (onSelect)="select($event)"
               (onLoad)="load($event)"
               (onDelete)="delete($event)"
-              [service]="service"
-              [sidebar]="sidebar"
-              [multiple]="true"
-              [ngClass]="sidebar.visible ? 'someClass':''"
               >
     </pbx-list>
 
-    <pbx-sidebar *ngIf="sidebar.visible" [sidebarInfo]="sidebar" (onClick)="click($event)" [@Swipe] [@Fade]>
+    <pbx-sidebar *ngIf="sidebar.visible"
+                 [sidebarInfo]="sidebar"
+                 (onClick)="click($event)"
+                 [@Swipe]
+                 [@Fade]
+                 >
         <form *ngIf="editMode" [formGroup]="form">
             <div class="side_wrap" *ngIf="locker.free && !sidebar.loading && sidebar.mode === 'edit'">
                 <div *ngIf="!sidebar.saving"
@@ -217,7 +222,7 @@
 >
 </pbx-modal>
 <pbx-modal [modalEx]="modalExit"
-            (onConfirmEx)="confirmClose()"
+            (onConfirmEx)="close()"
 >
 </pbx-modal>
 <pbx-modal [modalEx]="modalDelete"

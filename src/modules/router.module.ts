@@ -140,8 +140,17 @@ const Routes: Routes = [
                 ]
             },
             {
-                path: 'address-book', component: AddressBookComponent, data: {title: 'Address Book', indexed: true}, children: [
-                    {path: ':id', component: AddressBookComponent, data: {title: 'Address Book', indexed: true}}
+                path: 'address-book',
+                component: AddressBookComponent,
+                data: { title: 'Address Book', indexed: true },
+                canDeactivate: [ CanDeactivateFormGuard ],
+                children: [
+                    {
+                        path: ':id',
+                        component: AddressBookComponent,
+                        data: { title: 'Address Book', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
+                    }
                 ]
             },
             {
@@ -171,12 +180,14 @@ const Routes: Routes = [
                     {
                         path: 'create',
                         component: CallQueuesCreateComponent,
-                        data: {title: 'Create Call Queue', indexed: true},
+                        data: { title: 'Create Call Queue', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
                     },
                     {
                         path: ':id',
                         component: CallQueuesCreateComponent,
-                        data: {title: 'Edit Call Queue', indexed: true},
+                        data: { title: 'Edit Call Queue', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
                     }
                 ]
             },
@@ -186,12 +197,14 @@ const Routes: Routes = [
                     {
                         path: 'create',
                         component: RingGroupsCreateComponent,
-                        data: {title: 'Create Ring Group', indexed: true},
+                        data: { title: 'Create Ring Group', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
                     },
                     {
                         path: ':id',
                         component: RingGroupsCreateComponent,
-                        data: {title: 'Edit Ring Group', indexed: true},
+                        data: { title: 'Edit Ring Group', indexed: true },
+                        canDeactivate: [ CanDeactivateFormGuard ]
                     }
                 ]
             },
@@ -326,14 +339,16 @@ const Routes: Routes = [
             {
                 path: 'refill',
                 component: RefillBalanceComponent,
-                data: {title: 'Refill Balance', indexed: true},
+                data: { title: 'Refill Balance', indexed: true },
                 runGuardsAndResolvers: 'always',
+                canDeactivate: [ CanDeactivateFormGuard ]
             },
             {path: 'tariff', component: TariffPlansComponent, data: {title: 'Tariff Plan', indexed: true}},
             {
                 path: 'partner-program',
                 component: PartnerProgramComponent,
-                data: {title: 'Partner Program', indexed: true}
+                data: { title: 'Partner Program', indexed: true },
+                canDeactivate: [ CanDeactivateFormGuard ]
             },
             {
                 path: 'knowledge-base',

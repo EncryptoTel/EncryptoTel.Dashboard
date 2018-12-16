@@ -33,10 +33,17 @@
                     <div class="refill_sidebar_item_value">{{payment.amount}}</div>
                 </div>
                 <div class="refill_paying_buttons">
-                    <pbx-button value="Cancel" buttonType="cancel"
-                                (onClick)="cancelPay()"></pbx-button>
-                    <pbx-button value="{{'Pay' | translate}}" buttonType="success" (onClick)="pay()"
-                                [loading]="payment.loading"></pbx-button>
+                    <pbx-button value="Cancel"
+                                buttonType="cancel"
+                                (onClick)="cancelPay()"
+                                >
+                    </pbx-button>
+                    <pbx-button value="{{'Pay' | translate}}"
+                                buttonType="success"
+                                [loading]="payment.loading"
+                                (onClick)="pay()"
+                                >
+                    </pbx-button>
                 </div>
             </div>
         </div>
@@ -79,3 +86,4 @@
         </div>
     </div>
 </div>
+<pbx-modal [modalEx]="modalExit"></pbx-modal>
