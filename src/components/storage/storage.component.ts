@@ -197,7 +197,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
         this.uploadedFile = this.service.uploadedFile.subscribe(() => {
             this.getItems();
-        })
+        });
     }
 
     ngAfterViewChecked() {

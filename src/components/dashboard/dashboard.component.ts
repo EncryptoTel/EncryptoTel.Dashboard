@@ -62,7 +62,7 @@ export class DashboardComponent {
                 model.date = new Date();
                 this.dashboard.callDetail.unshift(model);
             }
-            let item = new CallDetailItem();
+            const item = new CallDetailItem();
             model.list.unshift(item);
             this.fetchDashboard(item);
         });
