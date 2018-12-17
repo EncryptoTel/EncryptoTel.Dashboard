@@ -37,7 +37,7 @@
         </div>
         <div class="dashboard_item_content_row">
             <div class="dashboard_item_content_key" translate>Next monthly payment</div>
-            <div class="dashboard_item_content_value" *ngIf="dashboard.tariffPlan">{{dashboard.tariffPlan.displayExpired | date:'dd.MM.yyyy'}}</div>
+            <div class="dashboard_item_content_value" *ngIf="dashboard.tariffPlan">{{dashboard.tariffPlan.displayExpired | date:dateFormat}}</div>
         </div>
         <div class="dashboard_item_content_row">
             <div class="dashboard_item_content_key" translate>Estimated Payment</div>
@@ -131,25 +131,20 @@
         </div>
         <div class="dashboard_history_body" *ngIf="dashboard.callDetail && dashboard.callDetail.length > 0">
             <div class="dashboard_history_wrap" *ngFor="let historyBlock of dashboard.callDetail">
-                <div class="dashboard_history_date">{{historyBlock.analyzeDate}}</div>
+                <div class="dashboard_history_date">{{historyBlock.analyzeDate | date:dateFormat}}</div>
                 <div class="dashboard_history_item" *ngFor="let historyItem of historyBlock.list"
-                     [ngClass]="{'missed': !historyItem.status}">
+                     [ngClass]="'missed' === historyItem.tag ? 'missed' : ''">
                     <pbx-loader *ngIf="historyItem.loading"></pbx-loader>
                     <div *ngIf="!historyItem.loading" class="dashboard_history_row">
                         <div class="dashboard_history_details">{{historyItem.name || 'Unknown'}}</div>
-                        <div class="dashboard_history_details">{{historyItem.direction === 0 ? historyItem.source :
-                            historyItem.destination}}
+                        <div class="dashboard_history_details">{{historyItem.calculateDuration}}
                         </div>
                     </div>
                     <div *ngIf="!historyItem.loading" class="dashboard_history_row">
-                        <div class="dashboard_history_details" *ngIf="historyItem.calculateDuration">
-                            {{historyItem.calculateDuration}}
+                        <div class="dashboard_history_details">
+                            {{historyItem.direction === 0 ? historyItem.source : historyItem.destination}}
                         </div>
-                        <div class="dashboard_history_details">{{historyItem.status === 0 ? historyItem.direction :
-                            'missed'}}
-                        </div>
-                        <div class="dashboard_history_details" *ngIf="!historyItem.calculateDuration">
-                            {{historyItem.direction === 0 ? 'incoming' : 'outgoing'}}
+                        <div class="dashboard_history_details">{{historyItem.tag}}
                         </div>
                     </div>
                 </div>

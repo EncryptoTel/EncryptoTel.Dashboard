@@ -19,12 +19,14 @@ import {LocalStorageServices} from '@services/local-storage.services';
 export class DashboardComponent {
 
     user: any;
+    dateFormat: any;
 
     constructor(private _dashboard: DashboardServices,
                 private _ws: WsServices,
                 private storage: LocalStorageServices) {
         this.initDashboard();
         this.user = this.storage.readItem('pbx_user');
+        this.dateFormat = this.storage.readItem('dateFormat');
     }
 
     dashboard: DashboardModel;
