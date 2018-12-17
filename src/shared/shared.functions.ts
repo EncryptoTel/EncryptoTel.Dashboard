@@ -129,9 +129,13 @@ export function formatDate(value: string): string {
     return date.format(formatDateUser);
 }
 
-export function formatDateTime(value: string): string {
+export function formatDateTime(value: string, format = null): string {
     const date = moment(value, [formatDateServer]);
-    return date.format(formatDateTimeUser);
+    if (format  !== null ) {
+        return date.format(format);
+    } else {
+        return date.format(formatDateTimeUser);
+    }
 }
 
 export function getInterval(items, dateAttr, displayAttr): string {

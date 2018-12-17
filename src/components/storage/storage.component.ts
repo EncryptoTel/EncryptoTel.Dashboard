@@ -12,6 +12,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { WsServices } from '@services/ws.services';
 import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
 import {TranslateService} from '@ngx-translate/core';
+import {LocalStorageServices} from '@services/local-storage.services';
+import {formatDateTime} from '@shared/shared.functions';
 
 
 @Component({
@@ -45,6 +47,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     pageLoaded: boolean = false;
 
     private buttonType: number;
+    dateFormat: any;
 
     // --- properties -------------------------------------
 
@@ -92,8 +95,10 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         private _message: MessageServices,
         private _size: SizePipe,
         private _ws: WsServices,
-        public translate: TranslateService
+        public translate: TranslateService,
+        private storage: LocalStorageServices
     ) {
+        this.dateFormat = this.storage.readItem('dateTimeFormat');
         this.modal = new ModalEx('', 'deleteFiles');
         this.sidebarActive = false;
 
@@ -217,6 +222,9 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.service.getItems(this.pageInfo, this.currentFilter, this.table.sort)
             .then(response => {
                 this.pageInfo = response;
+                this.pageInfo.items.forEach( storageItem => {
+                   storageItem.created = formatDateTime(storageItem.created, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
+                });
                 this.onMediaDataLoaded();
             })
             .catch((error) => {
