@@ -9,7 +9,7 @@
         </pbx-header>
 
         <pbx-media-table
-            *ngIf="pageInfo.itemsCount > 0 && !loading"
+            *ngIf="pageInfo.itemsCount > 0"
             #mediaTable
             [tableInfoEx]="table"
             [tableItems]="pageInfo.items"
@@ -25,7 +25,7 @@
             >
         </pbx-media-table>
 
-        <pbx-loader *ngIf="loading"></pbx-loader>
+        <!-- <pbx-loader *ngIf="loading"></pbx-loader> -->
 
         <div class="media-table-message" *ngIf="isEmptySearch" translate>
             Nothing found
@@ -43,12 +43,15 @@
     </div>
 
     <pbx-sidebar *ngIf="isSidebarVisible">
+            <pbx-loader *ngIf="loading"></pbx-loader>
         <div class="store_sidebar_audio"
+             *ngIf="!loading"
              [ngClass]="{ 'sidebar_active': sidebarActive }"
              (drop)="dropHandler($event)"
              (dragover)="dragOverHandler($event)"
              (dragend)="dragEndHandler($event)"
              (dragleave)="dragLeaveHandler($event)">
+             
             <div class="store_sidebar_audio_icon">
                 <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
             </div>
