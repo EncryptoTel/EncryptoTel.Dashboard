@@ -5,7 +5,7 @@
 </pbx-modal>
 
 <pbx-loader *ngIf="loading"></pbx-loader>
-<div class="tariff_message" *ngIf="!loading && !tariffs.length">No available tariff</div>
+<div class="tariff_message" *ngIf="!loading && !tariffs.length" translate>No available tariff</div>
 
 <div class="tariff_wrap tariff_high_resolution"
      [ngClass]="{ 'not_enough' : tariffs.length < 5 }"

@@ -21,42 +21,42 @@
             <div class="ext_sidebar_contain_data">
                 <div class="ext_sidebar_item_row">
                     <div class="ext_sidebar_item" *ngIf="sidebar.extension !==  ''">
-                        <div class="ext_sidebar_item_key"># Ext</div>
+                        <div class="ext_sidebar_item_key" translate># Ext</div>
                         <div class="ext_sidebar_item_value">{{sidebar.extension}}</div>
                     </div>
                     <div class="ext_sidebar_item" *ngIf="sidebar.phone !==  null">
-                        <div class="ext_sidebar_item_key">Phone</div>
+                        <div class="ext_sidebar_item_key" translate>Phone</div>
                         <div class="ext_sidebar_item_value">{{sidebar.phone}}</div>
                     </div>
                 </div>
                 <div class="ext_sidebar_item_row">
                     <div class="ext_sidebar_item" *ngIf="sidebar.phone !==  null">
-                        <div class="ext_sidebar_item_key">Port</div>
+                        <div class="ext_sidebar_item_key" translate>Port</div>
                         <div class="ext_sidebar_item_value">{{sidebar.extensionPort}}</div>
                     </div>
                     <div class="ext_sidebar_item" *ngIf="sidebar.extension !==  ''">
-                        <div class="ext_sidebar_item_key">Host</div>
+                        <div class="ext_sidebar_item_key" translate>Host</div>
                         <div class="ext_sidebar_item_value">{{sidebar.extensionHost}}</div>
                     </div>
                 </div>
                 <div class="ext_sidebar_item" *ngIf="sidebar.userFirstName !==  null">
-                    <div class="ext_sidebar_item_key">First Name</div>
+                    <div class="ext_sidebar_item_key" translate>First Name</div>
                     <div class="ext_sidebar_item_value">{{sidebar.userFirstName}}</div>
                 </div>
                 <div class="ext_sidebar_item" *ngIf="sidebar.userLastName !==  null">
-                    <div class="ext_sidebar_item_key">Last Name</div>
+                    <div class="ext_sidebar_item_key" translate>Last Name</div>
                     <div class="ext_sidebar_item_value">{{sidebar.userLastName}}</div>
                 </div>
                 <div class="ext_sidebar_item" *ngIf="sidebar.userEmail !==  null">
-                    <div class="ext_sidebar_item_key">E-mail</div>
+                    <div class="ext_sidebar_item_key" translate>E-mail</div>
                     <div class="ext_sidebar_item_value">{{sidebar.userEmail}}</div>
                 </div>
                 <div class="ext_sidebar_item">
-                    <div class="ext_sidebar_item_key">Mobile</div>
-                    <div class="ext_sidebar_item_value">{{sidebar.isMobileApp}}</div>
+                    <div class="ext_sidebar_item_key" translate>Mobile</div>
+                    <div class="ext_sidebar_item_value" translate>{{sidebar.isMobileApp}}</div>
                 </div>
                 <div class="ext_sidebar_item" *ngIf="sidebar.department">
-                    <div class="ext_sidebar_item_key">Department</div>
+                    <div class="ext_sidebar_item_key" translate>Department</div>
                     <div class="ext_sidebar_item_value">{{sidebar.department}}</div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
             </div>
         </div>
         <div class="ext_sidebar_button_wrap">
-            <div class="ext_sidebar_button_title">Generate new password and send to:</div>
+            <div class="ext_sidebar_button_title" translate>Generate new password and send to:</div>
             <div class="ext_sidebar_button_grid">
                 <pbx-button [loading]="loading.admin" value="Admin E-mail"
                             (onClick)="sendPasswordToAdmin(sidebar)"></pbx-button>

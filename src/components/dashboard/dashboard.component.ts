@@ -36,6 +36,7 @@ export class DashboardComponent {
         (item ? item : this).loading = true;
         this._dashboard.getDashboard().then(dashboard => {
             this.dashboard = dashboard;
+            console.log(this.dashboard);
             (item ? item : this).loading = false;
         }).catch((error) => {
             console.log('catch fetchDashboard', error);

@@ -280,6 +280,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     load(pageInfo: AddressBookModel) {
+        pageInfo.contactFilter.forEach(item => {
+            item.title = this.translate.instant(item.title);
+        });
         this.locker.lock();
         this.addressBookModel = pageInfo;
         this.setFilters();
@@ -477,6 +480,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.service.getTypes()
             .then(response => {
                 this.types = response;
+                this.types.contactPhone.forEach(item => {
+                   item.value = this.translate.instant(item.value);
+                });
                 this.updateTypes();
             })
             .catch(() => {})

@@ -7,6 +7,7 @@ import {LocalStorageServices} from '../../services/local-storage.services';
 import {UserServices} from '../../services/user.services';
 import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
 import {TariffStateService} from '../../services/state/tariff.state.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'pbx-tariff-plans',
@@ -30,7 +31,8 @@ export class TariffPlansComponent implements OnInit {
     constructor(private _service: TariffPlanServices,
                 private _storage: LocalStorageServices,
                 private _user: UserServices,
-                private loadTariff: TariffStateService) {
+                private loadTariff: TariffStateService,
+                public translate: TranslateService) {
         this.pageSize = 4;
         this.tariffChange = true;
         this.tariffs = [];
@@ -117,7 +119,7 @@ export class TariffPlansComponent implements OnInit {
             discountPrice = Math.round(discountPrice * 100) / 100;
             this.tariffs.push({
                 id: tariff.id,
-                title: tariff.title,
+                title: this.translate.instant(tariff.title),
                 tariffPrice: tariff.sum,
                 price: price,
                 discountPrice: discountPrice,
