@@ -121,24 +121,29 @@ pbx-storage
             display: none
 
 /* феерический костыль - не надо так делать */
-pbx-storage
-    pbx-sidebar
-        .store_sidebar_audio
-            .store_sidebar_audio_select
-                .select_file
-                    text-decoration: none !important
-                .hidden_input
-                    cursor: pointer !important
-                    top: -19px
-                    left: unset
-                    right: 0
-                    bottom: 0
-                    height: auto
-                    padding: 0 !important
-                    position: absolute
-                    font-size: 10px !important
-                    &:hover
-                        + p
-                            text-decoration: underline
+pbx-sidebar
+    .store_sidebar_audio
+        .store_sidebar_audio_select
+            position: relative !important
+            overflow: hidden !important
+            .select_file
+                text-decoration: none !important
+            .hidden_input
+                position: absolute !important
+                cursor: pointer !important
+                top: -19px
+                left: unset
+                right: 0
+                bottom: 0
+                height: auto
+                padding: 0 !important
+                position: absolute
+                font-size: 10px !important
+                opacity: 0 !important
+                display: flex !important
+                border: none !important
+                &:hover
+                    + p
+                        text-decoration: underline
 
 
