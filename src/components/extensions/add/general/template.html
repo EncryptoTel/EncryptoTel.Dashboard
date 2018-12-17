@@ -88,7 +88,7 @@
         </div>
     </pbx-input>
 
-    <div class="add_ext_form_title" translate>Generate new password and send to:</div>
+    <div class="add_ext_form_title" translate [ngClass]="!isEmailRequired() ? 'no_active': ''">Generate new password and send to:</div>
 
     <pbx-input name="Admin email"
                [description]="'Send password to admin email address' | translate"
