@@ -35,8 +35,8 @@ export class DashboardServices {
             const dates: string[] = [];
             if (list) {
                 list.forEach(item => {
-                    const date = item.callDate.split(' ')[0];
-                    const dateObj = date.split('-').join('.');
+                    const date = item.callDate;
+                    const dateObj = date;
                     if (dates.indexOf(dateObj) === -1) {
                         dates.push(dateObj);
                     } else {
@@ -48,7 +48,7 @@ export class DashboardServices {
                 this.dashboard.callDetail = [];
                 dates.forEach(date => {
                     this.dashboard.callDetail.push(plainToClass(CallDetailModel, {
-                        date: moment(new Date(date), ['YYYY-MM-DD HH:mm:ss']).format('YYYY-MM-DD HH:mm:ss'),
+                        date: date,
                         list: []
                     }));
                 });
@@ -56,16 +56,22 @@ export class DashboardServices {
             if (list) {
                 list.forEach(listItem => {
                     this.dashboard.callDetail.forEach(callDetail => {
-
+                        if (listItem.callDate === callDetail.date) {
+                            let callDetailItem: any;
+                            callDetailItem = new CallDetailItem();
+                            callDetailItem.callDate = listItem.callDate;
+                            callDetailItem.direction = listItem.direction;
+                            callDetailItem.source = listItem.source;
+                            callDetailItem.destination = listItem.destination;
+                            callDetailItem.duration = listItem.duration;
+                            callDetailItem.status = listItem.status;
+                            callDetailItem.isSms = listItem.isSms;
+                            callDetailItem.name = listItem.name;
+                            callDetailItem.tag = listItem.tag;
+                            callDetail.list.push(callDetailItem);
+                        }
                     });
                 });
-
-                // const tmp = list.map((item: CallDetailItem) => {
-                //     const callDetail = this.dashboard.callDetail.find(historyItem => {
-                //         return dateComparison(historyItem.date, item.callDate);
-                //     });
-                //     return callDetail.list.push(plainToClass(CallDetailItem, item);
-                // });
             }
             return Promise.resolve(this.dashboard);
         });

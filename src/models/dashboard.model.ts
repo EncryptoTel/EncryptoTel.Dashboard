@@ -72,6 +72,7 @@ export class CallDetailItem {
     isSms: number;
     name: string;
     loading: number = 0;
+    tag: string;
 
     get calculateDuration(): string {
         const sec = this.duration % 60;
