@@ -33,13 +33,11 @@
     <div class="dashboard_item dashboard_tariff" *ngIf="!loading">
         <div class="dashboard_item_title_row">
             <div class="dashboard_item_title_key" translate>Tariff plan</div>
-            <div class="dashboard_item_title_value" *ngIf="dashboard.tariffPlan">{{dashboard.tariffPlan.title}}</div>
+            <div class="dashboard_item_title_value" *ngIf="dashboard.tariffPlan" translate>{{dashboard.tariffPlan.title}}</div>
         </div>
         <div class="dashboard_item_content_row">
             <div class="dashboard_item_content_key" translate>Next monthly payment</div>
-            <div class="dashboard_item_content_value" *ngIf="dashboard.tariffPlan">
-                {{dashboard.tariffPlan.displayExpired}}
-            </div>
+            <div class="dashboard_item_content_value" *ngIf="dashboard.tariffPlan">{{dashboard.tariffPlan.displayExpired | date:'dd.MM.yyyy'}}</div>
         </div>
         <div class="dashboard_item_content_row">
             <div class="dashboard_item_content_key" translate>Estimated Payment</div>

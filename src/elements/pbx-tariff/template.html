@@ -1,5 +1,5 @@
 <div class="tariff_item" [ngClass]="{ 'current_tariff' : isCurrent }">
-    <h3 class="tariff_item_title">{{ value.title }}</h3>
+    <h3 class="tariff_item_title" translate>{{ value.title }}</h3>
     <div class="tariff_item_body">
         <ul class="tariff_item_ul">
             <li class="tariff_item_ul_li" *ngFor="let service of value.services" translate>{{getServiceTitle(service)}}</li>
