@@ -15,10 +15,10 @@ export class InvoiceItem {
     sumWithVat: number;
 
     get displayDate() {
-        return formatDate(this.created);
+        return this.created;
     }
 
     get displayDateTime() {
-        return formatDateTime(this.created);
+        return this.created;
     }
 }

@@ -5,6 +5,8 @@ import {ButtonItem, TableInfoExModel, TableInfoItem} from '../../models/base.mod
 import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {getInterval} from '../../shared/shared.functions';
 import {TranslateService} from '@ngx-translate/core';
+import {formatDateTime} from '@shared/shared.functions';
+import {LocalStorageServices} from '@services/local-storage.services';
 
 @Component({
     selector: 'pbx-invoices',
@@ -21,8 +23,13 @@ export class InvoicesComponent implements OnInit {
     pageInfo: InvoiceModel = new InvoiceModel();
     table: TableInfoExModel = new TableInfoExModel();
     buttons: ButtonItem[] = [];
+    dateFormat: any;
 
-    constructor(public service: InvoiceService, public translate: TranslateService) {
+    constructor(public service: InvoiceService,
+                public translate: TranslateService,
+                private storage: LocalStorageServices) {
+
+        this.dateFormat = this.storage.readItem('dateTimeFormat');
         this.table.sort.isDown = true;
         this.table.sort.column = 'date';
         this.table.items.push(new TableInfoItem(this.translate.instant('Invoice Number'), 'number'));
@@ -54,12 +61,12 @@ export class InvoicesComponent implements OnInit {
     }
 
     load() {
-
         this.list.pageInfo.items.forEach( item => {
             item.status = this.translate.instant(item.status);
             item.type = this.translate.instant(item.type);
-        });
+            item.created = formatDateTime(item.created, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
 
+        });
         this.buttons[0].title = this.getInterval();
         this.buttons[0].visible = true;
     }
