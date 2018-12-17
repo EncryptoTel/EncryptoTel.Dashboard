@@ -26,17 +26,15 @@ export class CdrItem extends BaseItemModel {
     public player: PlayerModel;
     public record: RecordModel;
 
-    // public hover: boolean = false;
-    // dropdown state vars
     public ddShow: boolean = false;
     public play: boolean = false;
 
     get displayDate() {
-        return formatDate(this.created);
+        return this.created;
     }
 
     get displayDateTime() {
-        return formatDateTime(this.created);
+        return this.created;
     }
 
     get displayDuration() {

@@ -27,7 +27,7 @@ export class StorageItem extends BaseItemModel {
     }
 
     get displayDateTime() {
-        return formatDateTime(this.created);
+        return this.created;
     }
 
     get size() {

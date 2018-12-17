@@ -6,7 +6,7 @@ import {PlayerAnimation} from '../../shared/player-animation';
 import {CdrService} from '../../services/cdr.service';
 import {WsServices} from '../../services/ws.services';
 import {CdrItem, CdrModel} from '../../models/cdr.model';
-import {getInterval, getDateRange, dateToServerFormat} from '../../shared/shared.functions';
+import {getInterval, getDateRange, dateToServerFormat, formatDateTime} from '../../shared/shared.functions';
 import {TableInfoAction, TableInfoActionOption, TableInfoExModel, TableInfoItem, TagModel} from '../../models/base.model';
 import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
 import {TagSelectorComponent} from '../../elements/pbx-tag-selector/pbx-tag-selector.component';
@@ -15,6 +15,8 @@ import {AddressBookService} from '@services/address-book.service';
 import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
 import {MessageServices} from '@services/message.services';
 import {TranslateService} from '@ngx-translate/core';
+import {LocalStorageServices} from '@services/local-storage.services';
+import * as moment from 'moment';
 
 
 @Component({
@@ -24,7 +26,8 @@ import {TranslateService} from '@ngx-translate/core';
     animations: [
         FadeAnimation('200ms'),
         PlayerAnimation
-    ]
+    ],
+    providers: [DatePipe]
 })
 export class DetailsAndRecordsComponent implements OnInit {
     pageInfo: CdrModel = new CdrModel();
@@ -40,6 +43,7 @@ export class DetailsAndRecordsComponent implements OnInit {
 
     blockItem: any;
     unblockItem: any;
+    dateFormat: any;
 
     @ViewChild('mediaTable') mediaTable: MediaTableComponent;
     @ViewChild('tagSelector') tagSelector: TagSelectorComponent;
@@ -48,10 +52,14 @@ export class DetailsAndRecordsComponent implements OnInit {
 
     constructor(private service: CdrService,
                 private ws: WsServices,
+                private datePipe: DatePipe,
                 private storageService: StorageService,
                 private addressBookService: AddressBookService,
                 protected message: MessageServices,
-                public translate: TranslateService) {
+                public translate: TranslateService,
+                private storage: LocalStorageServices) {
+
+        this.dateFormat = this.storage.readItem('dateTimeFormat');
 
         this.table.sort.isDown = true;
         this.table.sort.column = 'callDate';
@@ -226,8 +234,10 @@ export class DetailsAndRecordsComponent implements OnInit {
         });
         this.service.getItems(this.pageInfo, {status: tags.length > 0 ? tags : null, startDate: this.startDate, endDate: this.endDate}, this.table.sort).then(result => {
                 this.pageInfo = result;
-                this.pageInfo.items.forEach( item => {
-                    item.tag = this.translate.instant(item.tag);
+                this.pageInfo.items.forEach( cdrItem => {
+                    cdrItem.tag = this.translate.instant(cdrItem.tag);
+                    cdrItem.created = formatDateTime(cdrItem.created, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
+                    console.log(cdrItem.created);
                 });
             })
             .catch(() => {
