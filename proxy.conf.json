@@ -1,24 +1,24 @@
 {
     "/translations": {
-        "target": "https://new.encryptotel.com/translation",
+        "target": "https://pbx.encryptotel.com/translation",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"
     },
     "/front-api": {
-        "target": "http://pbx-front-dev.encry.ru",
+        "target": "http://back-symfony.loc",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"
     },
     "/files": {
-        "target": "http://pbx-front-dev.encry.ru",
+        "target": "http://back-symfony.loc",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"
     },
     "/download": {
-        "target": "http://pbx-front-dev.encry.ru",
+        "target": "http://back-symfony.loc",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"
