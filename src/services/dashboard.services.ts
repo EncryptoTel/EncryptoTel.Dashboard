@@ -8,18 +8,22 @@ import {
     TariffPlanModel
 } from '../models/dashboard.model';
 import {plainToClass} from 'class-transformer';
-import {dateComparison, stringToDate} from '../shared/shared.functions';
+import {dateComparison, formatDate, stringToDate} from '../shared/shared.functions';
 import {WsServices} from './ws.services';
 import * as moment from 'moment';
+import {formatDateTime} from '@shared/shared.functions';
+import {LocalStorageServices} from '@services/local-storage.services';
 
 @Injectable()
 export class DashboardServices {
+    dateFormat: any;
+    dashboard: DashboardModel;
 
     constructor(private req: RequestServices,
-                private ws: WsServices) {
+                private ws: WsServices,
+                private storage: LocalStorageServices) {
+        this.dateFormat = this.storage.readItem('dateFormat');
     }
-
-    dashboard: DashboardModel;
 
     // getDashboard(): Promise<any> {
     //     return this._req.get(`v1/dashboard`, true);
@@ -35,6 +39,7 @@ export class DashboardServices {
             const dates: string[] = [];
             if (list) {
                 list.forEach(item => {
+                    item.callDate = formatDateTime(item.callDate, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
                     const date = item.callDate;
                     const dateObj = date;
                     if (dates.indexOf(dateObj) === -1) {

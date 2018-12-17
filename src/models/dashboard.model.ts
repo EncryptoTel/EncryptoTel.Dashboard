@@ -88,6 +88,6 @@ export class CallDetailModel {
     list: CallDetailItem[] = [];
 
     get analyzeDate(): string {
-        return formatDate(this.date);
+        return this.date;
     }
 }

@@ -131,7 +131,7 @@
         </div>
         <div class="dashboard_history_body" *ngIf="dashboard.callDetail && dashboard.callDetail.length > 0">
             <div class="dashboard_history_wrap" *ngFor="let historyBlock of dashboard.callDetail">
-                <div class="dashboard_history_date">{{historyBlock.analyzeDate}}</div>
+                <div class="dashboard_history_date">{{historyBlock.date}}</div>
                 <div class="dashboard_history_item" *ngFor="let historyItem of historyBlock.list"
                      [ngClass]="'missed' === historyItem.tag ? 'missed' : ''">
                     <pbx-loader *ngIf="historyItem.loading"></pbx-loader>
