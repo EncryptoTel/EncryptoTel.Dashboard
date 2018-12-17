@@ -35,6 +35,13 @@ export class UserServices {
                 this.changeUserParam('profile', result['user']);
                 this.changeUserParam('balance', result['balance']);
                 this._translate.use(result['user_lang']);
+                const language = result['user_lang'];
+                if (language === 'ru') {
+                    document.body.classList.remove('lang_en');
+                } else {
+                    document.body.classList.remove('lang_ru');
+                }
+                document.body.classList.add('lang_' + language);
                 this._storage.writeItem('user_lang', result['user_lang']);
                 return Promise.resolve(this.fetchUser());
             });

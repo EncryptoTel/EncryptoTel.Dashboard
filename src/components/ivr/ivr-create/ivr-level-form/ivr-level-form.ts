@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 import { IvrService } from '@services/ivr.service';
 import { RefsServices } from '@services/refs.services';
@@ -81,34 +82,35 @@ export class IvrLevelFormComponent extends FormBaseComponent
         protected fb: FormBuilder,
         protected message: MessageServices,
         private refs: RefsServices,
-        private storage: StorageService
+        private storage: StorageService,
+        protected translate: TranslateService
     ) {
-        super(fb, message);
+        super(fb, message, translate);
         this.onFormChange = new Subject();
 
         this.validationHost.customMessages = [
             {
-                name: 'External number',
+                key: 'parameter',
                 error: 'pattern',
                 message:
-                    'Phone number contains invalid characters. You can only use numbers.'
+                    this.translate.instant('Phone number contains invalid characters. You can only use numbers.')
             },
             {
-                name: 'Loop message',
+                key: 'loopMessage',
                 error: 'pattern',
-                message: 'Loop message value should be from 1 to 5.'
+                message: this.translate.instant('Loop message value should be from 1 to 5.')
             },
             {
-                name: 'IVR Name',
-                error: 'pattern',
-                message:
-                    'IVR Name may contain letters, digits, dots and dashes only.'
-            },
-            {
-                name: 'Level Name',
+                key: 'name',
                 error: 'pattern',
                 message:
-                    'Level Name may contain letters, digits, dots and dashes only.'
+                    this.translate.instant('IVR Name may contain letters, digits, dots and dashes only.')
+            },
+            {
+                key: 'name',
+                error: 'pattern',
+                message:
+                    this.translate.instant('Level Name may contain letters, digits, dots and dashes only.')
             }
         ];
     }

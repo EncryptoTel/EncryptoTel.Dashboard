@@ -1,15 +1,17 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {MessageServices} from '../../services/message.services';
-import {FormComponent} from '../pbx-form/pbx-form.component';
-import {isValidId} from '../../shared/shared.functions';
 import {FormBuilder, Validators} from '@angular/forms';
-import {FormBaseComponent} from '../pbx-form-base-component/pbx-form-base-component.component';
-import {numberRegExp} from '../../shared/vars';
-import {numberRangeValidator} from '../../shared/encry-form-validators';
-import {StateService} from '@services/state/state.service';
 import {TranslateService} from '@ngx-translate/core';
+
+import {MessageServices} from '@services/message.services';
+import {StateService} from '@services/state/state.service';
+import {FormComponent} from '@elements/pbx-form/pbx-form.component';
+import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import {FadeAnimation} from '@shared/fade-animation';
+import {isValidId} from '@shared/shared.functions';
+import {numberRegExp} from '@shared/vars';
+import {numberRangeValidator} from '@shared/encry-form-validators';
+
 
 @Component({
     selector: 'pbx-queue-create',
@@ -17,7 +19,6 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
-
 export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
     @Input() name: string;
@@ -47,6 +48,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     };
 
     addMembersMode: boolean = false;
+    noDataMessage: any;
 
     // -- properties ----------------------------------------------------------
 
@@ -77,7 +79,10 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         return this.currentTab === this.tabs[1] && this.addMembersMode;
     }
 
-    noDataMessage: any ;
+    get modelEdit(): boolean {
+        return this.service.editMode;
+    }
+
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public router: Router,
@@ -86,7 +91,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
                 protected message: MessageServices,
                 protected tabChange: StateService,
                 public translate: TranslateService) {
-        super(fb, message);
+        super(fb, message, translate);
 
         this.id = this.activatedRoute.snapshot.params.id;
         this.tabs = [ this.translate.instant('General'), this.translate.instant('Members') ];
@@ -94,10 +99,10 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.background = 'form-body-fill';
         this.noDataMessage = this.translate.instant('No data to display. Please add members');
         this.validationHost.customMessages = [
-            { name: 'Ring Time', error: 'pattern', message: this.translate.instant('Please enter valid number') },
-            { name: 'Ring Time', error: 'range', message: this.translate.instant('Please enter a value from 15 to 600') },
-            { name: 'Maximum Callers in Queue', error: 'pattern', message: this.translate.instant('Please enter valid number') },
-            { name: 'Maximum Callers in Queue', error: 'range', message: this.translate.instant('Please enter a value from 1 to 100') },
+            { key: 'timeout', error: 'pattern', message: this.translate.instant('Please enter valid number') },
+            { key: 'timeout', error: 'range', message: this.translate.instant('Please enter a value from 15 to 600') },
+            { key: 'maxlen', error: 'pattern', message: this.translate.instant('Please enter valid number') },
+            { key: 'maxlen', error: 'range', message: this.translate.instant('Please enter a value from 1 to 100') },
         ];
 
     }
@@ -175,10 +180,6 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
 
     cancel(): void {
-        this.close(this.service.editMode, () => this.cancelConfirm());
-    }
-
-    cancelConfirm(): void {
         this.router.navigate(['cabinet', this.name]);
     }
 

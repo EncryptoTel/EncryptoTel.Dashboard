@@ -51,17 +51,16 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     saving: number = 0;
     canPlay: boolean = true;
 
-    @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
-
     storageItemSubscription: Subscription;
+    names: any;
+
+    @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
 
     // -- properties ----------------------------------------------------------
 
-    get editMode(): boolean {
+    get modelEdit(): boolean {
         return isValidId(this.callRule.id);
     }
-
-    names: any;
 
     // -- component lifecycle methods -----------------------------------------
 
@@ -74,7 +73,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                 private _ws: WsServices,
                 public translate: TranslateService
     ) {
-        super(fb, message);
+        super(fb, message, translate);
 
         this.callRule = new CallRulesItem();
         this.callRule.id = activatedRoute.snapshot.params.id;
@@ -83,15 +82,15 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.playButtonText = this.translate.instant('Play');
 
         this.validationHost.customMessages = [
-            {name: 'Rule Name', error: 'pattern', message: this.translate
-                .instant('Rule name contains invalid characters or symbols. You can only use letters, numbers and the following characters: -_')},
-            {name: 'Action', error: 'required', message: this.translate.instant('Please choose the Action')},
-            {name: 'If I do not answer call within', error: 'range', message: this.translate.instant('Please enter a value from 5 to 300')},
-            {name: 'Action applies for', error: 'days', message: this.translate.instant('Please enter at least one day of the week')},
-            {name: 'durationTime', error: 'startTime', message: this.translate.instant('Start time cannot be greater than end time')},
-            {name: 'durationTime', error: 'equalTime', message: this.translate.instant('Start time cannot be the same as end time')},
-            {name: 'durationTime', error: 'invalidRange', message: this.translate.instant('Invalid time range format')},
-            {name: 'Extension number', error: 'duplicated', message: this.translate.instant('You cannot use two identical extensions followed one by one')},
+            { key: 'name', error: 'pattern', message: this.translate
+                .instant('Rule name contains invalid characters or symbols. You can only use letters, numbers and the following characters: -_') },
+            { key: 'ruleActions', error: 'required', message: this.translate.instant('Please choose the Action') },
+            { key: 'timeout', error: 'range', message: this.translate.instant('Please enter a value from 5 to 300') },
+            { key: 'ruleActions.*.callRuleTime', error: 'days', message: this.translate.instant('Please enter at least one day of the week') },
+            { key: 'ruleActions.*.durationTime', error: 'startTime', message: this.translate.instant('Start time cannot be greater than end time') },
+            { key: 'ruleActions.*.durationTime', error: 'equalTime', message: this.translate.instant('Start time cannot be the same as end time') },
+            { key: 'ruleActions.*.durationTime', error: 'invalidRange', message: this.translate.instant('Invalid time range format') },
+            { key: 'ruleActions.*.parameter', error: 'duplicated', message: this.translate.instant('You cannot use two identical extensions followed one by one') },
         ];
     }
 
@@ -457,10 +456,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     cancel(): void {
-        this.close(this.editMode, () => this.cancelConfirm());
-    }
-
-    cancelConfirm(): void {
         this.router.navigate(['cabinet', 'call-rules']);
     }
 

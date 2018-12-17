@@ -1,6 +1,7 @@
-import {BaseService} from "./base.service";
-import {PageInfoModel} from "../models/base.model";
-import {PartnerProgramItem, PartnerProgramModel} from "../models/partner-program.model";
+import {BaseService} from '@services/base.service';
+import {PageInfoModel} from '@models/base.model';
+import {PartnerProgramItem, PartnerProgramModel} from '@models/partner-program.model';
+
 
 export class PartnerProgramService extends BaseService {
 
@@ -14,13 +15,8 @@ export class PartnerProgramService extends BaseService {
 
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<PartnerProgramModel> {
         return super.getItems(pageInfo, filter, sort).then((response: PartnerProgramModel) => {
-            console.log('response', response);
-            let pageInfo = this.plainToClassEx(PartnerProgramModel, PartnerProgramItem, response);
-            pageInfo.items.forEach(item => {
-                // TODO: change status type returned from backend
-                // item.status = item.status === 'Enable';
-            });
-            return Promise.resolve(pageInfo);
+            const pageInfoEx = this.plainToClassEx(PartnerProgramModel, PartnerProgramItem, response);
+            return Promise.resolve(pageInfoEx);
         });
     }
 

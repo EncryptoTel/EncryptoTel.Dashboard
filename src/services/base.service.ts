@@ -73,7 +73,7 @@ export class BaseService {
     post(path: string, data: any, ShowSucess = true, ShowError = null): Promise<any> {
         return this.rawRequest('POST', path, {...data}, ShowSucess, ShowError).then((res) => {
             if (ShowSucess) {
-                this.message.writeSuccess(res.message ? res.message : 'Successfully created.');
+                this.message.writeSuccess(res.message ? this.translate.instant(res.message) : 'Successfully created.');
             }
             return Promise.resolve(res);
         });
@@ -82,7 +82,7 @@ export class BaseService {
     put(path: string, data: any, ShowSucess = true, ShowError = null): Promise<any> {
         return this.rawRequest('PUT', path, {...data}, ShowSucess, ShowError).then((res) => {
             if (ShowSucess) {
-                this.message.writeSuccess(res.message ? res.message : 'Successfully saved.');
+                this.message.writeSuccess(res.message ? this.translate.instant(res.message) : 'Successfully saved.');
             }
             return Promise.resolve(res);
         });

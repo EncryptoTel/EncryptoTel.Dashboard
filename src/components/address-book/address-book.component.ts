@@ -56,17 +56,23 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         return this.form;
     }
 
+    get modelEdit(): boolean {
+        return !this.isModelCreated;
+    }
+
     // -- component lifecycle methods -----------------------------------------
 
     hideField: boolean = false;
 
-    constructor(public service: AddressBookService,
+    constructor(
+        public service: AddressBookService,
         public refs: RefsServices,
         protected message: MessageServices,
         protected fb: FormBuilder,
         protected state: TariffStateService,
-        public translate: TranslateService) {
-        super(fb, message);
+        public translate: TranslateService
+    ) {
+        super(fb, message, translate);
 
         this.addressBookModel = new AddressBookModel();
         this.addressListHeaders = {
@@ -90,8 +96,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.itemsCache = [];
 
         this.validationHost.customMessages = [
-            {name: 'Phone', error: 'pattern', message: this.translate.instant('Phone number contains invalid characters. You can only use numbers and #')},
-            {name: 'Email', error: 'pattern', message: this.translate.instant('Please enter a valid email address')},
+            { key: 'contactPhone.*.value', error: 'pattern', message: this.translate.instant('Phone number contains invalid characters. You can only use numbers and #') },
+            { key: 'contactEmail.*.value', error: 'pattern', message: this.translate.instant('Please enter a valid email address') },
         ];
     }
 
@@ -230,7 +236,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     click(item) {
         switch (item.id) {
             case 1:
-                this.close();
+                this.closePage();
                 this.hideField = false;
                 this.state.change.emit(this.hideField);
                 break;
@@ -251,7 +257,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     delete($event) {
-        this.close(true);
+        this.closePage(true);
         this.hideField = false;
         this.state.change.emit(this.hideField);
     }
@@ -266,7 +272,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.list.getItems(item);
             this.setFilters();
 
-            this.close(true);
+            this.closePage(true);
             this.hideField = false;
             this.state.change.emit(this.hideField);
 
@@ -275,7 +281,6 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     load(pageInfo: AddressBookModel) {
         this.locker.lock();
-        console.log(pageInfo);
         this.addressBookModel = pageInfo;
         this.setFilters();
 
@@ -348,13 +353,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    close(reload: boolean = false) {
+    closePage(reload: boolean = false) {
         this._forceReload = reload;
 
         if (!reload) {
-            super.close(!this.isNewFormModel, () => this.confirmClose());
+            super.close(() => this.close());
         } else {
-            this.confirmClose();
+            this.close();
         }
     }
 
@@ -365,7 +370,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     // -- component methods ---------------------------------------------------
 
-    confirmClose(): void {
+    close(): void {
         this.sidebar.visible = false;
         this.sidebar.mode = null;
 
@@ -381,7 +386,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
             this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
             this.selected.loading--;
-            this.close(true);
+            this.closePage(true);
         }).catch(() => {
         }).then(() => {
             if (this.selected !== null && this.selected.loading !== undefined) {
@@ -415,7 +420,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         if (this.selected.id) {
             this.service.putById(this.selected.id, this.selected)
                 .then(() => {
-                    this.close(true);
+                    this.closePage(true);
                 }).catch(() => {
                     this.setFormData();
                 }).then(() => this.sidebar.saving --);
@@ -423,7 +428,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         else {
             this.service.post('', this.selected)
                 .then(() => {
-                    this.close(true);
+                    this.closePage(true);
                 }).catch(() => {
                     this.setFormData();
                 }).then(() => this.sidebar.saving --);

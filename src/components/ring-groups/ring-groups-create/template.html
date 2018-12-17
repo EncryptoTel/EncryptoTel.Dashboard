@@ -1,8 +1,10 @@
-<pbx-queue-create name="ring-groups"
-                  style="flex: 1"
-                  [service]="service"
-                  [headerText]="headerText"
-                  [generalHeaderText]="generalHeaderText"
-                  [cmpType]="cmpType"
->
+<pbx-queue-create
+    #queueCreate
+    [service]="service"
+    name="ring-groups"
+    style="flex: 1"
+    [headerText]="headerText"
+    [generalHeaderText]="generalHeaderText"
+    [cmpType]="cmpType"
+    >
 </pbx-queue-create>

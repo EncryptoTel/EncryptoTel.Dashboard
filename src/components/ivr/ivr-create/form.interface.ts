@@ -13,7 +13,7 @@ export interface IvrFormInterface {
     formPanel: Element;
 
     getData();
-    close(editMode: boolean, confirmCallback?: () => void): void;
+    close(confirmCallback?: () => void): void;
     showExitModal(editMode: boolean, confirmCallback?: () => void): void;
     scrollToFirstError(): void;
 }

@@ -1,6 +1,6 @@
-import {BaseItemModel, PageInfoModel} from "./base.model";
+import {BaseItemModel, PageInfoModel} from './base.model';
 
-export class CallRulesModel extends PageInfoModel{
+export class CallRulesModel extends PageInfoModel {
     items: CallRulesItem[];
 }
 
@@ -36,9 +36,6 @@ export class RuleActionItem extends BaseItemModel {
     timeout: number;
     description: string;
 }
-
-
-
 
 export class Action {
     constructor(public id: number,
@@ -101,8 +98,8 @@ export class AsteriskTimeRule {
 
 export class CallRuleTimeType {
     constructor(public id: number,
-                public code: string) 
-    {}
+                public code: string
+    ) {}
 
     static fromPlain(values: any[]): CallRuleTimeType[] {
         const items: CallRuleTimeType[] = [];
@@ -113,8 +110,8 @@ export class CallRuleTimeType {
 
 export class CallRuleTime {
     constructor(public time: string,
-                public asteriskTime: string)
-    {}
+                public asteriskTime: string
+    ) {}
 
     static fromPlain(values: any[]): CallRuleTime[] {
         const items: CallRuleTime[] = [];
@@ -126,8 +123,8 @@ export class CallRuleTime {
 export class CallRuleDay {
     constructor(public type: string,
                 public day: string,
-                public code: string)
-    {}
+                public code: string
+    ) {}
 
     static fromPlain(values: any[]): CallRuleDay[] {
         const items: CallRuleDay[] = [];

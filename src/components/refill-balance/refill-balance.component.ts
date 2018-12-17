@@ -1,17 +1,25 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { FadeAnimation } from '../../shared/fade-animation';
-import { RefillServices } from '../../services/refill.services';
-import { RefillModel } from '../../models/refill.model';
-import { PaymentModel } from '../../models/payment.model';
-import { CoursesModel } from '../../models/courses.model';
-import { LocalStorageServices } from '../../services/local-storage.services';
-import { MessageServices } from '../../services/message.services';
 import { ClipboardService } from 'ngx-clipboard';
-import { FilterItem } from '../../models/base.model';
-import { numberRegExp } from '../../shared/vars';
 import * as WAValidator from 'wallet-address-validator';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
+import { TranslateService } from '@ngx-translate/core';
+
+import { RefillServices } from '@services/refill.services';
+import { LocalStorageServices } from '@services/local-storage.services';
+import { MessageServices } from '@services/message.services';
+import { CanFormComponentDeactivate } from '@services/can-deactivate-form-guard.service';
+import { FadeAnimation } from '@shared/fade-animation';
+import { numberRegExp } from '@shared/vars';
+import { RefillModel } from '@models/refill.model';
+import { PaymentModel } from '@models/payment.model';
+import { CoursesModel } from '@models/courses.model';
+import { FilterItem } from '@models/base.model';
+import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
+
+
 declare var require: any;
 
 @Component({
@@ -21,7 +29,8 @@ declare var require: any;
     providers: [RefillServices, ClipboardService],
     styleUrls: ['./local.sass']
 })
-export class RefillBalanceComponent implements OnInit, OnDestroy {
+export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormComponentDeactivate {
+
     refillMethods: RefillModel[];
     courses: CoursesModel[];
     amount = {
@@ -44,13 +53,15 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
     currentFilter: any;
 
     navigationSubscription: Subscription;
+    modalExit: ModalEx = new ModalEx('', 'cancelEdit');
 
     constructor(
         private _refill: RefillServices,
         private _storage: LocalStorageServices,
         private _message: MessageServices,
         private clipboard: ClipboardService,
-        private _router: Router
+        private _router: Router,
+        protected translate: TranslateService,
     ) {
         this.filters.push(
             new FilterItem(
@@ -94,6 +105,33 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
             } and ${this.amount.max}`;
     }
 
+    canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+        if (this.refill_status !== 'paying') return true;
+        
+        return Observable.create((observer: Observer<boolean>) => {
+            this.showExitModal(
+                true,
+                () => {
+                    observer.next(true);
+                    observer.complete();
+                },
+                () => {
+                    observer.next(false);
+                    observer.complete();
+                });
+        });
+    }
+
+    showExitModal(editMode: boolean, confirmCallback?: () => void, cancelCallback?: () => void): void {
+        const message = (editMode)
+            ? this.translate.instant('You have made changes. Do you really want to leave without saving?')
+            : this.translate.instant('Do you really want to leave without saving?');
+        this.modalExit.setMessage(message);
+        this.modalExit.confirmCallback = confirmCallback;
+        this.modalExit.cancelCallback = cancelCallback;
+        this.modalExit.show();
+    }
+
     resetFilters(): void {
         this.currentFilter = { amount: 5, returnAddress: null };
     }
@@ -110,7 +148,6 @@ export class RefillBalanceComponent implements OnInit, OnDestroy {
                     this.refill_status = 'paying';
                     this.selected = refillMethod;
                     this.payment = res;
-                    console.log('payment', this.payment);
                     this.currentFilter['returnAddress'] = this.payment.address;
                     this.filters[1].hidden = !this.selected.needReturnAddress;
                 });

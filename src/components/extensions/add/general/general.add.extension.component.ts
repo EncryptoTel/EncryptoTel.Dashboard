@@ -1,19 +1,20 @@
-import {Component, Input, OnInit, ViewChildren} from '@angular/core';
-import {RefsServices} from '../../../../services/refs.services';
-import {Locker, Lockable} from '../../../../models/locker.model';
-import {StorageService} from '../../../../services/storage.service';
-import {MessageServices} from '../../../../services/message.services';
-import {ExtensionService} from '../../../../services/extension.service';
-import {ValidationHost} from '../../../../models/validation-host.model';
-import {ModalEx} from '../../../../elements/pbx-modal/pbx-modal.component';
-import {PhoneNumberService} from '../../../../services/phone-number.service';
+import {Component, Input, OnInit, ViewChildren, ViewChild} from '@angular/core';
+
+import {RefsServices} from '@services/refs.services';
+import {MessageServices} from '@services/message.services';
+import {ExtensionService} from '@services/extension.service';
+import {PhoneNumberService} from '@services/phone-number.service';
+import {Locker, Lockable} from '@models/locker.model';
+import {ValidationHost} from '@models/validation-host.model';
+import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
+import {InputComponent} from '@elements/pbx-input/pbx-input.component';
+
 
 @Component({
     selector: 'general-add-extension-component',
     templateUrl: './template.html',
     styleUrls: ['./../local.sass']
 })
-
 export class GeneralAddExtensionComponent implements OnInit, Lockable {
     sipOuters: any;
     // extPhone: any;
@@ -36,8 +37,7 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(private _numbers: PhoneNumberService,
-                public _extensions: ExtensionService,
+    constructor(public _extensions: ExtensionService,
                 private _messages: MessageServices,
                 private refs: RefsServices) {
         this.sipOuters = {

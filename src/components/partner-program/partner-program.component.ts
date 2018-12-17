@@ -1,13 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {PartnerProgramService} from '../../services/partner-program.service';
-import {PartnerProgramItem, PartnerProgramModel} from '../../models/partner-program.model';
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from '../../models/base.model';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {TranslateService} from '@ngx-translate/core';
 import {ClipboardService} from 'ngx-clipboard';
-import {MessageServices} from '../../services/message.services';
-import {FormGroup, FormBuilder, Validators} from '../../../node_modules/@angular/forms';
-import {FormBaseComponent} from '../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import {simpleNameRegExp} from '../../shared/vars';
+
+import {PartnerProgramService} from '@services/partner-program.service';
+import {MessageServices} from '@services/message.services';
+import {PartnerProgramItem, PartnerProgramModel} from '@models/partner-program.model';
+import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from '@models/base.model';
+import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import {SwipeAnimation} from '@shared/swipe-animation';
+import {simpleNameRegExp} from '@shared/vars';
 
 
 @Component({
@@ -30,11 +32,14 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(public service: PartnerProgramService,
-                protected message: MessageServices,
-                protected fb: FormBuilder,
-                private clipboard: ClipboardService) {
-        super(fb, message);
+    constructor(
+        public service: PartnerProgramService,
+        protected message: MessageServices,
+        protected fb: FormBuilder,
+        private clipboard: ClipboardService,
+        protected translate: TranslateService
+    ) {
+        super(fb, message, translate);
 
         this.partners = new PartnerProgramModel();
         this.tab = {
@@ -55,6 +60,10 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
     }
 
     // -- form methods --------------------------------------------------------
+
+    get modelEdit(): boolean {
+        return !!this.selected.id;
+    }
 
     initForm(): void {
         this.form = this.fb.group({
@@ -122,7 +131,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
             this.sidebar.items.push(editItem);
         }
 
-        let statusOptions = [
+        const statusOptions = [
             {title: 'Enabled', value: true, id: 1},
             {title: 'Disabled', value: false, id: 0}
         ];
@@ -134,7 +143,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
     click(item: SidebarButtonItem): void {
         switch (item.id) {
             case 1:
-                this.close(!!this.selected.id, () => this.confirmClose());
+                this.close(() => this.confirmClose());
                 break;
             case 2:
                 this.edit(this.selected);
@@ -169,28 +178,30 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
         if (!this.validateForms()) return;
         this.setModelData(item);
 
-        let partner = this.partners.items.find(p => p.id === item.id);
-        if (partner) partner.loading--;
+        const partner = this.partners.items.find(p => p.id === item.id);
+        if (partner) partner.loading --;
 
-        this.service.save(item.id, item.name, item.status).then(() => {
-            this.getItems(item);
-            this.selected = null;
-        }).catch(() => {
-        })
+        this.service.save(item.id, item.name, item.status)
             .then(() => {
-                let partner = this.partners.items.find(p => p.id === item.id);
-                if (partner) partner.loading--;
+                this.saveFormState();
+                this.getItems(item);
+                this.selected = null;
+            })
+            .catch(() => {})
+            .then(() => {
+                const current = this.partners.items.find(p => p.id === item.id);
+                if (current) current.loading --;
             });
     }
 
     getItems(item: PartnerProgramItem = null): void {
         this.selected = null;
-        (item ? item : this).loading++;
-        this.service.getItems(this.partners).then(response => {
-            this.partners = response;
-            console.log('partners', this.partners);
-        }).catch(() => {
-        })
-            .then(() => (item ? item : this).loading--);
+        (item ? item : this).loading ++;
+        this.service.getItems(this.partners)
+            .then(response => {
+                this.partners = response;
+            })
+            .catch(() => {})
+            .then(() => (item ? item : this).loading --);
     }
 }

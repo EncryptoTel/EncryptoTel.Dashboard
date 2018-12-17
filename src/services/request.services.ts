@@ -6,8 +6,8 @@ import {MessageServices} from './message.services';
 import {environment as _env} from '../environments/environment';
 import {Router} from '@angular/router';
 import {LocalStorageServices} from './local-storage.services';
-import {Subject} from "rxjs/Subject";
-import {Observable} from "rxjs/Observable";
+import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
 
 /*
   Parent request services. Processing errors and console output for responses
@@ -56,7 +56,7 @@ export class RequestServices {
 
     public getSecrets(secrets) {
         // console.log(secrets);
-        let result = {
+        const result = {
             access_token: secrets.access_token,
             refresh_token: secrets.refresh_token,
             expires_in: secrets.expires_in,
@@ -126,13 +126,6 @@ export class RequestServices {
             }
             case 403: {
                 this.router.navigate(['/cabinet/dashboard']);
-                break;
-            }
-            case 404: {
-                if (response.error && response.error.message) {
-                    this._messages.writeError(response.error.message, time);
-                }
-                console.error('Invalid API endpoint', response);
                 break;
             }
             default: {

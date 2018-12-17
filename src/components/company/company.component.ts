@@ -46,13 +46,15 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(public service: CompanyService,
-                protected fb: FormBuilder,
-                private dashboard: DashboardServices,
-                private refs: RefsServices,
-                protected message: MessageServices,
-                public translate: TranslateService) {
-        super(fb, message);
+    constructor(
+        public service: CompanyService,
+        protected fb: FormBuilder,
+        private dashboard: DashboardServices,
+        private refs: RefsServices,
+        protected message: MessageServices,
+        public translate: TranslateService
+    ) {
+        super(fb, message, translate);
 
         this.company.logo = '/assets/icons/_middle/camera.png';
         this.companyInfo = this.service.companyInfo;
@@ -68,16 +70,16 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         this.sidebarInfo.items.push(new SidebarInfoItem(3, 'Available space', null));
 
         this.validationHost.customMessages = [
-            {name: 'Organization', error: 'pattern', message: 'Company name may contain letters, digits and dashes only'},
-            {name: 'State/Region', error: 'pattern', message: 'State/region may contain letters, digits and dashes only'},
-            {name: 'City', error: 'pattern', message: 'City may contain letters, digits and dashes only'},
-            {name: 'Street', error: 'pattern', message: 'Street may contain letters, digits and dashes only'},
-            {name: 'House', error: 'pattern', message: 'House number may contain letters, digits and slashes only'},
-            {name: 'Office', error: 'pattern', message: 'Office may contain digits only'},
-            {name: 'Postal code', error: 'pattern', message: 'Postal code may contain letters and digits only'},
-            {name: 'Email', error: 'pattern', message: 'Please enter valid email address'},
-            {name: 'Phone', error: 'pattern', message: 'Phone number may contain digits only'},
-            {name: 'VAT ID', error: 'pattern', message: 'VAT ID contains invalid characters. You can use letters, numbers and the following characters: -_'},
+            { key: 'name', error: 'pattern', message: this.translate.instant('Company name may contain letters, digits and dashes only') },
+            { key: 'companyAddress.*.regionName', error: 'pattern', message: this.translate.instant('State/region may contain letters, digits and dashes only') },
+            { key: 'companyAddress.*.locationName', error: 'pattern', message: this.translate.instant('City may contain letters, digits and dashes only') },
+            { key: 'companyAddress.*.street', error: 'pattern', message: this.translate.instant('Street may contain letters, digits and dashes only') },
+            { key: 'companyAddress.*.building', error: 'pattern', message: this.translate.instant('House number may contain letters, digits and slashes only') },
+            { key: 'companyAddress.*.office', error: 'pattern', message: this.translate.instant('Office may contain digits only') },
+            { key: 'companyAddress.*.postalCode', error: 'pattern', message: this.translate.instant('Postal code may contain letters and digits only') },
+            { key: 'email', error: 'pattern', message: this.translate.instant('Please enter valid email address') },
+            { key: 'phone', error: 'pattern', message: this.translate.instant('Phone number may contain digits only') },
+            { key: 'vatId', error: 'pattern', message: this.translate.instant('VAT ID contains invalid characters. You can use letters, numbers and the following characters: -_') },
         ];
 
         this._compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
@@ -96,6 +98,11 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     // -- form processing methods ---------------------------------------------
+    
+    get modelEdit(): boolean {
+        return this.company && this.company.isValid;
+    }
+
     initForm(): void {
         this.form = this.fb.group({
             id: [null],
@@ -138,18 +145,17 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     decline(): void {
-        this.close(this.company && this.company.isValid, () => this.cancel());
+        this.close(() => this.cancel());
     }
 
     cancel(): void {
         this.service.resetErrors();
-        // this.resetForms();
         this.selectedCountry = null;
 
-        // TODO: check how companyId is obtanied for create
         if (this.company.id) {
             this.editMode = false;
-        } else {
+        }
+        else {
             this.getCompany();
         }
     }
@@ -257,48 +263,52 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     getSidebar() {
         this.sidebarInfo.loading++;
 
-        this.dashboard.getDashboard().then(response => {
-            this.setCompanyInfo(response);
+        this.dashboard.getDashboard()
+            .then(response => {
+                this.setCompanyInfo(response);
 
-            for (let i = 0; i < this.sidebarInfo.items.length; i++) {
-                const item = this.sidebarInfo.items[i];
-                switch (item.title) {
-                    case 'External numbers':
-                        item.value = response.outersCount;
-                        break;
-                    case 'Internal numbers':
-                        item.value = response.innersCount;
-                        break;
-                    case 'Unassigned Ext':
-                        item.value = null;
-                        break;
-                    case 'Storage space':
-                        item.value = `${response.storage.totalSize} ${response.storage.measure}`;
-                        break;
-                    case 'Available space':
-                        item.value = `${response.storage.availableSize} ${response.storage.measure}`;
-                        break;
+                for (let i = 0; i < this.sidebarInfo.items.length; i++) {
+                    const item = this.sidebarInfo.items[i];
+                    switch (item.title) {
+                        case 'External numbers':
+                            item.value = response.outersCount;
+                            break;
+                        case 'Internal numbers':
+                            item.value = response.innersCount;
+                            break;
+                        case 'Unassigned Ext':
+                            item.value = null;
+                            break;
+                        case 'Storage space':
+                            item.value = `${response.storage.totalSize} ${response.storage.measure}`;
+                            break;
+                        case 'Available space':
+                            item.value = `${response.storage.availableSize} ${response.storage.measure}`;
+                            break;
+                    }
                 }
-            }
-        }).catch(() => {
-        })
+            })
+            .catch(() => {})
             .then(() => this.sidebarInfo.loading--);
     }
 
     saveCompany(): void {
         this.locker.lock();
 
-        this.service.save({...this.form.value}, false).then(() => {
-            this.message.writeSuccess('Company has been successfully updated');
-            if (this.isNewCompany) {
-                this.editMode = false;
-                this.isNewCompany = false;
-            }
-            this.getCompany();
-        }).catch(error => {
-            console.error('Company update error', error);
-            if (isDevEnv()) this.getCompany();
-        }).then(() => this.locker.unlock());
+        this.service.save({...this.form.value}, false)
+            .then(() => {
+                this.message.writeSuccess('Company has been successfully updated');
+                if (this.isNewCompany) {
+                    this.editMode = false;
+                    this.isNewCompany = false;
+                }
+                this.getCompany();
+            })
+            .catch(error => {
+                console.error('Company update error', error);
+                if (isDevEnv()) this.getCompany();
+            })
+            .then(() => this.locker.unlock());
     }
 
     uploadFiles(file: File): void {

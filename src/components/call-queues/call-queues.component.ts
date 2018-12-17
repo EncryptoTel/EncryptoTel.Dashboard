@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {CallQueueService} from '../../services/call-queue.service';
-import {CallQueueModel} from '../../models/call-queue.model';
 import {TranslateService} from '@ngx-translate/core';
+
+import {FadeAnimation} from '@shared/fade-animation';
+import {CallQueueService} from '@services/call-queue.service';
+import {CallQueueModel} from '@models/call-queue.model';
+
 
 @Component({
     selector: 'pbx-call-queues',
@@ -10,7 +12,6 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
-
 export class CallQueuesComponent {
 
     table: any;
