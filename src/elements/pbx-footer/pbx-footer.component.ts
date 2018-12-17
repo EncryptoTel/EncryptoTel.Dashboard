@@ -37,19 +37,19 @@ export class PbxFooterComponent implements OnInit {
         this.links = {
             'Terms and Conditions': {
                 'title': 'Terms and Conditions',
-                'link': './assets/pdf/EncryptoTel_Disclaimer_v_3.pdf'
+                'link': 'EncryptoTel_Disclaimer.pdf'
             },
             'Privacy & cookie': {
                 'title': 'Privacy & cookie',
-                'link': './assets/pdf/EncryptoTel_Cookies_policy.pdf'
+                'link': 'EncryptoTel_Cookies_policy.pdf'
             },
             'Security Policy': {
                 'title': 'Security Policy',
-                'link': './assets/pdf/EncryptoTel_Privacy_Policy_v_3.pdf'
+                'link': 'EncryptoTel_Privacy_Policy.pdf'
             },
             'Terms of use': {
                 'title': 'Terms of use',
-                'link': './assets/pdf/EncryptoTel_Terms_of_Use_v_3.pdf'
+                'link': 'EncryptoTel_Terms_of_Use.pdf'
             }
         };
         let lang: string;
