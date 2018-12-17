@@ -246,13 +246,16 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     saveProfileSettings(): void {
         this.loading++;
-
+        const language = (this.generalForm.value.language === 19) ? 'ru' : 'en';
+        this.translate.use(language);
+        this.storage.writeItem('user_lang', language);
+        if (language === 'ru') {
+            document.body.classList.remove('lang_en');
+        } else {
+            document.body.classList.remove('lang_ru');
+        }
         this.service.saveProfileSettings(this.generalForm.value)
             .then(() => {
-                const language = (this.generalForm.value.language === 19) ? 'ru' : 'en';
-                this.translate.use(language);
-                this.storage.writeItem('user_lang', language);
-
                 this.getSettings();
                 this.user.fetchProfileParams().then();
             })
