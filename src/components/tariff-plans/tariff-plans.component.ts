@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {TariffPlanServices} from '../../services/tariff-plan.services';
+import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { TariffPlanServices } from '../../services/tariff-plan.services';
 
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {LocalStorageServices} from '../../services/local-storage.services';
-import {UserServices} from '../../services/user.services';
-import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
-import {TariffStateService} from '../../services/state/tariff.state.service';
-import {TranslateService} from '@ngx-translate/core';
+import { SwipeAnimation } from '../../shared/swipe-animation';
+import { FadeAnimation } from '../../shared/fade-animation';
+import { LocalStorageServices } from '../../services/local-storage.services';
+import { UserServices } from '../../services/user.services';
+import { ModalEx, ModalButton } from '../../elements/pbx-modal/pbx-modal.component';
+import { TariffStateService } from '../../services/state/tariff.state.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'pbx-tariff-plans',
@@ -28,11 +29,14 @@ export class TariffPlansComponent implements OnInit {
     tariffChange: boolean;
     modal: ModalEx;
 
-    constructor(private _service: TariffPlanServices,
-                private _storage: LocalStorageServices,
-                private _user: UserServices,
-                private loadTariff: TariffStateService,
-                public translate: TranslateService) {
+    constructor(
+        private _service: TariffPlanServices,
+        private _storage: LocalStorageServices,
+        private _user: UserServices,
+        private loadTariff: TariffStateService,
+        public translate: TranslateService,
+        private router: Router
+    ) {
         this.pageSize = 4;
         this.tariffChange = true;
         this.tariffs = [];
@@ -68,24 +72,40 @@ export class TariffPlansComponent implements OnInit {
 
     choose(tariff: any): void {
         if (this.tariffChange) {
-            this.selected = tariff;
-            this.modal.visible = true;
+            if (tariff.tariffPrice > this._user.user.balance.balance) {
+                this.modal.body =
+                    'Not enough money to pay for the order. <br/> Top up your balance?';
+                this.modal.buttons = [
+                    new ModalButton('cancel', 'Cancel'),
+                    new ModalButton('success', 'Refill')
+                ];
+                this.modal.confirmCallback = () => {
+                    this.router.navigate(['cabinet', 'refill']);
+                };
+                this.modal.visible = true;
+            } else {
+                this.selected = tariff;
+                this.modal.visible = true;
+            }
         }
     }
 
     modalConfirm(): void {
         this.loadTariff.load();
         this.selected.loading = true;
-        this._service.selectTariffPlan(this.selected.id).then(() => {
-            this._user.fetchNavigationParams();
-            this._user.fetchProfileParams().then(() => {
-                this.current = this.selected;
+        this._service
+            .selectTariffPlan(this.selected.id)
+            .then(() => {
+                this._user.fetchNavigationParams();
+                this._user.fetchProfileParams().then(() => {
+                    this.current = this.selected;
+                    this.selected.loading = false;
+                    this.loadTariff.unload();
+                });
+            })
+            .catch(() => {
                 this.selected.loading = false;
-                this.loadTariff.unload();
             });
-        }).catch(() => {
-            this.selected.loading = false;
-        });
     }
 
     getCurrentTariff(): void {
@@ -95,13 +115,16 @@ export class TariffPlansComponent implements OnInit {
 
     getTariffsData(): void {
         this.loading = true;
-        this._service.getTariffPlans().then(response => {
-            this.fillTariffsData(response);
-            this.initPageData();
-            this.loading = false;
-        }).catch(() => {
-            this.loading = false;
-        });
+        this._service
+            .getTariffPlans()
+            .then(response => {
+                this.fillTariffsData(response);
+                this.initPageData();
+                this.loading = false;
+            })
+            .catch(() => {
+                this.loading = false;
+            });
     }
 
     fillTariffsData(tariffs: any): void {
@@ -113,7 +136,7 @@ export class TariffPlansComponent implements OnInit {
             tariff.offers.map(offer => {
                 price += offer.service.sum;
                 discountPrice += offer.currentPrice.sum;
-                services.push({title: offer.service.title});
+                services.push({ title: offer.service.title });
             });
             price = Math.round(price * 100) / 100;
             discountPrice = Math.round(discountPrice * 100) / 100;
