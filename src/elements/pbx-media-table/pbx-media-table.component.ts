@@ -26,6 +26,8 @@ export class MediaTableComponent extends TableComponent implements OnInit, OnCha
     private _selectedItem: any;
     private _itemsSubscribed = false;
 
+    noDataToDisplayText: string;
+
     @ViewChildren('mediaPlayer') players: QueryList<MediaTablePlayerComponent>;
     // @ViewChild(VgHLS) vgHls: VgHLS;
     api: VgAPI;
@@ -39,7 +41,9 @@ export class MediaTableComponent extends TableComponent implements OnInit, OnCha
 
     // - component level methdos --------------------------
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.noDataToDisplayText = this.translate.instant('No data to display');
+    }
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.tableItems) {

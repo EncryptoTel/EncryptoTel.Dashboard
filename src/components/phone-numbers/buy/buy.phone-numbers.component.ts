@@ -183,16 +183,16 @@ export class BuyPhoneNumbersComponent implements OnInit {
     buyItem(number): void {
         if (number.sum > this.userService.user.balance.balance) {
             this.modal.body =
-                'Not enough money to pay for the order. <br/> Top up your balance?';
-            this.modal.buttons = [new ModalButton('cancel', 'Cancel'), new ModalButton('success', 'Refill')];
+                this.translate.instant('Not enough money to pay for the order.') + ' <br/>' + this.translate.instant('Top up your balance?');
+            this.modal.buttons = [new ModalButton('cancel', this.translate.instant('Cancel')), new ModalButton('success', this.translate.instant('Refill'))];
             this.modal.confirmCallback = () => {
                 this.router.navigate(['cabinet', 'refill']);
             };
             this.modal.visible = true;
         } else {
             this.selected = number;
-            this.modal.body =
-                'Are you sure you want to buy <br>+' + number.fullNumber + '?';
+            this.modal.title = this.translate.instant(this.modal.title);
+            this.modal.body = this.translate.instant('Are you sure you want to buy') + ' <br>+' + number.fullNumber + '?';
 
             this.modal.visible = true;
         }
@@ -208,9 +208,9 @@ export class BuyPhoneNumbersComponent implements OnInit {
                 this.selected.loading = false;
                 this.selected.inactive = true;
                 this.message.writeSuccess(
-                    'The number +' +
-                        phoneNumber.params.phoneNumber +
-                        ' has been bought successfully'
+                    this.translate.instant('The number') + ' +' +
+                        phoneNumber.params.phoneNumber + ' ' +
+                    this.translate.instant('has been bought successfully')
                 );
             })
             .catch(() => {

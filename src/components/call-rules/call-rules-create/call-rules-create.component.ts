@@ -475,7 +475,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                     });
             }
             else {
-                this.message.writeError('Accepted formats: mp3, ogg, wav');
+                this.message.writeError(this.translate.instant('Accepted formats: mp3, ogg, wav'));
             }
             this.storage.checkModal();
         }

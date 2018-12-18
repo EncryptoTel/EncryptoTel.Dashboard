@@ -73,7 +73,7 @@ export class BaseService {
     post(path: string, data: any, ShowSucess = true, ShowError = null): Promise<any> {
         return this.rawRequest('POST', path, {...data}, ShowSucess, ShowError).then((res) => {
             if (ShowSucess) {
-                this.message.writeSuccess(res.message ? this.translate.instant(res.message) : 'Successfully created.');
+                this.message.writeSuccess(res.message ? this.translate.instant(res.message) :  this.translate.instant('Successfully created.'));
             }
             return Promise.resolve(res);
         });
@@ -82,7 +82,7 @@ export class BaseService {
     put(path: string, data: any, ShowSucess = true, ShowError = null): Promise<any> {
         return this.rawRequest('PUT', path, {...data}, ShowSucess, ShowError).then((res) => {
             if (ShowSucess) {
-                this.message.writeSuccess(res.message ? this.translate.instant(res.message) : 'Successfully saved.');
+                this.message.writeSuccess(res.message ? this.translate.instant(res.message) :  this.translate.instant('Successfully saved.'));
             }
             return Promise.resolve(res);
         });
@@ -91,7 +91,7 @@ export class BaseService {
     delete(path: string, ShowSucess = true): Promise<any> {
         return this.rawRequest('DELETE', path, null).then((res) => {
             if (ShowSucess) {
-                this.message.writeSuccess(res.message ? res.message : 'Successfully deleted.');
+                this.message.writeSuccess(res.message ?  this.translate.instant(res.message) : this.translate.instant('Successfully deleted.'));
             }
             return Promise.resolve(res);
         });
@@ -100,7 +100,7 @@ export class BaseService {
     trash(path: string, ShowSucess = true): Promise<any> {
         return this.rawRequest('DELETE', path, null).then((res) => {
             if (ShowSucess) {
-                this.message.writeSuccess(res.message ? res.message : 'Successfully trashed.');
+                this.message.writeSuccess(res.message ?  this.translate.instant(res.message) :  this.translate.instant('Successfully trashed.'));
             }
             return Promise.resolve(res);
         });
@@ -109,7 +109,7 @@ export class BaseService {
     restore(path: string, ShowSucess = true): Promise<any> {
         return this.rawRequest('POST', path, null).then((res) => {
             if (ShowSucess) {
-                this.message.writeSuccess(res.message ? res.message : 'Successfully restored.');
+                this.message.writeSuccess(res.message ?  this.translate.instant(res.message) :  this.translate.instant('Successfully restored.'));
             }
             return Promise.resolve(res);
         });
@@ -211,7 +211,7 @@ export class BaseService {
 
     validateMediaStreamResponse(response: any): boolean {
         if (response.status != 200) {
-            this.message.writeError('File not found');
+            this.message.writeError(this.translate.instant('File not found'));
             console.log('Media stream error', response);
             return false;
         }

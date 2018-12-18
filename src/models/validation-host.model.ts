@@ -226,25 +226,25 @@ export class ValidationHost implements Lockable {
         else if (errorKey === 'minlength') {
             const pluralEnd: string = errors.minlength.requiredLength > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            const szPleaseEnterAtLeast: string = 'Please enter at least';
+            const szPleaseEnterAtLeast: string = this.translate.instant('Please enter at least');
             return `${szPleaseEnterAtLeast} ${errors.minlength.requiredLength} ${szCharacters}`;
         }
         else if (errorKey === 'min') {
             const pluralEnd: string = errors.min.min > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            const szPleaseEnterAtLeast: string = 'Please enter at least';
+            const szPleaseEnterAtLeast: string = this.translate.instant('Please enter at least');
             return `${szPleaseEnterAtLeast} ${errors.min.min} ${szCharacters}`;
         }
         else if (errorKey === 'maxlength') {
             const pluralEnd: string = errors.maxlength.requiredLength > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            const szPleaseEnterNoMoreThan: string = 'Please enter no more than';
+            const szPleaseEnterNoMoreThan: string = this.translate.instant('Please enter no more than');
             return `${szPleaseEnterNoMoreThan} ${errors.maxlength.requiredLength} ${szCharacters}`;
         }
         else if (errorKey === 'max') {
             const pluralEnd: string = errors.max.max > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            const szPleaseEnterNoMoreThan: string = 'Please enter no more than';
+            const szPleaseEnterNoMoreThan: string = this.translate.instant('Please enter no more than');
             return `${szPleaseEnterNoMoreThan} ${errors.max.max} ${szCharacters}`;
         }
         else if (errorKey === 'pattern') {

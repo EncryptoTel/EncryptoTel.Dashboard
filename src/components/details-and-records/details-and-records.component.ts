@@ -182,13 +182,13 @@ export class DetailsAndRecordsComponent implements OnInit {
                 const phoneNumber = this.blockItem.source;
                 this.addressBookService.blockByPhone(phoneNumber).then(res => {
                     this.blockItem = undefined;
-                    this.message.writeSuccess('Contact blocked successfully');
+                    this.message.writeSuccess(this.translate.instant('Contact blocked successfully'));
                     this.getItems();
                 }).catch(() => {}).then(() => {});
             } else {
                 this.addressBookService.blockByContact(this.blockItem.contact.id).then(res => {
                     this.blockItem = undefined;
-                    this.message.writeSuccess('Contact blocked successfully');
+                    this.message.writeSuccess(this.translate.instant('Contact blocked successfully'));
                     this.getItems();
                 }).catch(() => {}).then(() => {});
             }
@@ -196,7 +196,7 @@ export class DetailsAndRecordsComponent implements OnInit {
         if (this.unblockItem) {
             this.addressBookService.blockByContact(this.unblockItem.contact.id, true).then(res => {
                 this.unblockItem = undefined;
-                this.message.writeSuccess('Contact unblocked successfully');
+                this.message.writeSuccess(this.translate.instant('Contact unblocked successfully'));
                 this.getItems();
             }).catch(() => {}).then(() => {});
         }

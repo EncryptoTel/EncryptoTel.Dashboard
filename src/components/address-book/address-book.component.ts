@@ -396,7 +396,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     confirmBlock() {
         this.selected.loading++;
         this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
-            this.message.writeSuccess(this.selected.blacklist ? 'Contact unblocked successfully' : 'Contact blocked successfully');
+            this.message.writeSuccess(this.selected.blacklist ? this.translate.instant('Contact unblocked successfully') : this.translate.instant('Contact blocked successfully'));
             this.selected.loading--;
             this.closePage(true);
         }).catch(() => {
