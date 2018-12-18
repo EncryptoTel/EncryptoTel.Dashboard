@@ -112,6 +112,7 @@
                                        [description]="'seconds' | translate"
                                        key="timeout"
                                        [form]="true"
+                                       [required]="true"
                                        [object]="action"
                                        [(errors)]="service.errors"
                                        [errorKey]="'ruleActions.new_' + i + '.timeout'"
