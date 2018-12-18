@@ -83,7 +83,7 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
 
     canDeactivate(dataChanged?: boolean): Observable<boolean> | Promise<boolean> | boolean {
         if (!dataChanged && !this.checkFormChanged()) return true;
-        
+
         return Observable.create((observer: Observer<boolean>) => {
             this.showExitModal(
                 this.modelEdit,
@@ -238,6 +238,10 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
             ? this.translate.instant('You have made changes. Do you really want to leave without saving?')
             : this.translate.instant('Do you really want to leave without saving?');
         this.modalExit.setMessage(message);
+        this.modalExit.title = this.translate.instant(this.modalExit.title);
+        this.modalExit.buttons.forEach(button => {
+            button.value = this.translate.instant(button.value);
+        });
         this.modalExit.confirmCallback = confirmCallback;
         this.modalExit.cancelCallback = cancelCallback;
         this.modalExit.show();

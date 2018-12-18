@@ -22,6 +22,7 @@ import {TariffStateService} from '../../services/state/tariff.state.service';
 import {ModalServices} from '@services/modal.service';
 import {StorageItem} from '@models/storage.model';
 import {IvrItem} from '@models/ivr.model';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -62,8 +63,9 @@ export class TableComponent implements OnInit, OnDestroy {
     modalWnd: ModalComponent;
 
     constructor(protected state: TariffStateService,
-                private modalService: ModalServices) {
-        this.modal = new ModalEx('Are you sure?', 'delete');
+                private modalService: ModalServices,
+                public translate: TranslateService) {
+        this.modal = new ModalEx(this.translate.instant('Are you sure?'), this.translate.instant('delete'));
         this.modalWnd = this.modalService.createModal(this.modal);
         this.modalWnd.onConfirmEx.subscribe(() => this.deleteItem());
     }
@@ -101,7 +103,11 @@ export class TableComponent implements OnInit, OnDestroy {
                 if (item.sipInners && item.sipInners.length > 0) {
                     innerCount = item.sipInners.length;
                 }
-                body = body.concat('Are you sure you want to delete +', item.phoneNumber, ' and ', innerCount, ' extensions?');
+                body = body.concat(
+                    this.translate.instant('Are you sure you want to delete') + ' +',
+                    item.phoneNumber, this.translate.instant(' and '),
+                    innerCount, this.translate.instant(' extensions?')
+                );
                 this.modal.body = body;
             }
             if (item instanceof StorageItem) {
@@ -110,16 +116,24 @@ export class TableComponent implements OnInit, OnDestroy {
             }
             if (item instanceof IvrItem) {
                 const body: string = (<IvrItem>item).status > 0
-                    ? 'Are you sure you want to delete this active IVR?'
-                    : 'Are you sure you want to delete this IVR?';
+                    ? this.translate.instant('Are you sure you want to delete this active IVR?')
+                    : this.translate.instant('Are you sure you want to delete this IVR?');
                 this.modal.body = body;
             }
             if (item instanceof IvrItem) {
-                const body: string = (<IvrItem>item).status > 0
-                    ? 'Are you sure you want to delete this active IVR?'
-                    : 'Are you sure you want to delete this IVR';
+                let body: string;
+                if ((<IvrItem>item).status > 0) {
+                    body = this.translate.instant('Are you sure you want to delete this active IVR?');
+                } else {
+                    body = this.translate.instant('Are you sure you want to delete this IVR');
+                }
                 this.modal.body = body;
             }
+            this.modal.title = this.translate.instant(this.modal.title);
+            this.modal.body = this.translate.instant(this.modal.body);
+            this.modal.buttons.forEach(button => {
+                button.value = this.translate.instant(button.value);
+            });
             this.modal.visible = true;
         }
     }
@@ -138,7 +152,8 @@ export class TableComponent implements OnInit, OnDestroy {
         else if (!!tableItem.width) css += ' fix_' + tableItem.width;
 
         if (tableItem.specialFormatting) {
-            let value = this.getValueByKeyEx(item, tableItem.key);
+            let value: any;
+            value = this.getValueByKeyEx(item, tableItem.key);
             tableItem.specialFormatting.forEach(rule => {
                 if (value.match(str2regexp(rule.pattern))) {
                     css += ' ' + rule.cssClass;
@@ -150,7 +165,8 @@ export class TableComponent implements OnInit, OnDestroy {
     }
 
     getValueByKeyEx(item: any, key: string): string {
-        let result: any = this.getValueByKey(item, key);
+        let result: any;
+        result = this.getValueByKey(item, key);
         return result === true || result === false || isObject(result) || isArray(result) ? '' : result;
     }
 
@@ -177,9 +193,10 @@ export class TableComponent implements OnInit, OnDestroy {
     }
 
     dropOpen(action, item) {
-        let prev = item.ddShow;
-        this.tableItems.forEach((item) => {
-            item.ddShow = false;
+        let prev: any;
+        prev = item.ddShow;
+        this.tableItems.forEach(tItem => {
+            tItem.ddShow = false;
         });
         this.onDropDown.emit({action: action, item: item});
         item.ddShow = prev === false;
@@ -252,11 +269,17 @@ export class TableComponent implements OnInit, OnDestroy {
             this.hideField = hideField;
         });
 
-        this.name ? this.modal.body = `Are you sure you want to delete this ${this.name}?` : null;
+        if (this.name) {
+            this.modal.body = this.translate.instant('Are you sure you want to delete this') + ' ' + this.name + '?';
+        } else {
+            this.modal.body = null;
+        }
+
         if (!this.tableInfoEx) {
             this.tableInfoEx = new TableInfoExModel();
             for (let i = 0; i < this.tableInfo.titles.length; i++) {
-                let item: TableInfoItem = {
+                let item: TableInfoItem;
+                item = {
                     title: this.tableInfo.titles[i],
                     key: this.tableInfo.keys[i],
                     width: null,

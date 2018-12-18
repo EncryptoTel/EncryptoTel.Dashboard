@@ -1,10 +1,11 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
-import {Subscription} from "rxjs/Subscription";
-import {MessageModel} from "../../models/message.model";
-import {MessageServices} from "../../services/message.services";
-import {LoggerServices} from "../../services/logger.services";
-import {NotificationModel} from "../../models/notification.model";
+import {Subscription} from 'rxjs/Subscription';
+import {MessageModel} from '../../models/message.model';
+import {MessageServices} from '../../services/message.services';
+import {LoggerServices} from '../../services/logger.services';
+import {NotificationModel} from '../../models/notification.model';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'pbx-notificator',
@@ -21,16 +22,18 @@ export class NotificatorComponent implements OnInit {
     timeout1 = 0;
     timeout2 = 0;
     visible = false;
+    buttonText: string;
 
     constructor(private message: MessageServices,
-                private logger: LoggerServices) {
+                private logger: LoggerServices,
+                public translate: TranslateService) {
         this.onResize();
     }
 
     ngOnInit() {
         this.messageSubscription = this.message.subMessages().subscribe((message: MessageModel) => {
             const notification = new NotificationModel(true, message.type, message.text);
-            // this.logger.log('subMessages', notification);
+            this.buttonText = this.translate.instant('Close');
             this.queue.push(notification);
             this.setTimer(message.time);
         });

@@ -250,7 +250,11 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 this.block();
                 break;
             case 13:
-                this.modalDelete.body = 'Are you sure you want to delete this Contact?';
+                this.modalDelete.body = this.translate.instant('Are you sure you want to delete this Contact?');
+                this.modalDelete.title = this.translate.instant(this.modalDelete.title);
+                this.modalDelete.buttons.forEach(button => {
+                    button.value = this.translate.instant(button.value);
+                });
                 this.modalDelete.show();
                 break;
         }
@@ -368,6 +372,11 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     block() {
         this.modalBlock = new ModalEx('', this.selected.blacklist ? 'unblock' : 'block');
+        this.modalBlock.title = this.translate.instant(this.modalBlock.title);
+        this.modalBlock.body = this.translate.instant(this.modalBlock.body);
+        this.modalBlock.buttons.forEach(button => {
+            button.value = this.translate.instant(button.value);
+        });
         this.modalBlock.show();
     }
 
