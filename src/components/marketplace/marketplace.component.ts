@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 
-import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
+import {ModalEx, ModalButton} from '../../elements/pbx-modal/pbx-modal.component';
 import {Module} from '../../models/module.model';
 import {ModuleServices} from '../../services/module.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {MessageServices} from '../../services/message.services';
 import {Lockable, Locker} from '../../models/locker.model';
 import {UserServices} from '../../services/user.services';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'pbx-marketplace',
@@ -26,6 +27,7 @@ export class MarketplaceComponent implements OnInit, Lockable {
     constructor(private services: ModuleServices,
                 private message: MessageServices,
                 private storage: LocalStorageServices,
+                private router: Router,
                 private userService: UserServices) {
         this.locker = new Locker();
     }
@@ -43,7 +45,16 @@ export class MarketplaceComponent implements OnInit, Lockable {
             this.selected = module;
         }
         else {
-            this.message.writeError('Your account has insufficient funds to buy this service.');
+            this.modal.body =
+                    'Not enough money to pay for the order. <br/> Top up your balance?';
+                this.modal.buttons = [
+                    new ModalButton('cancel', 'Cancel'),
+                    new ModalButton('success', 'Refill')
+                ];
+                this.modal.confirmCallback = () => {
+                    this.router.navigate(['cabinet', 'refill']);
+                };
+                this.modal.visible = true;
         }
     }
 

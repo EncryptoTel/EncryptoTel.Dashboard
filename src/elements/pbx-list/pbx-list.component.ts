@@ -140,8 +140,9 @@ export class ListComponent implements OnInit {
         this.pbxListEmptyText_2 = '';
         let tmp: string;
         tmp = this.itemsName ? this.itemsName : this.name;
-        this.pbxListEmptyText_1 = this.translate.instant('You do not have any ') + this.translate.instant(tmp);
-        this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
+        let text: string;
+        text = 'You do not have any' + ' ' + tmp;
+        this.pbxListEmptyText_1 = this.translate.instant(text);
         this.pbxListEmptyText_2 = this.translate.instant('Click on the button to create');
 
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
