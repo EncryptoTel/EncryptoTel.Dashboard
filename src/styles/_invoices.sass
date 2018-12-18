@@ -1,3 +1,5 @@
+$qwe: 184px
+
 .dark_theme
     pbx-invoices
         pbx-list
@@ -33,5 +35,110 @@
                                 text-align: right
             .pbx_list
                 position: relative
+
+pbx-invoices
+    pbx-list
+        //display: none
+    .invoice_view
+        display: grid
+        grid-template-columns: 1fr
+        grid-template-rows: min-content 1fr min-content
+        height: 100vh
+        min-height: 100%
+        overflow: hidden
+        display: none
+        .inv_header
+            margin-bottom: 8px
+            justify-content: flex-end
+            pbx-button
+                width: auto
+                margin-left: 8px
+        .inv_body
+            flex-direction: column
+            background: $ivr_dark_table_bg_2
+            overflow: hidden
+            .invoice_title
+                font-family: Roboto, sans-serif
+                font-weight: 400
+                font-size: 16px
+                line-height: 21px
+                text-transform: uppercase
+                color: rgba($dark_white, .8)
+                width: 100%
+                justify-content: center
+                margin: 24px 0 32px
+                display: grid
+                grid-template-columns: repeat(3, min-content)
+                > div
+                    white-space: nowrap
+                .date
+                    margin: 0 8px 0 24px
+            .table
+                display: grid
+                overflow: hidden
+                .item
+                    padding: 0 32px
+                .header
+                    display: grid
+                    grid-template-columns: $qwe $qwe $qwe minmax($qwe, 1fr) $qwe
+                    grid-template-rows: min-content
+                    border-bottom: 1px solid rgba($white_nav_border, .2)
+                    .item
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 12px
+                        line-height: 16px
+                        color: rgba($dark_white, .6)
+                        height: 48px
+                        align-items: center
+                        &:last-child
+                            justify-content: flex-end
+                .body
+                    flex-direction: column
+                    overflow: auto
+                    .line
+                        display: grid
+                        width: 100%
+                        grid-template-columns: $qwe $qwe $qwe minmax($qwe, 1fr) $qwe
+                        grid-template-rows: min-content
+                        border-bottom: 1px solid rgba($white_nav_border, .2)
+                        .item
+                            min-height: 48px
+                            align-items: flex-start
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 14px
+                            line-height: 19px
+                            color: $dark_white
+                            padding-top: 16px
+                            padding-bottom: 16px
+                            span
+                                white-space: nowrap
+                            &.services
+                                flex-direction: column
+                                align-items: flex-start
+                            &:last-child
+                                justify-content: flex-end
+
+        .inv_footer
+            background: $dark_pagination_inactive
+            padding: 24px 36px
+            .info
+                flex-direction: column
+                margin-left: auto
+                .item
+                    font-family: Roboto, sans-serif
+                    font-weight: 400
+                    font-size: 16px
+                    line-height: 21px
+                    color: $dark_white
+                    .key
+                        margin-right: 24px
+                        width: 84px
+                        white-space: nowrap
+                    .val
+                        justify-content: flex-end
+                        width: 100%
+
 
 
