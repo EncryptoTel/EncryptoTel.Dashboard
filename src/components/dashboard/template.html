@@ -150,6 +150,7 @@
                 </div>
             </div>
         </div>
+        <div class="dashboard_history_body" *ngIf="dashboard.callDetail.length == 0"><span class="empty-data" translate>No data to display</span></div>
         <a class="dashboard_item_link_row" [routerLink]="'/cabinet/details-and-records'" routerLinkActive="active"
            translate>Details</a>
     </div>
