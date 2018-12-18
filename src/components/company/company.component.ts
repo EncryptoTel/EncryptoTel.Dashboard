@@ -98,7 +98,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     // -- form processing methods ---------------------------------------------
-    
+
     get modelEdit(): boolean {
         return this.company && this.company.isValid;
     }
@@ -297,7 +297,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
         this.service.save({...this.form.value}, false)
             .then(() => {
-                this.message.writeSuccess('Company has been successfully updated');
+                this.message.writeSuccess(this.translate.instant('Company has been successfully updated'));
                 if (this.isNewCompany) {
                     this.editMode = false;
                     this.isNewCompany = false;
@@ -325,7 +325,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 this.sidebarActive = false;
             });
         } else {
-            this.message.writeError('Accepted formats: jpg, jpeg, png, gif');
+            this.message.writeError(this.translate.instant('Accepted formats: jpg, jpeg, png, gif'));
             this.sidebarActive = false;
         }
 

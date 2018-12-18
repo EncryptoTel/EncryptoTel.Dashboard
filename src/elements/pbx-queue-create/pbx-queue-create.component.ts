@@ -191,7 +191,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         }
         this.addMembersMode = false;
         const message = this.service.getMembersMessage();
-        if (message) this.message.writeSuccess(message);
+        if (message) this.message.writeSuccess(this.translate.instant(message));
     }
 
     // -- component model methods ---------------------------------------------

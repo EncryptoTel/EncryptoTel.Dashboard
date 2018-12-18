@@ -97,7 +97,7 @@ export class PhoneNumbersComponent implements OnInit {
                 this.selected.status = 1;
             }
 
-            this.message.writeSuccess('The phone number has been ' + status);
+            this.message.writeSuccess(this.translate.instant('The phone number has been') + ' ' + this.translate.instant(status));
         }).catch(() => {
         })
             .then(() => this.selected.loading--);

@@ -192,7 +192,7 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
 
         validateForm(formGroup);
         if (!formGroup.valid && showMessage) {
-            this.message.writeError(message);
+            this.message.writeError(this.translate.instant(message));
         }
         return formGroup.valid;
     }

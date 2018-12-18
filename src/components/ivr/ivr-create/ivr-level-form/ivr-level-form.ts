@@ -261,7 +261,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
             if (this.storage.checkCompatibleType(file)) {
                 this.storage.checkFileExists(file, loading => {});
             } else {
-                this.message.writeError('Accepted formats: mp3, ogg, wav');
+                this.message.writeError(this.translate.instant('Accepted formats: mp3, ogg, wav'));
             }
             // this.storage.checkModal();
         }
