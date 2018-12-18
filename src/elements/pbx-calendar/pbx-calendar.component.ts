@@ -44,6 +44,9 @@ export class CalendarComponent implements OnInit, OnChanges {
         this.today = new Date();
         this.goEnd = false;
         this.week = week;
+        this.week.forEach( item => {
+            item = this.translate.instant(item);
+        });
         this.month = [
             this.translate.instant('January'),
             this.translate.instant('February'),

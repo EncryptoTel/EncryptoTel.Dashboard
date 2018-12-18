@@ -148,14 +148,14 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
 
     saveSettings() {
         if (this.changes.length === 0) {
-            this.message.writeSuccess('The data has been saved');
+            this.message.writeSuccess(this.translate.instant('The data has been saved'));
             return;
         }
 
         this.saveButton.loading = true;
 
         this.service.saveSettings(this.changes, this.path, false).then(response => {
-            this.message.writeSuccess(response.message);
+            this.message.writeSuccess(this.translate.instant(response.message));
             this.changes = [];
             this.saveModelState(this.model.items);
         }).catch(() => {

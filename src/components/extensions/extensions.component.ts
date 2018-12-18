@@ -109,6 +109,9 @@ export class ExtensionsComponent implements OnInit {
 
             this.list.header.selectedFilter[0] = this.list.pageInfo.departmentFilter[0];
         }
+        this.list.pageInfo.items.forEach( item => {
+            item.statusName = this.translate.instant(item.statusName);
+        });
     }
 
     ngOnInit(): void {

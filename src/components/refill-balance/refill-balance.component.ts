@@ -107,7 +107,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
         if (this.refill_status !== 'paying') return true;
-        
+
         return Observable.create((observer: Observer<boolean>) => {
             this.showExitModal(
                 true,
@@ -173,7 +173,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
             }
         }
         if ((this.validInput === false)) {
-            this.errors = { amount: this.amountValidationError };
+            this.errors = { amount: this.translate.instant(this.amountValidationError) };
             return false;
         } else {
             if (this.errors && 'amount' in this.errors) {
@@ -191,7 +191,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
                 delete this.errors.returnAddress;
                 return true;
             } else {
-                this.errors['returnAddress'] = 'Invalid address';
+                this.errors['returnAddress'] = this.translate.instant('Invalid address');
                 return false;
             }
         } else {
