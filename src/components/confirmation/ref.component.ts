@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {RequestServices} from '../../services/request.services';
 import {MessageServices} from '../../services/message.services';
 import {AuthorizationServices} from '../../services/authorization.services';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'ref',
@@ -14,7 +15,8 @@ export class RefComponent implements OnInit, OnDestroy {
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private request: RequestServices,
-                private message: MessageServices) {
+                private message: MessageServices,
+                protected translate: TranslateService) {
     }
 
     subscription: Subscription;
@@ -28,11 +30,11 @@ export class RefComponent implements OnInit, OnDestroy {
                     localStorage.setItem('uniqueHash', result.uniqueHash);
                     this.router.navigateByUrl('/sign-up');
                 }).catch(() => {
-                    this.message.writeError('Ref Link not found or invalid');
+                    this.message.writeError(this.translate.instant('Ref Link not found or invalid'));
                     this.router.navigateByUrl('/sign-in');
                 });
             } else {
-                this.message.writeError('Ref Link is not presented');
+                this.message.writeError(this.translate.instant('Ref Link is not presented'));
                 this.router.navigateByUrl('/sign-in');
             }
         });

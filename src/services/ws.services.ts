@@ -208,7 +208,7 @@ export class WsServices {
     }
 
     private onErrors(data) {
-        this.message.writeError(data.error.message);
+        // this.message.writeError(data.error.message);
     }
 
     private onClose(data) {

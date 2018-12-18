@@ -168,7 +168,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
 
     copyToClipboard(item: PartnerProgramItem): void {
         if (this.clipboard.copyFromContent(item.refLinkUrl)) {
-            this.message.writeSuccess('Link has been copied to clipboard');
+            this.message.writeSuccess(this.translate.instant('Link has been copied to clipboard'));
         }
     }
 

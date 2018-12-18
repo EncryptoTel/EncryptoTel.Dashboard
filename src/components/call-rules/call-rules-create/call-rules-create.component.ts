@@ -96,16 +96,15 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     ngOnInit() {
-        this.loading++;
+        this.loading ++;
 
         super.ngOnInit();
         super.setFormData(this.callRule);
         this.getParams();
-        let $this: any;
-        $this = this;
+
+        const $this: any = this;
         this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
-            let storageItem: any;
-            storageItem = $this.selectedFiles.find(item => item.id === result.id);
+            const storageItem: any = $this.selectedFiles.find(item => item.id === result.id);
             if (result.converted === 1) {
                 storageItem.converted = result.converted;
             }
@@ -116,7 +115,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             ruleName: this.translate.instant('Rule Name'),
         };
 
-        this.loading--;
+        this.loading --;
     }
 
     // -- form setup and helpers methods --------------------------------------
@@ -339,8 +338,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     deleteAction(index: number): void {
-        this.selectedActions.splice(index + 1, 1);
-        this.actionsControls.removeAt(index + 1);
+        this.selectedActions.splice(index, 1);
+        this.actionsControls.removeAt(index);
     }
 
     selectNumber(number: SipItem): void {
@@ -476,7 +475,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                     });
             }
             else {
-                this.message.writeError('Accepted formats: mp3, ogg, wav');
+                this.message.writeError(this.translate.instant('Accepted formats: mp3, ogg, wav'));
             }
             this.storage.checkModal();
         }
@@ -525,13 +524,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     // -- data processing methods ---------------------------------------------
 
     private getCallRule(): void {
-        this.loading++;
+        this.loading ++;
 
-        this.service.getById(this.callRule.id).then(response => {
-            this.setFormData(response);
-        }).catch(() => {
-        })
-            .then(() => this.loading--);
+        this.service.getById(this.callRule.id)
+            .then(response => {
+                this.setFormData(response);
+            })
+            .catch(() => {})
+            .then(() => this.loading --);
     }
 
     setFormData(data: any): void {
