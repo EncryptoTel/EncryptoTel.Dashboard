@@ -223,9 +223,11 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.service.save(this.id, true, (response) => {
             if (response && response.errors) {
                 if (response.errors.queueMembers) {
-                    this.message.writeError(this.formComponent.selected === 'Members'
-                        ? 'You have not selected members'
-                        : 'Choose at least one member');
+                    let message: string;
+                    message = this.formComponent.selected === 'Members'
+                        ? this.translate.instant('You have not selected members')
+                        : this.translate.instant('Choose at least one member');
+                    this.message.writeError(message);
                 }
                 return true;
             }

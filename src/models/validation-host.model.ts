@@ -96,7 +96,7 @@ export class ValidationHost implements Lockable {
                 return;
             }
         }
-        
+
         if (!mouseIsInForm && !inputIsInForm) {
             const controlKey = this.takeFirstInvalidControl();
             this.setErrorVisible(controlKey);
@@ -130,7 +130,7 @@ export class ValidationHost implements Lockable {
             this.selectedControl = controlKey;
 
             this.clearErrorsVisibility();
-            
+
             this.locker.lock();
             setTimeout(() => {
                 this.locker.unlock();
@@ -219,7 +219,7 @@ export class ValidationHost implements Lockable {
         // console.log('vh-message', control, errorKey, errors);
 
         if (errorKey === 'required') {
-            const ctrlName: string = this.normalizeControlName(controlKey);
+            const ctrlName: string = this.translate.instant(this.normalizeControlName(controlKey));
             const szPleaseEnter: string = this.translate.instant('Please enter');
             return `${szPleaseEnter} ${ctrlName}`;
         }
@@ -260,9 +260,10 @@ export class ValidationHost implements Lockable {
     normalizeControlName(name: string): string {
         let normalized = name.toLowerCase();
         normalized = normalized.replace(/\s+\*\s*$/, '');
+        normalized = normalized.replace(/(\.\d+)/, '');
         return normalized;
     }
-    
+
     getCustomValidatorMessage(controlKey: string, errorKey: string): string {
         // FormArrays validation keys look like:
         // - formName.arrayName.${index: number}.fieldName i.e. 'myForm.phones.0.extension'

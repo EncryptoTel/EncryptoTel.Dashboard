@@ -41,8 +41,8 @@ export class BaseQueueService extends BaseService {
             }
         });
 
-        membersAdded > 0 ? message = `${membersAdded} member(s) added successfully` : null;
-        membersDeleted > 0 ? message = `${message ? `${message}, ` : ''}${membersDeleted} member(s) removed successfully` : null;
+        membersAdded > 0 ? message = membersAdded + ' ' + this.translate.instant('member(s) added successfully') : null;
+        membersDeleted > 0 ? message = message ? message : '' +  membersDeleted + ' ' + this.translate.instant('member(s) removed successfully') : null;
         return message;
     }
 
