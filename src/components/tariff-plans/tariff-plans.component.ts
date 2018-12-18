@@ -136,10 +136,14 @@ export class TariffPlansComponent implements OnInit {
             tariff.offers.map(offer => {
                 price += offer.service.sum;
                 discountPrice += offer.currentPrice.sum;
-                services.push({ title: offer.service.title });
+                services.push({
+                    title: offer.service.title,
+                    sort: offer.service.sort
+                });
             });
             price = Math.round(price * 100) / 100;
             discountPrice = Math.round(discountPrice * 100) / 100;
+            services.sort(this.compare);
             this.tariffs.push({
                 id: tariff.id,
                 title: this.translate.instant(tariff.title),
@@ -149,6 +153,19 @@ export class TariffPlansComponent implements OnInit {
                 services: services
             });
         });
+    }
+
+    compare(a, b) {
+        const sortA = a.sort;
+        const sortB = b.sort;
+
+        let comparison = 0;
+        if (sortA > sortB) {
+            comparison = 1;
+        } else if (sortA < sortB) {
+            comparison = -1;
+        }
+        return comparison;
     }
 
     initPageData(): void {
