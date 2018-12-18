@@ -111,6 +111,7 @@
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
                                        [description]="'seconds' | translate"
                                        key="timeout"
+                                       [required]="true"
                                        [form]="true"
                                        [object]="action"
                                        [(errors)]="service.errors"
@@ -206,10 +207,6 @@
                         <!-- Terminate call -->
                         <ng-template [ngSwitchCase]="4">
                             <div class="call-rules-create_row">
-                                <label></label>
-                                <div>
-                                    <p translate>Terminate call</p>
-                                </div>
                             </div>
                             <!--<call-rules-timeout [value]="getTimeout(i)" (onChange)="onTimeoutChange(i, $event)"></call-rules-timeout>-->
                         </ng-template>

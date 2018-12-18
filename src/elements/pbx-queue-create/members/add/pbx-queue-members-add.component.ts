@@ -33,6 +33,7 @@ export class QueueMembersAddComponent implements OnInit {
     searchPlaceholder: any;
     departmentName: any;
     searchName: any;
+    nothingFoundText: string;
 
     @ViewChild('searchString') searchString: ElementRef;
     @ViewChild(SelectComponent) pbxSelect: SelectComponent;
@@ -51,6 +52,7 @@ export class QueueMembersAddComponent implements OnInit {
             ],
             keys: ['phoneNumber', 'sipOuter.phoneNumber', 'firstName', 'lastName', 'email', 'statusName']
         };
+        this.nothingFoundText = this.translate.instant('Nothing found');
         this.searchPlaceholder = this.translate.instant('Search by Name or Phone');
         this.departmentName = this.translate.instant('Department');
         this.searchName = this.translate.instant('Search');

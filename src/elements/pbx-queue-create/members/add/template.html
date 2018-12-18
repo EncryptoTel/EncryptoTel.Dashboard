@@ -33,7 +33,5 @@
         [selected]="service.userView.members"
         >
     </pbx-table>
-    <div class="nothing-found-class" *ngIf="(members.length === 0 || nothingFound) && !loading" translate>
-        Nothing found
-    </div>
+    <div class="nothing-found-class" *ngIf="(members.length === 0 || nothingFound) && !loading">{{nothingFoundText}}</div>
 </div>
