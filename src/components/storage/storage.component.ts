@@ -352,7 +352,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                     });
             }
             else {
-                this._message.writeError('Accepted formats: mp3, ogg, wav');
+                this._message.writeError(this.translate.instant('Accepted formats: mp3, ogg, wav'));
                 this.sidebarActive = false;
             }
         }
