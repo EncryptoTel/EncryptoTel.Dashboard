@@ -147,6 +147,7 @@
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
                                        [description]="'seconds' | translate"
                                        key="timeout"
+                                       [required]="true"
                                        [form]="true"
                                        [object]="action"
                                        [(errors)]="service.errors"
@@ -187,6 +188,7 @@
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
                                        [description]="'seconds' | translate"
                                        key="timeout"
+                                       [required]="true"
                                        [form]="true"
                                        [object]="action"
                                        [(errors)]="service.errors"
@@ -253,6 +255,7 @@
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
                                        [description]="'seconds' | translate"
                                        key="timeout"
+                                       [required]="true"
                                        [form]="true"
                                        [object]="action"
                                        [(errors)]="service.errors"
@@ -293,6 +296,7 @@
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
                                        [description]="'seconds' | translate"
                                        key="timeout"
+                                       [required]="true"
                                        [form]="true"
                                        [object]="action"
                                        [(errors)]="service.errors"
@@ -315,13 +319,14 @@
                                    [form]="true"
                                    [required]="true"
                                    [formKey]="getActionFormKey(i + 1, true)"
-                                   (onSelect)="selectAction($event, i + 1)"
                                    [options]="actionsList"
                                    [(errors)]="service.errors"
                                    [(objectView)]="selectedActions[i + 1]"
                                    [(object)]="callRulesForm"
                                    [placeholder]="'[choose one]' | translate"
-                                   class="noMargin">
+                                   class="noMargin"
+                                   (onSelect)="selectAction($event, i + 1)"
+                                   >
                             <div>
                                 <div class="icon_wrap" (click)="deleteAction(i)">
                                     <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
