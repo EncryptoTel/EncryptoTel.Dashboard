@@ -19,6 +19,7 @@ export class ExtensionItem extends BaseItemModel {
     status: number;
     // statusName: string;
     user: UserModel;
+    _statusName: string;
 
     get extension(): string {
         return this.phoneNumber;
@@ -49,7 +50,15 @@ export class ExtensionItem extends BaseItemModel {
     }
 
     get statusName(): string {
-        return this.status ? 'online' : 'offline';
+        if (this._statusName) {
+            return this._statusName;
+        } else {
+            return this.status ? 'enable' : 'disable';
+        }
+    }
+
+    set statusName(value) {
+        this._statusName = value;
     }
 
     get isMobileApp(): string {

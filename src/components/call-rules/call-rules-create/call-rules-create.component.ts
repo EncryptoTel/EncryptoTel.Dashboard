@@ -85,7 +85,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             { key: 'name', error: 'pattern', message: this.translate
                 .instant('Rule name contains invalid characters or symbols. You can only use letters, numbers and the following characters: -_') },
             { key: 'ruleActions', error: 'required', message: this.translate.instant('Please choose the Action') },
-            { key: 'timeout', error: 'range', message: this.translate.instant('Please enter a value from 5 to 300') },
+            { key: 'ruleActions.*.timeout', error: 'required', message: this.translate.instant('Please enter a value from 5 to 300') },
+            { key: 'ruleActions.*.timeout', error: 'range', message: this.translate.instant('Please enter a value from 5 to 300') },
             { key: 'ruleActions.*.callRuleTime', error: 'days', message: this.translate.instant('Please enter at least one day of the week') },
             { key: 'ruleActions.*.durationTime', error: 'startTime', message: this.translate.instant('Start time cannot be greater than end time') },
             { key: 'ruleActions.*.durationTime', error: 'equalTime', message: this.translate.instant('Start time cannot be the same as end time') },
@@ -157,7 +158,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         return this.fb.group({
             action: 2,
             parameter: [null, [Validators.minLength(6), Validators.maxLength(16), Validators.pattern('[0-9]*'), Validators.required]],
-            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
+            timeout: [30, [Validators.required, Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
             timeRules: ['', []],
             callRuleTime: ['', [callRuleTimeValidator]],
             durationTime: ['', [durationTimeValidator]],
@@ -168,7 +169,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         return this.fb.group({
             action: 1,
             parameter: [null, [Validators.required]],
-            timeout: [30, [Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
+            timeout: [30, [Validators.required, Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
             timeRules: ['', []],
             callRuleTime: ['', [callRuleTimeValidator]],
             durationTime: ['', [durationTimeValidator]],
@@ -179,7 +180,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         return this.fb.group({
             action: 3,
             parameter: [null, [Validators.required]],
-            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
+            timeout: [30, [Validators.required, Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
             timeRules: ['', []],
             callRuleTime: ['', [callRuleTimeValidator]],
             durationTime: ['', [durationTimeValidator]],
@@ -190,7 +191,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         return this.fb.group({
             action: 6,
             parameter: [null, [Validators.required]],
-            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
+            timeout: [30, [Validators.required, Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
             timeRules: ['', []],
             callRuleTime: ['', [callRuleTimeValidator]],
             durationTime: ['', [durationTimeValidator]],
@@ -201,7 +202,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         return this.fb.group({
             action: 4,
             parameter: [null],
-            timeout: [30, [Validators.min(5), Validators.max(300)]],
+            timeout: [30, [numberRangeValidator(5, 300)]],
         });
     }
 
@@ -209,7 +210,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         return this.fb.group({
             action: 5,
             parameter: [null, [Validators.required]],
-            timeout: [30, [Validators.pattern('[0-9]*'), Validators.min(5), Validators.max(300)]],
+            timeout: [30, [Validators.required, Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
             timeRules: ['', []],
             callRuleTime: ['', [callRuleTimeValidator]],
             durationTime: ['', [durationTimeValidator]],
@@ -475,7 +476,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                     });
             }
             else {
-                this.message.writeError('Accepted formats: mp3, ogg, wav');
+                this.message.writeError(this.translate.instant('Accepted formats: mp3, ogg, wav'));
             }
             this.storage.checkModal();
         }

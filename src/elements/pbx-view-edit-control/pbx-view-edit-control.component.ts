@@ -1,5 +1,6 @@
 import {Component, Input, Output, EventEmitter, OnInit, ElementRef, ViewChild, Renderer2} from '@angular/core';
 import { FadeAnimation } from '../../shared/fade-animation';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -22,13 +23,16 @@ export class ViewEditControlComponent implements OnInit {
 
     @Output() onEditModeChanged: EventEmitter<boolean>;
 
+    nothingFoundText: string;
+
     get hasData(): boolean {
         return !!this.selectedItems && this.selectedItems.length > 0;
     }
 
-    constructor(private renderer: Renderer2) {
+    constructor(private renderer: Renderer2, public translate: TranslateService) {
         this.editMode = false;
         this.onEditModeChanged = new EventEmitter();
+        this.nothingFoundText = this.translate.instant('Nothing found');
     }
 
     ngOnInit(): void {}
