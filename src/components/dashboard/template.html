@@ -63,7 +63,7 @@
                 <div class="dashboard_item_line" *ngIf="i <= 4">
                     <div class="dashboard_item_content_key"><span *ngIf="number.phoneType == 'external'">+</span>{{number.phoneNumber}}</div>
                     <div class="dashboard_item_content_value">{{number.innerOnlineCount}}&nbsp;<span translate>of</span>&nbsp;{{number.innerCount}}
-                        ext.<span translate>online</span>
+                        <span translate>ext.</span>&nbsp;<span translate>online</span>
                     </div>
                 </div>
             </div>
