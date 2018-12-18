@@ -111,6 +111,7 @@
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
                                        [description]="'seconds' | translate"
                                        key="timeout"
+                                       [required]="true"
                                        [form]="true"
                                        [object]="action"
                                        [(errors)]="service.errors"
