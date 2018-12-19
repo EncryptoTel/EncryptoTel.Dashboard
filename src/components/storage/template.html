@@ -2,7 +2,7 @@
     <div class="media-table-wrapper">
         <pbx-header [buttons]="buttons"
                     [filters]="filters"
-                    (onClick)="deleteSelected($event)"
+                    (onClick)="headerClickHandler($event)"
                     (onUpdate)="updateFilter($event)"
                     (onReload)="reloadFilter($event)"
                     [inactive]="loading">

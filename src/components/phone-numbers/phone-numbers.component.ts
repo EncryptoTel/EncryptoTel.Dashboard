@@ -61,11 +61,11 @@ export class PhoneNumbersComponent implements OnInit {
         this.sidebar.items.push(new SidebarInfoItem(3, this.translate.instant('Phone Number'), this.selected.providerId !== 1 ? '+' + this.selected.phoneNumber : this.selected.phoneNumber));
         this.sidebar.items.push(new SidebarInfoItem(4, this.translate.instant('Amount of Exts'), this.selected.innersCount));
         this.sidebar.items.push(new SidebarInfoItem(5, this.translate.instant('Default Ext'), this.selected.defaultInner));
-        this.sidebar.items.push(new SidebarInfoItem(6, this.translate.instant('Status'), this.selected.statusName));
-        this.sidebar.items.push(new SidebarInfoItem(7, this.translate.instant('Phone number type'), this.selected.typeName));
+        this.sidebar.items.push(new SidebarInfoItem(6, this.translate.instant('Status'), this.translate.instant(this.selected.statusName)));
+        this.sidebar.items.push(new SidebarInfoItem(7, this.translate.instant('Phone number type'), this.translate.instant(this.selected.typeName)));
         if (!this.selected.delete) {
-            this.sidebar.items.push(new SidebarInfoItem(8, 'Delete phone number ' +
-                (this.selected.innersCount === 1 ? 'and 1 Ext' : this.selected.innersCount > 1 ? 'and ' + this.selected.innersCount + ' Exts' : ''), null, true, false, true));
+            this.sidebar.items.push(new SidebarInfoItem(8, this.translate.instant('Delete phone number') +
+                ' ' + (this.selected.innersCount === 1 ? this.translate.instant('and 1 Ext') : this.selected.innersCount > 1 ? this.translate.instant('and') + ' ' + this.selected.innersCount + ' ' + this.translate.instant('Exts') : ''), null, true, false, true));
         }
     }
 
@@ -80,15 +80,15 @@ export class PhoneNumbersComponent implements OnInit {
             this.list.getItems(this.selected);
             let status: string;
             if (this.selected.status === 0) {
-                status = 'enabled';
+                status = this.translate.instant('enabled');
 
-                this.sidebar.buttons[1].title = 'Disable';
-                this.sidebar.items[3].value = 'Enabled';
+                this.sidebar.buttons[1].title = this.translate.instant('Disable');
+                this.sidebar.items[3].value = this.translate.instant('Enabled');
             }
             if (this.selected.status === 1) {
-                status = 'disabled';
-                this.sidebar.buttons[1].title = 'Enable';
-                this.sidebar.items[3].value = 'Disabled';
+                status = this.translate.instant('disabled');
+                this.sidebar.buttons[1].title = this.translate.instant('Enable');
+                this.sidebar.items[3].value = this.translate.instant('Disabled');
             }
 
             if (this.selected.status === 1) {
@@ -118,6 +118,10 @@ export class PhoneNumbersComponent implements OnInit {
 
     load() {
         this.selected = null;
+        this.list.pageInfo.items.forEach( item => {
+            item.statusName = this.translate.instant(item.statusName);
+            item.typeName = this.translate.instant(item.typeName);
+        });
     }
 
     ngOnInit() {

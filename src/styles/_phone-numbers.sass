@@ -209,9 +209,10 @@ buy-phone-numbers-component
     .buy_phone_grid
         .table-message
             .msg
-                display: block
-                text-align: center
+                display: flex
                 line-height: 48px
+                flex-wrap: wrap
+                justify-content: center
                 .outerSpan
                     white-space: nowrap
                     //display: inline-block
@@ -221,7 +222,7 @@ buy-phone-numbers-component
                     max-width: 260px
                     overflow: hidden
                     //text-overflow: ellipsis
-                    vertical-align: bottom
+                    vertical-align: baseline
                     .innerSpan
                         max-width: 232px
                         display: inline-block
@@ -229,7 +230,7 @@ buy-phone-numbers-component
                         // for Edge
                         text-overflow: ellipsis
                         overflow: hidden
-                        vertical-align: middle
+                        vertical-align: baseline
 phone-numbers-component
     pbx-list
         pbx-table

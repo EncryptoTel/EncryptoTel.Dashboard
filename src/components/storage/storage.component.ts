@@ -11,9 +11,9 @@ import { ListComponent } from '@elements/pbx-list/pbx-list.component';
 import { Subscription } from 'rxjs/Subscription';
 import { WsServices } from '@services/ws.services';
 import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
-import {TranslateService} from '@ngx-translate/core';
-import {LocalStorageServices} from '@services/local-storage.services';
-import {formatDateTime} from '@shared/shared.functions';
+import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageServices } from '@services/local-storage.services';
+import { formatDateTime } from '@shared/shared.functions';
 
 
 @Component({
@@ -142,7 +142,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 inactive: true,
                 buttonClass: 'trash',
                 icon: false
-            },
+            }
         ];
         this.buttons = [
             {
@@ -180,7 +180,16 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 inactive: true,
                 buttonClass: 'button-upload',
                 icon: false
-            }
+            },
+            {
+                id: 4,
+                title: 'Download',
+                type: 'success',
+                visible: true,
+                inactive: true,
+                buttonClass: 'success',
+                icon: false
+            },
         ];
         this.buttonType = 1;
     }
@@ -222,8 +231,8 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.service.getItems(this.pageInfo, this.currentFilter, this.table.sort)
             .then(response => {
                 this.pageInfo = response;
-                this.pageInfo.items.forEach( storageItem => {
-                   storageItem.created = formatDateTime(storageItem.created, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
+                this.pageInfo.items.forEach(storageItem => {
+                    storageItem.created = formatDateTime(storageItem.created, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
                 });
                 this.onMediaDataLoaded();
             })
@@ -284,12 +293,14 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     reloadFilter(filter: any): void {
         this.loading++;
         if (filter.type === 'trash') {
+            this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayModifiedDate', 'date', 168);
             this.buttons[2].visible = true;
             this.buttons[1].visible = false;
             this.buttons[1].inactive = true;
             this.buttons[0].inactive = true;
         }
         else {
+            this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 168);
             this.buttons[2].visible = false;
             this.buttons[1].visible = true;
             this.buttons[0].inactive = true;
@@ -309,6 +320,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.service.selectItem(item.id);
         this.buttons[0].inactive = this.service.select.length === 0;
         this.buttons[1].inactive = this.service.select.length === 0;
+        this.buttons[4].inactive = this.service.select.length === 0;
         this.buttons[3].inactive = false;
     }
 
@@ -392,9 +404,27 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     // --- file deletion methods --------------------------
 
-    deleteSelected(event: any) {
+    headerClickHandler(event: any) {
         this.buttonType = event.id;
+        console.log(event);
+        if (event.id === 4) {
+            this.downloadFile();
+        } else {
+            this.deleteSelected();
+        }
+
+    }
+
+    deleteSelected() {
         this.confirmDeletion();
+    }
+
+    downloadFile() {
+        if (this.service.select.length > 0) {
+            for (let index = 0; index < this.service.select.length; index++) {
+                this.service.downloadFile(this.service.select[index]);
+            }
+        }
     }
 
     deleteItem(item: StorageItem): void {

@@ -7,7 +7,9 @@ import {
     Output,
     ViewChild,
     HostListener,
-    OnDestroy
+    OnDestroy,
+    OnChanges,
+    SimpleChanges
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
@@ -25,7 +27,7 @@ import { Subscriber } from 'rxjs/Subscriber';
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms'), SwipeAnimation('y', '200ms')]
 })
-export class InputComponent implements OnInit, OnDestroy {
+export class InputComponent implements OnInit, OnDestroy, OnChanges {
 
     @Input() key: string;
     @Input() name: string;
@@ -514,27 +516,21 @@ export class InputComponent implements OnInit, OnDestroy {
         );
     }
 
-    ngOnInit() {
-        if (this.name) {
-            this.name = this.translate.instant(this.name);
-        }
-
-        this.loading++;
-        if (this.options) {
-            this.changeSelectWatch();
-        }
+    setValue(): void {
         if (this.form && (this.checkbox || this.options)) {
             this.value = this.getForm() ? this.getForm().value : false;
             if (this.objectView) {
                 this.value = this.objectView;
             }
-        } else if (this.options) {
+        }
+        else if (this.options) {
             if (this.updateObjectByObject) {
                 this.value = this.object[this.key];
             } else {
                 this.value = this.objectView ? this.objectView : this.object;
             }
-        } else {
+        }
+        else {
             this.value = this.object[this.key];
         }
 
@@ -546,9 +542,23 @@ export class InputComponent implements OnInit, OnDestroy {
             this.value = this.options.find(
                 o => o[this.optionsSelectedKey] === selectedValue
             );
-        } else if (this.form && this.options && this.selectedItem) {
+        }
+        else if (this.form && this.options && this.selectedItem) {
             this.value = this.selectedItem;
         }
+    }
+
+    ngOnInit() {
+        if (this.name) {
+            this.name = this.translate.instant(this.name);
+        }
+
+        this.loading ++;
+        if (this.options) {
+            this.changeSelectWatch();
+        }
+
+        this.setValue();
 
         this.checkboxValues = [
             this.falseValue ? this.falseValue : false,
@@ -559,7 +569,7 @@ export class InputComponent implements OnInit, OnDestroy {
             this.validationHost.addControl(this);
         }
 
-        this.loading--;
+        this.loading --;
     }
 
     changeSelectWatch() {
@@ -576,5 +586,11 @@ export class InputComponent implements OnInit, OnDestroy {
         // if (this.changeSubscriber) {
         //     this.changeSubscriber.unsubscribe();
         // }
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.objectView) {
+            this.setValue();
+        }
     }
 }

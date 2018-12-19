@@ -64,6 +64,24 @@ pbx-input[ng-reflect-checkbox="false"]
 .add_ext_form_title.no_active
     color: $white_pagination_btn_disabled !important
 
+.dark_theme
+    .pbx_input_wrap
+        &.disabled
+            .pbx_input_item_label
+                span
+                    cursor: default !important
+                    &:hover
+                        color: rgba($dark_white, .7) !important
+
+.light_theme
+    .pbx_input_wrap
+        &.disabled
+            .pbx_input_item_label
+                span
+                    cursor: default !important
+                    &:hover
+                        color: rgba($white_black, .7) !important
+
 
 input.error-border.error-text:hover
     color: $dark_white !important

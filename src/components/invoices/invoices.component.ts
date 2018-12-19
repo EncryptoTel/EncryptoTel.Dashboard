@@ -62,7 +62,12 @@ export class InvoicesComponent implements OnInit {
 
     load() {
         this.list.pageInfo.items.forEach( item => {
-            item.status = this.translate.instant(item.status);
+            if (item.status === 'Waiting for payment') {
+                item.status = '<span class="' + item.status + '">' + this.translate.instant(item.status) + '</span>';
+            } else {
+                item.status = this.translate.instant(item.status);
+            }
+
             item.type = this.translate.instant(item.type);
             item.created = formatDateTime(item.created, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
 

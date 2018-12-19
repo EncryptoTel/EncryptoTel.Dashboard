@@ -10,7 +10,7 @@ import { StorageItem, StorageModel } from '../models/storage.model';
 
 import { ModalEx } from '../elements/pbx-modal/pbx-modal.component';
 import { Subject } from 'rxjs/Subject';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Injectable()
@@ -275,5 +275,13 @@ export class StorageService extends BaseService {
     resetCount() {
         this.successCount = 0;
         this.errorCount = 0;
+    }
+
+    async downloadFile(fileId) {
+        if (fileId) {
+            const resp = await this.getById(fileId);
+            const url = '/download/' + resp.downloadHash;
+            window.open(url);
+        }
     }
 }

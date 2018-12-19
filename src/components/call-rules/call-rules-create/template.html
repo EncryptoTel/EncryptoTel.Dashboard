@@ -80,9 +80,15 @@
                        [(errors)]="service.errors"
                        validationKey="ruleActions"
                        [validationHost]="validationHost"
-                       [(objectView)]="selectedActions[0]"
+                       [objectView]="selectedActions[0]"
                        (onSelect)="selectAction($event)"
-            >
+                       class="noMargin"
+                       >
+                <div class="icon_wrap"
+                        (click)="deleteAction(0)"
+                        >
+                    <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
+                </div>
             </pbx-input>
 
             <ng-container formArrayName="ruleActions">
@@ -105,7 +111,7 @@
                                        [validationHost]="validationHost"
                                        [(objectView)]="selectedSipInners[i]"
                                        (onSelect)="selectSipInner(i, $event)"
-                            >
+                                       >
                             </pbx-input>
 
                             <pbx-input name="{{'If I do not answer call within' | translate }}"
@@ -329,7 +335,9 @@
                                    (onSelect)="selectAction($event, i + 1)"
                                    >
                             <div>
-                                <div class="icon_wrap" (click)="deleteAction(i)">
+                                <div class="icon_wrap"
+                                     (click)="deleteAction(i + 1)"
+                                     >
                                     <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
                                 </div>
                             </div>
