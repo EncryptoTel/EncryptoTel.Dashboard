@@ -1,5 +1,6 @@
-import {Subscription} from "rxjs/Subscription";
-import {Lockable, Locker} from "./locker.model";
+import {Subscription} from 'rxjs/Subscription';
+import {Lockable, Locker} from '@models/locker.model';
+
 
 export class PageInfoModel {
     public itemsCount: number;
@@ -91,7 +92,7 @@ export class TableInfoItem {
 
 export class TableInfoAction {
     id: number;
-    type: string; //drop-down, player
+    type: string; // drop-down, player
     options: TableInfoActionOption[] = [];
     width: number = 50;
 
@@ -281,7 +282,7 @@ export class FilterItem {
 
 export class InputAction {
     id: number;
-    type: string; //add-delete
+    type: string; // add-delete
     objects: any;
 
     constructor(id: number, type: string, objects?: any) {

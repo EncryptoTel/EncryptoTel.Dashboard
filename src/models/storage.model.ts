@@ -8,6 +8,7 @@ export class StorageModel extends PageInfoModel {
 export class StorageItem extends BaseItemModel {
     public accountId: number;
     public created: string;
+    public modified: string;
     public description: string;
     public duration: number;
     public externalId: number;
@@ -28,6 +29,10 @@ export class StorageItem extends BaseItemModel {
 
     get displayDateTime() {
         return this.created;
+    }
+
+    get displayModifiedDate() {
+        return this.modified;
     }
 
     get size() {

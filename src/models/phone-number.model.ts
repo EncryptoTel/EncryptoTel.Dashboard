@@ -10,6 +10,8 @@ export class PhoneNumberItem extends BaseItemModel {
     providerId: number;
     sipInners: SipInnerModel[] = [];
     safe: boolean = false;
+    private _statusName: string;
+    private _typeName: string;
 
     get phoneNumberWithType() {
         if (this.providerId === 1) {
@@ -34,11 +36,27 @@ export class PhoneNumberItem extends BaseItemModel {
     }
 
     get statusName() {
-        return !!this.status ? 'Enabled' : 'Disabled';
+        if (this._statusName) {
+            return this._statusName;
+        } else {
+            return !!this.status ? 'Enabled' : 'Disabled';
+        }
+    }
+
+    set statusName(status: string) {
+        this._statusName = status;
     }
 
     get typeName() {
-        return this.providerId === 1 ? 'Internal' : 'External';
+        if (this._typeName) {
+            return this._typeName;
+        } else {
+            return this.providerId === 1 ? 'Internal' : 'External';
+        }
+    }
+
+    set typeName(type: string) {
+        this._typeName = type;
     }
 
     get delete() {

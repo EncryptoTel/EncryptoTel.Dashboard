@@ -1,13 +1,14 @@
-import {MainViewComponent} from '../main-view.component';
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MessageServices} from '../../services/message.services';
-import {ExtensionService} from '../../services/extension.service';
-import {ModalEx} from '../../elements/pbx-modal/pbx-modal.component';
-import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
-import {ExtensionItem, ExtensionModel} from '../../models/extension.model';
-import {FilterItem, TableInfoExModel, TableInfoItem} from '../../models/base.model';
-import {StorageService} from '../../services/storage.service';
 import {TranslateService} from '@ngx-translate/core';
+
+import {MainViewComponent} from '@components/main-view.component';
+import {MessageServices} from '@services/message.services';
+import {ExtensionService} from '@services/extension.service';
+import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
+import {ListComponent} from '@elements/pbx-list/pbx-list.component';
+import {ExtensionItem, ExtensionModel} from '@models/extension.model';
+import {FilterItem, TableInfoExModel, TableInfoItem} from '@models/base.model';
+
 
 @Component({
     selector: 'extensions-component',
@@ -15,7 +16,6 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: ['./local.sass'],
     providers: [ExtensionService]
 })
-
 export class ExtensionsComponent implements OnInit {
 
     @ViewChild(ListComponent) list;

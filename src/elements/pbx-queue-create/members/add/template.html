@@ -1,26 +1,11 @@
 <div class="call_queues_members_add">
     <div class="call_queues_members_add_header">
-        <div class="call_queues_members_add_filter">
-            <span translate>{{departmentName}}</span><span>:</span>
-            <pbx-select
-                [objectKey]="'name'"
-                [options]="departments"
-                [selected]="selectedDepartment"
-                (onSelect)="departmentChanged($event)"
-                >
-            </pbx-select>
-        </div>
-        <div class="call_queues_members_add_filter">
-            <span translate>{{searchName}}</span><span>:</span>
-            <div class="input_wrap">
-                <input #searchString class="searching" type="text" placeholder="{{searchPlaceholder}}" (keyup)="search($event)">
-                <div class="clear_icon_wrap" *ngIf="searchIcon">
-                    <div class="clear_icon" (click)="clearSearch()">
-                        <svg-icon class="ng-tns-c13-36" src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
-                    </div>
-                </div>
-            </div> <!-- input_wrap -->
-        </div>
+        <pbx-header
+            [buttons]="[]"
+            [filters]="filters"
+            (onReload)="reloadFilter($event)"
+            >
+        </pbx-header>
     </div>
     <pbx-loader *ngIf="loading"></pbx-loader>
     <pbx-table *ngIf="!loading"
@@ -33,5 +18,5 @@
         [selected]="service.userView.members"
         >
     </pbx-table>
-    <div class="nothing-found-class" *ngIf="(members.length === 0 || nothingFound) && !loading">{{nothingFoundText}}</div>
+    <div class="nothing-found-class" *ngIf="nothingFound && !loading">{{ emptyResultMessage }}</div>
 </div>
