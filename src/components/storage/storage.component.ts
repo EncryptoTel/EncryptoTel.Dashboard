@@ -293,12 +293,14 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     reloadFilter(filter: any): void {
         this.loading++;
         if (filter.type === 'trash') {
+            this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayModifiedDate', 'date', 168);
             this.buttons[2].visible = true;
             this.buttons[1].visible = false;
             this.buttons[1].inactive = true;
             this.buttons[0].inactive = true;
         }
         else {
+            this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 168);
             this.buttons[2].visible = false;
             this.buttons[1].visible = true;
             this.buttons[0].inactive = true;

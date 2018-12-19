@@ -30,7 +30,7 @@
                      class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
                      (mouseenter)="mouseEnter($event, item)"
                      (mouseleave)="mouseLeave($event, item)">
-                    <div class="qwerty">{{ getValueByKeyEx(item, tableItem.key) }}</div>
+                    <div class="" [innerHtml]="getValueByKeyEx(item, tableItem.key)"></div>
                     <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
                 </div>
                 <div class="tablet_icon edit"
