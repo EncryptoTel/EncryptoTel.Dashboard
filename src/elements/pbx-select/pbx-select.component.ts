@@ -108,6 +108,45 @@ export class SelectComponent implements OnInit, OnChanges {
         if (event) {
             this.isVisible ? this.hideOptions() : this.showOptions();
         }
+
+        ////////////////////////////////////
+
+        var listNames = this.options;
+        for (let i = 0; i < listNames.length; i++) {
+            var curr;
+            var long;
+            var ext;
+            var short;
+            var dots = '...';
+            var reg = /\(\d+\)$/;
+
+            if (listNames[0].sipCount) {
+                long = listNames[i].name;
+                ext = '(' + listNames[i].sipCount + ')';
+            } else {
+                curr = listNames[i].name;
+                ext = curr.match(reg)[0];
+                long = curr.split(ext)[0];
+            }
+
+            if (long.length > 20) {
+                short = long.substr(0, 20);
+            } else {
+                short = long;
+                dots = '';
+            }
+
+            if (listNames[0].sipCount) {
+                this.options[i].name = short + dots;
+            } else {
+                this.options[i].name = short + dots + ext;
+            }
+
+        }
+
+
+        ////////////////////////////////////
+
     }
 
     /*
