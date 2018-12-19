@@ -528,7 +528,6 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     setFilters(): void {
         let keys: any;
-        // this.filters = [];
         const filterValue = [];
         if (this.addressBookModel.contactFilter !== undefined) {
             this.addressBookModel.contactFilter.forEach(item => {
