@@ -105,8 +105,8 @@ export class TableComponent implements OnInit, OnDestroy {
                 }
                 body = body.concat(
                     this.translate.instant('Are you sure you want to delete') + ' +',
-                    item.phoneNumber, this.translate.instant(' and '),
-                    innerCount, this.translate.instant(' extensions?')
+                    item.phoneNumber, ' ', this.translate.instant('and'), ' ',
+                    innerCount, ' ', this.translate.instant('extensions?')
                 );
                 this.modal.body = body;
             }
