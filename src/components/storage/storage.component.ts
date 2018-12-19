@@ -105,9 +105,10 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.table.sort.isDown = true;
         this.table.sort.column = 'date';
         this.table.items = [
-            new TableInfoItem(this.translate.instant('Name'), 'name', 'name'),
-            new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 168),
-            new TableInfoItem(this.translate.instant('Size, MB'), 'size', 'size', 104),
+            new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
+            new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
+            new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', null, 50),
+            new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
             new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
         ];
         this.table.actions = [
@@ -233,7 +234,13 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 this.pageInfo = response;
                 this.pageInfo.items.forEach(storageItem => {
                     storageItem.created = formatDateTime(storageItem.created, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
+                    if (storageItem.callDetail) {
+                        storageItem.from = storageItem.callDetail.source;
+                        storageItem.to = storageItem.callDetail.destination;
+                    }
+
                 });
+                console.log(this.pageInfo);
                 this.onMediaDataLoaded();
             })
             .catch((error) => {
@@ -306,13 +313,32 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.buttons[0].inactive = true;
         }
 
-        this.currentFilter = filter;
+        this.updateFilter(filter);
         this.getItems();
         this.loading--;
     }
 
     updateFilter(filter: any): void {
         this.currentFilter = filter;
+        if (filter.type === 'call_record') {
+            this.table.items = [
+                new TableInfoItem(this.translate.instant('From'), 'from', null, 120),
+                new TableInfoItem(this.translate.instant('To'), 'to', null, 120),
+                new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
+                new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
+                new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
+                new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
+                new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
+            ];
+        } else {
+            this.table.items = [
+                new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
+                new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
+                new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
+                new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
+                new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
+            ];
+        }
     }
 
     // --- selection --------------------------------------
