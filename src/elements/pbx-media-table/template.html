@@ -30,7 +30,7 @@
                          (mouseenter)="mouseEnter($event, item)"
                          (mouseleave)="mouseLeave($event, item)"
                          >
-                         {{ getValueByKeyEx(item, tableItem.key) }}
+                         <span>{{ getValueByKeyEx(item, tableItem.key) }}</span>
                         <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
                     </div>
                 </ng-template>
