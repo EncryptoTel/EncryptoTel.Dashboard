@@ -1,10 +1,9 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {FadeAnimation} from '../../../../shared/fade-animation';
-import {RefsServices} from '../../../../services/refs.services';
-import {isDevEnv} from '../../../../shared/shared.functions';
-import {ListComponent} from '@elements/pbx-list/pbx-list.component';
-import {SelectComponent} from '@elements/pbx-select/pbx-select.component';
 import {TranslateService} from '@ngx-translate/core';
+
+import {FadeAnimation} from '@shared/fade-animation';
+import {FilterItem} from '@models/base.model';
+import {HeaderComponent} from '@elements/pbx-header/pbx-header.component';
 
 
 @Component({
@@ -14,33 +13,52 @@ import {TranslateService} from '@ngx-translate/core';
     animations: [FadeAnimation('300ms')]
 })
 export class QueueMembersAddComponent implements OnInit {
+    loading: number = 0;
 
-    @Input() service;
-
-    loading = 0;
-    members = [];
+    id: number = 0;
+    members: any[] = [];
     departments: any[] = [];
-    selectedDepartment;
-    table = {
+
+    filters: FilterItem[] = [];
+    currentFilter: { department: any, search: string } = { department: null, search: '' };
+
+    table: any = {
         titles: ['#Ext', 'Phone number', 'First Name', 'Last Name', 'Email', 'Status'],
         keys: ['phoneNumber', 'sipOuter.phoneNumber', 'firstName', 'lastName', 'email', 'statusName']
     };
-    searchTimeout;
-    searchStr = '';
-    id = 0;
-    searchIcon: boolean = false;
-    nothingFound: boolean = false;
-    searchPlaceholder: any;
-    departmentName: any;
-    searchName: any;
-    nothingFoundText: string;
 
-    @ViewChild('searchString') searchString: ElementRef;
-    @ViewChild(SelectComponent) pbxSelect: SelectComponent;
+    departmentPlaceholderText: string;
+    searchPlaceholderText: string;
+    nothingFoundText: string;
+    noDataToDisplayText: string;
+
+    @Input() service: any;
+
+    @ViewChild(HeaderComponent) header: HeaderComponent;
+    
+    // -- properties ----------------------------------------------------------
+
+    get nothingFound(): boolean {
+        return this.members.length === 0;
+    }
+
+    get emptyResultMessage(): string | null {
+        if (this.nothingFound) {
+            const message: string = 
+                (this.currentFilter.search && this.currentFilter.search.length > 0) 
+                || this.currentFilter.department === 'all'
+                    ? this.nothingFoundText
+                    : this.noDataToDisplayText;
+            return message;
+        }
+        return null;
+    }
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(private refs: RefsServices, public translate: TranslateService) {
+    constructor(
+        public translate: TranslateService
+    ) {
         this.table = {
             titles: [
                 this.translate.instant('#Ext'),
@@ -52,10 +70,11 @@ export class QueueMembersAddComponent implements OnInit {
             ],
             keys: ['phoneNumber', 'sipOuter.phoneNumber', 'firstName', 'lastName', 'email', 'statusName']
         };
+        
+        this.departmentPlaceholderText = this.translate.instant('[choose one]');
+        this.searchPlaceholderText = this.translate.instant('Search by Name or Phone');
         this.nothingFoundText = this.translate.instant('Nothing found');
-        this.searchPlaceholder = this.translate.instant('Search by Name or Phone');
-        this.departmentName = this.translate.instant('Department');
-        this.searchName = this.translate.instant('Search');
+        this.noDataToDisplayText = this.translate.instant('No data to display');
     }
 
     ngOnInit() {
@@ -64,6 +83,16 @@ export class QueueMembersAddComponent implements OnInit {
             this.getDepartments(this.service.item.sipId);
         }
     }
+    
+    initFilters(): void {
+        this.filters.push(new FilterItem(
+            1, 'department', 'Department', this.departments, 'name', this.departmentPlaceholderText
+        ));
+        this.filters.push(new FilterItem(
+            2, 'search', 'Search', null, null, this.searchPlaceholderText
+        ));
+        this.header.selectedFilter[0] = this.departments[0];
+    }
 
     // -- event handlers ------------------------------------------------------
 
@@ -71,35 +100,22 @@ export class QueueMembersAddComponent implements OnInit {
         this.service.addMember(member);
     }
 
-    deleteMember(member): void {
-        // this.service.deleteMember(member);
-    }
+    // deleteMember(member): void {
+    //     this.service.deleteMember(member);
+    // }
 
-    departmentChanged(item) {
-        this.selectedDepartment = item;
+    reloadFilter(filter: any): void {
+        this.currentFilter.department = filter.hasOwnProperty('department')
+            ? filter.department
+            : 0;
+        this.currentFilter.search = filter.hasOwnProperty('search')
+            ? filter.search
+            : '';
         this.getMembers(this.id);
     }
 
-    search(event) {
-        if (event.target.value.length > 0) {
-            this.searchIcon = true;
-        } else {
-            this.searchIcon = false;
-        }
-        if (this.searchTimeout) {
-            clearTimeout(this.searchTimeout);
-        }
-        this.searchStr = event.target.value;
-        this.searchTimeout = setTimeout(() => {
-            this.getMembers(this.id);
-        }, 500);
-
-    }
-
     clearSearch() {
-        this.searchString.nativeElement.value = '';
-        this.searchIcon = false;
-        this.searchStr = '';
+        this.currentFilter.search = '';
         this.getMembers(this.id);
     }
 
@@ -116,63 +132,39 @@ export class QueueMembersAddComponent implements OnInit {
     private getMembers(id: number): void {
         this.id = id;
         this.loading ++;
-        this.service.getMembers(id, this.searchStr, this.selectedDepartment ? this.selectedDepartment.id : 0).then((res) => {
-            this.members = res.items;
-            this.addPhoneNumberField();
-        }).catch(() => {
-            if (!this.members.length && isDevEnv()) {
-                this.mockMembersData();
-            }
-        }).then(() => {
-            this.loading --;
-        });
+        this.service.getMembers(id, this.currentFilter.search, this.currentFilter.department)
+            .then((response) => {
+                this.members = response.items;
+                this.addPhoneNumberField();
+            })
+            .catch(() => {})
+            .then(() => {
+                this.loading --;
+            });
     }
 
     private getDepartments(sipId: number) {
         this.loading ++;
-        this.service.getDepartments(sipId).then((res) => {
-            this.service.getMembers(sipId, this.searchStr, this.selectedDepartment ? this.selectedDepartment.id : 0).then((members) => {
-                let totalCount: number = 0;
-                res.items.forEach( item => {
-                    totalCount = totalCount + parseInt(item.employees);
-                    item.name = item.name + ' (' + item.employees + ')';
-                });
+        this.service.getDepartments(sipId)
+            .then((response) => {
+                this.loading ++;
+                this.service.getMembers(sipId, this.currentFilter.search, this.currentFilter.department)
+                    .then((members) => {
+                        let totalCount: number = 0;
+                        response.items.forEach(item => {
+                            totalCount = totalCount + parseInt(item.employees);
+                            item.name = item.name + ' (' + item.employees + ')';
+                        });
 
-                const all = {'name': this.translate.instant('All members') + ' (' + members.items.length + ')', 'id': 'all', 'count': 0};
-                this.departments = [ all, ...res.items];
-                this.pbxSelect.options = this.departments;
-                this.pbxSelect.fromComponent = true;
-                this.selectedDepartment = this.departments[0];
-                this.pbxSelect._selected = this.departments[0];
-
-            });
-        }).catch(() => {})
-          .then(() => this.loading --);
-    }
-
-    mockMembersData(): void {
-        this.members = [
-            {
-                phoneNumber: '101',
-                sipOuterPhone: '55522233',
-                firstName: 'Ivan',
-                lastName: 'Petroe',
-                statusName: 'enabled'
-            },
-            {
-                phoneNumber: '102',
-                sipOuterPhone: '55522233',
-                firstName: 'Ivan',
-                lastName: 'Petroff',
-                statusName: 'enabled'
-            },
-            {
-                phoneNumber: '103',
-                sipOuterPhone: '55522233',
-                firstName: 'Ivan',
-                lastName: 'Sidoroff',
-                statusName: 'enabled'
-            }
-        ];
+                        const all = { 'name': this.translate.instant('All members') + ' (' + members.items.length + ')', 'id': 'all', 'count': 0 };
+                        this.departments = [ all, ...response.items ];
+                        this.currentFilter.department = this.departments[0];
+                        this.initFilters();
+                    })
+                    .catch(() => {})
+                    .then(() => this.loading --);
+            })
+            .catch(() => {})
+            .then(() => this.loading --);
     }
 }

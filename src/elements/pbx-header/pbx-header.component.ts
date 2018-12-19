@@ -7,8 +7,10 @@ import {
     QueryList,
     ViewChildren
 } from '@angular/core';
-import { InputComponent } from '../pbx-input/pbx-input.component';
-import { ButtonItem, FilterItem } from '../../models/base.model';
+
+import { InputComponent } from '@elements/pbx-input/pbx-input.component';
+import { ButtonItem, FilterItem } from '@models/base.model';
+
 
 @Component({
     selector: 'pbx-header',
