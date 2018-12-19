@@ -119,6 +119,7 @@ export class SelectComponent implements OnInit, OnChanges {
             var short;
             var dots = '...';
             var reg = /\(\d+\)$/;
+            var chars = 12;
 
             if (listNames[0].sipCount) {
                 long = listNames[i].name;
@@ -129,8 +130,8 @@ export class SelectComponent implements OnInit, OnChanges {
                 long = curr.split(ext)[0];
             }
 
-            if (long.length > 20) {
-                short = long.substr(0, 20);
+            if (long.length > chars) {
+                short = long.substr(0, chars);
             } else {
                 short = long;
                 dots = '';
