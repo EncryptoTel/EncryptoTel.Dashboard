@@ -119,7 +119,7 @@ export class SelectComponent implements OnInit, OnChanges {
             var short;
             var dots = '...';
             var reg = /\(\d+\)$/;
-            var chars = 12;
+            var chars = 10;
 
             if (listNames[0].sipCount) {
                 long = listNames[i].name;
