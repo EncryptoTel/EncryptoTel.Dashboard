@@ -37,3 +37,18 @@
                     position: absolute
                     bottom: 9px
                     right: 45px
+
+    // и здесь тоже будет великолепный костыль. Знакомьтесь!
+    pbx-call-queues-create
+        pbx-queue-create
+            pbx-form
+                pbx-queue-general
+                    pbx-input[name="Maximum Callers in Queue"]
+                        .pbx_input_item_label
+                            position: relative
+                            span
+                                line-height: 14px !important
+                            span.required
+                                position: absolute
+                                bottom: 2px
+                                right: 94px
