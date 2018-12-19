@@ -24,3 +24,16 @@
             .tablet_body
                 .tablet_item.fix_80
                         max-width: 120px !important
+    pbx-call-rules-create
+        pbx-input
+            .pbx_input_item_label
+                span
+                    line-height: 14px !important
+        // еще один костыль из разряда фантастики. Дикий ужас
+        pbx-input[ng-reflect-name="Если я не отвечаю на звонок в "]
+            .pbx_input_item_label
+                position: relative
+                span.required
+                    position: absolute
+                    bottom: 9px
+                    right: 45px
