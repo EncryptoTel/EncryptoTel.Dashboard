@@ -278,7 +278,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         }
 
         this.buttons[3].inactive = !this.isSidebarVisible;
-        this.buttons[3].visible = true;
+        this.buttons[3].visible = this.currentFilter && this.currentFilter.type === 'audio';
     }
 
     // --- filter methods ---------------------------------
@@ -305,6 +305,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.buttons[1].visible = true;
             this.buttons[0].inactive = true;
         }
+
         this.currentFilter = filter;
         this.getItems();
         this.loading--;
@@ -406,7 +407,6 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     headerClickHandler(event: any) {
         this.buttonType = event.id;
-        console.log(event);
         if (event.id === 4) {
             this.downloadFile();
         } else {
