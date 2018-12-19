@@ -10,7 +10,7 @@ import {FadeAnimation} from '../../../shared/fade-animation';
 import {validateForm} from '../../../shared/shared.functions';
 import {FormMessageModel} from '../../../models/form-message.model';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
-import {TranslateService} from '@ngx-translate/core';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'sign-up-form',
@@ -42,7 +42,6 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
                 private _user: UserServices,
                 public services: AuthorizationServices,
                 public translate: TranslateService) {
-        this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and ') + '<a href="">' + this.translate.instant('Privacy Policy') + '</a>';
     }
 
     setFocus(element): void {
@@ -204,6 +203,12 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and') + '&nbsp;<a href="">' + this.translate.instant('Privacy Policy') + '</a>';
+
+        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+            this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and') + '&nbsp;<a href="">' + this.translate.instant('Privacy Policy') + '</a>';
+        });
+
         this.signUpCompleted = false;
 
         this.errorsSubscription = this.services.readMessage().subscribe(message => {
