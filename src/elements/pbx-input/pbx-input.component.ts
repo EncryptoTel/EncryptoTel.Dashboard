@@ -319,9 +319,11 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
     getForm() {
         if (this.index !== undefined) {
             return this.object.get([this.index, this.getFormKey()]);
-        } else if (this.index2 !== undefined) {
+        }
+        else if (this.index2 !== undefined) {
             return this.object.get([this.getFormKey(), this.index2]);
-        } else {
+        }
+        else {
             return this.object.get(this.getFormKey());
         }
     }

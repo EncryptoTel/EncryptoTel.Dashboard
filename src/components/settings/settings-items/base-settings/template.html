@@ -1,9 +1,9 @@
 <pbx-form [confirm]="saveButton"
           [decline]="cancelButton"
-          (onConfirm)="saveSettings()"
+          (onConfirm)="save()"
           (onDecline)="cancel()"
           [background]="true"
->
+          >
     <pbx-loader *ngIf="!locker.free"></pbx-loader>
 
     <div class="overlay_content" *ngIf="locker.free" [@Fade]>
@@ -11,6 +11,8 @@
         <pbx-settings-group
             [items]="model.items"
             [level]="1"
+            [form]="form"
+            [validationHost]="validationHost"
             (valueChange)="onValueChange($event)"
         >
         </pbx-settings-group>

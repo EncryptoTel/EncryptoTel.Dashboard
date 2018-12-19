@@ -1,8 +1,10 @@
-import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 
-import {FadeAnimation} from "../../shared/fade-animation";
-import {SwipeAnimation} from "../../shared/swipe-animation";
-import {SettingsItem} from "../../models/settings.models";
+import {FadeAnimation} from '@shared/fade-animation';
+import {SwipeAnimation} from '@shared/swipe-animation';
+import {SettingsItem} from '@models/settings.models';
+import {ValidationHost} from '@models/validation-host.model';
 
 
 @Component({
@@ -15,6 +17,8 @@ export class SettingsInputComponent implements OnInit {
 
     @Input() item: SettingsItem;
     @Input() fullWidth: boolean = true;
+    @Input() form: FormGroup;
+    @Input() validationHost: ValidationHost;
 
     @Output() valueChange: EventEmitter<SettingsItem> = new EventEmitter<SettingsItem>();
 
@@ -22,7 +26,7 @@ export class SettingsInputComponent implements OnInit {
         // console.log('options', this.item);
     }
 
-    isRegion() {
+    isRegion(): boolean {
         return this.item.key === 'region';
     }
 

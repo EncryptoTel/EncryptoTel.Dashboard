@@ -17,7 +17,7 @@ export class ValidationHost implements Lockable {
     selectedControl: string;
     controls: InputComponent[];
 
-    customMessages: any[];
+    customMessages: any[] = [];
 
     // -- component lifecycle methods -----------------------------------------
 
