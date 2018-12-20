@@ -66,7 +66,6 @@
                [errors]="service.errors"
                [object]="form.controls.user"
                [validationHost]="validationHost"
-               [disabled]="!isEmailRequired()"
                >
     </pbx-input>
 
@@ -129,8 +128,12 @@
 
     <div class="add_ext_form_item" *ngIf="id" style="width: 400px;">
         <label class="inactive"></label>
-        <pbx-button [value]="'Generate and Send Password'" (onClick)="sendPassword()" [loading]="passwordLoading"
-                    [inactive]="!getFormValue('toAdmin') && !getFormValue('toUser')"></pbx-button>
+        <pbx-button [value]="'Generate and Send Password'" 
+                    [inactive]="!getFormValue('toAdmin') && !getFormValue('toUser')"
+                    [loading]="passwordLoading"
+                    (onClick)="sendPassword()"
+                    >
+        </pbx-button>
     </div>
 
 </form>

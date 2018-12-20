@@ -108,6 +108,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
                 const ctrl = this.form.get(['user', 'email']);
                 ctrl.setValidators([Validators.required, Validators.pattern(emailRegExp)]);
                 ctrl.updateValueAndValidity();
+                ctrl.markAsUntouched();
             }
 
             if (!this.isEmailRequired && this.emailRequiredFlag) {
@@ -116,6 +117,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
                 const ctrl = this.form.get(['user', 'email']);
                 ctrl.setValidators([Validators.pattern(emailRegExp)]);
                 ctrl.updateValueAndValidity();
+                ctrl.markAsUntouched();
             }
         });
     }
