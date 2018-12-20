@@ -1,4 +1,4 @@
-<div class="tablet">
+<div class="tablet column-cnt-{{tableInfoEx.items.length}}">
     <div class="tablet_header" *ngIf="tableInfoEx.items.length > 0 && tableItems.length > 0">
         <div *ngFor="let item of tableInfoEx.items; let i = index"
              class="tablet_item {{item.width ? 'fix_' + item.width : ''}}"
