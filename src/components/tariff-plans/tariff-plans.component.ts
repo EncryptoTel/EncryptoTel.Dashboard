@@ -73,11 +73,12 @@ export class TariffPlansComponent implements OnInit {
     choose(tariff: any): void {
         if (this.tariffChange) {
             if (tariff.tariffPrice > this._user.user.balance.balance) {
+                this.modal.title = this.translate.instant(this.modal.title);
                 this.modal.body =
-                    'Not enough money to pay for the order. <br/> Top up your balance?';
+                    this.translate.instant('Not enough money to pay for the order.') + '<br/>' + this.translate.instant('Top up your balance?');
                 this.modal.buttons = [
-                    new ModalButton('cancel', 'Cancel'),
-                    new ModalButton('success', 'Refill')
+                    new ModalButton('cancel', this.translate.instant('Cancel')),
+                    new ModalButton('success', this.translate.instant('Refill'))
                 ];
                 this.modal.confirmCallback = () => {
                     this.router.navigate(['cabinet', 'refill']);
