@@ -1,21 +1,22 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
-import {MessageServices} from '../../services/message.services';
-import {UserServices} from '../../services/user.services';
-import {TranslateServices} from '../../services/translate.services';
-import {WsServices} from '../../services/ws.services';
-import {LocalStorageServices} from '../../services/local-storage.services';
-import {RefsServices} from '../../services/refs.services';
-import {NavigationItemModel} from '../../models/navigation-item.model';
-import {UserModel} from '../../models/user.model';
-import {MainViewComponent} from '../main-view.component';
-import {SwipeAnimation} from '../../shared/swipe-animation';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {LangStateService} from '../../services/state/lang.state.service';
+import {MessageServices} from '@services/message.services';
+import {UserServices} from '@services/user.services';
+import {TranslateServices} from '@services/translate.services';
+import {WsServices} from '@services/ws.services';
+import {LocalStorageServices} from '@services/local-storage.services';
+import {RefsServices} from '@services/refs.services';
+import {LangStateService} from '@services/state/lang.state.service';
+import {NavigationItemModel} from '@models/navigation-item.model';
+import {UserModel} from '@models/user.model';
+import {MainViewComponent} from '@components/main-view.component';
+import {SwipeAnimation} from '@shared/swipe-animation';
+import {FadeAnimation} from '@shared/fade-animation';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 import {NotificationComponent} from '@components/notification/notification.component';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'pbx-index',
@@ -31,18 +32,20 @@ export class IndexComponent implements OnInit, OnDestroy {
     _user: any;
     menu: any;
 
-    constructor(public userService: UserServices,
-                public _main: MainViewComponent,
-                private message: MessageServices,
-                private _ws: WsServices,
-                private _storage: LocalStorageServices,
-                private _translate: TranslateService,
-                private _refs: RefsServices,
-                private langState: LangStateService) {
+    constructor(
+        public userService: UserServices,
+        public main: MainViewComponent,
+        private message: MessageServices,
+        private ws: WsServices,
+        private storage: LocalStorageServices,
+        private translate: TranslateService,
+        private refs: RefsServices,
+        private langState: LangStateService,
+        private router: Router
+    ) {
         this.user = this.userService.fetchUser();
-        this._user = this._storage.readItem('pbx_user');
+        this._user = this.storage.readItem('pbx_user');
         this.text = langState.get();
-
     }
 
     navigationList: NavigationItemModel[][];
@@ -85,9 +88,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     logout(): void {
-        this._ws.close();
-        this._refs.request.logout();
-        this.message.writeSuccess(this._translate.instant('You have successfully logged out'));
+        this.router.navigateByUrl('/logout');
     }
 
     userInit(): void {
@@ -123,29 +124,30 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     getToken(): string {
-        const user = this._storage.readItem('pbx_user');
+        const user = this.storage.readItem('pbx_user');
         return user['secrets']['access_token'];
     }
 
     WebSocket(): void {
-        this._ws.setToken(this.getToken());
-        this.balanceSubscription = this._ws.getBalance().subscribe(balance => {
+        this.ws.setToken(this.getToken());
+        this.balanceSubscription = this.ws.getBalance().subscribe(balance => {
             this.user.balance.balance = balance.balance;
         });
-        this.serviceSubscription = this._ws.getService().subscribe(service => {
+        this.serviceSubscription = this.ws.getService().subscribe(service => {
             this.navigationInit();
         });
     }
 
-    isAdmin() {
-        this._user = this._storage.readItem('pbx_user');
-        if (this._user.profile) {
+    isAdmin(): boolean {
+        this._user = this.storage.readItem('pbx_user');
+        if (this._user && this._user.profile) {
             if (!this._user.profile.tariffPlan) {
                 return false;
             } else {
                 return true;
             }
         }
+        return false;
     }
 
     ngOnInit(): void {
@@ -159,8 +161,8 @@ export class IndexComponent implements OnInit, OnDestroy {
             this.navigationInit();
         });
         this.menu = {
-            'Refill balance': this._translate.instant('Refill balance'),
-            'Tariff plan': this._translate.instant('Tariff plan'),
+            'Refill balance': this.translate.instant('Refill balance'),
+            'Tariff plan': this.translate.instant('Tariff plan'),
         };
         // this._translate.onLangChange.subscribe((event: LangChangeEvent) => {
         //     Object.keys(this.userService.navigation).forEach(item => {
