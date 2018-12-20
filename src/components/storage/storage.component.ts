@@ -532,7 +532,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             });
         }
         else {
-            if (this.buttonType === 2) {
+            if (this.buttonType === 3) {
                 this.service.deleteAll((loading) => {
                     this.updateLoading(loading, true);
                 }, false)
