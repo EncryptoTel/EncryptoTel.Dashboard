@@ -20,7 +20,7 @@ export const environment = {
     title: 'development',
     production: false,
     backApiVersion: 'v1',
-    translation: '/translations',
+    translation: '/trans',
     back: '/front-api',
     ws: 'https://ws.encryptotel.com',
 };
