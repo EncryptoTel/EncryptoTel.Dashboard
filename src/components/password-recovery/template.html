@@ -18,7 +18,7 @@
         </div>
         <div class="input_wrap">
             <input name="E-mail" id="confirmation_email" placeholder="E-mail" formControlName="email">
-            <div *ngIf="inputValidation('email') && !message" 
+            <div *ngIf="inputValidation('email') && !message"
                  class="input_error"
                  [@Fade]
                  >
@@ -48,11 +48,11 @@
         <div class="auth_form_text" translate>Don't have an EncryptoTel Account?</div>
         <a routerLink="../sign-up" class="auth_form_link" translate>Create one now</a>
     </form>
-    
+
     <div *ngIf="!showForm()" class="response_wrap">
-        <h6>Password</h6>
+        <h6 translate>Password</h6>
         <div class="auth_form_text">
-            <span translate>Password has been sent to email</span>
+            <span translate>The link has been sent to email</span>
             {{ selectedEmail }}
         </div>
         <pbx-button [buttonType]="'accent'"
