@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 
 import { SwipeAnimation } from '@shared/swipe-animation';
-import { killEvent } from '@shared/shared.functions';
+import { killEvent, cutOptionName } from '@shared/shared.functions';
 
 
 @Component({
@@ -54,6 +54,7 @@ export class SelectComponent implements OnInit, OnChanges {
 
     @Input() errors: any[];
     @Input() onlyTop: boolean;
+    @Input() cutLongNames: boolean = true;
     
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onOpen: EventEmitter<object> = new EventEmitter();
@@ -72,7 +73,18 @@ export class SelectComponent implements OnInit, OnChanges {
 
     constructor() {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        if (this.cutLongNames) {
+            const isOptionSipDepartmentItem: boolean = 
+                this.options && this.options[0].hasOwnProperty('sipCount');
+            this.options.forEach(opt => {
+                const [ name, count ] = cutOptionName(opt[this.objectKey]);
+                if (isOptionSipDepartmentItem) opt['name'] = name;
+                else opt[this.objectKey] = `${name} ${count}`;
+                // console.log('opt', opt[this.objectKey], ' > ', `${name} ${count}`);
+            });
+        }
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.options
@@ -108,46 +120,6 @@ export class SelectComponent implements OnInit, OnChanges {
         if (event) {
             this.isVisible ? this.hideOptions() : this.showOptions();
         }
-
-        ////////////////////////////////////
-
-        var listNames = this.options;
-        for (let i = 0; i < listNames.length; i++) {
-            var curr;
-            var long;
-            var ext;
-            var short;
-            var dots = '...';
-            var reg = /\(\d+\)$/;
-            var chars = 10;
-
-            if (listNames[0].sipCount) {
-                long = listNames[i].name;
-                ext = '(' + listNames[i].sipCount + ')';
-            } else {
-                curr = listNames[i].name;
-                ext = curr.match(reg)[0];
-                long = curr.split(ext)[0];
-            }
-
-            if (long.length > chars) {
-                short = long.substr(0, chars);
-            } else {
-                short = long;
-                dots = '';
-            }
-
-            if (listNames[0].sipCount) {
-                this.options[i].name = short + dots;
-            } else {
-                this.options[i].name = short + dots + ext;
-            }
-
-        }
-
-
-        ////////////////////////////////////
-
     }
 
     /*
