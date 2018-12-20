@@ -33,8 +33,10 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     signUpCompleted: boolean;
     byClicking: string;
 
+    errorEmailMessage: string = '';
+
     get email(): string {
-        let email = this.signUpForm.value.email;
+        const email = this.signUpForm.value.email;
         return email || '';
     }
 
@@ -140,13 +142,16 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
      Error Type: string - validation type (not necessary)
     */
     inputValidation(name: string, errorType?: string): boolean {
-        if (errorType) {
-            const field = this.signUpForm.controls[name];
-            return field && field.errors[errorType] && (field.dirty || field.touched);
-        }
-        else {
-            const field = this.signUpForm.controls[name];
-            return field && field.invalid && (field.dirty || field.touched);
+        if (this.errorEmailMessage !== '' && name === 'email') {
+            return true;
+        } else {
+            if (errorType) {
+                const field = this.signUpForm.controls[name];
+                return field && field.errors[errorType] && (field.dirty || field.touched);
+            } else {
+                const field = this.signUpForm.controls[name];
+                return field && field.invalid && (field.dirty || field.touched);
+            }
         }
     }
 
@@ -169,6 +174,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     */
     signUp(event?: Event): void {
         this.errorCheck = false;
+        this.errorEmailMessage = '';
         if (event) event.preventDefault();
 
         validateForm(this.signUpForm);
@@ -177,24 +183,37 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
             this.services.signUp(this.signUpForm.value).then(() => {
                 this.signUpCompleted = true; // resend confirmation is shown
             })
-                .catch(() => {
-                })
-                .then(() => this.loading = false);
+            .catch((error) => {
+                if (error.errors.email) {
+                    this.errorEmail = true;
+                    this.errorEmailMessage = this.translate.instant('A user with this email address already exists');
+                }
+            })
+            .then(() => this.loading = false);
         }
         else {
-            if (this.inputValidation('firstname')) this.errorName = true;
-            if ((this.inputValidation('email')) && (!this.errorName)) this.errorEmail = true;
-            if ((this.inputValidation('password')) && (!this.errorEmail && !this.errorName)) this.errorPassword = true;
-            if ((this.inputValidation('password_confirmation')) && (!this.errorPassword && !this.errorEmail && !this.errorName)) this.errorConfirmPassword = true;
-            if (!this.errorConfirmPassword && !this.errorPassword && !this.errorEmail && !this.errorName)
+            if (this.inputValidation('firstname')) {
+                this.errorName = true;
+            }
+            if ((this.inputValidation('email')) && (!this.errorName)) {
+                this.errorEmail = true;
+            }
+            if ((this.inputValidation('password')) && (!this.errorEmail && !this.errorName)) {
+                this.errorPassword = true;
+            }
+            if ((this.inputValidation('password_confirmation')) && (!this.errorPassword && !this.errorEmail && !this.errorName)) {
+                this.errorConfirmPassword = true;
+            }
+            if (!this.errorConfirmPassword && !this.errorPassword && !this.errorEmail && !this.errorName) {
                 this.errorCheck = true;
+            }
         }
     }
 
     resendConfirmation(): void {
         console.error('NotImplementedException() has been thrown');
         this.loading = true;
-        let timer: Subscription = TimerObservable.create(1500, 0).subscribe(
+        const timer: Subscription = TimerObservable.create(1500, 0).subscribe(
             () => {
                 timer.unsubscribe();
                 this.loading = false;

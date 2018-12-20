@@ -60,7 +60,7 @@
                     <div class="ext_sidebar_item_value">{{sidebar.department}}</div>
                 </div>
             </div>
-            <div class="ext_sidebar_service_wrap">
+            <div class="ext_sidebar_service_wrap" *ngIf="!sidebar.default">
                 <div class="ext_sidebar_service_button" (click)="list.items.clickDeleteItem(sidebar)" translate>Delete extension</div>
             </div>
         </div>

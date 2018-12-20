@@ -199,15 +199,21 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     initFormData(formKey: string, form: FormGroup, data?: any): void {
         if (data) {
+            
+            const modelValues: SettingsOptionItem[] = [];
+            this.getModelValues(this.model.items, modelValues);
+
             Object.keys(form.controls).map(key => {
                 if (key === 'language' || key === 'region') {
-                    if (data.profile.user.hasOwnProperty(key)) {
-                        form.controls[key].setValue(data.profile.settings.language_and_region.children[key].value);
+                    const value = data.profile.settings.language_and_region.children[key].value;
+                    if (data.profile.user.hasOwnProperty(key) || value) {
+                        form.controls[key].setValue(value);
                     }
                 }
                 else if (key === 'time_zone' || key === 'date_format' || key === 'clock') {
-                    if (data.profile.user.hasOwnProperty(key)) {
-                        form.controls[key].setValue(data.profile.settings.time_zone_clock_and_date_format.children[key].value);
+                    const value = data.profile.settings.time_zone_clock_and_date_format.children[key].value;
+                    if (data.profile.user.hasOwnProperty(key) || value) {
+                        form.controls[key].setValue(value);
                     }
                 }
                 else {
@@ -242,8 +248,6 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         this.service.getProfileSettings()
             .then(response => {
                 this.model = SettingsModel.create(response.profile.settings);
-                // console.log('profile', response);
-                // console.log('settings', this.model);
                 this.userDefaultPhoto = response.profile.user.avatar;
                 this.initFormData('generalForm', this.generalForm, response);
                 this.initFormData('emailChange', this.emailChange, response);

@@ -27,10 +27,12 @@
                    (blur)="removeFocus(emailInput)" (mouseenter)="mouseEnter(emailInput)"
                    (mouseleave)="mouseLeave(emailInput)">
             <div class="input_error" *ngIf="inputValidation('email') && errorEmail" [@Fade]>
-                <span id="sign_up_err_no_email" class="input_error_item" *ngIf="inputValidation('email', 'required')"
+                <span id="sign_up_err_email" class="input_error_item" *ngIf="errorEmailMessage !== ''"
+                      translate>{{errorEmailMessage}}</span>
+                <span id="sign_up_err_no_email" class="input_error_item" *ngIf="errorEmailMessage === '' && inputValidation('email', 'required')"
                       translate>Please enter your email address</span>
                 <span id="sign_up_err_invalid_email" class="input_error_item"
-                      *ngIf="inputValidation('email', 'pattern')" translate>Please enter correct email address</span>
+                      *ngIf="inputValidation('email', 'pattern') && errorEmailMessage === ''" translate>Please enter correct email address</span>
             </div>
         </div>
         <div class="input_wrap">
