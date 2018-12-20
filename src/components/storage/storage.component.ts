@@ -117,7 +117,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
         this.filters = [
             new FilterItem(1, 'type', this.translate.instant('Source:'), [
-                { id: 'audio', title: this.translate.instant('Audio') },
+                { id: 'audio', title: this.translate.instant('Sound files') },
                 { id: 'call_record', title: this.translate.instant('Call Records') },
                 // {id: 'voice_mail', title: this.translate.instant('Voice Mail')},
                 { id: 'certificate', title: this.translate.instant('Certificate') },
@@ -240,7 +240,6 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                     }
 
                 });
-                console.log(this.pageInfo);
                 this.onMediaDataLoaded();
             })
             .catch((error) => {
