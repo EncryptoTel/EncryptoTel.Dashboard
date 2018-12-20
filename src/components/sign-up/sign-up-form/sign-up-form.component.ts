@@ -34,6 +34,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     byClicking: string;
 
     errorEmailMessage: string = '';
+    errorPasswordMessage: string = '';
 
     get email(): string {
         const email = this.signUpForm.value.email;
@@ -142,7 +143,10 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
      Error Type: string - validation type (not necessary)
     */
     inputValidation(name: string, errorType?: string): boolean {
-        if (this.errorEmailMessage !== '' && name === 'email') {
+        if (
+            (this.errorEmailMessage !== '' && name === 'email')
+            || (this.errorPasswordMessage !== '' && name === 'password')
+        ) {
             return true;
         } else {
             if (errorType) {
@@ -175,6 +179,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     signUp(event?: Event): void {
         this.errorCheck = false;
         this.errorEmailMessage = '';
+        this.errorPasswordMessage = '';
         if (event) event.preventDefault();
 
         validateForm(this.signUpForm);
@@ -187,6 +192,10 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
                 if (error.errors.email) {
                     this.errorEmail = true;
                     this.errorEmailMessage = this.translate.instant('A user with this email address already exists');
+                }
+                if (error.errors.password) {
+                    this.errorPassword = true;
+                    this.errorPasswordMessage = this.translate.instant('Password and password confirmation must not consist of spaces.');
                 }
             })
             .then(() => this.loading = false);

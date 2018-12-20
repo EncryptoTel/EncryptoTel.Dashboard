@@ -40,10 +40,12 @@
                    formControlName="password" (focus)="setFocus(passwordInput)" (blur)="removeFocus(passwordInput)"
                    (mouseenter)="mouseEnter(passwordInput)" (mouseleave)="mouseLeave(passwordInput)">
             <div class="input_error" *ngIf="inputValidation('password') && errorPassword" [@Fade]>
+                <span id="sign_up_password" class="input_error_item"
+                      *ngIf="errorPasswordMessage !== ''" translate>{{errorPasswordMessage}}</span>
                 <span id="sign_up_err_no_password" class="input_error_item"
-                      *ngIf="inputValidation('password', 'required')" translate>Please enter your password</span>
+                      *ngIf="inputValidation('password', 'required') && errorPasswordMessage === ''" translate>Please enter your password</span>
                 <span id="sign_up_err_short_password" class="input_error_item"
-                      *ngIf="inputValidation('password', 'minlength')" translate>Your password is too short. The password must be at least 6 characters long</span>
+                      *ngIf="inputValidation('password', 'minlength') && errorPasswordMessage === ''" translate>Your password is too short. The password must be at least 6 characters long</span>
             </div>
         </div>
         <div class="input_wrap">
