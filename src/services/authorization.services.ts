@@ -131,6 +131,7 @@ export class AuthorizationServices {
             data.ref = localStorage.getItem('ref');
             data.uniqueHash = localStorage.getItem('uniqueHash');
         }
+        data.language = localStorage.getItem('user_lang');
         return this._req.post('registration', {
             ...data
         }).catch(error => {

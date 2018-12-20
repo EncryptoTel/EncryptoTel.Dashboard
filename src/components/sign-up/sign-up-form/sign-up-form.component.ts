@@ -182,19 +182,29 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
                 .then(() => this.loading = false);
         }
         else {
-            if (this.inputValidation('firstname')) this.errorName = true;
-            if ((this.inputValidation('email')) && (!this.errorName)) this.errorEmail = true;
-            if ((this.inputValidation('password')) && (!this.errorEmail && !this.errorName)) this.errorPassword = true;
-            if ((this.inputValidation('password_confirmation')) && (!this.errorPassword && !this.errorEmail && !this.errorName)) this.errorConfirmPassword = true;
-            if (!this.errorConfirmPassword && !this.errorPassword && !this.errorEmail && !this.errorName)
+            if (this.inputValidation('firstname')) {
+                this.errorName = true;
+            }
+            if ((this.inputValidation('email')) && (!this.errorName)) {
+                this.errorEmail = true;
+            }
+            if ((this.inputValidation('password')) && (!this.errorEmail && !this.errorName)) {
+                this.errorPassword = true;
+            }
+            if ((this.inputValidation('password_confirmation')) && (!this.errorPassword && !this.errorEmail && !this.errorName)) {
+                this.errorConfirmPassword = true;
+            }
+            if (!this.errorConfirmPassword && !this.errorPassword && !this.errorEmail && !this.errorName) {
                 this.errorCheck = true;
+            }
         }
     }
 
     resendConfirmation(): void {
         console.error('NotImplementedException() has been thrown');
         this.loading = true;
-        let timer: Subscription = TimerObservable.create(1500, 0).subscribe(
+        let timer: any;
+        timer = Subscription = TimerObservable.create(1500, 0).subscribe(
             () => {
                 timer.unsubscribe();
                 this.loading = false;

@@ -114,17 +114,18 @@ export class MarketplaceComponent implements OnInit, Lockable {
     };
 
     getModuleColor(moduleTitle: string): number {
-        let title = moduleTitle.toLowerCase();
-        if (title == 'call queues') return 2; // pink
-        else if (title == 'call record') return 5; // cyan
-        else if (title == 'call rules') return 2; // pink
-        else if (title == 'company') return 2; // pink
-        else if (title == 'ivr') return 2; // pink
-        else if (title == 'ring groups') return 2; // pink
-        else if (title == 'storage') return 6; // green
-        else if (title == 'schedule') return 2; // pink
-        else if (title == 'send sms messages') return 2; // pink
-        else if (title == 'audio conference') return 3; // violet
+        let title: string;
+        title = moduleTitle.toLowerCase();
+        if (title === 'call queues') return 2; // pink
+        else if (title === 'call record') return 5; // cyan
+        else if (title === 'call rules') return 2; // pink
+        else if (title === 'company') return 2; // pink
+        else if (title === 'ivr') return 2; // pink
+        else if (title === 'ring groups') return 2; // pink
+        else if (title === 'storage') return 6; // green
+        else if (title === 'schedule') return 2; // pink
+        else if (title === 'send sms messages') return 2; // pink
+        else if (title === 'audio conference') return 3; // violet
         // 4 - blue, 3 - violet
         return 4;
     }
