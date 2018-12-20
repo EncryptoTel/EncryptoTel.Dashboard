@@ -27,7 +27,7 @@
     </div>
 
     <div class="header_line_wrap">
-        <div class="header_title" translate>{{_main.pageTitle}}</div>
+        <div class="header_title" translate>{{main.pageTitle}}</div>
         <div class="header_button_row">
             <div class="header_button_wrap" [ngClass]="{'visible': headerButtonsVisible}">
                 <div class="header_button phone {{isLockedCaller ? 'locked':''}}" [ngClass]="{'active': activeButtonIndex === 0}"
@@ -141,7 +141,7 @@
                 </div>
             </div>
         </div>
-        <div class="mobile_header_title">{{_main.pageTitle}}</div>
+        <div class="mobile_header_title">{{main.pageTitle}}</div>
     </div>
 
     <div class="body_wrap">

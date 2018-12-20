@@ -75,10 +75,16 @@ import {AudioConferenceComponent} from '@components/audio-conference/audio-confe
 import {AudioConferenceCreateComponent} from '@components/audio-conference/audio-conference-create/audio-conference-create.component';
 import {CRMIntegrationComponent} from '@components/settings/settings-items/crm-integration/crm-integration.component';
 import {AmoCrmIntegrationComponent} from '@components/settings/settings-items/crm-integration/amo-crm-integration/amo-crm-integration.component';
+import {LogoutComponent} from '@components/logout/logout.component';
 
 const Routes: Routes = [
     {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
-    {path: 'sign-in', component: SignInComponent, data: {title: 'Authorization', indexed: true}},
+    {
+        path: 'sign-in', component: SignInComponent, data: { title: 'Authorization', indexed: true }
+    },
+    {
+        path: 'logout', component: LogoutComponent, data: { indexed: false }
+    },
     {
         path: 'sign-up', component: SignUpComponent, children: [
             {path: '', component: SignUpFormComponent, data: {title: 'Registration', indexed: true}},

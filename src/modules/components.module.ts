@@ -85,6 +85,8 @@ import {AmoCrmIntegrationManagersComponent} from '@components/settings/settings-
 import {ContactsComponent} from '@components/contacts/contacts.component';
 import {CallComponent} from '@components/call/call.component';
 import {NotificationComponent} from '@components/notification/notification.component';
+import {LogoutComponent} from '@components/logout/logout.component';
+
 /*
   Components declarations and exports
  */
@@ -178,7 +180,8 @@ import {NotificationComponent} from '@components/notification/notification.compo
         AmoCrmIntegrationManagersComponent,
         ContactsComponent,
         CallComponent,
-        NotificationComponent
+        NotificationComponent,
+        LogoutComponent
     ],
     exports: [
         BaseComponent,
@@ -243,7 +246,8 @@ import {NotificationComponent} from '@components/notification/notification.compo
         AmoCrmIntegrationManagersComponent,
         ContactsComponent,
         CallComponent,
-        NotificationComponent
+        NotificationComponent,
+        LogoutComponent
     ]
 })
 export class ComponentsModule {

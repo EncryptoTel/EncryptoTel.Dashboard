@@ -130,7 +130,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     get tariffPlanTitleText(): string {
         if (!this.tariffsLoading) {
             const plan = this.services.getSelectedTarifPlan();
-            const suffix = plan && plan.title != 'Basic' ? ' (7 days free)' : ' (Free)';
+            const suffix = plan && plan.title !== 'Basic' ? ' (7 days free)' : ' (Free)';
             return `${plan.title}${suffix}`;
         }
         return null;
