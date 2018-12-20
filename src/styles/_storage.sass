@@ -159,16 +159,29 @@ pbx-storage
                 .tablet_header,
                 .tablet_body
                     .tablet_item
-                        min-width: 20% !important
-                        max-width: 20% !important
+                        &:nth-child(1)
+                            min-width: 25% !important
+                            max-width: 25% !important
+                        &:nth-child(2)
+                            min-width: 20% !important
+                            max-width: 20% !important
+                        &:nth-child(3)
+                            min-width: 15% !important
+                            max-width: 15% !important
+                        &:nth-child(4)
+                            min-width: 15% !important
+                            max-width: 15% !important
+                        &:nth-child(5)
+                            min-width: 20% !important
+                            max-width: 20% !important
+                        &:nth-child(6)
+                            min-width: 5% !important
+                            max-width: 5% !important
                 .tablet_header
                     .tablet_item:nth-child(4)
                         text-align: center !important
                 .tablet_header,
                 .tablet_body
-                    .tablet_item:nth-child(1)
-                        min-width: 30%
-                        max-width: 30%
                     .tablet_item:nth-child(3)
                         span
                             justify-content: flex-start
