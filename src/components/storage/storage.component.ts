@@ -1,10 +1,23 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewChecked, OnDestroy } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    OnInit,
+    ViewChild,
+    AfterViewChecked,
+    OnDestroy
+} from '@angular/core';
 import { MediaTableComponent } from '../../elements/pbx-media-table/pbx-media-table.component';
 import { ModalEx } from '../../elements/pbx-modal/pbx-modal.component';
 import { SizePipe } from '../../services/size.pipe';
 import { StorageService } from '../../services/storage.service';
 import { MessageServices } from '../../services/message.services';
-import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from '../../models/base.model';
+import {
+    ButtonItem,
+    FilterItem,
+    TableInfoExModel,
+    TableInfoItem,
+    TableInfoAction
+} from '../../models/base.model';
 import { StorageModel, StorageItem } from '../../models/storage.model';
 import { killEvent } from '../../shared/shared.functions';
 import { ListComponent } from '@elements/pbx-list/pbx-list.component';
@@ -15,15 +28,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageServices } from '@services/local-storage.services';
 import { formatDateTime } from '@shared/shared.functions';
 
-
 @Component({
     selector: 'pbx-storage',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
-    providers: [StorageService],
+    providers: [StorageService]
 })
 export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
-
     uploadedFile: Subscription;
     pageInfo: StorageModel = new StorageModel();
     table: TableInfoExModel = new TableInfoExModel();
@@ -31,13 +42,13 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     filters: FilterItem[];
     buttons: ButtonItem[];
-    buttonsAudio: ButtonItem[];
     currentFilter: any;
 
     storageItemSubscription: Subscription;
 
     @ViewChild('mediaTable')
-    @ViewChild('fileInput') fileInput: ElementRef;
+    @ViewChild('fileInput')
+    fileInput: ElementRef;
     @ViewChild(HeaderComponent) header: HeaderComponent;
     @ViewChild(MediaTableComponent) mediaTable: MediaTableComponent;
     // public mediaTable: MediaTableComponent;
@@ -54,24 +65,37 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     get isEmptySearch(): boolean {
         // !loading && activeFilter && pageInfo.itemsCount === 0
         const isLoading: boolean = !!this.loading;
-        const filteredWithSearch: boolean = this.activeFilter
-            && this.currentFilter
-            && this.currentFilter.hasOwnProperty('search')
-            && this.currentFilter.search;
-        return !isLoading && filteredWithSearch && this.pageInfo.itemsCount === 0;
+        const filteredWithSearch: boolean =
+            this.activeFilter &&
+            this.currentFilter &&
+            this.currentFilter.hasOwnProperty('search') &&
+            this.currentFilter.search;
+        return (
+            !isLoading && filteredWithSearch && this.pageInfo.itemsCount === 0
+        );
     }
 
     get isSidebarVisible(): boolean {
-        return !!(this.currentFilter && this.currentFilter.type && this.currentFilter.type === 'audio');
+        return !!(
+            this.currentFilter &&
+            this.currentFilter.type &&
+            this.currentFilter.type === 'audio'
+        );
     }
 
     get isNothingFound(): boolean {
         // !loading && !activeFilter && pageInfo.itemsCount === 0
         const isLoading: boolean = !!this.loading;
-        const filteredWithoutSearch: boolean = this.activeFilter
-            && this.currentFilter
-            && (!this.currentFilter.hasOwnProperty('search') || !this.currentFilter.search);
-        return !isLoading && filteredWithoutSearch && this.pageInfo.itemsCount === 0;
+        const filteredWithoutSearch: boolean =
+            this.activeFilter &&
+            this.currentFilter &&
+            (!this.currentFilter.hasOwnProperty('search') ||
+                !this.currentFilter.search);
+        return (
+            !isLoading &&
+            filteredWithoutSearch &&
+            this.pageInfo.itemsCount === 0
+        );
     }
 
     get isPaginationVisible(): boolean {
@@ -81,7 +105,11 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     get isFilterTrashSelected(): boolean {
-        return !!(this.currentFilter && this.currentFilter.type && this.currentFilter.type === 'trash');
+        return !!(
+            this.currentFilter &&
+            this.currentFilter.type &&
+            this.currentFilter.type === 'trash'
+        );
     }
 
     get deletionType(): string {
@@ -105,52 +133,91 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.table.sort.isDown = true;
         this.table.sort.column = 'date';
         this.table.items = [
-            new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
-            new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
-            new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', null, 50),
-            new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
-            new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
+            new TableInfoItem(
+                this.translate.instant('Name'),
+                'name',
+                'name',
+                null,
+                120
+            ),
+            new TableInfoItem(
+                this.translate.instant('Date'),
+                'displayDateTime',
+                'date',
+                158
+            ),
+            new TableInfoItem(
+                this.translate.instant('Duration'),
+                'durationFormat',
+                null,
+                50
+            ),
+            new TableInfoItem(
+                this.translate.instant('Size, Mbyte'),
+                'size',
+                'size',
+                50
+            ),
+            new TableInfoItem(
+                this.translate.instant('Record'),
+                'record',
+                null,
+                200,
+                0,
+                true
+            )
         ];
-        this.table.actions = [
-            new TableInfoAction(1, 'player', 175),
-        ];
+        this.table.actions = [new TableInfoAction(1, 'player', 175)];
 
         this.filters = [
-            new FilterItem(1, 'type', this.translate.instant('Source:'), [
-                { id: 'audio', title: this.translate.instant('Sound files') },
-                { id: 'call_record', title: this.translate.instant('Call Records') },
-                // {id: 'voice_mail', title: this.translate.instant('Voice Mail')},
-                { id: 'certificate', title: this.translate.instant('Certificate') },
-                { id: 'trash', title: this.translate.instant('Trash') },
-            ], 'title', this.translate.instant('[choose one]')),
-            new FilterItem(2, 'search', 'Search:', null, null, this.translate.instant('Search by Name')),
+            new FilterItem(
+                1,
+                'type',
+                this.translate.instant('Source:'),
+                [
+                    {
+                        id: 'audio',
+                        title: this.translate.instant('Sound files')
+                    },
+                    {
+                        id: 'call_record',
+                        title: this.translate.instant('Call Records')
+                    },
+                    // {id: 'voice_mail', title: this.translate.instant('Voice Mail')},
+                    {
+                        id: 'certificate',
+                        title: this.translate.instant('Certificate')
+                    },
+                    { id: 'trash', title: this.translate.instant('Trash') }
+                ],
+                'title',
+                this.translate.instant('[choose one]')
+            ),
+            new FilterItem(
+                2,
+                'search',
+                'Search:',
+                null,
+                null,
+                this.translate.instant('Search by Name')
+            )
         ];
-        this.buttonsAudio = [
-            {
-                id: 2,
-                title: 'Upload',
-                type: 'success',
-                visible: true,
-                inactive: true,
-                buttonClass: 'button-upload',
-                icon: false
-            },
-            {
-                id: 1,
-                title: 'Delete Selected',
-                type: 'error',
-                visible: true,
-                inactive: true,
-                buttonClass: 'trash',
-                icon: false
-            }
-        ];
+
         this.buttons = [
             {
                 id: 0,
                 title: 'Restore Selected',
                 type: 'accent',
                 visible: false,
+                inactive: true,
+                buttonClass: '',
+                icon: false
+            },
+            {
+                id: 4,
+                title: 'Download',
+                type: 'accent',
+                visible: true,
                 inactive: true,
                 buttonClass: '',
                 icon: false
@@ -182,33 +249,32 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 buttonClass: 'button-upload',
                 icon: false
             },
-            {
-                id: 4,
-                title: 'Download',
-                type: 'success',
-                visible: true,
-                inactive: true,
-                buttonClass: 'success',
-                icon: false
-            },
         ];
         this.buttonType = 1;
+    }
+
+    getButton(id) {
+        return this.buttons.find(x => x.id === id);
     }
 
     ngOnInit() {
         const $this: StorageComponent = this;
         this.pageInfo.limit = Math.floor((window.innerHeight - 180) / 48);
         this.currentFilter = {
-            'type': 'audio'
+            type: 'audio'
         };
         this.getItems();
-        this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
-            let storageItem: any;
-            storageItem = $this.pageInfo.items.find(item => item.id === result.id);
-            if (result.converted === 1) {
-                storageItem.converted = result.converted;
-            }
-        });
+        this.storageItemSubscription = this._ws
+            .updateStorageItem()
+            .subscribe(result => {
+                let storageItem: any;
+                storageItem = $this.pageInfo.items.find(
+                    item => item.id === result.id
+                );
+                if (result.converted === 1) {
+                    storageItem.converted = result.converted;
+                }
+            });
 
         this.uploadedFile = this.service.uploadedFile.subscribe(() => {
             this.getItems();
@@ -229,29 +295,35 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     private getItems(): void {
         this.loading++;
 
-        this.service.getItems(this.pageInfo, this.currentFilter, this.table.sort)
+        this.service
+            .getItems(this.pageInfo, this.currentFilter, this.table.sort)
             .then(response => {
                 this.pageInfo = response;
                 this.pageInfo.items.forEach(storageItem => {
-                    storageItem.created = formatDateTime(storageItem.created, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
+                    storageItem.created = formatDateTime(
+                        storageItem.created,
+                        this.dateFormat
+                            .toUpperCase()
+                            .replace('HH:MM:SS', 'HH:mm:ss')
+                    );
                     if (storageItem.callDetail) {
                         storageItem.from = storageItem.callDetail.source;
                         storageItem.to = storageItem.callDetail.destination;
                     }
-
                 });
                 this.onMediaDataLoaded();
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log('get items failed', error);
             })
-            .then(() => this.loading = 0);
+            .then(() => (this.loading = 0));
     }
 
     getMediaData(item: StorageItem): void {
         item.record.mediaLoading = true;
 
-        this.service.getMediaData(item.id)
+        this.service
+            .getMediaData(item.id)
             .then(result => {
                 item.record.mediaStream = result.fileLink;
                 this.mediaTable.setMediaData(item);
@@ -267,24 +339,23 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.pageInfo = this.service.pageInfo;
         if (this.isFilterTrashSelected) {
             if (this.pageInfo.itemsCount > 0) {
-                this.buttons[0].visible = true;
-                this.buttons[0].inactive = true;
-                this.buttons[2].inactive = false;
+                this.getButton(0).visible = true;
+                this.getButton(0).inactive = true;
+                this.getButton(3).inactive = false;
+            } else {
+                this.getButton(0).visible = false;
+                this.getButton(0).inactive = true;
+                this.getButton(3).inactive = true;
             }
-            else {
-                this.buttons[0].visible = false;
-                this.buttons[0].inactive = true;
-                this.buttons[2].inactive = true;
-            }
-        }
-        else {
-            this.buttons[0].visible = false;
-            this.buttons[0].inactive = false;
-            this.buttons[1].inactive = true;
+        } else {
+            this.getButton(0).visible = false;
+            this.getButton(0).inactive = false;
+            this.getButton(1).inactive = true;
         }
 
-        this.buttons[3].inactive = !this.isSidebarVisible;
-        this.buttons[3].visible = this.currentFilter && this.currentFilter.type === 'audio';
+        this.getButton(2).inactive = !this.isSidebarVisible;
+        this.getButton(2).visible =
+            this.currentFilter && this.currentFilter.type === 'audio';
     }
 
     // --- filter methods ---------------------------------
@@ -292,24 +363,37 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     get activeFilter(): boolean {
         if (this.currentFilter) {
             const keys = Object.keys(this.currentFilter);
-            return keys.some(key => this.currentFilter[key] !== undefined && this.currentFilter[key]);
+            return keys.some(
+                key =>
+                    this.currentFilter[key] !== undefined &&
+                    this.currentFilter[key]
+            );
         }
     }
 
     reloadFilter(filter: any): void {
         this.loading++;
         if (filter.type === 'trash') {
-            this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayModifiedDate', 'date', 168);
-            this.buttons[2].visible = true;
-            this.buttons[1].visible = false;
-            this.buttons[1].inactive = true;
-            this.buttons[0].inactive = true;
-        }
-        else {
-            this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 168);
-            this.buttons[2].visible = false;
-            this.buttons[1].visible = true;
-            this.buttons[0].inactive = true;
+            this.table.items[1] = new TableInfoItem(
+                this.translate.instant('Date'),
+                'displayModifiedDate',
+                'date',
+                168
+            );
+            this.getButton(3).visible = true;
+            this.getButton(1).visible = false;
+            this.getButton(1).inactive = true;
+            this.getButton(0).inactive = true;
+        } else {
+            this.table.items[1] = new TableInfoItem(
+                this.translate.instant('Date'),
+                'displayDateTime',
+                'date',
+                168
+            );
+            this.getButton(3).visible = false;
+            this.getButton(1).visible = true;
+            this.getButton(0).inactive = true;
         }
 
         this.updateFilter(filter);
@@ -321,21 +405,87 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.currentFilter = filter;
         if (filter.type === 'call_record') {
             this.table.items = [
-                new TableInfoItem(this.translate.instant('From'), 'from', null, 120),
-                new TableInfoItem(this.translate.instant('To'), 'to', null, 120),
-                new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
-                new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
-                new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
-                new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
-                new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
+                new TableInfoItem(
+                    this.translate.instant('From'),
+                    'from',
+                    null,
+                    120
+                ),
+                new TableInfoItem(
+                    this.translate.instant('To'),
+                    'to',
+                    null,
+                    120
+                ),
+                new TableInfoItem(
+                    this.translate.instant('Name'),
+                    'name',
+                    'name',
+                    null,
+                    120
+                ),
+                new TableInfoItem(
+                    this.translate.instant('Date'),
+                    'displayDateTime',
+                    'date',
+                    158
+                ),
+                new TableInfoItem(
+                    this.translate.instant('Duration'),
+                    'durationFormat',
+                    'duration',
+                    50
+                ),
+                new TableInfoItem(
+                    this.translate.instant('Size, Mbyte'),
+                    'size',
+                    'size',
+                    50
+                ),
+                new TableInfoItem(
+                    this.translate.instant('Record'),
+                    'record',
+                    null,
+                    200,
+                    0,
+                    true
+                )
             ];
         } else {
             this.table.items = [
-                new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
-                new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
-                new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
-                new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
-                new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
+                new TableInfoItem(
+                    this.translate.instant('Name'),
+                    'name',
+                    'name',
+                    null,
+                    120
+                ),
+                new TableInfoItem(
+                    this.translate.instant('Date'),
+                    'displayDateTime',
+                    'date',
+                    158
+                ),
+                new TableInfoItem(
+                    this.translate.instant('Duration'),
+                    'durationFormat',
+                    'duration',
+                    50
+                ),
+                new TableInfoItem(
+                    this.translate.instant('Size, Mbyte'),
+                    'size',
+                    'size',
+                    50
+                ),
+                new TableInfoItem(
+                    this.translate.instant('Record'),
+                    'record',
+                    null,
+                    200,
+                    0,
+                    true
+                )
             ];
         }
     }
@@ -344,10 +494,10 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     selectItem(item: StorageItem): void {
         this.service.selectItem(item.id);
-        this.buttons[0].inactive = this.service.select.length === 0;
-        this.buttons[1].inactive = this.service.select.length === 0;
-        this.buttons[4].inactive = this.service.select.length === 0;
-        this.buttons[3].inactive = false;
+        this.getButton(0).inactive = this.service.select.length === 0;
+        this.getButton(1).inactive = this.service.select.length === 0;
+        this.getButton(4).inactive = this.service.select.length === 0;
+        this.getButton(2).inactive = false;
     }
 
     // --- file uploading ---------------------------------
@@ -360,18 +510,45 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 let messageText: string;
                 if (this.isFilterTrashSelected) {
                     if (this.buttonType === 0) {
-                        messageText = this.service.successCount > 1
-                            ? `${this.service.successCount} files have been successfully ${deleting ? 'restored' : 'uploaded'}.`
-                            : `${this.service.successCount} file has been successfully ${deleting ? 'restored' : 'uploaded'}.`;
+                        messageText =
+                            this.service.successCount > 1
+                                ? `${
+                                      this.service.successCount
+                                  } files have been successfully ${
+                                      deleting ? 'restored' : 'uploaded'
+                                  }.`
+                                : `${
+                                      this.service.successCount
+                                  } file has been successfully ${
+                                      deleting ? 'restored' : 'uploaded'
+                                  }.`;
                     } else {
-                        messageText = this.service.successCount > 1
-                            ? `${this.service.successCount} files have been successfully ${deleting ? 'deleted' : 'uploaded'}.`
-                            : `${this.service.successCount} file has been successfully ${deleting ? 'deleted' : 'uploaded'}.`;
+                        messageText =
+                            this.service.successCount > 1
+                                ? `${
+                                      this.service.successCount
+                                  } files have been successfully ${
+                                      deleting ? 'deleted' : 'uploaded'
+                                  }.`
+                                : `${
+                                      this.service.successCount
+                                  } file has been successfully ${
+                                      deleting ? 'deleted' : 'uploaded'
+                                  }.`;
                     }
                 } else {
-                    messageText = this.service.successCount > 1
-                        ? `${this.service.successCount} files have been successfully ${deleting ? 'trashed' : 'uploaded'}.`
-                        : `${this.service.successCount} file has been successfully ${deleting ? 'trashed' : 'uploaded'}.`;
+                    messageText =
+                        this.service.successCount > 1
+                            ? `${
+                                  this.service.successCount
+                              } files have been successfully ${
+                                  deleting ? 'trashed' : 'uploaded'
+                              }.`
+                            : `${
+                                  this.service.successCount
+                              } file has been successfully ${
+                                  deleting ? 'trashed' : 'uploaded'
+                              }.`;
                 }
                 this._message.writeSuccess(messageText);
             }
@@ -383,14 +560,13 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.service.resetCount();
         for (let i = 0; i < files.length; i++) {
             if (this.service.checkCompatibleType(files[i])) {
-                this.service.checkFileExists(
-                    files[i],
-                    (loading) => {
-                        this.updateLoading(loading);
-                    });
-            }
-            else {
-                this._message.writeError(this.translate.instant('Accepted formats: mp3, ogg, wav'));
+                this.service.checkFileExists(files[i], loading => {
+                    this.updateLoading(loading);
+                });
+            } else {
+                this._message.writeError(
+                    this.translate.instant('Accepted formats: mp3, ogg, wav')
+                );
                 this.sidebarActive = false;
             }
         }
@@ -412,8 +588,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         event.preventDefault();
     }
 
-    dragEndHandler(event): void {
-    }
+    dragEndHandler(event): void {}
 
     dragLeaveHandler(event): void {
         this.sidebarActive = false;
@@ -437,7 +612,6 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         } else {
             this.deleteSelected();
         }
-
     }
 
     deleteSelected() {
@@ -480,28 +654,35 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         if (this.buttonType === 1) {
             this.modal = new ModalEx('', 'deleteFiles');
             if (this.service.select.length === 1) {
-                let item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
+                let item: StorageItem = this.pageInfo.items.find(
+                    i => i.id === this.service.select[0]
+                );
                 item = this.getShortName(item);
-                this.modal.body = 'Are you sure you want to delete <span>' + item.fileName + '</span> file?';
+                this.modal.body =
+                    'Are you sure you want to delete <span>' +
+                    item.fileName +
+                    '</span> file?';
             }
             this.modal.visible = true;
-        }
-        else if (this.buttonType === 2) {
+        } else if (this.buttonType === 2) {
             this.fileInput.nativeElement.click();
-        }
-        else if (this.buttonType === 3) {
+        } else if (this.buttonType === 3) {
             this.modal = new ModalEx('', 'emptyTrash');
             if (this.service.select.length === 1) {
-                let item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
+                let item: StorageItem = this.pageInfo.items.find(
+                    i => i.id === this.service.select[0]
+                );
                 item = this.getShortName(item);
-                this.modal.body = 'Permanently delete ' + item.fileName + ' file?';
-            }
-            else if (this.service.select.length > 0) {
-                this.modal.body = 'Permanently delete ' + this.service.select.length + ' file(s)?';
+                this.modal.body =
+                    'Permanently delete ' + item.fileName + ' file?';
+            } else if (this.service.select.length > 0) {
+                this.modal.body =
+                    'Permanently delete ' +
+                    this.service.select.length +
+                    ' file(s)?';
             }
             this.modal.visible = true;
-        }
-        else {
+        } else {
             this.modal = new ModalEx('', 'restoreFiles');
             this.modal.visible = true;
         }
@@ -514,30 +695,44 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 const item: any = this.pageInfo.items.find(i => i.id === id);
                 // item ? item.loading++ : null;
                 if (this.buttonType === 0) {
-                    this.service.restoreById(id, (loading) => {
-                        this.updateLoading(loading, true);
-                    }, false)
-                        .then(() => { })
-                        .catch(() => { })
-                        .then(() => { if (!!item) item.loading--; });
-                }
-                else {
-                    this.service.deleteById(id, (loading) => {
-                        this.updateLoading(loading, true);
-                    }, this.deletionType, false)
-                        .then(() => { })
-                        .catch(() => { })
-                        .then(() => { if (!!item) item.loading--; });
+                    this.service
+                        .restoreById(
+                            id,
+                            loading => {
+                                this.updateLoading(loading, true);
+                            },
+                            false
+                        )
+                        .then(() => {})
+                        .catch(() => {})
+                        .then(() => {
+                            if (!!item) item.loading--;
+                        });
+                } else {
+                    this.service
+                        .deleteById(
+                            id,
+                            loading => {
+                                this.updateLoading(loading, true);
+                            },
+                            this.deletionType,
+                            false
+                        )
+                        .then(() => {})
+                        .catch(() => {})
+                        .then(() => {
+                            if (!!item) item.loading--;
+                        });
                 }
             });
-        }
-        else {
+        } else {
             if (this.buttonType === 2) {
-                this.service.deleteAll((loading) => {
-                    this.updateLoading(loading, true);
-                }, false)
-                    .then(() => { })
-                    .catch(() => { });
+                this.service
+                    .deleteAll(loading => {
+                        this.updateLoading(loading, true);
+                    }, false)
+                    .then(() => {})
+                    .catch(() => {});
             }
         }
     }
