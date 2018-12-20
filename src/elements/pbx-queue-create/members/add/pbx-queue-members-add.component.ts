@@ -35,7 +35,7 @@ export class QueueMembersAddComponent implements OnInit {
     @Input() service: any;
 
     @ViewChild(HeaderComponent) header: HeaderComponent;
-    
+
     // -- properties ----------------------------------------------------------
 
     get nothingFound(): boolean {
@@ -44,8 +44,8 @@ export class QueueMembersAddComponent implements OnInit {
 
     get emptyResultMessage(): string | null {
         if (this.nothingFound) {
-            const message: string = 
-                (this.currentFilter.search && this.currentFilter.search.length > 0) 
+            const message: string =
+                (this.currentFilter.search && this.currentFilter.search.length > 0)
                 || this.currentFilter.department === 'all'
                     ? this.nothingFoundText
                     : this.noDataToDisplayText;
@@ -70,7 +70,7 @@ export class QueueMembersAddComponent implements OnInit {
             ],
             keys: ['phoneNumber', 'sipOuter.phoneNumber', 'firstName', 'lastName', 'email', 'statusName']
         };
-        
+
         this.departmentPlaceholderText = this.translate.instant('[choose one]');
         this.searchPlaceholderText = this.translate.instant('Search by Name or Phone');
         this.nothingFoundText = this.translate.instant('Nothing found');
@@ -83,7 +83,7 @@ export class QueueMembersAddComponent implements OnInit {
             this.getDepartments(this.service.item.sipId);
         }
     }
-    
+
     initFilters(): void {
         this.filters.push(new FilterItem(
             1, 'department', 'Department', this.departments, 'name', this.departmentPlaceholderText
@@ -135,6 +135,11 @@ export class QueueMembersAddComponent implements OnInit {
         this.service.getMembers(id, this.currentFilter.search, this.currentFilter.department)
             .then((response) => {
                 this.members = response.items;
+                this.members.forEach(item => {
+                    if (item.sipOuter.providerId !== 1) {
+                        item.sipOuter.phoneNumber = '+' + item.sipOuter.phoneNumber;
+                    }
+                });
                 this.addPhoneNumberField();
             })
             .catch(() => {})
