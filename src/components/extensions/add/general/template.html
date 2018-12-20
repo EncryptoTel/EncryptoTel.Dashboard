@@ -1,6 +1,12 @@
 <form [formGroup]="form" class="add_ext_form" *ngIf="locker.free">
     <div class="add_ext_form_title" translate>Extension Info</div>
 
+    <div class="add_ext_form_item">
+        <label for="status" (click)="changeCheckbox('status')" translate>Enable extension</label>
+        <pbx-checkbox id="status" formGroupName="status" (onToggle)="changeCheckbox('status')"
+                      [value]="form.get('status').value"></pbx-checkbox>
+    </div>
+
     <pbx-input name="Phone"
                displayKey="title"
                key="outer"
@@ -73,6 +79,14 @@
                [errors]="service.errors"
                [object]="form"
     ></pbx-input>
+
+    <div class="add_ext_form_title" translate>Call record</div>
+
+    <div class="add_ext_form_item">
+        <label for="callRecord" (click)="changeCheckbox('callRecord')" translate>Record all calls</label>
+        <pbx-checkbox id="callRecord" formGroupName="callRecord" (onToggle)="changeCheckbox('callRecord')"
+                      [value]="form.get('callRecord').value"></pbx-checkbox>
+    </div>
 
     <div class="add_ext_form_title" translate>Encryption</div>
 

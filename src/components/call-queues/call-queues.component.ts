@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 
 import {FadeAnimation} from '@shared/fade-animation';
 import {CallQueueService} from '@services/call-queue.service';
 import {CallQueueModel} from '@models/call-queue.model';
+import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 
 
 @Component({
@@ -12,10 +13,12 @@ import {CallQueueModel} from '@models/call-queue.model';
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
-export class CallQueuesComponent {
+export class CallQueuesComponent implements OnInit {
 
     table: any;
     pageInfo: CallQueueModel = new CallQueueModel();
+
+    @ViewChild(ListComponent) list: ListComponent;
 
     constructor(private service: CallQueueService,
                 public translate: TranslateService) {
@@ -30,5 +33,21 @@ export class CallQueuesComponent {
             ],
             keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
         };
+    }
+
+    ngOnInit(): void {
+        this.getParams();
+    }
+
+    getParams() {
+        this.service.getParams().then(() => {})
+            .catch(() => {})
+            .then(() => {});
+    }
+
+    load($event) {
+        this.list.pageInfo.items.forEach(item => {
+            item.strategyName = this.translate.instant(item.strategyName);
+        });
     }
 }
