@@ -134,11 +134,11 @@ export class RequestServices {
                 } else if (ShowError === false) {
                     break;
                 } else if (response.error && response.error.message) {
-                    this._messages.writeError(response.error.message, time); // Adding warning message
+                    // this._messages.writeError(response.error.message, time); // Adding warning message
                 } else if (response.message) {
-                    this._messages.writeError(response.message, time); // Adding warning message
+                    // this._messages.writeError(response.message, time); // Adding warning message
                 } else {
-                    this._messages.writeError('Internal server error', time);
+                    // this._messages.writeError('Internal server error', time);
                 }
                 break;
             }

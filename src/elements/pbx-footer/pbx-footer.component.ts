@@ -60,6 +60,12 @@ export class PbxFooterComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.links['Terms and Conditions'].title = this.translate.instant('Terms and Conditions');
+        this.links['Privacy & cookie'].title = this.translate.instant('Privacy & cookie');
+        this.links['Security Policy'].title = this.translate.instant('Security Policy');
+        this.links['Terms of use'].title = this.translate.instant('Terms of use');
+        this.buttonText = this.translate.instant('Send');
+
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             this.links['Terms and Conditions'].title = this.translate.instant('Terms and Conditions');
             this.links['Privacy & cookie'].title = this.translate.instant('Privacy & cookie');
