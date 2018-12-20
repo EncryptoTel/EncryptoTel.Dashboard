@@ -162,16 +162,16 @@ export class DetailsAndRecordsComponent implements OnInit {
     }
 
     block() {
-        this.modalBlock = new ModalEx('', this.blockItem ? this.translate.instant('block') : '');
-        // this.modalBlock.title = this.translate.instant(this.modalBlock.title);
-        // this.modalBlock.body = this.translate.instant(this.modalBlock.body);
+        this.modalBlock = new ModalEx('', this.blockItem ? 'block' : '');
+        this.modalBlock.title = this.translate.instant(this.modalBlock.title);
+        this.modalBlock.body = this.translate.instant(this.modalBlock.body);
         this.modalBlock.show();
     }
 
     unblock() {
-        this.modalBlock = new ModalEx('', this.unblockItem ? this.translate.instant('unblock') : '');
-        // this.modalBlock.title = this.translate.instant(this.modalBlock.title);
-        // this.modalBlock.body = this.translate.instant(this.modalBlock.body);
+        this.modalBlock = new ModalEx('', this.unblockItem ? 'unblock' : '');
+        this.modalBlock.title = this.translate.instant(this.modalBlock.title);
+        this.modalBlock.body = this.translate.instant(this.modalBlock.body);
         this.modalBlock.show();
     }
 
