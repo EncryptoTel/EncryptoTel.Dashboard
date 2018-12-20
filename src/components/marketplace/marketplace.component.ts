@@ -8,6 +8,7 @@ import {MessageServices} from '../../services/message.services';
 import {Lockable, Locker} from '../../models/locker.model';
 import {UserServices} from '../../services/user.services';
 import { Router } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'pbx-marketplace',
@@ -28,7 +29,8 @@ export class MarketplaceComponent implements OnInit, Lockable {
                 private message: MessageServices,
                 private storage: LocalStorageServices,
                 private router: Router,
-                private userService: UserServices) {
+                private userService: UserServices,
+                public translate: TranslateService) {
         this.locker = new Locker();
     }
 
@@ -45,16 +47,17 @@ export class MarketplaceComponent implements OnInit, Lockable {
             this.selected = module;
         }
         else {
+            this.modal.title = this.translate.instant(this.modal.title);
             this.modal.body =
-                    'Not enough money to pay for the order. <br/> Top up your balance?';
-                this.modal.buttons = [
-                    new ModalButton('cancel', 'Cancel'),
-                    new ModalButton('success', 'Refill')
-                ];
-                this.modal.confirmCallback = () => {
-                    this.router.navigate(['cabinet', 'refill']);
-                };
-                this.modal.visible = true;
+                this.translate.instant('Not enough money to pay for the order.') + '<br/>' + this.translate.instant('Top up your balance?');
+            this.modal.buttons = [
+                new ModalButton('cancel', this.translate.instant('Cancel')),
+                new ModalButton('success', this.translate.instant('Refill'))
+            ];
+            this.modal.confirmCallback = () => {
+                this.router.navigate(['cabinet', 'refill']);
+            };
+            this.modal.visible = true;
         }
     }
 
