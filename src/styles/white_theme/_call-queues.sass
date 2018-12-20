@@ -36,3 +36,14 @@
                         .call_queues_members_add
                             .nothing-found-class
                                 color: $white_empty_message !important
+
+.light_theme
+    pbx-index
+        pbx-call-queues-create,
+        ring-groups-create-component
+            .pbx_header_wrap
+                pbx-input
+                    input:not([type="submit"])
+                        border: 1px solid $white_details_calendar_border !important
+                        &:focus
+                            border: 1px solid $dark_accent !important

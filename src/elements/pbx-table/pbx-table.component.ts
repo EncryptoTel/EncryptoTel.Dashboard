@@ -285,7 +285,7 @@ export class TableComponent implements OnInit, OnDestroy {
                     width: null,
                     dataWidth: undefined,
                     sort: null,
-                    noDataColumn: false,
+                    noDataColumn: false
                 };
                 this.tableInfoEx.items.push(item);
             }

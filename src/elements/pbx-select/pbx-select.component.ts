@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 
 import { SwipeAnimation } from '@shared/swipe-animation';
-import { killEvent } from '@shared/shared.functions';
+import { killEvent, cutOptionName } from '@shared/shared.functions';
 
 
 @Component({
@@ -54,6 +54,7 @@ export class SelectComponent implements OnInit, OnChanges {
 
     @Input() errors: any[];
     @Input() onlyTop: boolean;
+    @Input() cutLongNames: boolean = true;
     
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onOpen: EventEmitter<object> = new EventEmitter();
@@ -72,7 +73,18 @@ export class SelectComponent implements OnInit, OnChanges {
 
     constructor() {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        if (this.cutLongNames) {
+            const isOptionSipDepartmentItem: boolean = 
+                this.options && this.options[0].hasOwnProperty('sipCount');
+            this.options.forEach(opt => {
+                const [ name, count ] = cutOptionName(opt[this.objectKey]);
+                if (isOptionSipDepartmentItem || !count) opt['name'] = name;
+                else opt[this.objectKey] = `${name} ${count}`;
+                // console.log('opt', opt[this.objectKey], ' > ', `${name} ${count}`);
+            });
+        }
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.options

@@ -1,7 +1,7 @@
 import {CallQueueItem, CallQueueModel, CallQueueParams} from '../models/call-queue.model';
-import {BaseQueueService} from "./base-queue.service";
-import {PageInfoModel} from "../models/base.model";
-import {plainToClass} from "class-transformer";
+import {BaseQueueService} from './base-queue.service';
+import {PageInfoModel} from '../models/base.model';
+import {plainToClass} from 'class-transformer';
 
 export class CallQueueService extends BaseQueueService {
 
