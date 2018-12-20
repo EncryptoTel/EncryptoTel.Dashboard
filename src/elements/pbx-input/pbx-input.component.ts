@@ -404,10 +404,12 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
                 const value = this.selectAsObject ? event : event.id;
                 this.getForm().setValue(value);
             }
-        } else {
+        } 
+        else {
             if (this.updateObjectByObject) {
                 this.object[this.key] = event;
-            } else {
+            }
+            else {
                 if (this.object && this.key) {
                     this.object[this.key] = event.id;
                 }
@@ -415,7 +417,8 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
             if (this.updateValueByKey) {
                 this.value.id = event.id;
                 this.value[this.displayKey] = event[this.displayKey];
-            } else {
+            }
+            else {
                 this.value = event;
             }
         }
@@ -428,7 +431,8 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
             if (this.getForm()) {
                 this.getForm().setValue(checkValue);
             }
-        } else {
+        }
+        else {
             this.object[this.key] = checkValue;
         }
         this.onToggle.emit(value);
@@ -445,7 +449,8 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
             for (let i = 0; i < element.children.length; i++) {
                 if (element.children[i].localName === 'input') {
                     element.children[i].focus();
-                } else {
+                }
+                else {
                     this.findInput(element.children[i]);
                 }
             }
@@ -519,7 +524,7 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     setValue(): void {
-        if (this.form && (this.checkbox || this.options)) {
+        if (this.form) {
             this.value = this.getForm() ? this.getForm().value : false;
             if (this.objectView) {
                 this.value = this.objectView;

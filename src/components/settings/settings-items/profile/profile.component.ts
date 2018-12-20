@@ -12,7 +12,7 @@ import {validateForm, killEvent} from '@shared/shared.functions';
 import {FadeAnimation} from '@shared/fade-animation';
 import {passwordConfirmation} from '@shared/password-confirmation';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
-import {SettingsModel, SettingsItem} from '@models/settings.models';
+import {SettingsModel, SettingsItem, SettingsOptionItem, SettingsBaseItem, SettingsGroupItem} from '@models/settings.models';
 import {ScrollEvent} from '@shared/scroll.directive';
 import {InputComponent} from '@elements/pbx-input/pbx-input.component';
 
@@ -51,6 +51,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     @ViewChild('fileInput') fileInput: ElementRef;
 
+
+    // --- properties ---------------------------------------------------------
 
     get messageSent(): boolean {
         return this.emailChangeState === EmailChangeState.CONFIRMATION_CODE_SENT;
@@ -128,6 +130,16 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             validator: passwordConfirmation
         });
         this.addForm('passwordChange', this.passwordChange);
+    }
+
+    getModelValues(items: SettingsBaseItem[], modelValues: SettingsOptionItem[]): void {
+        items.forEach(i => {
+            if (!i.isGroup) {
+                const settingsItem = <SettingsItem>i;
+                modelValues.push(new SettingsOptionItem(settingsItem.id, settingsItem.value));
+            }
+            else this.getModelValues((<SettingsGroupItem>i).children, modelValues);
+        });
     }
 
     // --- event handlers -----------------------------------------------------
@@ -221,11 +233,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     // --- data methods -------------------------------------------------------
 
     onValueChange(item: SettingsItem) {
-        this.generalForm.controls['language'].setValue(this.model.items[0]['children'][0].value);
-        this.generalForm.controls['region'].setValue(this.model.items[0]['children'][1].value);
-        this.generalForm.controls['clock'].setValue(this.model.items[1]['children'][1].value);
-        this.generalForm.controls['time_zone'].setValue(this.model.items[1]['children'][1].value);
-        this.generalForm.controls['date_format'].setValue(this.model.items[1]['children'][2].value);
+        // console.log('form-value', item, this.generalForm.value);
     }
 
     getSettings(): void {
@@ -233,8 +241,9 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
         this.service.getProfileSettings()
             .then(response => {
-                // console.log('profile', response);
                 this.model = SettingsModel.create(response.profile.settings);
+                // console.log('profile', response);
+                // console.log('settings', this.model);
                 this.userDefaultPhoto = response.profile.user.avatar;
                 this.initFormData('generalForm', this.generalForm, response);
                 this.initFormData('emailChange', this.emailChange, response);
@@ -245,22 +254,25 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     }
 
     saveProfileSettings(): void {
-        this.loading++;
+        this.loading ++;
+        
         const language = (this.generalForm.value.language === 19) ? 'ru' : 'en';
         this.translate.use(language);
         this.storage.writeItem('user_lang', language);
         if (language === 'ru') {
             document.body.classList.remove('lang_en');
-        } else {
+        }
+        else {
             document.body.classList.remove('lang_ru');
         }
+        
         this.service.saveProfileSettings(this.generalForm.value)
             .then(() => {
                 this.getSettings();
                 this.user.fetchProfileParams().then();
             })
             .catch(() => {})
-            .then(() => this.loading--);
+            .then(() => this.loading --);
     }
 
     saveEmailSettings(): void {

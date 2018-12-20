@@ -79,7 +79,7 @@ export class SelectComponent implements OnInit, OnChanges {
                 this.options && this.options[0].hasOwnProperty('sipCount');
             this.options.forEach(opt => {
                 const [ name, count ] = cutOptionName(opt[this.objectKey]);
-                if (isOptionSipDepartmentItem) opt['name'] = name;
+                if (isOptionSipDepartmentItem || !count) opt['name'] = name;
                 else opt[this.objectKey] = `${name} ${count}`;
                 // console.log('opt', opt[this.objectKey], ' > ', `${name} ${count}`);
             });
