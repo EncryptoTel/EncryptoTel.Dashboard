@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {SwipeAnimation} from '../../shared/swipe-animation';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { SwipeAnimation } from '../../shared/swipe-animation';
 import {
     BaseItemModel,
     ButtonItem,
@@ -8,11 +8,11 @@ import {
     TableInfoExModel,
     TableInfoItem
 } from '../../models/base.model';
-import {HeaderComponent} from '../pbx-header/pbx-header.component';
-import {Router} from '@angular/router';
-import {TableComponent} from '../pbx-table/pbx-table.component';
-import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
-import {getDateRange, dateToServerFormat} from '@shared/shared.functions';
+import { HeaderComponent } from '../pbx-header/pbx-header.component';
+import { Router } from '@angular/router';
+import { TableComponent } from '../pbx-table/pbx-table.component';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { getDateRange, dateToServerFormat } from '@shared/shared.functions';
 
 @Component({
     selector: 'pbx-list',
@@ -68,7 +68,7 @@ export class ListComponent implements OnInit {
 
     currentFilter: any;
     loadingEx: number = 0;
-    filter = {loading: 0};
+    filter = { loading: 0 };
 
     _sidebar: any;
     _totalItemsCount: number;
@@ -104,7 +104,7 @@ export class ListComponent implements OnInit {
         const filteredWithoutSearch: boolean = this.activeFilter()
             && this.currentFilter
             && (!this.currentFilter.hasOwnProperty('search') || !this.currentFilter.search);
-        return !isLoading && filteredWithoutSearch && this.pageInfo.itemsCount === 0;
+        return !isLoading && filteredWithoutSearch && this.pageInfo.itemsCount === 0 && !this.listDataEmpty;
     }
 
     get isNoData(): boolean {
@@ -118,7 +118,7 @@ export class ListComponent implements OnInit {
     }
 
     constructor(private router: Router,
-                public translate: TranslateService) {
+        public translate: TranslateService) {
     }
 
     ngOnInit() {
@@ -146,8 +146,8 @@ export class ListComponent implements OnInit {
         this.pbxListEmptyText_2 = this.translate.instant('Click on the button to create');
 
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-                this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
-                this.pbxListEmptyText_2 = this.translate.instant(this.pbxListEmptyText_2);
+            this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
+            this.pbxListEmptyText_2 = this.translate.instant(this.pbxListEmptyText_2);
         });
     }
 
@@ -178,14 +178,14 @@ export class ListComponent implements OnInit {
     }
 
     delete(item: BaseItemModel) {
-        item.loading ++;
+        item.loading++;
         this.onDelete.emit(item);
         this.service.deleteById(item.id)
             .then(() => {
                 this.getItems(item);
             })
-            .catch(() => {})
-            .then(() => item.loading --);
+            .catch(() => { })
+            .then(() => item.loading--);
     }
 
     sort() {
@@ -222,13 +222,13 @@ export class ListComponent implements OnInit {
         let result = 0;
         if (this.currentFilter) {
             Object.keys(this.currentFilter).forEach(key => {
-                if (this.currentFilter[key]) result ++;
+                if (this.currentFilter[key]) result++;
             });
         }
         if (this._filters) {
             this._filters.forEach(filter => {
                 if (filter && filter.options) {
-                    filter.options.forEach(option => (option.count > 0) && result ++);
+                    filter.options.forEach(option => (option.count > 0) && result++);
                 }
             });
         }
@@ -238,7 +238,7 @@ export class ListComponent implements OnInit {
     // -- data methods --------------------------------------------------------
 
     getItems(item = null) {
-        item ? item.loading ++ : this.loadingEx ++;
+        item ? item.loading++ : this.loadingEx++;
         const limit = this.pageInfo.limit;
         if (this.currentFilter && this.currentFilter.type === 1) {
             if (this.header.inputs.first.value.id === 'company') {
@@ -266,8 +266,8 @@ export class ListComponent implements OnInit {
 
                 this.onLoad.emit(this.pageInfo);
             })
-            .catch(() => {})
-            .then(() => item ? item.loading -- : this.loadingEx --);
+            .catch(() => { })
+            .then(() => item ? item.loading-- : this.loadingEx--);
     }
 
     savePageInfoToSession(): void {
@@ -278,37 +278,24 @@ export class ListComponent implements OnInit {
     }
 
     updateTotalItems(): void {
-        let totalItemsCount: number;
-        if (this.pageInfo.itemsCount === 0 && (this.currentFilter !== undefined && Object.keys(this.currentFilter).length === 0)) {
-            if (this._filters !== undefined && this._filters.length > 0 && this._filters[0].options.length > 0) {
-                if (this._totalItemsCount === undefined) {
-                    this._totalItemsCount = 0;
-                }
-                totalItemsCount = Math.abs(this._totalItemsCount) + Math.abs(this._filters[0].options[0].count) + Math.abs(this._filters[0].options[1].count);
-            }
-            if (totalItemsCount === 0) {
-                this._filters = [];
-            } else {
-                this.pageInfo.itemsCount = totalItemsCount;
-            }
-        }
         if (!this.currentFilter || Object.keys(this.currentFilter).length === 0) {
             this._totalItemsCount = this.pageInfo.itemsCount;
         }
     }
 
     get listDataEmpty(): boolean {
-        let totalItemsCount: number;
-        totalItemsCount = 0;
-        if (this._filters !== undefined && this._filters.length > 0 && this._filters[0].options.length > 0) {
-            if (this._filters[0].options[0].count !== undefined) {
-                totalItemsCount = totalItemsCount + +this._filters[0].options[0].count;
-            }
-            if (this._filters[0].options[1].count !== undefined) {
-                totalItemsCount = totalItemsCount + +this._filters[0].options[1].count;
-            }
+        let cnt = 0;
+        if (this._filters) {
+            this._filters.forEach(element => {
+                if (element.options) {
+                    element.options.forEach(opt => {
+                        if (opt) {
+                            cnt += Number(opt.count) || 0;
+                        }
+                    });
+                }
+            });
         }
-        totalItemsCount = totalItemsCount + this._totalItemsCount;
-        return !totalItemsCount || totalItemsCount === 0;
+        return (this.pageInfo.itemsCount + cnt) === 0;
     }
 }

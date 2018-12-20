@@ -39,7 +39,12 @@
             </div> <!-- input_wr -->
 
             <div class="buy_phone_header_block_key" translate>Match to:</div>
-            <pbx-select [options]="matches" [objectKey]="'title'" [selected]="matches[0]"></pbx-select>
+            <pbx-select [options]="matches"
+                        [objectKey]="'title'"
+                        [selected]="matches[0]"
+                        [cutLongNames]="false"
+                        >
+            </pbx-select>
         </div>
         <div class="buy_phone_header_options">
             <div class="buy_phone_header_options_title" translate>Number types:</div>

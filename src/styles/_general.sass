@@ -89,6 +89,59 @@ input.error-border.error-text:hover
     input.error-border.error-text:hover
         color: $white_black !important
 
+pbx-invoices
+    .tablet
+        .tablet_header
+            .tablet_item:nth-child(5),
+            .tablet_item:nth-child(6)
+                .qwerty
+                    justify-content: flex-start !important
+
+phone-numbers-component
+    .tablet
+        .tablet_header,
+        .tablet_body
+            .tablet_item
+                width: 135px !important
+
+billing-component
+    base-settings-component
+        pbx-input[ng-reflect-checkbox="false"]
+            .pbx_input_item_label
+                span
+                    &:hover
+                        color: rgba($dark_white, .7) !important
+
+.light_theme
+    billing-component
+        base-settings-component
+            pbx-input[ng-reflect-checkbox="false"]
+                .pbx_input_item_label
+                    span
+                        &:hover
+                            color: rgba($white_black, .7) !important
+
+// невероятный костыль!!!!!!!!!!!!!!!!!!!!
+account-notifications-component
+    pbx-settings-group
+        pbx-input[ng-reflect-key="balance_near_zero_value"],
+        pbx-input[ng-reflect-key="how_many_days"]
+            .pbx_input_item_label
+                span
+                    cursor: default !important
+                    &:hover
+                        color: rgba($dark_white, .7) !important
+.light_theme
+    account-notifications-component
+        pbx-settings-group
+            pbx-input[ng-reflect-key="balance_near_zero_value"],
+            pbx-input[ng-reflect-key="how_many_days"]
+                .pbx_input_item_label
+                    span
+                        &:hover
+                            color: rgba($white_black, .7) !important
+////////////////////////////////////////////////////////////////////////////////////
+
 @media screen and (max-height: 850px)
     sign-up
         sign-up-form

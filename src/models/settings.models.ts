@@ -85,7 +85,10 @@ export class SettingsItem extends SettingsBaseItem {
 }
 
 export class SettingsOptionItem {
-    constructor(public id: number, public value: string) {}
+    constructor(
+        public id: number, 
+        public value: string
+    ) {}
 }
 
 export class SettingsModel {
@@ -105,10 +108,11 @@ export class SettingsModel {
     static createItem(key: string, plainObj: any): SettingsBaseItem {
         const item = SettingsItemFactory.createItem(key, plainObj.type);
 
-        Object.keys(plainObj).forEach(key => {
-            if (key !== 'children' && key !== 'list_value') {
-                item[key] = plainObj[key];
-            } else if (key === 'list_value') {
+        Object.keys(plainObj).forEach(okey => {
+            if (okey !== 'children' && okey !== 'list_value') {
+                item[okey] = plainObj[okey];
+            }
+            else if (okey === 'list_value') {
                 (<SettingsItem>item).options = Object.keys(
                     plainObj.list_value
                 ).map(lkey => {
@@ -117,7 +121,8 @@ export class SettingsModel {
                         plainObj.list_value[lkey]
                     );
                 });
-            } else if (key === 'children') {
+            }
+            else if (okey === 'children') {
                 Object.keys(plainObj.children).forEach(childKey => {
                     (<SettingsGroupItem>item).children.push(
                         this.createItem(childKey, plainObj.children[childKey])

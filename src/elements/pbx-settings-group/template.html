@@ -9,6 +9,8 @@
             <pbx-settings-group
                 [items]="item.children"
                 [level]="level + 1"
+                [form]="form"
+                [validationHost]="validationHost"
                 (valueChange)="onValueChange($event)"
                 >
             </pbx-settings-group>
@@ -23,6 +25,8 @@
                     <pbx-settings-input
                         [item]="child"
                         [fullWidth]="false"
+                        [form]="form"
+                        [validationHost]="validationHost"
                         (valueChange)="onValueChange(child)"
                         >
                     </pbx-settings-input>
@@ -35,6 +39,8 @@
             <pbx-settings-input
                 [item]="item"
                 [fullWidth]="true"
+                [form]="form"
+                [validationHost]="validationHost"
                 (valueChange)="onValueChange(item)"
                 >
             </pbx-settings-input>

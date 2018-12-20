@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators, AbstractControl} from '@angular/forms';
 import {TranslateService} from '@ngx-translate/core';
+import {Observable} from 'rxjs/Observable';
 
 import {SettingsService} from '@services/settings.service';
 import {MessageServices} from '@services/message.services';
@@ -9,7 +10,8 @@ import {FadeAnimation} from '@shared/fade-animation';
 import {SettingsModel, SettingsOptionItem, SettingsBaseItem, SettingsItem, SettingsGroupItem} from '@models/settings.models';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
-import {Observable} from 'rxjs/Observable';
+import {numberRegExp, simpleNameRegExp} from '@shared/vars';
+import {walletAddressValidator} from '@shared/encry-form-validators';
 
 
 @Component({
@@ -21,7 +23,7 @@ import {Observable} from 'rxjs/Observable';
 })
 export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
 
-    model: SettingsModel;
+    model: SettingsModel = new SettingsModel();
     modelValues: SettingsOptionItem[] = [];
     changes: SettingsOptionItem[] = [];
 
@@ -58,20 +60,110 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
         return super.canDeactivate(dataChanged);
     }
 
+    createForm(items: SettingsBaseItem[]): FormGroup {
+        const form = new FormGroup({});
+        this.modelValues.forEach(value => {
+            const item: SettingsItem = this.getItemById(value.id, items);
+            if (item) {
+                const validators = this.getItemValidators(item);
+                try {
+                    form.addControl(item.name, new FormControl(item.value, validators));
+                }
+                catch (error) {
+                    console.error('Add form control error', error.message, item.name, validators);
+                }
+            }
+        });
+        return form;
+    }
+
+    initForm(): void {
+        // console.log('form', this.form.value);
+    }
+
+    getItemById(id: number, items: SettingsBaseItem[]): SettingsItem {
+        for (const item of items) {
+            if (!item.isGroup) {
+                const settingsItem = <SettingsItem>item;
+                if (settingsItem && settingsItem.id === id) {
+                    return settingsItem;
+                }
+            }
+            else {
+                const result = this.getItemById(id, (<SettingsGroupItem>item).children);
+                if (result) return result;
+            }
+        }
+
+        return null;
+    }
+
+    getItemValidators(item: SettingsItem): ValidatorFn[] {
+        const validators: ValidatorFn[] = [];
+
+        switch (item.type) {
+            case 'int':
+                this.validationHost.customMessages.push({
+                    key: item.name,
+                    error: 'pattern',
+                    message: this.translate.instant('Value may contain numbers only')
+                });
+                validators.push(Validators.pattern(numberRegExp));
+                break;
+            case 'string':
+                this.validationHost.customMessages.push({
+                    key: item.name,
+                    error: 'pattern',
+                    message: this.translate.instant('Value may contain letters and numbers only')
+                });
+                validators.push(Validators.pattern(simpleNameRegExp));
+                break;
+        }
+
+        if (item.name === 'BTC' || item.name === 'LTC' || item.name === 'ETH' || item.name === 'ETC') {
+            this.validationHost.customMessages.push({
+                key: item.name,
+                error: 'walletAddress',
+                message: this.translate.instant(`Please enter valid ${item.name} wallet address`)
+            });
+            validators.push(walletAddressValidator(item.name));
+        }
+
+        return validators;
+    }
+
     // -- event handlers ------------------------------------------------------
 
     onValueChange(item: SettingsItem): void {
+        const selectedKey: any = Object.keys(this.form.value).find(fv => fv === item.name);
+        if (selectedKey) {
+            item.value = this.form.value[selectedKey];
+        }
+
         const original = this.modelValues.find(v => v.id === item.id);
         if (!original || original.value !== item.value) {
             const change = this.changes.find(c => c.id === item.id);
-            if (change) change.value = item.value;
-            else this.changes.push(new SettingsOptionItem(item.id, item.value));
+            if (change) {
+                change.value = item.value;
+            }
+            else {
+                this.changes.push(new SettingsOptionItem(item.id, item.value));
+            }
         }
         else {
             this.changes = this.changes.filter(c => c.id !== item.id);
         }
 
         this.checkItemQRCode(item);
+    }
+
+    save(): void {
+        if (this.validateForms()) {
+            this.saveSettings();
+        }
+        else {
+            this.scrollToFirstError();
+        }
     }
 
     cancel(): void {
@@ -92,7 +184,6 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
     }
 
     saveModelState(items: SettingsBaseItem[]): void {
-        this.modelValues = [];
         items.forEach(i => {
             if (!i.isGroup) {
                 const settingsItem = <SettingsItem>i;
@@ -131,22 +222,29 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
     getInitialParams(): void {
         this.locker.lock();
 
-        this.service.getSettingsParams(this.path).then(response => {
-            this.model = SettingsModel.create(response.settings);
-            this.saveModelState(this.model.items);
-        }).catch(() => {
-        })
+        this.service.getSettingsParams(this.path)
+            .then(response => {
+                const model = SettingsModel.create(response.settings);
+                this.modelValues = [];
+                this.saveModelState(model.items);
+
+                this.form = this.createForm(model.items);
+                this.model = model;
+                super.ngOnInit();
+            })
+            .catch(() => {})
             .then(() => this.locker.unlock());
     }
 
     getQR(): void {
-        this.service.getQRCode().then(response => {
-            this.qrCode = response.qrImage;
-        }).catch(() => {
-        });
+        this.service.getQRCode()
+            .then(response => {
+                this.qrCode = response.qrImage;
+            })
+            .catch(() => {});
     }
 
-    saveSettings() {
+    saveSettings(): void {
         if (this.changes.length === 0) {
             this.message.writeSuccess(this.translate.instant('The data has been saved'));
             return;
@@ -154,12 +252,15 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
 
         this.saveButton.loading = true;
 
-        this.service.saveSettings(this.changes, this.path, false).then(response => {
-            this.message.writeSuccess(this.translate.instant(response.message));
-            this.changes = [];
-            this.saveModelState(this.model.items);
-        }).catch(() => {
-        })
+        this.service.saveSettings(this.changes, this.path, false)
+            .then(response => {
+                this.message.writeSuccess(this.translate.instant(response.message));
+                this.changes = [];
+                this.modelValues = [];
+                this.saveModelState(this.model.items);
+                this.saveFormState();
+            })
+            .catch(() => {})
             .then(() => this.saveButton.loading = false);
     }
 }

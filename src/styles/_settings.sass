@@ -310,3 +310,21 @@ password-recovery
             font-size: 18px !important
             line-height: 24px !important
             color: $dark_white !important
+
+authorization-component,
+    base-settings-component
+        pbx-settings-group
+            .settings_form_field_group
+                .pbx_input_item_label
+                    span
+                        &:hover
+                            color: rgba($dark_white, .7) !important
+
+.light_theme
+    base-settings-component
+        pbx-settings-group
+            .settings_form_field_group
+                .pbx_input_item_label
+                    span
+                        &:hover
+                            color: rgba($white_black, .7) !important

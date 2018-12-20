@@ -1,4 +1,6 @@
 import {FormGroup, FormArray, ValidatorFn, AbstractControl} from '@angular/forms';
+import * as WAValidator from 'wallet-address-validator';
+
 
 export function redirectToExtensionValidator(control: FormGroup): { [key: string]: any } | null {
     // ...[1-101][2-nnn][1-101][1-101][1-102][1-102] => [3, 5]
@@ -73,4 +75,15 @@ export function companyCountryValidator(control: FormGroup): { [key: string]: an
         return { 'required': true };
     }
     return null;
+}
+
+export function walletAddressValidator(currencyCode: string): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        if (!control.value) return null;
+        
+        const valid: boolean = WAValidator.validate(control.value, currencyCode);
+        return valid
+            ? null
+            : { 'walletAddress': { value: control.value } };
+    };
 }

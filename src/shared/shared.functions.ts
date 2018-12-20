@@ -6,13 +6,16 @@ import { plainToClass } from 'class-transformer';
 import { CountryModel } from '@models/country.model';
 import { CurrencyModel } from '@models/currency.model';
 import { environment } from '@env/environment';
-import { numberRegExp } from './vars';
+import { numberRegExp, optionNameRegExp } from './vars';
 import * as moment from 'moment';
+
 
 const formatDateUser = 'MMM D, YYYY';
 const formatDateTimeUser = 'MMM D, YYYY HH:mm:ss';
 const formatDateServer = 'YYYY-MM-DD HH:mm:ss.s';
 const formatDateServer2 = 'YYYY-MM-DD HH:mm:ss';
+
+const MAX_OPTION_NAME_LENGTH = 10;
 
 export function getCountryById(id: number): CountryModel {
     const list: CountryModel[] = plainToClass(
@@ -43,7 +46,7 @@ export function stringToDate(value) {
 
 // export function validateForm(form: FormGroup): void {
 //     form.updateValueAndValidity();
-//     this.validateFormControls(form);
+//     validateFormControls(form);
 // }
 
 export function validateForm(form: FormGroup): void {
@@ -241,4 +244,15 @@ export function getErrorMessageFromServer(err) {
         return result;
     }
     return '';
+}
+
+export function cutOptionName(name: string): string[] {
+    const matches = optionNameRegExp.exec(name);
+    
+    let cutName: string = matches[1];
+    if (cutName.length > MAX_OPTION_NAME_LENGTH) {
+        cutName = cutName.substr(0, MAX_OPTION_NAME_LENGTH) + '...';
+    }
+    
+    return [ cutName, matches[2] ];
 }
