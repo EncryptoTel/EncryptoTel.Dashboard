@@ -14,7 +14,7 @@
         <div class="player-oreo"></div>
     </div>
 </div>
-<div class="player--play-pause" (click)="togglePlay()" *ngIf="item.record.playable && !item.record.mediaLoading">
+<div class="player--play-pause" (click)="togglePlay($event)" *ngIf="item.record.playable && !item.record.mediaLoading">
     <svg-icon src="../../assets/icons/play_24px.svg" class="details-table-cols-button" *ngIf="!item.record.playing"></svg-icon>
     <svg-icon src="../../assets/icons/pause_24px.svg" class="details-table-cols-button" *ngIf="item.record.playing"></svg-icon>
 </div>
