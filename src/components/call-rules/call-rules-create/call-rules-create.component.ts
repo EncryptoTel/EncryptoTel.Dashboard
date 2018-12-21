@@ -310,6 +310,13 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         }
     }
 
+    getAvailableAction() {
+        if (this.selectedNumber.providerId === 1) {
+            return this.actionsList.filter(x => x.id !== 2);
+        }
+        return this.actionsList;
+    }
+
     updateTimeRulesFormData(action: any, index: number): void {
         const timeRules = action.timeRules.split('|');
         this.actionsControls.get([index, 'callRuleTime']).setValue(timeRules[1]);

@@ -64,6 +64,7 @@
                             (onSelect)="selectItem($event)"
                             [errors]="inErrorState"
                             [placeholder]="placeholder"
+                            [cutLongNames]="cutLongNames"
                             (onFocus)="setFocus()"
                             (onBlur)="removeFocus()"
                             (mouseenter)="mouseEnter()"
@@ -80,12 +81,13 @@
                                      [errors]="inErrorState"
                                      [placeholder]="placeholder"
                                      [searchStartWith] = "searchStartWith"
+                                     [cutLongNames]="cutLongNames"
                                      (onFocus)="setFocus()"
                                      (onBlur)="removeFocus()"
                                      (mouseenter)="mouseEnter()"
                                      (mouseleave)="mouseLeave()"
                                      >
-                         </pbx-editable-select>
+                </pbx-editable-select>
 
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
@@ -154,6 +156,7 @@
                             (onSelect)="selectItem($event)"
                             [errors]="inErrorState"
                             [placeholder]="placeholder"
+                            [cutLongNames]="cutLongNames"
                             (onFocus)="setFocus()"
                             (onBlur)="removeFocus()"
                             (mouseenter)="mouseEnter()"
@@ -169,8 +172,9 @@
                             (onSelect)="selectItem($event)"
                             [errors]="inErrorState"
                             [placeholder]="placeholder"
-                            (onFocus)="setFocus()"
                             [searchStartWith] = "searchStartWith"
+                            [cutLongNames]="cutLongNames"
+                            (onFocus)="setFocus()"
                             (onBlur)="removeFocus()"
                             (mouseenter)="mouseEnter()"
                             (mouseleave)="mouseLeave()"

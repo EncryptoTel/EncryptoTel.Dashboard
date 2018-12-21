@@ -76,8 +76,13 @@ pbx-dashboard
                 text-decoration: underline
     .dashboard_history_body
         display: grid !important
-        flex: 1
+        flex: auto
+        position: relative
         .empty-data
+            position: absolute
+            top: 50%
+            left: 50%
+            transform: translate(-50%, -50%)
             margin: auto
 
 @media screen and (max-width: 1789px)

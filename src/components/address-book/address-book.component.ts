@@ -16,7 +16,7 @@ import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 import {MessageServices} from '@services/message.services';
 import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
 import {AnimationComponent} from '@shared/shared.functions';
-import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp} from '@shared/vars';
+import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp, callRuleNameRegExp} from '@shared/vars';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import {TariffStateService} from '@services/state/tariff.state.service';
 import {ScrollEvent} from '@shared/scroll.directive';
@@ -95,7 +95,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.sidebar.hideEmpty = true;
         this.itemsCache = [];
 
-        this.validationHost.customMessages = [
+        this.validationHost.customMessages = this.validationHost.customMessages = [
+            { key: 'address', error: 'pattern', message: this.translate
+                    .instant('Address contains invalid characters or symbols. You can only use letters, numbers and the following characters: -_') },
             { key: 'contactPhone.*.value', error: 'pattern', message: this.translate.instant('Phone number contains invalid characters. You can only use numbers and #') },
             { key: 'contactEmail.*.value', error: 'pattern', message: this.translate.instant('Please enter a valid email address') },
         ];
@@ -132,7 +134,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.selected.contactEmail.forEach(item => {
             if (item.value) emails.push(item.value);
         });
-        this.sidebar.items.push(new SidebarInfoItem(7, emails.length > 1 ? 'Email' : 'Email', emails));
+        this.sidebar.items.push(new SidebarInfoItem(7, emails.length > 1 ? this.translate.instant('Email') : this.translate.instant('Email'), emails));
 
         this.sidebar.items.push(new SidebarInfoItem(8, this.translate.instant('Company Name'), this.selected.company));
         this.sidebar.items.push(new SidebarInfoItem(9, this.translate.instant('contactDepartment'), this.selected.department));
@@ -164,14 +166,14 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         this.form = this.fb.group({
             id: [null],
-            firstname: [null, [Validators.required, Validators.pattern(nameRegExp)]],
-            lastname: [null, [Validators.pattern(nameRegExp)]],
+            firstname: [null, [Validators.required, Validators.pattern(nameRegExp), Validators.maxLength(190)]],
+            lastname: [null, [Validators.pattern(nameRegExp), Validators.maxLength(190)]],
             contactPhone: this.fb.array([]),
             contactEmail: this.fb.array([]),
-            company: [null, [Validators.pattern(nameRegExp)]],
-            department: [null, [Validators.pattern(nameRegExp)]],
-            position: [null],
-            address: [null],
+            company: [null, [Validators.pattern(nameRegExp), Validators.maxLength(190)]],
+            department: [null, [Validators.pattern(nameRegExp), Validators.maxLength(190)]],
+            position: [null, [Validators.maxLength(190)]],
+            address: [null, [Validators.pattern(callRuleNameRegExp), Validators.maxLength(190)]],
             country: this.fb.group({
                 code: [null],
                 id: [null],
@@ -399,7 +401,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.message.writeSuccess(this.selected.blacklist ? this.translate.instant('Contact unblocked successfully') : this.translate.instant('Contact blocked successfully'));
             this.selected.loading--;
             this.closePage(true);
-        }).catch(() => {
+        }).catch((res) => {
+            this.message.writeError(this.translate.instant(res.message));
         }).then(() => {
             if (this.selected !== null && this.selected.loading !== undefined) {
                 this.selected.loading--;

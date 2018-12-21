@@ -30,4 +30,4 @@ export const callRuleNameRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-
 // Address book
 export const addressPhoneRegExp = new RegExp(/^[\d#]{6,16}$/m);
 
-export const optionNameRegExp = new RegExp(/^(.*?)\s*(\(\d+\))?$/);
+export const optionNameRegExp = new RegExp(/^(.*?)\s*(\(\+?\d+\))?$/);

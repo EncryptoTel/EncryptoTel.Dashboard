@@ -80,6 +80,9 @@ export class ListComponent implements OnInit {
     startDate: string;
     endDate: string;
 
+    nothingFoundText: string;
+    noDataToDisplayText: string;
+
     // -- properties ----------------------------------------------------------
 
     get sidebarVisible(): boolean {
@@ -134,6 +137,9 @@ export class ListComponent implements OnInit {
             });
         }
 
+        this.nothingFoundText = this.translate.instant('Nothing found');
+        this.noDataToDisplayText = this.translate.instant('No data to display');
+
         this.getItems();
 
         this.pbxListEmptyText_1 = '';
@@ -148,6 +154,8 @@ export class ListComponent implements OnInit {
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
             this.pbxListEmptyText_2 = this.translate.instant(this.pbxListEmptyText_2);
+            this.nothingFoundText = this.translate.instant('Nothing found');
+            this.noDataToDisplayText = this.translate.instant('No data to display');
         });
     }
 
