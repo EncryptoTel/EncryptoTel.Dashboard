@@ -27,6 +27,7 @@ export class CallRulesItem extends BaseItemModel {
 
 export class SipItem extends BaseItemModel {
     phoneNumber: string;
+    providerId: Number;
 }
 
 export class RuleActionItem extends BaseItemModel {
