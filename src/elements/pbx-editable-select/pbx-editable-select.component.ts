@@ -13,7 +13,7 @@ import {
 
 import { SwipeAnimation } from '@shared/swipe-animation';
 import { SelectService } from '@services/state/select.service';
-import {cutOptionName} from '@shared/shared.functions';
+import {updateOptionNames} from '@shared/shared.functions';
 
 
 @Component({
@@ -43,6 +43,9 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     _options: any[];
 
     @Input() objectKey: string;
+    @Input() objectCount: string = 'optCount';
+    @Input() showCount: boolean = false;
+
     @Input() 
         set selected(value: any) {
             if (this._options && Number(value)) {
@@ -60,7 +63,6 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     _selected: any;
     @Input() errors: any[];
     @Input() searchStartWith: boolean = false;
-    @Input() cutLongNames: boolean = true;
 
     @Output() onSelect: EventEmitter<object>;
     @Output() onOpen: EventEmitter<object>;
@@ -100,17 +102,12 @@ export class EditableSelectComponent implements OnInit, OnChanges {
             this.filteredSelectedItem = changes.selected.currentValue;
         }
         if (changes.options && changes.options.currentValue) {
-            if (this.cutLongNames) {
-                const isOptionSipDepartmentItem: boolean = 
-                    this._options && this._options[0].hasOwnProperty('sipCount');
-                this._options.forEach(opt => {
-                    const [ name, count ] = cutOptionName(opt[this.objectKey]);
-                    if (isOptionSipDepartmentItem || !count) opt['name'] = name;
-                    else opt[this.objectKey] = `${name} ${count}`;
-                    // console.log('opt', opt[this.objectKey], ' > ', `${name} ${count}`);
-                });
-            }
+            updateOptionNames(this._options, this.objectKey, this.objectCount, this.showCount);
         }
+    }
+
+    optionHasCount(option: any): boolean {
+        return this.showCount || (option && !isNaN(option[this.objectCount]));
     }
 
     // -- placeholder functions ---------------------------

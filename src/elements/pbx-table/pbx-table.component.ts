@@ -129,7 +129,9 @@ export class TableComponent implements OnInit, OnDestroy {
                 }
                 this.modal.body = body;
             }
-            this.modal.title = this.translate.instant(this.modal.title);
+            if (this.modal.title.length > 0) {
+                this.modal.title = this.translate.instant(this.modal.title);
+            }
             this.modal.body = this.translate.instant(this.modal.body);
             this.modal.buttons.forEach(button => {
                 button.value = this.translate.instant(button.value);

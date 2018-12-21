@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
-import {BaseService} from "./base.service";
-import {PageInfoModel} from "../models/base.model";
-import {ExtensionItem, ExtensionModel, SipDepartmentItem} from "../models/extension.model";
-import {plainToClass} from "class-transformer";
+import {plainToClass} from 'class-transformer';
+
+import {BaseService} from '@services/base.service';
+import {PageInfoModel} from '@models/base.model';
+import {ExtensionItem, ExtensionModel, SipDepartmentItem} from '@models/extension.model';
+
 
 @Injectable()
 export class ExtensionService extends BaseService {
@@ -27,12 +29,6 @@ export class ExtensionService extends BaseService {
         return this.request.post(`v1/sip/inners/access/${id}`, {access: data});
     }
 
-
-
-
-
-
-
     create(data): Promise<any> {
         return this.post('', data);
     }
@@ -42,7 +38,7 @@ export class ExtensionService extends BaseService {
     }
 
     getItems(pageInfo: PageInfoModel, filter): Promise<ExtensionModel> {
-        //filter['departmentFilter'] = true; // добавляется в исходный, а нам это не нужно
+        // filter['departmentFilter'] = true; // добавляется в исходный, а нам это не нужно
         let newFilter: any;
         newFilter = [];
         if (filter) {
@@ -55,21 +51,22 @@ export class ExtensionService extends BaseService {
             }
         }
         newFilter['departmentFilter'] = true;
-        return super.getItems(pageInfo, newFilter).then((res: ExtensionModel) => {
-            let pageInfo = plainToClass(ExtensionModel, res);
-            pageInfo.items = [];
-            res['items'].map(item => {
-                pageInfo.items.push(plainToClass(ExtensionItem, item));
-            });
-            pageInfo.departmentFilter = [];
-            let dep = new SipDepartmentItem(0, 'All', pageInfo.itemsCount);
-            pageInfo.departmentFilter.push(dep);
-            res['departmentFilter'].map(item => {
-                pageInfo.departmentFilter.push(plainToClass(SipDepartmentItem, item));
-            });
+        return super.getItems(pageInfo, newFilter)
+            .then((response: ExtensionModel) => {
+                const curPageInfo = plainToClass(ExtensionModel, response);
+                curPageInfo.items = [];
+                response['items'].map(item => {
+                    curPageInfo.items.push(plainToClass(ExtensionItem, item));
+                });
+                curPageInfo.departmentFilter = [];
+                const dep = new SipDepartmentItem(0, 'All', curPageInfo.itemsCount);
+                curPageInfo.departmentFilter.push(dep);
+                response['departmentFilter'].map(item => {
+                    curPageInfo.departmentFilter.push(plainToClass(SipDepartmentItem, item));
+                });
 
-            return Promise.resolve(pageInfo);
-        });
+                return Promise.resolve(curPageInfo);
+            });
     }
 
     onInit() {

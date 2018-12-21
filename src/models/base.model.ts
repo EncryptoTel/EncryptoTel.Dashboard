@@ -251,6 +251,8 @@ export class FilterItem {
     name: string;
     options: any[];
     optionsDisplayKey: string;
+    optionsCountKey: string;
+    optionsShowCount: boolean = false;
     placeHolder: string;
     width: number;
     hidden: boolean;
@@ -277,6 +279,14 @@ export class FilterItem {
         this.max = max;
         this.focus = focus;
         this.value = value;
+    }
+
+    static createSelectItem(id?: number, key?: string, name?: string, options?: any[], optionsDisplayKey?: string, placeHolder?: string, optionsShowCount?: boolean, optionsCountKey?: string,
+                            width?: number, hidden?: boolean, inputCenter?: boolean, minMaxText?: string, min?: string, max?: string, focus?: boolean, value?: string) {
+        const instance = new FilterItem(id, key, name, options, optionsDisplayKey, placeHolder, width, hidden, inputCenter, minMaxText, min, max, focus, value);
+        instance.optionsShowCount = optionsShowCount || false;
+        instance.optionsCountKey = optionsCountKey;
+        return instance;
     }
 }
 
