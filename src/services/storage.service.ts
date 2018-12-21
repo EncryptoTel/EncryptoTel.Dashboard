@@ -259,6 +259,10 @@ export class StorageService extends BaseService {
                 this.pageInfo.items.forEach((item: StorageItem) => {
                     item.record.playable = this.isRecordPlayable(item);
                     item.record.duration = item.duration;
+                    if (item.callDetail) {
+                        item.from = item.callDetail.source;
+                        item.to = item.callDetail.destination;
+                    }
                 });
                 this.updateLoading(-1);
                 return Promise.resolve(this.pageInfo);

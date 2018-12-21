@@ -357,21 +357,32 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         if (!loading) {
             this.onMediaDataLoaded();
             if (this.service.successCount) {
-                let messageText: string;
+                let messageText: string = '';
+                let action: string = '';
                 if (this.isFilterTrashSelected) {
                     if (this.buttonType === 0) {
-                        messageText = this.service.successCount > 1
-                            ? `${this.service.successCount} files have been successfully ${deleting ? 'restored' : 'uploaded'}.`
-                            : `${this.service.successCount} file has been successfully ${deleting ? 'restored' : 'uploaded'}.`;
+                        action = deleting ? this.translate.instant('restored') : this.translate.instant('uploaded');
+                        if (this.service.successCount > 1) {
+                            messageText = this.translate.instant('files have been successfully') + ' ' + action + '.';
+                        } else {
+                            messageText = this.translate.instant('file has been successfully') + ' ' + action + '.';
+                        }
                     } else {
-                        messageText = this.service.successCount > 1
-                            ? `${this.service.successCount} files have been successfully ${deleting ? 'deleted' : 'uploaded'}.`
-                            : `${this.service.successCount} file has been successfully ${deleting ? 'deleted' : 'uploaded'}.`;
+                        action = deleting ? this.translate.instant('delete') : this.translate.instant('uploaded');
+                        if (this.service.successCount > 1) {
+                            messageText = this.translate.instant('files have been successfully') + ' ' + action + '.';
+                        } else {
+                            messageText = this.translate.instant('file has been successfully') + ' ' + action + '.';
+                        }
                     }
                 } else {
-                    messageText = this.service.successCount > 1
-                        ? `${this.service.successCount} files have been successfully ${deleting ? 'trashed' : 'uploaded'}.`
-                        : `${this.service.successCount} file has been successfully ${deleting ? 'trashed' : 'uploaded'}.`;
+                    if (this.service.successCount > 1) {
+                        action = deleting ? this.translate.instant('trasheds') : this.translate.instant('uploaded');
+                        messageText = this.translate.instant('files have been successfully') + ' ' + action + '.';
+                    } else {
+                        action = deleting ? this.translate.instant('trashed') : this.translate.instant('uploaded');
+                        messageText = this.translate.instant('file has been successfully') + ' ' + action + '.';
+                    }
                 }
                 this._message.writeSuccess(messageText);
             }
@@ -477,12 +488,13 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     confirmDeletion(): void {
+        this.modal.title = this.translate.instant(this.modal.title);
         if (this.buttonType === 1) {
             this.modal = new ModalEx('', 'deleteFiles');
             if (this.service.select.length === 1) {
                 let item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
                 item = this.getShortName(item);
-                this.modal.body = 'Are you sure you want to delete <span>' + item.fileName + '</span> file?';
+                this.modal.body = this.translate.instant('Are you sure you want to delete') + '<span>' + item.fileName + '</span> ' + this.translate.instant('file?');
             }
             this.modal.visible = true;
         }
@@ -494,15 +506,17 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             if (this.service.select.length === 1) {
                 let item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
                 item = this.getShortName(item);
-                this.modal.body = 'Permanently delete ' + item.fileName + ' file?';
+                this.modal.body = this.translate.instant('Permanently delete') + '&nbsp;' + item.fileName + '&nbsp;' + this.translate.instant('file?');
             }
             else if (this.service.select.length > 0) {
-                this.modal.body = 'Permanently delete ' + this.service.select.length + ' file(s)?';
+                this.modal.body = 'Permanently delete' + '&nbsp;' +  this.service.select.length + '&nbsp;' + 'file(s)?';
             }
             this.modal.visible = true;
         }
         else {
             this.modal = new ModalEx('', 'restoreFiles');
+            this.modal.title = this.translate.instant(this.modal.title);
+            this.modal.body = this.translate.instant(this.modal.body);
             this.modal.visible = true;
         }
     }
