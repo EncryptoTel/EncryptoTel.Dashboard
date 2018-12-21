@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { TableComponent } from '../pbx-table/pbx-table.component';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { getDateRange, dateToServerFormat } from '@shared/shared.functions';
+import {InvoiceService} from '@services/invoice.service';
 
 @Component({
     selector: 'pbx-list',
@@ -111,8 +112,12 @@ export class ListComponent implements OnInit {
     }
 
     get isNoData(): boolean {
-        const isLoading: boolean = !!this.loading || !!this.loadingEx;
-        return this.showEmptyInfo && !isLoading && this.listDataEmpty;
+        if (this.service instanceof InvoiceService) {
+            return false;
+        } else {
+            const isLoading: boolean = !!this.loading || !!this.loadingEx;
+            return this.showEmptyInfo && !isLoading && this.listDataEmpty;
+        }
     }
 
     get isPaginationVisible(): boolean {
