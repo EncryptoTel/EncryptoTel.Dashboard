@@ -74,7 +74,7 @@
                        [form]="true"
                        [formKey]="getActionFormKey(0)"
                        [(object)]="callRulesForm"
-                       [options]="actionsList"
+                       [options]="getAvailableAction()"
                        displayKey="code"
                        [editable]="true"
                        [(errors)]="service.errors"
