@@ -32,10 +32,10 @@ export class InvoicesComponent implements OnInit {
         this.dateFormat = this.storage.readItem('dateTimeFormat');
         this.table.sort.isDown = true;
         this.table.sort.column = 'date';
-        this.table.items.push(new TableInfoItem(this.translate.instant('Invoice Number'), 'number'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Invoice Type'), 'type'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Invoice Number'), 'number', 'number'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Invoice Type'), 'type', 'type'));
         this.table.items.push(new TableInfoItem(this.translate.instant('Transaction Date'), 'displayDateTime', 'date'));
-        const statusColumn = new TableInfoItem(this.translate.instant('Status'), 'status');
+        const statusColumn = new TableInfoItem(this.translate.instant('Status'), 'status', 'status');
         statusColumn.specialFormatting = [{
             pattern: '/waiting for payment/i',
             cssClass: 'waiting-status'
