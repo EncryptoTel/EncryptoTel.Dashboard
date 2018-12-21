@@ -98,6 +98,7 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
     @Input() hVMessageOffset: number;
     @Input() vVMessageOffset: number;
     @Input() showLabel: boolean = true;
+    @Input() cutLongNames: boolean = true;
 
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onToggle: EventEmitter<boolean> = new EventEmitter();

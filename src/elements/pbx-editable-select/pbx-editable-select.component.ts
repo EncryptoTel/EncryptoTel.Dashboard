@@ -13,6 +13,7 @@ import {
 
 import { SwipeAnimation } from '@shared/swipe-animation';
 import { SelectService } from '@services/state/select.service';
+import {cutOptionName} from '@shared/shared.functions';
 
 
 @Component({
@@ -43,14 +44,15 @@ export class EditableSelectComponent implements OnInit, OnChanges {
 
     @Input() objectKey: string;
     @Input() 
-        set selected(val:any){
-            if(this._options && Number(val)) {
-                const opt = this._options.find((x)=>x.id===+val)
-                if(opt) {
-                    this._selected = opt;
+        set selected(value: any) {
+            if (this._options && Number(value)) {
+                const option = this._options.find(o => o.id === +value);
+                if (option) {
+                    this._selected = option;
                 }
-            } else {
-                this._selected = val;
+            }
+            else {
+                this._selected = value;
             }
             
         } // read selectedItem
@@ -58,6 +60,8 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     _selected: any;
     @Input() errors: any[];
     @Input() searchStartWith: boolean = false;
+    @Input() cutLongNames: boolean = true;
+
     @Output() onSelect: EventEmitter<object>;
     @Output() onOpen: EventEmitter<object>;
     @Output() onClose: EventEmitter<object>;
@@ -95,6 +99,18 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         if (changes.selected && changes.selected.currentValue) {
             this.filteredSelectedItem = changes.selected.currentValue;
         }
+        if (changes.options && changes.options.currentValue) {
+            if (this.cutLongNames) {
+                const isOptionSipDepartmentItem: boolean = 
+                    this._options && this._options[0].hasOwnProperty('sipCount');
+                this._options.forEach(opt => {
+                    const [ name, count ] = cutOptionName(opt[this.objectKey]);
+                    if (isOptionSipDepartmentItem || !count) opt['name'] = name;
+                    else opt[this.objectKey] = `${name} ${count}`;
+                    // console.log('opt', opt[this.objectKey], ' > ', `${name} ${count}`);
+                });
+            }
+        }
     }
 
     // -- placeholder functions ---------------------------
@@ -124,8 +140,8 @@ export class EditableSelectComponent implements OnInit, OnChanges {
         if (Number.isInteger(item)) {
             return item === this.filteredSelectedItem;
         }
-        if(Number(this.filteredSelectedItem)) {
-            return item.id === +this.filteredSelectedItem
+        if (Number(this.filteredSelectedItem)) {
+            return item.id === +this.filteredSelectedItem;
         }
         return (
             item &&

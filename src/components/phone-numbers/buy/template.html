@@ -1,72 +1,95 @@
-<pbx-modal
-    [modalEx]="modal"
-    (onConfirmEx)="modalConfirm()"
-></pbx-modal>
+<pbx-modal [modalEx]="modal"
+           (onConfirmEx)="modalConfirm()"
+           >
+</pbx-modal>
 
 <div class="buy_phone_grid">
     <div class="buy_phone_header">
         <div class="buy_phone_header_block">
-            <div class="buy_phone_header_block_key" translate>Select country:</div>
-            <pbx-editable-select [options]="countries"
-                                 [objectKey]="'title'"
-                                 [searchStartWith]="true"
-                                 (onSelect)="selectCountry($event)"
-                                 [selected]="selectedCountry">
-            </pbx-editable-select>
-            <div class="buy_phone_header_block_key" translate>Search:</div>
 
-            <div class="input_wr">
-                <input class="searching" type="text" placeholder="{{'Type city prefix' | translate}}" name="search-by-city-prefix"
-                       (keyup)="searchInit()"
-                       [(ngModel)]="requestDetails.areaCode">
-                <div class="clear_icon clear_icon_search" (click)="clearAreaCode()" *ngIf="clearSearchVisible">
-                    <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
-                </div>
-            </div> <!-- input_wr -->
+            <pbx-input name="{{ 'Select country' | translate }}:"
+                       displayKey="title"
+                       [options]="countries"
+                       [objectView]="selectedCountry"
+                       [searchStartWith]="true"
+                       [editable]="true"
+                       [singleBorder]="false"
+                       [cutLongNames]="false"
+                       (onSelect)="selectCountry($event)"
+                       >
+            </pbx-input>
 
-
+            <pbx-input class="searching"
+                       placeholder="{{ 'Type city prefix' | translate }}"
+                       name="{{ 'Search' | translate }}:"
+                       key="areaCode"
+                       [object]="requestDetails"
+                       [singleBorder]="false"
+                       [resetable]="true"
+                       (onKeyUp)="searchInit()"
+                       >
+            </pbx-input>
         </div>
+
         <div class="buy_phone_header_block">
-            <div class="buy_phone_header_block_key" translate>Number:</div>
+            
+            <pbx-input class="searching"
+                       #myNumberOnly
+                       placeholder="{{ 'Search by digits' | translate }}"
+                       name="{{ 'Number' | translate }}:"
+                       key="contains"
+                       [object]="requestDetails"
+                       [singleBorder]="false"
+                       [resetable]="true"
+                       (onKeyUp)="searchInit()"
+                       >
+            </pbx-input>
 
-            <div class="input_wr">
-                <input class="searching" #myNumberOnly type="text" name="search-by-digits"
-                       placeholder="{{'Search by digits' | translate}}" (keyup)="searchInit()"
-                       [(ngModel)]="requestDetails.contains">
-                <div class="clear_icon clear_icon_number" (click)="clearContains()" *ngIf="clearNumberVisible">
-                    <svg-icon src="../../assets/icons/_middle/cancel_delete_12px.svg"></svg-icon>
-                </div>
-            </div> <!-- input_wr -->
-
-            <div class="buy_phone_header_block_key" translate>Match to:</div>
-            <pbx-select [options]="matches"
-                        [objectKey]="'title'"
-                        [selected]="matches[0]"
-                        [cutLongNames]="false"
-                        >
-            </pbx-select>
+            <pbx-input name="{{ 'Match to' | translate }}:"
+                       displayKey="title"
+                       [options]="matches"
+                       [objectView]="matches[0]"
+                       [searchStartWith]="true"
+                       [singleBorder]="false"
+                       [cutLongNames]="false"
+                       >
+            </pbx-input>
         </div>
+
         <div class="buy_phone_header_options">
             <div class="buy_phone_header_options_title" translate>Number types:</div>
 
-            <pbx-checkbox [value]="requestDetails.local"
-                          (onToggle)="requestDetails.local = $event; getList()"></pbx-checkbox>
-            <div (click)="checkboxClick('local')" translate>Local</div>
+            <pbx-input name="{{ 'Local' | translate }}"
+                       key="local"
+                       [checkbox]="true"
+                       [object]="requestDetails"
+                       (onToggle)="getList()"
+                       >
+            </pbx-input>
 
-            <pbx-checkbox [value]="requestDetails.mobile"
-                          (onToggle)="requestDetails.mobile = $event; getList()"></pbx-checkbox>
-            <div (click)="checkboxClick('mobile')" translate>Mobile</div>
+            <pbx-input name="{{ 'Mobile' | translate }}"
+                       key="mobile"
+                       [checkbox]="true"
+                       [object]="requestDetails"
+                       (onToggle)="getList()"
+                       >
+            </pbx-input>
 
-            <pbx-checkbox [value]="requestDetails.tollFree"
-                          (onToggle)="requestDetails.tollFree = $event; getList()"></pbx-checkbox>
-            <div (click)="checkboxClick('tollFree')" translate>Toll-free</div>
-
+            <pbx-input name="{{ 'Toll-free' | translate }}"
+                       key="tollFree"
+                       [checkbox]="true"
+                       [object]="requestDetails"
+                       (onToggle)="getList()"
+                       >
+            </pbx-input>
         </div>
         <div class="buy_phone_header_refresh" (click)="getList()" translate>Refresh phone lists
             <svg-icon class="buy_phone_header_refresh_icon" src="../../assets/icons/refresh.svg"></svg-icon>
         </div>
     </div>
+
     <pbx-loader *ngIf="loading"></pbx-loader>
+    
     <div class="buy_phone_table_contain" *ngIf="!loading && list[0].length > 0">
         <div class="buy_phone_table_title">
             <div class="buy_phone_table_item" *ngFor="let item of title">{{item}}</div>

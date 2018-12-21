@@ -6,14 +6,16 @@ import {
     ViewChild,
     DoCheck
 } from '@angular/core';
-import { PhoneNumberService } from '../../../services/phone-number.service';
-import { CountryModel } from '../../../models/country.model';
-import { RefsServices } from '../../../services/refs.services';
-import { ModalEx, ModalButton } from '../../../elements/pbx-modal/pbx-modal.component';
-import { MessageServices } from '@services/message.services';
-import { TranslateService } from '@ngx-translate/core';
-import { UserServices } from '@services/user.services';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+
+import { RefsServices } from '@services/refs.services';
+import { PhoneNumberService } from '@services/phone-number.service';
+import { MessageServices } from '@services/message.services';
+import { UserServices } from '@services/user.services';
+import { CountryModel } from '@models/country.model';
+import { ModalEx, ModalButton } from '@elements/pbx-modal/pbx-modal.component';
+
 
 @Component({
     selector: 'buy-phone-numbers-component',
@@ -43,7 +45,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
     selected;
     countries: CountryModel[] = [];
     selectedCountry: CountryModel;
-    matches = [{ id: 0, title: 'Any part of number' }];
+    matches: any[];
     title = [
         this.translate.instant('Number'),
         this.translate.instant('Location'),
@@ -51,47 +53,20 @@ export class BuyPhoneNumbersComponent implements OnInit {
         this.translate.instant('Monthly'),
         this.translate.instant('Buy')
     ];
-    clearNumberVisible: boolean;
-    clearSearchVisible: boolean;
 
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
 
-    @ViewChild('myNumberOnly') numberInput: ElementRef;
-
     @HostListener('window:keydown', ['$event'])
     keyEvent(event: KeyboardEvent) {
-        let specialKeys: Array<string>;
-        specialKeys = ['Backspace', 'Tab', 'End', 'Home'];
+        const specialKeys: string[] = ['Backspace', 'Tab', 'End', 'Home'];
         if (specialKeys.indexOf(event.key) !== -1) {
             return;
         }
-        if (
-            document.activeElement.getAttribute('name') === 'search-by-digits'
-        ) {
-            this.clearNumberVisible = true;
-        }
-        if (
-            document.activeElement.getAttribute('name') ===
-            'search-by-city-prefix'
-        ) {
-            this.clearSearchVisible = true;
-        }
-        let current: string;
-        current = this.numberInput.nativeElement.value;
 
-        if (
-            document.activeElement.getAttribute('name') ===
-            this.numberInput.nativeElement.name
-        ) {
-            let next: string;
-            next = current.concat(event.key);
-            if (
-                next &&
-                !String(next).match(new RegExp(/^-?[0-9]+(\.[0-9]*){0,1}$/g))
-            ) {
-                event.preventDefault();
-            }
+        const elementId: string = document.activeElement.getAttribute('id');
+        if (!+event.key && elementId && elementId.includes('contains')) {
+            event.preventDefault();
         }
     }
 
@@ -104,23 +79,9 @@ export class BuyPhoneNumbersComponent implements OnInit {
         private router: Router
     ) {
         this.pagination = { page: 1, total: 1 };
-        this.clearNumberVisible = false;
-        this.clearSearchVisible = false;
         this.matches = [
             { id: 0, title: this.translate.instant('Any part of number') }
         ];
-    }
-
-    clearAreaCode() {
-        this.requestDetails.areaCode = '';
-        this.clearSearchVisible = false;
-        this.getList();
-    }
-
-    clearContains() {
-        this.requestDetails.contains = '';
-        this.clearNumberVisible = false;
-        this.getList();
     }
 
     selectCountry(country: CountryModel) {
@@ -130,7 +91,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
     }
 
     getList(): void {
-        this.loading += 1;
+        this.loading ++;
         this._services
             .getAvailableNumbersList(this.requestDetails)
             .then(res => {
@@ -145,26 +106,11 @@ export class BuyPhoneNumbersComponent implements OnInit {
                     res['numbers'].slice(part1)
                 ];
                 this.pagination.total = 1;
-                this.loading -= 1;
+                this.loading --;
             });
     }
 
     searchInit() {
-        if (
-            document.activeElement.getAttribute('name') === 'search-by-digits'
-        ) {
-            if (this.requestDetails.contains === '') {
-                this.clearNumberVisible = false;
-            }
-        }
-        if (
-            document.activeElement.getAttribute('name') ===
-            'search-by-city-prefix'
-        ) {
-            if (this.requestDetails.areaCode === '') {
-                this.clearSearchVisible = false;
-            }
-        }
         if (this.searchTimeout) {
             clearTimeout(this.searchTimeout);
         }
@@ -201,7 +147,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
         }
     }
 
-    modalConfirm = (): void => {
+    modalConfirm(): void {
         this.selected.loading = true;
         let phoneNumber: any;
         phoneNumber = this.selected;
@@ -219,7 +165,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
             .catch(() => {
                 this.selected.loading = false;
             });
-    };
+    }
 
     private getCountries(): void {
         this.refs
@@ -247,9 +193,11 @@ export class BuyPhoneNumbersComponent implements OnInit {
     checkboxClick(type) {
         if (type === 'local') {
             this.requestDetails.local = !this.requestDetails.local;
-        } else if (type === 'mobile') {
+        }
+        else if (type === 'mobile') {
             this.requestDetails.mobile = !this.requestDetails.mobile;
-        } else if (type === 'tollFree') {
+        }
+        else if (type === 'tollFree') {
             this.requestDetails.tollFree = !this.requestDetails.tollFree;
         }
     }
