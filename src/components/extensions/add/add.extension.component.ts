@@ -98,7 +98,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             toAdmin: false,
             toUser: false,
             callRecord: false,
-            status: false
+            status: true
         });
 
         this.formExtension.valueChanges.subscribe(() => {
