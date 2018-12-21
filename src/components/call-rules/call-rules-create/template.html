@@ -259,19 +259,19 @@
                                 </div>
                             </pbx-input>
 
-                            <pbx-input name="{{'If I do not answer call within' | translate }}"
-                                       [description]="'seconds' | translate"
-                                       key="timeout"
-                                       [required]="true"
-                                       [form]="true"
-                                       [object]="action"
-                                       [(errors)]="service.errors"
-                                       [errorKey]="'ruleActions.new_' + i + '.timeout'"
-                                       [validationHost]="validationHost"
-                                       inputClass="time"
-                                       inputCenter="true"
-                            >
-                            </pbx-input>
+                            <!--<pbx-input name="{{'If I do not answer call within' | translate }}"-->
+                                       <!--[description]="'seconds' | translate"-->
+                                       <!--key="timeout"-->
+                                       <!--[required]="true"-->
+                                       <!--[form]="true"-->
+                                       <!--[object]="action"-->
+                                       <!--[(errors)]="service.errors"-->
+                                       <!--[errorKey]="'ruleActions.new_' + i + '.timeout'"-->
+                                       <!--[validationHost]="validationHost"-->
+                                       <!--inputClass="time"-->
+                                       <!--inputCenter="true"-->
+                            <!--&gt;-->
+                            <!--</pbx-input>-->
 
                             <call-rules-time-rules [action]="action"
                                                    [actionIndex]="i"

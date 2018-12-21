@@ -104,7 +104,17 @@ export class ExtensionsComponent implements OnInit {
     load() {
         this.sidebar = null;
         if (this.filters.length === 0) {
-            this.filters.push(new FilterItem(1, 'department', 'Department', this.list.pageInfo.departmentFilter, 'displayName', this.translate.instant('[choose one]')));
+            // this.filters.push(new FilterItem(1, 'department', 'Department', this.list.pageInfo.departmentFilter, 'name', this.translate.instant('[choose one]')));
+            const departmentsSelect = FilterItem.createSelectItem(
+                1,
+                'department',
+                'Department',
+                this.list.pageInfo.departmentFilter,
+                'name',
+                this.translate.instant('[choose one]'),
+                true,
+                'sipCount');
+            this.filters.push(departmentsSelect);
             this.filters.push(new FilterItem(2, 'search', 'Search', null, null, this.translate.instant('Search by Name or Phone')));
 
             this.list.header.selectedFilter[0] = this.list.pageInfo.departmentFilter[0];

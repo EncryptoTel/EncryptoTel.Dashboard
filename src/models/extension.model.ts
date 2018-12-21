@@ -73,13 +73,10 @@ export class SipDepartmentItem extends BaseItemModel {
 
     constructor(id?: number, name?: string, sipCount?: number) {
         super();
+        
         this.id = id;
         this.name = name;
         this.sipCount = sipCount;
-    }
-
-    get displayName(): string {
-        return `${this.name} (${this.sipCount})`;
     }
 }
 

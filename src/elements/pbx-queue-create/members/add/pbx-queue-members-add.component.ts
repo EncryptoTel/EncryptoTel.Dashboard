@@ -85,9 +85,16 @@ export class QueueMembersAddComponent implements OnInit {
     }
 
     initFilters(): void {
-        this.filters.push(new FilterItem(
-            1, 'department', 'Department', this.departments, 'name', this.departmentPlaceholderText
-        ));
+        const departmentsSelect = FilterItem.createSelectItem(
+            1,
+            'department',
+            'Department',
+            this.departments,
+            'name',
+            this.departmentPlaceholderText,
+            true,
+            'count');
+        this.filters.push(departmentsSelect);
         this.filters.push(new FilterItem(
             2, 'search', 'Search', null, null, this.searchPlaceholderText
         ));
@@ -161,7 +168,7 @@ export class QueueMembersAddComponent implements OnInit {
                             item.name = item.name + ' (' + item.employees + ')';
                         });
 
-                        const all = { 'name': this.translate.instant('All members') + ' (' + members.items.length + ')', 'id': 'all', 'count': 0 };
+                        const all = { 'name': this.translate.instant('All members'), 'id': 'all', 'count': members.items.length };
                         this.departments = [ all, ...response.items ];
                         this.currentFilter.department = this.departments[0];
                         this.initFilters();
