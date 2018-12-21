@@ -37,7 +37,6 @@ export class MediaTableComponent extends TableComponent implements OnInit, OnCha
     @Output() onGetMediaData: EventEmitter<any> = new EventEmitter<any>();
     @Output() onSelect: EventEmitter<any> = new EventEmitter<any>();
     @Output() onEdit: EventEmitter<any> = new EventEmitter<any>();
-    @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
     // - component level methdos --------------------------
 

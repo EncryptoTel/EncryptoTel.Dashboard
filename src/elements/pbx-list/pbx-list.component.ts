@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { TableComponent } from '../pbx-table/pbx-table.component';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { getDateRange, dateToServerFormat } from '@shared/shared.functions';
+import {InvoiceService} from '@services/invoice.service';
 
 @Component({
     selector: 'pbx-list',
@@ -80,6 +81,9 @@ export class ListComponent implements OnInit {
     startDate: string;
     endDate: string;
 
+    nothingFoundText: string;
+    noDataToDisplayText: string;
+
     // -- properties ----------------------------------------------------------
 
     get sidebarVisible(): boolean {
@@ -108,8 +112,12 @@ export class ListComponent implements OnInit {
     }
 
     get isNoData(): boolean {
-        const isLoading: boolean = !!this.loading || !!this.loadingEx;
-        return this.showEmptyInfo && !isLoading && this.listDataEmpty;
+        if (this.service instanceof InvoiceService) {
+            return false;
+        } else {
+            const isLoading: boolean = !!this.loading || !!this.loadingEx;
+            return this.showEmptyInfo && !isLoading && this.listDataEmpty;
+        }
     }
 
     get isPaginationVisible(): boolean {
@@ -134,6 +142,9 @@ export class ListComponent implements OnInit {
             });
         }
 
+        this.nothingFoundText = this.translate.instant('Nothing found');
+        this.noDataToDisplayText = this.translate.instant('No data to display');
+
         this.getItems();
 
         this.pbxListEmptyText_1 = '';
@@ -148,6 +159,8 @@ export class ListComponent implements OnInit {
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             this.pbxListEmptyText_1 = this.translate.instant(this.pbxListEmptyText_1);
             this.pbxListEmptyText_2 = this.translate.instant(this.pbxListEmptyText_2);
+            this.nothingFoundText = this.translate.instant('Nothing found');
+            this.noDataToDisplayText = this.translate.instant('No data to display');
         });
     }
 
