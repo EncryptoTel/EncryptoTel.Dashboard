@@ -154,6 +154,7 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
         this.forms.forEach(item => {
             item.form.reset();
         });
+        this.saveFormState();
     }
 
     validateForm(formKey: string): boolean {
