@@ -65,7 +65,7 @@ export class TableComponent implements OnInit, OnDestroy {
     constructor(protected state: TariffStateService,
                 private modalService: ModalServices,
                 public translate: TranslateService) {
-        this.modal = new ModalEx(this.translate.instant('Are you sure?'), this.translate.instant('delete'));
+        this.modal = new ModalEx(this.translate.instant('Are you sure?'), 'delete');
         this.modalWnd = this.modalService.createModal(this.modal);
         this.modalWnd.onConfirmEx.subscribe(() => this.deleteItem());
     }
