@@ -65,7 +65,7 @@ export class TableComponent implements OnInit, OnDestroy {
     constructor(protected state: TariffStateService,
                 private modalService: ModalServices,
                 public translate: TranslateService) {
-        this.modal = new ModalEx(this.translate.instant('Are you sure?'), this.translate.instant('delete'));
+        this.modal = new ModalEx(this.translate.instant('Are you sure?'), 'delete');
         this.modalWnd = this.modalService.createModal(this.modal);
         this.modalWnd.onConfirmEx.subscribe(() => this.deleteItem());
     }
@@ -129,7 +129,9 @@ export class TableComponent implements OnInit, OnDestroy {
                 }
                 this.modal.body = body;
             }
-            this.modal.title = this.translate.instant(this.modal.title);
+            if (this.modal.title.length > 0) {
+                this.modal.title = this.translate.instant(this.modal.title);
+            }
             this.modal.body = this.translate.instant(this.modal.body);
             this.modal.buttons.forEach(button => {
                 button.value = this.translate.instant(button.value);
