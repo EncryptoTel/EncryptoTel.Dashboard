@@ -15,8 +15,6 @@ const formatDateTimeUser = 'MMM D, YYYY HH:mm:ss';
 const formatDateServer = 'YYYY-MM-DD HH:mm:ss.s';
 const formatDateServer2 = 'YYYY-MM-DD HH:mm:ss';
 
-const MAX_OPTION_NAME_LENGTH = 10;
-
 export function getCountryById(id: number): CountryModel {
     const list: CountryModel[] = plainToClass(
         CountryModel,
@@ -246,13 +244,30 @@ export function getErrorMessageFromServer(err) {
     return '';
 }
 
-export function cutOptionName(name: string): string[] {
+// const MAX_OPTION_NAME_LENGTH = 10;
+
+export function parseOptionName(name: string): string[] {
     const matches = optionNameRegExp.exec(name);
     
-    let cutName: string = matches[1];
-    if (cutName.length > MAX_OPTION_NAME_LENGTH) {
-        cutName = cutName.substr(0, MAX_OPTION_NAME_LENGTH) + '...';
-    }
+    // let cutName: string = matches[1];
+    // if (cutName.length > MAX_OPTION_NAME_LENGTH) {
+    //     cutName = cutName.substr(0, MAX_OPTION_NAME_LENGTH) + '...';
+    // }
     
-    return [ cutName, matches[2] ];
+    return [ matches[1], matches[2] ];
+}
+
+export function updateOptionNames(options: any[], keyName: string, keyCount: string, showCount: boolean): void {
+    if (!keyCount) keyCount = 'optCount';
+
+    options.forEach(opt => {
+        const [ text, count ] = parseOptionName(opt[keyName]);
+        opt[keyName] = text;
+        if (showCount && opt[keyCount] == null) {
+            opt[keyCount] = isNaN(+count) ? 0 : +count;
+        }
+        if (!showCount && opt[keyCount] == null && !isNaN(+count)) {
+            opt[keyCount] = +count;
+        }
+    });
 }

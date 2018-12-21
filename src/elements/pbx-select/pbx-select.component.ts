@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 
 import { SwipeAnimation } from '@shared/swipe-animation';
-import { killEvent, cutOptionName } from '@shared/shared.functions';
+import { killEvent, updateOptionNames } from '@shared/shared.functions';
 
 
 @Component({
@@ -20,6 +20,9 @@ export class SelectComponent implements OnInit, OnChanges {
     @Input() singleBorder: boolean;
     @Input() options: any[];
     @Input() objectKey: string;
+    @Input() objectCount: string;
+    @Input() showCount: boolean = false;
+
     @Input()
     set selected(selected: any) {
         if (typeof selected === 'number' || typeof selected === 'string') {
@@ -54,7 +57,6 @@ export class SelectComponent implements OnInit, OnChanges {
 
     @Input() errors: any[];
     @Input() onlyTop: boolean;
-    @Input() cutLongNames: boolean = true;
     
     @Output() onSelect: EventEmitter<object> = new EventEmitter();
     @Output() onOpen: EventEmitter<object> = new EventEmitter();
@@ -73,18 +75,7 @@ export class SelectComponent implements OnInit, OnChanges {
 
     constructor() {}
 
-    ngOnInit() {
-        if (this.cutLongNames) {
-            const isOptionSipDepartmentItem: boolean = 
-                this.options && this.options[0].hasOwnProperty('sipCount');
-            this.options.forEach(opt => {
-                const [ name, count ] = cutOptionName(opt[this.objectKey]);
-                if (isOptionSipDepartmentItem || !count) opt['name'] = name;
-                else opt[this.objectKey] = `${name} ${count}`;
-                // console.log('opt', opt[this.objectKey], ' > ', `${name} ${count}`);
-            });
-        }
-    }
+    ngOnInit() {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.options
@@ -100,6 +91,13 @@ export class SelectComponent implements OnInit, OnChanges {
                 this.selected = changes.selected.currentValue;
             }, 0);
         }
+        if (changes.options && changes.options.currentValue) {
+            updateOptionNames(this.options, this.objectKey, this.objectCount, this.showCount);
+        }
+    }
+
+    optionHasCount(option: any): boolean {
+        return this.showCount || (option && !isNaN(option[this.objectCount]));
     }
 
     calcPosition(): string {
