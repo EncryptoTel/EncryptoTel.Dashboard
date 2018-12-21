@@ -36,7 +36,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     numbers: SipItem[];
     queues = [];
     groups = [];
-    playButtonText: string;
+    playButtonTexts: string[] = [];
+    selectedMediaIndex: number;
     ruleActions = [];
     selectedActions: Action[] = [];
     selectedFiles = [];
@@ -79,7 +80,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.callRule.id = activatedRoute.snapshot.params.id;
 
         this.mode = this.callRule.id ? 'edit' : 'create';
-        this.playButtonText = this.translate.instant('Play');
 
         this.validationHost.customMessages = [
             { key: 'name', error: 'pattern', message: this.translate
@@ -262,6 +262,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                     break;
                 case 5: // Play voice file
                     this.addAction(this.actionFactory(5), index);
+                    this.playButtonTexts[index] = this.translate.instant('Play');
 
                     this.files.forEach(file => {
                         if (file.id.toString() === ruleActions[actionIdx].parameter) {
@@ -493,9 +494,15 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     togglePlay(i: number): void {
-        const fileId = this.actionsControls.get([`${i}`, `parameter`]).value;
-        if (fileId) {
-            this.mediaPlayer.togglePlay(fileId);
+        if (this.mediaPlayer.locker.free) {
+            this.selectedMediaIndex = i;
+            const fileId = this.actionsControls.get([`${i}`, `parameter`]).value;
+            if (fileId) {
+                this.mediaPlayer.togglePlay(fileId);
+            }
+        }
+        else {
+            // TODO: ...
         }
     }
 
@@ -520,14 +527,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     mediaStateChanged(state: MediaState): void {
         switch (state) {
             case MediaState.LOADING:
-                this.playButtonText = this.translate.instant('Loading');
+                this.playButtonTexts[this.selectedMediaIndex] = this.translate.instant('Loading');
                 break;
             case MediaState.PLAYING:
-                this.playButtonText = this.translate.instant('Pause');
+                this.playButtonTexts[this.selectedMediaIndex] = this.translate.instant('Pause');
                 break;
             case MediaState.PAUSED:
             default:
-                this.playButtonText = this.translate.instant('Play');
+                this.playButtonTexts[this.selectedMediaIndex] = this.translate.instant('Play');
                 break;
         }
     }

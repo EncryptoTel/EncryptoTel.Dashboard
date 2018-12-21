@@ -237,9 +237,9 @@
                                        (onSelect)="selectFile(i, $event)"
                                        >
                                 <div class="greeting">
-                                    <pbx-button [value]="playButtonText"
+                                    <pbx-button [value]="playButtonTexts[i]"
                                                 [inactive]="!isFileSelected(i)"
-                                                [loading]="!mediaPlayer.locker.free"
+                                                [loading]="!mediaPlayer.locker.free && selectedMediaIndex === i"
                                                 (onClick)="togglePlay(i)"
                                                 >
                                     </pbx-button>
