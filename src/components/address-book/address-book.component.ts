@@ -16,7 +16,7 @@ import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 import {MessageServices} from '@services/message.services';
 import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
 import {AnimationComponent} from '@shared/shared.functions';
-import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp, callRuleNameRegExp} from '@shared/vars';
+import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp, contactAddressRegExp} from '@shared/vars';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import {TariffStateService} from '@services/state/tariff.state.service';
 import {ScrollEvent} from '@shared/scroll.directive';
@@ -90,6 +90,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.modalBlock = new ModalEx('', 'block');
         this.modalDelete = new ModalEx('', 'delete');
 
+
         this.filters = [];
         this.sidebar = new SidebarInfoModel();
         this.sidebar.hideEmpty = true;
@@ -97,7 +98,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         this.validationHost.customMessages = this.validationHost.customMessages = [
             { key: 'address', error: 'pattern', message: this.translate
-                    .instant('Address contains invalid characters or symbols. You can only use letters, numbers and the following characters: -_') },
+                    .instant('Address contains invalid characters or symbols. You can only use letters, numbers and the following characters: \'-\' \'_\' \'.\'') },
             { key: 'contactPhone.*.value', error: 'pattern', message: this.translate.instant('Phone number contains invalid characters. You can only use numbers and #') },
             { key: 'contactEmail.*.value', error: 'pattern', message: this.translate.instant('Please enter a valid email address') },
         ];
@@ -170,10 +171,10 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             lastname: [null, [Validators.pattern(nameRegExp), Validators.maxLength(190)]],
             contactPhone: this.fb.array([]),
             contactEmail: this.fb.array([]),
-            company: [null, [Validators.pattern(nameRegExp), Validators.maxLength(190)]],
-            department: [null, [Validators.pattern(nameRegExp), Validators.maxLength(190)]],
+            company: [null, [Validators.maxLength(190)]],
+            department: [null, [Validators.maxLength(190)]],
             position: [null, [Validators.maxLength(190)]],
-            address: [null, [Validators.pattern(callRuleNameRegExp), Validators.maxLength(190)]],
+            address: [null, [Validators.pattern(contactAddressRegExp), Validators.maxLength(190)]],
             country: this.fb.group({
                 code: [null],
                 id: [null],
