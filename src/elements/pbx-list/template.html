@@ -46,13 +46,9 @@
                (onDelete)="delete($event)">
     </pbx-table>
 
-    <div class="pbx_list_message" *ngIf="isEmptySearch" translate>
-        Nothing found
-    </div>
+    <div class="pbx_list_message" *ngIf="isEmptySearch">{{nothingFoundText}}</div>
 
-    <div class="pbx_list_message" *ngIf="isNothingFound" translate>
-        No data to display
-    </div>
+    <div class="pbx_list_message" *ngIf="isNothingFound">{{noDataToDisplayText}}</div>
 
     <pbx-pagination *ngIf="isPaginationVisible"
             [pageInfo]="pageInfo"
