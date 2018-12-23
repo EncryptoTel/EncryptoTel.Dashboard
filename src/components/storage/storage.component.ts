@@ -349,7 +349,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.service.selectItem(item.id);
         this.getButton(0).inactive = this.service.select.length === 0;
         this.getButton(1).inactive = this.service.select.length === 0;
-        this.buttons[4].inactive = this.service.select.length === 0;
+        this.getButton(4).inactive = this.service.select.length === 0;
         this.getButton(2).inactive = false;
     }
 
