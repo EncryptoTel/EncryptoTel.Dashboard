@@ -194,6 +194,10 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         ];
         this.buttonType = 1;
     }
+    
+    getButton(id) {
+        return this.buttons.find(x => x.id === id);
+    }
 
     ngOnInit() {
         const $this: StorageComponent = this;
@@ -267,24 +271,23 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.pageInfo = this.service.pageInfo;
         if (this.isFilterTrashSelected) {
             if (this.pageInfo.itemsCount > 0) {
-                this.buttons[0].visible = true;
-                this.buttons[0].inactive = true;
-                this.buttons[2].inactive = false;
+                this.getButton(0).visible = true;
+                this.getButton(0).inactive = true;
+                this.getButton(3).inactive = false;
             }
             else {
-                this.buttons[0].visible = false;
-                this.buttons[0].inactive = true;
-                this.buttons[2].inactive = true;
+                this.getButton(0).visible = false;
+                this.getButton(0).inactive = true;
+                this.getButton(3).inactive = true;
             }
         }
         else {
-            this.buttons[0].visible = false;
-            this.buttons[0].inactive = false;
-            this.buttons[1].inactive = true;
+            this.getButton(0).visible = false;
+            this.getButton(0).inactive = false;
+            this.getButton(1).inactive = true;
         }
-
-        this.buttons[3].inactive = !this.isSidebarVisible;
-        this.buttons[3].visible = this.currentFilter && this.currentFilter.type === 'audio';
+        this.getButton(2).inactive = !this.isSidebarVisible;
+        this.getButton(2).visible = this.currentFilter && this.currentFilter.type === 'audio';
     }
 
     // --- filter methods ---------------------------------
@@ -300,16 +303,16 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.loading++;
         if (filter.type === 'trash') {
             this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayModifiedDate', 'date', 168);
-            this.buttons[2].visible = true;
-            this.buttons[1].visible = false;
-            this.buttons[1].inactive = true;
-            this.buttons[0].inactive = true;
+            this.getButton(3).visible = true;
+            this.getButton(1).visible = false;
+            this.getButton(1).inactive = true;
+            this.getButton(0).inactive = true;
         }
         else {
             this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 168);
-            this.buttons[2].visible = false;
-            this.buttons[1].visible = true;
-            this.buttons[0].inactive = true;
+            this.getButton(3).visible = false;
+            this.getButton(1).visible = true;
+            this.getButton(0).inactive = true;
         }
 
         this.updateFilter(filter);
@@ -344,10 +347,10 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     selectItem(item: StorageItem): void {
         this.service.selectItem(item.id);
-        this.buttons[0].inactive = this.service.select.length === 0;
-        this.buttons[1].inactive = this.service.select.length === 0;
+        this.getButton(0).inactive = this.service.select.length === 0;
+        this.getButton(1).inactive = this.service.select.length === 0;
         this.buttons[4].inactive = this.service.select.length === 0;
-        this.buttons[3].inactive = false;
+        this.getButton(2).inactive = false;
     }
 
     // --- file uploading ---------------------------------
