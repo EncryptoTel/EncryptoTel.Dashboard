@@ -14,7 +14,7 @@
         <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg" class="select_icon"></svg-icon>
     </div>
 
-    <div class="select_options" *ngIf="!isVisible" [@Swipe] #optionsWrap>
+    <div class="select_options" *ngIf="isVisible" [@Swipe] #optionsWrap>
         <div *ngFor="let option of options"
              class="select_item"
              [ngClass]="{ 'current' : isCurrent(option) }"
