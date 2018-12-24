@@ -62,7 +62,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
     // -- form methods --------------------------------------------------------
 
     get modelEdit(): boolean {
-        return !!this.selected.id;
+        return !!this.selected && !!this.selected.id;
     }
 
     initForm(): void {
@@ -90,7 +90,6 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
     }
 
     select(item: PartnerProgramItem) {
-        console.log('select', item);
         this.selected = item;
 
         this.sidebar.mode = 'view';

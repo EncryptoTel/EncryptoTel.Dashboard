@@ -3,8 +3,7 @@ import {
     ElementRef,
     HostListener,
     OnInit,
-    ViewChild,
-    DoCheck
+    ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -84,6 +83,25 @@ export class BuyPhoneNumbersComponent implements OnInit {
         ];
     }
 
+    ngOnInit(): void {
+        this.loading = 0;
+
+        this.requestDetails = {
+            countryCode: 'US',
+            areaCode: '',
+            contains: '',
+            page: 1,
+            limit: 40,
+            local: false,
+            mobile: false,
+            tollFree: false
+        };
+        this.getList();
+        this.getCountries();
+        
+        this.pagination.page = 1;
+    }
+
     selectCountry(country: CountryModel) {
         this.selectedCountry = country;
         this.requestDetails.countryCode = country.code;
@@ -111,13 +129,18 @@ export class BuyPhoneNumbersComponent implements OnInit {
     }
 
     searchInit() {
+        this.loading ++;
         if (this.searchTimeout) {
             clearTimeout(this.searchTimeout);
+            this.searchTimeout = null;
+            this.loading --;
         }
         this.searchTimeout = setTimeout(() => {
             this.pagination.page = this.requestDetails.page = 1;
             this.getList();
+            this.loading --;
             clearTimeout(this.searchTimeout);
+            this.searchTimeout = null;
         }, 500);
     }
 
@@ -200,22 +223,5 @@ export class BuyPhoneNumbersComponent implements OnInit {
         else if (type === 'tollFree') {
             this.requestDetails.tollFree = !this.requestDetails.tollFree;
         }
-    }
-
-    ngOnInit() {
-        this.loading = 0;
-        this.requestDetails = {
-            countryCode: 'US',
-            areaCode: '',
-            contains: '',
-            page: 1,
-            limit: 40,
-            local: false,
-            mobile: false,
-            tollFree: false
-        };
-        this.getList();
-        this.getCountries();
-        this.pagination.page = 1;
     }
 }

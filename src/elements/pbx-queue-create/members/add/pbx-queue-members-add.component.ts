@@ -93,7 +93,7 @@ export class QueueMembersAddComponent implements OnInit {
             'name',
             this.departmentPlaceholderText,
             true,
-            'count');
+            'employees');
         this.filters.push(departmentsSelect);
         this.filters.push(new FilterItem(
             2, 'search', 'Search', null, null, this.searchPlaceholderText
@@ -162,13 +162,7 @@ export class QueueMembersAddComponent implements OnInit {
                 this.loading ++;
                 this.service.getMembers(sipId, this.currentFilter.search, this.currentFilter.department)
                     .then((members) => {
-                        let totalCount: number = 0;
-                        response.items.forEach(item => {
-                            totalCount = totalCount + parseInt(item.employees);
-                            item.name = item.name + ' (' + item.employees + ')';
-                        });
-
-                        const all = { 'name': this.translate.instant('All members'), 'id': 'all', 'count': members.items.length };
+                        const all = { 'name': this.translate.instant('All members'), 'id': 'all', 'employees': members.items.length };
                         this.departments = [ all, ...response.items ];
                         this.currentFilter.department = this.departments[0];
                         this.initFilters();

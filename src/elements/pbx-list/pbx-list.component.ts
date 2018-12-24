@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { SwipeAnimation } from '../../shared/swipe-animation';
+import { Router } from '@angular/router';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+
+import { SwipeAnimation } from '@shared/swipe-animation';
 import {
     BaseItemModel,
     ButtonItem,
@@ -7,13 +10,11 @@ import {
     PageInfoModel,
     TableInfoExModel,
     TableInfoItem
-} from '../../models/base.model';
-import { HeaderComponent } from '../pbx-header/pbx-header.component';
-import { Router } from '@angular/router';
-import { TableComponent } from '../pbx-table/pbx-table.component';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { getDateRange, dateToServerFormat } from '@shared/shared.functions';
-import {InvoiceService} from '@services/invoice.service';
+} from '@models/base.model';
+import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
+import { TableComponent } from '@elements/pbx-table/pbx-table.component';
+import { dateToServerFormat } from '@shared/shared.functions';
+
 
 @Component({
     selector: 'pbx-list',
@@ -108,16 +109,12 @@ export class ListComponent implements OnInit {
         const filteredWithoutSearch: boolean = this.activeFilter()
             && this.currentFilter
             && (!this.currentFilter.hasOwnProperty('search') || !this.currentFilter.search);
-        return !isLoading && filteredWithoutSearch && this.pageInfo.itemsCount === 0 && !this.listDataEmpty;
+        return !isLoading && filteredWithoutSearch && this.pageInfo.itemsCount === 0;
     }
 
     get isNoData(): boolean {
-        if (this.service instanceof InvoiceService) {
-            return false;
-        } else {
-            const isLoading: boolean = !!this.loading || !!this.loadingEx;
-            return this.showEmptyInfo && !isLoading && this.listDataEmpty;
-        }
+        const isLoading: boolean = !!this.loading || !!this.loadingEx;
+        return !isLoading && this._totalItemsCount === 0;
     }
 
     get isPaginationVisible(): boolean {
@@ -149,10 +146,8 @@ export class ListComponent implements OnInit {
 
         this.pbxListEmptyText_1 = '';
         this.pbxListEmptyText_2 = '';
-        let tmp: string;
-        tmp = this.itemsName ? this.itemsName : this.name;
-        let text: string;
-        text = 'You do not have any' + ' ' + tmp;
+        const itemName: string = this.itemsName ? this.itemsName : this.name;
+        const text: string = `You do not have any ${itemName}`;
         this.pbxListEmptyText_1 = this.translate.instant(text);
         this.pbxListEmptyText_2 = this.translate.instant('Click on the button to create');
 
@@ -269,10 +264,6 @@ export class ListComponent implements OnInit {
             .then(response => {
                 this.pageInfo = response;
                 this.pageInfo.limit = limit;
-
-                // if (this.calendarVisible) {
-                //     this.calendarDateRange = getDateRange(this.pageInfo.items, this.calendarDateKey);
-                // }
 
                 this.updateTotalItems();
                 if (this.header) this.header.load();
