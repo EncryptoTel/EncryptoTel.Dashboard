@@ -13,6 +13,10 @@ export class ExtensionService extends BaseService {
         return this.request.get(`v1/sip/inners/${id}`);
     }
 
+    getExtensionNumber(): Promise<any> {
+        return this.request.get(`v1/sip/inners/get-number`);
+    }
+
     deleteExtension(id: number): Promise<any> {
         return this.request.del(`v1/sip/inners/${id}`);
     }
