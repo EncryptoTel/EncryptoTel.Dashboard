@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
-import {RequestServices} from './request.services';
-import {PageInfoModel} from "../models/base.model";
-import {plainToClass} from "class-transformer";
-import {MessageServices} from "./message.services";
+import {plainToClass} from 'class-transformer';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../environments/environment';
 import {TranslateService} from '@ngx-translate/core';
+
+import {RequestServices} from '@services/request.services';
+import {MessageServices} from '@services/message.services';
+import {PageInfoModel} from '@models/base.model';
+import { environment } from '@env/environment';
+
 
 @Injectable()
 export class BaseService {
@@ -21,15 +23,17 @@ export class BaseService {
         this._url = [ environment.backApiVersion, uri ].join('/');
     }
 
-    constructor(public request: RequestServices,
-                public message: MessageServices,
-                public http: HttpClient,
-                public translate: TranslateService) {
+    constructor(
+        public request: RequestServices,
+        public message: MessageServices,
+        public http: HttpClient,
+        public translate: TranslateService
+    ) {
         this.onInit();
     }
 
     plainToClassEx<TPage extends PageInfoModel, TPageItem>(classModel: any, classItems: any, object: any): TPage {
-        let pageInfo: TPage = plainToClass<TPage, {}>(classModel, object);
+        const pageInfo: TPage = plainToClass<TPage, {}>(classModel, object);
         pageInfo.items = [];
         if (object.hasOwnProperty('items')) {
             object.items.map(item => {
@@ -150,7 +154,7 @@ export class BaseService {
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<PageInfoModel> {
         let url = `?page=${pageInfo.page}&limit=${pageInfo.limit}`;
         if (filter) {
-            let keys = Object.keys(filter);
+            const keys = Object.keys(filter);
             keys.forEach(key => {
                 if (filter[key]) url = `${url}&filter[${key}]=${filter[key]}`;
             });
@@ -169,13 +173,13 @@ export class BaseService {
             });
             Promise.resolve(res);
 
-            let pageinfo = res;
-            pageinfo.limit = pageInfo.limit;
+            const updatedPageInfo = res;
+            updatedPageInfo.limit = pageInfo.limit;
             if (res.items.length === 0 && pageInfo.page > 1) {
                 pageInfo.page--;
                 return this.getItems(pageInfo, filter, sort);
             } else {
-                return Promise.resolve(pageinfo);
+                return Promise.resolve(updatedPageInfo);
             }
         });
     }
@@ -210,7 +214,7 @@ export class BaseService {
     }
 
     validateMediaStreamResponse(response: any): boolean {
-        if (response.status != 200) {
+        if (response.status !== 200) {
             this.message.writeError(this.translate.instant('File not found'));
             console.log('Media stream error', response);
             return false;

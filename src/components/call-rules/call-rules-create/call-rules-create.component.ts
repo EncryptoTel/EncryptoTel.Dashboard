@@ -36,7 +36,9 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     numbers: SipItem[];
     queues = [];
     groups = [];
-    playButtonText: string;
+    playButtonTexts: string[] = [];
+    selectedMediaIndex: number;
+    selectedMediaId: number;
     ruleActions = [];
     selectedActions: Action[] = [];
     selectedFiles = [];
@@ -79,7 +81,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.callRule.id = activatedRoute.snapshot.params.id;
 
         this.mode = this.callRule.id ? 'edit' : 'create';
-        this.playButtonText = this.translate.instant('Play');
 
         this.validationHost.customMessages = [
             { key: 'name', error: 'pattern', message: this.translate
@@ -262,6 +263,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                     break;
                 case 5: // Play voice file
                     this.addAction(this.actionFactory(5), index);
+                    this.playButtonTexts[index] = 'Play';
 
                     this.files.forEach(file => {
                         if (file.id.toString() === ruleActions[actionIdx].parameter) {
@@ -347,9 +349,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     deleteAction(index: number): void {
         this.selectedActions.splice(index, 1);
         this.actionsControls.removeAt(index);
-        if (index === 0) {
-            const control = this.actionsControls.at(0);
-            if (control) control.markAsUntouched();
+        if (index === 0 && this.selectedActions.length === 0) {
+            this.actionsControls.markAsUntouched();
         }
     }
 
@@ -492,10 +493,19 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         }
     }
 
-    togglePlay(i: number): void {
-        const fileId = this.actionsControls.get([`${i}`, `parameter`]).value;
+    togglePlay(order: number): void {
+        const fileId = this.actionsControls.get([`${order}`, `parameter`]).value;
+        const forceReload: boolean = 
+            order !== this.selectedMediaIndex && fileId === this.selectedMediaId;
+
+        Object.keys(this.playButtonTexts).forEach(index => {
+            if (+index !== order) this.playButtonTexts[index] = 'Play';
+        });
+
         if (fileId) {
-            this.mediaPlayer.togglePlay(fileId);
+            this.selectedMediaIndex = order;
+            this.selectedMediaId = fileId;
+            this.mediaPlayer.togglePlay(fileId, forceReload);
         }
     }
 
@@ -520,14 +530,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     mediaStateChanged(state: MediaState): void {
         switch (state) {
             case MediaState.LOADING:
-                this.playButtonText = this.translate.instant('Loading');
+                this.playButtonTexts[this.selectedMediaIndex] = 'Loading';
                 break;
             case MediaState.PLAYING:
-                this.playButtonText = this.translate.instant('Pause');
+                this.playButtonTexts[this.selectedMediaIndex] = 'Pause';
                 break;
             case MediaState.PAUSED:
             default:
-                this.playButtonText = this.translate.instant('Play');
+                this.playButtonTexts[this.selectedMediaIndex] = 'Play';
                 break;
         }
     }
@@ -589,7 +599,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     private getParams(): void {
-        // TODO: use Promise.all here
         this.loading++;
         this.service.getParams().then(response => {
             this.actionsList = response.actions;
