@@ -1,6 +1,8 @@
 import {Component, Input, EventEmitter, Output} from '@angular/core';
-import {PlayerAnimation} from '../../shared/player-animation';
-import {FadeAnimation} from '../../shared/fade-animation';
+
+import {PlayerAnimation} from '@shared/player-animation';
+import {FadeAnimation} from '@shared/fade-animation';
+
 
 @Component({
   selector: 'pbx-media-table-player',
@@ -25,7 +27,7 @@ export class MediaTablePlayerComponent {
     updateWaveRange(): void {
         this.waveRange = [];
         for (let i = 0; i < 24; ++ i) {
-            let className = (i + 2) % 3 == 0 ? 'tall' : 'small';
+            let className = (i + 2) % 3 === 0 ? 'tall' : 'small';
             if (this.item) {
                 className += ((this.item.record.mediaPlayTime / this.item.record.duration) * 24 > i)
                     ? ' active'

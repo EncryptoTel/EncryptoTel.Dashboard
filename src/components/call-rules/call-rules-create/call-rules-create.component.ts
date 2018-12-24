@@ -38,6 +38,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     groups = [];
     playButtonTexts: string[] = [];
     selectedMediaIndex: number;
+    selectedMediaId: number;
     ruleActions = [];
     selectedActions: Action[] = [];
     selectedFiles = [];
@@ -262,7 +263,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                     break;
                 case 5: // Play voice file
                     this.addAction(this.actionFactory(5), index);
-                    this.playButtonTexts[index] = this.translate.instant('Play');
+                    this.playButtonTexts[index] = 'Play';
 
                     this.files.forEach(file => {
                         if (file.id.toString() === ruleActions[actionIdx].parameter) {
@@ -493,16 +494,19 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         }
     }
 
-    togglePlay(i: number): void {
-        if (this.mediaPlayer.locker.free) {
-            this.selectedMediaIndex = i;
-            const fileId = this.actionsControls.get([`${i}`, `parameter`]).value;
-            if (fileId) {
-                this.mediaPlayer.togglePlay(fileId);
-            }
-        }
-        else {
-            // TODO: ...
+    togglePlay(order: number): void {
+        const fileId = this.actionsControls.get([`${order}`, `parameter`]).value;
+        const forceReload: boolean = 
+            order !== this.selectedMediaIndex && fileId === this.selectedMediaId;
+
+        Object.keys(this.playButtonTexts).forEach(index => {
+            if (+index !== order) this.playButtonTexts[index] = 'Play';
+        });
+
+        if (fileId) {
+            this.selectedMediaIndex = order;
+            this.selectedMediaId = fileId;
+            this.mediaPlayer.togglePlay(fileId, forceReload);
         }
     }
 
@@ -527,14 +531,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     mediaStateChanged(state: MediaState): void {
         switch (state) {
             case MediaState.LOADING:
-                this.playButtonTexts[this.selectedMediaIndex] = this.translate.instant('Loading');
+                this.playButtonTexts[this.selectedMediaIndex] = 'Loading';
                 break;
             case MediaState.PLAYING:
-                this.playButtonTexts[this.selectedMediaIndex] = this.translate.instant('Pause');
+                this.playButtonTexts[this.selectedMediaIndex] = 'Pause';
                 break;
             case MediaState.PAUSED:
             default:
-                this.playButtonTexts[this.selectedMediaIndex] = this.translate.instant('Play');
+                this.playButtonTexts[this.selectedMediaIndex] = 'Play';
                 break;
         }
     }
@@ -596,7 +600,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     private getParams(): void {
-        // TODO: use Promise.all here
         this.loading++;
         this.service.getParams().then(response => {
             this.actionsList = response.actions;

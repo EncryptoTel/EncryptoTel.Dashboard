@@ -6,8 +6,8 @@ import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
 
 import {FadeAnimation} from '@shared/fade-animation';
 import {PlayerAnimation} from '@shared/player-animation';
-import {TableComponent} from '../pbx-table/pbx-table.component';
-import {MediaTablePlayerComponent} from '../pbx-media-table-player/pbx-media-table-player.component';
+import {TableComponent} from '@elements/pbx-table/pbx-table.component';
+import {MediaTablePlayerComponent} from '@elements/pbx-media-table-player/pbx-media-table-player.component';
 
 
 @Component({
@@ -56,7 +56,7 @@ export class MediaTableComponent extends TableComponent implements OnInit, OnCha
 
     isItemSelected(item: any): boolean {
         return (this.selectedItems)
-            ? this.selectedItems.some(i => i == item.id)
+            ? this.selectedItems.some(i => i === item.id)
             : false;
     }
 
@@ -76,7 +76,7 @@ export class MediaTableComponent extends TableComponent implements OnInit, OnCha
                 item.record.onTimeChange = this.api.subscriptions.timeUpdate.subscribe((e) => {
                     if (item.record.playing) {
                         item.record.mediaPlayTime = this.api.currentTime;
-                        let player = this.players.find(pl => pl.item == item);
+                        const player = this.players.find(pl => pl.item === item);
                         if (player) {
                             player.updateWaveRange();
                         }
@@ -119,7 +119,7 @@ export class MediaTableComponent extends TableComponent implements OnInit, OnCha
     togglePlay(item: any): void {
         if (!item.record.playable) return;
 
-        if (item == this._selectedItem) {
+        if (item === this._selectedItem) {
             // toggle current media stream playing
             if (item.record.playing) {
                 this.stopMediaPlaying(item);
@@ -136,7 +136,7 @@ export class MediaTableComponent extends TableComponent implements OnInit, OnCha
 
             this._selectedItem = item;
             this.tableItems.forEach(i => {
-                if (i != item && i.record.mediaLoading) i.record.mediaLoading = false;
+                if (i !== item && i.record.mediaLoading) i.record.mediaLoading = false;
             });
             if (!item.record.mediaStream) {
                 // load selected detail media data
@@ -160,17 +160,17 @@ export class MediaTableComponent extends TableComponent implements OnInit, OnCha
     }
 
     startPlayRecord(): void {
-        if (this.currentMediaStream == this._selectedItem.record.mediaStream) {
+        if (this.currentMediaStream === this._selectedItem.record.mediaStream) {
             this.startMediaPlaying(this._selectedItem, true);
         }
 
         this._selectedItem.record.mediaLoading = true;
-        let timer: Subscription = TimerObservable.create(0, 100).subscribe(
+        const timer: Subscription = TimerObservable.create(0, 100).subscribe(
             () => {
                 timer.unsubscribe();
                 this.currentMediaStream = this._selectedItem.record.mediaStream;
 
-                let onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(
+                const onCanPlay = this.api.getDefaultMedia().subscriptions.canPlay.subscribe(
                     () => {
                         onCanPlay.unsubscribe();
 
