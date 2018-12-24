@@ -33,9 +33,27 @@
         height: 40px
         padding: 0 16px
         align-items: center
+        display: flex !important
+        //display: grid !important
+        //grid-template-columns: 1fr min-content !important
+        align-items: flex-start !important
         &.selected
             flex: 1 0 auto
             width: 100%
+            .val
+                width: 90%
+                overflow: hidden
+                text-overflow: ellipsis
+                display: inline-block
+            .count
+                width: 10%
+        .val
+            width: 90%
+            overflow: hidden
+            text-overflow: ellipsis
+            display: inline-block
+        .count
+            width: 10%
     &_icon
         flex-direction: column
         margin-left: auto
