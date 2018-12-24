@@ -349,9 +349,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     deleteAction(index: number): void {
         this.selectedActions.splice(index, 1);
         this.actionsControls.removeAt(index);
-        if (index === 0) {
-            const control = this.actionsControls.at(0);
-            if (control) control.markAsUntouched();
+        if (index === 0 && this.selectedActions.length === 0) {
+            this.actionsControls.markAsUntouched();
         }
     }
 
