@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
 
-import {ModalEx, ModalButton} from '../../elements/pbx-modal/pbx-modal.component';
+import {ModalEx, ModalButton} from '@elements/pbx-modal/pbx-modal.component';
 import {Module} from '../../models/module.model';
 import {ModuleServices} from '../../services/module.services';
 import {LocalStorageServices} from '../../services/local-storage.services';
 import {MessageServices} from '../../services/message.services';
 import {Lockable, Locker} from '../../models/locker.model';
 import {UserServices} from '../../services/user.services';
-import { Router } from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
+
 
 @Component({
     selector: 'pbx-marketplace',
@@ -16,7 +17,6 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: ['./local.sass'],
     providers: [ModuleServices]
 })
-
 export class MarketplaceComponent implements OnInit, Lockable {
     locker: Locker;
     modules: Module[];
@@ -25,12 +25,14 @@ export class MarketplaceComponent implements OnInit, Lockable {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(private services: ModuleServices,
-                private message: MessageServices,
-                private storage: LocalStorageServices,
-                private router: Router,
-                private userService: UserServices,
-                public translate: TranslateService) {
+    constructor(
+        private services: ModuleServices,
+        private message: MessageServices,
+        private storage: LocalStorageServices,
+        private router: Router,
+        private userService: UserServices,
+        public translate: TranslateService
+    ) {
         this.locker = new Locker();
     }
 
@@ -125,7 +127,7 @@ export class MarketplaceComponent implements OnInit, Lockable {
         else if (title === 'storage') return 6; // green
         else if (title === 'schedule') return 2; // pink
         else if (title === 'send sms messages') return 2; // pink
-        else if (title === 'audio conference') return 3; // violet
+        else if (title === 'audio conference') return 2; // violet
         // 4 - blue, 3 - violet
         return 4;
     }
