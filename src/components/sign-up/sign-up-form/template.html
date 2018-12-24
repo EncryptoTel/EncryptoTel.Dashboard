@@ -38,7 +38,7 @@
         <div class="input_wrap">
             <input #passwordInput type="password" name="Password" placeholder="{{'Password' | translate}}"
                    formControlName="password" (focus)="setFocus(passwordInput)" (blur)="removeFocus(passwordInput)"
-                   (mouseenter)="mouseEnter(passwordInput)" (mouseleave)="mouseLeave(passwordInput)">
+                   (mouseenter)="mouseEnter(passwordInput)" (mouseleave)="mouseLeave(passwordInput)" maxlength="20">
             <div class="input_error" *ngIf="inputValidation('password') && errorPassword" [@Fade]>
                 <span id="sign_up_password" class="input_error_item"
                       *ngIf="errorPasswordMessage !== ''" translate>{{errorPasswordMessage}}</span>
