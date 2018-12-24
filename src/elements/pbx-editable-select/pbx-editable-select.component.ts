@@ -14,6 +14,7 @@ import {
 import { SwipeAnimation } from '@shared/swipe-animation';
 import { SelectService } from '@services/state/select.service';
 import {updateOptionNames} from '@shared/shared.functions';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -76,7 +77,10 @@ export class EditableSelectComponent implements OnInit, OnChanges {
 
     // -- component lifecycle functions -------------------
 
-    constructor(private selectService: SelectService) {
+    constructor(
+        private selectService: SelectService,
+        private translate: TranslateService
+    ) {
         this.isVisible = false;
         this.inFocus = false;
 
@@ -88,7 +92,7 @@ export class EditableSelectComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-        this._emptyOption[this.objectKey] = 'No results found.';
+        this._emptyOption[this.objectKey] = this.translate.instant('No results found');
         this.resetFilter();
         this.selectService.change.subscribe(isOpen => {
             if (isOpen) {
