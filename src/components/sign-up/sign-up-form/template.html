@@ -14,7 +14,7 @@
         <div class="input_wrap">
             <input #nameInput name="Name" placeholder="{{'Name' | translate}}" formControlName="firstname"
                    (focus)="setFocus(nameInput)" (blur)="removeFocus(nameInput)" (mouseenter)="mouseEnter(nameInput)"
-                   (mouseleave)="mouseLeave(nameInput)">
+                   (mouseleave)="mouseLeave(nameInput)" pattern="[a-zA-Z\.\-\_]*">
             <div class="input_error" *ngIf="inputValidation('firstname') && errorName" [@Fade]>
                 <span id="sign_up_err_no_name" class="input_error_item" *ngIf="inputValidation('firstname', 'required')"
                       translate>Please enter your name</span>

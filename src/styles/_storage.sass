@@ -54,6 +54,12 @@ pbx-storage
     pbx-media-table
         .tablet
             .tablet_header
+                .tablet_item:nth-child(5)
+                    span
+                        float: none !important
+                        justify-content: flex-end !important
+        .tablet
+            .tablet_header
                 .tablet_item
                     &:nth-child(4)
                         text-align: right !important
@@ -107,7 +113,7 @@ pbx-storage
                                 position: relative
                                 pbx-media-table-player
                                     position: absolute
-                                    right: 30px
+                                    right: -45px !important
                         &:nth-child(5)
                             max-width: 5%
 pbx-storage
@@ -121,7 +127,7 @@ pbx-storage
 pbx-storage
     pbx-media-table-player
         .player-wrap
-            display: none
+            //display: none
 
 /* феерический костыль - не надо так делать */
 pbx-sidebar
