@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {BaseService} from "./base.service";
-import {RequestServices} from './request.services';
 import {HttpClient} from '@angular/common/http';
-import {StorageModel} from '../models/storage.model';
-import {ModalEx} from '../elements/pbx-modal/pbx-modal.component';
-import {MessageServices} from './message.services';
 import {TranslateService} from '@ngx-translate/core';
+
+import {BaseService} from '@services/base.service';
+import {RequestServices} from '@services/request.services';
+import {MessageServices} from '@services/message.services';
+import {SettingsOptionItem} from '@models/settings.models';
+
 
 @Injectable()
 export class SettingsService extends BaseService {
@@ -53,7 +54,10 @@ export class SettingsService extends BaseService {
         return this.get('/account/auth/get-qr-code');
     }
 
-    saveSettings(settings, path, ShowSuccess = true): Promise<any> {
+    saveSettings(settings: SettingsOptionItem[], path, ShowSuccess = true): Promise<any> {
+        settings.forEach(s => {
+            s.value = s.value ? '1' : '0';
+        });
         return this.post(`${path}`, {settings: settings}, ShowSuccess);
     }
 
@@ -67,27 +71,32 @@ export class SettingsService extends BaseService {
 
     uploadFile(file, mode, type = null): Promise<any> {
         this.updateLoading(1);
+
         const data = new FormData();
         data.append('type', type ? type : 'image');
         data.append('profile_file', file);
         if (mode) data.append('mode', mode);
-        this.callback ? this.callback(this.loading) : null;
-        return this.rawRequest('POST', '/user/profile/upload', data).then((user) => {
-            if (this.loading === 1) {
-            }
-            this.successCount++;
-            this.errorCount++;
-            this.updateLoading(-1);
-            return user;
-        }).catch(() => {
-            this.errorCount++;
-            this.updateLoading(-1);
-        });
+        
+        if (this.callback) this.callback(this.loading);
+
+        return this.rawRequest('POST', '/user/profile/upload', data)
+            .then((user) => {
+                if (this.loading === 1) {
+                }
+                this.successCount++;
+                this.errorCount++;
+                this.updateLoading(-1);
+                return user;
+            })
+            .catch(() => {
+                this.errorCount ++;
+                this.updateLoading(-1);
+            });
     }
 
     updateLoading(increment: number) {
         this.loading += increment;
-        this.callback ? this.callback(this.loading) : null;
+        if (this.callback) this.callback(this.loading);
         // if (this.callback && this.loading == 0 && this.files.length == 0 && !this.modalUpload.visible) {
         //     this.callback = null;
         // }

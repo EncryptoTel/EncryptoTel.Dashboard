@@ -48,7 +48,7 @@
 
     <div class="pbx_list_message" *ngIf="isEmptySearch">{{nothingFoundText}}</div>
 
-    <div class="pbx_list_message" *ngIf="isNothingFound || (pageInfo.items.length === 0 && !isNoData)">{{noDataToDisplayText}}</div>
+    <div class="pbx_list_message" *ngIf="isNothingFound">{{noDataToDisplayText}}</div>
 
     <pbx-pagination *ngIf="isPaginationVisible"
             [pageInfo]="pageInfo"

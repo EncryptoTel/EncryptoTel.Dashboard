@@ -386,6 +386,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     // -- component methods ---------------------------------------------------
 
     close(): void {
+        this.resetForms();
+        
         this.sidebar.visible = false;
         this.sidebar.mode = null;
 
