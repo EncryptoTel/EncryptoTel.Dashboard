@@ -69,3 +69,35 @@ pbx-details-and-records
             .tablet_item
                 span
                     font-size: 12px
+
+pbx-details-and-records
+    .tablet
+        .tablet_header
+            .tablet_item:nth-child(7)
+                text-align: right
+                span
+                    margin-right: 0
+        .tablet_header,
+        .tablet_body .tablet_content
+            grid-template-columns: repeat(7, calc((100% - 30px) / 7)) 30px !important
+            .tablet_item
+                &.fix_0
+                    display: none !important
+        .tablet_header
+            .tablet_item
+                &.fix_200
+                    min-width: unset !important
+                    max-width: unset !important
+                &:nth-child(2),
+                &:nth-child(3),
+                &:nth-child(5)
+                    .qwerty
+                        span
+        .asd
+            width: 100% !important
+            .tablet_item_cols
+                position: relative !important
+                width: 100% !important
+                pbx-media-table-player
+                    position: absolute
+                    right: 28px
