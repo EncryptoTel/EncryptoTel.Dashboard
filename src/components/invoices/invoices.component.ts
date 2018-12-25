@@ -1,12 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {InvoiceService} from '../../services/invoice.service';
-import {InvoiceModel} from '../../models/invoice.model';
-import {ButtonItem, TableInfoExModel, TableInfoItem} from '../../models/base.model';
-import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
-import {getInterval} from '../../shared/shared.functions';
-import {TranslateService} from '@ngx-translate/core';
-import {formatDateTime} from '@shared/shared.functions';
-import {LocalStorageServices} from '@services/local-storage.services';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { InvoiceService } from '../../services/invoice.service';
+import { InvoiceModel } from '../../models/invoice.model';
+import { ButtonItem, TableInfoExModel, TableInfoItem } from '../../models/base.model';
+import { ListComponent } from '../../elements/pbx-list/pbx-list.component';
+import { getInterval, getMomentFormatDete } from '../../shared/shared.functions';
+import { TranslateService } from '@ngx-translate/core';
+import { formatDateTime } from '@shared/shared.functions';
+import { LocalStorageServices } from '@services/local-storage.services';
 
 @Component({
     selector: 'pbx-invoices',
@@ -26,10 +26,10 @@ export class InvoicesComponent implements OnInit {
     dateFormat: any;
 
     constructor(public service: InvoiceService,
-                public translate: TranslateService,
-                private storage: LocalStorageServices) {
+        public translate: TranslateService,
+        private storage: LocalStorageServices) {
 
-        this.dateFormat = this.storage.readItem('dateTimeFormat');
+        this.dateFormat = getMomentFormatDete(this.storage.readItem('dateTimeFormat'), this.storage.readItem('TimeFormat'));
         this.table.sort.isDown = true;
         this.table.sort.column = 'date';
         this.table.items.push(new TableInfoItem(this.translate.instant('Invoice Number'), 'number', 'number'));
@@ -61,16 +61,14 @@ export class InvoicesComponent implements OnInit {
     }
 
     load() {
-        this.list.pageInfo.items.forEach( item => {
+        this.list.pageInfo.items.forEach(item => {
             if (item.status === 'Waiting for payment') {
                 item.status = '<span class="' + item.status + '">' + this.translate.instant(item.status) + '</span>';
             } else {
                 item.status = this.translate.instant(item.status);
             }
-
             item.type = this.translate.instant(item.type);
-            item.created = formatDateTime(item.created, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
-
+            item.created = formatDateTime(item.created, this.dateFormat);
         });
         this.buttons[0].title = this.getInterval();
         this.buttons[0].visible = true;
