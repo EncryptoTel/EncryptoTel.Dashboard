@@ -35,7 +35,6 @@
                 </ng-template>
 
                 <div *ngFor="let action of tableInfoEx.actions; let i = index;"
-                     [style.width]="action.width ? action.width + 'px' : '20px'"
                      class="asd">
                     <div *ngIf="action.type === 'drop-down'"
                          class="tablet_item_cols"
