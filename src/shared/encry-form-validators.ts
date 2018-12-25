@@ -1,4 +1,4 @@
-import {FormGroup, FormArray, ValidatorFn, AbstractControl} from '@angular/forms';
+import { FormGroup, FormArray, ValidatorFn, AbstractControl } from '@angular/forms';
 import * as WAValidator from 'wallet-address-validator';
 
 
@@ -8,7 +8,7 @@ export function redirectToExtensionValidator(control: FormGroup): { [key: string
     const actions = <FormArray>control.get('ruleActions');
     if (actions && actions.length > 1) {
         const context = [];
-        for (let i = 0; i < actions.length; i ++) {
+        for (let i = 0; i < actions.length; i++) {
             const actionId = actions.get([i, 'action']).value;
             const parameter = actions.get([i, 'parameter']).value;
             context.push({
@@ -18,7 +18,7 @@ export function redirectToExtensionValidator(control: FormGroup): { [key: string
         }
 
         const duplicates = [];
-        for (let i = 1; i < context.length; i ++) {
+        for (let i = 1; i < context.length; i++) {
             if (context[i].action === 1 && context[i - 1].action === 1 && context[i].parameter === context[i - 1].parameter) {
                 duplicates.push(i);
             }
@@ -80,10 +80,16 @@ export function companyCountryValidator(control: FormGroup): { [key: string]: an
 export function walletAddressValidator(currencyCode: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
         if (!control.value) return null;
-        
+
         const valid: boolean = WAValidator.validate(control.value, currencyCode);
         return valid
             ? null
             : { 'walletAddress': { value: control.value } };
     };
+}
+
+export function userNameValidation(control: AbstractControl): { [key: string]: boolean } | null {
+    if (!control.value) return null;
+    return /[a-zA-Z]/.test(control.value[0]) ? null : { 'firstLeterError': true };
+    
 }

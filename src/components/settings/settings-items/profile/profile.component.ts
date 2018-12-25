@@ -82,6 +82,10 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         this.validationHost.customMessages = [
             { key: 'password_confirmation', error: 'required', message: this.translate.instant('Please confirm the password') },
             { key: 'password_confirmation', error: 'mismatch', message: this.translate.instant('Passwords do not match') },
+            { key: 'email', error: 'required', message: this.translate.instant('Please enter the correct email') },
+            { key: 'email', error: 'pattern', message: this.translate.instant('Please enter the correct email') },
+            { key: 'code', error: 'required', message: this.translate.instant('Please enter the correct confirmation code') },
+            { key: 'code', error: 'pattern', message: this.translate.instant('Please enter the correct confirmation code') },
 
         ];
 

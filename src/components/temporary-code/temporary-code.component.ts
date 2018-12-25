@@ -65,7 +65,8 @@ export class TemporaryCodeComponent implements OnInit, OnDestroy {
         if (errorType) {
             const field = this.temporaryCodeForm.controls[name];
             return field.errors[errorType] && (field.dirty || field.touched);
-        } else {
+        }
+        else {
             const field = this.temporaryCodeForm.controls[name];
             return field.invalid && (field.dirty || field.touched);
         }
@@ -90,7 +91,8 @@ export class TemporaryCodeComponent implements OnInit, OnDestroy {
                 })
                 .catch(() => {})
                 .then(() => this.loading = false);
-        } else {
+        }
+        else {
             this.errorForm = true;
         }
     }

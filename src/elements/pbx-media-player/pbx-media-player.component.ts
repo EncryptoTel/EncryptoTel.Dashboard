@@ -1,8 +1,6 @@
 import {Component, ViewChild, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import {VgAPI} from 'videogular2/core';
 import {VgHLS} from 'videogular2/src/streaming/vg-hls/vg-hls';
-import {Subscription} from 'rxjs/Subscription';
-import {TimerObservable} from 'rxjs/observable/TimerObservable';
 
 import { MediaState } from '@models/cdr.model';
 import {Locker} from '@models/locker.model';
@@ -45,7 +43,9 @@ export class MediaPlayerComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.mediaStream && changes.mediaStream.currentValue) {
             this.locker.unlock();
-            this.mediaStreams[this.selectedMediaId] = changes.mediaStream.currentValue;
+            if (this.locker.free) {
+                this.mediaStreams[this.selectedMediaId] = changes.mediaStream.currentValue;
+            }
             this.startPlayRecord();
         }
     }
@@ -63,12 +63,9 @@ export class MediaPlayerComponent implements OnChanges {
     }
 
     fireOnMediaStateChanged(): void {
-        const timer: Subscription = TimerObservable.create(100, 0).subscribe(
-            () => {
-                timer.unsubscribe();
-                this.onMediaStateChanged.emit(this.state);
-            }
-        );
+        setTimeout(() => {
+            this.onMediaStateChanged.emit(this.state);
+        }, 100);
     }
 
     stopPlay(): void {
@@ -78,31 +75,36 @@ export class MediaPlayerComponent implements OnChanges {
         }
     }
 
-    togglePlay(mediaId: number) {
-        if (this.api.state === <string>MediaState.PLAYING) {
-            this.api.pause();
-        }
-
+    togglePlay(mediaId: number, forceReload: boolean = false) {
         if (this.mediaStreams[mediaId]) {
-            if (mediaId !== this.selectedMediaId) {
+            if (mediaId !== this.selectedMediaId || forceReload) {
+                this.stopPlay();
                 this.selectedMediaId = mediaId;
-                this.startPlayRecord();
+                this.startPlayRecord(forceReload);
             }
             else {
                 // states are: playing, pause, ended
                 if (this.api.state === <string>MediaState.PLAYING) {
-                    setTimeout(() => { this.api.pause(); }, 0);
+                    setTimeout(() => {
+                        this.api.pause();
+                        this.fireOnMediaStateChanged();
+                    }, 0);
                 }
                 else {
-                    setTimeout(() => { this.api.play(); }, 0);
+                    setTimeout(() => {
+                        this.api.play();
+                        this.fireOnMediaStateChanged();
+                    }, 0);
                 }
-                this.fireOnMediaStateChanged();
             }
         }
         else {
             if (mediaId !== this.selectedMediaId) {
+                this.stopPlay();
+
                 this.selectedMediaId = mediaId;
                 this.onGetMediaData.emit(mediaId);
+
                 this.locker.lock();
                 this.fireOnMediaStateChanged();
             }
@@ -115,22 +117,27 @@ export class MediaPlayerComponent implements OnChanges {
         });
     }
 
-    startPlayRecord() {
+    startPlayRecord(reload: boolean = false) {
         setTimeout(async () => {
-            this.mediaStream = this.mediaStreams[this.selectedMediaId];
-
-            let attempt = 0;
-            while (!this.api.getDefaultMedia().canPlay && attempt < 10) {
-                await this.delay(100);
-                ++ attempt;
-            }
-
-            if (attempt < 10) {
+            if (reload) {
+                this.api.seekTime(0, false);
                 this.togglePlay(this.selectedMediaId);
-                this.fireOnMediaStateChanged();
             }
             else {
-                console.log('Media stream loading error');
+                this.mediaStream = this.mediaStreams[this.selectedMediaId];
+
+                let attempt = 0;
+                while (!this.api.getDefaultMedia().canPlay && attempt < 10) {
+                    await this.delay(100);
+                    ++ attempt;
+                }
+
+                if (attempt < 10) {
+                    this.togglePlay(this.selectedMediaId);
+                }
+                else {
+                    console.log('Media stream loading error');
+                }
             }
         }, 100);
     }
