@@ -32,7 +32,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     errorCheck: boolean = false;
     signUpCompleted: boolean;
     byClicking: string;
-
+    str: string = 'qweqweqweqweqweqweqweqweqweqwe';
     errorEmailMessage: string = '';
     errorPasswordMessage: string = '';
 
@@ -155,7 +155,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
                 if (name === 'firstname' && errorType === 'firstLeterError') {
                     return !!field.errors['firstLeterError'];
                 }
-                
+
                 return field && (field.errors[errorType] && !field.errors['firstLeterError']) && (field.dirty || field.touched);
             } else {
                 const field = this.signUpForm.controls[name];
@@ -240,10 +240,12 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and') + '&nbsp;<a href="">' + this.translate.instant('Privacy Policy') + '</a>';
+        this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and ' )
+                        + `&nbsp;<a href="/assets/pdf/${this.translate.currentLang}/EncryptoTel_Privacy_Policy.pdf">` + this.translate.instant('Privacy Policy') + '</a>';
 
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and') + '&nbsp;<a href="">' + this.translate.instant('Privacy Policy') + '</a>';
+            this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and ')
+                + `&nbsp;<a href="/assets/pdf/${this.translate.currentLang}/EncryptoTel_Privacy_Policy.pdf">` + this.translate.instant('Privacy Policy') + '</a>';
         });
 
         this.signUpCompleted = false;
