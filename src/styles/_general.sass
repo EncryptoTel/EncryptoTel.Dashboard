@@ -140,7 +140,37 @@ account-notifications-component
                     span
                         &:hover
                             color: rgba($white_black, .7) !important
+
+
+
+.tablet
+    .tablet_header
+        .tablet_item
+            span
+                line-height: 16px
+    .tablet_header,
+    .tablet_body
+        .tablet_item
+            > div
+                overflow: hidden
+                text-overflow: ellipsis
+                display: inline
+                > span
+                    overflow: hidden
+                    text-overflow: ellipsis
+                    display: inline
+            > span
+                overflow: hidden
+                text-overflow: ellipsis
+                display: inline
+            //.tablet_item_icon_wrap
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 @media screen and (max-width: 1789px)
     pbx-storage pbx-media-table .tablet .tablet_body .tablet_row .tablet_content .asd .tablet_item_cols.player pbx-media-table-player
