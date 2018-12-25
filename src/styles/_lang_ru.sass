@@ -5,10 +5,10 @@
             .tablet_body
                 .tablet_item:nth-child(2)
                     .qwerty
-                        width: 184px !important
+                        //width: 184px !important
                 .tablet_item:nth-child(3)
                     .qwerty
-                        width: 122px !important
+                        //width: 100% !important
     .pbx_input_item_label
         white-space: normal !important
     general-add-extension-component form
@@ -55,7 +55,7 @@
 
     // костыль. Огромный такой костыль
     phone-numbers-component .tablet .tablet_header .tablet_item, phone-numbers-component .tablet .tablet_body .tablet_item
-        width: 230px !important
+        //width: 230px !important
 
     // костыль!
     pbx-storage
@@ -64,4 +64,16 @@
             .tablet_item
                 &:nth-child(3)
                     span
-                        width: 100% !important
+                        //width: 100% !important
+
+
+
+
+@media screen and (max-width: 1799px)
+    phone-numbers-component .tablet .tablet_header .tablet_item, phone-numbers-component .tablet .tablet_body .tablet_item,
+    .lang_ru phone-numbers-component .tablet .tablet_header .tablet_item, .lang_ru phone-numbers-component .tablet .tablet_body .tablet_item
+        //width: 120px !important
+        //.qwerty
+        //    overflow: hidden
+        //    text-overflow: ellipsis
+        //    display: inline

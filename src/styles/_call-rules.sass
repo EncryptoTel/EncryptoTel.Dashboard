@@ -100,3 +100,18 @@ pbx-call-rules-create
             .pbx_input_item_input_wrap
                 display: grid
                 grid-template-columns: 1fr min-content
+
+pbx-call-rules
+    .tablet
+        .tablet_header,
+        .tablet_body .tablet_content
+            grid-template-columns: repeat(4, calc((100% - 68px) / 4)) repeat(2, calc(68px / 2)) !important
+            .tablet_item
+        .tablet_header
+            .tablet_item
+                &:nth-child(2),
+                &:nth-child(3),
+                &:nth-child(5)
+                    .qwerty
+                        span
+                            //text-align: center
