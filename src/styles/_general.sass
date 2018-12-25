@@ -102,7 +102,7 @@ phone-numbers-component
         .tablet_header,
         .tablet_body
             .tablet_item
-                width: 135px !important
+                //width: 135px !important
 
 billing-component
     base-settings-component
@@ -167,18 +167,40 @@ account-notifications-component
                 overflow: hidden
                 text-overflow: ellipsis
                 display: inline
-            //.tablet_item_icon_wrap
 
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+// стили для таблиц, дефолтные, вымученные и со страданиями. Не трогать! Иначе все полетит очень далеко
 
-
+.tablet
+    .tablet_header,
+    .tablet_body .tablet_row .tablet_content
+        display: grid !important
+        .tablet_item
+            .qwerty
+                width: 100%
+                min-width: 100%
+                max-width: 100%
+                display: flex !important
+            span
+                width: 100%
+                min-width: 100%
+                max-width: 100%
+        .tablet_icon
+            margin-left: 0 !important
+    .tablet_header
+        .tablet_item
+            span
+                min-width: unset !important
+                max-width: unset !important
+                width: auto !important
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-@media screen and (max-width: 1789px)
-    pbx-storage pbx-media-table .tablet .tablet_body .tablet_row .tablet_content .asd .tablet_item_cols.player pbx-media-table-player
-        right: 7px !important
+////////////////////////////////////////////////////////////////////////////////////
 
 @media screen and (max-height: 850px)
     sign-up

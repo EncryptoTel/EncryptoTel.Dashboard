@@ -99,5 +99,19 @@ general-add-extension-component
             label
                 width: 150px !important
 
+extensions-component
+    .tablet
+        .tablet_header,
+        .tablet_body .tablet_content
+            grid-template-columns: repeat(7, calc((100% - 68px) / 7)) repeat(2, calc(68px / 2)) !important
+            .tablet_item
+        .tablet_header
+            .tablet_item
+                &:nth-child(2),
+                &:nth-child(3),
+                &:nth-child(5)
+                    .qwerty
+                        span
+
 
 
