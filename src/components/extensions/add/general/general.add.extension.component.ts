@@ -24,6 +24,7 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
 
     modal: ModalEx;
     certificateFile: any;
+    extNumber: any;
     @Input() certificateId: number;
 
     @Input() form: any;
@@ -45,17 +46,13 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
             selected: null,
             isOpen: false
         };
-        // this.extPhone = {
-        //     option: [{title: 'outer 1'}, {title: 'outer 2'}, {title: 'outer 3'}, {title: 'outer 4'}],
-        //     selected: null,
-        //     isOpen: false
-        // };
         this.locker = new Locker();
         this.modal = new ModalEx('', 'resetToSelected');
     }
 
     ngOnInit(): void {
         this.getSipOuters();
+        this.getExtensionPhoneNumber();
         this.getCertificate();
     }
 
@@ -74,8 +71,7 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
         }).then(response => {
             this._messages.writeSuccess(response.message);
         }).catch(() => {
-        })
-            .then(() => this.passwordLoading--);
+        }).then(() => this.passwordLoading--);
     }
 
     cancelModal() {
@@ -87,17 +83,12 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
         this.form.get(text).setValue(!this.form.get(text).value);
     }
 
-    selectPhone(phone): void {
-        this.sipOuters.selected = phone;
-        this.form.get('outer').setValue(phone.id);
-    }
-
     getFormValue(name: string) {
         return this.form.get(name).value;
     }
 
     isEmailRequired(): boolean {
-        return !!this.form.controls.user.get('firstName').value 
+        return !!this.form.controls.user.get('firstName').value
                || !!this.form.controls.user.get('lastName').value;
     }
 
@@ -112,6 +103,19 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
             this.sipOuters.selected = this.sipOuters.option.find(item => item.id === this.form.get('outer').value.id);
         }).catch(() => {
         }).then(() => this.locker.unlock());
+    }
+
+    getExtensionPhoneNumber() {
+        this._extensions.getExtensionNumber().then(response => {
+            console.log(response);
+            this.extNumber = response.inner;
+            const phoneNumber = this.form.get('phoneNumber').value;
+            if (phoneNumber === null) {
+                this.form.get('phoneNumber').setValue(this.extNumber);
+            }
+        }).catch(() => {
+        }).then(() => {
+        });
     }
 
     getCertificate() {

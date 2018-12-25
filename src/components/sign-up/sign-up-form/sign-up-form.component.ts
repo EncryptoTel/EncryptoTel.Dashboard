@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
-import {AuthorizationServices} from '../../../services/authorization.services';
-import {UserServices} from '../../../services/user.services';
+import { AuthorizationServices } from '../../../services/authorization.services';
+import { UserServices } from '../../../services/user.services';
 
-import {FadeAnimation} from '../../../shared/fade-animation';
-import {validateForm} from '../../../shared/shared.functions';
-import {FormMessageModel} from '../../../models/form-message.model';
-import {TimerObservable} from 'rxjs/observable/TimerObservable';
-import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import { FadeAnimation } from '../../../shared/fade-animation';
+import { validateForm } from '../../../shared/shared.functions';
+import { FormMessageModel } from '../../../models/form-message.model';
+import { TimerObservable } from 'rxjs/observable/TimerObservable';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'sign-up-form',
@@ -32,7 +32,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     errorCheck: boolean = false;
     signUpCompleted: boolean;
     byClicking: string;
-
+    str: string = 'qweqweqweqweqweqweqweqweqweqwe';
     errorEmailMessage: string = '';
     errorPasswordMessage: string = '';
 
@@ -42,9 +42,9 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     }
 
     constructor(private _router: Router,
-                private _user: UserServices,
-                public services: AuthorizationServices,
-                public translate: TranslateService) {
+        private _user: UserServices,
+        public services: AuthorizationServices,
+        public translate: TranslateService) {
     }
 
     setFocus(element): void {
@@ -151,7 +151,12 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         } else {
             if (errorType) {
                 const field = this.signUpForm.controls[name];
-                return field && field.errors[errorType] && (field.dirty || field.touched);
+
+                if (name === 'firstname' && errorType === 'firstLeterError') {
+                    return !!field.errors['firstLeterError'];
+                }
+
+                return field && (field.errors[errorType] && !field.errors['firstLeterError']) && (field.dirty || field.touched);
             } else {
                 const field = this.signUpForm.controls[name];
                 return field && field.invalid && (field.dirty || field.touched);
@@ -182,23 +187,27 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         this.errorPasswordMessage = '';
         if (event) event.preventDefault();
 
+        if (this.signUpForm.value.firstname.length > 0 && this.signUpForm.value.firstname[0] === '-' && this.signUpForm.value.firstname[0] === '_' && this.signUpForm.value.firstname[0] === '-') {
+
+        }
+
         validateForm(this.signUpForm);
         if (this.signUpForm.valid) {
             this.loading = true;
             this.services.signUp(this.signUpForm.value).then(() => {
                 this.signUpCompleted = true; // resend confirmation is shown
             })
-            .catch((error) => {
-                if (error.errors.email) {
-                    this.errorEmail = true;
-                    this.errorEmailMessage = this.translate.instant('A user with this email address already exists');
-                }
-                if (error.errors.password) {
-                    this.errorPassword = true;
-                    this.errorPasswordMessage = this.translate.instant('Password and password confirmation must not consist of spaces.');
-                }
-            })
-            .then(() => this.loading = false);
+                .catch((error) => {
+                    if (error.errors.email) {
+                        this.errorEmail = true;
+                        this.errorEmailMessage = this.translate.instant('A user with this email address already exists');
+                    }
+                    if (error.errors.password) {
+                        this.errorPassword = true;
+                        this.errorPasswordMessage = this.translate.instant('Password and password confirmation must not consist of spaces.');
+                    }
+                })
+                .then(() => this.loading = false);
         }
         else {
             if (this.inputValidation('firstname')) {
@@ -231,10 +240,12 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and') + '&nbsp;<a href="">' + this.translate.instant('Privacy Policy') + '</a>';
+        this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and ' )
+                        + `&nbsp;<a href="/assets/pdf/${this.translate.currentLang}/EncryptoTel_Privacy_Policy.pdf">` + this.translate.instant('Privacy Policy') + '</a>';
 
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and') + '&nbsp;<a href="">' + this.translate.instant('Privacy Policy') + '</a>';
+            this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and ')
+                + `&nbsp;<a href="/assets/pdf/${this.translate.currentLang}/EncryptoTel_Privacy_Policy.pdf">` + this.translate.instant('Privacy Policy') + '</a>';
         });
 
         this.signUpCompleted = false;

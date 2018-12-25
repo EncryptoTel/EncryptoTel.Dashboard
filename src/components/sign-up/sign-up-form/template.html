@@ -14,12 +14,16 @@
         <div class="input_wrap">
             <input #nameInput name="Name" placeholder="{{'Name' | translate}}" formControlName="firstname"
                    (focus)="setFocus(nameInput)" (blur)="removeFocus(nameInput)" (mouseenter)="mouseEnter(nameInput)"
-                   (mouseleave)="mouseLeave(nameInput)" pattern="[a-zA-Z\.\-\_]*">
+                   (mouseleave)="mouseLeave(nameInput)">
             <div class="input_error" *ngIf="inputValidation('firstname') && errorName" [@Fade]>
+                <span class="input_error_item"
+                    *ngIf="inputValidation('firstname', 'firstLeterError')" translate>Your name must begin with a letter</span>
                 <span id="sign_up_err_no_name" class="input_error_item" *ngIf="inputValidation('firstname', 'required')"
                       translate>Please enter your name</span>
                 <span id="sign_up_err_name_should_contain" class="input_error_item"
                       *ngIf="inputValidation('firstname', 'pattern')" translate>Name contains invalid characters or symbols. You can only use letters and the following characters: ’-.</span>
+                <span class="input_error_item"
+                      *ngIf="inputValidation('firstname', 'maxlength')" translate>Name can`t contain over 190 characters</span>
             </div>
         </div>
         <div class="input_wrap">
@@ -46,6 +50,8 @@
                       *ngIf="inputValidation('password', 'required') && errorPasswordMessage === ''" translate>Please enter your password</span>
                 <span id="sign_up_err_short_password" class="input_error_item"
                       *ngIf="inputValidation('password', 'minlength') && errorPasswordMessage === ''" translate>Your password is too short. The password must be at least 6 characters long</span>
+                <span class="input_error_item"
+                      *ngIf="inputValidation('password', 'maxlength')" translate>Your password is too long. Please don`t use over 20 characters</span>
             </div>
         </div>
         <div class="input_wrap">

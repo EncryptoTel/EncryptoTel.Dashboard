@@ -107,7 +107,7 @@ export class StorageService extends BaseService {
             console.log('checkFileExists', error);
             return error;
         }).then((res) => {
-            this.updateLoading(-1)
+            this.updateLoading(-1);
             return res;
         });
     }
@@ -131,7 +131,7 @@ export class StorageService extends BaseService {
         data.append('account_file', file);
         if (mode) data.append('mode', mode);
 
-        this.callback ? this.callback(this.loading) : null;
+        if (this.callback) this.callback(this.loading);
 
         return this.rawRequest('POST', '', data).then((res) => {
             if (this.loading === 1) this.getItems(this.pageInfo, this.filter, this.sort);

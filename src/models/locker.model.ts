@@ -1,4 +1,4 @@
-import { TimerObservable } from "rxjs/observable/TimerObservable";
+import { TimerObservable } from 'rxjs/observable/TimerObservable';
 
 /**
  * interface Lockable
@@ -16,7 +16,7 @@ export class Locker {
     private _lockCount: number;
     
     get free(): boolean {
-        return this._lockCount == 0;
+        return this._lockCount === 0;
     }
 
     constructor() {
@@ -46,10 +46,10 @@ export class Waiter {
      * @param showLog flag to turn on and off log messages
      */
     public static await(observable: Locker, period: number = 100, maxAttemptCount: number = 50, showLog: boolean = false): Promise<void> {
-        let promise = new Promise<void>((resolve, reject) => {
+        const promise = new Promise<void>((resolve, reject) => {
             if (showLog) console.log('[waiter] started');
             let attemptCount = 0;
-            let timer = TimerObservable.create(period, period).subscribe(() => {
+            const timer = TimerObservable.create(period, period).subscribe(() => {
                 if (observable.free) {
                     if (showLog) console.log('[waiter] success, execution time', attemptCount * period);
                     timer.unsubscribe();

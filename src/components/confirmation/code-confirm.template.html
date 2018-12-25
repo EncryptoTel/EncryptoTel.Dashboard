@@ -1,18 +1,44 @@
 <div class="auth_form">
     <svg-icon src="/assets/icons/_logo/encryptotel_logo.svg" class="auth_form_icon"></svg-icon>
-    <form (submit)="codeConfirm($event)" [formGroup]="confirmationCode" [@Fade] (keyup)="clearMessage($event)">
-        <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade]
-             (click)="_services.clearMessage()">{{message.message}}
-        </div>
+    <form [formGroup]="confirmationCode"
+          (submit)="codeConfirm($event)"
+          (keyup)="clearMessage()"
+          [@Fade]
+          >
         <div class="input_wrap">
-            <input name="Confirmation code" id="confirmation_code" placeholder="Confirmation code"
-                   formControlName="code">
-            <div class="input_error" *ngIf="inputValidation('code')" [@Fade]>
-                <span class="input_error_item" *ngIf="inputValidation('code')">Please enter your confirmation code</span>
+            <input name="Confirmation code"
+                   id="confirmation_code"
+                   [class.error]="errorForm"
+                   placeholder="Confirmation code"
+                   formControlName="code"
+                   >
+            <div *ngIf="message"
+                class="input_error"
+                [@Fade]
+                (click)="clearMessage()"
+                >
+                <span class="input_error_item"
+                      >
+                    {{ message.message }}
+                </span>
+            </div>
+            <div *ngIf="inputValidation('code')"
+                 class="input_error"
+                 [@Fade]
+                 >
+                <span *ngIf="inputValidation('code')"
+                      class="input_error_item"
+                      >
+                    Please enter your confirmation code
+                </span>
             </div>
         </div>
-        <pbx-button [buttonType]="'accent'" [value]="'Sign In'" [loading]="loading"
-                    (onClick)="codeConfirm()"></pbx-button>
+        <pbx-button [buttonType]="'accent'"
+                    [value]="'Sign In'"
+                    [loading]="loading"
+                    (onClick)="codeConfirm()"
+                    >
+        </pbx-button>
     </form>
 </div>
 
