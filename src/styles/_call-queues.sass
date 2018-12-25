@@ -51,3 +51,35 @@ ring-groups-component
                         justify-content: center
                     .qwerty
                         text-align: center
+
+pbx-call-queues
+    .tablet
+        .tablet_header,
+        .tablet_body .tablet_content
+            grid-template-columns: repeat(5, calc((100% - 68px) / 5)) repeat(2, calc(68px / 2)) !important
+            .tablet_item
+        .tablet_header
+            .tablet_item
+                &:nth-child(2),
+                &:nth-child(3),
+                &:nth-child(5)
+                    .qwerty
+                        span
+
+
+
+
+ring-groups-component
+    pbx-call-queues
+    .tablet
+        .tablet_header,
+        .tablet_body .tablet_content
+            grid-template-columns: repeat(5, calc((100% - 68px) / 5)) repeat(2, calc(68px / 2)) !important
+            .tablet_item
+        .tablet_header
+            .tablet_item
+                &:nth-child(2),
+                &:nth-child(3),
+                &:nth-child(5)
+                    .qwerty
+                        span
