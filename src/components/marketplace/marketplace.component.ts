@@ -96,11 +96,11 @@ export class MarketplaceComponent implements OnInit, Lockable {
 
     // 2018-12-09-s
     toUpperTitle(title) {
-        title = title.replace(/\b\w/g, function(str){ return str.toUpperCase()});
+        title = title.replace(/\b\w/g, (char) => char.toUpperCase());
         return title;
     }
 
-    purchaseService = (): void => {
+    purchaseService(): void {
         this.selected.loading = true;
         this.locker.lock();
         this.services.buyService(this.selected.id).then(() => {
@@ -113,7 +113,7 @@ export class MarketplaceComponent implements OnInit, Lockable {
                 this.selected.loading = false;
                 this.locker.unlock();
             });
-    };
+    }
 
     getModuleColor(moduleTitle: string): number {
         let title: string;
