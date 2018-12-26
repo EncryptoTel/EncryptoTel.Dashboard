@@ -45,7 +45,7 @@ export class UserServices {
                 this._storage.writeItem('user_lang', result['user_lang']);
                 this._storage.writeItem('dateTimeFormat', result['dateFormat']);
                 this._storage.writeItem('dateFormat', result['dateFormat'].split(' ')[0]);
-                this._storage.writeItem('TimeFormat', result['dateFormat'].split(' ')[1]);
+                this._storage.writeItem('TimeFormat', result['timeFormat']);
                 return Promise.resolve(this.fetchUser());
             });
     }

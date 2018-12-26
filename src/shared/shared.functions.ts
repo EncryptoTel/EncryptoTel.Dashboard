@@ -271,3 +271,10 @@ export function updateOptionNames(options: any[], keyName: string, keyCount: str
         }
     });
 }
+
+export function getMomentFormatDete(dateFormat, timeFormat) {
+        let res = dateFormat.split(' ')[0].toUpperCase();
+        res += ' ' + dateFormat.split(' ')[1];
+        res += (timeFormat === '12' ? ' a' : '');
+        return res;
+}

@@ -6,7 +6,7 @@ import {PlayerAnimation} from '../../shared/player-animation';
 import {CdrService} from '../../services/cdr.service';
 import {WsServices} from '../../services/ws.services';
 import {CdrItem, CdrModel} from '../../models/cdr.model';
-import {getInterval, getDateRange, dateToServerFormat, formatDateTime} from '../../shared/shared.functions';
+import {getInterval, getDateRange, dateToServerFormat, formatDateTime, getMomentFormatDete} from '../../shared/shared.functions';
 import {TableInfoAction, TableInfoActionOption, TableInfoExModel, TableInfoItem, TagModel} from '../../models/base.model';
 import {MediaTableComponent} from '../../elements/pbx-media-table/pbx-media-table.component';
 import {TagSelectorComponent} from '../../elements/pbx-tag-selector/pbx-tag-selector.component';
@@ -59,7 +59,7 @@ export class DetailsAndRecordsComponent implements OnInit {
                 public translate: TranslateService,
                 private storage: LocalStorageServices) {
 
-        this.dateFormat = this.storage.readItem('dateTimeFormat');
+        this.dateFormat = getMomentFormatDete(this.storage.readItem('dateTimeFormat'), this.storage.readItem('TimeFormat'));
 
         this.table.sort.isDown = true;
         this.table.sort.column = 'callDate';
@@ -236,7 +236,7 @@ export class DetailsAndRecordsComponent implements OnInit {
                 this.pageInfo = result;
                 this.pageInfo.items.forEach( cdrItem => {
                     cdrItem.tag = this.translate.instant(cdrItem.tag);
-                    cdrItem.created = formatDateTime(cdrItem.created, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
+                    cdrItem.created = formatDateTime(cdrItem.created, this.dateFormat);
                     console.log(cdrItem.created);
                 });
             })
