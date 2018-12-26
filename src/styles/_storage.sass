@@ -286,3 +286,15 @@ pbx-storage
             .tablet_header,
             .tablet_body .tablet_content
                 grid-template-columns: repeat(7, calc((100% - 50px) / 7)) 50px !important
+            .tablet_header
+                .tablet_item
+                    &:nth-child(5)
+                        span
+                            justify-content: flex-start !important
+                    &:nth-child(7)
+                        text-align: right
+                        span
+                            float: none
+                            //justify-content: flex-end
+            pbx-media-table-player
+                right: 20px !important
