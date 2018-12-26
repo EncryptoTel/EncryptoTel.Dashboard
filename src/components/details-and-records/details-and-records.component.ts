@@ -222,6 +222,7 @@ export class DetailsAndRecordsComponent implements OnInit {
     }
 
     onTagSelection(): void {
+        this.pageInfo.page = 1;
         this.getItems();
     }
 
