@@ -107,7 +107,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.table.items = [
             new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
             new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
-            new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', null, 50),
+            new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
             new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
             new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
         ];
@@ -194,7 +194,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         ];
         this.buttonType = 1;
     }
-    
+
     getButton(id) {
         return this.buttons.find(x => x.id === id);
     }
