@@ -6,19 +6,19 @@
         "logLevel": "debug"
     },
     "/front-api": {
-        "target": "http://pbx-front-dev.encry.ru",
+        "target": "https://pbx.encryptotel.com",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"
     },
     "/files": {
-        "target": "http://pbx-front-dev.encry.ru",
+        "target": "https://pbx.encryptotel.com",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"
     },
     "/download": {
-        "target": "http://pbx-front-dev.encry.ru",
+        "target": "https://pbx.encryptotel.com",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug"
