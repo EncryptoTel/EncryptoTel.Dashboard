@@ -17,6 +17,7 @@ import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 import {NotificationComponent} from '@components/notification/notification.component';
 import {Router} from '@angular/router';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'pbx-index',
@@ -31,6 +32,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     text: any;
     _user: any;
     menu: any;
+    version: string;
 
     constructor(
         public userService: UserServices,
@@ -46,6 +48,7 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.user = this.userService.fetchUser();
         this._user = this.storage.readItem('pbx_user');
         this.text = langState.get();
+        this.version = environment.version;
     }
 
     navigationList: NavigationItemModel[][];
@@ -56,11 +59,13 @@ export class IndexComponent implements OnInit, OnDestroy {
     modulesChangedSubscription: Subscription;
     completedRequests: number = 0;
     activeButtonIndex: number;
-    headerButtonsVisible: boolean = false;
+    headerButtonsVisible: boolean = true;
     userNavigationVisible: boolean = false;
     mobileNavigationVisible: boolean = false;
     NotificationSubscription: Subscription;
     isLockedCaller: boolean = true;
+
+
     get username(): string {
         if (this.user && this.user.profile) {
             let firstName: string;
