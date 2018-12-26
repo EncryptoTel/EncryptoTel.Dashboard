@@ -1,13 +1,13 @@
-import {HttpClient} from "@angular/common/http";
-import {BaseService} from "./base.service";
-import {CompanyModel, CompanyInfoModel, CompanyAddress} from "../models/company.model";
-import {plainToClass} from "class-transformer";
-import {isDevEnv} from "../shared/shared.functions";
-import {CountryModel} from "../models/country.model";
-import {RequestServices} from "./request.services";
-import {MessageServices} from "./message.services";
+import {HttpClient} from '@angular/common/http';
+import {BaseService} from './base.service';
+import {CompanyModel, CompanyInfoModel, CompanyAddress} from '../models/company.model';
+import {plainToClass} from 'class-transformer';
+import {isDevEnv} from '../shared/shared.functions';
+import {CountryModel} from '../models/country.model';
+import {RequestServices} from './request.services';
+import {MessageServices} from './message.services';
 import * as companyInfoMap from '../shared/company-info-map.json';
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 
 

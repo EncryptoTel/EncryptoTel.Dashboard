@@ -12,17 +12,17 @@ $qwe: 184px
                     .tablet_item
                         height: 38px
                         .qwerty
-                            align-items: center
+                            //align-items: center
                     .tablet_item:nth-child(5)
                         .qwerty
-                            width: 140px
-                            max-width: 140px
+                            //width: 140px
+                            //max-width: 140px
                             justify-content: flex-end
                     .tablet_item:nth-child(6)
                         .qwerty
-                            width: 75px
-                            max-width: 75px
-                            justify-content: flex-end
+                            //width: 75px
+                            //max-width: 75px
+                            //justify-content: flex-end
                 .tablet_body
                     .tablet_item
                         &:nth-child(4)
@@ -145,6 +145,12 @@ pbx-invoices
         .tablet_body .tablet_content
             grid-template-columns: repeat(6, calc(100%  / 6)) !important
             .tablet_item
+                &:nth-child(5),
+                &:nth-child(6)
+                    justify-content: flex-end !important
+                    text-align: right !important
+                    .qwerty
+                        justify-content: flex-end !important
         .tablet_header
             .tablet_item
                 &:nth-child(2),

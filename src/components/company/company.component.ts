@@ -218,6 +218,18 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         this.service.companyInfo.setSectionData('Extensions', dashboard);
         this.service.companyInfo.setSectionData('IVR', dashboard);
         this.service.companyInfo.setSectionData('CDR', dashboard);
+        this.service.companyInfo.sectionGroups[1].sections[0].items[0].title = dashboard.cdrDetail.calls.time;
+        this.service.companyInfo.sectionGroups[1].sections[0].items[0].value = dashboard.cdrDetail.calls.sum;
+
+        this.service.companyInfo.sectionGroups[1].sections[0].items[1].value = dashboard.cdrDetail.tags['incoming'].count !== undefined ?
+            dashboard.cdrDetail.tags['incoming'].count !== undefined : '-';
+        this.service.companyInfo.sectionGroups[1].sections[0].items[2].value = dashboard.cdrDetail.tags['outgoing'].count !== undefined ?
+            dashboard.cdrDetail.tags['outgoing'].count !== undefined : '-';
+        this.service.companyInfo.sectionGroups[1].sections[0].items[3].value = dashboard.cdrDetail.tags['missed'].count !== undefined ?
+            dashboard.cdrDetail.tags['missed'].count !== undefined : '-';
+        this.service.companyInfo.sectionGroups[1].sections[0].items[4].value = dashboard.cdrDetail.tags['no-answer'].count !== undefined ?
+            dashboard.cdrDetail.tags['no-answer'].count !== undefined : '-';
+
         this.service.companyInfo.setSectionData('Tariff Plan', dashboard);
         this.service.companyInfo.setSectionData('Invoices', dashboard);
         this.service.companyInfo.setPhoneNumbersData('Phone numbers', dashboard);
