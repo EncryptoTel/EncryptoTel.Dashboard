@@ -41,6 +41,10 @@ export class StorageItem extends BaseItemModel {
         return Math.round(this.fileSize / 1024 / 1024 * 100) / 100;
     }
 
+    get sizeKb() {
+        return parseFloat((this.fileSize / 1024 / 1024 * 100 / 100).toFixed(4));
+    }
+
     get durationFormat() {
         return moment(moment.duration(this.duration, 'second').asMilliseconds()).format('mm:ss');
     }
