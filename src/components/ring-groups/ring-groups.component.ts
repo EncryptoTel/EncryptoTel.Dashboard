@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {RingGroupService} from '../../services/ring-group.service';
 import {RingGroupModel} from '../../models/ring-group.model';
 import {TranslateService} from '@ngx-translate/core';
+import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 
 @Component({
     selector: 'ring-groups-component',
@@ -18,6 +19,7 @@ export class RingGroupsComponent {
         keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
     };
     pageInfo: RingGroupModel = new RingGroupModel();
+    @ViewChild(ListComponent) list: ListComponent;
 
     constructor(private service: RingGroupService, public translate: TranslateService) {
         this.table = {
@@ -30,6 +32,12 @@ export class RingGroupsComponent {
             ],
             keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
         };
+    }
+
+    load($event) {
+        this.list.pageInfo.items.forEach(item => {
+            item.strategyName = this.translate.instant(item.strategyName);
+        });
     }
 
 }
