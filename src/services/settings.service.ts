@@ -55,9 +55,9 @@ export class SettingsService extends BaseService {
     }
 
     saveSettings(settings: SettingsOptionItem[], path, ShowSuccess = true): Promise<any> {
-        settings.forEach(s => {
-            s.value = s.value ? '1' : '0';
-        });
+        // settings.forEach(s => {
+        //     s.value = s.value;
+        // });
         return this.post(`${path}`, {settings: settings}, ShowSuccess);
     }
 
@@ -76,7 +76,7 @@ export class SettingsService extends BaseService {
         data.append('type', type ? type : 'image');
         data.append('profile_file', file);
         if (mode) data.append('mode', mode);
-        
+
         if (this.callback) this.callback(this.loading);
 
         return this.rawRequest('POST', '/user/profile/upload', data)
