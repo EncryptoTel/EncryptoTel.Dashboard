@@ -5,4 +5,5 @@ export const environment = {
     translation: 'https://pbx.encryptotel.com/translation/translations',
     back: 'https://pbx.encryptotel.com/front-api',
     ws: 'ws.encryptotel.com',
+    version: '1.0.199'
 };
