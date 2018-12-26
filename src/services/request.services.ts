@@ -1,30 +1,37 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Router, ActivatedRoute} from '@angular/router';
 import 'rxjs/add/operator/toPromise';
-import {LoggerServices} from './logger.services';
-import {MessageServices} from './message.services';
-import {environment as _env} from '../environments/environment';
-import {Router} from '@angular/router';
-import {LocalStorageServices} from './local-storage.services';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
+import {TranslateService} from '@ngx-translate/core';
 
-/*
-  Parent request services. Processing errors and console output for responses
-*/
+import {LoggerServices} from '@services/logger.services';
+import {MessageServices} from '@services/message.services';
+import {LocalStorageServices} from '@services/local-storage.services';
+import {environment as _env} from '@env/environment';
 
+
+export const CHECK_CONNECTION_DELAY = 5000;
+
+/**
+ * Parent request services. Processing errors and console output for responses
+ */
 @Injectable()
 export class RequestServices {
-    constructor(private http: HttpClient,
-                private _messages: MessageServices,
-                private logger: LoggerServices,
-                private router: Router,
-                private storage: LocalStorageServices) {
-        this.lastTick = null;
-        this.setTimer();
+    
+    private _connected: boolean = true;
+    
+    get connected(): boolean {
+        return this._connected;
     }
-
-    private logoutSub: Subject<any> = new Subject<any>();
+    
+    set connected(value: boolean) {
+        if (!value && this._connected) {
+            this.onLostConnection();
+        }
+        this._connected = value;
+    }
 
     protected counter = 0;
     protected lastCounter = 0;
@@ -32,18 +39,33 @@ export class RequestServices {
     protected lastTick;
     protected expiresIn;
 
-    protected beginRequest() {
+    private logoutSub: Subject<any> = new Subject<any>();
+
+    constructor(
+        private http: HttpClient,
+        private logger: LoggerServices,
+        private router: Router,
+        private storage: LocalStorageServices,
+        private message: MessageServices,
+        private translate: TranslateService,
+        private route: Router
+    ) {
+        this.lastTick = null;
+        this.setTimer();
+    }
+
+    protected beginRequest(): void {
         this.counter += 1;
         this.saveLastUrl();
     }
 
-    protected endRequest() {
+    protected endRequest(): void {
         if (!this.lastTick) {
             this.getRefreshToken();
         }
     }
 
-    protected getRefreshToken() {
+    protected getRefreshToken(): any {
         const user = this.storage.readItem('pbx_user');
         if (!user) {
             this.lastTick = null;
@@ -143,6 +165,7 @@ export class RequestServices {
                 break;
             }
         }
+        // console.log('req-error', response);
         this.logger.log('request error', { // Console output for response error details
             method: method,
             url: url,
@@ -187,15 +210,22 @@ export class RequestServices {
     }
 
     request(method: string, url: string, body: any, ShowSuccess = true, ShowError = null, time = 3000): Promise<any> {
-        this.beginRequest();
-        return this.http.request(method, `${_env.back}/${url}`, {
-            body: body,
-            observe: 'response'
-        }).toPromise().then(response => {
-            return this.catchSuccess(response);
-        }).catch(response => {
-            return this.catchError(method, url, response, ShowError, time);
-        });
+        if (this.connected) {
+            this.beginRequest();
+            return this.http
+                .request(method, `${_env.back}/${url}`, {
+                    body: body,
+                    observe: 'response'
+                })
+                .toPromise()
+                .then(response => {
+                    return this.catchSuccess(response);
+                })
+                .catch(response => {
+                    return this.catchError(method, url, response, ShowError, time);
+                });
+        }
+        return Promise.reject('Not connected');
     }
 
     saveLastUrl() {
@@ -215,5 +245,47 @@ export class RequestServices {
         return this.logoutSub.asObservable();
     }
 
+    private checkConnectionTimer = null;
 
+    onLostConnection(): void {
+        this.message.writeError(
+            this.translate
+                .instant('You are not connected to the Internet. Please check the Internet connection and try again'));
+        
+        console.log('on-lost-connection');
+        this.checkConnectionTimer = setTimeout(() => { 
+            this.checkConnectionState(CHECK_CONNECTION_DELAY);
+        }, CHECK_CONNECTION_DELAY);
+    }
+
+    checkConnectionState(delay: number): void {
+        const checkUrl: string = this.route.url; // 'http://google.com/';
+        console.log('check-conn-state', delay, checkUrl, this.route);
+
+        this.http
+            .head(checkUrl)
+            .toPromise()
+            .then(() => {})
+            .catch(() => {})
+            .then(() => this.validateCheckResult(delay));
+    }
+
+    validateCheckResult(delay: number): void {
+        if (this.connected) {
+            if (this.checkConnectionTimer) {
+                clearTimeout(this.checkConnectionTimer);
+                this.checkConnectionTimer = null;
+            }
+            this.message.writeSuccess(
+                this.translate
+                    .instant('Internet connection has been restored'));
+            
+            // TODO: last route refresh
+        }
+        else {
+            this.checkConnectionTimer = setTimeout(() => { 
+                this.checkConnectionState(delay); 
+            }, delay);
+        }
+    }
 }
