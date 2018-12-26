@@ -83,8 +83,10 @@ pbx-queue-create
         .tablet
             .tablet_header,
             .tablet_body .tablet_content
-                grid-template-columns: repeat(6, calc((100% - 68px) / 6)) !important
+                grid-template-columns: repeat(6, calc(100% / 6)) !important
                 .tablet_item
+                    &:nth-child(1)
+                        padding-left: 24px
             .tablet_header
                 .tablet_item
                     &:nth-child(4)
