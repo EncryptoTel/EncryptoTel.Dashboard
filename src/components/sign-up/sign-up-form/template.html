@@ -106,6 +106,7 @@
             Confirmation link has been sent to <br/>
             {{ email }}
         </div>
+        <div translate>If you have not received the letter check the spam folder</div>
         <pbx-button [buttonType]="'accent'" value="{{'Resend confirmation' | translate}}" [loading]="loading"
                     (onClick)="resendConfirmation()"></pbx-button>
     </div>
