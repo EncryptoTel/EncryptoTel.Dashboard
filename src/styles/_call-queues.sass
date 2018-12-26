@@ -64,9 +64,6 @@ pbx-call-queues
                     .qwerty
                         justify-content: flex-start !important
 
-
-
-
 ring-groups-component
     pbx-call-queues
     .tablet
@@ -79,3 +76,17 @@ ring-groups-component
                 &:nth-child(4)
                     .qwerty
                         //justify-content: flex-start !important
+
+
+pbx-queue-create
+    pbx-queue-members-add
+        .tablet
+            .tablet_header,
+            .tablet_body .tablet_content
+                grid-template-columns: repeat(6, calc((100% - 68px) / 6)) !important
+                .tablet_item
+            .tablet_header
+                .tablet_item
+                    &:nth-child(4)
+                        .qwerty
+
