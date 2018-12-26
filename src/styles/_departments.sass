@@ -79,6 +79,11 @@ pbx-department
 		.tablet_body .tablet_content
 			grid-template-columns: repeat(3, calc((100% - 68px) / 3)) repeat(2, calc(68px / 2)) !important
 			.tablet_item
+				&:nth-child(2)
+					justify-content: center
+					text-align: center
+					.qwerty
+						justify-content: center
 		.tablet_header
 			.tablet_item
 				&:nth-child(2),
@@ -94,12 +99,7 @@ pbx-department-create
 			grid-template-columns: repeat(6, calc(100% / 6)) !important
 			.tablet_item
 		.tablet_header
-			.tablet_item
-				&:nth-child(2),
-				&:nth-child(3),
-				&:nth-child(5)
-					.qwerty
-						span
+
 
 pbx-department-create
 	pbx-view-edit-control
