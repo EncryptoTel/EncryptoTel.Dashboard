@@ -80,13 +80,12 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
         // Override default ValidationHost messages
         this.validationHost.customMessages = [
-            { key: 'password_confirmation', error: 'required', message: this.translate.instant('Please confirm the password') },
-            { key: 'password_confirmation', error: 'mismatch', message: this.translate.instant('Passwords do not match') },
             { key: 'email', error: 'required', message: this.translate.instant('Please enter the correct email') },
             { key: 'email', error: 'pattern', message: this.translate.instant('Please enter the correct email') },
             { key: 'code', error: 'required', message: this.translate.instant('Please enter the correct confirmation code') },
             { key: 'code', error: 'pattern', message: this.translate.instant('Please enter the correct confirmation code') },
-
+            { key: 'password_confirmation', error: 'required', message: this.translate.instant('Please confirm the password') },
+            { key: 'password_confirmation', error: 'mismatch', message: this.translate.instant('Passwords do not match') },
         ];
 
         this._compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/jpg', 'image/gif' ];
@@ -293,7 +292,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 })
                 .catch(response => {
                     if (response.errors && response.errors['email']) {
-                        response.errors['email'] = `A user with this email address already exists`;
+                        response.errors['email'] = this.translate.instant(`A user with this email address already exists`);
                     }
                 })
                 .then(() => this.loading--);

@@ -130,7 +130,8 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
 
     get inErrorState(): boolean {
         if (this.errors) {
-            return this.checkServerSideError();
+            const error = this.getValueByKey(this.errors, this.getErrorKey());
+            if (error) return this.checkServerSideError();
         }
 
         if (this.form) {
@@ -142,7 +143,8 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
 
     get isErrorMessageVisible(): boolean {
         if (this.errors) {
-            return this.checkServerSideError();
+            const error = this.getValueByKey(this.errors, this.getErrorKey());
+            if (error) return this.checkServerSideError();
         }
 
         if (this.validationHost) {
@@ -155,7 +157,7 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
     get errorMessage(): string {
         if (this.errors) {
             const error = this.getValueByKey(this.errors, this.getErrorKey());
-            return error;
+            if (error) return error;
         }
 
         if (this.validationHost) {
@@ -167,12 +169,11 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
 
     checkServerSideError(): boolean {
         const error = this.getValueByKey(this.errors, this.getErrorKey());
-        return error !== undefined;
+        return error != null;
     }
 
     checkFormValidationError(): boolean {
         const control = this.getForm();
-
         if (control && control.errors) {
             const validationResult = control.errors['required']
                 ? !control.valid && control.touched
@@ -383,6 +384,7 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
             if (this.form) {
                 const form = this.getForm();
                 form.markAsUntouched();
+                console.log('::upd-form', this.getForm(), this.errors);
             }
         }
     }
