@@ -344,7 +344,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.table.items = [
                 new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
                 new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
-                new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
+                new TableInfoItem(this.translate.instant('Size, Mbyte'), 'sizeKb', 'size', 50),
             ];
         } else {
             this.deletable = true;
