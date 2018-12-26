@@ -178,6 +178,7 @@ account-notifications-component
     .tablet_body .tablet_row .tablet_content
         display: grid !important
         .tablet_item
+            max-height: 40px
             .qwerty
                 width: 100%
                 min-width: 100%
@@ -192,13 +193,22 @@ account-notifications-component
     .tablet_header
         .tablet_item
             span
+                width: auto !important
+                max-width: 90% !important
                 min-width: auto !important
-                max-width: calc(100% - 20px) !important
-                width: 100% !important
 ////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
 
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+// сбросить дичь! стили, генерируемые через js
+.tablet_item
+    &.fix_104, &.fix_80, &.fix_0, &.fix_200
+        min-width: unset !important
+        max-width: unset !important
 
 ////////////////////////////////////////////////////////////////////////////////////
 
