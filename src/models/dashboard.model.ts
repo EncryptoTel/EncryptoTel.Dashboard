@@ -7,6 +7,7 @@ export class DashboardModel {
     numbers: NumberModel[];
     storage: StorageModel;
     callDetail: CallDetailModel[];
+    cdrDetail: any;
 
     get outersCount() {
         return this.numbers.length;
