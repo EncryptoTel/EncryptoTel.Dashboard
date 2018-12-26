@@ -33,6 +33,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     buttons: ButtonItem[];
     buttonsAudio: ButtonItem[];
     currentFilter: any;
+    deletable: boolean = true;
 
     storageItemSubscription: Subscription;
 
@@ -307,6 +308,11 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.getButton(1).visible = false;
             this.getButton(1).inactive = true;
             this.getButton(0).inactive = true;
+        } else if (filter.type === 'certificate') {
+            this.getButton(3).visible = false;
+            this.getButton(2).visible = false;
+            this.getButton(1).visible = false;
+            this.getButton(0).visible = false;
         }
         else {
             this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 168);
@@ -323,6 +329,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     updateFilter(filter: any): void {
         this.currentFilter = filter;
         if (filter.type === 'call_record') {
+            this.deletable = true;
             this.table.items = [
                 new TableInfoItem(this.translate.instant('From'), 'from', null, 120),
                 new TableInfoItem(this.translate.instant('To'), 'to', null, 120),
@@ -332,7 +339,15 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
                 new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
             ];
+        } else if (filter.type === 'certificate') {
+            this.deletable = false;
+            this.table.items = [
+                new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
+                new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
+                new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
+            ];
         } else {
+            this.deletable = true;
             this.table.items = [
                 new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
                 new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),

@@ -14,7 +14,7 @@
             [tableInfoEx]="table"
             [tableItems]="pageInfo.items"
             [editable]="false"
-            [deletable]="true"
+            [deletable]="deletable"
             [selectedItems]="service.select"
             [columnFormat]="[ '', 'col-right', 'col-right', 'col-right' ]"
             (onGetMediaData)="getMediaData($event)"
@@ -51,7 +51,7 @@
              (dragover)="dragOverHandler($event)"
              (dragend)="dragEndHandler($event)"
              (dragleave)="dragLeaveHandler($event)">
-             
+
             <div class="store_sidebar_audio_icon">
                 <svg-icon src="../../assets/icons/_middle/download_24px.svg"></svg-icon>
             </div>
