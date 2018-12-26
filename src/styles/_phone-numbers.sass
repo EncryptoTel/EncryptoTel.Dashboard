@@ -307,19 +307,6 @@ buy-phone-numbers-component
             white-space: nowrap
             margin-top: 22px
 
-phone-numbers-component
-    .tablet
-        .tablet_header
-            .tablet_item
-                &:nth-child(3),
-                &:nth-child(5)
-                    .qwerty
-                        width: 100% !important
-                        justify-content: center
-                &:nth-child(2)
-                    .qwerty
-                        justify-content: center
-
 
 @media screen and (max-width: 1389px)
     buy-phone-numbers-component
@@ -335,14 +322,15 @@ phone-numbers-component
         .tablet_body .tablet_content
             grid-template-columns: repeat(5, calc(100%  / 5)) !important
             .tablet_item
-        .tablet_header
-            .tablet_item
                 &:nth-child(2),
-                &:nth-child(3),
-                &:nth-child(5)
+                &:nth-child(3)
+                    text-align: center !important
                     .qwerty
-                        span
-                            text-align: center
+                        justify-content: center
+                &:nth-child(5)
+                    text-align: left !important
+        .tablet_header
+
 
 @media screen and (max-width: 1279px)
     phone-numbers-component
