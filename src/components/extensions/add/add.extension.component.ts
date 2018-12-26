@@ -31,8 +31,8 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     emailRequiredFlag: boolean = false;
 
     tab = {
-        items: ['General', 'Voicemail', 'Forwarding Rules', 'Privacy and Security'],
-        icons: ['general_16px', 'voicemail_16px', 'forwarding_rules_16px_1', 'security_16px'],
+        items: ['General', 'Voicemail', 'Forwarding Rules'],
+        icons: ['general_16px', 'voicemail_16px', 'forwarding_rules_16px_1'],
         select: 'General',
         active: [true, false, false, true, false, false]
     };
