@@ -61,7 +61,7 @@ export class NotificatorComponent implements OnInit {
 
     @HostListener('window:resize', [])
     onResize() {
-        this.notificatorWidth = (window.innerWidth - 616);
+        // this.notificatorWidth = (window.innerWidth - 616);
         // this.logger.log('onResize', this.notificatorWidth);
     }
 
