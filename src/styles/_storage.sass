@@ -62,44 +62,11 @@ pbx-storage
         .tablet
             .tablet_header
                 .tablet_item
-                    &:nth-child(4)
-                        //text-align: right !important
-                        //padding-right: 30px
-                        //padding-right: 24px
             .tablet_header,
             .tablet_body
-                //border: 1px solid green
                 .tablet_item
-                    //border: 1px solid red
                     white-space: nowrap
                     flex: 1 0 auto
-                    //&.fix_104
-                    //    min-width: unset
-                    //    max-width: unset
-                    //&:nth-child(1)
-                    //    min-width: 50%
-                    //    max-width: 50%
-                    //&:nth-child(2)
-                    //    min-width: 15%
-                    //    max-width: 15%
-                    //&:nth-child(3)
-                    //    min-width: 15%
-                    //    max-width: 15%
-                    //&:nth-child(4)
-                    //    min-width: 15%
-                    //    max-width: 15%
-                    //    text-align: center
-                    //    > span
-                    //        display: inline-block
-                    //        float: none
-                    //&:nth-child(5)
-                    //    max-width: 5%
-                //.asd
-                //    min-width: 15%
-                //    max-width: 15%
-                    //border: 1px solid yellow
-                //.tablet_icon
-                //    margin: 0 auto
             .tablet_body
                 .tablet_row
                     .tablet_content
@@ -118,17 +85,17 @@ pbx-storage
                         &:nth-child(5)
                             //max-width: 5%
 pbx-storage
-    pbx-modal
-        .modal_wrap
-            .modal_body
-                span
-                    //line-height: 11px
+    pbx-header
+        pbx-input
+            &:nth-child(2)
+                margin-right: 0 !important
 
-// меняем дизайн плеера
+// меняем дизайн плеера - не удалять!
 pbx-storage
     pbx-media-table-player
         .player-wrap
             //display: none
+////////////////////////////////////////
 
 /* феерический костыль - не надо так делать */
 pbx-sidebar
@@ -165,86 +132,7 @@ pbx-storage
                     span
                         //width: 90px
                         justify-content: center
-            //&.column-cnt-5
-            //    .tablet_header,
-            //    .tablet_body
-            //        .tablet_item
-            //            &:nth-child(1)
-            //                min-width: 23% !important
-            //                max-width: 23% !important
-            //            &:nth-child(2)
-            //                min-width: 17% !important
-            //                max-width: 17% !important
-            //            &:nth-child(3)
-            //                min-width: 15% !important
-            //                max-width: 15% !important
-            //            &:nth-child(4)
-            //                min-width: 20% !important
-            //                max-width: 20% !important
-            //            &:nth-child(5)
-            //                min-width: 20% !important
-            //                max-width: 20% !important
-            //            &:nth-child(6)
-            //                min-width: 5% !important
-            //                max-width: 5% !important
-            //    .tablet_header
-            //        .tablet_item:nth-child(4)
-            //            text-align: center !important
-            //    .tablet_header,
-            //    .tablet_body
-            //        .tablet_item:nth-child(3)
-            //            span
-            //                justify-content: flex-start
-            //        .tablet_item:nth-child(4)
-            //            span
-            //                float: left
-            //                width: 90px
-            //                justify-content: center
-            //
-            //        .tablet_icon
-            //            margin: 0 16px 0 auto
-            //&.column-cnt-7
-            //    .tablet_header,
-            //    .tablet_body
-            //        .tablet_item
-            //            &:nth-child(1)
-            //                min-width: 15% !important
-            //                max-width: 15% !important
-            //            &:nth-child(2)
-            //                min-width: 15% !important
-            //                max-width: 15% !important
-            //            &:nth-child(3)
-            //                min-width: 15% !important
-            //                max-width: 15% !important
-            //                span
-            //                    width: auto !important
-            //                    float: left !important
-            //            &:nth-child(4)
-            //                min-width: 15% !important
-            //                max-width: 15% !important
-            //                span
-            //                    float: left !important
-            //            &:nth-child(5)
-            //                min-width: 10% !important
-            //                max-width: 10% !important
-            //            &:nth-child(6)
-            //                min-width: 10% !important
-            //                max-width: 10% !important
-            //                span
-            //                    width: 70px
-            //                    justify-content: center
-            //        .asd
-            //            min-width: 15% !important
-            //            max-width: 15% !important
-            //        .tablet_icon
-            //            min-width: 5% !important
-            //            max-width: 5% !important
-            //            margin: 0 16px 0 auto
-            //            svg-icon
-            //                flex: initial
-            //                margin: auto
-            //                svg
-            //                    width: 12px
+
 pbx-storage
     .tablet
         .tablet_header
@@ -254,6 +142,7 @@ pbx-storage
                 &:nth-child(5)
                     span
                         display: flex !important
+
 
 
 pbx-storage
