@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
-import {RequestServices} from './request.services';
-import {RefillModel} from '../models/refill.model';
-import {PaymentModel} from "../models/payment.model";
-import {CoursesModel} from "../models/courses.model";
+
+import {RequestServices} from '@services/request.services';
+import {RefillModel} from '@models/refill.model';
+import {PaymentModel} from '@models/payment.model';
+import {CoursesModel} from '@models/courses.model';
+
 
 @Injectable()
 export class RefillServices {

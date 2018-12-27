@@ -270,7 +270,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     confirmDelete() {
-        let item: any;
+        let item: any = { loading: 0 };
         if (this.selected) {
             item = this.selected;
         }
