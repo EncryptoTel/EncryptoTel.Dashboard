@@ -157,6 +157,15 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 icon: false
             },
             {
+                id: 4,
+                title: 'Download',
+                type: 'accent',
+                visible: true,
+                inactive: true,
+                buttonClass: '',
+                icon: false
+            },
+            {
                 id: 1,
                 title: 'Delete Selected',
                 type: 'error',
@@ -182,16 +191,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 inactive: true,
                 buttonClass: 'button-upload',
                 icon: false
-            },
-            {
-                id: 4,
-                title: 'Download',
-                type: 'success',
-                visible: true,
-                inactive: true,
-                buttonClass: 'success',
-                icon: false
-            },
+            }
         ];
         this.buttonType = 1;
     }
