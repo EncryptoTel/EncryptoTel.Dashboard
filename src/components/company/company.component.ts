@@ -154,6 +154,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
         if (this.company.id) {
             this.editMode = false;
+            this.setFormData(this.company);
         }
         else {
             this.getCompany();
@@ -161,7 +162,6 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     save(): void {
-        console.log('form', this.form);
         if (this.validateForms()) {
             this.setModelData(this.company);
             this.saveCompany();
