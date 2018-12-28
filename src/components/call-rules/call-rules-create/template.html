@@ -325,7 +325,7 @@
                                    [form]="true"
                                    [required]="true"
                                    [formKey]="getActionFormKey(i + 1, true)"
-                                   [options]="actionsList"
+                                   [options]="getAvailableAction()"
                                    [(errors)]="service.errors"
                                    [(objectView)]="selectedActions[i + 1]"
                                    [(object)]="callRulesForm"
