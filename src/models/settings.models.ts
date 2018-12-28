@@ -15,8 +15,12 @@ export class SessionItem extends BaseItemModel {
     expires: string;
     active: boolean;
 
-    get displayExpires() {
+    get displayExpires(): string {
         return formatDateTime(this.expires);
+    }
+
+    get status(): string {
+        return this.active ? 'online' : '';
     }
 }
 

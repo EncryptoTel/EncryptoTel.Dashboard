@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {SwipeAnimation} from "../../shared/swipe-animation";
+
+import {FadeAnimation} from '@shared/fade-animation';
+import {SwipeAnimation} from '@shared/swipe-animation';
+
 
 @Component({
     selector: 'pbx-component',
@@ -12,6 +14,4 @@ import {SwipeAnimation} from "../../shared/swipe-animation";
     ]
 })
 
-export class BaseComponent {
-
-}
+export class BaseComponent {}
