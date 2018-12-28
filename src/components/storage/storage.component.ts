@@ -20,6 +20,14 @@ import {filenameRegExp} from '@shared/vars';
 
 export const MAX_AUDIO_FILE_NAME_UI_LENGTH = 20;
 
+export enum StorageButtons {
+    RestoreSelected = 0,
+    DeleteSelected = 1,
+    Upload = 2,
+    EmptyTrash = 3,
+    Download = 4,
+}
+
 @Component({
     selector: 'pbx-storage',
     templateUrl: './template.html',
@@ -35,7 +43,6 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     filters: FilterItem[];
     buttons: ButtonItem[];
-    buttonsAudio: ButtonItem[];
     currentFilter: any;
     deletable: boolean = true;
 
@@ -130,26 +137,6 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             ], 'title', this.translate.instant('[choose one]')),
             new FilterItem(2, 'search', 'Search:', null, null, this.translate.instant('Search by Name')),
         ];
-        this.buttonsAudio = [
-            {
-                id: 2,
-                title: 'Upload',
-                type: 'success',
-                visible: true,
-                inactive: true,
-                buttonClass: 'button-upload',
-                icon: false
-            },
-            {
-                id: 1,
-                title: 'Delete Selected',
-                type: 'error',
-                visible: true,
-                inactive: true,
-                buttonClass: 'trash',
-                icon: false
-            }
-        ];
         this.buttons = [
             {
                 id: 0,
@@ -192,7 +179,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 title: 'Upload',
                 type: 'success',
                 visible: true,
-                inactive: true,
+                inactive: false,
                 buttonClass: 'button-upload',
                 icon: false
             }
@@ -200,7 +187,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.buttonType = 1;
     }
 
-    getButton(id) {
+    getButton(id: number): any {
         return this.buttons.find(x => x.id === id);
     }
 
@@ -274,25 +261,26 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     onMediaDataLoaded(): void {
         this.service.select = [];
         this.pageInfo = this.service.pageInfo;
+        
         if (this.isFilterTrashSelected) {
             if (this.pageInfo.itemsCount > 0) {
-                this.getButton(0).visible = true;
-                this.getButton(0).inactive = true;
-                this.getButton(3).inactive = false;
+                this.getButton(StorageButtons.RestoreSelected).visible = true;
+                this.getButton(StorageButtons.RestoreSelected).inactive = true;
+                this.getButton(StorageButtons.EmptyTrash).inactive = false;
             }
             else {
-                this.getButton(0).visible = false;
-                this.getButton(0).inactive = true;
-                this.getButton(3).inactive = true;
+                this.getButton(StorageButtons.RestoreSelected).visible = false;
+                this.getButton(StorageButtons.RestoreSelected).inactive = true;
+                this.getButton(StorageButtons.EmptyTrash).inactive = true;
             }
         }
         else {
-            this.getButton(0).visible = false;
-            this.getButton(0).inactive = false;
-            this.getButton(1).inactive = true;
+            this.getButton(StorageButtons.RestoreSelected).visible = false;
+            this.getButton(StorageButtons.RestoreSelected).inactive = false;
+            this.getButton(StorageButtons.DeleteSelected).inactive = true;
         }
-        this.getButton(2).inactive = !this.isSidebarVisible;
-        this.getButton(2).visible = this.currentFilter && this.currentFilter.type === 'audio';
+        this.getButton(StorageButtons.Upload).inactive = !this.isSidebarVisible;
+        this.getButton(StorageButtons.Upload).visible = this.currentFilter && this.currentFilter.type === 'audio';
     }
 
     // --- filter methods ---------------------------------
@@ -306,28 +294,30 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     reloadFilter(filter: any): void {
         this.loading ++;
+
+        this.updateFilter(filter);
         
-        if (filter.type === 'trash') {
+        if (this.currentFilter.type === 'trash') {
             this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayModifiedDate', 'date', 168);
-            this.getButton(3).visible = true;
-            this.getButton(1).visible = false;
-            this.getButton(1).inactive = true;
-            this.getButton(0).inactive = true;
+            this.getButton(StorageButtons.EmptyTrash).visible = true;
+            this.getButton(StorageButtons.DeleteSelected).visible = false;
+            this.getButton(StorageButtons.DeleteSelected).inactive = true;
+            this.getButton(StorageButtons.RestoreSelected).inactive = true;
         }
-        else if (filter.type === 'certificate') {
-            this.getButton(3).visible = false;
-            this.getButton(2).visible = false;
-            this.getButton(1).visible = false;
-            this.getButton(0).visible = false;
+        else if (this.currentFilter.type === 'certificate') {
+            this.getButton(StorageButtons.EmptyTrash).visible = false;
+            this.getButton(StorageButtons.Upload).visible = false;
+            this.getButton(StorageButtons.DeleteSelected).visible = false;
+            this.getButton(StorageButtons.RestoreSelected).visible = false;
         }
         else {
             this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 168);
-            this.getButton(3).visible = false;
-            this.getButton(1).visible = true;
-            this.getButton(0).inactive = true;
+            this.getButton(StorageButtons.EmptyTrash).visible = false;
+            this.getButton(StorageButtons.DeleteSelected).visible = true;
+            this.getButton(StorageButtons.RestoreSelected).inactive = true;
         }
+        this.getButton(StorageButtons.Upload).visible = this.currentFilter.type === 'audio';
 
-        this.updateFilter(filter);
         this.getItems();
         
         this.loading --;
@@ -370,10 +360,10 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     selectItem(item: StorageItem): void {
         this.service.selectItem(item.id);
-        this.getButton(0).inactive = this.service.select.length === 0;
-        this.getButton(1).inactive = this.service.select.length === 0;
-        this.getButton(4).inactive = this.service.select.length === 0;
-        this.getButton(2).inactive = false;
+        this.getButton(StorageButtons.RestoreSelected).inactive = this.service.select.length === 0;
+        this.getButton(StorageButtons.DeleteSelected).inactive = this.service.select.length === 0;
+        this.getButton(StorageButtons.Download).inactive = this.service.select.length === 0;
+        this.getButton(StorageButtons.Upload).inactive = false;
     }
 
     // --- file uploading ---------------------------------
