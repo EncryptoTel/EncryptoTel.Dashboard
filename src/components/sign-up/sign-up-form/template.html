@@ -3,7 +3,6 @@
         <svg-icon [src]="'/assets/icons/_logo/encryptotel_logo.svg'" class="auth_form_icon"></svg-icon>
     </a>
     <form *ngIf="!signUpCompleted"
-          [@Fade]
           [formGroup]="signUpForm"
           (submit)="signUp($event)"
           (keyup)="services.clearMessage()"
