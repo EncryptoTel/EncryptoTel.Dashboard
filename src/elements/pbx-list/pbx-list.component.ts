@@ -109,7 +109,7 @@ export class ListComponent implements OnInit {
         const filteredWithoutSearch: boolean = this.activeFilter()
             && this.currentFilter
             && (!this.currentFilter.hasOwnProperty('search') || !this.currentFilter.search);
-        return !isLoading && filteredWithoutSearch && this.pageInfo.itemsCount === 0;
+        return !isLoading && filteredWithoutSearch && this.pageInfo.itemsCount === 0 && this._totalItemsCount !== 0;
     }
 
     get isNoData(): boolean {
@@ -192,7 +192,7 @@ export class ListComponent implements OnInit {
             .then(() => {
                 this.getItems(item);
             })
-            .catch(() => { })
+            .catch(() => {})
             .then(() => item.loading--);
     }
 
@@ -246,7 +246,8 @@ export class ListComponent implements OnInit {
     // -- data methods --------------------------------------------------------
 
     getItems(item = null) {
-        item ? item.loading++ : this.loadingEx++;
+        /*item ? item.loading ++ :*/ this.loadingEx ++;
+        
         const limit = this.pageInfo.limit;
         if (this.currentFilter && this.currentFilter.type === 1) {
             if (this.header.inputs.first.value.id === 'company') {
@@ -255,11 +256,21 @@ export class ListComponent implements OnInit {
                 this.currentFilter.type = 'blacklist';
             }
         }
+        
+        if (this.key === 'address-book') {
+            this.loadingEx ++;
+            this.getAddressBookTotalItems()
+                .then(() => {})
+                .catch(() => {})
+                .then(() => this.loadingEx--);
+        }
+        
         if (this.calendarVisible && this.calendarDateRange) {
             if (!this.currentFilter) this.currentFilter = {};
             this.currentFilter['startDate'] = dateToServerFormat(this.calendarDateRange[0]);
             this.currentFilter['endDate'] = dateToServerFormat(this.calendarDateRange[1]);
         }
+        
         this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null)
             .then(response => {
                 this.pageInfo = response;
@@ -271,7 +282,18 @@ export class ListComponent implements OnInit {
                 this.onLoad.emit(this.pageInfo);
             })
             .catch(() => { })
-            .then(() => item ? item.loading-- : this.loadingEx--);
+            .then(() => /*item ? item.loading-- :*/ this.loadingEx--);
+    }
+
+    getAddressBookTotalItems(): Promise<any> {
+        this._totalItemsCount = 0;
+        const _this = this;
+        return Promise.all([
+            this.service.getItems(this.pageInfo, { type: 'company' }, this.tableInfo ? this.tableInfo.sort : null)
+                .then(response => { _this._totalItemsCount += response.itemsCount; }),
+            this.service.getItems(this.pageInfo, { type: 'blacklist' }, this.tableInfo ? this.tableInfo.sort : null)
+                .then(response => { _this._totalItemsCount += response.itemsCount; })
+        ]);
     }
 
     savePageInfoToSession(): void {
@@ -282,7 +304,7 @@ export class ListComponent implements OnInit {
     }
 
     updateTotalItems(): void {
-        if (!this.currentFilter || Object.keys(this.currentFilter).length === 0) {
+        if ((!this.currentFilter || Object.keys(this.currentFilter).length === 0) && this.key !== 'address-book') {
             this._totalItemsCount = this.pageInfo.itemsCount;
         }
     }

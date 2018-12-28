@@ -100,6 +100,13 @@ pbx-call-rules-create
             .pbx_input_item_input_wrap
                 display: grid
                 grid-template-columns: 1fr min-content
+        pbx-input[displaykey="phoneNumber"]
+            + .call-rules-create_row
+                p
+                    display: block
+                    span
+                        display: inline
+                        line-height: 20px
 
 pbx-call-rules
     .tablet

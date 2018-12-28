@@ -88,8 +88,9 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
     }
 
     isEmailRequired(): boolean {
-        return !!this.form.controls.user.get('firstName').value
-               || !!this.form.controls.user.get('lastName').value;
+        // return !!this.form.controls.user.get('firstName').value
+        //        || !!this.form.controls.user.get('lastName').value;
+        return !!this.form.controls.user.get('email').value && this.form.controls.user.get('email').valid;
     }
 
     // -- data retrieval methods ----------------------------------------------

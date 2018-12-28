@@ -53,27 +53,19 @@
                                 bottom: 2px
                                 right: 94px
 
-    // костыль. Огромный такой костыль
-    phone-numbers-component .tablet .tablet_header .tablet_item, phone-numbers-component .tablet .tablet_body .tablet_item
-        //width: 230px !important
-
-    // костыль!
-    pbx-storage
-    .tablet
-        .tablet_header
-            .tablet_item
-                &:nth-child(3)
-                    span
-                        //width: 100% !important
+@media screen and (max-width: 1109px)
+    .lang_ru
+        pbx-details-and-records
+            .details-header
+                .details-header__wrap
+                    pbx-tag-selector
+                        .tags-header__wrap-filters
+                            .filters
+                                button.tags-button
+                                    padding: 0 16px
 
 
 
 
-@media screen and (max-width: 1799px)
-    phone-numbers-component .tablet .tablet_header .tablet_item, phone-numbers-component .tablet .tablet_body .tablet_item,
-    .lang_ru phone-numbers-component .tablet .tablet_header .tablet_item, .lang_ru phone-numbers-component .tablet .tablet_body .tablet_item
-        //width: 120px !important
-        //.qwerty
-        //    overflow: hidden
-        //    text-overflow: ellipsis
-        //    display: inline
+
+

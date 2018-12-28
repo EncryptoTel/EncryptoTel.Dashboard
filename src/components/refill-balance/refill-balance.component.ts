@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ClipboardService } from 'ngx-clipboard';
@@ -18,6 +18,7 @@ import { PaymentModel } from '@models/payment.model';
 import { CoursesModel } from '@models/courses.model';
 import { FilterItem } from '@models/base.model';
 import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
+import {HeaderComponent} from '@elements/pbx-header/pbx-header.component';
 
 
 declare var require: any;
@@ -54,6 +55,8 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
 
     navigationSubscription: Subscription;
     modalExit: ModalEx = new ModalEx('', 'cancelEdit');
+
+    @ViewChild(HeaderComponent) header: HeaderComponent;
 
     constructor(
         private _refill: RefillServices,
@@ -134,6 +137,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
 
     resetFilters(): void {
         this.currentFilter = { amount: 5, returnAddress: null };
+        if (this.header) this.header.currentFilter = this.currentFilter;
     }
 
     selectRefillMethod(refillMethod: RefillModel): void {
@@ -150,6 +154,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
                     this.payment = res;
                     this.currentFilter['returnAddress'] = this.payment.address;
                     this.filters[1].hidden = !this.selected.needReturnAddress;
+                    if (this.header) this.header.currentFilter = this.currentFilter;
                 });
         }
     }
