@@ -17,6 +17,7 @@ import {TabsComponent} from '@elements/pbx-tabs/pbx-tabs.component';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import {InputComponent} from '@elements/pbx-input/pbx-input.component';
 import { getErrorMessageFromServer } from '@shared/shared.functions';
+import {simpleNameRegExp} from '@shared/vars';
 
 
 @Component({
@@ -137,13 +138,17 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
         this.form = this.fb.group({
             generalForm: this.fb.group({
-                name: [this._department.name, [Validators.required, Validators.maxLength(190)]],
-                comment: [this._department.comment, [Validators.maxLength(255)]],
+                name:       [ this._department.name, [ Validators.required, Validators.maxLength(190), Validators.pattern(simpleNameRegExp) ] ],
+                comment:    [ this._department.comment, [ Validators.maxLength(255) ] ],
             }),
             sipInnersForm: this.fb.group({
                 sipInner: this.fb.array([], Validators.required)
             })
         });
+
+        this.validationHost.customMessages = [
+            { key: 'generalForm.name', error: 'pattern', message: this.translate.instant('Name may contain letters, digits and spaces only') }
+        ];
     }
 
     get departmentForm(): FormGroup {
