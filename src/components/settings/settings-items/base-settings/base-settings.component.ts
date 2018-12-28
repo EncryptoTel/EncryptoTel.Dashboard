@@ -252,6 +252,7 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
 
         this.saveButton.loading = true;
 
+        this.updateValuesForSave();
         this.service.saveSettings(this.changes, this.path, false)
             .then(response => {
                 this.message.writeSuccess(this.translate.instant(response.message));
@@ -262,5 +263,14 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
             })
             .catch(() => {})
             .then(() => this.saveButton.loading = false);
+    }
+
+    updateValuesForSave(): void {
+        this.changes.forEach(s => {
+            const item = this.findSettingById(s.id, this.model.items);
+            if (item && item.type === 'bool') {
+                s.value = s.value ? '1' : '0';
+            }
+        });
     }
 }

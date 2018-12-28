@@ -6,7 +6,7 @@ import { StorageService } from '../../services/storage.service';
 import { MessageServices } from '../../services/message.services';
 import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from '../../models/base.model';
 import { StorageModel, StorageItem } from '../../models/storage.model';
-import { killEvent } from '../../shared/shared.functions';
+import { killEvent, getMomentFormatDete } from '../../shared/shared.functions';
 import { ListComponent } from '@elements/pbx-list/pbx-list.component';
 import { Subscription } from 'rxjs/Subscription';
 import { WsServices } from '@services/ws.services';
@@ -99,7 +99,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         public translate: TranslateService,
         private storage: LocalStorageServices
     ) {
-        this.dateFormat = this.storage.readItem('dateTimeFormat');
+        this.dateFormat = getMomentFormatDete(this.storage.readItem('dateTimeFormat'), this.storage.readItem('TimeFormat'));
         this.modal = new ModalEx('', 'deleteFiles');
         this.sidebarActive = false;
 
@@ -108,7 +108,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.table.items = [
             new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
             new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
-            new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
+            new TableInfoItem(this.translate.instant('Time'), 'durationFormat', 'duration', 50),
             new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
             new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
         ];
@@ -157,6 +157,15 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 icon: false
             },
             {
+                id: 4,
+                title: 'Download',
+                type: 'accent',
+                visible: true,
+                inactive: true,
+                buttonClass: '',
+                icon: false
+            },
+            {
                 id: 1,
                 title: 'Delete Selected',
                 type: 'error',
@@ -182,16 +191,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 inactive: true,
                 buttonClass: 'button-upload',
                 icon: false
-            },
-            {
-                id: 4,
-                title: 'Download',
-                type: 'success',
-                visible: true,
-                inactive: true,
-                buttonClass: 'success',
-                icon: false
-            },
+            }
         ];
         this.buttonType = 1;
     }
@@ -238,7 +238,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             .then(response => {
                 this.pageInfo = response;
                 this.pageInfo.items.forEach(storageItem => {
-                    storageItem.created = formatDateTime(storageItem.created, this.dateFormat.toUpperCase().replace('HH:MM:SS', 'HH:mm:ss'));
+                    storageItem.created = formatDateTime(storageItem.created, this.dateFormat);
                     if (storageItem.callDetail) {
                         storageItem.from = storageItem.callDetail.source;
                         storageItem.to = storageItem.callDetail.destination;
@@ -333,9 +333,8 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.table.items = [
                 new TableInfoItem(this.translate.instant('From'), 'from', null, 120),
                 new TableInfoItem(this.translate.instant('To'), 'to', null, 120),
-                new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
-                new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
-                new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
+                new TableInfoItem(this.translate.instant('Start time'), 'displayDateTime', 'date', 158),
+                new TableInfoItem(this.translate.instant('Time'), 'durationFormat', 'duration', 50),
                 new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
                 new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
             ];
@@ -351,7 +350,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.table.items = [
                 new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
                 new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
-                new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
+                new TableInfoItem(this.translate.instant('Time'), 'durationFormat', 'duration', 50),
                 new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
                 new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
             ];

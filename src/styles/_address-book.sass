@@ -105,13 +105,20 @@ pbx-address-book
             grid-template-columns: repeat(6, calc((100% - 68px) / 6)) repeat(2, calc(68px / 2)) !important
             .tablet_item
         .tablet_header
-            .tablet_item
-                &:nth-child(2),
-                &:nth-child(3),
-                &:nth-child(5)
-                    .qwerty
-                        span
-                            //text-align: center
+    pbx-header
+        .pbx_header_wrap
+            pbx-input
+                .pbx_input_item
+                    grid-template-columns: 44px 1fr !important
+
+.lang_ru
+    pbx-address-book
+        pbx-header
+        .pbx_header_wrap
+            pbx-input
+                margin-right: 16px !important
+                .pbx_input_item
+                    grid-template-columns: 64px 1fr !important
 
 @media screen and (max-width: 1199px)
     pbx-address-book

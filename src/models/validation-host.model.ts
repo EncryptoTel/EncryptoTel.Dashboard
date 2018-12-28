@@ -155,9 +155,9 @@ export class ValidationHost implements Lockable {
         this.forms.forEach(form => {
             this.scanForm(form, '', (formControl, name) => {
                 if (name === controlKey) {
-                    // console.log('scan-form', name, formControl);
                     const errorKeys = Object.keys(formControl.errors);
-                    errorMessage = this.getValidatorMessage(controlKey, errorKeys[0], formControl.errors);
+                    // console.log('scan-form', controlKey, errorKeys[0], formControl.errors);
+                    errorMessage = this.getValidatorMessage(control, errorKeys[0], formControl.errors);
                 }
             });
         });
@@ -213,13 +213,13 @@ export class ValidationHost implements Lockable {
     // 'Please enter no more than'
     // 'Please enter valid'
 
-    getValidatorMessage(controlKey: string, errorKey: string, errors: any): string {
-        const customMessage = this.getCustomValidatorMessage(controlKey, errorKey);
+    getValidatorMessage(control: InputComponent, errorKey: string, errors: any): string {
+        const customMessage = this.getCustomValidatorMessage(control, errorKey);
         if (customMessage) return customMessage;
         // console.log('vh-message', control, errorKey, errors);
 
         if (errorKey === 'required') {
-            const ctrlName: string = this.translate.instant(this.normalizeControlName(controlKey));
+            const ctrlName: string = this.translate.instant(this.normalizeControlName(control.name));
             const szPleaseEnter: string = this.translate.instant('Please enter');
             return `${szPleaseEnter} ${ctrlName}`;
         }
@@ -248,7 +248,7 @@ export class ValidationHost implements Lockable {
             return `${szPleaseEnterNoMoreThan} ${errors.max.max} ${szCharacters}`;
         }
         else if (errorKey === 'pattern') {
-            const ctrlName: string = this.normalizeControlName(name);
+            const ctrlName: string = this.normalizeControlName(control.name);
             const szPleaseEnterValid: string = this.translate.instant('Please enter valid');
             return `${szPleaseEnterValid} ${ctrlName}`;
         }
@@ -264,11 +264,12 @@ export class ValidationHost implements Lockable {
         return normalized;
     }
 
-    getCustomValidatorMessage(controlKey: string, errorKey: string): string {
+    getCustomValidatorMessage(control: InputComponent, errorKey: string): string {
         // FormArrays validation keys look like:
         // - formName.arrayName.${index: number}.fieldName i.e. 'myForm.phones.0.extension'
         // but customMessages should contain corresponding key in the following format:
         // - formName.arrayName.*.fieldName i.e. 'myForm.phones.*.extension'
+        const controlKey = this.getValidatorKey(control);
         const customMessageKey = controlKey.replace(reFormArrayIdxRef, '.*.');
         if (this.customMessages) {
             const item = this.customMessages.find(m => m.key === customMessageKey && m.error === errorKey);

@@ -248,12 +248,12 @@ export function getErrorMessageFromServer(err) {
 
 export function parseOptionName(name: string): string[] {
     const matches = optionNameRegExp.exec(name);
-    
+
     // let cutName: string = matches[1];
     // if (cutName.length > MAX_OPTION_NAME_LENGTH) {
     //     cutName = cutName.substr(0, MAX_OPTION_NAME_LENGTH) + '...';
     // }
-    
+
     return [ matches[1], matches[2] ];
 }
 
@@ -274,7 +274,9 @@ export function updateOptionNames(options: any[], keyName: string, keyCount: str
 
 export function getMomentFormatDete(dateFormat, timeFormat) {
         let res = dateFormat.split(' ')[0].toUpperCase();
-        res += ' ' + dateFormat.split(' ')[1];
+        const format24 = timeFormat !== '12';
+        const timef = format24 ? dateFormat.split(' ')[1].replace('hh', 'HH') : dateFormat.split(' ')[1].toLowerCase();
+        res += ' ' + timef;
         res += (timeFormat === '12' ? ' a' : '');
         return res;
 }

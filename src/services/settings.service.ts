@@ -55,9 +55,6 @@ export class SettingsService extends BaseService {
     }
 
     saveSettings(settings: SettingsOptionItem[], path, ShowSuccess = true): Promise<any> {
-        // settings.forEach(s => {
-        //     s.value = s.value;
-        // });
         return this.post(`${path}`, {settings: settings}, ShowSuccess);
     }
 
