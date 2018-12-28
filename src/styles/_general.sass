@@ -217,6 +217,26 @@ refill-balance
             &:hover
                 color: $dark_accent !important
 
+
+.light_theme
+    pbx-media-table-player
+        .player-container
+            background: $white_grey_hover !important
+        .player--play-pause
+            svg-icon
+                fill: $white_black !important
+        .player-wave
+            span
+                background: $white_black !important
+                &.active
+                    background: $dark_accent !important
+        .player-time
+            color: $white_black !important
+        .player-arrow
+            background: $dark_white !important
+            polygon
+                fill: $white_black !important
+
 @media screen and (max-height: 850px)
     sign-up
         sign-up-form
