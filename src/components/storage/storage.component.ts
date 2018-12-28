@@ -1,20 +1,24 @@
 import { Component, ElementRef, OnInit, ViewChild, AfterViewChecked, OnDestroy } from '@angular/core';
-import { MediaTableComponent } from '../../elements/pbx-media-table/pbx-media-table.component';
-import { ModalEx } from '../../elements/pbx-modal/pbx-modal.component';
-import { SizePipe } from '../../services/size.pipe';
-import { StorageService } from '../../services/storage.service';
-import { MessageServices } from '../../services/message.services';
-import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from '../../models/base.model';
-import { StorageModel, StorageItem } from '../../models/storage.model';
-import { killEvent, getMomentFormatDete } from '../../shared/shared.functions';
-import { ListComponent } from '@elements/pbx-list/pbx-list.component';
 import { Subscription } from 'rxjs/Subscription';
-import { WsServices } from '@services/ws.services';
-import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageServices } from '@services/local-storage.services';
-import { formatDateTime } from '@shared/shared.functions';
 
+import { MediaTableComponent } from '@elements/pbx-media-table/pbx-media-table.component';
+import { ModalEx } from '@elements/pbx-modal/pbx-modal.component';
+import { ListComponent } from '@elements/pbx-list/pbx-list.component';
+import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
+import { SizePipe } from '@services/size.pipe';
+import { StorageService } from '@services/storage.service';
+import { MessageServices } from '@services/message.services';
+import { WsServices } from '@services/ws.services';
+import { LocalStorageServices } from '@services/local-storage.services';
+import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from '@models/base.model';
+import { StorageModel, StorageItem } from '@models/storage.model';
+import { killEvent, getMomentFormatDete } from '@shared/shared.functions';
+import { formatDateTime } from '@shared/shared.functions';
+import {filenameRegExp} from '@shared/vars';
+
+
+export const MAX_AUDIO_FILE_NAME_UI_LENGTH = 20;
 
 @Component({
     selector: 'pbx-storage',
@@ -301,14 +305,16 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     reloadFilter(filter: any): void {
-        this.loading++;
+        this.loading ++;
+        
         if (filter.type === 'trash') {
             this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayModifiedDate', 'date', 168);
             this.getButton(3).visible = true;
             this.getButton(1).visible = false;
             this.getButton(1).inactive = true;
             this.getButton(0).inactive = true;
-        } else if (filter.type === 'certificate') {
+        }
+        else if (filter.type === 'certificate') {
             this.getButton(3).visible = false;
             this.getButton(2).visible = false;
             this.getButton(1).visible = false;
@@ -323,11 +329,13 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
         this.updateFilter(filter);
         this.getItems();
-        this.loading--;
+        
+        this.loading --;
     }
 
     updateFilter(filter: any): void {
-        this.currentFilter = filter;
+        Object.keys(filter).forEach(key => this.currentFilter[key] = filter[key]);
+
         if (filter.type === 'call_record') {
             this.deletable = true;
             this.table.items = [
@@ -338,7 +346,8 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
                 new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
             ];
-        } else if (filter.type === 'certificate') {
+        }
+        else if (filter.type === 'certificate') {
             this.deletable = false;
             this.table.items = [
                 new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
@@ -487,20 +496,13 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.confirmDeletion();
     }
 
-    getShortName(item) {
-        let name = item.fileName;
-        let reg = /\.[a-z \d]{2,5}$/;
-        let ext = name.match(reg)[0];
-        let long = name.split(ext)[0];
-        var short;
-        var dots = '..';
-        if (long.length > 20) {
-            short = long.substr(0, 20);
-        } else {
-            short = long;
-            dots = '';
+    cutFileName(item: any): any {
+        // tslint:disable-next-line:prefer-const
+        let [ , name, extension ] = filenameRegExp.exec(item.fileName);
+        if (name.length > MAX_AUDIO_FILE_NAME_UI_LENGTH) {
+            name = name.substr(0, MAX_AUDIO_FILE_NAME_UI_LENGTH) + '..';
         }
-        item.fileName = short + dots + ext;
+        item.fileName = `${name}.${extension}`;
         return item;
     }
 
@@ -510,8 +512,8 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.modal = new ModalEx('', 'deleteFiles');
             if (this.service.select.length === 1) {
                 let item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
-                item = this.getShortName(item);
-                this.modal.body = this.translate.instant('Are you sure you want to delete') + '<span>' + item.fileName + '</span> ' + this.translate.instant('file?');
+                item = this.cutFileName(item);
+                this.modal.body = this.translate.instant('Are you sure you want to delete') + '<span>&nbsp;' + item.fileName + '</span> ' + this.translate.instant('file?');
             }
             this.modal.visible = true;
         }
@@ -522,7 +524,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.modal = new ModalEx('', 'emptyTrash');
             if (this.service.select.length === 1) {
                 let item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
-                item = this.getShortName(item);
+                item = this.cutFileName(item);
                 this.modal.body = this.translate.instant('Permanently delete') + '&nbsp;' + item.fileName + '&nbsp;' + this.translate.instant('file?');
             }
             else if (this.service.select.length > 0) {
