@@ -1,6 +1,6 @@
-import { Type } from 'class-transformer';
-import { BaseItemModel, PageInfoModel } from './base.model';
-import { formatDateTime } from '../shared/shared.functions';
+import { BaseItemModel, PageInfoModel } from '@models/base.model';
+import { formatDateTime } from '@shared/shared.functions';
+
 
 export class SessionsModel extends PageInfoModel {
     items: SessionItem[] = [];
@@ -79,6 +79,7 @@ export class SettingsBaseItem {
 export class SettingsGroupItem extends SettingsBaseItem {
     type: 'group' | 'group_field' = 'group';
     children: SettingsBaseItem[] = [];
+    comment: string;
 }
 
 export class SettingsItem extends SettingsBaseItem {
@@ -98,18 +99,18 @@ export class SettingsOptionItem {
 export class SettingsModel {
     items: SettingsBaseItem[] = [];
 
-    static create(plainObj: any): SettingsModel {
+    static create(plainObj: any, exDataMap: any = null): SettingsModel {
         const model = new SettingsModel();
 
         Object.keys(plainObj).forEach(key => {
-            const item = this.createItem(key, plainObj[key]);
+            const item = this.createItem(key, plainObj[key], exDataMap);
             model.items.push(item);
         });
 
         return model;
     }
 
-    static createItem(key: string, plainObj: any): SettingsBaseItem {
+    static createItem(key: string, plainObj: any, exDataMap: any = null): SettingsBaseItem {
         const item = SettingsItemFactory.createItem(key, plainObj.type);
 
         Object.keys(plainObj).forEach(okey => {
@@ -129,13 +130,35 @@ export class SettingsModel {
             else if (okey === 'children') {
                 Object.keys(plainObj.children).forEach(childKey => {
                     (<SettingsGroupItem>item).children.push(
-                        this.createItem(childKey, plainObj.children[childKey])
+                        this.createItem(childKey, plainObj.children[childKey], exDataMap)
                     );
                 });
             }
         });
+        this.mapExData(item, exDataMap);
 
         return item;
+    }
+
+    static mapExData(item: SettingsBaseItem, exDataMap: any): void {
+        if (!exDataMap) return;
+
+        Object.keys(exDataMap).forEach(mapKey => {
+            if (item.key === mapKey) {
+                Object.keys(exDataMap[mapKey]).forEach(exKey => {
+                    const mapData: any = exDataMap[mapKey][exKey];
+                    if (exKey === 'list_value') {
+                        Object.keys(mapData).forEach(id => {
+                            const option = (<SettingsItem>item).options.find(o => o.id === +id);
+                            if (option) option.value = mapData[id];
+                        });
+                    }
+                    else {
+                        item[exKey] = mapData;
+                    }
+                });
+            }
+        });
     }
 }
 

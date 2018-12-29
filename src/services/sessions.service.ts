@@ -8,7 +8,6 @@ export class SessionsService extends BaseService {
     getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<any> {
         return super.getItems(pageInfo, filter, sort)
             .then((response: SessionsModel) => {
-                console.log('sessions', response);
                 return Promise.resolve(this.plainToClassEx(SessionsModel, SessionItem, response));
             });
     }

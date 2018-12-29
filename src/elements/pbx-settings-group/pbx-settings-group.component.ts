@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {LangChangeEvent, TranslateService, TranslatePipe} from '@ngx-translate/core';
 
 import {FadeAnimation} from '@shared/fade-animation';
 import {SwipeAnimation} from '@shared/swipe-animation';
@@ -28,21 +28,19 @@ export class SettingsGroupComponent implements OnInit {
 
     ngOnInit(): void {
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            Object.keys(this.items).forEach(item => {
-                this.items[item].itemTitle = this.translate.instant(this.items[item].name);
-            });
+            this.translateItems();
         });
 
-        Object.keys(this.items).forEach(item => {
-            this.items[item].itemTitle = this.translate.instant(this.items[item].name);
-        });
+        this.translateItems();
     }
 
     onValueChange(item: SettingsItem): void {
         this.valueChange.emit(item);
     }
 
-    getItemTitle(item): string {
-        return this.translate.instant(item.itemTitle);
+    translateItems(): void {
+        Object.keys(this.items).forEach(index => {
+            this.items[index].itemTitle = this.translate.instant(this.items[index].name);
+        });
     }
 }
