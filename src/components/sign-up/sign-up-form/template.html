@@ -108,6 +108,11 @@
         <div translate>If you have not received the letter check the spam folder</div>
         <pbx-button [buttonType]="'accent'" value="{{'Resend confirmation' | translate}}" [loading]="loading"
                     (onClick)="resendConfirmation()"></pbx-button>
+        <div class="auth_form_text" translate>Already have an EncryptoTel Account?&nbsp;<a routerLink="../sign-in"
+                                                                                           class="auth_form_link"
+                                                                                           translate>Sign in now</a>
+        </div>
+
     </div>
 
     <pbx-footer></pbx-footer>

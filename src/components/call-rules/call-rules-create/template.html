@@ -285,7 +285,7 @@
                             <pbx-input name="{{'Group' | translate }}"
                                        key="parameter"
                                        [required]="true"
-                                       placeholder="{{groups.length === 0 ? 'None' : '[choose one]' | translate}}"
+                                       placeholder="{{groups.length === 0 ? 'you have no groups' : '[choose one]' | translate}}"
                                        [form]="true"
                                        [object]="action"
                                        [options]="groups"
