@@ -196,7 +196,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
                 delete this.errors.returnAddress;
                 return true;
             } else {
-                this.errors['returnAddress'] = this.translate.instant('Invalid address');
+                this.errors['returnAddress'] = this.translate.instant('Return address is invalid');
                 return false;
             }
         } else {

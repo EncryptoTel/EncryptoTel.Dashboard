@@ -94,6 +94,7 @@ export class TableComponent implements OnInit, OnDestroy {
             this.deleteItem();
         }
         else {
+            console.log('this.name', this);
             if (this.name === 'Phone Number') {
                 this.modal.body = '';
                 let body: string;
@@ -109,6 +110,11 @@ export class TableComponent implements OnInit, OnDestroy {
                     innerCount, ' ', this.translate.instant('extensions?')
                 );
                 this.modal.body = body;
+            }
+            if (this.name === 'Contact') {
+                const sz1: string = this.translate.instant('Are you sure you want to delete');
+                const sz2: string = this.translate.instant('contact?');
+                this.modal.body = `${sz1} ${this.selectedDelete.firstname} ${sz2}`;
             }
             if (item instanceof StorageItem) {
                 this.deleteItem();

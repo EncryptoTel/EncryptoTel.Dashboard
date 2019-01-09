@@ -231,9 +231,6 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
             if (selected && selected.id === 4) { // Google Authenticator
                 this.getQR();
             }
-            // else if (selected && selected.id === 14) { // Mobile Phone
-            //     this.qrCode = null;
-            // }
         }
     }
 
@@ -252,6 +249,8 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
                 this.form = this.createForm(model.items);
                 this.model = model;
                 super.ngOnInit();
+
+                console.log('settings', response);
             })
             .catch(() => {})
             .then(() => this.locker.unlock());
