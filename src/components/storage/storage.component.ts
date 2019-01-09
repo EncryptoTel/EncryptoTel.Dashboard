@@ -403,6 +403,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 this._message.writeSuccess(messageText);
             }
             this.sidebarActive = false;
+            this.getButton(StorageButtons.Download).inactive = this.service.select.length === 0;
         }
     }
 
