@@ -229,25 +229,26 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
                 this.currentFilter['amount'],
                 this.currentFilter['returnAddress']
             )
-            .then(res => {
-                this.payment = res;
+            .then(response => {
+                this.payment = response;
                 this.refill_status = 'processing';
                 // this.payment.loading = false;
                 this.loading.body = false;
             })
-            .catch(res => {
-                console.log('errors', res);
-                this.errors = res.errors;
+            .catch(error => {
+                console.log('errors', error);
+                this.errors = error.errors;
                 // this.payment.loading = false;
                 this.loading.body = false;
             });
     }
 
     getRefillMethods() {
-        this._refill.getRefillMethods().then(res => {
-            this.refillMethods = res;
-            this.loading.body = false;
-        });
+        this._refill.getRefillMethods()
+            .then(response => {
+                this.refillMethods = response;
+                this.loading.body = false;
+            });
     }
 
     getCourses() {
