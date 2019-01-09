@@ -14,8 +14,9 @@ import {
 import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
 import { TableComponent } from '@elements/pbx-table/pbx-table.component';
 import { dateToServerFormat } from '@shared/shared.functions';
+import { LocalStorageServices } from '@services/local-storage.services';
 
-
+const pageNum = 'pbx_page_num';
 @Component({
     selector: 'pbx-list',
     templateUrl: './template.html',
@@ -123,7 +124,8 @@ export class ListComponent implements OnInit {
     }
 
     constructor(private router: Router,
-        public translate: TranslateService) {
+        public translate: TranslateService,
+        private storage: LocalStorageServices) {
     }
 
     ngOnInit() {
@@ -142,6 +144,14 @@ export class ListComponent implements OnInit {
         this.nothingFoundText = this.translate.instant('Nothing found');
         this.noDataToDisplayText = this.translate.instant('No data to display');
 
+        const pageData = this.storage.readItem(pageNum);
+        if (pageData) {
+            if (pageData.tableName === this.name) {
+                this.pageInfo.page = pageData.pageNum;
+            } else {
+                this.storage.clearItem(pageNum);
+            }
+        }
         this.getItems();
 
         this.pbxListEmptyText_1 = '';
@@ -192,7 +202,7 @@ export class ListComponent implements OnInit {
             .then(() => {
                 this.getItems(item);
             })
-            .catch(() => {})
+            .catch(() => { })
             .then(() => item.loading--);
     }
 
@@ -207,6 +217,7 @@ export class ListComponent implements OnInit {
 
     onPageChange(pageNumber: number): void {
         this.pageInfo.page = pageNumber;
+        this.storage.writeItem(pageNum, { tableName: this.name, pageNum: pageNumber });
         this.getItems();
     }
 
@@ -246,7 +257,7 @@ export class ListComponent implements OnInit {
     // -- data methods --------------------------------------------------------
 
     getItems(item = null) {
-        /*item ? item.loading ++ :*/ this.loadingEx ++;
+        /*item ? item.loading ++ :*/ this.loadingEx++;
         const limit = this.pageInfo.limit;
         if (this.currentFilter && this.currentFilter.type === 1) {
             if (this.header.inputs.first.value.id === 'company') {
@@ -257,10 +268,10 @@ export class ListComponent implements OnInit {
         }
 
         if (this.key === 'address-book') {
-            this.loadingEx ++;
+            this.loadingEx++;
             this.getAddressBookTotalItems()
-                .then(() => {})
-                .catch(() => {})
+                .then(() => { })
+                .catch(() => { })
                 .then(() => this.loadingEx--);
         }
 
