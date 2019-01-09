@@ -5,6 +5,7 @@ import {FadeAnimation} from '@shared/fade-animation';
 import {CallQueueService} from '@services/call-queue.service';
 import {CallQueueModel} from '@models/call-queue.model';
 import {ListComponent} from '@elements/pbx-list/pbx-list.component';
+import { TableInfoExModel, TableInfoItem } from '@models/base.model';
 
 
 @Component({
@@ -15,24 +16,20 @@ import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 })
 export class CallQueuesComponent implements OnInit {
 
-    table: any;
+    table: TableInfoExModel = new TableInfoExModel();
     pageInfo: CallQueueModel = new CallQueueModel();
 
     @ViewChild(ListComponent) list: ListComponent;
 
     constructor(private service: CallQueueService,
                 public translate: TranslateService) {
-
-        this.table = {
-            titles: [
-                this.translate.instant('Queue Name'),
-                this.translate.instant('Phone Number'),
-                this.translate.instant('Ring Strategy'),
-                this.translate.instant('Ring Time'),
-                this.translate.instant('Description')
-            ],
-            keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
-        };
+        this.table.sort.isDown = true;
+        this.table.sort.column = 'name';
+        this.table.items.push(new TableInfoItem(this.translate.instant('Queue Name'), 'name', 'name'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Phone Number'), 'sip.phoneNumber', 'sip.phoneNumber'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Ring Strategy'), 'strategyName', 'strategyName'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Ring Time'), 'timeout', 'timeout'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Description'), 'description', 'description'));
     }
 
     ngOnInit(): void {

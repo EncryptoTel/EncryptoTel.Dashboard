@@ -12,8 +12,8 @@ export class DepartmentService extends BaseService {
         this.url = 'department';
     }
 
-    getItems(pageInfo: PageInfoModel, filter = null): Promise<DepartmentModel> {
-        return super.getItems(pageInfo, filter).then((res: DepartmentModel) => {
+    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<DepartmentModel> {
+        return super.getItems(pageInfo, filter, sort).then((res: DepartmentModel) => {
             const newPageInfo = this.plainToClassEx(DepartmentModel, DepartmentItem, res);
             return Promise.resolve(newPageInfo);
         });

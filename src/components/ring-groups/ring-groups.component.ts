@@ -1,9 +1,10 @@
-import {Component, ViewChild} from '@angular/core';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {RingGroupService} from '../../services/ring-group.service';
-import {RingGroupModel} from '../../models/ring-group.model';
-import {TranslateService} from '@ngx-translate/core';
-import {ListComponent} from '@elements/pbx-list/pbx-list.component';
+import { Component, ViewChild } from '@angular/core';
+import { FadeAnimation } from '../../shared/fade-animation';
+import { RingGroupService } from '../../services/ring-group.service';
+import { RingGroupModel } from '../../models/ring-group.model';
+import { TranslateService } from '@ngx-translate/core';
+import { ListComponent } from '@elements/pbx-list/pbx-list.component';
+import { TableInfoExModel, TableInfoItem } from '@models/base.model';
 
 @Component({
     selector: 'ring-groups-component',
@@ -11,27 +12,52 @@ import {ListComponent} from '@elements/pbx-list/pbx-list.component';
     styleUrls: ['./local.sass'],
     animations: [FadeAnimation('300ms')]
 })
-
 export class RingGroupsComponent {
-
-    table = {
-        titles: ['Ring Group Name', 'Phone Number', 'Ring Strategy', 'Ring Time', 'Description'],
-        keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
-    };
+    table: TableInfoExModel = new TableInfoExModel();
     pageInfo: RingGroupModel = new RingGroupModel();
     @ViewChild(ListComponent) list: ListComponent;
 
-    constructor(private service: RingGroupService, public translate: TranslateService) {
-        this.table = {
-            titles: [
+    constructor(
+        public service: RingGroupService,
+        public translate: TranslateService
+    ) {
+        this.table.sort.isDown = true;
+        this.table.sort.column = 'name';
+        this.table.items.push(
+            new TableInfoItem(
                 this.translate.instant('Ring Group Name'),
+                'name',
+                'name'
+            )
+        );
+        this.table.items.push(
+            new TableInfoItem(
                 this.translate.instant('Phone Number'),
+                'sip.phoneNumber',
+                'sip.phoneNumber'
+            )
+        );
+        this.table.items.push(
+            new TableInfoItem(
                 this.translate.instant('Ring Strategy'),
+                'strategyName',
+                'strategyName'
+            )
+        );
+        this.table.items.push(
+            new TableInfoItem(
                 this.translate.instant('Ring Time'),
-                this.translate.instant('Description')
-            ],
-            keys: ['name', 'sip.phoneNumber', 'strategyName', 'timeout', 'description']
-        };
+                'timeout',
+                'timeout'
+            )
+        );
+        this.table.items.push(
+            new TableInfoItem(
+                this.translate.instant('Description'),
+                'description',
+                'description'
+            )
+        );
     }
 
     load($event) {
@@ -39,5 +65,4 @@ export class RingGroupsComponent {
             item.strategyName = this.translate.instant(item.strategyName);
         });
     }
-
 }

@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PhoneNumberService} from '../../services/phone-number.service';
-import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel} from '../../models/base.model';
+import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel, TableInfoExModel, TableInfoItem} from '../../models/base.model';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {Router} from '@angular/router';
 import {PhoneNumberItem, PhoneNumberModel} from '../../models/phone-number.model';
@@ -19,6 +19,7 @@ import {TranslateService} from '@ngx-translate/core';
 export class PhoneNumbersComponent implements OnInit {
 
     loading: number;
+    tableModel: TableInfoExModel = new TableInfoExModel();
 
     tableInfo: TableInfoModel = {
         titles: ['Phone Number', 'Amount of Exts', 'Default Ext', 'Status', 'Number type'],
@@ -50,6 +51,14 @@ export class PhoneNumbersComponent implements OnInit {
             ],
             keys: ['phoneNumberWithType', 'innersCount', 'defaultInner', 'statusName', 'typeName']
         };
+
+        this.tableModel.sort.isDown = true;
+        this.tableModel.sort.column = 'firstname';
+        this.tableModel.items.push(new TableInfoItem(this.translate.instant('Phone Number'), 'phoneNumberWithType', 'phoneNumberWithType'));
+        this.tableModel.items.push(new TableInfoItem(this.translate.instant('Amount of Exts'), 'innersCount', 'innersCount'));
+        this.tableModel.items.push(new TableInfoItem(this.translate.instant('Default Ext'), 'defaultInner', 'defaultInner'));
+        this.tableModel.items.push(new TableInfoItem(this.translate.instant('Status'), 'statusName', 'statusName'));
+        this.tableModel.items.push(new TableInfoItem(this.translate.instant('Number type'), 'typeName', 'typeName'));
     }
 
     select(item: any): void {

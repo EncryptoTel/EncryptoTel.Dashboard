@@ -10,7 +10,7 @@ import {
     TypesModel
 } from '@models/address-book.model';
 import {RefsServices} from '@services/refs.services';
-import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from '@models/base.model';
+import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoExModel, TableInfoItem} from '@models/base.model';
 import {CountryModel} from '@models/country.model';
 import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 import {MessageServices} from '@services/message.services';
@@ -41,7 +41,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     filters: FilterItem[];
     sidebar: SidebarInfoModel;
-
+    table: TableInfoExModel = new TableInfoExModel();
     modalBlock: ModalEx;
     modalDelete: ModalEx;
     editMode: boolean = false;
@@ -90,6 +90,14 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.modalBlock = new ModalEx('', 'block');
         this.modalDelete = new ModalEx('', 'delete');
 
+        this.table.sort.isDown = true;
+        this.table.sort.column = 'firstname';
+        this.table.items.push(new TableInfoItem(this.translate.instant('First Name'), 'firstname', 'firstname'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Last Name'), 'lastname', 'lastname'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Phone Number'), 'phone', 'phone'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('E-mail'), 'email', 'email'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Company Name'), 'company', 'company'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Country'), 'country.title', 'country.title'));
 
         this.filters = [];
         this.sidebar = new SidebarInfoModel();
@@ -387,7 +395,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     close(): void {
         this.resetForms();
-        
+
         this.sidebar.visible = false;
         this.sidebar.mode = null;
 

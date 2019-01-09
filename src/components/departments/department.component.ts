@@ -8,7 +8,7 @@ import {validateForm} from '../../shared/shared.functions';
 import {RefsServices} from '../../services/refs.services';
 import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {CompanyService} from '../../services/company.service';
-import {ButtonItem, InputAction} from '../../models/base.model';
+import {ButtonItem, InputAction, TableInfoExModel, TableInfoItem} from '../../models/base.model';
 import {TranslateService} from '@ngx-translate/core';
 
 
@@ -31,10 +31,7 @@ export class DepartmentsComponent implements OnInit {
     };
     sips: Sip[] = [];
     selectedSips: Sip[] = [];
-    table = {
-        titles: ['Department', 'Employees', 'Comment'],
-        keys: ['name', 'employees', 'comment']
-    };
+    table: TableInfoExModel = new TableInfoExModel();
     departmentForm: FormGroup;
     loading = 0;
     saving = 0;
@@ -57,14 +54,11 @@ export class DepartmentsComponent implements OnInit {
                 private _company: CompanyService,
                 public translate: TranslateService) {
 
-        this.table = {
-            titles: [
-                this.translate.instant('Department'),
-                this.translate.instant('Employees'),
-                this.translate.instant('Comment')
-            ],
-            keys: ['name', 'employees', 'comment']
-        };
+        this.table.sort.isDown = true;
+        this.table.sort.column = 'name';
+        this.table.items.push(new TableInfoItem(this.translate.instant('Department'), 'name', 'name'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Employees'), 'employees', 'employees'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Comment'), 'comment', 'comment'));
         this.buttons.push({
             id: 0,
             title: 'Add Department',

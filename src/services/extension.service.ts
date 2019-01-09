@@ -41,7 +41,7 @@ export class ExtensionService extends BaseService {
         return this.putById(id, data);
     }
 
-    getItems(pageInfo: PageInfoModel, filter): Promise<ExtensionModel> {
+    getItems(pageInfo: PageInfoModel, filter, sort = null): Promise<ExtensionModel> {
         // filter['departmentFilter'] = true; // добавляется в исходный, а нам это не нужно
         let newFilter: any;
         newFilter = [];
@@ -55,7 +55,7 @@ export class ExtensionService extends BaseService {
             }
         }
         newFilter['departmentFilter'] = true;
-        return super.getItems(pageInfo, newFilter)
+        return super.getItems(pageInfo, newFilter, sort)
             .then((response: ExtensionModel) => {
                 const curPageInfo = plainToClass(ExtensionModel, response);
                 curPageInfo.items = [];

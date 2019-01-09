@@ -18,10 +18,10 @@ export class PhoneNumberService extends BaseService {
         return this.request.post(`v1/number/catalog/find`, requestDetails);
     }
 
-    getItems(pageInfo: PageInfoModel, filter = null): Promise<PhoneNumberModel> {
-        return super.getItems(pageInfo, filter).then((res: PhoneNumberModel) => {
-            let pageInfo = this.plainToClassEx(PhoneNumberModel, PhoneNumberItem, res);
-            return Promise.resolve(pageInfo);
+    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<PhoneNumberModel> {
+        return super.getItems(pageInfo, filter, sort).then((res: PhoneNumberModel) => {
+            const curPageInfo = this.plainToClassEx(PhoneNumberModel, PhoneNumberItem, res);
+            return Promise.resolve(curPageInfo);
         });
     }
 

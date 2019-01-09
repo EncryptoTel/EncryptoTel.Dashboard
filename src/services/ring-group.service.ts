@@ -66,8 +66,8 @@ export class RingGroupService extends BaseQueueService {
         this.setActionFromId();
     }
 
-    getItems(pageInfo: PageInfoModel, filter = null): Promise<RingGroupModel> {
-        return super.getItems(pageInfo, filter).then((res: RingGroupModel) => {
+    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<RingGroupModel> {
+        return super.getItems(pageInfo, filter, sort).then((res: RingGroupModel) => {
             let pageInfo = plainToClass(RingGroupModel, res);
             pageInfo.items = [];
             res['items'].map(item => {

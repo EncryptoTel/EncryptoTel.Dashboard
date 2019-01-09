@@ -247,7 +247,6 @@ export class ListComponent implements OnInit {
 
     getItems(item = null) {
         /*item ? item.loading ++ :*/ this.loadingEx ++;
-        
         const limit = this.pageInfo.limit;
         if (this.currentFilter && this.currentFilter.type === 1) {
             if (this.header.inputs.first.value.id === 'company') {
@@ -256,7 +255,7 @@ export class ListComponent implements OnInit {
                 this.currentFilter.type = 'blacklist';
             }
         }
-        
+
         if (this.key === 'address-book') {
             this.loadingEx ++;
             this.getAddressBookTotalItems()
@@ -264,13 +263,13 @@ export class ListComponent implements OnInit {
                 .catch(() => {})
                 .then(() => this.loadingEx--);
         }
-        
+
         if (this.calendarVisible && this.calendarDateRange) {
             if (!this.currentFilter) this.currentFilter = {};
             this.currentFilter['startDate'] = dateToServerFormat(this.calendarDateRange[0]);
             this.currentFilter['endDate'] = dateToServerFormat(this.calendarDateRange[1]);
         }
-        
+
         this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null)
             .then(response => {
                 this.pageInfo = response;

@@ -261,7 +261,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     onMediaDataLoaded(): void {
         this.service.select = [];
         this.pageInfo = this.service.pageInfo;
-        
+
         if (this.isFilterTrashSelected) {
             if (this.pageInfo.itemsCount > 0) {
                 this.getButton(StorageButtons.RestoreSelected).visible = true;
@@ -296,7 +296,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.loading ++;
 
         this.updateFilter(filter);
-        
+
         if (this.currentFilter.type === 'trash') {
             this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayModifiedDate', 'date', 168);
             this.getButton(StorageButtons.EmptyTrash).visible = true;
@@ -319,7 +319,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.getButton(StorageButtons.Upload).visible = this.currentFilter.type === 'audio';
 
         this.getItems();
-        
+
         this.loading --;
     }
 
@@ -329,8 +329,8 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         if (filter.type === 'call_record') {
             this.deletable = true;
             this.table.items = [
-                new TableInfoItem(this.translate.instant('From'), 'from', null, 120),
-                new TableInfoItem(this.translate.instant('To'), 'to', null, 120),
+                new TableInfoItem(this.translate.instant('From'), 'from', 'from', 120),
+                new TableInfoItem(this.translate.instant('To'), 'to', 'to', 120),
                 new TableInfoItem(this.translate.instant('Start time'), 'displayDateTime', 'date', 158),
                 new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
                 new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
