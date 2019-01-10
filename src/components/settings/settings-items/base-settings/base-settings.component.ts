@@ -33,6 +33,25 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
     cancelButton: any = {buttonType: 'cancel', value: 'Cancel', inactive: false, loading: false};
     modalExit: ModalEx = new ModalEx('', 'cancelEdit');
 
+    // TODO: This data should be returned from backend side
+    settingsExDataMap: any = {
+        two_factor_auth_group: {
+            title: 'Two-Factor Authentication',
+            comment: 'Add an additional layer of security to your account to protect the data' 
+        },
+        two_factor_auth: { 
+            title: 'Enable'
+        },
+        two_factor_auth_type: {
+            title: 'Type',
+            list_value: {
+                3: 'Rescue Email Address',
+                4: 'Google Authenticator',
+                14: 'Mobile Phone',
+            },
+        }
+    };
+
     @Input() path: string;
 
     get modelEdit(): boolean {
@@ -154,7 +173,7 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
             this.changes = this.changes.filter(c => c.id !== item.id);
         }
 
-        this.checkItemQRCode(item);
+        this.checkItemAdditionalParam(item);
     }
 
     save(): void {
@@ -188,7 +207,7 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
             if (!i.isGroup) {
                 const settingsItem = <SettingsItem>i;
                 this.modelValues.push(new SettingsOptionItem(settingsItem.id, settingsItem.value));
-                this.checkItemQRCode(settingsItem);
+                this.checkItemAdditionalParam(settingsItem);
             }
             else this.saveModelState((<SettingsGroupItem>i).children);
         });
@@ -205,14 +224,12 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    checkItemQRCode(item: SettingsItem): void {
+    checkItemAdditionalParam(item: SettingsItem): void {
         if (item.key === 'two_factor_auth_type') {
+            this.qrCode = null;
             const selected = item.options.find(o => o.id === item.value);
-            if (selected && selected.value === 'google') {
+            if (selected && selected.id === 4) { // Google Authenticator
                 this.getQR();
-            }
-            else {
-                this.qrCode = null;
             }
         }
     }
@@ -224,13 +241,16 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
 
         this.service.getSettingsParams(this.path)
             .then(response => {
-                const model = SettingsModel.create(response.settings);
+                const model = SettingsModel.create(response.settings, this.settingsExDataMap);
+
                 this.modelValues = [];
                 this.saveModelState(model.items);
 
                 this.form = this.createForm(model.items);
                 this.model = model;
                 super.ngOnInit();
+
+                console.log('settings', response);
             })
             .catch(() => {})
             .then(() => this.locker.unlock());

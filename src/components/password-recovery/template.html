@@ -4,7 +4,7 @@
     </a>
     <form *ngIf="showForm()"
           [formGroup]="emailForm"
-          [@Fade]
+         
           (submit)="sendEmail($event)"
           (keyup)="clearMessage()"
           >

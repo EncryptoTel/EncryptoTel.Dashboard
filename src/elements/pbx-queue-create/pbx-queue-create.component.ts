@@ -9,7 +9,7 @@ import {FormComponent} from '@elements/pbx-form/pbx-form.component';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import {FadeAnimation} from '@shared/fade-animation';
 import {isValidId} from '@shared/shared.functions';
-import {numberRegExp, ivrNameRegExp, simpleNameRegExp} from '@shared/vars';
+import {numberRegExp, ivrNameRegExp, simpleNameRegExp, ringGroupsNameRegExp} from '@shared/vars';
 import {numberRangeValidator} from '@shared/encry-form-validators';
 
 
@@ -130,7 +130,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
             // Add Call-Queues specific controls
             this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(simpleNameRegExp) ]);
             this.validationHost.customMessages = [
-                { key: 'name', error: 'pattern', message: this.translate.instant('Name may contain letters and digits only') }
+                { key: 'name', error: 'pattern', message: this.translate.instant('Name may contain letters, digits and spaces only') }
             ];
 
             this.form.addControl('maxlen', this.fb.control(null, [ Validators.required, Validators.pattern(numberRegExp), numberRangeValidator(1, 100) ]));
@@ -139,9 +139,9 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         }
         else {
             // Add Ring-Groups specific controls
-            this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(ivrNameRegExp) ]);
+            this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(ringGroupsNameRegExp) ]);
             this.validationHost.customMessages = [
-                { key: 'name', error: 'pattern', message: this.translate.instant('Name may contain letters, digits and dashes only') }
+                { key: 'name', error: 'pattern', message: this.translate.instant('Name may contain letters, digits, dashes and spaces only') }
             ];
         }
     }

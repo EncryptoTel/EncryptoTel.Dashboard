@@ -1,8 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {FadeAnimation} from '../../shared/fade-animation';
 import {CallRulesService} from '../../services/call-rules.service';
 import {CallRulesModel} from '../../models/call-rules.model';
 import {TranslateService} from '@ngx-translate/core';
+import { TableInfoExModel, TableInfoItem } from '@models/base.model';
+import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 
 
 @Component({
@@ -14,14 +16,25 @@ import {TranslateService} from '@ngx-translate/core';
 
 export class CallRulesComponent {
 
-    table: any;
+    table: TableInfoExModel = new TableInfoExModel();
     pageInfo: CallRulesModel = new CallRulesModel();
+    @ViewChild(ListComponent) list: ListComponent;
 
     constructor(public service: CallRulesService, public translate: TranslateService) {
-        this.table = {
-            titles: [this.translate.instant('Phone number'), this.translate.instant('Call Rule Name'), this.translate.instant('Status'), this.translate.instant('Description')],
-            keys: ['phoneNumber', 'name', 'statusName', 'description']
-        };
+        this.table.sort.isDown = true;
+        this.table.sort.column = 'phoneNumber';
+        this.table.items.push(new TableInfoItem(this.translate.instant('Phone number'), 'phoneNumber', 'phoneNumber'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Call Rule Name'), 'name', 'name'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Status'), 'statusName', 'statusName'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Description'), 'description', 'description'));
+    }
+
+    load($event) {
+        let translate: any;
+        translate = this.translate;
+        this.list.pageInfo.items.forEach(item => {
+            item.statusName = translate.instant(item.statusName);
+        });
     }
 
 

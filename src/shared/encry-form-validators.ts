@@ -90,6 +90,6 @@ export function walletAddressValidator(currencyCode: string): ValidatorFn {
 
 export function userNameValidation(control: AbstractControl): { [key: string]: boolean } | null {
     if (!control.value) return null;
-    return /[а-яА-Яa-zA-Z]/.test(control.value[0]) ? null : { 'firstLeterError': true };
+    return /[А-Яа-яA-Za-z\u00BF-\u1FFF\u2C00-\uD7FF]/.test(control.value[0]) ? null : { 'firstLeterError': true };
 
 }

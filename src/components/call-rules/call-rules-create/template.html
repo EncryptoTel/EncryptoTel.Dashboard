@@ -11,15 +11,19 @@
             <h3 translate>General</h3>
         </div>
 
-        <pbx-input name="{{names.enableRule}}"
-                   key="enabled"
-                   [checkbox]="true"
-                   [form]="true"
-                   [object]="callRulesForm"
-                   [(errors)]="service.errors"
-                   [validationHost]="validationHost"
-        >
-        </pbx-input>
+        <div class="enable_rule_wrap">
+            <pbx-input name="{{names.enableRule}}"
+                       key="enabled"
+                       [checkbox]="true"
+                       [form]="true"
+                       [object]="callRulesForm"
+                       [(errors)]="service.errors"
+                       [validationHost]="validationHost"
+            >
+            </pbx-input>
+            <div class="note" translate>Enabling a new rule will cancel the previous one</div>
+        </div> <!-- enable_rule_wrap -->
+        
         <pbx-input name="{{names.ruleName}}"
                    key="name"
                    [required]="true"
@@ -57,7 +61,7 @@
         <ng-container *ngIf="!callRulesForm.get('sipId').value">
             <div class="call-rules-create_row">
                 <label></label>
-                <div><p><span translate>Please note</span>: <span translate>you must select a phone number before creating a new action.</span></p></div>
+                <div class="please_note"><p><span translate>Please note</span>: <span translate>you must select a phone number before creating a new action.</span></p></div>
             </div>
         </ng-container>
 
@@ -285,7 +289,7 @@
                             <pbx-input name="{{'Group' | translate }}"
                                        key="parameter"
                                        [required]="true"
-                                       placeholder="{{groups.length === 0 ? 'None' : '[choose one]' | translate}}"
+                                       placeholder="{{groups.length === 0 ? 'you have no groups' : '[choose one]' | translate}}"
                                        [form]="true"
                                        [object]="action"
                                        [options]="groups"

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'pbx-tab',
@@ -16,6 +16,6 @@ import { Component, Input } from "@angular/core";
 })
 export class TabComponent {
     id: number;
-    @Input('tabTitle') title: string;
+    @Input() title: string;
     @Input() active = false;
 }

@@ -40,13 +40,13 @@ export class ExtensionsComponent implements OnInit {
     constructor(public service: ExtensionService,
                 private _messages: MessageServices,
                 public translate: TranslateService) {
-        this.table.items.push(new TableInfoItem(this.translate.instant('#Ext'), 'extension', null, 80));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Phone number'), 'phone'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('First Name'), 'userFirstName'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Last Name'), 'userLastName'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('E-mail'), 'userEmail'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Status'), 'statusName', null, 80));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Default'), 'default', null, 80));
+        this.table.items.push(new TableInfoItem(this.translate.instant('#Ext'), 'extension', 'extension', 80));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Phone number'), 'phone', 'phone'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('First Name'), 'userFirstName', 'userFirstName'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Last Name'), 'userLastName', 'userLastName'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('E-mail'), 'userEmail', 'userEmail'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Status'), 'statusName', 'statusName', 80));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Default'), 'default', 'default', 80));
     }
 
     closeExt(): void {

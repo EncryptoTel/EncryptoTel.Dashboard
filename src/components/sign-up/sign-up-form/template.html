@@ -3,13 +3,18 @@
         <svg-icon [src]="'/assets/icons/_logo/encryptotel_logo.svg'" class="auth_form_icon"></svg-icon>
     </a>
     <form *ngIf="!signUpCompleted"
-          [@Fade]
           [formGroup]="signUpForm"
           (submit)="signUp($event)"
-          (keyup)="services.clearMessage()"
-    >
-        <div class="auth_form_message" [ngClass]="message.type" *ngIf="message" [@Fade]
-             (click)="services.clearMessage()" translate>{{message.message}}
+          (keyup)="authorization.clearMessage()"
+          >
+        <div class="auth_form_message"
+             [ngClass]="message.type"
+             *ngIf="message"
+             [@Fade]
+             (click)="authorization.clearMessage()"
+             translate
+             >
+            {{message.message}}
         </div>
         <div class="input_wrap">
             <input #nameInput name="Name" placeholder="{{'Name' | translate}}" formControlName="firstname"
@@ -17,11 +22,25 @@
                    (mouseleave)="mouseLeave(nameInput)">
             <div class="input_error" *ngIf="inputValidation('firstname') && errorName" [@Fade]>
                 <span class="input_error_item"
-                    *ngIf="inputValidation('firstname', 'firstLeterError')" translate>Your name must begin with a letter</span>
-                <span id="sign_up_err_no_name" class="input_error_item" *ngIf="inputValidation('firstname', 'required')"
-                      translate>Please enter your name</span>
-                <span id="sign_up_err_name_should_contain" class="input_error_item"
-                      *ngIf="inputValidation('firstname', 'pattern')" translate>Name contains invalid characters or symbols. You can only use letters and the following characters: ’-.</span>
+                      *ngIf="inputValidation('firstname', 'firstLeterError')"
+                      translate
+                      >
+                    Your name must begin with a letter
+                </span>
+                <span id="sign_up_err_no_name"
+                      class="input_error_item"
+                      *ngIf="inputValidation('firstname', 'required')"
+                      translate
+                      >
+                    Please enter your name
+                </span>
+                <span id="sign_up_err_name_should_contain"
+                      class="input_error_item"
+                      *ngIf="inputValidation('firstname', 'pattern')"
+                      translate
+                      >
+                    Name contains invalid characters or symbols. You can only use letters and the following characters: ’-.
+                </span>
                 <span class="input_error_item"
                       *ngIf="inputValidation('firstname', 'maxlength')" translate>Name can`t contain over 190 characters</span>
             </div>
@@ -31,12 +50,27 @@
                    (blur)="removeFocus(emailInput)" (mouseenter)="mouseEnter(emailInput)"
                    (mouseleave)="mouseLeave(emailInput)">
             <div class="input_error" *ngIf="inputValidation('email') && errorEmail" [@Fade]>
-                <span id="sign_up_err_email" class="input_error_item" *ngIf="errorEmailMessage !== ''"
-                      translate>{{errorEmailMessage}}</span>
-                <span id="sign_up_err_no_email" class="input_error_item" *ngIf="errorEmailMessage === '' && inputValidation('email', 'required')"
-                      translate>Please enter your email address</span>
-                <span id="sign_up_err_invalid_email" class="input_error_item"
-                      *ngIf="inputValidation('email', 'pattern') && errorEmailMessage === ''" translate>Please enter correct email address</span>
+                <span id="sign_up_err_email"
+                      class="input_error_item"
+                      *ngIf="errorEmailMessage !== ''"
+                      translate
+                      >
+                    {{errorEmailMessage}}
+                </span>
+                <span id="sign_up_err_no_email"
+                      class="input_error_item"
+                      *ngIf="errorEmailMessage === '' && inputValidation('email', 'required')"
+                      translate
+                      >
+                    Please enter your email address
+                </span>
+                <span id="sign_up_err_invalid_email"
+                      class="input_error_item"
+                      *ngIf="inputValidation('email', 'pattern') && errorEmailMessage === ''"
+                      translate
+                      >
+                    Please enter correct email address
+                </span>
             </div>
         </div>
         <div class="input_wrap">
@@ -83,7 +117,7 @@
             [checkbox]="true"
             [form]="true"
             [object]="signUpForm"
-            [(errors)]="services.error"
+            [(errors)]="authorization.error"
             [animationMode]="'fade'"
             [validatorRequiredMsg]="'You need to confirm Terms and Conditions and privacy statement agreement'"
             [errorShow]="errorCheck"
@@ -109,6 +143,11 @@
         <div translate>If you have not received the letter check the spam folder</div>
         <pbx-button [buttonType]="'accent'" value="{{'Resend confirmation' | translate}}" [loading]="loading"
                     (onClick)="resendConfirmation()"></pbx-button>
+        <div class="auth_form_text" translate>Already have an EncryptoTel Account?&nbsp;<a routerLink="../sign-in"
+                                                                                           class="auth_form_link"
+                                                                                           translate>Sign in now</a>
+        </div>
+
     </div>
 
     <pbx-footer></pbx-footer>

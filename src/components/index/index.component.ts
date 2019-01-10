@@ -100,16 +100,14 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.userSubscription = this.userService.userSubscription().subscribe(user => {
             this.user = user;
         });
-        this.userService.fetchProfileParams().then(() => this.completedRequests++);
+        this.userService.fetchProfileParams().then(() => this.completedRequests ++);
     }
 
     navigationInit(): void {
         this.userService.fetchNavigationParams()
-            .then((response) => {
-            })
-            .catch(() => {
-            })
-            .then(() => this.completedRequests++);
+            .then(() => {})
+            .catch(() => {})
+            .then(() => this.completedRequests ++);
     }
 
     toggleActiveButton(ix: number, ev: MouseEvent): void {

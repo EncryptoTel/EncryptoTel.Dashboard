@@ -10,6 +10,8 @@ import {FadeAnimation} from '../../shared/fade-animation';
 import {passwordConfirmation} from '../../shared/password-confirmation';
 import {validateForm} from '../../shared/shared.functions';
 import {FormMessageModel} from '../../models/form-message.model';
+import { MessageServices } from '@services/message.services';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'password-reset',
@@ -19,6 +21,8 @@ import {FormMessageModel} from '../../models/form-message.model';
 export class PasswordResetComponent implements OnInit, OnDestroy {
     constructor(private _route: ActivatedRoute,
                 private _user: UserServices,
+                private _messages: MessageServices,
+                public translate: TranslateService,
                 public _services: AuthorizationServices) {
     }
 
@@ -69,6 +73,7 @@ export class PasswordResetComponent implements OnInit, OnDestroy {
             this.loading = true;
             this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
                 this.loading = false;
+                this._messages.writeError(this.translate.instant('Password was changed'));
             }).catch(() => {
                 this.loading = false;
             });

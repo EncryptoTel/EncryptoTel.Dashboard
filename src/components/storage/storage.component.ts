@@ -1,20 +1,32 @@
 import { Component, ElementRef, OnInit, ViewChild, AfterViewChecked, OnDestroy } from '@angular/core';
-import { MediaTableComponent } from '../../elements/pbx-media-table/pbx-media-table.component';
-import { ModalEx } from '../../elements/pbx-modal/pbx-modal.component';
-import { SizePipe } from '../../services/size.pipe';
-import { StorageService } from '../../services/storage.service';
-import { MessageServices } from '../../services/message.services';
-import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from '../../models/base.model';
-import { StorageModel, StorageItem } from '../../models/storage.model';
-import { killEvent, getMomentFormatDete } from '../../shared/shared.functions';
-import { ListComponent } from '@elements/pbx-list/pbx-list.component';
 import { Subscription } from 'rxjs/Subscription';
-import { WsServices } from '@services/ws.services';
-import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageServices } from '@services/local-storage.services';
-import { formatDateTime } from '@shared/shared.functions';
 
+import { MediaTableComponent } from '@elements/pbx-media-table/pbx-media-table.component';
+import { ModalEx } from '@elements/pbx-modal/pbx-modal.component';
+import { ListComponent } from '@elements/pbx-list/pbx-list.component';
+import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
+import { SizePipe } from '@services/size.pipe';
+import { StorageService } from '@services/storage.service';
+import { MessageServices } from '@services/message.services';
+import { WsServices } from '@services/ws.services';
+import { LocalStorageServices } from '@services/local-storage.services';
+import { ButtonItem, FilterItem, TableInfoExModel, TableInfoItem, TableInfoAction } from '@models/base.model';
+import { StorageModel, StorageItem } from '@models/storage.model';
+import { killEvent, getMomentFormatDete } from '@shared/shared.functions';
+import { formatDateTime } from '@shared/shared.functions';
+import {filenameRegExp} from '@shared/vars';
+
+
+export const MAX_AUDIO_FILE_NAME_UI_LENGTH = 20;
+
+export enum StorageButtons {
+    RestoreSelected = 0,
+    DeleteSelected = 1,
+    Upload = 2,
+    EmptyTrash = 3,
+    Download = 4,
+}
 
 @Component({
     selector: 'pbx-storage',
@@ -31,7 +43,6 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     filters: FilterItem[];
     buttons: ButtonItem[];
-    buttonsAudio: ButtonItem[];
     currentFilter: any;
     deletable: boolean = true;
 
@@ -108,7 +119,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.table.items = [
             new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
             new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
-            new TableInfoItem(this.translate.instant('Time'), 'durationFormat', 'duration', 50),
+            new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
             new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
             new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
         ];
@@ -125,26 +136,6 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 { id: 'trash', title: this.translate.instant('Trash') },
             ], 'title', this.translate.instant('[choose one]')),
             new FilterItem(2, 'search', 'Search:', null, null, this.translate.instant('Search by Name')),
-        ];
-        this.buttonsAudio = [
-            {
-                id: 2,
-                title: 'Upload',
-                type: 'success',
-                visible: true,
-                inactive: true,
-                buttonClass: 'button-upload',
-                icon: false
-            },
-            {
-                id: 1,
-                title: 'Delete Selected',
-                type: 'error',
-                visible: true,
-                inactive: true,
-                buttonClass: 'trash',
-                icon: false
-            }
         ];
         this.buttons = [
             {
@@ -188,7 +179,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 title: 'Upload',
                 type: 'success',
                 visible: true,
-                inactive: true,
+                inactive: false,
                 buttonClass: 'button-upload',
                 icon: false
             }
@@ -196,7 +187,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.buttonType = 1;
     }
 
-    getButton(id) {
+    getButton(id: number): any {
         return this.buttons.find(x => x.id === id);
     }
 
@@ -270,25 +261,26 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     onMediaDataLoaded(): void {
         this.service.select = [];
         this.pageInfo = this.service.pageInfo;
+
         if (this.isFilterTrashSelected) {
             if (this.pageInfo.itemsCount > 0) {
-                this.getButton(0).visible = true;
-                this.getButton(0).inactive = true;
-                this.getButton(3).inactive = false;
+                this.getButton(StorageButtons.RestoreSelected).visible = true;
+                this.getButton(StorageButtons.RestoreSelected).inactive = true;
+                this.getButton(StorageButtons.EmptyTrash).inactive = false;
             }
             else {
-                this.getButton(0).visible = false;
-                this.getButton(0).inactive = true;
-                this.getButton(3).inactive = true;
+                this.getButton(StorageButtons.RestoreSelected).visible = false;
+                this.getButton(StorageButtons.RestoreSelected).inactive = true;
+                this.getButton(StorageButtons.EmptyTrash).inactive = true;
             }
         }
         else {
-            this.getButton(0).visible = false;
-            this.getButton(0).inactive = false;
-            this.getButton(1).inactive = true;
+            this.getButton(StorageButtons.RestoreSelected).visible = false;
+            this.getButton(StorageButtons.RestoreSelected).inactive = false;
+            this.getButton(StorageButtons.DeleteSelected).inactive = true;
         }
-        this.getButton(2).inactive = !this.isSidebarVisible;
-        this.getButton(2).visible = this.currentFilter && this.currentFilter.type === 'audio';
+        this.getButton(StorageButtons.Upload).inactive = !this.isSidebarVisible;
+        this.getButton(StorageButtons.Upload).visible = this.currentFilter && this.currentFilter.type === 'audio';
     }
 
     // --- filter methods ---------------------------------
@@ -301,44 +293,51 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     reloadFilter(filter: any): void {
-        this.loading++;
-        if (filter.type === 'trash') {
+        this.loading ++;
+
+        this.updateFilter(filter);
+
+        if (this.currentFilter.type === 'trash') {
             this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayModifiedDate', 'date', 168);
-            this.getButton(3).visible = true;
-            this.getButton(1).visible = false;
-            this.getButton(1).inactive = true;
-            this.getButton(0).inactive = true;
-        } else if (filter.type === 'certificate') {
-            this.getButton(3).visible = false;
-            this.getButton(2).visible = false;
-            this.getButton(1).visible = false;
-            this.getButton(0).visible = false;
+            this.getButton(StorageButtons.EmptyTrash).visible = true;
+            this.getButton(StorageButtons.DeleteSelected).visible = false;
+            this.getButton(StorageButtons.DeleteSelected).inactive = true;
+            this.getButton(StorageButtons.RestoreSelected).inactive = true;
+        }
+        else if (this.currentFilter.type === 'certificate') {
+            this.getButton(StorageButtons.EmptyTrash).visible = false;
+            this.getButton(StorageButtons.Upload).visible = false;
+            this.getButton(StorageButtons.DeleteSelected).visible = false;
+            this.getButton(StorageButtons.RestoreSelected).visible = false;
         }
         else {
             this.table.items[1] = new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 168);
-            this.getButton(3).visible = false;
-            this.getButton(1).visible = true;
-            this.getButton(0).inactive = true;
+            this.getButton(StorageButtons.EmptyTrash).visible = false;
+            this.getButton(StorageButtons.DeleteSelected).visible = true;
+            this.getButton(StorageButtons.RestoreSelected).inactive = true;
         }
+        this.getButton(StorageButtons.Upload).visible = this.currentFilter.type === 'audio';
 
-        this.updateFilter(filter);
         this.getItems();
-        this.loading--;
+
+        this.loading --;
     }
 
     updateFilter(filter: any): void {
-        this.currentFilter = filter;
+        Object.keys(filter).forEach(key => this.currentFilter[key] = filter[key]);
+
         if (filter.type === 'call_record') {
             this.deletable = true;
             this.table.items = [
-                new TableInfoItem(this.translate.instant('From'), 'from', null, 120),
-                new TableInfoItem(this.translate.instant('To'), 'to', null, 120),
+                new TableInfoItem(this.translate.instant('From'), 'from', 'from', 120),
+                new TableInfoItem(this.translate.instant('To'), 'to', 'to', 120),
                 new TableInfoItem(this.translate.instant('Start time'), 'displayDateTime', 'date', 158),
-                new TableInfoItem(this.translate.instant('Time'), 'durationFormat', 'duration', 50),
+                new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
                 new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
                 new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
             ];
-        } else if (filter.type === 'certificate') {
+        }
+        else if (filter.type === 'certificate') {
             this.deletable = false;
             this.table.items = [
                 new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
@@ -350,7 +349,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.table.items = [
                 new TableInfoItem(this.translate.instant('Name'), 'name', 'name', null, 120),
                 new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'date', 158),
-                new TableInfoItem(this.translate.instant('Time'), 'durationFormat', 'duration', 50),
+                new TableInfoItem(this.translate.instant('Duration'), 'durationFormat', 'duration', 50),
                 new TableInfoItem(this.translate.instant('Size, Mbyte'), 'size', 'size', 50),
                 new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0, true),
             ];
@@ -361,10 +360,10 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     selectItem(item: StorageItem): void {
         this.service.selectItem(item.id);
-        this.getButton(0).inactive = this.service.select.length === 0;
-        this.getButton(1).inactive = this.service.select.length === 0;
-        this.getButton(4).inactive = this.service.select.length === 0;
-        this.getButton(2).inactive = false;
+        this.getButton(StorageButtons.RestoreSelected).inactive = this.service.select.length === 0;
+        this.getButton(StorageButtons.DeleteSelected).inactive = this.service.select.length === 0;
+        this.getButton(StorageButtons.Download).inactive = this.service.select.length === 0;
+        this.getButton(StorageButtons.Upload).inactive = false;
     }
 
     // --- file uploading ---------------------------------
@@ -404,6 +403,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 this._message.writeSuccess(messageText);
             }
             this.sidebarActive = false;
+            this.getButton(StorageButtons.Download).inactive = this.service.select.length === 0;
         }
     }
 
@@ -487,20 +487,13 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.confirmDeletion();
     }
 
-    getShortName(item) {
-        let name = item.fileName;
-        let reg = /\.[a-z \d]{2,5}$/;
-        let ext = name.match(reg)[0];
-        let long = name.split(ext)[0];
-        var short;
-        var dots = '..';
-        if (long.length > 20) {
-            short = long.substr(0, 20);
-        } else {
-            short = long;
-            dots = '';
+    cutFileName(item: any): any {
+        // tslint:disable-next-line:prefer-const
+        let [ , name, extension ] = filenameRegExp.exec(item.fileName);
+        if (name.length > MAX_AUDIO_FILE_NAME_UI_LENGTH) {
+            name = name.substr(0, MAX_AUDIO_FILE_NAME_UI_LENGTH) + '..';
         }
-        item.fileName = short + dots + ext;
+        item.fileName = `${name}.${extension}`;
         return item;
     }
 
@@ -510,8 +503,8 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.modal = new ModalEx('', 'deleteFiles');
             if (this.service.select.length === 1) {
                 let item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
-                item = this.getShortName(item);
-                this.modal.body = this.translate.instant('Are you sure you want to delete') + '<span>' + item.fileName + '</span> ' + this.translate.instant('file?');
+                item = this.cutFileName(item);
+                this.modal.body = this.translate.instant('Are you sure you want to delete') + '<span>&nbsp;' + item.fileName + '</span> ' + this.translate.instant('file?');
             }
             this.modal.visible = true;
         }
@@ -522,7 +515,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.modal = new ModalEx('', 'emptyTrash');
             if (this.service.select.length === 1) {
                 let item: StorageItem = this.pageInfo.items.find(i => i.id === this.service.select[0]);
-                item = this.getShortName(item);
+                item = this.cutFileName(item);
                 this.modal.body = this.translate.instant('Permanently delete') + '&nbsp;' + item.fileName + '&nbsp;' + this.translate.instant('file?');
             }
             else if (this.service.select.length > 0) {

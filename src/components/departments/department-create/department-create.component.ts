@@ -1,21 +1,23 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {FormGroup, FormBuilder, Validators, FormArray} from '@angular/forms';
-import {DepartmentService} from '../../../services/department.service';
-import {BaseButton, FilterItem} from '../../../models/base.model';
-import {MessageServices} from '../../../services/message.services';
-import {RefsServices} from '../../../services/refs.services';
-import {CompanyService} from '../../../services/company.service';
-import {DepartmentItem} from '../../../models/department.model';
-import {Locker, Waiter} from '../../../models/locker.model';
-import {FadeAnimation} from '../../../shared/fade-animation';
-import {ViewEditControlComponent} from '../../../elements/pbx-view-edit-control/pbx-view-edit-control.component';
-import {TabComponent} from '../../../elements/pbx-tabs/tab/pbx-tab.component';
-import {TabsComponent} from '../../../elements/pbx-tabs/pbx-tabs.component';
-import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
-import {InputComponent} from '../../../elements/pbx-input/pbx-input.component';
-import { getErrorMessageFromServer } from '@shared/shared.functions';
 import {TranslateService} from '@ngx-translate/core';
+
+import {DepartmentService} from '@services/department.service';
+import {MessageServices} from '@services/message.services';
+import {RefsServices} from '@services/refs.services';
+import {CompanyService} from '@services/company.service';
+import {BaseButton, FilterItem} from '@models/base.model';
+import {DepartmentItem} from '@models/department.model';
+import {Locker, Waiter} from '@models/locker.model';
+import {FadeAnimation} from '@shared/fade-animation';
+import {ViewEditControlComponent} from '@elements/pbx-view-edit-control/pbx-view-edit-control.component';
+import {TabComponent} from '@elements/pbx-tabs/tab/pbx-tab.component';
+import {TabsComponent} from '@elements/pbx-tabs/pbx-tabs.component';
+import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import {InputComponent} from '@elements/pbx-input/pbx-input.component';
+import { getErrorMessageFromServer } from '@shared/shared.functions';
+import {simpleNameRegExp} from '@shared/vars';
 
 
 @Component({
@@ -26,10 +28,12 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class DepartmentCreateComponent extends FormBaseComponent implements OnInit {
 
-    public sips: any[];
-    public filteredSips: any[];
-    public selectedSips: any[];
-    public sipTableContext: {};
+    sips: any[];
+    filteredSips: any[];
+    selectedSips: any[];
+    sipTableContext: {};
+
+    errors: any;
 
     private _tabsButtons: BaseButton[][];
     private _id: number;
@@ -134,13 +138,17 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
         this.form = this.fb.group({
             generalForm: this.fb.group({
-                name: [this._department.name, [Validators.required, Validators.maxLength(190)]],
-                comment: [this._department.comment, [Validators.maxLength(255)]],
+                name:       [ this._department.name, [ Validators.required, Validators.maxLength(190), Validators.pattern(simpleNameRegExp) ] ],
+                comment:    [ this._department.comment, [ Validators.maxLength(255) ] ],
             }),
             sipInnersForm: this.fb.group({
                 sipInner: this.fb.array([], Validators.required)
             })
         });
+
+        this.validationHost.customMessages = [
+            { key: 'generalForm.name', error: 'pattern', message: this.translate.instant('Name may contain letters, digits and spaces only') }
+        ];
     }
 
     get departmentForm(): FormGroup {
@@ -212,21 +220,29 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         this.mapFormDataToModel();
 
         this.locker.lock();
-        this.service.save(this._id, this._department).then((response) => {
-            this.saveFormState();
-            if (!this.modelEdit) {
-                this.close();
-            }
-            else {
-                this._id = response.id;
-                this.getItem();
-            }
-        }).catch((err) => {
-            const msg = getErrorMessageFromServer(err);
-            console.log(msg);
-            this._messages.writeError(msg, 5000);
-        })
-          .then(() => this.locker.unlock());
+        this.service.save(this._id, this._department)
+            .then((response) => {
+                this.saveFormState();
+                if (!this.modelEdit) {
+                    this.close();
+                }
+                else {
+                    this._id = response.id;
+                    this.getItem();
+                }
+            })
+            .catch((error) => {
+                if (error && error.errors) {
+                    Object.keys(error.errors).forEach(key => {
+                        const errorKey: string = (key === 'name' || key === 'comment')
+                            ? `generalForm.${key}`
+                            : `sipInnersForm.${key}`;
+                        this.errors = {};
+                        this.errors[errorKey] = error.errors[key];
+                    });
+                }
+            })
+            .then(() => this.locker.unlock());
     }
 
     // -- model data methdos --------------------------------------------------

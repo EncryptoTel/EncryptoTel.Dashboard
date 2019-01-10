@@ -41,8 +41,8 @@ export class CallRulesService extends BaseService {
         return this.post('', data);
     }
 
-    getItems(pageInfo: PageInfoModel, filter = null): Promise<CallRulesModel> {
-        return super.getItems(pageInfo, filter).then((res: CallRulesModel) => {
+    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<CallRulesModel> {
+        return super.getItems(pageInfo, filter, sort).then((res: CallRulesModel) => {
             let pageInfo = plainToClass(CallRulesModel, res);
             pageInfo.items = [];
             res['items'].map(item => {

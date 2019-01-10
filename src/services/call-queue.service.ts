@@ -59,8 +59,8 @@ export class CallQueueService extends BaseQueueService {
         return this.request.get(url);
     }
 
-    getItems(pageInfo: PageInfoModel, filter = null): Promise<CallQueueModel> {
-        return super.getItems(pageInfo, filter).then((res: CallQueueModel) => {
+    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<CallQueueModel> {
+        return super.getItems(pageInfo, filter, sort).then((res: CallQueueModel) => {
             let pageInfo = plainToClass(CallQueueModel, res);
             pageInfo.items = [];
             res['items'].map(item => {

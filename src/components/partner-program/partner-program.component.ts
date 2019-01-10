@@ -68,7 +68,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
     initForm(): void {
         this.form = this.fb.group({
             id: [null],
-            name: [null, [Validators.required, Validators.minLength(3), Validators.pattern(simpleNameRegExp)]],
+            name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(8), Validators.pattern(simpleNameRegExp)]],
             refLink: [null],
             refLinkUrl: [{value: null, disabled: true}],
             status: [null, [Validators.required]],

@@ -1,7 +1,9 @@
+<!-- [table]="table" -->
 <pbx-list [pageInfo]="pageInfo"
-          [table]="table"
+          [tableInfo]="table"
           key="call-rules"
           name="Call Rules"
           itemName="Call Rule"
-          [service]="service">
+          [service]="service"
+          (onLoad)="load($event)">
 </pbx-list>

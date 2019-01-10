@@ -13,14 +13,14 @@ export class LocalStorageServices {
     /*
       Storage item writing
      */
-    writeItem = (name: string, data: any): void => {
+    writeItem(name: string, data: any): void {
         localStorage.setItem(name, JSON.stringify(data));
-    };
+    }
     /*
       Read item from storage and convert it to JSON.
       If item doesn't exist - throw message to console output
      */
-    readItem = (name: string, defaultValue?: any) => {
+    readItem(name: string, defaultValue?: any): any {
         const data = localStorage.getItem(name);
         if (data) {
             return JSON.parse(data);
@@ -30,8 +30,7 @@ export class LocalStorageServices {
         }
     }
 
-    clearItem = (name: string) => {
+    clearItem(name: string): void {
         localStorage.removeItem(name);
     }
-
 }
