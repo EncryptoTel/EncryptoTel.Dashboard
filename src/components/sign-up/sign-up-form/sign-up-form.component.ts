@@ -192,12 +192,13 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
      Error Type: string - validation type (not necessary)
     */
     inputValidation(name: string, errorType?: string): boolean {
-        if (
-            (this.errorEmailMessage !== '' && name === 'email')
-            || (this.errorPasswordMessage !== '' && name === 'password')
-        ) {
+        // if (name === 'password_confirmation') console.log('form', this.signUpForm.controls['password_confirmation']);
+
+        if ((this.errorEmailMessage !== '' && name === 'email')
+            || (this.errorPasswordMessage !== '' && name === 'password')) {
             return true;
-        } else {
+        }
+        else {
             if (errorType) {
                 const field = this.signUpForm.controls[name];
 
@@ -206,7 +207,8 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
                 }
 
                 return field && (field.errors[errorType] && !field.errors['firstLeterError']) && (field.dirty || field.touched);
-            } else {
+            }
+            else {
                 const field = this.signUpForm.controls[name];
                 return field && field.invalid && (field.dirty || field.touched);
             }
@@ -237,10 +239,6 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         this.errorEmailMessage = '';
         this.errorPasswordMessage = '';
         if (event) event.preventDefault();
-
-        if (this.signUpForm.value.firstname.length > 0 && this.signUpForm.value.firstname[0] === '-' && this.signUpForm.value.firstname[0] === '_' && this.signUpForm.value.firstname[0] === '-') {
-
-        }
 
         validateForm(this.signUpForm);
         if (this.signUpForm.valid) {

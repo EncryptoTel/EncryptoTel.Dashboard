@@ -7,9 +7,9 @@
           (submit)="signUp($event)"
           (keyup)="authorization.clearMessage()"
           >
-        <div class="auth_form_message"
+        <div *ngIf="message"
+             class="auth_form_message"
              [ngClass]="message.type"
-             *ngIf="message"
              [@Fade]
              (click)="authorization.clearMessage()"
              translate
@@ -21,28 +21,32 @@
                    (focus)="setFocus(nameInput)" (blur)="removeFocus(nameInput)" (mouseenter)="mouseEnter(nameInput)"
                    (mouseleave)="mouseLeave(nameInput)">
             <div class="input_error" *ngIf="inputValidation('firstname') && errorName" [@Fade]>
-                <span class="input_error_item"
-                      *ngIf="inputValidation('firstname', 'firstLeterError')"
+                <span *ngIf="inputValidation('firstname', 'firstLeterError')"
+                      class="input_error_item"
                       translate
                       >
                     Your name must begin with a letter
                 </span>
-                <span id="sign_up_err_no_name"
+                <span *ngIf="inputValidation('firstname', 'required')"
+                      id="sign_up_err_no_name"
                       class="input_error_item"
-                      *ngIf="inputValidation('firstname', 'required')"
                       translate
                       >
                     Please enter your name
                 </span>
-                <span id="sign_up_err_name_should_contain"
+                <span *ngIf="inputValidation('firstname', 'pattern')"
+                      id="sign_up_err_name_should_contain"
                       class="input_error_item"
-                      *ngIf="inputValidation('firstname', 'pattern')"
                       translate
                       >
-                    Name contains invalid characters or symbols. You can only use letters and the following characters: ’-.
+                    Name contains invalid characters or symbols. You can only use letters and the following characters: '-.
                 </span>
-                <span class="input_error_item"
-                      *ngIf="inputValidation('firstname', 'maxlength')" translate>Name can`t contain over 190 characters</span>
+                <span *ngIf="inputValidation('firstname', 'maxlength')"
+                      class="input_error_item"
+                      translate
+                      >
+                    Name can`t contain over 190 characters
+                </span>
             </div>
         </div>
         <div class="input_wrap">
@@ -50,23 +54,23 @@
                    (blur)="removeFocus(emailInput)" (mouseenter)="mouseEnter(emailInput)"
                    (mouseleave)="mouseLeave(emailInput)">
             <div class="input_error" *ngIf="inputValidation('email') && errorEmail" [@Fade]>
-                <span id="sign_up_err_email"
+                <span *ngIf="errorEmailMessage !== ''"
+                      id="sign_up_err_email"
                       class="input_error_item"
-                      *ngIf="errorEmailMessage !== ''"
                       translate
                       >
                     {{errorEmailMessage}}
                 </span>
-                <span id="sign_up_err_no_email"
+                <span *ngIf="errorEmailMessage === '' && inputValidation('email', 'required')"
+                      id="sign_up_err_no_email"
                       class="input_error_item"
-                      *ngIf="errorEmailMessage === '' && inputValidation('email', 'required')"
                       translate
                       >
                     Please enter your email address
                 </span>
-                <span id="sign_up_err_invalid_email"
+                <span *ngIf="inputValidation('email', 'pattern') && errorEmailMessage === ''"
+                      id="sign_up_err_invalid_email"
                       class="input_error_item"
-                      *ngIf="inputValidation('email', 'pattern') && errorEmailMessage === ''"
                       translate
                       >
                     Please enter correct email address
@@ -78,32 +82,70 @@
                    formControlName="password" (focus)="setFocus(passwordInput)" (blur)="removeFocus(passwordInput)"
                    (mouseenter)="mouseEnter(passwordInput)" (mouseleave)="mouseLeave(passwordInput)">
             <div class="input_error" *ngIf="inputValidation('password') && errorPassword" [@Fade]>
-                <span id="sign_up_password" class="input_error_item"
-                      *ngIf="errorPasswordMessage !== ''" translate>{{errorPasswordMessage}}</span>
-                <span id="sign_up_err_no_password" class="input_error_item"
-                      *ngIf="inputValidation('password', 'required') && errorPasswordMessage === ''" translate>Please enter your password</span>
-                <span id="sign_up_err_short_password" class="input_error_item"
-                      *ngIf="inputValidation('password', 'minlength') && errorPasswordMessage === ''" translate>Your password is too short. The password must be at least 6 characters long</span>
-                <span class="input_error_item"
-                      *ngIf="inputValidation('password', 'maxlength')" translate>Your password is too long. Please don`t use over 20 characters</span>
+                <span *ngIf="errorPasswordMessage !== ''"
+                      id="sign_up_password"
+                      class="input_error_item"
+                      translate
+                      >
+                    {{errorPasswordMessage}}
+                </span>
+                <span *ngIf="inputValidation('password', 'required') && errorPasswordMessage === ''"
+                      id="sign_up_err_no_password"
+                      class="input_error_item"
+                      translate
+                      >
+                    Please enter your password
+                </span>
+                <span *ngIf="inputValidation('password', 'minlength') && errorPasswordMessage === ''"
+                      id="sign_up_err_short_password"
+                      class="input_error_item"
+                      translate
+                      >
+                    Your password is too short. The password must be at least 6 characters long
+                </span>
+                <span *ngIf="inputValidation('password', 'maxlength')"
+                      class="input_error_item"
+                      translate
+                      >
+                    Your password is too long. Please don't use over 20 characters
+                </span>
             </div>
         </div>
         <div class="input_wrap">
-            <input #passwordConfirmInput type="password" name="Confirm password"
+            <input #passwordConfirmInput
+                   type="password"
+                   name="Confirm password"
+                   formControlName="password_confirmation"
                    placeholder="{{'Confirm password' | translate }}"
                    [ngClass]="{'ng-invalid ng-touched': signUpForm.errors || inputValidation('password_confirmation')}"
-                   formControlName="password_confirmation" (focus)="setFocus(passwordConfirmInput)"
-                   (blur)="removeFocus(passwordConfirmInput)" (mouseenter)="mouseEnter(passwordConfirmInput)"
-                   (mouseleave)="mouseLeave(passwordConfirmInput)">
-            <div class="input_error"
-                 *ngIf="(inputValidation('password_confirmation') || signUpForm.errors) && errorConfirmPassword"
+                   (focus)="setFocus(passwordConfirmInput)"
+                   (blur)="removeFocus(passwordConfirmInput)"
+                   (mouseenter)="mouseEnter(passwordConfirmInput)"
+                   (mouseleave)="mouseLeave(passwordConfirmInput)"
+                   >
+            <div *ngIf="(inputValidation('password_confirmation') || signUpForm.errors) && errorConfirmPassword"
+                 class="input_error"
                  [@Fade]>
-                <span id="sign_up_err_no_confirm_password" class="input_error_item"
-                      *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'required')" translate>Please confirm your password</span>
-                <span id="sign_up_err_short_confirm_password" class="input_error_item"
-                      *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'minlength')" translate>Password is too short</span>
-                <div id="sign_up_err_passwords_dont_match" class="input_error_item"
-                     *ngIf="signUpForm.errors && passwordsMismatch()" translate>The passwords do not match
+                <span *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'required')"
+                      id="sign_up_err_no_confirm_password"
+                      class="input_error_item"
+                      translate
+                      >
+                    Please confirm your password
+                </span>
+                <span *ngIf="!signUpForm.errors && inputValidation('password_confirmation', 'minlength')"
+                      id="sign_up_err_short_confirm_password"
+                      class="input_error_item"
+                      translate
+                      >
+                    Password is too short
+                </span>
+                <div *ngIf="signUpForm.errors && passwordsMismatch()"
+                     id="sign_up_err_passwords_dont_match"
+                     class="input_error_item"
+                     translate
+                     >
+                    The passwords do not match
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import {BaseItemModel, PageInfoModel} from "./base.model";
+import {BaseItemModel, PageInfoModel} from './base.model';
 
 export class PhoneNumberModel extends PageInfoModel {
     items: PhoneNumberItem[];
@@ -26,7 +26,7 @@ export class PhoneNumberItem extends BaseItemModel {
     }
 
     get defaultInner() {
-        let result = 'Not defined'
+        let result = 'Not defined';
         this.sipInners.map((item: SipInnerModel) => {
             if (item.default) {
                 result = `#${item.phoneNumber}`;
