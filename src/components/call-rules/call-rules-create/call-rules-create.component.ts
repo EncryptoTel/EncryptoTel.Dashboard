@@ -550,6 +550,9 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.service.getById(this.callRule.id)
             .then(response => {
                 this.setFormData(response);
+                this.form.get('sipId').valueChanges.subscribe(() => {
+                    this.selectedSipInners = [];
+                });
             })
             .catch(() => {})
             .then(() => this.loading --);
