@@ -95,7 +95,6 @@ export class TableComponent implements OnInit, OnDestroy {
         }
         else {
             // this.modal = new ModalEx(this.translate.instant('Are you sure?'), 'delete');
-            console.log('this.name', this);
             if (this.name === 'Phone Number') {
                 this.modal.body = '';
                 let body: string;
