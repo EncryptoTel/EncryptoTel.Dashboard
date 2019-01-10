@@ -94,6 +94,8 @@ export class TableComponent implements OnInit, OnDestroy {
             this.deleteItem();
         }
         else {
+            // this.modal = new ModalEx(this.translate.instant('Are you sure?'), 'delete');
+            console.log('this.name', this);
             if (this.name === 'Phone Number') {
                 this.modal.body = '';
                 let body: string;
@@ -109,6 +111,11 @@ export class TableComponent implements OnInit, OnDestroy {
                     innerCount, ' ', this.translate.instant('extensions?')
                 );
                 this.modal.body = body;
+            }
+            if (this.name === 'Contact') {
+                const sz1: string = this.translate.instant('Are you sure you want to delete');
+                const sz2: string = this.translate.instant('contact?');
+                this.modal.body = `${sz1} ${this.selectedDelete.firstname} ${sz2}`;
             }
             if (item instanceof StorageItem) {
                 this.deleteItem();
@@ -132,7 +139,11 @@ export class TableComponent implements OnInit, OnDestroy {
             if (this.modal.title.length > 0) {
                 this.modal.title = this.translate.instant(this.modal.title);
             }
-            this.modal.body = this.translate.instant(this.modal.body);
+            if (this.modal.body) {
+                this.modal.body = this.translate.instant(this.modal.body);
+            } else {
+                this.modal.body = this.translate.instant('Are you sure?');
+            }
             this.modal.buttons.forEach(button => {
                 button.value = this.translate.instant(button.value);
             });

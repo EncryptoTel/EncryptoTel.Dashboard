@@ -30,7 +30,7 @@ export class RingGroupService extends BaseQueueService {
             this.item.action = response.action;
 
             this.userView.phoneNumber = response.sip.phoneNumber;
-            this.setMembers(response.queueMembers);
+            this.setMembers(response.ringGroupMembers);
 
             this.editMode = true;
 

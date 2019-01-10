@@ -196,14 +196,14 @@ export class ListComponent implements OnInit {
     }
 
     delete(item: BaseItemModel) {
-        item.loading++;
-        this.onDelete.emit(item);
-        this.service.deleteById(item.id)
+        item.loading ++;
+        this.service.deleteById(item.id, false)
             .then(() => {
                 this.getItems(item);
+                this.onDelete.emit(item);
             })
             .catch(() => { })
-            .then(() => item.loading--);
+            .then(() => item.loading --);
     }
 
     sort() {

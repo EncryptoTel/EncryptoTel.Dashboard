@@ -126,28 +126,37 @@ export class AuthorizationServices {
       Sign-up form submit. Accepted params:
       Data - sign up form values
      */
-    signUp(data: SignUpFormModel) {
+    signUp(data: SignUpFormModel): Promise<any> {
         if (localStorage.getItem('ref') && localStorage.getItem('uniqueHash')) {
             data.ref = localStorage.getItem('ref');
             data.uniqueHash = localStorage.getItem('uniqueHash');
         }
         data.language = localStorage.getItem('user_lang');
-        return this._req.post('registration', {
-            ...data
-        }).catch(error => {
-            // if (error.errors.firstname) {
-            //     this.setMessage({
-            //         type: 'error',
-            //         message: error.errors.firstname[0]
-            //     });
-            // } else {
-            //     // this.setMessage({
-            //     //     type: 'error',
-            //     //     message: (error.errors && error.errors.email) ? this.translate.instant('A user with this email address already exists') : ('Internal server error')
-            //     // });
-            // }
-            return Promise.reject(error);
-        });
+
+        return this._req.post('registration', { ...data})
+            .catch(error => {
+                // if (error.errors.firstname) {
+                //     this.setMessage({
+                //         type: 'error',
+                //         message: error.errors.firstname[0]
+                //     });
+                // } else {
+                //     // this.setMessage({
+                //     //     type: 'error',
+                //     //     message: (error.errors && error.errors.email) ? this.translate.instant('A user with this email address already exists') : ('Internal server error')
+                //     // });
+                // }
+                return Promise.reject(error);
+            });
+    }
+
+    /**
+     * Resends registration confirmation link to user's email
+     * 
+     * @param data any { "email": "testuser@test.ru" }
+     */
+    resendConfirmation(email: string): Promise<any> {
+        return this._req.post('registration/resend-confirm', { email: email }, false);
     }
 
     /*
@@ -155,7 +164,7 @@ export class AuthorizationServices {
       E-mail: string - user e-mail address form value
      */
     sendEmail(email: object): Promise<void> {
-        return this._req.post(`password/reset`, {...email}, false)
+        return this._req.post(`password/reset`, { ...email }, false)
             .then(result => {
                 return this.setMessage({
                     type: 'success',

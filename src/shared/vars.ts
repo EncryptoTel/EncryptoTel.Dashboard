@@ -20,7 +20,7 @@ export const phoneRegExp = new RegExp(/^\d{6,16}$/m);
 export const week: string[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 // Company pattern RegExps
-export const companyNameRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\- ]+)?)+$/i);
+export const companyNameRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\-_ ]+)?)+$/i);
 export const companyHouseRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\/ ]+)?)+$/i);
 export const companyOfficeRegExp = numberRegExp;
 export const companyPhoneRegExp = numberRegExp;
@@ -33,6 +33,8 @@ export const contactAddressRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF
 export const ringGroupsNameRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\- ]+)?)+$/i);
 
 // Address book
+export const adddressNameRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\-_']+)?)+$/i);
+export const adddressAddressRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\-_\.]+)?)+$/i);
 export const addressPhoneRegExp = new RegExp(/^[\d#]{6,16}$/m);
 
 export const optionNameRegExp = new RegExp(/^(.*?)\s*(\(\+?\d+\))?$/);

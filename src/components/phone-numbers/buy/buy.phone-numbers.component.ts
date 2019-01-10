@@ -153,7 +153,7 @@ export class BuyPhoneNumbersComponent implements OnInit {
         if (number.sum > this.userService.user.balance.balance) {
             this.modal.title = this.translate.instant(this.modal.title);
             this.modal.body =
-                this.translate.instant('Not enough money to pay for the order.') + ' <br/>' + this.translate.instant('Top up your balance?');
+                this.translate.instant('You do not have enough money to buy the number.') + ' <br/>' + this.translate.instant('Please refill your balance.');
             this.modal.buttons = [
                 new ModalButton('cancel', this.translate.instant('Cancel')),
                 new ModalButton('success', this.translate.instant('Refill'))];

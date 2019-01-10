@@ -75,7 +75,7 @@ export class TariffPlansComponent implements OnInit {
             if (tariff.tariffPrice > this._user.user.balance.balance) {
                 this.modal.title = this.translate.instant(this.modal.title);
                 this.modal.body =
-                    this.translate.instant('Not enough money to pay for the order.') + '<br/>' + this.translate.instant('Top up your balance?');
+                    this.translate.instant('You do not have the required amount of money for changing your tariff plan.') + '<br/>' + this.translate.instant('Please refill your balance.');
                 this.modal.buttons = [
                     new ModalButton('cancel', this.translate.instant('Cancel')),
                     new ModalButton('success', this.translate.instant('Refill'))
