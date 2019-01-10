@@ -3,7 +3,7 @@ import {PhoneNumberService} from '../../../services/phone-number.service';
 import {calculateHeight} from '../../../shared/shared.functions';
 
 @Component({
-    selector: 'buy-phone-numbers-component',
+    selector: 'external-numbers-component',
     templateUrl: './template.html',
     styleUrls: ['./local.sass'],
     providers: [PhoneNumberService]

@@ -76,6 +76,7 @@ import {AudioConferenceCreateComponent} from '@components/audio-conference/audio
 import {CRMIntegrationComponent} from '@components/settings/settings-items/crm-integration/crm-integration.component';
 import {AmoCrmIntegrationComponent} from '@components/settings/settings-items/crm-integration/amo-crm-integration/amo-crm-integration.component';
 import {LogoutComponent} from '@components/logout/logout.component';
+import {AddExternalNumbersComponent} from '@components/phone-numbers/external/add-external-numbers.component';
 
 const Routes: Routes = [
     {path: '', redirectTo: 'cabinet', pathMatch: 'full'},
@@ -140,7 +141,7 @@ const Routes: Routes = [
                     },
                     {
                         path: 'external',
-                        component: BlankComponent,
+                        component: AddExternalNumbersComponent,
                         data: {title: 'Add External Phone Number', indexed: true}
                     }
                 ]
@@ -262,8 +263,8 @@ const Routes: Routes = [
             {
                 path: 'extensions', children: [
                     {
-                        path: '', 
-                        component: ExtensionsComponent, 
+                        path: '',
+                        component: ExtensionsComponent,
                         data: { title: 'Extensions', indexed: true }
                     },
                     {
@@ -273,8 +274,8 @@ const Routes: Routes = [
                         canDeactivate: [ CanDeactivateFormGuard ]
                     },
                     {
-                        path: ':id', 
-                        component: AddExtensionsComponent, 
+                        path: ':id',
+                        component: AddExtensionsComponent,
                         data: { title: 'Edit Extension', indexed: true },
                         canDeactivate: [ CanDeactivateFormGuard ]
                     }
