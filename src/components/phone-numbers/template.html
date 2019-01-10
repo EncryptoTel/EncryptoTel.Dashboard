@@ -12,7 +12,9 @@
               [service]="service"
               (onSelect)="select($event)"
               (onLoad)="load()"
-    ></pbx-list>
+              (onDelete)="onDelete($event)"
+              >
+        </pbx-list>
 
     <pbx-sidebar
         *ngIf="selected"
