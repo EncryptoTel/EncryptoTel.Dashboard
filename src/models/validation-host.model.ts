@@ -213,7 +213,7 @@ export class ValidationHost implements Lockable {
         const ctrlName: string = this.translate.instant(this.normalizeControlName(control.name));
 
         if (errorKey === 'required') {
-            const szPleaseEnter: string = this.translate.instant('Please enter');
+            const szPleaseEnter: string = this.translate.instant('Please enter the');
             return `${szPleaseEnter} ${ctrlName}`;
         }
         else if (errorKey === 'minlength') {
@@ -249,6 +249,7 @@ export class ValidationHost implements Lockable {
         let normalized = name.toLowerCase();
         normalized = normalized.replace(/\s+\*\s*$/, '');
         normalized = normalized.replace(/(\.\d+)/, '');
+        normalized = normalized[0].toUpperCase() + normalized.slice(1);
         return normalized;
     }
 

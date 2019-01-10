@@ -38,6 +38,18 @@ export function numberRangeValidator(minVal: number, maxVal: number): ValidatorF
     };
 }
 
+export function callRuleParameterValidator(action: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        if (!control.value) {
+            if (action === 1) return { 'extensionRequired': null };
+            if (action === 3) return { 'callQueueRequired': null };
+            if (action === 5) return { 'voiceFileRequired': null };
+            if (action === 6) return { 'callGroupRequired': null };
+        }
+        return null;
+    };
+}
+
 export function callRuleTimeValidator(control: FormGroup): { [key: string]: any } | null {
     if (typeof control.value !== 'string' || control.value === '*') {
         return null;
