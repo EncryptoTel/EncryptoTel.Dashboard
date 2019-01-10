@@ -96,8 +96,8 @@ export class BaseQueueService extends BaseService {
 
     setMembers(members) {
         for (let i = 0; i < members.length; i++) {
-            this.item.queueMembers.push({sipId: members[i].sip.id});
-            this.userView.members.push(members[i].sip);
+            this.item.queueMembers.push({sipId: members[i].inner.id});
+            this.userView.members.push(members[i].inner);
             this.userView.members[i].sipOuterPhone = this.userView.phoneNumber;
         }
     }

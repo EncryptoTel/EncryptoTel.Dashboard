@@ -94,6 +94,7 @@ export class TableComponent implements OnInit, OnDestroy {
             this.deleteItem();
         }
         else {
+            // this.modal = new ModalEx(this.translate.instant('Are you sure?'), 'delete');
             console.log('this.name', this);
             if (this.name === 'Phone Number') {
                 this.modal.body = '';
@@ -138,7 +139,11 @@ export class TableComponent implements OnInit, OnDestroy {
             if (this.modal.title.length > 0) {
                 this.modal.title = this.translate.instant(this.modal.title);
             }
-            this.modal.body = this.translate.instant(this.modal.body);
+            if (this.modal.body) {
+                this.modal.body = this.translate.instant(this.modal.body);
+            } else {
+                this.modal.body = this.translate.instant('Are you sure?');
+            }
             this.modal.buttons.forEach(button => {
                 button.value = this.translate.instant(button.value);
             });
