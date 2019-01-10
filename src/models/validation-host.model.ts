@@ -206,9 +206,10 @@ export class ValidationHost implements Lockable {
     }
 
     getValidatorMessage(control: InputComponent, errorKey: string, errors: any): string {
+        // if (control.key === 'strategy') console.log('vh-message', control, errorKey, errors, this.customMessages);
+
         const customMessage = this.getCustomValidatorMessage(control, errorKey);
         if (customMessage) return customMessage;
-        // console.log('vh-message', control, errorKey, errors);
 
         const ctrlName: string = this.translate.instant(this.normalizeControlName(control.name));
 

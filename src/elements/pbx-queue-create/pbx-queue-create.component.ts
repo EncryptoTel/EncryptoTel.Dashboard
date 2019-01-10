@@ -98,10 +98,14 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.currentTab = this.tabs[0];
         this.background = 'form-body-fill';
         this.noDataMessage = this.translate.instant('No data to display. Please add members');
+        
         this.validationHost.customMessages = [
+            { key: 'sipId', error: 'required', message: this.translate.instant('Please choose a phone number') },
+            { key: 'strategy', error: 'required', message: this.translate.instant('Please choose the ring strategy') },
             { key: 'timeout', error: 'pattern', message: this.translate.instant('Please enter valid number') },
             { key: 'timeout', error: 'range', message: this.translate.instant('Please enter a value from 15 to 600') },
-            { key: 'maxlen', error: 'pattern', message: this.translate.instant('Please enter valid number') },
+            { key: 'maxlen', error: 'required', message: this.translate.instant('You need to choose at least one caller') },
+            { key: 'maxlen', error: 'pattern', message: this.translate.instant('Invalid data. This field may contain numbers only') },
             { key: 'maxlen', error: 'range', message: this.translate.instant('Please enter a value from 1 to 100') },
         ];
 
@@ -129,9 +133,9 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         if (this.isCallQueue) {
             // Add Call-Queues specific controls
             this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(simpleNameRegExp) ]);
-            this.validationHost.customMessages = [
-                { key: 'name', error: 'pattern', message: this.translate.instant('Name may contain letters, digits and spaces only') }
-            ];
+            this.validationHost.customMessages.push(
+                { key: 'name', error: 'pattern', message: this.translate.instant('Name contains invalid characters. You can use letters and numbers only') }
+            );
 
             this.form.addControl('maxlen', this.fb.control(null, [ Validators.required, Validators.pattern(numberRegExp), numberRangeValidator(1, 100) ]));
             this.form.addControl('announceHoldtime', this.fb.control(null));
@@ -140,9 +144,9 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         else {
             // Add Ring-Groups specific controls
             this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(ringGroupsNameRegExp) ]);
-            this.validationHost.customMessages = [
-                { key: 'name', error: 'pattern', message: this.translate.instant('Name may contain letters, digits, dashes and spaces only') }
-            ];
+            this.validationHost.customMessages.push(
+                { key: 'name', error: 'pattern', message: this.translate.instant('Name contains invalid characters. You can only use letters, numbers and the following characters: -.') }
+            );
         }
     }
 
@@ -233,16 +237,31 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
                 if (response.errors.queueMembers) {
                     let message: string;
                     message = this.formComponent.selected === 'Members'
-                        ? this.translate.instant('You have not selected members')
+                        ? this.translate.instant('You have not chosen the members')
                         : this.translate.instant('Choose at least one member');
                     this.message.writeError(message);
                 }
                 return true;
             }
-        }).then(() => {
-            this.saveFormState();
-            if (!this.id) this.cancel();
-        }).catch(() => {})
-          .then(() => this.saving --);
+            })
+            .then(() => {
+                let okMessage: string;
+                if (this.isCallQueue) {
+                    okMessage = this.hasId
+                        ? this.translate.instant('The changes have been saved successfully')
+                        : this.translate.instant('Call Queue has been created successfully');
+                }
+                else {
+                    okMessage = this.hasId
+                        ? this.translate.instant('The changes have been saved successfully')
+                        : this.translate.instant('Ring group has been created successfully');
+                }
+                this.message.writeSuccess(okMessage);
+
+                this.saveFormState();
+                if (!this.id) this.cancel();
+            })
+            .catch(() => {})
+            .then(() => this.saving --);
     }
 }
