@@ -4,7 +4,7 @@
                 [buttons]="buttons"
                 [filters]="_filters"
                 [inactive]="loading || loadingEx"
-                (onClick)="create()"
+                (onClick)="create($event)"
                 (onUpdate)="updateFilter($event)"
                 (onReload)="reloadFilter($event)"
                 >

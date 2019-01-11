@@ -1,13 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-
-import { PhoneNumberService } from '@services/phone-number.service';
-import { SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel, TableInfoExModel, TableInfoItem } from '@models/base.model';
-import { SwipeAnimation } from '@shared/swipe-animation';
-import { PhoneNumberItem, PhoneNumberModel } from '../../models/phone-number.model';
-import { ListComponent } from '../../elements/pbx-list/pbx-list.component';
-import { MessageServices } from '../../services/message.services';
-import { TranslateService } from '@ngx-translate/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {PhoneNumberService} from '../../services/phone-number.service';
+import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel, TableInfoExModel, TableInfoItem} from '../../models/base.model';
+import {SwipeAnimation} from '../../shared/swipe-animation';
+import {Router} from '@angular/router';
+import {PhoneNumberItem, PhoneNumberModel} from '../../models/phone-number.model';
+import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
+import {MessageServices} from '../../services/message.services';
+import {TranslateService} from '@ngx-translate/core';
+import {ButtonItem} from '@models/base.model';
 
 @Component({
     selector: 'phone-numbers-component',
@@ -27,7 +27,7 @@ export class PhoneNumbersComponent implements OnInit {
         keys: ['phoneNumberWithType', 'innersCount', 'defaultInner', 'statusName', 'typeName']
     };
     selected: PhoneNumberItem;
-
+    buttons: ButtonItem[] = [];
     pageInfo: PhoneNumberModel = new PhoneNumberModel();
     sidebar: SidebarInfoModel = new SidebarInfoModel();
 
@@ -60,6 +60,9 @@ export class PhoneNumbersComponent implements OnInit {
         this.tableModel.items.push(new TableInfoItem(this.translate.instant('Default Ext'), 'defaultInner', 'defaultInner'));
         this.tableModel.items.push(new TableInfoItem(this.translate.instant('Status'), 'statusName', 'statusName'));
         this.tableModel.items.push(new TableInfoItem(this.translate.instant('Number type'), 'typeName', 'typeName'));
+
+        this.buttons.push(new ButtonItem(10, this.translate.instant('Buy Phone Number'), 'success', true));
+        this.buttons.push(new ButtonItem(11, this.translate.instant('Add External Phone'), 'accent', true));
 
         // --- TRANSLATIONS REQUIRED ---
         this.translate.setTranslation(
@@ -158,16 +161,33 @@ export class PhoneNumbersComponent implements OnInit {
             .then(() => this.selected.loading--);
     }
 
+    clickButton($event) {
+        console.log($event);
+        console.log($event.id);
+        if ($event) {
+            switch ($event.id) {
+                case 10:
+                    this.router.navigate(['cabinet', 'phone-numbers', 'buy']);
+                    break;
+                case 11:
+                    this.router.navigate(['cabinet', 'phone-numbers', 'external']);
+                    break;
+            }
+        }
+    }
+
     click(item) {
-        switch (item.id) {
-            case 8:
-                this.list.items.clickDeleteItem(this.selected);
-                break;
-            case 1:
-                this.cancel();
-                break;
-            case 2:
-                this.toggleNumber();
+        if (item) {
+            switch (item.id) {
+                case 8:
+                    this.list.items.clickDeleteItem(this.selected);
+                    break;
+                case 1:
+                    this.cancel();
+                    break;
+                case 2:
+                    this.toggleNumber();
+            }
         }
     }
 
@@ -181,7 +201,7 @@ export class PhoneNumbersComponent implements OnInit {
 
     onDelete(item: any): void {
         const deleteConfirmationMsg: string = this.translate.instant(
-            item.sipInners.length === 1 ? 'deletePhoneConfirmationSn' : 'deletePhoneConfirmationPl', 
+            item.sipInners.length === 1 ? 'deletePhoneConfirmationSn' : 'deletePhoneConfirmationPl',
             { phone: item.phoneNumber, extCount: item.sipInners.length });
 
         this.message.writeSuccess(deleteConfirmationMsg);

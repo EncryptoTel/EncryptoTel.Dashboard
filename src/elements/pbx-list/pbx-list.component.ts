@@ -171,9 +171,9 @@ export class ListComponent implements OnInit {
 
     // -- event handlers ------------------------------------------------------
 
-    create() {
+    create($event) {
         if (this.onCreate.observers.length > 0) {
-            this.onCreate.emit();
+            this.onCreate.emit($event);
         } else {
             this.router.navigate(['cabinet', this.key, this.createKey]);
         }
