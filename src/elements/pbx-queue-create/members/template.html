@@ -5,6 +5,7 @@
   </div>
     <pbx-table 
         *ngIf="hasData"
+        [name]="membersName"
         [tableInfo]="table" 
         [tableItems]="members"
         [editMode]="service.editMode"

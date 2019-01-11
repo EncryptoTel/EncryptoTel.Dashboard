@@ -32,6 +32,10 @@ export class QueueMembersComponent implements OnInit {
         return !!this.members && this.members.length > 0;
     }
 
+    get membersName(): string {
+      return 'member';
+    }
+
     // -- component lifecycle methods -----------------------------------------
 
     constructor(public translate: TranslateService) {

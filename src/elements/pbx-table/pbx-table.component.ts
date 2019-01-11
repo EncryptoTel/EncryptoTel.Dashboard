@@ -88,6 +88,7 @@ export class TableComponent implements OnInit, OnDestroy {
     }
 
     clickDeleteItem(item: any, event: MouseEvent) {
+      console.log('pbx-name', this.name);
         killEvent(event);
         this.selectedDelete = item;
         if (!this.editMode) {

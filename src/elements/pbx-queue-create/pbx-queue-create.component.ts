@@ -205,7 +205,9 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
     this.addMembersMode = false;
     const message = this.service.getMembersMessage();
-    if (message) this.message.writeSuccess(this.translate.instant(message));
+    if (message) {
+      this.message.writeSuccess(this.translate.instant(message));
+    }
   }
 
   // -- component model methods ---------------------------------------------
@@ -237,7 +239,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
 
   saveModel(): void {
     this.saving ++;
-    this.service.save(this.id, true, (response) => {
+    this.service.save(this.id, false, (response) => {
       if (response && response.errors) {
           if (response.errors.queueMembers) {
               let message: string;

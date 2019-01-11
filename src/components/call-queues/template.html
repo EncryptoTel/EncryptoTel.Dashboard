@@ -4,5 +4,7 @@
           name="Call Queues"
           itemName="Call Queue"
           [service]="service"
-          (onLoad)="load($event)">
+          (onLoad)="load($event)"
+          (onDelete)="onDelete($event)"
+          >
 </pbx-list>
