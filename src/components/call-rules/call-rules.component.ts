@@ -5,6 +5,7 @@ import {CallRulesModel} from '../../models/call-rules.model';
 import {TranslateService} from '@ngx-translate/core';
 import { TableInfoExModel, TableInfoItem } from '@models/base.model';
 import {ListComponent} from '@elements/pbx-list/pbx-list.component';
+import { MessageServices } from '@services/message.services';
 
 
 @Component({
@@ -20,7 +21,11 @@ export class CallRulesComponent {
     pageInfo: CallRulesModel = new CallRulesModel();
     @ViewChild(ListComponent) list: ListComponent;
 
-    constructor(public service: CallRulesService, public translate: TranslateService) {
+    constructor(
+        public service: CallRulesService,
+        public translate: TranslateService,
+        public message: MessageServices
+    ) {
         this.table.sort.isDown = true;
         this.table.sort.column = 'phoneNumber';
         this.table.items.push(new TableInfoItem(this.translate.instant('Phone number'), 'phoneNumber', 'phoneNumber'));
@@ -37,5 +42,8 @@ export class CallRulesComponent {
         });
     }
 
-
+    onDelete(): void {
+        const delMessage: string = this.translate.instant('Call Rule has been deleted successfully');
+        this.message.writeSuccess(delMessage);
+    }
 }

@@ -42,6 +42,18 @@ export class StorageService extends BaseService {
         this.errorCount = 0;
 
         this._compatibleMediaTypes = ['audio/mp3', 'audio/ogg', 'audio/wav', 'audio/mpeg', 'audio/x-wav'];
+
+        // --- TRANSLATIONS REQUIRED ---
+        this.translate.setTranslation(
+            this.translate.currentLang,
+            {
+                'fileAlreadyExistsMessage':
+                    this.translate.currentLang === 'en'
+                        ? 'File {{file}} has been downloaded. Do you want to owerwrite it?'
+                        : 'Файл {{file}} уже был загружен. Вы хотите перезаписать его?'
+            },
+            true);
+        // --- TRANSLATIONS REQUIRED / ---
     }
 
     onInit(): void {
@@ -63,7 +75,9 @@ export class StorageService extends BaseService {
     checkModal(): void {
         if (this.files.length > 0 && !this.modalUpload.visible) {
             this.updateLoading(1);
-            this.modalUpload.body = `A file <div class="fileName">${this.files[0].name}</div> has already been uploaded. Do you want to replace it?`;
+            const filename: string = `<div class="fileName">${this.files[0].name}</div>`;
+            const message: string = this.translate.instant('fileAlreadyExistsMessage', { file: filename });
+            this.modalUpload.body = message;
             setTimeout(() => {
                 this.modalUpload.visible = true;
             }, 100);

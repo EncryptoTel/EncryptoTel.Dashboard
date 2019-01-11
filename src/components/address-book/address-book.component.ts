@@ -114,6 +114,64 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             { key: 'contactPhone.*.value', error: 'pattern', message: this.translate.instant('Phone number contains invalid characters. You can only use numbers and #') },
             { key: 'contactEmail.*.value', error: 'pattern', message: this.translate.instant('Please enter a valid email address') },
         ];
+
+        // --- TRANSLATIONS REQUIRED ---
+        this.translate.setTranslation(
+            this.translate.currentLang,
+            {
+                'contactBlockedConfirmation':
+                    this.translate.currentLang === 'en'
+                        ? 'Contact {{name}} has been blocked successfully'
+                        : 'Контакт {{name}} заблокирован'
+            },
+            true);
+        this.translate.setTranslation(
+            this.translate.currentLang,
+            {
+                'contactUnblockedConfirmation':
+                    this.translate.currentLang === 'en'
+                        ? 'Contact {{name}} has been unblocked successfully'
+                        : 'Контакт {{name}} разблокирован'
+            },
+            true);
+        // Are you sure you want to block/unblock {{name}} contact?
+        this.translate.setTranslation(
+            this.translate.currentLang,
+            {
+                'contactBlockAlert':
+                    this.translate.currentLang === 'en'
+                        ? 'Are you sure you want to block {{name}} contact?'
+                        : 'Вы действительно хотите заблокировать контакт {{name}}?'
+            },
+            true);
+        this.translate.setTranslation(
+            this.translate.currentLang,
+            {
+                'contactUnblockAlert':
+                    this.translate.currentLang === 'en'
+                        ? 'Are you sure you want to unblock {{name}} contact?'
+                        : 'Вы действительно хотите разблокировать контакт {{name}}?'
+            },
+            true);
+        this.translate.setTranslation(
+            this.translate.currentLang,
+            {
+                'contactDeleteAlert':
+                    this.translate.currentLang === 'en'
+                        ? 'Are you sure you want to delete {{name}} contact?'
+                        : 'Вы действительно хотите удалить контакт {{name}}?'
+            },
+            true);
+        this.translate.setTranslation(
+            this.translate.currentLang,
+            {
+                'contactDeleteConfirmation':
+                    this.translate.currentLang === 'en'
+                        ? 'Contact {{name}} has been deleted successfully'
+                        : 'Контакт {{name}} удален'
+            },
+            true);
+        // --- TRANSLATIONS REQUIRED / ---
     }
 
     ngOnInit() {
@@ -265,9 +323,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 this.block();
                 break;
             case 13:
-                const sz1: string = this.translate.instant('Are you sure you want to delete');
-                const sz2: string = this.translate.instant('contact?');
-                this.modalDelete.body = `${sz1} ${this.selected.firstname} ${sz2}`;
+                const deleteAlert: string = this.translate.instant('contactDeleteAlert', { name: this.selected.firstname });
+                this.modalDelete.body = deleteAlert;
                 this.modalDelete.title = this.translate.instant(this.modalDelete.title);
                 this.modalDelete.buttons.forEach(button => {
                     button.value = this.translate.instant(button.value);
@@ -307,11 +364,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     showSuccessDeletionMessage(item: any): void {
-        const sz1: string = this.translate.instant('Contact');
-        const sz2: string = this.translate.instant('has been deleted successfully');
-        const szOkMessage: string = `${sz1} ${item.firstname} ${sz2}`;
-        
-        this.message.writeSuccess(szOkMessage);
+        const confirmationMessage: string = this.translate
+            .instant('contactDeleteConfirmation', { name: item.firstname });
+        this.message.writeSuccess(confirmationMessage);
     }
 
     load(pageInfo: AddressBookModel) {
@@ -405,10 +460,11 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.modalBlock = new ModalEx('', this.selected.blacklist ? 'unblock' : 'block');
         this.modalBlock.title = this.translate.instant(this.modalBlock.title);
         
-        const sz1: string = this.translate.instant('Are you sure you want to');
-        const sz2: string = this.translate.instant(this.selected.blacklist ? 'unblock' : 'block');
-        const sz3: string = this.translate.instant('contact?');
-        this.modalBlock.body = `${sz1} ${sz2} ${this.selected.firstname} ${sz3}`;
+        const blockAlert: string = this.translate.instant(this.selected.blacklist
+            ? 'contactUnblockAlert'
+            : 'contactBlockAlert',
+            { name: this.selected.firstname });
+        this.modalBlock.body = blockAlert;
 
         this.modalBlock.buttons.forEach(button => {
             button.value = this.translate.instant(button.value);
@@ -435,11 +491,11 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.selected.loading ++;
         this.service.blockByContact(this.selected.id, this.selected.blacklist)
             .then(() => {
-                const sz1: string = this.translate.instant('Contact');
-                const sz2: string = this.translate.instant('has been');
-                const sz3: string = this.translate.instant(this.selected.blacklist ? 'unblocked' : 'blocked');
-                const sz4: string = this.translate.instant('successfully');
-                this.message.writeSuccess(`${sz1} ${this.selected.firstname} ${sz2} ${sz3} ${sz4}`);
+                const blockMessage: string = this.translate.instant(this.selected.blacklist
+                    ? 'contactUnblockedConfirmation'
+                    : 'contactBlockedConfirmation',
+                    { name: this.selected.firstname });
+                this.message.writeSuccess(blockMessage);
 
                 this.selected.loading --;
                 this.closePage(true);

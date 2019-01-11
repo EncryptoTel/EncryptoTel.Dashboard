@@ -63,6 +63,47 @@ export class PhoneNumbersComponent implements OnInit {
 
         this.buttons.push(new ButtonItem(10, this.translate.instant('Buy Phone Number'), 'success', true));
         this.buttons.push(new ButtonItem(11, this.translate.instant('Add External Phone'), 'accent', true));
+
+        // --- TRANSLATIONS REQUIRED ---
+        this.translate.setTranslation(
+            this.translate.currentLang,
+            {
+                'deletePhoneConfirmationSn':
+                    this.translate.currentLang === 'en'
+                        ? 'The number +{{phone}} with 1 extension has been deleted'
+                        : 'Номер телефона +{{phone}} и 1 внутренний номер были удалены'
+            },
+            true);
+        this.translate.setTranslation(
+            this.translate.currentLang,
+            {
+                'deletePhoneConfirmationPl':
+                    this.translate.currentLang === 'en'
+                        ? 'The number +{{phone}} with {{extCount}} extensions has been deleted'
+                        : 'Номер телефона +{{phone}} и {{extCount}} внутренних номеров были удалены'
+            },
+            true);
+
+        this.translate.setTranslation(
+            this.translate.currentLang,
+            {
+                'deletePhoneMessageSn':
+                    this.translate.currentLang === 'en'
+                        ? 'Delete phone number +{{phone}} and 1 extension'
+                        : 'Удалить номер телефона +{{phone}} и 1 внутренний номер'
+            },
+            true);
+        this.translate.setTranslation(
+            this.translate.currentLang,
+            {
+                'deletePhoneMessagePl':
+                    this.translate.currentLang === 'en'
+                        ? 'Delete phone number +{{phone}} and {{extCount}} extensions'
+                        : 'Удалить номер телефона +{{phone}} и {{extCount}} внутренних номеров'
+            },
+            true);
+        // --- usage: this.translate.instant('deletePhoneConfirmation', { phone: 34535421, extCount: 8 });
+        // --- TRANSLATIONS REQUIRED / ---
     }
 
     select(item: any): void {
@@ -77,8 +118,11 @@ export class PhoneNumbersComponent implements OnInit {
         this.sidebar.items.push(new SidebarInfoItem(6, this.translate.instant('Status'), this.translate.instant(this.selected.statusName)));
         this.sidebar.items.push(new SidebarInfoItem(7, this.translate.instant('Phone number type'), this.translate.instant(this.selected.typeName)));
         if (!this.selected.delete) {
-            this.sidebar.items.push(new SidebarInfoItem(8, this.translate.instant('Delete phone number') +
-                ' ' + (this.selected.innersCount === 1 ? this.translate.instant('and 1 Ext') : this.selected.innersCount > 1 ? this.translate.instant('and') + ' ' + this.selected.innersCount + ' ' + this.translate.instant('Exts') : ''), null, true, false, true));
+            const itemTitle: string = this.translate.instant(
+                this.selected.innersCount === 1 ? 'deletePhoneMessageSn' : 'deletePhoneMessagePl',
+                { phone: this.selected.phoneNumber, extCount: this.selected.innersCount });
+            const delItem: SidebarInfoItem = new SidebarInfoItem(8, itemTitle, null, true, false, true);
+            this.sidebar.items.push(delItem);
         }
     }
 
@@ -89,30 +133,31 @@ export class PhoneNumbersComponent implements OnInit {
     toggleNumber(): void {
         this.selected.loading++;
         this.select(this.selected);
-        this.service.toggleNumber(this.selected.id, !this.selected.status).then(() => {
-            this.list.getItems(this.selected);
-            let status: string;
-            if (this.selected.status === 0) {
-                status = this.translate.instant('enabled');
+        this.service.toggleNumber(this.selected.id, !this.selected.status)
+            .then(() => {
+                this.list.getItems(this.selected);
+                let status: string;
+                if (this.selected.status === 0) {
+                    status = this.translate.instant('enabled');
 
-                this.sidebar.buttons[1].title = this.translate.instant('Disable');
-                this.sidebar.items[3].value = this.translate.instant('Enabled');
-            }
-            if (this.selected.status === 1) {
-                status = this.translate.instant('disabled');
-                this.sidebar.buttons[1].title = this.translate.instant('Enable');
-                this.sidebar.items[3].value = this.translate.instant('Disabled');
-            }
+                    this.sidebar.buttons[1].title = this.translate.instant('Disable');
+                    this.sidebar.items[3].value = this.translate.instant('Enabled');
+                }
+                if (this.selected.status === 1) {
+                    status = this.translate.instant('disabled');
+                    this.sidebar.buttons[1].title = this.translate.instant('Enable');
+                    this.sidebar.items[3].value = this.translate.instant('Disabled');
+                }
 
-            if (this.selected.status === 1) {
-                this.selected.status = 0;
-            } else {
-                this.selected.status = 1;
-            }
+                if (this.selected.status === 1) {
+                    this.selected.status = 0;
+                } else {
+                    this.selected.status = 1;
+                }
 
-            this.message.writeSuccess(this.translate.instant('The phone number has been') + ' ' + this.translate.instant(status));
-        }).catch(() => {
-        })
+                this.message.writeSuccess(this.translate.instant('The phone number has been') + ' ' + this.translate.instant(status));
+            })
+            .catch(() => {})
             .then(() => this.selected.loading--);
     }
 
@@ -154,7 +199,13 @@ export class PhoneNumbersComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
+    onDelete(item: any): void {
+        const deleteConfirmationMsg: string = this.translate.instant(
+            item.sipInners.length === 1 ? 'deletePhoneConfirmationSn' : 'deletePhoneConfirmationPl',
+            { phone: item.phoneNumber, extCount: item.sipInners.length });
 
+        this.message.writeSuccess(deleteConfirmationMsg);
     }
+
+    ngOnInit() {}
 }

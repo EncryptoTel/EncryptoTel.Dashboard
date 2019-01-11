@@ -186,7 +186,8 @@ export class SignInComponent implements OnInit, OnDestroy {
             ]),
             'password': new FormControl('', [
                 Validators.required,
-                Validators.minLength(6)
+                Validators.minLength(6),
+                Validators.maxLength(20)
             ])
         });
 

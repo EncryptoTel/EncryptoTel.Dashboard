@@ -12,6 +12,10 @@
               (onSelect)="select($event)"
               (onLoad)="load()"
               (onCreate)="clickButton($event)"
+              (onDelete)="onDelete($event)"
+              >
+        </pbx-list>
+
     ></pbx-list>
 
     <pbx-sidebar
@@ -21,6 +25,3 @@
         [@Swipe]
     ></pbx-sidebar>
 </div>
-
-<!--buttonTitle="{{'Buy Phone Number' | translate }}"-->
-<!--createKey="buy"-->

@@ -206,14 +206,15 @@ export class ValidationHost implements Lockable {
     }
 
     getValidatorMessage(control: InputComponent, errorKey: string, errors: any): string {
+        // if (control.key === 'strategy') console.log('vh-message', control, errorKey, errors, this.customMessages);
+
         const customMessage = this.getCustomValidatorMessage(control, errorKey);
         if (customMessage) return customMessage;
-        // console.log('vh-message', control, errorKey, errors);
 
         const ctrlName: string = this.translate.instant(this.normalizeControlName(control.name));
 
         if (errorKey === 'required') {
-            const szPleaseEnter: string = this.translate.instant('Please enter');
+            const szPleaseEnter: string = this.translate.instant('Please enter the');
             return `${szPleaseEnter} ${ctrlName}`;
         }
         else if (errorKey === 'minlength') {
@@ -249,6 +250,7 @@ export class ValidationHost implements Lockable {
         let normalized = name.toLowerCase();
         normalized = normalized.replace(/\s+\*\s*$/, '');
         normalized = normalized.replace(/(\.\d+)/, '');
+        normalized = normalized[0].toUpperCase() + normalized.slice(1);
         return normalized;
     }
 
