@@ -22,7 +22,6 @@
         "setupMac": "electron-installer-dmg ./build/encryPbx-darwin-x64/encryPbx.app ./build/installers/encryPbx",
         "buildWindows": "electron-packager . encryPbx --platform=win32 --out ./build/ --arch=x64 --overwrite --icon=src/assets/logoEncryptoTel.ico --extra-resource=src/assets",
         "start-prod": "ng serve -prod --aot=false -e=prod --proxy-config proxy.conf.json"
-
     },
     "private": true,
     "build": {

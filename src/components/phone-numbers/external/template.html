@@ -1,37 +1,62 @@
-<div class="table_wrap" #table>
-    <div class="table_pre_row overlay" #row>
-        <div class="pre_row_input_wrap">
-            <div class="pre_row_input_title">Search for favourite number:</div>
-            <input title="Search" class="pre_row_input" placeholder="Type your favourite number"
-                   [(ngModel)]="requestDetails.search" (keydown)="searchInit()">
-        </div>
-    </div>
-    <pbx-loader *ngIf="loading"></pbx-loader>
-    <div class="table_list" *ngIf="!loading">
-        <div class="table" *ngFor="let table of list">
-            <div class="table_header">
-                <div class="table_row">
-                    <div class="table_column">Number</div>
-                    <div class="table_column">Location</div>
-                    <div class="table_column">Monthly</div>
-                    <div class="table_column">Buy</div>
-                </div>
-            </div>
-            <div class="table_body">
-                <div class="table_row" *ngFor="let item of table">
-                    <div class="table_column">{{item['fullNumber']}}</div>
-                    <div class="table_column">{{item['areaName'] || 'Unknown'}}</div>
-                    <div class="table_column">{{item['sum'] || 'Free'}}</div>
-                    <div class="table_column">
-                        <pbx-button value="Buy" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)"
-                                    [inactive]="item.inactive"></pbx-button>
+<div class="add_external_phone_number">
+
+    <form action="" method="">
+        <div class="title">Add External Phone Number</div>
+
+        <div class="items">
+
+            <div class="item phone_number">
+                <label for="">Phone Number</label>
+                <div class="wrapper">
+                    <div class="flag">
+                        <svg-icon src="/assets/icons/country_flags/svg/ru.svg"></svg-icon>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="table_pre_row">
-        <pbx-pagination [currentPage]="pagination.page" [totalPages]="pagination.total"
-                        (onPageChange)="onPageChange($event)" *ngIf="pagination.total !== 1"></pbx-pagination>
-    </div>
-</div>
+                    <div class="arrow">
+                        <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
+                    </div>
+                    <select name="" id="">
+                        <option value="">+358 (800) 800 80 80</option>
+                        <option value="">+358 (800) 800 80 81</option>
+                        <option value="">+358 (800) 800 80 82</option>
+                        <option value="">+358 (800) 800 80 83</option>
+                    </select>
+                    <div class="visual"></div>
+                </div> <!-- wrapper -->
+            </div> <!-- item -->
+
+            <div class="item password">
+                <label for="">Password</label>
+                <div class="wrapper">
+                    <svg-icon class="eye show_password" *ngIf="showPassword" (click)="changePasswordVisibility()" src="/assets/icons/_middle/show_password.svg"></svg-icon>
+                    <svg-icon class="eye hide_password" *ngIf="!showPassword" (click)="changePasswordVisibility()" src="/assets/icons/_middle/hide_password.svg"></svg-icon>
+                    <input type="{{showPassword ? 'text' : 'password'}}">
+                    <div class="visual"></div>
+                </div> <!-- wrapper -->
+            </div> <!-- item -->
+
+            <div class="item">
+                <label for="">Port</label>
+                <div class="wrapper">
+                    <input type="number">
+                    <div class="visual"></div>
+                </div> <!-- wrapper -->
+            </div> <!-- item -->
+
+            <div class="item">
+                <label for="">Host</label>
+                <div class="wrapper">
+                    <input type="text">
+                    <div class="visual"></div>
+                </div> <!-- wrapper -->
+            </div> <!-- item -->
+
+        </div> <!-- items -->
+
+        <div class="buttons">
+            <pbx-button [buttonType]="'cancel'" [value]="'Cancel'"></pbx-button>
+            <pbx-button [buttonType]="'success'" [value]="'Add'"></pbx-button>
+        </div> <!-- buttons -->
+
+    </form>
+
+</div> <!-- add_external_phone_number -->
