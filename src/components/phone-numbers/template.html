@@ -2,16 +2,16 @@
     <pbx-list [(pageInfo)]="pageInfo"
               [tableInfo]="tableModel"
               [loading]="loading"
+              [buttons]=buttons
               key="phone-numbers"
               name="Phone Numbers"
               itemName="Phone Number"
-              buttonTitle="{{'Buy Phone Number' | translate }}"
-              createKey="buy"
               [editable]="false"
               [deletable]="false"
               [service]="service"
               (onSelect)="select($event)"
               (onLoad)="load()"
+              (onCreate)="clickButton($event)"
     ></pbx-list>
 
     <pbx-sidebar
@@ -21,3 +21,6 @@
         [@Swipe]
     ></pbx-sidebar>
 </div>
+
+<!--buttonTitle="{{'Buy Phone Number' | translate }}"-->
+<!--createKey="buy"-->
