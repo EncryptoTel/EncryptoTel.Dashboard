@@ -94,6 +94,8 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             { key: 'ruleActions.*.durationTime', error: 'equalTime', message: this.translate.instant('Start time cannot be the same as end time') },
             { key: 'ruleActions.*.durationTime', error: 'invalidRange', message: this.translate.instant('Invalid time range format') },
             { key: 'ruleActions.*.parameter', error: 'pattern', message: this.translate.instant('External number contains invalid characters. You can use numbers only') },
+            { key: 'ruleActions.*.parameter', error: 'minlength', message: this.translate.instant('External number is too short. Use at least 6 numbers') },
+            { key: 'ruleActions.*.parameter', error: 'maxlength', message: this.translate.instant('External number is too long. Use no more than 16 numbers') },
             { key: 'ruleActions.*.parameter', error: 'duplicated', message: this.translate.instant('You can not redirect to the same extension 2 times in a row') },
             { key: 'ruleActions.*.parameter', error: 'extensionRequired', message: this.translate.instant('Please choose the Extension number') },
             { key: 'ruleActions.*.parameter', error: 'callQueueRequired', message: this.translate.instant('Please choose the Call Queue') },

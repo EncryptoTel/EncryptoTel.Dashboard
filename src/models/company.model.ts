@@ -1,16 +1,15 @@
-import {CountryModel} from './country.model';
-import {DatePipe, DecimalPipe} from '@angular/common';
-import { format } from 'util';
+import { CountryModel } from '@models/country.model';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 export class CompanyModel {
     constructor(public name: string = '',
-                public logo: string = '',
-                public email: string = '',
-                public phone: string = '',
-                public vatId: number = null,
-                public companyAddress: CompanyAddress[] = [],
-                public companyDetailFieldValue: any[] = [],
-                public id: number = null) {
+        public logo: string = '',
+        public email: string = '',
+        public phone: string = '',
+        public vatId: number = null,
+        public companyAddress: CompanyAddress[] = [],
+        public companyDetailFieldValue: any[] = [],
+        public id: number = null) {
     }
 
     get isValid(): boolean {
@@ -20,14 +19,14 @@ export class CompanyModel {
 
 export class CompanyAddress {
     constructor(public country?: CountryModel,
-                public postalCode?: string,
-                public regionName?: string,
-                public locationName?: string,
-                public street?: string,
-                public building?: string,
-                public office?: string,
-                public type?: null,
-                public id?: number) {
+        public postalCode?: string,
+        public regionName?: string,
+        public locationName?: string,
+        public street?: string,
+        public building?: string,
+        public office?: string,
+        public type?: null,
+        public id?: number) {
     }
 }
 
@@ -65,11 +64,11 @@ export class CompanyInfoModel {
 
     public setPhoneNumbersData(title: string, data: any): void {
         this.sectionGroups.forEach(group => {
-            let section = group.sections.find(s => s.title === title);
+            const section = group.sections.find(s => s.title === title);
             if (section) {
                 section.items = [];
                 data.numbers.forEach(phone => {
-                    let item = new CompanyInfoItem();
+                    const item = new CompanyInfoItem();
                     if (phone.phoneType === 'external') {
                         item.title = '+' + phone.phoneNumber;
                     } else {
@@ -125,15 +124,15 @@ export class CompanyInfoEvaluator {
         if (!data) return null;
 
         let matches = property.match(/^([^\.]+)\.(.*)$/);
-        if (matches && matches.length == 3) {
+        if (matches && matches.length === 3) {
             let baseProperty = matches[1];
-            let restProperty = matches[2];
+            const restProperty = matches[2];
             let evalObj = null;
 
             matches = baseProperty.match(/(.+)\[(\d+)\]$/);
-            if (matches && matches.length == 3 && data.propertyIsEnumerable(matches[1])) {
+            if (matches && matches.length === 3 && data.propertyIsEnumerable(matches[1])) {
                 baseProperty = matches[1];
-                let index = matches[2];
+                const index = matches[2];
                 evalObj = data[baseProperty][index];
             }
             else {
@@ -176,19 +175,19 @@ export class CompanyInfoEvaluator {
                 // Pattern: [ symbol | ${evalExpression} ] `|` {DecimalPipeFormat}
                 // --
                 args = format.split('|');
-                if (args.length == 1) {
+                if (args.length === 1) {
                     value = this.evalFormat(value, 'number', args[0]);
                 }
                 else {
                     let symbol = '';
-                    let matches = args[0].match(/^\${([^}]+)}(\s*)/);
+                    const matches = args[0].match(/^\${([^}]+)}(\s*)/);
                     if (matches && matches.length) {
                         symbol = this.eval(matches[1], this._baseData, false);
                     }
                     else {
                         symbol = args[0];
                     }
-                    let numberValue = this.evalFormat(value, 'number', args[1]);
+                    const numberValue = this.evalFormat(value, 'number', args[1]);
                     return `${symbol}${numberValue}`;
                 }
                 break;
@@ -197,12 +196,12 @@ export class CompanyInfoEvaluator {
                 // Pattern: {DecimalPipeFormat} `|` [ symbol | ${evalExpression} ]
                 // --
                 args = format.split('|');
-                if (args.length == 1) {
+                if (args.length === 1) {
                     value = this.evalFormat(value, 'number', args[0]);
                 }
                 else {
                     let symbol = '';
-                    let matches = args[1].match(/^(\s*)\${([^}]+)}/);
+                    const matches = args[1].match(/^(\s*)\${([^}]+)}/);
                     if (matches && matches.length) {
                         symbol = this.eval(matches[2], this._baseData, false);
                         symbol = `${matches[1]}${symbol}`;
@@ -210,7 +209,7 @@ export class CompanyInfoEvaluator {
                     else {
                         symbol = args[1];
                     }
-                    let numberValue = this.evalFormat(value, 'number', args[0]);
+                    const numberValue = this.evalFormat(value, 'number', args[0]);
                     return `${numberValue}${symbol}`;
                 }
                 break;

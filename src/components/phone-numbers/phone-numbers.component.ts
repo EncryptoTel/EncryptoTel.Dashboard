@@ -1,20 +1,20 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { PhoneNumberService } from '../../services/phone-number.service';
-import { SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel, TableInfoExModel, TableInfoItem } from '../../models/base.model';
-import { SwipeAnimation } from '../../shared/swipe-animation';
-import { Router } from '@angular/router';
-import { PhoneNumberItem, PhoneNumberModel } from '../../models/phone-number.model';
-import { ListComponent } from '../../elements/pbx-list/pbx-list.component';
-import { MessageServices } from '../../services/message.services';
-import { TranslateService } from '@ngx-translate/core';
-import { ButtonItem } from '@models/base.model';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {PhoneNumberService} from '../../services/phone-number.service';
+import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel, TableInfoExModel, TableInfoItem} from '../../models/base.model';
+import {SwipeAnimation} from '../../shared/swipe-animation';
+import {Router} from '@angular/router';
+import {PhoneNumberItem, PhoneNumberModel} from '../../models/phone-number.model';
+import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
+import {MessageServices} from '../../services/message.services';
+import {TranslateService} from '@ngx-translate/core';
+import {ButtonItem} from '@models/base.model';
 
 @Component({
   selector: 'phone-numbers-component',
   templateUrl: './template.html',
-  styleUrls: [ './local.sass' ],
-  providers: [ PhoneNumberService ],
-  animations: [ SwipeAnimation('x', '300ms') ]
+  styleUrls: ['./local.sass'],
+  providers: [PhoneNumberService],
+  animations: [SwipeAnimation('x', '300ms')]
 })
 
 export class PhoneNumbersComponent implements OnInit {
@@ -23,8 +23,8 @@ export class PhoneNumbersComponent implements OnInit {
   tableModel: TableInfoExModel = new TableInfoExModel();
 
   tableInfo: TableInfoModel = {
-    titles: [ 'Phone Number', 'Amount of Exts', 'Default Ext', 'Status', 'Number type' ],
-    keys: [ 'phoneNumberWithType', 'innersCount', 'defaultInner', 'statusName', 'typeName' ]
+    titles: ['Phone Number', 'Amount of Exts', 'Default Ext', 'Status', 'Number type'],
+    keys: ['phoneNumberWithType', 'innersCount', 'defaultInner', 'statusName', 'typeName']
   };
   selected: PhoneNumberItem;
   buttons: ButtonItem[] = [];
@@ -50,7 +50,7 @@ export class PhoneNumbersComponent implements OnInit {
         this.translate.instant('Status'),
         this.translate.instant('Number type')
       ],
-      keys: [ 'phoneNumberWithType', 'innersCount', 'defaultInner', 'statusName', 'typeName' ]
+      keys: ['phoneNumberWithType', 'innersCount', 'defaultInner', 'statusName', 'typeName']
     };
 
     this.tableModel.sort.isDown = true;
@@ -79,7 +79,7 @@ export class PhoneNumbersComponent implements OnInit {
     if (!this.selected.delete) {
       const itemTitle: string = this.translate.instant(
         this.selected.innersCount === 1 ? 'deletePhoneMessageSn' : 'deletePhoneMessagePl',
-        { phone: this.selected.phoneNumber, extCount: this.selected.innersCount });
+        {phone: this.selected.phoneNumber, extCount: this.selected.innersCount});
       const delItem: SidebarInfoItem = new SidebarInfoItem(8, itemTitle, null, true, false, true);
       this.sidebar.items.push(delItem);
     }
@@ -99,13 +99,13 @@ export class PhoneNumbersComponent implements OnInit {
         if (this.selected.status === 0) {
           status = this.translate.instant('enabled');
 
-          this.sidebar.buttons[ 1 ].title = this.translate.instant('Disable');
-          this.sidebar.items[ 3 ].value = this.translate.instant('Enabled');
+          this.sidebar.buttons[1].title = this.translate.instant('Disable');
+          this.sidebar.items[3].value = this.translate.instant('Enabled');
         }
         if (this.selected.status === 1) {
           status = this.translate.instant('disabled');
-          this.sidebar.buttons[ 1 ].title = this.translate.instant('Enable');
-          this.sidebar.items[ 3 ].value = this.translate.instant('Disabled');
+          this.sidebar.buttons[1].title = this.translate.instant('Enable');
+          this.sidebar.items[3].value = this.translate.instant('Disabled');
         }
 
         if (this.selected.status === 1) {
@@ -116,7 +116,7 @@ export class PhoneNumbersComponent implements OnInit {
 
         this.message.writeSuccess(this.translate.instant('The phone number has been') + ' ' + this.translate.instant(status));
       })
-      .catch(() => { })
+      .catch(() => {})
       .then(() => this.selected.loading--);
   }
 
@@ -124,10 +124,10 @@ export class PhoneNumbersComponent implements OnInit {
     if ($event) {
       switch ($event.id) {
         case 10:
-          this.router.navigate([ 'cabinet', 'phone-numbers', 'buy' ]);
+          this.router.navigate(['cabinet', 'phone-numbers', 'buy']);
           break;
         case 11:
-          this.router.navigate([ 'cabinet', 'phone-numbers', 'external' ]);
+          this.router.navigate(['cabinet', 'phone-numbers', 'external']);
           break;
       }
     }
@@ -159,10 +159,10 @@ export class PhoneNumbersComponent implements OnInit {
   onDelete(item: any): void {
     const deleteConfirmationMsg: string = this.translate.instant(
       item.sipInners.length === 1 ? 'deletePhoneConfirmationSn' : 'deletePhoneConfirmationPl',
-      { phone: item.phoneNumber, extCount: item.sipInners.length });
+      {phone: item.phoneNumber, extCount: item.sipInners.length});
 
     this.message.writeSuccess(deleteConfirmationMsg);
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 }

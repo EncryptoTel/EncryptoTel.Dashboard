@@ -103,9 +103,9 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
             }
         });
 
-        this.amountValidationError = `Please enter value between ${
+        this.amountValidationError = `Please enter value from ${
             this.amount.min
-            } and ${this.amount.max}`;
+            } to ${this.amount.max}`;
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
