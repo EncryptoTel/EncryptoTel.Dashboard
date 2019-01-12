@@ -1,6 +1,8 @@
-import { Component, QueryList, ContentChildren, AfterContentInit, Input, OnInit, Output, EventEmitter } from "@angular/core";
-import { TabComponent } from "./tab/pbx-tab.component";
-import { BaseButton } from "../../models/base.model";
+import { Component, QueryList, ContentChildren, AfterContentInit, Input, OnInit, Output, EventEmitter } from '@angular/core';
+
+import { BaseButton } from '@models/base.model';
+import { TabComponent } from './tab/pbx-tab.component';
+
 
 @Component({
     selector: 'pbx-tabs',
@@ -22,7 +24,7 @@ export class TabsComponent implements OnInit, AfterContentInit {
 
     get selectedTabIndex(): number {
         if (this.tabs) {
-            let selectedTab = this.tabs.find(tab => tab.active);
+            const selectedTab = this.tabs.find(tab => tab.active);
             return selectedTab ? selectedTab.id : 0;
         }
         return 0;
@@ -38,8 +40,8 @@ export class TabsComponent implements OnInit, AfterContentInit {
     ngAfterContentInit(): void {
         let index = 0;
         this.tabs.forEach(tab => tab.id = index ++);
-        let activeTabs = this.tabs.filter(tab => tab.active);
-        if(activeTabs.length === 0) {
+        const activeTabs = this.tabs.filter(tab => tab.active);
+        if (activeTabs.length === 0) {
             this.selectTab(this.tabs.first);
         }
     }
@@ -59,13 +61,13 @@ export class TabsComponent implements OnInit, AfterContentInit {
 
     selectTabByIndex(index: number): void {
         if (index < this.tabs.length) {
-            let tab = this.tabs.toArray().find(tab => tab.id == index);
+            const tab = this.tabs.toArray().find(t => t.id === index);
             this.selectTab(tab);
         }
     }
 
     selectTab(tab: TabComponent): void {
-        this.tabs.toArray().forEach(tab => tab.active = false);
+        this.tabs.toArray().forEach(t => t.active = false);
         tab.active = true;
     }
 }

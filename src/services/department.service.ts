@@ -21,9 +21,9 @@ export class DepartmentService extends BaseService {
 
     save(id: number, department): Promise<any> {
         if (id) {
-            return this.putById(id, department, true, false);
+            return this.putById(id, department, false, false);
         } else {
-            return this.post('', department, true, false);
+            return this.post('', department, false, false);
         }
     }
 

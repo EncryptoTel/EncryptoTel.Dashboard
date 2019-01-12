@@ -1,23 +1,22 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {FormGroup, FormBuilder, Validators, FormArray} from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
-import {DepartmentService} from '@services/department.service';
-import {MessageServices} from '@services/message.services';
-import {RefsServices} from '@services/refs.services';
-import {CompanyService} from '@services/company.service';
-import {BaseButton, FilterItem} from '@models/base.model';
-import {DepartmentItem} from '@models/department.model';
-import {Locker, Waiter} from '@models/locker.model';
-import {FadeAnimation} from '@shared/fade-animation';
-import {ViewEditControlComponent} from '@elements/pbx-view-edit-control/pbx-view-edit-control.component';
-import {TabComponent} from '@elements/pbx-tabs/tab/pbx-tab.component';
-import {TabsComponent} from '@elements/pbx-tabs/pbx-tabs.component';
-import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
-import {InputComponent} from '@elements/pbx-input/pbx-input.component';
-import { getErrorMessageFromServer } from '@shared/shared.functions';
-import {simpleNameRegExp} from '@shared/vars';
+import { DepartmentService } from '@services/department.service';
+import { MessageServices } from '@services/message.services';
+import { RefsServices } from '@services/refs.services';
+import { CompanyService } from '@services/company.service';
+import { BaseButton, FilterItem } from '@models/base.model';
+import { DepartmentItem } from '@models/department.model';
+import { Locker, Waiter } from '@models/locker.model';
+import { FadeAnimation } from '@shared/fade-animation';
+import { ViewEditControlComponent } from '@elements/pbx-view-edit-control/pbx-view-edit-control.component';
+import { TabComponent } from '@elements/pbx-tabs/tab/pbx-tab.component';
+import { TabsComponent } from '@elements/pbx-tabs/pbx-tabs.component';
+import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import { InputComponent } from '@elements/pbx-input/pbx-input.component';
+import { departmentNameRegExp } from '@shared/vars';
 
 
 @Component({
@@ -69,13 +68,12 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         private refs: RefsServices,
         private company: CompanyService,
         private activatedRoute: ActivatedRoute,
-        private _messages: MessageServices,
+        private messages: MessageServices,
         private router: Router,
         protected fb: FormBuilder,
-        protected message: MessageServices,
         public translate: TranslateService
     ) {
-        super(fb, message, translate);
+        super(fb, messages, translate);
 
         this.locker = new Locker();
         this.sips = [];
@@ -103,7 +101,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         };
 
         this.filter = new FilterItem(1, 'search', this.translate.instant('Search'), null, null, this.translate.instant('Search by Name or Phone'));
-        this.currentFilter = {value: null};
+        this.currentFilter = { value: null };
     }
 
     ngOnInit(): void {
@@ -114,15 +112,16 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         this.getCompany();
         this.getSipOuters();
 
-        Waiter.await(this.locker).then(() => {
-            this.mapModelToFormData();
-        })
-            .catch(() => {
-            });
+        Waiter.await(this.locker)
+            .then(() => {
+                this.mapModelToFormData();
+            })
+            .catch(() => {});
 
         super.ngOnInit();
 
         this.sipInnersControl.onEditModeChanged.subscribe(editMode => {
+            // console.log('onEditModeChanged', editMode);
             if (editMode) {
                 this.params['class']['classes'][1] = 'form-body-fill';
             } else {
@@ -134,12 +133,12 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
     // -- form component methods ----------------------------------------------
 
     initForm(): void {
-        this._department = new DepartmentItem();
+        if (!this._department) this._department = new DepartmentItem();
 
         this.form = this.fb.group({
             generalForm: this.fb.group({
-                name:       [ this._department.name, [ Validators.required, Validators.maxLength(190), Validators.pattern(simpleNameRegExp) ] ],
-                comment:    [ this._department.comment, [ Validators.maxLength(255) ] ],
+                name: [this._department.name, [Validators.required, Validators.maxLength(190), Validators.pattern(departmentNameRegExp)]],
+                comment: [this._department.comment, [Validators.maxLength(255)]],
             }),
             sipInnersForm: this.fb.group({
                 sipInner: this.fb.array([], Validators.required)
@@ -174,22 +173,26 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         this.selectedSips = [];
         this.generalForm.get('name').setValue(this._department.name);
         this.generalForm.get('comment').setValue(this._department.comment);
-        this.saveFormState();
 
         this._department.sipInnerIds.forEach(id => {
             const sip = this.sips.find(s => s.id === id);
             this.selectedSips.push(sip);
+            this.sipInners.push(this.fb.control([id, []]));
         });
+
+        this.saveFormState();
     }
 
     // -- data retrieval methods ----------------------------------------------
 
     getItem(): void {
         this.locker.lock();
-        this.service.getItem(this._id).then((response) => {
-            this._department = response;
-        }).catch(() => {})
-          .then(() => this.locker.unlock());
+        this.service.getItem(this._id)
+            .then((response) => {
+                this._department = response;
+            })
+            .catch(() => {})
+            .then(() => this.locker.unlock());
     }
 
     getCompany() {
@@ -202,15 +205,17 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
     getSipOuters(): void {
         this.locker.lock();
-        this.refs.getSipOuters().then((response: any) => {
-            response.forEach(item => {
-                if (item.providerId && item.providerId !== 1) {
-                    item.phoneNumber = '+' + item.phoneNumber;
-                }
-            });
-            this.formatSipOuters(response);
-        }).catch(() => {})
-          .then(() => this.locker.unlock());
+        this.refs.getSipOuters()
+            .then((response: any) => {
+                response.forEach(item => {
+                    if (item.providerId && item.providerId !== 1) {
+                        item.phoneNumber = '+' + item.phoneNumber;
+                    }
+                });
+                this.formatSipOuters(response);
+            })
+            .catch(() => { })
+            .then(() => this.locker.unlock());
     }
 
     save(): void {
@@ -224,9 +229,13 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
             .then((response) => {
                 this.saveFormState();
                 if (!this.modelEdit) {
+                    this.messages.writeSuccess(this.translate
+                        .instant('Department has been created successfully'));
                     this.close();
                 }
                 else {
+                    this.messages.writeSuccess(this.translate
+                        .instant('The changes have been saved successfully'));
                     this._id = response.id;
                     this.getItem();
                 }
@@ -280,6 +289,10 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
             this._department.sipInnerIds = [];
             this.sipInnersControl.selectedItems.forEach(sip => this._department.sipInnerIds.push(sip.id));
 
+            // this.sipInners = this.fb.array([]);
+            while (this.sipInners.length) {
+                this.sipInners.removeAt(0);
+            }
             this._department.sipInnerIds.forEach(sipId => {
                 this.sipInners.push(this.fb.control([sipId, []]));
             });
@@ -354,8 +367,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
             this.close();
         }
         else if (action === 'back') {
-            this.sipInnersControl.editMode = false;
-            this.sipInnersControl.onEditModeChanged.emit(this.sipInnersControl.editMode);
+            this.sipInnersControl.toggleEditMode();
             this.resetFilter();
         }
     }

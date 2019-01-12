@@ -37,6 +37,9 @@ export const adddressNameRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-
 export const adddressAddressRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9]([\-_\.]+)?)+$/i);
 export const addressPhoneRegExp = new RegExp(/^[\d#]{6,16}$/m);
 
+// Department
+export const departmentNameRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF0-9](\s+)?)+$/i);
+
 export const optionNameRegExp = new RegExp(/^(.*?)\s*(\(\+?\d+\))?$/);
 
 export const filenameRegExp = new RegExp(/^(.+)\.([^\.]+)$/);

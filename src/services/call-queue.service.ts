@@ -79,12 +79,6 @@ export class CallQueueService extends BaseQueueService {
 
   getMembersMessage(): string {
     const [ added, deleted ] = this.getMemebersStat();
-    // callQueueMembersAddedMessage
-    // You have added {{count}} member(s) to the Call Queue
-    // Вы успешно добавили {{count}} участников в очередь звонков
-    // callQueueMembersRemovedMessage
-    // You have removed {{count}} member(s) to the Call Queue
-    // Вы успешно удалили {{count}} участников из очереди звонков
     if (added) {
       return this.translate.instant('callQueueMembersAddedMessage', { count: added });
     }

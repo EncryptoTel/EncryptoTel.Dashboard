@@ -99,12 +99,6 @@ export class RingGroupService extends BaseQueueService {
 
   getMembersMessage(): string {
     const [ added, deleted ] = this.getMemebersStat();
-    // ringGroupMembersAddedMessage
-    // You have added {{count}} member(s) to the Ring Group
-    // Вы успешно добавили {{count}} участников к группе звонков
-    // ringGroupMembersRemovedMessage
-    // You have removed {{count}} member(s) to the Ring Group
-    // Вы успешно удалили {{count}} участников из группы звонков
     if (added) {
       return this.translate.instant('ringGroupMembersAddedMessage', { count: added });
     }

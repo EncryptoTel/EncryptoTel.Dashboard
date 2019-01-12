@@ -3,7 +3,7 @@
           (onClick)="buttonClick($event)"
           (onTabChange)="tabChanged($event)"
           [(params)]="params"
->
+          >
     <!-- General tab content -->
     <pbx-tab [title]="'General' | translate">
         <div class="department_form_wrapper">
@@ -52,7 +52,7 @@
                                [items]="filteredSips"
                                [parentEditMode]="modelEdit"
                                [(selectedItems)]="selectedSips"
-        >
+                               >
             <div class="dep-create-wrapper" *ngIf="sips.length > 0">
                 <pbx-input #filterControl
                            name="{{'Search:' | translate }}"

@@ -10,6 +10,7 @@ import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
 import {CompanyService} from '../../services/company.service';
 import {ButtonItem, InputAction, TableInfoExModel, TableInfoItem} from '../../models/base.model';
 import {TranslateService} from '@ngx-translate/core';
+import { MessageServices } from '@services/message.services';
 
 
 @Component({
@@ -21,7 +22,6 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class DepartmentsComponent implements OnInit {
 
-    @ViewChild(ListComponent) list;
     filters: any;
     sidebar = {
         visible: false,
@@ -41,6 +41,7 @@ export class DepartmentsComponent implements OnInit {
     buttons: ButtonItem[] = [];
     phoneActions: InputAction[] = [];
 
+    @ViewChild(ListComponent) list;
 
     get emptyInfo(): string | null {
         return !this.companyActive
@@ -48,12 +49,14 @@ export class DepartmentsComponent implements OnInit {
         : null;
     }
 
-    constructor(public service: DepartmentService,
-                private _fb: FormBuilder,
-                private _refs: RefsServices,
-                private _company: CompanyService,
-                public translate: TranslateService) {
-
+    constructor(
+        public service: DepartmentService,
+        private fb: FormBuilder,
+        private refs: RefsServices,
+        private company: CompanyService,
+        private translate: TranslateService,
+        private messages: MessageServices
+    ) {
         this.table.sort.isDown = true;
         this.table.sort.column = 'name';
         this.table.items.push(new TableInfoItem(this.translate.instant('Department'), 'name', 'name'));
@@ -69,14 +72,13 @@ export class DepartmentsComponent implements OnInit {
             icon: false
         });
 
-        this.departmentForm = this._fb.group({
+        this.departmentForm = this.fb.group({
             name: [null, [Validators.required, Validators.maxLength(190)]],
             comment: [null, [Validators.maxLength(255)]],
-            sipInner: this._fb.array([])
+            sipInner: this.fb.array([])
         });
 
         this.phoneActions.push(new InputAction(1, 'add-delete', this.sipInners()));
-
     }
 
     sipInners() {
@@ -163,6 +165,11 @@ export class DepartmentsComponent implements OnInit {
         }
     }
 
+    onDelete(): void {
+        const confirmation: string = this.translate.instant('Department has been deleted successfully');
+        this.messages.writeSuccess(confirmation);
+    }
+    
     save(): void {
         validateForm(this.departmentForm);
         if (this.departmentForm.valid) {
@@ -199,7 +206,7 @@ export class DepartmentsComponent implements OnInit {
     }
 
     private createPhoneField(): FormControl {
-        return this._fb.control('', []);
+        return this.fb.control('', []);
     }
 
     private formatSipOuters(items): void {
@@ -233,7 +240,7 @@ export class DepartmentsComponent implements OnInit {
 
     private getSipOuters(): void {
         this.sidebar.loading++;
-        this._refs.getSipOuters().then(res => {
+        this.refs.getSipOuters().then(res => {
             this.formatSipOuters(res);
             this.sidebar.loading--;
         }).catch(() => {
@@ -243,7 +250,7 @@ export class DepartmentsComponent implements OnInit {
 
     private getCompany() {
         this.loading ++;
-        this._company.getCompany()
+        this.company.getCompany()
             .then((response) => {
                 this.companyActive = !!response.id;
                 this.buttons[0].inactive = !this.companyActive;
