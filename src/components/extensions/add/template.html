@@ -12,14 +12,16 @@
               (onSelect)="selectTab($event)"
               (onScroll)="handleScroll($event)"
               >
-        <general-add-extension-component *ngIf="tab.select==='General'" class="add_ext_item"
+        <general-add-extension-component *ngIf="tab.select==='General'"
+                                         class="add_ext_item"
                                          [service]="extension"
                                          [storageService]="storageService"
                                          [(form)]="formExtension"
                                          [validationHost]="validationHost"
                                          [encryption]="encryption"
                                          [certificateId]="certificateId"
-                                         [id]="id">
+                                         [id]="id"
+                                         >
         </general-add-extension-component>
         <!--<options-add-extension-component *ngIf="tab.select==='Options'" class="add_ext_item"-->
                                          <!--[(form)]="formExtension">-->

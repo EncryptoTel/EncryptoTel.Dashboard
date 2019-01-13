@@ -157,8 +157,8 @@ export class RequestServices {
       URI: string - request uri,
       Data: object - request params
      */
-    post(url: string, data: object, ShowError = null): Promise<any> {
-        return this.request('POST', url, {...data}, true, ShowError);
+    post(url: string, data: object, ShowError = null, showSuccess = true): Promise<any> {
+        return this.request('POST', url, {...data}, showSuccess, ShowError);
     }
 
     /*

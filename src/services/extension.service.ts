@@ -22,7 +22,7 @@ export class ExtensionService extends BaseService {
     }
 
     changePassword(id: number, data: any): Promise<any> {
-        return this.request.post(`v1/sip/inners/${id}/change-password`, data);
+        return this.request.post(`v1/sip/inners/${id}/change-password`, data, false);
     }
 
     getAccessList(userId: number): Promise<any> {
