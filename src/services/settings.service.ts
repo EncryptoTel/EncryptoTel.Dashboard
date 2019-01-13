@@ -35,11 +35,11 @@ export class SettingsService extends BaseService {
     }
 
     saveProfileSettings(settings: any): Promise<any> {
-        return this.post('/user/profile', settings);
+        return this.post('/user/profile', settings, false);
     }
 
     requestEmailChange(email: any): Promise<any> {
-        return this.post('/user/profile/change-email', {email: email});
+        return this.post('/user/profile/change-email', {email: email}, false);
     }
 
     confirmEmailChange(code: string): Promise<any> {
