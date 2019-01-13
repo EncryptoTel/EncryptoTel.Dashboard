@@ -1,12 +1,14 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import {PartnerProgramService} from '@services/partner-program.service';
-import {PartnerProgramItem, PartnerProgramModel} from '@models/partner-program.model';
-import {TableInfoExModel, TableInfoItem} from '@models/base.model';
-import {Lockable, Locker} from '@models/locker.model';
-import {FadeAnimation} from '@shared/fade-animation';
-import {killEvent} from '@shared/shared.functions';
-import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
+import { PartnerProgramService } from '@services/partner-program.service';
+import { PartnerProgramItem, PartnerProgramModel } from '@models/partner-program.model';
+import { TableInfoExModel, TableInfoItem } from '@models/base.model';
+import { Lockable, Locker } from '@models/locker.model';
+import { FadeAnimation } from '@shared/fade-animation';
+import { killEvent } from '@shared/shared.functions';
+import { ModalEx } from '@elements/pbx-modal/pbx-modal.component';
+import { TranslateService } from '@ngx-translate/core';
+import { MessageServices } from '@services/message.services';
 
 
 @Component({
@@ -42,7 +44,11 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(private _service: PartnerProgramService) {
+    constructor(
+        private service: PartnerProgramService,
+        private translate: TranslateService,
+        private messages: MessageServices
+    ) {
         this.locker = new Locker();
 
         this.table = new TableInfoExModel();
@@ -57,7 +63,9 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
             new TableInfoItem('Rewards Summary', 'totalBonus', 'totalBonus'),
         ];
 
-        this.modalDelete = new ModalEx('Are you sure?', 'delete');
+        this.modalDelete = new ModalEx(
+            this.translate.instant('Are you sure you want to delete this link?'),
+            'delete');
     }
 
     ngOnInit(): void {
@@ -108,19 +116,22 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
 
     doDeleteLink() {
         this.selected.loading++;
-        this._service.deleteById(this.selected.id).then(() => {
-            this.reload(this.selected);
-        }).catch(() => {
-        })
+        this.service.deleteById(this.selected.id, false)
+            .then(() => {
+                const confirmation: string = this.translate.instant('Link has been deleted successfully');
+                this.messages.writeSuccess(confirmation);
+
+                this.reload(this.selected);
+            }).catch(() => {})
             .then(() => this.selected.loading--);
     }
 
     sort() {
         this.locker.lock();
-        this._service.getItems(this.partners, null, this.tableSortOrder).then(response => {
-            this.partners = response;
-        }).catch(() => {
-        })
+        this.service.getItems(this.partners, null, this.tableSortOrder)
+            .then(response => {
+                this.partners = response;
+            }).catch(() => {})
             .then(() => this.locker.unlock());
     }
 }

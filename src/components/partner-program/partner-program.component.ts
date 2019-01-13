@@ -1,15 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
-import {ClipboardService} from 'ngx-clipboard';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { ClipboardService } from 'ngx-clipboard';
 
-import {PartnerProgramService} from '@services/partner-program.service';
-import {MessageServices} from '@services/message.services';
-import {PartnerProgramItem, PartnerProgramModel} from '@models/partner-program.model';
-import {SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from '@models/base.model';
-import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
-import {SwipeAnimation} from '@shared/swipe-animation';
-import {simpleNameRegExp} from '@shared/vars';
+import { PartnerProgramService } from '@services/partner-program.service';
+import { MessageServices } from '@services/message.services';
+import { PartnerProgramItem, PartnerProgramModel } from '@models/partner-program.model';
+import { SidebarButtonItem, SidebarInfoItem, SidebarInfoModel } from '@models/base.model';
+import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import { SwipeAnimation } from '@shared/swipe-animation';
+import { simpleNameRegExp } from '@shared/vars';
 
 
 @Component({
@@ -34,12 +34,12 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
 
     constructor(
         public service: PartnerProgramService,
-        protected message: MessageServices,
+        protected messages: MessageServices,
         protected fb: FormBuilder,
         private clipboard: ClipboardService,
         protected translate: TranslateService
     ) {
-        super(fb, message, translate);
+        super(fb, messages, translate);
 
         this.partners = new PartnerProgramModel();
         this.tab = {
@@ -52,6 +52,11 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
             select: 'Overview'
         };
         this.loading = 0;
+
+        this.validationHost.customMessages = [
+            { key: 'name', error: 'pattern', message: this.translate
+                .instant('Name contains invalid characters. You can only use letters and numbers') }
+        ];
     }
 
     ngOnInit(): void {
@@ -70,7 +75,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
             id: [null],
             name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(8), Validators.pattern(simpleNameRegExp)]],
             refLink: [null],
-            refLinkUrl: [{value: null, disabled: true}],
+            refLinkUrl: [{ value: null, disabled: true }],
             status: [null, [Validators.required]],
             totalBonus: [null],
             created: [null]
@@ -121,21 +126,21 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
         this.sidebar.items = [];
         // TODO: is value really used?
         let editItem = new SidebarInfoItem(4, 'Name *', this.selected.name);
-        editItem.init({key: 'name', object: this.form, edit: true});
+        editItem.init({ key: 'name', object: this.form, edit: true });
         this.sidebar.items.push(editItem);
 
         if (this.selected.refLinkUrl) {
             editItem = new SidebarInfoItem(6, 'Link', this.selected.refLinkUrl);
-            editItem.init({key: 'refLinkUrl', object: this.form, edit: true, disabled: true});
+            editItem.init({ key: 'refLinkUrl', object: this.form, edit: true, disabled: true });
             this.sidebar.items.push(editItem);
         }
 
         const statusOptions = [
-            {title: 'Enabled', value: true, id: 1},
-            {title: 'Disabled', value: false, id: 0}
+            { title: 'Enabled', value: true, id: 1 },
+            { title: 'Disabled', value: false, id: 0 }
         ];
         editItem = new SidebarInfoItem(5, 'Status', null);
-        editItem.init({key: 'status', object: this.form, options: statusOptions, optionsKey: 'value'});
+        editItem.init({ key: 'status', object: this.form, options: statusOptions, optionsKey: 'value' });
         this.sidebar.items.push(editItem);
     }
 
@@ -167,7 +172,7 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
 
     copyToClipboard(item: PartnerProgramItem): void {
         if (this.clipboard.copyFromContent(item.refLinkUrl)) {
-            this.message.writeSuccess(this.translate.instant('Link has been copied to clipboard'));
+            this.messages.writeSuccess(this.translate.instant('Link has been copied to clipboard'));
         }
     }
 
@@ -178,29 +183,34 @@ export class PartnerProgramComponent extends FormBaseComponent implements OnInit
         this.setModelData(item);
 
         const partner = this.partners.items.find(p => p.id === item.id);
-        if (partner) partner.loading --;
+        if (partner) partner.loading--;
 
         this.service.save(item.id, item.name, item.status)
             .then(() => {
+                const confirmation: string = item.id
+                    ? this.translate.instant('The changes have been saved successfully')
+                    : this.translate.instant('Link has been created successfully');
+                this.messages.writeSuccess(confirmation);
+
                 this.saveFormState();
                 this.getItems(item);
                 this.selected = null;
             })
-            .catch(() => {})
+            .catch(() => { })
             .then(() => {
                 const current = this.partners.items.find(p => p.id === item.id);
-                if (current) current.loading --;
+                if (current) current.loading--;
             });
     }
 
     getItems(item: PartnerProgramItem = null): void {
         this.selected = null;
-        (item ? item : this).loading ++;
+        (item ? item : this).loading++;
         this.service.getItems(this.partners)
             .then(response => {
                 this.partners = response;
             })
-            .catch(() => {})
-            .then(() => (item ? item : this).loading --);
+            .catch(() => { })
+            .then(() => (item ? item : this).loading--);
     }
 }

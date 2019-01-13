@@ -51,7 +51,7 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
 
     constructor(
         protected fb: FormBuilder,
-        protected message: MessageServices,
+        protected messages: MessageServices,
         protected translate: TranslateService,
     ) {
         this.formKey = 'form';
@@ -193,7 +193,7 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
 
         validateForm(formGroup);
         if (!formGroup.valid && showMessage) {
-            this.message.writeError(this.translate.instant(message));
+            this.messages.writeError(this.translate.instant(message));
         }
         return formGroup.valid;
     }

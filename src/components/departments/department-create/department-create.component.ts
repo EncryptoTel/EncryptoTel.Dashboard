@@ -68,7 +68,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
         private refs: RefsServices,
         private company: CompanyService,
         private activatedRoute: ActivatedRoute,
-        private messages: MessageServices,
+        public messages: MessageServices,
         private router: Router,
         protected fb: FormBuilder,
         public translate: TranslateService
