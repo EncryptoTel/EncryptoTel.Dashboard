@@ -343,7 +343,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     checkNextAction(index: number) {
         let valid: boolean = true;
-        if (4 === this.selectedActions[index].id) {
+        if ([2, 3, 4, 6].includes(this.selectedActions[index].id)) {
             valid = false;
         }
         if (!valid && this.actionsControls.length - 1 > index) {
@@ -412,7 +412,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     resetParameterControlState(index: number): void {
         const control = <FormControl>this.actionsControls.get([index, `parameter`]);
-        control.markAsUntouched();
+        if (control) control.markAsUntouched();
     }
 
     onTimeRuleChange(index, event) {
