@@ -110,7 +110,7 @@ export class ModalEx {
             case 'buyModule':
                 this.title = 'Confirm';
                 if (!this.body) {
-                    this.body = 'Are you sure you want to buy this service?';
+                    this.body = 'Are you sure you want to buy this module?';
                 }
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('success', 'Yes'));

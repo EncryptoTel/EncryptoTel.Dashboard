@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { MediaTableComponent } from '@elements/pbx-media-table/pbx-media-table.component';
 import { ModalEx } from '@elements/pbx-modal/pbx-modal.component';
-import { ListComponent } from '@elements/pbx-list/pbx-list.component';
 import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
 import { SizePipe } from '@services/size.pipe';
 import { StorageService } from '@services/storage.service';
@@ -104,9 +103,8 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     constructor(
         public service: StorageService,
-        private _message: MessageServices,
-        private _size: SizePipe,
-        private _ws: WsServices,
+        private messages: MessageServices,
+        private ws: WsServices,
         public translate: TranslateService,
         private storage: LocalStorageServices
     ) {
@@ -198,7 +196,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             'type': 'audio'
         };
         this.getItems();
-        this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
+        this.storageItemSubscription = this.ws.updateStorageItem().subscribe(result => {
             let storageItem: any;
             storageItem = $this.pageInfo.items.find(item => item.id === result.id);
             if (result.converted === 1) {
@@ -374,33 +372,42 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.onMediaDataLoaded();
             if (this.service.successCount) {
                 let messageText: string = '';
-                let action: string = '';
                 if (this.isFilterTrashSelected) {
                     if (this.buttonType === 0) {
-                        action = deleting ? this.translate.instant('restored') : this.translate.instant('uploaded');
                         if (this.service.successCount > 1) {
-                            messageText = this.translate.instant('files have been successfully') + ' ' + action + '.';
-                        } else {
-                            messageText = this.translate.instant('file has been successfully') + ' ' + action + '.';
+                            messageText = this.translate.instant(
+                                deleting ? 'fileRestoreConfirmationPl' : 'fileDownloadConfirmationPl',
+                                { count: this.service.successCount });
                         }
-                    } else {
-                        action = deleting ? this.translate.instant('delete') : this.translate.instant('uploaded');
-                        if (this.service.successCount > 1) {
-                            messageText = this.translate.instant('files have been successfully') + ' ' + action + '.';
-                        } else {
-                            messageText = this.translate.instant('file has been successfully') + ' ' + action + '.';
+                        else {
+                            messageText = this.translate.instant(
+                                deleting ? 'fileRestoreConfirmationSn' : 'fileDownloadConfirmationSn');
                         }
                     }
-                } else {
-                    if (this.service.successCount > 1) {
-                        action = deleting ? this.translate.instant('trasheds') : this.translate.instant('uploaded');
-                        messageText = this.translate.instant('files have been successfully') + ' ' + action + '.';
-                    } else {
-                        action = deleting ? this.translate.instant('trashed') : this.translate.instant('uploaded');
-                        messageText = this.translate.instant('file has been successfully') + ' ' + action + '.';
+                    else {
+                        if (this.service.successCount > 1) {
+                            messageText = this.translate.instant(
+                                deleting ? 'fileDeleteConfirmationPl' : 'fileDownloadConfirmationPl',
+                                { count: this.service.successCount });
+                        }
+                        else {
+                            messageText = this.translate.instant(
+                                deleting ? 'fileDeleteConfirmationSn' : 'fileDownloadConfirmationSn');
+                        }
                     }
                 }
-                this._message.writeSuccess(messageText);
+                else {
+                    if (this.service.successCount > 1) {
+                        messageText = this.translate.instant(
+                            deleting ? 'fileDeleteConfirmationPl' : 'fileDownloadConfirmationPl',
+                            { count: this.service.successCount });
+                }
+                    else {
+                        messageText = this.translate.instant(
+                            deleting ? 'fileDeleteConfirmationSn' : 'fileDownloadConfirmationSn');
+                    }
+                }
+                this.messages.writeSuccess(messageText);
             }
             this.sidebarActive = false;
             this.getButton(StorageButtons.Download).inactive = this.service.select.length === 0;
@@ -418,7 +425,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                     });
             }
             else {
-                this._message.writeError(this.translate.instant('Accepted formats: mp3, ogg, wav'));
+                this.messages.writeError(this.translate.instant('Accepted formats: mp3, ogg, wav'));
                 this.sidebarActive = false;
             }
         }
@@ -506,6 +513,9 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 item = this.cutFileName(item);
                 this.modal.body = this.translate.instant('Are you sure you want to delete') + '<span>&nbsp;' + item.fileName + '</span> ' + this.translate.instant('file?');
             }
+            else {
+                this.modal.body = this.translate.instant('deleteFileAlert', { count: this.service.select.length });
+            }
             this.modal.visible = true;
         }
         else if (this.buttonType === 2) {
@@ -519,7 +529,7 @@ export class StorageComponent implements OnInit, AfterViewChecked, OnDestroy {
                 this.modal.body = this.translate.instant('Permanently delete') + '&nbsp;' + item.fileName + '&nbsp;' + this.translate.instant('file?');
             }
             else if (this.service.select.length > 0) {
-                this.modal.body = 'Permanently delete' + '&nbsp;' +  this.service.select.length + '&nbsp;' + 'file(s)?';
+                this.modal.body = this.translate.instant('Permanently delete') + '&nbsp;' +  this.service.select.length + '&nbsp;' + this.translate.instant('file(s)?');
             }
             this.modal.visible = true;
         }

@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
-import {ModalEx, ModalButton} from '@elements/pbx-modal/pbx-modal.component';
-import {Module} from '../../models/module.model';
-import {ModuleServices} from '../../services/module.services';
-import {LocalStorageServices} from '../../services/local-storage.services';
-import {MessageServices} from '../../services/message.services';
-import {Lockable, Locker} from '../../models/locker.model';
-import {UserServices} from '../../services/user.services';
+import { ModalEx, ModalButton } from '@elements/pbx-modal/pbx-modal.component';
+import { Module } from '@models/module.model';
+import { Lockable, Locker } from '@models/locker.model';
+import { ModuleServices } from '@services/module.services';
+import { LocalStorageServices } from '@services/local-storage.services';
+import { MessageServices } from '@services/message.services';
+import { UserServices } from '@services/user.services';
 
 
 @Component({
@@ -18,6 +18,7 @@ import {UserServices} from '../../services/user.services';
     providers: [ModuleServices]
 })
 export class MarketplaceComponent implements OnInit, Lockable {
+    
     locker: Locker;
     modules: Module[];
     selected: Module;
@@ -27,7 +28,7 @@ export class MarketplaceComponent implements OnInit, Lockable {
 
     constructor(
         private services: ModuleServices,
-        private message: MessageServices,
+        private messages: MessageServices,
         private storage: LocalStorageServices,
         private router: Router,
         private userService: UserServices,
@@ -51,7 +52,7 @@ export class MarketplaceComponent implements OnInit, Lockable {
         else {
             this.modal.title = this.translate.instant(this.modal.title);
             this.modal.body =
-                this.translate.instant('Not enough money to pay for the order.') + '<br/>' + this.translate.instant('Top up your balance?');
+                this.translate.instant('You don\'t have enough money to accomplish a purchase of this module.') + '<br/>' + this.translate.instant('Please refill your balance');
             this.modal.buttons = [
                 new ModalButton('cancel', this.translate.instant('Cancel')),
                 new ModalButton('success', this.translate.instant('Refill'))
