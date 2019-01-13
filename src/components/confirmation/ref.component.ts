@@ -1,23 +1,25 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
-import {RequestServices} from '../../services/request.services';
-import {MessageServices} from '../../services/message.services';
-import {AuthorizationServices} from '../../services/authorization.services';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { TranslateService } from '@ngx-translate/core';
+
+import { RequestServices } from '@services/request.services';
+import { MessageServices } from '@services/message.services';
+
 
 @Component({
-    selector: 'ref',
+    selector: 'ref-component',
     template: `<div class="auth_form"></div>`
 })
 
 export class RefComponent implements OnInit, OnDestroy {
-    constructor(private route: ActivatedRoute,
-                private router: Router,
-                private request: RequestServices,
-                private message: MessageServices,
-                protected translate: TranslateService) {
-    }
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private request: RequestServices,
+        private message: MessageServices,
+        protected translate: TranslateService
+    ) { }
 
     subscription: Subscription;
 

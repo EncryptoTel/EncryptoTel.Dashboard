@@ -1,23 +1,21 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { TranslateService } from '@ngx-translate/core';
 
-import {MessageServices} from '@services/message.services';
-import {UserServices} from '@services/user.services';
-import {TranslateServices} from '@services/translate.services';
-import {WsServices} from '@services/ws.services';
-import {LocalStorageServices} from '@services/local-storage.services';
-import {RefsServices} from '@services/refs.services';
-import {LangStateService} from '@services/state/lang.state.service';
-import {NavigationItemModel} from '@models/navigation-item.model';
-import {UserModel} from '@models/user.model';
-import {MainViewComponent} from '@components/main-view.component';
-import {SwipeAnimation} from '@shared/swipe-animation';
-import {FadeAnimation} from '@shared/fade-animation';
-import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
-import {ListComponent} from '@elements/pbx-list/pbx-list.component';
-import {NotificationComponent} from '@components/notification/notification.component';
-import {Router} from '@angular/router';
+import { MessageServices } from '@services/message.services';
+import { UserServices } from '@services/user.services';
+import { WsServices } from '@services/ws.services';
+import { LocalStorageServices } from '@services/local-storage.services';
+import { RefsServices } from '@services/refs.services';
+import { LangStateService } from '@services/state/lang.state.service';
+import { NavigationItemModel } from '@models/navigation-item.model';
+import { UserModel } from '@models/user.model';
+import { MainViewComponent } from '@components/main-view.component';
+import { SwipeAnimation } from '@shared/swipe-animation';
+import { FadeAnimation } from '@shared/fade-animation';
+import { Router } from '@angular/router';
 import { environment } from '@env/environment';
+
 
 @Component({
     selector: 'pbx-index',
@@ -33,6 +31,24 @@ export class IndexComponent implements OnInit, OnDestroy {
     _user: any;
     menu: any;
     version: string;
+
+    navigationList: NavigationItemModel[][];
+    user: UserModel;
+    userSubscription: Subscription;
+    balanceSubscription: Subscription;
+    serviceSubscription: Subscription;
+    modulesChangedSubscription: Subscription;
+    completedRequests: number = 0;
+    activeButtonIndex: number;
+    headerButtonsVisible: boolean = true;
+    userNavigationVisible: boolean = false;
+    mobileNavigationVisible: boolean = false;
+    NotificationSubscription: Subscription;
+    isLockedCaller: boolean = true;
+
+    countUnread: number = 0;
+
+    @ViewChild('userWrap') userWrap: ElementRef;
 
     constructor(
         public userService: UserServices,
@@ -51,20 +67,32 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.version = environment.version;
     }
 
-    navigationList: NavigationItemModel[][];
-    user: UserModel;
-    userSubscription: Subscription;
-    balanceSubscription: Subscription;
-    serviceSubscription: Subscription;
-    modulesChangedSubscription: Subscription;
-    completedRequests: number = 0;
-    activeButtonIndex: number;
-    headerButtonsVisible: boolean = true;
-    userNavigationVisible: boolean = false;
-    mobileNavigationVisible: boolean = false;
-    NotificationSubscription: Subscription;
-    isLockedCaller: boolean = true;
+    ngOnInit(): void {
+        this.completedRequests = 0;
+        this.userInit();
+        // this.balanceInit();
+        this.navigationInit();
+        this.WebSocket();
 
+        this.modulesChangedSubscription = this.userService.modulesChanged.subscribe(() => {
+            this.navigationInit();
+        });
+        this.menu = {
+            'Refill balance': this.translate.instant('Refill balance'),
+            'Tariff plan': this.translate.instant('Tariff plan'),
+        };
+        // this._translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        //     Object.keys(this.userService.navigation).forEach(item => {
+        //         this.userService.navigation[item].itemTitle = this._translate.instant(this.userService.navigation[item].name);
+        //     });
+        // });
+    }
+
+    ngOnDestroy(): void {
+        this.userSubscription.unsubscribe();
+        this.balanceSubscription.unsubscribe();
+        this.modulesChangedSubscription.unsubscribe();
+    }
 
     get username(): string {
         if (this.user && this.user.profile) {
@@ -82,10 +110,6 @@ export class IndexComponent implements OnInit, OnDestroy {
         return '';
     }
 
-    countUnread: number = 0;
-
-    @ViewChild('userWrap') userWrap: ElementRef;
-
     hideUserNavigation(): void {
         if (this.userNavigationVisible) {
             this.userNavigationVisible = false;
@@ -100,14 +124,14 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.userSubscription = this.userService.userSubscription().subscribe(user => {
             this.user = user;
         });
-        this.userService.fetchProfileParams().then(() => this.completedRequests ++);
+        this.userService.fetchProfileParams().then(() => this.completedRequests++);
     }
 
     navigationInit(): void {
         this.userService.fetchNavigationParams()
-            .then(() => {})
-            .catch(() => {})
-            .then(() => this.completedRequests ++);
+            .then(() => { })
+            .catch(() => { })
+            .then(() => this.completedRequests++);
     }
 
     toggleActiveButton(ix: number, ev: MouseEvent): void {
@@ -151,32 +175,5 @@ export class IndexComponent implements OnInit, OnDestroy {
             }
         }
         return false;
-    }
-
-    ngOnInit(): void {
-        this.completedRequests = 0;
-        this.userInit();
-        // this.balanceInit();
-        this.navigationInit();
-        this.WebSocket();
-
-        this.modulesChangedSubscription = this.userService.modulesChanged.subscribe(() => {
-            this.navigationInit();
-        });
-        this.menu = {
-            'Refill balance': this.translate.instant('Refill balance'),
-            'Tariff plan': this.translate.instant('Tariff plan'),
-        };
-        // this._translate.onLangChange.subscribe((event: LangChangeEvent) => {
-        //     Object.keys(this.userService.navigation).forEach(item => {
-        //         this.userService.navigation[item].itemTitle = this._translate.instant(this.userService.navigation[item].name);
-        //     });
-        // });
-    }
-
-    ngOnDestroy(): void {
-        this.userSubscription.unsubscribe();
-        this.balanceSubscription.unsubscribe();
-        this.modulesChangedSubscription.unsubscribe();
     }
 }

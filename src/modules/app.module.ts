@@ -47,6 +47,7 @@ import {RouterExtService} from '../services/router-ext.service';
 import {PbxTranslateLoader} from '../shared/pbx-translate-loader';
 import {ModalServices} from '@services/modal.service';
 import {CanDeactivateFormGuard} from '@services/can-deactivate-form-guard.service';
+import { CanActivatePageGuard } from '@services/can-activate-page-guard.service';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -101,7 +102,8 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         RouterExtService,
         ModalServices,
         StorageService,
-        CanDeactivateFormGuard
+        CanDeactivateFormGuard,
+        CanActivatePageGuard
     ],
     bootstrap: [MainViewComponent]
 })
