@@ -1,17 +1,17 @@
-import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {Title} from '@angular/platform-browser';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, HostBinding, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
-import {CookieService} from 'ngx-cookie-service';
-import {TranslateService} from '@ngx-translate/core';
+import { CookieService } from 'ngx-cookie-service';
+import { TranslateService } from '@ngx-translate/core';
 
-import {MessageServices} from '@services/message.services';
-import {LocalStorageServices} from '@services/local-storage.services';
-import {FadeAnimation} from '@shared/fade-animation';
-import {PbxTranslateLoader} from '@shared/pbx-translate-loader';
+import { MessageServices } from '@services/message.services';
+import { LocalStorageServices } from '@services/local-storage.services';
+import { FadeAnimation } from '@shared/fade-animation';
+import { PbxTranslateLoader } from '@shared/pbx-translate-loader';
 
 
 // first and second
@@ -39,13 +39,14 @@ export class MainViewComponent implements OnInit, OnDestroy {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(public _services: MessageServices,
-                private router: Router,
-                private activatedRoute: ActivatedRoute,
-                private title: Title,
-                private storage: LocalStorageServices,
-                private cookieService: CookieService,
-                private translate: TranslateService) {
+    constructor(
+        public services: MessageServices,
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
+        private title: Title,
+        private storage: LocalStorageServices,
+        private cookieService: CookieService,
+        private translate: TranslateService) {
 
         (<PbxTranslateLoader>this.translate.currentLoader).loadTranslations().then(() => {
             translate.setDefaultLang('en');
@@ -85,7 +86,7 @@ export class MainViewComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.routerSubscription.unsubscribe();
     }
-
+    
     // -- component methods ---------------------------------------------------
 
     public setUserTheme(theme: string) {

@@ -1,24 +1,27 @@
-import {Injectable} from '@angular/core';
-import {LoggerServices} from './logger.services';
+import { Injectable } from '@angular/core';
+import { LoggerServices } from './logger.services';
 
-/*
-  Storage services. Read and write storage items
+/**
+ * Local Storage service. Provides read and write local storage data 
+ * functionality.
  */
-
 @Injectable()
 export class LocalStorageServices {
-    constructor(private logger: LoggerServices) {
-    }
+    constructor(private logger: LoggerServices) {}
 
-    /*
-      Storage item writing
+    /**
+     * Stores data at the local storage by name.
+     * @param name Local storage data key
+     * @param data Local storage data value
      */
     writeItem(name: string, data: any): void {
         localStorage.setItem(name, JSON.stringify(data));
     }
-    /*
-      Read item from storage and convert it to JSON.
-      If item doesn't exist - throw message to console output
+
+    /**
+     * Reads data from the local storage by name and converts it to JSON.
+     * @param name Local storage data key
+     * @param defaultValue Default value will be returned when data hasn't been set
      */
     readItem(name: string, defaultValue?: any): any {
         const data = localStorage.getItem(name);
@@ -30,7 +33,18 @@ export class LocalStorageServices {
         }
     }
 
+    /**
+     * Removes data from the local storage by key.
+     * @param name Local storage data key
+     */
     clearItem(name: string): void {
         localStorage.removeItem(name);
+    }
+
+    /**
+     * Removes all local storage data.
+     */
+    clear(): void {
+        localStorage.clear();
     }
 }
