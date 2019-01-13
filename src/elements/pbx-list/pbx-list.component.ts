@@ -15,6 +15,7 @@ import { HeaderComponent } from '@elements/pbx-header/pbx-header.component';
 import { TableComponent } from '@elements/pbx-table/pbx-table.component';
 import { dateToServerFormat } from '@shared/shared.functions';
 import { LocalStorageServices } from '@services/local-storage.services';
+import { MessageServices } from '@services/message.services';
 
 const pageNum = 'pbx_page_num';
 @Component({
@@ -125,7 +126,8 @@ export class ListComponent implements OnInit {
 
     constructor(private router: Router,
         public translate: TranslateService,
-        private storage: LocalStorageServices) {
+        private storage: LocalStorageServices,
+        private messages: MessageServices) {
     }
 
     ngOnInit() {
@@ -198,11 +200,11 @@ export class ListComponent implements OnInit {
     delete(item: BaseItemModel) {
         item.loading ++;
         this.service.deleteById(item.id, false)
-            .then(() => {
+            .then((response: any) => {
                 this.getItems(item);
                 this.onDelete.emit(item);
             })
-            .catch(() => { })
+            .catch(() => {})
             .then(() => item.loading --);
     }
 

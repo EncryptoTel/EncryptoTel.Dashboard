@@ -9,11 +9,12 @@
               key="extensions"
               name="{{'Extensions:' | translate }}"
               itemName="Extension"
-              (onLoad)="load()"
-              (onSelect)="select($event)"
               [service]="service"
               [ngClass]="sidebar?'someClass':''"
-    >
+              (onLoad)="load()"
+              (onSelect)="select($event)"
+              (onDelete)="onDelete($event)"
+              >
     </pbx-list>
 
     <pbx-sidebar *ngIf="sidebar">

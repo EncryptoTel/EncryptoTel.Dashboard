@@ -1,16 +1,16 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-
-import {DepartmentService} from '../../services/department.service';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {DepartmentItem, DepartmentModel, Sip} from '../../models/department.model';
-import {validateForm} from '../../shared/shared.functions';
-import {RefsServices} from '../../services/refs.services';
-import {ListComponent} from '../../elements/pbx-list/pbx-list.component';
-import {CompanyService} from '../../services/company.service';
-import {ButtonItem, InputAction, TableInfoExModel, TableInfoItem} from '../../models/base.model';
 import {TranslateService} from '@ngx-translate/core';
+
+import {ListComponent} from '@elements/pbx-list/pbx-list.component';
+import {DepartmentItem, DepartmentModel, Sip} from '@models/department.model';
+import {ButtonItem, InputAction, TableInfoExModel, TableInfoItem} from '@models/base.model';
+import {DepartmentService} from '@services/department.service';
+import {RefsServices} from '@services/refs.services';
+import {CompanyService} from '@services/company.service';
 import { MessageServices } from '@services/message.services';
+import {FadeAnimation} from '@shared/fade-animation';
+import {validateForm} from '@shared/shared.functions';
 
 
 @Component({

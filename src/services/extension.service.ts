@@ -18,7 +18,7 @@ export class ExtensionService extends BaseService {
     }
 
     deleteExtension(id: number): Promise<any> {
-        return this.request.del(`v1/sip/inners/${id}`);
+        return this.request.del(`v1/sip/inners/${id}`, false);
     }
 
     changePassword(id: number, data: any): Promise<any> {
@@ -34,11 +34,11 @@ export class ExtensionService extends BaseService {
     }
 
     create(data): Promise<any> {
-        return this.post('', data);
+        return this.post('', data, false);
     }
 
     edit(id: number, data): Promise<any> {
-        return this.putById(id, data);
+        return this.putById(id, data, false);
     }
 
     getItems(pageInfo: PageInfoModel, filter, sort = null): Promise<ExtensionModel> {
