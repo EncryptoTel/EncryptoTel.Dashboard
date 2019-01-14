@@ -137,8 +137,7 @@ const Routes: Routes = [
                     {
                         path: 'create',
                         component: AddressBookComponent,
-                        data: { title: 'Address Book', indexed: true, create: true },
-                        canDeactivate: [CanDeactivateFormGuard]
+                        data: { title: 'Address Book', indexed: true, create: true }
                     },
                     {
                         path: ':id',
@@ -291,7 +290,7 @@ const Routes: Routes = [
                 data: { title: 'Details and Records', indexed: true },
                 canActivate: [CanActivatePageGuard]
             },
-            { 
+            {
                 path: 'invoices',
                 component: InvoicesComponent,
                 data: { title: 'Invoices', indexed: true },

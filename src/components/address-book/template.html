@@ -14,7 +14,7 @@
               [sidebar]="sidebar"
               [multiple]="true"
               [ngClass]="sidebar.visible ? 'someClass':''"
-              (onCreate)="create()"
+              (onCreate)="createClick()"
               (onEdit)="edit($event)"
               (onSelect)="select($event)"
               (onLoad)="load($event)"
