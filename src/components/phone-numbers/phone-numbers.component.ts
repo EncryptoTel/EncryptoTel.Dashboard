@@ -196,7 +196,18 @@ export class PhoneNumbersComponent implements OnInit {
             }
             this.resetErrors();
         }).catch((error) => {
-            this.errors = error.errors;
+            if (error.errors.port) {
+                this.errors.port = error.errors.port;
+            }
+            if (error.errors.password) {
+                this.errors.password = error.errors.password;
+            }
+            if (error.errors.host) {
+                this.errors.host = error.errors.host;
+            }
+            if (error.errors.phoneNumber) {
+                this.errors.phoneNumber = error.errors.phoneNumber;
+            }
             console.log(this.errors);
         }).then(() => {});
 
