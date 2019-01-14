@@ -15,6 +15,7 @@ import { SwipeAnimation } from '@shared/swipe-animation';
 import { FadeAnimation } from '@shared/fade-animation';
 import { Router } from '@angular/router';
 import { environment } from '@env/environment';
+import {ContactState} from '@services/state/contact.service';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     userNavigationVisible: boolean = false;
     mobileNavigationVisible: boolean = false;
     NotificationSubscription: Subscription;
-    isLockedCaller: boolean = true;
+    isLockedCaller: boolean = false;
 
     countUnread: number = 0;
 
@@ -59,7 +60,8 @@ export class IndexComponent implements OnInit, OnDestroy {
         private translate: TranslateService,
         private refs: RefsServices,
         private langState: LangStateService,
-        private router: Router
+        private router: Router,
+        private contactState: ContactState
     ) {
         this.user = this.userService.fetchUser();
         this._user = this.storage.readItem('pbx_user');
@@ -86,6 +88,13 @@ export class IndexComponent implements OnInit, OnDestroy {
         //         this.userService.navigation[item].itemTitle = this._translate.instant(this.userService.navigation[item].name);
         //     });
         // });
+        this.contactState.change.subscribe(value => {
+            console.log('1234567890');
+            if (value.state) {
+                this.activeButtonIndex = undefined;
+                this.router.navigateByUrl('/cabinet/address-book/create');
+            }
+        });
     }
 
     ngOnDestroy(): void {

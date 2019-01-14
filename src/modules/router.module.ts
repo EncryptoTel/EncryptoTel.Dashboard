@@ -135,6 +135,12 @@ const Routes: Routes = [
                 canActivate: [CanActivatePageGuard],
                 children: [
                     {
+                        path: 'create',
+                        component: AddressBookComponent,
+                        data: { title: 'Address Book', indexed: true, create: true },
+                        canDeactivate: [CanDeactivateFormGuard]
+                    },
+                    {
                         path: ':id',
                         component: AddressBookComponent,
                         data: { title: 'Address Book', indexed: true },

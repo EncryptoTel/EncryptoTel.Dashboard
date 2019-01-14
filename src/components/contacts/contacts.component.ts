@@ -4,6 +4,7 @@ import {LoggerServices} from '../../services/logger.services';
 import {ChatModel, MessageModel} from '../../models/chat.model';
 import {Subscription} from 'rxjs/Subscription';
 import {UserServices} from '../../services/user.services';
+import {ContactState} from '@services/state/contact.service';
 
 @Component({
     selector: 'pbx-contacts',
@@ -27,7 +28,8 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
     constructor(private socket: WsServices,
                 private logger: LoggerServices,
-                private _user: UserServices) {
+                private _user: UserServices,
+                public contactState: ContactState) {
         let tmpUser: any;
         tmpUser = this._user.fetchUser();
         this.currentUserId = tmpUser.profile.id;
@@ -39,6 +41,12 @@ export class ContactsComponent implements OnInit, OnDestroy {
         this.chatsSubscription = this.socket.subChats().subscribe(chats => {
             this.updateChats(chats);
         });
+    }
+
+    addContact() {
+        console.log('add contact');
+        this.contactState.value = {state: true};
+        this.contactState.change.emit(this.contactState.value);
     }
 
     changeContactNotification() {

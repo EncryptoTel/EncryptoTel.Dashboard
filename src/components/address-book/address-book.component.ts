@@ -20,6 +20,8 @@ import { emailRegExp, addressPhoneRegExp, adddressNameRegExp, adddressAddressReg
 import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import { TariffStateService } from '@services/state/tariff.state.service';
 import { ScrollEvent } from '@shared/scroll.directive';
+import {ContactState} from '@services/state/contact.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 
 @AnimationComponent({
@@ -63,6 +65,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
   // -- component lifecycle methods -----------------------------------------
 
   hideField: boolean = false;
+  mode: any;
 
   constructor(
     public service: AddressBookService,
@@ -70,9 +73,12 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     protected message: MessageServices,
     protected fb: FormBuilder,
     protected state: TariffStateService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     super(fb, message, translate);
+
 
     this.addressBookModel = new AddressBookModel();
     this.addressListHeaders = {
@@ -126,6 +132,9 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     super.ngOnInit();
     this.getTypes();
     this.getCountries();
+      if (this.router.url === '/cabinet/address-book/create' ) {
+          this.create();
+      }
   }
 
   // -- initialize section --------------------------------------------------
