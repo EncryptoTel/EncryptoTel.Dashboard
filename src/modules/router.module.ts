@@ -122,7 +122,7 @@ const Routes: Routes = [
                     },
                     {
                         path: 'external',
-                        component: AddExternalNumbersComponent,
+                        component: PhoneNumbersComponent,
                         data: { title: 'Add External Phone Number', indexed: true }
                     }
                 ]

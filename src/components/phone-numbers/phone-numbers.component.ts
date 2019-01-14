@@ -2,8 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PhoneNumberService } from '../../services/phone-number.service';
 import { SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoModel, TableInfoExModel, TableInfoItem } from '../../models/base.model';
 import { SwipeAnimation } from '../../shared/swipe-animation';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { PhoneNumberItem, PhoneNumberModel } from '../../models/phone-number.model';
+import { PhoneNumberExternalModel } from '../../models/phone-number-external.model';
 import { ListComponent } from '../../elements/pbx-list/pbx-list.component';
 import { MessageServices } from '../../services/message.services';
 import { TranslateService } from '@ngx-translate/core';
@@ -29,7 +30,10 @@ export class PhoneNumbersComponent implements OnInit {
     selected: PhoneNumberItem;
     buttons: ButtonItem[] = [];
     pageInfo: PhoneNumberModel = new PhoneNumberModel();
+    phoneExternal: PhoneNumberExternalModel = new PhoneNumberExternalModel();
     sidebar: SidebarInfoModel = new SidebarInfoModel();
+    sidebarVisible: boolean = false;
+    editMode: boolean = false;
 
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
@@ -37,6 +41,7 @@ export class PhoneNumbersComponent implements OnInit {
     @ViewChild(ListComponent) list: ListComponent;
 
     showPassword: boolean = false;
+    errors: any;
 
     constructor(public service: PhoneNumberService,
         public router: Router,
@@ -65,6 +70,21 @@ export class PhoneNumbersComponent implements OnInit {
 
         this.buttons.push(new ButtonItem(10, this.translate.instant('Buy Phone Number'), 'success', true));
         this.buttons.push(new ButtonItem(11, this.translate.instant('Add External Phone'), 'accent', true));
+        this.errors = {
+            host: null,
+            port: null,
+            password: null,
+            phoneNumber: null
+        };
+    }
+
+    resetErrors() {
+        this.errors = {
+            host: null,
+            port: null,
+            password: null,
+            phoneNumber: null
+        };
     }
 
     changePasswordVisibility() {
@@ -72,6 +92,8 @@ export class PhoneNumbersComponent implements OnInit {
     }
 
     select(item: any): void {
+        this.sidebarVisible = true;
+        this.editMode = false;
         this.selected = item;
         this.sidebar.buttons = [];
         this.sidebar.buttons.push(new SidebarButtonItem(1, this.translate.instant('Cancel'), 'cancel'));
@@ -92,6 +114,11 @@ export class PhoneNumbersComponent implements OnInit {
     }
 
     cancel(): void {
+        this.router.navigateByUrl('/cabinet/phone-numbers');
+        this.sidebarVisible = false;
+        if (!this.editMode ) {
+            this.buttons[1].inactive = false;
+        }
         this.selected = null;
     }
 
@@ -149,9 +176,30 @@ export class PhoneNumbersComponent implements OnInit {
                     this.cancel();
                     break;
                 case 2:
-                    this.toggleNumber();
+                    if (!this.editMode && this.selected) {
+                        this.toggleNumber();
+                    } else {
+                        this.save();
+                    }
             }
         }
+    }
+
+    save() {
+        console.log(this.phoneExternal);
+        this.service.post('', this.phoneExternal, true).then(() => {
+            this.selected = null;
+            this.router.navigateByUrl('/cabinet/phone-numbers');
+            this.sidebarVisible = false;
+            if (!this.editMode ) {
+                this.buttons[1].inactive = false;
+            }
+            this.resetErrors();
+        }).catch((error) => {
+            this.errors = error.errors;
+            console.log(this.errors);
+        }).then(() => {});
+
     }
 
     load() {
@@ -170,5 +218,25 @@ export class PhoneNumbersComponent implements OnInit {
         this.message.writeSuccess(deleteConfirmationMsg);
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        if (this.router.url === '/cabinet/phone-numbers/external') {
+            this.sidebar.buttons = [];
+            this.sidebar.buttons.push(new SidebarButtonItem(1, this.translate.instant('Cancel'), 'cancel'));
+            this.sidebar.buttons.push(new SidebarButtonItem(2, this.translate.instant('Add'), 'success'));
+            this.sidebar.items = [];
+            this.sidebarVisible = true;
+            this.editMode = true;
+            this.buttons[1].inactive = true;
+        }
+
+        this.router.events.subscribe(route =>  {
+            if (route instanceof NavigationEnd) {
+                if (this.router.url === '/cabinet/phone-numbers/external') {
+                    this.sidebarVisible = true;
+                    this.editMode = true;
+                    this.list.buttons[1].inactive = false;
+                }
+            }
+        });
+    }
 }
