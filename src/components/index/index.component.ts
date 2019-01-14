@@ -89,7 +89,6 @@ export class IndexComponent implements OnInit, OnDestroy {
         //     });
         // });
         this.contactState.change.subscribe(value => {
-            console.log('1234567890');
             if (value.state) {
                 this.activeButtonIndex = undefined;
                 this.router.navigateByUrl('/cabinet/address-book/create');
