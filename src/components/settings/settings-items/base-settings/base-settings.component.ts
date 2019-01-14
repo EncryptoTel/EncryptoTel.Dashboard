@@ -249,8 +249,6 @@ export class BaseSettingsComponent extends FormBaseComponent implements OnInit {
                 this.form = this.createForm(model.items);
                 this.model = model;
                 super.ngOnInit();
-
-                console.log('settings', response);
             })
             .catch(() => {})
             .then(() => this.locker.unlock());
