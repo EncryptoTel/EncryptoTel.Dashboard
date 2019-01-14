@@ -12,7 +12,6 @@ import {calculateHeight} from '../../../shared/shared.functions';
 export class AddExternalNumbersComponent implements OnInit {
 
     loading: boolean;
-    showPassword: boolean = false;
 
     list: any[];
 
@@ -34,10 +33,6 @@ export class AddExternalNumbersComponent implements OnInit {
 
     constructor(private _services: PhoneNumberService) {
         this.pagination = {page: 1, total: 1};
-    }
-
-    changePasswordVisibility() {
-        this.showPassword = !this.showPassword;
     }
 
     getList(): void {

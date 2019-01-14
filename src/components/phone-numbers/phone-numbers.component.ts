@@ -36,6 +36,8 @@ export class PhoneNumbersComponent implements OnInit {
     @ViewChild('button') button: ElementRef;
     @ViewChild(ListComponent) list: ListComponent;
 
+    showPassword: boolean = false;
+
     constructor(public service: PhoneNumberService,
         public router: Router,
         private message: MessageServices,
@@ -63,6 +65,10 @@ export class PhoneNumbersComponent implements OnInit {
 
         this.buttons.push(new ButtonItem(10, this.translate.instant('Buy Phone Number'), 'success', true));
         this.buttons.push(new ButtonItem(11, this.translate.instant('Add External Phone'), 'accent', true));
+    }
+
+    changePasswordVisibility() {
+        this.showPassword = !this.showPassword;
     }
 
     select(item: any): void {
