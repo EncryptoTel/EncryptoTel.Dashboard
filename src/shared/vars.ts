@@ -44,3 +44,6 @@ export const departmentNameRegExp = new RegExp(/^([a-z\u00BF-\u1FFF\u2C00-\uD7FF
 export const optionNameRegExp = new RegExp(/^(.*?)\s*(\(\+?\d+\))?$/);
 
 export const filenameRegExp = new RegExp(/^(.+)\.([^\.]+)$/);
+
+// Partner Program
+export const partnerLinkRegExp = new RegExp(/^\d+[a-f\d]+$/i);

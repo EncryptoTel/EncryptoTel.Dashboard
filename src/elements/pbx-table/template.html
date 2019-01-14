@@ -22,7 +22,7 @@
     <div class="tablet_body" *ngIf="!tableReload">
         <div class="tablet_row" *ngFor="let item of tableItems"
              [ngClass]="{'pick': multiple ? isSelected(item.id) : selected?.id === item.id}"
-             (click)="selectItem(item)"
+             (click)="selectItem($event, item)"
              >
             <pbx-loader *ngIf="item.loading" style="position: relative; background: rgb(53, 51, 51); width: 100%;"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">

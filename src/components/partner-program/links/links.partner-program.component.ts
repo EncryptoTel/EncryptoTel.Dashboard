@@ -107,9 +107,8 @@ export class LinksPartnerProgramComponent implements OnInit, Lockable {
         this.onEdit.emit(item);
     }
 
-    copyToClipboard(item: PartnerProgramItem, event: MouseEvent): void {
+    copyToClipboard(item: PartnerProgramItem): void {
         this.onCopyToClipboard.emit(item);
-        killEvent(event);
     }
 
     // -- data processing methods ---------------------------------------------

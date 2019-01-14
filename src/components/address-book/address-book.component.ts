@@ -460,6 +460,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.list.getItems();
             this.setFilters();
         }
+        this.list.buttons[0].visible = true;
     }
 
     confirmBlock() {

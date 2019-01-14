@@ -12,6 +12,7 @@
                [tableReload]="!locker.free"
                [editMode]="false"
                (onSelect)="select($event)"
+               (onCopyToClipboard)="copyToClipboard($event, item)"
                (onEdit)="edit($event)"
                (onDelete)="delete($event)"
                (onSort)="sort($event)"
