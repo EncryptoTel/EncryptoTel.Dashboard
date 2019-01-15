@@ -1,9 +1,9 @@
 .add_external_phone_number
-    height: 100%
+    height: calc(100% - 72px)
     margin-bottom: 32px
     form
         width: 100%
-        height: min-content
+        height: 100% !important
         flex-direction: column
         .title
             font-family: Roboto, sans-serif
@@ -12,12 +12,18 @@
             line-height: 32px
             color: $dark_white
             text-align: center
-            margin: 0 auto 80px
+            margin: 0 auto 48px
+            display: none
         .items
             display: block
+            padding-right: 16px
+            height: 100%
+            overflow: auto
             .item
                 display: block
-                margin-bottom: 16px
+                margin-bottom: 24px
+                &:first-child
+                    margin-bottom: 0
                 &:last-child
                     margin-bottom: 0
                 label
@@ -32,6 +38,11 @@
                     height: 36px
                     width: 100%
                     position: relative
+                    &.no_flag
+                        .flag
+                            display: none
+                        input
+                            padding-left: 16px !important
                     input, select
                         width: 100%
                         border: 1px solid transparent
@@ -79,6 +90,16 @@
                             *
                                 fill: $dark_white
                                 cursor: pointer
+                .error_wrap
+                    height: 16px
+                    margin-bottom: 8px
+                    .error
+                        font-family: Roboto, Arial, sans-serif
+                        font-weight: 300
+                        font-size: 12px
+                        height: 12px
+                        margin-top: 4px
+                        color: $dark_error
                 &.phone_number
                     .wrapper
                         select
