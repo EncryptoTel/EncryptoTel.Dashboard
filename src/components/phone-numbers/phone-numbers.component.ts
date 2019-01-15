@@ -74,7 +74,8 @@ export class PhoneNumbersComponent implements OnInit {
             host: null,
             port: null,
             password: null,
-            phoneNumber: null
+            phoneNumber: null,
+            login: null
         };
     }
 
@@ -83,7 +84,8 @@ export class PhoneNumbersComponent implements OnInit {
             host: null,
             port: null,
             password: null,
-            phoneNumber: null
+            phoneNumber: null,
+            login: null
         };
     }
 
