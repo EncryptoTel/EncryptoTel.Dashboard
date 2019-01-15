@@ -71,7 +71,6 @@
                         <div class="wrapper">
                             <input required type="number" id="externalPort" [(ngModel)]="phoneExternal.port" name="port">
                             <div class="visual"></div>
-                            <span *ngIf="errors.port !== null">{{errors.port[0]}}</span>
                         </div> <!-- wrapper -->
                         <div class="error_wrap">
                             <span class="error" *ngIf="errors.port !== null">{{errors.port[0]}}</span>
