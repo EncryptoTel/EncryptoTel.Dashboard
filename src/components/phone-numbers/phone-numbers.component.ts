@@ -95,7 +95,9 @@ export class PhoneNumbersComponent implements OnInit {
     }
 
     select(item: any): void {
+        this.sidebar = new SidebarInfoModel();
         this.addExternalPhoneNumber = false;
+        this.buttons[1].inactive = false;
         this.sidebarVisible = true;
         this.editMode = false;
         this.selected = item;
@@ -165,6 +167,8 @@ export class PhoneNumbersComponent implements OnInit {
                     break;
                 case 11:
                     this.addExternalPhoneNumber = true;
+                    this.buttons[1].inactive = true;
+                    this.sidebar = null;
                     this.router.navigate(['cabinet', 'phone-numbers', 'external']);
                     break;
             }
@@ -252,7 +256,7 @@ export class PhoneNumbersComponent implements OnInit {
                     this.sidebarVisible = true;
                     this.addExternalPhoneNumber = true;
                     this.editMode = true;
-                    this.list.buttons[1].inactive = false;
+                    this.list.buttons[1].inactive = true;
                 }
             }
         });
