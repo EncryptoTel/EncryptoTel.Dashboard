@@ -14,4 +14,8 @@ export class ModuleServices {
         return this._req.post(`v1/order/service/${id}`, {});
     }
 
+    returnModule(id: number) {
+        return this._req.post(`v1/order/service/${id}`, {});
+    }
+
 }
