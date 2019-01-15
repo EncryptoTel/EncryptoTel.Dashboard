@@ -34,6 +34,7 @@ export class PhoneNumbersComponent implements OnInit {
     sidebar: SidebarInfoModel = new SidebarInfoModel();
     sidebarVisible: boolean = false;
     editMode: boolean = false;
+    addExternalPhoneNumber: boolean = false;
 
     @ViewChild('row') row: ElementRef;
     @ViewChild('table') table: ElementRef;
@@ -162,6 +163,8 @@ export class PhoneNumbersComponent implements OnInit {
                     this.router.navigate(['cabinet', 'phone-numbers', 'buy']);
                     break;
                 case 11:
+                    this.addExternalPhoneNumber = true;
+                    console.log(this.addExternalPhoneNumber);
                     this.router.navigate(['cabinet', 'phone-numbers', 'external']);
                     break;
             }
@@ -238,6 +241,7 @@ export class PhoneNumbersComponent implements OnInit {
             this.sidebar.buttons.push(new SidebarButtonItem(2, this.translate.instant('Add'), 'success'));
             this.sidebar.items = [];
             this.sidebarVisible = true;
+            this.addExternalPhoneNumber = true;
             this.editMode = true;
             this.buttons[1].inactive = true;
         }
@@ -246,6 +250,7 @@ export class PhoneNumbersComponent implements OnInit {
             if (route instanceof NavigationEnd) {
                 if (this.router.url === '/cabinet/phone-numbers/external') {
                     this.sidebarVisible = true;
+                    this.addExternalPhoneNumber = true;
                     this.editMode = true;
                     this.list.buttons[1].inactive = false;
                 }

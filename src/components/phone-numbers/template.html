@@ -23,7 +23,7 @@
         [@Swipe]
     >
 
-        <div class="add_external_phone_number">
+        <div class="add_external_phone_number" *ngIf="addExternalPhoneNumber">
             <form action="" method="">
                 <!--<div class="title">Add External Phone Number</div>-->
                 <div class="items">
@@ -60,8 +60,10 @@
                             <svg-icon class="eye hide_password" *ngIf="!showPassword" (click)="changePasswordVisibility()" src="/assets/icons/_middle/hide_password.svg"></svg-icon>
                             <input required id="externalPassword" type="{{showPassword ? 'text' : 'password'}}" [(ngModel)]="phoneExternal.password" name="password">
                             <div class="visual"></div>
-                            <span *ngIf="errors.password !== null">{{errors.password[0]}}</span>
                         </div> <!-- wrapper -->
+                        <div class="error_wrap">
+                            <span class="error" *ngIf="errors.password !== null">{{errors.password[0]}}</span>
+                        </div>
                     </div> <!-- item -->
 
                     <div class="item">
@@ -71,6 +73,9 @@
                             <div class="visual"></div>
                             <span *ngIf="errors.port !== null">{{errors.port[0]}}</span>
                         </div> <!-- wrapper -->
+                        <div class="error_wrap">
+                            <span class="error" *ngIf="errors.port !== null">{{errors.port[0]}}</span>
+                        </div>
                     </div> <!-- item -->
 
                     <div class="item">
@@ -78,8 +83,10 @@
                         <div class="wrapper">
                             <input required type="text" id="externalHost" [(ngModel)]="phoneExternal.host" name="host">
                             <div class="visual"></div>
-                            <span *ngIf="errors.host !== null">{{errors.host[0]}}</span>
                         </div> <!-- wrapper -->
+                        <div class="error_wrap">
+                            <span class="error" *ngIf="errors.host !== null">{{errors.host[0]}}</span>
+                        </div>
                     </div> <!-- item -->
 
                 </div> <!-- items -->
