@@ -95,6 +95,7 @@ export class PhoneNumbersComponent implements OnInit {
     }
 
     select(item: any): void {
+        this.addExternalPhoneNumber = false;
         this.sidebarVisible = true;
         this.editMode = false;
         this.selected = item;
