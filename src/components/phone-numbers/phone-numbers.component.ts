@@ -164,7 +164,6 @@ export class PhoneNumbersComponent implements OnInit {
                     break;
                 case 11:
                     this.addExternalPhoneNumber = true;
-                    console.log(this.addExternalPhoneNumber);
                     this.router.navigate(['cabinet', 'phone-numbers', 'external']);
                     break;
             }
