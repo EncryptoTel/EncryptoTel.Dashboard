@@ -276,7 +276,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 this.editMode = false;
                 this.state.change.emit(this.hideField);
                 this.router.navigateByUrl('/cabinet/address-book');
-                this.list.buttons[0].visible = true;
+                this.list.buttons[0].inactive = false;
                 break;
             case 2:
                 this.edit(this.selected);
@@ -370,7 +370,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     createClick() {
         this.router.navigateByUrl('/cabinet/address-book/create');
-        this.list.buttons[0].visible = false;
+        this.list.buttons[0].inactive = true;
     }
 
     create() {
@@ -460,7 +460,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.list.getItems();
             this.setFilters();
         }
-        this.list.buttons[0].visible = true;
+        this.list.buttons[0].inactive = false;
     }
 
     confirmBlock() {
@@ -579,7 +579,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 });
                 this.updateTypes();
                 if (this.router.url === '/cabinet/address-book/create') {
-                    this.list.buttons[0].visible = false;
+                    this.list.buttons[0].inactive = true;
                     this.create();
                 }
             })

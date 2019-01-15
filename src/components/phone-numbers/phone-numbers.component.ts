@@ -168,7 +168,9 @@ export class PhoneNumbersComponent implements OnInit {
                 case 11:
                     this.addExternalPhoneNumber = true;
                     this.buttons[1].inactive = true;
-                    this.sidebar = null;
+                    this.sidebar = new SidebarInfoModel();
+                    this.sidebar.buttons.push(new SidebarButtonItem(1, this.translate.instant('Cancel'), 'cancel'));
+                    this.sidebar.buttons.push(new SidebarButtonItem(2, this.translate.instant('Add'), 'success'));
                     this.router.navigate(['cabinet', 'phone-numbers', 'external']);
                     break;
             }
