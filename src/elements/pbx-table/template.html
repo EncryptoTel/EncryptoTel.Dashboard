@@ -36,12 +36,14 @@
                          >
                     </div>
                     <ng-template #refLink>
-                      <div>
-                        <div class=""
+                      <div class="link_all">
+                        <div class="link_cnt"
                              [innerHtml]="getValueByKeyEx(item, tableItem.key)"
                              >
                         </div>
-                        <div></div>
+                        <div class="link_icon">
+                            <svg-icon src="/assets/icons/_middle/icon_link.svg"></svg-icon>
+                        </div>
                       </div>
                     </ng-template>
                     <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>

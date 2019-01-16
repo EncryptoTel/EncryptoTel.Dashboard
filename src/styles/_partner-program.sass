@@ -187,3 +187,27 @@ partner-program-component
                         border-top: 6px solid transparent
                         border-bottom: 6px solid transparent
                         border-left: 6px solid $dark_error
+
+partner-program-component
+    links-partner-program-component
+        pbx-table
+            .tablet_body
+                .tablet_content
+                    .tablet_item
+                        .link_all
+                            display: grid
+                            grid-template-columns: calc(100% - 24px) 24px
+                            overflow: visible !important
+                            .link_cnt
+                                overflow: hidden
+                                text-overflow: ellipsis
+                                display: inline-block
+                            .link_icon
+                                svg-icon
+                                    margin: auto 0 auto auto
+                                    position: relative
+                                    top: -1px
+                                    svg
+                                        height: 15px
+                                        *
+                                            fill: $dark_white
