@@ -227,9 +227,27 @@ export class PhoneNumbersComponent implements OnInit {
     load() {
         this.selected = null;
         this.list.pageInfo.items.forEach(item => {
+            if (item.providerId === 10) {
+                item.editable = true;
+            }
             item.statusName = this.translate.instant(item.statusName);
             item.typeName = this.translate.instant(item.typeName);
         });
+    }
+
+    edit(item) {
+        this.phoneExternal.id = item.id;
+        this.phoneExternal.host = item.host;
+        this.phoneExternal.port = item.port;
+        this.phoneExternal.login = item.login;
+        this.phoneExternal.phoneNumber = item.phoneNumber;
+        this.sidebar.buttons = [];
+        this.sidebar.buttons.push(new SidebarButtonItem(1, this.translate.instant('Cancel'), 'cancel'));
+        this.sidebar.buttons.push(new SidebarButtonItem(2, this.translate.instant('Add'), 'success'));
+        this.sidebar.items = [];
+        this.sidebarVisible = true;
+        this.addExternalPhoneNumber = true;
+        this.editMode = true;
     }
 
     onDelete(item: any): void {
@@ -244,7 +262,7 @@ export class PhoneNumbersComponent implements OnInit {
         if (this.router.url === '/cabinet/phone-numbers/external') {
             this.sidebar.buttons = [];
             this.sidebar.buttons.push(new SidebarButtonItem(1, this.translate.instant('Cancel'), 'cancel'));
-            this.sidebar.buttons.push(new SidebarButtonItem(2, this.translate.instant('Add'), 'success'));
+            this.sidebar.buttons.push(new SidebarButtonItem(2, this.translate.instant('Save'), 'success'));
             this.sidebar.items = [];
             this.sidebarVisible = true;
             this.addExternalPhoneNumber = true;

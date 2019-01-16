@@ -13,6 +13,7 @@ export class CallRulesItem extends BaseItemModel {
     sip: SipItem;
     ruleActions: RuleActionItem[] = [];
     _statusName: string;
+    editable: boolean = true;
 
     get phoneNumber() {
         return this.sip ? this.sip.phoneNumber : null;

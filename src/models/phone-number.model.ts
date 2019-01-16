@@ -10,6 +10,7 @@ export class PhoneNumberItem extends BaseItemModel {
     providerId: number;
     sipInners: SipInnerModel[] = [];
     safe: boolean = false;
+    editable: boolean = false;
     private _statusName: string;
     private _typeName: string;
 

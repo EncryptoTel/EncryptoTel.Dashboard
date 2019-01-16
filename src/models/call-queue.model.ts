@@ -14,6 +14,7 @@ export class CallQueueItem extends BaseItemModel {
   announceHoldtime: number;
   announcePosition: boolean;
   queueMembers: CallQueueMember[];
+  editable: boolean = true;
 
   constructor() {
     super();

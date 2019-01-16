@@ -6,13 +6,14 @@
               key="phone-numbers"
               name="Phone Numbers"
               itemName="Phone Number"
-              [editable]="false"
+              [editable]="true"
               [deletable]="false"
               [service]="service"
               (onSelect)="select($event)"
               (onLoad)="load()"
               (onCreate)="clickButton($event)"
               (onDelete)="onDelete($event)"
+              (onEdit)="edit($event)"
               >
     </pbx-list>
 
@@ -67,17 +68,6 @@
                     </div> <!-- item -->
 
                     <div class="item">
-                        <label for="externalPort">Port *</label>
-                        <div class="wrapper">
-                            <input required type="number" id="externalPort" [(ngModel)]="phoneExternal.port" name="port">
-                            <div class="visual"></div>
-                        </div> <!-- wrapper -->
-                        <div class="error_wrap">
-                            <span class="error" *ngIf="errors.port !== null">{{errors.port[0]}}</span>
-                        </div>
-                    </div> <!-- item -->
-
-                    <div class="item">
                         <label for="externalHost">Host *</label>
                         <div class="wrapper">
                             <input required type="text" id="externalHost" [(ngModel)]="phoneExternal.host" name="host">
@@ -85,6 +75,17 @@
                         </div> <!-- wrapper -->
                         <div class="error_wrap">
                             <span class="error" *ngIf="errors.host !== null">{{errors.host[0]}}</span>
+                        </div>
+                    </div> <!-- item -->
+
+                    <div class="item">
+                        <label for="externalPort">Port *</label>
+                        <div class="wrapper">
+                            <input required type="number" id="externalPort" [(ngModel)]="phoneExternal.port" name="port">
+                            <div class="visual"></div>
+                        </div> <!-- wrapper -->
+                        <div class="error_wrap">
+                            <span class="error" *ngIf="errors.port !== null">{{errors.port[0]}}</span>
                         </div>
                     </div> <!-- item -->
 

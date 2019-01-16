@@ -1,4 +1,5 @@
 export class PhoneNumberExternalModel {
+    public id: number;
     public phoneNumber: string;
     public login: string;
     public phoneAsLogin: boolean;

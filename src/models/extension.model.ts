@@ -17,6 +17,7 @@ export class ExtensionItem extends BaseItemModel {
     port: string;
     sipOuter: SipOuterModel;
     status: number;
+    editable: boolean = true;
     // statusName: string;
     user: UserModel;
     _statusName: string;
@@ -73,7 +74,7 @@ export class SipDepartmentItem extends BaseItemModel {
 
     constructor(id?: number, name?: string, sipCount?: number) {
         super();
-        
+
         this.id = id;
         this.name = name;
         this.sipCount = sipCount;

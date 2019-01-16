@@ -48,8 +48,7 @@
                     </ng-template>
                     <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
                 </div>
-                <div class="tablet_icon edit"
-                     *ngIf="editable" (click)="editItem(item, $event)">
+                <div class="tablet_icon edit" *ngIf="editable && item.editable" (click)="editItem(item, $event)">
                     <svg-icon src="../../assets/icons/_middle/edit_12px.svg"></svg-icon>
                 </div>
                 <div class="tablet_icon delete"

@@ -11,6 +11,7 @@ export class RingGroupItem extends BaseItemModel {
     strategy: number;
     timeout: number;
     action: number;
+    editable: boolean = true;
     queueMembers: RingGroupMember[];
 
     constructor() {

@@ -8,6 +8,7 @@ export class DepartmentItem extends BaseItemModel {
     name: string;
     comment: string;
     employees: number;
+    editable: boolean = true;
     sipInnerIds: number[];
 }
 
