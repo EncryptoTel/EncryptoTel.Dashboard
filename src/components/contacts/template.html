@@ -34,7 +34,7 @@
                 </div> <!-- icon -->
                 <div class="inner">
 
-                    <div class="item">
+                    <div class="item"  *ngFor="let chat of addressBookModel.items; let i = index">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
                         <div class="right">
