@@ -30,7 +30,20 @@
                      class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
                      (mouseenter)="mouseEnter($event, item)"
                      (mouseleave)="mouseLeave($event, item)">
-                    <div class="" [innerHtml]="getValueByKeyEx(item, tableItem.key)"></div>
+                    <div *ngIf="tableItem.key !== 'refLink' else refLink"
+                         class=""
+                         [innerHtml]="getValueByKeyEx(item, tableItem.key)"
+                         >
+                    </div>
+                    <ng-template #refLink>
+                      <div>
+                        <div class=""
+                             [innerHtml]="getValueByKeyEx(item, tableItem.key)"
+                             >
+                        </div>
+                        <div></div>
+                      </div>
+                    </ng-template>
                     <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
                 </div>
                 <div class="tablet_icon edit"
