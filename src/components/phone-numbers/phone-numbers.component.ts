@@ -197,31 +197,64 @@ export class PhoneNumbersComponent implements OnInit {
     }
 
     save() {
-        console.log(this.phoneExternal);
-        this.service.post('', this.phoneExternal, true).then(() => {
-            this.selected = null;
-            this.router.navigateByUrl('/cabinet/phone-numbers');
-            this.sidebarVisible = false;
-            if (!this.editMode ) {
-                this.buttons[1].inactive = false;
-            }
-            this.resetErrors();
-        }).catch((error) => {
-            if (error.errors.port) {
-                this.errors.port = error.errors.port;
-            }
-            if (error.errors.password) {
-                this.errors.password = error.errors.password;
-            }
-            if (error.errors.host) {
-                this.errors.host = error.errors.host;
-            }
-            if (error.errors.phoneNumber) {
-                this.errors.phoneNumber = error.errors.phoneNumber;
-            }
-            console.log(this.errors);
-        }).then(() => {});
-
+        const id: number = this.phoneExternal.id;
+        if (this.phoneExternal.id) {
+            this.service.putById(this.phoneExternal.id, this.phoneExternal, true).then(() => {
+                this.phoneExternal = new PhoneNumberExternalModel();
+                this.selected = null;
+                this.router.navigateByUrl('/cabinet/phone-numbers');
+                this.sidebarVisible = false;
+                this.resetErrors();
+                this.service.getById(id).then((response) => {
+                    this.list.pageInfo.items.forEach(item => {
+                       if (item.id === id) {
+                           // item.port = response.port;
+                       }
+                    });
+                }).catch(() => {})
+                    .then(() => {});
+            }).catch((error) => {
+                if (error.errors.port) {
+                    this.errors.port = error.errors.port;
+                }
+                if (error.errors.password) {
+                    this.errors.password = error.errors.password;
+                }
+                if (error.errors.host) {
+                    this.errors.host = error.errors.host;
+                }
+                if (error.errors.phoneNumber) {
+                    this.errors.phoneNumber = error.errors.phoneNumber;
+                }
+                console.log(this.errors);
+            }).then(() => {});
+        } else {
+            this.service.post('', this.phoneExternal, true).then(() => {
+                this.phoneExternal = new PhoneNumberExternalModel();
+                this.selected = null;
+                this.router.navigateByUrl('/cabinet/phone-numbers');
+                this.sidebarVisible = false;
+                if (!this.editMode) {
+                    this.buttons[1].inactive = false;
+                }
+                this.resetErrors();
+            }).catch((error) => {
+                if (error.errors.port) {
+                    this.errors.port = error.errors.port;
+                }
+                if (error.errors.password) {
+                    this.errors.password = error.errors.password;
+                }
+                if (error.errors.host) {
+                    this.errors.host = error.errors.host;
+                }
+                if (error.errors.phoneNumber) {
+                    this.errors.phoneNumber = error.errors.phoneNumber;
+                }
+                console.log(this.errors);
+            }).then(() => {
+            });
+        }
     }
 
     load() {
@@ -243,7 +276,7 @@ export class PhoneNumbersComponent implements OnInit {
         this.phoneExternal.phoneNumber = item.phoneNumber;
         this.sidebar.buttons = [];
         this.sidebar.buttons.push(new SidebarButtonItem(1, this.translate.instant('Cancel'), 'cancel'));
-        this.sidebar.buttons.push(new SidebarButtonItem(2, this.translate.instant('Add'), 'success'));
+        this.sidebar.buttons.push(new SidebarButtonItem(2, this.translate.instant('Save'), 'success'));
         this.sidebar.items = [];
         this.sidebarVisible = true;
         this.addExternalPhoneNumber = true;

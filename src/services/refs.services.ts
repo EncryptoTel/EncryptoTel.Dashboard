@@ -1,7 +1,7 @@
 import {CountryModel} from '../models/country.model';
-import {DepartmentItem, DepartmentModel} from "../models/department.model";
-import {BaseService} from "./base.service";
-import {Subscription} from "rxjs/Subscription";
+import {DepartmentItem, DepartmentModel} from '../models/department.model';
+import {BaseService} from './base.service';
+import {Subscription} from 'rxjs/Subscription';
 
 export class RefsServices extends BaseService {
     private countries: CountryModel[] = [];
@@ -17,7 +17,7 @@ export class RefsServices extends BaseService {
     }
 
     getSipOuters(): Promise<any> {
-        
+
         return this.request.get(`v1/sip/outers?limit=1000`).then(outers => {
             this.sipOuters = outers['items'];
             return Promise.resolve(this.sipOuters);
@@ -41,7 +41,7 @@ export class RefsServices extends BaseService {
         if (this.departments.itemsCount === 0) {
             return this.request.get(`v1/department`).then((res: DepartmentModel) => {
                 this.departments = this.plainToClassEx(DepartmentModel, DepartmentItem, res);
-                this.departments.items.unshift({id: 0, name: 'All', comment: '', employees: 0, sipInnerIds: [], loading: 0});
+                this.departments.items.unshift({id: 0, name: 'All', comment: '', employees: 0, sipInnerIds: [], editable: true, loading: 0});
                 return Promise.resolve(this.departments);
             });
         } else {
