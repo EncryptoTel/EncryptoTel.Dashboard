@@ -87,6 +87,7 @@ import {ContactsComponent} from '@components/contacts/contacts.component';
 import {CallComponent} from '@components/call/call.component';
 import {NotificationComponent} from '@components/notification/notification.component';
 import {LogoutComponent} from '@components/logout/logout.component';
+import {SupportComponent} from '@components/support/support.component';
 
 /*
   Components declarations and exports
@@ -182,7 +183,8 @@ import {LogoutComponent} from '@components/logout/logout.component';
         ContactsComponent,
         CallComponent,
         NotificationComponent,
-        LogoutComponent
+        LogoutComponent,
+        SupportComponent
     ],
     exports: [
         BaseComponent,
@@ -249,7 +251,8 @@ import {LogoutComponent} from '@components/logout/logout.component';
         ContactsComponent,
         CallComponent,
         NotificationComponent,
-        LogoutComponent
+        LogoutComponent,
+        SupportComponent
     ]
 })
 export class ComponentsModule {

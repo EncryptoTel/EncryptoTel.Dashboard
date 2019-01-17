@@ -109,7 +109,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
     getItems() {
         this.service.getItems(this.addressBookModel).then(response => {
             this.addressBookModel = response;
-            console.log('677777777777777777777777', this.addressBookModel);
 
         })
             .catch(() => { })

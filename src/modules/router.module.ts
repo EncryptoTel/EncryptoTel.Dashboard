@@ -53,6 +53,7 @@ import { AmoCrmIntegrationComponent } from '@components/settings/settings-items/
 import { LogoutComponent } from '@components/logout/logout.component';
 import { AddExternalNumbersComponent } from '@components/phone-numbers/external/add-external-numbers.component';
 import { CanActivatePageGuard } from '@services/can-activate-page-guard.service';
+import { SupportComponent } from '@components/support/support.component';
 
 
 const Routes: Routes = [
@@ -387,6 +388,12 @@ const Routes: Routes = [
                 path: 'knowledge-base',
                 component: KnowledgeBaseComponent,
                 data: { title: 'Knowledge Base', indexed: true },
+                canActivate: [CanActivatePageGuard]
+            },
+            {
+                path: 'support',
+                component: SupportComponent,
+                data: { title: 'Support', indexed: true },
                 canActivate: [CanActivatePageGuard]
             },
             {
