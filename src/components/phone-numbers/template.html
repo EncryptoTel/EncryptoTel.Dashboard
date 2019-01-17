@@ -47,20 +47,20 @@
                     </div> <!-- item -->
 
                     <div class="item login">
-                        <label for="externalLogin">Login</label>
+                        <label for="externalLog-in">Login</label>
                         <div class="wrapper">
-                            <input required id="externalLogin" type="text" [(ngModel)]="phoneExternal.login" name="login">
+                            <input required id="externalLog-in" type="text" [(ngModel)]="phoneExternal.login" name="login">
                             <div class="visual"></div>
                             <span *ngIf="errors.login !== null">{{errors.login[0]}}</span>
                         </div> <!-- wrapper -->
                     </div> <!-- item -->
 
                     <div class="item password">
-                        <label for="externalPassword">Password *</label>
+                        <label for="externalPass">Password *</label>
                         <div class="wrapper">
                             <svg-icon class="eye show_password" *ngIf="showPassword" (click)="changePasswordVisibility()" src="/assets/icons/_middle/show_password.svg"></svg-icon>
                             <svg-icon class="eye hide_password" *ngIf="!showPassword" (click)="changePasswordVisibility()" src="/assets/icons/_middle/hide_password.svg"></svg-icon>
-                            <input required id="externalPassword" type="{{showPassword ? 'text' : 'password'}}" [(ngModel)]="phoneExternal.password" name="password">
+                            <input required id="externalPass" type="{{showPassword ? 'text' : 'password'}}" [(ngModel)]="phoneExternal.password" name="password">
                             <div class="visual"></div>
                         </div> <!-- wrapper -->
                         <div class="error_wrap">
