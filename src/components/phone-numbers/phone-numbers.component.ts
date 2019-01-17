@@ -208,7 +208,8 @@ export class PhoneNumbersComponent implements OnInit {
                 this.service.getById(id).then((response) => {
                     this.list.pageInfo.items.forEach(item => {
                        if (item.id === id) {
-                           // item.port = response.port;
+                           item.port = response.port;
+                           item.host = response.host;
                        }
                     });
                 }).catch(() => {})
