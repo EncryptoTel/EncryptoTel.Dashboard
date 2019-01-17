@@ -37,7 +37,7 @@
                             <div class="arrow">
                                 <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
                             </div>
-                            <span *ngIf="phoneExternal.id > 0">{{phoneExternal.phoneNumber}}</span>
+                            <span class="not_edit" *ngIf="phoneExternal.id > 0">{{phoneExternal.phoneNumber}}</span>
                             <input *ngIf="!phoneExternal.id" required id="externalPhoneNumber" type="number" [(ngModel)]="phoneExternal.phoneNumber" name="phoneNumber">
                             <div class="visual"></div>
                         </div> <!-- wrapper -->
