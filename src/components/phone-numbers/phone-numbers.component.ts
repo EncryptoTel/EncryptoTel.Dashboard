@@ -210,6 +210,7 @@ export class PhoneNumbersComponent implements OnInit {
                        if (item.id === id) {
                            item.port = response.port;
                            item.host = response.host;
+                           item.login = response.login;
                        }
                     });
                 }).catch(() => {})
