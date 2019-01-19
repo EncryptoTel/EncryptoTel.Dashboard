@@ -1,20 +1,18 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormGroup, Validators, FormBuilder} from '@angular/forms';
-import {Router} from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
-import {SettingsService} from '@services/settings.service';
-import {LocalStorageServices} from '@services/local-storage.services';
-import {MessageServices} from '@services/message.services';
-import {UserServices} from '@services/user.services';
-import {emailRegExp, nameRegExp, phoneRegExp, numberRegExp} from '@shared/vars';
-import {validateForm, killEvent} from '@shared/shared.functions';
-import {FadeAnimation} from '@shared/fade-animation';
-import {passwordConfirmation} from '@shared/password-confirmation';
-import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
-import {SettingsModel, SettingsItem, SettingsOptionItem, SettingsBaseItem, SettingsGroupItem} from '@models/settings.models';
-import {ScrollEvent} from '@shared/scroll.directive';
-import {InputComponent} from '@elements/pbx-input/pbx-input.component';
+import { SettingsService } from '@services/settings.service';
+import { LocalStorageServices } from '@services/local-storage.services';
+import { MessageServices } from '@services/message.services';
+import { UserServices } from '@services/user.services';
+import { emailRegExp, nameRegExp, phoneRegExp, numberRegExp, profileNameRegExp } from '@shared/vars';
+import { validateForm, killEvent } from '@shared/shared.functions';
+import { FadeAnimation } from '@shared/fade-animation';
+import { passwordConfirmation } from '@shared/password-confirmation';
+import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import { SettingsModel, SettingsItem, SettingsOptionItem, SettingsBaseItem, SettingsGroupItem } from '@models/settings.models';
 
 
 export enum EmailChangeState {
@@ -67,28 +65,33 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
     constructor(
         private service: SettingsService,
         protected fb: FormBuilder,
-        protected message: MessageServices,
+        protected messages: MessageServices,
         private router: Router,
         private storage: LocalStorageServices,
         protected translate: TranslateService,
         private user: UserServices
     ) {
-        super(fb, message, translate);
+        super(fb, messages, translate);
         this.userDefaultPhoto = './assets/images/avatar/no_avatar.jpg';
         this.loading = 0;
         this.emailChangeState = EmailChangeState.NOT_STARTED;
 
         // Override default ValidationHost messages
         this.validationHost.customMessages = [
-            { key: 'email', error: 'required', message: this.translate.instant('Please enter the correct email') },
-            { key: 'email', error: 'pattern', message: this.translate.instant('Please enter the correct email') },
-            { key: 'code', error: 'required', message: this.translate.instant('Please enter the correct confirmation code') },
+            { key: 'firstname', error: 'pattern', message: this.translate
+                .instant('First name contains invalid characters or symbols. You can only use letters and the following characters: \'-_.') },
+            { key: 'lastname', error: 'pattern', message: this.translate
+                .instant('Last name contains invalid characters or symbols. You can only use letters and the following characters: \'-_.') },
+            { key: 'phone', error: 'pattern', message: this.translate.instant('Contact phone contains invalid characters or symbols. You can use numbers only') },
+            { key: 'email', error: 'required', message: this.translate.instant('Please enter your email address') },
+            { key: 'email', error: 'pattern', message: this.translate.instant('Please enter correct email address') },
+            { key: 'code', error: 'required', message: this.translate.instant('Please enter a confirmation code') },
             { key: 'code', error: 'pattern', message: this.translate.instant('Please enter the correct confirmation code') },
             { key: 'password_confirmation', error: 'required', message: this.translate.instant('Please confirm the password') },
             { key: 'password_confirmation', error: 'mismatch', message: this.translate.instant('Passwords do not match') },
         ];
 
-        this._compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/jpg', 'image/gif' ];
+        this._compatibleMediaTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
     }
 
     checkCompatibleType(file: any): boolean {
@@ -107,10 +110,10 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     initForm(): void {
         this.generalForm = this.fb.group({
-            firstname: [null, [Validators.required, Validators.pattern(nameRegExp)]],
-            lastname: [null, [Validators.pattern(nameRegExp)]],
+            firstname: [null, [Validators.required, Validators.maxLength(190), Validators.pattern(profileNameRegExp)]],
+            lastname: [null, [Validators.maxLength(190), Validators.pattern(nameRegExp)]],
             patronymic: [null, [Validators.pattern(nameRegExp)]],
-            phone: [null, [Validators.pattern(phoneRegExp), Validators.minLength(5), Validators.maxLength(16)]],
+            phone: [null, [Validators.minLength(6), Validators.maxLength(16), Validators.pattern(phoneRegExp)]],
             language: [null],
             region: [null],
             time_zone: [null],
@@ -130,8 +133,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             password: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
             password_confirmation: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
         }, {
-            validator: passwordConfirmation
-        });
+                validator: passwordConfirmation
+            });
         this.addForm('passwordChange', this.passwordChange);
     }
 
@@ -202,7 +205,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
     initFormData(formKey: string, form: FormGroup, data?: any): void {
         if (data) {
-            
+
             const modelValues: SettingsOptionItem[] = [];
             this.getModelValues(this.model.items, modelValues);
 
@@ -256,13 +259,13 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 this.initFormData('emailChange', this.emailChange, response);
                 this.initFormData('passwordChange', this.passwordChange);
             })
-            .catch(() => {})
+            .catch(() => { })
             .then(() => this.loading--);
     }
 
     saveProfileSettings(): void {
-        this.loading ++;
-        
+        this.loading++;
+
         const language = (this.generalForm.value.language === 19) ? 'ru' : 'en';
         this.translate.use(language);
         this.storage.writeItem('user_lang', language);
@@ -272,14 +275,17 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
         else {
             document.body.classList.remove('lang_ru');
         }
-        
+
         this.service.saveProfileSettings(this.generalForm.value)
             .then(() => {
+                const confirmation: string = this.translate.instant('The changes have been saved successfully');
+                this.messages.writeSuccess(confirmation);
+
                 this.getSettings();
                 this.user.fetchProfileParams().then();
             })
-            .catch(() => {})
-            .then(() => this.loading --);
+            .catch(() => { })
+            .then(() => this.loading--);
     }
 
     saveEmailSettings(): void {
@@ -289,6 +295,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
             this.service.requestEmailChange(this.emailChange.get('email').value)
                 .then(() => {
                     this.emailChangeState = EmailChangeState.CONFIRMATION_CODE_SENT;
+                    const notification: string = this.translate.instant('We emailed you a code to change your email');
+                    this.messages.writeSuccess(notification);
                 })
                 .catch(response => {
                     if (response.errors && response.errors['email']) {
@@ -307,7 +315,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                     this.emailChangeState = EmailChangeState.NOT_STARTED;
                     // this._message.writeSuccess(response.message);
                 })
-                .catch(() => {})
+                .catch(() => { })
                 .then(() => this.loading--);
         }
     }
@@ -367,7 +375,7 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
                 this.sidebarActive = false;
             });
         } else {
-            this.message.writeError(this.translate.instant('Accepted formats: jpg, jpeg, png, gif'));
+            this.messages.writeError(this.translate.instant('Accepted formats: jpg, jpeg, png, gif'));
             this.sidebarActive = false;
         }
     }

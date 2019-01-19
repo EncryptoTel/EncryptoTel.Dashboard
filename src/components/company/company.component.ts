@@ -1,20 +1,20 @@
-import {Component, ElementRef, OnInit, ViewChild, ViewChildren} from '@angular/core';
-import {FormArray, FormBuilder, Validators} from '@angular/forms';
-import {formatNumber} from 'libphonenumber-js';
+import { Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { formatNumber } from 'libphonenumber-js';
 
-import {CountryModel} from '@models/country.model';
-import {DashboardModel} from '@models/dashboard.model';
-import {CompanyModel, CompanyInfoModel} from '@models/company.model';
-import {SidebarInfoItem, SidebarInfoModel} from '@models/base.model';
-import {RefsServices} from '@services/refs.services';
-import {CompanyService} from '@services/company.service';
-import {MessageServices} from '@services/message.services';
-import {DashboardServices} from '@services/dashboard.services';
-import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
-import {emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp} from '../../shared/vars';
-import {isDevEnv} from '@shared/shared.functions';
-import {companyCountryValidator} from '@shared/encry-form-validators';
-import {TranslateService} from '@ngx-translate/core';
+import { CountryModel } from '@models/country.model';
+import { DashboardModel } from '@models/dashboard.model';
+import { CompanyModel, CompanyInfoModel } from '@models/company.model';
+import { SidebarInfoItem, SidebarInfoModel } from '@models/base.model';
+import { RefsServices } from '@services/refs.services';
+import { CompanyService } from '@services/company.service';
+import { MessageServices } from '@services/message.services';
+import { DashboardServices } from '@services/dashboard.services';
+import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
+import { emailRegExp, companyNameRegExp, nameRegExp, companyVatIDRegExp, companyPhoneRegExp, companyOfficeRegExp, companyHouseRegExp } from '../../shared/vars';
+import { isDevEnv } from '@shared/shared.functions';
+import { companyCountryValidator } from '@shared/encry-form-validators';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -70,19 +70,25 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         this.sidebarInfo.items.push(new SidebarInfoItem(3, 'Available space', null));
 
         this.validationHost.customMessages = [
-            { key: 'name', error: 'pattern', message: this.translate.instant('Company name may contain letters, digits and dashes only') },
-            { key: 'companyAddress.*.regionName', error: 'pattern', message: this.translate.instant('State/region may contain letters, digits and dashes only') },
-            { key: 'companyAddress.*.locationName', error: 'pattern', message: this.translate.instant('City may contain letters, digits and dashes only') },
-            { key: 'companyAddress.*.street', error: 'pattern', message: this.translate.instant('Street may contain letters, digits and dashes only') },
-            { key: 'companyAddress.*.building', error: 'pattern', message: this.translate.instant('House number may contain letters, digits and slashes only') },
-            { key: 'companyAddress.*.office', error: 'pattern', message: this.translate.instant('Office may contain digits only') },
-            { key: 'companyAddress.*.postalCode', error: 'pattern', message: this.translate.instant('Postal code may contain letters and digits only') },
-            { key: 'email', error: 'pattern', message: this.translate.instant('Please enter valid email address') },
-            { key: 'phone', error: 'pattern', message: this.translate.instant('Phone number may contain digits only') },
+            { key: 'name', error: 'required', message: this.translate.instant('Please enter the organization name') },
+            { key: 'name', error: 'maxLength', message: this.translate.instant('Organization name can`t contain over 100 characters') },
+            { key: 'name', error: 'pattern', message: this.translate.instant('Organization name contains invalid characters. You can only use letters, numbers and a dash') },
+            { key: 'companyAddress.*.country', error: 'required', message: this.translate.instant('Please choose the country') },
+            { key: 'companyAddress.*.regionName', error: 'pattern', message: this.translate.instant('State/region contains invalid characters. You can only use letters, numbers and a dash') },
+            { key: 'companyAddress.*.locationName', error: 'pattern', message: this.translate.instant('City contains invalid characters. You can only use letters, numbers and a dash') },
+            { key: 'companyAddress.*.street', error: 'pattern', message: this.translate.instant('Street contains invalid characters. You can only use letters, numbers and a dash') },
+            { key: 'companyAddress.*.building', error: 'required', message: this.translate.instant('Please enter the House number') },
+            { key: 'companyAddress.*.building', error: 'pattern', message: this.translate.instant('House number contains invalid characters. You can only use letters, numbers and a slash') },
+            { key: 'companyAddress.*.office', error: 'pattern', message: this.translate.instant('Office contains invalid characters. You can use numbers only') },
+            { key: 'companyAddress.*.postalCode', error: 'pattern', message: this.translate.instant('Postal code contains invalid characters. You can only use letters and numbers') },
+            { key: 'email', error: 'pattern', message: this.translate.instant('Please enter correct email address') },
+            { key: 'phone', error: 'pattern', message: this.translate.instant('Contact phone contains invalid characters. You can use numbers only') },
+            { key: 'vatId', error: 'minlength', message: this.translate.instant('VAT ID is too short. Please use at least 6 characters') },
+            { key: 'vatId', error: 'maxlength', message: this.translate.instant('VAT ID can\'t contain over of 99 characters') },
             { key: 'vatId', error: 'pattern', message: this.translate.instant('VAT ID contains invalid characters. You can use letters, numbers and the following characters: -_') },
         ];
 
-        this._compatibleMediaTypes = [ 'image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+        this._compatibleMediaTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
     }
 
     checkCompatibleType(file: any): boolean {
@@ -154,6 +160,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
 
         if (this.company.id) {
             this.editMode = false;
+            this.setFormData(this.company);
         }
         else {
             this.getCompany();
@@ -161,7 +168,6 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
     }
 
     save(): void {
-        console.log('form', this.form);
         if (this.validateForms()) {
             this.setModelData(this.company);
             this.saveCompany();
@@ -268,7 +274,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             .then(res => {
                 this.countries = res;
             })
-            .catch(() => {})
+            .catch(() => { })
             .then(() => this.locker.unlock());
     }
 
@@ -300,16 +306,19 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                     }
                 }
             })
-            .catch(() => {})
+            .catch(() => { })
             .then(() => this.sidebarInfo.loading--);
     }
 
     saveCompany(): void {
         this.locker.lock();
 
-        this.service.save({...this.form.value}, false)
+        this.service.save({ ...this.form.value }, false)
             .then(() => {
-                this.message.writeSuccess(this.translate.instant('Company has been successfully updated'));
+                const okMessage = this.company.id
+                    ? this.translate.instant('The changes have been saved successfully')
+                    : this.translate.instant('Company has been created successfully');
+                this.message.writeSuccess(okMessage);
                 if (this.isNewCompany) {
                     this.editMode = false;
                     this.isNewCompany = false;

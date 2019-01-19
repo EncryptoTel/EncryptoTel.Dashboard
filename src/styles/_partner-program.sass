@@ -147,3 +147,67 @@ partner-program-component
         //        &.success
         //            padding: 0 24px !important
         /*==============================*/
+
+links-partner-program-component
+    pbx-address-book
+    .tablet
+        .tablet_header,
+        .tablet_body .tablet_content
+            grid-template-columns: repeat(6, calc((100% - 68px) / 6)) repeat(2, calc(68px / 2)) !important
+            .tablet_item
+        .tablet_header
+
+
+partner-program-component
+    pbx-table
+        z-index: 10
+    .sidebar
+        .sidebar_info_wrap
+            margin-left: -300px
+            .sidebar_description_wrap
+                margin-left: 300px
+                .pbx_input_error_float_focus
+                    margin-top: 0 !important
+                .pbx_input_error_float
+                    //display: none !important
+                    background: $dark_error
+                    padding: 10px
+                    margin-top: 0 !important
+                    width: 250px
+                    color: $dark_white
+                    position: relative
+                    &:before
+                        position: absolute
+                        display: block
+                        content: ''
+                        width: 0
+                        height: 0
+                        top: 10px
+                        left: 100%
+                        border-top: 6px solid transparent
+                        border-bottom: 6px solid transparent
+                        border-left: 6px solid $dark_error
+
+partner-program-component
+    links-partner-program-component
+        pbx-table
+            .tablet_body
+                .tablet_content
+                    .tablet_item
+                        .link_all
+                            display: grid
+                            grid-template-columns: calc(100% - 24px) 24px
+                            overflow: visible !important
+                            .link_cnt
+                                overflow: hidden
+                                text-overflow: ellipsis
+                                display: inline-block
+                            .link_icon
+                                svg-icon
+                                    margin: auto 0 auto auto
+                                    position: relative
+                                    top: -1px
+                                    svg
+                                        height: 15px
+                                        *
+                                            fill: $dark_white

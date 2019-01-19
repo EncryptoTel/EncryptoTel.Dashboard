@@ -1,23 +1,100 @@
 <div class="table_container">
     <pbx-list [(pageInfo)]="pageInfo"
-              [table]="tableInfo"
+              [tableInfo]="tableModel"
               [loading]="loading"
+              [buttons]=buttons
               key="phone-numbers"
               name="Phone Numbers"
               itemName="Phone Number"
-              buttonTitle="{{'Buy Phone Number' | translate }}"
-              createKey="buy"
-              [editable]="false"
+              [editable]="true"
               [deletable]="false"
               [service]="service"
               (onSelect)="select($event)"
               (onLoad)="load()"
-    ></pbx-list>
+              (onCreate)="clickButton($event)"
+              (onDelete)="onDelete($event)"
+              (onEdit)="edit($event)"
+              >
+    </pbx-list>
 
     <pbx-sidebar
-        *ngIf="selected"
+        *ngIf="sidebarVisible"
         [sidebarInfo]="sidebar"
         (onClick)="click($event)"
         [@Swipe]
-    ></pbx-sidebar>
+    >
+
+        <div class="add_external_phone_number" *ngIf="addExternalPhoneNumber">
+            <form action="" method="">
+                <!--<div class="title">Add External Phone Number</div>-->
+                <div class="items">
+                    <div class="item phone_number">
+                        <label for="externalPhoneNumber">Phone Number *</label>
+                        <div class="wrapper no_flag">
+                            <div class="flag">
+                                <svg-icon class="flag_item" src="/assets/icons/country_flags/svg/ru.svg"></svg-icon>
+                            </div>
+                            <div class="arrow">
+                                <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
+                            </div>
+                            <span class="not_edit" *ngIf="phoneExternal.id > 0">{{phoneExternal.phoneNumber}}</span>
+                            <input *ngIf="!phoneExternal.id" required id="externalPhoneNumber" type="number" [(ngModel)]="phoneExternal.phoneNumber" name="phoneNumber">
+                            <div class="visual"></div>
+                        </div> <!-- wrapper -->
+                        <div class="error_wrap">
+                            <span class="error" *ngIf="errors.phoneNumber !== null">{{errors.phoneNumber[0]}}</span>
+                        </div>
+                    </div> <!-- item -->
+
+                    <div class="item login">
+                        <label for="externalLog-in">Login</label>
+                        <div class="wrapper">
+                            <input required id="externalLog-in" type="text" [(ngModel)]="phoneExternal.login" name="login">
+                            <div class="visual"></div>
+                            <span *ngIf="errors.login !== null">{{errors.login[0]}}</span>
+                        </div> <!-- wrapper -->
+                    </div> <!-- item -->
+
+                    <div class="item password">
+                        <label for="externalPass">Password *</label>
+                        <div class="wrapper">
+                            <svg-icon class="eye show_password" *ngIf="showPassword" (click)="changePasswordVisibility()" src="/assets/icons/_middle/show_password.svg"></svg-icon>
+                            <svg-icon class="eye hide_password" *ngIf="!showPassword" (click)="changePasswordVisibility()" src="/assets/icons/_middle/hide_password.svg"></svg-icon>
+                            <input required id="externalPass" type="{{showPassword ? 'text' : 'password'}}" [(ngModel)]="phoneExternal.password" name="password">
+                            <div class="visual"></div>
+                        </div> <!-- wrapper -->
+                        <div class="error_wrap">
+                            <span class="error" *ngIf="errors.password !== null">{{errors.password[0]}}</span>
+                        </div>
+                    </div> <!-- item -->
+
+                    <div class="item">
+                        <label for="externalHost">Host *</label>
+                        <div class="wrapper">
+                            <input required type="text" id="externalHost" [(ngModel)]="phoneExternal.host" name="host">
+                            <div class="visual"></div>
+                        </div> <!-- wrapper -->
+                        <div class="error_wrap">
+                            <span class="error" *ngIf="errors.host !== null">{{errors.host[0]}}</span>
+                        </div>
+                    </div> <!-- item -->
+
+                    <div class="item">
+                        <label for="externalPort">Port *</label>
+                        <div class="wrapper">
+                            <input required type="number" id="externalPort" [(ngModel)]="phoneExternal.port" name="port">
+                            <div class="visual"></div>
+                        </div> <!-- wrapper -->
+                        <div class="error_wrap">
+                            <span class="error" *ngIf="errors.port !== null">{{errors.port[0]}}</span>
+                        </div>
+                    </div> <!-- item -->
+
+                </div> <!-- items -->
+
+            </form>
+
+        </div> <!-- add_external_phone_number -->
+
+    </pbx-sidebar>
 </div>

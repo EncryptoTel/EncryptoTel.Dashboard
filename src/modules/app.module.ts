@@ -41,12 +41,14 @@ import {CompanyService} from '../services/company.service';
 import {SelectService} from '../services/state/select.service';
 import {TariffStateService} from '../services/state/tariff.state.service';
 import {StateService} from '../services/state/state.service';
+import {ContactState} from '../services/state/contact.service';
 import {LangStateService} from '../services/state/lang.state.service';
 import {CookieService} from 'ngx-cookie-service';
 import {RouterExtService} from '../services/router-ext.service';
 import {PbxTranslateLoader} from '../shared/pbx-translate-loader';
 import {ModalServices} from '@services/modal.service';
 import {CanDeactivateFormGuard} from '@services/can-deactivate-form-guard.service';
+import { CanActivatePageGuard } from '@services/can-activate-page-guard.service';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -96,12 +98,14 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         SelectService,
         TariffStateService,
         StateService,
+        ContactState,
         LangStateService,
         CookieService,
         RouterExtService,
         ModalServices,
         StorageService,
-        CanDeactivateFormGuard
+        CanDeactivateFormGuard,
+        CanActivatePageGuard
     ],
     bootstrap: [MainViewComponent]
 })

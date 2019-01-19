@@ -54,8 +54,8 @@ export class AddressBookService extends BaseService {
         });
     }
 
-    getItems(pageInfo: AddressBookModel, filter = null): Promise<AddressBookModel> {
-        return super.getItems(pageInfo, filter).then((response: any) => {
+    getItems(pageInfo: AddressBookModel, filter = null, sort = null): Promise<AddressBookModel> {
+        return super.getItems(pageInfo, filter, sort).then((response: any) => {
             let pageinfo: AddressBookModel;
             pageinfo = this.plainToClassEx<AddressBookModel, AddressBookItem>(AddressBookModel, AddressBookItem, response);
             pageinfo.contactFilter = [];

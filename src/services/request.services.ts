@@ -157,8 +157,8 @@ export class RequestServices {
       URI: string - request uri,
       Data: object - request params
      */
-    post(url: string, data: object, ShowError = null): Promise<any> {
-        return this.request('POST', url, {...data}, true, ShowError);
+    post(url: string, data: object, ShowError = null, showSuccess = true): Promise<any> {
+        return this.request('POST', url, {...data}, showSuccess, ShowError);
     }
 
     /*
@@ -182,8 +182,8 @@ export class RequestServices {
       Default DELETE request. Accepted params:
       URI: string - request uri with stringified params
      */
-    del(url: string): Promise<any> {
-        return this.request('DELETE', url, null);
+    del(url: string, showSuccess?: boolean): Promise<any> {
+        return this.request('DELETE', url, null, showSuccess);
     }
 
     request(method: string, url: string, body: any, ShowSuccess = true, ShowError = null, time = 3000): Promise<any> {

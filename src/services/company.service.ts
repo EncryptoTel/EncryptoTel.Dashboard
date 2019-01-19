@@ -27,6 +27,7 @@ export class CompanyService extends BaseService {
     public onInit(): void {
         this.url = 'company';
         this.companyInfo = plainToClass(CompanyInfoModel, companyInfoMap);
+        console.log(this.companyInfo);
     }
 
     public save(formData, showSucess = true): Promise<any> {

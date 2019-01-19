@@ -12,13 +12,23 @@ export class CallRulesItem extends BaseItemModel {
     sipId: number;
     sip: SipItem;
     ruleActions: RuleActionItem[] = [];
+    _statusName: string;
+    editable: boolean = true;
 
     get phoneNumber() {
         return this.sip ? this.sip.phoneNumber : null;
     }
 
     get statusName() {
-        return this.enabled ? 'enabled' : 'disabled';
+        if (this._statusName) {
+            return this._statusName;
+        } else {
+            return this.enabled ? 'enabled' : 'disabled';
+        }
+    }
+
+    set statusName(value: string) {
+        this._statusName = value;
     }
 
     setFromPlain(data: any): void {

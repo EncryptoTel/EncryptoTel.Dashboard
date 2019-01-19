@@ -20,6 +20,7 @@ export class AddressBookItem extends BaseItemModel {
     position: string;
     address: string;
     blacklist: boolean;
+    editable: boolean = true;
 
     loading: number = 0;
 

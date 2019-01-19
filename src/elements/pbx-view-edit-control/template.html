@@ -8,7 +8,7 @@
                [tableItems]="selectedItems"
                [multiple]="false"
                [editMode]="parentEditMode"
-               (onDelete)="deleteSelectedItem($event)">
+               (onDelete)="delete($event)">
     </pbx-table>
     <span class="pbx_queue_empty_text" *ngIf="!hasData">{{ noDataMessage }}</span>
 </div>
@@ -26,3 +26,4 @@
     </pbx-table>
     <div class="nothing-found-class" *ngIf="items.length === 0 || nothingFound" translate>{{nothingFoundText}}</div>
 </div>
+<pbx-modal [modalEx]="modal"></pbx-modal>

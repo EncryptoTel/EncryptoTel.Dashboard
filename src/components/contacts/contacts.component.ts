@@ -1,9 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {WsServices} from '../../services/ws.services';
 import {LoggerServices} from '../../services/logger.services';
 import {ChatModel, MessageModel} from '../../models/chat.model';
 import {Subscription} from 'rxjs/Subscription';
 import {UserServices} from '../../services/user.services';
+import {ContactState} from '@services/state/contact.service';
+import {PageInfoModel} from '@models/base.model';
+import {AddressBookService} from '@services/address-book.service';
+import {AddressBookModel} from '@models/address-book.model';
 
 @Component({
     selector: 'pbx-contacts',
@@ -24,10 +28,13 @@ export class ContactsComponent implements OnInit, OnDestroy {
     callMenuDropdown: boolean = false;
     inviteMenuDropdown: boolean = false;
     isContactNotificationOn: boolean = true;
+    addressBookModel: AddressBookModel;
 
     constructor(private socket: WsServices,
                 private logger: LoggerServices,
-                private _user: UserServices) {
+                private _user: UserServices,
+                public contactState: ContactState,
+                public service: AddressBookService) {
         let tmpUser: any;
         tmpUser = this._user.fetchUser();
         this.currentUserId = tmpUser.profile.id;
@@ -39,6 +46,13 @@ export class ContactsComponent implements OnInit, OnDestroy {
         this.chatsSubscription = this.socket.subChats().subscribe(chats => {
             this.updateChats(chats);
         });
+        this.addressBookModel = new AddressBookModel();
+    }
+
+    addContact() {
+        console.log('add contact');
+        this.contactState.value = {state: true};
+        this.contactState.change.emit(this.contactState.value);
     }
 
     changeContactNotification() {
@@ -92,10 +106,20 @@ export class ContactsComponent implements OnInit, OnDestroy {
         return message.status;
     }
 
+    getItems() {
+        this.service.getItems(this.addressBookModel).then(response => {
+            this.addressBookModel = response;
+
+        })
+            .catch(() => { })
+            .then(() =>{} /*item ? item.loading-- :*/);
+    }
+
     ngOnInit() {
         // this.logger.log('chat init', null);
         this.updateMessages(this.socket.messages);
         this.updateChats(this.socket.chats);
+        this.getItems();
     }
 
     ngOnDestroy() {

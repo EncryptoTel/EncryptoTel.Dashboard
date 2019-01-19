@@ -1,12 +1,7 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
-import {UserServices} from '../user.services';
-import {TranslateServices} from '../translate.services';
-import {EmailChangeState} from '../../components/settings/settings-items/profile/profile.component';
-import {Router} from '@angular/router';
-import {LocalStorageServices} from '../local-storage.services';
-import {MessageServices} from '../message.services';
-import {FormBuilder} from '@angular/forms';
-import {SettingsService} from '../settings.service';
+import { Injectable, EventEmitter } from '@angular/core';
+
+import {TranslateServices} from '@services/translate.services';
+import {LocalStorageServices} from '@services/local-storage.services';
 
 @Injectable()
 export class LangStateService {
@@ -16,14 +11,10 @@ export class LangStateService {
     change: EventEmitter<boolean> = new EventEmitter();
 
     constructor(private _storage: LocalStorageServices, private _translate: TranslateServices) {
-        let key: any;
-        let array: any;
-        let translate: any;
-        translate =  _translate.getTranslate();
-        let lang: any;
-        lang = this._storage.readItem('user_lang');
-        array = [];
-        for (key in translate) {
+        const array: any = [];
+        const lang: any = this._storage.readItem('user_lang');
+        const translate: any = _translate.getTranslate();
+        for (const key of translate) {
             array[key] = translate[key][lang];
         }
         this.textLang = array;
@@ -34,12 +25,9 @@ export class LangStateService {
     }
 
     set(value: any) {
-        let key: any;
-        let array: any;
-        let lang: any;
-        lang = this._storage.readItem('user_lang');
-        array = [];
-        for (key in value) {
+        const array: any = [];
+        const lang: any = this._storage.readItem('user_lang');
+        for (const key of value) {
            array[key] = value[key][lang];
         }
         this.textLang = array;

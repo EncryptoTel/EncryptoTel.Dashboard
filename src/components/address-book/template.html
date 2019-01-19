@@ -1,4 +1,5 @@
 <div class="address">
+        <!-- [table]="addressListHeaders" -->
     <pbx-list style="width: 100%"
               key="address-book"
               name="Address Book"
@@ -6,14 +7,14 @@
               itemsName="Contacts"
               buttonTitle="New Contact"
               [(pageInfo)]="addressBookModel"
-              [table]="addressListHeaders"
+              [tableInfo]="table"
               [loading]="!locker.free"
               [(filters)]="filters"
               [service]="service"
               [sidebar]="sidebar"
               [multiple]="true"
               [ngClass]="sidebar.visible ? 'someClass':''"
-              (onCreate)="create()"
+              (onCreate)="createClick()"
               (onEdit)="edit($event)"
               (onSelect)="select($event)"
               (onLoad)="load($event)"

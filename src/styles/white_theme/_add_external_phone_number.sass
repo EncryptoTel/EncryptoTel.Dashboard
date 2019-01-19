@@ -1,0 +1,48 @@
+.light_theme
+    .add_external_phone_number
+        form
+            .title
+                color: $white_black
+            .items
+                .item
+                    label
+                        color: rgba($white_black, .7)
+                    .wrapper
+                        input, select
+                            color: $white_black
+                            option
+                                background: $white_main_bg
+                            &:focus + .visual
+                                border: 1px solid $dark_accent
+                        .visual
+                            border: 1px solid rgba($white_black, .1)
+                        .eye
+                            &.active
+                                svg
+                                    *
+                                        fill: $dark_accent
+                            svg
+                                *
+                                    fill: $white_black
+                    &.phone_number
+                        .wrapper
+                            .arrow
+                                svg-icon
+                                    svg
+                                        *
+                                            fill: $white_black
+                    &.password
+                        .wrapper
+                            .eye.hide_password
+                                svg
+                                    *
+                                        fill: $white_black
+                            .eye.show_password
+                                svg
+                                    *
+                                        fill: $dark_accent
+
+
+            .buttons
+                .button
+                    width: 100%

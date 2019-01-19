@@ -43,6 +43,7 @@ import {SettingsGroupComponent} from '../elements/pbx-settings-group/pbx-setting
 import {AutofocusDirective} from '../elements/directives/autofocus.directive';
 import {PbxFooterComponent} from '../elements/pbx-footer/pbx-footer.component';
 import {ScrollDirective} from '@shared/scroll.directive';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -55,6 +56,7 @@ import {ScrollDirective} from '@shared/scroll.directive';
         VgOverlayPlayModule,
         VgBufferingModule,
         VgStreamingModule,
+        TranslateModule,
     ],
     declarations: [
         ClickOutsideDirective,
@@ -127,7 +129,8 @@ import {ScrollDirective} from '@shared/scroll.directive';
         SettingsGroupComponent,
         ViewEditControlComponent,
         PbxFooterComponent,
-        ScrollDirective
+        ScrollDirective,
+        TranslateModule,
     ],
     entryComponents: [
         ModalComponent

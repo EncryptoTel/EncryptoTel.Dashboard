@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 
 export interface CanFormComponentDeactivate {
@@ -11,13 +11,13 @@ export interface CanFormComponentDeactivate {
 export class CanDeactivateFormGuard implements CanDeactivate<CanFormComponentDeactivate> {
 
     canDeactivate(
-        component: CanFormComponentDeactivate, 
-        route: ActivatedRouteSnapshot, 
+        component: CanFormComponentDeactivate,
+        route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ) {
         // console.log('can-deactivate', state.url, component);
 
-        return component.canDeactivate 
+        return component.canDeactivate
             ? component.canDeactivate()
             : true;
     }

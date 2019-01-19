@@ -1,13 +1,12 @@
-import {Injectable, EventEmitter} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
+import { Injectable, EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
 
-import {RequestServices} from './request.services';
-import {LocalStorageServices} from './local-storage.services';
-
-import {UserModel} from '../models/user.model';
-import {NavigationItemModel} from '../models/navigation-item.model';
-import {TranslateService} from '@ngx-translate/core';
+import { RequestServices } from '@services/request.services';
+import { LocalStorageServices } from '@services/local-storage.services';
+import { UserModel } from '@models/user.model';
+import { NavigationItemModel } from '@models/navigation-item.model';
 
 /*
   User services. Authentication, user params changing etc.
@@ -21,10 +20,11 @@ export class UserServices {
     subscription: Subject<UserModel> = new Subject<UserModel>();
     modulesChanged: EventEmitter<void> = new EventEmitter();
 
-    constructor(private _request: RequestServices,
-                private _storage: LocalStorageServices,
-                private _translate: TranslateService) {
-    }
+    constructor(
+        private _request: RequestServices,
+        private _storage: LocalStorageServices,
+        private _translate: TranslateService
+    ) { }
 
     /*
       Fetch initial user profile params

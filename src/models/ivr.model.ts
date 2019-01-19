@@ -25,6 +25,7 @@ export class IvrItem extends BaseItemModel {
     description: string;
     status: number = 0;
     enabled: boolean;
+    editable: boolean = true;
 
     tree: IvrTreeItem[] = [];
 

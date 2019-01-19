@@ -66,6 +66,12 @@
                       translate>
                     The password is too short
                 </span>
+                <span *ngIf="!passwordFormError && inputValidation('password', 'maxlength')"
+                      id="sign_in_err_short_password"
+                      class="input_error_item"
+                      translate>
+                    The password is too long
+                </span>
                 <span *ngIf="passwordFormError"
                       id="sign_in_err_password_form_error"
                       class="input_error_item"

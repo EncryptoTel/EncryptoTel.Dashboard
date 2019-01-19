@@ -22,7 +22,7 @@
     <div class="tablet_body" *ngIf="!tableReload">
         <div class="tablet_row" *ngFor="let item of tableItems"
              [ngClass]="{'pick': multiple ? isSelected(item.id) : selected?.id === item.id}"
-             (click)="selectItem(item)"
+             (click)="selectItem($event, item)"
              >
             <pbx-loader *ngIf="item.loading" style="position: relative; background: rgb(53, 51, 51); width: 100%;"></pbx-loader>
             <div class="tablet_content" *ngIf="!item.loading">
@@ -30,11 +30,25 @@
                      class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
                      (mouseenter)="mouseEnter($event, item)"
                      (mouseleave)="mouseLeave($event, item)">
-                    <div class="" [innerHtml]="getValueByKeyEx(item, tableItem.key)"></div>
+                    <div *ngIf="tableItem.key !== 'refLink' else refLink"
+                         class=""
+                         [innerHtml]="getValueByKeyEx(item, tableItem.key)"
+                         >
+                    </div>
+                    <ng-template #refLink>
+                      <div class="link_all">
+                        <div class="link_cnt"
+                             [innerHtml]="getValueByKeyEx(item, tableItem.key)"
+                             >
+                        </div>
+                        <div class="link_icon">
+                            <svg-icon src="/assets/icons/_middle/icon_link.svg"></svg-icon>
+                        </div>
+                      </div>
+                    </ng-template>
                     <div class="tablet_item_circle" *ngIf="getValueByKey(item, tableItem.key) === true"></div>
                 </div>
-                <div class="tablet_icon edit"
-                     *ngIf="editable" (click)="editItem(item, $event)">
+                <div class="tablet_icon edit" *ngIf="editable && item.editable" (click)="editItem(item, $event)">
                     <svg-icon src="../../assets/icons/_middle/edit_12px.svg"></svg-icon>
                 </div>
                 <div class="tablet_icon delete"

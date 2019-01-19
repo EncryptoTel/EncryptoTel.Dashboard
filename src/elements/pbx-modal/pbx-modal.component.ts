@@ -110,7 +110,7 @@ export class ModalEx {
             case 'buyModule':
                 this.title = 'Confirm';
                 if (!this.body) {
-                    this.body = 'Are you sure you want to buy this service?';
+                    this.body = 'Are you sure you want to buy this module?';
                 }
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('success', 'Yes'));
@@ -159,7 +159,7 @@ export class ModalEx {
             case 'resetToAdmin':
                 this.title = 'Reset password';
                 if (!this.body) {
-                    this.body = 'Do you want to reset your password and send the new password to admin?';
+                    this.body = 'Are you sure you want to reset your password and send your new password to the admin?';
                 }
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('error', 'Reset'));
@@ -167,7 +167,7 @@ export class ModalEx {
             case 'resetToUser':
                 this.title = 'Reset password';
                 if (!this.body) {
-                    this.body = 'Do you want to reset your password and send the new password to user?';
+                    this.body = 'Are you sure you want to reset your password and send your new password to the user?';
                 }
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('error', 'Reset'));
@@ -175,7 +175,7 @@ export class ModalEx {
             case 'resetToSelected':
                 this.title = 'Reset password';
                 if (!this.body) {
-                    this.body = 'Do you want to reset your password and send the new password to selected users?';
+                    this.body = 'Are you sure you want to reset your password and send your new password to the chosen users?';
                 }
                 this.buttons.push(new ModalButton('cancel', 'Cancel'));
                 this.buttons.push(new ModalButton('error', 'Reset'));

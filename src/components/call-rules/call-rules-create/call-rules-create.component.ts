@@ -9,7 +9,7 @@ import {StorageService} from '../../../services/storage.service';
 import {MessageServices} from '../../../services/message.services';
 import {MediaPlayerComponent} from '../../../elements/pbx-media-player/pbx-media-player.component';
 import {CdrMediaInfo, MediaState} from '../../../models/cdr.model';
-import {redirectToExtensionValidator, numberRangeValidator, callRuleTimeValidator, durationTimeValidator} from '../../../shared/encry-form-validators';
+import {redirectToExtensionValidator, numberRangeValidator, callRuleTimeValidator, durationTimeValidator, callRuleParameterValidator} from '../../../shared/encry-form-validators';
 import {callRuleNameRegExp} from '../../../shared/vars';
 import {FormBaseComponent} from '../../../elements/pbx-form-base-component/pbx-form-base-component.component';
 import {isValidId} from '../../../shared/shared.functions';
@@ -85,6 +85,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.validationHost.customMessages = [
             { key: 'name', error: 'pattern', message: this.translate
                 .instant('Rule name contains invalid characters or symbols. You can only use letters, numbers and the following characters: -_') },
+            { key: 'sipId', error: 'required', message: this.translate.instant('Please choose the Phone number') },
             { key: 'ruleActions', error: 'required', message: this.translate.instant('Please choose the Action') },
             { key: 'ruleActions.*.timeout', error: 'required', message: this.translate.instant('Please enter a value from 5 to 300') },
             { key: 'ruleActions.*.timeout', error: 'range', message: this.translate.instant('Please enter a value from 5 to 300') },
@@ -92,7 +93,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             { key: 'ruleActions.*.durationTime', error: 'startTime', message: this.translate.instant('Start time cannot be greater than end time') },
             { key: 'ruleActions.*.durationTime', error: 'equalTime', message: this.translate.instant('Start time cannot be the same as end time') },
             { key: 'ruleActions.*.durationTime', error: 'invalidRange', message: this.translate.instant('Invalid time range format') },
-            { key: 'ruleActions.*.parameter', error: 'duplicated', message: this.translate.instant('You cannot use two identical extensions followed one by one') },
+            { key: 'ruleActions.*.parameter', error: 'pattern', message: this.translate.instant('External number contains invalid characters. You can use numbers only') },
+            { key: 'ruleActions.*.parameter', error: 'minlength', message: this.translate.instant('External number is too short. Use at least 6 numbers') },
+            { key: 'ruleActions.*.parameter', error: 'maxlength', message: this.translate.instant('External number is too long. Use no more than 16 numbers') },
+            { key: 'ruleActions.*.parameter', error: 'duplicated', message: this.translate.instant('You can not redirect to the same extension 2 times in a row') },
+            { key: 'ruleActions.*.parameter', error: 'extensionRequired', message: this.translate.instant('Please choose the Extension number') },
+            { key: 'ruleActions.*.parameter', error: 'callQueueRequired', message: this.translate.instant('Please choose the Call Queue') },
+            { key: 'ruleActions.*.parameter', error: 'voiceFileRequired', message: this.translate.instant('Please choose the Voice Greeting') },
+            { key: 'ruleActions.*.parameter', error: 'callGroupRequired', message: this.translate.instant('Please choose the Ring Group') },
         ];
     }
 
@@ -168,7 +176,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     private createRedirectToExtensionNumber(): FormGroup {
         return this.fb.group({
             action: 1,
-            parameter: [null, [Validators.required]],
+            parameter: [null, [callRuleParameterValidator(1)]],
             timeout: [30, [Validators.required, Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
             timeRules: ['', []],
             callRuleTime: ['', [callRuleTimeValidator]],
@@ -179,7 +187,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     private createRedirectToQueue(): FormGroup {
         return this.fb.group({
             action: 3,
-            parameter: [null, [Validators.required]],
+            parameter: [null, [callRuleParameterValidator(3)]],
             timeout: [30, [Validators.required, Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
             timeRules: ['', []],
             callRuleTime: ['', [callRuleTimeValidator]],
@@ -190,7 +198,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     private createRedirectToGroup(): FormGroup {
         return this.fb.group({
             action: 6,
-            parameter: [null, [Validators.required]],
+            parameter: [null, [callRuleParameterValidator(6)]],
             timeout: [30, [Validators.required, Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
             timeRules: ['', []],
             callRuleTime: ['', [callRuleTimeValidator]],
@@ -209,7 +217,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     private createPlayVoiceFile(): FormGroup {
         return this.fb.group({
             action: 5,
-            parameter: [null, [Validators.required]],
+            parameter: [null, [callRuleParameterValidator(5)]],
             timeout: [30, [Validators.required, Validators.pattern('[0-9]*'), numberRangeValidator(5, 300)]],
             timeRules: ['', []],
             callRuleTime: ['', [callRuleTimeValidator]],
@@ -335,7 +343,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     checkNextAction(index: number) {
         let valid: boolean = true;
-        if (4 === this.selectedActions[index].id) {
+        if ([2, 3, 4, 6].includes(this.selectedActions[index].id)) {
             valid = false;
         }
         if (!valid && this.actionsControls.length - 1 > index) {
@@ -404,7 +412,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
 
     resetParameterControlState(index: number): void {
         const control = <FormControl>this.actionsControls.get([index, `parameter`]);
-        control.markAsUntouched();
+        if (control) control.markAsUntouched();
     }
 
     onTimeRuleChange(index, event) {
@@ -550,6 +558,9 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.service.getById(this.callRule.id)
             .then(response => {
                 this.setFormData(response);
+                this.form.get('sipId').valueChanges.subscribe(() => {
+                    this.selectedSipInners = [];
+                });
             })
             .catch(() => {})
             .then(() => this.loading --);
@@ -569,21 +580,30 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     saveCallRule(): void {
-        this.saving++;
+        this.saving ++;
 
         if (this.mode === 'create') {
-            this.service.save({...this.callRulesForm.value}).then(() => {
+            this.service.save({...this.callRulesForm.value})
+            .then(() => {
+                const okMessage: string = this.translate.instant('Call Rule has been created successfully');
+                this.message.writeSuccess(okMessage);
+
                 this.saveFormState();
                 this.cancel();
-            }).catch(() => {
             })
-                .then(() => this.saving--);
+            .catch(() => {})
+            .then(() => this.saving --);
         }
         else if (this.mode === 'edit') {
-            this.service.edit(this.activatedRoute.snapshot.params.id, {...this.callRulesForm.value}).then(() => {
+            this.service.edit(this.activatedRoute.snapshot.params.id, {...this.callRulesForm.value})
+            .then(() => {
+                const okMessage: string = this.translate.instant('The changes have been saved successfully');
+                this.message.writeSuccess(okMessage);
+
                 this.saveFormState();
-            }).catch(() => {
-            }).then(() => this.saving--);
+            })
+            .catch(() => {})
+            .then(() => this.saving --);
         }
     }
 

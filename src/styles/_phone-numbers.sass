@@ -322,7 +322,8 @@ phone-numbers-component
     .tablet
         .tablet_header,
         .tablet_body .tablet_content
-            grid-template-columns: repeat(5, calc(100%  / 5)) !important
+            //grid-template-columns: repeat(5, calc(100%  / 5)) !important
+            grid-template-columns: repeat(5, calc((100% - 34px) / 5)) 34px !important
             .tablet_item
                 &:nth-child(2),
                 &:nth-child(3)

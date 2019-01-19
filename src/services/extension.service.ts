@@ -18,11 +18,11 @@ export class ExtensionService extends BaseService {
     }
 
     deleteExtension(id: number): Promise<any> {
-        return this.request.del(`v1/sip/inners/${id}`);
+        return this.request.del(`v1/sip/inners/${id}`, false);
     }
 
     changePassword(id: number, data: any): Promise<any> {
-        return this.request.post(`v1/sip/inners/${id}/change-password`, data);
+        return this.request.post(`v1/sip/inners/${id}/change-password`, data, false);
     }
 
     getAccessList(userId: number): Promise<any> {
@@ -34,14 +34,14 @@ export class ExtensionService extends BaseService {
     }
 
     create(data): Promise<any> {
-        return this.post('', data);
+        return this.post('', data, false);
     }
 
     edit(id: number, data): Promise<any> {
-        return this.putById(id, data);
+        return this.putById(id, data, false);
     }
 
-    getItems(pageInfo: PageInfoModel, filter): Promise<ExtensionModel> {
+    getItems(pageInfo: PageInfoModel, filter, sort = null): Promise<ExtensionModel> {
         // filter['departmentFilter'] = true; // добавляется в исходный, а нам это не нужно
         let newFilter: any;
         newFilter = [];
@@ -55,7 +55,7 @@ export class ExtensionService extends BaseService {
             }
         }
         newFilter['departmentFilter'] = true;
-        return super.getItems(pageInfo, newFilter)
+        return super.getItems(pageInfo, newFilter, sort)
             .then((response: ExtensionModel) => {
                 const curPageInfo = plainToClass(ExtensionModel, response);
                 curPageInfo.items = [];

@@ -66,9 +66,9 @@ export class DetailsAndRecordsComponent implements OnInit {
         this.table.items.push(new TableInfoItem(this.translate.instant('From'), 'source', 'source'));
         this.table.items.push(new TableInfoItem(this.translate.instant('To'), 'destination', 'destination'));
         this.table.items.push(new TableInfoItem(this.translate.instant('Date'), 'displayDateTime', 'callDate'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Duration'), 'displayDuration'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Duration'), 'displayDuration', 'displayDuration'));
         this.table.items.push(new TableInfoItem(this.translate.instant('Tag'), 'tag', 'status'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Price'), 'displayPrice'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Price'), 'displayPrice', 'displayPrice'));
         this.table.items.push(new TableInfoItem(this.translate.instant('Record'), 'record', null, 200, 0));
         this.table.actions.push(new TableInfoAction(1, 'player', 175));
         this.table.actions.push(new TableInfoAction(2, 'drop-down', 25));

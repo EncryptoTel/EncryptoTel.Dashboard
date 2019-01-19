@@ -34,22 +34,23 @@ export class CallRulesService extends BaseService {
     }
 
     edit(id: number, data): Promise<any> {
-        return this.put(`/${id}`, data);
+        return this.put(`/${id}`, data, false);
     }
 
     save(data): Promise<any> {
-        return this.post('', data);
+        return this.post('', data, false);
     }
 
-    getItems(pageInfo: PageInfoModel, filter = null): Promise<CallRulesModel> {
-        return super.getItems(pageInfo, filter).then((res: CallRulesModel) => {
-            let pageInfo = plainToClass(CallRulesModel, res);
-            pageInfo.items = [];
-            res['items'].map(item => {
-                pageInfo.items.push(plainToClass(CallRulesItem, item));
+    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<CallRulesModel> {
+        return super.getItems(pageInfo, filter, sort)
+            .then((response: CallRulesModel) => {
+                const pageInfoNew = plainToClass(CallRulesModel, response);
+                pageInfoNew.items = [];
+                response['items'].map(item => {
+                    pageInfoNew.items.push(plainToClass(CallRulesItem, item));
+                });
+                return Promise.resolve(pageInfoNew);
             });
-            return Promise.resolve(pageInfo);
-        });
     }
 
     onInit() {

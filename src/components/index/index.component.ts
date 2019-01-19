@@ -1,23 +1,22 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { TranslateService } from '@ngx-translate/core';
 
-import {MessageServices} from '@services/message.services';
-import {UserServices} from '@services/user.services';
-import {TranslateServices} from '@services/translate.services';
-import {WsServices} from '@services/ws.services';
-import {LocalStorageServices} from '@services/local-storage.services';
-import {RefsServices} from '@services/refs.services';
-import {LangStateService} from '@services/state/lang.state.service';
-import {NavigationItemModel} from '@models/navigation-item.model';
-import {UserModel} from '@models/user.model';
-import {MainViewComponent} from '@components/main-view.component';
-import {SwipeAnimation} from '@shared/swipe-animation';
-import {FadeAnimation} from '@shared/fade-animation';
-import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
-import {ListComponent} from '@elements/pbx-list/pbx-list.component';
-import {NotificationComponent} from '@components/notification/notification.component';
-import {Router} from '@angular/router';
+import { MessageServices } from '@services/message.services';
+import { UserServices } from '@services/user.services';
+import { WsServices } from '@services/ws.services';
+import { LocalStorageServices } from '@services/local-storage.services';
+import { RefsServices } from '@services/refs.services';
+import { LangStateService } from '@services/state/lang.state.service';
+import { NavigationItemModel } from '@models/navigation-item.model';
+import { UserModel } from '@models/user.model';
+import { MainViewComponent } from '@components/main-view.component';
+import { SwipeAnimation } from '@shared/swipe-animation';
+import { FadeAnimation } from '@shared/fade-animation';
+import { Router } from '@angular/router';
 import { environment } from '@env/environment';
+import {ContactState} from '@services/state/contact.service';
+
 
 @Component({
     selector: 'pbx-index',
@@ -34,23 +33,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     menu: any;
     version: string;
 
-    constructor(
-        public userService: UserServices,
-        public main: MainViewComponent,
-        private message: MessageServices,
-        private ws: WsServices,
-        private storage: LocalStorageServices,
-        private translate: TranslateService,
-        private refs: RefsServices,
-        private langState: LangStateService,
-        private router: Router
-    ) {
-        this.user = this.userService.fetchUser();
-        this._user = this.storage.readItem('pbx_user');
-        this.text = langState.get();
-        this.version = environment.version;
-    }
-
     navigationList: NavigationItemModel[][];
     user: UserModel;
     userSubscription: Subscription;
@@ -63,8 +45,62 @@ export class IndexComponent implements OnInit, OnDestroy {
     userNavigationVisible: boolean = false;
     mobileNavigationVisible: boolean = false;
     NotificationSubscription: Subscription;
-    isLockedCaller: boolean = true;
+    isLockedCaller: boolean = false;
 
+    countUnread: number = 0;
+
+    @ViewChild('userWrap') userWrap: ElementRef;
+
+    constructor(
+        public userService: UserServices,
+        public main: MainViewComponent,
+        private message: MessageServices,
+        private ws: WsServices,
+        private storage: LocalStorageServices,
+        private translate: TranslateService,
+        private refs: RefsServices,
+        private langState: LangStateService,
+        private router: Router,
+        private contactState: ContactState
+    ) {
+        this.user = this.userService.fetchUser();
+        this._user = this.storage.readItem('pbx_user');
+        this.text = langState.get();
+        this.version = environment.version;
+    }
+
+    ngOnInit(): void {
+        this.completedRequests = 0;
+        this.userInit();
+        // this.balanceInit();
+        this.navigationInit();
+        this.WebSocket();
+
+        this.modulesChangedSubscription = this.userService.modulesChanged.subscribe(() => {
+            this.navigationInit();
+        });
+        this.menu = {
+            'Refill balance': this.translate.instant('Refill balance'),
+            'Tariff plan': this.translate.instant('Tariff plan'),
+        };
+        // this._translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        //     Object.keys(this.userService.navigation).forEach(item => {
+        //         this.userService.navigation[item].itemTitle = this._translate.instant(this.userService.navigation[item].name);
+        //     });
+        // });
+        this.contactState.change.subscribe(value => {
+            if (value.state) {
+                this.activeButtonIndex = undefined;
+                this.router.navigateByUrl('/cabinet/address-book/create');
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.userSubscription.unsubscribe();
+        this.balanceSubscription.unsubscribe();
+        this.modulesChangedSubscription.unsubscribe();
+    }
 
     get username(): string {
         if (this.user && this.user.profile) {
@@ -81,10 +117,6 @@ export class IndexComponent implements OnInit, OnDestroy {
         }
         return '';
     }
-
-    countUnread: number = 0;
-
-    @ViewChild('userWrap') userWrap: ElementRef;
 
     hideUserNavigation(): void {
         if (this.userNavigationVisible) {
@@ -105,10 +137,8 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     navigationInit(): void {
         this.userService.fetchNavigationParams()
-            .then((response) => {
-            })
-            .catch(() => {
-            })
+            .then(() => { })
+            .catch(() => { })
             .then(() => this.completedRequests++);
     }
 
@@ -153,32 +183,5 @@ export class IndexComponent implements OnInit, OnDestroy {
             }
         }
         return false;
-    }
-
-    ngOnInit(): void {
-        this.completedRequests = 0;
-        this.userInit();
-        // this.balanceInit();
-        this.navigationInit();
-        this.WebSocket();
-
-        this.modulesChangedSubscription = this.userService.modulesChanged.subscribe(() => {
-            this.navigationInit();
-        });
-        this.menu = {
-            'Refill balance': this.translate.instant('Refill balance'),
-            'Tariff plan': this.translate.instant('Tariff plan'),
-        };
-        // this._translate.onLangChange.subscribe((event: LangChangeEvent) => {
-        //     Object.keys(this.userService.navigation).forEach(item => {
-        //         this.userService.navigation[item].itemTitle = this._translate.instant(this.userService.navigation[item].name);
-        //     });
-        // });
-    }
-
-    ngOnDestroy(): void {
-        this.userSubscription.unsubscribe();
-        this.balanceSubscription.unsubscribe();
-        this.modulesChangedSubscription.unsubscribe();
     }
 }

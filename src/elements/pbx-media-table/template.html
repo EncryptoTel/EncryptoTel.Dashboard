@@ -71,6 +71,9 @@
 
                                                 >
                         </pbx-media-table-player>
+                        <div *ngIf="item.type != 'certificate' && item.converted === 0" translate>
+                            in process
+                        </div>
                     </div>
                 </div>
 

@@ -20,6 +20,7 @@ import { ValidationHost } from '../../models/validation-host.model';
 import { CheckboxComponent } from '@elements/pbx-checkbox/pbx-checkbox.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscriber } from 'rxjs/Subscriber';
+import {isArray} from 'util';
 
 @Component({
     selector: 'pbx-input',
@@ -272,18 +273,26 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     getValueByKey(item: any, key: string) {
-        if (!key) {
-            return null;
+        if (!key) return null;
+
+        if (item.hasOwnProperty(key)) {
+            let result: any = item[key];
+            if (isArray(result)) result = result[0];
+            return result;
         }
+
         const keyArray = key.split('.');
         keyArray.forEach(k => (item = item && item[k]));
         return item;
     }
 
-    setError(value) {
+    setError(value): void {
         const key = this.getErrorKey();
-        if (!key) {
-            return null;
+        if (!key || !this.errors) return;
+
+        if (this.errors.hasOwnProperty(key)) {
+            this.errors[key] = value;
+            return;
         }
 
         const keys = key.split('.');
@@ -384,7 +393,6 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
             if (this.form) {
                 const form = this.getForm();
                 form.markAsUntouched();
-                console.log('::upd-form', this.getForm(), this.errors);
             }
         }
     }

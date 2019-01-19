@@ -107,6 +107,29 @@ pbx-call-rules-create
                     span
                         display: inline
                         line-height: 20px
+        call-rules-time-rules
+            .time_wrap
+                pbx-select
+                    width: 110px !important
+                    .select_item.selected
+                        padding-right: 16px !important
+                    svg-icon
+                        margin-left: 0 !important
+                    .select_wrap.active
+                        svg-icon
+                            top: 50% !important
+                            transform: translateY(-50%) rotate(180deg) !important
+                pbx-input
+                    width: 110px !important
+                    margin-right: 0 !important
+                    .select_item.selected
+                        padding-right: 16px !important
+                    svg-icon
+                        margin-left: 0 !important
+                    .select_wrap.active
+                        svg-icon
+                            top: 50% !important
+                            transform: translateY(-50%) rotate(180deg) !important
 
 pbx-call-rules
     .tablet
@@ -122,3 +145,18 @@ pbx-call-rules
                     .qwerty
                         span
                             //text-align: center
+
+pbx-call-rules-create
+    .form
+        form.call-rules-create
+            .enable_rule_wrap
+                pbx-input
+                    margin-right: 24px
+                .note
+                    align-items: center
+                    font-family: Roboto, sans-serif
+                    font-weight: 300
+                    font-size: 12px
+                    color: rgba($dark_white, .7)
+            .please_note
+                color: rgba($dark_white, .7)

@@ -205,50 +205,39 @@ export class ValidationHost implements Lockable {
         return control.key;
     }
 
-    // TODO: should be provided the following translations:
-    // 'character'
-    // 'characters'
-    // 'Please enter'
-    // 'Please enter at least'
-    // 'Please enter no more than'
-    // 'Please enter valid'
-
     getValidatorMessage(control: InputComponent, errorKey: string, errors: any): string {
+        // if (control.key === 'parameter') console.log('vh-message', control, errorKey, errors, this.customMessages);
+
         const customMessage = this.getCustomValidatorMessage(control, errorKey);
         if (customMessage) return customMessage;
-        // console.log('vh-message', control, errorKey, errors);
+
+        const ctrlName: string = this.translate.instant(this.normalizeControlName(control.name));
 
         if (errorKey === 'required') {
-            const ctrlName: string = this.translate.instant(this.normalizeControlName(control.name));
-            const szPleaseEnter: string = this.translate.instant('Please enter');
+            const szPleaseEnter: string = this.translate.instant('Please enter the');
             return `${szPleaseEnter} ${ctrlName}`;
         }
         else if (errorKey === 'minlength') {
             const pluralEnd: string = errors.minlength.requiredLength > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            const szPleaseEnterAtLeast: string = this.translate.instant('Please enter at least');
-            return `${szPleaseEnterAtLeast} ${errors.minlength.requiredLength} ${szCharacters}`;
+            return `${ctrlName} is too short. Please use at least ${errors.minlength.requiredLength} ${szCharacters}`;
         }
         else if (errorKey === 'min') {
             const pluralEnd: string = errors.min.min > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            const szPleaseEnterAtLeast: string = this.translate.instant('Please enter at least');
-            return `${szPleaseEnterAtLeast} ${errors.min.min} ${szCharacters}`;
+            return `${ctrlName} is too short. Please use at least ${errors.min.min} ${szCharacters}`;
         }
         else if (errorKey === 'maxlength') {
             const pluralEnd: string = errors.maxlength.requiredLength > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            const szPleaseEnterNoMoreThan: string = this.translate.instant('Please enter no more than');
-            return `${szPleaseEnterNoMoreThan} ${errors.maxlength.requiredLength} ${szCharacters}`;
+            return `${ctrlName} can't contain over of ${errors.maxlength.requiredLength} ${szCharacters}`;
         }
         else if (errorKey === 'max') {
             const pluralEnd: string = errors.max.max > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            const szPleaseEnterNoMoreThan: string = this.translate.instant('Please enter no more than');
-            return `${szPleaseEnterNoMoreThan} ${errors.max.max} ${szCharacters}`;
+            return `${ctrlName} can't contain over of ${errors.max.max} ${szCharacters}`;
         }
         else if (errorKey === 'pattern') {
-            const ctrlName: string = this.normalizeControlName(control.name);
             const szPleaseEnterValid: string = this.translate.instant('Please enter valid');
             return `${szPleaseEnterValid} ${ctrlName}`;
         }
@@ -261,6 +250,7 @@ export class ValidationHost implements Lockable {
         let normalized = name.toLowerCase();
         normalized = normalized.replace(/\s+\*\s*$/, '');
         normalized = normalized.replace(/(\.\d+)/, '');
+        normalized = normalized[0].toUpperCase() + normalized.slice(1);
         return normalized;
     }
 

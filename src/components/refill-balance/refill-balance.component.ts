@@ -103,9 +103,9 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
             }
         });
 
-        this.amountValidationError = `Please enter value between ${
+        this.amountValidationError = `Please enter value from ${
             this.amount.min
-            } and ${this.amount.max}`;
+            } to ${this.amount.max}`;
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
@@ -196,7 +196,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
                 delete this.errors.returnAddress;
                 return true;
             } else {
-                this.errors['returnAddress'] = this.translate.instant('Invalid address');
+                this.errors['returnAddress'] = this.translate.instant('Return address is invalid');
                 return false;
             }
         } else {
@@ -229,25 +229,26 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
                 this.currentFilter['amount'],
                 this.currentFilter['returnAddress']
             )
-            .then(res => {
-                this.payment = res;
+            .then(response => {
+                this.payment = response;
                 this.refill_status = 'processing';
                 // this.payment.loading = false;
                 this.loading.body = false;
             })
-            .catch(res => {
-                console.log('errors', res);
-                this.errors = res.errors;
+            .catch(error => {
+                console.log('errors', error);
+                this.errors = error.errors;
                 // this.payment.loading = false;
                 this.loading.body = false;
             });
     }
 
     getRefillMethods() {
-        this._refill.getRefillMethods().then(res => {
-            this.refillMethods = res;
-            this.loading.body = false;
-        });
+        this._refill.getRefillMethods()
+            .then(response => {
+                this.refillMethods = response;
+                this.loading.body = false;
+            });
     }
 
     getCourses() {

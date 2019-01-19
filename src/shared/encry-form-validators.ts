@@ -38,6 +38,18 @@ export function numberRangeValidator(minVal: number, maxVal: number): ValidatorF
     };
 }
 
+export function callRuleParameterValidator(action: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        if (!control.value) {
+            if (action === 1) return { 'extensionRequired': null };
+            if (action === 3) return { 'callQueueRequired': null };
+            if (action === 5) return { 'voiceFileRequired': null };
+            if (action === 6) return { 'callGroupRequired': null };
+        }
+        return null;
+    };
+}
+
 export function callRuleTimeValidator(control: FormGroup): { [key: string]: any } | null {
     if (typeof control.value !== 'string' || control.value === '*') {
         return null;
@@ -90,6 +102,6 @@ export function walletAddressValidator(currencyCode: string): ValidatorFn {
 
 export function userNameValidation(control: AbstractControl): { [key: string]: boolean } | null {
     if (!control.value) return null;
-    return /[а-яА-Яa-zA-Z]/.test(control.value[0]) ? null : { 'firstLeterError': true };
+    return /[А-Яа-яA-Za-z\u00BF-\u1FFF\u2C00-\uD7FF]/.test(control.value[0]) ? null : { 'firstLeterError': true };
 
 }

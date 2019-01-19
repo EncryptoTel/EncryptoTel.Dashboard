@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import { BaseService } from './base.service';
-import { RequestServices } from './request.services';
-import { MessageServices } from './message.services';
-
-import { PageInfoModel } from '../models/base.model';
-import { StorageItem, StorageModel } from '../models/storage.model';
-
-import { ModalEx } from '../elements/pbx-modal/pbx-modal.component';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
+
+import { BaseService } from '@services/base.service';
+import { RequestServices } from '@services/request.services';
+import { MessageServices } from '@services/message.services';
+import { PageInfoModel } from '@models/base.model';
+import { StorageItem, StorageModel } from '@models/storage.model';
+import { ModalEx } from '@elements/pbx-modal/pbx-modal.component';
 
 
 @Injectable()
 export class StorageService extends BaseService {
+
     public pageInfo: StorageModel;
     public filter;
     public sort;
@@ -63,7 +62,9 @@ export class StorageService extends BaseService {
     checkModal(): void {
         if (this.files.length > 0 && !this.modalUpload.visible) {
             this.updateLoading(1);
-            this.modalUpload.body = `A file <div class="fileName">${this.files[0].name}</div> has already been uploaded. Do you want to replace it?`;
+            const filename: string = `<div class="fileName">${this.files[0].name}</div>`;
+            const message: string = this.translate.instant('fileAlreadyExistsMessage', { file: filename });
+            this.modalUpload.body = message;
             setTimeout(() => {
                 this.modalUpload.visible = true;
             }, 100);
@@ -161,9 +162,12 @@ export class StorageService extends BaseService {
     }
 
     doUploadFile(file, mode) {
-        this.uploadFile(file, mode).then(res => {
-            if (!this.loading) this.getItems(this.pageInfo, this.filter, this.sort);
-        });
+        this.uploadFile(file, mode)
+            .then(() => {
+                if (!this.loading) {
+                    this.getItems(this.pageInfo, this.filter, this.sort);
+                }
+            });
     }
 
     find(array, value): boolean {

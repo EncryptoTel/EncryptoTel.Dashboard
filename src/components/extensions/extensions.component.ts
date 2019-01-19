@@ -37,16 +37,18 @@ export class ExtensionsComponent implements OnInit {
     modal = new ModalEx();
     filters: FilterItem[] = [];
 
-    constructor(public service: ExtensionService,
-                private _messages: MessageServices,
-                public translate: TranslateService) {
-        this.table.items.push(new TableInfoItem(this.translate.instant('#Ext'), 'extension', null, 80));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Phone number'), 'phone'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('First Name'), 'userFirstName'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Last Name'), 'userLastName'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('E-mail'), 'userEmail'));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Status'), 'statusName', null, 80));
-        this.table.items.push(new TableInfoItem(this.translate.instant('Default'), 'default', null, 80));
+    constructor(
+        public service: ExtensionService,
+        private messages: MessageServices,
+        private translate: TranslateService
+    ) {
+        this.table.items.push(new TableInfoItem(this.translate.instant('#Ext'), 'extension', 'extension', 80));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Phone number'), 'phone', 'phone'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('First Name'), 'userFirstName', 'userFirstName'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Last Name'), 'userLastName', 'userLastName'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('E-mail'), 'userEmail', 'userEmail'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Status'), 'statusName', 'statusName', 80));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Default'), 'default', 'default', 80));
     }
 
     closeExt(): void {
@@ -84,14 +86,15 @@ export class ExtensionsComponent implements OnInit {
             this.loading.admin = this.passwordTo === 1;
             this.loading.user = this.passwordTo === 2;
             this.service.changePassword(this.selected.id, {mobileApp: this.selected.mobileApp, toAdmin: this.passwordTo === 1, toUser: this.passwordTo === 2}).then(res => {
-                this._messages.writeSuccess(res.message);
+                this.messages.writeSuccess(res.message);
                 this.loading.admin = false;
                 this.loading.user = false;
             });
         } else {
-            this.service.deleteExtension(this.selected.id).then(res => {
-                // this.getList();
-            });
+            this.service.deleteExtension(this.selected.id)
+                .then(res => {
+                    // this.getList();
+                });
         }
         this.cancelModal();
     }
@@ -99,6 +102,11 @@ export class ExtensionsComponent implements OnInit {
     cancelModal() {
         this.selected = null;
         this.passwordTo = 0;
+    }
+    
+    onDelete(item: ExtensionItem): void {
+        this.messages.writeSuccess(this.translate
+            .instant('deleteExtensionConfirmation', { ext: item.extension }));
     }
 
     load() {

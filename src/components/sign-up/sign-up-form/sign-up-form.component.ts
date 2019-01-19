@@ -2,15 +2,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-
-import { AuthorizationServices } from '../../../services/authorization.services';
-import { UserServices } from '../../../services/user.services';
-
-import { FadeAnimation } from '../../../shared/fade-animation';
-import { validateForm } from '../../../shared/shared.functions';
-import { FormMessageModel } from '../../../models/form-message.model';
-import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+
+import { AuthorizationServices } from '@services/authorization.services';
+import { UserServices } from '@services/user.services';
+import { MessageServices } from '@services/message.services';
+import { FadeAnimation } from '@shared/fade-animation';
+import { validateForm } from '@shared/shared.functions';
+import { FormMessageModel } from '@models/form-message.model';
+
 
 @Component({
     selector: 'sign-up-form',
@@ -19,6 +19,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
     styleUrls: ['./local.sass']
 })
 export class SignUpFormComponent implements OnInit, OnDestroy {
+
     loading: boolean = false;
     tariffsLoading: boolean = false;
     errorsSubscription: Subscription;
@@ -32,20 +33,84 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     errorCheck: boolean = false;
     signUpCompleted: boolean;
     byClicking: string;
-    str: string = 'qweqweqweqweqweqweqweqweqweqwe';
     errorEmailMessage: string = '';
     errorPasswordMessage: string = '';
+
+    // -- properties ----------------------------------------------------------
 
     get email(): string {
         const email = this.signUpForm.value.email;
         return email || '';
     }
 
-    constructor(private _router: Router,
-        private _user: UserServices,
-        public services: AuthorizationServices,
-        public translate: TranslateService) {
+    get signUpButtonText(): string {
+        if (!this.tariffsLoading) {
+            const plan = this.authorization.getSelectedTarifPlan();
+            const suffix = plan && plan.sum > 0 ? '' : ' FREE';
+            return this.translate.instant(`Start now${suffix}`);
+        }
+        return null;
     }
+
+    get tariffPlanTitleText(): string {
+        if (!this.tariffsLoading) {
+            const plan = this.authorization.getSelectedTarifPlan();
+            const suffix = plan && plan.title !== 'Basic' ? ' (7 days free)' : ' (Free)';
+            return `${plan.title}${suffix}`;
+        }
+        return null;
+    }
+
+    // -- component lifecycle methods -----------------------------------------
+
+    constructor(
+        public router: Router,
+        public user: UserServices,
+        public authorization: AuthorizationServices,
+        public translate: TranslateService,
+        public messages: MessageServices
+    ) {}
+
+    ngOnInit(): void {
+        this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and ' )
+                        + `&nbsp;<a href="/assets/pdf/${this.translate.currentLang}/EncryptoTel_Privacy_Policy.pdf">` + this.translate.instant('Privacy Policy') + '</a>';
+
+        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+            this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and ')
+                + `&nbsp;<a href="/assets/pdf/${this.translate.currentLang}/EncryptoTel_Privacy_Policy.pdf">` + this.translate.instant('Privacy Policy') + '</a>';
+        });
+
+        this.signUpCompleted = false;
+
+        this.errorsSubscription = this.authorization.readMessage().subscribe(message => {
+            this.message = message;
+        });
+        if (this.user.fetchUser()) {
+            this.router.navigateByUrl('/cabinet');
+        }
+        if (this.authorization.signUpData) {
+            this.signUpForm = this.authorization.signUpData;
+        }
+        if (!this.authorization.tariffPlans) {
+            this.tariffsLoading = true;
+            this.authorization.getTariffPlans()
+                .then(() => {
+                })
+                .catch(() => {
+                })
+                .then(() => this.tariffsLoading = false);
+        }
+    }
+
+    ngOnDestroy(): void {
+        if (this.message && this.message.type === 'error') {
+            this.authorization.clearMessage();
+        }
+        this.authorization.signUpData = this.signUpForm;
+        this.errorsSubscription.unsubscribe();
+    }
+
+    // -- event handlers ------------------------------------------------------
 
     setFocus(element): void {
         this.errorCheck = false;
@@ -82,7 +147,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    mouseEnter(element) {
+    mouseEnter(element): void {
         switch (element.name) {
             case 'Name':
                 this.errorName = true;
@@ -99,7 +164,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    mouseLeave(element) {
+    mouseLeave(element): void {
         if (document.activeElement === element) {
             return;
         }
@@ -119,23 +184,7 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    get signUpButtonText(): string {
-        if (!this.tariffsLoading) {
-            const plan = this.services.getSelectedTarifPlan();
-            const suffix = plan && plan.sum > 0 ? '' : ' FREE';
-            return this.translate.instant(`Start now${suffix}`);
-        }
-        return null;
-    }
-
-    get tariffPlanTitleText(): string {
-        if (!this.tariffsLoading) {
-            const plan = this.services.getSelectedTarifPlan();
-            const suffix = plan && plan.title !== 'Basic' ? ' (7 days free)' : ' (Free)';
-            return `${plan.title}${suffix}`;
-        }
-        return null;
-    }
+    // -- form processing methods ---------------------------------------------
 
     /*
      Form field validation. Accepted params:
@@ -143,12 +192,13 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
      Error Type: string - validation type (not necessary)
     */
     inputValidation(name: string, errorType?: string): boolean {
-        if (
-            (this.errorEmailMessage !== '' && name === 'email')
-            || (this.errorPasswordMessage !== '' && name === 'password')
-        ) {
+        // if (name === 'password_confirmation') console.log('form', this.signUpForm.controls['password_confirmation']);
+
+        if ((this.errorEmailMessage !== '' && name === 'email')
+            || (this.errorPasswordMessage !== '' && name === 'password')) {
             return true;
-        } else {
+        }
+        else {
             if (errorType) {
                 const field = this.signUpForm.controls[name];
 
@@ -157,7 +207,8 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
                 }
 
                 return field && (field.errors[errorType] && !field.errors['firstLeterError']) && (field.dirty || field.touched);
-            } else {
+            }
+            else {
                 const field = this.signUpForm.controls[name];
                 return field && field.invalid && (field.dirty || field.touched);
             }
@@ -178,6 +229,8 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         }
     }
 
+    // -- data retrieval methods ----------------------------------------------
+
     /*
      Sign-up action
     */
@@ -187,16 +240,13 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         this.errorPasswordMessage = '';
         if (event) event.preventDefault();
 
-        if (this.signUpForm.value.firstname.length > 0 && this.signUpForm.value.firstname[0] === '-' && this.signUpForm.value.firstname[0] === '_' && this.signUpForm.value.firstname[0] === '-') {
-
-        }
-
         validateForm(this.signUpForm);
         if (this.signUpForm.valid) {
             this.loading = true;
-            this.services.signUp(this.signUpForm.value).then(() => {
-                this.signUpCompleted = true; // resend confirmation is shown
-            })
+            this.authorization.signUp(this.signUpForm.value)
+                .then(() => {
+                    this.signUpCompleted = true; // resend confirmation is shown
+                })
                 .catch((error) => {
                     if (error.errors.email) {
                         this.errorEmail = true;
@@ -229,52 +279,16 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     }
 
     resendConfirmation(): void {
-        console.error('NotImplementedException() has been thrown');
         this.loading = true;
-        const timer: Subscription = TimerObservable.create(1500, 0).subscribe(
-            () => {
-                timer.unsubscribe();
-                this.loading = false;
-            }
-        );
-    }
-
-    ngOnInit(): void {
-        this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and ' )
-                        + `&nbsp;<a href="/assets/pdf/${this.translate.currentLang}/EncryptoTel_Privacy_Policy.pdf">` + this.translate.instant('Privacy Policy') + '</a>';
-
-        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and ')
-                + `&nbsp;<a href="/assets/pdf/${this.translate.currentLang}/EncryptoTel_Privacy_Policy.pdf">` + this.translate.instant('Privacy Policy') + '</a>';
-        });
-
-        this.signUpCompleted = false;
-
-        this.errorsSubscription = this.services.readMessage().subscribe(message => {
-            this.message = message;
-        });
-        if (this._user.fetchUser()) {
-            this._router.navigateByUrl('/cabinet');
-        }
-        if (this.services.signUpData) {
-            this.signUpForm = this.services.signUpData;
-        }
-        if (!this.services.tariffPlans) {
-            this.tariffsLoading = true;
-            this.services.getTariffPlans()
-                .then(() => {
-                })
-                .catch(() => {
-                })
-                .then(() => this.tariffsLoading = false);
-        }
-    }
-
-    ngOnDestroy(): void {
-        if (this.message && this.message.type === 'error') {
-            this.services.clearMessage();
-        }
-        this.services.signUpData = this.signUpForm;
-        this.errorsSubscription.unsubscribe();
+        const email = this.signUpForm.value.email;
+        this.authorization.resendConfirmation(email)
+            .then(() => {
+                const okMessage: string = this.translate.instant('Confirmation link has been succesfully resend to');
+                this.messages.writeSuccess(`${okMessage} ${this.email}`);
+            })
+            .catch(error => {
+                this.messages.writeError(error.message);
+            })
+            .then(() => this.loading = false);
     }
 }

@@ -1,5 +1,5 @@
-import {ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
-import {FormGroup, FormBuilder, Validators, FormArray, FormControl} from '@angular/forms';
+import {EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
+import {FormGroup, FormBuilder, Validators, FormArray} from '@angular/forms';
 import {TranslateService} from '@ngx-translate/core';
 
 import {AddressBookService} from '@services/address-book.service';
@@ -10,16 +10,18 @@ import {
     TypesModel
 } from '@models/address-book.model';
 import {RefsServices} from '@services/refs.services';
-import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel} from '@models/base.model';
+import {FilterItem, PageInfoModel, SidebarButtonItem, SidebarInfoItem, SidebarInfoModel, TableInfoExModel, TableInfoItem} from '@models/base.model';
 import {CountryModel} from '@models/country.model';
 import {ListComponent} from '@elements/pbx-list/pbx-list.component';
 import {MessageServices} from '@services/message.services';
 import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
 import {AnimationComponent} from '@shared/shared.functions';
-import {nameRegExp, emailRegExp, phoneRegExp, addressPhoneRegExp, contactAddressRegExp} from '@shared/vars';
+import {emailRegExp, addressPhoneRegExp, adddressNameRegExp, adddressAddressRegExp} from '@shared/vars';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import {TariffStateService} from '@services/state/tariff.state.service';
 import {ScrollEvent} from '@shared/scroll.directive';
+import {ContactState} from '@services/state/contact.service';
+import {ActivatedRoute, Router, NavigationStart, NavigationEnd} from '@angular/router';
 
 
 @AnimationComponent({
@@ -41,7 +43,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     filters: FilterItem[];
     sidebar: SidebarInfoModel;
-
+    table: TableInfoExModel = new TableInfoExModel();
     modalBlock: ModalEx;
     modalDelete: ModalEx;
     editMode: boolean = false;
@@ -63,6 +65,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     // -- component lifecycle methods -----------------------------------------
 
     hideField: boolean = false;
+    mode: any;
 
     constructor(
         public service: AddressBookService,
@@ -70,9 +73,12 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         protected message: MessageServices,
         protected fb: FormBuilder,
         protected state: TariffStateService,
-        public translate: TranslateService
+        public translate: TranslateService,
+        private activatedRoute: ActivatedRoute,
+        private router: Router
     ) {
         super(fb, message, translate);
+
 
         this.addressBookModel = new AddressBookModel();
         this.addressListHeaders = {
@@ -90,6 +96,14 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.modalBlock = new ModalEx('', 'block');
         this.modalDelete = new ModalEx('', 'delete');
 
+        this.table.sort.isDown = true;
+        this.table.sort.column = 'firstname';
+        this.table.items.push(new TableInfoItem(this.translate.instant('First Name'), 'firstname', 'firstname'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Last Name'), 'lastname', 'lastname'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Phone Number'), 'phone', 'phone'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('E-mail'), 'email', 'email'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Company Name'), 'company', 'company'));
+        this.table.items.push(new TableInfoItem(this.translate.instant('Country'), 'country.title', 'country.title'));
 
         this.filters = [];
         this.sidebar = new SidebarInfoModel();
@@ -97,10 +111,20 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.itemsCache = [];
 
         this.validationHost.customMessages = this.validationHost.customMessages = [
-            { key: 'address', error: 'pattern', message: this.translate
-                    .instant('Address contains invalid characters or symbols. You can only use letters, numbers and the following characters: \'-\' \'_\' \'.\'') },
-            { key: 'contactPhone.*.value', error: 'pattern', message: this.translate.instant('Phone number contains invalid characters. You can only use numbers and #') },
-            { key: 'contactEmail.*.value', error: 'pattern', message: this.translate.instant('Please enter a valid email address') },
+            {
+                key: 'firstname', error: 'pattern', message: this.translate
+                    .instant('First name contains invalid characters. You can use letters, numbers and the following characters: \'-_')
+            },
+            {
+                key: 'lastname', error: 'pattern', message: this.translate
+                    .instant('Last name contains invalid characters. You can use letters, numbers and the following characters: \'-_')
+            },
+            {
+                key: 'address', error: 'pattern', message: this.translate
+                    .instant('Address contains invalid characters. You can use letters, numbers and the following characters: -_.')
+            },
+            {key: 'contactPhone.*.value', error: 'pattern', message: this.translate.instant('Phone number contains invalid characters. You can only use numbers and #')},
+            {key: 'contactEmail.*.value', error: 'pattern', message: this.translate.instant('Please enter a valid email address')},
         ];
     }
 
@@ -108,6 +132,14 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         super.ngOnInit();
         this.getTypes();
         this.getCountries();
+
+        this.router.events.subscribe(route =>  {
+            if (route instanceof NavigationEnd) {
+                if (this.router.url === '/cabinet/address-book/create') {
+                    this.create();
+                }
+            }
+        });
     }
 
     // -- initialize section --------------------------------------------------
@@ -167,14 +199,14 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         this.form = this.fb.group({
             id: [null],
-            firstname: [null, [Validators.required, Validators.pattern(nameRegExp), Validators.maxLength(190)]],
-            lastname: [null, [Validators.pattern(nameRegExp), Validators.maxLength(190)]],
+            firstname: [null, [Validators.required, Validators.pattern(adddressNameRegExp), Validators.maxLength(190)]],
+            lastname: [null, [Validators.pattern(adddressNameRegExp), Validators.maxLength(190)]],
             contactPhone: this.fb.array([]),
             contactEmail: this.fb.array([]),
             company: [null, [Validators.maxLength(190)]],
             department: [null, [Validators.maxLength(190)]],
             position: [null, [Validators.maxLength(190)]],
-            address: [null, [Validators.pattern(contactAddressRegExp), Validators.maxLength(190)]],
+            address: [null, [Validators.pattern(adddressAddressRegExp), Validators.maxLength(190)]],
             country: this.fb.group({
                 code: [null],
                 id: [null],
@@ -241,7 +273,10 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             case 1:
                 this.closePage();
                 this.hideField = false;
+                this.editMode = false;
                 this.state.change.emit(this.hideField);
+                this.router.navigateByUrl('/cabinet/address-book');
+                this.list.buttons[0].inactive = false;
                 break;
             case 2:
                 this.edit(this.selected);
@@ -253,7 +288,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 this.block();
                 break;
             case 13:
-                this.modalDelete.body = this.translate.instant('Are you sure you want to delete this Contact?');
+                const deleteAlert: string = this.translate.instant('contactDeleteAlert', {name: this.selected.firstname});
+                this.modalDelete.body = deleteAlert;
                 this.modalDelete.title = this.translate.instant(this.modalDelete.title);
                 this.modalDelete.buttons.forEach(button => {
                     button.value = this.translate.instant(button.value);
@@ -263,27 +299,40 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    delete($event) {
+    delete(item: any): void {
+        this.showSuccessDeletionMessage(item);
+
         this.closePage(true);
         this.hideField = false;
         this.state.change.emit(this.hideField);
     }
 
-    confirmDelete() {
-        let item: any = { loading: 0 };
+    confirmDelete(): void {
+        let item: any = {loading: 0};
         if (this.selected) {
             item = this.selected;
         }
         item.loading++;
-        this.service.deleteById(item.id).then(() => {
-            this.list.getItems(item);
-            this.setFilters();
+        this.service.deleteById(item.id, false)
+            .then(() => {
+                this.showSuccessDeletionMessage(this.selected);
 
-            this.closePage(true);
-            this.hideField = false;
-            this.state.change.emit(this.hideField);
+                this.list.getItems(item);
+                this.setFilters();
 
-        }).catch(() => {}).then(() => item.loading--);
+                this.closePage(true);
+                this.hideField = false;
+                this.state.change.emit(this.hideField);
+            })
+            .catch(() => {
+            })
+            .then(() => item.loading--);
+    }
+
+    showSuccessDeletionMessage(item: any): void {
+        const confirmationMessage: string = this.translate
+            .instant('contactDeleteConfirmation', {name: item.firstname});
+        this.message.writeSuccess(confirmationMessage);
     }
 
     load(pageInfo: AddressBookModel) {
@@ -306,19 +355,26 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     select(item: AddressBookItem) {
         this.editMode = false;
 
-        this.sidebar.loading ++;
+        this.sidebar.loading++;
         this.sidebar.visible = true;
         this.service.getAddressBookItem(item.id)
-        .then((response: AddressBookItem) => {
-            this.selected = response;
-            this.setFormData();
-            this.initSidebar();
-        })
-        .catch(() => {})
-        .then(() => this.sidebar.loading --);
+            .then((response: AddressBookItem) => {
+                this.selected = response;
+                this.setFormData();
+                this.initSidebar();
+            })
+            .catch(() => {
+            })
+            .then(() => this.sidebar.loading--);
+    }
+
+    createClick() {
+        this.router.navigateByUrl('/cabinet/address-book/create');
+        this.list.buttons[0].inactive = true;
     }
 
     create() {
+
         this.editMode = true;
 
         let widthScreen: number;
@@ -328,29 +384,30 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.state.change.emit(this.hideField);
         }
 
-        this.sidebar.loading ++;
+        this.sidebar.loading++;
 
         this.selected = null;
         this.selected = new AddressBookItem();
         this.editAddress();
 
         setTimeout(() => {
-            this.sidebar.loading --;
+            this.sidebar.loading--;
         }, 500);
     }
 
     edit(item: AddressBookItem) {
         this.editMode = true;
 
-        this.sidebar.loading ++;
+        this.sidebar.loading++;
         this.sidebar.visible = true;
         this.service.getAddressBookItem(item.id)
             .then((response: AddressBookItem) => {
                 this.selected = response;
                 this.editAddress();
             })
-            .catch(() => {})
-            .then(() => this.sidebar.loading --);
+            .catch(() => {
+            })
+            .then(() => this.sidebar.loading--);
     }
 
     save(): void {
@@ -368,7 +425,8 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
         if (!reload) {
             super.close(() => this.close());
-        } else {
+        }
+        else {
             this.close();
         }
     }
@@ -376,7 +434,13 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     block() {
         this.modalBlock = new ModalEx('', this.selected.blacklist ? 'unblock' : 'block');
         this.modalBlock.title = this.translate.instant(this.modalBlock.title);
-        this.modalBlock.body = this.translate.instant(this.modalBlock.body);
+
+        const blockAlert: string = this.translate.instant(this.selected.blacklist
+            ? 'contactUnblockAlert'
+            : 'contactBlockAlert',
+            {name: this.selected.firstname});
+        this.modalBlock.body = blockAlert;
+
         this.modalBlock.buttons.forEach(button => {
             button.value = this.translate.instant(button.value);
         });
@@ -387,7 +451,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     close(): void {
         this.resetForms();
-        
+
         this.sidebar.visible = false;
         this.sidebar.mode = null;
 
@@ -396,21 +460,30 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             this.list.getItems();
             this.setFilters();
         }
+        this.list.buttons[0].inactive = false;
     }
 
     confirmBlock() {
         this.selected.loading++;
-        this.service.blockByContact(this.selected.id, this.selected.blacklist).then(res => {
-            this.message.writeSuccess(this.selected.blacklist ? this.translate.instant('Contact unblocked successfully') : this.translate.instant('Contact blocked successfully'));
-            this.selected.loading--;
-            this.closePage(true);
-        }).catch((res) => {
-            this.message.writeError(this.translate.instant(res.message));
-        }).then(() => {
-            if (this.selected !== null && this.selected.loading !== undefined) {
+        this.service.blockByContact(this.selected.id, this.selected.blacklist)
+            .then(() => {
+                const blockMessage: string = this.translate.instant(this.selected.blacklist
+                    ? 'contactUnblockConfirmation'
+                    : 'contactBlockConfirmation',
+                    {name: this.selected.firstname});
+                this.message.writeSuccess(blockMessage);
+
                 this.selected.loading--;
-            }
-        });
+                this.closePage(true);
+            })
+            .catch((error) => {
+                this.message.writeError(this.translate.instant(error.message));
+            })
+            .then(() => {
+                if (this.selected !== null && this.selected.loading !== undefined) {
+                    this.selected.loading--;
+                }
+            });
     }
 
     editAddress() {
@@ -428,7 +501,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
     }
 
     saveAddress(): void {
-        this.sidebar.saving ++;
+        this.sidebar.saving++;
 
         this.removeEmptyItems(this.selected.contactPhone);
         this.removeEmptyItems(this.selected.contactEmail);
@@ -436,20 +509,26 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         this.selected = new AddressBookItem(this.form.value);
 
         if (this.selected.id) {
-            this.service.putById(this.selected.id, this.selected)
+            this.service.putById(this.selected.id, this.selected, false)
                 .then(() => {
+                    const szOkMessage: string = this.translate.instant('The changes have been saved successfully');
+                    this.message.writeSuccess(szOkMessage);
+
                     this.closePage(true);
                 }).catch(() => {
-                    this.setFormData();
-                }).then(() => this.sidebar.saving --);
+                this.setFormData();
+            }).then(() => this.sidebar.saving--);
         }
         else {
-            this.service.post('', this.selected)
+            this.service.post('', this.selected, false)
                 .then(() => {
+                    const szOkMessage: string = this.translate.instant('Contact has been created successfully');
+                    this.message.writeSuccess(szOkMessage);
+
                     this.closePage(true);
                 }).catch(() => {
-                    this.setFormData();
-                }).then(() => this.sidebar.saving --);
+                this.setFormData();
+            }).then(() => this.sidebar.saving--);
         }
     }
 
@@ -496,11 +575,16 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
             .then(response => {
                 this.types = response;
                 this.types.contactPhone.forEach(item => {
-                   item.value = this.translate.instant(item.value);
+                    item.value = this.translate.instant(item.value);
                 });
                 this.updateTypes();
+                if (this.router.url === '/cabinet/address-book/create') {
+                    this.list.buttons[0].inactive = true;
+                    this.create();
+                }
             })
-            .catch(() => {})
+            .catch(() => {
+            })
             .then(() => this.locker.unlock());
     }
 
@@ -511,6 +595,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
                 phone.type = this.types.contactPhone.find(type => type.id === phone.typeId);
             });
         });
+
     }
 
     getCountries(): void {
@@ -614,7 +699,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         if (this.selected.contactPhone.length === 0) {
             this.selected.addContactPhone(new ContactValueModel());
         }
-        for (let i = 0; i < this.selected.contactPhone.length; i ++) {
+        for (let i = 0; i < this.selected.contactPhone.length; i++) {
             let phone: any;
             if (!(this.selected.contactPhone[i] instanceof ContactValueModel)) {
                 phone = this.selected.contactPhone[i];

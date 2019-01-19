@@ -1,0 +1,159 @@
+.add_external_phone_number
+    height: calc(100% - 72px)
+    margin-bottom: 32px
+    form
+        width: 100%
+        height: 100% !important
+        flex-direction: column
+        .title
+            font-family: Roboto, sans-serif
+            font-weight: 300
+            font-size: 24px
+            line-height: 32px
+            color: $dark_white
+            text-align: center
+            margin: 0 auto 48px
+            display: none
+        .items
+            display: block
+            padding-right: 16px
+            height: 100%
+            overflow: auto
+            .item
+                display: block
+                &:nth-child(2)
+                    margin-bottom: 24px
+                &:last-child
+                    margin-bottom: 0
+                label
+                    font-family: Roboto, sans-serif
+                    font-weight: 300
+                    font-size: 12px
+                    line-height: 16px
+                    color: rgba($dark_white, .7)
+                    margin-bottom: 8px
+                .wrapper
+                    border: 1px solid transparent
+                    height: 36px
+                    width: 100%
+                    position: relative
+                    &.no_flag
+                        .flag
+                            display: none
+                        input
+                            padding-left: 16px !important
+                    input, select
+                        width: 100%
+                        border: 1px solid transparent
+                        position: absolute
+                        top: 0
+                        right: 0
+                        bottom: 0
+                        left: 0
+                        height: inherit !important
+                        z-index: 5
+                        -webkit-appearance: none
+                        -moz-appearance: none
+                        appearance: none
+                        background: transparent
+                        color: $dark_white
+                        padding: 0 16px
+                        &:focus
+                            outline: none !important
+                        option
+                            background: $dark_background
+                        &:focus + .visual
+                            border: 1px solid $dark_accent
+                    .not_edit
+                        line-height: initial
+                        align-items: center
+                        margin-left: 16px
+                    .visual
+                        position: absolute
+                        top: 0
+                        right: 0
+                        bottom: 0
+                        left: 0
+                        height: inherit !important
+                        border: 1px solid rgba($dark_white, .1)
+                        z-index: 1
+                    .eye
+                        position: absolute
+                        top: 50%
+                        right: 16px
+                        transform: translateY(-50%)
+                        z-index: 10
+                        &.active
+                            svg
+                                *
+                                    fill: $dark_accent
+                        svg
+                            width: 18px
+                            cursor: pointer
+                            *
+                                fill: $dark_white
+                                cursor: pointer
+                .error_wrap
+                    height: 16px
+                    margin-bottom: 8px
+                    .error
+                        font-family: Roboto, Arial, sans-serif
+                        font-weight: 300
+                        font-size: 12px
+                        height: 12px
+                        margin-top: 4px
+                        color: $dark_error
+                &.phone_number
+                    .wrapper
+                        select
+                            //padding-left: 58px
+                        input
+                            padding-left: 42px
+                        .flag
+                            width: 26px
+                            height: 34px
+                            position: relative
+                            overflow: hidden
+                            //margin: 0 8px
+                            margin-left: 8px
+                            svg-icon
+                                position: absolute
+                                top: 0
+                                right: 0
+                                bottom: 0
+                                left: 0
+                                svg
+                                    position: absolute
+                                    top: 50%
+                                    left: 50%
+                                    transform: translate(-50%, -50%)
+                                    width: auto
+                                    height: 40%
+                        .arrow
+                            display: none
+                            svg-icon
+                                svg
+                                    width: 8px
+                                    height: auto
+                                    position: absolute
+                                    top: 50%
+                                    transform: translateY(-50%)
+                                    *
+                                        fill: $dark_white
+                &.password
+                    .wrapper
+                        input
+                            padding-right: 50px
+                        .eye.hide_password
+                            svg
+                                *
+                                    fill: $dark_white
+                        .eye.show_password
+                            svg
+                                *
+                                    fill: $dark_accent
+        .buttons
+            justify-content: space-between
+            margin-top: 40px
+            pbx-button
+                width: 140px

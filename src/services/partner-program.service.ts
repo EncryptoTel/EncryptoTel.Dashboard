@@ -7,9 +7,9 @@ export class PartnerProgramService extends BaseService {
 
     save(id: number, name: string, status: boolean): Promise<any> {
         if (id) {
-            return this.putById(id, {name: name, status: status});
+            return this.putById(id, {name: name, status: status}, false);
         } else {
-            return this.post('', {name: name});
+            return this.post('', {name: name}, false);
         }
     }
 

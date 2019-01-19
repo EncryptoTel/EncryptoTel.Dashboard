@@ -5,24 +5,20 @@ import {
     OnInit,
     Output,
     OnDestroy,
-    ChangeDetectorRef
 } from '@angular/core';
-import {TableInfoExModel, TableInfoItem, TableInfoModel} from '../../models/base.model';
-import {ModalEx, ModalComponent} from '../pbx-modal/pbx-modal.component';
-import {PlayerAnimation} from '../../shared/player-animation';
-import {FadeAnimation} from '../../shared/fade-animation';
-import {str2regexp, killEvent} from '../../shared/shared.functions';
-import {isObject, isArray} from 'util';
-import {RefsServices} from '../../services/refs.services';
-import {FormBuilder} from '@angular/forms';
-import {MessageServices} from '../../services/message.services';
-import {AddressBookService} from '../../services/address-book.service';
-import {AddressBookComponent} from '../../components/address-book/address-book.component';
-import {TariffStateService} from '../../services/state/tariff.state.service';
-import {ModalServices} from '@services/modal.service';
-import {StorageItem} from '@models/storage.model';
-import {IvrItem} from '@models/ivr.model';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
+import { isObject, isArray } from 'util';
+
+import { ModalEx, ModalComponent } from '@elements/pbx-modal/pbx-modal.component';
+import { PlayerAnimation } from '@shared/player-animation';
+import { FadeAnimation } from '@shared/fade-animation';
+import { str2regexp, killEvent } from '@shared/shared.functions';
+import { partnerLinkRegExp } from '@shared/vars';
+import { TariffStateService } from '@services/state/tariff.state.service';
+import { ModalServices } from '@services/modal.service';
+import { StorageItem } from '@models/storage.model';
+import { IvrItem } from '@models/ivr.model';
+import { TableInfoExModel, TableInfoItem, TableInfoModel } from '@models/base.model';
 
 
 @Component({
@@ -35,6 +31,7 @@ import {TranslateService} from '@ngx-translate/core';
     ]
 })
 export class TableComponent implements OnInit, OnDestroy {
+
     @Input() columnFormat: string[];
     @Input() deletable: boolean = true;
     @Input() editable: boolean;
@@ -54,6 +51,7 @@ export class TableComponent implements OnInit, OnDestroy {
     @Output() onPageChangeEx: EventEmitter<number> = new EventEmitter<number>();
     @Output() onPlayerClick: EventEmitter<object> = new EventEmitter<object>();
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
+    @Output() onCopyToClipboard: EventEmitter<object> = new EventEmitter<object>();
     @Output() onSort: EventEmitter<object> = new EventEmitter<object>();
 
     dropDirection = '';
@@ -63,8 +61,8 @@ export class TableComponent implements OnInit, OnDestroy {
     modalWnd: ModalComponent;
 
     constructor(protected state: TariffStateService,
-                private modalService: ModalServices,
-                public translate: TranslateService) {
+        private modalService: ModalServices,
+        public translate: TranslateService) {
         this.modal = new ModalEx(this.translate.instant('Are you sure?'), 'delete');
         this.modalWnd = this.modalService.createModal(this.modal);
         this.modalWnd.onConfirmEx.subscribe(() => this.deleteItem());
@@ -78,8 +76,14 @@ export class TableComponent implements OnInit, OnDestroy {
         }
     }
 
-    selectItem(item): void {
-        this.onSelect.emit(item);
+    selectItem(event: MouseEvent, item: any): void {
+        const cellText: string = (<any>event.target).outerText;
+        if (partnerLinkRegExp.test(cellText)) {
+            this.onCopyToClipboard.emit(item);
+        }
+        else {
+            this.onSelect.emit(item);
+        }
     }
 
     editItem(item, event: MouseEvent): void {
@@ -94,6 +98,7 @@ export class TableComponent implements OnInit, OnDestroy {
             this.deleteItem();
         }
         else {
+            // this.modal = new ModalEx(this.translate.instant('Are you sure?'), 'delete');
             if (this.name === 'Phone Number') {
                 this.modal.body = '';
                 let body: string;
@@ -109,6 +114,9 @@ export class TableComponent implements OnInit, OnDestroy {
                     innerCount, ' ', this.translate.instant('extensions?')
                 );
                 this.modal.body = body;
+            }
+            if (this.name === 'Contact') {
+                this.modal.body = this.translate.instant('deleteContactConfirmation', { name: this.selectedDelete.firstname });
             }
             if (item instanceof StorageItem) {
                 this.deleteItem();
@@ -132,7 +140,11 @@ export class TableComponent implements OnInit, OnDestroy {
             if (this.modal.title.length > 0) {
                 this.modal.title = this.translate.instant(this.modal.title);
             }
-            this.modal.body = this.translate.instant(this.modal.body);
+            if (this.modal.body) {
+                this.modal.body = this.translate.instant(this.modal.body);
+            } else {
+                this.modal.body = this.translate.instant('Are you sure?');
+            }
             this.modal.buttons.forEach(button => {
                 button.value = this.translate.instant(button.value);
             });
@@ -200,7 +212,7 @@ export class TableComponent implements OnInit, OnDestroy {
         this.tableItems.forEach(tItem => {
             tItem.ddShow = false;
         });
-        this.onDropDown.emit({action: action, item: item});
+        this.onDropDown.emit({ action: action, item: item });
         item.ddShow = prev === false;
 
         // if ((this.tableItems.length - 4) < this.tableItems.indexOf(item)) {
@@ -222,7 +234,7 @@ export class TableComponent implements OnInit, OnDestroy {
     }
 
     dropClick(action, option, item) {
-        this.onDropDownClick.emit({action: action, option: option, item: item});
+        this.onDropDownClick.emit({ action: action, option: option, item: item });
     }
 
     mouseEnter(event, item) {

@@ -3,7 +3,10 @@
     <ng-container [ngSwitch]="item.type">
 
         <ng-template [ngSwitchCase]="'group'">
-            <div translate [class]="'settings_form_title_' + level" translate>{{ getItemTitle(item) }}</div>
+            <div [class]="'settings_form_title_' + level" translate>
+                {{ item.itemTitle }}
+                <span *ngIf="item.comment">{{ item.comment }}</span>
+            </div>
 
             <!-- flex-flow: column -->
             <pbx-settings-group
@@ -17,7 +20,10 @@
         </ng-template>
 
         <ng-template [ngSwitchCase]="'group_field'">
-            <div translate [class]="'settings_form_title_' + level" translate>{{ getItemTitle(item) }}</div>
+            <div [class]="'settings_form_title_' + level" translate>
+                {{ item.itemTitle }}
+                <span *ngIf="item.comment">{{ item.comment }}</span>
+            </div>
 
             <div class="settings_form_field_group">
                 <div *ngFor="let child of item.children">

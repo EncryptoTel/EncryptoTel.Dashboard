@@ -21,7 +21,7 @@
 
         </div> <!-- search_wrap -->
 
-        <div class="add_contact">
+        <div class="add_contact" (click)="addContact()">
             <svg-icon src="/assets/images/chat/add_contact.svg"></svg-icon>
             <span>Add contact</span>
         </div> <!-- add_contact -->
@@ -34,7 +34,7 @@
                 </div> <!-- icon -->
                 <div class="inner">
 
-                    <div class="item">
+                    <div class="item"  *ngFor="let chat of addressBookModel.items; let i = index">
                         <div class="logo">AS</div>
                         <div class="name"><span>Adam Smit</span></div>
                         <div class="right">

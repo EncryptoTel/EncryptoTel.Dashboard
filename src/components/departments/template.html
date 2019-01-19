@@ -2,7 +2,7 @@
 <div class="departments" *ngIf="!loading">
 
     <pbx-list [(pageInfo)]="pageInfo"
-              [table]="table"
+              [tableInfo]="table"
               [loading]="loading"
               [filters]="filters"
               key="departments"
@@ -11,8 +11,9 @@
               [EmptyInfo]="emptyInfo"
               [hideArrow]="!companyActive"
               [hideHeader]="!companyActive"
-              (onSelect)="select($event)"
               [service]="service"
-    >
+              (onSelect)="select($event)"
+              (onDelete)="onDelete($event)"
+              >
     </pbx-list>
 </div>

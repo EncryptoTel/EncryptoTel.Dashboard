@@ -1,13 +1,11 @@
-import {Component, Input, OnInit, ViewChildren, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, ViewChildren, ViewChild } from '@angular/core';
 
-import {RefsServices} from '@services/refs.services';
-import {MessageServices} from '@services/message.services';
-import {ExtensionService} from '@services/extension.service';
-import {PhoneNumberService} from '@services/phone-number.service';
-import {Locker, Lockable} from '@models/locker.model';
-import {ValidationHost} from '@models/validation-host.model';
-import {ModalEx} from '@elements/pbx-modal/pbx-modal.component';
-import {InputComponent} from '@elements/pbx-input/pbx-input.component';
+import { RefsServices } from '@services/refs.services';
+import { MessageServices } from '@services/message.services';
+import { ExtensionService } from '@services/extension.service';
+import { Locker, Lockable } from '@models/locker.model';
+import { ValidationHost } from '@models/validation-host.model';
+import { ModalEx } from '@elements/pbx-modal/pbx-modal.component';
 
 
 @Component({
@@ -16,6 +14,7 @@ import {InputComponent} from '@elements/pbx-input/pbx-input.component';
     styleUrls: ['./../local.sass']
 })
 export class GeneralAddExtensionComponent implements OnInit, Lockable {
+
     sipOuters: any;
     // extPhone: any;
 
@@ -25,8 +24,8 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
     modal: ModalEx;
     certificateFile: any;
     extNumber: any;
-    @Input() certificateId: number;
 
+    @Input() certificateId: number;
     @Input() form: any;
     @Input() encryption: boolean;
     @Input() id: number;
@@ -38,9 +37,9 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
 
     // -- component lifecycle methods -----------------------------------------
 
-    constructor(public _extensions: ExtensionService,
-                private _messages: MessageServices,
-                private refs: RefsServices) {
+    constructor(public extensions: ExtensionService,
+        private messages: MessageServices,
+        private refs: RefsServices) {
         this.sipOuters = {
             option: [],
             selected: null,
@@ -64,14 +63,16 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
 
     confirmModal() {
         this.passwordLoading++;
-        this._extensions.changePassword(this.id, {
-            mobileApp: this.getFormValue('mobileApp'),
-            toAdmin: this.getFormValue('toAdmin'),
-            toUser: this.getFormValue('toUser')
-        }).then(response => {
-            this._messages.writeSuccess(response.message);
-        }).catch(() => {
-        }).then(() => this.passwordLoading--);
+        this.extensions.changePassword(this.id, {
+                mobileApp: this.getFormValue('mobileApp'),
+                toAdmin: this.getFormValue('toAdmin'),
+                toUser: this.getFormValue('toUser')
+            })
+            .then(response => {
+                this.messages.writeSuccess(response.message);
+            })
+            .catch(() => {})
+            .then(() => this.passwordLoading--);
     }
 
     cancelModal() {
@@ -99,7 +100,7 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
         this.locker.lock();
         this.refs.getInnerSipOuters().then(response => {
             response.map(number => {
-                this.sipOuters.option.push({id: number.id, title: number.phoneNumber});
+                this.sipOuters.option.push({ id: number.id, title: number.phoneNumber });
             });
             this.sipOuters.selected = this.sipOuters.option.find(item => item.id === this.form.get('outer').value.id);
         }).catch(() => {
@@ -107,8 +108,7 @@ export class GeneralAddExtensionComponent implements OnInit, Lockable {
     }
 
     getExtensionPhoneNumber() {
-        this._extensions.getExtensionNumber().then(response => {
-            console.log(response);
+        this.extensions.getExtensionNumber().then(response => {
             this.extNumber = response.inner;
             const phoneNumber = this.form.get('phoneNumber').value;
             if (phoneNumber === null) {

@@ -42,6 +42,7 @@ import {CallRulesComponent} from '../components/call-rules/call-rules.component'
 import {CallRulesCreateComponent} from '../components/call-rules/call-rules-create/call-rules-create.component';
 import {AddressBookComponent} from '../components/address-book/address-book.component';
 import {BuyPhoneNumbersComponent} from '../components/phone-numbers/buy/buy.phone-numbers.component';
+import {AddExternalNumbersComponent} from '../components/phone-numbers/external/add-external-numbers.component';
 import {ExtensionsComponent} from '../components/extensions/extensions.component';
 import {RefillBalanceComponent} from '../components/refill-balance/refill-balance.component';
 import {AddExtensionsComponent} from '../components/extensions/add/add.extension.component';
@@ -86,6 +87,7 @@ import {ContactsComponent} from '@components/contacts/contacts.component';
 import {CallComponent} from '@components/call/call.component';
 import {NotificationComponent} from '@components/notification/notification.component';
 import {LogoutComponent} from '@components/logout/logout.component';
+import {SupportComponent} from '@components/support/support.component';
 
 /*
   Components declarations and exports
@@ -143,8 +145,8 @@ import {LogoutComponent} from '@components/logout/logout.component';
         DepartmentCreateComponent,
         CallRulesComponent,
         CallRulesCreateComponent,
-        PhoneNumbersComponent,
         BuyPhoneNumbersComponent,
+        AddExternalNumbersComponent,
         ExtensionsComponent,
         RefillBalanceComponent,
         AddExtensionsComponent,
@@ -181,7 +183,8 @@ import {LogoutComponent} from '@components/logout/logout.component';
         ContactsComponent,
         CallComponent,
         NotificationComponent,
-        LogoutComponent
+        LogoutComponent,
+        SupportComponent
     ],
     exports: [
         BaseComponent,
@@ -216,6 +219,7 @@ import {LogoutComponent} from '@components/logout/logout.component';
         AddressBookComponent,
         DepartmentsComponent,
         BuyPhoneNumbersComponent,
+        AddExternalNumbersComponent,
         ExtensionsComponent,
         RefillBalanceComponent,
         AddExtensionsComponent,
@@ -247,7 +251,8 @@ import {LogoutComponent} from '@components/logout/logout.component';
         ContactsComponent,
         CallComponent,
         NotificationComponent,
-        LogoutComponent
+        LogoutComponent,
+        SupportComponent
     ]
 })
 export class ComponentsModule {

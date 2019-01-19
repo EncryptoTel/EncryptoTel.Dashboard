@@ -71,9 +71,16 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
         this.id ? this.mode = 'edit' : this.mode = 'create';
 
         this.validationHost.customMessages = [
-            { key: 'user.firstName', error: 'pattern', message: this.translate.instant('First Name may contain only letters, \'-\', \'_\' and \'.\'') },
-            { key: 'user.lastName', error: 'pattern', message: this.translate.instant('Last Name may contain only letters, \'-\', \'_\' and \'.\'') },
-            { key: 'user.email', error: 'pattern', message: this.translate.instant('Please enter valid email address') },
+            { key: 'outer', error: 'required', message: this.translate.instant('Please choose a phone number') },
+            { key: 'phoneNumber', error: 'minlength', message: this.translate.instant('Extension can contain 3 numbers only') },
+            { key: 'phoneNumber', error: 'maxlength', message: this.translate.instant('Extension can contain 3 numbers only') },
+            { key: 'phoneNumber', error: 'min', message: this.translate.instant('Your extension must be over 100') },
+            { key: 'user.firstName', error: 'maxlength', message: this.translate.instant('First name can\'t contain over of 190 characters') },
+            { key: 'user.firstName', error: 'pattern', message: this.translate.instant('First name contains invalid characters. You can only use letters, numbers and the following symbols: -_.') },
+            { key: 'user.lastName', error: 'maxlength', message: this.translate.instant('Last name can\'t contain over of 190 characters') },
+            { key: 'user.lastName', error: 'pattern', message: this.translate.instant('Last name contains invalid characters. You can only use letters, numbers and the following symbols: -_.') },
+            { key: 'user.email', error: 'required', message: this.translate.instant('Please enter email address') },
+            { key: 'user.email', error: 'pattern', message: this.translate.instant('Please enter correct email address') },
         ];
     }
 
@@ -86,7 +93,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     initForm(): void {
         this.formExtension = this.fb.group({
             outer: [null, [Validators.required]],
-            phoneNumber: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
+            phoneNumber: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.min(100)]],
             default: false,
             user: this.fb.group({
                 firstName: [null, [Validators.minLength(1), Validators.maxLength(190), Validators.pattern(callRuleNameRegExp)]],
@@ -205,6 +212,9 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             if (this.mode === 'create') {
                 this.extension.create({...this.formExtension.value})
                     .then(extension => {
+                        const confirmation: string = 'Extension has been created successfully';
+                        this.message.writeSuccess(confirmation);
+
                         this.id = extension.id;
                         this.afterSaveExtension(extension);
                         this.saveFormState();
@@ -217,6 +227,9 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
             else if (this.mode === 'edit') {
                 this.extension.edit(this.id, {...this.formExtension.value})
                     .then(extension => {
+                        const confirmation: string = 'The changes have been saved successfully';
+                        this.message.writeSuccess(confirmation);
+
                         this.afterSaveExtension(extension);
                         this.saveFormState();
                         if (extension.extension) {

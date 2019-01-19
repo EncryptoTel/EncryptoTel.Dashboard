@@ -3,9 +3,9 @@
           (onClick)="buttonClick($event)"
           (onTabChange)="tabChanged($event)"
           [(params)]="params"
->
+          >
     <!-- General tab content -->
-    <pbx-tab [tabTitle]="'General' | translate">
+    <pbx-tab [title]="'General' | translate">
         <div class="department_form_wrapper">
             <pbx-loader *ngIf="!locker.free"></pbx-loader>
             <div class="call_queues_general_body" *ngIf="locker.free">
@@ -17,6 +17,7 @@
                                key="name"
                                [object]="generalForm"
                                errorKey="generalForm.name"
+                               [errors]="errors"
                                [form]="true"
                                errorShow="true"
                                labelPosition="top"
@@ -29,6 +30,7 @@
                                key="comment"
                                [object]="generalForm"
                                errorKey="generalForm.comment"
+                               [errors]="errors"
                                [form]="true"
                                errorShow="true"
                                labelPosition="top"
@@ -41,7 +43,7 @@
         </div>
     </pbx-tab>
     <!-- Members tab content -->
-    <pbx-tab [tabTitle]="'Members' | translate">
+    <pbx-tab [title]="'Members' | translate">
         <pbx-view-edit-control #sipInnersControl
                                buttonText="{{'Add Member' | translate }}"
                                [headerText]="'Department Members' | translate"
@@ -50,7 +52,7 @@
                                [items]="filteredSips"
                                [parentEditMode]="modelEdit"
                                [(selectedItems)]="selectedSips"
-        >
+                               >
             <div class="dep-create-wrapper" *ngIf="sips.length > 0">
                 <pbx-input #filterControl
                            name="{{'Search:' | translate }}"
