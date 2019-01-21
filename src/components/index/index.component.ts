@@ -45,7 +45,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     userNavigationVisible: boolean = false;
     mobileNavigationVisible: boolean = false;
     NotificationSubscription: Subscription;
-    isLockedCaller: boolean = false;
+    isLockedCaller: boolean = true;
 
     countUnread: number = 0;
 

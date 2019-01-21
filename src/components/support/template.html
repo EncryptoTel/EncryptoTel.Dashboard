@@ -1,40 +1,329 @@
 <div class="support">
-    <pbx-header
-            [buttons]="buttons"
-            [filters]="filters">
-    </pbx-header>
 
     <div class="content">
 
-        <!--<pbx-list style="width: 100%"-->
-                  <!--key="support"-->
-                  <!--name="Support"-->
-        <!--&gt;-->
-        <!--</pbx-list>-->
+        <pbx-header
+                [buttons]="buttons"
+                [filters]="filters">
+        </pbx-header>
 
-        <!--<div class="tablet">-->
-            <!--<div class="tablet_header">-->
-                <!--<div class="tablet_item">Ticket</div>-->
-                <!--<div class="tablet_item">Subject</div>-->
-                <!--<div class="tablet_item">Last Update</div>-->
-                <!--<div class="tablet_item">Status</div>-->
-                <!--<div class="tablet_item">Support</div>-->
-            <!--</div> &lt;!&ndash; tablet_header &ndash;&gt;-->
-            <!--<div class="tablet_body">-->
-                <!--<div class="tablet_content">-->
-                    <!--<div class="tablet_item">3651</div>-->
-                    <!--<div class="tablet_item">The problem of buying a phone number</div>-->
-                    <!--<div class="tablet_item">29/06/2017 14:47:25</div>-->
-                    <!--<div class="tablet_item">New</div>-->
-                    <!--<div class="tablet_item">Mike</div>-->
-                <!--</div> &lt;!&ndash; tablet_content &ndash;&gt;-->
-            <!--</div> &lt;!&ndash; tablet_body &ndash;&gt;-->
-        <!--</div> &lt;!&ndash; tablet &ndash;&gt;-->
-
-        <pbx-sidebar>
-            sidebar
-        </pbx-sidebar>
+       <div class="table">Table goes here</div>
 
     </div> <!-- content -->
+
+    <pbx-sidebar>
+
+        <form class="create_ticket_form">
+            <div class="create_ticket">
+
+                <div class="fields">
+
+                    <div class="item category">
+                        <label for="category">Category *</label>
+                        <div class="wrapper">
+                            <div class="arrow">
+                                <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
+                            </div>
+                            <!--<input required id="category" type="number" name="category">-->
+                            <select name="category" id="category">
+                                <option value="">Financial questions</option>
+                                <option value="">question 1</option>
+                                <option value="">question 2</option>
+                                <option value="">question 3</option>
+                                <option value="">question 4</option>
+                                <option value="">question 5</option>
+                            </select>
+                            <div class="visual"></div>
+                        </div> <!-- wrapper -->
+                        <div class="error_wrap">
+                            <span class="error" *ngIf="false">Error</span>
+                        </div>
+                    </div> <!-- item -->
+
+                    <div class="item subject">
+                        <label for="subject">Subject *</label>
+                        <div class="wrapper">
+                            <textarea required id="subject" type="text" name="subject"></textarea>
+                        </div> <!-- wrapper -->
+                        <div class="error_wrap">
+                            <span class="error" *ngIf="false">Error</span>
+                        </div>
+                    </div> <!-- item -->
+
+                    <div class="item message">
+                        <label for="message">Message *</label>
+                        <div class="wrapper">
+                            <textarea required id="message" type="text" name="message"></textarea>
+                        </div> <!-- wrapper -->
+                        <div class="error_wrap">
+                            <span class="error" *ngIf="false">Error</span>
+                        </div>
+                    </div> <!-- item -->
+
+                </div> <!-- fields -->
+
+                <div class="choose_block">
+                    <div class="choose_file_wrap">
+                        <input type="file" id="files">
+                        <label for="files" class="choose_files">Choose Files</label>
+                        <div class="files_status">No file chosen</div>
+                    </div> <!-- choose_file_wrap -->
+                    <div class="sizing">(Max size: 4 МБ)</div>
+                </div> <!-- choose_block -->
+
+                <div class="files">
+
+                    <div class="item">
+                        <div class="name">Screenshot-01-2017-06-27.jpg</div>
+                        <div class="icon">
+                            <svg-icon src="/assets/icons/buttons/trash.svg"></svg-icon>
+                        </div>
+                    </div> <!-- item -->
+
+                    <div class="item">
+                        <div class="name">Screenshot-01-2017-06-27.jpg</div>
+                        <div class="icon">
+                            <svg-icon src="/assets/icons/buttons/trash.svg"></svg-icon>
+                        </div>
+                    </div> <!-- item -->
+
+                    <div class="item">
+                        <div class="name">Screenshot-01-2017-06-27.jpg</div>
+                        <div class="icon">
+                            <svg-icon src="/assets/icons/buttons/trash.svg"></svg-icon>
+                        </div>
+                    </div> <!-- item -->
+
+                    <div class="item">
+                        <div class="name">Screenshot-01-2017-06-27.jpg</div>
+                        <div class="icon">
+                            <svg-icon src="/assets/icons/buttons/trash.svg"></svg-icon>
+                        </div>
+                    </div> <!-- item -->
+
+                </div> <!-- files -->
+
+            </div> <!-- create_ticket -->
+        </form>
+
+        <div class="ticket {{shown ? 'show' : 'hide'}}">
+
+            <div class="items">
+
+                <div class="item shown">
+                    <div class="left">
+                        <div class="key">Ticket</div>
+                        <div class="val">3285</div>
+                    </div> <!-- left -->
+                    <div class="right">
+                        <div class="key">Status</div>
+                        <div class="val">In Progress</div>
+                    </div> <!-- right -->
+                </div> <!-- item -->
+
+                <div class="item">
+                    <div class="key">Date</div>
+                    <div class="val">27/06/2017 23:59:08</div>
+                </div> <!-- item -->
+
+                <div class="item shown">
+                    <div class="key">Subject</div>
+                    <div class="val">Payment does not pass</div>
+                </div> <!-- item -->
+
+                <div class="item">
+                    <div class="key">Message</div>
+                    <div class="val">I replenished the balance by $150. Money not credited.</div>
+                </div> <!-- item -->
+
+                <div class="item">
+                    <div class="key">File</div>
+                    <div class="file_name">Screenshot-01-2017-06-27.jpg</div>
+                    <div class="file_name">Screenshot-01-2017-06-27.jpg</div>
+                    <div class="file_name">Screenshot-01-2017-06-27.jpg</div>
+                    <div class="file_name">Screenshot-01-2017-06-27.jpg</div>
+                </div> <!-- item -->
+
+            </div> <!-- items -->
+
+            <div class="show_more" (click)="showDetails()">
+                <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
+            </div>
+
+            <div class="messages">
+
+                <div class="item support_team">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            We know about your problem. During the day, the money will go to the account.
+                        </div> <!-- message -->
+                        <div class="when">14:54</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item support_team">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            Check enrollment
+                        </div> <!-- message -->
+                        <div class="when">16:48</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item user">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            Thank you, the money is credited
+                        </div> <!-- message -->
+                        <div class="when">now</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+
+
+
+                <div class="item support_team">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            We know about your problem. During the day, the money will go to the account.
+                        </div> <!-- message -->
+                        <div class="when">14:54</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item support_team">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            Check enrollment
+                        </div> <!-- message -->
+                        <div class="when">16:48</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item user">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            Thank you, the money is credited
+                        </div> <!-- message -->
+                        <div class="when">now</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item support_team">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            We know about your problem. During the day, the money will go to the account.
+                        </div> <!-- message -->
+                        <div class="when">14:54</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item support_team">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            Check enrollment
+                        </div> <!-- message -->
+                        <div class="when">16:48</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item user">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            Thank you, the money is credited
+                        </div> <!-- message -->
+                        <div class="when">now</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item support_team">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            We know about your problem. During the day, the money will go to the account.
+                        </div> <!-- message -->
+                        <div class="when">14:54</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item support_team">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            Check enrollment
+                        </div> <!-- message -->
+                        <div class="when">16:48</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item user">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            Thank you, the money is credited
+                        </div> <!-- message -->
+                        <div class="when">now</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item support_team">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            We know about your problem. During the day, the money will go to the account.
+                        </div> <!-- message -->
+                        <div class="when">14:54</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item support_team">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            Check enrollment
+                        </div> <!-- message -->
+                        <div class="when">16:48</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+                <div class="item user">
+                    <div class="ava"><span>SB</span></div>
+                    <div class="cnt">
+                        <div class="name">Support Bob</div>
+                        <div class="message">
+                            Thank you, the money is credited
+                        </div> <!-- message -->
+                        <div class="when">now</div>
+                    </div> <!-- cnt -->
+                </div> <!-- item -->
+
+            </div> <!-- messages -->
+
+        </div> <!-- ticket -->
+
+    </pbx-sidebar>
 
 </div>

@@ -14,6 +14,7 @@ import {HeaderComponent} from '../../elements/pbx-header/pbx-header.component';
 export class SupportComponent implements OnInit {
     buttons: ButtonItem[];
     filters: FilterItem[];
+    shown: boolean = false;
     @ViewChild(HeaderComponent) header: HeaderComponent;
 
     constructor(public translate: TranslateService) {
@@ -31,6 +32,10 @@ export class SupportComponent implements OnInit {
                 icon: 'plus'
             }
         ];
+    }
+
+    showDetails() {
+        this.shown = !this.shown;
     }
 
     ngOnInit() {

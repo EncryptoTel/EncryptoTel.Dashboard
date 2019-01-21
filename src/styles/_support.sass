@@ -1,24 +1,260 @@
 .support
-    flex-direction: column
-    pbx-header
-        pbx-button
-            button.plus
-                > span
-                    margin-right: 8px
-                    svg-icon
-                        svg
-                            width: 12px
-                            *
-                                fill: $dark_white
+    height: 100% !important
+    margin-bottom: 0 !important
     .content
         width: 100%
-        //.tablet
-        //    width: 100%
-        //    flex-direction: column
-        //    .tablet_header,
-        //    .tablet_body .tablet_content
-        //        width: 100%
-        //        display: grid
-        //        grid-template-columns: repeat(5, calc(100% / 5)) !important
+        height: 100%
+        flex-direction: column
+        pbx-header
+            pbx-button
+                button.plus
+                    > span
+                        margin-right: 8px
+                        svg-icon
+                            svg
+                                width: 12px
+                                *
+                                    fill: $dark_white
+    pbx-sidebar
+        .create_ticket_form
+            //display: none
+            .create_ticket
+                flex-direction: column
+                overflow: auto
+                padding-right: 4px
+                .fields
+                    width: 100%
+                    padding-right: 0
+                    overflow: initial
+                    .item
+                        &:nth-child(2)
+                            margin-bottom: 0
+                        &.category
+                            select
+                                padding-right: 40px !important
+                                font-family: Roboto, sans-serif
+                                font-weight: 300
+                                font-size: 14px
+                                color: $dark_white
+                            .arrow
+                                display: flex
+                                svg-icon
+                                    svg
+                                        width: 12px
+                                        height: auto
+                                        position: absolute
+                                        top: 50%
+                                        right: 16px
+                                        transform: translateY(-50%)
+                                        *
+                                            fill: $dark_white
+                .choose_block
+                    height: 26px
+                    min-height: 26px
+                    .choose_file_wrap
+                        position: relative
+                        input
+                            width: auto
+                            border: none
+                            display: none
+                        label.choose_files
+                            padding: 6px 12px
+                            background: $dark_accent
+                            font-family: Roboto, sans-serif
+                            font-weight: 400
+                            font-size: 14px
+                            color: $dark_white
+                            cursor: pointer
+                        .files_status
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 12px
+                            color: rgba($dark_white, .7)
+                            margin: auto 0 auto 8px
+                    .sizing
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 12px
+                        color: rgba($dark_white, .7)
+                        margin: auto 0 auto auto
+                .files
+                    margin-top: 20px
+                    flex-direction: column
+                    .item
+                        width: 100%
+                        padding: 8px 12px
+                        background: $dark_pagination_inactive
+                        margin-bottom: 4px
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size:  12px
+                        color: $dark_accent
+                        display: grid
+                        grid-template-columns: calc(100% - 20px) 20px
+                        align-items: center
+                        .name
+                            display: inline-block
+                            overflow: hidden
+                            text-overflow: ellipsis
+                            white-space: nowrap
+                        .icon
+                            svg-icon
+                                margin-left: auto
+                                svg
+                                    height: 16px
+                                    cursor: pointer
+                                    *
+                                        fill: $dark_error
+                                        cursor: pointer
+        .ticket
+            flex-direction: column
+            height: 100%
+            display: grid
+            grid-template-columns: 1fr
+            grid-template-rows: auto auto auto
+            display: none
+            .items
+                flex-direction: column
+                .item
+                    display: grid
+                    margin-bottom: 16px
+                    padding-right: 4px
+                    .key
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 12px
+                        color: rgba($dark_white, .7)
+                        margin-bottom: 8px
+                    .val
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 16px
+                        color: rgba($dark_white, 1)
+                    .file_name
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 14px
+                        color: rgba($dark_accent, 1)
+                        margin-bottom: 8px
+                    &:first-child
+                        grid-template-columns: 1fr 1fr
+                        .left
+                            flex-direction: column
+                        .right
+                            flex-direction: column
+                            .key
+                                justify-content: flex-end
+                            .val
+                                justify-content: flex-end
+                                color: $dark_in_progress
+            .show_more
+                background: rgba($white_nav_border, .2)
+                padding: 4px 0
+                cursor: pointer
+                margin-left: -24px
+                margin-right: -24px
+                svg-icon
+                    margin: 0 auto
+                    svg
+                        width: 12px
+                        cursor: pointer
+                        *
+                            fill: $dark_white
+                            cursor: pointer
+            &.show
+                .items
+                    //max-height: 50%
+                    overflow: auto
+                .show_more
+                    svg-icon
+                        svg
+                            transform: rotate(180deg)
+            &.hide
+                //grid-template-rows: minmax(auto, 50%) auto auto
+                .items
+                    .item:not(.shown)
+                        display: none
+                .show_more
+                    svg-icon
+                        svg
+                            transform: rotate(0deg)
+            .messages
+                flex-direction: column
+                padding: 16px 4px 16px 0
+                overflow: auto
+                .item
+                    display: grid
+                    grid-template-columns: 40px 1fr
+                    grid-gap: 14px
+                    margin-bottom: 16px
+                    .ava
+                        border-radius: 100%
+                        background: $dark_support_name
+                        font-family: Roboto, sans-serif
+                        font-weight: 400
+                        font-size: 20px
+                        text-transform: uppercase
+                        color: $dark_white
+                        height: 40px
+                        align-self: end
+                        span
+                            margin: auto
+                    .cnt
+                        flex-direction: column
+                        background: $dark_support_message_bg
+                        padding: 8px
+                        .name
+                            font-family: Roboto, sans-serif
+                            font-weight: 400
+                            font-size: 10px
+                            color: $dark_support_name
+                            margin-bottom: 8px
+                        .message
+                            font-family: Roboto, sans-serif
+                            font-weight: 300
+                            font-size: 14px
+                            color: $white_black
+                            line-height: 18px
+                        .when
+                            margin-left: auto
+                            font-family: Roboto, sans-serif
+                            font-weight: 400
+                            font-size: 10px
+                            color: rgba($white_black, .5)
+                            position: relative
+                            top: -5px
+                            &:before
+                                content: ''
+                                width: 2px
+                                height: 2px
+                                border-radius: 100%
+                                background: rgba($white_black, .5)
+                                position: absolute
+                                left: -5px
+                                top: 50%
+                                transform: translateY(-50%)
+                    &.support_team
+                        .cnt
+                            border-radius: 8px 8px 8px 0
+                    &.user
+                        grid-template-columns: 94px 1fr
+                        .ava
+                            display: none
+                        .cnt
+                            grid-column: 2/3
+                            border-radius: 8px 8px 0 8px
+                            background: $dark_accent
+                            .name
+                                display: none
+                            .message
+                                color: $dark_white
+                            .when
+                                color: rgba($dark_white, .5)
+                                &:before
+                                    background: rgba($dark_white, .5)
+
+
+
+
 
 
