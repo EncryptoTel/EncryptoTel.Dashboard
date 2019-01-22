@@ -17,11 +17,13 @@
                                     fill: $dark_white
     pbx-sidebar
         .create_ticket_form
+            margin-bottom: 16px
             //display: none
             .create_ticket
                 flex-direction: column
                 overflow: auto
-                padding-right: 4px
+                margin-right: -24px
+                padding-right: 24px
                 .fields
                     width: 100%
                     padding-right: 0
@@ -112,9 +114,11 @@
             display: grid
             grid-template-columns: 1fr
             grid-template-rows: auto auto auto
-            display: none
+            //display: none
             .items
                 flex-direction: column
+                margin-right: -24px
+                padding-right: 24px
                 .item
                     display: grid
                     margin-bottom: 16px
@@ -180,8 +184,9 @@
                             transform: rotate(0deg)
             .messages
                 flex-direction: column
-                padding: 16px 4px 16px 0
+                padding: 16px 24px 16px 0
                 overflow: auto
+                margin-right: -24px
                 .item
                     display: grid
                     grid-template-columns: 40px 1fr
@@ -252,7 +257,94 @@
                                 color: rgba($dark_white, .5)
                                 &:before
                                     background: rgba($dark_white, .5)
-
+            .input_wrap
+                //position: absolute
+                //left: 16px
+                //bottom: 16px
+                //right: 16px
+                background: $ivr_dark_table_bg_2
+                margin-bottom: 0 !important
+                display: grid
+                grid-template-columns: 16px 18px 1fr 17px 16px 11px 16px
+                border-top: 1px solid $dark_sidebar_lines
+                margin: 0 -24px 0 -24px
+                position: relative
+                top: 24px
+                .smiles
+                    grid-column: 2/3
+                    height: 100%
+                    svg-icon
+                        width: 100%
+                        position: relative
+                        svg
+                            cursor: pointer
+                            position: absolute
+                            top: 50%
+                            transform: translateY(-50%)
+                            *
+                                cursor: pointer
+                            path,
+                            ellipse
+                                fill: $chat_icon_grey_color
+                input
+                    width: 100%
+                    grid-column: 3/4
+                    height: 64px
+                    border: none !important
+                    &::placeholder
+                        color: $dark_white_50
+                .files
+                    grid-column: 4/5
+                    height: 100%
+                    &.active
+                        svg-icon
+                            svg
+                                path
+                                    fill: $dark_accent
+                    svg-icon
+                        width: 100%
+                        position: relative
+                        svg
+                            height: 18px
+                            cursor: pointer
+                            position: absolute
+                            top: 50%
+                            transform: translateY(-50%)
+                            *
+                                cursor: pointer
+                            path
+                                fill: $chat_icon_grey_color
+                .record
+                    grid-column: 6/7
+                    height: 100%
+                    svg-icon.mic,
+                    svg-icon.send
+                        width: 100%
+                        position: relative
+                        overflow: hidden
+                        svg
+                            height: 18px
+                            cursor: pointer
+                            position: absolute
+                            top: 50%
+                            left: 50%
+                            transform: translate(-50%, -50%)
+                            *
+                                cursor: pointer
+                            path
+                                fill: $chat_icon_grey_color
+                    svg-icon.send
+                        display: none
+                        svg
+                            path
+                                fill: $dark_accent
+                &.send
+                    grid-template-columns: 8px 18px 1fr 17px 12px 21px 8px
+                    .record
+                        svg-icon.mic
+                            display: none
+                        svg-icon.send
+                            display: block
 
 
 

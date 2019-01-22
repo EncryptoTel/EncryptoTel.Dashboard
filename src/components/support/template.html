@@ -5,18 +5,20 @@
         <pbx-header
                 [buttons]="buttons"
                 [filters]="filters"
-                (onClick)="createTicket($event)">
+                (onClick)="click($event)">
         </pbx-header>
 
        <div class="table">Table goes here</div>
 
     </div> <!-- content -->
 
-    <pbx-sidebar *ngIf="sidebar"
+    <pbx-sidebar *ngIf="sidebarVisible"
+                 [sidebarInfo]="sidebar"
+                 (onClick)="click($event)"
                  [@Swipe]
     >
 
-        <form class="create_ticket_form">
+        <form *ngIf="createMode" class="create_ticket_form">
             <div class="create_ticket">
 
                 <div class="fields">
@@ -109,7 +111,7 @@
             </div> <!-- create_ticket -->
         </form>
 
-        <div class="ticket {{shown ? 'show' : 'hide'}}">
+        <div *ngIf="!createMode" class="ticket {{shown ? 'show' : 'hide'}}">
 
             <div class="items">
 
@@ -324,6 +326,26 @@
                 </div> <!-- item -->
 
             </div> <!-- messages -->
+
+            <div class="input_wrap">
+                <div class="smiles">
+                    <svg-icon src="../../assets/images/chat/smiley_18px.svg"></svg-icon>
+                </div> <!-- smiles -->
+                <input type="text" placeholder="Write a message...">
+                <div class="files">
+                    <svg-icon src="../../assets/images/chat/clip_18px.svg"></svg-icon>
+                    <div class="dropdown_block" style="display: none;">
+                        <div class="item">Photo or Video</div>
+                        <div class="item">Camera</div>
+                        <div class="item">File</div>
+                        <div class="item">Location</div>
+                    </div> <!-- dropdown_block -->
+                </div> <!-- files -->
+                <div class="record">
+                    <svg-icon class="mic" src="../../assets/images/chat/microphone_18px.svg"></svg-icon>
+                    <svg-icon class="send" src="../../assets/images/chat/send_message.svg"></svg-icon>
+                </div> <!-- record -->
+            </div> <!-- input_wrap -->
 
         </div> <!-- ticket -->
 
