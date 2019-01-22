@@ -5,7 +5,7 @@
         <ng-template [ngSwitchCase]="'group'">
             <div [class]="'settings_form_title_' + level" translate>
                 {{ item.itemTitle }}
-                <span *ngIf="item.comment">{{ item.comment }}</span>
+                <span *ngIf="item.comment" translate>{{ item.comment }}</span>
             </div>
 
             <!-- flex-flow: column -->
@@ -22,7 +22,7 @@
         <ng-template [ngSwitchCase]="'group_field'">
             <div [class]="'settings_form_title_' + level" translate>
                 {{ item.itemTitle }}
-                <span *ngIf="item.comment">{{ item.comment }}</span>
+                <span *ngIf="item.comment" translate>{{ item.comment }}</span>
             </div>
 
             <div class="settings_form_field_group">

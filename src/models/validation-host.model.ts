@@ -220,22 +220,26 @@ export class ValidationHost implements Lockable {
         else if (errorKey === 'minlength') {
             const pluralEnd: string = errors.minlength.requiredLength > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            return `${ctrlName} is too short. Please use at least ${errors.minlength.requiredLength} ${szCharacters}`;
+            const phrase: string = this.translate.instant('is too short. Please use at least');
+            return `${ctrlName} ${phrase} ${errors.minlength.requiredLength} ${szCharacters}`;
         }
         else if (errorKey === 'min') {
             const pluralEnd: string = errors.min.min > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            return `${ctrlName} is too short. Please use at least ${errors.min.min} ${szCharacters}`;
+            const phrase: string = this.translate.instant('is too short. Please use at least');
+            return `${ctrlName} ${phrase} ${errors.min.min} ${szCharacters}`;
         }
         else if (errorKey === 'maxlength') {
             const pluralEnd: string = errors.maxlength.requiredLength > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            return `${ctrlName} can't contain over of ${errors.maxlength.requiredLength} ${szCharacters}`;
+            const phrase: string = this.translate.instant('can\'t contain over of');
+            return `${ctrlName} ${phrase} ${errors.maxlength.requiredLength} ${szCharacters}`;
         }
         else if (errorKey === 'max') {
             const pluralEnd: string = errors.max.max > 1 ? 's' : '';
             const szCharacters: string = this.translate.instant(`character${pluralEnd}`);
-            return `${ctrlName} can't contain over of ${errors.max.max} ${szCharacters}`;
+            const phrase: string = this.translate.instant('can\'t contain over of');
+            return `${ctrlName} ${phrase} ${errors.max.max} ${szCharacters}`;
         }
         else if (errorKey === 'pattern') {
             const szPleaseEnterValid: string = this.translate.instant('Please enter valid');
