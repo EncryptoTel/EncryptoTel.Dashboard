@@ -178,10 +178,10 @@
 
                         <!-- Redirect to call queue -->
                         <ng-template [ngSwitchCase]="3">
-                            <pbx-input name="{{'Queue' | translate }}"
+                            <pbx-input name="{{'Queue' | translate}}"
                                        key="parameter"
                                        [required]="true"
-                                       placeholder="{{queues.length === 0 ? 'None' : '[choose one]' | translate }}"
+                                       placeholder="{{queuePlaceholder | translate}}"
                                        [form]="true"
                                        [object]="action"
                                        [options]="queues"
@@ -195,7 +195,7 @@
                             >
                             </pbx-input>
 
-                            <pbx-input name="{{'If I do not answer call within' | translate }}"
+                            <pbx-input name="{{'If I do not answer call within' | translate}}"
                                        [description]="'seconds' | translate"
                                        key="timeout"
                                        [required]="true"
@@ -241,7 +241,7 @@
                                        (onSelect)="selectFile(i, $event)"
                                        >
                                 <div class="greeting">
-                                    <pbx-button [value]="playButtonTexts[i]"
+                                    <pbx-button [value]="playButtonTexts[i] | translate"
                                                 [inactive]="!isFileSelected(i)"
                                                 [loading]="!mediaPlayer.locker.free && selectedMediaIndex === i"
                                                 (onClick)="togglePlay(i)"
@@ -289,7 +289,7 @@
                             <pbx-input name="{{'Group' | translate }}"
                                        key="parameter"
                                        [required]="true"
-                                       placeholder="{{groups.length === 0 ? 'you have no groups' : '[choose one]' | translate}}"
+                                       placeholder="{{groupPlaceholder | translate}}"
                                        [form]="true"
                                        [object]="action"
                                        [options]="groups"

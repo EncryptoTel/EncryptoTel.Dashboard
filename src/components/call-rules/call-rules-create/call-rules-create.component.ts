@@ -64,6 +64,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         return isValidId(this.callRule.id);
     }
 
+    get queuePlaceholder(): string {
+      return this.queues.length === 0 ? 'noneOfQueues' : '[choose one]';
+    }
+
+    get groupPlaceholder(): string {
+      return this.queues.length === 0 ? 'noneOfGroups' : '[choose one]';
+    }
+
     // -- component lifecycle methods -----------------------------------------
 
     constructor(private service: CallRulesService,
@@ -271,7 +279,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
                     break;
                 case 5: // Play voice file
                     this.addAction(this.actionFactory(5), index);
-                    this.playButtonTexts[index] = 'Play';
 
                     this.files.forEach(file => {
                         if (file.id.toString() === ruleActions[actionIdx].parameter) {
@@ -306,6 +313,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     private addAction(actionGroup: FormGroup, index: number): void {
         this.actionsControls.setControl(index, actionGroup);
         this.fillActionFormData(actionGroup.get('action').value, index);
+        this.playButtonTexts[index] = 'Play';
 
         this.validationHost.initItems();
     }
