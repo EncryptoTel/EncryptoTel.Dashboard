@@ -12,7 +12,9 @@
 
     </div> <!-- content -->
 
-    <pbx-sidebar *ngIf="sidebar">
+    <pbx-sidebar *ngIf="sidebar"
+                 [@Swipe]
+    >
 
         <form class="create_ticket_form">
             <div class="create_ticket">
