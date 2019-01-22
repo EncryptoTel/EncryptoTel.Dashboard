@@ -15,6 +15,7 @@ export class SupportComponent implements OnInit {
     buttons: ButtonItem[];
     filters: FilterItem[];
     shown: boolean = false;
+    sidebar: boolean = false;
     @ViewChild(HeaderComponent) header: HeaderComponent;
 
     constructor(public translate: TranslateService) {
@@ -24,14 +25,24 @@ export class SupportComponent implements OnInit {
         this.buttons = [
             {
                 id: 0,
-                title: 'New Ticket',
+                title: 'Add New Ticket',
                 type: 'success',
                 visible: true,
                 inactive: false,
                 buttonClass: 'plus',
-                icon: 'plus'
+                icon: ''
             }
         ];
+    }
+
+    createTicket($event) {
+        if ($event) {
+            switch ($event.id) {
+                case 0:
+                    this.sidebar = !this.sidebar;
+                    break;
+            }
+        }
     }
 
     showDetails() {

@@ -4,14 +4,15 @@
 
         <pbx-header
                 [buttons]="buttons"
-                [filters]="filters">
+                [filters]="filters"
+                (onClick)="createTicket($event)">
         </pbx-header>
 
        <div class="table">Table goes here</div>
 
     </div> <!-- content -->
 
-    <pbx-sidebar>
+    <pbx-sidebar *ngIf="sidebar">
 
         <form class="create_ticket_form">
             <div class="create_ticket">
