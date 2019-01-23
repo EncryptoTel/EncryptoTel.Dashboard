@@ -1,5 +1,5 @@
-import {Type} from "class-transformer";
-import {formatDate} from "../shared/shared.functions";
+import {Type} from 'class-transformer';
+import {formatDate} from '@shared/shared.functions';
 
 export class DashboardModel {
     balance: BalanceModel;

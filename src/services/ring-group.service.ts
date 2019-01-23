@@ -90,7 +90,16 @@ export class RingGroupService extends BaseQueueService {
     if (departmentId && departmentId !== 'all') {
       url = `${ url }&filter[department]=${ departmentId }`;
     }
-    return this.request.get(url);
+    return this.request.get(url)
+      .then(response => {
+        response.items.forEach(item => {
+          if (item.sipOuter.providerId !== 1) {
+            item.sipOuter.phoneNumber = '+' + item.sipOuter.phoneNumber;
+          }
+          item.statusName = this.translate.instant(item.statusName);
+        });
+        return Promise.resolve(response);
+      });
   }
 
   getDepartments(sipId: number) {
