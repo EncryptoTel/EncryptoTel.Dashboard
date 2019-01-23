@@ -100,11 +100,11 @@
         <div class="buy_phone_table_body" *ngFor="let table of list">
             <div class="buy_phone_table_row" *ngFor="let item of table">
                 <div class="buy_phone_table_item">+{{item.fullNumber}}</div>
-                <div class="buy_phone_table_item">{{item.areaName||'Unknown'}}</div>
-                <div class="buy_phone_table_item">{{item.params.tollFree ? 'Toll-Free':item.params.mobile ?
-                    'Mobile':item.params.local ? 'Local':''}}
+                <div class="buy_phone_table_item" translate>{{item.areaName||'Unknown'}}</div>
+                <div class="buy_phone_table_item" translate>{{item.params.tollFree ? 'Toll-Free' : item.params.mobile ?
+                    'Mobile': item.params.local ? 'Local' : ''}}
                 </div>
-                <div class="buy_phone_table_item">{{item.sum?'$'+item.sum:'Free'}}</div>
+                <div class="buy_phone_table_item" translate>{{item.sum ? '$'+item.sum : 'Free'}}</div>
                 <div class="buy_phone_table_item">
                     <pbx-button value="{{'Buy' | translate}}" buttonType="success" [loading]="item.loading" (onClick)="buyItem(item)"
                                 [inactive]="item.inactive"></pbx-button>
@@ -122,7 +122,7 @@
             class="outerSpan"><span class="innerSpan">{{requestDetails.contains}}</span></span></span>
         <span class="msg"
               *ngIf="requestDetails.contains && requestDetails.areaCode" translate>Sorry, no matches were found for <span
-            class="outerSpan"><span class="innerSpan">{{requestDetails.areaCode}}</span></span> <span>and</span> <span
+            class="outerSpan"><span class="innerSpan">{{requestDetails.areaCode}}</span></span> <span translate>and</span> <span
             class="outerSpan"><span class="innerSpan">{{requestDetails.contains}}</span></span></span>
     </div>
     <div class="buy_phone_pagination" *ngIf="pagination.total>1">
