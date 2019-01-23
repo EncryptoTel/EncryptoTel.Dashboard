@@ -15,6 +15,78 @@
                                 width: 12px
                                 *
                                     fill: $dark_white
+        .tablet
+            flex-direction: column
+            .tablet_header,
+            .tablet_body .tablet_content
+                width: 100%
+                display: grid
+                grid-template-columns: repeat(5, 1fr)
+                .tablet_item
+                    min-height: 48px
+                    height: 48px
+                    align-items: center
+                    padding: 0 24px
+                    white-space: nowrap
+                    overflow: hidden
+                    text-overflow: ellipsis
+                    line-height: 48px
+                    display: inline-block
+            .tablet_header
+                border-bottom: 1px solid rgba($white_nav_border, .2)
+                .tablet_item
+                    font-family: Roboto, sans-serif
+                    font-weight: 300
+                    font-size: 12px
+                    color: rgba($dark_white, .6)
+                    .wrap
+                        cursor: pointer
+                        *
+                            cursor: pointer
+                        svg-icon
+                            margin-left: 8px
+                            position: relative
+                            top: 3px
+                            //display: none
+                            svg
+                                height: 16px
+                                *
+                                    fill: $dark_accent
+                        &.active
+                            svg-icon
+                                //display: inline-block
+            .tablet_body
+                flex-direction: column
+                .tablet_content
+                    border-bottom: 1px solid rgba($white_nav_border, .2)
+                    cursor: pointer
+                    *
+                        cursor: pointer
+                    .tablet_item
+                        font-family: Roboto, sans-serif
+                        font-weight: 300
+                        font-size: 14px
+                        color: rgba($dark_white, 1)
+                        .circle
+                            width: 16px
+                            height: 16px
+                            border-radius: 100%
+                            margin-right: 12px
+                            display: inline-block
+                            position: relative
+                            top: 4px
+                        &.new_ticket
+                            .circle
+                                background: $chat_color1
+                        &.in_progress_ticket
+                            .circle
+                                background: $white_marketplace_arrow
+                        &.completed_ticket
+                            .circle
+                                background: $white_btn_border_details
+
+                    &:hover
+                        background: rgba($dark_primary, .05)
     pbx-sidebar
         .create_ticket_form
             margin-bottom: 16px
@@ -314,6 +386,26 @@
                                 cursor: pointer
                             path
                                 fill: $chat_icon_grey_color
+                    .dropdown_block
+                        position: absolute
+                        bottom: 48px
+                        right: 0
+                        flex-direction: column
+                        z-index: 10
+                        box-shadow: $box-shadow
+                        .item
+                            font-family: Roboto, sans-serif
+                            font-size: 14px
+                            line-height: 19px
+                            color: $dark_white
+                            background: $dark_pagination_inactive
+                            padding: 0 16px
+                            height: 40px
+                            align-items: center
+                            cursor: pointer
+                            white-space: nowrap
+                            &:hover
+                                background: $dark_player_bg
                 .record
                     grid-column: 6/7
                     height: 100%
@@ -339,7 +431,7 @@
                             path
                                 fill: $dark_accent
                 &.send
-                    grid-template-columns: 8px 18px 1fr 17px 12px 21px 8px
+                    grid-template-columns: 16px 18px 1fr 17px 12px 21px 16px
                     .record
                         svg-icon.mic
                             display: none

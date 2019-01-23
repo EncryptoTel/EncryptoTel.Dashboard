@@ -8,7 +8,24 @@
                 (onClick)="click($event)">
         </pbx-header>
 
-       <div class="table">Table goes here</div>
+       <div class="tablet">
+           <div class="tablet_header">
+               <div class="tablet_item"><div class="wrap" (click)="sortIt()">Ticket <svg-icon src="{{sorting_down ? src_1 : src_2}}"></svg-icon></div></div>
+               <div class="tablet_item"><div class="wrap" (click)="sortIt()">Subject <svg-icon src="{{sorting_down ? src_1 : src_2}}"></svg-icon></div></div>
+               <div class="tablet_item"><div class="wrap" (click)="sortIt()">Last Update <svg-icon src="{{sorting_down ? src_1 : src_2}}"></svg-icon></div></div>
+               <div class="tablet_item"><div class="wrap" (click)="sortIt()">Status <svg-icon src="{{sorting_down ? src_1 : src_2}}"></svg-icon></div></div>
+               <div class="tablet_item"><div class="wrap" (click)="sortIt()">Support <svg-icon src="{{sorting_down ? src_1 : src_2}}"></svg-icon></div></div>
+           </div> <!-- tablet_herader -->
+           <div class="tablet_body">
+               <div class="tablet_content" *ngFor="let item of supportModel.items; let i = index">
+                   <div class="tablet_item">{{item.id}}</div>
+                   <div class="tablet_item">{{item.subject}}</div>
+                   <div class="tablet_item">{{item.updated}}</div>
+                   <div class="tablet_item {{item.status === 1 ? 'new_ticket' : item.status === 2 ? 'in_progress_ticket' : item.status === 3 ? 'completed_ticket' : ''}}"><div class="circle"></div>{{item.status === 1 ? 'New' : item.status === 2 ? 'In Progress' : item.status === 3 ? 'Completed' : ''}}</div>
+                   <div class="tablet_item">{{item.support}}</div>
+               </div> <!-- tablet_content -->
+           </div> <!-- tablet_body -->
+       </div>
 
     </div> <!-- content -->
 
@@ -327,14 +344,14 @@
 
             </div> <!-- messages -->
 
-            <div class="input_wrap">
+            <div class="input_wrap" [ngClass]="message.length > 0 ? 'send':''">
                 <div class="smiles">
                     <svg-icon src="../../assets/images/chat/smiley_18px.svg"></svg-icon>
                 </div> <!-- smiles -->
-                <input type="text" placeholder="Write a message...">
-                <div class="files">
+                <input type="text" placeholder="Write a message..." [(ngModel)]="message">
+                <div class="files" [ngClass]="dropdownFilesStatus ? 'active':''" (click)="dropdownFilesFunc()">
                     <svg-icon src="../../assets/images/chat/clip_18px.svg"></svg-icon>
-                    <div class="dropdown_block" style="display: none;">
+                    <div class="dropdown_block" *ngIf="dropdownFilesStatus">
                         <div class="item">Photo or Video</div>
                         <div class="item">Camera</div>
                         <div class="item">File</div>
