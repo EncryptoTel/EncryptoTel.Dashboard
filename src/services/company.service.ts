@@ -25,6 +25,7 @@ export class CompanyService extends BaseService {
   onInit(): void {
     this.url = 'company';
     this.companyInfo = plainToClass(CompanyInfoModel, companyInfoMap);
+    this.companyInfo.translate = this.translate;
     this.companyInfo.locale = this.translate.currentLang;
   }
 
@@ -37,7 +38,6 @@ export class CompanyService extends BaseService {
       .then((response: CompanyModel) => {
         const company = plainToClass(CompanyModel, response);
         this.companyInfo.setCompanyData(company);
-        console.log('info', this.companyInfo);
         return Promise.resolve(company);
       })
       .catch((error) => {

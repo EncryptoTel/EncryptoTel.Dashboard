@@ -1,6 +1,7 @@
 import { CountryModel } from '@models/country.model';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { formatDate } from '@shared/shared.functions';
+import { TranslateService } from '@ngx-translate/core';
 
 export class CompanyModel {
     constructor(public name: string = '',
@@ -37,6 +38,7 @@ export class CompanyInfoModel {
     sectionGroups: CompanyInfoSectionGroup[];
 
     locale: string;
+    translate: TranslateService;
 
     setCompanyData(company: CompanyModel): void {
         this.company.forEach(item => {
@@ -77,8 +79,12 @@ export class CompanyInfoModel {
                     } else {
                         item.title = phone.phoneNumber;
                     }
-                    item.value = `${phone.innerOnlineCount} of ${phone.innerCount} ext.`;
-                    item.value2 = phone.innerOnlineCount > 0 ? 'online' : 'online';
+                    item.value = this.translate.instant(
+                      'companyInnersStat',
+                      { onlineCount: phone.innerOnlineCount, innerCount: phone.innerCount });
+                    item.value2 = phone.innerOnlineCount > 0
+                      ? this.translate.instant('online')
+                      : this.translate.instant('offline');
                     section.items.push(item);
                 });
             }

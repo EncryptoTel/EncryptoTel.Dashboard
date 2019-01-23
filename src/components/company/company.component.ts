@@ -228,14 +228,20 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         this.service.companyInfo.sectionGroups[1].sections[0].items[0].title = dashboard.cdrDetail.calls.time;
         this.service.companyInfo.sectionGroups[1].sections[0].items[0].value = dashboard.cdrDetail.calls.sum;
 
-        this.service.companyInfo.sectionGroups[1].sections[0].items[1].value = dashboard.cdrDetail.tags['incoming'].count !== undefined ?
-            dashboard.cdrDetail.tags['incoming'].count : '-';
-        this.service.companyInfo.sectionGroups[1].sections[0].items[2].value = dashboard.cdrDetail.tags['outgoing'].count !== undefined ?
-            dashboard.cdrDetail.tags['outgoing'].count : '-';
-        this.service.companyInfo.sectionGroups[1].sections[0].items[3].value = dashboard.cdrDetail.tags['missed'].count !== undefined ?
-            dashboard.cdrDetail.tags['missed'].count : '-';
-        this.service.companyInfo.sectionGroups[1].sections[0].items[4].value = dashboard.cdrDetail.tags['no-answer'].count !== undefined ?
-            dashboard.cdrDetail.tags['no-answer'].count : '-';
+        let cdrIncomingCount = '-';
+        let cdrOutgoingCount = '-';
+        let cdrMissedCount = '-';
+        let cdrNoAnswerCount = '-';
+        if (dashboard.cdrDetail.tags.length) {
+          cdrIncomingCount = dashboard.cdrDetail.tags['incoming'].count || '-';
+          cdrOutgoingCount = dashboard.cdrDetail.tags['outgoing'].count || '-';
+          cdrMissedCount = dashboard.cdrDetail.tags['missed'].count || '-';
+          cdrNoAnswerCount = dashboard.cdrDetail.tags['no-answer'].count || '-';
+        }
+        this.service.companyInfo.sectionGroups[1].sections[0].items[1].value = cdrIncomingCount;
+        this.service.companyInfo.sectionGroups[1].sections[0].items[2].value = cdrOutgoingCount;
+        this.service.companyInfo.sectionGroups[1].sections[0].items[3].value = cdrMissedCount;
+        this.service.companyInfo.sectionGroups[1].sections[0].items[4].value = cdrNoAnswerCount;
 
         this.service.companyInfo.setSectionData('Tariff Plan', dashboard);
         this.service.companyInfo.setSectionData('Invoices', dashboard);
@@ -281,7 +287,6 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
         this.dashboard.getDashboard()
             .then(response => {
                 this.setCompanyInfo(response);
-
                 for (let i = 0; i < this.sidebarInfo.items.length; i++) {
                     const item = this.sidebarInfo.items[i];
                     switch (item.title) {
