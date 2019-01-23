@@ -44,9 +44,12 @@ export class DepartmentsComponent implements OnInit {
     @ViewChild(ListComponent) list;
 
     get emptyInfo(): string | null {
+        const szFirst: string = this.translate.instant('To get started with the Departments');
+        const szSecond: string = this.translate.instant('fill in the data in the');
+        const szCompany: string = this.translate.instant('Company module');
         return !this.companyActive
-        ? `<span class="empty_company">To get started with the module Departments<br/>fill in the data in the <a class="link_empty_company" href="/cabinet/company">module Company</a></span>`
-        : null;
+            ? `<span class="empty_company">${szFirst}<br/>${szSecond} <a class="link_empty_company" href="/cabinet/company">${szCompany}</a></span>`
+            : null;
     }
 
     constructor(

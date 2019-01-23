@@ -1,5 +1,6 @@
 import { CountryModel } from '@models/country.model';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { formatDate } from '@shared/shared.functions';
 
 export class CompanyModel {
     constructor(public name: string = '',
@@ -31,21 +32,23 @@ export class CompanyAddress {
 }
 
 export class CompanyInfoModel {
-    public logo: string;
-    public company: CompanyInfoItem[];
-    public sectionGroups: CompanyInfoSectionGroup[];
+    logo: string;
+    company: CompanyInfoItem[];
+    sectionGroups: CompanyInfoSectionGroup[];
 
-    public setCompanyData(company: CompanyModel): void {
+    locale: string;
+
+    setCompanyData(company: CompanyModel): void {
         this.company.forEach(item => {
             if (item.key) {
                 let evaluator: any;
-                evaluator = new CompanyInfoEvaluator(item, company);
+                evaluator = new CompanyInfoEvaluator(item, company, this.locale);
                 item.value = evaluator.value;
             }
         });
     }
 
-    public setSectionData(title: string, data: any): void {
+    setSectionData(title: string, data: any): void {
         this.sectionGroups.forEach(group => {
             let section: any;
             section = group.sections.find(s => s.title === title);
@@ -53,7 +56,7 @@ export class CompanyInfoModel {
                 section.items.forEach(item => {
                     if (item.key) {
                         let evaluator: any;
-                        evaluator = new CompanyInfoEvaluator(item, data);
+                        evaluator = new CompanyInfoEvaluator(item, data, this.locale);
                         item.value = evaluator.value;
                     }
                     else item.value = '-';
@@ -62,7 +65,7 @@ export class CompanyInfoModel {
         });
     }
 
-    public setPhoneNumbersData(title: string, data: any): void {
+    setPhoneNumbersData(title: string, data: any): void {
         this.sectionGroups.forEach(group => {
             const section = group.sections.find(s => s.title === title);
             if (section) {
@@ -108,14 +111,16 @@ export class CompanyInfoEvaluator {
     private _baseData: any;
     private _item: CompanyInfoItem;
     private _value: string;
+    private _locale: string;
 
     get value(): string {
         return this._value;
     }
 
-    constructor(item: CompanyInfoItem, data: any) {
+    constructor(item: CompanyInfoItem, data: any, locale: string) {
         this._baseData = data;
         this._item = item;
+        this._locale = locale;
 
         this._value = this.eval(this._item.key, this._baseData);
     }
@@ -158,9 +163,7 @@ export class CompanyInfoEvaluator {
                 // --
                 // Pattern: {DatePipeFormat}
                 // --
-                formatPipe = new DatePipe('en-US');
-                format = format ? format : 'MMM d, yyyy';
-                value = formatPipe.transform(value, format);
+                value = formatDate(value, this._locale);
                 break;
             case 'number':
                 // --

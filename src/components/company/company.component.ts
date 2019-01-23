@@ -163,7 +163,8 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             this.setFormData(this.company);
         }
         else {
-            this.getCompany();
+          this.form.reset();
+          this.getCompany();
         }
     }
 
@@ -252,17 +253,13 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
                 this.companyInfo.logo = company.logo;
                 this.company.logo = company.logo;
             })
-            .catch(() => {
-                if (isDevEnv() && this.service.model) {
-                    this.company = this.service.model;
-                }
-            })
+            .catch(() => {})
             .then(() => {
-                this.setFormData(this.company);
                 if (!this.company.isValid) {
                     this.isNewCompany = true;
                     this.editMode = true;
                 }
+                this.setFormData(this.company);
                 this.locker.unlock();
             });
     }
