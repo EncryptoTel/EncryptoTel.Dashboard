@@ -11,7 +11,7 @@
        <div class="tablet">
            <div class="tablet_header">
                <div class="tablet_item" *ngFor="let item of tableHeader, let i = index">
-                   <div class="wrap" (click)="sortIt(i)">{{item.title}} <svg-icon *ngIf="item.isDown !== null" src="{{item.isDown ? src_1 : src_2}}"></svg-icon></div>
+                   <div class="wrap" (click)="sortIt(i)">{{item.title}} <svg-icon *ngIf="item.isDown !== null" src="{{sortIcon(item)}}"></svg-icon></div>
                </div>
            </div> <!-- tablet_herader -->
            <div class="tablet_body">

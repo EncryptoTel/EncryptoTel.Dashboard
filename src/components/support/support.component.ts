@@ -25,13 +25,10 @@ export class SupportComponent implements OnInit {
     createMode: boolean = true;
     dropdownFilesStatus: boolean = false;
     message: string = '';
-    sorting_down: any;
+    sortingDown: any;
     sort: any;
 
     tableHeader: any;
-
-    src_1: string = '/assets/icons/_middle/sorting_down_16px.svg';
-    src_2: string = '/assets/icons/_middle/sorting_up_16px.svg';
 
     @ViewChild(HeaderComponent) header: HeaderComponent;
 
@@ -83,10 +80,15 @@ export class SupportComponent implements OnInit {
         ];
     }
 
+    sortIcon(item: any): string {
+      return item.isDown
+        ? '/assets/icons/_middle/sorting_down_16px.svg'
+        : '/assets/icons/_middle/sorting_up_16px.svg';
+    }
+
     sortIt (index: number) {
         this.tableHeader[index].isDown = !this.tableHeader[index].isDown;
-        let i: number;
-        for (i in this.tableHeader) {
+        for (const i in this.tableHeader) {
             if (parseInt(i) !== index) {
                 this.tableHeader[i].isDown = null;
             }
