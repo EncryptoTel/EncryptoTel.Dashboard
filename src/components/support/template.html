@@ -22,7 +22,7 @@
                    <div class="tablet_item">{{item.subject}}</div>
                    <div class="tablet_item">{{item.updated}}</div>
                    <div class="tablet_item {{item.status === 1 ? 'new_ticket' : item.status === 2 ? 'in_progress_ticket' : item.status === 3 ? 'completed_ticket' : ''}}"><div class="circle"></div>{{item.status === 1 ? 'New' : item.status === 2 ? 'In Progress' : item.status === 3 ? 'Completed' : ''}}</div>
-                   <div class="tablet_item">{{item.support}}</div>
+                   <div class="tablet_item">{{item.supportUserName}}</div>
                </div> <!-- tablet_content -->
            </div> <!-- tablet_body -->
        </div>
