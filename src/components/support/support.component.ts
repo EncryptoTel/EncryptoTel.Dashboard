@@ -25,7 +25,10 @@ export class SupportComponent implements OnInit {
     createMode: boolean = true;
     dropdownFilesStatus: boolean = false;
     message: string = '';
-    sorting_down: boolean = true;
+    sorting_down: any;
+    sort: any;
+
+    tableHeader: any;
 
     src_1: string = '/assets/icons/_middle/sorting_down_16px.svg';
     src_2: string = '/assets/icons/_middle/sorting_up_16px.svg';
@@ -51,10 +54,44 @@ export class SupportComponent implements OnInit {
             }
         ];
         this.sidebar.buttons = [];
+        this.tableHeader = [
+            {
+                column: 'id',
+                title: 'Ticket',
+                isDown: true
+            },
+            {
+                column: 'subject',
+                title: 'Subject',
+                isDown: null
+            },
+            {
+                column: 'updated',
+                title: 'Last Updated',
+                isDown: null
+            },
+            {
+                column: 'status',
+                title: 'Status',
+                isDown: null
+            },
+            {
+                column: 'supportUserName',
+                title: 'Support',
+                isDown: null
+            }
+        ];
     }
 
-    sortIt () {
-        this.sorting_down = !this.sorting_down;
+    sortIt (index: number) {
+        this.tableHeader[index].isDown = !this.tableHeader[index].isDown;
+        let i: number;
+        for (i in this.tableHeader) {
+            if (parseInt(i) !== index) {
+                this.tableHeader[i].isDown = null;
+            }
+        }
+        this.getItems(index);
     }
 
     dropdownFilesFunc() {
@@ -80,8 +117,8 @@ export class SupportComponent implements OnInit {
         this.shown = !this.shown;
     }
 
-    getItems () {
-        this.service.getItems(this.supportModel)
+    getItems (index: number) {
+        this.service.getItems(this.supportModel, this.tableHeader[index])
             .then(response => {
                 this.supportModel = response;
                 console.log(this.supportModel);
@@ -92,7 +129,7 @@ export class SupportComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getItems();
+        this.getItems(0);
         this.sidebar.buttons = [];
         if (this.createMode) {
             this.sidebar.buttons.push(new SidebarButtonItem(1, 'Close', 'cancel'));

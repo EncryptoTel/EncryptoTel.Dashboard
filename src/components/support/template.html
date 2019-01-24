@@ -10,11 +10,9 @@
 
        <div class="tablet">
            <div class="tablet_header">
-               <div class="tablet_item"><div class="wrap" (click)="sortIt()">Ticket <svg-icon src="{{sorting_down ? src_1 : src_2}}"></svg-icon></div></div>
-               <div class="tablet_item"><div class="wrap" (click)="sortIt()">Subject <svg-icon src="{{sorting_down ? src_1 : src_2}}"></svg-icon></div></div>
-               <div class="tablet_item"><div class="wrap" (click)="sortIt()">Last Update <svg-icon src="{{sorting_down ? src_1 : src_2}}"></svg-icon></div></div>
-               <div class="tablet_item"><div class="wrap" (click)="sortIt()">Status <svg-icon src="{{sorting_down ? src_1 : src_2}}"></svg-icon></div></div>
-               <div class="tablet_item"><div class="wrap" (click)="sortIt()">Support <svg-icon src="{{sorting_down ? src_1 : src_2}}"></svg-icon></div></div>
+               <div class="tablet_item" *ngFor="let item of tableHeader, let i = index">
+                   <div class="wrap" (click)="sortIt(i)">{{item.title}} <svg-icon *ngIf="item.isDown !== null" src="{{item.isDown ? src_1 : src_2}}"></svg-icon></div>
+               </div>
            </div> <!-- tablet_herader -->
            <div class="tablet_body">
                <div class="tablet_content" *ngFor="let item of supportModel.items; let i = index">

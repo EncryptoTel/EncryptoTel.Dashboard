@@ -9,8 +9,8 @@ export class SupportService extends BaseService {
         this.url = 'support/ticket';
     }
 
-    getItems(pageInfo: SupportModel): Promise<SupportModel> {
-        return super.getItems(pageInfo).then((response: any) => {
+    getItems(pageInfo: SupportModel, sort = null): Promise<SupportModel> {
+        return super.getItems(pageInfo, null, sort).then((response: any) => {
             let pageinfo: SupportModel;
             pageinfo = this.plainToClassEx<SupportModel, SupportItemModel>(SupportModel, SupportItemModel, response);
             return Promise.resolve(pageinfo);
