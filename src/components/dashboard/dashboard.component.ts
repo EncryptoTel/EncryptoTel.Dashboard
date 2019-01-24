@@ -5,6 +5,7 @@ import { CallDetailItem, CallDetailModel, DashboardModel } from '@models/dashboa
 import { DashboardServices } from '@services/dashboard.services';
 import { WsServices } from '@services/ws.services';
 import { LocalStorageServices } from '@services/local-storage.services';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -25,9 +26,12 @@ export class DashboardComponent {
   balanceSubscription: Subscription;
   cdrSubscription: Subscription;
 
-  constructor(private _dashboard: DashboardServices,
+  constructor(
+    private _dashboard: DashboardServices,
     private _ws: WsServices,
-    private storage: LocalStorageServices) {
+    private storage: LocalStorageServices,
+    private translation: TranslateService
+  ) {
     this.initDashboard();
     this.user = this.storage.readItem('pbx_user');
     this.dateFormat = this.storage.readItem('dateFormat');
@@ -38,6 +42,7 @@ export class DashboardComponent {
     this._dashboard.getDashboard()
       .then(dashboard => {
         this.dashboard = dashboard;
+        this.translateCallDetailsTimes();
         (item ? item : this).loading = false;
       }).catch((error) => {
         console.log('catch fetchDashboard', error);
@@ -64,6 +69,19 @@ export class DashboardComponent {
       const item = new CallDetailItem();
       model.list.unshift(item);
       this.fetchDashboard(item);
+    });
+  }
+
+  translateCallDetailsTimes(): void {
+    if (!this.dashboard || !this.dashboard.callDetail) { return; }
+
+    const abbreviations: string[] = this.translation
+      .instant('timeAbbreviation')
+      .split('|');
+    this.dashboard.callDetail.forEach(detail => {
+      detail.list.forEach(item => {
+        item.abbreviations = abbreviations;
+      });
     });
   }
 

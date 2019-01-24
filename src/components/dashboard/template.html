@@ -135,7 +135,7 @@
                      [ngClass]="'missed' === historyItem.tag ? 'missed' : ''">
                     <pbx-loader *ngIf="historyItem.loading"></pbx-loader>
                     <div *ngIf="!historyItem.loading" class="dashboard_history_row">
-                        <div class="dashboard_history_details">{{historyItem.name || 'Unknown'}}</div>
+                        <div class="dashboard_history_details" translate>{{historyItem.name || 'Unknown'}}</div>
                         <div class="dashboard_history_details">{{historyItem.calculateDuration}}
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                         <div class="dashboard_history_details">
                             {{historyItem.direction === 0 ? historyItem.source : historyItem.destination}}
                         </div>
-                        <div class="dashboard_history_details">{{historyItem.tag}}
+                        <div class="dashboard_history_details" translate>{{historyItem.tag}}
                         </div>
                     </div>
                 </div>
