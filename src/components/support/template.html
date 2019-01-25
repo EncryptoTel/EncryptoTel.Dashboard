@@ -15,7 +15,7 @@
                </div>
            </div> <!-- tablet_herader -->
            <div class="tablet_body">
-               <div class="tablet_content" *ngFor="let item of supportModel.items; let i = index">
+               <div class="tablet_content" *ngFor="let item of supportModel.items; let i = index" (click)="showTicket(item)">
                    <div class="tablet_item">{{item.id}}</div>
                    <div class="tablet_item">{{item.subject}}</div>
                    <div class="tablet_item">{{item.updated}}</div>
@@ -133,27 +133,27 @@
                 <div class="item shown">
                     <div class="left">
                         <div class="key">Ticket</div>
-                        <div class="val">3285</div>
+                        <div class="val">{{currentItem.id}}</div>
                     </div> <!-- left -->
                     <div class="right">
                         <div class="key">Status</div>
-                        <div class="val">In Progress</div>
+                        <div class="val {{currentItem.status === 1 ? 'new_ticket' : currentItem.status === 2 ? 'in_progress_ticket' : currentItem.status === 3 ? 'completed_ticket' : ''}}">{{currentItem.status === 1 ? 'New' : currentItem.status === 2 ? 'In Progress' : currentItem.status === 3 ? 'Completed' : ''}}</div>
                     </div> <!-- right -->
                 </div> <!-- item -->
 
                 <div class="item">
                     <div class="key">Date</div>
-                    <div class="val">27/06/2017 23:59:08</div>
+                    <div class="val">{{currentItem.updated}}</div>
                 </div> <!-- item -->
 
                 <div class="item shown">
                     <div class="key">Subject</div>
-                    <div class="val">Payment does not pass</div>
+                    <div class="val">{{currentItem.subject}}</div>
                 </div> <!-- item -->
 
                 <div class="item">
                     <div class="key">Message</div>
-                    <div class="val">I replenished the balance by $150. Money not credited.</div>
+                    <div class="val">{{currentItem.message}}</div>
                 </div> <!-- item -->
 
                 <div class="item">

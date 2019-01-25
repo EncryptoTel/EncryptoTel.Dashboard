@@ -77,13 +77,13 @@
                             top: 4px
                         &.new_ticket
                             .circle
-                                background: $chat_color1
+                                background: $dark_new_ticket
                         &.in_progress_ticket
                             .circle
-                                background: $white_marketplace_arrow
+                                background: $dark_in_progress_ticket
                         &.completed_ticket
                             .circle
-                                background: $white_btn_border_details
+                                background: $dark_completed_ticket
 
                     &:hover
                         background: rgba($dark_primary, .05)
@@ -222,7 +222,12 @@
                                 justify-content: flex-end
                             .val
                                 justify-content: flex-end
-                                color: $dark_in_progress
+                                &.new_ticket
+                                    color: $dark_new_ticket
+                                &.in_progress_ticket
+                                    color: $dark_in_progress_ticket
+                                &.completed_ticket
+                                    color: $dark_completed_ticket
             .show_more
                 background: rgba($white_nav_border, .2)
                 padding: 4px 0
