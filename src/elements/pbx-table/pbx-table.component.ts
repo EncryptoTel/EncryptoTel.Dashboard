@@ -80,6 +80,7 @@ export class TableComponent implements OnInit, OnDestroy {
         const cellText: string = (<any>event.target).outerText;
         if (partnerLinkRegExp.test(cellText)) {
             this.onCopyToClipboard.emit(item);
+            this.onSelect.emit(item);
         }
         else {
             this.onSelect.emit(item);
