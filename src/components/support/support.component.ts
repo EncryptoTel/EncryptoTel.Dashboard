@@ -22,11 +22,13 @@ export class SupportComponent implements OnInit {
     supportModel: SupportModel;
     shown: boolean = false;
     sidebarVisible: boolean = false;
-    createMode: boolean = true;
+    createMode: boolean;
     dropdownFilesStatus: boolean = false;
     message: string = '';
     sortingDown: any;
     sort: any;
+    currentItemId: any;
+    currentItem: any;
 
     tableHeader: any;
 
@@ -78,6 +80,20 @@ export class SupportComponent implements OnInit {
                 isDown: null
             }
         ];
+        this.createMode = false;
+    }
+
+    showTicket (item: any) {
+        this.sidebarVisible = true;
+        this.createMode = false;
+        this.buttons[0].inactive = false;
+        this.sidebar.buttons = [];
+        this.currentItemId = item.id;
+        for (const j in this.supportModel.items) {
+            if (this.supportModel.items[parseInt(j)].id === this.currentItemId) {
+                this.currentItem = this.supportModel.items[parseInt(j)];
+            }
+        }
     }
 
     sortIcon(item: any): string {
@@ -106,10 +122,15 @@ export class SupportComponent implements OnInit {
                 case 0:
                     this.sidebarVisible = true;
                     this.buttons[0].inactive = true;
+                    this.createMode = true;
+                    this.sidebar.buttons.push(new SidebarButtonItem(1, 'Close', 'cancel'));
+                    this.sidebar.buttons.push(new SidebarButtonItem(2, 'Create Ticket', 'success'));
                     break;
                 case 1:
                     this.sidebarVisible = false;
                     this.buttons[0].inactive = false;
+                    this.createMode = false;
+                    this.sidebar.buttons = [];
                     break;
             }
         }

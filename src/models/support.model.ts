@@ -11,6 +11,7 @@ export class SupportItemModel extends BaseItemModel {
     public supportUserName: string;
     public created: string;
     public updated: string;
+    public message: string;
 
     constructor(response?) {
         super();
@@ -21,6 +22,7 @@ export class SupportItemModel extends BaseItemModel {
             this.supportUserName = response.supportUserName ? response.supportUserName : null;
             this.created = response.created ? response.created : null;
             this.updated = response.updated ? response.updated : null;
+            this.message = response.message ? response.message : null;
         } else {
             this.id =  null;
             this.subject =  null;
@@ -28,6 +30,7 @@ export class SupportItemModel extends BaseItemModel {
             this.supportUserName = null;
             this.created = null;
             this.updated = null;
+            this.message = null;
         }
     }
 
