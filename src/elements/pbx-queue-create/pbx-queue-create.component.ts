@@ -260,7 +260,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         else {
           okMessage = this.hasId
             ? this.translate.instant('The changes have been saved successfully')
-            : this.translate.instant('Ring group has been created successfully');
+            : this.translate.instant('Ring Group has been created successfully');
         }
         this.message.writeSuccess(okMessage);
 

@@ -277,7 +277,7 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
                 lastName: sipInner.lastName,
                 sipOuterPhoneNumber: item.phoneNumber,
                 created: sipInner.created,
-                statusName: sipInner.statusName,
+                statusName: this.translate.instant(sipInner.statusName),
                 email: sipInner.email
             });
         }));

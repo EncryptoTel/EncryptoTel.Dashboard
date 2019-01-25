@@ -9,7 +9,7 @@
      (keydown)="keyboardNavigation($event)">
     <span *ngIf="!selectedObject || !(_selected && _selected[objectKey])" class="pbx-select-placeholder">{{_placeholder}}</span>
     <div [ngClass]="['select_item', 'selected', !selected ? 'blank' : '', singleBorder ? 'no_border' : '', errors ? 'error' : '', name ? 'pbx_select_' + name : '']">
-        <div class="val">{{ _selected ? _selected[objectKey] : '' }}</div>
+        <div class="val" translate>{{ _selected ? _selected[objectKey] : '' }}</div>
         <div class="count" *ngIf="optionHasCount(_selected)">({{ _selected ? _selected[objectCount] : '' }})</div>
         <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg" class="select_icon"></svg-icon>
     </div>
@@ -20,7 +20,7 @@
              [ngClass]="{ 'current' : isCurrent(option) }"
              (mousedown)="selectItem(option, $event)"
              >
-            <div class="val">{{ option[objectKey] }}</div>
+            <div class="val" translate>{{ option[objectKey] }}</div>
             <div class="count" *ngIf="optionHasCount(option)">({{ option[objectCount] }})</div>
         </div>
     </div>

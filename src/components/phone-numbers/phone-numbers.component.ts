@@ -160,20 +160,20 @@ export class PhoneNumbersComponent implements OnInit {
     }
 
     clickButton($event) {
+        switch ($event.id) {
+            case 10:
+                this.router.navigate(['cabinet', 'phone-numbers', 'buy']);
+                break;
+            case 11:
+                this.addExternalPhoneNumber = true;
+                this.buttons[1].inactive = true;
+                this.sidebar = new SidebarInfoModel();
+                this.sidebar.buttons.push(new SidebarButtonItem(1, this.translate.instant('Cancel'), 'cancel'));
+                this.sidebar.buttons.push(new SidebarButtonItem(2, this.translate.instant('Add'), 'success'));
+                this.router.navigate(['cabinet', 'phone-numbers', 'external']);
+                break;
+        }
         if ($event) {
-            switch ($event.id) {
-                case 10:
-                    this.router.navigate(['cabinet', 'phone-numbers', 'buy']);
-                    break;
-                case 11:
-                    this.addExternalPhoneNumber = true;
-                    this.buttons[1].inactive = true;
-                    this.sidebar = new SidebarInfoModel();
-                    this.sidebar.buttons.push(new SidebarButtonItem(1, this.translate.instant('Cancel'), 'cancel'));
-                    this.sidebar.buttons.push(new SidebarButtonItem(2, this.translate.instant('Add'), 'success'));
-                    this.router.navigate(['cabinet', 'phone-numbers', 'external']);
-                    break;
-            }
         }
     }
 

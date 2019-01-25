@@ -30,7 +30,7 @@
             <div class="refill_paying_container">
                 <div class="refill_paying_title"><span translate>Payment method</span>: {{selected.title}}</div>
                 <div class="refill_sidebar_item">
-                    <div class="refill_sidebar_item_title">{{selected.title}}</div>
+                    <div class="refill_sidebar_item_title" translate>{{selected.title}}</div>
                     <div class="refill_sidebar_item_value">{{payment.amount}}</div>
                 </div>
                 <div class="refill_paying_buttons">
@@ -57,7 +57,7 @@
                 <div class="refill_processing_amount"><span translate>Payment amount</span>
                     &nbsp;{{selected.title}}:<span>{{'     '+payment.amount}}</span></div>
                 <div class="refill_processing_address">
-                    <div>{{selected.title}} payment address:</div>
+                    <div>{{selected.title}} {{'payment address' | translate}}:</div>
                     <div>{{payment.address}}</div>
                     <div (click)="copyToClipboard()" translate>(click to copy)</div>
                 </div>

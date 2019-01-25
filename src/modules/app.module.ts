@@ -24,6 +24,7 @@ import {CallQueueService} from '../services/call-queue.service';
 import {SettingsService} from '../services/settings.service';
 import {CdrService} from '../services/cdr.service';
 import {AddressBookService} from '../services/address-book.service';
+import {SupportService} from '../services/support.service';
 import {DepartmentService} from '../services/department.service';
 import {CallRulesService} from '../services/call-rules.service';
 import {RingGroupService} from '../services/ring-group.service';
@@ -89,6 +90,7 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         DepartmentService,
         CallRulesService,
         AddressBookService,
+        SupportService,
         WsServices,
         RefsServices,
         RingGroupService,

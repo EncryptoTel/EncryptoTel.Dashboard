@@ -16,6 +16,7 @@ import { TableComponent } from '@elements/pbx-table/pbx-table.component';
 import { dateToServerFormat } from '@shared/shared.functions';
 import { LocalStorageServices } from '@services/local-storage.services';
 import { MessageServices } from '@services/message.services';
+import { SessionsModel } from '@models/settings.models';
 
 const pageNum = 'pbx_page_num';
 @Component({
@@ -228,6 +229,11 @@ export class ListComponent implements OnInit {
         this.getItems();
     }
 
+    onClear($event) {
+        this.calendarDateRange = null;
+        this.getItems();
+    }
+
     // -- filtering -----------------------------------------------------------
 
     reloadFilter(filter) {
@@ -259,42 +265,43 @@ export class ListComponent implements OnInit {
     // -- data methods --------------------------------------------------------
 
     getItems(item = null) {
-        /*item ? item.loading ++ :*/ this.loadingEx++;
-        const limit = this.pageInfo.limit;
-        if (this.currentFilter && this.currentFilter.type === 1) {
-            if (this.header.inputs.first.value.id === 'company') {
-                this.currentFilter.type = 'company';
-            } else {
-                this.currentFilter.type = 'blacklist';
-            }
+      /*item ? item.loading ++ :*/ this.loadingEx++;
+      const limit = this.pageInfo.limit;
+      if (this.currentFilter && this.currentFilter.type === 1) {
+        if (this.header.inputs.first.value.id === 'company') {
+          this.currentFilter.type = 'company';
+        } else {
+          this.currentFilter.type = 'blacklist';
         }
+      }
 
-        if (this.key === 'address-book') {
-            this.loadingEx++;
-            this.getAddressBookTotalItems()
-                .then(() => { })
-                .catch(() => { })
-                .then(() => this.loadingEx--);
-        }
+      if (this.key === 'address-book') {
+        this.loadingEx++;
+        this.getAddressBookTotalItems()
+          .then(() => { })
+          .catch(() => { })
+          .then(() => this.loadingEx--);
+      }
 
-        if (this.calendarVisible && this.calendarDateRange) {
-            if (!this.currentFilter) this.currentFilter = {};
-            this.currentFilter['startDate'] = dateToServerFormat(this.calendarDateRange[0]);
-            this.currentFilter['endDate'] = dateToServerFormat(this.calendarDateRange[1]);
-        }
+      if (this.calendarVisible && this.calendarDateRange) {
+        if (!this.currentFilter) this.currentFilter = {};
+        this.currentFilter['startDate'] = dateToServerFormat(this.calendarDateRange[0]);
+        this.currentFilter['endDate'] = dateToServerFormat(this.calendarDateRange[1]);
+      }
 
-        this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null)
-            .then(response => {
-                this.pageInfo = response;
-                this.pageInfo.limit = limit;
+      this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null)
+        .then(response => {
+          this.updateItemsTranslations(response);
+          this.pageInfo = response;
+          this.pageInfo.limit = limit;
 
-                this.updateTotalItems();
-                if (this.header) this.header.load();
+          this.updateTotalItems();
+          if (this.header) this.header.load();
 
-                this.onLoad.emit(this.pageInfo);
-            })
-            .catch(() => { })
-            .then(() => /*item ? item.loading-- :*/ this.loadingEx--);
+          this.onLoad.emit(this.pageInfo);
+        })
+        .catch(() => { })
+        .then(() => /*item ? item.loading-- :*/ this.loadingEx--);
     }
 
     getAddressBookTotalItems(): Promise<any> {
@@ -319,6 +326,12 @@ export class ListComponent implements OnInit {
         if ((!this.currentFilter || Object.keys(this.currentFilter).length === 0) && this.key !== 'address-book') {
             this._totalItemsCount = this.pageInfo.itemsCount;
         }
+    }
+
+    updateItemsTranslations(data: any): void {
+      if (data instanceof SessionsModel) {
+        data.locale = this.translate.currentLang;
+      }
     }
 
     get listDataEmpty(): boolean {

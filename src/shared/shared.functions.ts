@@ -125,18 +125,25 @@ export function evalByKey(key: string, variable: any): any {
     return value;
 }
 
-export function formatDate(value: string): string {
-    const date = moment(value, [formatDateServer]);
-    return date.format(formatDateUser);
+export function formatDate(value: string, locale: string = 'en'): string {
+  moment.locale(locale);
+  const date = moment(value, [formatDateServer]);
+  return capitalize(date.format(formatDateUser));
 }
 
-export function formatDateTime(value: string, format = null): string {
-    const date = moment(value, [formatDateServer]);
-    if (format  !== null ) {
-        return date.format(format);
-    } else {
-        return date.format(formatDateTimeUser);
-    }
+export function formatDateTime(value: string, format = null, locale: string = 'en'): string {
+  moment.locale(locale);
+  
+  const date = moment(value, [formatDateServer]);
+  const formattedDate: string = (format !== null)
+    ? date.format(format)
+    : date.format(formatDateTimeUser);
+  
+  return capitalize(formattedDate);
+}
+
+export function capitalize(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 export function getInterval(items, dateAttr, displayAttr): string {

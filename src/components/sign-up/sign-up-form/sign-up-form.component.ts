@@ -72,11 +72,11 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and ' )
+        this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and')
                         + `&nbsp;<a href="/assets/pdf/${this.translate.currentLang}/EncryptoTel_Privacy_Policy.pdf">` + this.translate.instant('Privacy Policy') + '</a>';
 
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and ')
+            this.byClicking = this.translate.instant('By clicking below, you agree to the EncryptoTel Terms of Service and')
                 + `&nbsp;<a href="/assets/pdf/${this.translate.currentLang}/EncryptoTel_Privacy_Policy.pdf">` + this.translate.instant('Privacy Policy') + '</a>';
         });
 

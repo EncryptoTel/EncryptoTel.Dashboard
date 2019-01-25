@@ -142,11 +142,6 @@ export class QueueMembersAddComponent implements OnInit {
         this.service.getMembers(id, this.currentFilter.search, this.currentFilter.department)
             .then((response) => {
                 this.members = response.items;
-                this.members.forEach(item => {
-                    if (item.sipOuter.providerId !== 1) {
-                        item.sipOuter.phoneNumber = '+' + item.sipOuter.phoneNumber;
-                    }
-                });
                 this.addPhoneNumberField();
             })
             .catch(() => {})

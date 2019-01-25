@@ -3,7 +3,18 @@ import { formatDateTime } from '@shared/shared.functions';
 
 
 export class SessionsModel extends PageInfoModel {
-    items: SessionItem[] = [];
+  items: SessionItem[] = [];
+
+  private _locale: string = 'en';
+  get locale(): string {
+    return this._locale;
+  }
+  set locale(locale: string) {
+    this._locale = locale;
+    if (this.items && this.items.length) {
+      this.items.forEach(i => i.locale = locale);
+    }
+  }
 }
 
 export class SessionItem extends BaseItemModel {
@@ -14,9 +25,11 @@ export class SessionItem extends BaseItemModel {
     session: string;
     expires: string;
     active: boolean;
+    
+    locale: string = 'en';
 
     get displayExpires(): string {
-        return formatDateTime(this.expires);
+        return formatDateTime(this.expires, null, this.locale);
     }
 
     get status(): string {

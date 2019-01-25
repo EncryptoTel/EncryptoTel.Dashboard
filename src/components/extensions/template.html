@@ -69,7 +69,8 @@
             <div class="ext_sidebar_button_title" translate>Generate new password and send to:</div>
             <div class="ext_sidebar_button_grid">
                 <pbx-button [loading]="loading.admin" value="Admin E-mail"
-                            (onClick)="sendPasswordToAdmin(sidebar)"></pbx-button>
+                            (onClick)="sendPasswordToAdmin(sidebar)">
+                </pbx-button>
                 <pbx-button *ngIf="!!sidebar.user" [loading]="loading.user" value="User E-mail"
                             (onClick)="sendPasswordToUser(sidebar)"></pbx-button>
                 <div *ngIf="!sidebar.user"></div>

@@ -1,9 +1,8 @@
-import {Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
-import {week} from '@shared/vars';
-import {SwipeAnimation} from '@shared/swipe-animation';
+import { week } from '@shared/vars';
+import { SwipeAnimation } from '@shared/swipe-animation';
 import {TranslateService} from '@ngx-translate/core';
-
 
 @Component({
   selector: 'pbx-calendar',
@@ -34,6 +33,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     @Input() dates: string[];
 
     @Output() newDates: EventEmitter<string[]> = new EventEmitter<string[]>();
+    @Output() clear: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     clearButtonName: string;
     applyButtonName: string;
@@ -212,7 +212,9 @@ export class CalendarComponent implements OnInit, OnChanges {
     resetCalendar(): void {
         this.index.forEach(i => {
             this.pick[i].setFullYear(this.today.getFullYear(), this.today.getMonth(), this.today.getDate() + (i - 1) * 13);
-            this.title[i] = this.dateToString(this.pick[i]); });
+            this.title[i] = this.dateToString(this.pick[i]);
+        });
         this.apply();
+        this.clear.emit(true);
     }
 }

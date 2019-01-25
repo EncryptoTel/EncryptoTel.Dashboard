@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { InvoiceService } from '../../services/invoice.service';
-import { InvoiceModel } from '../../models/invoice.model';
-import { ButtonItem, TableInfoExModel, TableInfoItem } from '../../models/base.model';
-import { ListComponent } from '../../elements/pbx-list/pbx-list.component';
-import { getInterval, getMomentFormatDete } from '../../shared/shared.functions';
 import { TranslateService } from '@ngx-translate/core';
+
+import { InvoiceService } from '@services/invoice.service';
+import { InvoiceModel } from '@models/invoice.model';
+import { ButtonItem, TableInfoExModel, TableInfoItem } from '@models/base.model';
+import { ListComponent } from '@elements/pbx-list/pbx-list.component';
+import { getInterval, getMomentFormatDete } from '@shared/shared.functions';
 import { formatDateTime } from '@shared/shared.functions';
 import { LocalStorageServices } from '@services/local-storage.services';
+
 
 @Component({
     selector: 'pbx-invoices',
@@ -14,7 +16,6 @@ import { LocalStorageServices } from '@services/local-storage.services';
     styleUrls: ['./local.sass'],
     providers: [InvoiceService]
 })
-
 export class InvoicesComponent implements OnInit {
 
     @ViewChild(ListComponent) list;
@@ -25,10 +26,11 @@ export class InvoicesComponent implements OnInit {
     buttons: ButtonItem[] = [];
     dateFormat: any;
 
-    constructor(public service: InvoiceService,
+    constructor(
+        public service: InvoiceService,
         public translate: TranslateService,
-        private storage: LocalStorageServices) {
-
+        private storage: LocalStorageServices
+    ) {
         this.dateFormat = getMomentFormatDete(this.storage.readItem('dateTimeFormat'), this.storage.readItem('TimeFormat'));
         this.table.sort.isDown = true;
         this.table.sort.column = 'date';
@@ -56,11 +58,14 @@ export class InvoicesComponent implements OnInit {
         });
     }
 
-    getInterval() {
+    ngOnInit(): void {
+    }
+
+    getInterval(): string {
         return getInterval(this.list.pageInfo.items, 'created', 'displayDate');
     }
 
-    load() {
+    load(): void {
         this.list.pageInfo.items.forEach(item => {
             if (item.status === 'Waiting for payment') {
                 item.status = '<span class="' + item.status + '">' + this.translate.instant(item.status) + '</span>';
@@ -74,15 +79,9 @@ export class InvoicesComponent implements OnInit {
         this.buttons[0].visible = true;
     }
 
-    create() {
-
+    create(): void {
     }
 
-    select() {
-
-    }
-
-    ngOnInit() {
-
+    select(): void {
     }
 }

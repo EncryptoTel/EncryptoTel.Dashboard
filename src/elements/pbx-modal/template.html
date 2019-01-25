@@ -1,7 +1,7 @@
 <div class="modal_overlay" *ngIf="(modal && modal.visible) || (modalEx && modalEx.visible)" [@Fade]>
   <div class="modal_overlay_item" (click)="hideModal()"></div>
   <div class="modal_wrap">
-    <div class="modal_title">{{modal ? modal.title : (modalEx ? modalEx.title : '')}}
+    <div class="modal_title" translate>{{modal ? modal.title : (modalEx ? modalEx.title : '')}}
       <div class="modal_close" (click)="hideModal()">
         <span></span><span></span>
       </div>
