@@ -229,6 +229,11 @@ export class ListComponent implements OnInit {
         this.getItems();
     }
 
+    onClear($event) {
+        this.calendarDateRange = null;
+        this.getItems();
+    }
+
     // -- filtering -----------------------------------------------------------
 
     reloadFilter(filter) {

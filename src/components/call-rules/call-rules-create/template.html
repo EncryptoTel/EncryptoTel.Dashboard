@@ -23,7 +23,7 @@
             </pbx-input>
             <div class="note" translate>Enabling a new rule will cancel the previous one</div>
         </div> <!-- enable_rule_wrap -->
-        
+
         <pbx-input name="{{names.ruleName}}"
                    key="name"
                    [required]="true"
@@ -178,10 +178,10 @@
 
                         <!-- Redirect to call queue -->
                         <ng-template [ngSwitchCase]="3">
-                            <pbx-input name="{{'Queue' | translate}}"
+                            <pbx-input name="{{'Queue' | translate }}"
                                        key="parameter"
                                        [required]="true"
-                                       placeholder="{{queuePlaceholder | translate}}"
+                                       placeholder="{{queues.length === 0 ? 'None' : '[choose one]' | translate }}"
                                        [form]="true"
                                        [object]="action"
                                        [options]="queues"
@@ -195,19 +195,19 @@
                             >
                             </pbx-input>
 
-                            <pbx-input name="{{'If I do not answer call within' | translate}}"
-                                       [description]="'seconds' | translate"
-                                       key="timeout"
-                                       [required]="true"
-                                       [form]="true"
-                                       [object]="action"
-                                       [(errors)]="service.errors"
-                                       [errorKey]="'ruleActions.new_' + i + '.timeout'"
-                                       [validationHost]="validationHost"
-                                       inputClass="time"
-                                       inputCenter="true"
-                            >
-                            </pbx-input>
+                            <!--<pbx-input name="{{'If I do not answer call within' | translate }}"-->
+                                       <!--[description]="'seconds' | translate"-->
+                                       <!--key="timeout"-->
+                                       <!--[required]="true"-->
+                                       <!--[form]="true"-->
+                                       <!--[object]="action"-->
+                                       <!--[(errors)]="service.errors"-->
+                                       <!--[errorKey]="'ruleActions.new_' + i + '.timeout'"-->
+                                       <!--[validationHost]="validationHost"-->
+                                       <!--inputClass="time"-->
+                                       <!--inputCenter="true"-->
+                            <!--&gt;-->
+                            <!--</pbx-input>-->
 
                             <call-rules-time-rules [action]="action"
                                                    [actionIndex]="i"
@@ -241,7 +241,7 @@
                                        (onSelect)="selectFile(i, $event)"
                                        >
                                 <div class="greeting">
-                                    <pbx-button [value]="playButtonTexts[i] | translate"
+                                    <pbx-button [value]="playButtonTexts[i]"
                                                 [inactive]="!isFileSelected(i)"
                                                 [loading]="!mediaPlayer.locker.free && selectedMediaIndex === i"
                                                 (onClick)="togglePlay(i)"
@@ -289,7 +289,7 @@
                             <pbx-input name="{{'Group' | translate }}"
                                        key="parameter"
                                        [required]="true"
-                                       placeholder="{{groupPlaceholder | translate}}"
+                                       placeholder="{{groups.length === 0 ? 'you have no groups' : '[choose one]' | translate}}"
                                        [form]="true"
                                        [object]="action"
                                        [options]="groups"
@@ -303,19 +303,19 @@
                             >
                             </pbx-input>
 
-                            <pbx-input name="{{'If I do not answer call within' | translate }}"
-                                       [description]="'seconds' | translate"
-                                       key="timeout"
-                                       [required]="true"
-                                       [form]="true"
-                                       [object]="action"
-                                       [(errors)]="service.errors"
-                                       [errorKey]="'ruleActions.new_' + i + '.timeout'"
-                                       [validationHost]="validationHost"
-                                       inputClass="time"
-                                       inputCenter="true"
-                            >
-                            </pbx-input>
+                            <!--<pbx-input name="{{'If I do not answer call within' | translate }}"-->
+                                       <!--[description]="'seconds' | translate"-->
+                                       <!--key="timeout"-->
+                                       <!--[required]="true"-->
+                                       <!--[form]="true"-->
+                                       <!--[object]="action"-->
+                                       <!--[(errors)]="service.errors"-->
+                                       <!--[errorKey]="'ruleActions.new_' + i + '.timeout'"-->
+                                       <!--[validationHost]="validationHost"-->
+                                       <!--inputClass="time"-->
+                                       <!--inputCenter="true"-->
+                            <!--&gt;-->
+                            <!--</pbx-input>-->
 
                             <call-rules-time-rules [action]="action"
                                                    [actionIndex]="i"
