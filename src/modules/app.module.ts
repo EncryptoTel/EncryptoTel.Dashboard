@@ -50,6 +50,7 @@ import {PbxTranslateLoader} from '../shared/pbx-translate-loader';
 import {ModalServices} from '@services/modal.service';
 import {CanDeactivateFormGuard} from '@services/can-deactivate-form-guard.service';
 import { CanActivatePageGuard } from '@services/can-activate-page-guard.service';
+import { GoogleAnalyticsEventsService } from '@services/google-analytics-events.service';
 
 const config: SocketIoConfig = {url: environment.ws, options: {transports: ['websocket']}};
 
@@ -107,7 +108,8 @@ const config: SocketIoConfig = {url: environment.ws, options: {transports: ['web
         ModalServices,
         StorageService,
         CanDeactivateFormGuard,
-        CanActivatePageGuard
+        CanActivatePageGuard,
+        GoogleAnalyticsEventsService
     ],
     bootstrap: [MainViewComponent]
 })

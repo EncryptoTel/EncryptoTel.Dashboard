@@ -93,6 +93,7 @@
         "@angular/compiler-cli": "^5.0.0",
         "@angular/language-service": "^5.0.0",
         "@types/core-js": "^2.5.0",
+        "@types/google.analytics": "0.0.39",
         "@types/jquery": "^3.3.9",
         "@types/node": "^10.10.3",
         "codelyzer": "~3.2.0",
