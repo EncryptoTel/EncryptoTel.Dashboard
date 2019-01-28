@@ -4,9 +4,10 @@ import {ButtonItem, FilterItem} from '../../models/base.model';
 import {TranslateService} from '@ngx-translate/core';
 import {HeaderComponent} from '../../elements/pbx-header/pbx-header.component';
 import { SidebarButtonItem, SidebarInfoModel } from '../../models/base.model';
-import {SupportModel} from '@models/support.model';
+import {MessagesItemModel, SupportModel} from '@models/support.model';
 import {SupportService} from '@services/support.service';
 import {AddressBookModel} from '@models/address-book.model';
+import {PhoneNumberExternalModel} from '@models/phone-number-external.model';
 
 @Component({
     selector: 'support-component',
@@ -31,6 +32,8 @@ export class SupportComponent implements OnInit {
     currentItem: any;
 
     tableHeader: any;
+
+    ticketMessage: MessagesItemModel = new MessagesItemModel();
 
     @ViewChild(HeaderComponent) header: HeaderComponent;
 
@@ -89,6 +92,13 @@ export class SupportComponent implements OnInit {
         this.buttons[0].inactive = false;
         this.sidebar.buttons = [];
         this.currentItemId = item.id;
+        this.ticketMessage.supportTicket = item.id;
+        this.service.getById(item.id)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(() => {})
+            .then(() => {});
         for (const j in this.supportModel.items) {
             if (this.supportModel.items[parseInt(j)].id === this.currentItemId) {
                 this.currentItem = this.supportModel.items[parseInt(j)];
@@ -158,6 +168,34 @@ export class SupportComponent implements OnInit {
             this.sidebar.buttons.push(new SidebarButtonItem(1, 'Close', 'cancel'));
             this.sidebar.buttons.push(new SidebarButtonItem(2, 'Create Ticket', 'success'));
         }
+    }
+
+    saveMessage () {
+        this.service.post('/response', this.ticketMessage, true).then(() => {
+            // this.phoneExternal = new PhoneNumberExternalModel();
+            // this.selected = null;
+            // this.router.navigateByUrl('/cabinet/phone-numbers');
+            // this.sidebarVisible = false;
+            // if (!this.editMode) {
+            //     this.buttons[1].inactive = false;
+            // }
+            // this.resetErrors();
+        }).catch((error) => {
+            // if (error.errors.port) {
+            //     this.errors.port = error.errors.port;
+            // }
+            // if (error.errors.password) {
+            //     this.errors.password = error.errors.password;
+            // }
+            // if (error.errors.host) {
+            //     this.errors.host = error.errors.host;
+            // }
+            // if (error.errors.phoneNumber) {
+            //     this.errors.phoneNumber = error.errors.phoneNumber;
+            // }
+            // console.log(this.errors);
+        }).then(() => {
+        });
     }
 
 

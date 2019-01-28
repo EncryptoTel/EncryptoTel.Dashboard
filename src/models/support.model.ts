@@ -2,6 +2,7 @@ import {BaseItemModel, PageInfoModel} from './base.model';
 
 export class SupportModel extends PageInfoModel {
     items: SupportItemModel[];
+    messages: MessagesItemModel[];
 }
 
 export class SupportItemModel extends BaseItemModel {
@@ -30,6 +31,25 @@ export class SupportItemModel extends BaseItemModel {
             this.supportUserName = null;
             this.created = null;
             this.updated = null;
+            this.message = null;
+        }
+    }
+
+
+}
+
+
+export class MessagesItemModel extends BaseItemModel {
+    public supportTicket: number;
+    public message: string;
+
+    constructor(response?) {
+        super();
+        if (response) {
+            this.supportTicket = response.id ? response.id : null;
+            this.message = response.message ? response.message : null;
+        } else {
+            this.supportTicket =  null;
             this.message = null;
         }
     }

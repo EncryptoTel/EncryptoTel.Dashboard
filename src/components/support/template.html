@@ -342,11 +342,12 @@
 
             </div> <!-- messages -->
 
-            <div class="input_wrap" [ngClass]="message.length > 0 ? 'send':''">
+            <div class="input_wrap" [ngClass]="ticketMessage.message && ticketMessage.message.length > 0 ? 'send':''">
                 <div class="smiles">
                     <svg-icon src="../../assets/images/chat/smiley_18px.svg"></svg-icon>
                 </div> <!-- smiles -->
-                <input type="text" placeholder="Write a message..." [(ngModel)]="message">
+                <input type="text" placeholder="Write a message..." [(ngModel)]="ticketMessage.message">
+                <!--<input required type="text" id="externalHost" [(ngModel)]="phoneExternal.host" name="host">-->
                 <div class="files" [ngClass]="dropdownFilesStatus ? 'active':''" (click)="dropdownFilesFunc()">
                     <svg-icon src="../../assets/images/chat/clip_18px.svg"></svg-icon>
                     <div class="dropdown_block" *ngIf="dropdownFilesStatus">
@@ -358,7 +359,7 @@
                 </div> <!-- files -->
                 <div class="record">
                     <svg-icon class="mic" src="../../assets/images/chat/microphone_18px.svg"></svg-icon>
-                    <svg-icon class="send" src="../../assets/images/chat/send_message.svg"></svg-icon>
+                    <svg-icon class="send" src="../../assets/images/chat/send_message.svg" (click)="saveMessage()"></svg-icon>
                 </div> <!-- record -->
             </div> <!-- input_wrap -->
 
