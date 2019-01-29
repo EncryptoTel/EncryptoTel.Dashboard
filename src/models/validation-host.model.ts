@@ -77,18 +77,18 @@ export class ValidationHost implements Lockable {
     updateState(): void {
         if (!this.active) { return; }
 
-        const mouseIsInForm = false;
-        // let control = this.controls.find(c => c.inMouseHover);
-        // if (control) {
-        //     mouseIsInForm = true;
-        //     if (control.inErrorState) {
-        //         this.setControlError(control);
-        //         return;
-        //     }
-        // }
+        let mouseIsInForm = false;
+        let control = this.controls.find(c => c.inMouseHover);
+        if (control) {
+            mouseIsInForm = true;
+            if (control.inErrorState) {
+                this.setControlError(control);
+                return;
+            }
+        }
 
         let inputIsInForm = false;
-        const control = this.controls.find(c => c.inFocus);
+        control = this.controls.find(c => c.inFocus);
         if (control) {
             inputIsInForm = true;
             if (control.inErrorState) {
