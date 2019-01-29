@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
@@ -12,6 +12,7 @@ import { MessageServices } from '@services/message.services';
 import { LocalStorageServices } from '@services/local-storage.services';
 import { FadeAnimation } from '@shared/fade-animation';
 import { PbxTranslateLoader } from '@shared/pbx-translate-loader';
+import { WsServices } from '@services/ws.services';
 
 
 // first and second
@@ -19,83 +20,123 @@ import { PbxTranslateLoader } from '@shared/pbx-translate-loader';
 // declare var jquery:any;
 // declare var $ :any;
 
+export const PING_TIME_INTERVAL: number = 5000;
+
 @Component({
-    selector: 'main-view',
-    template: `
+  selector: 'main-view',
+  template: `
         <pbx-loader *ngIf="loading"></pbx-loader>
         <router-outlet *ngIf="!loading"></router-outlet>
         <pbx-notificator></pbx-notificator>
+        <div *ngIf="connectionLost" class="no-internet">No Internet connnection</div>
     `,
-    animations: [FadeAnimation('300ms')]
+  styles: [`
+    .no-internet {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      background: #c10000;
+      z-index: 100;
+      font-size: 18px;
+      padding: 20px;
+    }
+  `],
+  animations: [FadeAnimation('300ms')]
 })
 export class MainViewComponent implements OnInit, OnDestroy {
 
-    // messagesList: MessageModel[];
-    routerSubscription: Subscription;
-    loading: boolean = false;
+  // messagesList: MessageModel[];
+  routerSubscription: Subscription;
+  connectionLostSubs: Subscription;
+  connectionRestoredSubs: Subscription;
 
-    pageTitle: string = 'Encrypto Telecom';
-    @HostBinding('class') public userTheme: string;
+  loading: boolean = false;
+  pingTimer: any = null;
+  connectionLost: boolean = false;
 
-    // -- component lifecycle methods -----------------------------------------
+  pageTitle: string = 'Encrypto Telecom';
+  @HostBinding('class') public userTheme: string;
 
-    constructor(
-        public services: MessageServices,
-        private router: Router,
-        private activatedRoute: ActivatedRoute,
-        private title: Title,
-        private storage: LocalStorageServices,
-        private cookieService: CookieService,
-        private translate: TranslateService) {
+  // -- component lifecycle methods -----------------------------------------
 
-        (<PbxTranslateLoader>this.translate.currentLoader).loadTranslations().then(() => {
-            translate.setDefaultLang('en');
-            let language: string = this.storage.readItem('user_lang');
-            if (!language) {
-                language = 'en';
-            }
-            translate.use(language);
-        });
+  constructor(
+    public message: MessageServices,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private title: Title,
+    private storage: LocalStorageServices,
+    private cookieService: CookieService,
+    private translate: TranslateService,
+    private ws: WsServices
+  ) {
+    (<PbxTranslateLoader>this.translate.currentLoader).loadTranslations().then(() => {
+      translate.setDefaultLang('en');
+      let language: string = this.storage.readItem('user_lang');
+      if (!language) {
+        language = 'en';
+      }
+      translate.use(language);
+    });
+  }
+
+  ngOnInit(): void {
+    let theme: string = this.storage.readItem('pbx_theme');
+    if (!theme) {
+      theme = 'dark_theme';
     }
+    this.setUserTheme(theme);
 
-    ngOnInit(): void {
-        let theme: string;
-        theme = this.storage.readItem('pbx_theme');
-        if (!theme) {
-            theme = 'dark_theme';
+    this.routerSubscription = this.router.events
+      .filter((event) => event instanceof NavigationEnd)
+      .map(() => this.activatedRoute)
+      .map((route) => {
+        while (route.firstChild) {
+          route = route.firstChild;
         }
-        this.setUserTheme(theme);
-        this.routerSubscription = this.router.events
-            .filter((event) => event instanceof NavigationEnd)
-            .map(() => this.activatedRoute)
-            .map((route) => {
-                while (route.firstChild) {
-                    route = route.firstChild;
-                }
-                return route;
-            })
-            .filter((route) => route.outlet === 'primary')
-            .mergeMap((route) => route.data)
-            .subscribe((event) => {
-                this.pageTitle = event['title'];
-                this.title.setTitle(`Encrypto Telecom | ${event['title']}`);
-            });
+        return route;
+      })
+      .filter((route) => route.outlet === 'primary')
+      .mergeMap((route) => route.data)
+      .subscribe((event) => {
+        this.pageTitle = event['title'];
+        this.title.setTitle(`Encrypto Telecom | ${event['title']}`);
+      });
 
-    }
+    this.connectionLostSubs = this.ws.connectionLost.subscribe(() => {
+      this.connectionLost = true;
+    });
+    this.connectionRestoredSubs = this.ws.connectionRestored.subscribe(() => {
+      this.connectionLost = false;
+    });
 
-    ngOnDestroy(): void {
-        this.routerSubscription.unsubscribe();
-    }
-    
-    // -- component methods ---------------------------------------------------
+    this.pingTimer = setInterval(() => {
+      if (this.ws.connected) {
+        this.ws.ping();
+      }
+    }, PING_TIME_INTERVAL);
+  }
 
-    public setUserTheme(theme: string) {
-        this.userTheme = theme;
-        document.body.removeAttribute('class');
-        document.body.classList.add(theme);
-        this.cookieService.set('pbx_theme', theme);
-        this.storage.writeItem('pbx_theme', theme);
+  ngOnDestroy(): void {
+    this.routerSubscription.unsubscribe();
+    this.connectionLostSubs.unsubscribe();
+    this.connectionRestoredSubs.unsubscribe();
+
+    if (this.pingTimer) {
+      clearInterval(this.pingTimer);
     }
+  }
+
+  // -- component methods ---------------------------------------------------
+
+  public setUserTheme(theme: string) {
+    this.userTheme = theme;
+    document.body.removeAttribute('class');
+    document.body.classList.add(theme);
+    this.cookieService.set('pbx_theme', theme);
+    this.storage.writeItem('pbx_theme', theme);
+  }
 }
 
 
