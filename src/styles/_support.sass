@@ -185,12 +185,13 @@
             height: 100%
             display: grid
             grid-template-columns: 1fr
-            grid-template-rows: auto auto auto
+            grid-template-rows: auto auto 1fr auto
             //display: none
             .items
                 flex-direction: column
                 margin-right: -24px
                 padding-right: 24px
+                max-height: 250px
                 .item
                     display: grid
                     margin-bottom: 16px
@@ -234,6 +235,7 @@
                 cursor: pointer
                 margin-left: -24px
                 margin-right: -24px
+                max-height: 20px
                 svg-icon
                     margin: 0 auto
                     svg
@@ -347,6 +349,7 @@
                 margin: 0 -24px 0 -24px
                 position: relative
                 top: 24px
+                max-height: 65px
                 .smiles
                     grid-column: 2/3
                     height: 100%
