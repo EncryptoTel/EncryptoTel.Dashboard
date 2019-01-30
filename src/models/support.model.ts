@@ -2,7 +2,6 @@ import {BaseItemModel, PageInfoModel} from './base.model';
 
 export class SupportModel extends PageInfoModel {
     items: SupportItemModel[];
-    messages: MessagesItemModel[];
 }
 
 export class SupportItemModel extends BaseItemModel {
@@ -13,6 +12,7 @@ export class SupportItemModel extends BaseItemModel {
     public created: string;
     public updated: string;
     public message: string;
+    public messages: MessagesItemModel[];
 
     constructor(response?) {
         super();
@@ -24,6 +24,7 @@ export class SupportItemModel extends BaseItemModel {
             this.created = response.created ? response.created : null;
             this.updated = response.updated ? response.updated : null;
             this.message = response.message ? response.message : null;
+            this.messages = response.messages ? response.messages : [];
         } else {
             this.id =  null;
             this.subject =  null;
@@ -32,6 +33,7 @@ export class SupportItemModel extends BaseItemModel {
             this.created = null;
             this.updated = null;
             this.message = null;
+            this.messages = [];
         }
     }
 
@@ -40,8 +42,12 @@ export class SupportItemModel extends BaseItemModel {
 
 
 export class MessagesItemModel extends BaseItemModel {
+    public id: number;
     public supportTicket: number;
     public message: string;
+    public parent: any;
+    public supportUserName: string;
+    public user: any;
 
     constructor(response?) {
         super();

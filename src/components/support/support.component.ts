@@ -30,6 +30,8 @@ export class SupportComponent implements OnInit {
     sort: any;
     currentItemId: any;
     currentItem: any;
+    currentTicketIndex: number;
+    currentTicketMessages: any;
 
     tableHeader: any;
 
@@ -86,24 +88,25 @@ export class SupportComponent implements OnInit {
         this.createMode = false;
     }
 
-    showTicket (item: any) {
+    showTicket (index: any) {
         this.sidebarVisible = true;
         this.createMode = false;
         this.buttons[0].inactive = false;
         this.sidebar.buttons = [];
-        this.currentItemId = item.id;
-        this.ticketMessage.supportTicket = item.id;
-        this.service.getById(item.id)
-            .then(response => {
-                console.log(response);
-            })
-            .catch(() => {})
-            .then(() => {});
+        this.currentItemId = this.supportModel.items[index].id;
+        this.currentTicketIndex = this.supportModel.items[index].id;
+        this.ticketMessage.supportTicket = this.supportModel.items[index].id;
+
+        this.getMessages(index);
         for (const j in this.supportModel.items) {
             if (this.supportModel.items[parseInt(j)].id === this.currentItemId) {
                 this.currentItem = this.supportModel.items[parseInt(j)];
             }
         }
+    }
+
+    getCurrentMessages(id: number) {
+        return this.supportModel.items[id].messages;
     }
 
     sortIcon(item: any): string {
@@ -148,6 +151,30 @@ export class SupportComponent implements OnInit {
 
     showDetails() {
         this.shown = !this.shown;
+    }
+
+    getMessages (index) {
+        let _this: any;
+        _this = this;
+        let url: string;
+        url = '/' + this.supportModel.items[index].id + '/message';
+        this.service.get(url).then((response) => {
+            _this.supportModel.items[index].messages = [];
+            this.currentTicketMessages = [];
+            response.items.forEach(_item => {
+                let messageItem: any;
+                messageItem = new MessagesItemModel();
+                messageItem.id = _item.id;
+                messageItem.message = _item.message;
+                messageItem.supportUserName = _item.supportUserName;
+                messageItem.parent = _item.parent;
+                messageItem.user = _item.user;
+                _this.supportModel.items[index].messages.push(messageItem);
+                console.log(_this.supportModel);
+            });
+            this.currentTicketMessages = this.supportModel.items[index].messages;
+        }).catch((error) => {}).then(() => {
+        });
     }
 
     getItems (index: number) {

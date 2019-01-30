@@ -15,7 +15,7 @@
                </div>
            </div> <!-- tablet_herader -->
            <div class="tablet_body">
-               <div class="tablet_content" *ngFor="let item of supportModel.items; let i = index" (click)="showTicket(item)">
+               <div class="tablet_content" *ngFor="let item of supportModel.items; let i = index" (click)="showTicket(i)">
                    <div class="tablet_item">{{item.id}}</div>
                    <div class="tablet_item">{{item.subject}}</div>
                    <div class="tablet_item">{{item.updated}}</div>
@@ -172,37 +172,18 @@
 
             <div class="messages">
 
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            We know about your problem. During the day, the money will go to the account.
-                        </div> <!-- message -->
-                        <div class="when">14:54</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Check enrollment
-                        </div> <!-- message -->
-                        <div class="when">16:48</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item user">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Thank you, the money is credited
-                        </div> <!-- message -->
-                        <div class="when">now</div>
-                    </div> <!-- cnt -->
+                <div class="wrap" *ngFor="let item of currentTicketMessages; let i = index">
+                    <div class="item" [ngClass]="item.supportUserName ? 'support_team' : 'user'">
+                        <div class="ava"><span>SB</span></div>
+                        <div class="cnt">
+                            <div class="name" *ngIf="item.supportUserName">{{item.supportUserName}}</div>
+                            <div class="name" *ngIf="!item.supportUserName">{{item.user.firstname + ' ' + item.user.lastname}}</div>
+                            <div class="message">
+                                {{item.message}}
+                            </div> <!-- message -->
+                            <div class="when">14:54</div>
+                        </div> <!-- cnt -->
+                    </div>
                 </div> <!-- item -->
 
             </div> <!-- messages -->
