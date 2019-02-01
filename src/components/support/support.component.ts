@@ -154,12 +154,12 @@ export class SupportComponent implements OnInit {
     }
 
     getMessages (index) {
-        let self: any;
-        self = this;
+        let __this: any;
+        __this = this;
         let url: string;
         url = '/' + this.supportModel.items[index].id + '/message';
         this.service.get(url).then((response) => {
-            self.supportModel.items[index].messages = [];
+            __this.supportModel.items[index].messages = [];
             this.currentTicketMessages = [];
             response.items.forEach(_item => {
                 let messageItem: any;
@@ -169,8 +169,8 @@ export class SupportComponent implements OnInit {
                 messageItem.supportUserName = _item.supportUserName;
                 messageItem.parent = _item.parent;
                 messageItem.user = _item.user;
-                self.supportModel.items[index].messages.push(messageItem);
-                console.log(self.supportModel);
+                __this.supportModel.items[index].messages.push(messageItem);
+                console.log(__this.supportModel);
             });
             this.currentTicketMessages = this.supportModel.items[index].messages;
         }).catch((error) => {}).then(() => {

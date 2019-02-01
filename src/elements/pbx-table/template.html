@@ -32,13 +32,13 @@
                      (mouseleave)="mouseLeave($event, item)">
                     <div *ngIf="tableItem.key !== 'refLink' else refLink"
                          class=""
-                         [innerHtml]="getValueByKeyEx(item, tableItem.key) === null ? '' : getValueByKeyEx(item, tableItem.key)"
+                         [innerHtml]="getValueByKeyEx(item, tableItem.key) == null ? '' : getValueByKeyEx(item, tableItem.key)"
                          >
                     </div>
                     <ng-template #refLink>
                       <div class="link_all">
                         <div class="link_cnt"
-                             [innerHtml]="getValueByKeyEx(item, tableItem.key)"
+                             [innerHtml]="getValueByKeyEx(item, tableItem.key) == null ? '' : getValueByKeyEx(item, tableItem.key)"
                              >
                         </div>
                         <div class="link_icon">
