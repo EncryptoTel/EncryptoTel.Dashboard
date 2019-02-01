@@ -197,8 +197,24 @@ export class SupportComponent implements OnInit {
         }
     }
 
-    saveMessage () {
-        this.service.post('/response', this.ticketMessage, true).then(() => {
+    sendMessage () {
+        this.service.post('/message', this.ticketMessage, true).then(() => {
+            console.log(this.ticketMessage.supportTicket);
+            let messageItem: any;
+            messageItem = new MessagesItemModel();
+            messageItem.supportTicket = this.currentTicketIndex;
+            messageItem.message = this.ticketMessage.message;
+            // messageItem.parent = this.supportModel.items[this.currentTicketIndex].parent;
+            messageItem.user = [];
+
+            this.currentTicketMessages.push(messageItem);
+
+            this.ticketMessage.message = '';
+            // this.supportModel.items[this.currentTicketIndex].messages.push(messageItem);
+
+            // console.log('supportTicket: ' + this.ticketMessage);
+            // console.log(this.ticketMessage.supportTicket);
+            // console.log(this.ticketMessage.message);
             // this.phoneExternal = new PhoneNumberExternalModel();
             // this.selected = null;
             // this.router.navigateByUrl('/cabinet/phone-numbers');
