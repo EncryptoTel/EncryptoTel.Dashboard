@@ -84,6 +84,9 @@
                         &.completed_ticket
                             .circle
                                 background: $dark_completed_ticket
+                        &.reopen_ticket
+                            .circle
+                                background: $dark_reopen_ticket
 
                     &:hover
                         background: rgba($dark_primary, .05)
@@ -229,6 +232,8 @@
                                     color: $dark_in_progress_ticket
                                 &.completed_ticket
                                     color: $dark_completed_ticket
+                                &.reopen_ticket
+                                    color: $dark_reopen_ticket
             .show_more
                 background: rgba($white_nav_border, .2)
                 padding: 4px 0
