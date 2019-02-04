@@ -84,6 +84,9 @@
                         &.completed_ticket
                             .circle
                                 background: $dark_completed_ticket
+                        &.reopen_ticket
+                            .circle
+                                background: $dark_reopen_ticket
 
                     &:hover
                         background: rgba($dark_primary, .05)
@@ -185,12 +188,13 @@
             height: 100%
             display: grid
             grid-template-columns: 1fr
-            grid-template-rows: auto auto auto
+            grid-template-rows: auto auto 1fr auto
             //display: none
             .items
                 flex-direction: column
                 margin-right: -24px
                 padding-right: 24px
+                max-height: 250px
                 .item
                     display: grid
                     margin-bottom: 16px
@@ -228,12 +232,15 @@
                                     color: $dark_in_progress_ticket
                                 &.completed_ticket
                                     color: $dark_completed_ticket
+                                &.reopen_ticket
+                                    color: $dark_reopen_ticket
             .show_more
                 background: rgba($white_nav_border, .2)
                 padding: 4px 0
                 cursor: pointer
                 margin-left: -24px
                 margin-right: -24px
+                max-height: 20px
                 svg-icon
                     margin: 0 auto
                     svg
@@ -264,6 +271,8 @@
                 padding: 16px 24px 16px 0
                 overflow: auto
                 margin-right: -24px
+                .wrap
+                    display: block
                 .item
                     display: grid
                     grid-template-columns: 40px 1fr
@@ -327,6 +336,7 @@
                             border-radius: 8px 8px 0 8px
                             background: $dark_accent
                             .name
+                                color: $dark_white
                                 display: none
                             .message
                                 color: $dark_white
@@ -347,6 +357,7 @@
                 margin: 0 -24px 0 -24px
                 position: relative
                 top: 24px
+                max-height: 65px
                 .smiles
                     grid-column: 2/3
                     height: 100%

@@ -47,7 +47,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
         return this.form.valid && !!this.level && this.level.digits.length < 12;
     }
 
-    
+
     constructor(
         private modalService: ModalServices,
         private service: IvrService
@@ -64,18 +64,20 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     }
 
     onSelectDigit(digit: Digit) {
-        if (this.form.valid) {
-            this.selectedItem = digit;
-            this.ivrSelected.emit({level: this.level, digit: this.selectedItem});
-        }
-        else {
-            this.modal.body = 'Form is not saved. This element will be deleted. Do you want to continue?';
-            this.modal.visible = true;
-            this.modalWnd.onConfirmEx.subscribe(() => {
-                this.onCancelEdit.emit();
+        if (this.selectedItem !== digit) {
+            if (this.form.valid) {
                 this.selectedItem = digit;
                 this.ivrSelected.emit({level: this.level, digit: this.selectedItem});
-            });
+            }
+            else {
+                this.modal.body = 'Form is not saved. This element will be deleted. Do you want to continue?';
+                this.modal.visible = true;
+                this.modalWnd.onConfirmEx.subscribe(() => {
+                    this.onCancelEdit.emit();
+                    this.selectedItem = digit;
+                    this.ivrSelected.emit({level: this.level, digit: this.selectedItem});
+                });
+            }
         }
     }
 

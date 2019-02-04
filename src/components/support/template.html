@@ -15,11 +15,11 @@
                </div>
            </div> <!-- tablet_herader -->
            <div class="tablet_body">
-               <div class="tablet_content" *ngFor="let item of supportModel.items; let i = index" (click)="showTicket(item)">
+               <div class="tablet_content" *ngFor="let item of supportModel.items; let i = index" (click)="showTicket(i)">
                    <div class="tablet_item">{{item.id}}</div>
                    <div class="tablet_item">{{item.subject}}</div>
                    <div class="tablet_item">{{item.updated}}</div>
-                   <div class="tablet_item {{item.status === 1 ? 'new_ticket' : item.status === 2 ? 'in_progress_ticket' : item.status === 3 ? 'completed_ticket' : ''}}"><div class="circle"></div>{{item.status === 1 ? 'New' : item.status === 2 ? 'In Progress' : item.status === 3 ? 'Completed' : ''}}</div>
+                   <div class="tablet_item {{item.status === 1 ? 'new_ticket' : item.status === 2 ? 'in_progress_ticket' : item.status === 3 ? 'completed_ticket' : item.status === 4 ? 'reopen_ticket' : ''}}"><div class="circle"></div>{{item.status === 1 ? 'New' : item.status === 2 ? 'In Progress' : item.status === 3 ? 'Completed' : item.status === 4 ? 'Reopen' : ''}}</div>
                    <div class="tablet_item">{{item.supportUserName}}</div>
                </div> <!-- tablet_content -->
            </div> <!-- tablet_body -->
@@ -137,7 +137,7 @@
                     </div> <!-- left -->
                     <div class="right">
                         <div class="key">Status</div>
-                        <div class="val {{currentItem.status === 1 ? 'new_ticket' : currentItem.status === 2 ? 'in_progress_ticket' : currentItem.status === 3 ? 'completed_ticket' : ''}}">{{currentItem.status === 1 ? 'New' : currentItem.status === 2 ? 'In Progress' : currentItem.status === 3 ? 'Completed' : ''}}</div>
+                        <div class="val {{currentItem.status === 1 ? 'new_ticket' : currentItem.status === 2 ? 'in_progress_ticket' : currentItem.status === 3 ? 'completed_ticket' : currentItem.status === 4 ? 'reopen_ticket' : ''}}">{{currentItem.status === 1 ? 'New' : currentItem.status === 2 ? 'In Progress' : currentItem.status === 3 ? 'Completed' : currentItem.status === 4 ? 'Reopen' : ''}}</div>
                     </div> <!-- right -->
                 </div> <!-- item -->
 
@@ -170,183 +170,30 @@
                 <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </div>
 
-            <div class="messages">
+            <div class="messages {{scrollDownTicket ? 'scroll_down' : ''}}">
 
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            We know about your problem. During the day, the money will go to the account.
-                        </div> <!-- message -->
-                        <div class="when">14:54</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Check enrollment
-                        </div> <!-- message -->
-                        <div class="when">16:48</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item user">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Thank you, the money is credited
-                        </div> <!-- message -->
-                        <div class="when">now</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-
-
-
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            We know about your problem. During the day, the money will go to the account.
-                        </div> <!-- message -->
-                        <div class="when">14:54</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Check enrollment
-                        </div> <!-- message -->
-                        <div class="when">16:48</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item user">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Thank you, the money is credited
-                        </div> <!-- message -->
-                        <div class="when">now</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            We know about your problem. During the day, the money will go to the account.
-                        </div> <!-- message -->
-                        <div class="when">14:54</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Check enrollment
-                        </div> <!-- message -->
-                        <div class="when">16:48</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item user">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Thank you, the money is credited
-                        </div> <!-- message -->
-                        <div class="when">now</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            We know about your problem. During the day, the money will go to the account.
-                        </div> <!-- message -->
-                        <div class="when">14:54</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Check enrollment
-                        </div> <!-- message -->
-                        <div class="when">16:48</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item user">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Thank you, the money is credited
-                        </div> <!-- message -->
-                        <div class="when">now</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            We know about your problem. During the day, the money will go to the account.
-                        </div> <!-- message -->
-                        <div class="when">14:54</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item support_team">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Check enrollment
-                        </div> <!-- message -->
-                        <div class="when">16:48</div>
-                    </div> <!-- cnt -->
-                </div> <!-- item -->
-
-                <div class="item user">
-                    <div class="ava"><span>SB</span></div>
-                    <div class="cnt">
-                        <div class="name">Support Bob</div>
-                        <div class="message">
-                            Thank you, the money is credited
-                        </div> <!-- message -->
-                        <div class="when">now</div>
-                    </div> <!-- cnt -->
+                <div class="wrap" *ngFor="let item of currentTicketMessages; let i = index">
+                    <div class="item" [ngClass]="item.supportUserName ? 'support_team' : 'user'">
+                        <div class="ava"><span>SB</span></div>
+                        <div class="cnt">
+                            <div class="name" *ngIf="item.supportUserName">{{item.supportUserName}}</div>
+                            <div class="name" *ngIf="!item.supportUserName">{{item.user.firstname + ' ' + item.user.lastname}}</div>
+                            <div class="message">
+                                {{item.message}}
+                            </div> <!-- message -->
+                            <div class="when">14:54</div>
+                        </div> <!-- cnt -->
+                    </div>
                 </div> <!-- item -->
 
             </div> <!-- messages -->
 
-            <div class="input_wrap" [ngClass]="message.length > 0 ? 'send':''">
+            <div class="input_wrap" [ngClass]="ticketMessage.message && ticketMessage.message.length > 0 ? 'send':''">
                 <div class="smiles">
                     <svg-icon src="../../assets/images/chat/smiley_18px.svg"></svg-icon>
                 </div> <!-- smiles -->
-                <input type="text" placeholder="Write a message..." [(ngModel)]="message">
+                <input type="text" placeholder="Write a message..." [(ngModel)]="ticketMessage.message">
+                <!--<input required type="text" id="externalHost" [(ngModel)]="phoneExternal.host" name="host">-->
                 <div class="files" [ngClass]="dropdownFilesStatus ? 'active':''" (click)="dropdownFilesFunc()">
                     <svg-icon src="../../assets/images/chat/clip_18px.svg"></svg-icon>
                     <div class="dropdown_block" *ngIf="dropdownFilesStatus">
@@ -358,7 +205,7 @@
                 </div> <!-- files -->
                 <div class="record">
                     <svg-icon class="mic" src="../../assets/images/chat/microphone_18px.svg"></svg-icon>
-                    <svg-icon class="send" src="../../assets/images/chat/send_message.svg"></svg-icon>
+                    <svg-icon class="send" src="../../assets/images/chat/send_message.svg" (click)="sendMessage()"></svg-icon>
                 </div> <!-- record -->
             </div> <!-- input_wrap -->
 

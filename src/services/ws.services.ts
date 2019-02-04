@@ -35,7 +35,6 @@ export class WsServices {
 
     constructor(private socket: Socket,
                 private logger: LoggerServices,
-                private message: MessageServices,
                 private _refs: RefsServices,
                 private _message: MessageServices) {
         this.balance = {balance: 0};
