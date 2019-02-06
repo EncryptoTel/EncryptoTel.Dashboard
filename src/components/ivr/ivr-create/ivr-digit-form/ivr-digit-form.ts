@@ -6,7 +6,7 @@ import {
     Validators,
     FormGroup,
 } from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { IvrService } from '@services/ivr.service';
 import { MessageServices } from '@services/message.services';
@@ -17,6 +17,8 @@ import { IvrFormInterface } from '../form.interface';
 import { IvrLevel, DigitActions } from '@models/ivr.model';
 import { MediaPlayerComponent } from '@elements/pbx-media-player/pbx-media-player.component';
 import { CdrMediaInfo, MediaState } from '@models/cdr.model';
+import { Subscription } from 'rxjs/Subscription';
+import { InputComponent } from '@elements/pbx-input/pbx-input.component';
 
 
 @Component({
@@ -48,8 +50,10 @@ export class IvrDigitFormComponent extends FormBaseComponent
     onDelete: Function;
     formPanel: Element = null;
     playButtonText: string;
+    uploadedFile: Subscription;
 
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
+    @ViewChild('actionData') actionData: InputComponent;
     // -- properties ----------------------------------------------------------
 
     get valid(): boolean {
@@ -88,9 +92,28 @@ export class IvrDigitFormComponent extends FormBaseComponent
             this.data.action = DigitActions.CANCEL_CALL;
         }
         this.digitForm.patchValue(this.data);
+
+        this.uploadedFile = this.storage.uploadedFile.subscribe(f => {
+            this.service.getFiles().then(res => {
+                if (f) {
+                    this.paramsInfo.option = res.items.map(file => {
+                        return { id: file.id, name: file.fileName };
+                    });
+                    const fileData = this.paramsInfo.option.find(
+                        x => x.id === f.id
+                    );
+                    setTimeout(() => {
+                        this.actionData.value = fileData;
+                        this.digitForm.get('parameter').setValue(f.id);
+                    }, 50);
+                }
+            });
+        });
     }
 
-    ngOnDestroy(): void {}
+    ngOnDestroy(): void { 
+        this.uploadedFile.unsubscribe();
+    }
 
     initForm(): void {
         this.digitForm = this.fb.group({
@@ -101,13 +124,15 @@ export class IvrDigitFormComponent extends FormBaseComponent
         });
 
         this.addForm(this.digitFormKey, this.digitForm);
-
+        if (this.digits.length) {
+            this.digitForm.get('digit').setValue(this.digits[0].id);
+        }
         this.digitForm.get('action').valueChanges.subscribe(actionValue => {
-            this.loading ++;
+            this.loading++;
             this.service
                 .showParameter(
                     actionValue,
-                    this.references.sipId,
+                    this.service.currentSip,
                     this.references.levels,
                     this.data
                 )
@@ -120,9 +145,9 @@ export class IvrDigitFormComponent extends FormBaseComponent
                     this.digitForm.get('parameter').markAsUntouched();
                     this.validationHost.initItems();
                 })
-                .catch(() => {})
+                .catch(() => { })
                 .then(() => {
-                    this.loading --;
+                    this.loading--;
                 });
         });
 
@@ -151,7 +176,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
             .then(response => {
                 this.sipInners = response.items;
             })
-            .catch(() => {})
+            .catch(() => { })
             .then(() => this.loading--);
     }
 
@@ -207,7 +232,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
             if (this.storage.checkCompatibleType(file)) {
                 this.storage.checkFileExists(
                     file,
-                    (loading) => {});
+                    (loading) => { });
             }
             else {
                 this.message.writeError(this.translate.instant('Accepted formats: mp3, ogg, wav'));
