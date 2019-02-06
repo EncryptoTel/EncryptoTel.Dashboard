@@ -13,6 +13,7 @@ import { IvrDigitFormComponent } from "./ivr-create/ivr-digit-form/ivr-digit-for
 import { IvrLevelComponent } from "./ivr-create/ivr-level/ivr-level.component";
 import { HostIvrFormDirective } from "./ivr-create/directive/host.directive";
 import { ModalComponent } from "@elements/pbx-modal/pbx-modal.component";
+import { CanDeactivateFormGuard } from '@services/can-deactivate-form-guard.service';
 
 const routes: Routes = [
     {path: '', component: IvrComponent, data: {title: 'IVR', indexed: true}},
@@ -20,14 +21,15 @@ const routes: Routes = [
         path: 'create',
         component: IvrCreateComponent,
         data: {title: 'Create IVR', indexed: true},
+        canDeactivate: [CanDeactivateFormGuard]
     },
     {
         path: ':id',
         component: IvrCreateComponent,
         data: {title: 'Edit IVR', indexed: true},
+        canDeactivate: [CanDeactivateFormGuard]
     }
-
-]
+];
 
 @NgModule({
     declarations: [
