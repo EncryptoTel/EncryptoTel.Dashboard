@@ -103,6 +103,11 @@ export class SupportComponent implements OnInit {
                 this.currentItem = this.supportModel.items[parseInt(j)];
             }
         }
+        setTimeout(function(){
+            let block: any;
+            block = document.getElementById('ticket_messages');
+            block.scrollTop = block.scrollHeight;
+        }, 1000);
     }
 
     getCurrentMessages(id: number) {
@@ -208,7 +213,6 @@ export class SupportComponent implements OnInit {
             messageItem.user = [];
 
             this.currentTicketMessages.push(messageItem);
-
             this.ticketMessage.message = '';
             // this.supportModel.items[this.currentTicketIndex].messages.push(messageItem);
 
@@ -239,6 +243,11 @@ export class SupportComponent implements OnInit {
             // console.log(this.errors);
         }).then(() => {
         });
+        setTimeout(function(){
+            let block: any;
+            block = document.getElementById('ticket_messages');
+            block.scrollTop = block.scrollHeight;
+        }, 1000);
     }
 
 
