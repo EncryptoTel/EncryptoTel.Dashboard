@@ -30,6 +30,9 @@ import { IvrDigitFormComponent } from './ivr-digit-form/ivr-digit-form';
 import { IvrLevelFormComponent } from './ivr-level-form/ivr-level-form';
 import * as _ from 'lodash';
 import { ScrollEvent } from '@shared/scroll.directive';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
+import { CanFormComponentDeactivate } from '@services/can-deactivate-form-guard.service';
 
 
 @Component({
@@ -39,7 +42,7 @@ import { ScrollEvent } from '@shared/scroll.directive';
     animations: [FadeAnimation('300ms')],
     providers: [StorageService]
 })
-export class IvrCreateComponent implements OnInit {
+export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
     state = 'end';
     ivrLevels: Array<IvrLevel> = []; // all levels
     currentLevel: IvrLevel;
@@ -410,9 +413,13 @@ export class IvrCreateComponent implements OnInit {
         this.ref.levels = this.ivrLevels;
     }
 
+    checkFormChanged(): boolean {
+      const currentModelSnapshot = this.takeIvrModelSnapshot();
+      return this.ivrModelSnapshot !== currentModelSnapshot; 
+    }
+
     onCancel(): void {
-        const currentModelSnapshot = this.takeIvrModelSnapshot();
-        if (this.ivrModelSnapshot !== currentModelSnapshot) {
+        if (this.checkFormChanged()) {
             this.currentForm.showExitModal(this.editMode, () => this.cancel());
         }
         else {
@@ -422,6 +429,23 @@ export class IvrCreateComponent implements OnInit {
 
     cancel(): void {
         this.router.navigate(['cabinet', 'ivr']);
+    }
+  
+    canDeactivate(dataChanged?: boolean): Observable<boolean> | Promise<boolean> | boolean {
+      if (!dataChanged && !this.checkFormChanged()) return true;
+
+      return Observable.create((observer: Observer<boolean>) => {
+          this.currentForm.showExitModal(
+              this.editMode,
+              () => {
+                  observer.next(true);
+                  observer.complete();
+              },
+              () => {
+                  observer.next(false);
+                  observer.complete();
+              });
+      });
     }
 
     cancelEdit(event: any): void {

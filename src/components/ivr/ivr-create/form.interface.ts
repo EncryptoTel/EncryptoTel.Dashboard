@@ -14,6 +14,6 @@ export interface IvrFormInterface {
 
     getData();
     close(confirmCallback?: () => void): void;
-    showExitModal(editMode: boolean, confirmCallback?: () => void): void;
+    showExitModal(editMode: boolean, confirmCallback?: () => void, cancelCallback?: () => void): void;
     scrollToFirstError(): void;
 }
