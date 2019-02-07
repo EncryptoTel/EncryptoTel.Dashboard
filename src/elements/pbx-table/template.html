@@ -26,7 +26,7 @@
              (click)="selectItem($event, item)"
              >
             <pbx-loader *ngIf="item.loading" style="position: relative; background: rgb(53, 51, 51); width: 100%;"></pbx-loader>
-            <div class="tablet_content" *ngIf="!item.loading">
+            <div class="tablet_content {{activeTableRow ? 'active' : ''}}" *ngIf="!item.loading" (click)="changeActiveTableRow()">
                 <div *ngFor="let tableItem of tableInfoEx.items; let i = index"
                      class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
                      (mouseenter)="mouseEnter($event, item)"

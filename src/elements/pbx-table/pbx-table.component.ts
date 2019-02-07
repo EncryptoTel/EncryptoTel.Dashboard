@@ -59,6 +59,7 @@ export class TableComponent implements OnInit, OnDestroy {
     selectedDelete: any;
     hideField: boolean = false;
     modalWnd: ModalComponent;
+    activeTableRow: boolean = false;
 
     constructor(protected state: TariffStateService,
         private modalService: ModalServices,
@@ -76,14 +77,20 @@ export class TableComponent implements OnInit, OnDestroy {
         }
     }
 
+    changeActiveTableRow() {
+        this.activeTableRow = !this.activeTableRow;
+    }
+
     selectItem(event: MouseEvent, item: any): void {
         const cellText: string = (<any>event.target).outerText;
         if (partnerLinkRegExp.test(cellText)) {
             this.onCopyToClipboard.emit(item);
             this.onSelect.emit(item);
+            // this.activeTableRow = !this.activeTableRow;
         }
         else {
             this.onSelect.emit(item);
+            // this.activeTableRow = !this.activeTableRow;
         }
     }
 
