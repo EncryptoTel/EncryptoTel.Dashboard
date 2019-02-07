@@ -61,6 +61,7 @@ export class QueueMembersAddComponent implements OnInit {
     ) {
         this.table = {
             titles: [
+                this.translate.instant('checkbox'),
                 this.translate.instant('#Ext'),
                 this.translate.instant('Phone number'),
                 this.translate.instant('First Name'),
@@ -68,7 +69,7 @@ export class QueueMembersAddComponent implements OnInit {
                 this.translate.instant('E-mail'),
                 this.translate.instant('Status')
             ],
-            keys: ['phoneNumber', 'sipOuter.phoneNumber', 'firstName', 'lastName', 'email', 'statusName']
+            keys: ['checkbox', 'phoneNumber', 'sipOuter.phoneNumber', 'firstName', 'lastName', 'email', 'statusName']
         };
 
         this.departmentPlaceholderText = this.translate.instant('[choose one]');

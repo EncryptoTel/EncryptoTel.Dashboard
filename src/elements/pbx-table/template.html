@@ -3,7 +3,8 @@
         <div *ngFor="let item of tableInfoEx.items; let i = index"
              class="tablet_item {{item.width ? 'fix_' + item.width : ''}}"
              [ngClass]="{'sort': item.sort} ">
-            <div class="qwerty">
+            <div *ngIf="item.key === 'checkbox'"><pbx-checkbox></pbx-checkbox></div>
+            <div class="qwerty" *ngIf="item.key !== 'checkbox'">
                 <span [ngClass]="{'sort':item.sort}" (click)="sort(item)">{{item.title}}</span>
                 <div *ngIf="item.sort && tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
                     <svg-icon [src]="'../../assets/icons/_middle/sorting_'+(tableInfoEx.sort.isDown ? 'down' : 'up') + '_16px.svg'"
@@ -30,6 +31,7 @@
                      class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
                      (mouseenter)="mouseEnter($event, item)"
                      (mouseleave)="mouseLeave($event, item)">
+                    <div *ngIf="tableItem.key === 'checkbox'"><pbx-checkbox></pbx-checkbox></div>
                     <div *ngIf="tableItem.key !== 'refLink' else refLink"
                          class=""
                          [innerHtml]="getValueByKeyEx(item, tableItem.key) == null ? '' : getValueByKeyEx(item, tableItem.key)"

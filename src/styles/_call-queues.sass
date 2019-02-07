@@ -94,7 +94,7 @@ pbx-queue-create
         .tablet
             .tablet_header,
             .tablet_body .tablet_content
-                grid-template-columns: repeat(6, calc(100% / 6)) !important
+                grid-template-columns: 64px repeat(6, calc((100% - 64px)/ 6)) !important
                 .tablet_item
                     &:nth-child(1)
                         padding-left: 24px
