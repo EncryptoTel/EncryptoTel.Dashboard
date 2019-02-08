@@ -90,7 +90,9 @@ export class TableComponent implements OnInit, OnDestroy {
 
     selectItem(event: MouseEvent, item: any, j: number): void {
         const cellText: string = (<any>event.target).outerText;
-        this._tableItems.forEach(value => value = false);
+        this.activeTableRow.forEach(function(val, index) {
+            val = false;
+        });
         this.activeTableRow[j] = !this.activeTableRow[j];
         if (partnerLinkRegExp.test(cellText)) {
             this.onCopyToClipboard.emit(item);
