@@ -73,10 +73,6 @@ export class CalendarComponent implements OnInit, OnChanges {
     }
 
     initCalendar(): void {
-        let key: any;
-        for (key in this.week) {
-            this.week[key] = this.translate.instant(this.week[key]);
-        }
         if (!this.dates || this.dates.length !== 2) {
             this.dates = [];
             this.dates.push(this.dateToString(this.isSetting ? this.today : new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate() - 13)));
