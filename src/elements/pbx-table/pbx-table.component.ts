@@ -86,10 +86,6 @@ export class TableComponent implements OnInit, OnDestroy {
         }
     }
 
-    // changeActiveTableRow() {
-    //     this.activeTableRow = !this.activeTableRow;
-    // }
-
     selectItem(event: MouseEvent, item: any, j: number): void {
         const cellText: string = (<any>event.target).outerText;
         let _activeRows: any;
@@ -104,11 +100,9 @@ export class TableComponent implements OnInit, OnDestroy {
         if (partnerLinkRegExp.test(cellText)) {
             this.onCopyToClipboard.emit(item);
             this.onSelect.emit(item);
-            // this.activeTableRow = !this.activeTableRow;
         }
         else {
             this.onSelect.emit(item);
-            // this.activeTableRow = !this.activeTableRow;
         }
     }
 
