@@ -128,7 +128,7 @@
 
     <div class="add_ext_form_item" *ngIf="id" style="width: 400px;">
         <label class="inactive"></label>
-        <pbx-button [value]="'Generate and Send Password'"
+        <pbx-button value="{{'Generate and Send Password' | translate}}"
                     [inactive]="!getFormValue('toAdmin') && !getFormValue('toUser')"
                     [loading]="passwordLoading"
                     (onClick)="sendPassword()"
