@@ -50,6 +50,7 @@ export class PhoneNumbersComponent implements OnInit {
         public translate: TranslateService) {
         this.sidebar.title = '';
         this.loading = 0;
+
         this.tableInfo = {
             titles: [
                 this.translate.instant('Phone Number'),
@@ -61,8 +62,8 @@ export class PhoneNumbersComponent implements OnInit {
             keys: ['phoneNumberWithType', 'innersCount', 'defaultInner', 'statusName', 'typeName']
         };
 
-        this.tableModel.sort.isDown = true;
-        this.tableModel.sort.column = 'firstname';
+        this.tableModel.sort.isDown = false;
+        this.tableModel.sort.column = 'phoneNumberWithType';
         this.tableModel.items.push(new TableInfoItem(this.translate.instant('Phone Number'), 'phoneNumberWithType', 'phoneNumberWithType'));
         this.tableModel.items.push(new TableInfoItem(this.translate.instant('Amount of Exts'), 'innersCount', 'innersCount'));
         this.tableModel.items.push(new TableInfoItem(this.translate.instant('Default Ext'), 'defaultInner', 'defaultInner'));

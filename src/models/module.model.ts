@@ -5,6 +5,7 @@ export class Module {
         public content: string,
         public price: number,
         public status: boolean,
+        public buyWithOutTariff: boolean,
         public color: number,
         public loading?: boolean) {
     }
