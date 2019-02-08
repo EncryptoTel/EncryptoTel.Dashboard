@@ -88,6 +88,14 @@ export class SupportComponent implements OnInit {
         this.createMode = false;
     }
 
+    scrollingToBottom(id: string) {
+        setTimeout(function(){
+            let block: any;
+            block = document.getElementById(id);
+            block.scrollTop = block.scrollHeight;
+        }, 1000);
+    }
+
     showTicket (index: any) {
         this.sidebarVisible = true;
         this.createMode = false;
@@ -103,11 +111,7 @@ export class SupportComponent implements OnInit {
                 this.currentItem = this.supportModel.items[parseInt(j)];
             }
         }
-        setTimeout(function(){
-            let block: any;
-            block = document.getElementById('ticket_messages');
-            block.scrollTop = block.scrollHeight;
-        }, 1000);
+        this.scrollingToBottom('ticket_messages');
     }
 
     getCurrentMessages(id: number) {
@@ -243,11 +247,7 @@ export class SupportComponent implements OnInit {
             // console.log(this.errors);
         }).then(() => {
         });
-        setTimeout(function(){
-            let block: any;
-            block = document.getElementById('ticket_messages');
-            block.scrollTop = block.scrollHeight;
-        }, 1000);
+        this.scrollingToBottom('ticket_messages');
     }
 
 

@@ -181,7 +181,7 @@
                             <pbx-input name="{{'Queue' | translate }}"
                                        key="parameter"
                                        [required]="true"
-                                       placeholder="{{queues.length === 0 ? 'None' : '[choose one]' | translate }}"
+                                       placeholder="{{(groups.length === 0 ? 'You have no queues' : '[choose one]') | translate}}"
                                        [form]="true"
                                        [object]="action"
                                        [options]="queues"
@@ -285,12 +285,12 @@
 
                         </ng-template>
 
-                        <!-- Redirect to call queue -->
+                        <!-- Redirect to call group -->
                         <ng-template [ngSwitchCase]="6">
                             <pbx-input name="{{'Group' | translate }}"
                                        key="parameter"
                                        [required]="true"
-                                       placeholder="{{groups.length === 0 ? 'you have no groups' : '[choose one]' | translate}}"
+                                       placeholder="{{(groups.length === 0 ? 'You have no groups' : '[choose one]') | translate}}"
                                        [form]="true"
                                        [object]="action"
                                        [options]="groups"

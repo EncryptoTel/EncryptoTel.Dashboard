@@ -91,13 +91,14 @@ export class DepartmentCreateComponent extends FormBaseComponent implements OnIn
 
         this.sipTableContext = {
             titles: [
+                this.translate.instant('checkbox'),
                 this.translate.instant('#Ext'),
                 this.translate.instant('Phone number'),
                 this.translate.instant('First Name'),
                 this.translate.instant('Last Name'),
                 this.translate.instant('E-mail'),
                 this.translate.instant('Status')],
-            keys: ['phoneNumber', 'sipOuterPhoneNumber', 'firstName', 'lastName', 'email', 'statusName']
+            keys: ['checkbox', 'phoneNumber', 'sipOuterPhoneNumber', 'firstName', 'lastName', 'email', 'statusName']
         };
 
         this.filter = new FilterItem(1, 'search', this.translate.instant('Search'), null, null, this.translate.instant('Search by Name or Phone'));

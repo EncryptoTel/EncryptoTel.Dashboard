@@ -170,7 +170,7 @@
                 <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg"></svg-icon>
             </div>
 
-            <div class="messages {{scrollDownTicket ? 'scroll_down' : ''}}">
+            <div class="messages" id="ticket_messages">
 
                 <div class="wrap" *ngFor="let item of currentTicketMessages; let i = index">
                     <div class="item" [ngClass]="item.supportUserName ? 'support_team' : 'user'">

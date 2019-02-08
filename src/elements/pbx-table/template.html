@@ -1,9 +1,10 @@
 <div class="tablet">
-    <div class="tablet_header" *ngIf="tableItems.length !=0 ">
+    <div class="tablet_header" *ngIf="_tableItems.length !=0 ">
         <div *ngFor="let item of tableInfoEx.items; let i = index"
              class="tablet_item {{item.width ? 'fix_' + item.width : ''}}"
              [ngClass]="{'sort': item.sort} ">
-            <div class="qwerty">
+            <div *ngIf="item.key === 'checkbox'"><pbx-checkbox></pbx-checkbox></div>
+            <div class="qwerty" *ngIf="item.key !== 'checkbox'">
                 <span [ngClass]="{'sort':item.sort}" (click)="sort(item)">{{item.title}}</span>
                 <div *ngIf="item.sort && tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
                     <svg-icon [src]="'../../assets/icons/_middle/sorting_'+(tableInfoEx.sort.isDown ? 'down' : 'up') + '_16px.svg'"
@@ -20,16 +21,17 @@
     </div>
     <pbx-loader *ngIf="tableReload"></pbx-loader>
     <div class="tablet_body" *ngIf="!tableReload">
-        <div class="tablet_row" *ngFor="let item of tableItems"
+        <div class="tablet_row" *ngFor="let item of _tableItems; let j = index"
              [ngClass]="{'pick': multiple ? isSelected(item.id) : selected?.id === item.id}"
-             (click)="selectItem($event, item)"
+             (click)="selectItem($event, item, j)"
              >
             <pbx-loader *ngIf="item.loading" style="position: relative; background: rgb(53, 51, 51); width: 100%;"></pbx-loader>
-            <div class="tablet_content" *ngIf="!item.loading">
+            <div class="tablet_content {{activeTableRow[j] ? 'active' : ''}}" *ngIf="!item.loading">
                 <div *ngFor="let tableItem of tableInfoEx.items; let i = index"
                      class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
                      (mouseenter)="mouseEnter($event, item)"
                      (mouseleave)="mouseLeave($event, item)">
+                    <div *ngIf="tableItem.key === 'checkbox'"><pbx-checkbox></pbx-checkbox></div>
                     <div *ngIf="tableItem.key !== 'refLink' else refLink"
                          class=""
                          [innerHtml]="getValueByKeyEx(item, tableItem.key) == null ? '' : getValueByKeyEx(item, tableItem.key)"

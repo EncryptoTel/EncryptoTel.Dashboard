@@ -4,6 +4,6 @@ export const environment = {
     backApiVersion: 'v1',
     translation: '/translations',
     back: '/front-api',
-    ws: 'https://ws.encryptotel.com',
+    ws: 'ws.pbx-front-dev.encry.ru',
     version: '1.0.199'
 };

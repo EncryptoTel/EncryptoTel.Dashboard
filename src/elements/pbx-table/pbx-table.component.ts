@@ -41,7 +41,7 @@ export class TableComponent implements OnInit, OnDestroy {
     @Input() selected: any;
     @Input() tableInfo: TableInfoModel;
     @Input() tableInfoEx: TableInfoExModel;
-    @Input() tableItems: any[];
+    _tableItems: any[];
     @Input() tableReload: number = 0;
 
     @Output() onDelete: EventEmitter<object> = new EventEmitter<object>();
@@ -59,6 +59,16 @@ export class TableComponent implements OnInit, OnDestroy {
     selectedDelete: any;
     hideField: boolean = false;
     modalWnd: ModalComponent;
+    activeTableRow: any;
+
+    @Input()
+    set tableItems(val: any[]) {
+        this.activeTableRow = [];
+        this._tableItems = val;
+        this._tableItems.forEach((item) => {
+            this.activeTableRow.push(false);
+        });
+    }
 
     constructor(protected state: TariffStateService,
         private modalService: ModalServices,
@@ -76,8 +86,17 @@ export class TableComponent implements OnInit, OnDestroy {
         }
     }
 
-    selectItem(event: MouseEvent, item: any): void {
+    selectItem(event: MouseEvent, item: any, j: number): void {
         const cellText: string = (<any>event.target).outerText;
+        let _activeRows: any;
+        _activeRows = this.activeTableRow;
+        this.activeTableRow.forEach(function(val, index, _activeRows) {
+            if (j !== index) {
+                _activeRows[index] = false;
+            }
+        });
+        this.activeTableRow[j] = !this.activeTableRow[j];
+
         if (partnerLinkRegExp.test(cellText)) {
             this.onCopyToClipboard.emit(item);
             this.onSelect.emit(item);

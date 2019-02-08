@@ -70,7 +70,7 @@ export class RefillBalanceComponent implements OnInit, OnDestroy, CanFormCompone
             new FilterItem(
                 1,
                 'amount',
-                `Payment amount`,
+                `Payment amount (Min amount $5, Max amount $10000)`,
                 null,
                 null,
                 ``,

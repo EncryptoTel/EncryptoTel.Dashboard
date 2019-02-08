@@ -17,7 +17,7 @@ import { UserServices } from '@services/user.services';
     providers: [ModuleServices]
 })
 export class MarketplaceComponent implements OnInit, Lockable {
-    
+
     locker: Locker;
     modules: Module[];
     selected: Module;
@@ -80,6 +80,7 @@ export class MarketplaceComponent implements OnInit, Lockable {
                             price:
                                 Math.round(module.currentPrice.sum * 100) / 100,
                             status: module.service.isUserBuy,
+                            buyWithOutTariff: module.service.isUserBuyWithOutTariff,
                             color: this.getModuleColor(module.service.title)
                         });
                     }

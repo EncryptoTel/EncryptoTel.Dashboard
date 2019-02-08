@@ -11,7 +11,7 @@
         <div class="calendar-block" *ngFor="let i of index">
             <div class="calendar-block-month">{{month[view[i].getMonth()] | translate}} {{checkbox ? '' : ' ' + view[i].getFullYear()}}</div>
             <div class="calendar-block-week" [ngClass]="{'hide':checkbox}">
-                <div class="calendar-block-week-item" *ngFor="let item of week" translate>{{item}}</div>
+                <div class="calendar-block-week-item" *ngFor="let item of week">{{item | translate}}</div>
             </div>
             <div class="calendar-block-day">
                 <div class="calendar-block-day-item {{type[i][j]}}" *ngFor="let day of array[i];let j=index" (click)="clickDay(i,day,type[i][j])">{{day}}</div>

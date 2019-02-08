@@ -15,12 +15,12 @@ export class ConnectionService {
     }
 
     ping() {
-        this.http.get('/front-api/v1/internet/ping').pipe(
-            timeout(2000)
-        ).subscribe(() => {
-            this.availebleConnection.next(false);
-        }, () => {
-            this.availebleConnection.next(true);
-        });
+        // this.http.get('/front-api/v1/internet/ping').pipe(
+        //     timeout(2000)
+        // ).subscribe(() => {
+        //     this.availebleConnection.next(false);
+        // }, () => {
+        //     this.availebleConnection.next(true);
+        // });
     }
 }
