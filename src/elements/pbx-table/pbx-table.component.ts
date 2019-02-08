@@ -65,7 +65,9 @@ export class TableComponent implements OnInit, OnDestroy {
     set tableItems(val: any[]) {
         this.activeTableRow = [];
         this._tableItems = val;
-        this._tableItems.push(false);
+        this._tableItems.forEach((item) => {
+            this.activeTableRow.push(false);
+        });
     }
 
     constructor(protected state: TariffStateService,
@@ -90,10 +92,15 @@ export class TableComponent implements OnInit, OnDestroy {
 
     selectItem(event: MouseEvent, item: any, j: number): void {
         const cellText: string = (<any>event.target).outerText;
-        this.activeTableRow.forEach(function(val, index) {
-            val = false;
+        let _activeRows: any;
+        _activeRows = this.activeTableRow;
+        this.activeTableRow.forEach(function(val, index, _activeRows) {
+            if (j !== index) {
+                _activeRows[index] = false;
+            }
         });
         this.activeTableRow[j] = !this.activeTableRow[j];
+
         if (partnerLinkRegExp.test(cellText)) {
             this.onCopyToClipboard.emit(item);
             this.onSelect.emit(item);
