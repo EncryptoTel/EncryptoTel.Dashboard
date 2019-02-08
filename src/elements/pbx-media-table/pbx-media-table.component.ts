@@ -45,7 +45,7 @@ export class MediaTableComponent extends TableComponent implements OnInit, OnCha
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes.tableItems) {
+        if (changes._tableItems) {
             this.subscribePlayerEvents();
         }
     }
@@ -72,7 +72,7 @@ export class MediaTableComponent extends TableComponent implements OnInit, OnCha
     subscribePlayerEvents(): void {
         this._itemsSubscribed = false;
         if (this.api) {
-            this.tableItems.forEach((item: any) => {
+            this._tableItems.forEach((item: any) => {
                 item.record.onTimeChange = this.api.subscriptions.timeUpdate.subscribe((e) => {
                     if (item.record.playing) {
                         item.record.mediaPlayTime = this.api.currentTime;
@@ -135,7 +135,7 @@ export class MediaTableComponent extends TableComponent implements OnInit, OnCha
             }
 
             this._selectedItem = item;
-            this.tableItems.forEach(i => {
+            this._tableItems.forEach(i => {
                 if (i !== item && i.record.mediaLoading) i.record.mediaLoading = false;
             });
             if (!item.record.mediaStream) {
