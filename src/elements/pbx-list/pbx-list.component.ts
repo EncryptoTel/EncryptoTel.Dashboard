@@ -288,6 +288,14 @@ export class ListComponent implements OnInit {
         this.currentFilter['startDate'] = dateToServerFormat(this.calendarDateRange[0]);
         this.currentFilter['endDate'] = dateToServerFormat(this.calendarDateRange[1]);
       }
+      if (this.calendarDateRange === null) {
+          if (this.currentFilter && this.currentFilter['startDate']) {
+              delete this.currentFilter['startDate'];
+          }
+          if (this.currentFilter && this.currentFilter['endDate']) {
+              delete this.currentFilter['endDate'];
+          }
+      }
 
       this.service.getItems(this.pageInfo, this.currentFilter, this.tableInfo ? this.tableInfo.sort : null)
         .then(response => {
