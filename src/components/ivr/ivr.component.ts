@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 
 import {FadeAnimation} from '@shared/fade-animation';
 import {IvrService} from '@services/ivr.service';
-import {PageInfoModel} from '@models/base.model';
+import {PageInfoModel, TableInfoExModel, TableInfoItem} from '@models/base.model';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -17,11 +18,19 @@ export class IvrComponent implements OnInit {
     model: PageInfoModel = new PageInfoModel();
 
     table = {
-        titles: ['Name', 'Status', 'Description'],
-        keys: ['name', 'statusName', 'description']
+        titles: ['Name', 'Phone Number', 'Status', 'Description'],
+        keys: ['name', 'sip.phoneNumber', 'statusName', 'description']
     };
+    tableModel: TableInfoExModel = new TableInfoExModel();
 
-    constructor(private service: IvrService) {
+    constructor(private service: IvrService,
+                public translate: TranslateService) {
+        this.tableModel.sort.isDown = false;
+        this.tableModel.sort.column = 'name';
+        this.tableModel.items.push(new TableInfoItem(this.translate.instant('Name'), 'name', 'name'));
+        this.tableModel.items.push(new TableInfoItem(this.translate.instant('Phone Number'), 'sip.phoneNumber', 'sip.phoneNumber'));
+        this.tableModel.items.push(new TableInfoItem(this.translate.instant('Status'), 'statusName', 'statusName'));
+        this.tableModel.items.push(new TableInfoItem(this.translate.instant('Description'), 'description', 'description'));
     }
 
     ngOnInit(): void {
