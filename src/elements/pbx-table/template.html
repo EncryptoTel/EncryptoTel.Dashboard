@@ -6,7 +6,7 @@
             <div *ngIf="item.key === 'checkbox'"><pbx-checkbox></pbx-checkbox></div>
             <div class="qwerty" *ngIf="item.key !== 'checkbox'">
                 <span [ngClass]="{'sort':item.sort}" (click)="sort(item)">{{item.title}}</span>
-                <div *ngIf="item.sort && tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
+                <div (click)="sort(item)" *ngIf="item.sort && tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
                     <svg-icon [src]="'../../assets/icons/_middle/sorting_'+(tableInfoEx.sort.isDown ? 'down' : 'up') + '_16px.svg'"
                           class="tablet_item_icon sort"></svg-icon>
                 </div>
@@ -33,7 +33,7 @@
                      (mouseleave)="mouseLeave($event, item)">
                     <div *ngIf="tableItem.key === 'checkbox'"><pbx-checkbox></pbx-checkbox></div>
                     <div *ngIf="tableItem.key === 'default' && item['default']">
-                        <div class="default_circle" style="width: 15px; height: 15px; border-radius: 50%; background: rgb(152, 182, 97); margin: auto"></div>
+                        <div class="default_circle" style=""></div>
                     </div>
                     <div *ngIf="tableItem.key !== 'refLink' else refLink"
                          class=""
