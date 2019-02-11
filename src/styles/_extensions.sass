@@ -105,6 +105,8 @@ extensions-component
         .tablet_body .tablet_content
             grid-template-columns: repeat(7, calc((100% - 68px) / 7)) repeat(2, calc(68px / 2)) !important
             .tablet_item
+                &:nth-child(7)
+                    justify-content: left
         .tablet_header
             .tablet_item
                 &:nth-child(2),
@@ -114,7 +116,7 @@ extensions-component
                         span
                 &:nth-child(7)
                     .qwerty
-                        justify-content: center
+                        justify-content: left
 
 
 
