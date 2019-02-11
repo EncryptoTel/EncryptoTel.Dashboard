@@ -42,6 +42,8 @@ export class ExtensionsComponent implements OnInit {
         private messages: MessageServices,
         private translate: TranslateService
     ) {
+        this.table.sort.isDown = false;
+        this.table.sort.column = 'extension';
         this.table.items.push(new TableInfoItem(this.translate.instant('#Ext'), 'extension', 'extension', 80));
         this.table.items.push(new TableInfoItem(this.translate.instant('Phone number'), 'phone', 'phone'));
         this.table.items.push(new TableInfoItem(this.translate.instant('First Name'), 'userFirstName', 'userFirstName'));
@@ -103,7 +105,7 @@ export class ExtensionsComponent implements OnInit {
         this.selected = null;
         this.passwordTo = 0;
     }
-    
+
     onDelete(item: ExtensionItem): void {
         this.messages.writeSuccess(this.translate
             .instant('deleteExtensionConfirmation', { ext: item.extension }));

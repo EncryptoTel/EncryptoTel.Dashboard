@@ -32,6 +32,9 @@
                      (mouseenter)="mouseEnter($event, item)"
                      (mouseleave)="mouseLeave($event, item)">
                     <div *ngIf="tableItem.key === 'checkbox'"><pbx-checkbox></pbx-checkbox></div>
+                    <div *ngIf="tableItem.key === 'default' && item['default']">
+                        <div class="default_circle" style="width: 15px; height: 15px; border-radius: 50%; background: rgb(152, 182, 97); margin: auto"></div>
+                    </div>
                     <div *ngIf="tableItem.key !== 'refLink' else refLink"
                          class=""
                          [innerHtml]="getValueByKeyEx(item, tableItem.key) == null ? '' : getValueByKeyEx(item, tableItem.key)"
