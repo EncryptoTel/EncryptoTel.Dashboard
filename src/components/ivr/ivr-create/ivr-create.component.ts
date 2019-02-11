@@ -323,6 +323,7 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
         else {
             this.service.save(data)
                 .then(() => {
+                    this.ivrModelSnapshot = this.takeIvrModelSnapshot();
                     this.router.navigate([`cabinet/ivr`]);
                 });
         }        
