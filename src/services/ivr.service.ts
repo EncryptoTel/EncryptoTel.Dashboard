@@ -13,6 +13,7 @@ import {
 } from '@models/ivr.model';
 import { PageInfoModel } from '@models/base.model';
 import { addressPhoneRegExp } from '@shared/vars';
+import {PhoneNumberItem, PhoneNumberModel} from '@models/phone-number.model';
 
 export class IvrService extends BaseService {
     pageInfo: IvrModel = new IvrModel();
@@ -40,8 +41,8 @@ export class IvrService extends BaseService {
         return this.post('', data);
     }
 
-    getItems(pageInfo: PageInfoModel, filter = null): Promise<IvrModel> {
-        return super.getItems(pageInfo, filter).then((response: IvrModel) => {
+    getItems(pageInfo: PageInfoModel, filter = null, sort = null): Promise<IvrModel> {
+        return super.getItems(pageInfo, filter, sort).then((response: IvrModel) => {
             this.pageInfo = this.plainToClassEx(IvrModel, IvrItem, response);
             if (this.pageInfo.items) {
                 this.pageInfo.items.forEach(item => {
