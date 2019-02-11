@@ -34,6 +34,10 @@ export class ViewEditControlComponent implements OnInit {
     get hasData(): boolean {
         return !!this.selectedItems && this.selectedItems.length > 0;
     }
+    
+    get allSelected(): boolean {
+      return this.items.length === this.selectedItems.length;
+    }
 
     constructor(
         private renderer: Renderer2, 
@@ -73,6 +77,14 @@ export class ViewEditControlComponent implements OnInit {
             this.selectedItems.push(item);
             this.addMembersCount ++;
         }
+    }
+
+    toggleAll(selectAll: boolean): void {
+      this.selectedItems = [];
+      if (selectAll) {
+        this.items
+          .forEach(item => this.selectedItems.push(item));
+      }
     }
 
     isSelected(item: any): boolean {

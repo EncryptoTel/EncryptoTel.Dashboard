@@ -19,9 +19,11 @@
     <pbx-table [tableInfo]="tableInfo"
                [tableItems]="items"
                [selected]="selectedItems"
+               [allSelected]="allSelected"
                [multiple]="true"
                [deletable]="false"
                (onSelect)="selectItem($event)"
+               (onToggleAll)="toggleAll($event)"
                >
     </pbx-table>
     <div class="nothing-found-class" *ngIf="items.length === 0 || nothingFound" translate>{{nothingFoundText}}</div>

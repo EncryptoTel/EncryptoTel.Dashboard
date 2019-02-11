@@ -43,6 +43,7 @@ export class TableComponent implements OnInit, OnDestroy {
     @Input() tableInfoEx: TableInfoExModel;
     _tableItems: any[];
     @Input() tableReload: number = 0;
+    @Input() allSelected: boolean = false;
 
     @Output() onDelete: EventEmitter<object> = new EventEmitter<object>();
     @Output() onDropDown: EventEmitter<object> = new EventEmitter<object>();
@@ -53,6 +54,7 @@ export class TableComponent implements OnInit, OnDestroy {
     @Output() onSelect: EventEmitter<object> = new EventEmitter<object>();
     @Output() onCopyToClipboard: EventEmitter<object> = new EventEmitter<object>();
     @Output() onSort: EventEmitter<object> = new EventEmitter<object>();
+    @Output() onToggleAll: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     dropDirection = '';
     modal: ModalEx;
@@ -70,9 +72,11 @@ export class TableComponent implements OnInit, OnDestroy {
         });
     }
 
-    constructor(protected state: TariffStateService,
+    constructor(
+        protected state: TariffStateService,
         private modalService: ModalServices,
-        public translate: TranslateService) {
+        public translate: TranslateService
+    ) {
         this.modal = new ModalEx(this.translate.instant('Are you sure?'), 'delete');
         this.modalWnd = this.modalService.createModal(this.modal);
         this.modalWnd.onConfirmEx.subscribe(() => this.deleteItem());
@@ -88,11 +92,9 @@ export class TableComponent implements OnInit, OnDestroy {
 
     selectItem(event: MouseEvent, item: any, j: number): void {
         const cellText: string = (<any>event.target).outerText;
-        let _activeRows: any;
-        _activeRows = this.activeTableRow;
-        this.activeTableRow.forEach(function(val, index, _activeRows) {
+        this.activeTableRow.forEach((_, index) => {
             if (j !== index) {
-                _activeRows[index] = false;
+                this.activeTableRow[index] = false;
             }
         });
         this.activeTableRow[j] = !this.activeTableRow[j];
@@ -104,6 +106,11 @@ export class TableComponent implements OnInit, OnDestroy {
         else {
             this.onSelect.emit(item);
         }
+    }
+
+    toggleAll(selectAll: boolean): void {
+      this.allSelected = selectAll;
+      this.onToggleAll.emit(selectAll);
     }
 
     editItem(item, event: MouseEvent): void {

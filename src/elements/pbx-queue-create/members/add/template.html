@@ -11,11 +11,13 @@
     <pbx-table *ngIf="!loading"
         [tableInfo]="table"
         [tableItems]="members"
-        (onSelect)="selectMember($event)"
-        (onDelete)="selectMember($event)"
+        [allSelected]="allSelected"
         [multiple]="true"
         [deletable]="false"
         [selected]="service.userView.members"
+        (onSelect)="selectMember($event)"
+        (onDelete)="selectMember($event)"
+        (onToggleAll)="toggleAll($event)"
         >
     </pbx-table>
     <div class="nothing-found-class" *ngIf="nothingFound && !loading">{{ emptyResultMessage }}</div>

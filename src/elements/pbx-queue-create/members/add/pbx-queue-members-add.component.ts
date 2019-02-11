@@ -54,6 +54,10 @@ export class QueueMembersAddComponent implements OnInit {
         return null;
     }
 
+    get allSelected(): boolean {
+      return this.members.length === this.service.userView.members.length;
+    }
+
     // -- component lifecycle methods -----------------------------------------
 
     constructor(
@@ -111,6 +115,10 @@ export class QueueMembersAddComponent implements OnInit {
     // deleteMember(member): void {
     //     this.service.deleteMember(member);
     // }
+
+    toggleAll(selectAll: boolean): void {
+      this.service.toggleAll(selectAll, this.members);
+    }
 
     reloadFilter(filter: any): void {
         this.currentFilter.department = filter.hasOwnProperty('department')
