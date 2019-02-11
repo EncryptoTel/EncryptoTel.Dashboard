@@ -229,7 +229,7 @@ export class TableComponent implements OnInit, OnDestroy {
     dropOpen(action, item) {
         let prev: any;
         prev = item.ddShow;
-        this.tableItems.forEach(tItem => {
+        this._tableItems.forEach(tItem => {
             tItem.ddShow = false;
         });
         this.onDropDown.emit({ action: action, item: item });
@@ -242,10 +242,10 @@ export class TableComponent implements OnInit, OnDestroy {
         // }
 
         //// 2018-12-09-s
-        if (this.tableItems.indexOf(item) < 2 && this.tableItems.length <= 2) {
+        if (this._tableItems.indexOf(item) < 2 && this._tableItems.length <= 2) {
             this.dropDirection = 'bottom';
         }
-        else if ((this.tableItems.length - 3) < this.tableItems.indexOf(item)) {
+        else if ((this._tableItems.length - 3) < this._tableItems.indexOf(item)) {
             this.dropDirection = 'top';
         }
         else {
