@@ -16,6 +16,7 @@ import {
 import { ModalServices } from '@services/modal.service';
 import { IvrService } from '@services/ivr.service';
 import {IvrFormInterface} from '@components/ivr/ivr-create/form.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'pbx-ivr-level',
@@ -50,10 +51,11 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
 
     constructor(
         private modalService: ModalServices,
+        private translate: TranslateService,
         private service: IvrService
     ) {
         this.modal = new ModalEx(
-            'Form is not saved. This element will be deleted. Do you want to continue?',
+            this.translate.instant('Form is not saved. This element will be deleted. Do you want to continue?'),
             'delete'
         );
         this.modalWnd = this.modalService.createModal(this.modal);
@@ -70,7 +72,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
                 this.ivrSelected.emit({level: this.level, digit: this.selectedItem});
             }
             else {
-                this.modal.body = 'Form is not saved. This element will be deleted. Do you want to continue?';
+                this.modal.body = this.translate.instant('Form is not saved. This element will be deleted. Do you want to continue?');
                 this.modal.visible = true;
                 this.modalWnd.onConfirmEx.subscribe(() => {
                     this.onCancelEdit.emit();
