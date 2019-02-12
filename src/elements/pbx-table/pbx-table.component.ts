@@ -160,7 +160,7 @@ export class TableComponent implements OnInit, OnDestroy {
                 if ((<IvrItem>item).status > 0) {
                     body = this.translate.instant('Are you sure you want to delete this active IVR?');
                 } else {
-                    body = this.translate.instant('Are you sure you want to delete this IVR');
+                    body = this.translate.instant('Are you sure you want to delete this IVR?');
                 }
                 this.modal.body = body;
             }
