@@ -4,7 +4,7 @@
         <pbx-button (onClick)="toggleEditMode()" value="{{ buttonText }}"></pbx-button>
     </div>
     <pbx-table *ngIf="hasData"
-               [tableInfo]="tableInfo"
+               [tableInfo]="tableInfoSelected"
                [tableItems]="selectedItems"
                [multiple]="false"
                [editMode]="parentEditMode"
@@ -19,9 +19,11 @@
     <pbx-table [tableInfo]="tableInfo"
                [tableItems]="items"
                [selected]="selectedItems"
+               [allSelected]="allSelected"
                [multiple]="true"
                [deletable]="false"
                (onSelect)="selectItem($event)"
+               (onToggleAll)="toggleAll($event)"
                >
     </pbx-table>
     <div class="nothing-found-class" *ngIf="items.length === 0 || nothingFound" translate>{{nothingFoundText}}</div>

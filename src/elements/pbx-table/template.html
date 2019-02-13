@@ -3,7 +3,13 @@
         <div *ngFor="let item of tableInfoEx.items; let i = index"
              class="tablet_item {{item.width ? 'fix_' + item.width : ''}}"
              [ngClass]="{'sort': item.sort} ">
-            <div *ngIf="item.key === 'checkbox'"><pbx-checkbox></pbx-checkbox></div>
+            <div *ngIf="item.key === 'checkbox'">
+              <pbx-checkbox
+                [value]="allSelected"
+                (onToggle)="toggleAll($event)"
+                >
+              </pbx-checkbox>
+            </div>
             <div class="qwerty" *ngIf="item.key !== 'checkbox'">
                 <span [ngClass]="{'sort':item.sort}" (click)="sort(item)">{{item.title}}</span>
                 <div (click)="sort(item)" *ngIf="item.sort && tableInfoEx.sort.column === item.sort" class="tablet_item_icon_wrap">
@@ -31,7 +37,10 @@
                      class="tablet_item {{ getItemFormatting(item, tableItem, i) }}"
                      (mouseenter)="mouseEnter($event, item)"
                      (mouseleave)="mouseLeave($event, item)">
-                    <div *ngIf="tableItem.key === 'checkbox'"><pbx-checkbox></pbx-checkbox></div>
+                    <div *ngIf="tableItem.key === 'checkbox'">
+                      <pbx-checkbox [value]="isSelected(item.id)">
+                      </pbx-checkbox>
+                    </div>
                     <div *ngIf="tableItem.key === 'default' && item['default']">
                         <div class="default_circle" style=""></div>
                     </div>
