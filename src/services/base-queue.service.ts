@@ -16,7 +16,7 @@ export class BaseQueueService extends BaseService {
   getMembersMessage(): string {
     let message = '';
 
-    const [ added, deleted ] = this.getMemebersStat();
+    const [added, deleted] = this.getMemebersStat();
 
     if (added > 0) {
       message = added + ' ' + this.translate.instant('member(s) added successfully');
@@ -24,7 +24,7 @@ export class BaseQueueService extends BaseService {
     if (deleted > 0) {
       message = deleted + ' ' + this.translate.instant('member(s) removed successfully');
     }
-    
+
     return message;
   }
 
@@ -66,54 +66,60 @@ export class BaseQueueService extends BaseService {
     });
   }
 
-  addMember(member) {
-    const index = this.item.queueMembers.findIndex(el => {
-      return el.sipId === member.id;
-    });
+  addMember(member: any): void {
+    const index = this.item.queueMembers
+      .findIndex(el => el.sipId === member.id);
     if (index === -1) {
       this.item.queueMembers.push({ sipId: member.id });
       this.userView.members.push(member);
-
     } else {
       this.item.queueMembers.splice(index, 1);
-      this.userView.members.splice(this.userView.members.findIndex(el => {
-        return el.id === member.id;
-      }), 1);
+      this.userView.members
+        .splice(this.userView.members.findIndex(el => el.id === member.id), 1);
     }
-
   }
 
   deleteMember(member): void {
-    let checkResult = this.item.queueMembers.findIndex(el => {
-      return el.sipId === member.id;
-    });
+    let checkResult = this.item.queueMembers
+      .findIndex(el => el.sipId === member.id);
     if (checkResult >= 0) {
       this.item.queueMembers.splice(checkResult, 1);
     }
-    checkResult = this.userView.members.findIndex(el => {
-      return el.id === member.id;
-    });
+    checkResult = this.userView.members
+      .findIndex(el => el.id === member.id);
     if (checkResult >= 0) {
       this.userView.members.splice(checkResult, 1);
     }
   }
 
+  toggleAll(selectAll: boolean, items: any[]): void {
+    this.item.queueMembers = [];
+    this.userView.members = [];
+
+    if (selectAll && items && items.length > 0) {
+      items.forEach(item => {
+        this.item.queueMembers.push({ sipId: item.id });
+        this.userView.members.push(item);
+      });
+    }
+  }
+
   getMembers(sipId: number, search: string = null, departmentId: number = null) {
-    let url = `v1/call_queue/members?sipOuter=${ sipId }`;
-    if (search) url = `${ url }&filter[search]=${ search }`;
-    if (departmentId) url = `${ url }&filter[department]=${ departmentId }`;
+    let url = `v1/call_queue/members?sipOuter=${sipId}`;
+    if (search) url = `${url}&filter[search]=${search}`;
+    if (departmentId) url = `${url}&filter[department]=${departmentId}`;
     return this.request.get(url);
   }
 
   getDepartments(sipId: number) {
-    return this.request.get(`v1/call_queue/departments?sipOuter=${ sipId }`);
+    return this.request.get(`v1/call_queue/departments?sipOuter=${sipId}`);
   }
 
   setMembers(members) {
     for (let i = 0; i < members.length; i++) {
-      this.item.queueMembers.push({ sipId: members[ i ].inner.id });
-      this.userView.members.push(members[ i ].inner);
-      this.userView.members[ i ].sipOuterPhone = this.userView.phoneNumber;
+      this.item.queueMembers.push({ sipId: members[i].inner.id });
+      this.userView.members.push(members[i].inner);
+      this.userView.members[i].sipOuterPhone = this.userView.phoneNumber;
     }
   }
 
