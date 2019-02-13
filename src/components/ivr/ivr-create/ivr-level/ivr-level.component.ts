@@ -17,7 +17,6 @@ import { ModalServices } from '@services/modal.service';
 import { IvrService } from '@services/ivr.service';
 import { IvrFormInterface } from '@components/ivr/ivr-create/form.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'pbx-ivr-level',
