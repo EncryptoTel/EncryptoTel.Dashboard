@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import {SwipeAnimation} from '../../shared/swipe-animation';
 import {ButtonItem, FilterItem} from '../../models/base.model';
 import {TranslateService} from '@ngx-translate/core';
@@ -8,6 +8,9 @@ import {MessagesItemModel, SupportModel} from '@models/support.model';
 import {SupportService} from '@services/support.service';
 import {AddressBookModel} from '@models/address-book.model';
 import {PhoneNumberExternalModel} from '@models/phone-number-external.model';
+import {CdrItem} from '@models/cdr.model';
+import {Subscription} from 'rxjs/Subscription';
+import {WsServices} from '@services/ws.services';
 
 @Component({
     selector: 'support-component',
@@ -20,6 +23,7 @@ export class SupportComponent implements OnInit {
     buttons: ButtonItem[];
     filters: FilterItem[];
     sidebar: SidebarInfoModel = new SidebarInfoModel();
+    support: SupportModel = new SupportModel();
     supportModel: SupportModel;
     shown: boolean = false;
     sidebarVisible: boolean = false;
@@ -32,6 +36,9 @@ export class SupportComponent implements OnInit {
     currentItem: any;
     currentTicketIndex: number;
     currentTicketMessages: any;
+    supportSubscription: Subscription;
+
+    status: any;
 
     tableHeader: any;
 
@@ -41,6 +48,7 @@ export class SupportComponent implements OnInit {
 
     constructor(
         public service: SupportService,
+        private ws: WsServices,
         public translate: TranslateService) {
         this.supportModel = new SupportModel();
         this.filters = [];
@@ -86,6 +94,18 @@ export class SupportComponent implements OnInit {
             }
         ];
         this.createMode = false;
+
+        this.supportSubscription = this.ws.subSupport().subscribe((item) => {
+            console.log('+++++++++++', item);
+            // debugger;
+            this.supportModel.items.forEach(ticket => {
+
+                if (ticket.id === item[item.length - 1].id) {
+                    ticket.status = item[item.length - 1].status;
+                }
+            });
+        });
+
     }
 
     scrollingToBottom(id: string) {
@@ -167,6 +187,7 @@ export class SupportComponent implements OnInit {
         __this = this;
         let url: string;
         url = '/' + this.supportModel.items[index].id + '/message';
+        // debugger;
         this.service.get(url).then((response) => {
             __this.supportModel.items[index].messages = [];
             this.currentTicketMessages = [];
@@ -208,16 +229,17 @@ export class SupportComponent implements OnInit {
 
     sendMessage () {
         this.service.post('/message', this.ticketMessage, true).then(() => {
-            console.log(this.ticketMessage.supportTicket);
-            let messageItem: any;
-            messageItem = new MessagesItemModel();
-            messageItem.supportTicket = this.currentTicketIndex;
-            messageItem.message = this.ticketMessage.message;
-            // messageItem.parent = this.supportModel.items[this.currentTicketIndex].parent;
-            messageItem.user = [];
-
-            this.currentTicketMessages.push(messageItem);
-            this.ticketMessage.message = '';
+            // debugger;
+            // console.log(this.ticketMessage.supportTicket);
+            // let messageItem: any;
+            // messageItem = new MessagesItemModel();
+            // messageItem.supportTicket = this.currentTicketIndex;
+            // messageItem.message = this.ticketMessage.message;
+            // // messageItem.parent = this.supportModel.items[this.currentTicketIndex].parent;
+            // messageItem.user = [];
+            //
+            // this.currentTicketMessages.push(messageItem);
+            // this.ticketMessage.message = '';
             // this.supportModel.items[this.currentTicketIndex].messages.push(messageItem);
 
             // console.log('supportTicket: ' + this.ticketMessage);
@@ -248,6 +270,10 @@ export class SupportComponent implements OnInit {
         }).then(() => {
         });
         this.scrollingToBottom('ticket_messages');
+    }
+
+    ngOnDestroy(): void {
+        this.supportSubscription.unsubscribe();
     }
 
 

@@ -8,6 +8,7 @@ import {ChatModel, MessageModel} from '../models/chat.model';
 import {MessageServices} from './message.services';
 import {RefsServices} from './refs.services';
 import {StorageItem} from '@models/storage.model';
+import {SupportModel} from '@models/ws.model';
 
 
 @Injectable()
@@ -18,6 +19,9 @@ export class WsServices {
 
     cdr: CdrModel[] = [];
     cdrSubscription: Subject<CdrModel[]> = new Subject<CdrModel[]>();
+
+    support: SupportModel[] = [];
+    supportSubscription: Subject<SupportModel[]> = new Subject<SupportModel[]>();
 
     service: ServiceModel;
     serviceSubscription: Subject<ServiceModel> = new Subject<ServiceModel>();
@@ -92,6 +96,11 @@ export class WsServices {
             _this.log('<<< systemInfo', data);
             _this.onSystemInfo(data);
         });
+        socket.on('support', function (data) {
+            console.log('________________', data);
+            _this.log('<<< support', data);
+            _this.onSupport(data);
+        });
     }
 
     log(details: string, data: any) {
@@ -146,6 +155,14 @@ export class WsServices {
         }
         this.cdr.push(new CdrModel(data.id));
         this.cdrSubscription.next(this.cdr);
+    }
+
+    private onSupport(data) {
+        if (typeof data === 'string') {
+            data = JSON.parse(data);
+        }
+        this.support.push(new SupportModel(data.message.id, data.message.status));
+        this.supportSubscription.next(this.support);
     }
 
     private onSystemInfo(data) {
@@ -280,6 +297,10 @@ export class WsServices {
 
     updateStorageItem(): Observable<StorageItem> {
         return this.storageItemUpdate.asObservable();
+    }
+
+    subSupport(): Observable<SupportModel[]> {
+        return this.supportSubscription.asObservable();
     }
 
 }

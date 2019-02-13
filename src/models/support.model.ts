@@ -37,7 +37,35 @@ export class SupportItemModel extends BaseItemModel {
         }
     }
 
+    get ticketStatusName() {
+        if (this.status === 1) {
+            return 'New';
+        }
+        if (this.status === 2) {
+            return 'In Progress';
+        }
+        if (this.status === 3) {
+            return 'Completed';
+        }
+        if (this.status === 4) {
+            return 'Reopen';
+        }
+    }
 
+    get ticketStatusClass() {
+        if (this.status === 1) {
+            return 'new_ticket';
+        }
+        if (this.status === 2) {
+            return 'in_progress_ticket';
+        }
+        if (this.status === 3) {
+            return 'completed_ticket';
+        }
+        if (this.status === 4) {
+            return 'reopen_ticket';
+        }
+    }
 }
 
 
