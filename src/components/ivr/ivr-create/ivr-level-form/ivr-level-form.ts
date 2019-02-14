@@ -196,6 +196,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 )
                 .then(response => {
                     this.paramsInfo = response;
+                    this.form.get('parameter').setValue(null);
                     this.form
                         .get('parameter')
                         .setValidators(this.paramsInfo.validators);
