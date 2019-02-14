@@ -19,7 +19,7 @@
                    <div class="tablet_item">{{item.id}}</div>
                    <div class="tablet_item">{{item.subject}}</div>
                    <div class="tablet_item">{{item.updated}}</div>
-                   <div class="tablet_item {{item.status === 1 ? 'new_ticket' : item.status === 2 ? 'in_progress_ticket' : item.status === 3 ? 'completed_ticket' : item.status === 4 ? 'reopen_ticket' : ''}}"><div class="circle"></div>{{item.status === 1 ? 'New' : item.status === 2 ? 'In Progress' : item.status === 3 ? 'Completed' : item.status === 4 ? 'Reopen' : ''}}</div>
+                   <div class="tablet_item {{item.ticketStatusClass}}"><div class="circle"></div>{{item.ticketStatusName}}</div>
                    <div class="tablet_item">{{item.supportUserName}}</div>
                </div> <!-- tablet_content -->
            </div> <!-- tablet_body -->
@@ -137,7 +137,7 @@
                     </div> <!-- left -->
                     <div class="right">
                         <div class="key">Status</div>
-                        <div class="val {{currentItem.status === 1 ? 'new_ticket' : currentItem.status === 2 ? 'in_progress_ticket' : currentItem.status === 3 ? 'completed_ticket' : currentItem.status === 4 ? 'reopen_ticket' : ''}}">{{currentItem.status === 1 ? 'New' : currentItem.status === 2 ? 'In Progress' : currentItem.status === 3 ? 'Completed' : currentItem.status === 4 ? 'Reopen' : ''}}</div>
+                        <div class="val {{currentItem.ticketStatusClass}}">{{currentItem.ticketStatusName}}</div>
                     </div> <!-- right -->
                 </div> <!-- item -->
 
