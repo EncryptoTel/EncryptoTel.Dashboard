@@ -37,6 +37,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     references: any;
     data: IvrLevel;
     actionVal: 0;
+    formPatched = false;
     loading: number = 0;
     sipOuters: any;
     bsRangeValue = new Date();
@@ -196,15 +197,16 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 )
                 .then(response => {
                     this.paramsInfo = response;
-                    this.form.get('parameter').setValue(null);
+                    if (actionValue !== this.actionVal && this.formPatched) {
+                        this.form.get('parameter').setValue(null);
+                    }
                     this.form
                         .get('parameter')
                         .setValidators(this.paramsInfo.validators);
-                    if (actionValue !== this.data.action) {
-                        this.form.get('parameter').setValue(null);
-                    }
+                    
                     this.form.get('parameter').markAsUntouched();
                     this.validationHost.initItems();
+                    this.actionVal = actionValue;
                 })
                 .catch(() => {})
                 .then(() => this.loading--);
@@ -238,6 +240,9 @@ export class IvrLevelFormComponent extends FormBaseComponent
         this.form.get('parameter').valueChanges.subscribe(val => {
             this.selectFile(val);
         });
+        setTimeout(() => {
+            this.formPatched = true;
+        }, 1000);        
     }
 
     isFileSelected(btn: FormButtons): boolean {
