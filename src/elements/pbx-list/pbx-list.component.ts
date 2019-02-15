@@ -17,6 +17,7 @@ import { dateToServerFormat } from '@shared/shared.functions';
 import { LocalStorageServices } from '@services/local-storage.services';
 import { MessageServices } from '@services/message.services';
 import { SessionsModel } from '@models/settings.models';
+import {RingGroupService} from '@services/ring-group.service';
 
 const pageNum = 'pbx_page_num';
 @Component({
@@ -200,7 +201,12 @@ export class ListComponent implements OnInit {
 
     delete(item: BaseItemModel) {
         item.loading ++;
-        this.service.deleteById(item.id, false)
+        let showSuccess: boolean;
+        showSuccess = false;
+        if (this.service instanceof RingGroupService) {
+            showSuccess = true;
+        }
+        this.service.deleteById(item.id, showSuccess)
             .then((response: any) => {
                 this.getItems(item);
                 this.onDelete.emit(item);
