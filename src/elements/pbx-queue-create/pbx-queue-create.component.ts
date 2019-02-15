@@ -9,7 +9,7 @@ import {FormComponent} from '@elements/pbx-form/pbx-form.component';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import {FadeAnimation} from '@shared/fade-animation';
 import {isValidId} from '@shared/shared.functions';
-import {numberRegExp, ivrNameRegExp, simpleNameRegExp, ringGroupsNameRegExp} from '@shared/vars';
+import {numberRegExp, ivrNameRegExp, simpleNameRegExp, ringGroupsNameRegExp, nameRegExp} from '@shared/vars';
 import {numberRangeValidator} from '@shared/encry-form-validators';
 
 
@@ -100,7 +100,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     this.currentTab = this.tabs[0];
     this.background = 'form-body-fill';
     this.noDataMessage = this.translate.instant('No data to display. Please add members');
-    
+
     this.validationHost.customMessages = [
       { key: 'sipId', error: 'required', message: this.translate.instant('Please choose a phone number') },
       { key: 'strategy', error: 'required', message: this.translate.instant('Please choose the ring strategy') },
@@ -133,7 +133,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     });
     if (this.isCallQueue) {
       // Add Call-Queues specific controls
-      this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(simpleNameRegExp) ]);
+      this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(nameRegExp) ]);
       this.validationHost.customMessages.push(
           { key: 'name', error: 'pattern', message: this.translate.instant('Name contains invalid characters. You can use letters and numbers only') }
       );
@@ -144,7 +144,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
     else {
       // Add Ring-Groups specific controls
-      this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(ringGroupsNameRegExp) ]);
+      this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(nameRegExp) ]);
       this.validationHost.customMessages.push(
           { key: 'name', error: 'pattern', message: this.translate.instant('Name contains invalid characters. You can only use letters, numbers and the following characters: -.') }
       );
