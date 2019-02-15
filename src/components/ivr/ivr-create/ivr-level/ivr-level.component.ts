@@ -66,7 +66,6 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
   }
 
   onSelectDigit(digit: Digit) {
-    if (this.selectedItem !== digit) {
       if (this.form.valid) {
         this.selectedItem = digit;
         this.ivrSelected.emit({ level: this.level, digit: this.selectedItem });
@@ -80,7 +79,6 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
           this.ivrSelected.emit({ level: this.level, digit: this.selectedItem });
         });
       }
-    }
   }
 
   onSelectLevel() {

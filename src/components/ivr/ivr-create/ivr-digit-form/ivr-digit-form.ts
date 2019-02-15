@@ -33,6 +33,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     onAddLevel: Function;
     references: any;
     data: any;
+    formPatched = false;
     actionVal = 0;
     digitFormKey: string = 'digitForm';
     currentMediaStream: string = '/assets/mp3/silence.mp3';
@@ -139,8 +140,8 @@ export class IvrDigitFormComponent extends FormBaseComponent
                 .then(response => {
                     this.paramsInfo = response;
                     this.digitForm.get('parameter').setValidators(this.paramsInfo.validators);
-                    if (actionValue !== this.data.action) {
-                        this.digitForm.get('parameter').setValue(null);
+                    if (actionValue !== this.actionVal && this.formPatched) {
+                        this.form.get('parameter').setValue(null);
                     }
                     this.digitForm.get('parameter').markAsUntouched();
                     this.validationHost.initItems();
@@ -149,6 +150,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
                 .then(() => {
                     this.loading--;
                 });
+                this.actionVal = actionValue;
         });
 
         this.digitForm.get('parameter').valueChanges.subscribe(val => {
@@ -159,7 +161,9 @@ export class IvrDigitFormComponent extends FormBaseComponent
                     .setValue(val, { onlySelf: true });
             }
         });
-
+        setTimeout(() => {
+            this.formPatched = true;
+        }, 1000);  
         this.digitForm.statusChanges.subscribe(() => {
             this.onFormChange.next(this.digitForm);
         });
