@@ -272,8 +272,6 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
         switch (item.id) {
             case 1:
                 this.closePage();
-                this.hideField = false;
-                this.editMode = false;
                 this.state.change.emit(this.hideField);
                 this.router.navigateByUrl('/cabinet/address-book');
                 this.list.buttons[0].inactive = false;
