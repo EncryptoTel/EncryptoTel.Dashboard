@@ -206,7 +206,7 @@ export class ValidationHost implements Lockable {
     }
 
     getValidatorMessage(control: InputComponent, errorKey: string, errors: any): string {
-        // if (control.key === 'parameter') console.log('vh-message', control, errorKey, errors, this.customMessages);
+        // if (control.key.includes('postalCode')) console.log('vh-message', control, errorKey, errors, this.customMessages);
 
         const customMessage = this.getCustomValidatorMessage(control, errorKey);
         if (customMessage) return customMessage;
