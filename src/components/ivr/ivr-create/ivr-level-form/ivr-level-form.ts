@@ -130,6 +130,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
         this.uploadedFile = this.storage.uploadedFile.subscribe(f => {
             this.service.getFiles().then(res => {
+                this.service.references.files = res.items;
                 if (this.currentUploadButton === FormButtons.VOICE_GREETING) {
                     if (f) {
                         this.voiceGreeting.value = f;
