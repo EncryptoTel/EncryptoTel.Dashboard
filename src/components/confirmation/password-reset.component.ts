@@ -73,7 +73,6 @@ export class PasswordResetComponent implements OnInit, OnDestroy {
             this.loading = true;
             this._services.changePassword(this.passwordChangingForm.value, this.passwordChangingHash).then(() => {
                 this.loading = false;
-                this._messages.writeError(this.translate.instant('Password was changed'));
             }).catch(() => {
                 this.loading = false;
             });
