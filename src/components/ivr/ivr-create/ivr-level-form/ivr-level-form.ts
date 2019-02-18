@@ -97,6 +97,12 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     this.translate.instant('Phone number contains invalid characters. You can only use numbers.')
             },
             {
+                key: 'voiceGreeting',
+                error: 'required',
+                message:
+                    this.translate.instant('Please choose the Voice Greeting.')
+            },
+            {
                 key: 'loopMessage',
                 error: 'pattern',
                 message: this.translate.instant('Loop message value should be from 1 to 5.')
