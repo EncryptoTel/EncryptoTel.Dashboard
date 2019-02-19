@@ -3,7 +3,7 @@ export const environment = {
     production: false,
     backApiVersion: 'v1',
     translation: 'https://pbx.encryptotel.com/translation/translations',
-    back: 'http://pbx-back-dev.encry.ru/front-api',
+    back: 'http://pbx-front-dev.encry.ru/front-api',
     ws: 'ws.pbx-front-dev.encry.ru',
     version: '1.0.199'
 };
