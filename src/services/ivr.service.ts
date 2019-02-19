@@ -121,7 +121,8 @@ export class IvrService extends BaseService {
             option: [],
             visible: true,
             validators: [],
-            validationMessage: []
+            validationMessage: [],
+            autoComplete: false
         };
 
         let lastLevel: boolean = false;
@@ -160,8 +161,11 @@ export class IvrService extends BaseService {
                     break;
                 case DigitActions.REDIRECT_TO_NUM:
                     paramsInfo.label = 'External number';
-                    paramsInfo.option = undefined;
+                    paramsInfo.option = this.references.sip.map(s => {
+                        return { id: s.id, name: s.phoneNumber };
+                    });
                     paramsInfo.visible = true;
+                    paramsInfo.autoComplete = true;
                     paramsInfo.validators = [
                         Validators.required,
                         Validators.minLength(6),

@@ -56,7 +56,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
         option: [],
         visible: false,
         validators: [],
-        validationMessage: []
+        validationMessage: [],
+        autoComplete: false
     };
 
     formPanel: Element = null;
