@@ -120,7 +120,8 @@ export class IvrService extends BaseService {
             label: '',
             option: [],
             visible: true,
-            validators: []
+            validators: [],
+            validationMessage: []
         };
 
         let lastLevel: boolean = false;
@@ -147,6 +148,14 @@ export class IvrService extends BaseService {
                     paramsInfo.label = 'Extension number';
                     paramsInfo.visible = true;
                     paramsInfo.validators = [Validators.required];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('Extension number is required')
+                        },
+                    );
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_NUM:
@@ -159,6 +168,32 @@ export class IvrService extends BaseService {
                         Validators.maxLength(16),
                         Validators.pattern(addressPhoneRegExp)
                     ];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('Extension number is required')
+                        },
+                        {
+                            key: 'parameter',
+                            error: 'maxlength',
+                            message:
+                                this.translate.instant('External number is too long. Use no more than 16 numbers')
+                        },
+                        {
+                            key: 'parameter',
+                            error: 'minlength',
+                            message:
+                                this.translate.instant('External number is too short. Use at least 6 numbers')
+                        },
+                        {
+                            key: 'parameter',
+                            error: 'pattern',
+                            message:
+                                this.translate.instant('External number contains invalid characters. You can use numbers only')
+                        },
+                    );
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_QUEUE:
@@ -168,6 +203,14 @@ export class IvrService extends BaseService {
                     });
                     paramsInfo.visible = true;
                     paramsInfo.validators = [Validators.required];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('Queue is required')
+                        }
+                    );
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_RING_GROUP:
@@ -177,6 +220,14 @@ export class IvrService extends BaseService {
                     });
                     paramsInfo.visible = true;
                     paramsInfo.validators = [Validators.required];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('Ring Group is required')
+                        }
+                    );
                     resolve(paramsInfo);
 
                     break;
@@ -199,6 +250,14 @@ export class IvrService extends BaseService {
                     }
                     paramsInfo.visible = true;
                     paramsInfo.validators = [Validators.required];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('Level is required')
+                        }
+                    );
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REPEAT_LEVEL:
@@ -218,6 +277,15 @@ export class IvrService extends BaseService {
                     paramsInfo.option = this.references.files.map(file => {
                         return { id: file.id, name: file.fileName };
                     });
+                    paramsInfo.validators = [Validators.required];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('Play file is required')
+                        }
+                    );
                     paramsInfo.visible = true;
                     resolve(paramsInfo);
                     break;

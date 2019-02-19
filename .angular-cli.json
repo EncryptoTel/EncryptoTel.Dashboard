@@ -32,7 +32,9 @@
             "environments": {
                 "dev": "environments/environment.dev.ts",
                 "prod": "environments/environment.prod.ts",
-                "test": "environments/environment.test.ts"
+                "test": "environments/environment.test.ts",
+                "ett24": "environments/environment.ett24.ts",
+                "newArch": "environments/environment.newArch.ts"
             }
         }
     ],

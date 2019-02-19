@@ -469,7 +469,7 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
                 d =>
                     !(
                         d.action.toString() === '7' &&
-                        d.parameter === l.levelNum.toString()
+                        d.parameter.toString() === l.levelNum.toString()
                     )
             );
         });
@@ -478,10 +478,10 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
         l.digits.forEach(d => {
             if (
                 d.action.toString() === '7' &&
-                d.parameter === l.levelNum.toString()
+                d.parameter.toString() === l.levelNum.toString()
             ) {
                 const level = this.ivrLevels.find(
-                    x => x.levelNum.toString() === d.parameter
+                    x => x.levelNum.toString() === d.parameter.toString()
                 );
                 if (level) {
                     this.onDeleteLevel(level);
