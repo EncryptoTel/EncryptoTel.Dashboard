@@ -55,7 +55,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
         label: '',
         option: [],
         visible: false,
-        validators: []
+        validators: [],
+        validationMessage: []
     };
 
     formPanel: Element = null;
@@ -70,7 +71,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     get paramsPlaceholder(): string {
         const placeholder: string =
             Array.isArray(this.paramsInfo.option) &&
-            this.paramsInfo.option.length === 0
+                this.paramsInfo.option.length === 0
                 ? 'None'
                 : '';
         return placeholder;
@@ -210,12 +211,16 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     this.form
                         .get('parameter')
                         .setValidators(this.paramsInfo.validators);
-                    
+
                     this.form.get('parameter').markAsUntouched();
+                    if (this.paramsInfo.validationMessage && this.paramsInfo.validationMessage.length > 0) {
+                        this.validationHost.customMessages = this.validationHost.customMessages.filter(x => x.key !== 'parameter');
+                        this.validationHost.customMessages.push(...this.paramsInfo.validationMessage);
+                    }
                     this.validationHost.initItems();
                     this.actionVal = actionValue;
                 })
-                .catch(() => {})
+                .catch(() => { })
                 .then(() => this.loading--);
         });
 
@@ -235,7 +240,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     .then(response => {
                         this.paramsInfo = response;
                     })
-                    .catch(() => {})
+                    .catch(() => { })
                     .then(() => this.loading--);
             }
         });
@@ -249,7 +254,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
         });
         setTimeout(() => {
             this.formPatched = true;
-        }, 1000);        
+        }, 1000);
     }
 
     isFileSelected(btn: FormButtons): boolean {
@@ -272,7 +277,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
         event.target.value = '';
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
-                this.storage.checkFileExists(file, loading => {});
+                this.storage.checkFileExists(file, loading => { });
             } else {
                 this.message.writeError(this.translate.instant('Accepted formats: mp3, ogg, wav'));
             }
