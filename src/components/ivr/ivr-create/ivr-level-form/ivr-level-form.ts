@@ -97,6 +97,12 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     this.translate.instant('Phone number contains invalid characters. You can only use numbers.')
             },
             {
+                key: 'voiceGreeting',
+                error: 'required',
+                message:
+                    this.translate.instant('Please choose the Voice Greeting.')
+            },
+            {
                 key: 'loopMessage',
                 error: 'pattern',
                 message: this.translate.instant('Loop message value should be from 1 to 5.')
@@ -130,6 +136,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
         this.uploadedFile = this.storage.uploadedFile.subscribe(f => {
             this.service.getFiles().then(res => {
+                this.service.references.files = res.items;
                 if (this.currentUploadButton === FormButtons.VOICE_GREETING) {
                     if (f) {
                         this.voiceGreeting.value = f;

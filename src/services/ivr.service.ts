@@ -218,6 +218,7 @@ export class IvrService extends BaseService {
                     paramsInfo.option = this.references.files.map(file => {
                         return { id: file.id, name: file.fileName };
                     });
+                    paramsInfo.validators = [Validators.required];
                     paramsInfo.visible = true;
                     resolve(paramsInfo);
                     break;

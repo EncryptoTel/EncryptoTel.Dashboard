@@ -50,7 +50,7 @@ export class IvrDigitFormComponent extends FormBaseComponent
     onFormChange: Subject<any>;
     onDelete: Function;
     formPanel: Element = null;
-    playButtonText: string;
+    playButtonText: string = 'Play';
     uploadedFile: Subscription;
 
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
