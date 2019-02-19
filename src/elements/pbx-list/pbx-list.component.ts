@@ -18,6 +18,7 @@ import { MessageServices } from '@services/message.services';
 import { SessionsModel } from '@models/settings.models';
 import { RingGroupService } from '@services/ring-group.service';
 import { DeleteEvent } from '@models/delete-event.model';
+import {CallQueueService} from '@services/call-queue.service';
 
 
 export const pageNum: string = 'pbx_page_num';
@@ -206,6 +207,9 @@ export class ListComponent implements OnInit {
     let showSuccess: boolean;
     showSuccess = false;
     if (this.service instanceof RingGroupService) {
+      showSuccess = true;
+    }
+    if (this.service instanceof CallQueueService) {
       showSuccess = true;
     }
     this.service.deleteById(item.id, showSuccess)

@@ -54,6 +54,6 @@ export class CallQueuesComponent implements OnInit {
   }
 
   onDelete(item: any): void {
-    this.message.writeSuccess(this.translate.instant('Call Queue has been deleted successfully'));
+    //this.message.writeSuccess(this.translate.instant('Call Queue has been deleted successfully'));
   }
 }
