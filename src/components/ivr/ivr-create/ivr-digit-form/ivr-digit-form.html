@@ -62,7 +62,7 @@
 
                     <pbx-button [value]="playButtonText"
                                 [inactive]="!isFileSelected('playFile')"
-                                [loading]="!mediaPlayer.locker.free"
+                                [loading]="!mediaPlayer.locker.free || mediaState === 'loading'"
                                 (onClick)="togglePlay('playFile')"
                                 >
                     </pbx-button>

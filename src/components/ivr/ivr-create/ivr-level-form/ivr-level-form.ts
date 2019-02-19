@@ -62,6 +62,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
     formPanel: Element = null;
     uploadedFile: Subscription;
 
+    selectedMediaControl: FormButtons;
+
     // -- properties ----------------------------------------------------------
 
     get valid(): boolean {
@@ -300,8 +302,10 @@ export class IvrLevelFormComponent extends FormBaseComponent
         this.currentButton = btn;
         if (btn === FormButtons.VOICE_GREETING) {
             fileId = this.form.value.voiceGreeting;
+            this.selectedMediaControl = FormButtons.VOICE_GREETING;
         } else {
             fileId = this.form.value.parameter;
+            this.selectedMediaControl = FormButtons.PLAY_FILE;
         }
         if (fileId) {
             this.mediaPlayer.togglePlay(fileId);
@@ -322,8 +326,10 @@ export class IvrLevelFormComponent extends FormBaseComponent
             .catch(error => {
                 console.log(error);
                 // Error handling here ...
-                this.mediaPlayer.locker.unlock();
+                const file = this.service.references.files.find(f => +f.id === +fileId);
+                if (file) { file.converted = null; }
                 this.mediaStateChanged(MediaState.PAUSED);
+                this.mediaPlayer.locker.unlock();
             })
             .then(() => this.mediaPlayer.locker.unlock());
     }
