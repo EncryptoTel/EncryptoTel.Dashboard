@@ -25,11 +25,18 @@ pbx-sign-up-tariff-plans
     .tariff_item__description_price
         margin-top: 0 !important
     .tariff_container
-        display: block !important
-        overflow: auto
+        //display: block !important
+        //overflow: auto
+        min-height: 720px
+        &:after
+            min-height: 720px
         .tariff_wrap
-            margin-left: auto !important
-            margin-right: auto !important
+            display: grid !important
+            //margin-left: auto !important
+            //margin-right: auto !important
+            width: 100%
+            h1
+                justify-content: center
 pbx-tariff-plans
     .tariff_item
         background: $dark_accent !important
