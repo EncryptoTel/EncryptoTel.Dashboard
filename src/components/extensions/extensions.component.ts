@@ -87,11 +87,17 @@ export class ExtensionsComponent implements OnInit {
     if (this.passwordTo > 0) {
       this.loading.admin = this.passwordTo === 1;
       this.loading.user = this.passwordTo === 2;
-      this.service.changePassword(this.selected.id, { mobileApp: this.selected.mobileApp, toAdmin: this.passwordTo === 1, toUser: this.passwordTo === 2 }).then(res => {
-        this.messages.writeSuccess(res.message);
-        this.loading.admin = false;
-        this.loading.user = false;
-      });
+      this.service
+        .changePassword(
+          this.selected.id,
+          { mobileApp: this.selected.mobileApp, toAdmin: this.passwordTo === 1, toUser: this.passwordTo === 2 }
+        )
+        .then(res => {
+          const msg = this.translate.instant(res.message);
+          this.messages.writeSuccess(msg);
+          this.loading.admin = false;
+          this.loading.user = false;
+        });
     } else {
       this.service.deleteExtension(this.selected.id)
         .then(res => {
