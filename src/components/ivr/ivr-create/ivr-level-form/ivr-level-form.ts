@@ -121,8 +121,14 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 error: 'pattern',
                 message:
                     this.translate.instant('Level Name may contain letters, digits, dots and dashes only.')
-            }
-        ];
+            },
+            {
+              key: 'sipId',
+              error: 'required',
+              message:
+                  this.translate.instant('Please choose the Phone Number')
+          }
+      ];
     }
 
     getData() {
