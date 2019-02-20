@@ -63,13 +63,9 @@ export class ExtensionsComponent implements OnInit {
 
   select(item: ExtensionItem) {
     if (!this.selected) {
-      if (window.innerWidth <= 1399) {
-
-      } else {
+      if (window.innerWidth > 1399) {
         this.sidebar = this.sidebar ? (this.sidebar.id === item.id ? null : item) : item;
-        console.log(this.sidebar);
       }
-
     }
   }
 
