@@ -71,6 +71,6 @@ export class RingGroupsComponent {
   }
 
   onDelete(item: any): void {
-    // this.messages.writeSuccess(this.translate.instant('Ring Group has been deleted successfully'));
+    this.messages.writeSuccess(this.translate.instant('Ring Group has been deleted successfully'));
   }
 }
