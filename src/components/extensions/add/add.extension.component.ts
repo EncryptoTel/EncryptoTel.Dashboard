@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { emailRegExp, callRuleNameRegExp } from '@shared/vars';
+import { emailRegExp, callRuleNameRegExp, numberRegExp } from '@shared/vars';
 import { ExtensionService } from '@services/extension.service';
 import { PhoneNumberService } from '@services/phone-number.service';
 import { ExtensionItem } from '@models/extension.model';
@@ -11,6 +11,8 @@ import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-ba
 import { MessageServices } from '@services/message.services';
 import { StorageService } from '@services/storage.service';
 
+
+export const reEmailExists: RegExp = new RegExp(/^such record (.+) already exists.$/i);
 
 @Component({
   selector: 'add-extension-component',
@@ -71,6 +73,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
 
     this.validationHost.customMessages = [
       { key: 'outer', error: 'required', message: this.translate.instant('Please choose a phone number') },
+      { key: 'phoneNumber', error: 'pattern', message: this.translate.instant('Extension can contain 3 numbers only') },
       { key: 'phoneNumber', error: 'minlength', message: this.translate.instant('Extension can contain 3 numbers only') },
       { key: 'phoneNumber', error: 'maxlength', message: this.translate.instant('Extension can contain 3 numbers only') },
       { key: 'phoneNumber', error: 'min', message: this.translate.instant('Your extension must be over 100') },
@@ -92,7 +95,7 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
   initForm(): void {
     this.formExtension = this.fb.group({
       outer: [null, [Validators.required]],
-      phoneNumber: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.min(100)]],
+      phoneNumber: [null, [Validators.required, Validators.pattern(numberRegExp), Validators.minLength(3), Validators.maxLength(3), Validators.min(100)]],
       default: false,
       user: this.fb.group({
         firstName: [null, [Validators.minLength(1), Validators.maxLength(190), Validators.pattern(callRuleNameRegExp)]],
@@ -252,10 +255,26 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
     if (errors) {
       Object.keys(errors).forEach(key => {
         const obj = this.formExtension.get(key);
-        if (obj) obj.setErrors(errors[key]);
+        if (obj) {
+          this.translateErrors(errors[key]);
+          obj.setErrors(errors[key]);
+        }
       });
     }
     this.locker.unlock();
+  }
+
+  translateErrors(errors: any): void {
+    Object.keys(errors).forEach(key => {
+      errors[key].forEach((msg: string, i: number) => {
+        if (reEmailExists.test(msg)) {
+          const matches = reEmailExists.exec(msg);
+          errors[key][i] = this.translate.instant('userEmailAlreadyExists', {email: matches[1]});
+        } else {
+          errors[key][i] = this.translate.instant(msg);
+        }
+      });
+    });
   }
 
   afterSaveExtension(extension: ExtensionItem) {
