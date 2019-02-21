@@ -375,6 +375,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
         this.form.get('sipId').setValue(number.id);
 
         this.getExtensions(number.id);
+
+        this.actionsControls.controls.forEach((group: FormGroup, i: number) => {
+          if (group.value.action === 1) {
+            group.controls.parameter.setValue(null);
+            group.controls.parameter.markAsUntouched();
+            this.selectedSipInners[i] = null;
+          }
+        });
     }
 
     selectSipInner(index: number, sipInner: SipInner): void {
