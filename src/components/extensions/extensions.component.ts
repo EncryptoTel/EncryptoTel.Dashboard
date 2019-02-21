@@ -9,10 +9,8 @@ import { ListComponent } from '@elements/pbx-list/pbx-list.component';
 import { ExtensionItem, ExtensionModel } from '@models/extension.model';
 import { FilterItem, TableInfoExModel, TableInfoItem } from '@models/base.model';
 import { DeleteEvent } from '@models/delete-event.model';
+import { reDelSuccess, reDelInUse } from '@shared/vars';
 
-
-export const reDelSuccess = new RegExp(/item with id:\d{1,} is deleted/i);
-export const reExtInUse = new RegExp(/^this object is used in (\w+) name (.+)$/i);
 
 @Component({
   selector: 'extensions-component',
@@ -123,19 +121,16 @@ export class ExtensionsComponent implements OnInit {
   }
 
   checkDeletionError(response: any): boolean {
-    if (!response || !response.message || reDelSuccess.test(response.message)) {
-      return false;
-    }
-    return true;
+    return (response && response.message && !reDelSuccess.test(response.message));
   }
 
   getDeletionError(response: any): string {
-    if (reExtInUse.test(response.message)) {
-      const match = reExtInUse.exec(response.message);
+    if (reDelInUse.test(response.message)) {
+      const match = reDelInUse.exec(response.message);
       const module = this.translate.instant(match[1]);
-      const message = this.translate.instant('extensionInUse', { module: module, name: match[2] });
+      const message = this.translate
+        .instant('extensionInUse', { module: module, name: match[2] });
       return message;
-    } else {
     }
     return this.translate.instant(response.message);
   }
