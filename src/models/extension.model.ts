@@ -63,7 +63,7 @@ export class ExtensionItem extends BaseItemModel {
     }
 
     get isMobileApp(): string {
-        return this.mobileApp ? 'Enable' : 'Disable';
+        return this.mobileApp ? 'Enabled' : 'Disabled';
     }
 
 }

@@ -104,7 +104,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     this.validationHost.customMessages = [
       { key: 'sipId', error: 'required', message: this.translate.instant('Please choose a phone number') },
       { key: 'strategy', error: 'required', message: this.translate.instant('Please choose the ring strategy') },
-      { key: 'timeout', error: 'pattern', message: this.translate.instant('Please enter valid number') },
+      { key: 'timeout', error: 'pattern', message: this.translate.instant('Invalid data. This field may contain numbers only') },
       { key: 'timeout', error: 'range', message: this.translate.instant('Please enter a value from 15 to 600') },
       { key: 'maxlen', error: 'required', message: this.translate.instant('You need to choose at least one caller') },
       { key: 'maxlen', error: 'pattern', message: this.translate.instant('Invalid data. This field may contain numbers only') },
@@ -184,6 +184,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
   }
 
   save(): void {
+    console.log('form', this.form);
     if (this.validateForms()) {
       this.setModelData();
       this.saveModel();

@@ -118,6 +118,7 @@ export class BaseQueueService extends BaseService {
   setMembers(members) {
     for (let i = 0; i < members.length; i++) {
       this.item.queueMembers.push({ sipId: members[i].inner.id });
+      members[i].inner.statusName = this.translate.instant(members[i].inner.statusName);
       this.userView.members.push(members[i].inner);
       this.userView.members[i].sipOuterPhone = this.userView.phoneNumber;
     }

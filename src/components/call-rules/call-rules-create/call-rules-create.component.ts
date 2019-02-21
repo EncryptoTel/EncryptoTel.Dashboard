@@ -538,9 +538,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
             })
             .catch(error => {
                 console.log(error);
-                // Error handling here ...
+                const file = this.selectedFiles.find(f => +f.id === +fileId);
+                if (file) { file.converted = null; }
+                this.mediaStateChanged(MediaState.PAUSED);
+                this.mediaPlayer.locker.unlock();
             })
-            .then(() => this.mediaPlayer.locker.unlock());
+            .then(() => {
+              this.mediaPlayer.locker.unlock();
+            });
     }
 
     mediaStateChanged(state: MediaState): void {

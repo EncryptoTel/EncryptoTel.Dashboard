@@ -64,7 +64,7 @@
         <div class="greeting">
             <pbx-button [value]="getPlayButtonText('voiceGreeting')"
                         [inactive]="!isFileSelected('voiceGreeting')"
-                        [loading]="!mediaPlayer.locker.free"
+                        [loading]="!mediaPlayer.locker.free && selectedMediaControl === 'voiceGreeting'"
                         (onClick)="togglePlay('voiceGreeting')"
                         >
             </pbx-button>
@@ -123,7 +123,7 @@
 
                 <pbx-button [value]="getPlayButtonText('playFile')"
                             [inactive]="!isFileSelected('playFile')"
-                            [loading]="!mediaPlayer.locker.free"
+                            [loading]="!mediaPlayer.locker.free && selectedMediaControl === 'playFile'"
                             (onClick)="togglePlay('playFile')"
                             >
                 </pbx-button>

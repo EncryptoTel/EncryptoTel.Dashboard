@@ -203,16 +203,8 @@ export class ListComponent implements OnInit {
   }
 
   delete(item: BaseItemModel) {
-    item.loading++;
-    let showSuccess: boolean;
-    showSuccess = false;
-    if (this.service instanceof RingGroupService) {
-      showSuccess = true;
-    }
-    if (this.service instanceof CallQueueService) {
-      showSuccess = true;
-    }
-    this.service.deleteById(item.id, showSuccess)
+    item.loading ++;
+    this.service.deleteById(item.id, false)
       .then((response: any) => {
         this.getItems(item);
         this.onDelete.emit({ item: item, response: response });
