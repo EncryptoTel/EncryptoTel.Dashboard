@@ -76,6 +76,7 @@ export class CompanyComponent extends FormBaseComponent implements OnInit {
             { key: 'companyAddress.*.country', error: 'required', message: this.translate.instant('Please choose the country') },
             { key: 'companyAddress.*.regionName', error: 'pattern', message: this.translate.instant('State/region contains invalid characters. You can only use letters, numbers and a dash') },
             { key: 'companyAddress.*.locationName', error: 'pattern', message: this.translate.instant('City contains invalid characters. You can only use letters, numbers and a dash') },
+            { key: 'companyAddress.*.street', error: 'required', message: this.translate.instant('Please enter the Street') },
             { key: 'companyAddress.*.street', error: 'pattern', message: this.translate.instant('Street contains invalid characters. You can only use letters, numbers and a dash') },
             { key: 'companyAddress.*.building', error: 'required', message: this.translate.instant('Please enter the House number') },
             { key: 'companyAddress.*.building', error: 'pattern', message: this.translate.instant('House number contains invalid characters. You can only use letters, numbers and a slash') },
