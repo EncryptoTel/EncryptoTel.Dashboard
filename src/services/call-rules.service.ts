@@ -61,6 +61,12 @@ export class CallRulesService extends BaseService {
             });
     }
 
+    checkCallRuleEnable(): Promise<any> {
+      return new Promise((resolve) => {
+        resolve(true);
+      });
+    }
+
     initDictionaries(): void {
       this.callRuleTimeTypes = CallRuleTimeType.fromPlain([
         { id: 1, code: this.translate.instant('Always (24 hours)') },

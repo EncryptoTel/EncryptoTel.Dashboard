@@ -295,4 +295,10 @@ export class IvrService extends BaseService {
             }
         });
     }
+
+    checkIVREnable(): Promise<any> {
+      return new Promise((resolve) => {
+        resolve(true);
+      });
+    }
 }

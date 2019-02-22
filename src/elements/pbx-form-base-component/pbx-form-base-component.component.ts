@@ -248,9 +248,10 @@ export class FormBaseComponent implements OnInit, Lockable, CanFormComponentDeac
         this.modalExit.show();
     }
 
-    showWarningModal(message: string, confirmCallback?: () => void): void {
+    showWarningModal(message: string, confirmCallback?: () => void, cancelCallback?: () => void): void {
         this.modalExit.setMessage(message);
         this.modalExit.confirmCallback = confirmCallback;
+        this.modalExit.cancelCallback = cancelCallback;
         this.modalExit.show();
     }
 
