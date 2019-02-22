@@ -7,12 +7,13 @@ import { SettingsService } from '@services/settings.service';
 import { LocalStorageServices } from '@services/local-storage.services';
 import { MessageServices } from '@services/message.services';
 import { UserServices } from '@services/user.services';
-import { emailRegExp, nameRegExp, phoneRegExp, numberRegExp, profileNameRegExp } from '@shared/vars';
+import { emailRegExp, nameRegExp, phoneRegExp, numberRegExp, profileNameRegExp, registrationUserNameRegExp } from '@shared/vars';
 import { validateForm, killEvent } from '@shared/shared.functions';
 import { FadeAnimation } from '@shared/fade-animation';
 import { passwordConfirmation } from '@shared/password-confirmation';
 import { FormBaseComponent } from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import { SettingsModel, SettingsItem, SettingsOptionItem, SettingsBaseItem, SettingsGroupItem } from '@models/settings.models';
+import { userNameValidation } from '@shared/encry-form-validators';
 
 
 export enum EmailChangeState {
@@ -83,8 +84,16 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
           .instant('First name contains invalid characters or symbols. You can only use letters and the following characters: \'-_.')
       },
       {
+        key: 'firstname', error: 'firstLeterError', message: this.translate
+          .instant('First Name must begin with a letter')
+      },
+      {
         key: 'lastname', error: 'pattern', message: this.translate
           .instant('Last name contains invalid characters or symbols. You can only use letters and the following characters: \'-_.')
+      },
+      {
+        key: 'lastname', error: 'firstLeterError', message: this.translate
+          .instant('Last Name must begin with a letter')
       },
       { key: 'phone', error: 'pattern', message: this.translate.instant('Contact phone contains invalid characters or symbols. You can use numbers only') },
       { key: 'email', error: 'required', message: this.translate.instant('Please enter your email address') },
@@ -114,8 +123,8 @@ export class ProfileComponent extends FormBaseComponent implements OnInit {
 
   initForm(): void {
     this.generalForm = this.fb.group({
-      firstname: [null, [Validators.required, Validators.maxLength(190), Validators.pattern(profileNameRegExp)]],
-      lastname: [null, [Validators.maxLength(190), Validators.pattern(nameRegExp)]],
+      firstname: [null, [userNameValidation, Validators.required, Validators.maxLength(190), Validators.pattern(profileNameRegExp)] ],
+      lastname: [null, [userNameValidation, Validators.maxLength(190), Validators.pattern(nameRegExp)]],
       patronymic: [null, [Validators.pattern(nameRegExp)]],
       phone: [null, [Validators.minLength(6), Validators.maxLength(16), Validators.pattern(phoneRegExp)]],
       language: [null],
