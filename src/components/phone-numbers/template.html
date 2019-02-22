@@ -29,7 +29,7 @@
                 <!--<div class="title">Add External Phone Number</div>-->
                 <div class="items">
                     <div class="item phone_number">
-                        <label for="externalPhoneNumber"><span translate>Phone Number</span> *</label>
+
                         <div class="wrapper no_flag">
                             <div class="flag">
                                 <svg-icon class="flag_item" src="/assets/icons/country_flags/svg/ru.svg"></svg-icon>
@@ -39,7 +39,13 @@
                             </div>
                             <span class="not_edit" *ngIf="phoneExternal.id > 0">{{phoneExternal.phoneNumber}}</span>
                             <input *ngIf="!phoneExternal.id" required id="externalPhoneNumber" type="number" [(ngModel)]="phoneExternal.phoneNumber" name="phoneNumber">
-                            <div class="visual"></div>
+                            <div class="visual">
+                                <div class="title-in">
+                                    <div class="line"></div>
+                                    <label for="externalPhoneNumber"><span translate>Phone Number</span> *</label>
+                                    <div class="line"></div>
+                                </div> <!-- title-in -->
+                            </div>
                         </div> <!-- wrapper -->
                         <div class="error_wrap">
                             <span class="error" *ngIf="errors.phoneNumber !== null" translate>{{errors.phoneNumber[0]}}</span>
@@ -47,21 +53,31 @@
                     </div> <!-- item -->
 
                     <div class="item login">
-                        <label for="externalLog-in" translate>Login</label>
                         <div class="wrapper">
                             <input required id="externalLog-in" type="text" [(ngModel)]="phoneExternal.login" name="login">
-                            <div class="visual"></div>
+                            <div class="visual">
+                                <div class="title-in">
+                                    <div class="line"></div>
+                                    <label for="externalLog-in" translate>Login</label>
+                                    <div class="line"></div>
+                                </div> <!-- title-in -->
+                            </div>
                             <span *ngIf="errors.login !== null">{{errors.login[0]}}</span>
                         </div> <!-- wrapper -->
                     </div> <!-- item -->
 
                     <div class="item password">
-                        <label for="externalPass"><span translate>Password</span> *</label>
                         <div class="wrapper">
                             <svg-icon class="eye show_password" *ngIf="showPassword" (click)="changePasswordVisibility()" src="/assets/icons/_middle/show_password.svg"></svg-icon>
                             <svg-icon class="eye hide_password" *ngIf="!showPassword" (click)="changePasswordVisibility()" src="/assets/icons/_middle/hide_password.svg"></svg-icon>
                             <input required id="externalPass" type="{{showPassword ? 'text' : 'password'}}" [(ngModel)]="phoneExternal.password" name="password">
-                            <div class="visual"></div>
+                            <div class="visual">
+                                <div class="title-in">
+                                    <div class="line"></div>
+                                    <label for="externalPass"><span translate>Password</span> *</label>
+                                    <div class="line"></div>
+                                </div> <!-- title-in -->
+                            </div>
                         </div> <!-- wrapper -->
                         <div class="error_wrap">
                             <span class="error" *ngIf="errors.password !== null" translate>{{errors.password[0]}}</span>
@@ -69,10 +85,15 @@
                     </div> <!-- item -->
 
                     <div class="item">
-                        <label for="externalHost"><span translate>Host</span> *</label>
                         <div class="wrapper">
                             <input required type="text" id="externalHost" [(ngModel)]="phoneExternal.host" name="host">
-                            <div class="visual"></div>
+                            <div class="visual">
+                                <div class="title-in">
+                                    <div class="line"></div>
+                                    <label for="externalHost"><span translate>Host</span> *</label>
+                                    <div class="line"></div>
+                                </div> <!-- title-in -->
+                            </div>
                         </div> <!-- wrapper -->
                         <div class="error_wrap">
                             <span class="error" *ngIf="errors.host !== null" translate>{{errors.host[0]}}</span>
@@ -80,10 +101,15 @@
                     </div> <!-- item -->
 
                     <div class="item">
-                        <label for="externalPort"><span translate>Port</span> *</label>
                         <div class="wrapper">
                             <input required type="number" id="externalPort" [(ngModel)]="phoneExternal.port" name="port">
-                            <div class="visual"></div>
+                            <div class="visual">
+                                <div class="title-in">
+                                    <div class="line"></div>
+                                    <label for="externalPort"><span translate>Port</span> *</label>
+                                    <div class="line"></div>
+                                </div> <!-- title-in -->
+                            </div>
                         </div> <!-- wrapper -->
                         <div class="error_wrap">
                             <span class="error" *ngIf="errors.port !== null" translate>{{errors.port[0]}}</span>

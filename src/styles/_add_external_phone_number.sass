@@ -181,3 +181,57 @@
             margin-top: 40px
             pbx-button
                 width: 140px
+
+.add_external_phone_number
+    .items
+        padding-top: 6px
+        .item
+            position: relative
+            .title-in
+                display: grid
+                width: 100%
+                grid-template-columns: 13px min-content 1fr
+                position: absolute
+                top: -6px
+                .line
+                    height: 1px
+                    background: rgba($dark_white, .1)
+                    position: relative
+                    top: 6px
+                label
+                    white-space: nowrap
+                    margin: 0 4px
+            .wrapper
+                input
+                    &:focus
+                        border-color: transparent !important
+                .visual
+                    border-top: none !important
+            .error_wrap
+
+
+.add_external_phone_number form .items .item .wrapper input:focus + .visual
+    border-top: none !important
+    .title-in
+        .line
+            background: $dark_accent
+        label
+            color: $dark_accent
+
+.add_external_phone_number form .items .item .wrapper
+    min-height: 40px
+
+.add_external_phone_number .items .item .title-in label
+    letter-spacing: .3px
+    position: relative
+    top: -3px
+
+.add_external_phone_number .items .item .title-in label
+    margin-bottom: 12px
+
+.add_external_phone_number .items .item .title-in label
+    margin-top: 2px
+
+.add_external_phone_number form .items .item .error_wrap
+    margin-bottom: 8px
+    height: 30px
