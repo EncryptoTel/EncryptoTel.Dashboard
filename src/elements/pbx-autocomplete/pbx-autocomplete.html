@@ -1,0 +1,38 @@
+<div class="select_wrap"
+     tabindex="0"
+     #selectWrap
+     [ngClass]="[errors ? 'error' : '', isVisible ? 'active' : '', calcPosition()]"
+     (clickOutside)="clickOutside()"
+     >
+    <span *ngIf="isPlaceholder && !isVisible" class="pbx-select-placeholder">{{ placeholder }}</span>
+    <div class="no_border" [ngClass]="[ 'select_item', 'selected', !selected ? 'blank' : '', errors ? 'error' : '', name ? 'pbx_select_' + name : '' ]">
+        
+            <input 
+                (focus)="ctrlFocus($event)"
+                (mousedown)="ctrlMouseDown($event)"
+                class="{{ singleBorder ? '' : 'show-border' }} pbx_select_edit_input"
+                #selectInput
+                type="text"
+                id="{{ name }}_filter"
+                [(ngModel)]="value"
+                (change)="onChangeValue($event)"
+                [ngClass]="[ checkError() ? 'input-invalid' : 'input-valid' ]"
+                (keydown)="inputKeyDown($event)"
+                (keyup)="inputKeyUp($event)"
+                >
+        <svg-icon src="/assets/icons/_middle/dropdown_arrow_12px.svg" class="select_icon"></svg-icon>
+    </div>
+    
+    <div class="{{ isVisible ? '' : 'hide' }} select_options"
+        [@Swipe]
+        #optionsWrap
+        >
+        <div *ngFor="let option of filteredOptions"
+                class="select_item"
+                [ngClass]="{ 'current': isItemSelected(option) }"
+                (mousedown)="selectItem(option, $event)"
+            >
+            {{ option[objectKey] || option }}
+        </div>
+    </div>
+</div>
