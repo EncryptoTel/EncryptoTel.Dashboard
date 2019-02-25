@@ -103,7 +103,7 @@
                [validationHost]="validationHost"
                >
     </pbx-input>
-
+    
     <pbx-input *ngIf="paramsInfo.visible"
                name="{{ paramsInfo.label | translate }}"
                key="parameter"
@@ -112,10 +112,9 @@
                [form]="true"
                [object]="form"
                [options]="paramsInfo.option"
-               [editable]="paramsInfo.autoComplete"
+               [autocomplete]="paramsInfo.autoComplete"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
-               displayKey="name"
                placeholder="{{ paramsPlaceholder }}"
                #actionData
                >
@@ -139,6 +138,7 @@
             </div>
 
     </pbx-input>
+
     </ng-container>
 </div>
 <pbx-media-player

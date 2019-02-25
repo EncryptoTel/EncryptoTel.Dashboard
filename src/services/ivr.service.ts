@@ -162,7 +162,7 @@ export class IvrService extends BaseService {
                 case DigitActions.REDIRECT_TO_NUM:
                     paramsInfo.label = 'External number';
                     paramsInfo.option = this.references.sip.map(s => {
-                        return { id: s.id, name: s.phoneNumber };
+                        return s.phoneNumber.replace('+', '');
                     });
                     paramsInfo.visible = true;
                     paramsInfo.autoComplete = true;
