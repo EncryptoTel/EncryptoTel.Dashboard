@@ -108,6 +108,7 @@
                name="{{ paramsInfo.label | translate }}"
                key="parameter"
                [required]="true"
+               [placeholder]="paramsInfo.label"
                [form]="true"
                [object]="form"
                [options]="paramsInfo.option"
