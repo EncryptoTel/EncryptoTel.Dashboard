@@ -40,8 +40,8 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
 
   get levelDescription(): string {
     return !this.level || this.level.levelNum === 1
-      ? 'IVR Menu'
-      : `Level ${this.level.levelNum - 1}`;
+      ? this._translate.instant('IVR Menu')
+      : `${this._translate.instant('Level')} ${this.level.levelNum - 1}`;
   }
 
   addDigitButtonVisible(): boolean {
@@ -159,7 +159,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
   }
 
   deleteLevel() {
-    this.modal.body = 'Are you sure want to delete this level?';
+    this.modal.body = this._translate.instant('Are you sure want to delete this level?');
     this.modal.visible = true;
     this.modalWnd.onConfirmEx.subscribe(() => {
       this.onDeleteLevel.emit(this.level);

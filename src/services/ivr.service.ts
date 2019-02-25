@@ -245,7 +245,7 @@ export class IvrService extends BaseService {
                     if (!lastLevel) {
                         paramsInfo.option.push({
                             id: -1,
-                            name: 'new level'
+                            name: this.translate.instant('new level')
                         });
                     }
                     paramsInfo.visible = true;
