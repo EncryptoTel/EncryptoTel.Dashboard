@@ -173,7 +173,7 @@ export class IvrService extends BaseService {
                             key: 'parameter',
                             error: 'required',
                             message:
-                                this.translate.instant('Extension number is required')
+                                this.translate.instant('External number is required')
                         },
                         {
                             key: 'parameter',
