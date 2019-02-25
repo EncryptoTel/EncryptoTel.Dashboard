@@ -132,6 +132,7 @@ pbx-call-rules-create
                             transform: translateY(-50%) rotate(180deg) !important
 
 pbx-call-rules
+    flex-direction: row !important
     .tablet
         .tablet_header,
         .tablet_body .tablet_content
@@ -160,3 +161,46 @@ pbx-call-rules-create
                     color: rgba($dark_white, .7)
             .please_note
                 color: rgba($dark_white, .7)
+
+pbx-sidebar
+    &.sidebar_call_rules
+        display: grid
+        .sidebar
+            display: grid
+            grid-template-rows: 140px 1fr min-content
+            .info_up
+                flex-direction: column
+                color: $dark_white
+                margin-bottom: 32px
+                overflow: auto
+                display: block
+                .key
+                    margin-bottom: 8px
+                .val
+                    margin-bottom: 24px
+            .scroll_block
+                flex-direction: column
+                overflow: auto
+                display: block
+                .inner
+                    margin-bottom: 32px
+                    flex-direction: column
+                    .key
+                        margin-bottom: 8px
+                    .val
+                        margin-bottom: 24px
+            .buttons
+                display: grid
+                grid-template-columns: 1fr 1fr
+                grid-template-rows: 1fr 1fr
+                grid-gap: 16px
+                padding-top: 16px
+                pbx-button[buttonType="accent"]
+                    grid-row: 1/2
+                    grid-column: 1/2
+                pbx-button[buttonType="cancel"]
+                    grid-row: 2/3
+                    grid-column: 1/2
+                pbx-button[buttonType="success"]
+                    grid-row: 2/3
+                    grid-column: 2/3

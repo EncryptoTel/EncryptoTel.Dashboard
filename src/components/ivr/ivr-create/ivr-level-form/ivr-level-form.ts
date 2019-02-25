@@ -49,6 +49,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
     @ViewChild('voiceGreeting') voiceGreeting: InputComponent;
     @ViewChild('actionData') actionData: InputComponent;
+    @ViewChild('checkEnable') checkEnable: InputComponent;
     rule_value_visible = 0;
     timeVisible = false;
     paramsInfo = {
@@ -263,6 +264,24 @@ export class IvrLevelFormComponent extends FormBaseComponent
         setTimeout(() => {
             this.formPatched = true;
         }, 1000);
+    }
+
+    toggleEnableIVR(value: boolean): void {
+      // if (value) {
+      //   this.service
+      //     .checkIVREnable()
+      //     .then(result => {
+      //       if (result) {
+      //         this.showWarningModal(
+      //           this.translate.instant('Enabling a new rule will cancel the previous one'),
+      //           () => {},
+      //           () => { 
+      //             this.checkEnable.checkBoxClick(false);
+      //           }
+      //         );
+      //       }
+      //     });
+      // }
     }
 
     isFileSelected(btn: FormButtons): boolean {

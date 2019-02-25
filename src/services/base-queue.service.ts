@@ -66,6 +66,20 @@ export class BaseQueueService extends BaseService {
     });
   }
 
+  areMembersChanged(): boolean {
+    if (!this.membersBefore || !this.userView.members) {
+      return false;
+    }
+
+    if (this.membersBefore.length !== this.userView.members.length) {
+      return true;
+    }
+
+    const diff = this.membersBefore
+      .filter(mb => !this.userView.members.find(m => mb.id === m.id));
+    return false;
+  }
+
   addMember(member: any): void {
     const index = this.item.queueMembers
       .findIndex(el => el.sipId === member.id);

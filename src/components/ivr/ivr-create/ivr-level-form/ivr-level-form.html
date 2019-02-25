@@ -38,7 +38,7 @@
         <h3>{{'IVR Options' | translate }}</h3>
     </div>
 
-    <pbx-input *ngIf="form.value.levelNum === 1"
+    <pbx-input *ngIf="form.value.levelNum === 1" #checkEnable
                name="{{ 'Enable IVR' | translate }}"
                key="enabled"
                [checkbox]="true"
@@ -46,6 +46,7 @@
                [object]="form"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
+               (onToggle)="toggleEnableIVR($event)"
                >
     </pbx-input>
 

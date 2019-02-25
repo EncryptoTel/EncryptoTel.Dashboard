@@ -11,6 +11,7 @@ import {FadeAnimation} from '@shared/fade-animation';
 import {isValidId} from '@shared/shared.functions';
 import {numberRegExp, ivrNameRegExp, simpleNameRegExp, ringGroupsNameRegExp, nameRegExp} from '@shared/vars';
 import {numberRangeValidator} from '@shared/encry-form-validators';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -180,7 +181,6 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
       this.background = 'form-body-fill';
     }
     this.addMembersMode = mode;
-    this.service.saveMembersBefore();
   }
 
   save(): void {
@@ -217,6 +217,10 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     super.setModelData(this.model);
   }
 
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    return super.canDeactivate(this.service.areMembersChanged());
+  }
+
   // -- data processing methods ---------------------------------------------
 
   getModel(id: number) {
@@ -225,6 +229,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
       .then(() => {
         this.getParams();
         this.setFormData(this.model);
+        this.service.saveMembersBefore();
       })
       .catch(() => {})
       .then(() => this.loading --);

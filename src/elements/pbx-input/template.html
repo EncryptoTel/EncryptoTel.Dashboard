@@ -93,7 +93,7 @@
 
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
-                              [value]="value"
+                              [(value)]="value"
                               [disabled]="disabled"
                               (onToggle)="toggleCheckbox($event)"
                               >
@@ -143,7 +143,7 @@
 
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
-                              [value]="value"
+                              [(value)]="value"
                               [disabled]="disabled"
                               (onToggle)="toggleCheckbox($event)"
                               >

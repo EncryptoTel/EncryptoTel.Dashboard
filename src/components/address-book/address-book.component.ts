@@ -329,7 +329,7 @@ export class AddressBookComponent extends FormBaseComponent implements OnInit {
 
     showSuccessDeletionMessage(item: any): void {
         const confirmationMessage: string = this.translate
-            .instant('contactDeleteConfirmation', {name: item.firstname});
+            .instant('contactDeleteConfirmation', {name: item.item.firstname});
         this.message.writeSuccess(confirmationMessage);
     }
 

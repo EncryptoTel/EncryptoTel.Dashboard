@@ -16,6 +16,7 @@ import {isValidId} from '../../../shared/shared.functions';
 import {Subscription} from 'rxjs/Subscription';
 import {WsServices} from '@services/ws.services';
 import {TranslateService} from '@ngx-translate/core';
+import { InputComponent } from '@elements/pbx-input/pbx-input.component';
 
 
 @Component({
@@ -57,6 +58,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     names: any;
 
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
+    @ViewChild('checkEnable') checkEnable: InputComponent;
 
     // -- properties ----------------------------------------------------------
 
@@ -342,6 +344,24 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     }
 
     // -- event handlers ------------------------------------------------------
+
+    toggleEnableRule(value: boolean): void {
+      // if (value) {
+      //   this.service
+      //     .checkCallRuleEnable()
+      //     .then(result => {
+      //       if (result) {
+      //         this.showWarningModal(
+      //           this.translate.instant('Enabling a new rule will cancel the previous one'),
+      //           () => {},
+      //           () => { 
+      //             this.checkEnable.checkBoxClick(false);
+      //           }
+      //         );
+      //       }
+      //     });
+      // }
+    }
 
     selectAction(action: Action, index: number = 0): void {
         this.selectedActions[index] = action;
