@@ -69,15 +69,8 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       this.selectedItem = digit;
       this.ivrSelected.emit({ level: this.level, digit: this.selectedItem });
-    }
-    else {
-      this.modal.body = this._translate.instant('Form is not saved. This element will be deleted. Do you want to continue?');
-      this.modal.visible = true;
-      this.modalWnd.onConfirmEx.subscribe(() => {
-        this.onCancelEdit.emit();
-        this.selectedItem = digit;
-        this.ivrSelected.emit({ level: this.level, digit: this.selectedItem });
-      });
+    } else {
+      this.form.getData();
     }
   }
 
@@ -86,14 +79,8 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
       if (this.form.valid) {
         this.selectedItem = this.level;
         this.ivrSelected.emit({ level: this.level, digit: undefined });
-      }
-      else {
-        this.modal.visible = true;
-        this.modalWnd.onConfirmEx.subscribe(() => {
-          this.onCancelEdit.emit();
-          this.selectedItem = this.level;
-          this.ivrSelected.emit({ level: this.level, digit: undefined });
-        });
+      } else {
+        this.form.getData();
       }
     }
   }
