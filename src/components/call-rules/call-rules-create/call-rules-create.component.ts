@@ -350,13 +350,11 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
   toggleEnableRule(value: boolean): void {
     if (value) {
       this.service
-        .checkCallRuleEnable(this.selectedNumber.phoneNumber)
+        .checkCallRuleEnableAvailable(this.selectedNumber.phoneNumber)
         .then(result => {
-          console.log('result', result);
           if (result && result.itemsCount > 0) {
-            const module = this.translate.instant('IVR');
             this.showWarningModal(
-              this.translate.instant('phoneNumberInUse', { module: module, name: result.items[0].name }),
+              this.translate.instant('callRuleInUse', { name: result.items[0].name }),
               () => { },
               () => {
                 this.checkEnable.checkBoxClick(false);

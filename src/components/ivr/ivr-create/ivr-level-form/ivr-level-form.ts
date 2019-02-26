@@ -268,21 +268,22 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     toggleEnableIVR(value: boolean): void {
-      // if (value) {
-      //   this.service
-      //     .checkIVREnable()
-      //     .then(result => {
-      //       if (result) {
-      //         this.showWarningModal(
-      //           this.translate.instant('Enabling a new rule will cancel the previous one'),
-      //           () => {},
-      //           () => { 
-      //             this.checkEnable.checkBoxClick(false);
-      //           }
-      //         );
-      //       }
-      //     });
-      // }
+      if (value) {
+        const phone = this.service.references.sip.find(s => s.id === this.form.value.sipId);
+        this.service
+          .checkIVREnableAvailable(phone.phoneNumber)
+          .then(result => {
+            if (result && result.itemsCount > 0) {
+              this.showWarningModal(
+                this.translate.instant('ivrInUse', { name: result.items[0].name }),
+                () => {},
+                () => { 
+                  this.checkEnable.checkBoxClick(false);
+                }
+              );
+            }
+          });
+      }
     }
 
     isFileSelected(btn: FormButtons): boolean {

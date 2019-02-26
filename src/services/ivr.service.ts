@@ -300,9 +300,8 @@ export class IvrService extends BaseService {
         });
     }
 
-    checkIVREnable(): Promise<any> {
-      return new Promise((resolve) => {
-        resolve(true);
-      });
+    checkIVREnableAvailable(phoneNumber: string): Promise<any> {
+      const phone = phoneNumber[0] === '+' ? phoneNumber.substr(1) : phoneNumber;
+      return this.request.get(`v1/ivr/outer-call-rule?filter[enabled]=true&filter[phoneNumber]=${phone}`);
     }
 }

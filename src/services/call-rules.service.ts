@@ -61,7 +61,7 @@ export class CallRulesService extends BaseService {
             });
     }
 
-    checkCallRuleEnable(phoneNumber: string): Promise<any> {
+    checkCallRuleEnableAvailable(phoneNumber: string): Promise<any> {
       const phone = phoneNumber[0] === '+' ? phoneNumber.substr(1) : phoneNumber;
       return this.request.get(`v1/outer_rule/ivr?filter[enabled]=true&filter[phoneNumber]=${phone}`);
     }

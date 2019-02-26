@@ -5,7 +5,6 @@
           name="Call Rules"
           itemName="Call Rule"
           [service]="service"
-          (onLoad)="load($event)"
           (onDelete)="onDelete()"
           (onSelect)="select($event)"
 >
@@ -14,22 +13,22 @@
 <pbx-sidebar class="sidebar_call_rules" *ngIf="sidebar" [@Fade]>
 
     <div class="info_up">
-        <div class="key">Call Rule Name</div>
+        <div class="key" translate>Call Rule Name</div>
         <div class="val">{{selected.name}}</div>
 
-        <div class="key">Phone Number</div>
+        <div class="key" translate>Phone Number</div>
         <div class="val">{{selected.phoneNumber}}</div>
 
-        <div class="key">Status</div>
-        <div class="val">{{selected.statusName}}</div>
+        <div class="key" translate>Status</div>
+        <div class="val" translate>{{selected.statusName}}</div>
 
-        <div class="key">Description</div>
+        <div class="key" translate>Description</div>
         <div class="val">{{selected.description}}</div>
     </div> <!-- info_up -->
 
     <div class="scroll_block">
         <div class="inner" *ngFor="let item of selected.ruleActions">
-            <div class="key">Action</div>
+            <div class="key" translate>Action</div>
             <div class="val">{{getActionName(item.action)}}</div>
 
             <div class="key" *ngIf="item.action !== 4">{{getActionParamsName(item.action)}}</div>
@@ -38,9 +37,10 @@
     </div> <!-- scroll_block -->
 
     <div class="buttons">
-        <pbx-button buttonType="accent" value="Enable"></pbx-button>
+        <pbx-button buttonType="accent" value="{{selected.enabled ? 'Disable' : 'Enable'}}" (onClick)="toggleEnable()"></pbx-button>
         <pbx-button buttonType="cancel" value="Cancel" (onClick)="cancel()"></pbx-button>
         <pbx-button buttonType="success" value="Edit" (onClick)="list.edit(selected)"></pbx-button>
     </div> <!-- buttons -->
 
 </pbx-sidebar>
+<pbx-modal [modalEx]="modalExit"></pbx-modal>
