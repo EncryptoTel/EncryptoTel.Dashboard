@@ -173,7 +173,7 @@ export class IvrService extends BaseService {
                             key: 'parameter',
                             error: 'required',
                             message:
-                                this.translate.instant('Extension number is required')
+                                this.translate.instant('External number is required')
                         },
                         {
                             key: 'parameter',
@@ -245,7 +245,7 @@ export class IvrService extends BaseService {
                     if (!lastLevel) {
                         paramsInfo.option.push({
                             id: -1,
-                            name: 'new level'
+                            name: this.translate.instant('new level')
                         });
                     }
                     paramsInfo.visible = true;

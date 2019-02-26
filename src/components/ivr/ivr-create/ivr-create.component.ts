@@ -402,18 +402,6 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
         }
     }
 
-    deleteLevel(e) {
-        if (e.levelNum !== 1) {
-            const idx = this.ivrLevels.findIndex(
-                x => x.levelNum === e.levelNum
-            );
-            if (idx !== -1) {
-                this.ivrLevels.splice(idx, 1);
-            }
-        }
-        this.ref.levels = this.ivrLevels;
-    }
-
     checkFormChanged(): boolean {
       const currentModelSnapshot = this.takeIvrModelSnapshot();
       return this.ivrModelSnapshot !== currentModelSnapshot; 
@@ -454,7 +442,7 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
             this.deleteDigit();
         }
         else {
-            this.deleteLevel(this.currentLevel);
+            this.onDeleteLevel(this.currentLevel);
         }
     }
 
