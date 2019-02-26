@@ -45,6 +45,7 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
     @Input() objectView: any;
     @Input() options: any[];
     @Input() editable: boolean;
+    @Input() autocomplete: boolean;
     @Input() displayKey: string;
     @Input() displayCount: string;
     @Input() showCount: boolean;
@@ -125,7 +126,8 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
     inMouseHover: boolean = false;
 
 
-    constructor(public translate: TranslateService) {}
+    constructor(public translate: TranslateService) {
+    }
 
     // -- properties ----------------------------------------------------------
 
