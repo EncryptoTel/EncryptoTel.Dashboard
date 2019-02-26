@@ -47,6 +47,7 @@
                     <div *ngIf="tableItem.key !== 'refLink' else refLink"
                          class=""
                          [innerHtml]="getValueByKeyEx(item, tableItem.key) == null ? '' : getValueByKeyEx(item, tableItem.key)"
+                         translate
                          >
                     </div>
                     <ng-template #refLink>
