@@ -359,7 +359,7 @@ export class InputComponent implements OnInit, OnDestroy, OnChanges {
                         keys = Object.keys(control.errors);
                     }
                 }
-                return this.getValidatorMessage(keys[0]);
+                return this.translate.instant(this.getValidatorMessage(keys[0]));
             }
             return null;
         }
