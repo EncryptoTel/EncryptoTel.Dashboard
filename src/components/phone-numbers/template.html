@@ -29,7 +29,6 @@
                 <!--<div class="title">Add External Phone Number</div>-->
                 <div class="items">
                     <div class="item phone_number">
-
                         <div class="wrapper no_flag">
                             <div class="flag">
                                 <svg-icon class="flag_item" src="/assets/icons/country_flags/svg/ru.svg"></svg-icon>
@@ -65,7 +64,10 @@
                             <span *ngIf="errors.login !== null">{{errors.login[0]}}</span>
                         </div> <!-- wrapper -->
                     </div> <!-- item -->
-
+                </div>
+            </form>
+            <form action="" method="">
+                <div class="items">
                     <div class="item password">
                         <div class="wrapper">
                             <svg-icon class="eye show_password" *ngIf="showPassword" (click)="changePasswordVisibility()" src="/assets/icons/_middle/show_password.svg"></svg-icon>
