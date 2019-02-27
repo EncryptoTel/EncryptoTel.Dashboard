@@ -13,13 +13,14 @@ import {
 } from '@models/ivr.model';
 import { PageInfoModel } from '@models/base.model';
 import { addressPhoneRegExp } from '@shared/vars';
-import {PhoneNumberItem, PhoneNumberModel} from '@models/phone-number.model';
+
 
 export class IvrService extends BaseService {
     pageInfo: IvrModel = new IvrModel();
     item: IvrItem;
     references: any = {};
     currentSip: any;
+    currentLevel: IvrLevel;
 
     reset() {
         this.item = new IvrItem();
@@ -123,19 +124,7 @@ export class IvrService extends BaseService {
             validators: [],
             validationMessage: []
         };
-
-        let lastLevel: boolean = false;
-        if (data instanceof IvrLevel) {
-            lastLevel = data.levelNum === MAX_IVR_LEVEL_COUNT;
-        } else {
-            const level = levels.find(l =>
-                l.digits.some(d => d.id === data.id)
-            );
-            if (level) {
-                lastLevel = level.levelNum === MAX_IVR_LEVEL_COUNT;
-            }
-        }
-
+        const lastLevel = this.getLevelDeep(levels) >= MAX_IVR_LEVEL_COUNT;
         return new Promise((resolve, reject) => {
             switch (action.toString()) {
                 case DigitActions.REDIRECT_TO_EXT:
@@ -297,8 +286,44 @@ export class IvrService extends BaseService {
     }
 
     checkIVREnable(): Promise<any> {
-      return new Promise((resolve) => {
-        resolve(true);
-      });
+        return new Promise((resolve) => {
+            resolve(true);
+        });
+    }
+
+    getLevelDeep(levels) {
+        if (levels && levels.length > 1) {
+            const result = [];
+            levels = levels.slice(0);
+            const root = levels.filter(x => x.levelNum === 1)[0];
+            result.push([root]);
+            levels.splice(levels.findIndex(e => e.levelNum === root.levelNum), 1);
+            this.buildLevels(levels, result);
+            for (let i = 0; i < result.length; i++) {
+                const element = result[i];
+                if (element.find(x => x.levelNum === this.currentLevel.levelNum)) {
+                    return i + 1;
+                }
+            }
+        }
+        return 1;
+    }
+
+    buildLevels(totalLevels: IvrLevel[], result?: any[]) {
+        const levelNums = [];
+        result[result.length - 1].forEach(l => {
+            const levN = l.digits.filter(x => x.action.toString() === '7').map(d => d.parameter);
+            levelNums.push(...levN);
+        });
+        const linkedLevel = totalLevels.filter(x => levelNums.includes(x.levelNum.toString()));
+        if (linkedLevel.length > 0) {
+            result.push(linkedLevel);
+            linkedLevel.forEach(f => totalLevels.splice(totalLevels.findIndex(e => e.levelNum === f.levelNum), 1));
+            this.buildLevels(totalLevels, result);
+        }
+    }
+
+    getNextLevelIds(level: IvrLevel) {
+        return level.digits.filter(x => x.action.toString() === '7').map(d => d.parameter);
     }
 }

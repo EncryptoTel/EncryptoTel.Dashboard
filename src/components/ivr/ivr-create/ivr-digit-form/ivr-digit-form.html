@@ -55,7 +55,7 @@
                [(errors)]="service.errors"
                [validationHost]="validationHost"
                displayKey="name"
-               placeholder="{{ paramsPlaceholder }}"
+               placeholder="{{ paramsInfo.label | translate }}"
                #actionData
                >
                <div class="greeting" *ngIf="digitForm.value.action==5">
