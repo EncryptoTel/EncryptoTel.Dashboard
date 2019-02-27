@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ViewChildren, QueryList } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -26,7 +26,7 @@ import { InputComponent } from '@elements/pbx-input/pbx-input.component';
   animations: [FadeAnimation('300ms')],
   providers: [StorageService]
 })
-export class CallRulesCreateComponent extends FormBaseComponent implements OnInit {
+export class CallRulesCreateComponent extends FormBaseComponent implements OnInit, OnDestroy {
 
   callRule: CallRulesItem;
 
@@ -55,10 +55,14 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
   canPlay: boolean = true;
 
   storageItemSubscription: Subscription;
+  uploadFileSubscription: Subscription;
   names: any;
+  lastUploadedFile: any;
+  lastUploadedIndex: number;
 
   @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
   @ViewChild('checkEnable') checkEnable: InputComponent;
+  @ViewChildren('voiceGreeting') voiceGreetings: QueryList<InputComponent>;
 
   // -- properties ----------------------------------------------------------
 
@@ -116,7 +120,7 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     ];
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loading++;
 
     super.ngOnInit();
@@ -124,12 +128,19 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     this.getParams();
 
     const $this: any = this;
-    this.storageItemSubscription = this._ws.updateStorageItem().subscribe(result => {
-      const storageItem: any = $this.selectedFiles.find(item => item.id === result.id);
-      if (result.converted === 1) {
-        storageItem.converted = result.converted;
-      }
-    });
+    this.storageItemSubscription = this._ws
+      .updateStorageItem()
+      .subscribe(result => {
+        const storageItem: any = $this.selectedFiles.find(item => item.id === result.id);
+        if (result.converted === 1) {
+          storageItem.converted = result.converted;
+        }
+      });
+
+    this.uploadFileSubscription = this.storage.uploadedFile
+      .subscribe(f => {
+        this.lastUploadedFile = f;
+      });
 
     this.names = {
       enableRule: this.translate.instant('Enable Rule'),
@@ -137,6 +148,11 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     };
 
     this.loading--;
+  }
+
+  ngOnDestroy(): void {
+    this.storageItemSubscription.unsubscribe();
+    this.uploadFileSubscription.unsubscribe();
   }
 
   // -- form setup and helpers methods --------------------------------------
@@ -423,7 +439,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
   }
 
   selectFile(index: number, file: any): void {
-    // console.log(!this.isFileSelected(index) && this.canPlay);
     if (file.converted !== 1) {
       this.canPlay = false;
     }
@@ -454,53 +469,6 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
   }
 
   onTimeRuleChange(index, event) {
-    // let _time: any;
-    // let _days: any;
-    // let days: any;
-    // days = {};
-    // let startTime: any;
-    // let endTime: any;
-    //
-    // _time = event.split('|');
-    // if (_time[0] !== '*') {
-    //     _days = _time[1];
-    //     _time = _time[0].split('-');
-    //
-    //     startTime = _time[0];
-    //     startTime = startTime.split(':');
-    //     startTime = startTime[0];
-    //
-    //     endTime = _time[1];
-    //     endTime = endTime.split(':');
-    //     endTime = endTime[0];
-    //
-    //     console.log('time ', parseInt(startTime), parseInt(endTime));
-    //     if (parseInt(startTime) >= 12 && (parseInt(endTime) >= 0 && parseInt(endTime) <= 12)) {
-    //         if (_days !== '*') {
-    //             let daysArrayMap: any;
-    //             daysArrayMap = {};
-    //             daysArrayMap['mon'] = 'tue';
-    //             daysArrayMap['tue'] = 'wed';
-    //             daysArrayMap['wed'] = 'thu';
-    //             daysArrayMap['thu'] = 'fri';
-    //             daysArrayMap['fri'] = 'sat';
-    //             daysArrayMap['sat'] = 'san';
-    //             daysArrayMap['san'] = 'mon';
-    //             _days = _days.split('&');
-    //             let idx: number;
-    //             for (idx in _days) {
-    //                 days[_days[idx]] = _days[idx];
-    //             }
-    //
-    //             for (idx in days) {
-    //                 days[daysArrayMap[idx]] = daysArrayMap[idx];
-    //             }
-    //             days = Object.keys(days).map(function (key) { return days[key]; });
-    //             console.log(days.join('&'));
-    //         }
-    //     }
-    // }
-
     this.actionsControls.get([index, 'timeRules']).setValue(event);
   }
 
@@ -517,9 +485,10 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     this.router.navigate(['cabinet', 'call-rules']);
   }
 
-  uploadFile(event: any): void {
+  uploadFile(event: any, index: number): void {
     event.preventDefault();
 
+    this.lastUploadedIndex = index;
     const file = event.target.files[0];
     event.target.value = '';
     if (file) {
@@ -740,9 +709,22 @@ export class CallRulesCreateComponent extends FormBaseComponent implements OnIni
     if (loading) return;
 
     this.storage.loading++;
+
     this.service.getFiles()
       .then((response) => {
         this.files = response.items;
+
+        this.voiceGreetings.forEach((ctrl, i) => {
+          if (i === this.lastUploadedIndex) {
+            ctrl.value = this.lastUploadedFile;
+            this.actionsControls
+              .at(i)
+              .get('parameter')
+              .setValue(this.lastUploadedFile.id);
+          } else {
+            ctrl.value = this.files.find(f => f.id === ctrl.value.id);
+          }
+        });
       })
       .catch(() => { })
       .then(() => this.storage.loading--);

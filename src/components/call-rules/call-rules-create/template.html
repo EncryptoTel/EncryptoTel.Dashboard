@@ -227,7 +227,8 @@
                         <!-- Play voice file -->
                         <ng-template [ngSwitchCase]="5">
 
-                            <pbx-input name="{{'Voice greeting' | translate }}"
+                            <pbx-input #voiceGreeting
+                                       name="{{'Voice greeting' | translate }}"
                                        key="parameter"
                                        [required]="true"
                                        [placeholder]="'[choose file]' | translate"
@@ -257,7 +258,7 @@
                                         <input type="file"
                                                class="hidden_input"
                                                #fileInput
-                                               (change)="uploadFile($event)"
+                                               (change)="uploadFile($event, i)"
                                                >
                                     </div>
                                 </div>
