@@ -40,8 +40,8 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
 
   get levelDescription(): string {
     return !this.level || this.level.levelNum === 1
-      ? this._translate.instant('IVR Menu')
-      : `${this._translate.instant('Level')} ${this.level.levelNum - 1}`;
+      ? 'IVR Menu'
+      : `Level ${this.level.levelNum - 1}`;
   }
 
   addDigitButtonVisible(): boolean {
@@ -69,8 +69,15 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       this.selectedItem = digit;
       this.ivrSelected.emit({ level: this.level, digit: this.selectedItem });
-    } else {
-      this.form.getData();
+    }
+    else {
+      this.modal.body = this._translate.instant('Form is not saved. This element will be deleted. Do you want to continue?');
+      this.modal.visible = true;
+      this.modalWnd.onConfirmEx.subscribe(() => {
+        this.onCancelEdit.emit();
+        this.selectedItem = digit;
+        this.ivrSelected.emit({ level: this.level, digit: this.selectedItem });
+      });
     }
   }
 
@@ -79,8 +86,14 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
       if (this.form.valid) {
         this.selectedItem = this.level;
         this.ivrSelected.emit({ level: this.level, digit: undefined });
-      } else {
-        this.form.getData();
+      }
+      else {
+        this.modal.visible = true;
+        this.modalWnd.onConfirmEx.subscribe(() => {
+          this.onCancelEdit.emit();
+          this.selectedItem = this.level;
+          this.ivrSelected.emit({ level: this.level, digit: undefined });
+        });
       }
     }
   }
@@ -159,7 +172,7 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
   }
 
   deleteLevel() {
-    this.modal.body = this._translate.instant('Are you sure want to delete this level?');
+    this.modal.body = 'Are you sure want to delete this level?';
     this.modal.visible = true;
     this.modalWnd.onConfirmEx.subscribe(() => {
       this.onDeleteLevel.emit(this.level);

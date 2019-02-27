@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <pbx-select *ngIf="options && !editable"
+                <pbx-select *ngIf="options && !(autocomplete || editable)"
                             [name]="key"
                             [singleBorder]="singleBorder"
                             [options]="options"
@@ -90,6 +90,21 @@
                                      (mouseleave)="mouseLeave()"
                                      >
                 </pbx-editable-select>
+
+                <pbx-autocomplete *ngIf="autocomplete"
+                                [name]="key"
+                                [options]="options"
+                                [selected]="value"
+                                [(ngModel)]="_defaultValue !== '' ? _defaultValue : value"
+                                [errors]="inErrorState"
+                                [placeholder]="placeholder"
+                                [searchStartWith] = "searchStartWith"
+                                (onFocus)="setFocus()"
+                                (onBlur)="removeFocus()"
+                                (mouseenter)="mouseEnter()"
+                                (mouseleave)="mouseLeave()">
+
+                </pbx-autocomplete>
 
                 <pbx-checkbox *ngIf="checkbox"
                               [id]="key"
@@ -149,7 +164,7 @@
                               >
                 </pbx-checkbox>
 
-                <pbx-select *ngIf="options && !editable"
+                <pbx-select *ngIf="options && !(autocomplete || editable)"
                             [name]="key"
                             [singleBorder]="singleBorder"
                             [options]="options"
@@ -183,6 +198,21 @@
                             (mouseenter)="mouseEnter()"
                             (mouseleave)="mouseLeave()"
                 ></pbx-editable-select>
+
+                <pbx-autocomplete *ngIf="autocomplete"
+                                [name]="key"
+                                [options]="options"
+                                [selected]="value"
+                                [formControlName]="[key]"
+                                [errors]="inErrorState"
+                                [placeholder]="placeholder"
+                                [searchStartWith] = "searchStartWith"
+                                (onFocus)="setFocus()"
+                                (onBlur)="removeFocus()"
+                                (mouseenter)="mouseEnter()"
+                                (mouseleave)="mouseLeave()">
+
+                </pbx-autocomplete>
 
                 <textarea *ngIf="type === 'textarea'"
                           class="{{ singleBorder ? '' : 'show-border' }} {{ inErrorState ? 'error-border error-text' : '' }}"

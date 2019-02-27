@@ -122,7 +122,8 @@ export class IvrService extends BaseService {
             option: [],
             visible: true,
             validators: [],
-            validationMessage: []
+            validationMessage: [],
+            autoComplete: false
         };
         const lastLevel = this.getLevelDeep(levels) >= MAX_IVR_LEVEL_COUNT;
         return new Promise((resolve, reject) => {
@@ -149,8 +150,11 @@ export class IvrService extends BaseService {
                     break;
                 case DigitActions.REDIRECT_TO_NUM:
                     paramsInfo.label = 'External number';
-                    paramsInfo.option = undefined;
+                    paramsInfo.option = this.references.sip.map(s => {
+                        return s.phoneNumber.replace('+', '');
+                    });
                     paramsInfo.visible = true;
+                    paramsInfo.autoComplete = true;
                     paramsInfo.validators = [
                         Validators.required,
                         Validators.minLength(6),
@@ -285,10 +289,9 @@ export class IvrService extends BaseService {
         });
     }
 
-    checkIVREnable(): Promise<any> {
-        return new Promise((resolve) => {
-            resolve(true);
-        });
+    checkIVREnableAvailable(phoneNumber: string): Promise<any> {
+      const phone = phoneNumber[0] === '+' ? phoneNumber.substr(1) : phoneNumber;
+      return this.request.get(`v1/ivr/outer-call-rule?filter[enabled]=true&filter[phoneNumber]=${phone}`);
     }
 
     getLevelDeep(levels) {
