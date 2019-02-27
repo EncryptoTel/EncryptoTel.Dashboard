@@ -265,15 +265,13 @@ export class AddExtensionsComponent extends FormBaseComponent implements OnInit 
   }
 
   translateErrors(errors: any): void {
-    Object.keys(errors).forEach(key => {
-      errors[key].forEach((msg: string, i: number) => {
-        if (reEmailExists.test(msg)) {
-          const matches = reEmailExists.exec(msg);
-          errors[key][i] = this.translate.instant('userEmailAlreadyExists', {email: matches[1]});
-        } else {
-          errors[key][i] = this.translate.instant(msg);
-        }
-      });
+    errors.forEach((msg: string, i: number) => {
+      if (reEmailExists.test(msg)) {
+        const matches = reEmailExists.exec(msg);
+        errors[i] = this.translate.instant('userEmailAlreadyExists', {email: matches[1]});
+      } else {
+        errors[i] = this.translate.instant(msg);
+      }
     });
   }
 
