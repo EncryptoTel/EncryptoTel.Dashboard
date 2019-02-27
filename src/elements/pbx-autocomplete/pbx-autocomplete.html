@@ -4,7 +4,7 @@
      [ngClass]="[errors ? 'error' : '', isVisible ? 'active' : '', calcPosition()]"
      (clickOutside)="clickOutside()"
      >
-    <span *ngIf="isPlaceholder && !isVisible" class="pbx-select-placeholder">{{ placeholder }}</span>
+    <span *ngIf="isPlaceholder && !value" class="pbx-select-placeholder">{{ placeholder }}</span>
     <div class="no_border" [ngClass]="[ 'select_item', 'selected', !selected ? 'blank' : '', errors ? 'error' : '', name ? 'pbx_select_' + name : '' ]">
         
             <input 

@@ -108,14 +108,14 @@
                name="{{ paramsInfo.label | translate }}"
                key="parameter"
                [required]="true"
-               [placeholder]="paramsInfo.label | translate"
+               placeholder="{{ paramsInfo.label | translate }}"
                [form]="true"
                [object]="form"
                [options]="paramsInfo.option"
+               displayKey="name"
                [autocomplete]="paramsInfo.autoComplete"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
-               placeholder="{{ paramsPlaceholder }}"
                #actionData
                >
 

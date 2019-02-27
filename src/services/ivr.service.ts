@@ -150,7 +150,7 @@ export class IvrService extends BaseService {
                     break;
                 case DigitActions.REDIRECT_TO_NUM:
                     paramsInfo.label = 'External number';
-                    paramsInfo.option = this.references.sip.map(s => {
+                    paramsInfo.option = this.references.sip.filter(s => s.id !== sipId).map(s => {
                         return s.phoneNumber.replace('+', '');
                     });
                     paramsInfo.visible = true;
@@ -228,6 +228,7 @@ export class IvrService extends BaseService {
                     paramsInfo.label = 'Cancel call';
                     paramsInfo.option = undefined;
                     paramsInfo.visible = false;
+                    paramsInfo.validators = undefined;
                     resolve(paramsInfo);
                     break;
                 case DigitActions.GO_TO_LEVEL:
