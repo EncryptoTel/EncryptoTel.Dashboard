@@ -153,9 +153,17 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     if (f) {
                         this.voiceGreeting.value = f;
                         this.form.get('voiceGreeting').setValue(f.id);
+                        if (this.form.value.action === '5' && this.form.value.parameter) {
+                            const pr = this.service.references.files.find(file=> file.id = this.form.value.voiceGreeting);
+                            this.actionData.value = pr;
+                        }
                     }
                 } else {
                     if (f) {
+                        const vg = this.service.references.files.find(file=> file.id = this.form.value.voiceGreeting);
+                        if (vg) {
+                            this.voiceGreeting.value = vg;
+                        }
                         this.paramsInfo.option = res.items.map(file => {
                             return { id: file.id, name: file.fileName };
                         });
