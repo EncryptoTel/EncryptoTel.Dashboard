@@ -40,8 +40,8 @@ export class IvrLevelComponent implements OnInit, OnDestroy {
 
   get levelDescription(): string {
     return !this.level || this.level.levelNum === 1
-      ? 'IVR Menu'
-      : `Level ${this.level.levelNum - 1}`;
+      ? `IVR ${this._translate.instant('menu')}`
+      : `${this._translate.instant('Level')} ${this.level.levelNum - 1}`;
   }
 
   addDigitButtonVisible(): boolean {
