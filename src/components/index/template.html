@@ -17,8 +17,8 @@
         </div>
         <svg-icon src="../../assets/icons/_middle/dropdown_arrow_12px.svg" class="dropdown_arrow"></svg-icon>
         <div class="user_navigation_wrap" [ngClass]="{'visible': userNavigationVisible}">
-            <a *ngIf="isAdmin()" routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item" translate>{{menu['Refill balance']}}</a>
-            <a *ngIf="isAdmin()" routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item" translate>{{menu['Tariff plan']}}</a>
+            <a *ngIf="isAdmin()" routerLink="/cabinet/refill" routerLinkActive="active" class="user_navigation_item" translate>Refill balance</a>
+            <a *ngIf="isAdmin()" routerLink="/cabinet/tariff" routerLinkActive="active" class="user_navigation_item" translate>Tariff plan</a>
             <div (click)="logout()" class="user_navigation_item">
                 <span translate>Exit</span>
                 <svg-icon src="../../assets/icons/exit.svg" class="user_navigation_logout"></svg-icon>
@@ -54,7 +54,7 @@
                     <div class="button_animation" *ngIf="activeButtonIndex === 3"></div>
                     <div class="count"><i>{{countUnread}}</i></div>
                 </div>
-                <div class="desc" [ngClass]="{'hiding': (activeButtonIndex === 0 || activeButtonIndex === 1 || activeButtonIndex === 2 || activeButtonIndex === 3)}">© Encrypto Telecom, 2017-2018
+                <div class="desc" [ngClass]="{'hiding': (activeButtonIndex === 0 || activeButtonIndex === 1 || activeButtonIndex === 2 || activeButtonIndex === 3)}">© Encrypto Telecom, 2017-2019
                     v.{{version}}
                 </div>
             </div> <!-- header_button_wrap -->

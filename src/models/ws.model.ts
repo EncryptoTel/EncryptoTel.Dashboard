@@ -15,3 +15,10 @@ export class CdrModel {
         public id: number,
     ) {}
 }
+
+export class SupportModel {
+    constructor(
+        public id: number,
+        public status: number
+    ) {}
+}

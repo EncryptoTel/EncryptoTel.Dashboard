@@ -9,10 +9,9 @@
         "url": "encryptotel.com"
     },
     "scripts": {
-        "ng": "ng",
-        "start": "ng serve",
-        "start-proxy": "ng serve --proxy-config proxy.conf.json",
-        "build": "ng build",
+        "start": "ng serve -e=local",
+        "start-proxy": "ng serve --proxy-config proxy.conf.json -e=local",
+        "build": "ng build -e=local",
         "lint": "ng lint",
         "electron": "ng build --base-href ./ && electron .",
         "electron-aot": "ng build --base-href ./ -prod --aot=false -e=prod && electron .",

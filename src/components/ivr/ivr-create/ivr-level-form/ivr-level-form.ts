@@ -16,6 +16,7 @@ import { StorageService } from '@services/storage.service';
 import { MediaState, CdrMediaInfo } from '@models/cdr.model';
 import { IvrFormInterface } from '../form.interface';
 import { InputComponent } from '@elements/pbx-input/pbx-input.component';
+import { getFormValidationErrors } from '@shared/shared.functions';
 
 export enum FormButtons {
     VOICE_GREETING = 'voiceGreeting',
@@ -37,6 +38,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     references: any;
     data: IvrLevel;
     actionVal: 0;
+    formPatched = false;
     loading: number = 0;
     sipOuters: any;
     bsRangeValue = new Date();
@@ -48,17 +50,22 @@ export class IvrLevelFormComponent extends FormBaseComponent
     @ViewChild('mediaPlayer') mediaPlayer: MediaPlayerComponent;
     @ViewChild('voiceGreeting') voiceGreeting: InputComponent;
     @ViewChild('actionData') actionData: InputComponent;
+    @ViewChild('checkEnable') checkEnable: InputComponent;
     rule_value_visible = 0;
     timeVisible = false;
     paramsInfo = {
         label: '',
         option: [],
         visible: false,
-        validators: []
+        validators: [],
+        validationMessage: [],
+        autoComplete: false
     };
 
     formPanel: Element = null;
     uploadedFile: Subscription;
+
+    selectedMediaControl: FormButtons;
 
     // -- properties ----------------------------------------------------------
 
@@ -69,7 +76,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
     get paramsPlaceholder(): string {
         const placeholder: string =
             Array.isArray(this.paramsInfo.option) &&
-            this.paramsInfo.option.length === 0
+                this.paramsInfo.option.length === 0
                 ? 'None'
                 : '';
         return placeholder;
@@ -96,6 +103,12 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     this.translate.instant('Phone number contains invalid characters. You can only use numbers.')
             },
             {
+                key: 'voiceGreeting',
+                error: 'required',
+                message:
+                    this.translate.instant('Please choose the Voice Greeting.')
+            },
+            {
                 key: 'loopMessage',
                 error: 'pattern',
                 message: this.translate.instant('Loop message value should be from 1 to 5.')
@@ -111,6 +124,12 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 error: 'pattern',
                 message:
                     this.translate.instant('Level Name may contain letters, digits, dots and dashes only.')
+            },
+            {
+                key: 'sipId',
+                error: 'required',
+                message:
+                    this.translate.instant('Please choose the Phone Number')
             }
         ];
     }
@@ -129,13 +148,22 @@ export class IvrLevelFormComponent extends FormBaseComponent
 
         this.uploadedFile = this.storage.uploadedFile.subscribe(f => {
             this.service.getFiles().then(res => {
+                this.service.references.files = res.items;
                 if (this.currentUploadButton === FormButtons.VOICE_GREETING) {
                     if (f) {
                         this.voiceGreeting.value = f;
                         this.form.get('voiceGreeting').setValue(f.id);
+                        if (this.form.value.action === '5' && this.form.value.parameter) {
+                            const pr = this.service.references.files.find(file=> file.id = this.form.value.voiceGreeting);
+                            this.actionData.value = pr;
+                        }
                     }
                 } else {
                     if (f) {
+                        const vg = this.service.references.files.find(file=> file.id = this.form.value.voiceGreeting);
+                        if (vg) {
+                            this.voiceGreeting.value = vg;
+                        }
                         this.paramsInfo.option = res.items.map(file => {
                             return { id: file.id, name: file.fileName };
                         });
@@ -196,16 +224,24 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 )
                 .then(response => {
                     this.paramsInfo = response;
+                    if (actionValue !== this.actionVal && this.formPatched) {
+                        this.actionData.value = undefined;
+                        this.form.get('parameter').setValue(undefined);
+                    }
                     this.form
                         .get('parameter')
                         .setValidators(this.paramsInfo.validators);
-                    if (actionValue !== this.data.action) {
-                        this.form.get('parameter').setValue(null);
-                    }
+
                     this.form.get('parameter').markAsUntouched();
+                    if (this.paramsInfo.validationMessage && this.paramsInfo.validationMessage.length > 0) {
+                        this.validationHost.customMessages = this.validationHost.customMessages.filter(x => x.key !== 'parameter');
+                        this.validationHost.customMessages.push(...this.paramsInfo.validationMessage);
+                    }
+                    this.form.get('parameter').updateValueAndValidity();
                     this.validationHost.initItems();
+                    this.actionVal = actionValue;
                 })
-                .catch(() => {})
+                .catch(() => { })
                 .then(() => this.loading--);
         });
 
@@ -225,7 +261,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     .then(response => {
                         this.paramsInfo = response;
                     })
-                    .catch(() => {})
+                    .catch(() => { })
                     .then(() => this.loading--);
             }
         });
@@ -237,6 +273,28 @@ export class IvrLevelFormComponent extends FormBaseComponent
         this.form.get('parameter').valueChanges.subscribe(val => {
             this.selectFile(val);
         });
+        setTimeout(() => {
+            this.formPatched = true;
+        }, 1000);
+    }
+
+    toggleEnableIVR(value: boolean): void {
+        if (value) {
+            const phone = this.service.references.sip.find(s => s.id === this.form.value.sipId);
+            this.service
+                .checkIVREnableAvailable(phone.phoneNumber)
+                .then(result => {
+                    if (result && result.itemsCount > 0) {
+                        this.showWarningModal(
+                            this.translate.instant('ivrInUse', { name: result.items[0].name }),
+                            () => { },
+                            () => {
+                                this.checkEnable.checkBoxClick(false);
+                            }
+                        );
+                    }
+                });
+        }
     }
 
     isFileSelected(btn: FormButtons): boolean {
@@ -259,7 +317,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
         event.target.value = '';
         if (file) {
             if (this.storage.checkCompatibleType(file)) {
-                this.storage.checkFileExists(file, loading => {});
+                this.storage.checkFileExists(file, loading => { });
             } else {
                 this.message.writeError(this.translate.instant('Accepted formats: mp3, ogg, wav'));
             }
@@ -282,8 +340,10 @@ export class IvrLevelFormComponent extends FormBaseComponent
         this.currentButton = btn;
         if (btn === FormButtons.VOICE_GREETING) {
             fileId = this.form.value.voiceGreeting;
+            this.selectedMediaControl = FormButtons.VOICE_GREETING;
         } else {
             fileId = this.form.value.parameter;
+            this.selectedMediaControl = FormButtons.PLAY_FILE;
         }
         if (fileId) {
             this.mediaPlayer.togglePlay(fileId);
@@ -304,8 +364,10 @@ export class IvrLevelFormComponent extends FormBaseComponent
             .catch(error => {
                 console.log(error);
                 // Error handling here ...
-                this.mediaPlayer.locker.unlock();
+                const file = this.service.references.files.find(f => +f.id === +fileId);
+                if (file) { file.converted = null; }
                 this.mediaStateChanged(MediaState.PAUSED);
+                this.mediaPlayer.locker.unlock();
             })
             .then(() => this.mediaPlayer.locker.unlock());
     }

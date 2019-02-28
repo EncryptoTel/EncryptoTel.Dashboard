@@ -9,8 +9,9 @@ import {FormComponent} from '@elements/pbx-form/pbx-form.component';
 import {FormBaseComponent} from '@elements/pbx-form-base-component/pbx-form-base-component.component';
 import {FadeAnimation} from '@shared/fade-animation';
 import {isValidId} from '@shared/shared.functions';
-import {numberRegExp, ivrNameRegExp, simpleNameRegExp, ringGroupsNameRegExp} from '@shared/vars';
+import {numberRegExp, ivrNameRegExp, simpleNameRegExp, ringGroupsNameRegExp, nameRegExp} from '@shared/vars';
 import {numberRangeValidator} from '@shared/encry-form-validators';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -100,11 +101,11 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     this.currentTab = this.tabs[0];
     this.background = 'form-body-fill';
     this.noDataMessage = this.translate.instant('No data to display. Please add members');
-    
+
     this.validationHost.customMessages = [
       { key: 'sipId', error: 'required', message: this.translate.instant('Please choose a phone number') },
       { key: 'strategy', error: 'required', message: this.translate.instant('Please choose the ring strategy') },
-      { key: 'timeout', error: 'pattern', message: this.translate.instant('Please enter valid number') },
+      { key: 'timeout', error: 'pattern', message: this.translate.instant('Invalid data. This field may contain numbers only') },
       { key: 'timeout', error: 'range', message: this.translate.instant('Please enter a value from 15 to 600') },
       { key: 'maxlen', error: 'required', message: this.translate.instant('You need to choose at least one caller') },
       { key: 'maxlen', error: 'pattern', message: this.translate.instant('Invalid data. This field may contain numbers only') },
@@ -133,7 +134,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     });
     if (this.isCallQueue) {
       // Add Call-Queues specific controls
-      this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(simpleNameRegExp) ]);
+      this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(nameRegExp) ]);
       this.validationHost.customMessages.push(
           { key: 'name', error: 'pattern', message: this.translate.instant('Name contains invalid characters. You can use letters and numbers only') }
       );
@@ -144,7 +145,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     }
     else {
       // Add Ring-Groups specific controls
-      this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(ringGroupsNameRegExp) ]);
+      this.form.controls.name.setValidators([ Validators.required, Validators.minLength(4), Validators.maxLength(40), Validators.pattern(nameRegExp) ]);
       this.validationHost.customMessages.push(
           { key: 'name', error: 'pattern', message: this.translate.instant('Name contains invalid characters. You can only use letters, numbers and the following characters: -.') }
       );
@@ -180,10 +181,10 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
       this.background = 'form-body-fill';
     }
     this.addMembersMode = mode;
-    this.service.saveMembersBefore();
   }
 
   save(): void {
+    console.log('form', this.form);
     if (this.validateForms()) {
       this.setModelData();
       this.saveModel();
@@ -216,6 +217,10 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
     super.setModelData(this.model);
   }
 
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    return super.canDeactivate(this.service.areMembersChanged());
+  }
+
   // -- data processing methods ---------------------------------------------
 
   getModel(id: number) {
@@ -224,6 +229,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
       .then(() => {
         this.getParams();
         this.setFormData(this.model);
+        this.service.saveMembersBefore();
       })
       .catch(() => {})
       .then(() => this.loading --);
@@ -265,6 +271,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.message.writeSuccess(okMessage);
 
         this.saveFormState();
+        this.service.saveMembersBefore();
         if (!this.id) this.cancel();
       })
       .catch(() => {})

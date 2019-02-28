@@ -23,13 +23,18 @@ export class SessionItem extends BaseItemModel {
     userAgent: string;
     userToken: string;
     session: string;
+    created: string;
     expires: string;
     active: boolean;
-    
+
     locale: string = 'en';
 
     get displayExpires(): string {
-        return formatDateTime(this.expires, null, this.locale);
+        return this.expires;
+    }
+
+    get displayCreated(): string {
+        return this.created;
     }
 
     get status(): string {
@@ -104,7 +109,7 @@ export class SettingsItem extends SettingsBaseItem {
 
 export class SettingsOptionItem {
     constructor(
-        public id: number, 
+        public id: number,
         public value: string
     ) {}
 }

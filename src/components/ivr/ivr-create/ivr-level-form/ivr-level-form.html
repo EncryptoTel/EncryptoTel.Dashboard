@@ -22,7 +22,7 @@
     <pbx-input *ngIf="form.value.levelNum === 1"
                name="Phone number"
                key="sipId"
-               placeholder="[choose one]"
+               [placeholder]="'[choose one]' | translate"
                [required]="true"
                [form]="true"
                [object]="form"
@@ -38,7 +38,7 @@
         <h3>{{'IVR Options' | translate }}</h3>
     </div>
 
-    <pbx-input *ngIf="form.value.levelNum === 1"
+    <pbx-input *ngIf="form.value.levelNum === 1" #checkEnable
                name="{{ 'Enable IVR' | translate }}"
                key="enabled"
                [checkbox]="true"
@@ -46,16 +46,17 @@
                [object]="form"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
+               (onToggle)="toggleEnableIVR($event)"
                >
     </pbx-input>
 
     <pbx-input name="{{ 'Voice greeting' | translate }}"
                key="voiceGreeting"
                [required]="true"
-               [placeholder]="'[choose file]'"
+               [placeholder]="'[choose file]' | translate"
                [form]="true"
                [object]="form"
-               [options]="this.service.references.files"
+               [options]="service.references.files"
                displayKey="fileName"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
@@ -64,7 +65,7 @@
         <div class="greeting">
             <pbx-button [value]="getPlayButtonText('voiceGreeting')"
                         [inactive]="!isFileSelected('voiceGreeting')"
-                        [loading]="!mediaPlayer.locker.free"
+                        [loading]="!mediaPlayer.locker.free && selectedMediaControl === 'voiceGreeting'"
                         (onClick)="togglePlay('voiceGreeting')"
                         >
             </pbx-button>
@@ -89,9 +90,7 @@
                >
     </pbx-input>
 
-    <div *ngIf="form.value.levelNum === 1"
-         class="call-rules-create_row"
-         >
+    <div class="call-rules-create_row">
         <h3>{{ 'If user has chosen nothing' | translate }}</h3>
     </div>
     <pbx-input name="{{ 'Then' | translate }}"
@@ -104,18 +103,19 @@
                [validationHost]="validationHost"
                >
     </pbx-input>
-
+    
     <pbx-input *ngIf="paramsInfo.visible"
                name="{{ paramsInfo.label | translate }}"
                key="parameter"
                [required]="true"
+               placeholder="{{ paramsInfo.label | translate }}"
                [form]="true"
                [object]="form"
                [options]="paramsInfo.option"
+               displayKey="name"
+               [autocomplete]="paramsInfo.autoComplete"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
-               displayKey="name"
-               placeholder="{{ paramsPlaceholder }}"
                #actionData
                >
 
@@ -123,7 +123,7 @@
 
                 <pbx-button [value]="getPlayButtonText('playFile')"
                             [inactive]="!isFileSelected('playFile')"
-                            [loading]="!mediaPlayer.locker.free"
+                            [loading]="!mediaPlayer.locker.free && selectedMediaControl === 'playFile'"
                             (onClick)="togglePlay('playFile')"
                             >
                 </pbx-button>
@@ -138,6 +138,7 @@
             </div>
 
     </pbx-input>
+
     </ng-container>
 </div>
 <pbx-media-player

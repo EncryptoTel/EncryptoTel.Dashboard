@@ -157,6 +157,14 @@ export class MarketplaceComponent implements OnInit, Lockable {
         this.modal.confirmCallback = () => {
             this.services.returnModule(module.id).then(() => {
                 this.getModulesList();
+                this.modal.body = this.translate.instant('Are you sure you want to buy this module?');
+                this.modal.buttons = [
+                    new ModalButton('cancel', this.translate.instant('Cancel')),
+                    new ModalButton('success', this.translate.instant('Yes'))
+                ];
+                this.modal.confirmCallback = () => {
+                    this.purchaseService();
+                };
             });
         };
         this.modal.buttons = [

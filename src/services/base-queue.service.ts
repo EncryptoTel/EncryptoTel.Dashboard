@@ -66,6 +66,20 @@ export class BaseQueueService extends BaseService {
     });
   }
 
+  areMembersChanged(): boolean {
+    if (!this.membersBefore || !this.userView.members) {
+      return false;
+    }
+
+    if (this.membersBefore.length !== this.userView.members.length) {
+      return true;
+    }
+
+    const diff = this.membersBefore
+      .filter(mb => !this.userView.members.find(m => mb.id === m.id));
+    return false;
+  }
+
   addMember(member: any): void {
     const index = this.item.queueMembers
       .findIndex(el => el.sipId === member.id);
@@ -118,6 +132,7 @@ export class BaseQueueService extends BaseService {
   setMembers(members) {
     for (let i = 0; i < members.length; i++) {
       this.item.queueMembers.push({ sipId: members[i].inner.id });
+      members[i].inner.statusName = this.translate.instant(members[i].inner.statusName);
       this.userView.members.push(members[i].inner);
       this.userView.members[i].sipOuterPhone = this.userView.phoneNumber;
     }

@@ -287,3 +287,15 @@ export function getMomentFormatDete(dateFormat, timeFormat) {
         res += (timeFormat === '12' ? ' a' : '');
         return res;
 }
+
+export function getFormValidationErrors(form) {
+    Object.keys(form.controls).forEach(key => {
+  
+    const controlErrors = form.get(key).errors;
+    if (controlErrors != null) {
+          Object.keys(controlErrors).forEach(keyError => {
+            console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
+          });
+        }
+      });
+    }

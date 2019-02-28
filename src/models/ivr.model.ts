@@ -98,7 +98,7 @@ export class IvrLevel extends IvrLevelBase {
         super(tree);
         if (ivr) {
             this.fillLevel(tree);
-            if(tree[0].level===1) {
+            if (tree[0].level === 1) {
                 this.id = ivr.id;
                 this.name = ivr.name || '';
                 this.sipId = ivr.sipId || ivr.sip.id || null;

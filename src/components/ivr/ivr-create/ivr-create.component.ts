@@ -1,23 +1,12 @@
-import {
-    trigger,
-    state,
-    style,
-    transition,
-    animate
-} from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 import {
     Component,
     OnInit,
     ViewChild,
     ComponentFactoryResolver,
-    OnDestroy,
     ElementRef,
-    Output,
-    EventEmitter
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ValidationErrors } from '@angular/forms';
 
 import { IvrService } from '@services/ivr.service';
 import { MessageServices } from '@services/message.services';
@@ -45,7 +34,7 @@ import { CanFormComponentDeactivate } from '@services/can-deactivate-form-guard.
 export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
     state = 'end';
     ivrLevels: Array<IvrLevel> = []; // all levels
-    currentLevel: IvrLevel;
+    
     currentDigit: Digit;
     ref = {
         sip: [],
@@ -123,7 +112,7 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
             .then(val => {
                 this.initExistsIvr(val);
             })
-            .catch(() => {})
+            .catch(() => { })
             .then(() => this.loading--);
     }
 
@@ -153,12 +142,12 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
             this.formChangeSubscription.unsubscribe();
         }
         if (data instanceof IvrLevel) {
-            this.currentLevel = data;
+            this.service.currentLevel = data;
             this.currentDigit = undefined;
         }
         else {
-            if (this.currentLevel) {
-                this.ref.usedDigit = this.currentLevel.digits.map(d => d.digit);
+            if (this.service.currentLevel) {
+                this.ref.usedDigit = this.service.currentLevel.digits.map(d => d.digit);
             }
             this.currentDigit = data;
         }
@@ -195,21 +184,21 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
             this.currentDigit.parameter = form.value.parameter;
         }
         else {
-            this.currentLevel.sipId = form.value.sipId;
-            this.currentLevel.sip = form.value.sip;
-            this.currentLevel.enabled = form.value.enabled;
-            this.currentLevel.phone = form.value.phone;
-            this.currentLevel.loopMessage = form.value.loopMessage;
-            this.currentLevel.dateType = form.value.dateType;
-            this.currentLevel.dateValue = form.value.dateValue;
-            this.currentLevel.timeType = form.value.timeType;
-            this.currentLevel.timeValue = form.value.timeValue;
-            this.currentLevel.action = form.value.action;
-            this.currentLevel.parameter = form.value.parameter;
-            this.currentLevel.name = form.value.name;
-            this.currentLevel.description = form.value.description;
-            this.currentLevel.voiceGreeting = form.value.voiceGreeting;
-            this.currentLevel.levelNum = form.value.levelNum;
+            this.service.currentLevel.sipId = form.value.sipId;
+            this.service.currentLevel.sip = form.value.sip;
+            this.service.currentLevel.enabled = form.value.enabled;
+            this.service.currentLevel.phone = form.value.phone;
+            this.service.currentLevel.loopMessage = form.value.loopMessage;
+            this.service.currentLevel.dateType = form.value.dateType;
+            this.service.currentLevel.dateValue = form.value.dateValue;
+            this.service.currentLevel.timeType = form.value.timeType;
+            this.service.currentLevel.timeValue = form.value.timeValue;
+            this.service.currentLevel.action = form.value.action;
+            this.service.currentLevel.parameter = form.value.parameter;
+            this.service.currentLevel.name = form.value.name;
+            this.service.currentLevel.description = form.value.description;
+            this.service.currentLevel.voiceGreeting = form.value.voiceGreeting;
+            this.service.currentLevel.levelNum = form.value.levelNum;
         }
     }
 
@@ -284,14 +273,14 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
 
     updateIvrModel() {
         const levelIndex = this.ivrLevels.findIndex(
-            x => x.levelNum === this.currentLevel.levelNum
+            x => x.levelNum === this.service.currentLevel.levelNum
         );
 
         if (levelIndex !== -1) {
-            this.ivrLevels[levelIndex] = this.currentLevel;
+            this.ivrLevels[levelIndex] = this.service.currentLevel;
         }
         else {
-            this.ivrLevels.push(this.currentLevel);
+            this.ivrLevels.push(this.service.currentLevel);
         }
 
         return this.convertIvrLevelsToIvrItems(this.ivrLevels);
@@ -326,12 +315,12 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
                     this.ivrModelSnapshot = this.takeIvrModelSnapshot();
                     this.router.navigate([`cabinet/ivr`]);
                 });
-        }        
+        }
     }
 
     onIvrSelected(info: { level: IvrLevel, digit: any }) {
         if (info.digit) {
-            this.currentLevel = info.level;
+            this.service.currentLevel = info.level;
             this.visibleOrHideDigit(info.digit);
             this.loadForm(this.forms.digits, info.digit);
             this.currentDigit = info.digit;
@@ -339,15 +328,15 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
         else {
             this.loadForm(this.forms.levelForm, info.level);
             const levelIndex = this.ivrLevels.findIndex(
-                x => x.levelNum === this.currentLevel.levelNum
+                x => x.levelNum === this.service.currentLevel.levelNum
             );
             if (levelIndex !== -1) {
-                this.ivrLevels[levelIndex] = this.currentLevel;
+                this.ivrLevels[levelIndex] = this.service.currentLevel;
             }
             else {
-                this.ivrLevels.push(this.currentLevel);
+                this.ivrLevels.push(this.service.currentLevel);
             }
-            this.currentLevel = info.level;
+            this.service.currentLevel = info.level;
             this.ref.levels = this.ivrLevels;
             this.ivrLevels.forEach(l => {
                 if (l.levelNum > info.level.levelNum) {
@@ -359,7 +348,7 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
 
     visibleOrHideDigit(digit) {
         this.ivrLevels.forEach(x => {
-            if (x.levelNum > this.currentLevel.levelNum) {
+            if (x.levelNum > this.service.currentLevel.levelNum) {
                 x.isVisible = false;
             }
         });
@@ -378,7 +367,7 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
     }
 
     addLevel(l) {
-        if (this.ivrLevels.length + 1 <= MAX_IVR_LEVEL_COUNT) {
+        if (this.service.getLevelDeep(this.ivrLevels) + 1 <= MAX_IVR_LEVEL_COUNT) {
             l.levelNum = this.ivrLevels.length + 1;
             this.currentDigit.parameter = l.levelNum;
             l.isVisible = true;
@@ -388,35 +377,23 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
     }
 
     deleteDigit() {
-        this.currentLevel.digits = this.currentLevel.digits.filter(
+        this.service.currentLevel.digits = this.service.currentLevel.digits.filter(
             x => x !== this.currentDigit
         );
-        if (this.currentLevel.digits.length > 0) {
-            const curDigit = this.currentLevel.digits[
-                this.currentLevel.digits.length - 1
+        if (this.service.currentLevel.digits.length > 0) {
+            const curDigit = this.service.currentLevel.digits[
+                this.service.currentLevel.digits.length - 1
             ];
-            this.onIvrSelected({ level: this.currentLevel, digit: curDigit });
+            this.onIvrSelected({ level: this.service.currentLevel, digit: curDigit });
         }
         else {
-            this.onIvrSelected({ level: this.currentLevel, digit: undefined });
+            this.onIvrSelected({ level: this.service.currentLevel, digit: undefined });
         }
-    }
-
-    deleteLevel(e) {
-        if (e.levelNum !== 1) {
-            const idx = this.ivrLevels.findIndex(
-                x => x.levelNum === e.levelNum
-            );
-            if (idx !== -1) {
-                this.ivrLevels.splice(idx, 1);
-            }
-        }
-        this.ref.levels = this.ivrLevels;
     }
 
     checkFormChanged(): boolean {
-      const currentModelSnapshot = this.takeIvrModelSnapshot();
-      return this.ivrModelSnapshot !== currentModelSnapshot; 
+        const currentModelSnapshot = this.takeIvrModelSnapshot();
+        return this.ivrModelSnapshot !== currentModelSnapshot;
     }
 
     onCancel(): void {
@@ -431,22 +408,22 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
     cancel(): void {
         this.router.navigate(['cabinet', 'ivr']);
     }
-  
-    canDeactivate(dataChanged?: boolean): Observable<boolean> | Promise<boolean> | boolean {
-      if (!dataChanged && !this.checkFormChanged()) return true;
 
-      return Observable.create((observer: Observer<boolean>) => {
-          this.currentForm.showExitModal(
-              this.editMode,
-              () => {
-                  observer.next(true);
-                  observer.complete();
-              },
-              () => {
-                  observer.next(false);
-                  observer.complete();
-              });
-      });
+    canDeactivate(dataChanged?: boolean): Observable<boolean> | Promise<boolean> | boolean {
+        if (!dataChanged && !this.checkFormChanged()) return true;
+
+        return Observable.create((observer: Observer<boolean>) => {
+            this.currentForm.showExitModal(
+                this.editMode,
+                () => {
+                    observer.next(true);
+                    observer.complete();
+                },
+                () => {
+                    observer.next(false);
+                    observer.complete();
+                });
+        });
     }
 
     cancelEdit(event: any): void {
@@ -454,7 +431,7 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
             this.deleteDigit();
         }
         else {
-            this.deleteLevel(this.currentLevel);
+            this.onDeleteLevel(this.service.currentLevel);
         }
     }
 
@@ -469,7 +446,7 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
                 d =>
                     !(
                         d.action.toString() === '7' &&
-                        d.parameter === l.levelNum.toString()
+                        d.parameter.toString() === l.levelNum.toString()
                     )
             );
         });
@@ -478,10 +455,10 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
         l.digits.forEach(d => {
             if (
                 d.action.toString() === '7' &&
-                d.parameter === l.levelNum.toString()
+                d.parameter.toString() === l.levelNum.toString()
             ) {
                 const level = this.ivrLevels.find(
-                    x => x.levelNum.toString() === d.parameter
+                    x => x.levelNum.toString() === d.parameter.toString()
                 );
                 if (level) {
                     this.onDeleteLevel(level);
@@ -495,7 +472,7 @@ export class IvrCreateComponent implements OnInit, CanFormComponentDeactivate {
         });
     }
 
-    deleteLevelWithDependency() {}
+    deleteLevelWithDependency() { }
 
     arraymove(arr, fromIndex, toIndex) {
         const element = arr[fromIndex];

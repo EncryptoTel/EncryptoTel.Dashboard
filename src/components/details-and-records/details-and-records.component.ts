@@ -238,6 +238,7 @@ export class DetailsAndRecordsComponent implements OnInit {
                 this.pageInfo.items.forEach( cdrItem => {
                     cdrItem.tag = this.translate.instant(cdrItem.tag);
                     cdrItem.created = formatDateTime(cdrItem.created, this.dateFormat);
+                    cdrItem.callDate = formatDateTime(cdrItem.callDate, this.dateFormat);
                     console.log(cdrItem.created);
                 });
             })

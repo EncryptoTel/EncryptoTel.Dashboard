@@ -6,7 +6,7 @@ button
         font-weight: 400
 .pbx_list_empty
     &.no_company
-        min-height: 220px !important
+        min-height: 320px !important
         .pbx_list_empty_text
             min-height: 220px !important
             .empty_company
@@ -281,6 +281,12 @@ pbx-table
         .tablet_content
             &.active
                 background: rgba(255, 255, 255, 0.05)
+                .tablet_icon
+                    opacity: 1
+
+pbx-sidebar
+    .add_external_phone_number form .items .item .wrapper input
+        height: 100% !important
 
 @media screen and (max-height: 850px)
     sign-up

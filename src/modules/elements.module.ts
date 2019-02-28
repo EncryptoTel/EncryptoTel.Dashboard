@@ -44,6 +44,7 @@ import {AutofocusDirective} from '../elements/directives/autofocus.directive';
 import {PbxFooterComponent} from '../elements/pbx-footer/pbx-footer.component';
 import {ScrollDirective} from '@shared/scroll.directive';
 import {TranslateModule} from '@ngx-translate/core';
+import { AutoCompleteComponent } from '@elements/pbx-autocomplete/pbx-autocomplete.component';
 
 @NgModule({
     imports: [
@@ -91,7 +92,8 @@ import {TranslateModule} from '@ngx-translate/core';
         SettingsGroupComponent,
         AutofocusDirective,
         PbxFooterComponent,
-        ScrollDirective
+        ScrollDirective, 
+        AutoCompleteComponent
     ],
     exports: [
         ClickOutsideDirective,
@@ -131,6 +133,7 @@ import {TranslateModule} from '@ngx-translate/core';
         PbxFooterComponent,
         ScrollDirective,
         TranslateModule,
+        AutoCompleteComponent
     ],
     entryComponents: [
         ModalComponent

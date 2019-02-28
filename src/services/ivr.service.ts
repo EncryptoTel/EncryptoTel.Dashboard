@@ -13,13 +13,14 @@ import {
 } from '@models/ivr.model';
 import { PageInfoModel } from '@models/base.model';
 import { addressPhoneRegExp } from '@shared/vars';
-import {PhoneNumberItem, PhoneNumberModel} from '@models/phone-number.model';
+
 
 export class IvrService extends BaseService {
     pageInfo: IvrModel = new IvrModel();
     item: IvrItem;
     references: any = {};
     currentSip: any;
+    currentLevel: IvrLevel;
 
     reset() {
         this.item = new IvrItem();
@@ -120,21 +121,11 @@ export class IvrService extends BaseService {
             label: '',
             option: [],
             visible: true,
-            validators: []
+            validators: [],
+            validationMessage: [],
+            autoComplete: false
         };
-
-        let lastLevel: boolean = false;
-        if (data instanceof IvrLevel) {
-            lastLevel = data.levelNum === MAX_IVR_LEVEL_COUNT;
-        } else {
-            const level = levels.find(l =>
-                l.digits.some(d => d.id === data.id)
-            );
-            if (level) {
-                lastLevel = level.levelNum === MAX_IVR_LEVEL_COUNT;
-            }
-        }
-
+        const lastLevel = this.getLevelDeep(levels) >= MAX_IVR_LEVEL_COUNT;
         return new Promise((resolve, reject) => {
             switch (action.toString()) {
                 case DigitActions.REDIRECT_TO_EXT:
@@ -147,18 +138,55 @@ export class IvrService extends BaseService {
                     paramsInfo.label = 'Extension number';
                     paramsInfo.visible = true;
                     paramsInfo.validators = [Validators.required];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('Extension number is required')
+                        },
+                    );
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_NUM:
                     paramsInfo.label = 'External number';
-                    paramsInfo.option = undefined;
+                    paramsInfo.option = this.references.sip.filter(s => s.id !== sipId).map(s => {
+                        return s.phoneNumber.replace('+', '');
+                    });
                     paramsInfo.visible = true;
+                    paramsInfo.autoComplete = true;
                     paramsInfo.validators = [
                         Validators.required,
                         Validators.minLength(6),
                         Validators.maxLength(16),
                         Validators.pattern(addressPhoneRegExp)
                     ];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('External number is required')
+                        },
+                        {
+                            key: 'parameter',
+                            error: 'maxlength',
+                            message:
+                                this.translate.instant('External number is too long. Use no more than 16 numbers')
+                        },
+                        {
+                            key: 'parameter',
+                            error: 'minlength',
+                            message:
+                                this.translate.instant('External number is too short. Use at least 6 numbers')
+                        },
+                        {
+                            key: 'parameter',
+                            error: 'pattern',
+                            message:
+                                this.translate.instant('External number contains invalid characters. You can use numbers only')
+                        },
+                    );
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_QUEUE:
@@ -168,6 +196,14 @@ export class IvrService extends BaseService {
                     });
                     paramsInfo.visible = true;
                     paramsInfo.validators = [Validators.required];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('Queue is required')
+                        }
+                    );
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REDIRECT_TO_RING_GROUP:
@@ -177,6 +213,14 @@ export class IvrService extends BaseService {
                     });
                     paramsInfo.visible = true;
                     paramsInfo.validators = [Validators.required];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('Ring Group is required')
+                        }
+                    );
                     resolve(paramsInfo);
 
                     break;
@@ -184,6 +228,7 @@ export class IvrService extends BaseService {
                     paramsInfo.label = 'Cancel call';
                     paramsInfo.option = undefined;
                     paramsInfo.visible = false;
+                    paramsInfo.validators = undefined;
                     resolve(paramsInfo);
                     break;
                 case DigitActions.GO_TO_LEVEL:
@@ -194,11 +239,19 @@ export class IvrService extends BaseService {
                     if (!lastLevel) {
                         paramsInfo.option.push({
                             id: -1,
-                            name: 'new level'
+                            name: this.translate.instant('new level')
                         });
                     }
                     paramsInfo.visible = true;
                     paramsInfo.validators = [Validators.required];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('Level is required')
+                        }
+                    );
                     resolve(paramsInfo);
                     break;
                 case DigitActions.REPEAT_LEVEL:
@@ -218,6 +271,15 @@ export class IvrService extends BaseService {
                     paramsInfo.option = this.references.files.map(file => {
                         return { id: file.id, name: file.fileName };
                     });
+                    paramsInfo.validators = [Validators.required];
+                    paramsInfo.validationMessage.push(
+                        {
+                            key: 'parameter',
+                            error: 'required',
+                            message:
+                                this.translate.instant('Play file is required')
+                        }
+                    );
                     paramsInfo.visible = true;
                     resolve(paramsInfo);
                     break;
@@ -226,5 +288,46 @@ export class IvrService extends BaseService {
                     break;
             }
         });
+    }
+
+    checkIVREnableAvailable(phoneNumber: string): Promise<any> {
+      const phone = phoneNumber[0] === '+' ? phoneNumber.substr(1) : phoneNumber;
+      return this.request.get(`v1/ivr/outer-call-rule?filter[enabled]=true&filter[phoneNumber]=${phone}`);
+    }
+
+    getLevelDeep(levels) {
+        if (levels && levels.length > 1) {
+            const result = [];
+            levels = levels.slice(0);
+            const root = levels.filter(x => x.levelNum === 1)[0];
+            result.push([root]);
+            levels.splice(levels.findIndex(e => e.levelNum === root.levelNum), 1);
+            this.buildLevels(levels, result);
+            for (let i = 0; i < result.length; i++) {
+                const element = result[i];
+                if (element.find(x => x.levelNum === this.currentLevel.levelNum)) {
+                    return i + 1;
+                }
+            }
+        }
+        return 1;
+    }
+
+    buildLevels(totalLevels: IvrLevel[], result?: any[]) {
+        const levelNums = [];
+        result[result.length - 1].forEach(l => {
+            const levN = l.digits.filter(x => x.action.toString() === '7').map(d => d.parameter);
+            levelNums.push(...levN);
+        });
+        const linkedLevel = totalLevels.filter(x => levelNums.includes(x.levelNum.toString()));
+        if (linkedLevel.length > 0) {
+            result.push(linkedLevel);
+            linkedLevel.forEach(f => totalLevels.splice(totalLevels.findIndex(e => e.levelNum === f.levelNum), 1));
+            this.buildLevels(totalLevels, result);
+        }
+    }
+
+    getNextLevelIds(level: IvrLevel) {
+        return level.digits.filter(x => x.action.toString() === '7').map(d => d.parameter);
     }
 }

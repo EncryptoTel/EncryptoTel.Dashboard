@@ -20,6 +20,7 @@ export class CdrItem extends BaseItemModel {
     public type: number;
     public tag: string;
     public created: string;
+    public callDate: string;
     public price: number;
     public contactId: number;
 
@@ -30,11 +31,11 @@ export class CdrItem extends BaseItemModel {
     public play: boolean = false;
 
     get displayDate() {
-        return this.created;
+        return this.callDate;
     }
 
     get displayDateTime() {
-        return this.created;
+        return this.callDate;
     }
 
     get displayDuration() {

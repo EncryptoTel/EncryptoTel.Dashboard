@@ -61,6 +61,11 @@ export class CallRulesService extends BaseService {
             });
     }
 
+    checkCallRuleEnableAvailable(phoneNumber: string): Promise<any> {
+      const phone = phoneNumber[0] === '+' ? phoneNumber.substr(1) : phoneNumber;
+      return this.request.get(`v1/outer_rule/ivr?filter[enabled]=true&filter[phoneNumber]=${phone}`);
+    }
+
     initDictionaries(): void {
       this.callRuleTimeTypes = CallRuleTimeType.fromPlain([
         { id: 1, code: this.translate.instant('Always (24 hours)') },

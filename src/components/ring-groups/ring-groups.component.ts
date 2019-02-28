@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ListComponent } from '@elements/pbx-list/pbx-list.component';
 import { TableInfoExModel, TableInfoItem } from '@models/base.model';
 import { MessageServices } from '@services/message.services';
+import { reDelSuccess, reDelInUse } from '@shared/vars';
 
 @Component({
   selector: 'ring-groups-component',
@@ -17,7 +18,7 @@ export class RingGroupsComponent {
 
   table: TableInfoExModel = new TableInfoExModel();
   pageInfo: RingGroupModel = new RingGroupModel();
-  
+
   @ViewChild(ListComponent) list: ListComponent;
 
   constructor(
@@ -70,7 +71,28 @@ export class RingGroupsComponent {
     });
   }
 
-  onDelete(item: any): void {
-    this.messages.writeSuccess(this.translate.instant('Ring Group has been deleted successfully'));
+  onDelete(event: any): void {
+    if (!this.checkDeletionError(event.response)) {
+      this.messages.writeSuccess(this.translate
+        .instant('Ring Group has been deleted successfully'));
+    } else {
+        const error: string = this.getDeletionError(event.response);
+        this.messages.writeError(error);
+    }
+  }
+
+  checkDeletionError(response: any): boolean {
+    return (response && response.message && !reDelSuccess.test(response.message));
+  }
+
+  getDeletionError(response: any): string {
+    if (reDelInUse.test(response.message)) {
+      const match = reDelInUse.exec(response.message);
+      const module = this.translate.instant(match[1]);
+      const message = this.translate
+        .instant('ringGroupInUse', { module: module, name: match[2] });
+      return message;
+    }
+    return this.translate.instant(response.message);
   }
 }

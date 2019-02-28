@@ -4,6 +4,7 @@ import {FadeAnimation} from '@shared/fade-animation';
 import {IvrService} from '@services/ivr.service';
 import {PageInfoModel, TableInfoExModel, TableInfoItem} from '@models/base.model';
 import {TranslateService} from '@ngx-translate/core';
+import { MessageServices } from '@services/message.services';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class IvrComponent implements OnInit {
     tableModel: TableInfoExModel = new TableInfoExModel();
 
     constructor(private service: IvrService,
-                public translate: TranslateService) {
+                public translate: TranslateService,
+                public message: MessageServices) {
         this.tableModel.sort.isDown = false;
         this.tableModel.sort.column = 'name';
         this.tableModel.items.push(new TableInfoItem(this.translate.instant('Name'), 'name', 'name'));
@@ -47,5 +49,10 @@ export class IvrComponent implements OnInit {
             })
             .catch(() => {})
             .then(() => this.loading --);
+    }
+
+    onDelete(): void {
+        const delMessage: string = this.translate.instant('IVR has been deleted successfully');
+        this.message.writeSuccess(delMessage);
     }
 }

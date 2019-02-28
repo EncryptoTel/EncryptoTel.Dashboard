@@ -51,18 +51,19 @@
                [required]="true"
                [form]="true"
                [object]="digitForm"
+               [autocomplete]="paramsInfo.autoComplete"
                [options]="paramsInfo.option"
                [(errors)]="service.errors"
                [validationHost]="validationHost"
                displayKey="name"
-               placeholder="{{ paramsPlaceholder }}"
+               placeholder="{{ paramsInfo.label | translate }}"
                #actionData
                >
                <div class="greeting" *ngIf="digitForm.value.action==5">
 
                     <pbx-button [value]="playButtonText"
                                 [inactive]="!isFileSelected('playFile')"
-                                [loading]="!mediaPlayer.locker.free"
+                                [loading]="!mediaPlayer.locker.free || mediaState === 'loading'"
                                 (onClick)="togglePlay('playFile')"
                                 >
                     </pbx-button>

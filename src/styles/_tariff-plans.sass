@@ -22,6 +22,36 @@ pbx-sign-up-tariff-plans
             align-items: baseline
             span
                 font-size: 24px
+    .tariff_item__description_price
+        margin-top: 0 !important
+    .tariff_container
+        //display: block !important
+        overflow: auto !important
+        min-height: $minHeightContent
+        width: 100% !important
+        min-width: 100vw
+        &:after
+            min-height: $minHeightContent
+        .tariff_wrap
+            display: grid !important
+            //margin-left: auto !important
+            //margin-right: auto !important
+            width: 100%
+            h1
+                justify-content: center
+pbx-sign-up-tariff-plans
+    .tariff_container
+        overflow: unset
+        display: block !important
+        min-width: 100%
+        .tariff_wrap
+            display: block !important
+            padding-top: 32px
+            padding-bottom: 32px
+            h1
+                margin-top: 0 !important
+            .tariff_wrap_items
+                padding-bottom: 0
 pbx-tariff-plans
     .tariff_item
         background: $dark_accent !important
