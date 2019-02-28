@@ -53,7 +53,7 @@ export class BaseService {
             if (response.errors) {
                 this.errors = response.errors;
                 if (this.url === 'v1/sip/inners' && (_method === 'PUT' || _method === 'POST')) {
-                    if (this.errors.user['lastName'] || this.errors.user['firstName']) {
+                    if (this.errors.user && (this.errors.user['lastName'] || this.errors.user['firstName'])) {
                         const lastName = this.errors.user['lastName'];
                         const firstName = this.errors.user['firstName'];
                         delete this.errors.user;

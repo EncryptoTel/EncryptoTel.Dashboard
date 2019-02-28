@@ -23,9 +23,11 @@
             .item
                 display: block
                 &:nth-child(2)
-                    margin-bottom: 24px
+                    //margin-bottom: 24px
                 &:last-child
-                    margin-bottom: 0
+                    //margin-bottom: 0
+                &.login
+                    margin-bottom: 30px
                 label
                     font-family: Roboto, sans-serif
                     font-weight: 300
@@ -183,6 +185,8 @@
                 width: 140px
 
 .add_external_phone_number
+    display: grid
+    grid-template-rows: min-content 1fr min-content
     .items
         padding-top: 6px
         .item

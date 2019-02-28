@@ -138,7 +138,7 @@
                       class="input_error_item"
                       translate
                       >
-                    Password is too short
+                    The password is too short
                 </span>
                 <div *ngIf="signUpForm.errors && passwordsMismatch()"
                      id="sign_up_err_passwords_dont_match"
@@ -178,8 +178,8 @@
 
     <div *ngIf="signUpCompleted" class="post-signup-wrap">
         <div class="post-signup-h1" translate>Account registration</div>
-        <div class="post-signup-text" translate>
-            Confirmation link has been sent to <br/>
+        <div class="post-signup-text">
+            <span translate>Confirmation link has been sent to</span><br/>
             {{ email }}
         </div>
         <div translate>If you have not received the letter check the spam folder</div>

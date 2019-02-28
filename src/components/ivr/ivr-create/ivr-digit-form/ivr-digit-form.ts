@@ -143,8 +143,11 @@ export class IvrDigitFormComponent extends FormBaseComponent
           this.digitForm.get('parameter').setValidators(this.paramsInfo.validators);
           if (actionValue !== this.actionVal && this.formPatched) {
             this.form.get('parameter').setValue(null);
+            this.actionData.value = undefined;
           }
           this.digitForm.get('parameter').markAsUntouched();
+          this.digitForm.get('parameter').updateValueAndValidity();
+
           this.validationHost.initItems();
         })
         .catch(() => { })

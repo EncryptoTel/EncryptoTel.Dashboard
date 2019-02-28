@@ -11,20 +11,6 @@
             <h3 translate>General</h3>
         </div>
 
-        <div class="enable_rule_wrap">
-            <pbx-input name="{{'Enable Rule' | translate}}" #checkEnable
-                       key="enabled"
-                       [checkbox]="true"
-                       [form]="true"
-                       [object]="callRulesForm"
-                       [(errors)]="service.errors"
-                       [validationHost]="validationHost"
-                       (onToggle)="toggleEnableRule($event)"
-                       >
-            </pbx-input>
-            <div class="note" translate>Enabling a new rule will cancel the previous one</div>
-        </div> <!-- enable_rule_wrap -->
-
         <pbx-input name="{{names.ruleName}}"
                    key="name"
                    [required]="true"
@@ -73,6 +59,20 @@
                 <h3 translate>Options</h3>
             </div>
 
+            <div class="enable_rule_wrap">
+              <pbx-input name="{{'Enable Rule' | translate}}" #checkEnable
+                         key="enabled"
+                         [checkbox]="true"
+                         [form]="true"
+                         [object]="callRulesForm"
+                         [(errors)]="service.errors"
+                         [validationHost]="validationHost"
+                         (onToggle)="toggleEnableRule($event)"
+                         >
+              </pbx-input>
+              <div class="note" translate>Enabling a new rule will cancel the previous one</div>
+            </div> <!-- enable_rule_wrap -->
+  
             <pbx-input name="{{'Action' | translate }}"
                        [required]="true"
                        [placeholder]="'[choose one]' | translate"
@@ -227,7 +227,8 @@
                         <!-- Play voice file -->
                         <ng-template [ngSwitchCase]="5">
 
-                            <pbx-input name="{{'Voice greeting' | translate }}"
+                            <pbx-input #voiceGreeting
+                                       name="{{'Voice greeting' | translate }}"
                                        key="parameter"
                                        [required]="true"
                                        [placeholder]="'[choose file]' | translate"
@@ -257,7 +258,7 @@
                                         <input type="file"
                                                class="hidden_input"
                                                #fileInput
-                                               (change)="uploadFile($event)"
+                                               (change)="uploadFile($event, i)"
                                                >
                                     </div>
                                 </div>

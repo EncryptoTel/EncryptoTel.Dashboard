@@ -49,5 +49,5 @@ export const filenameRegExp = new RegExp(/^(.+)\.([^\.]+)$/);
 export const partnerLinkRegExp = new RegExp(/^\d+[a-f\d]+$/i);
 
 // Deletion messages
-export const reDelSuccess = new RegExp(/item with id:\d{1,} is deleted/i);
+export const reDelSuccess = new RegExp(/successfully deleted/i);
 export const reDelInUse = new RegExp(/^this object is used in (.+) name (.+)$/i);

@@ -55,6 +55,7 @@ export class CallQueuesComponent implements OnInit {
   }
 
   onDelete(event: any): void {
+    console.log('event.response', event);
     if (!this.checkDeletionError(event.response)) {
       this.message.writeSuccess(this.translate
         .instant('Call Queue has been deleted successfully'));
@@ -65,6 +66,7 @@ export class CallQueuesComponent implements OnInit {
   }
 
   checkDeletionError(response: any): boolean {
+    // item with id is deleted
     return (response && response.message && !reDelSuccess.test(response.message));
   }
 

@@ -16,6 +16,7 @@ import { StorageService } from '@services/storage.service';
 import { MediaState, CdrMediaInfo } from '@models/cdr.model';
 import { IvrFormInterface } from '../form.interface';
 import { InputComponent } from '@elements/pbx-input/pbx-input.component';
+import { getFormValidationErrors } from '@shared/shared.functions';
 
 export enum FormButtons {
     VOICE_GREETING = 'voiceGreeting',
@@ -57,7 +58,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
         option: [],
         visible: false,
         validators: [],
-        validationMessage: []
+        validationMessage: [],
+        autoComplete: false
     };
 
     formPanel: Element = null;
@@ -124,12 +126,12 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     this.translate.instant('Level Name may contain letters, digits, dots and dashes only.')
             },
             {
-              key: 'sipId',
-              error: 'required',
-              message:
-                  this.translate.instant('Please choose the Phone Number')
-          }
-      ];
+                key: 'sipId',
+                error: 'required',
+                message:
+                    this.translate.instant('Please choose the Phone Number')
+            }
+        ];
     }
 
     getData() {
@@ -151,9 +153,17 @@ export class IvrLevelFormComponent extends FormBaseComponent
                     if (f) {
                         this.voiceGreeting.value = f;
                         this.form.get('voiceGreeting').setValue(f.id);
+                        if (this.form.value.action === '5' && this.form.value.parameter) {
+                            const pr = this.service.references.files.find(file=> file.id = this.form.value.voiceGreeting);
+                            this.actionData.value = pr;
+                        }
                     }
                 } else {
                     if (f) {
+                        const vg = this.service.references.files.find(file=> file.id = this.form.value.voiceGreeting);
+                        if (vg) {
+                            this.voiceGreeting.value = vg;
+                        }
                         this.paramsInfo.option = res.items.map(file => {
                             return { id: file.id, name: file.fileName };
                         });
@@ -215,7 +225,8 @@ export class IvrLevelFormComponent extends FormBaseComponent
                 .then(response => {
                     this.paramsInfo = response;
                     if (actionValue !== this.actionVal && this.formPatched) {
-                        this.form.get('parameter').setValue(null);
+                        this.actionData.value = undefined;
+                        this.form.get('parameter').setValue(undefined);
                     }
                     this.form
                         .get('parameter')
@@ -226,6 +237,7 @@ export class IvrLevelFormComponent extends FormBaseComponent
                         this.validationHost.customMessages = this.validationHost.customMessages.filter(x => x.key !== 'parameter');
                         this.validationHost.customMessages.push(...this.paramsInfo.validationMessage);
                     }
+                    this.form.get('parameter').updateValueAndValidity();
                     this.validationHost.initItems();
                     this.actionVal = actionValue;
                 })
@@ -267,21 +279,22 @@ export class IvrLevelFormComponent extends FormBaseComponent
     }
 
     toggleEnableIVR(value: boolean): void {
-      // if (value) {
-      //   this.service
-      //     .checkIVREnable()
-      //     .then(result => {
-      //       if (result) {
-      //         this.showWarningModal(
-      //           this.translate.instant('Enabling a new rule will cancel the previous one'),
-      //           () => {},
-      //           () => { 
-      //             this.checkEnable.checkBoxClick(false);
-      //           }
-      //         );
-      //       }
-      //     });
-      // }
+        if (value) {
+            const phone = this.service.references.sip.find(s => s.id === this.form.value.sipId);
+            this.service
+                .checkIVREnableAvailable(phone.phoneNumber)
+                .then(result => {
+                    if (result && result.itemsCount > 0) {
+                        this.showWarningModal(
+                            this.translate.instant('ivrInUse', { name: result.items[0].name }),
+                            () => { },
+                            () => {
+                                this.checkEnable.checkBoxClick(false);
+                            }
+                        );
+                    }
+                });
+        }
     }
 
     isFileSelected(btn: FormButtons): boolean {

@@ -271,6 +271,7 @@ export class QueueCreateComponent extends FormBaseComponent implements OnInit {
         this.message.writeSuccess(okMessage);
 
         this.saveFormState();
+        this.service.saveMembersBefore();
         if (!this.id) this.cancel();
       })
       .catch(() => {})
